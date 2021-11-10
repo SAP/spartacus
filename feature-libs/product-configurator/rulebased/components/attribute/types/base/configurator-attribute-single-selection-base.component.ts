@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorAttributeContext } from '../../../form/configurator-attribute-context.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
@@ -18,8 +19,14 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Output() selectionChange = new EventEmitter<ConfigFormUpdateEvent>();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService: ConfiguratorAttributeQuantityService,
+    protected configuratorAttributeContext?: ConfiguratorAttributeContext
+  ) {
     super();
+    if (configuratorAttributeContext) {
+      this.attribute = configuratorAttributeContext.attribute;
+    }
   }
 
   /**

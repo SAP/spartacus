@@ -3,9 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 import { ConfiguratorAttributeQuantityModule } from '../../quantity/configurator-attribute-quantity.module';
 import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attribute-radio-button.component';
-import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -17,6 +17,7 @@ import { ConfiguratorPriceModule } from '../../../price/configurator-price.modul
     ReactiveFormsModule,
     ConfiguratorPriceModule,
   ],
+  providers: [],
   declarations: [ConfiguratorAttributeRadioButtonComponent],
   exports: [ConfiguratorAttributeRadioButtonComponent],
 })

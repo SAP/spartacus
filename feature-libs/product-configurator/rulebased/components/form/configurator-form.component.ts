@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+} from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
@@ -9,15 +15,17 @@ import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from './configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeContext } from './configurator-attribute-context.model';
+import { ConfigFormUpdateEvent } from './configurator-form.event';
 
 @Component({
   selector: 'cx-configurator-form',
   templateUrl: './configurator-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [ConfiguratorAttributeContext],
 })
-export class ConfiguratorFormComponent implements OnInit {
+export class ConfiguratorFormComponent implements OnInit, OnChanges {
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(
       filter(
@@ -48,8 +56,16 @@ export class ConfiguratorFormComponent implements OnInit {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected languageService: LanguageService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
-  ) {}
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected configuratorAttributeContext: ConfiguratorAttributeContext
+  ) {
+    configuratorAttributeContext.attribute = {
+      name: 'Huh',
+    };
+  }
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('CHHI on changes ' + changes);
+  }
 
   ngOnInit(): void {
     this.configRouterExtractorService

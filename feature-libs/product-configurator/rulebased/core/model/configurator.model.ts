@@ -53,6 +53,7 @@ export namespace Configurator {
     complete?: boolean;
     consistent?: boolean;
     subGroups: Group[];
+    currentAttribute?: Attribute;
   }
 
   export interface ValueSupplement {
