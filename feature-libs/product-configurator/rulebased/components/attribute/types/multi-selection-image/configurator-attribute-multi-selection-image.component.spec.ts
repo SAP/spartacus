@@ -8,6 +8,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -42,7 +43,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
           MockFocusDirective,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {

@@ -149,14 +149,20 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'label',
+        'span',
         'label of attribute'
       );
       const id = htmlElem.querySelector('label')?.getAttribute('id');
       expect((id ? id : '').indexOf('123')).toBeGreaterThan(0);
       expect(
         htmlElem.querySelector('label')?.getAttribute('aria-label')
-      ).toEqual(classUnderTest.attribute.label);
+      ).toEqual(
+        'configurator.a11y.attribute attribute:' +
+          classUnderTest.attribute.label
+      );
+      expect(
+        htmlElem.querySelector('span')?.getAttribute('aria-hidden')
+      ).toEqual('true');
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,

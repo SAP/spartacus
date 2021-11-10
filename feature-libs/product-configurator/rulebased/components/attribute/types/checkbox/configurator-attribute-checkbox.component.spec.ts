@@ -10,6 +10,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
@@ -55,7 +56,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
           MockFeatureLevelDirective,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeCheckBoxComponent, {
           set: {
@@ -104,9 +105,8 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       component.attribute.name +
       '--' +
       value1.valueCode;
-    const valueToSelect = fixture.debugElement.query(
-      By.css(checkboxId)
-    ).nativeElement;
+    const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
+      .nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
     valueToSelect.click();
