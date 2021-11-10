@@ -32,6 +32,8 @@ export const address = {
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
     setAsDefault: 'Set as default',
+    additionalAddress: 'Additional Shipping Address',
+    defaultAddress: 'Default Shipping Address',
     titleRequired: 'Title is required.',
     userAddressAddSuccess: 'New address was added successfully!',
     userAddressUpdateSuccess: 'Address updated successfully!',

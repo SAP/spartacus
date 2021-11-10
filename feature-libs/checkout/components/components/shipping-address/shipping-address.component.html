@@ -31,11 +31,17 @@
           <div
             class="cx-shipping-address-card-inner"
             (click)="selectAddress(card.address)"
+            role="region"
+            tabindex="0"
+            [attr.aria-label]="
+              getAriaLabel(card.content.title) | async | cxTranslate
+            "
           >
             <cx-card
               [border]="true"
               [fitToContainer]="true"
               [content]="card.card"
+              [index]="i + 1"
               (sendCard)="selectAddress(card.address)"
             ></cx-card>
           </div>
