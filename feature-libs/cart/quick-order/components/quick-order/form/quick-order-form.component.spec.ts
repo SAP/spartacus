@@ -255,6 +255,7 @@ describe('QuickOrderFormComponent', () => {
       });
     });
 
+
     it('and do nothing as results box is not open', () => {
       component.form?.get('product')?.setValue('test');
       component.clear();
@@ -268,6 +269,7 @@ describe('QuickOrderFormComponent', () => {
       expect(component.form.get('product')?.value).toBeNull();
       expect(component.isResultsBoxOpen()).toBeFalsy();
     });
+
 
     it('and trigger prevent default', () => {
       const ev = {
