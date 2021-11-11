@@ -70,13 +70,13 @@
 
   .cx-price {
     display: flex;
-    justify-content: center;
     align-items: center;
     @include type('5');
     font-weight: $font-weight-normal;
 
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+    // Remove this wrapper for 5.0
+    @include media-breakpoint-up(md) {
+      justify-content: center;
     }
 
     @include media-breakpoint-only(xl) {
@@ -106,11 +106,11 @@
 
   .cx-quantity {
     display: flex;
-    justify-content: center;
     align-items: center;
 
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
+    // Remove this wrapper for 5.0
+    @include media-breakpoint-up(md) {
+      justify-content: center;
     }
 
     @include forVersion(4.2) {
@@ -130,15 +130,19 @@
 
   .cx-total {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
     margin-bottom: 0;
+
+    // Remove this wrapper for 5.0
+    @include media-breakpoint-up(md) {
+      justify-content: flex-end;
+    }
+
     @include forVersion(4.2) {
       padding-inline-start: 0;
     }
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
       @include forVersion(4.2) {
         padding-inline-start: 15px;
       }
@@ -150,9 +154,21 @@
     }
   }
 
+  @include forVersion(4.1) {
+    .cx-price,
+    .cx-quantity,
+    .cx-actions,
+    .cx-total {
+      @include media-breakpoint-down(sm) {
+        justify-content: flex-start;
+      }
+    }
+  }
+
   @include forVersion(4.2) {
     .cx-price,
     .cx-quantity,
+    .cx-actions,
     .cx-total {
       @include media-breakpoint-down(sm) {
         width: 250px;
@@ -177,13 +193,10 @@
 
   .cx-actions {
     display: flex;
-    justify-content: flex-end;
     padding: 0;
 
-    @include media-breakpoint-down(sm) {
-      display: flex;
-      justify-content: flex-start;
-      padding: 0;
+    @include media-breakpoint-up(md) {
+      justify-content: flex-end;
     }
 
     button.link {
@@ -194,6 +207,15 @@
 
       &:hover {
         color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  @include forVersion(4.2) {
+    .cx-price,
+    .cx-quantity {
+      @include media-breakpoint-down(sm) {
+        padding-bottom: 10px;
       }
     }
   }
