@@ -13,6 +13,12 @@
       *ngFor="let item of attribute.values"
       [label]="item.valueDisplay"
       [selected]="item.selected"
+      [aria-selected]="item.selected"
+      [attr.aria-label]="
+        'configurator.a11y.valueOfAttributeFull'
+          | cxTranslate
+            : { value: item.valueDisplay, attribute: attribute.label }
+      "
       [value]="item.valueCode"
     >
       {{ item.valueDisplay }}
