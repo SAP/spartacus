@@ -79,6 +79,7 @@ export const product = {
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
     },
+    tabPanelContainerRegion: 'Tab group with more product details',
   },
   addToWishList: {
     add: 'Add to Wish List',

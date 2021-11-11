@@ -13,9 +13,20 @@ import {
 export class ProductImageZoomProductImagesComponent extends ProductImagesComponent {
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
+  productName: string | undefined;
 
   constructor(protected currentProductService: CurrentProductService) {
     super(currentProductService);
+  }
+
+  getProductName(): string | undefined {
+    this.currentProductService
+      .getProduct()
+      .subscribe((product) => {
+        this.productName = product?.name;
+      })
+      .unsubscribe();
+    return this.productName;
   }
 
   openImage(item: any): void {
