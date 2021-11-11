@@ -62,7 +62,7 @@ describe('ConfiguratorBasicEffectService', () => {
     );
   });
 
-  describe('getGroupWithAttributesForConfiguration', () => {
+  describe('getFirstGroupWithAttributes', () => {
     it('should find group in single level config', () => {
       expect(
         classUnderTest.getFirstGroupWithAttributes(productConfiguration)
@@ -80,7 +80,7 @@ describe('ConfiguratorBasicEffectService', () => {
     });
   });
 
-  describe('getGroupWithAttributes', () => {
+  describe('getFirstGroupWithAttributesForList', () => {
     it('should find group in multi level config', () => {
       const groups: Configurator.Group[] = [
         {
