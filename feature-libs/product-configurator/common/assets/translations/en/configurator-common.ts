@@ -43,6 +43,7 @@ export const configurator = {
       deselectionNotPossible:
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
+      noOptionSelectedMsg: 'No option selected',
     },
     button: {
       previous: 'Previous',
