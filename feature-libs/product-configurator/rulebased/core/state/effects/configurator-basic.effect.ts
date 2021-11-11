@@ -40,7 +40,7 @@ export class ConfiguratorBasicEffects {
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             const currentGroup =
-              this.configuratorBasicEffectService.getGroupWithAttributesForConfiguration(
+              this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                 configuration
               );
             this.store.dispatch(
@@ -209,7 +209,7 @@ export class ConfiguratorBasicEffects {
             take(1),
             map((currentGroupId) => {
               const groupIdFromPayload =
-                this.configuratorBasicEffectService.getGroupWithAttributesForConfiguration(
+                this.configuratorBasicEffectService.getFirstGroupWithAttributes(
                   payload
                 );
               const parentGroupFromPayload =
@@ -297,7 +297,7 @@ export class ConfiguratorBasicEffects {
         new ConfiguratorActions.ReadConfiguration({
           configuration: payload,
           groupId:
-            this.configuratorBasicEffectService.getGroupWithAttributesForConfiguration(
+            this.configuratorBasicEffectService.getFirstGroupWithAttributes(
               payload
             ),
         })

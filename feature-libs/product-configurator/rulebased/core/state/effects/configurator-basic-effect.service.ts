@@ -13,8 +13,10 @@ export class ConfiguratorBasicEffectService {
    * @param configuration
    * @returns Group id
    */
-  getGroupIdWithAttributes(configuration: Configurator.Configuration): string {
-    const id = this.getIdGroupWithAttributes(configuration.groups);
+  getFirstGroupWithAttributes(
+    configuration: Configurator.Configuration
+  ): string {
+    const id = this.getFirstGroupWithAttributesForList(configuration.groups);
     if (id) {
       return id;
     } else {
@@ -26,7 +28,7 @@ export class ConfiguratorBasicEffectService {
    * @param groups
    * @returns Group or undefined if such a group does not exist
    */
-  protected getIdGroupWithAttributes(
+  protected getFirstGroupWithAttributesForList(
     groups: Configurator.Group[]
   ): string | undefined {
     const groupWithAttributes: Configurator.Group | undefined = groups
@@ -46,7 +48,7 @@ export class ConfiguratorBasicEffectService {
         )
         .flatMap((currentGroup) =>
           currentGroup.subGroups
-            ? this.getIdGroupWithAttributes(currentGroup.subGroups)
+            ? this.getFirstGroupWithAttributesForList(currentGroup.subGroups)
             : []
         )
         .filter((groupId) => groupId) //Filter undefined strings

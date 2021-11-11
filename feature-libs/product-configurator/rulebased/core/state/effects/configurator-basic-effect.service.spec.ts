@@ -11,6 +11,8 @@ import {
   GROUP_ID_5,
   GROUP_ID_6,
   GROUP_ID_7,
+  GROUP_ID_8,
+  GROUP_ID_9,
   PRODUCT_CODE,
 } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
@@ -18,13 +20,13 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
 const group: Configurator.Group = {
-  id: GROUP_ID_1,
+  id: GROUP_ID_8,
   attributes: [{ name: ATTRIBUTE_1_CHECKBOX }],
   subGroups: [],
 };
 
 const groupWithSubGroup: Configurator.Group = {
-  id: GROUP_ID_1,
+  id: GROUP_ID_9,
   attributes: [
     {
       name: ATTRIBUTE_1_CHECKBOX,
@@ -63,12 +65,12 @@ describe('ConfiguratorBasicEffectService', () => {
   describe('getGroupWithAttributesForConfiguration', () => {
     it('should find group in single level config', () => {
       expect(
-        classUnderTest.getGroupIdWithAttributes(productConfiguration)
-      ).toBe(GROUP_ID_1);
+        classUnderTest.getFirstGroupWithAttributes(productConfiguration)
+      ).toBe(GROUP_ID_9);
     });
     it('should throw error in case configuration has no attribute at all', () => {
       expect(function () {
-        classUnderTest.getGroupIdWithAttributes(
+        classUnderTest.getFirstGroupWithAttributes(
           ConfiguratorTestUtils.createConfiguration(
             'a',
             ConfiguratorModelUtils.createInitialOwner()
@@ -114,8 +116,8 @@ describe('ConfiguratorBasicEffectService', () => {
           ],
         },
       ];
-      expect(classUnderTest['getIdGroupWithAttributes'](groups)).toBe(
-        GROUP_ID_1
+      expect(classUnderTest['getFirstGroupWithAttributesForList'](groups)).toBe(
+        GROUP_ID_9
       );
     });
 
@@ -155,7 +157,7 @@ describe('ConfiguratorBasicEffectService', () => {
         },
       ];
       expect(
-        classUnderTest['getIdGroupWithAttributes'](groups)
+        classUnderTest['getFirstGroupWithAttributesForList'](groups)
       ).toBeUndefined();
     });
   });
