@@ -13,11 +13,13 @@ import { map } from 'rxjs/operators';
 import { CmsComponentsService } from '../../services/cms-components.service';
 import { CmsComponentData } from '../model/cms-component-data';
 import { ComponentWrapperDirective } from './component-wrapper.directive';
+import { InnerComponentsContext } from './inner-components-context.model';
 import { CmsInjectorService } from './services/cms-injector.service';
 import { ComponentHandlerService } from './services/component-handler.service';
 
 @Directive({
   selector: '[cxInnerComponentsHost]',
+  providers: [InnerComponentsContext],
 })
 export class InnerComponentsHostDirective implements OnInit, OnDestroy {
   @Input('cxInnerComponentsHost') context: any;
@@ -38,17 +40,13 @@ export class InnerComponentsHostDirective implements OnInit, OnDestroy {
     protected dynamicAttributeService: DynamicAttributeService,
     protected renderer: Renderer2,
     protected componentHandler: ComponentHandlerService,
-    protected cmsInjector: CmsInjectorService
+    protected cmsInjector: CmsInjectorService,
+    protected innerComponentsContext: InnerComponentsContext
   ) {}
 
   ngOnInit(): void {
+    this.innerComponentsContext.context = this.context;
     this.subscription = this.innerComponents$.subscribe((x) => {
-      console.log(
-        'CHHI context for cxInnerComponentsHost, attribute name: ' +
-          this.context.name +
-          ', attributes: ' +
-          JSON.stringify(x)
-      );
       this.renderComponents(x);
     });
   }

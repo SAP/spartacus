@@ -8,7 +8,6 @@ import { ConfiguratorAttributeFooterModule } from '../attribute/footer/configura
 import { ConfiguratorAttributeHeaderModule } from '../attribute/header/configurator-attribute-header.module';
 import { ConfiguratorAttributeCheckboxListModule } from '../attribute/types/checkbox-list/configurator-attribute-checkbox-list.module';
 import { ConfiguratorAttributeCheckboxModule } from '../attribute/types/checkbox/configurator-attribute-checkbox.module';
-import { ConfiguratorAttributeTypeModule } from '../attribute/types/configurator-attribute-type.module';
 import { ConfiguratorAttributeDropDownModule } from '../attribute/types/drop-down/configurator-attribute-drop-down.module';
 import { ConfiguratorAttributeInputFieldModule } from '../attribute/types/input-field/configurator-attribute-input-field.module';
 import { ConfiguratorAttributeMultiSelectionBundleModule } from '../attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.module';
@@ -21,7 +20,6 @@ import { ConfiguratorAttributeSingleSelectionBundleModule } from '../attribute/t
 import { ConfiguratorAttributeSingleSelectionImageModule } from '../attribute/types/single-selection-image/configurator-attribute-single-selection-image.module';
 import { ConfiguratorConflictDescriptionModule } from '../conflict-description/configurator-conflict-description.module';
 import { ConfiguratorConflictSuggestionModule } from '../conflict-suggestion/configurator-conflict-suggestion.module';
-import { AComponent } from './a.component';
 import { ConfiguratorFormComponent } from './configurator-form.component';
 
 @NgModule({
@@ -46,29 +44,27 @@ import { ConfiguratorFormComponent } from './configurator-form.component';
     ConfiguratorAttributeCheckboxListModule,
     ConfiguratorAttributeDropDownModule,
     ConfiguratorAttributeMultiSelectionImageModule,
-    ConfiguratorAttributeTypeModule,
     ConfiguratorConflictDescriptionModule,
     ConfiguratorConflictSuggestionModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        ConfiguratorAttributeRadio: {
-          component: AComponent,
-        },
-
         ConfiguratorForm: {
           component: ConfiguratorFormComponent,
           data: {
             composition: {
-              inner: ['ConfiguratorAttributeRadio'],
+              inner: [
+                // 'ConfiguratorInnerTest',
+                'ConfiguratorAttributeRadioButton',
+              ],
             },
           },
         },
       },
     }),
   ],
-  declarations: [ConfiguratorFormComponent, AComponent],
-  exports: [ConfiguratorFormComponent, AComponent],
+  declarations: [ConfiguratorFormComponent],
+  exports: [ConfiguratorFormComponent],
 })
 export class ConfiguratorFormModule {}

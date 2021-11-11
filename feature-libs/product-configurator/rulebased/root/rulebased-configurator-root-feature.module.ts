@@ -3,7 +3,7 @@ import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { PRODUCT_CONFIGURATOR_RULEBASED_FEATURE } from './feature-name';
 
 const cmsComponents: string[] = [
-  'ConfiguratorAttributeRadio',
+  'ConfiguratorAttributeRadioButton',
   'ConfiguratorForm',
   'ConfiguratorOverviewForm',
   'ConfiguratorUpdateMessage',
