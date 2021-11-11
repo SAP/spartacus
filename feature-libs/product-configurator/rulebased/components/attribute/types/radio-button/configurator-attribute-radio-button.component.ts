@@ -25,8 +25,8 @@ export class ConfiguratorAttributeRadioButtonComponent
   ) {
     super(quantityService);
     console.log(
-      'CHHI radio button component: ' +
-        innerComponentsContext.context.attribute.uiType
+      'CHHI radio button component active for uiType: ' +
+        innerComponentsContext.context.attribute?.uiType
     );
     this.attribute = innerComponentsContext.context.attribute;
     this.ownerKey = innerComponentsContext.context.configuration.owner.key;
