@@ -63,14 +63,12 @@ describe('ConfiguratorBasicEffectService', () => {
   describe('getGroupWithAttributesForConfiguration', () => {
     it('should find group in single level config', () => {
       expect(
-        classUnderTest.getGroupWithAttributesForConfiguration(
-          productConfiguration
-        )
+        classUnderTest.getGroupIdWithAttributes(productConfiguration)
       ).toBe(GROUP_ID_1);
     });
     it('should throw error in case configuration has no attribute at all', () => {
       expect(function () {
-        classUnderTest.getGroupWithAttributesForConfiguration(
+        classUnderTest.getGroupIdWithAttributes(
           ConfiguratorTestUtils.createConfiguration(
             'a',
             ConfiguratorModelUtils.createInitialOwner()
@@ -116,7 +114,9 @@ describe('ConfiguratorBasicEffectService', () => {
           ],
         },
       ];
-      expect(classUnderTest.getGroupWithAttributes(groups)).toBe(GROUP_ID_1);
+      expect(classUnderTest['getIdGroupWithAttributes'](groups)).toBe(
+        GROUP_ID_1
+      );
     });
 
     it('should find no group in multi level config in case no attributes exist at all', () => {
@@ -154,7 +154,9 @@ describe('ConfiguratorBasicEffectService', () => {
           ],
         },
       ];
-      expect(classUnderTest.getGroupWithAttributes(groups)).toBeUndefined();
+      expect(
+        classUnderTest['getIdGroupWithAttributes'](groups)
+      ).toBeUndefined();
     });
   });
 });
