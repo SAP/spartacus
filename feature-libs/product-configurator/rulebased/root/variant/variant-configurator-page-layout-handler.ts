@@ -31,7 +31,7 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
           if (routerData.displayOnly) {
             slots$ = slots$.pipe(
               switchMap(() => this.breakpointService.isUp(BREAKPOINT.lg)),
-              map((isLargeResolution) => {             
+              map((isLargeResolution) => {
                 if (isLargeResolution) {
                   return [
                     'PreHeader',
@@ -48,6 +48,8 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
                 }
               })
             );
+          } else {
+            return slots$;
           }
         });
     }

@@ -5,6 +5,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { BreakpointService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
@@ -18,18 +19,32 @@ class MockRouterExtractorService {
     return of(routerData);
   }
 }
+let isLargeResolution: boolean;
+class MockBreakpointService {
+  isUp(): Observable<boolean> {
+    return of(isLargeResolution);
+  }
+}
 const headerSlots = ['SiteLogo', 'MiniCart'];
-const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
-const contentSlots = [
-  'CpqConfigHeader',
-  'CpqConfigBanner',
-  'CpqConfigMenu',
-  'CpqConfigContent',
-  'CpqConfigOverviewBanner',
-  'CpqConfigOverviewContent',
-  'CpqConfigBottombar',
+
+const contentSlotsSPAStandardLarge = [
+  'PreHeader',
+  'SiteContext',
+  'SiteLinks',
+  'SiteLogo',
+  'SearchBox',
+  'SiteLogin',
+  'MiniCart',
+  'NavigationBar',
 ];
-const pageTemplateCpq = 'CpqConfigurationTemplate';
+
+const contentSlotsSPAStandardReduced = [
+  'PreHeader',
+  'SiteLogo',
+  'SearchBox',
+  'MiniCart',
+];
+const pageTemplateVCOverview = 'VariantConfigurationOverviewTemplate';
 const pageTemplateOther = 'OtherTemplate';
 const sectionHeader = 'header';
 const sectionContent = 'content';
@@ -44,6 +59,10 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
           {
             provide: ConfiguratorRouterExtractorService,
             useClass: MockRouterExtractorService,
+          },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
           },
         ],
       }).compileComponents();
@@ -61,37 +80,60 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
 
   it('should not touch slots for section different than header', () => {
     let slots$ = cold('-a', {
-      a: contentSlots,
+      a: contentSlotsSPAStandardLarge,
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionContent
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
 
-  it('should change slots for header section in cpq template in case we are on configuration page', () => {
+  it('should return SPA large resolution header slots in case we call overview in read-only mode, and ld resolution is active', () => {
+    isLargeResolution = true;
     routerData = {
       ...standardRouterData,
-      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
     };
     let slots$ = cold('-a-a', {
       a: headerSlots,
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionHeader
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
-        a: headerSlotsIncludingPreHeader,
+        a: contentSlotsSPAStandardLarge,
+      })
+    );
+  });
+  it('should return SPA reduced resolution header slots in case we call overview in read-only mode, and a small resolution is active', () => {
+    isLargeResolution = false;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a-a', {
+      a: headerSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateVCOverview,
+      sectionHeader
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a-a', {
+        a: contentSlotsSPAStandardReduced,
       })
     );
   });
 
-  it('should not change slots for header section in cpq template in case we are on overview page', () => {
+  it('should not change slots for header section in case we are on overview, but not in read-only mode', () => {
     routerData = {
       ...standardRouterData,
       pageType: ConfiguratorRouter.PageType.OVERVIEW,
@@ -101,7 +143,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionHeader
     );
     expect(handledSlots$).toBeObservable(slots$);
