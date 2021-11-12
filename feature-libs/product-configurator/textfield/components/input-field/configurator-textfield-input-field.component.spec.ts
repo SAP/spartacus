@@ -1,7 +1,14 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
+
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(): any {}
+}
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;
@@ -11,7 +18,10 @@ describe('TextfieldInputFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorTextfieldInputFieldComponent],
+        declarations: [
+          ConfiguratorTextfieldInputFieldComponent,
+          MockTranslateUrlPipe,
+        ],
         imports: [ReactiveFormsModule],
       })
         .overrideComponent(ConfiguratorTextfieldInputFieldComponent, {
