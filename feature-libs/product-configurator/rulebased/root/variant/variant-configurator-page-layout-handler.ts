@@ -31,9 +31,8 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
           if (routerData.displayOnly) {
             slots$ = slots$.pipe(
               switchMap(() => this.breakpointService.isUp(BREAKPOINT.lg)),
-              map((isUp) => {
-                console.log('CHHI isUp: ' + isUp);
-                if (isUp) {
+              map((isLargeResolution) => {             
+                if (isLargeResolution) {
                   return [
                     'PreHeader',
                     'SiteContext',
