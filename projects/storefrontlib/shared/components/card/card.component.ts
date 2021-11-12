@@ -61,6 +61,9 @@ export class CardComponent implements OnInit {
   @Input()
   charactersLimit = 100;
 
+  @Input()
+  index: number;
+
   // ACTIONS
 
   setEditMode(): void {
