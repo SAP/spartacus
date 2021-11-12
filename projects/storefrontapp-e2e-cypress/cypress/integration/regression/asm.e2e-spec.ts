@@ -8,10 +8,15 @@ import * as loginHelper from '../../helpers/login';
 import * as profile from '../../helpers/update-profile';
 import { getSampleUser } from '../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import {
+  interceptDelete,
+  interceptGet,
+  interceptPost,
+} from '../../support/utils/intercept';
 
 let customer: any;
 
-context('ASM e2e Test', () => {
+context('Assisted Service Module', () => {
   let isMobile: boolean;
 
   before(() => {
@@ -146,28 +151,21 @@ context('ASM e2e Test', () => {
 });
 
 function listenForAuthenticationRequest(): string {
-  const aliasName = 'csAgentAuthentication';
-  cy.intercept({ method: 'POST', path: `/authorizationserver/oauth/token` }).as(
-    aliasName
+  return interceptPost(
+    'csAgentAuthentication',
+    '/authorizationserver/oauth/token'
   );
-  return `@${aliasName}`;
 }
+
 export function listenForCustomerSearchRequest(): string {
-  const aliasName = 'customerSearch';
-  cy.intercept({
-    method: 'GET',
-    path: `/assistedservicewebservices/customers/search?*`,
-  }).as(aliasName);
-  return `@${aliasName}`;
+  return interceptGet(
+    'customerSearch',
+    '/assistedservicewebservices/customers/search?*'
+  );
 }
 
 function listenForUserDetailsRequest(): string {
-  const aliasName = 'userDetails';
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/users/*`,
-  }).as(aliasName);
-  return `@${aliasName}`;
+  return interceptGet('userDetails', '/users/*', true);
 }
 
 export function agentLogin(): void {
@@ -243,18 +241,12 @@ function clickHambergerMenu() {
 }
 
 export function deleteFirstAddress() {
-  cy.intercept({
-    method: 'DELETE',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/addresses/*?lang=en&curr=USD`,
-  }).as('deleteAddress');
-  cy.intercept({
-    method: 'GET',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/users/*/addresses?lang=en&curr=USD`,
-  }).as('fetchAddresses');
+  interceptDelete(
+    'deleteAddresses',
+    '/users/*/addresses/*?lang=en&curr=USD',
+    true
+  );
+  interceptGet('fetchAddresses', '/users/*/addresses/*?lang=en&curr=USD', true);
 
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();
