@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartValidationService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   CartModification,
   CartModificationList,
+  CartValidationFacade,
 } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
@@ -45,7 +45,7 @@ const mockEntries = [
   },
 ];
 
-class MockCartValidationService implements Partial<CartValidationService> {
+class MockCartValidationService implements Partial<CartValidationFacade> {
   validateCart() {
     return cartModificationSubject.asObservable();
   }
@@ -93,7 +93,7 @@ describe(`CartValidationGuard`, () => {
     TestBed.configureTestingModule({
       providers: [
         CartValidationGuard,
-        { provide: CartValidationService, useClass: MockCartValidationService },
+        { provide: CartValidationFacade, useClass: MockCartValidationService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
