@@ -17,8 +17,6 @@ import {
 let customer: any;
 
 context('Assisted Service Module', () => {
-  let isMobile: boolean;
-
   before(() => {
     clearAllStorage();
 
@@ -46,7 +44,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Update personal details');
       cy.selectUserMenuOption({
         option: 'Personal Details',
-        isMobile,
       });
       profile.updateProfile();
       customer.firstName = profile.newFirstName;
@@ -57,7 +54,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Create new address');
       cy.selectUserMenuOption({
         option: 'Address Book',
-        isMobile,
       });
       cy.get('cx-card').should('have.length', 0);
       fillShippingAddress(addressBook.newAddress);
@@ -67,7 +63,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Add a consent');
       cy.selectUserMenuOption({
         option: 'Consent Management',
-        isMobile,
       });
       consent.giveConsent();
 
@@ -100,19 +95,17 @@ context('Assisted Service Module', () => {
       cy.log('--> customer sign in');
       cy.visit('/login');
       loginCustomerInStorefront();
-      assertCustomerIsSignedIn(isMobile);
+      assertCustomerIsSignedIn();
 
       cy.log('Check personal details updated by the agent');
       cy.selectUserMenuOption({
         option: 'Personal Details',
-        isMobile,
       });
       profile.verifyUpdatedProfile();
 
       cy.log('--> check address created by the agent');
       cy.selectUserMenuOption({
         option: 'Address Book',
-        isMobile,
       });
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
@@ -120,7 +113,6 @@ context('Assisted Service Module', () => {
       cy.log('--> Check consent given by agent');
       cy.selectUserMenuOption({
         option: 'Consent Management',
-        isMobile,
       });
       cy.get('input[type="checkbox"]').first().should('be.checked');
 
@@ -181,7 +173,7 @@ export function agentLogin(): void {
     });
   });
 
-  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+  cy.wait(authRequest);
   cy.get('cx-csagent-login-form').should('not.exist');
   cy.get('cx-customer-selection').should('exist');
 }
@@ -195,14 +187,12 @@ function startCustomerEmulation(): void {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type(customer.email);
   });
-  cy.wait(customerSearchRequestAlias)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait(customerSearchRequestAlias);
 
   cy.get('cx-customer-selection div.asm-results button').click();
   cy.get('button[type="submit"]').click();
 
-  cy.wait(userDetailsRequestAlias).its('response.statusCode').should('eq', 200);
+  cy.wait(userDetailsRequestAlias);
   cy.get('cx-customer-emulation input')
     .invoke('attr', 'placeholder')
     .should('contain', customer.fullName);
@@ -215,7 +205,7 @@ function loginCustomerInStorefront() {
   const authRequest = listenForAuthenticationRequest();
 
   login(customer.email, customer.password);
-  cy.wait(authRequest).its('response.statusCode').should('eq', 200);
+  cy.wait(authRequest);
 }
 
 function agentSignOut() {
@@ -226,18 +216,8 @@ function agentSignOut() {
   cy.get('cx-customer-selection').should('not.exist');
 }
 
-function assertCustomerIsSignedIn(isMobile: boolean) {
-  if (isMobile) {
-    clickHambergerMenu();
-  }
+function assertCustomerIsSignedIn() {
   cy.get('cx-login div.cx-login-greet').should('exist');
-  if (isMobile) {
-    clickHambergerMenu();
-  }
-}
-
-function clickHambergerMenu() {
-  cy.get('cx-hamburger-menu [aria-label="Menu"]').click({ force: true });
 }
 
 export function deleteFirstAddress() {
@@ -251,6 +231,6 @@ export function deleteFirstAddress() {
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();
   cy.get('.cx-card-delete button.btn-primary').click();
-  cy.wait('@deleteAddress').its('response.statusCode').should('eq', 200);
-  cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
+  cy.wait('@deleteAddress');
+  cy.wait('@fetchAddresses');
 }
