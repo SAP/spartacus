@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { CartValidationService } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  CartValidationFacade,
+} from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -17,7 +19,7 @@ import { CartValidationStateService } from '../cart-validation-state.service';
 })
 export class CartValidationGuard implements CanActivate {
   constructor(
-    protected cartValidationService: CartValidationService,
+    protected cartValidationService: CartValidationFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected globalMessageService: GlobalMessageService,

@@ -7,9 +7,9 @@ import {
   ProductData,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { AddOrderEntriesContext } from '../order-entries-context/add-order-entries.context';
-import { CartOrderEntriesContext } from '../order-entries-context/cart-order-entries.context';
-import { GetOrderEntriesContext } from '../order-entries-context/get-order-entries.context';
+import { AddOrderEntriesContext } from '../add-order-entries.context';
+import { CartOrderEntriesContext } from '../cart-order-entries.context';
+import { GetOrderEntriesContext } from '../get-order-entries.context';
 
 @Injectable({
   providedIn: 'root',
@@ -22,18 +22,18 @@ export class ActiveCartOrderEntriesContext
 
   constructor(
     protected actionsSubject: ActionsSubject,
-    protected ActiveCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade
   ) {
     super(actionsSubject);
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.ActiveCartFacade.getEntries();
+    return this.activeCartFacade.getEntries();
   }
 
   protected add(products: ProductData[]): Observable<string> {
-    this.ActiveCartFacade.addEntries(this.mapProductsToOrderEntries(products));
-    return this.ActiveCartFacade.getActiveCartId();
+    this.activeCartFacade.addEntries(this.mapProductsToOrderEntries(products));
+    return this.activeCartFacade.getActiveCartId();
   }
 
   protected mapProductsToOrderEntries(products: ProductData[]): OrderEntry[] {

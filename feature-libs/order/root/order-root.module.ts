@@ -10,7 +10,7 @@ import {
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
-import { OrderDetailsOrderEntriesContext } from './pages/order-details-order-entries-context';
+import { OrderDetailsOrderEntriesContextToken } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -65,7 +65,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'orderDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContextToken,
           },
         },
       },

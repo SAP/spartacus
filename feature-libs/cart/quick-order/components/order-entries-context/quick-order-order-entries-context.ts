@@ -11,10 +11,10 @@ import {
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/cart/main/root';
+import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Product, ProductConnector } from '@spartacus/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';
 import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
-import { QuickOrderFacade } from '../facade/quick-order.facade';
 
 @Injectable({
   providedIn: 'root',
