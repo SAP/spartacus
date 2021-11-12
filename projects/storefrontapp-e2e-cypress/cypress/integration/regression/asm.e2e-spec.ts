@@ -20,17 +20,8 @@ context('ASM e2e Test', () => {
     cy.visit('/');
 
     customer = getSampleUser();
-    // cy.requireLoggedIn(customer);
     checkout.registerUser(false, customer);
   });
-
-  // beforeEach(() => {
-  //   cy.restoreLocalStorage();
-  // });
-
-  // afterEach(() => {
-  //   cy.saveLocalStorage();
-  // });
 
   describe('Customer Support Agent - Emulation', () => {
     it('should test customer emulation', () => {
