@@ -16,10 +16,10 @@ const path = require("path");
 const rxjs_1 = require("rxjs");
 const operators_1 = require("rxjs/operators");
 const util_1 = require("util");
-const glob = util_1.promisify(globModule);
+const glob = (0, util_1.promisify)(globModule);
 const DELIMITER_START = '/** AUGMENTABLE_TYPES_START */';
 const DELIMITER_END = '/** AUGMENTABLE_TYPES_END */';
-exports.default = architect_1.createBuilder(augmentedTypesBuilder);
+exports.default = (0, architect_1.createBuilder)(augmentedTypesBuilder);
 /**
  * Builder that runs default ng-packagr builder ('@angular-devkit/build-angular:ng-packagr')
  * and performs additional post step to move augmentable types to root d.ts file.
@@ -29,16 +29,16 @@ exports.default = architect_1.createBuilder(augmentedTypesBuilder);
  *   - https://github.com/microsoft/TypeScript/issues/18877
  */
 function augmentedTypesBuilder(options, context) {
-    return rxjs_1.from(ngPackagrBuild(context, options)).pipe(operators_1.switchMap((result) => result.success
-        ? rxjs_1.from(augmentableTypesPostStep(context, options))
-        : rxjs_1.of(result)));
+    return (0, rxjs_1.from)(ngPackagrBuild(context, options)).pipe((0, operators_1.switchMap)((result) => result.success
+        ? (0, rxjs_1.from)(augmentableTypesPostStep(context, options))
+        : (0, rxjs_1.of)(result)));
 }
 /**
  * Run ng packager build step as is
  */
 function ngPackagrBuild(context, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        const builderRun = yield context.scheduleBuilder('@angular-devkit/build-angular:ng-packagr', options);
+        const builderRun = yield context.scheduleBuilder('@angular-devkit/build-angular:ng-packagr', options, { target: context.target });
         return yield builderRun.result;
     });
 }
