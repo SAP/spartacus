@@ -47,42 +47,42 @@
     },
 
     "00-migration-v4-rename-symbol": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
     "01-migration-v4-removed-public-api-deprecation": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
       "description": "Comment about usage of removed public api"
     },
     "02-migration-v4-methods-and-properties-deprecations": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
       "description": "Comment about usage of removed public methods or properties"
     },
     "03-migration-v4-constructor-deprecations": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/constructor-deprecations/constructor-deprecations#migrate",
       "description": "Add or remove constructor parameters"
     },
     "04-migration-v4-config-deprecations": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/config-deprecations/config-deprecation#migrate",
       "description": "Handle deprecated configuration properties"
     },
     "05-migration-v4-dependency-management": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/dependency-management/dependency-management#migrate",
       "description": "Update dependencies"
     },
     "06-migration-v4-css": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/css/css#migrate",
       "description": "Handle deprecated CSS"
     },
     "07-migration-v4-missing-packages": {
-      "version": "4.1.0-next.0",
+      "version": "4.2.0",
       "factory": "./4_0/missing-packages/missing-packages#migrate",
       "description": "Check missing packages"
     },
