@@ -80,6 +80,10 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
 
         apis: {
           baseUrl: "${options.baseUrl}"
+        },
+
+        visualPicking: {
+          productReferenceType: "SPAREPART"
         }
       }`,
     },

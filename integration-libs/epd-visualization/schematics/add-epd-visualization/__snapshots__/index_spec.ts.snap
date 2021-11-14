@@ -40,6 +40,10 @@ import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTransla
 
     apis: {
       baseUrl: \\"https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com\\"
+    },
+
+    visualPicking: {
+      productReferenceType: \\"SPAREPART\\"
     }
   })
   ]
@@ -88,6 +92,10 @@ import { EpdVisualizationConfig, EpdVisualizationModule, epdVisualizationTransla
 
     apis: {
       baseUrl: \\"https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com\\"
+    },
+
+    visualPicking: {
+      productReferenceType: \\"SPAREPART\\"
     }
   })
   ]

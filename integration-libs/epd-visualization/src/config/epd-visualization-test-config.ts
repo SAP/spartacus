@@ -2,8 +2,8 @@ import { EpdVisualizationConfig } from './epd-visualization-config';
 
 // Not part of the public API. Just used for tests.
 
-export function getValidConfig() {
-  return <EpdVisualizationConfig>{
+export function getValidConfig(): EpdVisualizationConfig {
+  return {
     apis: {
       baseUrl:
         'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
