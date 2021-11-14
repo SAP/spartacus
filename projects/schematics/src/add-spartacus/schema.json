@@ -23,6 +23,7 @@
           "CDC",
           "CDS",
           "Checkout",
+          "Order",
           "Digital-Payments",
           "EPD-Visualization",
           "Administration",
@@ -47,6 +48,7 @@
       "default": [
         "ASM",
         "Checkout",
+        "Order",
         "Import-Export",
         "Saved-Cart",
         "Quick-Order",
@@ -89,6 +91,10 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Order",
+            "label": "Order"
           },
           {
             "value": "Digital-Payments",

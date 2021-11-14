@@ -5,11 +5,11 @@ on:
       - 'develop'
       - 'feature/GH-**'
       - 'epic/**'
-      - '!release/4.1.x'
+      - '!release/4.2.x'
   push:
     branches:
       - develop
-      - release/4.1.x
+      - release/4.2.x
 name: Hosting service - Deploy
 jobs:
   hostingServiceDeploy:
