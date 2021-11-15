@@ -255,20 +255,6 @@ describe('QuickOrderFormComponent', () => {
       });
     });
 
-    it('and do nothing as results box is not open', () => {
-      component.form?.get('product')?.setValue('test');
-      component.clear();
-
-      expect(component.form.get('product')?.value).toEqual('test');
-    });
-
-    it('on product added', () => {
-      quickOrderService.setProductAdded(mockProductCode);
-
-      expect(component.form.get('product')?.value).toBeNull();
-      expect(component.isResultsBoxOpen()).toBeFalsy();
-    });
-
     it('and trigger prevent default', () => {
       const ev = {
         preventDefault() {},
