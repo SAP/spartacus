@@ -1,10 +1,8 @@
 /* webpackIgnore: true */
 import { Request, Response } from 'express';
 import * as fs from 'fs';
-import {
-  getRequestUrl,
-  NgExpressEngineInstance,
-} from '../engine-decorator/ng-express-engine-decorator';
+import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
+import { getRequestUrl } from '../providers/ssr-providers';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
