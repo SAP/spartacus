@@ -9,11 +9,10 @@ on:
       FROM_TAG:
         description: 'previous release tag version'
         required: true
-        default: '3.0.0-test'
+        default: '5.0.0'
       TO_TAG:
         description: 'current release tag version'
-        required: true
-        default: '5.0.0-test'
+        default: 'HEAD'
 name: "Publish Release Draft notes"
 jobs:
   preReleaseDraft:
@@ -21,34 +20,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: '12'
-      - name: Yarn
+      - name: Install dependencies
         run: yarn install
-      - name: npx changelog
-        id: coolio
+      - name: Generate changelog
+        id: changelog
         run: | 
-          npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0
-          please=$(npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0)
-          echo "::set-output name=CHANGELOG"
-      - name: test output
-        run: |
-          echo ${{ steps.coolio.outputs.CHANGELOG }}
-      # - name: Create changelogs
-      #   id: changelog
-      #   uses: ./.github/generate-changelog
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     FROM_TAG: ${{ github.event.inputs.FROM_TAG }}
-      #     TO_TAG: ${{ github.event.inputs.TO_TAG }}
-      # - name: Create release draft
-      #   uses: ./.github/publish-release-draft
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     CHANGELOG: ${{ steps.changelog.outputs.changelog }}
-      #     TO_TAG: ${{ steps.changelog.outputs.toTag }}
-      # - name: release draft
-      #   run: |
-      #     echo "cool ${{ steps.changelog.utputs.changelog }}"
-      #     echo ${{ steps.changelog.utputs.changelog }}
+          changelog=$(npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0)
+
+          # Remove when support for multiline is available
+          # https://github.com/actions/toolkit/issues/403
+          changelog="${changelog//'%'/'%25'}"
+          changelog="${changelog//$'\n'/'%0A'}"
+          changelog="${changelog//$'\r'/'%0D'}"
+
+          echo "::set-output name=changelog::$(echo $changelog)"
+      - name: Create release draft
+        uses: ./.github/publish-release-draft
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CHANGELOG: ${{ steps.coolio.outputs.changelog }}
+          TO_TAG: 4.2

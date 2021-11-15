@@ -1,5 +1,0 @@
-name: 'Create changelog'
-description: 'Creating changelog for releases'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
