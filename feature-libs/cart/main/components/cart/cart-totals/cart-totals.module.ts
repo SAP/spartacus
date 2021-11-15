@@ -3,10 +3,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
+  FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { ProgressButtonModule } from '@spartacus/storefront';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { CartTotalsComponent } from './cart-totals.component';
@@ -19,6 +21,8 @@ import { CartTotalsComponent } from './cart-totals.component';
     CartSharedModule,
     I18nModule,
     CartCouponModule,
+    FeaturesConfigModule,
+    ProgressButtonModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

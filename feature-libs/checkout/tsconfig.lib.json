@@ -16,6 +16,15 @@
     "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart/main/assets": ["dist/cart/main/assets"],
       "@spartacus/cart/main/components": ["dist/cart/main/components"],
       "@spartacus/cart/main/core": ["dist/cart/main/core"],
@@ -39,6 +48,12 @@
       "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
       "@spartacus/core": ["dist/core"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
@@ -52,13 +67,7 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"],
-      "@spartacus/order/assets": ["dist/order/assets"],
-      "@spartacus/order/components": ["dist/order/components"],
-      "@spartacus/order/core": ["dist/order/core"],
-      "@spartacus/order": ["dist/order"],
-      "@spartacus/order/occ": ["dist/order/occ"],
-      "@spartacus/order/root": ["dist/order/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"]
     }
   },
   "angularCompilerOptions": {

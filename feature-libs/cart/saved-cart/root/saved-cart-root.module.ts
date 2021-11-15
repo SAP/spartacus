@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -12,6 +13,10 @@ import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,
 } from './feature-name';
+import {
+  NewSavedCartOrderEntriesContextToken,
+  SavedCartOrderEntriesContextToken,
+} from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultCartSavedCartComponentsConfig(): CmsConfig {
@@ -41,7 +46,24 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'savedCartsDetails' },
+        data: {
+          cxRoute: 'savedCartsDetails',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContextToken,
+          },
+        },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'savedCarts',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: NewSavedCartOrderEntriesContextToken,
+          },
+        },
       },
     ]),
   ],

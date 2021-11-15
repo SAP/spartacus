@@ -26,6 +26,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'isGuestCart',
         'addEntries',
         'requireLoadedCart',
+        'reloadActiveCart',
       ],
       async: true,
     }),
@@ -126,4 +127,6 @@ export abstract class ActiveCartFacade {
       StateUtils.ProcessesLoaderState<Cart | undefined>
     >
   ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
+
+  abstract reloadActiveCart(): void;
 }
