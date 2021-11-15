@@ -2,7 +2,7 @@
 import { Request, Response } from 'express';
 import * as fs from 'fs';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
-import { getRequestUrl } from '../providers/ssr-providers';
+import { getRequestUrl } from '../util/request-url';
 import { RenderingCache } from './rendering-cache';
 import {
   RenderingStrategy,
