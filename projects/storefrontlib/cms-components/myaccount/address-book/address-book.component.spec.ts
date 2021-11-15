@@ -82,10 +82,11 @@ class MockAddressFormComponent {
   backToAddress = new EventEmitter<any>();
 }
 
-describe('AddressBookComponent', () => {
+fdescribe('AddressBookComponent', () => {
   let component: AddressBookComponent;
   let fixture: ComponentFixture<AddressBookComponent>;
   let el: DebugElement;
+  let htmlElem: HTMLElement;
   let addressBookComponentService: AddressBookComponentService;
 
   beforeEach(
@@ -197,6 +198,13 @@ describe('AddressBookComponent', () => {
     );
   });
 
+  it('should contain additional address aria-label', () => {
+    htmlElem = fixture.nativeElement;
+    expect(
+      htmlElem.querySelector('.cx-address-card')?.getAttribute('aria-label')
+    ).toEqual('addressBook.additionalShippingAddress');
+  });
+
   it('should display default label on address default', () => {
     mockAddress.defaultAddress = true;
     fixture.detectChanges();
@@ -204,6 +212,13 @@ describe('AddressBookComponent', () => {
     expect(element.nativeElement.textContent).toContain(
       ' ✓ addressCard.default '
     );
+  });
+
+  it('should contain default address aria-label on address default', () => {
+    htmlElem = fixture.nativeElement;
+    expect(
+      htmlElem.querySelector('.cx-address-card')?.getAttribute('aria-label')
+    ).toEqual('addressBook.defaultShippingAddress');
   });
 
   describe('setAddressAsDefault', () => {

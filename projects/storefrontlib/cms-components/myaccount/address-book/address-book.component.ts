@@ -125,4 +125,10 @@ export class AddressBookComponent implements OnInit {
   cancelCard(): void {
     this.editCard = null;
   }
+
+  getRegionLabel(address: Address) {
+    return address.defaultAddress
+      ? 'addressBook.defaultShippingAddress'
+      : 'addressBook.additionalShippingAddress';
+  }
 }
