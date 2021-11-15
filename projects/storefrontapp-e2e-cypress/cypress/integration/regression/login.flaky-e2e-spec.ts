@@ -1,14 +1,22 @@
+import { clickHamburger } from '../../helpers/homepage';
 import * as login from '../../helpers/login';
 import { viewportContext } from '../../helpers/viewport-context';
 
 describe('Login', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      cy.visit('/login');
-      login.registerUserFromLoginPage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      login.registerUser();
     });
 
     it('should login and logout successfully with correct credentials', () => {
+      cy.onMobile(() => {
+        clickHamburger();
+      });
       login.loginUser();
 
       const tokenRevocationRequestAlias =
@@ -18,8 +26,10 @@ describe('Login', () => {
     });
 
     it('login should fail if password is wrong', () => {
-      cy.visit('/login');
-      login.loginWithBadCredentialsFromLoginPage();
+      cy.onMobile(() => {
+        clickHamburger();
+      });
+      login.loginWithBadCredentials();
     });
   });
 });

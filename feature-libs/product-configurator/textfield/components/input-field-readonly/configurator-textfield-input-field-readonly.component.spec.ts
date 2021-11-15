@@ -1,14 +1,7 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './configurator-textfield-input-field-readonly.component';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 describe('TextfieldInputFieldReadonlyComponent', () => {
   let component: ConfiguratorTextfieldInputFieldReadonlyComponent;
@@ -18,10 +11,7 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorTextfieldInputFieldReadonlyComponent,
-          MockTranslateUrlPipe,
-        ],
+        declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
       })
         .overrideComponent(ConfiguratorTextfieldInputFieldReadonlyComponent, {
           set: {
@@ -49,23 +39,15 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should render a visually hidden span', () => {
+  it('should render label', () => {
     const idLabel = component.getIdLabel(component.attribute);
-    const elementsSpan = htmlElem.querySelectorAll('#' + idLabel);
-    expect(elementsSpan.length).toBe(1);
-    const elementSpan = elementsSpan[0];
-    expect(elementSpan.id).toBe(idLabel);
-    expect(elementSpan.className).toBe('cx-visually-hidden');
-  });
-
-  it('should render a hidden label', () => {
-    const elementsLabel = htmlElem.querySelectorAll('label');
+    const elementsLabel = htmlElem.querySelectorAll('#' + idLabel);
     expect(elementsLabel.length).toBe(1);
     const elementLabel = elementsLabel[0];
     expect(elementLabel.innerHTML).toBe(component.attribute.configurationLabel);
   });
 
-  it('should render a value', () => {
+  it('should render value', () => {
     const elementsDiv = htmlElem.querySelectorAll('div');
     expect(elementsDiv.length).toBe(1);
     const elementDiv = elementsDiv[0];

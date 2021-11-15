@@ -4,7 +4,7 @@ import { viewportContext } from '../../helpers/viewport-context';
 import { standardUser } from '../../sample-data/shared-users';
 
 context('Applied promotions', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

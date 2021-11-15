@@ -1,8 +1,9 @@
 import * as configuration from '../../helpers/product-configurator';
 
 /**
- * This suite is marked as flaky because we cannot run it on the SPA pipeline as of now.
- * The underlying OCC API's are planned to be released only with commerce core 22.05
+ * This suite is marked as flaky due to performance (synchronization) issues on
+ * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
+ * https://cxjira.sap.com/browse/TIGER-7252
  */
 
 const testProduct = '1934793';

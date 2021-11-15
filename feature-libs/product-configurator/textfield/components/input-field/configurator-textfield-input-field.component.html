@@ -1,7 +1,7 @@
 <label
   id="{{ getIdLabel(attribute) }}"
   class="cx-configurator-textfield-label"
-  [attr.aria-label]="'configurator.a11y.nameOfAttribute' | cxTranslate"
+  [attr.aria-label]="attribute.configurationLabel"
   >{{ attribute.configurationLabel }}</label
 >
 <div class="form-group">
@@ -9,13 +9,6 @@
     [formControl]="attributeInputForm"
     class="form-control"
     (change)="onInputChange()"
-    [attr.aria-label]="
-      'configurator.a11y.valueOfAttributeFull'
-        | cxTranslate
-          : {
-              value: attribute.configurationValue,
-              attribute: attribute.configurationLabel
-            }
-    "
+    attr.aria-labelledby="{{ getIdLabel(attribute) }}"
   />
 </div>

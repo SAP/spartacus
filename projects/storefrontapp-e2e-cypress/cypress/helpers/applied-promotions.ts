@@ -93,7 +93,7 @@ export function checkAppliedPromotions() {
     goToCartDetailsViewFromCartDialog();
     checkForAppliedPromotions();
 
-    cy.get('.cart-details-wrapper > .cx-total').then(($cart) => {
+    cy.get('.cart-details-wrapper > :nth-child(1)').then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.log(`CartId: ${cartId}`);
       cy.window()
@@ -134,12 +134,14 @@ export function removeCartEntry() {
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
-  it('Should display promotions for cart quantities increase/decrease', () => {
+  it('Should add two products to the cart', () => {
     cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
     cy.visit(`/product/${batteryProductCode}`);
     addProductToCart();
+  });
 
+  it('Should display promotions for cart quantities increase/decrease', () => {
     registerCartPageRoute();
     cy.intercept({
       method: 'GET',
@@ -147,7 +149,6 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
         'BASE_SITE'
       )}/users/*/customercoupons`,
     }).as('customer_coupons');
-
     goToCartDetailsViewFromCartDialog();
     cy.wait('@cart_page');
     cy.wait('@customer_coupons');
