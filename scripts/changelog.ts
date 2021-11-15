@@ -4,7 +4,6 @@ import program from 'commander';
 import * as ejs from 'ejs';
 import * as fs from 'fs';
 import * as path from 'path';
-import * as semver from 'semver';
 import { packages } from './packages';
 
 const changelogTemplate = ejs.compile(
@@ -14,16 +13,11 @@ const changelogTemplate = ejs.compile(
 
 const conventionalCommitsParser = require('conventional-commits-parser');
 const gitRawCommits = require('git-raw-commits');
-const ghGot = require('gh-got');
 const through = require('through2');
 
 export interface ChangelogOptions {
   from: string;
   to?: string;
-  githubTokenFile?: string;
-  githubToken?: string;
-  library?: string;
-  stdout?: boolean;
 }
 
 const breakingChangesKeywords = ['BREAKING CHANGE', 'BREAKING CHANGES'];
@@ -34,15 +28,8 @@ export default async function run(
   logger: logging.Logger
 ) {
   const commits: JsonObject[] = [];
-  let toSha: string | null = null;
   const breakingChanges: JsonObject[] = [];
   const deprecations: JsonObject[] = [];
-
-  const githubToken = (
-    args.githubToken ||
-    (args.githubTokenFile && fs.readFileSync(args.githubTokenFile, 'utf-8')) ||
-    ''
-  ).trim();
 
   const duplexUtil = through(function (
     this: NodeJS.ReadStream,
@@ -103,9 +90,6 @@ export default async function run(
               chunk.gitTags && (chunk.gitTags as string).match(/tag: (.*)/);
             const tags = maybeTag && maybeTag[1].split(/,/g);
             chunk['tags'] = tags;
-            if (tags && tags.find((x) => x === args.to)) {
-              toSha = chunk.hash as string;
-            }
 
             const notes: any = chunk.notes;
             if (Array.isArray(notes)) {
@@ -132,89 +116,39 @@ export default async function run(
         })
       )
       .on('finish', resolve);
-  })
-    .then(() => {
-      const markdown: string = changelogTemplate({
-        ...args,
-        include: (x: string, v: {}) =>
-          ejs.render(
-            fs.readFileSync(
-              path.join(__dirname, './templates', `${x}.ejs`),
-              'utf-8'
-            ),
-            v
+  }).then(() => {
+    const markdown: string = changelogTemplate({
+      ...args,
+      include: (x: string, v: {}) =>
+        ejs.render(
+          fs.readFileSync(
+            path.join(__dirname, './templates', `${x}.ejs`),
+            'utf-8'
           ),
-        commits,
-        packages,
-        breakingChanges,
-        deprecations,
-      });
-
-      if (args.stdout || !githubToken) {
-        console.log(markdown);
-        process.exit(0);
-      }
-
-      // Check if we need to edit or create a new one.
-      return ghGot('repos/SAP/spartacus/releases').then((x: JsonObject) => [
-        x,
-        markdown,
-      ]);
-    })
-    .then(([body, markdown]) => {
-      const json = body.body;
-      const maybeRelease = json.find((x: JsonObject) => x.tag_name == args.to);
-      const id = maybeRelease ? `/${maybeRelease.id}` : '';
-
-      const semversion = (args.to && semver.parse(args.to)) || {
-        prerelease: '',
-      };
-
-      return ghGot('repos/SAP/spartacus/releases' + id, {
-        body: {
-          body: markdown,
-          draft: true,
-          name: args.to,
-          prerelease: semversion.prerelease.length > 0,
-          tag_name: args.to,
-          ...(toSha ? { target_commitish: toSha } : {}),
-        },
-        token: githubToken,
-      });
+          v
+        ),
+      commits,
+      packages,
+      breakingChanges,
+      deprecations,
     });
+
+    console.log(markdown);
+  });
 }
 
 program
   .option('--from <commit>', 'From which commit/tag')
   .option('--to <commit>', 'To which commit/tag')
-  .option('--verbose', 'Print output')
-  .option('--githubToken <token>', 'Github token for release generation')
-  .option('--tokenFile <pathToFile>', 'File with github token')
-  .option('--lib <lib>', 'Changelog for passed library')
   .parse(process.argv);
 
 const config = {
   from: program.from,
   to: program.to,
-  githubToken: program.githubToken,
-  githubTokenFile: program.tokenFile,
-  library: program.lib,
-  stdout: program.verbose || false,
 };
 
 if (typeof config.from === 'undefined') {
   console.error(chalk.red('Missing --from option with end commit/tag'));
-  process.exit(1);
-} else if (
-  config.stdout === false &&
-  typeof config.githubToken === 'undefined' &&
-  typeof config.githubTokenFile === 'undefined'
-) {
-  console.error(
-    chalk.red(
-      'Missing --githubToken/--tokenFile option with correct github token'
-    )
-  );
   process.exit(1);
 }
 
