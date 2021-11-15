@@ -31,7 +31,7 @@ export function fillShippingAddress(
   shippingAddress: AddressData,
   submitForm: boolean = true
 ) {
-  cy.wait(1000);
+  cy.get('button.btn-primary').should('be.visible');
   cy.get('cx-page-layout').then((body) => {
     if (!body.find('cx-address-form').length) {
       cy.get('button.btn-primary').click({ force: true });
@@ -69,7 +69,6 @@ export function fillShippingAddress(
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
         if (submitForm) {
           cy.get('button.btn-primary').click({ force: true });
-          cy.wait(1000);
         }
       });
     }
