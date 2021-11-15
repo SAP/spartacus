@@ -142,7 +142,10 @@ export function checkoutB2B(): void {
       cy.location('pathname').should('contain', '/checkout/shipping-address');
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-shipping-address').should('be.visible');
+      cy.log("Click to the link 'Ship to this address'");
+      cy.get('.cx-card-actions .cx-card-link').click({ force: true });
     });
+
   cy.log("Navigate to the next step 'Delivery mode' tab");
   cy.get('button.btn-primary')
     .contains('Continue')
