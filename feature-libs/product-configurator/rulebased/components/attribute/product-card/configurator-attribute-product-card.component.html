@@ -10,6 +10,7 @@
         <cx-media
           [container]="product?.images?.PRIMARY"
           format="product"
+          aria-hidden="true"
         ></cx-media>
       </div>
 
@@ -19,7 +20,17 @@
             {{ product.name }}
           </p>
         </div>
-        <div class="cx-product-card-code" *ngIf="product.code">
+        <div
+          class="cx-product-card-code"
+          *ngIf="product.code"
+          [attr.aria-label]="
+            'configurator.a11y.itemOfAttribute'
+              | cxTranslate
+                : {
+                    attribute: productCardOptions?.attributeLabel
+                  }
+          "
+        >
           {{ 'configurator.attribute.id' | cxTranslate }}:
           {{ product.code }}
         </div>
@@ -93,6 +104,15 @@
                 else deselect
               "
               [cxFocus]="focusConfig"
+              [attr.aria-label]="
+                'configurator.a11y.itemOfAttributeUnselected'
+                  | cxTranslate
+                    : {
+                        item: product.code,
+                        attribute: productCardOptions?.attributeLabel
+                      }
+              "
+              aria-selected="false"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -112,9 +132,28 @@
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
                   [cxFocus]="focusConfig"
+                  [attr.aria-label]="
+                    'configurator.a11y.itemOfAttributeSelected'
+                      | cxTranslate
+                        : {
+                            item: product.code,
+                            attribute: productCardOptions?.attributeLabel
+                          }
+                  "
+                  aria-selected="true"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>
+                <span class="cx-visually-hidden" tabindex="0">
+                  {{
+                    'configurator.a11y.itemOfAttributeSelected'
+                      | cxTranslate
+                        : {
+                            item: product.code,
+                            attribute: productCardOptions?.attributeLabel
+                          }
+                  }}
+                </span>
               </ng-container>
             </ng-template>
           </ng-template>

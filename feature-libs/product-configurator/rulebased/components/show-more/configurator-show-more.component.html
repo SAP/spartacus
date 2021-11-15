@@ -1,7 +1,7 @@
 <ng-container *ngIf="text">
   <span>{{ textToShow }}</span>
 
-  <button (click)="toggleShowMore()" *ngIf="showMore">
+  <button (click)="toggleShowMore()" *ngIf="showMore" tabindex="-1">
     <ng-container *ngIf="showHiddenText; else less"
       >&nbsp;... {{ 'configurator.button.less' | cxTranslate }}</ng-container
     >

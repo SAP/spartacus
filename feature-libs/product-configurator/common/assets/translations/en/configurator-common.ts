@@ -99,6 +99,11 @@ export const configurator = {
       listOfAttributesAndValues: 'List of attributes and their values:',
       editAttributesAndValues: 'Edit values of attributes:',
       group: '{{ group }} group of attributes',
+      itemOfAttributeSelected:
+        'Item {{ item }} of attribute {{ attribute }}. Selected',
+      itemOfAttributeUnselected:
+        'Item {{ item }} of attribute {{ attribute }}. Unselected',
+      itemOfAttribute: 'Item of attribute {{ attribute }}',
     },
   },
 };
