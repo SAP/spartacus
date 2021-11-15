@@ -71,6 +71,9 @@ context('Assisted Service Module', () => {
       cy.get('cx-csagent-login-form').should('not.exist');
       cy.get('cx-customer-selection').should('exist');
 
+      // Without this wait, the test fails b/c the customer search box is disabled
+      cy.wait(1000);
+
       cy.log('--> Start another emulation session');
       startCustomerEmulation();
 
