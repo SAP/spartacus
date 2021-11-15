@@ -37,7 +37,10 @@ const mockEntry2: OrderEntry = {
   product: mockProduct2,
 };
 const mockEmptyEntry: OrderEntry = {};
-
+const mockNonPurchasableProduct: Product = {
+  code: '123456789',
+  multidimensional: true,
+};
 const mockQuickOrderAddEntryEvent: QuickOrderAddEntryEvent = {
   entry: {
     product: {
@@ -57,6 +60,9 @@ const mockSoftDeletedEntries$ = new BehaviorSubject<Record<string, OrderEntry>>(
   }
 );
 const mockCanAdd$ = new BehaviorSubject<boolean>(true);
+const mockNonPurchasableProduct$ = new BehaviorSubject<Product | null>(
+  mockNonPurchasableProduct
+);
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   getEntries(): BehaviorSubject<OrderEntry[]> {
@@ -77,6 +83,10 @@ class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
   setListLimit(_limit: number): void {}
   canAdd(_code?: string): Observable<boolean> {
     return mockCanAdd$.asObservable();
+  }
+  clearNonPurchasableProductError(): void {}
+  getNonPurchasableProductError(): Observable<Product | null> {
+    return mockNonPurchasableProduct$.asObservable();
   }
 }
 
@@ -120,7 +130,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   selector: 'cx-quick-order-form',
 })
 class MockQuickOrderFormComponent {
-  @Input() isDisabled: boolean;
   @Input() isLoading: boolean;
 }
 
@@ -335,5 +344,18 @@ describe('QuickOrderComponent', () => {
         expect(value).toBeFalsy();
       });
     });
+  });
+
+  it('should trigger clearNonPurchasableProductError on clearNonPurchasableError', () => {
+    spyOn(
+      quickOrderService,
+      'clearNonPurchasableProductError'
+    ).and.callThrough();
+
+    component.clearNonPurchasableError();
+
+    expect(
+      quickOrderService.clearNonPurchasableProductError
+    ).toHaveBeenCalled();
   });
 });

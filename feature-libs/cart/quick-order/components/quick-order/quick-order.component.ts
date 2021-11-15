@@ -18,6 +18,7 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   OrderEntry,
+  Product,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -55,6 +56,9 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   protected cartWarnings$ = new BehaviorSubject<QuickOrderAddEntryEvent[]>([]);
   protected cartSuccesses$ = new BehaviorSubject<OrderEntry[]>([]);
   protected showAddToCartInformation$ = new BehaviorSubject<boolean>(false);
+  protected nonPurchasableProductError$ = new BehaviorSubject<Product | null>(
+    null
+  );
 
   constructor(
     protected activeCartService: ActiveCartService,
@@ -84,6 +88,10 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   get successes$(): Observable<OrderEntry[]> {
     return this.cartSuccesses$.asObservable();
+  }
+
+  get nonPurchasableError$(): Observable<Product | null> {
+    return this.quickOrderService.getNonPurchasableProductError();
   }
 
   get addToCartInformation$(): Observable<boolean> {
@@ -161,6 +169,10 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
     if (entry.product?.code) {
       this.quickOrderService.hardDeleteEntry(entry.product.code);
     }
+  }
+
+  clearNonPurchasableError(): void {
+    this.quickOrderService.clearNonPurchasableProductError();
   }
 
   canAddProduct(): Observable<boolean> {
