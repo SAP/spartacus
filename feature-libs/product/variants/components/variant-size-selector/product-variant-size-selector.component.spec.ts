@@ -7,6 +7,7 @@ import {
   Product,
   ProductService,
   VariantQualifier,
+  VariantOptionQualifier,
 } from '@spartacus/core';
 import { ProductVariantSizeSelectorComponent } from './product-variant-size-selector.component';
 import { NavigationExtras } from '@angular/router';
@@ -30,6 +31,7 @@ const mockQualifiers = [
     qualifier: VariantQualifier.STYLE,
   },
 ];
+const mockQualifiers2 = {} as VariantOptionQualifier;
 
 class MockRoutingService {
   go(
@@ -96,5 +98,10 @@ describe('ProductVariantSizeSelectorComponent', () => {
   it('should find variant with proper qualifier', () => {
     const result = component.getVariantOptionValue(mockQualifiers);
     expect(result).toEqual(mockQualifiers[0].value);
+  });
+
+  it('should not find variant', () => {
+    const result = component.getVariantOptionValue([mockQualifiers2]);
+    expect(result).toEqual('');
   });
 });
