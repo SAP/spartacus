@@ -30,7 +30,7 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: | 
-          changelog=$(npx ts-node scripts/changelog.ts --verbose --from asm-4.0.0)
+          changelog=$(npx ts-node scripts/changelog.ts --from asm-4.0.0)
 
           # Remove when support for multiline is available
           # https://github.com/actions/toolkit/issues/403
