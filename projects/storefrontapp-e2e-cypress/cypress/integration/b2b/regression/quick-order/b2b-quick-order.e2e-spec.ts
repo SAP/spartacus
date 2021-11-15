@@ -2,13 +2,12 @@ import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
 import * as alerts from '../../../../helpers/global-message';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-checkout';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.window().then((win) => win.localStorage.clear());
-      cy.clearLocalStorageMemory();
+      clearAllStorage();
     });
     describe('Quick Order Page', () => {
       beforeEach(() => {
@@ -77,7 +76,7 @@ context('B2B - Quick Order', () => {
       });
 
       it('should show info message to add product to the list before clicking add to cart', () => {
-        quickOrder.addToCart();
+        quickOrder.addToCartClick();
         quickOrder.verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart();
       });
 

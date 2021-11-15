@@ -3,6 +3,7 @@ import { CanActivate, Router, UrlTree } from '@angular/router';
 import {
   ActiveCartFacade,
   CartValidationFacade,
+  CartValidationStatusCode,
 } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
@@ -28,6 +29,8 @@ export class CartValidationGuard implements CanActivate {
     protected cartConfigService: CartConfigService
   ) {}
 
+  protected GLOBAL_MESSAGE_TIMEOUT = 10000;
+
   canActivate(): Observable<boolean | UrlTree> {
     return !this.cartConfigService.isCartValidationEnabled()
       ? of(true)
@@ -48,13 +51,17 @@ export class CartValidationGuard implements CanActivate {
               if (
                 cartEntries.length === 1 &&
                 cartEntries[0].product?.code ===
-                  cartModificationList.cartModifications[0].entry?.product?.code
+                  cartModificationList?.cartModifications[0].entry?.product
+                    ?.code &&
+                cartModificationList?.cartModifications[0].statusCode ===
+                  CartValidationStatusCode.NO_STOCK
               ) {
                 validationResultMessage = {
                   key: 'validation.cartEntryRemoved',
                   params: {
-                    name: cartModificationList.cartModifications[0].entry
-                      ?.product?.name,
+                    name:
+                      cartModificationList.cartModifications[0].entry?.product
+                        ?.name,
                   },
                 };
               } else {
@@ -62,9 +69,11 @@ export class CartValidationGuard implements CanActivate {
                   key: 'validation.cartEntriesChangeDuringCheckout',
                 };
               }
+
               this.globalMessageService.add(
                 validationResultMessage,
-                GlobalMessageType.MSG_TYPE_ERROR
+                GlobalMessageType.MSG_TYPE_ERROR,
+                this.GLOBAL_MESSAGE_TIMEOUT
               );
               this.activeCartService.reloadActiveCart();
               return this.router.parseUrl(this.semanticPathService.get('cart'));

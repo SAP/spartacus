@@ -20,9 +20,7 @@ export class CartItemValidationWarningComponent {
     this.cartValidationStateService.cartValidationResult$.pipe(
       map((modificationList) =>
         modificationList.find(
-          (modification) =>
-            modification.statusCode === CartValidationStatusCode.LOW_STOCK &&
-            modification.entry?.product?.code === this.code
+          (modification) => modification.entry.product.code === this.code
         )
       )
     );
