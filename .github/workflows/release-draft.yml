@@ -43,5 +43,5 @@ jobs:
         uses: ./.github/publish-release-draft
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGELOG: ${{ steps.coolio.outputs.changelog }}
+          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
           TO_TAG: 4.2
