@@ -3,6 +3,7 @@ export namespace ConfiguratorRouter {
   export enum PageType {
     CONFIGURATION = 'configuration',
     OVERVIEW = 'overview',
+    ORDER = 'order',
   }
   export interface Data {
     pageType?: PageType;

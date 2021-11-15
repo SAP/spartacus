@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
+  Order,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
@@ -37,6 +38,10 @@ const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
   owner: mockOwner,
+};
+
+const mockOrder: Order = {
+  code: '1',
 };
 
 let component: ConfiguratorAddToCartButtonComponent;
@@ -354,6 +359,15 @@ describe('ConfigAddToCartButtonComponent', () => {
         false
       );
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
+    });
+  });
+  describe('displayOnlyButton', () => {
+    it('should navigate to order details', () => {
+      component.goBack(mockOrder);
+      expect(routingService.go).toHaveBeenCalledWith({
+        cxRoute: 'orderDetails',
+        params: mockOrder,
+      });
     });
   });
 });

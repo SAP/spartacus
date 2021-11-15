@@ -2,16 +2,20 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  Order,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -54,7 +58,10 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected userOrderService: OrderFacade,
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
+    protected windowRef: WindowRef
   ) {}
 
   protected navigateToCart(): void {
@@ -222,5 +229,32 @@ export class ConfiguratorAddToCartButtonComponent {
             });
         }
       });
+  }
+  goBack(): void {
+    const isOrderPageType = ConfiguratorRouter.PageType.ORDER;
+    if (isOrderPageType) {
+      this.container$
+        .pipe(
+          map((container) =>
+            this.commonConfiguratorUtilsService.decomposeOwnerId(
+              container.configuration.owner.id
+            )
+          ),
+          tap((decomposedIds) =>
+            this.userOrderService.loadOrderDetails(decomposedIds.documentId)
+          ),
+          filter((order: Order) => order !== undefined),
+          take(1)
+        )
+        .subscribe((order: Order) =>
+          this.routingService.go({ cxRoute: 'orderDetails', params: order })
+        );
+    } else {
+      const historyLength: number | undefined =
+        this.windowRef?.nativeWindow?.history?.length;
+      if (historyLength !== undefined && historyLength > 1) {
+        this.windowRef.nativeWindow?.history.go(-1);
+      }
+    }
   }
 }
