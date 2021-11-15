@@ -20,8 +20,7 @@ interface SelectionValue {
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
 
@@ -191,6 +190,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       withQuantity: this.withQuantity,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
     };
   }
 }
