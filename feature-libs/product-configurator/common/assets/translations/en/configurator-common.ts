@@ -105,7 +105,9 @@ export const configurator = {
         'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect.',
       itemOfAttributeUnselected:
         'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select.',
+      selectNoItemOfAttribute: 'To select no item for attribute {{ attribute }} press button.',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
+      itemDescription: 'Description for item {{ item }}',
     },
   },
 };

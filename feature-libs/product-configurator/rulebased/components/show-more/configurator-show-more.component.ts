@@ -3,7 +3,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Input,
+  Input
 } from '@angular/core';
 
 @Component({
@@ -19,8 +19,9 @@ export class ConfiguratorShowMoreComponent implements AfterViewInit {
 
   @Input() text: string;
   @Input() textSize = 60;
+  @Input() productName: string;
 
-  constructor(protected cdRef: ChangeDetectorRef) {}
+  constructor(protected cdRef: ChangeDetectorRef) { }
 
   ngAfterViewInit(): void {
     this.textNormalized = this.normalize(this.text);

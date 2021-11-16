@@ -35,6 +35,7 @@
           *ngIf="product?.description"
           [text]="product?.description"
           [textSize]="45"
+          [productName]="product.code"
         ></cx-configurator-show-more>
       </div>
     </div>
@@ -120,12 +121,18 @@
               "
               [cxFocus]="focusConfig"
               [attr.aria-label]="
-                'configurator.a11y.itemOfAttributeUnselected'
-                  | cxTranslate
-                    : {
-                        item: product.code,
-                        attribute: productCardOptions?.attributeLabel
-                      }
+                this.isValueCodeDefined(
+                  productCardOptions?.productBoundValue?.valueCode
+                )
+                  ? ('configurator.a11y.itemOfAttributeUnselected'
+                    | cxTranslate
+                      : {
+                          item: product.code,
+                          attribute: productCardOptions?.attributeLabel
+                        })
+                  : ('configurator.a11y.selectNoItemOfAttribute'
+                    | cxTranslate
+                      : { attribute: productCardOptions?.attributeLabel })
               "
               aria-selected="false"
             >
@@ -148,7 +155,7 @@
                   "
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="
-                    'configurator.a11y.itemOfAttributeSelected'
+                    'configurator.a11y.itemOfAttributeSelectedPressToUnselect'
                       | cxTranslate
                         : {
                             item: product.code,
@@ -176,7 +183,11 @@
       </div>
     </div>
     <ng-container *ngIf="showDeselectionNotPossible">
-      <div class="cx-product-card-rows deselection-error-message">
+      <div
+        class="cx-product-card-rows deselection-error-message"
+        aria-live="assertive"
+        aria-atomic="true"
+      >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
       </div>
