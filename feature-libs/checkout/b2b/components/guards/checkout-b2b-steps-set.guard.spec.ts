@@ -4,10 +4,7 @@ import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
-import {
-  CheckoutStepService,
-  CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -16,6 +13,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
+  Address,
   CostCenter,
   DeliveryMode,
   PaymentDetails,
@@ -25,6 +23,7 @@ import {
   RoutingConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CheckoutB2BStepsSetGuard } from './checkout-b2b-steps-set.guard';
 
 import createSpy = jasmine.createSpy;
 
@@ -97,13 +96,23 @@ class MockCheckoutCostCenterService
 
 // initial it as ACCOUNT payment
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
-class MockPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
+class MockCheckoutPaymentTypeService
+  implements Partial<CheckoutPaymentTypeFacade>
+{
   isAccountPayment(): Observable<boolean> {
     return isAccount;
   }
   getSelectedPaymentTypeState(): Observable<
     QueryState<PaymentType | undefined>
   > {
+    return of({ loading: false, error: false, data: undefined });
+  }
+}
+
+class MockCheckoutDeliveryAddressFacade
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }
 }
@@ -124,8 +133,8 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   }
 }
 
-describe(`CheckoutStepsSetGuard`, () => {
-  let guard: CheckoutStepsSetGuard;
+describe(`CheckoutB2BStepsSetGuard`, () => {
+  let guard: CheckoutB2BStepsSetGuard;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
@@ -135,19 +144,23 @@ describe(`CheckoutStepsSetGuard`, () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        CheckoutStepsSetGuard,
+        CheckoutB2BStepsSetGuard,
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
           provide: CheckoutPaymentTypeFacade,
-          useClass: MockPaymentTypeService,
+          useClass: MockCheckoutPaymentTypeService,
         },
         {
           provide: CheckoutCostCenterFacade,
           useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: CheckoutDeliveryAddressFacade,
+          provide: CheckoutDeliveryModesFacade,
           useClass: MockCheckoutDeliveryModeFacade,
+        },
+        {
+          provide: CheckoutDeliveryAddressFacade,
+          useClass: MockCheckoutDeliveryAddressFacade,
         },
         {
           provide: CheckoutPaymentFacade,
@@ -157,7 +170,7 @@ describe(`CheckoutStepsSetGuard`, () => {
       ],
     });
 
-    guard = TestBed.inject(CheckoutStepsSetGuard);
+    guard = TestBed.inject(CheckoutB2BStepsSetGuard);
     checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
     checkoutDeliveryAddressFacade = TestBed.inject(
       CheckoutDeliveryAddressFacade

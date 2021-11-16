@@ -139,7 +139,7 @@ describe('CostCenterComponent', () => {
   it('should set default if the cart does NOT contain a cost center', () => {
     spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
     spyOn(checkoutCostCenterService, 'getCostCenterState').and.returnValue(
-      of(null)
+      of({ loading: false, error: false, data: undefined })
     );
 
     let costCenter: CostCenter[] | undefined;

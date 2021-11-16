@@ -9,6 +9,7 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
@@ -60,7 +61,11 @@ const mockDeliveryMode: DeliveryMode = {
   name: 'standard-gross',
   description: 'Delivery mode test description',
 };
-const deliveryModeBS = new BehaviorSubject<DeliveryMode>(mockDeliveryMode);
+const deliveryModeBS = new BehaviorSubject<QueryState<DeliveryMode>>({
+  loading: false,
+  error: false,
+  data: mockDeliveryMode,
+});
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -103,19 +108,32 @@ class MockCardComponent {
   content: Card;
 }
 
-class MockCheckoutDeliveryService {
-  loadSupportedDeliveryModes = createSpy();
-  getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return deliveryModeBS.asObservable();
-  }
-  getDeliveryAddress(): Observable<Address> {
-    return of(mockAddress);
+class MockCheckoutDeliveryAddressService
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({
+      loading: false,
+      error: false,
+      data: mockAddress,
+    });
   }
 }
 
-class MockCheckoutPaymentService {
-  getPaymentDetails(): Observable<PaymentDetails> {
-    return of(mockPaymentDetails);
+class MockCheckoutDeliveryModesService
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  loadSupportedDeliveryModes = createSpy();
+  getSelectedDeliveryModeState(): Observable<
+    QueryState<DeliveryMode | undefined>
+  > {
+    return deliveryModeBS.asObservable();
+  }
+}
+
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
+    return of({ loading: false, error: false, data: mockPaymentDetails });
   }
   paymentProcessSuccess(): void {}
 }
@@ -127,7 +145,7 @@ class MockUserAddressService {
   }
 }
 
-class MockActiveCartService {
+class MockActiveCartService implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -166,10 +184,12 @@ class MockCheckoutStepService {
 class MockCheckoutPaymentTypeFacade
   implements Partial<CheckoutPaymentTypeFacade>
 {
-  getPoNumber(): Observable<string> {
-    return of('test-po');
+  getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
+    return of({ loading: false, error: false, data: 'test-po' });
   }
-  getSelectedPaymentType(): Observable<QueryState<PaymentType | undefined>> {
+  getSelectedPaymentTypeState(): Observable<
+    QueryState<PaymentType | undefined>
+  > {
     return of({
       loading: false,
       error: false,
@@ -193,7 +213,7 @@ class MockCheckoutCostCenterService
   }
 }
 
-class MockUserCostCenterService {
+class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getActiveCostCenters(): Observable<CostCenter[]> {
     return of([mockCostCenter]);
   }
@@ -228,7 +248,11 @@ describe('ReviewSubmitComponent', () => {
         providers: [
           {
             provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryService,
+            useClass: MockCheckoutDeliveryAddressService,
+          },
+          {
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModesService,
           },
           {
             provide: CheckoutPaymentFacade,
@@ -262,7 +286,11 @@ describe('ReviewSubmitComponent', () => {
     component = fixture.componentInstance;
 
     addressBS.next(mockCountry);
-    deliveryModeBS.next(mockDeliveryMode);
+    deliveryModeBS.next({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode,
+    });
   });
 
   it('should be created', () => {
@@ -413,14 +441,14 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getPoNumberCard(po) to get po card data', () => {
     component.getPoNumberCard('test-po').subscribe((card) => {
-      expect(card.title).toEqual('checkoutReview.poNumber');
+      expect(card.title).toEqual('checkoutB2B.review.poNumber');
       expect(card.textBold).toEqual('test-po');
     });
   });
 
   it('should call getCostCenter(costCenter) to get cost center ard data', () => {
     component.getCostCenterCard(mockCostCenter).subscribe((card) => {
-      expect(card.title).toEqual('checkoutPO.costCenter');
+      expect(card.title).toEqual('checkoutB2B.costCenter');
       expect(card.textBold).toEqual(mockCostCenter.name);
       expect(card.text).toEqual(['(' + mockCostCenter.unit?.name + ')']);
     });
@@ -428,7 +456,7 @@ describe('ReviewSubmitComponent', () => {
 
   it('should call getPaymentTypeCard(paymentType) to get payment type data', () => {
     component.getPaymentTypeCard(mockPaymentTypes[0]).subscribe((card) => {
-      expect(card.title).toEqual('checkoutProgress.methodOfPayment');
+      expect(card.title).toEqual('checkoutB2B.progress.methodOfPayment');
       expect(card.textBold).toEqual('paymentTypes.paymentType_test-account');
     });
   });

@@ -2,10 +2,10 @@ import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, PaymentType } from '@spartacus/core';
+import { I18nTestingModule, PaymentType, QueryState } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutStepService } from '../../../components/services/checkout-step.service';
 import { PaymentTypeComponent } from './payment-type.component';
 import createSpy = jasmine.createSpy;
 
@@ -15,20 +15,29 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
-class MockPaymentTypeService {
+class MockCheckoutPaymentTypeService
+  implements Partial<CheckoutPaymentTypeFacade>
+{
   getPaymentTypes(): Observable<PaymentType[]> {
     return of();
   }
-  setPaymentType(): void {}
-  getSelectedPaymentType(): Observable<string> {
+  setPaymentType(
+    _paymentTypeCode: string,
+    _purchaseOrderNumber?: string
+  ): Observable<unknown> {
+    return of('setPaymentType');
+  }
+  getSelectedPaymentTypeState(): Observable<
+    QueryState<PaymentType | undefined>
+  > {
     return selectedPaymentType$.asObservable();
   }
-  getPoNumber(): Observable<string> {
-    return of('test-po');
+  getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
+    return of({ loading: false, error: false, data: 'test-po' });
   }
 }
 
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   disableEnableStep = createSpy();
   resetSteps = createSpy();
   goToStepWithIndex = createSpy();
@@ -36,7 +45,11 @@ class MockCheckoutStepService {
   back = createSpy();
 }
 
-const selectedPaymentType$ = new BehaviorSubject<string>('ACCOUNT');
+const selectedPaymentType$ = new BehaviorSubject<QueryState<PaymentType>>({
+  loading: false,
+  error: false,
+  data: { code: 'ACCOUNT' },
+});
 const mockPaymentTypes: PaymentType[] = [
   { code: 'card', displayName: 'card' },
   { code: 'account', displayName: 'account' },
@@ -63,7 +76,7 @@ describe('PaymentTypeComponent', () => {
         providers: [
           {
             provide: CheckoutPaymentTypeFacade,
-            useClass: MockPaymentTypeService,
+            useClass: MockCheckoutPaymentTypeService,
           },
           {
             provide: CheckoutStepService,
@@ -111,7 +124,7 @@ describe('PaymentTypeComponent', () => {
         selected = data;
       })
       .unsubscribe();
-    expect(selected).toBe({ code: 'ACCOUNT' });
+    expect(selected).toEqual({ code: 'ACCOUNT' });
     expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
       CheckoutStepType.PAYMENT_DETAILS,
       true

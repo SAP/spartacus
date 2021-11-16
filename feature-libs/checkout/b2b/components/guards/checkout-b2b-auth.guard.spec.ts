@@ -255,7 +255,7 @@ describe('CheckoutAuthGuard', () => {
           .unsubscribe();
         expect(result?.toString()).toBe('/home');
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'checkout.invalid.accountType' },
+          { key: 'checkoutB2B.invalid.accountType' },
           GlobalMessageType.MSG_TYPE_WARNING
         );
       });
