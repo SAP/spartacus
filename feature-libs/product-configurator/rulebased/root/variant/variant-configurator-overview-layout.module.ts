@@ -30,6 +30,22 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               ],
             },
           },
+          headerReadOnly: {
+            lg: {
+              slots: [
+                'SiteContext',
+                'SiteLinks',
+                'SiteLogo',
+                'SearchBox',
+                'SiteLogin',
+                'MiniCart',
+                'NavigationBar',
+              ],
+            },
+            xs: {
+              slots: [['SiteLogo', 'SearchBox', 'MiniCart']],
+            },
+          },
           slots: [
             'VariantConfigOverviewHeader',
             'VariantConfigOverviewBanner',

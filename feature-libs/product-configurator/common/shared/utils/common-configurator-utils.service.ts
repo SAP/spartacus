@@ -6,7 +6,14 @@ import {
   PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  CartItemContext,
+  LayoutConfig,
+  LayoutSlotConfig,
+  SlotConfig,
+  SlotGroup,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -143,5 +150,25 @@ export class CommonConfiguratorUtilsService {
           location !== PromotionLocation.SavedCart
       )
     );
+  }
+
+  /**TODO */
+  getSlotsFromConfiguration(
+    layoutConfig: LayoutConfig,
+    templateName: string,
+    sectionName: string,
+    breakPoint: BREAKPOINT.lg | BREAKPOINT.xs
+  ): string[] {
+    const slots = layoutConfig.layoutSlots;
+    if (slots) {
+      const slotConfig: LayoutSlotConfig = <LayoutSlotConfig>(
+        slots[templateName]
+      );
+      const bpSlotConfig: SlotGroup = <SlotGroup>slotConfig[sectionName];
+      const slotsLarge: SlotConfig = <SlotConfig>bpSlotConfig[breakPoint];
+      return <string[]>slotsLarge['slots'];
+    } else {
+      return [];
+    }
   }
 }
