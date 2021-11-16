@@ -59,9 +59,8 @@ export class CartValidationGuard implements CanActivate {
                 validationResultMessage = {
                   key: 'validation.cartEntryRemoved',
                   params: {
-                    name:
-                      cartModificationList.cartModifications[0].entry?.product
-                        ?.name,
+                    name: cartModificationList.cartModifications[0].entry
+                      ?.product?.name,
                   },
                 };
               } else {

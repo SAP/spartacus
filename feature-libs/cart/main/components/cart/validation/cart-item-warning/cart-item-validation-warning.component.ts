@@ -15,13 +15,14 @@ export class CartItemValidationWarningComponent {
   iconTypes = ICON_TYPE;
   isVisible = true;
 
-  cartModification$ = this.cartValidationStateService.cartValidationResult$.pipe(
-    map((modificationList) =>
-      modificationList.find(
-        (modification) => modification.entry?.product?.code === this.code
+  cartModification$ =
+    this.cartValidationStateService.cartValidationResult$.pipe(
+      map((modificationList) =>
+        modificationList.find(
+          (modification) => modification.entry?.product?.code === this.code
+        )
       )
-    )
-  );
+    );
 
   constructor(
     protected cartValidationStateService: CartValidationStateService
