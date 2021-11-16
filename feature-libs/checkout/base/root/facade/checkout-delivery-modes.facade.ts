@@ -27,7 +27,7 @@ export abstract class CheckoutDeliveryModesFacade {
     QueryState<DeliveryMode[]>
   >;
   /**
-   * Returns the supported delivery modes.
+   * Returns the supported delivery modes, or an empty array if the data is undefined.
    */
   abstract getSupportedDeliveryModes(): Observable<DeliveryMode[]>;
   /**
