@@ -116,25 +116,29 @@ export default async function run(
         })
       )
       .on('finish', resolve);
-  }).then(() => {
-    const markdown: string = changelogTemplate({
-      ...args,
-      include: (x: string, v: {}) =>
-        ejs.render(
-          fs.readFileSync(
-            path.join(__dirname, './templates', `${x}.ejs`),
-            'utf-8'
+  })
+    .then(() => {
+      const markdown: string = changelogTemplate({
+        ...args,
+        include: (x: string, v: {}) =>
+          ejs.render(
+            fs.readFileSync(
+              path.join(__dirname, './templates', `${x}.ejs`),
+              'utf-8'
+            ),
+            v
           ),
-          v
-        ),
-      commits,
-      packages,
-      breakingChanges,
-      deprecations,
-    });
+        commits,
+        packages,
+        breakingChanges,
+        deprecations,
+      });
 
-    console.log(markdown);
-  });
+      console.log(markdown);
+    })
+    .catch((err) => {
+      logger.fatal('Unexpected error occured: ' + err.message);
+    });
 }
 
 program
