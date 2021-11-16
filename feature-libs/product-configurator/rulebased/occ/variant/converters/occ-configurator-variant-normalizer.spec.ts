@@ -747,7 +747,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeRBWithValues.incomplete).toBe(false);
     });
 
-    it('should set incomplete by radio button type with retract option correctly', () => {
+    it('should set incomplete for radio button type with retract option correctly', () => {
       attributeRBWithValues.selectedSingleValue =
         OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
