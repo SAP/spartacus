@@ -32,19 +32,18 @@ context('Assisted Service Module', () => {
       checkout.visitHomePage();
       cy.get('cx-asm-main-ui').should('not.exist');
 
-      cy.log('--> Agent login');
+      cy.log('--> Agent logging in');
       checkout.visitHomePage('asm=true');
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
       agentLogin();
 
+      cy.log('--> Starting customer emulation');
       startCustomerEmulation();
 
       cy.log('--> Update personal details');
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
-      });
+      cy.visit('/my-account/update-profile');
       profile.updateProfile();
       customer.firstName = profile.newFirstName;
       customer.lastName = profile.newLastName;
@@ -52,18 +51,15 @@ context('Assisted Service Module', () => {
       customer.titleCode = profile.newTitle;
 
       cy.log('--> Create new address');
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
+      cy.visit('/my-account/address-book');
       cy.get('cx-card').should('have.length', 0);
       fillShippingAddress(addressBook.newAddress);
       cy.get('cx-card').should('have.length', 1);
       addressBook.verifyNewAddress();
 
       cy.log('--> Add a consent');
-      cy.selectUserMenuOption({
-        option: 'Consent Management',
-      });
+
+      cy.visit('/my-account/consents');
       consent.giveConsent();
 
       cy.log('--> Stop customer emulation');
