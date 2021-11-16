@@ -144,19 +144,21 @@ context('Assisted Service Module', () => {
 function listenForAuthenticationRequest(): string {
   return interceptPost(
     'csAgentAuthentication',
-    '/authorizationserver/oauth/token'
+    '/authorizationserver/oauth/token',
+    false
   );
 }
 
 export function listenForCustomerSearchRequest(): string {
   return interceptGet(
     'customerSearch',
-    '/assistedservicewebservices/customers/search?*'
+    '/assistedservicewebservices/customers/search?*',
+    false
   );
 }
 
 function listenForUserDetailsRequest(): string {
-  return interceptGet('userDetails', '/users/*', true);
+  return interceptGet('userDetails', '/users/*');
 }
 
 export function agentLogin(): void {
@@ -220,12 +222,8 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  interceptDelete(
-    'deleteAddresses',
-    '/users/*/addresses/*?lang=en&curr=USD',
-    true
-  );
-  interceptGet('fetchAddresses', '/users/*/addresses/*?lang=en&curr=USD', true);
+  interceptDelete('deleteAddresses', '/users/*/addresses/*?lang=en&curr=USD');
+  interceptGet('fetchAddresses', '/users/*/addresses/*?lang=en&curr=USD');
 
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();

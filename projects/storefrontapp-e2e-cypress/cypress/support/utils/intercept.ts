@@ -2,7 +2,7 @@
  * intercepts and alias a GET request
  * @param alias intercept alias
  * @param path  xhr relative path
- * @param baseSitePrefix if true, prefixes `path` with /occ/v2/{BASE_SITE}
+ * @param baseSitePrefix if false, it does not prefix `path` with /occ/v2/{BASE_SITE}
  * @returns alias
  */
 export function interceptGet(
@@ -16,7 +16,7 @@ export function interceptGet(
  * intercepts and alias a POST request
  * @param alias intercept alias
  * @param path  xhr relative path
- * @param baseSitePrefix if true, prefixes `path` with /occ/v2/{BASE_SITE}
+ * @param baseSitePrefix if false, it does not prefix `path` with /occ/v2/{BASE_SITE}
  * @returns alias
  */
 export function interceptPost(
@@ -31,7 +31,7 @@ export function interceptPost(
  * intercepts and alias a DELETE request
  * @param alias intercept alias
  * @param path  xhr relative path
- * @param baseSitePrefix if true, it prefixes `path` with /occ/v2/{BASE_SITE}
+ * @param baseSitePrefix if false, it does not prefix `path` with /occ/v2/{BASE_SITE}
  * @returns alias
  */
 export function interceptDelete(
@@ -47,14 +47,14 @@ export function interceptDelete(
  * @param method  http method
  * @param alias intercept alias
  * @param path  xhr relative path
- * @param baseSitePrefix if true, it prefixes `path` with /occ/v2/{BASE_SITE}
+ * @param baseSitePrefix if false, it does not prefix `path` with /occ/v2/{BASE_SITE}
  * @returns alias
  */
 function interceptAndAlias(
   method: string,
   alias: string,
   path: string,
-  baseSitePrefix?: boolean
+  baseSitePrefix: boolean = true
 ) {
   const aliasName = alias;
   cy.intercept({
