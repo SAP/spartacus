@@ -28,6 +28,7 @@ import { SpartacusModule } from './spartacus/spartacus.module';
 registerLocaleData(localeDe);
 registerLocaleData(localeJa);
 registerLocaleData(localeZh);
+console.log;
 
 const devImports = [];
 if (!environment.production) {
