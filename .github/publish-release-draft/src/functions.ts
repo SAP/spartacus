@@ -2,7 +2,7 @@ export async function publishReleaseDraft(
   tag_name: string,
   context: any,
   octoKit: any,
-  body: string
+  body: string | undefined
 ) {
   const owner = context.payload.repository.owner.login;
   const repo = context.payload.repository.name;

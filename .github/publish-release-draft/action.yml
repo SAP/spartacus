@@ -1,5 +1,5 @@
-name: 'Release Draft'
-description: 'Publishing release draft'
+name: 'Release notes Draft'
+description: 'Creates and publishes a draft of the release notes'
 runs:
   using: 'docker'
   image: 'Dockerfile'

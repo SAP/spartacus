@@ -1,3 +1,4 @@
+import * as core from '@actions/core';
 import * as github from '@actions/github';
 import { publishReleaseDraft } from './functions';
 
@@ -7,11 +8,11 @@ async function run() {
   const TO_TAG = process.env.TO_TAG ?? '';
 
   if (!GITHUB_TOKEN) {
-    throw new Error('Github token missing in action');
+    throw new Error('No valid github token to perform this action');
   }
 
   if (!CHANGELOG) {
-    throw new Error('missing changelog');
+    core.setError('Unable to execute action. CHANGELOG value is missing');
   }
 
   const octoKit = github.getOctokit(GITHUB_TOKEN);
