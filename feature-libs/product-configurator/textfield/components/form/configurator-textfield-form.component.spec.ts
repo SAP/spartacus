@@ -1,4 +1,4 @@
-import { Type } from '@angular/core';
+import { Type, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -65,6 +65,14 @@ class MockConfiguratorTextfieldService {
     });
   }
 }
+
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(): any {}
+}
+
 describe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
@@ -83,6 +91,7 @@ describe('TextfieldFormComponent', () => {
           ConfiguratorTextfieldFormComponent,
           ConfiguratorTextfieldInputFieldComponent,
           ConfiguratorTextfieldAddToCartButtonComponent,
+          MockTranslateUrlPipe,
         ],
         providers: [
           {
