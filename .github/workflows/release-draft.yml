@@ -29,15 +29,27 @@ jobs:
         run: yarn install
       - name: Get from and to tags
         id: tags
-        uses: ./.github/get-tags
-        env: 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FROM_TAG: ${{ github.event.inputs.FROM_TAG }}
-          TO_TAG: ${{ github.event.inputs.TO_TAG }}
+        run: |
+          from_tag=$(echo ${{ github.event.inputs.FROM_TAG }})
+          to_tag=$(echo ${{ github.event.inputs.TO_TAG }})
+
+          if [ -z "$from_tag" ]
+          then
+                echo "::set-output name=from_tag::$(git describe --tags $(git rev-list --tags --max-count=1))"
+          else
+                echo "::set-output name=from_tag::$(echo $from_tag)"
+          fi
+
+          if [ -z "$to_tag" ]
+          then
+                echo "::set-output name=to_tag::HEAD"
+          else
+                echo "::set-output name=to_tag::$(echo $to_tag)"
+          fi
       - name: Generate changelog
         id: changelog
         run: | 
-          changelog=$(npx ts-node scripts/changelog.ts --from asm-4.0.0)
+          changelog=$(npx ts-node scripts/changelog.ts --from ${{ steps.tags.outputs.from_tag }} --to ${{ steps.tags.outputs.to_tag }})
 
           # Remove when support for multiline is available
           # https://github.com/actions/toolkit/issues/403
@@ -51,3 +63,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+          TO_TAG: ${{ steps.tags.outputs.to_tag }}
