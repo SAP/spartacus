@@ -84,7 +84,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   }
 
   protected checkoutQuery$: Query<CheckoutState | undefined> =
-    this.query.create<CheckoutState | undefined>(
+    this.queryService.create<CheckoutState | undefined>(
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -101,7 +101,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   constructor(
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected query: QueryService,
+    protected queryService: QueryService,
     protected checkoutConnector: CheckoutConnector
   ) {}
 

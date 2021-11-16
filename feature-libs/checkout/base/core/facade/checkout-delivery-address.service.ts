@@ -28,7 +28,7 @@ export class CheckoutDeliveryAddressService
   implements CheckoutDeliveryAddressFacade
 {
   protected createDeliveryAddressCommand: Command<Address, unknown> =
-    this.command.create<Address>(
+    this.commandService.create<Address>(
       (payload) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
@@ -67,7 +67,7 @@ export class CheckoutDeliveryAddressService
     );
 
   protected setDeliveryAddressCommand: Command<Address, unknown> =
-    this.command.create<Address>(
+    this.commandService.create<Address>(
       (address) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
@@ -97,7 +97,7 @@ export class CheckoutDeliveryAddressService
     );
 
   protected clearDeliveryAddressCommand: Command<void, unknown> =
-    this.command.create<void>(
+    this.commandService.create<void>(
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -127,9 +127,9 @@ export class CheckoutDeliveryAddressService
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected eventService: EventService,
-    protected command: CommandService,
+    protected commandService: CommandService,
     protected checkoutDeliveryConnector: CheckoutDeliveryAddressConnector,
-    protected checkoutQuery: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade
   ) {}
 
   /**
@@ -156,7 +156,7 @@ export class CheckoutDeliveryAddressService
   }
 
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return this.checkoutQuery.getCheckoutDetailsState().pipe(
+    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
         data: state.data?.deliveryAddress,

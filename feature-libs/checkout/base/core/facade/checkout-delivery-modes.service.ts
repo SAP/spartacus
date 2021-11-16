@@ -69,7 +69,7 @@ export class CheckoutDeliveryModesService
   }
 
   protected supportedDeliveryModesQuery: Query<DeliveryMode[]> =
-    this.query.create<DeliveryMode[]>(
+    this.queryService.create<DeliveryMode[]>(
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -87,7 +87,7 @@ export class CheckoutDeliveryModesService
     );
 
   protected setDeliveryModeCommand: Command<string, unknown> =
-    this.command.create<string>(
+    this.commandService.create<string>(
       (deliveryModeCode) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
@@ -128,7 +128,7 @@ export class CheckoutDeliveryModesService
     );
 
   protected clearDeliveryModeCommand: Command<void, unknown> =
-    this.command.create<void>(
+    this.commandService.create<void>(
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -183,10 +183,10 @@ export class CheckoutDeliveryModesService
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
     protected eventService: EventService,
-    protected query: QueryService,
-    protected command: CommandService,
+    protected queryService: QueryService,
+    protected commandService: CommandService,
     protected checkoutDeliveryModesConnector: CheckoutDeliveryModesConnector,
-    protected checkoutQuery: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade
   ) {}
 
   /**
@@ -225,7 +225,7 @@ export class CheckoutDeliveryModesService
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
-    return this.checkoutQuery
+    return this.checkoutQueryFacade
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.deliveryMode })));
   }
