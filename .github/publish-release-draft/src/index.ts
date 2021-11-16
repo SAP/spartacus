@@ -12,7 +12,7 @@ async function run() {
   }
 
   if (!CHANGELOG) {
-    core.setError('Unable to execute action. CHANGELOG value is missing');
+    core.setFailed('Unable to execute action. CHANGELOG value is missing');
   }
 
   const octoKit = github.getOctokit(GITHUB_TOKEN);
