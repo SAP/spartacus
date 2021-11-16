@@ -47,16 +47,22 @@ export function checkPullRequestTitle(
 } {
   const commitHeaderTypeAndScope = title.split(':')[0];
 
-  const isTypeValid = commitScope.some((scope) => {
-    const type = commitHeaderTypeAndScope.split(`(${scope})`)[0];
+  // scope is optional
+  let isScopeValid = true;
 
-    return commitType.includes(type);
-  });
+  const isTypeValid = commitScope.some((s) => {
+    const [type, scope] = commitHeaderTypeAndScope.split(`(${s})`);
 
-  const isScopeValid = commitType.some((type) => {
-    const scope = commitHeaderTypeAndScope.split(`(${type})`)[0];
+    if (commitType.includes(type)) {
+      // scope was provided and is included, therefore verify if it has a proper scope
+      if (scope === '') {
+        isScopeValid = commitScope.includes(s);
+      }
 
-    return commitScope.includes(scope);
+      return true;
+    } else {
+      return false;
+    }
   });
 
   return { isTypeValid, isScopeValid };
