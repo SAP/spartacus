@@ -30,7 +30,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   recurrencePeriodType = Object.values(recurrencePeriod);
 
   selectedOrderType$: Observable<ORDER_TYPE> =
-    this.checkoutScheduledReplenishmentService.getOrderType();
+    this.checkoutScheduledReplenishmentFacade.getOrderType();
 
   isMonthly: Boolean = false;
   isWeekly: Boolean = false;
@@ -41,9 +41,9 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
-    protected checkoutService: CheckoutFacade,
+    protected checkoutFacade: CheckoutFacade,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentService: CheckoutScheduledReplenishmentFacade
+    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +59,7 @@ export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
   }
 
   changeOrderType(orderType: ORDER_TYPE): void {
-    this.checkoutScheduledReplenishmentService.setOrderType(orderType);
+    this.checkoutScheduledReplenishmentFacade.setOrderType(orderType);
   }
 
   changeNumberOfDays(nDays: string): void {
