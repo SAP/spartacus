@@ -34,7 +34,7 @@ export function fillShippingAddress(
   cy.get('button.btn-primary').should('be.visible');
   cy.get('cx-page-layout').then((body) => {
     if (!body.find('cx-address-form').length) {
-      cy.get('button.btn-primary').click({ force: true });
+      cy.get('button.btn-primary').click();
     } else {
       cy.get('cx-address-form').within(() => {
         cy.get('.country-select[formcontrolname="isocode"]').ngSelect(
@@ -68,7 +68,7 @@ export function fillShippingAddress(
           .type(shippingAddress.address.postal);
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
         if (submitForm) {
-          cy.get('button.btn-primary').click({ force: true });
+          cy.get('button.btn-primary').click();
         }
       });
     }
@@ -139,7 +139,7 @@ export function fillPaymentDetails(
        * It takes time for the delivery address to set.
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
-      cy.wait(3000);
+      //cy.wait(3000);
       cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
     }
   });
