@@ -98,8 +98,8 @@ export class PaymentFormComponent implements OnInit {
   });
 
   constructor(
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected userPaymentService: UserPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
@@ -118,9 +118,9 @@ export class PaymentFormComponent implements OnInit {
       })
     );
 
-    this.cardTypes$ = this.checkoutPaymentService.getCardTypes();
+    this.cardTypes$ = this.checkoutPaymentFacade.getCardTypes();
 
-    this.shippingAddress$ = this.checkoutDeliveryAddressService
+    this.shippingAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),

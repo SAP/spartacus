@@ -32,21 +32,21 @@ export class CheckoutB2BStepsSetGuard
   implements CanActivate
 {
   constructor(
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router
   ) {
     super(
       checkoutStepService,
       routingConfigService,
-      checkoutDeliveryAddressService,
-      checkoutPaymentService,
-      checkoutDeliveryModesService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
+      checkoutDeliveryModesFacade,
       router
     );
   }
@@ -58,7 +58,7 @@ export class CheckoutB2BStepsSetGuard
     // check whether the previous step is set
     return combineLatest([
       this.checkoutStepService.steps$,
-      this.checkoutPaymentTypeService.isAccountPayment(),
+      this.checkoutPaymentTypeFacade.isAccountPayment(),
     ]).pipe(
       tap(([, isAccount]) => {
         this.checkoutStepService.disableEnableStep(
@@ -122,7 +122,7 @@ export class CheckoutB2BStepsSetGuard
   protected isPaymentTypeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentTypeState().pipe(
+    return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((paymentType) => {
@@ -140,11 +140,11 @@ export class CheckoutB2BStepsSetGuard
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
     return combineLatest([
-      this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
+      this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
       ),
-      this.checkoutCostCenterService.getCostCenterState().pipe(
+      this.checkoutCostCenterFacade.getCostCenterState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
       ),

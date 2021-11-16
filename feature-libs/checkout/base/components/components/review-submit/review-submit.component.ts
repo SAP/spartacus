@@ -34,13 +34,13 @@ export class ReviewSubmitComponent {
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {
@@ -65,19 +65,19 @@ export class ReviewSubmitComponent {
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
   deliveryAddress$: Observable<Address | undefined> =
-    this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
+    this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
 
   deliveryMode$: Observable<DeliveryMode | undefined> =
-    this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
+    this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
 
   paymentDetails$: Observable<PaymentDetails | undefined> =
-    this.checkoutPaymentService.getPaymentDetailsState().pipe(
+    this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );

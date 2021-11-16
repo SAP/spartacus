@@ -9,11 +9,11 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationOverviewComponent implements OnDestroy {
-  order$: Observable<Order | undefined> = this.checkoutService.getOrder();
+  order$: Observable<Order | undefined> = this.checkoutFacade.getOrder();
 
-  constructor(protected checkoutService: CheckoutFacade) {}
+  constructor(protected checkoutFacade: CheckoutFacade) {}
 
   ngOnDestroy(): void {
-    this.checkoutService.clearOrder();
+    this.checkoutFacade.clearOrder();
   }
 }

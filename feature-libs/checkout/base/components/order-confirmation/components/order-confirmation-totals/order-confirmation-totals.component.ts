@@ -16,13 +16,13 @@ import { Observable } from 'rxjs';
 export class OrderConfirmationTotalsComponent implements OnInit, OnDestroy {
   order$: Observable<Order | undefined>;
 
-  constructor(protected checkoutService: CheckoutFacade) {}
+  constructor(protected checkoutFacade: CheckoutFacade) {}
 
   ngOnInit() {
-    this.order$ = this.checkoutService.getOrder();
+    this.order$ = this.checkoutFacade.getOrder();
   }
 
   ngOnDestroy() {
-    this.checkoutService.clearOrder();
+    this.checkoutFacade.clearOrder();
   }
 }

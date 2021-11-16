@@ -55,7 +55,7 @@ export class DpPaymentMethodComponent
     protected checkoutPaymentService: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService
   ) {
@@ -65,7 +65,7 @@ export class DpPaymentMethodComponent
       checkoutPaymentService,
       globalMessageService,
       activatedRoute,
-      translation,
+      translationService,
       activeCartService,
       checkoutStepService
     );

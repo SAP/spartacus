@@ -43,7 +43,7 @@ export class B2BShippingAddressComponent
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -54,7 +54,7 @@ export class B2BShippingAddressComponent
   ) {
     super(
       userAddressService,
-      checkoutDeliveryAddressService,
+      checkoutDeliveryAddressFacade,
       activatedRoute,
       translation,
       activeCartService,

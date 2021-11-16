@@ -32,44 +32,44 @@ import { filter, map, switchMap } from 'rxjs/operators';
 })
 export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
   constructor(
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected userCostCenterService: UserCostCenterService
   ) {
     super(
-      checkoutDeliveryAddressService,
-      checkoutPaymentService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
       userAddressService,
       activeCartService,
       translation,
       checkoutStepService,
-      checkoutDeliveryModesService
+      checkoutDeliveryModesFacade
     );
   }
 
   get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeService.getPurchaseOrderNumberState().pipe(
+    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentTypeState().pipe(
+    return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
   }
 
   get isAccountPayment$(): Observable<boolean> {
-    return this.checkoutPaymentTypeService.isAccountPayment();
+    return this.checkoutPaymentTypeFacade.isAccountPayment();
   }
 
   /**
@@ -80,7 +80,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => !!costCenters),
       switchMap((costCenters) =>
-        this.checkoutCostCenterService
+        this.checkoutCostCenterFacade
           .getCostCenterState()
           .pipe(
             map((state) =>

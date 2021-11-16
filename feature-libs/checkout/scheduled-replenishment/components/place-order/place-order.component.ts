@@ -36,15 +36,15 @@ export class ScheduledReplenishmentPlaceOrderComponent
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected checkoutService: CheckoutFacade,
+    protected checkoutFacade: CheckoutFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
-    protected checkoutScheduledReplenishmentService: CheckoutScheduledReplenishmentFacade
+    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
   ) {
-    super(checkoutService, routingService, fb, launchDialogService, vcr);
+    super(checkoutFacade, routingService, fb, launchDialogService, vcr);
   }
 
   submitForm(): void {
@@ -55,8 +55,8 @@ export class ScheduledReplenishmentPlaceOrderComponent
       );
       merge(
         this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.checkoutService.placeOrder(this.checkoutSubmitForm.valid)
-          : this.checkoutScheduledReplenishmentService.scheduleReplenishmentOrder(
+          ? this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid)
+          : this.checkoutScheduledReplenishmentFacade.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
               this.checkoutSubmitForm.valid
             )
@@ -86,7 +86,7 @@ export class ScheduledReplenishmentPlaceOrderComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutScheduledReplenishmentService
+      this.checkoutScheduledReplenishmentFacade
         .getOrderType()
         .subscribe((orderType) => (this.currentOrderType = orderType))
     );

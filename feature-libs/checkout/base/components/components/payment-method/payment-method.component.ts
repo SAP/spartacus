@@ -53,11 +53,11 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService
   ) {}
@@ -72,7 +72,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       this.isGuestCheckout = true;
     }
 
-    this.checkoutDeliveryAddressService
+    this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
@@ -85,7 +85,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
-    this.selectedMethod$ = this.checkoutPaymentService
+    this.selectedMethod$ = this.checkoutPaymentFacade
       .getPaymentDetailsState()
       .pipe(
         filter((state) => !state.loading),
@@ -115,7 +115,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
                 methods.map((method) =>
                   combineLatest([
                     of(method),
-                    this.translation.translate('paymentCard.expires', {
+                    this.translationService.translate('paymentCard.expires', {
                       month: method.expiryMonth,
                       year: method.expiryYear,
                     }),
@@ -130,9 +130,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         })
       ),
       this.selectedMethod$,
-      this.translation.translate('paymentForm.useThisPayment'),
-      this.translation.translate('paymentCard.defaultPaymentMethod'),
-      this.translation.translate('paymentCard.selected'),
+      this.translationService.translate('paymentForm.useThisPayment'),
+      this.translationService.translate('paymentCard.defaultPaymentMethod'),
+      this.translationService.translate('paymentCard.selected'),
     ]).pipe(
       map(
         ([
@@ -175,7 +175,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
     this.paymentSavingInProgress$.next(true);
     this.subscriptions.add(
-      this.checkoutPaymentService.setPaymentDetails(paymentDetails).subscribe({
+      this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
       })
     );
@@ -200,7 +200,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     details.billingAddress = billingAddress || this.deliveryAddress;
     this.paymentSavingInProgress$.next(true);
     this.subscriptions.add(
-      this.checkoutPaymentService.createPaymentDetails(details).subscribe({
+      this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
       })
     );

@@ -23,16 +23,16 @@ export class ScheduledReplenishmentOrderConfirmationThankYouMessageComponent
   isReplenishmentOrderType$: Observable<boolean>;
 
   constructor(
-    protected checkoutService: CheckoutFacade,
-    protected checkoutScheduledReplenishmentService: CheckoutScheduledReplenishmentFacade
+    protected checkoutFacade: CheckoutFacade,
+    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
   ) {
-    super(checkoutService);
+    super(checkoutFacade);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
 
-    this.isReplenishmentOrderType$ = this.checkoutScheduledReplenishmentService
+    this.isReplenishmentOrderType$ = this.checkoutScheduledReplenishmentFacade
       .getOrderType()
       .pipe(
         map(

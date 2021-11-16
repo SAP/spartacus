@@ -24,9 +24,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router
   ) {}
 
@@ -86,7 +86,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isShippingAddress(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((deliveryAddress) => {
@@ -102,19 +102,17 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isDeliveryModeSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutDeliveryModesService
-      .getSelectedDeliveryModeState()
-      .pipe(
-        filter((state) => !state.loading),
-        map((state) => state.data),
-        map((mode) => (mode ? true : this.getUrl(step.routeName)))
-      );
+    return this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      map((mode) => (mode ? true : this.getUrl(step.routeName)))
+    );
   }
 
   protected isPaymentDetailsSet(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
-    return this.checkoutPaymentService.getPaymentDetailsState().pipe(
+    return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       map((paymentDetails) =>
