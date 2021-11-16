@@ -5,38 +5,51 @@ const ghostAttributes: Configurator.Attribute[] = [];
 for (let i = 0; i < 3; i++) {
   ghostAttributes.push({
     name: 'Ghost Attribute',
+    label: 'Ghost Attribute',
     uiType: Configurator.UiType.DROPDOWN,
-    selectedSingleValue: 'Value1',
+    selectedSingleValue: 'Value',
     values: [
       {
-        valueCode: 'Value1',
+        valueCode: 'Value',
+        valueDisplay: 'Value',
+        name: 'Value',
         valuePrice: {
           value: 1000,
           currencyIso: '$',
+          formattedValue: '1000 $',
         },
       },
     ],
   });
 
   ghostAttributes.push({
-    name: 'Ghost Attribute 2',
+    name: 'Ghost Attribute',
+    label: 'Ghost Attribute',
     uiType: Configurator.UiType.RADIOBUTTON,
     values: [
       {
-        valueCode: 'Value1',
+        valueCode: 'Value',
+        valueDisplay: 'Value',
+        name: 'Value',
       },
       {
-        valueCode: 'Value2',
+        valueCode: 'Value',
+        valueDisplay: 'Value',
+        name: 'Value',
         valuePrice: {
           value: 1000,
           currencyIso: '$',
+          formattedValue: '1000 $',
         },
       },
       {
-        valueCode: 'Value3',
+        valueCode: 'Value',
+        valueDisplay: 'Value',
+        name: 'Value',
         valuePrice: {
           value: 1000,
           currencyIso: '$',
+          formattedValue: '1000 $',
         },
       },
     ],
