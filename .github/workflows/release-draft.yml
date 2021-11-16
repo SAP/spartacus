@@ -49,7 +49,7 @@ jobs:
       - name: Generate changelog
         id: changelog
         run: | 
-          changelog=$(npx ts-node scripts/changelog.ts --from user-4.1.0 --to ${{ steps.tags.outputs.to_tag }})
+          changelog=$(npx ts-node scripts/changelog.ts --from user-4.0.0 --to ${{ steps.tags.outputs.to_tag }})
 
           # Remove when support for multiline is available
           # https://github.com/actions/toolkit/issues/403
