@@ -14,6 +14,13 @@
       [label]="item.valueDisplay"
       [selected]="item.selected"
       [value]="item.valueCode"
+      [attr.aria-selected]="item.selected"
+      [attr.aria-label]="
+        'configurator.a11y.valueOfAttributeFull'
+          | cxTranslate
+            : { value: item.valueDisplay, attribute: attribute.label }
+      "
+      [value]="item.valueCode"
     >
       {{ item.valueDisplay }}
     </option>
