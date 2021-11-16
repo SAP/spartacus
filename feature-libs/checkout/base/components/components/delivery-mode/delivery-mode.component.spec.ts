@@ -24,7 +24,7 @@ class MockCheckoutDeliveryModeService
 {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
-  getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return of();
   }
   getSelectedDeliveryModeState(): Observable<QueryState<DeliveryMode>> {
@@ -118,10 +118,8 @@ describe('DeliveryModeComponent', () => {
   it('should get supported delivery modes', () => {
     spyOn(
       checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModesState'
-    ).and.returnValue(
-      of({ loading: false, error: false, data: mockSupportedDeliveryModes })
-    );
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
     component.supportedDeliveryModes$.subscribe((modes) => {
@@ -132,10 +130,8 @@ describe('DeliveryModeComponent', () => {
   it('should pre-select preferred delivery mode if not chosen before', () => {
     spyOn(
       checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModesState'
-    ).and.returnValue(
-      of({ loading: false, error: false, data: mockSupportedDeliveryModes })
-    );
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
     spyOn(
       checkoutDeliveryModesFacade,
       'getSelectedDeliveryModeState'
@@ -157,10 +153,8 @@ describe('DeliveryModeComponent', () => {
   it('should select the delivery mode, which has been chosen before', () => {
     spyOn(
       checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModesState'
-    ).and.returnValue(
-      of({ loading: false, error: false, data: mockSupportedDeliveryModes })
-    );
+      'getSupportedDeliveryModes'
+    ).and.returnValue(of(mockSupportedDeliveryModes));
     spyOn(
       checkoutDeliveryModesFacade,
       'getSelectedDeliveryModeState'

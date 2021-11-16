@@ -12,6 +12,7 @@ import {
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -66,7 +67,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
   });
 
   describe('loadPaymentypes', () => {
-    it('should return paymentTypes', () => {
+    it('should return paymentTypes', (done) => {
       const paymentTypesList: Occ.PaymentTypeList = {
         paymentTypes: [
           {
@@ -80,9 +81,13 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         ],
       };
 
-      service.loadPaymentTypes().subscribe((result) => {
-        expect(result).toEqual(paymentTypesList.paymentTypes);
-      });
+      service
+        .loadPaymentTypes()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(paymentTypesList.paymentTypes);
+          done();
+        });
 
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'GET' && req.url === 'paymenttypes';
@@ -103,13 +108,15 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
   });
 
   describe('setPaymentType', () => {
-    it('should set payment type to cart', () => {
+    it('should set payment type to cart', (done) => {
       const paymentType = 'CARD';
 
       service
         .setPaymentType(userId, cartId, paymentType)
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cartData);
+          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {
@@ -127,14 +134,16 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
   });
 
   describe('setPaymentType (set po number to cart)', () => {
-    it('should set payment type to cart', () => {
+    it('should set payment type to cart', (done) => {
       const paymentType = 'CARD';
       const purchaseOrderNumber = 'test-number';
 
       service
         .setPaymentType(userId, cartId, paymentType, purchaseOrderNumber)
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cartData);
+          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {

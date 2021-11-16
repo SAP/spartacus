@@ -5,13 +5,13 @@ import { CheckoutPaymentTypeAdapter } from './checkout-payment-type.adapter';
 import { CheckoutPaymentTypeConnector } from './checkout-payment-type.connector';
 import createSpy = jasmine.createSpy;
 
+class MockPaymentTypeAdapter implements Partial<CheckoutPaymentTypeAdapter> {
+  loadPaymentTypes = createSpy().and.returnValue(of([]));
+  setPaymentType = createSpy().and.returnValue(of({}));
+}
+
 describe('PaymentTypeConnector', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
-
-  class MockPaymentTypeAdapter implements CheckoutPaymentTypeAdapter {
-    loadPaymentTypes = createSpy().and.returnValue(of([]));
-    setPaymentType = createSpy().and.returnValue(of({}));
-  }
 
   let service: CheckoutPaymentTypeConnector;
   let adapter: CheckoutPaymentTypeAdapter;

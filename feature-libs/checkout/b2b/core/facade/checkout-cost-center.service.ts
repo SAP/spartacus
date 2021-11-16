@@ -10,6 +10,7 @@ import {
   Command,
   CommandService,
   CommandStrategy,
+  CostCenter,
   EventService,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
@@ -78,23 +79,16 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
     );
   }
 
-  /**
-   * Set cost center to cart
-   * @param costCenterId : cost center id
-   */
-  setCostCenter(costCenterId: string): Observable<Cart> {
-    return this.setCostCenterCommand.execute(costCenterId);
-  }
-
-  /**
-   * Get cost center id from cart
-   */
-  getCostCenter(): Observable<QueryState<string>> {
+  getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
     return this.checkoutQueryService.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
-        data: state?.data?.costCenter?.code,
+        data: state.data?.costCenter,
       }))
     );
+  }
+
+  setCostCenter(costCenterId: string): Observable<Cart> {
+    return this.setCostCenterCommand.execute(costCenterId);
   }
 }

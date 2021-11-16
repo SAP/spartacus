@@ -12,9 +12,9 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
       methods: [
         'getPaymentTypes',
         'setPaymentType',
-        'getSelectedPaymentType',
+        'getSelectedPaymentTypeState',
         'isAccountPayment',
-        'getPurchaseOrderNumber',
+        'getPurchaseOrderNumberState',
       ],
     }),
 })
@@ -37,10 +37,9 @@ export abstract class CheckoutPaymentTypeFacade {
   /**
    * Get the selected payment type
    */
-  abstract getSelectedPaymentType(): Observable<
+  abstract getSelectedPaymentTypeState(): Observable<
     QueryState<PaymentType | undefined>
   >;
-
   /**
    * Get whether the selected payment type is "ACCOUNT" payment
    */
@@ -49,5 +48,7 @@ export abstract class CheckoutPaymentTypeFacade {
   /**
    * Get purchase order number
    */
-  abstract getPurchaseOrderNumber(): Observable<QueryState<string | undefined>>;
+  abstract getPurchaseOrderNumberState(): Observable<
+    QueryState<string | undefined>
+  >;
 }

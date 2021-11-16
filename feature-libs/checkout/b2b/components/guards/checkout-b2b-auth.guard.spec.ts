@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CheckoutConfigService } from '@spartacus/checkout/base/components';
 import {
   ActiveCartService,
   AuthRedirectService,
@@ -12,7 +13,6 @@ import {
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
-import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutB2BAuthGuard } from './checkout-b2b-auth.guard';
 
 import createSpy = jasmine.createSpy;
@@ -255,7 +255,7 @@ describe('CheckoutAuthGuard', () => {
           .unsubscribe();
         expect(result?.toString()).toBe('/home');
         expect(globalMessageService.add).toHaveBeenCalledWith(
-          { key: 'checkout.invalid.accountType' },
+          { key: 'checkoutB2B.invalid.accountType' },
           GlobalMessageType.MSG_TYPE_WARNING
         );
       });

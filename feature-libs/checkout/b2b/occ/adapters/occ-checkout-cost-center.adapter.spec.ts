@@ -9,6 +9,7 @@ import {
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { take } from 'rxjs/operators';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 
 const MockOccModuleConfig: OccConfig = {
@@ -58,13 +59,15 @@ describe('OccCheckoutCostCenterAdapter', () => {
   });
 
   describe('setCostCenter', () => {
-    it('should set cost center cart', () => {
+    it('should set cost center cart', (done) => {
       const costCenterId = 'testCostCenterId';
 
       service
         .setCostCenter(userId, cartId, costCenterId)
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cartData);
+          done();
         });
 
       const mockReq = httpMock.expectOne((req) => {

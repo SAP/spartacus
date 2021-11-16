@@ -1,4 +1,1 @@
-export {
-  getServerRequestProviders,
-  NgExpressEngineDecorator,
-} from './ng-express-engine-decorator';
+export { NgExpressEngineDecorator } from './ng-express-engine-decorator';

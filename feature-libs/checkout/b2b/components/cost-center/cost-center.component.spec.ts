@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   CheckoutCostCenterFacade,
-  PaymentTypeFacade,
-} from '@spartacus/checkout/base/root';
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
 import {
+  Cart,
   CostCenter,
   I18nTestingModule,
+  QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -22,21 +24,27 @@ const mockCostCenters: CostCenter[] = [
   },
 ];
 
-class MockCheckoutCostCenterService {
-  getCostCenter(): Observable<string> {
-    return of(mockCostCenters[0].code);
+class MockCheckoutCostCenterService
+  implements Partial<CheckoutCostCenterFacade>
+{
+  getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
+    return of({ loading: false, error: false, data: mockCostCenters[0] });
   }
-  setCostCenter(_costCenterId: string): void {}
+  setCostCenter(_costCenterId: string): Observable<Cart> {
+    return of();
+  }
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
-class MockPaymentTypeService {
+class MockCheckoutPaymentTypeFacade
+  implements Partial<CheckoutPaymentTypeFacade>
+{
   isAccountPayment(): Observable<boolean> {
     return accountPayment$.asObservable();
   }
 }
 
-class MockUserCostCenterService {
+class MockUserCostCenterService implements Partial<UserCostCenterService> {
   getActiveCostCenters(): Observable<CostCenter[]> {
     return of(mockCostCenters);
   }
@@ -61,8 +69,8 @@ describe('CostCenterComponent', () => {
           useClass: MockCheckoutCostCenterService,
         },
         {
-          provide: PaymentTypeFacade,
-          useClass: MockPaymentTypeService,
+          provide: CheckoutPaymentTypeFacade,
+          useClass: MockCheckoutPaymentTypeFacade,
         },
       ],
     }).compileComponents();
@@ -83,7 +91,7 @@ describe('CostCenterComponent', () => {
     accountPayment$.next(false);
     fixture.detectChanges();
 
-    let result: boolean;
+    let result: boolean | undefined;
     component.isAccountPayment$
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -95,7 +103,7 @@ describe('CostCenterComponent', () => {
     accountPayment$.next(true);
     fixture.detectChanges();
 
-    let result: boolean;
+    let result: boolean | undefined;
     component.isAccountPayment$
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -104,7 +112,7 @@ describe('CostCenterComponent', () => {
   });
 
   it('should get cost centers', () => {
-    let costCenter: CostCenter[];
+    let costCenter: CostCenter[] | undefined;
 
     component.costCenters$
       .subscribe((data) => (costCenter = data))
@@ -116,7 +124,7 @@ describe('CostCenterComponent', () => {
 
   it('should NOT set default if the cart already CONTAINS a cost center', () => {
     spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
-    let costCenter: CostCenter[];
+    let costCenter: CostCenter[] | undefined;
 
     component.costCenters$
       .subscribe((data) => (costCenter = data))
@@ -130,8 +138,11 @@ describe('CostCenterComponent', () => {
 
   it('should set default if the cart does NOT contain a cost center', () => {
     spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
-    spyOn(checkoutCostCenterService, 'getCostCenter').and.returnValue(of(null));
-    let costCenter: CostCenter[];
+    spyOn(checkoutCostCenterService, 'getCostCenterState').and.returnValue(
+      of({ loading: false, error: false, data: undefined })
+    );
+
+    let costCenter: CostCenter[] | undefined;
 
     component.costCenters$
       .subscribe((data) => (costCenter = data))
@@ -148,7 +159,7 @@ describe('CostCenterComponent', () => {
   it('should set cost center', () => {
     spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
 
-    component.setCostCenter(mockCostCenters[1].code);
+    component.setCostCenter(mockCostCenters[1].code ?? '');
 
     expect(component['costCenterId']).toEqual(mockCostCenters[1].code);
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(

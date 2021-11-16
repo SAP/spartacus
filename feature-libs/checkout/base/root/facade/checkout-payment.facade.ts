@@ -30,7 +30,7 @@ export abstract class CheckoutPaymentFacade {
    */
   abstract getCardTypesState(): Observable<QueryState<CardType[] | undefined>>;
   /**
-   * Returns the card types
+   * Returns the card types, or an empty array if the data is undefined.
    */
   abstract getCardTypes(): Observable<CardType[]>;
   /**

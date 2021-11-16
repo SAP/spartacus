@@ -32,7 +32,7 @@ export class PaymentTypeComponent {
     this.checkoutPaymentTypeService.getPaymentTypes();
 
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeService
-    .getSelectedPaymentType()
+    .getSelectedPaymentTypeState()
     .pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -49,7 +49,7 @@ export class PaymentTypeComponent {
     );
 
   cartPoNumber$: Observable<string> = this.checkoutPaymentTypeService
-    .getPurchaseOrderNumber()
+    .getPurchaseOrderNumberState()
     .pipe(
       filter((state) => !state.loading),
       map((state) => state.data),

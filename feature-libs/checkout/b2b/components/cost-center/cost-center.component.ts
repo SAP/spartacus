@@ -30,17 +30,17 @@ export class CostCenterComponent {
       this.userCostCenterService
         .getActiveCostCenters()
         .pipe(filter((costCenters) => !!costCenters)),
-      this.checkoutCostCenterService.getCostCenter().pipe(
-        filter((checkoutCostCenterState) => !checkoutCostCenterState.loading),
-        map((checkoutCostCenterState) => checkoutCostCenterState.data),
+      this.checkoutCostCenterService.getCostCenterState().pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
         distinctUntilChanged()
       ),
     ]).pipe(
-      tap(([costCenters, costCenterCode]) => {
-        if (!Boolean(costCenterCode)) {
+      tap(([costCenters, costCenter]) => {
+        if (!costCenter) {
           this.setCostCenter(costCenters[0].code as string);
         } else {
-          this.costCenterId = costCenterCode;
+          this.costCenterId = costCenter.code;
         }
       }),
       map(([costCenters]) => costCenters)

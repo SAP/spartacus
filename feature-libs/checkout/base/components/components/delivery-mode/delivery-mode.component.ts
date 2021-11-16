@@ -37,18 +37,17 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private fb: FormBuilder,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {}
 
   ngOnInit(): void {
     this.supportedDeliveryModes$ = this.checkoutDeliveryModesService
-      .getSupportedDeliveryModesState()
+      .getSupportedDeliveryModes()
       .pipe(
-        map((state) => state.data ?? []),
         filter((deliveryModes) => !!deliveryModes?.length),
         distinctUntilChanged((current, previous) => {
           return JSON.stringify(current) === JSON.stringify(previous);
