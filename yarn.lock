@@ -23,11 +23,6 @@
     tsconfig-paths "^3.9.0"
     webpack-merge "^5.7.3"
 
-"@angular-builders/dev-server@^7.3.1":
-  version "7.3.1"
-  resolved "https://registry.yarnpkg.com/@angular-builders/dev-server/-/dev-server-7.3.1.tgz#a687dda691f921a236e6c9fc12985c2eaf4e8923"
-  integrity sha512-rFr0NyFcwTb4RkkboYQN5JeR9ZraOkfUrQYljMSe/O01MM3SJvE8LYJbsyMwGtp71Rc8T6JrpdxaNEeYCV/4PA==
-
 "@angular-devkit/architect@0.1300.1", "@angular-devkit/architect@>=0.1300.0 < 0.1400.0", "@angular-devkit/architect@^0.1300.0":
   version "0.1300.1"
   resolved "https://registry.yarnpkg.com/@angular-devkit/architect/-/architect-0.1300.1.tgz#974725b1bc0f82cc6c310d5b59da5e44b6a46b51"
