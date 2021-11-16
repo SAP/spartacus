@@ -27,25 +27,25 @@ jobs:
           node-version: '12'
       - name: Install dependencies
         run: yarn install
-      - name: Get from and to tags
-        id: tags
-        run: |
-          from_tag=$(echo ${{ github.event.inputs.FROM_TAG }})
-          to_tag=$(echo ${{ github.event.inputs.TO_TAG }})
+      # - name: Get from and to tags
+      #   id: tags
+      #   run: |
+      #     from_tag=$(echo ${{ github.event.inputs.FROM_TAG }})
+      #     to_tag=$(echo ${{ github.event.inputs.TO_TAG }})
 
-          if [ -z "$from_tag" ]
-          then
-                echo "::set-output name=from_tag::$(git describe --tags $(git rev-list --tags --max-count=1))"
-          else
-                echo "::set-output name=from_tag::$(echo $from_tag)"
-          fi
+      #     if [ -z "$from_tag" ]
+      #     then
+      #           echo "::set-output name=from_tag::$(git describe --tags $(git rev-list --tags --max-count=1))"
+      #     else
+      #           echo "::set-output name=from_tag::$(echo $from_tag)"
+      #     fi
 
-          if [ -z "$to_tag" ]
-          then
-                echo "::set-output name=to_tag::HEAD"
-          else
-                echo "::set-output name=to_tag::$(echo $to_tag)"
-          fi
+      #     if [ -z "$to_tag" ]
+      #     then
+      #           echo "::set-output name=to_tag::HEAD"
+      #     else
+      #           echo "::set-output name=to_tag::$(echo $to_tag)"
+      #     fi
       - name: Generate changelog
         id: changelog
         run: | 
@@ -58,9 +58,12 @@ jobs:
           changelog="${changelog//$'\r'/'%0D'}"
 
           echo "::set-output name=changelog::$(echo $changelog)"
-      - name: Create release draft
-        uses: ./.github/publish-release-draft
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CHANGELOG: ${{ steps.changelog.outputs.changelog }}
-          TO_TAG: ${{ steps.tags.outputs.to_tag }}
+      - name: why did it stop
+        run: |
+          echo ${{ steps.changelog.outputs.changelog }}
+      # - name: Create release draft
+      #   uses: ./.github/publish-release-draft
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     CHANGELOG: ${{ steps.changelog.outputs.changelog }}
+      #     TO_TAG: ${{ steps.tags.outputs.to_tag }}
