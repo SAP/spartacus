@@ -216,6 +216,12 @@ export class CheckoutDeliveryModesService
     return this.supportedDeliveryModesQuery.getState();
   }
 
+  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
+    return this.getSupportedDeliveryModesState().pipe(
+      map((state) => state.data ?? [])
+    );
+  }
+
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
   > {
