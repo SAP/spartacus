@@ -53,16 +53,12 @@ export function checkPullRequestTitle(
   const isTypeValid = commitScope.some((s) => {
     const [type, scope] = commitHeaderTypeAndScope.split(`(${s})`);
 
-    if (commitType.includes(type)) {
-      // scope was provided and is included, therefore verify if it has a proper scope
-      if (scope === '') {
-        isScopeValid = commitScope.includes(s);
-      }
-
-      return true;
-    } else {
-      return false;
+    // scope was provided and is included, therefore verify if it has a proper scope
+    if (scope === '') {
+      isScopeValid = commitScope.includes(s);
     }
+
+    return commitType.includes(type);
   });
 
   return { isTypeValid, isScopeValid };
