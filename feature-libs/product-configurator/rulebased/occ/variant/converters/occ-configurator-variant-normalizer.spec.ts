@@ -769,7 +769,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeDDWithValues.incomplete).toBe(false);
     });
 
-    it('should set incomplete by drop-down type with retract option correctly', () => {
+    it('should set incomplete for drop-down type with retract option correctly', () => {
       attributeDDWithValues.selectedSingleValue =
         OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
