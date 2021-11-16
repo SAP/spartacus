@@ -29,9 +29,9 @@ export class PaymentTypeComponent {
   cartPoNumber: string;
 
   paymentTypes$: Observable<PaymentType[]> =
-    this.checkoutPaymentTypeService.getPaymentTypes();
+    this.checkoutPaymentTypeFacade.getPaymentTypes();
 
-  typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeService
+  typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
     .pipe(
       filter((state) => !state.loading),
@@ -48,7 +48,7 @@ export class PaymentTypeComponent {
       })
     );
 
-  cartPoNumber$: Observable<string> = this.checkoutPaymentTypeService
+  cartPoNumber$: Observable<string> = this.checkoutPaymentTypeFacade
     .getPurchaseOrderNumberState()
     .pipe(
       filter((state) => !state.loading),
@@ -60,13 +60,13 @@ export class PaymentTypeComponent {
     );
 
   constructor(
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   changeType(code: string): void {
-    this.checkoutPaymentTypeService.setPaymentType(code);
+    this.checkoutPaymentTypeFacade.setPaymentType(code);
     this.typeSelected = code;
   }
 
@@ -74,7 +74,7 @@ export class PaymentTypeComponent {
     // set po number to cart
     const poNumInput = this._poNumberInput.nativeElement.value;
     if (this.typeSelected && poNumInput !== this.cartPoNumber) {
-      this.checkoutPaymentTypeService.setPaymentType(
+      this.checkoutPaymentTypeFacade.setPaymentType(
         this.typeSelected,
         poNumInput
       );

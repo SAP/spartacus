@@ -60,7 +60,7 @@ export class CheckoutScheduledReplenishmentService
   protected scheduleReplenishmentOrderCommand: Command<
     { termsChecked: boolean; form: ScheduleReplenishmentForm },
     ReplenishmentOrder
-  > = this.command.create<
+  > = this.commandService.create<
     { termsChecked: boolean; form: ScheduleReplenishmentForm },
     ReplenishmentOrder
   >(
@@ -71,7 +71,7 @@ export class CheckoutScheduledReplenishmentService
             .scheduleReplenishmentOrder(cartId, form, termsChecked, userId)
             .pipe(
               tap((replenishmentOrder) => {
-                this.checkoutService.setOrder(replenishmentOrder);
+                this.checkoutFacade.setOrder(replenishmentOrder);
                 this.store.dispatch(new CartActions.RemoveCart({ cartId }));
                 this.eventService.dispatch(
                   {
@@ -94,10 +94,10 @@ export class CheckoutScheduledReplenishmentService
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected command: CommandService,
+    protected commandService: CommandService,
     protected checkoutReplenishmentOrderConnector: CheckoutReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected checkoutService: CheckoutFacade
+    protected checkoutFacade: CheckoutFacade
   ) {
     this.registerOrderTypeEventListers();
   }

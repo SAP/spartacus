@@ -22,40 +22,38 @@ import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
-  protected setCostCenterCommand: Command<string, Cart> = this.command.create<
-    string,
-    Cart
-  >(
-    (payload) =>
-      this.checkoutPreconditions().pipe(
-        switchMap(([userId, cartId]) =>
-          this.checkoutCostCenterConnector
-            .setCostCenter(userId, cartId, payload)
-            .pipe(
-              tap(() =>
-                this.eventService.dispatch(
-                  {
-                    cartId,
-                    userId,
-                    code: payload,
-                  },
-                  CostCenterSetEvent
+  protected setCostCenterCommand: Command<string, Cart> =
+    this.commandService.create<string, Cart>(
+      (payload) =>
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) =>
+            this.checkoutCostCenterConnector
+              .setCostCenter(userId, cartId, payload)
+              .pipe(
+                tap(() =>
+                  this.eventService.dispatch(
+                    {
+                      cartId,
+                      userId,
+                      code: payload,
+                    },
+                    CostCenterSetEvent
+                  )
                 )
               )
-            )
-        )
-      ),
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+          )
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   constructor(
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected command: CommandService,
+    protected commandService: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    protected checkoutQueryService: CheckoutQueryFacade,
+    protected checkoutQueryFacade: CheckoutQueryFacade,
     protected eventService: EventService
   ) {}
 
@@ -80,7 +78,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   }
 
   getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
-    return this.checkoutQueryService.getCheckoutDetailsState().pipe(
+    return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
         data: state.data?.costCenter,
