@@ -46,11 +46,11 @@ export class TabParagraphContainerComponent
   subscription: Subscription;
 
   constructor(
-    protected translationService: TranslationService,
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
+    protected breakpointService: BreakpointService,
+    protected translationService?: TranslationService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -117,8 +117,8 @@ export class TabParagraphContainerComponent
 
   getRegionLabel(): void {
     this.translationService
-      .translate('TabPanelContainer.tabPanelContainerRegion')
-      .subscribe((tabPanelLabel) => {
+      ?.translate('TabPanelContainer.tabPanelContainerRegion')
+      .subscribe((tabPanelLabel: string) => {
         this.tabPanelContainerRegion = tabPanelLabel;
       })
       .unsubscribe();
