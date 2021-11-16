@@ -27,6 +27,13 @@ jobs:
           node-version: '12'
       - name: Install dependencies
         run: yarn install
+      - name: Get from and to tags
+        id: tags
+        uses: ./.github/get-tags
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          FROM_TAG: ${{ github.event.inputs.FROM_TAG }}
+          TO_TAG: ${{ github.event.inputs.TO_TAG }}
       - name: Generate changelog
         id: changelog
         run: | 

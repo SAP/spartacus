@@ -49,8 +49,11 @@ export function checkPullRequestTitle(
   const typeRegex = new RegExp(`${commonTypeRegex}: `);
 
   const packagedScope = commitScope
-    .map((scope) => (scope = `(${scope.replace('/', '\\/')})`))
+    .map((scope) => (scope = `\\(${scope.replace('/', '\\/')}\\)`))
     .join('|');
+
+  console.log(`${commonTypeRegex}(: |((?<scope>${packagedScope})): )`);
+
   const scopeRegex = new RegExp(
     `${commonTypeRegex}(: |((?<scope>${packagedScope})): )`
   );
@@ -132,7 +135,7 @@ function generateCommentBody(
   - Make sure the pull request title and commit header matches as well
   - Do not forget to put meaningful commit body messages
   - Do not forgot to put **closes GH-issueNumber** in the pull request body and commit footer 
-  - Example: "<type>(<scope>): <subject>" <----- format for pull request title and commit header. However, scope is optional.
+  - Example: \<type\>(\<scope\>): \<subject\> <----- format for pull request title and commit header. However, scope is optional.
   
   ${generateTextForType(isTypeValid)}
   
