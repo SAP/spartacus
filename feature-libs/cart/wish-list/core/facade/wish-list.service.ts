@@ -26,9 +26,7 @@ import {
 import { WishListActions } from '../store/actions/index';
 import { getWishlistName } from '../utils/utils';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class WishListService implements WishListFacade {
   constructor(
     protected store: Store<StateWithMultiCart>,

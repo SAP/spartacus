@@ -6,8 +6,8 @@ import {
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitional_4_2_Module,
-  UserTransitional_4_2_Module,
+  UserOccModule,
+  UserModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -57,6 +57,7 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
@@ -72,6 +73,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 
 const featureModules = [];
 
@@ -119,8 +121,8 @@ if (environment.digitalPayments) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitional_4_2_Module,
-    UserOccTransitional_4_2_Module,
+    UserModule,
+    UserOccModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
@@ -167,7 +169,7 @@ if (environment.digitalPayments) {
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
     JsonLdBuilderModule,
 
-    /************************* External features *************************/
+    /************************* Feature libraries *************************/
     UserFeatureModule,
     CartFeatureModule,
     CheckoutFeatureModule,
@@ -180,7 +182,9 @@ if (environment.digitalPayments) {
     SavedCartFeatureModule,
     OrderFeatureModule,
     QuickOrderFeatureModule,
+    ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
+    ImageZoomFeatureModule,
     ...featureModules,
   ],
 })

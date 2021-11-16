@@ -438,7 +438,6 @@ describe('ConfiguratorCartEffect', () => {
         payloadInputUpdateConfiguration
       );
       const cartUpdateEntrySuccess = new CartActions.CartUpdateEntrySuccess({
-        ...cartModification,
         userId: userId,
         cartId: cartId,
         entryNumber: entryNumber.toString(),

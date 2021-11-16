@@ -12,9 +12,7 @@ import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
 import { ActiveCartService } from './active-cart.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CartVoucherService implements CartVoucherFacade {
   constructor(
     protected store: Store<StateWithProcess<void>>,

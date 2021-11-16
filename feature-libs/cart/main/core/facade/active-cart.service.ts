@@ -39,9 +39,7 @@ import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isEmpty, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   protected activeCart$: Observable<Cart>;
   protected subscription = new Subscription();
@@ -549,5 +547,19 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       userId !== OCC_USER_ID_ANONYMOUS && // not logged out
       previousUserId !== userId // *just* logged in / switched to ASM emulation
     );
+  }
+
+  /**
+   * Reloads active cart
+   */
+  reloadActiveCart() {
+    combineLatest([this.getActiveCartId(), this.userIdService.takeUserId()])
+      .pipe(
+        take(1),
+        map(([cartId, userId]) => {
+          this.multiCartService.loadCart({ cartId, userId });
+        })
+      )
+      .subscribe();
   }
 }

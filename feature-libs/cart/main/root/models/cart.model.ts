@@ -44,11 +44,6 @@ export interface DeliveryOrderEntryGroup {
   totalPriceWithTax?: Price;
 }
 
-export interface CardType {
-  code?: string;
-  name?: string;
-}
-
 export interface PaymentType {
   code?: string;
   displayName?: string;
@@ -162,4 +157,16 @@ export enum CartType {
   ACTIVE = 'Active',
   WISH_LIST = 'WishList',
   SELECTIVE = 'Selective',
+}
+
+export interface CartModificationList {
+  cartModifications?: CartModification[];
+}
+
+export enum CartValidationStatusCode {
+  NO_STOCK = 'noStock',
+  LOW_STOCK = 'lowStock',
+  REVIEW_CONFIGURATION = 'reviewConfiguration',
+  PRICING_ERROR = 'pricingError',
+  UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }

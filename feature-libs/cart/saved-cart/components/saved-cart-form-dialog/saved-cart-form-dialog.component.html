@@ -198,13 +198,18 @@
                   'savedCartDialog.savedCartName' | cxTranslate
                 }}</span>
                 <input
+                  aria-required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
                   formControlName="name"
                   required
                   type="text"
                 />
-                <cx-form-errors [control]="form.get('name')"></cx-form-errors>
+                <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
+                  [control]="form.get('name')"
+                ></cx-form-errors>
               </label>
             </ng-container>
           </div>
@@ -224,6 +229,8 @@
                 rows="5"
               ></textarea>
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="form.get('description')"
               ></cx-form-errors>
 

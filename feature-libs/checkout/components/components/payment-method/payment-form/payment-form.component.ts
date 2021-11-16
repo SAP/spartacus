@@ -7,7 +7,6 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CardType } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
@@ -15,6 +14,7 @@ import {
 import {
   Address,
   AddressValidation,
+  CardType,
   Country,
   GlobalMessageService,
   GlobalMessageType,

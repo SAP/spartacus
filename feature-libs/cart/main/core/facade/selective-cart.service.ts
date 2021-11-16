@@ -23,9 +23,7 @@ import {
 } from 'rxjs/operators';
 import { MultiCartService } from './multi-cart.service';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
   constructor(
     protected userService: UserService,
