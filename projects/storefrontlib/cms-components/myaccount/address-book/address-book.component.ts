@@ -126,7 +126,7 @@ export class AddressBookComponent implements OnInit {
     this.editCard = null;
   }
 
-  getRegionLabel(address: Address) {
+  getRegionLabel(address: Address): string {
     return address.defaultAddress
       ? 'addressBook.defaultShippingAddress'
       : 'addressBook.additionalShippingAddress';
