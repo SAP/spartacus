@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
+import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   DaysOfWeek,
   I18nTestingModule,
@@ -22,15 +23,20 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   daysOfWeek: [],
 };
 
-class MockCheckoutService {
-  getCurrentOrderType(): Observable<ORDER_TYPE> {
+class MockCheckoutService implements Partial<CheckoutFacade> {}
+
+class MockCheckoutScheduledReplenishmentFacade
+  implements Partial<CheckoutScheduledReplenishmentFacade>
+{
+  getOrderType(): Observable<ORDER_TYPE> {
     return of(ORDER_TYPE.PLACE_ORDER);
   }
-
   setOrderType(_orderType: ORDER_TYPE): void {}
 }
 
-class MockCheckoutReplenishmentFormService {
+class MockCheckoutReplenishmentFormService
+  implements Partial<CheckoutReplenishmentFormService>
+{
   getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
     return of({});
   }
@@ -44,7 +50,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   let component: ScheduleReplenishmentOrderComponent;
   let fixture: ComponentFixture<ScheduleReplenishmentOrderComponent>;
 
-  let checkoutService: CheckoutFacade;
+  let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
   beforeEach(
@@ -54,6 +60,10 @@ describe('ScheduleReplenishmentOrderComponent', () => {
         declarations: [ScheduleReplenishmentOrderComponent],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
+          {
+            provide: CheckoutScheduledReplenishmentFacade,
+            useClass: MockCheckoutScheduledReplenishmentFacade,
+          },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -67,7 +77,9 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     fixture = TestBed.createComponent(ScheduleReplenishmentOrderComponent);
     component = fixture.componentInstance;
 
-    checkoutService = TestBed.inject(CheckoutFacade);
+    checkoutScheduledReplenishmentFacade = TestBed.inject(
+      CheckoutScheduledReplenishmentFacade
+    );
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );
@@ -75,24 +87,24 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     component.scheduleReplenishmentFormData = mockReplenishmentOrderFormData;
   });
 
-  it('should get selected order type', () => {
-    let result: ORDER_TYPE;
-
-    component.selectedOrderType$
-      .subscribe((data) => (result = data))
-      .unsubscribe();
-
-    expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
+  it('should get selected order type', (done) => {
+    component.selectedOrderType$.subscribe((result) => {
+      expect(result).toEqual(ORDER_TYPE.PLACE_ORDER);
+      done();
+    });
   });
 
   it('should change order type', () => {
-    spyOn(checkoutService, 'setOrderType').and.callThrough();
+    spyOn(
+      checkoutScheduledReplenishmentFacade,
+      'setOrderType'
+    ).and.callThrough();
 
     component.changeOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
-    expect(checkoutService.setOrderType).toHaveBeenCalledWith(
-      ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER
-    );
+    expect(
+      checkoutScheduledReplenishmentFacade.setOrderType
+    ).toHaveBeenCalledWith(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
   });
 
   it('should change number of days of replenishment form data', () => {

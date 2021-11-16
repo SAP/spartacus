@@ -2,23 +2,27 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, Order, ORDER_TYPE } from '@spartacus/core';
+import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
+import {
+  I18nTestingModule,
+  Order,
+  ORDER_TYPE,
+  ReplenishmentOrder,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
-import createSpy = jasmine.createSpy;
+import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
 
 @Component({ selector: 'cx-guest-register-form', template: '' })
 class MockGuestRegisterFormComponent {
-  @Input() guid;
-  @Input() email;
+  @Input() guid: string;
+  @Input() email: string;
 }
 
-class MockCheckoutService {
-  clearCheckoutData = createSpy();
-  getOrderDetails(): Observable<Order> {
+class MockCheckoutService implements Partial<CheckoutFacade> {
+  getOrder(): Observable<Order | ReplenishmentOrder> {
     return of({
       code: 'test-code-412',
       guid: 'guid',
@@ -27,38 +31,52 @@ class MockCheckoutService {
       replenishmentOrderCode: 'test-repl-code',
     });
   }
+}
 
-  getCurrentOrderType(): Observable<ORDER_TYPE> {
+class MockCheckoutScheduledReplenishmentService
+  implements Partial<CheckoutScheduledReplenishmentFacade>
+{
+  getOrderType(): Observable<ORDER_TYPE> {
     return of(ORDER_TYPE.PLACE_ORDER);
   }
 }
 
-describe('OrderConfirmationComponent', () => {
-  let component: OrderConfirmationThankYouMessageComponent;
-  let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
+describe('ScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () => {
+  let component: ScheduledReplenishmentOrderConfirmationThankYouMessageComponent;
+  let fixture: ComponentFixture<ScheduledReplenishmentOrderConfirmationThankYouMessageComponent>;
 
   let checkoutService: CheckoutFacade;
+  let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          OrderConfirmationThankYouMessageComponent,
+          ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
-        providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
+        providers: [
+          { provide: CheckoutFacade, useClass: MockCheckoutService },
+          {
+            provide: CheckoutScheduledReplenishmentFacade,
+            useClass: MockCheckoutScheduledReplenishmentService,
+          },
+        ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      OrderConfirmationThankYouMessageComponent
+      ScheduledReplenishmentOrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(CheckoutFacade);
+    checkoutScheduledReplenishmentFacade = TestBed.inject(
+      CheckoutScheduledReplenishmentFacade
+    );
   });
 
   it('should create', () => {
@@ -76,12 +94,13 @@ describe('OrderConfirmationComponent', () => {
   });
 
   it('should display replenishment order code', () => {
-    spyOn(checkoutService, 'getCurrentOrderType').and.returnValue(
+    spyOn(checkoutScheduledReplenishmentFacade, 'getOrderType').and.returnValue(
       of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
     );
 
     component.ngOnInit();
     fixture.detectChanges();
+
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
         .innerHTML
@@ -98,7 +117,7 @@ describe('OrderConfirmationComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    spyOn(checkoutService, 'getOrderDetails').and.returnValue(
+    spyOn(checkoutService, 'getOrder').and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
     component.ngOnInit();

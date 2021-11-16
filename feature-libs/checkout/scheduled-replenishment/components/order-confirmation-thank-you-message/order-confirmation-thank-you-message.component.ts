@@ -29,7 +29,7 @@ export class ScheduledReplenishmentOrderConfirmationThankYouMessageComponent
     super(checkoutService);
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     super.ngOnInit();
 
     this.isReplenishmentOrderType$ = this.checkoutScheduledReplenishmentService
