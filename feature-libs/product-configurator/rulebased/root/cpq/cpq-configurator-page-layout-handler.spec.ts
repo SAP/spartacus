@@ -5,7 +5,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService } from '@spartacus/storefront';
+import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
@@ -36,8 +36,8 @@ const contentSlots = [
   'CpqConfigOverviewContent',
   'CpqConfigBottombar',
 ];
-const contentSlotsSPAStandardLarge = [
-  'PreHeader',
+
+const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
   'SiteLogo',
@@ -47,13 +47,27 @@ const contentSlotsSPAStandardLarge = [
   'NavigationBar',
 ];
 
-const contentSlotsSPAStandardReduced = [
-  'PreHeader',
+const displayOnlyHeaderSlotsSmallResolution = [
   'SiteLogo',
   'SearchBox',
   'MiniCart',
 ];
-const pageTemplateCpq = 'CpqConfigurationTemplate';
+
+const mockLayoutConfig: LayoutConfig = {
+  layoutSlots: {
+    CpqConfigurationTemplate: {
+      headerDisplayOnly: {
+        lg: {
+          slots: displayOnlyHeaderSlotsLargeResolution,
+        },
+        xs: {
+          slots: displayOnlyHeaderSlotsSmallResolution,
+        },
+      },
+    },
+  },
+};
+const pageTemplateCpq = CpqConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
 const sectionHeader = 'header';
 const sectionContent = 'content';
@@ -72,6 +86,10 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           {
             provide: BreakpointService,
             useClass: MockBreakpointService,
+          },
+          {
+            provide: LayoutConfig,
+            useValue: mockLayoutConfig,
           },
         ],
       }).compileComponents();
@@ -151,7 +169,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     expect(handledSlots$).toBeObservable(slots$);
   });
 
-  it('should return SPA large resolution header slots in case we call overview in read-only mode, and ld resolution is active', () => {
+  it('should return SPA large resolution header slots in case we call overview in read-only mode, and lg resolution is active', () => {
     isLargeResolution = true;
     routerData = {
       ...standardRouterData,
@@ -168,7 +186,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
-        a: contentSlotsSPAStandardLarge,
+        a: displayOnlyHeaderSlotsLargeResolution,
       })
     );
   });
@@ -189,7 +207,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
-        a: contentSlotsSPAStandardReduced,
+        a: displayOnlyHeaderSlotsSmallResolution,
       })
     );
   });

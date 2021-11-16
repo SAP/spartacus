@@ -30,7 +30,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               ],
             },
           },
-          headerReadOnly: {
+          headerDisplayOnly: {
             lg: {
               slots: [
                 'SiteContext',
@@ -43,7 +43,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               ],
             },
             xs: {
-              slots: [['SiteLogo', 'SearchBox', 'MiniCart']],
+              slots: ['SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
           slots: [

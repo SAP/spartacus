@@ -5,7 +5,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService } from '@spartacus/storefront';
+import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
@@ -25,10 +25,7 @@ class MockBreakpointService {
     return of(isLargeResolution);
   }
 }
-const headerSlots = ['SiteLogo', 'MiniCart'];
-
-const contentSlotsSPAStandardLarge = [
-  'PreHeader',
+const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
   'SiteLogo',
@@ -38,13 +35,30 @@ const contentSlotsSPAStandardLarge = [
   'NavigationBar',
 ];
 
-const contentSlotsSPAStandardReduced = [
-  'PreHeader',
+const displayOnlyHeaderSlotsSmallResolution = [
   'SiteLogo',
   'SearchBox',
   'MiniCart',
 ];
-const pageTemplateVCOverview = 'VariantConfigurationOverviewTemplate';
+
+const mockLayoutConfig: LayoutConfig = {
+  layoutSlots: {
+    VariantConfigurationOverviewTemplate: {
+      headerDisplayOnly: {
+        lg: {
+          slots: displayOnlyHeaderSlotsLargeResolution,
+        },
+        xs: {
+          slots: displayOnlyHeaderSlotsSmallResolution,
+        },
+      },
+    },
+  },
+};
+const headerSlots = ['SiteLogo', 'MiniCart'];
+
+const pageTemplateVCOverview =
+  VariantConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
 const sectionHeader = 'header';
 const sectionContent = 'content';
@@ -64,6 +78,10 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
             provide: BreakpointService,
             useClass: MockBreakpointService,
           },
+          {
+            provide: LayoutConfig,
+            useValue: mockLayoutConfig,
+          },
         ],
       }).compileComponents();
     })
@@ -80,7 +98,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
 
   it('should not touch slots for section different than header', () => {
     let slots$ = cold('-a', {
-      a: contentSlotsSPAStandardLarge,
+      a: displayOnlyHeaderSlotsLargeResolution,
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
@@ -107,7 +125,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
-        a: contentSlotsSPAStandardLarge,
+        a: displayOnlyHeaderSlotsLargeResolution,
       })
     );
   });
@@ -128,7 +146,7 @@ describe('VariantConfiguratorPageLayoutHandler', () => {
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
-        a: contentSlotsSPAStandardReduced,
+        a: displayOnlyHeaderSlotsSmallResolution,
       })
     );
   });

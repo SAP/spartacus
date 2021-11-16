@@ -152,21 +152,32 @@ export class CommonConfiguratorUtilsService {
     );
   }
 
-  /**TODO */
-  getSlotsFromConfiguration(
+  /**
+   * Reads slots from layout config, taking the breakpoint into account
+   * @param layoutConfig Layout config
+   * @param templateName Page template name
+   * @param sectionName Section name like 'header'
+   * @param breakPoint Current breakpoint
+   * @returns Array of slots
+   */
+  getSlotsFromLayoutConfiguration(
     layoutConfig: LayoutConfig,
     templateName: string,
     sectionName: string,
-    breakPoint: BREAKPOINT.lg | BREAKPOINT.xs
+    breakPoint: BREAKPOINT.lg | BREAKPOINT.md | BREAKPOINT.sm | BREAKPOINT.xs
   ): string[] {
     const slots = layoutConfig.layoutSlots;
     if (slots) {
-      const slotConfig: LayoutSlotConfig = <LayoutSlotConfig>(
+      const slotsForTemplate: LayoutSlotConfig = <LayoutSlotConfig>(
         slots[templateName]
       );
-      const bpSlotConfig: SlotGroup = <SlotGroup>slotConfig[sectionName];
-      const slotsLarge: SlotConfig = <SlotConfig>bpSlotConfig[breakPoint];
-      return <string[]>slotsLarge['slots'];
+      const slotGroupForSection: SlotGroup = <SlotGroup>(
+        slotsForTemplate[sectionName]
+      );
+      const slotConfigForBreakpoint: SlotConfig = <SlotConfig>(
+        slotGroupForSection[breakPoint]
+      );
+      return <string[]>slotConfigForBreakpoint['slots'];
     } else {
       return [];
     }

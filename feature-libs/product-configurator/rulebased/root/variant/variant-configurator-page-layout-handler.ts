@@ -15,6 +15,8 @@ import { map, switchMap, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
+  protected static templateName = 'VariantConfigurationOverviewTemplate';
+  protected static sectionDisplayOnlyName = 'headerDisplayOnly';
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected breakpointService: BreakpointService,
@@ -27,7 +29,7 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (
-      pageTemplate === 'VariantConfigurationOverviewTemplate' &&
+      pageTemplate === VariantConfiguratorPageLayoutHandler.templateName &&
       section === 'header'
     ) {
       this.configuratorRouterExtractorService
@@ -36,17 +38,22 @@ export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
         .subscribe((routerData) => {
           if (routerData.displayOnly) {
             slots$ = slots$.pipe(
-              switchMap(() => this.breakpointService.isUp(BREAKPOINT.md)),
+              switchMap(() => this.breakpointService.isUp(BREAKPOINT.lg)),
               map((isLargeResolution) => {
                 if (isLargeResolution) {
-                  return this.commonConfiguratorUtilsService.getSlotsFromConfiguration(
+                  return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
                     this.layoutConfig,
-                    'VariantConfigurationOverviewTemplate',
-                    'headerReadOnly',
+                    VariantConfiguratorPageLayoutHandler.templateName,
+                    VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
                     BREAKPOINT.lg
                   );
                 } else {
-                  return ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'];
+                  return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
+                    this.layoutConfig,
+                    VariantConfiguratorPageLayoutHandler.templateName,
+                    VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
+                    BREAKPOINT.xs
+                  );
                 }
               })
             );
