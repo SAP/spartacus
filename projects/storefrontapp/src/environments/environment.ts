@@ -22,5 +22,5 @@ export const environment: Environment = {
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
-  oldCheckout: false,
+  oldCheckout: buildProcess.env.CX_OLD_CHECKOUT ?? false,
 };

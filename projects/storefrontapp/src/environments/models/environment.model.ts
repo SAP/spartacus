@@ -7,5 +7,5 @@ export interface Environment {
   cdc: boolean;
   cpq: boolean;
   digitalPayments: boolean;
-  oldCheckout: false;
+  oldCheckout: boolean;
 }

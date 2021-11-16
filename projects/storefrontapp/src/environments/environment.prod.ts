@@ -9,4 +9,5 @@ export const environment: Environment = {
   cdc: buildProcess.env.CX_CDC,
   cpq: buildProcess.env.CX_CPQ,
   digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS,
+  oldCheckout: buildProcess.env.CX_OLD_CHECKOUT,
 };
