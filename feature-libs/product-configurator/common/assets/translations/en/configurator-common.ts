@@ -43,6 +43,7 @@ export const configurator = {
       deselectionNotPossible:
         'Add a different product before removing this one',
       dropDownSelectMsg: 'Make a selection',
+      noOptionSelectedMsg: 'No option selected',
     },
     button: {
       previous: 'Previous',
@@ -84,6 +85,15 @@ export const configurator = {
       suggestionText: 'Change value for "{{ attribute }}"',
       viewConflictDetails: 'Conflict Detected',
       viewConfigurationDetails: '',
+    },
+    a11y: {
+      nameOfAttribute: 'Name of Attribute',
+      valueOfAttribute: 'Value of attribute {{ attribute }}',
+      valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      value: 'Value {{ value }}',
+      attribute: 'Attribute {{ attribute }}',
+      listOfAttributesAndValues: 'List of attributes and their values:',
+      editAttributesAndValues: 'Edit values of attributes:',
     },
   },
 };
