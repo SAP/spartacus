@@ -53,9 +53,9 @@ jobs:
 
           # Remove when support for multiline is available
           # https://github.com/actions/toolkit/issues/403
-          changelog="${changelog//'%'/'%25'}"
-          changelog="${changelog//$'\n'/'%0A'}"
-          changelog="${changelog//$'\r'/'%0D'}"
+          # changelog="${changelog//'%'/'%25'}"
+          # changelog="${changelog//$'\n'/'%0A'}"
+          # changelog="${changelog//$'\r'/'%0D'}"
 
           echo "::set-output name=changelog::$(echo $changelog)"
       - name: why did it stop
