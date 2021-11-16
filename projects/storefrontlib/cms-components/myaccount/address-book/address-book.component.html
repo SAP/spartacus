@@ -25,7 +25,9 @@
         class="col-md-6 cx-address-card"
         role="region"
         tabindex="0"
-        [attr.aria-label]="getRegionLabel(address) | cxTranslate"
+        [attr.aria-label]="
+          getRegionLabel(address) | cxTranslate: { line1: address.line1 }
+        "
       >
         <cx-card
           [border]="true"
