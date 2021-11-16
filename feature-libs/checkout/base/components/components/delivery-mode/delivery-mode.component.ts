@@ -37,9 +37,9 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   });
 
   constructor(
-    private fb: FormBuilder,
-    private checkoutConfigService: CheckoutConfigService,
-    private activatedRoute: ActivatedRoute,
+    protected fb: FormBuilder,
+    protected checkoutConfigService: CheckoutConfigService,
+    protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
   ) {}
