@@ -40,7 +40,7 @@ jobs:
     name: "E2E tests for CDC"
   - script: "./ci-scripts/lhci.sh"
     name: "Lighthouse score validation"
-  - script: "export CYPRESS_CONFIG=cypress.ci.epd-visualization.json && export SPA_ENV='epd-visualization' && ./ci-scripts/e2e-cypress.sh -s epd-visualization || exit 0"
+  - script: "export CYPRESS_CONFIG=cypress.ci.epd-visualization.json && export SPA_ENV='b2b,epd-visualization' && ./ci-scripts/e2e-cypress.sh -s epd-visualization || exit 0"
     name: "E2E tests for EPD Visualization"
 addons:
   chrome: stable
