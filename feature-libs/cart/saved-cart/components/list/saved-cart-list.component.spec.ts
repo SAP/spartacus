@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Cart } from '@spartacus/cart/main/root';
 import {
   SavedCartFacade,
@@ -86,7 +87,7 @@ describe('SavedCartListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [I18nTestingModule, RouterTestingModule],
       declarations: [SavedCartListComponent, MockUrlPipe],
       providers: [
         { provide: RoutingService, useClass: MockRoutingService },

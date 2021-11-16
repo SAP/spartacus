@@ -1,8 +1,14 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Cart } from '@spartacus/cart/main/root';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  CardModule,
+  IconTestingModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
@@ -49,7 +55,12 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CardModule,
+        RouterTestingModule,
+      ],
       declarations: [SavedCartDetailsOverviewComponent],
       providers: [
         {

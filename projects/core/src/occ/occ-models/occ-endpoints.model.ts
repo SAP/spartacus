@@ -265,7 +265,6 @@ export interface OccEndpoints {
    * @member {string}
    */
   getActiveCostCenters?: string | OccEndpoint;
-
   // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   /**
    * Get a store location

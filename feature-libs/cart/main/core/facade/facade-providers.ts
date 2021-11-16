@@ -1,11 +1,13 @@
 import { Provider } from '@angular/core';
 import {
   ActiveCartFacade,
+  CartValidationFacade,
   CartVoucherFacade,
   MultiCartFacade,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
 import { ActiveCartService } from './active-cart.service';
+import { CartValidationService } from './cart-validation.service';
 import { CartVoucherService } from './cart-voucher.service';
 import { MultiCartService } from './multi-cart.service';
 import { SelectiveCartService } from './selective-cart.service';
@@ -30,5 +32,10 @@ export const facadeProviders: Provider[] = [
   {
     provide: SelectiveCartFacade,
     useExisting: SelectiveCartService,
+  },
+  CartValidationService,
+  {
+    provide: CartValidationFacade,
+    useExisting: CartValidationService,
   },
 ];

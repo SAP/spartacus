@@ -121,7 +121,7 @@ export class ConfiguratorUtilsService {
       configId.length !== 0 &&
       configuration !== undefined &&
       (configuration.flatGroups.length > 0 ||
-        configuration?.overview !== undefined)
+        configuration.overview !== undefined)
     );
   }
 

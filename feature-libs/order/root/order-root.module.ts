@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -9,6 +10,7 @@ import {
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
+import { OrderDetailsOrderEntriesContextToken } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -60,7 +62,12 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orderDetails' },
+        data: {
+          cxRoute: 'orderDetails',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContextToken,
+          },
+        },
       },
       {
         // @ts-ignore
