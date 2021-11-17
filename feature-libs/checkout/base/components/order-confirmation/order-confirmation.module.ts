@@ -1,12 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   CardModule,
   CartSharedModule,
@@ -40,7 +35,6 @@ const orderConfirmationComponents = [
     PromotionsModule,
     I18nModule,
     ReactiveFormsModule,
-    FeaturesConfigModule,
     FormErrorsModule,
     OrderOverviewModule,
   ],
