@@ -15,7 +15,7 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -230,31 +230,34 @@ export class ConfiguratorAddToCartButtonComponent {
         }
       });
   }
-  goBack(): void {
-    const isOrderPageType = ConfiguratorRouter.PageType.ORDER;
-    if (isOrderPageType) {
-      this.container$
-        .pipe(
-          map((container) =>
-            this.commonConfiguratorUtilsService.decomposeOwnerId(
-              container.configuration.owner.id
-            )
-          ),
-          tap((decomposedIds) =>
-            this.userOrderService.loadOrderDetails(decomposedIds.documentId)
-          ),
-          filter((order: Order) => order !== undefined),
-          take(1)
-        )
-        .subscribe((order: Order) =>
-          this.routingService.go({ cxRoute: 'orderDetails', params: order })
-        );
-    } else {
-      const historyLength: number | undefined =
-        this.windowRef?.nativeWindow?.history?.length;
-      if (historyLength !== undefined && historyLength > 1) {
-        this.windowRef.nativeWindow?.history.go(-1);
+  leaveConfigurationOverview(): void {
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      ) {
+        this.goToOrderDetails(container.routerData.owner);
+      } else if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.CART_ENTRY
+      ) {
+        this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }
-    }
+    });
+  }
+
+  private goToOrderDetails(owner: CommonConfigurator.Owner): void {
+    this.userOrderService.loadOrderDetails(
+      this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
+    );
+    this.userOrderService
+      .getOrderDetails()
+      .pipe(
+        filter((order: Order) => order !== undefined),
+        take(1)
+      )
+      .subscribe((order: Order) =>
+        this.routingService.go({ cxRoute: 'orderDetails', params: order })
+      );
   }
 }
