@@ -31,7 +31,7 @@ export class CheckoutStepService {
             steps.forEach((step, index) => {
               const routeUrl = `/${
                 this.routingConfigService.getRouteConfig(step.routeName)
-                  .paths?.[0]
+                  ?.paths?.[0]
               }`;
               if (routeUrl === activeStepUrl) {
                 activeIndex = index;
@@ -169,7 +169,7 @@ export class CheckoutStepService {
 
   private getStepUrlFromStepRoute(stepRoute: string): string | null {
     return (
-      this.routingConfigService.getRouteConfig(stepRoute).paths?.[0] ?? null
+      this.routingConfigService.getRouteConfig(stepRoute)?.paths?.[0] ?? null
     );
   }
 

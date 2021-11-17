@@ -4,7 +4,6 @@ import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   FeaturesConfig,
-  FeaturesConfigModule,
   I18nTestingModule,
   Order,
   OrderEntry,
@@ -41,7 +40,7 @@ describe('CheckoutOrderConfirmationItemsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
+        imports: [I18nTestingModule, PromotionsModule],
         declarations: [
           CheckoutOrderConfirmationItemsComponent,
           MockReviewSubmitComponent,

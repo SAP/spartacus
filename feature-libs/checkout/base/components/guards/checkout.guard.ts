@@ -26,7 +26,7 @@ export class CheckoutGuard implements CanActivate {
       this.router.parseUrl(
         this.routingConfigService.getRouteConfig(
           this.checkoutStepService.getFirstCheckoutStepRoute()
-        ).paths?.[0] as string
+        )?.paths?.[0] as string
       )
     );
   }
@@ -46,7 +46,7 @@ export class CheckoutGuard implements CanActivate {
             ? of(
                 this.router.parseUrl(
                   this.routingConfigService.getRouteConfig(reviewOrderRoute)
-                    .paths?.[0] as string
+                    ?.paths?.[0] as string
                 )
               )
             : this.firstStep$;
