@@ -1,11 +1,14 @@
-import { configureDefaultProduct, verifyTabbingOrder } from '../../helpers/vendor/epd-visualization/visual-picking-tab';
+import {
+  configureDefaultProduct,
+  verifyTabbingOrder,
+} from '../../helpers/vendor/epd-visualization/visual-picking-tab';
 
-context('Spare Parts Tab', () => {
-    describe('Electronics', () => {
-      before(configureDefaultProduct);
+context("Tabbing order - tests don't require user to be logged in", () => {
+  describe('Spare Parts Tab', () => {
+    before(configureDefaultProduct);
 
-      it('should contain spare parts tab', () => {
-        verifyTabbingOrder();
-      });
+    it('should allow to navigate with tab key', () => {
+      verifyTabbingOrder();
     });
   });
+});
