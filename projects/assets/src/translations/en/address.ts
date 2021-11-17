@@ -32,8 +32,6 @@ export const address = {
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
     setAsDefault: 'Set as default',
-    additionalAddress: 'Additional Shipping Address',
-    defaultAddress: 'Default Shipping Address',
     titleRequired: 'Title is required.',
     userAddressAddSuccess: 'New address was added successfully!',
     userAddressUpdateSuccess: 'Address updated successfully!',
@@ -52,6 +50,8 @@ export const address = {
   addressCard: {
     default: 'DEFAULT',
     selected: 'Selected',
+    additionalAddress: 'Additional Shipping Address',
+    defaultAddress: 'Default Shipping Address',
     setAsDefault: 'Set as default',
     shipTo: 'Ship To',
     billTo: 'Bill To',

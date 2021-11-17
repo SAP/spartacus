@@ -211,11 +211,11 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   getAriaLabel(title: string): Observable<string> {
-    return this.translation.translate('address.defaultAddress').pipe(
+    return this.translation.translate('addressCard.defaultAddress').pipe(
       map((key) => {
         return title === key
-          ? 'paymentCard.defaultAddress'
-          : 'paymentCard.additionalAddress';
+          ? 'addressCard.defaultAddress'
+          : 'addressCard.additionalAddress';
       })
     );
   }
