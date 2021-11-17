@@ -7,7 +7,7 @@ export function cartTypeIndexReducer(
   state: {
     [cartType: string]: string;
   } = cartTypeIndexInitialState,
-  action: CartActions.MultiCartActions
+  action: CartActions.MultiCartActions | CartActions.CartAction
 ): {
   [cartType: string]: string;
 } {
@@ -17,6 +17,16 @@ export function cartTypeIndexReducer(
         ...state,
         [action.payload.cartType]: action.payload.cartId as string,
       };
+    case CartActions.REMOVE_CART:
+    case CartActions.DELETE_CART_SUCCESS: {
+      if (action.payload?.cartId === state[CartType.ACTIVE]) {
+        return {
+          ...state,
+          [CartType.ACTIVE]: '',
+        };
+      }
+      return state;
+    }
   }
   return state;
 }

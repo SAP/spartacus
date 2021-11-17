@@ -89,7 +89,7 @@ describe('ActiveCartService', () => {
   describe('getActive', () => {
     it('should attempt to load cart if it is empty and not loaded', () => {
       userId$.next(OCC_USER_ID_CURRENT);
-      service['cartSelector$'] = of({
+      service['cartEntity$'] = of({
         value: undefined,
         loading: false,
         success: false,
@@ -109,7 +109,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should not emit non empty cart only when loading', () => {
-      service['cartSelector$'] = of({
+      service['cartEntity$'] = of({
         value: {
           code: 'code',
         },
@@ -129,7 +129,7 @@ describe('ActiveCartService', () => {
     });
 
     it('should emit empty cart even when it is not stable', () => {
-      service['cartSelector$'] = of({
+      service['cartEntity$'] = of({
         value: undefined,
         loading: true,
         success: false,
@@ -639,7 +639,7 @@ describe('ActiveCartService', () => {
       spyOn<any>(service, 'load').and.callThrough();
       spyOn(multiCartService, 'createCart').and.callThrough();
 
-      service['cartSelector$'] = of(cartState);
+      service['cartEntity$'] = of(cartState);
 
       service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
@@ -665,7 +665,7 @@ describe('ActiveCartService', () => {
       });
       spyOn(multiCartService, 'createCart').and.callThrough();
 
-      service['cartSelector$'] = cart$.asObservable();
+      service['cartEntity$'] = cart$.asObservable();
       userId$.next(OCC_USER_ID_CURRENT);
 
       service['requireLoadedCart']().subscribe((cart) => {
@@ -704,7 +704,7 @@ describe('ActiveCartService', () => {
         return of();
       });
 
-      service['cartSelector$'] = cart$.asObservable();
+      service['cartEntity$'] = cart$.asObservable();
 
       service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);
@@ -741,7 +741,7 @@ describe('ActiveCartService', () => {
       });
 
       userId$.next(OCC_USER_ID_ANONYMOUS);
-      service['cartSelector$'] = cart$.asObservable();
+      service['cartEntity$'] = cart$.asObservable();
 
       service['requireLoadedCart']().subscribe((cart) => {
         expect(cart).toEqual(cartState);

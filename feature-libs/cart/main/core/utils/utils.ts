@@ -1,5 +1,9 @@
 import { Cart } from '@spartacus/cart/main/root';
-import { ErrorModel, OCC_USER_ID_ANONYMOUS } from '@spartacus/core';
+import {
+  EMAIL_PATTERN,
+  ErrorModel,
+  OCC_USER_ID_ANONYMOUS,
+} from '@spartacus/core';
 
 /**
  * Extract cart identifier for current user. Anonymous calls use `guid` and for logged users `code` is used.
@@ -62,4 +66,27 @@ export function isTempCartId(cartId: string): boolean {
  */
 export function isEmpty(cart?: Cart): boolean {
   return !cart || (typeof cart === 'object' && Object.keys(cart).length === 0);
+}
+
+/**
+ * Indicates if given string is matching email pattern
+ */
+export function isEmail(str?: string): boolean {
+  if (str) {
+    return str.match(EMAIL_PATTERN) ? true : false;
+  }
+  return false;
+}
+
+/**
+ * Indicates if a given user is logged in on account different than preceding user account
+ */
+export function isJustLoggedIn(
+  userId: string,
+  previousUserId: string
+): boolean {
+  return (
+    userId !== OCC_USER_ID_ANONYMOUS && // not logged out
+    previousUserId !== userId // *just* logged in / switched to ASM emulation
+  );
 }
