@@ -11,16 +11,18 @@ export const orgUser = {
   unit: 'Unit',
   roles: 'Roles',
   title: 'Title',
-  hint:
-    'Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Each user belongs to a unit, and they have access to all child units of their primary unit.',
+  hint: 'Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Each user belongs to a unit, and they have access to all child units of their primary unit.',
 
   unitApprover: `Unit approver`,
   assignApprover: 'Add the user to approvers for the unit',
 
   actions: '',
 
-  byName: 'Sort by name',
-  byUnit: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnit: 'Unit',
+  },
 
   details: {
     title: 'User Details',

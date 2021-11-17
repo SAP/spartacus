@@ -9,7 +9,6 @@ import {
   ReturnRequestList,
   ReturnRequestModification,
 } from '../../model/order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessLoadingFactory,
@@ -19,6 +18,11 @@ import { UserActions } from '../store/actions/index';
 import { UsersSelectors } from '../store/selectors/index';
 import { CANCEL_RETURN_PROCESS_ID, StateWithUser } from '../store/user-state';
 
+/**
+ * @deprecated since 4.2 - use OrderReturnRequestFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in OrderReturnService's constructor,
+ * need to update it in 5.0 migration doc.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -36,7 +40,7 @@ export class OrderReturnRequestService {
   createOrderReturnRequest(
     returnRequestInput: ReturnRequestEntryInputList
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CreateOrderReturnRequest({
           userId,
@@ -77,7 +81,7 @@ export class OrderReturnRequestService {
    * @param returnRequestCode
    */
   loadOrderReturnRequestDetail(returnRequestCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.LoadOrderReturnRequest({
           userId,
@@ -98,8 +102,8 @@ export class OrderReturnRequestService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         this.store.dispatch(
           new UserActions.LoadOrderReturnRequestList({
             userId,
@@ -108,8 +112,11 @@ export class OrderReturnRequestService {
             sort,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
@@ -147,7 +154,7 @@ export class OrderReturnRequestService {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
+    this.userIdService.takeUserId().subscribe((userId) => {
       this.store.dispatch(
         new UserActions.CancelOrderReturnRequest({
           userId,

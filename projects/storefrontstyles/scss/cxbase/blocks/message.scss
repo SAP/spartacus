@@ -1,0 +1,124 @@
+@import '../../theme';
+@import '../../mixins';
+
+.cx-message {
+  color: var(--cx-color-text);
+  margin-bottom: 30px;
+  position: relative;
+
+  &-content {
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    max-width: var(--cx-page-width-max);
+  }
+
+  &-header {
+    @include type('6', 'semi');
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    font-weight: var(--cx-font-weight-semi);
+    justify-content: flex-start;
+    line-height: var(--cx-line-height, 1.5);
+    min-height: 45px;
+    padding-bottom: 0;
+    padding-inline-end: 4rem;
+    padding-inline-start: 20px;
+    padding-top: 0;
+    position: relative;
+    text-align: var(--cx-text-align, center);
+  }
+
+  &-text {
+    align-items: center;
+    display: flex;
+
+    button {
+      margin-inline-start: 10px;
+    }
+
+    .cx-message-accordion-button {
+      .cx-message-accordion-icon {
+        font-size: 17px;
+        margin-inline-start: 5px;
+      }
+    }
+  }
+
+  &-body {
+    font-size: var(--cx-font-size, 0.8125rem);
+    font-weight: var(--cx-font-weight-normal);
+    padding: 0 12px;
+  }
+
+  &-icon {
+    display: flex;
+    font-size: var(--cx-font-size, 1.25rem);
+    height: var(--cx-height, 25px);
+    margin-inline-end: var(--cx-margin-right, spacer(2));
+    position: var(--cx-position, relative);
+    vertical-align: var(--cx-vertical-align, middle);
+
+    &::before {
+      display: var(--cx-display, inline-block);
+      font-size: var(--cx-font-size, 1.25rem);
+      font-weight: $font-weight-bold;
+      height: var(--cx-height, 26px);
+      position: var(--cx-position, relative);
+      text-align: var(--cx-text-align, center);
+      width: var(--cx-width, 26px);
+    }
+  }
+
+  &-success {
+    background-color: mix(#ffffff, theme-color('success'), 80%);
+    border: 1px solid var(--cx-color-success);
+
+    .cx-message-icon {
+      cx-icon {
+        color: var(--cx-color-success);
+      }
+    }
+  }
+
+  &-danger {
+    background-color: mix(#ffffff, theme-color('danger'), 85%);
+    border: 1px solid var(--cx-color-danger);
+
+    .cx-message-icon {
+      cx-icon {
+        color: var(--cx-color-danger);
+      }
+    }
+  }
+
+  &-info {
+    background-color: mix(#ffffff, theme-color('info'), 80%);
+    border: 1px solid var(--cx-color-info);
+
+    .cx-message-icon {
+      cx-icon {
+        color: var(--cx-color-info);
+      }
+    }
+  }
+
+  &-warning {
+    background-color: mix(#ffffff, theme-color('warning'), 78%);
+    border: 1px solid var(--cx-color-warning);
+
+    .cx-message-icon {
+      cx-icon {
+        color: var(--cx-color-warning);
+      }
+    }
+  }
+
+  .close {
+    font-weight: var(--cx-font-weight-normal);
+    position: var(--cx-position, absolute);
+    right: 20px;
+    top: 11px;
+  }
+}

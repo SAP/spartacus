@@ -21,16 +21,18 @@ SPARTACUS_PROJECTS=(
         "feature-libs/asm"
         "feature-libs/organization"
         "feature-libs/storefinder"
+        "feature-libs/checkout"
         "feature-libs/smartedit"
         "feature-libs/product"
         "feature-libs/product-configurator"
         "feature-libs/qualtrics"
         "feature-libs/cart"
+        "feature-libs/order"
         "feature-libs/user"
         "feature-libs/tracking"
         )
 
-SPARTACUS_REPO_URL="git://github.com/SAP/spartacus.git"
+SPARTACUS_REPO_URL="https://github.com/SAP/spartacus.git"
 BRANCH='develop'
 
 # custom location for the installation output
@@ -41,7 +43,7 @@ CLONE_DIR="clone"
 INSTALLATION_DIR="apps"
 E2E_TEST_DIR=${CLONE_DIR}/projects/storefrontapp-e2e-cypress
 
-ANGULAR_CLI_VERSION='~10.1.0'
+ANGULAR_CLI_VERSION='~12.0.5'
 SPARTACUS_VERSION='latest'
 
 CSR_PORT="4200"

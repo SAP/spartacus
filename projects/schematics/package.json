@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/schematics",
-  "version": "3.2.0-next.2",
+  "version": "4.1.0-next.0",
   "description": "Spartacus schematics",
   "keywords": [
     "spartacus",
@@ -16,18 +16,20 @@
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^0.1001.0",
-    "@nguniversal/express-engine": "^10.1.0",
+    "@angular/pwa": "^12.0.5",
+    "@nguniversal/express-engine": "^12.0.2",
+    "semver": "^6.3.0",
     "ts-morph": "^9.1.0",
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular-devkit/core": "^10.1.0",
-    "@angular-devkit/schematics": "^10.1.0",
-    "@angular/compiler": "^10.1.0",
-    "@schematics/angular": "^10.1.0",
+    "@angular-devkit/core": "^12.0.5",
+    "@angular-devkit/schematics": "^12.0.5",
+    "@angular/compiler": "^12.0.5",
+    "@schematics/angular": "^12.0.5",
+    "jsonc-parser": "^3.0.0",
     "parse5": "^6.0.1",
-    "typescript": "~4.0.2"
+    "typescript": "^4.2.4"
   },
   "ng-add": {
     "save": "devDependencies"
@@ -45,12 +47,15 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/checkout",
       "@spartacus/asm",
       "@spartacus/smartedit",
       "@spartacus/qualtrics",
       "@spartacus/cdc",
       "@spartacus/tracking",
       "@spartacus/cart",
+      "@spartacus/order",
+      "@spartacus/digital-payments",
       "@spartacus/setup"
     ]
   },

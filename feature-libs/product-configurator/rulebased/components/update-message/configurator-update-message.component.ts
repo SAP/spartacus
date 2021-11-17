@@ -3,7 +3,7 @@ import { ConfiguratorRouterExtractorService } from '@spartacus/product-configura
 import { Observable, of } from 'rxjs';
 import { delay, distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { MessageConfig } from '../config/message-config';
+import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 
 @Component({
   selector: 'cx-configurator-update-message',
@@ -31,7 +31,7 @@ export class ConfiguratorUpdateMessageComponent {
           isLoading
             ? of(isLoading).pipe(
                 delay(
-                  this.config?.productConfigurator?.updateConfigurationMessage
+                  this.config.productConfigurator?.updateConfigurationMessage
                     ?.waitingTime || 1000
                 )
               ) // delay information if its loading
@@ -42,6 +42,6 @@ export class ConfiguratorUpdateMessageComponent {
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected config: MessageConfig
+    protected config: ConfiguratorMessageConfig
   ) {}
 }

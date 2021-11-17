@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-
-import { LoadingScopesService } from './loading-scopes.service';
 import { OccConfig } from '@spartacus/core';
+import { CxEvent } from '../../event/cx-event';
+import { LoadingScopesService } from './loading-scopes.service';
+
+class MockEvent1 extends CxEvent {}
+class MockEvent2 extends CxEvent {}
 
 describe('LoadingScopesService', () => {
   let service: LoadingScopesService;
@@ -15,6 +18,7 @@ describe('LoadingScopesService', () => {
           },
           detail: {
             include: ['list'],
+            reloadOn: [MockEvent1, MockEvent2],
           },
           order: {
             include: ['base', 'list'],
@@ -108,6 +112,18 @@ describe('LoadingScopesService', () => {
     it('should return 0 for not configured maxAge', () => {
       const result = service.getMaxAge('product', 'detail');
       expect(result).toEqual(0);
+    });
+  });
+
+  describe('getReloadTriggers', () => {
+    it('should return an empty array when no triggers are configured', () => {
+      const result = service.getReloadTriggers('product', 'zczapy');
+      expect(result.length).toEqual(0);
+    });
+    it('should return the configured triggers', () => {
+      const result = service.getReloadTriggers('product', 'detail');
+      expect(result.length).toEqual(2);
+      expect(result).toEqual([MockEvent1, MockEvent2]);
     });
   });
 });

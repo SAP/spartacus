@@ -114,17 +114,16 @@ export function readPackageJson(tree: Tree): any {
   return JSON.parse(buffer.toString(UTF_8));
 }
 
+export function cleanSemverVersion(versionString: string): string {
+  if (isNaN(Number(versionString.charAt(0)))) {
+    return versionString.substr(1, versionString.length - 1);
+  }
+  return versionString;
+}
+
 export function getMajorVersionNumber(versionString: string): number {
-  if (!versionString) {
-    throw new Error('versionString is undefined.');
-  }
-
-  let majorVersion = versionString.charAt(0);
-  if (isNaN(Number(majorVersion))) {
-    majorVersion = versionString.charAt(1);
-  }
-
-  return Number(majorVersion);
+  const cleanVersion = cleanSemverVersion(versionString);
+  return Number(cleanVersion.charAt(0));
 }
 
 export function getSpartacusSchematicsVersion(): string {
@@ -147,9 +146,8 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   }
   const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
-  const isServerConfiguration = !!angularJson.projects[projectName].architect[
-    'server'
-  ];
+  const isServerConfiguration =
+    !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
   if (!serverFileLocation) {

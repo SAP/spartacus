@@ -33,13 +33,17 @@ export const configurator = {
       id: 'ID',
       quantity: 'Qty',
       caption: 'Attributes',
-      notSupported: 'Attibute Type is not supported.',
+      notSupported: 'Attribute Type is not supported.',
       requiredAttribute: '{{param}} required',
       defaultRequiredMessage: 'Enter a value for the required field',
       singleSelectRequiredMessage: 'Select a value',
       multiSelectRequiredMessage: 'Select one or more values',
       wrongNumericFormat:
         'Wrong format, this numerical attribute should be entered according to pattern {{pattern}}',
+      deselectionNotPossible:
+        'Add a different product before removing this one',
+      dropDownSelectMsg: 'Make a selection',
+      noOptionSelectedMsg: 'No option selected',
     },
     button: {
       previous: 'Previous',
@@ -51,6 +55,8 @@ export const configurator = {
       select: 'Select',
       add: 'Add',
       remove: 'Remove',
+      exit: 'Exit Configuration',
+      exitMobile: 'Exit',
     },
     priceSummary: {
       basePrice: 'Base Price',
@@ -79,6 +85,15 @@ export const configurator = {
       suggestionText: 'Change value for "{{ attribute }}"',
       viewConflictDetails: 'Conflict Detected',
       viewConfigurationDetails: '',
+    },
+    a11y: {
+      nameOfAttribute: 'Name of Attribute',
+      valueOfAttribute: 'Value of attribute {{ attribute }}',
+      valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      value: 'Value {{ value }}',
+      attribute: 'Attribute {{ attribute }}',
+      listOfAttributesAndValues: 'List of attributes and their values:',
+      editAttributesAndValues: 'Edit values of attributes:',
     },
   },
 };

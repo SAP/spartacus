@@ -3,6 +3,7 @@ import {
   ConfiguratorType,
 } from '../../core/model/common-configurator.model';
 
+const initialIndicator = 'INITIAL';
 export class ConfiguratorModelUtils {
   /**
    * Compiles a unique key for a configuration owner from id and type
@@ -10,23 +11,11 @@ export class ConfiguratorModelUtils {
    * @returns Owner key
    */
   static getOwnerKey(
-    ownerType: CommonConfigurator.OwnerType | undefined,
-    ownerId: string | undefined
+    ownerType?: CommonConfigurator.OwnerType,
+    ownerId?: string
   ): string {
-    if (ownerType === CommonConfigurator.OwnerType.PRODUCT) {
-      if (!ownerId) {
-        throw new Error('We expect a product code!');
-      }
-    } else if (ownerType === CommonConfigurator.OwnerType.CART_ENTRY) {
-      if (!ownerId) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else if (ownerType === CommonConfigurator.OwnerType.ORDER_ENTRY) {
-      if (!ownerId) {
-        throw new Error('We expect a document entry Id!');
-      }
-    } else {
-      throw new Error('We expect an owner type!');
+    if (!ownerId || !ownerType) {
+      throw new Error('We expect an owner ID and an owner type');
     }
     return ownerType + '/' + ownerId;
   }
@@ -36,7 +25,20 @@ export class ConfiguratorModelUtils {
    * @returns Initial owner
    */
   static createInitialOwner(): CommonConfigurator.Owner {
-    return { key: 'INITIAL', configuratorType: 'INITIAL', id: 'INITIAL' };
+    return {
+      key: initialIndicator,
+      configuratorType: initialIndicator,
+      id: initialIndicator,
+      type: CommonConfigurator.OwnerType.PRODUCT,
+    };
+  }
+  /**
+   * Checks if an owner is an initial one
+   * @param owner Owner
+   * @returns Is owner initial?
+   */
+  static isInitialOwner(owner: CommonConfigurator.Owner): boolean {
+    return owner.configuratorType === initialIndicator;
   }
 
   /**

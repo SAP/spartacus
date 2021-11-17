@@ -98,12 +98,6 @@ describe('CommonConfiguratorUtilsService', () => {
     );
   });
 
-  it('should throw an error if no owner type is present', () => {
-    expect(function () {
-      classUnderTest.setOwnerKey(owner);
-    }).toThrow();
-  });
-
   it('should compose an owner ID from 2 attributes', () => {
     expect(classUnderTest.getComposedOwnerId(documentId, entryNumber)).toBe(
       documentId + '+' + entryNumber

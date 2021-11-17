@@ -76,7 +76,7 @@ export function getBrowserTransferStateReducer(
         }
 
         if (!isLoggedIn && transferState.hasKey(CX_KEY)) {
-          const cxKey = transferState.get(CX_KEY, {});
+          const cxKey = transferState.get<Object>(CX_KEY, {});
           const transferredStateSlice = getStateSlice(
             transferStateKeys,
             [],

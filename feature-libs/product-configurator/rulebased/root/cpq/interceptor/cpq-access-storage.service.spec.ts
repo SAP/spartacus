@@ -39,6 +39,7 @@ const expiredAccessData: CpqAccessData = {
 const accessDataSoonExpiring: CpqAccessData = {
   accessToken: 'validTokenSoonExpiring',
   endpoint: 'https://cpq',
+  accessTokenExpirationTime: 0,
 };
 let accessDataObs: Observable<CpqAccessData>;
 let authDataObs: Observable<Boolean>;
@@ -55,9 +56,7 @@ class AuthServiceMock {
   isUserLoggedIn = createSpy().and.callFake(() => authDataObs);
 }
 
-const TIME_UNTIL_TOKEN_EXPIRES =
-  defaultCpqConfiguratorAuthConfig.productConfigurator.cpq.authentication
-    .tokenExpirationBuffer * 6; // one minute
+const TIME_UNTIL_TOKEN_EXPIRES = 60000; // one minute
 
 describe('CpqAccessStorageService', () => {
   let serviceUnderTest: CpqAccessStorageService;
@@ -141,19 +140,19 @@ describe('CpqAccessStorageService', () => {
       counter++;
     });
 
-    expect(counter).toBe(3, '3 consumes should have been called each once');
+    expect(counter).toBe(3);
   });
 
-  it('should transparently fetch new token, when access data has expired', fakeAsync(() => {
+  it('should not return access data if token is expired', fakeAsync(() => {
     accessDataObs = accessDataSubject = new BehaviorSubject<CpqAccessData>(
       expiredAccessData
     );
-    serviceUnderTest.getCpqAccessData().subscribe((returnedData) => {
-      expect(returnedData).toBeDefined();
-      expect(returnedData).toBe(accessData); //make sure that second/valid token data is returned
+    let hasCpqAccessDataEmitted = false;
+    serviceUnderTest.getCpqAccessData().subscribe(() => {
+      hasCpqAccessDataEmitted = true;
     });
-    accessDataSubject.next(accessData);
     discardPeriodicTasks();
+    expect(hasCpqAccessDataEmitted).toBe(false);
   }));
 
   it('should do only one additional call when expired token is emitted followed by valid one', fakeAsync(() => {
@@ -324,6 +323,24 @@ describe('CpqAccessStorageService', () => {
       }
     );
     accessDataSubject.error('fail');
+  });
+
+  describe('fetchNextTokenIn', () => {
+    it('should throw error in case auth configuration is incomplete', () => {
+      serviceUnderTest['config'].productConfigurator.cpq = undefined;
+      expect(() =>
+        serviceUnderTest['fetchNextTokenIn'](accessData)
+      ).toThrowError();
+    });
+  });
+
+  describe('isTokenExpired', () => {
+    it('should throw error in case auth configuration is incomplete', () => {
+      serviceUnderTest['config'].productConfigurator.cpq = undefined;
+      expect(() =>
+        serviceUnderTest['isTokenExpired'](accessData)
+      ).toThrowError();
+    });
   });
 
   function takeOneCpqAccessData(): Observable<CpqAccessData> {

@@ -93,14 +93,13 @@ export class ConfiguratorCartEffects {
         return this.configuratorCommonsConnector
           .updateConfigurationForCartEntry(payload)
           .pipe(
-            switchMap((entry: CartModification) => {
+            switchMap((cartModification: CartModification) => {
               return [
                 new CartActions.CartUpdateEntrySuccess({
-                  ...entry,
                   userId: payload.userId,
                   cartId: payload.cartId,
                   entryNumber: payload.cartEntryNumber,
-                  quantity: entry?.quantity,
+                  quantity: cartModification.quantity,
                 }),
               ];
             }),
@@ -170,6 +169,30 @@ export class ConfiguratorCartEffects {
         );
     })
   );
+
+  @Effect()
+  removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
+      switchMap(() => {
+        return this.store.pipe(
+          select(ConfiguratorSelectors.getConfigurationsState),
+          take(1),
+          map((configuratorState) => {
+            const entities = configuratorState.configurations.entities;
+            const ownerKeysToRemove: string[] = [];
+            for (const ownerKey in entities) {
+              if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
+                ownerKeysToRemove.push(ownerKey);
+              }
+            }
+            return new ConfiguratorActions.RemoveConfiguration({
+              ownerKey: ownerKeysToRemove,
+            });
+          })
+        );
+      })
+    );
 
   @Effect()
   addOwner$: Observable<

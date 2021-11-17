@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
+import { Config } from '../../config/config-tokens';
 import { ContentSlotComponentData } from '../model/content-slot-component-data.model';
 import { CmsConfig } from './cms-config';
-import { Config } from '../../config/config-tokens';
 
 /**
  * The `CmsPageConfig` is used to build pages by configuration.
@@ -71,9 +71,13 @@ export interface CmsPageSlotConfig {
   useExisting: Config,
 })
 export abstract class CmsStructureConfig extends CmsConfig {
-  cmsStructure: {
+  cmsStructure?: {
     components?: { [key: string]: ContentSlotComponentData | any };
     pages?: CmsPageConfig[];
     slots?: CmsPageSlotsConfig;
   };
+}
+
+declare module '../../config/config-tokens' {
+  interface Config extends CmsStructureConfig {}
 }

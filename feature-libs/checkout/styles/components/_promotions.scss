@@ -1,0 +1,21 @@
+cx-promotions {
+  .cx-promotions {
+    @include type('7');
+    color: var(--cx-color-success);
+    padding: 0.5rem 0;
+  }
+
+  .cx-promotions ul {
+    padding: 0;
+  }
+
+  .cx-promotions li {
+    list-style-type: none;
+  }
+
+  .cx-promotions ul > li {
+    list-style-type: none;
+    line-height: 1.6;
+    font-weight: 700;
+  }
+}

@@ -9,9 +9,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
@@ -52,7 +52,7 @@ function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
   index: number
 ): boolean | undefined {
-  const values = component?.attribute?.values;
+  const values = component.attribute.values;
   return values ? values[index].selected : false;
 }
 

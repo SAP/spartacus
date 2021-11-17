@@ -1,0 +1,28 @@
+<form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
+  <div class="quantity" *ngIf="showQuantity">
+    <label>{{ 'addToCart.quantity' | cxTranslate }}</label>
+    <cx-item-counter
+      *ngIf="hasStock"
+      [max]="maxQuantity"
+      [control]="addToCartForm.get('quantity')"
+    ></cx-item-counter>
+
+    <span class="info">
+      <span *ngIf="showInventory$ | async">{{ getInventory() }}</span>
+      {{
+        hasStock
+          ? ('addToCart.inStock' | cxTranslate)
+          : ('addToCart.outOfStock' | cxTranslate)
+      }}</span
+    >
+  </div>
+
+  <button
+    *ngIf="hasStock"
+    class="btn btn-primary btn-block"
+    type="submit"
+    [disabled]="quantity <= 0 || quantity > maxQuantity"
+  >
+    {{ 'addToCart.addToCart' | cxTranslate }}
+  </button>
+</form>

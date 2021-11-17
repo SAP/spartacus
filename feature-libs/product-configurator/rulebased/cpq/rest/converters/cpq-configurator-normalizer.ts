@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Converter, TranslationService } from '@spartacus/core';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { take } from 'rxjs/operators';
 import { Cpq } from '../cpq.models';
@@ -7,7 +8,8 @@ import { CpqConfiguratorNormalizerUtilsService } from './cpq-configurator-normal
 
 @Injectable()
 export class CpqConfiguratorNormalizer
-  implements Converter<Cpq.Configuration, Configurator.Configuration> {
+  implements Converter<Cpq.Configuration, Configurator.Configuration>
+{
   constructor(
     protected cpqConfiguratorNormalizerUtilsService: CpqConfiguratorNormalizerUtilsService,
     protected translation: TranslationService
@@ -19,6 +21,7 @@ export class CpqConfiguratorNormalizer
   ): Configurator.Configuration {
     const resultTarget: Configurator.Configuration = {
       ...target,
+      configId: '', //will later be populated with final value
       complete: !source.incompleteAttributes?.length,
       consistent:
         !source.invalidMessages?.length &&
@@ -27,18 +30,19 @@ export class CpqConfiguratorNormalizer
         !source.errorMessages?.length,
       totalNumberOfIssues: this.generateTotalNumberOfIssues(source),
       productCode: source.productSystemId,
-      priceSummary: this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(
-        source
-      ),
+      priceSummary:
+        this.cpqConfiguratorNormalizerUtilsService.convertPriceSummary(source),
       groups: [],
       flatGroups: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+      interactionState: {},
       errorMessages: this.generateErrorMessages(source),
       warningMessages: this.generateWarningMessages(source),
     };
-    source.tabs.forEach((tab) =>
+    source.tabs?.forEach((tab) =>
       this.convertGroup(
         tab,
-        source.attributes,
+        source.attributes ?? [],
         source.currencyISOCode,
         resultTarget.groups,
         resultTarget.flatGroups
@@ -47,8 +51,8 @@ export class CpqConfiguratorNormalizer
 
     if (!resultTarget.groups || resultTarget.groups.length === 0) {
       this.convertGenericGroup(
-        source.attributes,
-        source.incompleteAttributes,
+        source.attributes ?? [],
+        source.incompleteAttributes ?? [],
         source.currencyISOCode,
         resultTarget.groups,
         resultTarget.flatGroups
@@ -153,21 +157,22 @@ export class CpqConfiguratorNormalizer
       attrCode: sourceAttribute.stdAttrCode,
       name: sourceAttribute.pA_ID.toString(),
       description: sourceAttribute.description,
-      label: this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
-        sourceAttribute
-      ),
+      label:
+        this.cpqConfiguratorNormalizerUtilsService.convertAttributeLabel(
+          sourceAttribute
+        ),
       required: sourceAttribute.required,
       isLineItem: sourceAttribute.isLineItem,
       uiType: this.convertAttributeType(sourceAttribute),
-      dataType: this.cpqConfiguratorNormalizerUtilsService.convertDataType(
-        sourceAttribute
-      ),
+      dataType:
+        this.cpqConfiguratorNormalizerUtilsService.convertDataType(
+          sourceAttribute
+        ),
       quantity: Number(sourceAttribute.quantity),
       groupId: groupId.toString(),
       userInput: sourceAttribute.userInput,
       hasConflicts: sourceAttribute.hasConflict,
-      selectedSingleValue: null,
-      values: [],
+      selectedSingleValue: undefined,
       images: [],
     };
 
@@ -175,26 +180,44 @@ export class CpqConfiguratorNormalizer
       sourceAttribute.values &&
       sourceAttribute.displayAs !== Cpq.DisplayAs.INPUT
     ) {
+      const values: Configurator.Value[] = [];
       sourceAttribute.values.forEach((value) =>
-        this.convertValue(value, sourceAttribute, currency, attribute.values)
+        this.convertValue(value, sourceAttribute, currency, values)
       );
+      attribute.values = values;
       this.setSelectedSingleValue(attribute);
     }
-    attribute.attributePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
-      attribute,
-      currency
-    );
+    attribute.attributePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateAttributePriceTotal(
+        attribute,
+        currency
+      );
     this.compileAttributeIncomplete(attribute);
     attributeList.push(attribute);
   }
 
   protected setSelectedSingleValue(attribute: Configurator.Attribute) {
     const selectedValues = attribute.values
-      .map((entry) => entry)
+      ?.map((entry) => entry)
       .filter((entry) => entry.selected);
     if (selectedValues && selectedValues.length === 1) {
       attribute.selectedSingleValue = selectedValues[0].valueCode;
     }
+  }
+
+  protected convertValueDisplay(
+    sourceValue: Cpq.Value,
+    sourceAttribute: Cpq.Attribute,
+    value: Configurator.Value
+  ): void {
+    sourceAttribute?.displayAs === Cpq.DisplayAs.DROPDOWN &&
+    sourceValue?.selected &&
+    sourceValue.paV_ID === 0
+      ? this.translation
+          .translate('configurator.attribute.dropDownSelectMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text))
+      : value.valueDisplay;
   }
 
   protected convertValue(
@@ -223,10 +246,13 @@ export class CpqConfiguratorNormalizer
       ),
       images: [],
     };
-    value.valuePriceTotal = this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
-      value.quantity,
-      value.valuePrice
-    );
+
+    this.convertValueDisplay(sourceValue, sourceAttribute, value);
+    value.valuePriceTotal =
+      this.cpqConfiguratorNormalizerUtilsService.calculateValuePriceTotal(
+        value.quantity ?? 1,
+        value.valuePrice
+      );
 
     values.push(value);
   }
@@ -287,7 +313,7 @@ export class CpqConfiguratorNormalizer
   protected convertAttributeType(
     sourceAttribute: Cpq.Attribute
   ): Configurator.UiType {
-    const displayAs: Cpq.DisplayAs = sourceAttribute.displayAs;
+    const displayAs = sourceAttribute.displayAs;
 
     const displayAsProduct: boolean =
       sourceAttribute?.values &&
@@ -296,7 +322,7 @@ export class CpqConfiguratorNormalizer
       )
         ? true
         : false;
-    const isEnabled: boolean = sourceAttribute.isEnabled;
+    const isEnabled: boolean = sourceAttribute.isEnabled ?? false;
 
     if (
       !isEnabled &&
@@ -387,7 +413,7 @@ export class CpqConfiguratorNormalizer
       case Configurator.UiType.CHECKBOX:
       case Configurator.UiType.MULTI_SELECTION_IMAGE: {
         const isOneValueSelected =
-          attribute.values.find((value) => value.selected) !== undefined
+          attribute.values?.find((value) => value.selected) !== undefined
             ? true
             : false;
 
@@ -403,15 +429,16 @@ export class CpqConfiguratorNormalizer
     attribute: Cpq.Attribute,
     value: Cpq.Value
   ): boolean {
-    const selectedValues: Cpq.Value[] = attribute.values
-      .map((entry) => entry)
+    const selectedValues = attribute.values
+      ?.map((entry) => entry)
       .filter((entry) => entry.selected && entry.paV_ID !== 0);
     return (
-      attribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
-      attribute.required &&
-      selectedValues &&
-      selectedValues.length > 0 &&
-      value.paV_ID === 0
+      (attribute.displayAs === Cpq.DisplayAs.DROPDOWN &&
+        attribute.required &&
+        selectedValues &&
+        selectedValues.length > 0 &&
+        value.paV_ID === 0) ??
+      false
     );
   }
 }

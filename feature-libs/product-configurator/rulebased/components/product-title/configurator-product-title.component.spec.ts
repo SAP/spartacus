@@ -13,7 +13,6 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorType,
@@ -21,9 +20,10 @@ import {
 import { IconLoaderService } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -62,6 +62,7 @@ const orderEntryconfig: Configurator.Configuration = {
     )
   ),
   overview: {
+    configId: CONFIG_ID,
     productCode: PRODUCT_CODE,
   },
 };

@@ -1,0 +1,110 @@
+<div class="cx-order-summary">
+  <div class="container">
+    <ng-container *ngIf="order.replenishmentOrderCode; else otherOrder">
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getReplenishmentCodeCardContent(order?.replenishmentOrderCode)
+              | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="getReplenishmentActiveCardContent(order?.active) | async"
+        ></cx-card>
+      </div>
+
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="
+            getReplenishmentStartOnCardContent(order?.firstDate | cxDate)
+              | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getReplenishmentFrequencyCardContent(
+              order?.trigger?.displayTimeTable
+            ) | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getReplenishmentNextDateCardContent(
+              order?.trigger?.activationTime | cxDate
+            ) | async
+          "
+        ></cx-card>
+      </div>
+    </ng-container>
+
+    <ng-template #otherOrder>
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getOrderCodeCardContent(order?.code) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getOrderCurrentDateCardContent(order?.created | cxDate) | async
+          "
+        ></cx-card>
+
+        <cx-card
+          [content]="getOrderStatusCardContent(order.statusDisplay) | async"
+        ></cx-card>
+      </div>
+    </ng-template>
+
+    <ng-container
+      *ngIf="order.purchaseOrderNumber || order.purchaseOrderNumber === ''"
+    >
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getPurchaseOrderNumber(order?.purchaseOrderNumber) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="getMethodOfPaymentCardContent(order.paymentInfo) | async"
+        ></cx-card>
+
+        <ng-container *ngIf="order.costCenter">
+          <cx-card
+            [content]="getCostCenterCardContent(order?.costCenter) | async"
+          ></cx-card>
+        </ng-container>
+      </div>
+    </ng-container>
+
+    <div class="cx-summary-card">
+      <ng-container *ngIf="order.deliveryAddress">
+        <cx-card
+          [content]="getAddressCardContent(order?.deliveryAddress) | async"
+        ></cx-card>
+      </ng-container>
+
+      <ng-container *ngIf="order.deliveryMode">
+        <cx-card
+          [content]="getDeliveryModeCardContent(order?.deliveryMode) | async"
+        ></cx-card>
+      </ng-container>
+    </div>
+
+    <ng-container *ngIf="order.paymentInfo">
+      <div class="cx-summary-card">
+        <cx-card
+          [content]="getPaymentInfoCardContent(order?.paymentInfo) | async"
+        ></cx-card>
+
+        <cx-card
+          [content]="
+            getBillingAddressCardContent(order?.paymentInfo?.billingAddress)
+              | async
+          "
+        ></cx-card>
+      </div>
+    </ng-container>
+  </div>
+</div>

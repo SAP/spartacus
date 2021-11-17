@@ -8,9 +8,11 @@
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
-  --cx-button-text-transform: uppercase;
+  --cx-text-transform: uppercase;
   --cx-spinner-primary-color: #2480c5;
+  --cx-progress-button-primary-color: #2480c5;
   --cx-text-decoration: underline;
+  --cx-box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
 
   cx-page-layout.CompanyPageTemplate cx-banner cx-media {
     --cx-img-filter: invert(46%) sepia(9%) saturate(3655%) hue-rotate(163deg)
@@ -25,10 +27,20 @@
     color: var(--cx-color-primary);
   }
 
+  .btn {
+    &:focus {
+      box-shadow: var(--cx-box-shadow);
+    }
+  }
+
   cx-site-context-selector {
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
+
+      @include media-breakpoint-down(md) {
+        background-color: var(--cx-color-light);
+      }
     }
     cx-icon {
       color: var(--cx-color-text);
@@ -94,7 +106,7 @@
 
   cx-login {
     .cx-login-greet,
-    cx-navigation-ui.flyout h5 {
+    cx-navigation-ui.flyout span {
       color: var(--cx-color-text);
     }
   }
@@ -210,6 +222,20 @@
     }
   }
 
+  cx-replenishment-order-history {
+    .cx-replenishment-order-history-code .cx-replenishment-order-history-value {
+      color: var(--cx-color-primary);
+      font-weight: var(--cx-font-weight-semi);
+    }
+
+    .cx-replenishment-order-history-cancel {
+      .cx-order-cancel {
+        color: var(--cx-color-primary);
+        font-weight: var(--cx-font-weight-semi);
+      }
+    }
+  }
+
   %cx-pagination {
     a {
       @include type('4');
@@ -228,14 +254,18 @@
   }
 
   cx-org-list {
-    button,
-    .btn,
+    .btn-sm,
     a.button,
     a.link,
-    button.link,
-    .actions .primary {
+    button.button,
+    button.link {
       border-radius: var(--cx-buttons-border-radius);
-      padding: 0 25px;
+    }
+
+    .link-list {
+      a {
+        border-radius: 0;
+      }
     }
   }
 
@@ -265,6 +295,12 @@
       .btn-link {
         color: var(--cx-color-primary);
       }
+    }
+  }
+
+  cx-store-finder-list-item {
+    .cx-button {
+      line-height: var(--cx-line-height, 2.2);
     }
   }
 }

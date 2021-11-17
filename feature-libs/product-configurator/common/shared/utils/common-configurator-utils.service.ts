@@ -49,7 +49,9 @@ export class CommonConfiguratorUtilsService {
   decomposeOwnerId(ownerId: string): any {
     const parts: string[] = ownerId.split('+');
     if (parts.length !== 2) {
-      throw new Error('We only expect 2 parts in ownerId, separated by +');
+      throw new Error(
+        'We only expect 2 parts in ownerId, separated by +, but was: ' + ownerId
+      );
     }
     const result = { documentId: parts[0], entryNumber: parts[1] };
     return result;
@@ -59,9 +61,9 @@ export class CommonConfiguratorUtilsService {
    * @param {Cart} cart - Cart
    * @returns {string} - Cart identifier
    */
-  getCartId(cart: Cart): string {
+  getCartId(cart?: Cart): string {
     const cartId =
-      cart.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+      cart?.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart?.code;
     if (!cartId) {
       throw new Error('Cart ID is not defined');
     }

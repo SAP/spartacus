@@ -1,6 +1,6 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { WindowRef } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { KeyboardFocusService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -14,7 +14,7 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorStorefrontUtilsService {
   constructor(
     protected configuratorGroupsService: ConfiguratorGroupsService,
-    @Inject(PLATFORM_ID) protected platformId: any,
+    protected windowRef: WindowRef,
     protected keyboardFocusService: KeyboardFocusService
   ) {}
 
@@ -53,12 +53,23 @@ export class ConfiguratorStorefrontUtilsService {
     const localAssembledValues: Configurator.Value[] = [];
 
     for (let i = 0; i < controlArray.length; i++) {
-      const localAttributeValue: Configurator.Value = {};
-      localAttributeValue.name = attribute.values[i].name;
-      localAttributeValue.quantity = attribute.values[i].quantity;
-      localAttributeValue.selected = controlArray[i].value;
-      localAttributeValue.valueCode = attribute.values[i].valueCode;
-      localAssembledValues.push(localAttributeValue);
+      const value = attribute.values ? attribute.values[i] : undefined;
+      if (value) {
+        const localAttributeValue: Configurator.Value = {
+          valueCode: value.valueCode,
+        };
+        localAttributeValue.name = value.name;
+        localAttributeValue.quantity = value.quantity;
+        localAttributeValue.selected = controlArray[i].value;
+
+        localAssembledValues.push(localAttributeValue);
+      } else {
+        if (isDevMode()) {
+          console.warn(
+            'ControlArray does not match values, at least one value could not been found'
+          );
+        }
+      }
     }
     return localAssembledValues;
   }
@@ -71,13 +82,15 @@ export class ConfiguratorStorefrontUtilsService {
    */
   protected isInViewport(element: Element): boolean {
     const bounding = element.getBoundingClientRect();
+    const window = this.windowRef.nativeWindow;
+    const document = this.windowRef.document;
     return (
       bounding.top >= 0 &&
       bounding.left >= 0 &&
       bounding.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) &&
+        (window?.innerHeight || document?.documentElement.clientHeight) &&
       bounding.right <=
-        (window.innerWidth || document.documentElement.clientWidth)
+        (window?.innerWidth || document?.documentElement.clientWidth)
     );
   }
 
@@ -91,7 +104,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (element instanceof HTMLElement) {
       topOffset = element.offsetTop;
     }
-    window.scroll(0, topOffset);
+    this.windowRef.nativeWindow?.scroll(0, topOffset);
   }
 
   /**
@@ -100,9 +113,9 @@ export class ConfiguratorStorefrontUtilsService {
    * @param {string} selector - Selector of the HTML element
    */
   scrollToConfigurationElement(selector: string): void {
-    if (isPlatformBrowser(this.platformId)) {
+    if (this.windowRef.isBrowser()) {
       // we don't want to run this logic when doing SSR
-      const element = document.querySelector(selector);
+      const element = this.windowRef.document?.querySelector(selector);
       if (element && !this.isInViewport(element)) {
         this.scroll(element);
       }
@@ -114,19 +127,43 @@ export class ConfiguratorStorefrontUtilsService {
    */
   focusFirstAttribute(): void {
     if (this.keyboardFocusService) {
-      if (isPlatformBrowser(this.platformId)) {
-        const form: HTMLElement | null = document.querySelector(
+      if (this.windowRef.isBrowser()) {
+        const form: HTMLElement | null = this.windowRef.document?.querySelector(
           'cx-configurator-form'
         );
         if (form) {
-          const focusableElements: HTMLElement[] = this.keyboardFocusService.findFocusable(
-            form
-          );
+          const focusableElements: HTMLElement[] =
+            this.keyboardFocusService.findFocusable(form);
           if (focusableElements && focusableElements.length > 0) {
             focusableElements[0].focus();
           }
         }
       }
+    }
+  }
+
+  /**
+   * Generates a group ID.
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  createGroupId(groupId?: string): string | undefined {
+    if (groupId) {
+      return groupId + '-group';
+    }
+  }
+
+  /**
+   * Persist the keyboard focus state for the given key.
+   * The focus is stored globally or for the given group.
+   *
+   * @param {string} key - key
+   * @param {string} group? - Group
+   */
+  setFocus(key?: string, group?: string): void {
+    if (key) {
+      this.keyboardFocusService.set(key, group);
     }
   }
 }

@@ -29,7 +29,6 @@ import {
   reportProgress,
   Repository,
   success,
-  warning,
 } from './index';
 
 // ------------ Utilities ------------
@@ -1138,7 +1137,7 @@ function updateDependenciesVersions(
     }
     if (breakingErrors.length > 0) {
       errorsFound = true;
-      warning(pathToPackageJson, breakingErrors, [
+      error(pathToPackageJson, breakingErrors, [
         `All external dependencies should have the same version as in the root \`${chalk.bold(
           PACKAGE_JSON
         )}\`.`,

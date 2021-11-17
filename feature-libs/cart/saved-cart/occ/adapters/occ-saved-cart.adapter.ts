@@ -60,20 +60,17 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getSaveCartEndpoint(
+  cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
-  ): string {
-    return this.occEndpoints.buildUrl('saveCart', {
-      urlParams: {
-        userId,
-        cartId,
-        saveCartName,
-        saveCartDescription,
-      },
-    });
+    saveCartName: string
+  ): Observable<Cart> {
+    return this.http
+      .post<Occ.Cart>(
+        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
+        cartId
+      )
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
@@ -92,6 +89,32 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   ): string {
     return this.occEndpoints.buildUrl('restoreSavedCart', {
       urlParams: { userId, cartId },
+    });
+  }
+
+  protected getSaveCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string,
+    saveCartDescription: string
+  ): string {
+    return this.occEndpoints.buildUrl('saveCart', {
+      urlParams: {
+        userId,
+        cartId,
+        saveCartName,
+        saveCartDescription,
+      },
+    });
+  }
+
+  protected getCloneSavedCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string
+  ): string {
+    return this.occEndpoints.buildUrl('cloneSavedCart', {
+      urlParams: { userId, cartId, saveCartName },
     });
   }
 }

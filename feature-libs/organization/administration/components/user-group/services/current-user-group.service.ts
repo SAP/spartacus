@@ -4,8 +4,8 @@ import {
   UserGroup,
   UserGroupService,
 } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
-import { ROUTE_PARAMS } from '../../constants';
 import { CurrentItemService } from '../../shared/current-item.service';
 
 @Injectable({

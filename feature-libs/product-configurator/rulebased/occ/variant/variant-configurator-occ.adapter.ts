@@ -19,7 +19,7 @@ import {
   VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
   VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
@@ -27,7 +27,8 @@ import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -97,15 +98,17 @@ export class VariantConfiguratorOccAdapter
       VARIANT_CONFIGURATOR_SERIALIZER
     );
 
-    return this.http.patch(url, occConfiguration).pipe(
-      this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
-      })
-    );
+    return this.http
+      .patch<OccConfigurator.Configuration>(url, occConfiguration)
+      .pipe(
+        this.converterService.pipeable(VARIANT_CONFIGURATOR_NORMALIZER),
+        map((resultConfiguration) => {
+          return {
+            ...resultConfiguration,
+            owner: configuration.owner,
+          };
+        })
+      );
   }
 
   addToCart(
@@ -203,6 +206,7 @@ export class VariantConfiguratorOccAdapter
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
           groups: [],
+          flatGroups: [],
           interactionState: {},
           overview: overview,
           owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -227,31 +231,23 @@ export class VariantConfiguratorOccAdapter
         urlParams: {
           configId: configuration.configId,
         },
+        queryParams: { groupId: configuration.interactionState.currentGroup },
       }
     );
 
     return this.http.get(url).pipe(
-      this.converterService.pipeable(
-        VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
-      ),
-      map((pricingResult) => {
+      this.converterService.pipeable(VARIANT_CONFIGURATOR_PRICE_NORMALIZER),
+      map((configResult) => {
         const result: Configurator.Configuration = {
-          configId: configuration.configId,
-          groups: [],
-          interactionState: {},
-          priceSummary: pricingResult,
-          owner: ConfiguratorModelUtils.createInitialOwner(),
+          ...configuration,
+          priceSummary: configResult.priceSummary,
+          priceSupplements: configResult.priceSupplements,
         };
         return result;
-      }),
-      map((resultConfiguration) => {
-        return {
-          ...resultConfiguration,
-          owner: configuration.owner,
-        };
       })
     );
   }
+
   getConfigurationOverview(
     configId: string
   ): Observable<Configurator.Overview> {
@@ -261,7 +257,7 @@ export class VariantConfiguratorOccAdapter
     );
 
     return this.http
-      .get(url)
+      .get<OccConfigurator.Overview>(url)
       .pipe(
         this.converterService.pipeable(VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER)
       );

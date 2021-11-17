@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,7 +18,8 @@ export class UpdateEmailComponentService {
     protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   protected busy$ = new BehaviorSubject(false);
@@ -70,13 +72,20 @@ export class UpdateEmailComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
+    // sets the redirect url after login
+    this.authRedirectService.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: 'home' })
+    );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() => {
-      this.routingService.go({ cxRoute: 'login' }, undefined, {
-        state: {
-          newUid,
-        },
-      });
+      this.routingService.go(
+        { cxRoute: 'login' },
+        {
+          state: {
+            newUid,
+          },
+        }
+      );
     });
   }
 

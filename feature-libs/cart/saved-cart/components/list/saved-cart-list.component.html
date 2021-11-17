@@ -110,8 +110,9 @@
             <td class="cx-saved-cart-list-make-cart-active">
               <div class="cx-table-label-mobile cx-saved-cart-list-label"></div>
               <button
+                #element
                 class="link cx-action-link cx-saved-cart-make-active"
-                (click)="restoreSavedCart($event, savedCart?.code)"
+                (click)="openDialog($event, savedCart)"
               >
                 {{ 'savedCartList.makeCartActive' | cxTranslate }}
               </button>

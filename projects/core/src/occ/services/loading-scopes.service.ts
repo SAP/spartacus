@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Type } from '@angular/core';
+import { CxEvent } from '../../event/cx-event';
 import { OccConfig } from '../config/occ-config';
 
 @Injectable({
@@ -20,11 +21,7 @@ export class LoadingScopesService {
    * @param scopes
    */
   expand(model: string, scopes: string[]): string[] {
-    const scopesConfig =
-      this.config &&
-      this.config.backend &&
-      this.config.backend.loadingScopes &&
-      this.config.backend.loadingScopes[model];
+    const scopesConfig = this.config?.backend?.loadingScopes?.[model];
 
     if (scopesConfig) {
       const expandedScopes = [...scopes];
@@ -32,9 +29,7 @@ export class LoadingScopesService {
 
       while (i > 0) {
         i--;
-        const includedScopes =
-          scopesConfig[expandedScopes[i]] &&
-          scopesConfig[expandedScopes[i]].include;
+        const includedScopes = scopesConfig[expandedScopes[i]]?.include;
         if (includedScopes) {
           for (const includedScope of includedScopes) {
             if (!expandedScopes.includes(includedScope)) {
@@ -58,11 +53,20 @@ export class LoadingScopesService {
    * @param scope
    */
   getMaxAge(model: string, scope: string): number {
-    const scopesConfig =
-      this.config &&
-      this.config.backend &&
-      this.config.backend.loadingScopes &&
-      this.config.backend.loadingScopes[model];
-    return (scopesConfig[scope] && scopesConfig[scope].maxAge) * 1000 || 0;
+    const configuredMaxAge =
+      this.config.backend?.loadingScopes?.[model]?.[scope]?.maxAge ?? 0;
+    return configuredMaxAge * 1000;
+  }
+
+  /**
+   *
+   * Returns the configured triggers for which to reload the product.
+   *
+   * @param model for which to look up the scopes (usually a 'product')
+   * @param scope for which to look up the config
+   * @returns the configured triggers, or an empty array if not configured
+   */
+  getReloadTriggers(model: string, scope: string): Type<CxEvent>[] {
+    return this.config.backend?.loadingScopes?.[model]?.[scope]?.reloadOn ?? [];
   }
 }

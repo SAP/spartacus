@@ -1,0 +1,207 @@
+<div class="cx-review">
+  <!-- TITLE -->
+  <h2 class="cx-review-title d-none d-lg-block d-xl-block">
+    {{ 'checkoutReview.review' | cxTranslate }}
+  </h2>
+
+  <div class="cx-review-summary row">
+    <ng-container *ngIf="(steps$ | async)?.slice(0, -1) as steps">
+      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
+        <ng-container *ngFor="let step of paymentSteps(steps)">
+          <ng-container [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+              <ng-container *ngTemplateOutlet="poNumber"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_TYPE">
+              <ng-container *ngTemplateOutlet="paymentType"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
+              <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+              <ng-container *ngTemplateOutlet="costCenter"></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+      <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">
+        <ng-container *ngFor="let step of shippingSteps(steps)">
+          <ng-container [ngSwitch]="step.type[0]">
+            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+              <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
+            </ng-container>
+            <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
+              <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- PO NUMBER SECTION -->
+  <ng-template #poNumber>
+    <div class="cx-review-summary-card">
+      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
+          [routerLink]="
+            {
+              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
+            } | cxUrl
+          "
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+        ></a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- PAYMENT TYPE SECTION -->
+  <ng-template #paymentType>
+    <div class="cx-review-summary-card">
+      <cx-card
+        *ngIf="paymentType$ | async as paymentType"
+        [content]="getPaymentTypeCard(paymentType) | async"
+      ></cx-card>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
+          [routerLink]="
+            {
+              cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_TYPE)
+            } | cxUrl
+          "
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+        ></a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- COST CENTER SECTION -->
+  <ng-template #costCenter>
+    <ng-container *ngIf="isAccountPayment$ | async">
+      <div class="cx-review-summary-card">
+        <cx-card
+          *ngIf="costCenter$ | async as costCenter"
+          [content]="getCostCenterCard(costCenter) | async"
+        ></cx-card>
+        <div class="cx-review-summary-edit-step">
+          <a
+            [attr.aria-label]="
+              'checkoutReview.editShippingAddressDetails' | cxTranslate
+            "
+            [routerLink]="
+              {
+                cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
+              } | cxUrl
+            "
+            ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+          ></a>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+
+  <!-- SHIPPING ADDRESS SECTION -->
+  <ng-template #shippingAddress>
+    <div
+      *ngIf="deliveryAddress$ | async as deliveryAddress"
+      class="cx-review-summary-card cx-review-card-address"
+    >
+      <cx-card
+        *ngIf="countryName$ | async as countryName"
+        [content]="getShippingAddressCard(deliveryAddress, countryName) | async"
+      ></cx-card>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.aria-label]="
+            'checkoutReview.editShippingAddressDetails' | cxTranslate
+          "
+          [routerLink]="
+            {
+              cxRoute: getCheckoutStepUrl(checkoutStepType.SHIPPING_ADDRESS)
+            } | cxUrl
+          "
+          ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
+        ></a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- DELIVERY MODE SECTION -->
+  <ng-template #deliveryMode>
+    <div class="cx-review-summary-card cx-review-card-shipping">
+      <cx-card
+        *ngIf="deliveryMode$ | async as deliveryMode"
+        [content]="getDeliveryModeCard(deliveryMode) | async"
+      ></cx-card>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
+          [routerLink]="
+            { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
+              | cxUrl
+          "
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- PAYMENT METHOD SECTION -->
+  <ng-template #paymentMethod>
+    <div class="cx-review-summary-card cx-review-card-payment">
+      <div>
+        <cx-card
+          *ngIf="paymentDetails$ | async as paymentDetails"
+          [content]="getPaymentMethodCard(paymentDetails) | async"
+        ></cx-card>
+      </div>
+      <div class="cx-review-summary-edit-step">
+        <a
+          [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
+          [routerLink]="
+            { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
+              | cxUrl
+          "
+        >
+          <cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon>
+        </a>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- CART ITEM SECTION -->
+  <ng-container *ngIf="cart$ | async as cart">
+    <h4 class="cx-review-cart-total d-none d-lg-block d-xl-block">
+      {{
+        'cartItems.cartTotal'
+          | cxTranslate: { count: cart.deliveryItemsQuantity }
+      }}:
+      {{ cart.totalPrice?.formattedValue }}
+    </h4>
+    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+      {{ 'checkoutReview.placeOrder' | cxTranslate }}
+    </h4>
+    <div
+      class="cx-review-cart-item col-md-12"
+      *ngIf="entries$ | async as entries"
+    >
+      <cx-promotions
+        [promotions]="
+          (cart.appliedOrderPromotions || []).concat(
+            cart.potentialOrderPromotions || []
+          )
+        "
+      ></cx-promotions>
+
+      <cx-cart-item-list
+        [items]="entries"
+        [readonly]="true"
+        [promotionLocation]="promotionLocation"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+</div>

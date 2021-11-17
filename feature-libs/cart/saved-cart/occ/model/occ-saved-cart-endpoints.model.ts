@@ -26,5 +26,11 @@ declare module '@spartacus/core' {
      * * @member {string}
      */
     restoreSavedCart?: string | OccEndpoint;
+    /**
+     * Endpoint to clone a saved cart
+     *
+     * * @member {string}
+     */
+    cloneSavedCart?: string | OccEndpoint;
   }
 }

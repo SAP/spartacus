@@ -1,6 +1,12 @@
 export * from './config-initializer/index';
 export * from './config-providers';
-export * from './config-tokens';
+export {
+  Config,
+  ConfigChunk,
+  DefaultConfig,
+  DefaultConfigChunk,
+  RootConfig,
+} from './config-tokens';
 export * from './config-validator/index';
 export { ConfigModule } from './config.module';
 export * from './services/configuration.service';

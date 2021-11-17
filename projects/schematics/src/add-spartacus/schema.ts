@@ -12,6 +12,7 @@ export interface Schema extends LibraryOptions {
   overwriteAppComponent?: boolean;
   pwa?: boolean;
   ssr?: boolean;
+  theme?: string;
 }
 
 /**

@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import {
   AuthGuard,
+  AuthRedirectService,
   AuthService,
   CmsConfig,
   GlobalMessageService,
@@ -43,6 +44,7 @@ import { UpdateEmailComponent } from './update-email.component';
                 RoutingService,
                 GlobalMessageService,
                 AuthService,
+                AuthRedirectService,
               ],
             },
           ],

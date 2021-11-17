@@ -17,12 +17,9 @@ import { TestScheduler } from 'rxjs/testing';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import {
-  GROUP_ID_1,
-  PRODUCT_CODE,
-} from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
@@ -185,8 +182,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
 
@@ -195,8 +193,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -205,8 +204,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const lastBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
 
@@ -215,8 +215,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 

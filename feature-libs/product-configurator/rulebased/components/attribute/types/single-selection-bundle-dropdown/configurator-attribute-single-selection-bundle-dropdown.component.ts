@@ -17,19 +17,22 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeDropDownForm = new FormControl('');
-  selectionValue?: Configurator.Value;
+  selectionValue: Configurator.Value;
 
   @Input() group: string;
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
-    if (this.attribute?.values && this.attribute?.values?.length > 0) {
-      this.selectionValue = this.attribute?.values.find(
-        (value) => value.selected
-      );
+    const values = this.attribute.values;
+    if (values && values.length > 0) {
+      const value = values.find((value) => value.selected);
+      if (value) {
+        this.selectionValue = value;
+      }
     }
   }
 
@@ -45,7 +48,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       singleDropdown: true,
       withQuantity: false,
       loading$: this.loading$,
-      attributeId: this.attribute?.attrCode,
+      attributeId: this.getAttributeCode(this.attribute),
     };
   }
 }

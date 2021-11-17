@@ -25,7 +25,6 @@ context('Product search store flow', () => {
         cy.onMobile(() => {
           clickSearchIcon();
         });
-        cy.server();
 
         // createProductQuery(queries.q1);
         createProductQuery(
@@ -37,13 +36,15 @@ context('Product search store flow', () => {
           QUERY_ALIAS.FIRST_PAGE,
           category,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductSortQuery('name-desc', QUERY_ALIAS.NAME_DSC_FILTER);
 
         cy.get('cx-searchbox input').type('canon{enter}');
 
-        cy.wait(`@${QUERY_ALIAS.CANON}`).its('status').should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.CANON}`)
+          .its('response.statusCode')
+          .should('eq', 200);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.CANON}`, `"${category}"`);
 
@@ -52,22 +53,28 @@ context('Product search store flow', () => {
           QUERY_ALIAS.NAME_DSC_FILTER,
           PRODUCT_LISTING.SORTING_TYPES.BY_NAME_DESC
         );
-        cy.route('GET', `${searchUrlPrefix}?fields=*`).as('facets');
+        cy.intercept({ method: 'GET', path: `${searchUrlPrefix}?fields=*` }).as(
+          'facets'
+        );
 
         clickFacet('Stores');
 
-        cy.wait(`@facets`).its('status').should('eq', 200);
+        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
         assertNumberOfProducts(`@facets`, `"${category}"`);
 
         clearSelectedFacet();
 
-        cy.wait(`@facets`).its('status').should('eq', 200);
+        cy.wait(`@facets`).its('response.statusCode').should('eq', 200);
 
         assertNumberOfProducts(`@facets`, `"${category}"`);
 
         // Add product to cart from search listing page
         cy.get('cx-add-to-cart:first button').click({ force: true });
+        cy.get('cx-added-to-cart-dialog .cx-dialog-title').should(
+          'contain',
+          'Item(s) added to your cart'
+        );
         cy.get('.cx-dialog-header .close').click();
         cy.get('cx-mini-cart .count').should('contain', '1');
       });

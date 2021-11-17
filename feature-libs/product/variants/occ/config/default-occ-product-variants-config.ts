@@ -6,7 +6,7 @@ export const defaultOccProductVariantsConfig: OccConfig = {
       endpoints: {
         product: {
           variants:
-            'orgProducts/${productCode}?fields=name,categories,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
+            'products/${productCode}?fields=name,purchasable,baseOptions(DEFAULT),baseProduct,variantOptions(DEFAULT),variantType',
         },
       },
     },

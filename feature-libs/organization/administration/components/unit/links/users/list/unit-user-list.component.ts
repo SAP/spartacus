@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { B2BUnit } from '@spartacus/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
-import { ROUTE_PARAMS } from '../../../../constants';
 import { ListService } from '../../../../shared/list/list.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitUserListService } from '../services/unit-user-list.service';

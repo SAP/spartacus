@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeSingleSelectionImageComponent } from './configurator-attribute-single-selection-image.component';
 
@@ -14,7 +20,15 @@ class MockGroupService {}
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: string;
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfigAttributeSingleSelectionImageComponent', () => {
@@ -31,6 +45,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         declarations: [
           ConfiguratorAttributeSingleSelectionImageComponent,
           MockFocusDirective,
+          MockConfiguratorPriceComponent,
         ],
         imports: [ReactiveFormsModule, NgSelectModule],
         providers: [
@@ -72,15 +87,14 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
     };
     return value;
   }
+  const image = createImage('url', 'altText');
+  const images: Configurator.Image[] = [image, image, image];
+  const value1 = createValue('1', 'val1', false, images);
+  const value2 = createValue('2', 'val2', false, images);
+  const value3 = createValue('3', 'val3', false, images);
+  const values: Configurator.Value[] = [value1, value2, value3];
 
   beforeEach(() => {
-    const image = createImage('url', 'altText');
-    const images: Configurator.Image[] = [image, image, image];
-    const value1 = createValue('1', 'val1', false, images);
-    const value2 = createValue('2', 'val2', false, images);
-    const value3 = createValue('3', 'val3', false, images);
-    const values: Configurator.Value[] = [value1, value2, value3];
-
     fixture = TestBed.createComponent(
       ConfiguratorAttributeSingleSelectionImageComponent
     );
@@ -113,9 +127,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
 
   it('should init with val3', () => {
     fixture.detectChanges();
-    expect(component.attributeRadioButtonForm.value).toEqual(
-      component.attribute.values[2].valueCode
-    );
+    expect(component.attributeRadioButtonForm.value).toEqual(value3.valueCode);
   });
 
   it('should select another single selection image value', () => {
@@ -123,21 +135,21 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       '#cx-configurator--single_selection_image--' +
       component.attribute.name +
       '--' +
-      component.attribute.values[1].valueCode +
+      value2.valueCode +
       '-input';
     const valueToSelect = fixture.debugElement.query(
       By.css(singleSelectionImageId)
     ).nativeElement;
     expect(valueToSelect.checked).toBe(false);
     spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onClick(component.attribute.values[1].valueCode);
+    component.onClick(value2.valueCode);
     fixture.detectChanges();
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
         ownerKey: ownerKey,
         changedAttribute: jasmine.objectContaining({
           name: attributeName,
-          selectedSingleValue: component.attribute.values[1].valueCode,
+          selectedSingleValue: value2.valueCode,
           uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
           groupId: groupId,
         }),

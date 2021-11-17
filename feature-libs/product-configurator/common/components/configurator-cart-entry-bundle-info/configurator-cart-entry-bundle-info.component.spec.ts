@@ -14,7 +14,6 @@ import {
   PromotionLocation,
 } from '@spartacus/core';
 import {
-  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
@@ -23,6 +22,7 @@ import {
 import { BreakpointService, CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorCartEntryBundleInfoComponent } from './configurator-cart-entry-bundle-info.component';
 
 @Pipe({

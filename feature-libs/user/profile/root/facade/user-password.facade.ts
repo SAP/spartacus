@@ -3,17 +3,14 @@ import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { USER_PROFILE_CORE_FEATURE } from '../feature-name';
 
-export function UserPasswordFacadeFactory() {
-  return facadeFactory({
-    facade: UserPasswordFacade,
-    feature: USER_PROFILE_CORE_FEATURE,
-    methods: ['update', 'reset', 'requestForgotPasswordEmail'],
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: UserPasswordFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: UserPasswordFacade,
+      feature: USER_PROFILE_CORE_FEATURE,
+      methods: ['update', 'reset', 'requestForgotPasswordEmail'],
+    }),
 })
 export abstract class UserPasswordFacade {
   /**

@@ -51,7 +51,7 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      map((configurationState) => configurationState.loading)
+      map((configurationState) => configurationState.loading ?? false)
     );
   }
 
@@ -242,9 +242,10 @@ export class ConfiguratorCommonsService {
       ),
       tap((configurationState) => {
         if (
-          !this.configuratorUtils.isConfigurationCreated(
-            configurationState.value
-          ) &&
+          (configurationState.value === undefined ||
+            !this.configuratorUtils.isConfigurationCreated(
+              configurationState.value
+            )) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
@@ -253,10 +254,17 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.configuratorUtils.isConfigurationCreated(
+            configurationState.value
+          )
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtils.getConfigurationFromState(configurationState)
+      )
     );
   }
 

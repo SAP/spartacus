@@ -16,12 +16,18 @@ const prices: OccConfigurator.Prices = {
   showDeltaPrices: false,
   priceSummary: {
     basePrice: {
+      value: 22000,
+      currencyIso: 'EUR',
       formattedValue: '22.000 €',
     },
     selectedOptions: {
+      value: 900,
+      currencyIso: 'EUR',
       formattedValue: '900 €',
     },
     currentTotal: {
+      value: 22900,
+      currencyIso: 'EUR',
       formattedValue: '22.900 €',
     },
   },

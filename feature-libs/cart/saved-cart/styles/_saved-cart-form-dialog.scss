@@ -53,6 +53,20 @@ cx-saved-cart-form-dialog {
             text-align: end;
           }
         }
+
+        .cx-copy-saved-cart-row {
+          display: flex;
+          margin-bottom: 1.5rem;
+          align-items: center;
+
+          .cx-copy-saved-cart-label {
+            margin-bottom: 0;
+          }
+
+          label {
+            flex: 1;
+          }
+        }
       }
 
       .cx-saved-cart-form-footer {

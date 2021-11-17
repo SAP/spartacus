@@ -81,7 +81,7 @@ export function verifyMyCoupons() {
   verifyCouponsClaiming();
   verifyEnableDisableNotification();
   verifyReadMore();
-  verifyFindProduct(CouponWithOpenCatalog, 10);
+  verifyFindProduct(CouponWithOpenCatalog, 12);
   goMyCoupon();
   verifyFindProduct(CouponWithProductCategory, 4);
   goMyCoupon();
@@ -181,7 +181,7 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
         .click();
     });
 
-  cy.wait(`@${productSearchPage}`).its('status').should('eq', 200);
+  cy.wait(`@${productSearchPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-breadcrumb').within(() => {
     cy.get('span:last a').should('contain', 'My coupons');

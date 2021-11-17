@@ -22,13 +22,29 @@ export class CpqConfiguratorEndpointService {
     urlParams?: Object,
     queryParams?: [{ name: string; value: string }]
   ): string {
-    const endpoint = this.config.backend.cpq.endpoints[endpointName];
+    const endpoints = this.config.backend?.cpq?.endpoints;
+    let endpoint;
+    switch (endpointName) {
+      case 'configurationInit':
+        endpoint = endpoints?.configurationInit;
+        break;
+      case 'configurationDisplay':
+        endpoint = endpoints?.configurationDisplay;
+        break;
+      case 'attributeUpdate':
+        endpoint = endpoints?.attributeUpdate;
+        break;
+      case 'valueUpdate':
+        endpoint = endpoints?.valueUpdate;
+    }
+
     if (!endpoint) {
+      endpoint = 'configurations';
       console.warn(
         `${endpointName} endpoint configuration missing for cpq backend, please provide it via key: "backend.cpq.endpoints.${endpointName}"`
       );
     }
-    let url = this.config.backend.cpq.prefix + endpoint;
+    let url = this.config.backend?.cpq?.prefix + endpoint;
     url = urlParams ? StringTemplate.resolve(url, urlParams) : url;
     url = queryParams ? this.appendQueryParameters(url, queryParams) : url;
     return url;

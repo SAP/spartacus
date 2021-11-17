@@ -6,13 +6,13 @@ export interface CpqAccessData {
   /**
    * CPQ Access token
    */
-  accessToken?: string;
+  accessToken: string;
   /**
    * Token expiration time in milliseconds
    */
-  accessTokenExpirationTime?: number;
+  accessTokenExpirationTime: number;
   /**
    * CPQ endpoint url
    */
-  endpoint?: string;
+  endpoint: string;
 }

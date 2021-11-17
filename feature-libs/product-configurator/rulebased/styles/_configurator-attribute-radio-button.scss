@@ -1,5 +1,6 @@
 %cx-configurator-attribute-radio-button {
   @include cx-configurator-attribute-type();
+  @include cx-configurator-attribute-level-quantity-price();
 
   .form-check {
     &:last-child {
@@ -7,9 +8,9 @@
     }
   }
 
-  @include forVersion(3.3) {
-    .cx-quantity {
-      padding-block-end: 1rem;
-    }
+  @include cx-configurator-attribute-visible-focus();
+
+  .cx-quantity {
+    padding-block-end: 1rem;
   }
 }

@@ -10,6 +10,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import {
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
@@ -48,12 +49,17 @@ describe('Spartacus product configurator schematics: ng-add', () => {
     features: [],
   };
 
-  const cpqOptions: SpartacusProductConfiguratorOptions = {
+  const libraryOptionsOnlyVC: SpartacusProductConfiguratorOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_PRODUCT_CONFIGURATOR_VC_FEATURE],
+  };
+
+  const libraryOptionsOnlyCPQ: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE],
   };
 
-  const textfieldOptions: SpartacusProductConfiguratorOptions = {
+  const libraryOptionsOnlyTextfield: SpartacusProductConfiguratorOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE],
   };
@@ -123,11 +129,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
   });
 
   describe('Product config feature', () => {
-    describe('Rulebased', () => {
+    describe('VC', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', libraryNoFeaturesOptions, appTree)
+            .runSchematicAsync('ng-add', libraryOptionsOnlyVC, appTree)
             .toPromise();
         });
 
@@ -154,7 +160,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...libraryNoFeaturesOptions, lazy: false },
+              { ...libraryOptionsOnlyVC, lazy: false },
               appTree
             )
             .toPromise();
@@ -167,15 +173,15 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('Rulebased with CPQ', () => {
+    describe('CPQ', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', cpqOptions, appTree)
+            .runSchematicAsync('ng-add', libraryOptionsOnlyCPQ, appTree)
             .toPromise();
         });
 
-        it('should add the feature using the lazy loading syntax', async () => {
+        it('should add the feature using the lazy loading syntax, and include VC as well', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
         });
@@ -207,7 +213,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...cpqOptions, lazy: false },
+              { ...libraryOptionsOnlyCPQ, lazy: false },
               appTree
             )
             .toPromise();
@@ -220,11 +226,11 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('Rulebased with Textfield', () => {
+    describe('Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
-            .runSchematicAsync('ng-add', textfieldOptions, appTree)
+            .runSchematicAsync('ng-add', libraryOptionsOnlyTextfield, appTree)
             .toPromise();
         });
 
@@ -260,7 +266,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
           appTree = await schematicRunner
             .runSchematicAsync(
               'ng-add',
-              { ...textfieldOptions, lazy: false },
+              { ...libraryOptionsOnlyTextfield, lazy: false },
               appTree
             )
             .toPromise();
@@ -273,7 +279,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
       });
     });
 
-    describe('Rulebased with both CPQ and Textfield', () => {
+    describe('CPQ and Textfield', () => {
       describe('general setup', () => {
         beforeEach(async () => {
           appTree = await schematicRunner
@@ -291,7 +297,7 @@ describe('Spartacus product configurator schematics: ng-add', () => {
             .toPromise();
         });
 
-        it('should add the feature using the lazy loading syntax', async () => {
+        it('should add the feature using the lazy loading syntax, including VC as well', async () => {
           const module = appTree.readContent(featureModulePath);
           expect(module).toMatchSnapshot();
         });

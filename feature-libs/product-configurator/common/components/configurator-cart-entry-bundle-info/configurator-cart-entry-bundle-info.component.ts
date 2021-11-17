@@ -25,7 +25,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
-    // TODO(#10946): make CartItemContext a required dependency and drop fallbacks to `?? EMPTY`.
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
@@ -82,7 +81,6 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   }
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 }

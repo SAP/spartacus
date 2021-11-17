@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "UserSchematics",
+  "$id": "UserSchematics",
   "title": "User Schematics",
   "description": "Most of the Spartacus features require User Account feature to be properly configured.",
   "type": "object",

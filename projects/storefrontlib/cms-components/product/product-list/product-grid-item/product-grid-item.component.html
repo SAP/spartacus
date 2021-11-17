@@ -1,0 +1,45 @@
+<a
+  [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+  class="cx-product-image-container"
+  tabindex="-1"
+>
+  <cx-media
+    class="cx-product-image"
+    [container]="product.images?.PRIMARY"
+    format="product"
+    [alt]="product.summary"
+  ></cx-media>
+</a>
+<a
+  [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+  class="cx-product-name"
+  [innerHTML]="product.nameHtml"
+></a>
+
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
+  <div class="cx-product-rating">
+    <cx-star-rating
+      *ngIf="product.averageRating"
+      [rating]="product?.averageRating"
+    ></cx-star-rating>
+    <div *ngIf="!product.averageRating">
+      {{ 'productDetails.noReviews' | cxTranslate }}
+    </div>
+  </div>
+  <div class="cx-product-price-container">
+    <div
+      class="cx-product-price"
+      [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+    >
+      {{ product.price?.formattedValue }}
+    </div>
+  </div>
+</ng-template>
+
+<ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
+  <cx-add-to-cart
+    *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
+    [showQuantity]="false"
+    [product]="product"
+  ></cx-add-to-cart>
+</ng-template>

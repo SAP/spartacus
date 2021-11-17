@@ -1,4 +1,8 @@
-import { AssertionError } from 'assert';
+import * as login from './login';
+import * as configurationCartVc from './product-configurator-cart-vc';
+//import * as configurationCart from './product-configurator-cart';
+import * as productSearch from './product-search';
+import { verifyGlobalMessageAfterRegistration } from './register';
 
 const nextBtnSelector =
   'cx-configurator-previous-next-buttons button:contains("Next")';
@@ -60,7 +64,9 @@ export function checkCurrentGroupActive(currentGroup: string): void {
   cy.get(
     'cx-configurator-group-title:contains(' + `${currentGroup}` + ')'
   ).should('be.visible');
-  cy.get('a.active:contains(' + `${currentGroup}` + ')').should('be.visible');
+  cy.get('button.active:contains(' + `${currentGroup}` + ')').should(
+    'be.visible'
+  );
 }
 
 /**
@@ -101,7 +107,7 @@ export function clickOnPreviousBtn(previousGroup: string): void {
 }
 
 /**
- * Verifies whether 'show more' link is displayed in the product title component.
+ * Verifies whether 'show more' button is displayed in the product title component.
  */
 export function checkShowMoreLinkAtProductTitleDisplayed(): void {
   checkUpdatingMessageNotDisplayed();
@@ -172,6 +178,15 @@ export function checkAttributeNotDisplayed(
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
+export function maskCharacter(searchValue: string, character: string): string {
+  if (searchValue.indexOf(character) !== -1) {
+    const replaceValue = '\\' + character;
+    searchValue = searchValue.replaceAll(character, replaceValue);
+  }
+  cy.log('searched value: ' + searchValue);
+  return searchValue;
+}
+
 /**
  * Verifies whether the attribute value is displayed.
  *
@@ -189,8 +204,10 @@ export function checkAttrValueDisplayed(
   if (uiType.startsWith('dropdown')) {
     valueLocator = `#${attributeId} [value="${valueName}"]`;
   } else {
+    valueName = this.maskCharacter(valueName, '#');
     valueLocator = `#${attributeId}--${valueName}`;
   }
+  cy.log('value locator: ' + valueLocator);
   cy.get(`${valueLocator}`).should('be.visible');
 }
 
@@ -253,7 +270,8 @@ export function selectAttribute(
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
-  const valueId = `${attributeId}--${valueName}`;
+  let valueId = `${attributeId}--${valueName}`;
+  valueId = this.maskCharacter(valueId, '#');
   cy.log('valueId: ' + valueId);
 
   switch (uiType) {
@@ -293,9 +311,9 @@ export function selectAttribute(
         });
       break;
     default:
-      throw new AssertionError({
-        message: `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`,
-      });
+      throw new Error(
+        `Selecting Attribute '${attributeName}' of UiType '${uiType}' not supported`
+      );
   }
 
   checkUpdatingMessageNotDisplayed();
@@ -332,6 +350,9 @@ export function checkValueSelected(
     if (uiType.startsWith('dropdown')) {
       valueId = `${attributeId} [value="${valueName}"]`;
     }
+
+    valueId = this.maskCharacter(valueId, '#');
+
     cy.get(`#${valueId}`).should('be.checked');
   }
 }
@@ -411,10 +432,9 @@ export function navigateToOverviewPage(): void {
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroupByGroupIndex(groupIndex: number): void {
-  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+  cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
-    .children('a')
     .click({ force: true });
 }
 
@@ -481,4 +501,51 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
       cy.get('cx-shipping-address').should('be.visible');
     });
+}
+
+/**
+ * Searches for a product by a product name.
+ *
+ * @param {string} productName - Product name
+ */
+export function searchForProduct(productName: string): void {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/suggestions?term=${productName}*`,
+  }).as('productSearch');
+  productSearch.searchForProduct(productName);
+  cy.wait('@productSearch');
+}
+
+/**
+ * Orders a product:
+ * (1) Registers a new user,
+ * (2) Logs in with the credentials of the newly registered user,
+ * (3) Searches for a corresponding product by a product name,
+ * (4) Adds a searched product to the cart,
+ * (5) Orders a product,
+ * (6) Verifies whether the order history contains the ordered product and
+ * (7) Navigates to the order details of the product via 'Display Configuration' link.
+ *
+ * @param {string} productName - Product name
+ */
+export function completeOrderProcess(productName: string): void {
+  login.registerUser();
+  verifyGlobalMessageAfterRegistration();
+  const tokenAuthRequestAlias = login.listenForTokenAuthenticationRequest();
+  login.loginUser();
+  cy.wait(tokenAuthRequestAlias).its('response.statusCode').should('eq', 200);
+  this.searchForProduct(productName);
+  this.clickOnAddToCartBtnOnPD();
+  this.clickOnProceedToCheckoutBtnOnPD();
+  configurationCartVc.checkout();
+  //TODO: activate after 22.05
+  //configurationCart.navigateToOrderDetails();
+  //don't check the order history aspect because this part is flaky
+  //configuration.selectOrderByOrderNumberAlias();
+  const tokenRevocationRequestAlias = login.listenForTokenRevocationRequest();
+  login.signOutUser();
+  cy.wait(tokenRevocationRequestAlias);
 }

@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SpartacusSchematics",
+  "$id": "SpartacusSchematics",
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
@@ -17,13 +17,20 @@
       "items": {
         "enum": [
           "ASM",
+          "Import-Export",
           "Saved-Cart",
+          "Quick-Order",
           "CDC",
           "CDS",
+          "Checkout",
+          "Order",
+          "Digital-Payments",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
+          "Image-Zoom",
           "Product-Variants",
+          "VC-Configurator",
           "Textfield-Configurator",
           "CPQ-Configurator",
           "Qualtrics",
@@ -39,8 +46,12 @@
       },
       "default": [
         "ASM",
+        "Checkout",
+        "Order",
+        "Import-Export",
         "Saved-Cart",
-        "Bulk-Pricing",
+        "Quick-Order",
+        "Image-Zoom",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -57,8 +68,16 @@
             "label": "Assisted Services Module"
           },
           {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          },
+          {
             "value": "Saved-Cart",
             "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
           },
           {
             "value": "CDC",
@@ -67,6 +86,18 @@
           {
             "value": "CDS",
             "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
+          },
+          {
+            "value": "Order",
+            "label": "Order"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
           },
           {
             "value": "Administration",
@@ -78,11 +109,19 @@
           },
           {
             "value": "Bulk-Pricing",
-            "label": "Product - Bulk Pricing"
+            "label": "Product - Bulk Pricing (b2b feature)"
           },
           {
             "value": "Product-Variants",
             "label": "Product - Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Product - Image Zoom"
+          },
+          {
+            "value": "VC-Configurator",
+            "label": "Product Configurator - Variant Configurator"
           },
           {
             "value": "Textfield-Configurator",
@@ -181,6 +220,10 @@
       "type": "boolean",
       "description": "Add Server-side rendering support to the project.",
       "default": false
+    },
+    "theme": {
+      "type": "string",
+      "description": "Select a style theme to add. E.g: santorini"
     }
   },
   "required": []

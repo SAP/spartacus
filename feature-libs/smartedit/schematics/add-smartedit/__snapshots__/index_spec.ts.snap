@@ -27,6 +27,9 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -41,7 +44,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
             \\"main\\": \\"src/main.ts\\",
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"aot\\": true,
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\",
@@ -58,45 +61,48 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
           },
           \\"configurations\\": {
             \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
               \\"fileReplacements\\": [
                 {
                   \\"replace\\": \\"src/environments/environment.ts\\",
                   \\"with\\": \\"src/environments/environment.prod.ts\\"
                 }
               ],
-              \\"optimization\\": true,
-              \\"outputHashing\\": \\"all\\",
-              \\"sourceMap\\": false,
-              \\"extractCss\\": true,
-              \\"namedChunks\\": false,
-              \\"extractLicenses\\": true,
-              \\"vendorChunk\\": false,
-              \\"buildOptimizer\\": true,
-              \\"budgets\\": [
-                {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"2mb\\",
-                  \\"maximumError\\": \\"5mb\\"
-                },
-                {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"6kb\\",
-                  \\"maximumError\\": \\"10kb\\"
-                }
-              ]
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
         },
         \\"serve\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
-          },
           \\"configurations\\": {
             \\"production\\": {
               \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
         },
         \\"extract-i18n\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
@@ -111,6 +117,7 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.spec.json\\",
             \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\",
@@ -124,31 +131,6 @@ exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature general setup 
               \\"src/styles.scss\\"
             ],
             \\"scripts\\": []
-          }
-        },
-        \\"lint\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
-          \\"options\\": {
-            \\"tsConfig\\": [
-              \\"tsconfig.app.json\\",
-              \\"tsconfig.spec.json\\",
-              \\"e2e/tsconfig.json\\"
-            ],
-            \\"exclude\\": [
-              \\"**/node_modules/**\\"
-            ]
-          }
-        },
-        \\"e2e\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
-          \\"options\\": {
-            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
-            \\"devServerTarget\\": \\"schematics-test:serve\\"
-          },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
-            }
           }
         }
       }
@@ -176,6 +158,64 @@ import { SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/
       },
     }
   })]
+})
+export class SmartEditFeatureModule { }
+"
+`;
+
+exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with allowOrigin config should configure the allowOrigin 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SmartEditRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [SMART_EDIT_FEATURE]: {
+        module: () =>
+          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+      },
+    }
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      allowOrigin: 'localhost:9002',
+    },
+  })
+  ]
+})
+export class SmartEditFeatureModule { }
+"
+`;
+
+exports[`Spartacus SmartEdit schematics: ng-add SmartEdit feature with storefrontPreviewRoute config should configure the storefrontPreviewRoute 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { SmartEditConfig, SmartEditRootModule, SMART_EDIT_FEATURE } from \\"@spartacus/smartedit/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    SmartEditRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [SMART_EDIT_FEATURE]: {
+        module: () =>
+          import('@spartacus/smartedit').then((m) => m.SmartEditModule),
+      },
+    }
+  }),
+  provideConfig(<SmartEditConfig>{
+    smartEdit: {
+      storefrontPreviewRoute: 'cx-preview',
+    },
+  })
+  ]
 })
 export class SmartEditFeatureModule { }
 "

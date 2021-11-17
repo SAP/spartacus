@@ -2,16 +2,17 @@ import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
+import { CpqConfiguratorUtils } from './../cpq-configurator-utils';
 
 const VALUE_SEPARATOR = ',';
 
 @Injectable()
 export class CpqConfiguratorSerializer
-  implements Converter<Configurator.Configuration, Cpq.UpdateAttribute> {
+  implements Converter<Configurator.Configuration, Cpq.UpdateAttribute>
+{
   convert(source: Configurator.Configuration): Cpq.UpdateAttribute {
-    const attribute: Configurator.Attribute = this.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute =
+      CpqConfiguratorUtils.findFirstChangedAttribute(source);
     let updateAttribute: Cpq.UpdateAttribute;
     if (source.updateType === Configurator.UpdateType.ATTRIBUTE_QUANTITY) {
       updateAttribute = this.convertQuantity(attribute, source.configId);
@@ -25,30 +26,29 @@ export class CpqConfiguratorSerializer
     attribute: Configurator.Attribute,
     configId: string
   ): Cpq.UpdateAttribute {
+    const updateInformation =
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
+
     const updateAttribute: Cpq.UpdateAttribute = {
       configurationId: configId,
-      standardAttributeCode: attribute.attrCode.toString(),
+      standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: { quantity: attribute.quantity },
-      tabId: attribute.groupId,
+      tabId: updateInformation.tabId,
     };
     return updateAttribute;
-  }
-
-  protected findFirstChangedAttribute(
-    source: Configurator.Configuration
-  ): Configurator.Attribute {
-    return source.groups[0].attributes[0];
   }
 
   protected convertAttribute(
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateAttribute {
+    const updateInformation =
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
     const updateAttribute: Cpq.UpdateAttribute = {
       configurationId: configurationId,
-      standardAttributeCode: attribute.attrCode.toString(),
+      standardAttributeCode: updateInformation.standardAttributeCode,
       changeAttributeValue: {},
-      tabId: attribute.groupId,
+      tabId: updateInformation.tabId,
     };
 
     if (
@@ -58,18 +58,16 @@ export class CpqConfiguratorSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds = this.processSelectedSingleValue(
-        attribute.selectedSingleValue
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds =
+        this.processSelectedSingleValue(attribute.selectedSingleValue);
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType === Configurator.UiType.CHECKBOXLIST_PRODUCT ||
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds = this.prepareValueIds(
-        attribute
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds =
+        this.prepareValueIds(attribute);
     } else if (
       attribute.uiType === Configurator.UiType.STRING ||
       attribute.uiType === Configurator.UiType.NUMERIC
@@ -93,9 +91,7 @@ export class CpqConfiguratorSerializer
 
   protected prepareValueIds(attribute: Configurator.Attribute): string {
     let valueIds = '';
-    const selectedValues: Configurator.Value[] = attribute.values.filter(
-      (value) => value.selected
-    );
+    const selectedValues = attribute.values?.filter((value) => value.selected);
 
     if (selectedValues && selectedValues.length > 0) {
       selectedValues.forEach((value) => {

@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
+import { WindowRef } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -29,6 +30,7 @@ describe('ConfigUtilsService', () => {
     CommonConfigurator.OwnerType.PRODUCT,
     'testProduct'
   );
+  let windowRef: WindowRef;
   let keyboardFocusService: KeyboardFocusService;
   let querySelectorOriginal: any;
 
@@ -46,6 +48,8 @@ describe('ConfigUtilsService', () => {
       ],
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
+    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
+    spyOn(windowRef, 'isBrowser').and.returnValue(true);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
@@ -61,7 +65,7 @@ describe('ConfigUtilsService', () => {
   });
 
   function getCurrentResult() {
-    let result: boolean;
+    let result = false;
     classUnderTest
       .isCartEntryOrGroupVisited(owner, 'group_01')
       .subscribe((data) => (result = data))
@@ -77,11 +81,15 @@ describe('ConfigUtilsService', () => {
     spyOn(theElement, 'getBoundingClientRect').and.returnValue(
       new DOMRect(100, 2000, 100, 100)
     );
-    spyOn(window, 'scroll').and.callThrough();
-    classUnderTest.scrollToConfigurationElement(
-      '.VariantConfigurationTemplate'
-    );
-    expect(window.scroll).toHaveBeenCalledWith(0, 0);
+    const nativeWindow = windowRef.nativeWindow;
+    if (nativeWindow) {
+      spyOn(nativeWindow, 'scroll').and.callThrough();
+      classUnderTest.scrollToConfigurationElement(
+        '.VariantConfigurationTemplate'
+      );
+
+      expect(nativeWindow.scroll).toHaveBeenCalledWith(0, 0);
+    }
   });
 
   it('should return false because the product has not been added to the cart and the current group was not visited', () => {
@@ -108,28 +116,42 @@ describe('ConfigUtilsService', () => {
     controlArray.push(control1, control2);
     const attribute: Configurator.Attribute = {
       name: 'attr',
-      values: [{ valueCode: 'b' }, { name: 'blue' }],
+      values: [{ valueCode: 'b' }, { name: 'blue', valueCode: 'a' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
-    expect(values.length).toBe(2);
-    expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
-    expect(values[0].selected).toBe(true);
-    expect(values[1].name).toBe(attribute.values[1].name);
-    expect(values[1].selected).toBe(false);
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+    if (attribute.values) {
+      expect(values.length).toBe(2);
+      expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
+      expect(values[0].selected).toBe(true);
+      expect(values[1].name).toBe(attribute.values[1].name);
+      expect(values[1].selected).toBe(false);
+    } else fail();
+  });
+
+  it('should gracefully handle situation that control array has values not present in attribute', () => {
+    const controlArray = new Array<FormControl>();
+    const control1 = new FormControl(true);
+    const control2 = new FormControl(false);
+    controlArray.push(control1, control2);
+    const attribute: Configurator.Attribute = {
+      name: 'attr',
+      values: [{ name: 'blue', valueCode: 'a' }],
+    };
+
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
+    expect(values.length).toBe(1);
   });
 
   describe('focusFirstAttribute', () => {
-    it('should not delegate to keyboardFocusService if we did not provide that', () => {
-      classUnderTest['keyboardFocusService'] = undefined;
-      spyOn(keyboardFocusService, 'findFocusable').and.stub();
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
-    });
-
     it('should delegate to focus service', () => {
       const theElement = document.createElement('form');
       document.querySelector = jasmine
@@ -147,6 +169,16 @@ describe('ConfigUtilsService', () => {
       spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
       classUnderTest.focusFirstAttribute();
       expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('createGroupId', () => {
+    it('should return empty string because group ID is undefined', () => {
+      expect(classUnderTest.createGroupId(undefined)).toBeUndefined();
+    });
+
+    it('should return group ID string', () => {
+      expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
     });
   });
 });

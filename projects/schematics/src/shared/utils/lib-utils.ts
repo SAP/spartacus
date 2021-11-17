@@ -24,14 +24,21 @@ import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   CLI_ASM_FEATURE,
+  CLI_CART_IMPORT_EXPORT_FEATURE,
+  CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
+  CLI_CHECKOUT_FEATURE,
+  CLI_DIGITAL_PAYMENTS_FEATURE,
+  CLI_ORDER_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
+  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
@@ -48,10 +55,13 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
@@ -83,11 +93,12 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
+  scaffoldStructure,
 } from './workspace-utils';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
-  lazy: boolean;
+  lazy?: boolean;
   features?: string[];
   // meta, when programmatically installing other Spartacus libraries as dependencies
   options?: LibraryOptions;
@@ -182,18 +193,25 @@ export interface AssetsConfig {
 
 export const packageSubFeaturesMapping: Record<string, string[]> = {
   [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
-  [SPARTACUS_CART]: [CLI_CART_SAVED_CART_FEATURE],
+  [SPARTACUS_CART]: [
+    CLI_CART_IMPORT_EXPORT_FEATURE,
+    CLI_CART_QUICK_ORDER_FEATURE,
+    CLI_CART_SAVED_CART_FEATURE,
+  ],
   [SPARTACUS_ORGANIZATION]: [
     CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
     CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   ],
   [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
   [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
+  [SPARTACUS_DIGITAL_PAYMENTS]: [CLI_DIGITAL_PAYMENTS_FEATURE],
   [SPARTACUS_PRODUCT]: [
     CLI_PRODUCT_BULK_PRICING_FEATURE,
     CLI_PRODUCT_VARIANTS_FEATURE,
+    CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
   ],
   [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
     CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   ],
@@ -206,6 +224,8 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
     CLI_TRACKING_TMS_AEP_FEATURE,
   ],
   [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
+  [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
+  [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
 };
 
 export function shouldAddFeature(
@@ -248,17 +268,20 @@ export function addLibraryFeature<T extends LibraryOptions>(
   options: T,
   config: FeatureConfig
 ): Rule {
-  return (tree: Tree) => {
+  return (tree: Tree, context: SchematicContext) => {
     const spartacusFeatureModuleExists = checkAppStructure(
       tree,
       options.project
     );
     if (!spartacusFeatureModuleExists) {
-      throw new SchematicsException(
-        'Please migrate manually to new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/ and add the library once again. Old app structure is no longer supported.'
+      context.logger.info('Scaffolding the new app structure...');
+      context.logger.warn(
+        'Please migrate manually the rest of your feature modules to the new app structure: https://sap.github.io/spartacus-docs/reference-app-structure/'
       );
     }
     return chain([
+      spartacusFeatureModuleExists ? noop() : scaffoldStructure(options),
+
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
@@ -279,14 +302,12 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
   }
 
   const basePath = process.cwd();
-  let result = false;
   for (const tsconfigPath of buildPaths) {
     if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
-      result = true;
-      break;
+      return true;
     }
   }
-  return result;
+  return false;
 }
 
 function spartacusFeatureModuleExists(
@@ -383,9 +404,9 @@ function addRootModule(
     }
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleName = createModuleFileName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -411,7 +432,7 @@ function addFeatureModule(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (options.lazy) {
           let lazyLoadingChunkName = config.moduleName;
           if (config.lazyLoadingChunk) {
@@ -462,7 +483,7 @@ function addFeatureTranslations(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.i18n) {
           addModuleProvider(sourceFile, {
             import: [
@@ -500,7 +521,7 @@ function addCustomConfig(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.customConfig) {
           const customConfigs = ([] as CustomConfig[]).concat(
             config.customConfig
@@ -578,7 +599,13 @@ function addLibraryAssets(
         },
       },
     };
-    tree.overwrite(path, JSON.stringify(updatedAngularJson, null, 2));
+
+    const initialContent = tree.read(path)?.toString(UTF_8) ?? '';
+    const toUpdate = JSON.stringify(updatedAngularJson, null, 2);
+    // prevent the unnecessary Angular logs about the files being updated
+    if (initialContent !== toUpdate) {
+      tree.overwrite(path, toUpdate);
+    }
   };
 }
 
@@ -623,12 +650,17 @@ export function addLibraryStyles(
     const toAdd = `@import "${stylingConfig.importStyle}";`;
 
     if (tree.exists(libraryScssPath)) {
-      let content = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      const initialContent = tree.read(libraryScssPath)?.toString(UTF_8) ?? '';
+      let content = initialContent;
+
       if (!content.includes(toAdd)) {
         content += `\n${toAdd}`;
       }
 
-      tree.overwrite(libraryScssPath, content);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (initialContent !== content) {
+        tree.overwrite(libraryScssPath, content);
+      }
       return tree;
     }
 
@@ -700,17 +732,17 @@ export function installPackageJsonDependencies(): Rule {
 
 export function addPackageJsonDependencies(
   dependencies: NodeDependency[],
-  packageJson?: any
+  packageJson: any
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
-    dependencies.forEach((dependency) => {
-      if (shouldAddDependency(dependency, packageJson)) {
+    for (const dependency of dependencies) {
+      if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
           `✅️ Added '${dependency.name}' into ${dependency.type}`
         );
       }
-    });
+    }
     return tree;
   };
 }
@@ -782,14 +814,11 @@ function logFeatureInstallation(
   }
 }
 
-export function shouldAddDependency(
+export function dependencyExists(
   dependency: NodeDependency,
-  packageJson?: any
+  packageJson: any
 ): boolean {
-  return (
-    !packageJson ||
-    !packageJson[dependency.type].hasOwnProperty(dependency.name)
-  );
+  return packageJson[dependency.type]?.hasOwnProperty(dependency.name);
 }
 
 export function configureB2bFeatures<T extends LibraryOptions>(

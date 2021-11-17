@@ -37,25 +37,32 @@ export const savedCartCartPage = {
 };
 
 export const savedCartDialog = {
-  saveForLater: 'Save for later',
-  itemsSavedForLater: 'All of the items in your Cart will be saved for later',
+  saveForLater: 'Save For Later',
+  itemsSavedForLater: 'All of the items in your cart will be saved for later',
   savedCartName: 'Saved Cart Name',
   savedCartDescription: 'Saved Cart Description',
   optional: 'optional',
   charactersLeft: 'characters left: {{count}}',
   cancel: 'Cancel',
   save: 'Save',
-  followingCartDelete: 'Following saved cart will be deleted',
+  restore: 'Restore',
+  followingCartDelete: 'The following saved cart will be deleted',
+  followingCartRestore:
+    'The following saved cart will be restored as the active cart',
   delete: 'Delete',
   deleteCartSuccess: 'Cart Deleted Successfully',
   editCartSuccess: 'Cart Edited Successfully',
   editSavedCart: 'Edit Saved Cart',
   deleteSavedCart: 'Delete Saved Cart',
+  restoreSavedCart: 'Restore Saved Cart',
   name: 'Name',
   id: 'ID',
   description: 'Description',
   quantity: 'QTY',
   total: 'Total',
+  keepCopySavedCart: 'Keep a copy of this cart in the saved carts list',
+  defaultCloneCartName: 'Copy of {{name}}',
+  nameOfCloneCart: 'Name of copied cart',
 };
 
 export const addToSavedCart = {

@@ -12,8 +12,7 @@ export const orgPurchaseLimit = {
   orgUnit: 'Parent Unit',
   unit: 'Parent Unit',
   actions: '',
-  hint:
-    'Purchase limits help control spending by defining how much buyers can spend per order or per week, month, quarter, or year. Purchase limits are assigned to users or user groups. Purchase limits are also assigned to approvers, defining how much they are permitted to approve. You can assign purchase limits to many users at once with user groups.',
+  hint: 'Purchase limits help control spending by defining how much buyers can spend per order or per week, month, quarter, or year. Purchase limits are assigned to users or user groups. Purchase limits are also assigned to approvers, defining how much they are permitted to approve. You can assign purchase limits to many users at once with user groups.',
 
   details: {
     title: 'Purchase Limit Details',
@@ -28,8 +27,11 @@ export const orgPurchaseLimit = {
     subtitle: '',
   },
 
-  byName: 'Sort by name',
-  byUnitName: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnitName: 'Unit',
+  },
 
   messages: {
     deactivateTitle: 'Disable this purchase limit?',

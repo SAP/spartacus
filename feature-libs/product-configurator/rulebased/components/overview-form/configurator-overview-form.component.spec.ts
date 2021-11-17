@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
@@ -17,9 +18,10 @@ import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorOverviewAttributeComponent } from '../overview-attribute/configurator-overview-attribute.component';
+import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorOverviewFormComponent } from './configurator-overview-form.component';
 
 const owner: CommonConfigurator.Owner =
@@ -38,16 +40,17 @@ const configCreate2: Configurator.Configuration = {
 const configInitial: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: {
+    configId: ConfigurationTestData.CONFIG_ID,
     groups: [],
   },
 };
 
-let routerStateObservable;
-let configurationObservable;
-let overviewObservable;
-let defaultConfigObservable;
-let defaultRouterStateObservable;
-let defaultRouterDataObservable;
+let routerStateObservable: any;
+let configurationObservable: any;
+let overviewObservable: any;
+let defaultConfigObservable: any;
+let defaultRouterStateObservable: any;
+let defaultRouterDataObservable: any;
 let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
@@ -120,6 +123,14 @@ function checkConfigurationOverviewObs(
   );
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
@@ -129,6 +140,7 @@ describe('ConfigurationOverviewFormComponent', () => {
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
           FeatureLevelDirective,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {
@@ -202,7 +214,7 @@ describe('ConfigurationOverviewFormComponent', () => {
         configId,
         ConfiguratorModelUtils.createInitialOwner()
       ),
-      overview: {},
+      overview: { configId: ConfigurationTestData.CONFIG_ID },
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
   });
@@ -214,7 +226,10 @@ describe('ConfigurationOverviewFormComponent', () => {
         configId,
         ConfiguratorModelUtils.createInitialOwner()
       ),
-      overview: { groups: [{ id: 'GROUP1' }] },
+      overview: {
+        configId: ConfigurationTestData.CONFIG_ID,
+        groups: [{ id: 'GROUP1' }],
+      },
     };
     expect(component.hasAttributes(configWOOverviewAttributes)).toBe(false);
   });
@@ -364,6 +379,7 @@ describe('ConfigurationOverviewFormComponent with forceReload', () => {
         declarations: [
           ConfiguratorOverviewFormComponent,
           ConfiguratorOverviewAttributeComponent,
+          MockConfiguratorPriceComponent,
         ],
         providers: [
           {

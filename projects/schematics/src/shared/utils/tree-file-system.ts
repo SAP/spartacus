@@ -57,6 +57,14 @@ export class TreeFileSystem implements FileSystemHost {
   }
 
   writeFileSync(filePath: string, fileText: string): void {
+    if (this.fileExistsSync(filePath)) {
+      const currentContent = this.readFileSync(filePath);
+      // prevent the unnecessary Angular logs about the files being updated
+      if (currentContent === fileText) {
+        return;
+      }
+    }
+
     return this.tree.overwrite(filePath, fileText);
   }
 
@@ -69,7 +77,6 @@ export class TreeFileSystem implements FileSystemHost {
       return;
     }
     return;
-    // return this.tree.create(`${dirPath}/.gitkeep`, '');
   }
 
   async move(srcPath: string, destPath: string): Promise<void> {

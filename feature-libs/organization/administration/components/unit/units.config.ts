@@ -1,19 +1,18 @@
-import {
-  AuthGuard,
-  CmsConfig,
-  ParamsMapping,
-  RoutingConfig,
-} from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { BREAKPOINT, TableConfig, TableLayout } from '@spartacus/storefront';
-import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE } from '../constants';
+import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
 import { ItemService } from '../shared/item.service';
 import { ListService } from '../shared/list/list.service';
+import { OrganizationTableType } from '../shared/organization.model';
 import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
 import { CellComponent } from '../shared/table/cell.component';
 import { StatusCellComponent } from '../shared/table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
-import { OrganizationTableType } from '../shared/organization.model';
+import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
+import { UnitDetailsCellComponent } from './details-cell/unit-details-cell.component';
 import { UnitDetailsComponent } from './details/unit-details.component';
 import { UnitFormComponent } from './form/unit-form.component';
 import { UnitAddressDetailsComponent } from './links/addresses/details/unit-address-details.component';
@@ -38,89 +37,6 @@ import { UnitAddressRoutePageMetaResolver } from './services/unit-address-route-
 import { UnitItemService } from './services/unit-item.service';
 import { UnitListService } from './services/unit-list.service';
 import { UnitRoutePageMetaResolver } from './services/unit-route-page-meta.resolver';
-import { CostCenterDetailsCellComponent } from '../cost-center/details-cell/cost-center-details-cell.component';
-import { UnitDetailsCellComponent } from './details-cell/unit-details-cell.component';
-import { UserDetailsCellComponent } from '../user/details-cell/user-details-cell.component';
-
-const listPath = `organization/units/:${ROUTE_PARAMS.unitCode}`;
-const paramsMapping: ParamsMapping = {
-  unitCode: 'uid',
-  addressId: 'id',
-  userCode: 'customerId',
-};
-
-export const unitsRoutingConfig: RoutingConfig = {
-  routing: {
-    routes: {
-      orgUnits: {
-        paths: ['organization/units'],
-      },
-      orgUnitCreate: {
-        paths: ['organization/units/create'],
-      },
-      orgUnitDetails: {
-        paths: [listPath],
-        paramsMapping,
-      },
-      orgUnitEdit: {
-        paths: [`${listPath}/edit`],
-        paramsMapping,
-      },
-      orgUnitChildren: {
-        paths: [`${listPath}/children`],
-        paramsMapping,
-      },
-      orgUnitCreateChild: {
-        paths: [`${listPath}/children/create`],
-        paramsMapping,
-      },
-      orgUnitUserList: {
-        paths: [`${listPath}/users`],
-        paramsMapping,
-      },
-      orgUnitCreateUser: {
-        paths: [`${listPath}/users/create`],
-        paramsMapping,
-      },
-      orgUnitUserRoles: {
-        paths: [`${listPath}/users/:userCode/roles`],
-        paramsMapping,
-      },
-      orgUnitApprovers: {
-        paths: [`${listPath}/approvers`],
-        paramsMapping,
-      },
-      orgUnitAssignApprovers: {
-        paths: [`${listPath}/approvers/assign`],
-        paramsMapping,
-      },
-      orgUnitAddressList: {
-        paths: [`${listPath}/addresses`],
-        paramsMapping,
-      },
-      orgUnitAddressCreate: {
-        paths: [`${listPath}/addresses/create`],
-        paramsMapping,
-      },
-      orgUnitAddressDetails: {
-        paths: [`${listPath}/addresses/:addressId`],
-        paramsMapping,
-      },
-      orgUnitAddressEdit: {
-        paths: [`${listPath}/addresses/:addressId/edit`],
-        paramsMapping,
-      },
-      orgUnitCostCenters: {
-        paths: [`${listPath}/cost-centers`],
-        paramsMapping,
-      },
-      orgUnitCreateCostCenter: {
-        paths: [`${listPath}/cost-centers/create`],
-        paramsMapping,
-      },
-    },
-  },
-};
 
 export const unitsCmsConfig: CmsConfig = {
   cmsComponents: {

@@ -1,0 +1,57 @@
+<div class="row">
+  <div class="col-12 col-md-4">
+    <a
+      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      class="cx-product-image-container"
+      tabindex="-1"
+    >
+      <cx-media
+        class="cx-product-image"
+        [container]="product.images?.PRIMARY"
+        format="product"
+        [alt]="product.summary"
+      ></cx-media>
+    </a>
+  </div>
+  <div class="col-12 col-md-8">
+    <a
+      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      class="cx-product-name"
+    >
+      <h2 [innerHtml]="product.nameHtml"></h2>
+    </a>
+
+    <ng-template [cxOutlet]="ProductListOutlets.ITEM_DETAILS">
+      <cx-star-rating
+        *ngIf="product.averageRating"
+        [rating]="product?.averageRating"
+      ></cx-star-rating>
+      <div *ngIf="!product.averageRating" class="cx-product-no-review">
+        {{ 'productDetails.noReviews' | cxTranslate }}
+      </div>
+      <div
+        class="cx-product-price"
+        [attr.aria-label]="'productDetails.productPrice' | cxTranslate"
+      >
+        {{ product.price?.formattedValue }}
+      </div>
+    </ng-template>
+
+    <div class="row">
+      <div class="col-12 col-md-8">
+        <p class="cx-product-summary" [innerHtml]="product.summary">
+          {{ product.summary }}
+        </p>
+      </div>
+      <div class="col-12 col-md-4">
+        <ng-template [cxOutlet]="ProductListOutlets.ITEM_ACTIONS">
+          <cx-add-to-cart
+            *ngIf="product.stock?.stockLevelStatus !== 'outOfStock'"
+            [showQuantity]="false"
+            [product]="product"
+          ></cx-add-to-cart>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

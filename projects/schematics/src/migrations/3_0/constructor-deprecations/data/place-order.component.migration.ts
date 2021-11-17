@@ -4,7 +4,7 @@ import {
   CHECKOUT_REPLENISHMENT_FORM_SERVICE,
   CHECKOUT_SERVICE,
   FORM_BUILDER,
-  LAUNCH_DIALOG_SERVICE,
+  LAUNCH_COMPONENT_SERVICE,
   PLACE_ORDER_COMPONENT,
   ROUTING_SERVICE,
   SPARTACUS_CORE,
@@ -14,7 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/place-order/place-order.component.ts
   class: PLACE_ORDER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -37,7 +37,7 @@ export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
       importPath: SPARTACUS_STOREFRONTLIB,
     },
     {
-      className: LAUNCH_DIALOG_SERVICE,
+      className: LAUNCH_COMPONENT_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
     {

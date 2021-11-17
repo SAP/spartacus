@@ -1,7 +1,7 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
 @Pipe({
   name: 'cxNumeric',
@@ -176,10 +176,12 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-price-total'
       );
-
-      expect(
-        component.quantityWithPrice(component.formula.quantity.toString())
-      ).toEqual('2x($10)');
+      const qty = component.formula.quantity;
+      if (qty) {
+        expect(component.quantityWithPrice(qty.toString())).toEqual('2x($10)');
+      } else {
+        fail();
+      }
       expect(component.priceTotal).toEqual('+ $20');
     });
   });

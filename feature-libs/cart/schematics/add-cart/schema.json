@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "CartSchematics",
+  "$id": "CartSchematics",
   "title": "Cart Schematics",
   "type": "object",
   "properties": {
@@ -20,14 +20,27 @@
       "type": "array",
       "uniqueItems": true,
       "items": {
-        "enum": ["Saved-Cart"],
+        "enum": ["Saved-Cart", "Quick-Order", "Import-Export"],
         "type": "string"
       },
-      "default": ["Saved-Cart"],
+      "default": ["Saved-Cart", "Quick-Order", "Import-Export"],
       "x-prompt": {
         "message": "Which Cart features would you like to set up?",
         "type": "list",
-        "items": [{ "value": "Saved-Cart", "label": "Saved Cart" }]
+        "items": [
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          }
+        ]
       }
     }
   },
