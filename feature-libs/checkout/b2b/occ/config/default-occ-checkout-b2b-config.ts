@@ -17,6 +17,7 @@ export const defaultOccCheckoutB2BConfig: OccConfig = {
         paymentTypes: 'paymenttypes', // TODO:#checkout - shouldn't the following endpoints use `orgUsers`?
         setCartCostCenter: 'users/${userId}/carts/${cartId}/costcenter', // TODO:#checkout - rename to b2bPlaceOrder? Similar to `scheduleReplenishmentOrder` from `feature-libs/checkout/scheduled-replenishment/occ/config/default-occ-scheduled-replenishment-config.ts`
         placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
+        setCartPaymentType: 'users/${userId}/carts/${cartId}/paymenttype',
       },
     },
   },
