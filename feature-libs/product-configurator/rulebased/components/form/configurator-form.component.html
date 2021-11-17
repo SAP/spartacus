@@ -1,0 +1,136 @@
+<ng-container *ngIf="configuration$ | async as configuration">
+  <ng-container *ngIf="currentGroup$ | async as currentGroup">
+    <div id="{{ createGroupId(currentGroup.id) }}" role="tabpanel">
+      <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+        <cx-configurator-conflict-description
+          [currentGroup]="currentGroup"
+        ></cx-configurator-conflict-description>
+      </ng-container>
+      <div
+        class="cx-group-attribute"
+        *ngFor="
+          let attribute of currentGroup.attributes;
+          let indexOfAttribute = index
+        "
+      >
+        <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+          <cx-configurator-conflict-suggestion
+            [currentGroup]="currentGroup"
+            [attribute]="attribute"
+            [suggestionNumber]="indexOfAttribute"
+          ></cx-configurator-conflict-suggestion>
+        </ng-container>
+        <cx-configurator-attribute-header
+          [attribute]="attribute"
+          [owner]="configuration.owner"
+          [groupId]="currentGroup.id"
+          [groupType]="currentGroup.groupType"
+        ></cx-configurator-attribute-header>
+
+        <!-- Single Selection Radio Button -->
+        <cx-configurator-attribute-radio-button
+          *ngIf="attribute.uiType === uiType.RADIOBUTTON"
+          [attribute]="attribute"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-radio-button>
+
+        <!-- Single Selection Product Bundle -->
+        <cx-configurator-attribute-single-selection-bundle
+          (selectionChange)="updateConfiguration($event)"
+          [attribute]="attribute"
+          [ownerKey]="configuration.owner.key"
+          *ngIf="attribute.uiType === uiType.RADIOBUTTON_PRODUCT"
+        ></cx-configurator-attribute-single-selection-bundle>
+
+        <!-- Multi Selection Product Bundle -->
+        <cx-configurator-attribute-multi-selection-bundle
+          (selectionChange)="updateConfiguration($event)"
+          [attribute]="attribute"
+          [ownerKey]="configuration.owner.key"
+          *ngIf="attribute.uiType === uiType.CHECKBOXLIST_PRODUCT"
+        ></cx-configurator-attribute-multi-selection-bundle>
+
+        <!-- Single Selection Dropdown Product Bundle -->
+        <cx-configurator-attribute-single-selection-bundle-dropdown
+          *ngIf="attribute.uiType === uiType.DROPDOWN_PRODUCT"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-single-selection-bundle-dropdown>
+
+        <!-- Single Selection Dropdown -->
+        <cx-configurator-attribute-drop-down
+          *ngIf="attribute.uiType === uiType.DROPDOWN"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-drop-down>
+        <cx-configurator-attribute-input-field
+          *ngIf="attribute.uiType === uiType.STRING"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+          [ownerType]="configuration.owner.type"
+          [ownerKey]="configuration.owner.key"
+          (inputChange)="updateConfiguration($event)"
+        >
+        </cx-configurator-attribute-input-field>
+        <ng-container *ngIf="activeLanguage$ | async as activeLanguage">
+          <cx-configurator-attribute-numeric-input-field
+            *ngIf="attribute.uiType === uiType.NUMERIC"
+            [attribute]="attribute"
+            [group]="currentGroup.id"
+            [ownerKey]="configuration.owner.key"
+            [language]="activeLanguage"
+            (inputChange)="updateConfiguration($event)"
+          ></cx-configurator-attribute-numeric-input-field>
+        </ng-container>
+
+        <!-- Multi Selection Checkbox -->
+        <cx-configurator-attribute-checkbox-list
+          *ngIf="attribute.uiType === uiType.CHECKBOXLIST"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-checkbox-list>
+        <cx-configurator-attribute-checkbox
+          *ngIf="attribute.uiType === uiType.CHECKBOX"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-checkbox>
+        <cx-configurator-attribute-read-only
+          *ngIf="attribute.uiType === uiType.READ_ONLY"
+          [attribute]="attribute"
+          [group]="currentGroup.id"
+        ></cx-configurator-attribute-read-only>
+        <cx-configurator-attribute-multi-selection-image
+          *ngIf="attribute.uiType === uiType.MULTI_SELECTION_IMAGE"
+          [attribute]="attribute"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-multi-selection-image>
+        <cx-configurator-attribute-single-selection-image
+          *ngIf="attribute.uiType === uiType.SINGLE_SELECTION_IMAGE"
+          [attribute]="attribute"
+          [ownerKey]="configuration.owner.key"
+          (selectionChange)="updateConfiguration($event)"
+        ></cx-configurator-attribute-single-selection-image>
+
+        <em *ngIf="attribute.uiType === uiType.NOT_IMPLEMENTED">{{
+          'configurator.attribute.notSupported' | cxTranslate
+        }}</em>
+
+        <cx-configurator-attribute-footer
+          [attribute]="attribute"
+          [owner]="configuration.owner"
+          [groupId]="currentGroup.id"
+        ></cx-configurator-attribute-footer>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

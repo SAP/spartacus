@@ -1,0 +1,4 @@
+%cx-configurator-attribute-input-field {
+  @include cx-configurator-attribute-type();
+  @include cx-configurator-form-group();
+}

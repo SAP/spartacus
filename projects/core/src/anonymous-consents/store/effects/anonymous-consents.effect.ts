@@ -73,46 +73,45 @@ export class AnonymousConsentsEffects {
   );
 
   @Effect()
-  loadAnonymousConsentTemplates$: Observable<
-    AnonymousConsentsActions.AnonymousConsentsActions
-  > = this.actions$.pipe(
-    ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-    withLatestFrom(this.anonymousConsentService.getTemplates()),
-    concatMap(([_, currentConsentTemplates]) =>
-      this.anonymousConsentTemplatesConnector
-        .loadAnonymousConsentTemplates()
-        .pipe(
-          mergeMap((newConsentTemplates) => {
-            let updated = false;
-            if (
-              currentConsentTemplates &&
-              currentConsentTemplates.length !== 0
-            ) {
-              updated = this.anonymousConsentService.detectUpdatedTemplates(
-                currentConsentTemplates,
-                newConsentTemplates
-              );
-            }
+  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> =
+    this.actions$.pipe(
+      ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
+      withLatestFrom(this.anonymousConsentService.getTemplates()),
+      concatMap(([_, currentConsentTemplates]) =>
+        this.anonymousConsentTemplatesConnector
+          .loadAnonymousConsentTemplates()
+          .pipe(
+            mergeMap((newConsentTemplates) => {
+              let updated = false;
+              if (
+                currentConsentTemplates &&
+                currentConsentTemplates.length !== 0
+              ) {
+                updated = this.anonymousConsentService.detectUpdatedTemplates(
+                  currentConsentTemplates,
+                  newConsentTemplates
+                );
+              }
 
-            return [
-              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-                newConsentTemplates
-              ),
-              new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-                updated
-              ),
-            ];
-          }),
-          catchError((error) =>
-            of(
-              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                normalizeHttpError(error)
+              return [
+                new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+                  newConsentTemplates
+                ),
+                new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+                  updated
+                ),
+              ];
+            }),
+            catchError((error) =>
+              of(
+                new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+                  normalizeHttpError(error)
+                )
               )
             )
           )
-        )
-    )
-  );
+      )
+    );
 
   // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
   @Effect()

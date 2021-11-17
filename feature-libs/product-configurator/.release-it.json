@@ -1,0 +1,37 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "product-configurator-${version}",
+    "commitMessage": "Bumping product-configurator version to ${version}",
+    "tagAnnotation": "Bumping product-configurator version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/product-configurator"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:product-configurator"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/product-configurator@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib product-configurator --to product-configurator-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/styles",
+            "peerDependencies.@spartacus/checkout"
+          ]
+        }
+      ]
+    }
+  }
+}

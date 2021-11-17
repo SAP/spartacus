@@ -1,0 +1,40 @@
+%cx-configurator-overview-attribute {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+
+  .cx-attribute-value {
+    width: 50%;
+    font-weight: 600;
+    line-break: anywhere;
+    padding-inline-end: 10px;
+
+    @include media-breakpoint-up(md) {
+      width: 40%;
+    }
+  }
+
+  .cx-attribute-label {
+    width: 100%;
+    padding-inline-end: 10px;
+    line-break: anywhere;
+    color: var(--cx-color-secondary);
+
+    @include media-breakpoint-up(md) {
+      width: 30%;
+    }
+  }
+
+  .cx-attribute-price {
+    align-self: flex-start;
+    color: var(--cx-color-secondary);
+    width: 50%;
+
+    @include media-breakpoint-up(md) {
+      width: 30%;
+      padding-block-start: 5px;
+    }
+  }
+}

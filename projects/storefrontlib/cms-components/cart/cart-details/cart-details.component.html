@@ -1,0 +1,47 @@
+<ng-container *ngIf="cart$ | async as cart">
+  <ng-container *ngIf="entries$ | async as entries">
+    <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
+      <ng-container *cxFeatureLevel="'4.2'">
+        <cx-cart-validation-warnings></cx-cart-validation-warnings>
+      </ng-container>
+
+      <h4 class="cx-total">
+        {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
+      </h4>
+
+      <cx-promotions
+        [promotions]="
+          (cart.appliedOrderPromotions || []).concat(
+            cart.potentialOrderPromotions || []
+          )
+        "
+      ></cx-promotions>
+
+      <cx-cart-item-list
+        [items]="entries"
+        [cartIsLoading]="!(cartLoaded$ | async)"
+        [promotionLocation]="promotionLocation"
+        [options]="{
+          isSaveForLater: false,
+          optionalBtn: saveForLaterBtn
+        }"
+      ></cx-cart-item-list>
+    </div>
+  </ng-container>
+</ng-container>
+
+<ng-template let-ctx #saveForLaterBtn>
+  <div
+    *ngIf="selectiveCartEnabled"
+    class="col-md-3 col-lg-3 col-xl-3 cx-sfl-btn"
+  >
+    <button
+      class="link cx-action-link"
+      [disabled]="ctx.loading"
+      (click)="saveForLater(ctx.item)"
+      type="button"
+    >
+      {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
+    </button>
+  </div>
+</ng-template>

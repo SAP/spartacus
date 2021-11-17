@@ -22,11 +22,11 @@
 // Indicates the current major/minor version, which is used to avoid breaking changes.
 // Any CSS added later than this version is omitted by default, unless the `$useLatestStyles`
 // or `$styleVersion` are enabled.
-$_fullVersion: 3.1;
+$_fullVersion: 4.2;
 
 // The _global_ major version. Any (left over) styles from previous stable versions
 // are processed to the final CSS.
-$_majorVersion: 3;
+$_majorVersion: 4;
 
 // The `$styleVersion` can be used by customers to explicitly opt-in to breaking style
 // changes till the given style version. It must contain a floating number, such as `2.1`.

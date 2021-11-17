@@ -1,0 +1,52 @@
+<ng-template #details>
+  <div class="popover-details">
+    <div class="property">
+      <label>{{ 'orgUserGroup.name' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUserGroupDetails',
+            params: model
+          } | cxUrl
+        "
+        >{{ model.name }}</a
+      >
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUserGroup.uid' | cxTranslate }}</label>
+      <span class="value">
+        {{ model.uid }}
+      </span>
+    </div>
+
+    <div class="property">
+      <label>{{ 'orgUserGroup.orgUnit' | cxTranslate }}</label>
+      <a
+        class="value"
+        [routerLink]="
+          {
+            cxRoute: 'orgUnitDetails',
+            params: model.orgUnit
+          } | cxUrl
+        "
+      >
+        {{ model.orgUnit?.name }}
+      </a>
+    </div>
+  </div>
+</ng-template>
+
+<button
+  class="button text"
+  [cxPopover]="details"
+  [cxPopoverOptions]="{
+    placement: 'auto',
+    class: 'my-company-popover',
+    appendToBody: true,
+    displayCloseButton: true
+  }"
+>
+  {{ model?.name }}
+</button>

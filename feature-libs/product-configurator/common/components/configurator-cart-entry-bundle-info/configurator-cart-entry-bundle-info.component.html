@@ -1,0 +1,72 @@
+<ng-container *ngIf="orderEntry$ | async as orderEntry">
+  <ng-container *ngIf="isBundleBasedConfigurator(orderEntry)">
+    <ng-container *ngIf="numberOfLineItems$ | async as numberOfItems">
+      <div class="cx-number-items">
+        {{
+          'configurator.header.items' | cxTranslate: { count: numberOfItems }
+        }}
+      </div>
+      <button (click)="toggleItems()">
+        <div class="cx-toggle-hide-items">
+          <ng-container *ngIf="hideItems">
+            {{ 'configurator.header.show' | cxTranslate }}
+          </ng-container>
+          <ng-container *ngIf="!hideItems">
+            {{ 'configurator.header.hide' | cxTranslate }}
+          </ng-container>
+        </div>
+      </button>
+
+      <div class="cx-item-infos" [class.open]="!hideItems">
+        <div class="cx-item-info" *ngFor="let lineItem of lineItems$ | async">
+          <div class="cx-item-name">
+            {{ lineItem?.name }}
+          </div>
+          <ng-container *ngIf="isDesktop() | async; else mobile">
+            <div class="cx-item-price">
+              <span class="cx-item" *ngIf="lineItem?.formattedPrice">{{
+                lineItem?.formattedPrice
+              }}</span>
+            </div>
+            <div class="cx-item-quantity">
+              <span class="cx-item" *ngIf="lineItem?.formattedQuantity">{{
+                lineItem?.formattedQuantity | cxNumeric
+              }}</span>
+            </div>
+          </ng-container>
+          <ng-template #mobile>
+            <div class="cx-item-quantity">
+              <ng-container *ngIf="lineItem?.formattedQuantity">
+                <span class="cx-identifier">{{
+                  'configurator.attribute.quantity' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{
+                  lineItem?.formattedQuantity | cxNumeric
+                }}</span>
+              </ng-container>
+            </div>
+            <div class="cx-item-price">
+              <ng-container *ngIf="lineItem?.formattedPrice">
+                <span class="cx-identifier">{{
+                  'configurator.overviewForm.itemPrice' | cxTranslate
+                }}</span>
+                <span class="cx-item">{{ lineItem?.formattedPrice }}</span>
+              </ng-container>
+            </div>
+          </ng-template>
+        </div>
+      </div>
+    </ng-container>
+    <cx-configure-cart-entry
+      *ngIf="
+        (shouldShowButton$ | async) &&
+          orderEntry?.product?.configurable &&
+          quantityControl$ | async as quantityControl
+      "
+      [cartEntry]="orderEntry"
+      [readOnly]="readonly$ | async"
+      [msgBanner]="false"
+      [disabled]="quantityControl.disabled"
+    ></cx-configure-cart-entry>
+  </ng-container>
+</ng-container>

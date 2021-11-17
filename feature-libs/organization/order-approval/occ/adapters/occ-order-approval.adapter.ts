@@ -63,9 +63,11 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
     userId: string,
     orderApprovalCode: string
   ): string {
-    return this.occEndpoints.getUrl('orderApproval', {
-      userId,
-      orderApprovalCode,
+    return this.occEndpoints.buildUrl('orderApproval', {
+      urlParams: {
+        userId,
+        orderApprovalCode,
+      },
     });
   }
 
@@ -73,16 +75,21 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('orderApprovals', { userId }, params);
+    return this.occEndpoints.buildUrl('orderApprovals', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getOrderApprovalDecisionEndpoint(
     userId: string,
     orderApprovalCode: string
   ): string {
-    return this.occEndpoints.getUrl('orderApprovalDecision', {
-      userId,
-      orderApprovalCode,
+    return this.occEndpoints.buildUrl('orderApprovalDecision', {
+      urlParams: {
+        userId,
+        orderApprovalCode,
+      },
     });
   }
 }

@@ -26,9 +26,7 @@ export class MerchandisingCarouselComponent {
   protected lastEventModelId: string;
 
   constructor(
-    protected componentData: CmsComponentData<
-      CmsMerchandisingCarouselComponent
-    >,
+    protected componentData: CmsComponentData<CmsMerchandisingCarouselComponent>,
     protected merchandisingCarouselComponentService: MerchandisingCarouselComponentService,
     protected routingService: RoutingService,
     protected intersectionService: IntersectionService,
@@ -37,32 +35,31 @@ export class MerchandisingCarouselComponent {
     this.lastEventModelId = '';
   }
 
-  private fetchProducts$: Observable<
-    MerchandisingCarouselModel
-  > = this.componentData.data$.pipe(
-    filter((data) => Boolean(data)),
-    distinctUntilKeyChanged('strategy'),
-    switchMap((data) =>
-      this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
-        data
-      )
-    ),
-    tap((data) => {
-      if (typeof data.backgroundColor === 'string') {
-        this.el.nativeElement.style.setProperty(
-          '--cx-color-background',
-          data.backgroundColor
-        );
-      }
-      if (typeof data.textColor === 'string') {
-        this.el.nativeElement.style.setProperty(
-          '--cx-color-text',
-          data.textColor
-        );
-      }
-    }),
-    shareReplay({ bufferSize: 1, refCount: true })
-  );
+  private fetchProducts$: Observable<MerchandisingCarouselModel> =
+    this.componentData.data$.pipe(
+      filter((data) => Boolean(data)),
+      distinctUntilKeyChanged('strategy'),
+      switchMap((data) =>
+        this.merchandisingCarouselComponentService.getMerchandisingCarouselModel(
+          data
+        )
+      ),
+      tap((data) => {
+        if (typeof data.backgroundColor === 'string') {
+          this.el.nativeElement.style.setProperty(
+            '--cx-color-background',
+            data.backgroundColor
+          );
+        }
+        if (typeof data.textColor === 'string') {
+          this.el.nativeElement.style.setProperty(
+            '--cx-color-text',
+            data.textColor
+          );
+        }
+      }),
+      shareReplay({ bufferSize: 1, refCount: true })
+    );
 
   private intersection$: Observable<void> = this.fetchProducts$.pipe(
     take(1),

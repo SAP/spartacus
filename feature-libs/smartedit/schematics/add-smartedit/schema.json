@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "SmartEditSchematics",
+  "title": "SmartEdit Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the smartedit features.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["SmartEdit"]
+    },
+    "storefrontPreviewRoute": {
+      "type": "string",
+      "description": "The storefront preview route. (e.g. cx-preview)",
+      "x-prompt": "[SmartEdit] What is the storefront preview route? (optional)"
+    },
+    "allowOrigin": {
+      "type": "string",
+      "description": "The URL for which to allow origin. (e.g. localhost:9002)",
+      "x-prompt": "[SmartEdit] URL for which to allow origin? (optional)"
+    }
+  },
+  "required": []
+}

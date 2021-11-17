@@ -30,6 +30,8 @@
       align-items: center;
       flex: 100%;
       justify-content: space-between;
+
+      @extend %organizationTitle !optional;
     }
 
     h3 {

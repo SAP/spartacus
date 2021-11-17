@@ -47,7 +47,7 @@ describe('OccCartVoucherAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -63,9 +63,11 @@ describe('OccCartVoucherAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cartVoucher', {
-        userId: userId,
-        cartId: cartId,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('cartVoucher', {
+        urlParams: {
+          userId: userId,
+          cartId: cartId,
+        },
       });
       expect(mockReq.request.params.get('voucherId')).toEqual(voucherId);
       expect(mockReq.cancelled).toBeFalsy();
@@ -86,9 +88,11 @@ describe('OccCartVoucherAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('cartVoucher', {
-        userId: userId,
-        cartId: cartId,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('cartVoucher', {
+        urlParams: {
+          userId: userId,
+          cartId: cartId,
+        },
       });
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');

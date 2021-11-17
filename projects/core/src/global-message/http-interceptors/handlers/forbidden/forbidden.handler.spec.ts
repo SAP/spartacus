@@ -55,11 +55,11 @@ describe('ForbiddenHandler', () => {
 
   it('should logout unauthorized user while logging', () => {
     spyOn(authService, 'logout');
-    spyOn(occEndpoints, 'getUrl').and.returnValue('/user');
+    spyOn(occEndpoints, 'buildUrl').and.returnValue('/user');
     service.handleError({ url: '/user' });
 
-    expect(occEndpoints.getUrl).toHaveBeenCalledWith('user', {
-      userId: 'current',
+    expect(occEndpoints.buildUrl).toHaveBeenCalledWith('user', {
+      urlParams: { userId: 'current' },
     });
     expect(authService.logout).toHaveBeenCalledWith();
   });

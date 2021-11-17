@@ -15,10 +15,10 @@ export const initialLoaderState: LoaderState<any> = {
  * Utilizes "loader" meta field of actions to set specific flags for specific
  * action (LOAD, SUCCESS, FAIL, RESET)
  */
-export function loaderReducer<T>(
+export function loaderReducer<T, V extends Action = Action>(
   entityType: string,
-  reducer?: (state: T, action: Action) => T
-): (state: LoaderState<T>, action: LoaderAction) => LoaderState<T> {
+  reducer?: (state: T, action: Action | V) => T
+): (state: LoaderState<T> | undefined, action: LoaderAction) => LoaderState<T> {
   return (
     state: LoaderState<T> = initialLoaderState,
     action: LoaderAction

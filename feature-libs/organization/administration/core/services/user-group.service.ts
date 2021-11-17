@@ -42,7 +42,9 @@ export class UserGroupService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -52,7 +54,9 @@ export class UserGroupService {
         this.store.dispatch(
           new UserGroupActions.LoadUserGroups({ userId, params })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -131,7 +135,9 @@ export class UserGroupService {
             userGroup,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -145,7 +151,9 @@ export class UserGroupService {
             userGroup,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -164,7 +172,9 @@ export class UserGroupService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -178,7 +188,9 @@ export class UserGroupService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -195,7 +207,9 @@ export class UserGroupService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -250,7 +264,9 @@ export class UserGroupService {
             customerId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

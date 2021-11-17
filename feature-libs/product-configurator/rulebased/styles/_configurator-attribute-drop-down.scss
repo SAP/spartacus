@@ -1,0 +1,16 @@
+%cx-configurator-attribute-drop-down {
+  @include cx-configurator-attribute-type();
+  flex-direction: column;
+  @include cx-configurator-form-group();
+  @include cx-configurator-attribute-level-quantity-price();
+
+  @include media-breakpoint-down(sm) {
+    .cx-value-price {
+      margin-block-start: 32px;
+    }
+  }
+
+  .cx-attribute-level-quantity-price {
+    margin-block-start: 32px;
+  }
+}

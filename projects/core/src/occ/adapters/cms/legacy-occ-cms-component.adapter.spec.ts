@@ -17,10 +17,7 @@ import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 const ids = ['comp_uid1', 'comp_uid2'];
 
 class OccEndpointsServiceMock {
-  getEndpoint(): string {
-    return '/cms';
-  }
-  getUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
+  buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }
 }
@@ -154,14 +151,12 @@ describe('LegacyOccCmsComponentAdapter', () => {
   }
 
   function spyOnEndpoint(requestUrl: string): jasmine.Spy {
-    return spyOn(endpointsService, 'getUrl').and.returnValue(requestUrl);
+    return spyOn(endpointsService, 'buildUrl').and.returnValue(requestUrl);
   }
 
   function assertPostRequestGetUrl(fields: string, pageSize: string) {
-    expect(endpointsService.getUrl).toHaveBeenCalledWith(
-      'components',
-      {},
-      { fields, productCode: '123', currentPage: '0', pageSize }
-    );
+    expect(endpointsService.buildUrl).toHaveBeenCalledWith('components', {
+      queryParams: { fields, productCode: '123', currentPage: '0', pageSize },
+    });
   }
 });

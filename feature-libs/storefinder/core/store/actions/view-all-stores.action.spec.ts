@@ -39,4 +39,13 @@ describe('View All Stores Actions', () => {
       });
     });
   });
+
+  describe('Clear Store Finder Data Action', () => {
+    it('should creat ClearStoreFinderData action', () => {
+      const action = new StoreFinderActions.ClearStoreFinderData();
+      expect({ ...action }).toEqual({
+        type: StoreFinderActions.CLEAR_STORE_FINDER_DATA,
+      });
+    });
+  });
 });

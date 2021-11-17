@@ -1,25 +1,24 @@
-import {
-  AuthGuard,
-  CmsConfig,
-  ParamsMapping,
-  RoutingConfig,
-} from '@spartacus/core';
+import { AuthGuard, CmsConfig } from '@spartacus/core';
 import { AdminGuard } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { TableConfig } from '@spartacus/storefront';
-import { MAX_OCC_INTEGER_VALUE, ROUTE_PARAMS } from '../constants';
+import { MAX_OCC_INTEGER_VALUE } from '../constants';
+import { PermissionDetailsCellComponent } from '../permission/details-cell/permission-details-cell.component';
 import { ItemService } from '../shared/item.service';
 import { ListComponent } from '../shared/list/list.component';
 import { ListService } from '../shared/list/list.service';
+import { OrganizationTableType } from '../shared/organization.model';
 import { AssignCellComponent } from '../shared/sub-list/assign-cell.component';
 import { ActiveLinkCellComponent } from '../shared/table/active-link/active-link-cell.component';
 import { CellComponent } from '../shared/table/cell.component';
 import { RolesCellComponent } from '../shared/table/roles/roles-cell.component';
 import { StatusCellComponent } from '../shared/table/status/status-cell.component';
 import { UnitCellComponent } from '../shared/table/unit/unit-cell.component';
-import { OrganizationTableType } from '../shared/organization.model';
+import { UserGroupDetailsCellComponent } from '../user-group/details-cell/user-group-details-cell.component';
 import { UserAssignedApproverListComponent } from './approvers/assigned/user-assigned-approver-list.component';
 import { UserApproverListComponent } from './approvers/user-approver-list.component';
 import { UserChangePasswordFormComponent } from './change-password-form/user-change-password-form.component';
+import { UserDetailsCellComponent } from './details-cell/user-details-cell.component';
 import { UserDetailsComponent } from './details/user-details.component';
 import { UserFormComponent } from './form/user-form.component';
 import { UserAssignedPermissionListComponent } from './permissions/assigned/user-assigned-permission-list.component';
@@ -29,60 +28,6 @@ import { UserListService } from './services/user-list.service';
 import { UserRoutePageMetaResolver } from './services/user-route-page-meta.resolver';
 import { UserUserGroupListComponent } from './user-groups';
 import { UserAssignedUserGroupListComponent } from './user-groups/assigned/user-assigned-user-group-list.component';
-
-const listPath = `organization/users/:${ROUTE_PARAMS.userCode}`;
-const paramsMapping: ParamsMapping = {
-  userCode: 'customerId',
-};
-
-export const userRoutingConfig: RoutingConfig = {
-  routing: {
-    routes: {
-      orgUser: {
-        paths: ['organization/users'],
-      },
-      orgUserCreate: {
-        paths: ['organization/users/create'],
-      },
-      orgUserDetails: {
-        paths: [listPath],
-        paramsMapping,
-      },
-      orgUserEdit: {
-        paths: [`${listPath}/edit`],
-        paramsMapping,
-      },
-      orgUserChangePassword: {
-        paths: [`${listPath}/change-password`],
-        paramsMapping,
-      },
-      orgUserApprovers: {
-        paths: [`${listPath}/approvers`],
-        paramsMapping,
-      },
-      orgUserAssignApprovers: {
-        paths: [`${listPath}/approvers/assign`],
-        paramsMapping,
-      },
-      orgUserPermissions: {
-        paths: [`${listPath}/purchase-limits`],
-        paramsMapping,
-      },
-      orgUserAssignPermissions: {
-        paths: [`${listPath}/purchase-limits/assign`],
-        paramsMapping,
-      },
-      orgUserUserGroups: {
-        paths: [`${listPath}/user-groups`],
-        paramsMapping,
-      },
-      orgUserAssignUserGroups: {
-        paths: [`${listPath}/user-groups/assign`],
-        paramsMapping,
-      },
-    },
-  },
-};
 
 export const userCmsConfig: CmsConfig = {
   cmsComponents: {
@@ -188,11 +133,10 @@ export function userTableConfigFactory(): TableConfig {
   return userTableConfig;
 }
 
-const cells = {
-  actions: {
-    dataComponent: AssignCellComponent,
-  },
+const actions = {
+  dataComponent: AssignCellComponent,
 };
+
 const pagination = {
   pageSize: MAX_OCC_INTEGER_VALUE,
 };
@@ -224,39 +168,69 @@ export const userTableConfig: TableConfig = {
     [OrganizationTableType.USER_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_APPROVERS]: {
       cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_USER_GROUPS]: {
-      cells: ['uid', 'actions'],
+      cells: ['name', 'actions'],
       options: {
-        cells,
+        cells: {
+          name: {
+            dataComponent: UserGroupDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },
     [OrganizationTableType.USER_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
       },
     },
     [OrganizationTableType.USER_ASSIGNED_PERMISSIONS]: {
       cells: ['code', 'actions'],
       options: {
-        cells,
+        cells: {
+          code: {
+            dataComponent: PermissionDetailsCellComponent,
+          },
+          actions,
+        },
         pagination,
       },
     },

@@ -88,6 +88,8 @@ export const organization = {
     confirmation: {
       cancel: 'CANCEL',
       confirm: 'CONFIRM',
+      disable: 'DISABLE',
+      delete: 'DELETE',
     },
 
     httpHandlers: {

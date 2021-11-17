@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
 import { StoreFinderActions } from '../actions/index';
-import { normalizeHttpError } from '@spartacus/core';
+import { normalizeHttpError, SiteContextActions } from '@spartacus/core';
 
 @Injectable()
 export class ViewAllStoresEffect {
@@ -18,7 +18,10 @@ export class ViewAllStoresEffect {
     | StoreFinderActions.ViewAllStoresSuccess
     | StoreFinderActions.ViewAllStoresFail
   > = this.actions$.pipe(
-    ofType(StoreFinderActions.VIEW_ALL_STORES),
+    ofType(
+      StoreFinderActions.VIEW_ALL_STORES,
+      StoreFinderActions.CLEAR_STORE_FINDER_DATA
+    ),
     switchMap(() => {
       return this.storeFinderConnector.getCounts().pipe(
         map((data) => {
@@ -31,6 +34,17 @@ export class ViewAllStoresEffect {
           )
         )
       );
+    })
+  );
+
+  @Effect()
+  clearStoreFinderData$: Observable<StoreFinderActions.ClearStoreFinderData> = this.actions$.pipe(
+    ofType(
+      SiteContextActions.LANGUAGE_CHANGE,
+      SiteContextActions.CURRENCY_CHANGE
+    ),
+    map(() => {
+      return new StoreFinderActions.ClearStoreFinderData();
     })
   );
 }

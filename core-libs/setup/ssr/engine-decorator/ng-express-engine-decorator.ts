@@ -1,40 +1,19 @@
-import { NgModuleFactory, StaticProvider, Type } from '@angular/core';
-import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '@spartacus/core';
-import { OptimizedSsrEngine } from '../optimized-engine/optimized-ssr-engine';
+import { NgSetupOptions } from '@nguniversal/express-engine';
+import {
+  OptimizedSsrEngine,
+  SsrCallbackFn,
+} from '../optimized-engine/optimized-ssr-engine';
 import { SsrOptimizationOptions } from '../optimized-engine/ssr-optimization-options';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
-import { Request } from 'express';
-
-/**
- * These are the allowed options for the engine
- */
-export interface NgSetupOptions {
-  bootstrap: Type<{}> | NgModuleFactory<{}>;
-  providers?: StaticProvider[];
-}
-
-/**
- * These are the allowed options for the render
- */
-export interface RenderOptions extends NgSetupOptions {
-  req: {
-    protocol: string;
-    originalUrl: string;
-    get: (_: string) => string;
-  }; // Request;
-  res?: any; // Response;
-  url?: string;
-  document?: string;
-}
+import { getServerRequestProviders } from '../providers/ssr-providers';
 
 export type NgExpressEngineInstance = (
   filePath: string,
-  options: RenderOptions,
-  callback: (err?: Error | null, html?: string) => void
+  options: object,
+  callback: SsrCallbackFn
 ) => void;
 
 export type NgExpressEngine = (
-  setupOptions: NgSetupOptions
+  setupOptions: Readonly<NgSetupOptions>
 ) => NgExpressEngineInstance;
 
 /**
@@ -49,20 +28,19 @@ export class NgExpressEngineDecorator {
    */
   static get(
     ngExpressEngine: NgExpressEngine,
-    optimizationOptions?: SsrOptimizationOptions
+    optimizationOptions?: SsrOptimizationOptions | null
   ): NgExpressEngine {
-    const result = decorateExpressEngine(ngExpressEngine, optimizationOptions);
-    return result;
+    return decorateExpressEngine(ngExpressEngine, optimizationOptions);
   }
 }
 
 export function decorateExpressEngine(
   ngExpressEngine: NgExpressEngine,
-  optimizationOptions: SsrOptimizationOptions = {
+  optimizationOptions: SsrOptimizationOptions | null = {
     concurrency: 20,
     timeout: 3000,
   }
-) {
+): NgExpressEngine {
   return function (setupOptions: NgSetupOptions) {
     const engineInstance = ngExpressEngine({
       ...setupOptions,
@@ -79,32 +57,4 @@ export function decorateExpressEngine(
           .engineInstance
       : engineInstance;
   };
-}
-
-/**
- * Returns Spartacus providers to be passed to the Angular express engine (in SSR)
- *
- * @param options
- */
-export function getServerRequestProviders(): StaticProvider[] {
-  return [
-    {
-      provide: SERVER_REQUEST_URL,
-      useFactory: getRequestUrl,
-      deps: [REQUEST],
-    },
-    {
-      provide: SERVER_REQUEST_ORIGIN,
-      useFactory: getRequestOrigin,
-      deps: [REQUEST],
-    },
-  ];
-}
-
-function getRequestUrl(req: Request): string {
-  return getRequestOrigin(req) + req.originalUrl;
-}
-
-function getRequestOrigin(req: Request): string {
-  return req.protocol + '://' + req.get('host');
 }

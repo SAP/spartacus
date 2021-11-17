@@ -4,11 +4,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { Permission } from '@spartacus/organization/administration/core';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
-import { of } from 'rxjs';
-import { Subject } from 'rxjs/internal/Subject';
-import { ItemExistsDirective } from '../../shared/item-exists.directive';
+import { of, Subject } from 'rxjs';
+import { DisableInfoModule } from '../../shared';
 import { CardTestingModule } from '../../shared/card/card.testing.module';
 import { ToggleStatusModule } from '../../shared/detail/toggle-status-action/toggle-status.module';
+import { ItemExistsDirective } from '../../shared/item-exists.directive';
 import { ItemService } from '../../shared/item.service';
 import { MessageTestingModule } from '../../shared/message/message.testing.module';
 import { MessageService } from '../../shared/message/services/message.service';
@@ -47,6 +47,7 @@ describe('PermissionDetailsComponent', () => {
         CardTestingModule,
         MessageTestingModule,
         ToggleStatusModule,
+        DisableInfoModule,
       ],
       declarations: [PermissionDetailsComponent, ItemExistsDirective],
       providers: [

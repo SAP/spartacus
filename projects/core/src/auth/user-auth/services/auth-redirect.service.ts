@@ -1,7 +1,9 @@
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Injectable, OnDestroy } from '@angular/core';
+import { Event, NavigationEnd, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 
 /**
@@ -10,11 +12,13 @@ import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 @Injectable({
   providedIn: 'root',
 })
-export class AuthRedirectService {
+export class AuthRedirectService implements OnDestroy {
   /**
-   * This service is responsible for redirecting to the last page before authorization. "The last page" can be:
+   * This service is responsible for remembering the last page before the authentication. "The last page" can be:
    * 1. Just the previously opened page; or
    * 2. The page that we just tried to open, but AuthGuard cancelled it
+   *
+   * Then, after successful authentication it allows for redirecting to that remembered page via the `redirect()` method.
    *
    * For example:
    * 1. The user opens the product page, then clicks /login link and signs in
@@ -26,14 +30,25 @@ export class AuthRedirectService {
   constructor(
     protected routing: RoutingService,
     protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService
-  ) {}
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected authFlowRoutesService: AuthFlowRoutesService
+  ) {
+    this.init();
+  }
 
-  private ignoredUrls = new Set<string>();
-  private lastAuthGuardNavigation: {
-    url: string;
-    navigationId: number;
-  };
+  protected subscription: Subscription;
+
+  protected init() {
+    this.subscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+        this.setRedirectUrl(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   /**
    * Redirect to saved url (homepage if nothing is saved).
@@ -48,56 +63,52 @@ export class AuthRedirectService {
         } else {
           this.routing.goByUrl(redirectUrl);
         }
-        this.authRedirectStorageService.setRedirectUrl(undefined);
-
-        this.lastAuthGuardNavigation = undefined;
+        this.clearRedirectUrl();
       });
   }
 
   /**
    * Saves url of a page that user wanted to access, but wasn't yet logged in.
+   *
+   * @deprecated since 4.0 - use `saveCurrentNavigationUrl` method instead
    */
-  reportAuthGuard() {
-    const { url, navigationId } = this.getCurrentNavigation();
-    this.lastAuthGuardNavigation = { url, navigationId };
-    this.authRedirectStorageService.setRedirectUrl(url);
+  reportAuthGuard(): void {
+    this.saveCurrentNavigationUrl();
   }
 
   /**
-   * Saves url of a page that was accessed before entering a page only for not auth users.
+   * Saves the url of the current navigation as the redirect url, unless
+   * the url is a part of the user login flow.
    */
-  reportNotAuthGuard() {
-    const { url, initialUrl, navigationId } = this.getCurrentNavigation();
+  saveCurrentNavigationUrl(): void {
+    const navigation = this.router.getCurrentNavigation();
+    if (!navigation?.finalUrl) {
+      return;
+    }
 
-    this.ignoredUrls.add(url);
+    const url = this.router.serializeUrl(navigation.finalUrl);
+    this.setRedirectUrl(url);
+  }
 
-    // Don't save redirect url if you've already come from page with NotAuthGuard (i.e. user has come from login to register)
-    if (!this.ignoredUrls.has(initialUrl)) {
-      // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
-      // than the last opened page
-      if (
-        !this.lastAuthGuardNavigation ||
-        this.lastAuthGuardNavigation.navigationId < navigationId - 1
-      ) {
-        this.authRedirectStorageService.setRedirectUrl(initialUrl);
+  /**
+   * @deprecated since 4.0 - method not needed anymore. Every visited URL is now
+   *                         remembered automatically as redirect URL on NavigationEnd event.
+   */
+  reportNotAuthGuard() {}
 
-        this.lastAuthGuardNavigation = undefined;
-      }
+  /**
+   * Save the url as the redirect url, unless it's a part of the user login flow.
+   */
+  setRedirectUrl(url: string): void {
+    if (!this.authFlowRoutesService.isAuthFlow(url)) {
+      this.authRedirectStorageService.setRedirectUrl(url);
     }
   }
 
-  private getCurrentNavigation(): {
-    navigationId: number;
-    url: string;
-    initialUrl: string;
-  } {
-    const initialUrl = this.router.url;
-    const navigation = this.router.getCurrentNavigation();
-    const url = this.router.serializeUrl(navigation.finalUrl);
-    return {
-      navigationId: navigation.id,
-      url,
-      initialUrl,
-    };
+  /**
+   * Sets the redirect URL to undefined.
+   */
+  protected clearRedirectUrl(): void {
+    this.authRedirectStorageService.setRedirectUrl(undefined);
   }
 }

@@ -2,10 +2,11 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { User } from '@spartacus/core';
 import { LoadStatus } from '@spartacus/organization/administration/core';
+import { Observable } from 'rxjs';
 import { filter, first, map, switchMap, take } from 'rxjs/operators';
+import { MessageService } from '../../shared/message/services/message.service';
 import { UserItemService } from '../services/user-item.service';
 import { UserChangePasswordFormService } from './user-change-password-form.service';
-import { MessageService } from '../../shared/message/services/message.service';
 
 @Component({
   selector: 'cx-org-user-change-password-form',
@@ -14,7 +15,7 @@ import { MessageService } from '../../shared/message/services/message.service';
   host: { class: 'content-wrapper' },
 })
 export class UserChangePasswordFormComponent {
-  form$ = this.itemService.current$.pipe(
+  form$: Observable<FormGroup> = this.itemService.current$.pipe(
     map((item) => this.formService.getForm(item))
   );
 
@@ -39,7 +40,10 @@ export class UserChangePasswordFormComponent {
           )
         )
       )
-      .subscribe((data) => this.notify(data));
+      .subscribe((data) => {
+        this.notify(data);
+        this.itemService.launchDetails(data);
+      });
   }
 
   protected notify(item: User) {

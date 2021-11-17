@@ -1,0 +1,42 @@
+%cx-configurator-attribute-header {
+  display: flex;
+  flex-direction: column;
+  margin-inline-start: 17px;
+  margin-inline-end: 17px;
+
+  margin-block-end: 17px;
+
+  label {
+    @include type('5');
+    padding-block-start: 10px;
+  }
+
+  .cx-required-icon {
+    &:after {
+      content: '*';
+      color: var(--cx-color-danger);
+    }
+  }
+
+  @include cx-configurator-required-error-msg();
+
+  .cx-conflict-msg {
+    display: inline-flex;
+
+    cx-icon {
+      color: var(--cx-color-warning);
+      font-size: 20px;
+      padding-inline-start: 5px;
+      padding-inline-end: 5px;
+    }
+
+    .cx-conflict-msg {
+      color: var(--cx-color-text);
+      font-size: 14px;
+    }
+  }
+
+  img {
+    width: 25%;
+  }
+}

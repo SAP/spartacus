@@ -10,7 +10,7 @@ import { provideDefaultConfig } from '../config/config-providers';
 })
 export class FeaturesConfigModule {
   static forRoot(
-    defaultLevel?: string
+    defaultLevel = '3.0'
   ): ModuleWithProviders<FeaturesConfigModule> {
     return {
       ngModule: FeaturesConfigModule,

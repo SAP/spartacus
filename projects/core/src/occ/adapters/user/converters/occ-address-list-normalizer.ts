@@ -12,7 +12,8 @@ import { Occ } from '../../../occ-models/occ.models';
   providedIn: 'root',
 })
 export class OccAddressListNormalizer
-  implements Converter<Occ.AddressList, EntitiesModel<Address>> {
+  implements Converter<Occ.AddressList, EntitiesModel<Address>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
@@ -20,13 +21,12 @@ export class OccAddressListNormalizer
     target?: EntitiesModel<Address>
   ): EntitiesModel<Address> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.addresses.map((address) => ({
-          ...this.converter.convert(address, ADDRESS_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.addresses.map((address) => ({
+      ...this.converter.convert(address, ADDRESS_NORMALIZER),
+    }));
+
     return target;
   }
 }

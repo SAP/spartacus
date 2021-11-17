@@ -8,7 +8,6 @@ import {
   order_type,
   poNumber,
   POWERTOOLS_BASESITE,
-  POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
   recurrencePeriod,
   recurrencePeriodMap,
@@ -27,6 +26,7 @@ import {
   addCheapProductToCart,
   visitHomePage,
   waitForPage,
+  waitForProductPage,
 } from '../checkout-flow';
 import { randomNumber } from '../../helpers/user';
 import { generateMail, randomString } from '../user';
@@ -51,20 +51,29 @@ export function addB2bProductToCart(cartData: SampleCartProduct) {
   const total = randomQuantity * Number(cartData.total);
 
   cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${products[0].code}`);
+}
+export function addB2bProductToCartAndCheckout() {
+  const code = products[0].code;
+  const productPage = waitForProductPage(code, 'getProductPage');
+
+  cy.visit(`${POWERTOOLS_BASESITE}/en/USD/product/${code}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+
   cy.get('cx-product-intro').within(() => {
     cy.get('.code').should('contain', products[0].code);
   });
   cy.get('cx-breadcrumb').within(() => {
     cy.get('h1').should('contain', products[0].name);
   });
-  cy.get('cx-item-counter input').type(`{selectall}${randomQuantity}`);
 
   addCheapProductToCart(products[0]);
 
-  cy.get('.cx-total .cx-value').should('contain', total.toString());
-  cy.get('cx-item-counter input')
-    .invoke('val')
-    .should('contain', randomQuantity);
+  const paymentTypePage = waitForPage(
+    '/checkout/payment-type',
+    'getPaymentType'
+  );
+  cy.findByText(/proceed to checkout/i).click();
+  cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function updateB2bProductInDialog(cartData: SampleCartProduct) {
@@ -110,7 +119,7 @@ export function updateB2bProductInCartAndCheckout(cartData: SampleCartProduct) {
   );
 
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${paymentTypePage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentTypePage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function enterPONumber() {
@@ -134,12 +143,20 @@ export function selectAccountPayment() {
     cy.findByText('Account').click({ force: true });
   });
 
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/*?fields=DEFAULT*`
+  ).as('getCart');
+
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
 export function selectCreditCardPayment() {
@@ -152,7 +169,7 @@ export function selectCreditCardPayment() {
     'getShippingPage'
   );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function selectAccountShippingAddress() {
@@ -162,20 +179,19 @@ export function selectAccountShippingAddress() {
     .find('.cx-summary-amount')
     .should('not.be.empty');
 
-  cy.server();
-
-  cy.route(
-    'GET',
+  cy.intercept(
+    'PUT',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('getCart');
+    )}/orgUsers/current/carts/**/addresses/delivery?addressId=*`
+  ).as('updateAddress');
+
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
     cy.get('.cx-card-actions .cx-card-link').click({ force: true });
   });
 
-  cy.wait('@getCart');
+  cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   const deliveryPage = waitForPage(
@@ -189,15 +205,20 @@ export function selectAccountShippingAddress() {
     config.shippingAddressAccount
   );
 
-  cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.get('button.btn-primary').click();
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function selectAccountDeliveryMode(
-  deliveryMode: string = POWERTOOLS_DEFAULT_DELIVERY_MODE
-) {
+export function selectAccountDeliveryMode() {
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?*`,
+  }).as('putDeliveryMode');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
-  cy.get(`#${deliveryMode}`).should('be.checked');
+  cy.get('cx-delivery-mode input').first().should('be.checked');
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   // Accessibility
@@ -207,7 +228,11 @@ export function selectAccountDeliveryMode(
   );
 
   cy.get('.cx-checkout-btns button.btn-primary').click();
-  cy.wait(`@${orderReview}`).its('status').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${orderReview}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function reviewB2bReviewOrderPage(
@@ -337,8 +362,12 @@ export function placeOrder(orderUrl: string) {
     orderUrl,
     'getOrderConfirmationPage'
   );
+
   cy.get('cx-place-order button.btn-primary').click();
-  cy.wait(`@${orderConfirmationPage}`).its('status').should('eq', 200);
+  // temporary solution for very slow backend response while placing order
+  cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function reviewB2bOrderConfirmation(

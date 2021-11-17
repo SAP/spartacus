@@ -4,6 +4,7 @@ import {
   Address,
   ADDRESS_LIST_NORMALIZER,
   ADDRESS_NORMALIZER,
+  ADDRESS_SERIALIZER,
   B2BApprovalProcess,
   B2BUnit,
   B2BUser,
@@ -19,6 +20,7 @@ import {
   B2BUNIT_NODE_LIST_NORMALIZER,
   B2BUNIT_NODE_NORMALIZER,
   B2BUNIT_NORMALIZER,
+  B2BUNIT_SERIALIZER,
   B2B_USERS_NORMALIZER,
   OrgUnitAdapter,
 } from '@spartacus/organization/administration/core';
@@ -49,6 +51,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string,
     orgUnit: B2BUnit
   ): Observable<B2BUnit> {
+    orgUnit = this.converter.convert(orgUnit, B2BUNIT_SERIALIZER);
     return this.http
       .patch<Occ.B2BUnit>(this.getOrgUnitEndpoint(userId, orgUnitId), orgUnit)
       .pipe(this.converter.pipeable(B2BUNIT_NORMALIZER));
@@ -145,6 +148,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string,
     address: Address
   ): Observable<Address> {
+    address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
       .post<Occ.Address>(this.getAddressesEndpoint(userId, orgUnitId), address)
       .pipe(this.converter.pipeable(ADDRESS_NORMALIZER));
@@ -156,6 +160,7 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     addressId: string,
     address: Address
   ): Observable<Address> {
+    address = this.converter.convert(address, ADDRESS_SERIALIZER);
     return this.http
       .patch<Occ.Address>(
         this.getAddressEndpoint(userId, orgUnitId, addressId),
@@ -177,23 +182,31 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
   }
 
   protected getOrgUnitEndpoint(userId: string, orgUnitId: string): string {
-    return this.occEndpoints.getUrl('orgUnit', { userId, orgUnitId });
+    return this.occEndpoints.buildUrl('orgUnit', {
+      urlParams: { userId, orgUnitId },
+    });
   }
 
   protected getOrgUnitsEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('orgUnits', { userId });
+    return this.occEndpoints.buildUrl('orgUnits', { urlParams: { userId } });
   }
 
   protected getAvailableOrgUnitsEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('orgUnitsAvailable', { userId });
+    return this.occEndpoints.buildUrl('orgUnitsAvailable', {
+      urlParams: { userId },
+    });
   }
 
   protected getOrgUnitsTreeEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('orgUnitsTree', { userId });
+    return this.occEndpoints.buildUrl('orgUnitsTree', {
+      urlParams: { userId },
+    });
   }
 
   protected getOrgUnitsApprovalProcessesEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('orgUnitsApprovalProcesses', { userId });
+    return this.occEndpoints.buildUrl('orgUnitsApprovalProcesses', {
+      urlParams: { userId },
+    });
   }
 
   protected getUsersEndpoint(
@@ -202,15 +215,14 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     roleId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl(
-      'orgUnitUsers',
-      {
+    return this.occEndpoints.buildUrl('orgUnitUsers', {
+      urlParams: {
         userId,
         orgUnitId,
         roleId,
       },
-      params
-    );
+      queryParams: params,
+    });
   }
 
   protected getRolesEndpoint(
@@ -218,11 +230,10 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgCustomerId: string,
     params: { roleId: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'orgUnitUserRoles',
-      { userId, orgCustomerId },
-      params
-    );
+    return this.occEndpoints.buildUrl('orgUnitUserRoles', {
+      urlParams: { userId, orgCustomerId },
+      queryParams: params,
+    });
   }
 
   protected getRoleEndpoint(
@@ -230,10 +241,12 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgCustomerId: string,
     roleId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitUserRole', {
-      userId,
-      orgCustomerId,
-      roleId,
+    return this.occEndpoints.buildUrl('orgUnitUserRole', {
+      urlParams: {
+        userId,
+        orgCustomerId,
+        roleId,
+      },
     });
   }
 
@@ -243,11 +256,10 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgCustomerId: string,
     params: { roleId: string }
   ): string {
-    return this.occEndpoints.getUrl(
-      'orgUnitApprovers',
-      { userId, orgUnitId, orgCustomerId },
-      params
-    );
+    return this.occEndpoints.buildUrl('orgUnitApprovers', {
+      urlParams: { userId, orgUnitId, orgCustomerId },
+      queryParams: params,
+    });
   }
 
   protected getApproverEndpoint(
@@ -256,16 +268,23 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgCustomerId: string,
     roleId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitApprover', {
-      userId,
-      orgUnitId,
-      orgCustomerId,
-      roleId,
+    return this.occEndpoints.buildUrl('orgUnitApprover', {
+      urlParams: {
+        userId,
+        orgUnitId,
+        orgCustomerId,
+        roleId,
+      },
     });
   }
 
   protected getAddressesEndpoint(userId: string, orgUnitId: string): string {
-    return this.occEndpoints.getUrl('orgUnitsAddresses', { userId, orgUnitId });
+    return this.occEndpoints.buildUrl('orgUnitsAddresses', {
+      urlParams: {
+        userId,
+        orgUnitId,
+      },
+    });
   }
 
   protected getAddressEndpoint(
@@ -273,10 +292,12 @@ export class OccOrgUnitAdapter implements OrgUnitAdapter {
     orgUnitId: string,
     addressId: string
   ): string {
-    return this.occEndpoints.getUrl('orgUnitsAddress', {
-      userId,
-      orgUnitId,
-      addressId,
+    return this.occEndpoints.buildUrl('orgUnitsAddress', {
+      urlParams: {
+        userId,
+        orgUnitId,
+        addressId,
+      },
     });
   }
 }

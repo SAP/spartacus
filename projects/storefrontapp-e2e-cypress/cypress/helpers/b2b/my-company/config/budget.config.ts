@@ -1,14 +1,14 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const budgetConfig: MyCompanyConfig = {
   name: 'Budget',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/budgets`,
   apiEndpoint: '/users/current/budgets',
   objectType: 'budgets',
-  canDisable: true,
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
     {
       label: 'Name',
@@ -16,7 +16,7 @@ export const budgetConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
-      sortLabel: 'name',
+      sortLabel: 'Name',
       showInTable: true,
       formLabel: 'Name',
       showInDetails: true,
@@ -32,7 +32,7 @@ export const budgetConfig: MyCompanyConfig = {
     },
     {
       label: 'Code',
-      sortLabel: 'code',
+      sortLabel: 'Code',
       variableName: 'uid',
       inputType: INPUT_TYPE.TEXT,
       createValue: `test-entity-${randomString()}`,
@@ -44,7 +44,7 @@ export const budgetConfig: MyCompanyConfig = {
     {
       label: 'Amount',
       variableName: 'budget',
-      sortLabel: 'value',
+      sortLabel: 'Value',
       showInTable: true,
       inputType: INPUT_TYPE.TEXT,
       createValue: '10000',
@@ -87,10 +87,10 @@ export const budgetConfig: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/Custom%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
-      sortLabel: 'unit',
+      sortLabel: 'Unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
-      updateValue: 'Rustic',
+      updateValue: 'Rustic Retail',
       showInTable: true,
       formLabel: 'Unit',
       showInDetails: true,
@@ -103,5 +103,12 @@ export const budgetConfig: MyCompanyConfig = {
       objectType: 'costCenters',
       apiEndpoint: '**/constcenters**',
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

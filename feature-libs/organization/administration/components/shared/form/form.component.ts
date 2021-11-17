@@ -52,6 +52,9 @@ export class FormComponent<T> implements OnInit, OnDestroy {
     })
   );
 
+  /**
+   * To handle the case of receiving a negative response during creation an item
+   */
   disabled$ = this.form$.pipe(
     switchMap((form) => form.statusChanges),
     map((status) => status === DISABLED_STATUS)

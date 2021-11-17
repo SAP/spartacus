@@ -1,0 +1,40 @@
+<div *ngIf="isReadOnly; else editableCoupons">
+  <div *ngIf="sortedVouchers.length > 0">
+    <div class="cx-applied-coupon-title">
+      {{ 'voucher.vouchersApplied' | cxTranslate }}
+    </div>
+  </div>
+  <div
+    *ngFor="let voucher of sortedVouchers"
+    class="coupon-summary cx-coupon-card textonly"
+    role="filter"
+  >
+    <span class="cx-applied-coupon-code">{{ voucher.voucherCode }}</span>
+  </div>
+</div>
+
+<ng-template #editableCoupons>
+  <div class="row">
+    <div
+      *ngFor="let voucher of sortedVouchers"
+      class="col-sm-12 col-md-6 col-lg-12 cx-coupon-card-grid"
+      role="filter"
+    >
+      <div class="cx-coupon-apply cx-coupon-card cx-coupon-list-wrap">
+        <span class="cx-cart-coupon-code">{{ voucher.voucherCode }}</span>
+        <button
+          type="button"
+          class="close"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          (click)="removeVoucher(voucher.voucherCode)"
+          [disabled]="cartIsLoading"
+          [class.disabled]="cartIsLoading"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

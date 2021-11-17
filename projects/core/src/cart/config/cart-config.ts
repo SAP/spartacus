@@ -10,5 +10,12 @@ export abstract class CartConfig {
     selectiveCart?: {
       enabled?: boolean;
     };
+    validation?: {
+      enabled?: boolean;
+    };
   };
+}
+
+declare module '../../config/config-tokens' {
+  interface Config extends CartConfig {}
 }

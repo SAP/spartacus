@@ -1,8 +1,7 @@
 {
   "name": "@spartacus/cds",
-  "version": "3.0.0-next.6",
+  "version": "4.0.0-rc.1",
   "description": "Context Driven Service library for Spartacus",
-  "homepage": "https://github.com/SAP/spartacus",
   "keywords": [
     "spartacus",
     "framework",
@@ -12,20 +11,32 @@
     "context-driven services",
     "cds"
   ],
+  "homepage": "https://github.com/SAP/spartacus",
+  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
   "license": "Apache-2.0",
+  "scripts": {
+    "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"src/schematics/**/*.js\" \"src/schematics/**/*.js.map\" \"src/schematics/**/*.d.ts\"",
+    "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "peerDependencies": {
+    "@angular-devkit/schematics": "^12.0.5",
+    "@angular/common": "^12.0.5",
+    "@angular/core": "^12.0.5",
+    "@angular/router": "^12.0.5",
+    "@ngrx/store": "^12.1.0",
+    "@spartacus/checkout": "4.1.0-next.0",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
+    "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/tracking": "4.1.0-next.0",
+    "rxjs": "^6.6.0"
+  },
   "publishConfig": {
     "access": "public"
   },
-  "repository": "https://github.com/SAP/spartacus/tree/develop/integration-libs/cds",
-  "dependencies": {
-    "tslib": "^2.0.0"
-  },
-  "peerDependencies": {
-    "@angular/common": "^10.1.0",
-    "@angular/core": "^10.1.0",
-    "@angular/router": "^10.1.0",
-    "@spartacus/core": "3.0.0-next.6",
-    "@spartacus/storefront": "3.0.0-next.6",
-    "rxjs": "^6.6.0"
-  }
+  "schematics": "./src/schematics/collection.json"
 }

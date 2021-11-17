@@ -2,16 +2,6 @@
 set -e
 set -o pipefail
 
-function validatestyles {
-    echo "-----"
-    echo "Validating styles app"
-    pushd projects/storefrontstyles
-    yarn
-    yarn sass
-    rm -rf temp-scss
-    popd
-}
-
 function validateStylesLint {
     echo "----"
     echo "Running styleslint"
@@ -20,7 +10,7 @@ function validateStylesLint {
 
 function validateTsConfigFile {
     echo "Validating ${TSCONFIGFILE_TO_VALIDATE} integrity"
-    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/src/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
+    LOCAL_ENV_LIB_PATH_OCCURENCES=$(grep -c "projects/storefrontlib/public_api" ${TSCONFIGFILE_TO_VALIDATE} || true)
     if [ $LOCAL_ENV_LIB_PATH_OCCURENCES \> 0 ];
     then
         echo "ERROR: ${TSCONFIGFILE_TO_VALIDATE} file is invalid. Found [${LOCAL_ENV_LIB_PATH}].";
@@ -36,7 +26,7 @@ function validateNoHardCodedText {
     yarn i18n-lint
 }
 
-LOCAL_ENV_LIB_PATH="projects/storefrontlib/src/public_api"
+LOCAL_ENV_LIB_PATH="projects/storefrontlib/public_api"
 TSCONFIGFILE_TO_VALIDATE="projects/storefrontapp/tsconfig.app.prod.json"
 validateTsConfigFile
 
@@ -60,18 +50,12 @@ else
     exit 1
 fi
 
-validatestyles
 validateStylesLint
 
 echo "Validating code linting"
 ng lint
 
 echo "-----"
-
-echo "Cleaning schematics js files before prettier runs..."
-yarn --cwd projects/schematics run clean
-yarn --cwd feature-libs/organization run clean:schematics
-yarn --cwd feature-libs/storefinder run clean:schematics
 
 echo "Validating code formatting (using prettier)"
 yarn prettier 2>&1 |  tee prettier.log

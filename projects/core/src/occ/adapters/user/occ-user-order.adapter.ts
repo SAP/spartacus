@@ -33,6 +33,9 @@ import {
   OCC_USER_ID_CURRENT,
 } from '../../utils/occ-constants';
 
+/**
+ * @deprecated since 4.2 - use OccOrderAdapter in @spartacus/order/occ instead
+ */
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
@@ -42,9 +45,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   ) {}
 
   public load(userId: string, orderCode: string): Observable<Order> {
-    const url = this.occEndpoints.getUrl('orderDetail', {
-      userId,
-      orderId: orderCode,
+    const url = this.occEndpoints.buildUrl('orderDetail', {
+      urlParams: { userId, orderId: orderCode },
     });
 
     let headers = new HttpHeaders();
@@ -74,7 +76,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params['sort'] = sort.toString();
     }
 
-    const url = this.occEndpoints.getUrl('orderHistory', { userId }, params);
+    const url = this.occEndpoints.buildUrl('orderHistory', {
+      urlParams: { userId },
+      queryParams: params,
+    });
 
     return this.http
       .get<Occ.OrderHistoryList>(url)
@@ -86,10 +91,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     consignmentCode: string,
     userId: string = OCC_USER_ID_CURRENT
   ): Observable<ConsignmentTracking> {
-    const url = this.occEndpoints.getUrl('consignmentTracking', {
-      userId,
-      orderCode,
-      consignmentCode,
+    const url = this.occEndpoints.buildUrl('consignmentTracking', {
+      urlParams: { userId, orderCode, consignmentCode },
     });
     return this.http
       .get<ConsignmentTracking>(url)
@@ -101,9 +104,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): Observable<{}> {
-    const url = this.occEndpoints.getUrl('cancelOrder', {
-      userId,
-      orderId: orderCode,
+    const url = this.occEndpoints.buildUrl('cancelOrder', {
+      urlParams: { userId, orderId: orderCode },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -118,8 +120,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     userId: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable<ReturnRequest> {
-    const url = this.occEndpoints.getUrl('returnOrder', {
-      userId,
+    const url = this.occEndpoints.buildUrl('returnOrder', {
+      urlParams: { userId },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -153,7 +155,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params['sort'] = sort.toString();
     }
 
-    const url = this.occEndpoints.getUrl('orderReturns', { userId }, params);
+    const url = this.occEndpoints.buildUrl('orderReturns', {
+      urlParams: { userId },
+      queryParams: params,
+    });
 
     return this.http
       .get<ReturnRequestList>(url)
@@ -164,9 +169,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     userId: string,
     returnRequestCode: string
   ): Observable<ReturnRequest> {
-    const url = this.occEndpoints.getUrl('orderReturnDetail', {
-      userId,
-      returnRequestCode,
+    const url = this.occEndpoints.buildUrl('orderReturnDetail', {
+      urlParams: { userId, returnRequestCode },
     });
 
     return this.http
@@ -179,9 +183,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): Observable<{}> {
-    const url = this.occEndpoints.getUrl('cancelReturn', {
-      userId,
-      returnRequestCode,
+    const url = this.occEndpoints.buildUrl('cancelReturn', {
+      urlParams: { userId, returnRequestCode },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

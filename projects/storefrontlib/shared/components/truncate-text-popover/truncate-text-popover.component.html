@@ -1,0 +1,24 @@
+<ng-container>
+  <ng-container>
+    <span class="truncated-text">
+      {{ content | cxTruncate: [charactersLimit] }}
+    </span>
+  </ng-container>
+
+  <ng-template #fullText>
+    {{ content }}
+  </ng-template>
+
+  <button
+    *ngIf="isTruncated"
+    [cxPopover]="fullText"
+    [cxPopoverOptions]="{
+      placement: 'auto',
+      appendToBody: true,
+      displayCloseButton: true
+    }"
+    class="ml-1 link cx-action-link"
+  >
+    {{ 'common.more' | cxTranslate }}
+  </button>
+</ng-container>

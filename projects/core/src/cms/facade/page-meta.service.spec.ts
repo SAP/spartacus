@@ -1,5 +1,6 @@
-import { Injectable } from '@angular/core';
-import { inject, TestBed } from '@angular/core/testing';
+import * as AngularCore from '@angular/core';
+import { Injectable, PLATFORM_ID } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
@@ -13,6 +14,7 @@ import {
   PageDescriptionResolver,
   PageHeadingResolver,
   PageImageResolver,
+  PageMetaConfig,
   PageMetaResolver,
   PageRobotsResolver,
   PageTitleResolver,
@@ -37,6 +39,41 @@ const mockProductPage: Page = {
   slots: {},
 };
 
+const PageMetaResolvers: PageMetaConfig = {
+  pageMeta: {
+    resolvers: [
+      {
+        property: 'title',
+        method: 'resolveTitle',
+      },
+      {
+        property: 'heading',
+        method: 'resolveHeading',
+      },
+      {
+        property: 'description',
+        method: 'resolveDescription',
+        disabledInCsr: true,
+      },
+      {
+        property: 'image',
+        method: 'resolveImage',
+        disabledInCsr: true,
+      },
+      {
+        property: 'breadcrumbs',
+        method: 'resolveBreadcrumbs',
+      },
+      {
+        property: 'robots',
+        method: 'resolveRobots',
+        disabledInCsr: true,
+      },
+    ],
+    enableInDevMode: true,
+  },
+};
+
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
@@ -46,7 +83,8 @@ class MockCmsService {
 @Injectable()
 class ContentPageResolver
   extends PageMetaResolver
-  implements PageTitleResolver {
+  implements PageTitleResolver
+{
   pageType = PageType.CONTENT_PAGE;
   resolveTitle(): Observable<string> {
     return of('content page title');
@@ -58,7 +96,8 @@ class ContentPageResolver
 })
 class PageWithHeadingResolver
   extends PageMetaResolver
-  implements PageHeadingResolver {
+  implements PageHeadingResolver
+{
   pageType = PageType.CONTENT_PAGE;
   pageTemplate = 'template';
 
@@ -77,7 +116,8 @@ class PageWithAllResolvers
     PageImageResolver,
     PageRobotsResolver,
     PageDescriptionResolver,
-    PageBreadcrumbResolver {
+    PageBreadcrumbResolver
+{
   pageType = PageType.PRODUCT_PAGE;
   pageTemplate = 'any-template';
 
@@ -113,91 +153,136 @@ describe('PageMetaService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [
-        PageMetaService,
-        ContentPageResolver,
-        { provide: CmsService, useClass: MockCmsService },
-        {
-          provide: PageMetaResolver,
-          useExisting: ContentPageResolver,
-          multi: true,
-        },
-        {
-          provide: PageMetaResolver,
-          useExisting: PageWithHeadingResolver,
-          multi: true,
-        },
-        {
-          provide: PageMetaResolver,
-          useExisting: PageWithAllResolvers,
-          multi: true,
-        },
-      ],
+  describe('browser', () => {
+    let resolver: PageWithAllResolvers;
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        providers: [
+          PageMetaService,
+          ContentPageResolver,
+          { provide: CmsService, useClass: MockCmsService },
+          {
+            provide: PageMetaResolver,
+            useExisting: PageWithAllResolvers,
+            multi: true,
+          },
+          { provide: PLATFORM_ID, useValue: 'browser' },
+          {
+            provide: PageMetaConfig,
+            useValue: PageMetaResolvers,
+          },
+        ],
+      });
+
+      service = TestBed.inject(PageMetaService);
+      cmsService = TestBed.inject(CmsService);
+
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
+      resolver = TestBed.inject(PageWithAllResolvers);
+      spyOn(resolver, 'resolveTitle').and.callThrough();
+      spyOn(resolver, 'resolveDescription').and.callThrough();
+      spyOn(resolver, 'resolveRobots').and.callThrough();
+      spyOn(resolver, 'resolveImage').and.callThrough();
     });
 
-    service = TestBed.inject(PageMetaService);
-    cmsService = TestBed.inject(CmsService);
+    it('should not resolve disabled resolvers', () => {
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => false);
+      service.getMeta().subscribe().unsubscribe();
+      expect(resolver.resolveTitle).toHaveBeenCalled();
+      expect(resolver.resolveDescription).not.toHaveBeenCalled();
+      expect(resolver.resolveRobots).not.toHaveBeenCalled();
+      expect(resolver.resolveImage).not.toHaveBeenCalled();
+    });
+
+    it('should resolve disabled resolvers in devMode', () => {
+      spyOnProperty(AngularCore, 'isDevMode').and.returnValue(() => true);
+      service.getMeta().subscribe().unsubscribe();
+      expect(resolver.resolveTitle).toHaveBeenCalled();
+      expect(resolver.resolveDescription).toHaveBeenCalled();
+      expect(resolver.resolveRobots).toHaveBeenCalled();
+      expect(resolver.resolveImage).toHaveBeenCalled();
+    });
   });
 
-  it('PageMetaService should be created', () => {
-    expect(service).toBeTruthy();
-  });
+  describe('server', () => {
+    beforeEach(() => {
+      TestBed.configureTestingModule({
+        imports: [],
+        providers: [
+          PageMetaService,
+          ContentPageResolver,
+          { provide: CmsService, useClass: MockCmsService },
+          {
+            provide: PageMetaResolver,
+            useExisting: ContentPageResolver,
+            multi: true,
+          },
+          {
+            provide: PageMetaResolver,
+            useExisting: PageWithHeadingResolver,
+            multi: true,
+          },
+          {
+            provide: PageMetaResolver,
+            useExisting: PageWithAllResolvers,
+            multi: true,
+          },
+          { provide: PageMetaConfig, useValue: PageMetaResolvers },
+        ],
+      });
 
-  it('should resolve page title using resolveTitle()', () => {
-    const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
-    spyOn(resolver, 'resolveTitle').and.callThrough();
+      service = TestBed.inject(PageMetaService);
+      cmsService = TestBed.inject(CmsService);
+    });
 
-    service.getMeta().subscribe().unsubscribe();
+    it('PageMetaService should be created', () => {
+      expect(service).toBeTruthy();
+    });
 
-    expect(resolver.resolveTitle).toHaveBeenCalled();
-  });
+    it('should resolve page title using resolveTitle()', () => {
+      const resolver: ContentPageResolver = TestBed.inject(ContentPageResolver);
+      spyOn(resolver, 'resolveTitle').and.callThrough();
+      service.getMeta().subscribe().unsubscribe();
+      expect(resolver.resolveTitle).toHaveBeenCalled();
+    });
 
-  it('should resolve page heading', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(
-      of(mockContentPageWithTemplate)
-    );
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => {
-        result = value;
-      })
-      .unsubscribe();
+    it('should resolve page heading', () => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(
+        of(mockContentPageWithTemplate)
+      );
+      let result: PageMeta | null;
+      service
+        .getMeta()
+        .subscribe((value) => {
+          result = value;
+        })
+        .unsubscribe();
 
-    expect(result.heading).toEqual('page heading');
-  });
+      expect(result?.heading).toEqual('page heading');
+    });
 
-  it('should resolve meta data for product page', () => {
-    spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
-    let result: PageMeta;
-    service
-      .getMeta()
-      .subscribe((value) => {
-        result = value;
-      })
-      .unsubscribe();
+    it('should resolve meta data for product page', () => {
+      spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockProductPage));
+      let result: PageMeta;
+      service
+        .getMeta()
+        .subscribe((value) => {
+          result = value;
+        })
+        .unsubscribe();
 
-    expect(result.title).toEqual('page title');
-    expect(result.heading).toEqual('page heading');
-    expect(result.description).toEqual('page description');
-    expect(result.breadcrumbs[0].label).toEqual('breadcrumb label');
-    expect(result.breadcrumbs[0].link).toEqual('/bread/crumb');
-    expect(result.image).toEqual('/my/image.jpg');
-    expect(result.robots).toContain(PageRobotsMeta.INDEX);
-    expect(result.robots).toContain(PageRobotsMeta.FOLLOW);
+      expect(result.title).toEqual('page title');
+      expect(result.heading).toEqual('page heading');
+      expect(result.description).toEqual('page description');
+      expect(result.breadcrumbs[0].label).toEqual('breadcrumb label');
+      expect(result.breadcrumbs[0].link).toEqual('/bread/crumb');
+      expect(result.image).toEqual('/my/image.jpg');
+      expect(result.robots).toContain(PageRobotsMeta.INDEX);
+      expect(result.robots).toContain(PageRobotsMeta.FOLLOW);
+    });
   });
 });
-
-// Test Custom PageMetaService to bring in custon resolvers (for all pages)
-@Injectable({ providedIn: 'root' })
-export class CustomPageMetaService extends PageMetaService {
-  protected resolverMethods = {
-    keywords: 'resolveKeywords',
-  };
-}
 
 const KEYWORDS = 'keywords, are, no longer, used, for, SEO';
 
@@ -222,6 +307,7 @@ const mockKeywordPage: Page = {
 export interface CustomPageMeta extends PageMeta {
   keywords?: string;
 }
+
 describe('Custom PageTitleService', () => {
   let service: PageMetaService;
   let cmsService: CmsService;
@@ -230,26 +316,31 @@ describe('Custom PageTitleService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        CustomPageMetaService,
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,
           useExisting: PageWithKeywordsResolver,
           multi: true,
         },
+        {
+          provide: PageMetaConfig,
+          useValue: {
+            pageMeta: {
+              resolvers: [
+                {
+                  property: 'keywords',
+                  method: 'resolveKeywords',
+                },
+              ],
+            },
+          },
+        },
       ],
     });
 
-    service = TestBed.inject(CustomPageMetaService);
+    service = TestBed.inject(PageMetaService);
     cmsService = TestBed.inject(CmsService);
   });
-
-  it('PageTitleService should be created', inject(
-    [CustomPageMetaService],
-    (customPageTitleService: CustomPageMetaService) => {
-      expect(customPageTitleService).toBeTruthy();
-    }
-  ));
 
   it('should resolve keywords for custom page meta service', () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));

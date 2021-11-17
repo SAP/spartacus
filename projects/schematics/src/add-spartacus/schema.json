@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SpartacusSchematics",
+  "$id": "SpartacusSchematics",
   "title": "Spartacus Schematics",
   "type": "object",
   "properties": {
@@ -10,6 +10,166 @@
       "$default": {
         "$source": "projectName"
       }
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "ASM",
+          "Import-Export",
+          "Saved-Cart",
+          "Quick-Order",
+          "CDC",
+          "CDS",
+          "Checkout",
+          "Order",
+          "Digital-Payments",
+          "Administration",
+          "Order-Approval",
+          "Bulk-Pricing",
+          "Image-Zoom",
+          "Product-Variants",
+          "VC-Configurator",
+          "Textfield-Configurator",
+          "CPQ-Configurator",
+          "Qualtrics",
+          "SmartEdit",
+          "Store-Finder",
+          "Personalization",
+          "TMS-GTM",
+          "TMS-AEPL",
+          "Account",
+          "Profile"
+        ],
+        "type": "string"
+      },
+      "default": [
+        "ASM",
+        "Checkout",
+        "Order",
+        "Import-Export",
+        "Saved-Cart",
+        "Quick-Order",
+        "Image-Zoom",
+        "Product-Variants",
+        "SmartEdit",
+        "Store-Finder",
+        "Personalization",
+        "Account",
+        "Profile"
+      ],
+      "x-prompt": {
+        "message": "Which Spartacus features would you like to set up?\nPlease note that for most Spartacus features to be properly configured, the Account feature is required.",
+        "type": "list",
+        "items": [
+          {
+            "value": "ASM",
+            "label": "Assisted Services Module"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
+          },
+          {
+            "value": "Saved-Cart",
+            "label": "Saved Cart"
+          },
+          {
+            "value": "Quick-Order",
+            "label": "Quick Order"
+          },
+          {
+            "value": "CDC",
+            "label": "Customer Data Cloud Integration"
+          },
+          {
+            "value": "CDS",
+            "label": "Context-Driven Services Integration"
+          },
+          {
+            "value": "Checkout",
+            "label": "Checkout"
+          },
+          {
+            "value": "Order",
+            "label": "Order"
+          },
+          {
+            "value": "Digital-Payments",
+            "label": "Digital Payments Integration"
+          },
+          {
+            "value": "Administration",
+            "label": "Organization - Adminstration (b2b feature)"
+          },
+          {
+            "value": "Order-Approval",
+            "label": "Organization - Order Approval (b2b feature)"
+          },
+          {
+            "value": "Bulk-Pricing",
+            "label": "Product - Bulk Pricing (b2b feature)"
+          },
+          {
+            "value": "Product-Variants",
+            "label": "Product - Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Product - Image Zoom"
+          },
+          {
+            "value": "VC-Configurator",
+            "label": "Product Configurator - Variant Configurator"
+          },
+          {
+            "value": "Textfield-Configurator",
+            "label": "Product Configurator - Textfield Configurator"
+          },
+          {
+            "value": "CPQ-Configurator",
+            "label": "Product Configurator - CPQ Configurator (b2b feature)"
+          },
+          {
+            "value": "Qualtrics",
+            "label": "Qualtrics"
+          },
+          {
+            "value": "SmartEdit",
+            "label": "SmartEdit"
+          },
+          {
+            "value": "Store-Finder",
+            "label": "Store Finder"
+          },
+          {
+            "value": "Personalization",
+            "label": "Tracking - Personalization"
+          },
+          {
+            "value": "TMS-GTM",
+            "label": "Tracking - Tag Management System - Google Tag Manager"
+          },
+          {
+            "value": "TMS-AEPL",
+            "label": "Tracking - Tag Management System - Adobe Experience Platform Launch"
+          },
+          {
+            "value": "Account",
+            "label": "User - Account"
+          },
+          {
+            "value": "Profile",
+            "label": "User - Profile"
+          }
+        ]
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Spartacus features.",
+      "default": true
     },
     "baseUrl": {
       "type": "string",
@@ -34,6 +194,10 @@
       "description": "A comma-separated list of languages to use in Spartacus",
       "default": "en"
     },
+    "urlParameters": {
+      "type": "string",
+      "description": "A comma-separated list that represents the order of site-context parameters. E.g.: ['baseSite', 'language', 'currency']"
+    },
     "useMetaTags": {
       "type": "boolean",
       "description": "Configure baseUrl via meta tag in index.html"
@@ -56,6 +220,10 @@
       "type": "boolean",
       "description": "Add Server-side rendering support to the project.",
       "default": false
+    },
+    "theme": {
+      "type": "string",
+      "description": "Select a style theme to add. E.g: santorini"
     }
   },
   "required": []

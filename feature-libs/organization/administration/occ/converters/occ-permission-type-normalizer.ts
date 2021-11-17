@@ -6,7 +6,8 @@ import { Converter, Occ, OrderApprovalPermissionType } from '@spartacus/core';
 })
 export class OccPermissionTypeNormalizer
   implements
-    Converter<Occ.OrderApprovalPermissionType, OrderApprovalPermissionType> {
+    Converter<Occ.OrderApprovalPermissionType, OrderApprovalPermissionType>
+{
   constructor() {}
 
   convert(
@@ -14,9 +15,7 @@ export class OccPermissionTypeNormalizer
     target?: OrderApprovalPermissionType
   ): OrderApprovalPermissionType {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }

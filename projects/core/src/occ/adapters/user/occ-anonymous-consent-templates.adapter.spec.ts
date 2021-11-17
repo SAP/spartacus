@@ -35,7 +35,7 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
     adapter = TestBed.inject(OccAnonymousConsentTemplatesAdapter);
     spyOn(converter, 'pipeable').and.callThrough();
     spyOn(converter, 'pipeableMany').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -48,7 +48,7 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
       httpMock.expectOne((req) => {
         return req.method === 'GET';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'anonymousConsentTemplates'
       );
       expect(converter.pipeableMany).toHaveBeenCalledWith(
@@ -61,7 +61,7 @@ describe('OccAnonymousConsentTemplatesAdapter', () => {
     it('should issue a HEAD request to load the latest anonymous consents', () => {
       adapter.loadAnonymousConsents().subscribe().unsubscribe();
       httpMock.expectOne((req) => req.method === 'HEAD');
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'anonymousConsentTemplates'
       );
       expect(converter.pipeable).toHaveBeenCalledWith(

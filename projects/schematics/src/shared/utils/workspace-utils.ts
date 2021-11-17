@@ -1,14 +1,24 @@
-import { experimental, JsonParseMode, parseJson } from '@angular-devkit/core';
-import { SchematicsException, Tree } from '@angular-devkit/schematics';
-import { getWorkspace as getWorkspaceAngular } from '@schematics/angular/utility/config';
+import {
+  chain,
+  Rule,
+  SchematicsException,
+  Tree,
+} from '@angular-devkit/schematics';
 import {
   ProjectType,
   WorkspaceProject,
   WorkspaceSchema,
   WorkspaceTargets,
 } from '@schematics/angular/utility/workspace-models';
+import { parse } from 'jsonc-parser';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../constants';
+import {
+  SPARTACUS_CONFIGURATION_MODULE,
+  SPARTACUS_CORE,
+  SPARTACUS_FEATURES_MODULE,
+  SPARTACUS_MODULE,
+} from '../constants';
+import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];
 
@@ -33,7 +43,7 @@ export function getSourceRoot(
 export function getWorkspace(
   host: Tree,
   files = DEFAULT_POSSIBLE_PROJECT_FILES
-): { path: string; workspace: experimental.workspace.WorkspaceSchema } {
+): { path: string; workspace: WorkspaceSchema } {
   const angularJson = getAngularJsonFile(host, files);
   const path = files.filter((filePath) => host.exists(filePath))[0];
 
@@ -46,7 +56,7 @@ export function getWorkspace(
 export function getAngularJsonFile(
   tree: Tree,
   possibleProjectFiles = DEFAULT_POSSIBLE_PROJECT_FILES
-): experimental.workspace.WorkspaceSchema {
+): WorkspaceSchema {
   const path = possibleProjectFiles.filter((filePath) =>
     tree.exists(filePath)
   )[0];
@@ -60,17 +70,16 @@ export function getAngularJsonFile(
   }
 
   const angularJsonContent = configBuffer.toString();
-  return (parseJson(
-    angularJsonContent,
-    JsonParseMode.Loose
-  ) as unknown) as experimental.workspace.WorkspaceSchema;
+  return parse(angularJsonContent, undefined, { allowTrailingComma: true });
 }
 
-export function getProjectFromWorkspace(
+export function getProjectFromWorkspace<
+  TProjectType extends ProjectType.Application
+>(
   tree: Tree,
   options: SpartacusOptions,
   files = DEFAULT_POSSIBLE_PROJECT_FILES
-): experimental.workspace.WorkspaceProject {
+): WorkspaceProject<TProjectType> {
   const { workspace } = getWorkspace(tree, files);
 
   if (!options.project) {
@@ -88,7 +97,7 @@ export function getProjectFromWorkspace(
     );
   }
 
-  return project;
+  return project as WorkspaceProject<ProjectType.Application>;
 }
 
 export function getDefaultProjectNameFromWorkspace(tree: Tree): string {
@@ -143,7 +152,7 @@ export function getProject<
 ): WorkspaceProject<TProjectType> {
   const workspace = isWorkspaceSchema(workspaceOrHost)
     ? workspaceOrHost
-    : getWorkspaceAngular(workspaceOrHost);
+    : getWorkspace(workspaceOrHost).workspace;
 
   return workspace.projects[projectName] as WorkspaceProject<TProjectType>;
 }
@@ -165,4 +174,29 @@ export function validateSpartacusInstallation(packageJson: any): void {
     To see more options, please check our documentation.`
     );
   }
+}
+
+export function scaffoldStructure(options: SpartacusOptions): Rule {
+  return (_tree: Tree) => {
+    return chain([
+      ensureModuleExists({
+        name: SPARTACUS_MODULE,
+        path: 'app/spartacus',
+        module: 'app',
+        project: options.project,
+      }),
+      ensureModuleExists({
+        name: SPARTACUS_FEATURES_MODULE,
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
+      ensureModuleExists({
+        name: SPARTACUS_CONFIGURATION_MODULE,
+        path: 'app/spartacus',
+        module: 'spartacus',
+        project: options.project,
+      }),
+    ]);
+  };
 }

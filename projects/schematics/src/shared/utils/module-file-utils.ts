@@ -13,7 +13,7 @@ import {
   NoopChange,
 } from '@schematics/angular/utility/change';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { ANGULAR_CORE } from '../constants';
 import {
   commitChanges,
@@ -81,21 +81,6 @@ export function addToModuleDeclarations(
   );
 }
 
-export function addToModuleEntryComponents(
-  host: Tree,
-  modulePath: string,
-  entryComponentsText: string,
-  moduleSource?: ts.SourceFile
-): InsertChange[] {
-  return addToMetadata(
-    host,
-    modulePath,
-    entryComponentsText,
-    'entryComponents',
-    moduleSource
-  );
-}
-
 export function addToModuleExports(
   host: Tree,
   modulePath: string,
@@ -118,12 +103,7 @@ export function addToMetadata(
   host: Tree,
   modulePath: string,
   text: string,
-  metadataType:
-    | 'imports'
-    | 'declarations'
-    | 'entryComponents'
-    | 'exports'
-    | 'providers',
+  metadataType: 'imports' | 'declarations' | 'exports' | 'providers',
   moduleSource?: ts.SourceFile
 ): InsertChange[] {
   moduleSource = moduleSource || getTsSourceFile(host, modulePath);
@@ -179,9 +159,7 @@ export function buildRelativePath(from: string, to: string): string {
   return pathPrefix + (relativePath ? relativePath + '/' : '') + toFileName;
 }
 
-export function getTemplateInfo(
-  source: ts.SourceFile
-):
+export function getTemplateInfo(source: ts.SourceFile):
   | {
       templateUrl?: string;
       inlineTemplateContent?: string;

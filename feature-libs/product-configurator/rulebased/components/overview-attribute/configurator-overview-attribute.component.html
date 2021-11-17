@@ -1,0 +1,27 @@
+<div class="cx-attribute-value">{{ attributeOverview.value }}</div>
+<ng-container *ngIf="isDesktop() | async; else mobile">
+  <div
+    class="cx-attribute-label"
+    [attr.aria-label]="attributeOverview.attribute"
+  >
+    {{ attributeOverview.attribute }}
+  </div>
+  <div class="cx-attribute-price">
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+  </div>
+</ng-container>
+<ng-template #mobile>
+  <div class="cx-attribute-price">
+    <cx-configurator-price
+      [formula]="extractPriceFormulaParameters()"
+    ></cx-configurator-price>
+  </div>
+  <div
+    class="cx-attribute-label"
+    [attr.aria-label]="attributeOverview.attribute"
+  >
+    {{ attributeOverview.attribute }}
+  </div>
+</ng-template>

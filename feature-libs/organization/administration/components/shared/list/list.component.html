@@ -7,23 +7,46 @@
             {{
               viewType + '.header' | cxTranslate: { count: getListCount(data) }
             }}
+            <button
+              [cxPopover]="listHint"
+              [cxPopoverOptions]="{
+                placement: 'auto',
+                class: 'hint-popover',
+                appendToBody: true,
+                displayCloseButton: true
+              }"
+            >
+              <cx-icon [type]="iconTypes.INFO"> </cx-icon>
+            </button>
           </h3>
         </div>
 
         <div class="actions">
-          <ng-select
-            class="sort"
-            *ngIf="data.pagination?.sort"
-            [searchable]="false"
-            [clearable]="false"
-            (change)="sort(data.pagination)"
-            [tabIndex]="0"
-            [(ngModel)]="sortCode"
-          >
-            <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
-              {{ structure.type + '.' + sort.code | cxTranslate }}
-            </ng-option>
-          </ng-select>
+          <label>
+            <span *ngIf="data.pagination?.sort">{{
+              structure.type + '.sortBy' | cxTranslate
+            }}</span>
+            <ng-select
+              name="sort"
+              class="sort"
+              *ngIf="data.pagination?.sort"
+              [searchable]="false"
+              [clearable]="false"
+              (change)="sort(data.pagination)"
+              [tabIndex]="0"
+              [(ngModel)]="sortCode"
+              [attr.aria-label]="
+                (sortCode
+                  ? structure.type + '.sort.' + sortCode
+                  : structure.type + '.sortBy'
+                ) | cxTranslate
+              "
+            >
+              <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
+                {{ structure.type + '.sort.' + sort.code | cxTranslate }}
+              </ng-option>
+            </ng-select>
+          </label>
 
           <ng-content select="[actions]"></ng-content>
 
@@ -64,5 +87,11 @@
 <ng-template #emptyList>
   <p class="instruction is-empty">
     {{ 'organization.messages.emptyList' | cxTranslate }}
+  </p>
+</ng-template>
+
+<ng-template #listHint>
+  <p>
+    {{ viewType + '.hint' | cxTranslate }}
   </p>
 </ng-template>

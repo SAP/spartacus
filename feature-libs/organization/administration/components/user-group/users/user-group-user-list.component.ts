@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ViewChild } from '@angular/core';
 import { filter, first, switchMap, take } from 'rxjs/operators';
 import {
   LoadStatus,
@@ -7,7 +7,7 @@ import {
 import { ListService } from '../../shared/list/list.service';
 import { CurrentUserGroupService } from '../services/current-user-group.service';
 import { UserGroupUserListService } from './user-group-user-list.service';
-import { MessageService } from '../../shared/message/services/message.service';
+import { SubListComponent } from '../../shared/sub-list/sub-list.component';
 
 @Component({
   selector: 'cx-org-user-group-user-list',
@@ -24,9 +24,11 @@ import { MessageService } from '../../shared/message/services/message.service';
 export class UserGroupUserListComponent {
   constructor(
     protected currentUserGroupService: CurrentUserGroupService,
-    protected userGroupUserListService: UserGroupUserListService,
-    protected messageService: MessageService
+    protected userGroupUserListService: UserGroupUserListService
   ) {}
+
+  @ViewChild('subList')
+  subList: SubListComponent;
 
   unassignAll() {
     this.currentUserGroupService.key$
@@ -45,7 +47,7 @@ export class UserGroupUserListComponent {
   }
 
   protected notify(item: UserGroup) {
-    this.messageService.add({
+    this.subList.messageService.add({
       message: {
         key: `orgUserGroupUsers.unassignAllConfirmation`,
         params: {

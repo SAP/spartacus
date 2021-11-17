@@ -14,7 +14,8 @@ import {
   providedIn: 'root',
 })
 export class OccUserGroupListNormalizer
-  implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>> {
+  implements Converter<Occ.OrgUnitUserGroupList, EntitiesModel<UserGroup>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
@@ -22,13 +23,11 @@ export class OccUserGroupListNormalizer
     target?: EntitiesModel<UserGroup>
   ): EntitiesModel<UserGroup> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.orgUnitUserGroups.map((userGroup) => ({
-          ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.orgUnitUserGroups.map((userGroup) => ({
+      ...this.converter.convert(userGroup, USER_GROUP_NORMALIZER),
+    }));
     return target;
   }
 }

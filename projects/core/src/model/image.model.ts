@@ -4,6 +4,7 @@ export interface Images {
 
 export interface Image {
   altText?: string;
+  role?: string;
   format?: string;
   galleryIndex?: number;
   imageType?: ImageType;

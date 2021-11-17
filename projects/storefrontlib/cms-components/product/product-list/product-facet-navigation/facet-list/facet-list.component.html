@@ -1,0 +1,35 @@
+<section
+  class="inner"
+  *ngIf="(facetList$ | async)?.facets as facets"
+  [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
+  [cxFocus]="isDialog ? dialogFocusConfig : {}"
+  tabindex="-1"
+  (esc)="close($event)"
+  (click)="block($event)"
+>
+  <h4>
+    {{ 'productList.filterBy.label' | cxTranslate }}
+    <button
+      type="button"
+      class="close"
+      [attr.aria-label]="'common.close' | cxTranslate"
+      (click)="close()"
+    >
+      <cx-icon aria-hidden="true" [type]="iconTypes.CLOSE"></cx-icon>
+    </button>
+  </h4>
+
+  <!-- 
+      Here we'd like to introduce configurable facet components, 
+      either by using specific configuration or generic sproutlets 
+  -->
+  <cx-facet
+    *ngFor="let facet of facets"
+    #facetRef
+    [facet]="facet"
+    [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
+    (unlock)="expandFacetGroup(facet, facetRef)"
+    [class.expanded]="isExpanded(facet) | async"
+    [class.collapsed]="isCollapsed(facet) | async"
+  ></cx-facet>
+</section>

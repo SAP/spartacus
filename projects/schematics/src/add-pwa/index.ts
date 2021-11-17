@@ -6,15 +6,9 @@ import {
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
-import {
-  NodePackageInstallTask,
-  RunSchematicTask,
-} from '@angular-devkit/schematics/tasks';
-import { NodeDependencyType } from '@schematics/angular/utility/dependencies';
 import { getAppModulePath } from '@schematics/angular/utility/ng-ast-utils';
 import { Schema as SpartacusOptions } from '../add-spartacus/schema';
 import { getLineFromTSFile } from '../shared/utils/file-utils';
-import { addPackageJsonDependencies } from '../shared/utils/lib-utils';
 import { getProjectTargets } from '../shared/utils/workspace-utils';
 
 function removeServiceWorkerSetup(host: Tree, modulePath: string) {
@@ -90,34 +84,6 @@ function updateAppModule(options: any): Rule {
 }
 
 export function addPWA(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const dependencies = [
-      {
-        type: NodeDependencyType.Dev,
-        version: '^0.1001.0',
-        name: '@angular/pwa',
-      },
-    ];
-    return chain([
-      addPackageJsonDependencies(dependencies),
-      invokeAfterAddPWATask(options),
-    ])(tree, context);
-  };
-}
-
-function invokeAfterAddPWATask(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const id = context.addTask(new NodePackageInstallTask());
-    context.logger.log('info', `🔍 Installing packages...`);
-    context.addTask(
-      new RunSchematicTask('run-angular-pwa-schematics', options),
-      [id]
-    );
-    return tree;
-  };
-}
-
-export function runAngularPWASchematics(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     return chain([
       externalSchematic('@angular/pwa', 'pwa', {

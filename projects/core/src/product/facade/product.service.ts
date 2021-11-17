@@ -5,7 +5,6 @@ import { Product } from '../../model/product.model';
 import { DEFAULT_SCOPE } from '../../occ/occ-models/occ-endpoints.model';
 import { ProductScope } from '../model/product-scope';
 import { ProductLoadingService } from '../services/product-loading.service';
-import { ProductActions } from '../store/actions/index';
 import { StateWithProduct } from '../store/product-state';
 import { ProductSelectors } from '../store/selectors/index';
 
@@ -80,14 +79,5 @@ export class ProductService {
         ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
       )
     );
-  }
-
-  /**
-   * Reloads the product. The product is loaded implicetly
-   * whenever selected by the `get`, but in some cases an
-   * explicit reload might be needed.
-   */
-  reload(productCode: string, scope: ProductScope | string = ''): void {
-    this.store.dispatch(new ProductActions.LoadProduct(productCode, scope));
   }
 }

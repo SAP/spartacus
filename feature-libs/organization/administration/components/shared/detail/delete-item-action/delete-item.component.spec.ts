@@ -88,6 +88,10 @@ describe('DeleteItemComponent', () => {
           key: 'testRoot.messages.delete',
           params: { item: mockItem },
         },
+        messageTitle: {
+          key: 'testRoot.messages.deleteTitle',
+          params: { item: mockItem },
+        },
         component: ConfirmationMessageComponent,
       });
       expect(organizationItemService.delete).not.toHaveBeenCalled();

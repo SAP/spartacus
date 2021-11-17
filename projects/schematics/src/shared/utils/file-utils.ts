@@ -15,7 +15,7 @@ import {
   RemoveChange,
   ReplaceChange,
 } from '@schematics/angular/utility/change';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import {
   ANGULAR_CORE,
   INJECT_DECORATOR,
@@ -102,6 +102,13 @@ export interface ConfigDeprecation {
   comment: string;
 }
 
+export interface RenamedSymbol {
+  previousNode: string;
+  previousImportPath: string;
+  newNode?: string;
+  newImportPath?: string;
+}
+
 export function getTsSourceFile(tree: Tree, path: string): ts.SourceFile {
   const buffer = tree.read(path);
   if (!buffer) {
@@ -135,8 +142,9 @@ export function getAllTsSourceFiles(
 export function getIndexHtmlPath(tree: Tree): string {
   const projectName = getDefaultProjectNameFromWorkspace(tree);
   const angularJson = getAngularJsonFile(tree);
-  const indexHtml: string =
-    angularJson.projects[projectName]?.architect?.build?.options?.index;
+  const indexHtml: string = (
+    angularJson.projects[projectName]?.architect?.build?.options as any
+  )?.index;
   if (!indexHtml) {
     throw new SchematicsException('"index.html" file not found.');
   }
@@ -252,7 +260,7 @@ export function insertHtmlComment(
   );
 
   resultingElements
-    .map((node: Element) => node.sourceSpan.start.line)
+    .map((node: Node) => node.sourceSpan.start.line)
     .forEach((line, i) => {
       const split = content.split('\n');
       split.splice(line + i, 0, comment);
@@ -437,6 +445,15 @@ function checkConstructorParameters(
 
       if (constructorParameterType.length !== 0) {
         foundClassTypes.push(parameterClassType);
+        /*
+        the break is needed to cope with multiple parameters of one type,
+        e.g. constructor migrations for
+       constructor(
+          protected cartStore: Store<StateWithMultiCart>,
+          protected store: Store<StateWithConfigurator>,
+          protected configuratorUtilsService: ConfiguratorUtilsService
+        ) {}    */
+        break;
       }
     }
   }
@@ -656,7 +673,7 @@ function getParamName(
   }
 
   for (const constructorParameter of constructorParameters) {
-    if (constructorParameter.getText().includes(classType.className)) {
+    if (getClassName(constructorParameter) === classType.className) {
       const paramVariableNode = constructorParameter
         .getChildren()
         .find((node) => node.kind === ts.SyntaxKind.Identifier);
@@ -668,6 +685,16 @@ function getParamName(
   }
 
   return undefined;
+}
+
+function getClassName(constructorParameter: ts.Node): string | undefined {
+  const identifierNode = constructorParameter
+    .getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.TypeReference)
+    ?.getChildren()
+    .find((node) => node.kind === ts.SyntaxKind.Identifier);
+
+  return identifierNode ? identifierNode.getText() : undefined;
 }
 
 function shouldRemoveImportAndParam(
@@ -1040,27 +1067,28 @@ export function insertCommentAboveIdentifier(
   comment: string,
   identifierType = ts.SyntaxKind.Identifier
 ): Change[] {
-  const classNode = getSourceNodes(source).find(
-    (node) => node.kind === ts.SyntaxKind.ClassDeclaration
-  );
-  if (!classNode) {
-    return [new NoopChange()];
-  }
-
-  const identifierNodes = findNodes(classNode, identifierType).filter(
-    (node) => node.getText() === identifierName
-  );
-
   const changes: InsertChange[] = [];
-  identifierNodes.forEach((n) =>
-    changes.push(
-      new InsertChange(
-        sourcePath,
-        getLineStartFromTSFile(source, n.getStart()),
-        `${comment}`
+
+  getSourceNodes(source).forEach((node) => {
+    if (node.kind !== ts.SyntaxKind.ClassDeclaration) {
+      return;
+    }
+
+    const identifierNodes = findNodes(node, identifierType).filter(
+      (node) => node.getText() === identifierName
+    );
+
+    identifierNodes.forEach((n) =>
+      changes.push(
+        new InsertChange(
+          sourcePath,
+          getLineStartFromTSFile(source, n.getStart()),
+          `${comment}`
+        )
       )
-    )
-  );
+    );
+  });
+
   return changes;
 }
 
@@ -1215,19 +1243,20 @@ export function getMetadataProperty(
   propertyName: string
 ): ts.PropertyAssignment {
   const properties = (metadata as ts.ObjectLiteralExpression).properties;
-  const property = properties
-    .filter((prop) => prop.kind === ts.SyntaxKind.PropertyAssignment)
-    .filter((prop: ts.PropertyAssignment) => {
-      const name = prop.name;
-      switch (name.kind) {
-        case ts.SyntaxKind.Identifier:
-          return (name as ts.Identifier).getText() === propertyName;
-        case ts.SyntaxKind.StringLiteral:
-          return (name as ts.StringLiteral).text === propertyName;
-      }
-
+  const property = properties.filter((prop) => {
+    if (!ts.isPropertyAssignment(prop)) {
       return false;
-    })[0];
+    }
+    const name = prop.name;
+    switch (name.kind) {
+      case ts.SyntaxKind.Identifier:
+        return (name as ts.Identifier).getText() === propertyName;
+      case ts.SyntaxKind.StringLiteral:
+        return (name as ts.StringLiteral).text === propertyName;
+    }
+
+    return false;
+  })[0];
 
   return property as ts.PropertyAssignment;
 }

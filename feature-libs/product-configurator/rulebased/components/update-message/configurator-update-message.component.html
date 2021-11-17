@@ -1,0 +1,4 @@
+<div class="cx-update-msg" [class.visible]="hasPendingChanges$ | async">
+  <cx-spinner></cx-spinner>
+  <strong>{{ 'configurator.header.updateMessage' | cxTranslate }}</strong>
+</div>

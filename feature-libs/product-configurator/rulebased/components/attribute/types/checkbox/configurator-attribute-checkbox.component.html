@@ -1,0 +1,89 @@
+<ng-container *cxFeatureLevel="'!4.1'">
+  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <div class="form-check">
+      <input
+        id="{{
+          createAttributeValueIdForConfigurator(
+            attribute,
+            attribute?.values[0].valueCode
+          )
+        }}"
+        type="checkbox"
+        class="form-check-input"
+        [value]="attribute?.values[0].valueCode"
+        [cxFocus]="{ key: attribute.name + '-' + attribute?.values[0].name }"
+        (change)="onSelect()"
+        [formControl]="attributeCheckBoxForm"
+        name="{{ createAttributeIdForConfigurator(attribute) }}"
+      />
+      <label
+        id="{{
+          createValueUiKey(
+            'label',
+            attribute.name,
+            attribute?.values[0].valueCode
+          )
+        }}"
+        for="{{
+          createAttributeValueIdForConfigurator(
+            attribute,
+            attribute?.values[0].valueCode
+          )
+        }}"
+        class="form-check-label"
+        >{{ attribute?.values[0].valueDisplay }}</label
+      >
+    </div>
+  </div>
+</ng-container>
+
+<ng-container *cxFeatureLevel="'4.1'">
+  <fieldset>
+    <legend style="display: none">{{ attribute.label }}</legend>
+    <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+      <div class="form-check">
+        <div class="cx-value-label-pair">
+          <input
+            id="{{
+              createAttributeValueIdForConfigurator(
+                attribute,
+                attribute?.values[0].valueCode
+              )
+            }}"
+            type="checkbox"
+            class="form-check-input"
+            [value]="attribute?.values[0].valueCode"
+            [cxFocus]="{
+              key: attribute.name + '-' + attribute?.values[0].name
+            }"
+            (change)="onSelect()"
+            [formControl]="attributeCheckBoxForm"
+            name="{{ createAttributeIdForConfigurator(attribute) }}"
+          />
+          <label
+            id="{{
+              createValueUiKey(
+                'label',
+                attribute.name,
+                attribute?.values[0].valueCode
+              )
+            }}"
+            for="{{
+              createAttributeValueIdForConfigurator(
+                attribute,
+                attribute?.values[0].valueCode
+              )
+            }}"
+            class="form-check-label"
+            >{{ attribute?.values[0].valueDisplay }}</label
+          >
+        </div>
+        <div class="cx-value-price">
+          <cx-configurator-price
+            [formula]="extractValuePriceFormulaParameters(attribute?.values[0])"
+          ></cx-configurator-price>
+        </div>
+      </div>
+    </div>
+  </fieldset>
+</ng-container>

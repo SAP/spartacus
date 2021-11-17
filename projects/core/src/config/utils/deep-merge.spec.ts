@@ -112,4 +112,11 @@ describe('deepMerge utility', () => {
     const merged = deepMerge(a, undefined, b, null);
     expect(merged).toEqual(jasmine.objectContaining({ a: ['test1'] }));
   });
+
+  it('should be possible to overwrite simple type with an object', () => {
+    const a = { a: 'test3' };
+    const b = { a: { value: 'test1' } };
+    const merged = deepMerge(a, undefined, b, null);
+    expect(merged).toEqual(jasmine.objectContaining({ a: { value: 'test1' } }));
+  });
 });

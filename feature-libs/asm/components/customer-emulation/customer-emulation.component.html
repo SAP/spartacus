@@ -1,0 +1,11 @@
+<ng-container *ngIf="isCustomerEmulationSessionInProgress$ | async">
+  <input
+    formcontrolname="customer"
+    type="text"
+    disabled="true"
+    placeholder="{{ customer?.name }}, {{ customer?.uid }}"
+  />
+  <button (click)="logoutCustomer()">
+    {{ 'asm.endSession' | cxTranslate }}
+  </button>
+</ng-container>

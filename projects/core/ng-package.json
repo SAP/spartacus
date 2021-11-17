@@ -8,7 +8,7 @@
       "@ngrx/router-store": "fromNgrxRouter",
       "@ngrx/store": "store",
       "i18next": "i18next",
-      "i18next-xhr-backend": "i18nextXhrBackend",
+      "i18next-http-backend": "i18nextHttpBackend",
       "angular-oauth2-oidc": "angularOAuth2Oidc"
     }
   }

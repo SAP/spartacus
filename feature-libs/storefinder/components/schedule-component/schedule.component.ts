@@ -1,55 +1,22 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { StoreDataService } from '@spartacus/storefinder/core';
-
-const WEEK_DAYS_NUMBER = 7;
+import { Component, Input, OnInit } from '@angular/core';
+import { PointOfService, WeekdayOpeningDay } from '@spartacus/core';
 
 @Component({
   selector: 'cx-schedule',
   templateUrl: './schedule.component.html',
 })
-export class ScheduleComponent implements OnChanges {
+export class ScheduleComponent implements OnInit {
   @Input()
-  location: any;
-  displayDays: Date[] = null;
+  location: PointOfService;
 
-  constructor(private storeDataService: StoreDataService) {}
+  weekDays: WeekdayOpeningDay[];
 
-  ngOnChanges(changes: SimpleChanges): void {
-    if (changes.location && this.location) {
-      const initialDate = this.getInitialDate();
-      this.displayDays = [];
+  constructor() {}
 
-      for (let i = 0; i < WEEK_DAYS_NUMBER; i++) {
-        const date = new Date(initialDate.valueOf());
-        date.setDate(date.getDate() + i);
-        this.displayDays.push(date);
-      }
+  ngOnInit(): void {
+    if (this.location) {
+      this.weekDays = this.location.openingHours
+        ?.weekDayOpeningList as WeekdayOpeningDay[];
     }
-  }
-
-  /**
-   * Returns the store's opening time for the given date
-   * @param date date
-   */
-  getStoreOpeningTime(date: Date): string {
-    return this.storeDataService.getStoreOpeningTime(this.location, date);
-  }
-
-  /**
-   * Returns the store's closing time for the given date
-   * @param date date
-   */
-  getStoreClosingTime(date: Date): string {
-    return this.storeDataService.getStoreClosingTime(this.location, date);
-  }
-
-  /**
-   * return initial (first) date to be displayed in the schedule
-   */
-  private getInitialDate(): Date {
-    const currentDate = new Date();
-    currentDate.setDate(currentDate.getDate() - currentDate.getDay());
-
-    return currentDate;
   }
 }

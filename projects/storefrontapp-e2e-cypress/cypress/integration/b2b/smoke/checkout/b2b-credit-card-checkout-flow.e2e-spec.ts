@@ -4,7 +4,6 @@ import {
   cartWithB2bProduct,
   order_type,
   POWERTOOLS_BASESITE,
-  POWERTOOLS_DEFAULT_DELIVERY_MODE,
   products,
 } from '../../../../sample-data/b2b-checkout';
 import { user } from '../../../../sample-data/checkout-flow';
@@ -49,7 +48,7 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should select delivery mode', () => {
-    checkout.verifyDeliveryMethod(POWERTOOLS_DEFAULT_DELIVERY_MODE);
+    checkout.verifyDeliveryMethod();
   });
 
   it('should enter payment method', () => {

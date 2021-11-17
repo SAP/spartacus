@@ -30,9 +30,9 @@ const orderApprovalDecision: OrderApprovalDecision = {
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { orderApprovalCode }) =>
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { orderApprovalCode } }) =>
       url === 'orderApproval' || url === 'orderApprovalDecision'
         ? `${url}/${orderApprovalCode}`
         : url

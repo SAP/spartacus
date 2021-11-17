@@ -1,4 +1,5 @@
 export * from './config/auth-config';
+export * from './events/index';
 export * from './facade/index';
 export * from './guards/index';
 export * from './http-interceptors/auth.interceptor';

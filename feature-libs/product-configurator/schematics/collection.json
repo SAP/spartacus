@@ -1,0 +1,24 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "factory": "./add-product-configurator/index#addProductConfiguratorFeatures",
+      "description": "Add and configure Spartacus' product configurator features",
+      "schema": "./add-product-configurator/schema.json",
+      "private": true,
+      "hidden": true,
+      "aliases": ["install"]
+    },
+    "add-spartacus-library": {
+      "description": "Install a spartacus library",
+      "factory": "./add-library/index#addSpartacusLibrary",
+      "private": true,
+      "hidden": true
+    },
+    "add": {
+      "factory": "./add-product-configurator/index#addProductConfiguratorFeatures",
+      "description": "Add and configure Spartacus' product configurator features",
+      "schema": "./add-product-configurator/schema.json"
+    }
+  }
+}

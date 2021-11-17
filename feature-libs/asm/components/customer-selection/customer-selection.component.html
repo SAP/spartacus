@@ -1,0 +1,52 @@
+<form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
+  <label>
+    <input
+      aria-required="true"
+      #searchTerm
+      type="text"
+      formControlName="searchTerm"
+      placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
+    />
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="customerSelectionForm.get('searchTerm')"
+    ></cx-form-errors>
+  </label>
+  <button type="submit">
+    {{ 'asm.customerSearch.submit' | cxTranslate }}
+  </button>
+</form>
+
+<div *ngIf="searchResults | async as results" class="asm-results" #resultList>
+  <button
+    *ngFor="let result of results.entries"
+    (click)="selectCustomerFromList(result)"
+  >
+    <span class="result-name">{{ result.name }}</span>
+    <span class="result-id">{{ result.uid }}</span>
+  </button>
+  <button
+    (click)="closeResults()"
+    *ngIf="
+      !(searchResultsLoading$ | async) &&
+      searchTerm.value.length >= 3 &&
+      !!results.entries &&
+      results.entries.length <= 0
+    "
+  >
+    {{ 'asm.customerSearch.noMatch' | cxTranslate }}
+  </button>
+</div>
+
+<div class="asm-results" *ngIf="searchResultsLoading$ | async">
+  <div
+    class="spinner"
+    aria-hidden="false"
+    [attr.aria-label]="'common.loading' | cxTranslate"
+  >
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>

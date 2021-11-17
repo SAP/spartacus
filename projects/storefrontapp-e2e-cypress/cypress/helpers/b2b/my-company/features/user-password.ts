@@ -1,14 +1,19 @@
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { fillLoginForm, LoginUser } from '../../../auth-forms';
-import { logOutAndEmptyCart } from '../../../cart';
+import { waitForPage } from '../../../checkout-flow';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
-import { completeForm, FormType } from '../my-company-form';
 import { loginAsMyCompanyAdmin } from '../my-company.utils';
+import { completeForm, FormType } from './utils/form';
 
 export function userPasswordTest(config: MyCompanyConfig): void {
   const TEST_PASSWORD = 'tE5tP@$5';
   const TEST_PASSWORD_2 = 'P@$5tE5t';
   const codeRow = config.rows?.find((row) => row.useInUrl || row.useCookie);
   const emailRow = config.rows?.find((row) => row.variableName === 'email');
+  const firstNameRow = config.rows?.find(
+    (row) => row.variableName === 'firstName'
+  );
+
   const user: LoginUser = {
     username: emailRow.updateValue,
     password: TEST_PASSWORD,
@@ -19,10 +24,6 @@ export function userPasswordTest(config: MyCompanyConfig): void {
   };
 
   describe(`User Password`, () => {
-    beforeEach(() => {
-      cy.server();
-    });
-
     it('should set user password', () => {
       if (codeRow.useCookie) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
@@ -36,8 +37,10 @@ export function userPasswordTest(config: MyCompanyConfig): void {
     it('should log in with set password', () => {
       cy.visit('/login');
       fillLoginForm(user);
-      cy.get('cx-login .cx-login-greet').contains('Hi,');
-      logOutAndEmptyCart();
+      cy.get('cx-login .cx-login-greet').contains(
+        `Hi, ${firstNameRow.updateValue}`
+      );
+      logOut();
     });
 
     it('should reset password and login again', () => {
@@ -55,8 +58,10 @@ export function userPasswordTest(config: MyCompanyConfig): void {
         'Bad credentials. Please login again.'
       );
       fillLoginForm(user2);
-      cy.get('cx-login .cx-login-greet').contains('Hi,');
-      logOutAndEmptyCart();
+      cy.get('cx-login .cx-login-greet').contains(
+        `Hi, ${firstNameRow.updateValue}`
+      );
+      logOut();
     });
   });
 
@@ -84,11 +89,18 @@ export function userPasswordTest(config: MyCompanyConfig): void {
       FormType.CREATE
     );
 
-    cy.route('PATCH', `**`).as('patch');
+    cy.intercept('PATCH', `**`).as('patch');
     cy.get('div.header button').contains('Save').click();
     cy.wait('@patch');
 
-    cy.get('cx-org-notification').contains(' password updated successfully');
-    logOutAndEmptyCart();
+    clearAllStorage();
   }
+}
+
+function logOut() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
+  cy.wait(`@${logoutPage}`);
 }

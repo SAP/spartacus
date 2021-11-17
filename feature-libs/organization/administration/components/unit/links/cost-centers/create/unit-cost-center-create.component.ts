@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Observable } from 'rxjs';
 import { CostCenterItemService } from '../../../../cost-center/services/cost-center-item.service';
 import { CurrentUnitService } from '../../../services/current-unit.service';
 import { UnitCostCenterItemService } from './unit-cost-center-item.service';
@@ -18,6 +19,6 @@ import { UnitCostCenterItemService } from './unit-cost-center-item.service';
   ],
 })
 export class UnitCostCenterCreateComponent {
-  unitKey$ = this.unitService.key$;
+  unitKey$: Observable<string> = this.unitService.key$;
   constructor(protected unitService: CurrentUnitService) {}
 }

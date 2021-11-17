@@ -88,9 +88,8 @@ export function reducer(
   }
 }
 
-export const reducerToken: InjectionToken<ActionReducerMap<
-  State
->> = new InjectionToken<ActionReducerMap<State>>('RouterReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<State>> =
+  new InjectionToken<ActionReducerMap<State>>('RouterReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
@@ -102,10 +101,11 @@ and to reduce the amount of properties to be passed to the reducer.
  */
 @Injectable()
 export class CustomSerializer
-  implements
-    fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot> {
+  implements fromNgrxRouter.RouterStateSerializer<ActivatedRouterStateSnapshot>
+{
   serialize(routerState: RouterStateSnapshot): ActivatedRouterStateSnapshot {
-    let state: CmsActivatedRouteSnapshot = routerState.root as CmsActivatedRouteSnapshot;
+    let state: CmsActivatedRouteSnapshot =
+      routerState.root as CmsActivatedRouteSnapshot;
     let cmsRequired = false;
     let context: PageContext;
     let semanticRoute: string;

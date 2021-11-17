@@ -21,6 +21,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
+    this.handleGuestDuplicateEmail(request, response);
   }
 
   protected handleBadPassword(
@@ -103,6 +104,25 @@ export class BadRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.invalidCodeProvided' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleGuestDuplicateEmail(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'DuplicateUidError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          {
+            key: 'httpHandlers.badRequestGuestDuplicateEmail',
+            params: {
+              errorMessage: error.message || '',
+            },
+          },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

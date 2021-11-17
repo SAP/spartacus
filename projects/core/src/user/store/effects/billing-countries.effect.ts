@@ -10,9 +10,7 @@ import { UserActions } from '../actions/index';
 @Injectable()
 export class BillingCountriesEffect {
   @Effect()
-  loadBillingCountries$: Observable<
-    UserActions.BillingCountriesAction
-  > = this.actions$.pipe(
+  loadBillingCountries$: Observable<UserActions.BillingCountriesAction> = this.actions$.pipe(
     ofType(UserActions.LOAD_BILLING_COUNTRIES),
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.BILLING).pipe(

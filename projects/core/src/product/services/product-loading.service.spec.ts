@@ -1,21 +1,35 @@
+import { AbstractType } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
+import { Actions } from '@ngrx/effects';
 import * as ngrxStore from '@ngrx/store';
 import { Action, Store, StoreModule } from '@ngrx/store';
-import { NEVER, of, Subject, timer } from 'rxjs';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
+import { NEVER, Observable, of, Subject, timer } from 'rxjs';
+import { delay, switchMap, take } from 'rxjs/operators';
+import { CxEvent } from '../../event/cx-event';
+import { EventService } from '../../event/event.service';
 import { Product } from '../../model/product.model';
+import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
 import { ProductActions } from '../store/actions/index';
 import { PRODUCT_FEATURE, StateWithProduct } from '../store/product-state';
 import * as fromStoreReducers from '../store/reducers/index';
 import { ProductLoadingService } from './product-loading.service';
-import { LoadingScopesService } from '../../occ/services/loading-scopes.service';
-import { delay, switchMap, take } from 'rxjs/operators';
-import { Actions } from '@ngrx/effects';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import createSpy = jasmine.createSpy;
 
+class MyEvent extends CxEvent {}
+
 class MockLoadingScopesService {
-  expand = createSpy('expand').and.callFake((_, scopes) => scopes);
+  expand = createSpy('expand').and.callFake(
+    (_: string, scopes: string[]) => scopes
+  );
   getMaxAge = createSpy('getMaxAge').and.returnValue(0);
+  getReloadTriggers = createSpy('getReloadTriggers').and.returnValue([MyEvent]);
+}
+
+class MockEventService implements Partial<EventService> {
+  get<T>(_eventType: AbstractType<T>): Observable<T> {
+    return of();
+  }
 }
 
 describe('ProductLoadingService', () => {
@@ -45,6 +59,10 @@ describe('ProductLoadingService', () => {
           provide: Actions,
           useValue: mockActions,
         },
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
       ],
     });
     store = TestBed.inject(Store);
@@ -60,8 +78,8 @@ describe('ProductLoadingService', () => {
 
   describe('get(productCode)', () => {
     it('should be able to get product by code', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(mockProduct)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(mockProduct)
       );
       const result: Product = await service.get(code, ['']).toPromise();
       expect(result).toEqual(mockProduct);
@@ -214,7 +232,7 @@ describe('ProductLoadingService', () => {
       );
     });
 
-    it('should be not trigger multiple product load actions for multiple product subscription.', async () => {
+    it('should not trigger multiple product load actions for multiple product subscription.', async () => {
       spyOn(store, 'dispatch').and.stub();
 
       service.get('productCode', ['']).pipe(take(1)).subscribe();

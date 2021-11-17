@@ -12,6 +12,7 @@ import {
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { CurrentItemService } from '../../shared/current-item.service';
 import { ItemService } from '../../shared/item.service';
 import { CurrentUserService } from '../services/current-user.service';
@@ -48,7 +49,14 @@ export class UserFormComponent implements OnInit {
     }
   }
 
-  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList();
+  units$: Observable<B2BUnitNode[]> = this.unitService.getActiveUnitList().pipe(
+    tap((units) => {
+      if (units.length === 1) {
+        this.form?.get('orgUnit.uid').setValue(units[0]?.id);
+      }
+    })
+  );
+
   titles$: Observable<Title[]> = this.userService.getTitles();
 
   availableRoles: B2BUserRole[] = this.b2bUserService.getAllRoles();

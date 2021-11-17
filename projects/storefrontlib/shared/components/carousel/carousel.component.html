@@ -1,0 +1,67 @@
+<ng-container *ngIf="items?.length > 0 && (size$ | async) as size">
+  <h2 *ngIf="title">{{ title }}</h2>
+
+  <div class="carousel-panel" [ngClass]="'size-' + size">
+    <button
+      *ngIf="size < items.length"
+      class="previous"
+      (click)="activeSlide = activeSlide - size"
+      [disabled]="activeSlide === 0"
+      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
+    >
+      <cx-icon [type]="previousIcon"></cx-icon>
+    </button>
+
+    <div class="slides">
+      <ng-container *ngFor="let _ of items; let i = index">
+        <div
+          class="slide"
+          *ngIf="i % size === 0"
+          [class.active]="i === activeSlide"
+        >
+          <ng-container
+            *ngFor="let item of items | slice: i:i + size; let j = index"
+          >
+            <div
+              *ngIf="item | async as data"
+              class="item"
+              [class.active]="i === activeSlide"
+            >
+              <ng-container
+                *ngTemplateOutlet="template; context: { item: data }"
+              ></ng-container>
+            </div>
+          </ng-container>
+        </div>
+      </ng-container>
+    </div>
+
+    <button
+      *ngIf="size < items.length"
+      class="next"
+      (click)="activeSlide = activeSlide + size"
+      tabindex="-1"
+      [disabled]="activeSlide > items.length - size - 1"
+      [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
+    >
+      <cx-icon [type]="nextIcon"></cx-icon>
+    </button>
+  </div>
+
+  <div *ngIf="!hideIndicators && size < items.length" class="indicators">
+    <ng-container *ngFor="let _ of items; let i = index">
+      <button
+        *ngIf="i % size === 0"
+        (focus)="activeSlide = i"
+        [disabled]="i === activeSlide"
+        [attr.aria-label]="
+          'carousel.slideNumber'
+            | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+        "
+        tabindex="-1"
+      >
+        <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
+      </button>
+    </ng-container>
+  </div>
+</ng-container>

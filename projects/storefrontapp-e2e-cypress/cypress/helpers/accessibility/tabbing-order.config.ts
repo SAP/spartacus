@@ -163,8 +163,72 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
+    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
+  ],
+  productConfigurationPage: [
+    {
+      type: TabbingOrderTypes.GENERIC_ELEMENT,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Basics',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'attributeRadioButtonForm',
+      type: TabbingOrderTypes.RADIO,
+    },
+    {
+      value: 'Next',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+
+  productConfigurationOverview: [
+    {
+      value: 'show more',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Configuration',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Overview',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Resolve Issues',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Add to Cart',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
   cart: [
     {
@@ -474,6 +538,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,
@@ -533,6 +598,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Currency',
       type: TabbingOrderTypes.SELECT,
+    },
+    {
+      value: 'Quick Order',
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Find a Store',

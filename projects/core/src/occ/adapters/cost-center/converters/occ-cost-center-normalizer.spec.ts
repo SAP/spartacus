@@ -53,6 +53,6 @@ describe('CostCenterNormalizer', () => {
 
   it('should convert costCenter with applied target', () => {
     const result = service.convert(costCenter, {});
-    expect(result).toEqual({});
+    expect(result).toEqual({ active: true });
   });
 });

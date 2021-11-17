@@ -42,7 +42,7 @@ describe('OccUserConsentAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -64,10 +64,10 @@ describe('OccUserConsentAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'consentTemplates',
         {
-          userId,
+          urlParams: { userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -112,8 +112,8 @@ describe('OccUserConsentAdapter', () => {
           req.serializeBody() ===
             `consentTemplateId=${consentTemplateId}&consentTemplateVersion=${consentTemplateVersion}`
       );
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('consents', {
-        userId,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('consents', {
+        urlParams: { userId },
       });
 
       expect(mockReq.cancelled).toBeFalsy();
@@ -144,10 +144,12 @@ describe('OccUserConsentAdapter', () => {
         return req.method === 'DELETE';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('consentDetail', {
-        userId: 'xxx@xxx.xxx',
-        consentId: 'xxx',
-      });
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
+        'consentDetail',
+        {
+          urlParams: { userId: 'xxx@xxx.xxx', consentId: 'xxx' },
+        }
+      );
       expect(mockReq.cancelled).toBeFalsy();
       mockReq.flush('');
     });

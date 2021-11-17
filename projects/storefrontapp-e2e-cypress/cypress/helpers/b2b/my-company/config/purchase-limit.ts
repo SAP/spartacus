@@ -1,6 +1,6 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const purchaseLimitConfigs: MyCompanyConfig[] = [
   {
@@ -8,13 +8,15 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    canDisable: true,
+    selectOptionsEndpoint: [
+      '*orderApprovalPermissionTypes*',
+      '*availableOrgUnitNodes*',
+    ],
     verifyStatusInDetails: true,
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -48,14 +50,21 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
-        updateValue: 'Rustic',
+        updateValue: 'Rustic Retail',
         showInTable: true,
         formLabel: 'Parent Unit',
         showInDetails: true,
       },
+    ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
+      MY_COMPANY_FEATURE.LIST,
+      ,
     ],
   },
   {
@@ -64,12 +73,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    disableListChecking: true,
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -123,14 +131,19 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
-        updateValue: 'Rustic',
+        updateValue: 'Rustic Retail',
         showInTable: true,
         formLabel: 'Parent Unit',
         showInDetails: true,
       },
+    ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
     ],
   },
   {
@@ -139,12 +152,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
-    disableListChecking: true,
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -208,14 +220,19 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
-        updateValue: 'Rustic',
+        updateValue: 'Rustic Retail',
         showInTable: true,
         formLabel: 'Parent Unit',
         showInDetails: true,
       },
+    ],
+    features: [
+      MY_COMPANY_FEATURE.CREATE,
+      MY_COMPANY_FEATURE.DISABLE,
+      MY_COMPANY_FEATURE.UPDATE,
     ],
   },
 ];

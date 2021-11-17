@@ -73,11 +73,28 @@
   }
 }
 
+%organizationTitle {
+  .title {
+    h3 {
+      button {
+        border: none;
+        background-color: inherit;
+        cx-icon {
+          pointer-events: none;
+          color: var(--cx-color, var(--cx-color-info));
+        }
+      }
+    }
+  }
+}
+
 %organizationList {
   .content-wrapper,
   form {
     display: contents;
   }
+
+  @extend %organizationTitle !optional;
 
   cx-split-view:not([active-view='1']) .list table {
     th,
@@ -147,7 +164,7 @@
           padding-inline-end: var(--cx-split-gutter);
           border-inline-end: solid 0 var(--cx-color-light);
           border-inline-end-width: calc(
-            min(var(--cx-active-view) - 1, 1) * 1px
+            min(calc(var(--cx-active-view) - 1), 1) * 1px
           );
         }
       }
@@ -231,6 +248,7 @@
     padding-inline-start: calc((var(--cx-depth-level) + 1) * 20px);
     button.tree-item-toggle {
       margin-inline-start: -40px;
+      min-width: 40px;
     }
   }
 
@@ -371,8 +389,8 @@
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        @include media-breakpoint-up(lg) {
-          padding-inline-start: 20px;
+        &.button {
+          color: var(--cx-color-primary);
         }
       }
       ul.text {
@@ -388,8 +406,6 @@
         }
       }
       a {
-        padding-inline-start: 20px;
-
         display: flex;
         align-items: center;
         width: 100%;
@@ -452,8 +468,16 @@
         align-items: center;
         justify-content: flex-end;
 
-        .sort {
-          margin-inline-end: auto;
+        label {
+          align-items: center;
+          display: inline-flex;
+          span {
+            margin-inline-end: 0.5rem;
+          }
+          .sort {
+            margin-inline-end: auto;
+            min-width: 170px;
+          }
         }
 
         button {

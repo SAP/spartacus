@@ -26,7 +26,7 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadLanguages(): Observable<Language[]> {
     return this.http
-      .get<Occ.LanguageList>(this.occEndpointsService.getUrl('languages'))
+      .get<Occ.LanguageList>(this.occEndpointsService.buildUrl('languages'))
       .pipe(
         map((languageList) => languageList.languages),
         this.converterService.pipeableMany(LANGUAGE_NORMALIZER)
@@ -35,7 +35,7 @@ export class OccSiteAdapter implements SiteAdapter {
 
   loadCurrencies(): Observable<Currency[]> {
     return this.http
-      .get<Occ.CurrencyList>(this.occEndpointsService.getUrl('currencies'))
+      .get<Occ.CurrencyList>(this.occEndpointsService.buildUrl('currencies'))
       .pipe(
         map((currencyList) => currencyList.currencies),
         this.converterService.pipeableMany(CURRENCY_NORMALIZER)
@@ -45,11 +45,9 @@ export class OccSiteAdapter implements SiteAdapter {
   loadCountries(type?: CountryType): Observable<Country[]> {
     return this.http
       .get<Occ.CountryList>(
-        this.occEndpointsService.getUrl(
-          'countries',
-          undefined,
-          type ? { type } : undefined
-        )
+        this.occEndpointsService.buildUrl('countries', {
+          queryParams: type ? { type } : undefined,
+        })
       )
       .pipe(
         map((countryList) => countryList.countries),
@@ -60,7 +58,9 @@ export class OccSiteAdapter implements SiteAdapter {
   loadRegions(countryIsoCode: string): Observable<Region[]> {
     return this.http
       .get<Occ.RegionList>(
-        this.occEndpointsService.getUrl('regions', { isoCode: countryIsoCode })
+        this.occEndpointsService.buildUrl('regions', {
+          urlParams: { isoCode: countryIsoCode },
+        })
       )
       .pipe(
         map((regionList) => regionList.regions),
@@ -72,16 +72,16 @@ export class OccSiteAdapter implements SiteAdapter {
    * There is no OCC API to load one site based on Uid.
    * So, we have to load all sites, and find the one from the list.
    */
-  loadBaseSite(siteUid?: string): Observable<BaseSite> {
+  loadBaseSite(siteUid?: string): Observable<BaseSite | undefined> {
     if (!siteUid) {
-      const baseUrl = this.occEndpointsService.getBaseEndpoint();
+      const baseUrl = this.occEndpointsService.getBaseUrl();
       const urlSplits = baseUrl.split('/');
       siteUid = urlSplits.pop();
     }
 
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
       )
       .pipe(
         map((siteList) => {
@@ -93,7 +93,7 @@ export class OccSiteAdapter implements SiteAdapter {
   loadBaseSites(): Observable<BaseSite[]> {
     return this.http
       .get<{ baseSites: BaseSite[] }>(
-        this.occEndpointsService.getOccEndpoint('baseSites')
+        this.occEndpointsService.buildUrl('baseSites', {}, { baseSite: false })
       )
       .pipe(
         map((baseSiteList) => baseSiteList.baseSites),

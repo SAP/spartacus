@@ -71,6 +71,10 @@ html[dir='rtl'] cx-org-list cx-org-message .close {
         background-color: #cbe6fe;
       }
 
+      .messageTitle {
+        font-weight: bold;
+      }
+
       .message {
         display: flex;
       }

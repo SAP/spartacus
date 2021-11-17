@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nModule, UrlModule } from '@spartacus/core';
-import { FormErrorsModule } from '@spartacus/storefront';
+import { FormErrorsModule, KeyboardFocusModule } from '@spartacus/storefront';
 import { CardModule } from '../../shared/card/card.module';
 import { UserChangePasswordFormComponent } from './user-change-password-form.component';
 
@@ -18,6 +18,7 @@ import { UserChangePasswordFormComponent } from './user-change-password-form.com
     ReactiveFormsModule,
     FormErrorsModule,
     CardModule,
+    KeyboardFocusModule,
   ],
   declarations: [UserChangePasswordFormComponent],
 })

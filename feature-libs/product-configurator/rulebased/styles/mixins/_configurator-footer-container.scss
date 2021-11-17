@@ -1,0 +1,18 @@
+@mixin cx-configurator-footer-container {
+  display: flex;
+  justify-content: flex-end;
+  margin: 0 auto;
+  margin-block-start: 15px;
+  padding-inline-start: 16px;
+  padding-inline-end: 16px;
+  padding-block-start: 16px;
+  padding-block-end: 16px;
+
+  @include media-breakpoint-down(sm) {
+    justify-content: center;
+    padding-inline-start: 16px;
+    padding-inline-end: 16px;
+    padding-block-start: 16px;
+    padding-block-end: 16px;
+  }
+}

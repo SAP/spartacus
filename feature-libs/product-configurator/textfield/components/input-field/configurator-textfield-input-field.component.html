@@ -1,0 +1,21 @@
+<label
+  id="{{ getIdLabel(attribute) }}"
+  class="cx-configurator-textfield-label"
+  [attr.aria-label]="'configurator.a11y.nameOfAttribute' | cxTranslate"
+  >{{ attribute.configurationLabel }}</label
+>
+<div class="form-group">
+  <input
+    [formControl]="attributeInputForm"
+    class="form-control"
+    (change)="onInputChange()"
+    [attr.aria-label]="
+      'configurator.a11y.valueOfAttributeFull'
+        | cxTranslate
+          : {
+              value: attribute.configurationValue,
+              attribute: attribute.configurationLabel
+            }
+    "
+  />
+</div>

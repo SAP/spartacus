@@ -5,7 +5,7 @@ export enum INPUT_TYPE {
   NG_SELECT = 'ngSelect',
   CHECKBOX = 'checkbox',
 }
-export const DEFAULT_SORT_LABEL = 'name';
+export const DEFAULT_SORT_LABEL = 'Name';
 export const MAX_PAGES = 2;
 export const ENTITY_UID_COOKIE_KEY = 'spartacus-entity-uid';
 
@@ -33,10 +33,17 @@ export interface TestListOptions {
 }
 
 export enum MY_COMPANY_FEATURE {
+  LIST = 'list',
+  NESTED_LIST = 'nestedList',
+  CREATE = 'create',
+  UPDATE = 'update',
+  DISABLE = 'disable',
+  ASSIGNMENTS = 'assignments',
   USER_PASSWORD = 'userPassword',
 }
 
 export enum CONFIRMATION_LABELS {
   CONFIRM = 'CONFIRM',
   CANCEL = 'CANCEL',
+  DISABLE = 'DISABLE',
 }

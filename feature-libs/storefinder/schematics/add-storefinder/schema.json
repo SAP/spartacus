@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "StorefinderSchematics",
+  "$id": "StorefinderSchematics",
   "title": "Storefinder Schematics",
   "type": "object",
   "properties": {
@@ -15,6 +15,11 @@
       "type": "boolean",
       "description": "Lazy load the storefinder features.",
       "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["Store-Finder"]
     }
   },
   "required": []

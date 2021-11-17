@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
-import { CmsService, Page } from '../../cms';
+import {
+  BasePageMetaResolver,
+  CmsService,
+  Page,
+  PageRobotsMeta,
+} from '../../cms';
 import { I18nTestingModule } from '../../i18n';
 import { PageType } from '../../model/cms.model';
 import { ProductSearchService } from '../facade';
@@ -46,20 +51,31 @@ class MockProductSearchService {
     });
   }
 }
+class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
+  resolveRobots() {
+    return of([PageRobotsMeta.FOLLOW, PageRobotsMeta.INDEX]);
+  }
+  resolveCanonicalUrl(): Observable<string> {
+    return of();
+  }
+}
 
 describe('CategoryPageMetaResolver', () => {
   let service: CategoryPageMetaResolver;
-
+  let basePageMetaResolver: BasePageMetaResolver;
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       providers: [
+        CategoryPageMetaResolver,
         { provide: CmsService, useClass: MockCmsService },
         { provide: ProductSearchService, useClass: MockProductSearchService },
+        { provide: BasePageMetaResolver, useClass: MockBasePageMetaResolver },
       ],
     });
 
     service = TestBed.inject(CategoryPageMetaResolver);
+    basePageMetaResolver = TestBed.inject(BasePageMetaResolver);
   });
 
   it('should resolve title', () => {
@@ -84,5 +100,21 @@ describe('CategoryPageMetaResolver', () => {
       .unsubscribe();
 
     expect(result.length).toEqual(2);
+  });
+
+  it('should resolve robots from the BasePageMetaResolver', async () => {
+    let result;
+    service
+      .resolveRobots()
+      .subscribe((robots) => (result = robots))
+      .unsubscribe();
+    expect(result).toContain(PageRobotsMeta.FOLLOW);
+    expect(result).toContain(PageRobotsMeta.INDEX);
+  });
+
+  it('should resolve canonical url from the BasePageMetaResolver.resolveCanonicalUrl()', async () => {
+    spyOn(basePageMetaResolver, 'resolveCanonicalUrl').and.callThrough();
+    service.resolveCanonicalUrl().subscribe().unsubscribe();
+    expect(basePageMetaResolver.resolveCanonicalUrl).toHaveBeenCalled();
   });
 });

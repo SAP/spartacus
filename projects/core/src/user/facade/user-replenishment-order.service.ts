@@ -7,7 +7,6 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '../../model/replenishment-order.model';
-import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import {
   getProcessErrorFactory,
@@ -21,6 +20,11 @@ import {
   StateWithUser,
 } from '../store/user-state';
 
+/**
+ * @deprecated since 4.2 - use ReplenishmentOrderFacade in @spartacus/order/root instead
+ * TODO: In order lib, processStateStore is added in ReplenishmentOrderService's constructor,
+ * need to update it in 5.0 migration doc.
+ */
 @Injectable({
   providedIn: 'root',
 })
@@ -36,16 +40,19 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   loadReplenishmentOrderDetails(replenishmentOrderCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         this.store.dispatch(
           new UserActions.LoadReplenishmentOrderDetails({
             userId,
             replenishmentOrderCode,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
@@ -97,16 +104,19 @@ export class UserReplenishmentOrderService {
    * @param replenishmentOrderCode a replenishment order code
    */
   cancelReplenishmentOrder(replenishmentOrderCode: string): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         this.store.dispatch(
           new UserActions.CancelReplenishmentOrder({
             userId,
             replenishmentOrderCode,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**
@@ -200,8 +210,8 @@ export class UserReplenishmentOrderService {
     currentPage?: number,
     sort?: string
   ): void {
-    this.userIdService.invokeWithUserId((userId) => {
-      if (userId !== OCC_USER_ID_ANONYMOUS) {
+    this.userIdService.takeUserId(true).subscribe(
+      (userId) => {
         this.store.dispatch(
           new UserActions.LoadUserReplenishmentOrders({
             userId,
@@ -210,8 +220,11 @@ export class UserReplenishmentOrderService {
             sort,
           })
         );
+      },
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
       }
-    });
+    );
   }
 
   /**

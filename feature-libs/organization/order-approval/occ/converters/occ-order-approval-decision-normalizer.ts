@@ -6,7 +6,8 @@ import { OrderApprovalDecision } from '../../core/model/order-approval.model';
   providedIn: 'root',
 })
 export class OccOrderApprovalDecisionNormalizer
-  implements Converter<Occ.OrderApprovalDecision, OrderApprovalDecision> {
+  implements Converter<Occ.OrderApprovalDecision, OrderApprovalDecision>
+{
   constructor() {}
 
   convert(
@@ -14,9 +15,7 @@ export class OccOrderApprovalDecisionNormalizer
     target?: OrderApprovalDecision
   ): OrderApprovalDecision {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-      };
+      target = { ...(source as any) };
     }
     return target;
   }

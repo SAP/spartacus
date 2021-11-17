@@ -1,8 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { EntitiesModel, SearchConfig, UserIdService } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
-import { of } from 'rxjs/internal/observable/of';
+import { BehaviorSubject, of } from 'rxjs';
 import { Budget } from '../model/budget.model';
 import {
   LoadStatus,

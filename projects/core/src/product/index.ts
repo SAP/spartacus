@@ -1,4 +1,5 @@
 export * from './connectors/index';
+export * from './event/index';
 export * from './facade/index';
 export * from './model/index';
 export * from './product.module';

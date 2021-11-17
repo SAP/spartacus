@@ -1,0 +1,58 @@
+<fieldset>
+  <legend style="display: none">{{ attribute.label }}</legend>
+  <div id="{{ createAttributeIdForConfigurator(attribute) }}">
+    <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
+      <cx-configurator-attribute-quantity
+        (changeQuantity)="onChangeQuantity($event)"
+        [quantityOptions]="extractQuantityParameters()"
+      ></cx-configurator-attribute-quantity>
+      <cx-configurator-price
+        [formula]="extractPriceFormulaParameters()"
+      ></cx-configurator-price>
+    </div>
+
+    <div class="form-check" *ngFor="let value of attribute.values">
+      <div class="cx-value-label-pair">
+        <input
+          id="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          class="form-check-input"
+          type="radio"
+          formcontrolname="attributeRadioButtonForm"
+          [formControl]="attributeRadioButtonForm"
+          [attr.required]="attribute.required"
+          [value]="value.valueCode"
+          name="{{ createAttributeIdForConfigurator(attribute) }}"
+          attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
+          [cxFocus]="{ key: attribute.name + '-' + value.name }"
+          attr.aria-labelledby="{{
+            createAriaLabelledBy('label', attribute.name, value.valueCode)
+          }}"
+          [attr.aria-checked]="
+            attributeRadioButtonForm.value === value.valueCode ? true : false
+          "
+          [attr.checked]="
+            attributeRadioButtonForm.value === value.valueCode
+              ? 'checked'
+              : null
+          "
+          (change)="onSelect(value.valueCode)"
+        />
+        <label
+          id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
+          for="{{
+            createAttributeValueIdForConfigurator(attribute, value.valueCode)
+          }}"
+          class="form-check-label form-radio-label"
+          >{{ value.valueDisplay }}</label
+        >
+      </div>
+      <div class="cx-value-price">
+        <cx-configurator-price
+          [formula]="extractValuePriceFormulaParameters(value)"
+        ></cx-configurator-price>
+      </div>
+    </div>
+  </div>
+</fieldset>

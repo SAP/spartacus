@@ -12,7 +12,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_DETAILS_SET_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/guards/payment-details-set.guard.ts
+  // projects/storefrontlib/cms-components/checkout/guards/payment-details-set.guard.ts
   class: PAYMENT_DETAILS_SET_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -1,4 +1,8 @@
-<cx-org-card *ngIf="model$ | async as model" i18nRoot="orgBudget.details">
+<cx-org-card
+  *ngIf="model$ | async as model"
+  i18nRoot="orgBudget.details"
+  [cxFocus]="{ refreshFocus: model }"
+>
   <a
     actions
     class="link edit"
@@ -9,6 +13,8 @@
   </a>
 
   <cx-org-toggle-status actions i18nRoot="orgBudget"></cx-org-toggle-status>
+
+  <cx-org-disable-info info i18nRoot="orgBudget"> </cx-org-disable-info>
 
   <section main class="details" cxOrgItemExists>
     <div class="property">

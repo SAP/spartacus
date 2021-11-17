@@ -11,14 +11,18 @@ export const orgUser = {
   unit: 'Unit',
   roles: 'Roles',
   title: 'Title',
+  hint: 'Users are the buyers, approvers, managers, and administrators of your organization. Each user is assigned a role for making or approving purchases. Each user belongs to a unit, and they have access to all child units of their primary unit.',
 
   unitApprover: `Unit approver`,
   assignApprover: 'Add the user to approvers for the unit',
 
   actions: '',
 
-  byName: 'Sort by name',
-  byUnit: 'Sort by unit',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnit: 'Unit',
+  },
 
   details: {
     title: 'User Details',
@@ -41,7 +45,9 @@ export const orgUser = {
   },
 
   messages: {
-    deactivate: 'Are you sure you want to disable this user?',
+    deactivateTitle: 'Disable this user?',
+    deactivate:
+      'Disabled users cannot log onto the storefront and place orders.',
     confirmEnabled:
       'User {{item.firstName}} {{item.lastName}} enabled successfully',
     confirmDisabled:
@@ -50,6 +56,10 @@ export const orgUser = {
     create: 'User {{item.firstName}} {{item.lastName}} created successfully',
     updatePassword:
       'User {{item.firstName}} {{item.lastName}} password updated successfully',
+  },
+  info: {
+    disabledEdit: 'Enable the user to allow editing.',
+    disabledEnable: 'Unit must be enabled before this user may be enabled.',
   },
 
   approver: {

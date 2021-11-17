@@ -26,9 +26,9 @@ const budget = {
   code: budgetCode,
 };
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { costCenterCode }) =>
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { costCenterCode } }) =>
       url === 'costCenter' ? url + costCenterCode : url
   );
 }

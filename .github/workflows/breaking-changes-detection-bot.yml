@@ -1,0 +1,18 @@
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+name: API extractor
+jobs:
+  breakingChangeDetectionBot:
+    name: Breaking change detection bot
+    runs-on: ubuntu-latest
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.8.0
+        with:
+          access_token: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/checkout@master
+      - name: Breaking change detection bot
+        uses: ./.github/api-extractor-action
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

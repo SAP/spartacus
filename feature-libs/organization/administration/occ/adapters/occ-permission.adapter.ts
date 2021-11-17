@@ -14,6 +14,7 @@ import {
   PERMISSIONS_NORMALIZER,
   PERMISSION_NORMALIZER,
   PERMISSION_TYPES_NORMALIZER,
+  PERMISSION_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { Observable } from 'rxjs';
 
@@ -41,6 +42,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
   }
 
   create(userId: string, permission: Permission): Observable<Permission> {
+    permission = this.converter.convert(permission, PERMISSION_SERIALIZER);
     return this.http
       .post<Occ.Permission>(this.getPermissionsEndpoint(userId), permission)
       .pipe(this.converter.pipeable(PERMISSION_NORMALIZER));
@@ -51,6 +53,7 @@ export class OccPermissionAdapter implements PermissionAdapter {
     permissionCode: string,
     permission: Permission
   ): Observable<Permission> {
+    permission = this.converter.convert(permission, PERMISSION_SERIALIZER);
     return this.http
       .patch<Occ.Permission>(
         this.getPermissionEndpoint(userId, permissionCode),
@@ -71,9 +74,11 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     orderApprovalPermissionCode: string
   ): string {
-    return this.occEndpoints.getUrl('permission', {
-      userId,
-      orderApprovalPermissionCode,
+    return this.occEndpoints.buildUrl('permission', {
+      urlParams: {
+        userId,
+        orderApprovalPermissionCode,
+      },
     });
   }
 
@@ -81,10 +86,13 @@ export class OccPermissionAdapter implements PermissionAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.getUrl('permissions', { userId }, params);
+    return this.occEndpoints.buildUrl('permissions', {
+      urlParams: { userId },
+      queryParams: params,
+    });
   }
 
   protected getPermissionTypesEndpoint(): string {
-    return this.occEndpoints.getUrl('orderApprovalPermissionTypes');
+    return this.occEndpoints.buildUrl('orderApprovalPermissionTypes');
   }
 }

@@ -1,5 +1,10 @@
+import { Location } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { NavigationExtras } from '@angular/router';
+import {
+  NavigationBehaviorOptions,
+  NavigationExtras,
+  Router,
+} from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { WindowRef } from '../../window/window-ref';
@@ -19,7 +24,9 @@ export class RoutingService {
     protected store: Store<RouterState>,
     protected winRef: WindowRef,
     protected semanticPathService: SemanticPathService,
-    protected routingParamsService: RoutingParamsService
+    protected routingParamsService: RoutingParamsService,
+    protected router: Router,
+    protected location: Location
   ) {}
 
   /**
@@ -70,21 +77,56 @@ export class RoutingService {
   /**
    * Navigation with a new state into history
    * @param commands: url commands
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  go(commands: UrlCommands, query?: object, extras?: NavigationExtras): void {
+  go(commands: UrlCommands, extras?: NavigationExtras): Promise<boolean> {
     const path = this.semanticPathService.transform(commands);
-
-    return this.navigate(path, query, extras);
+    return this.navigate(path, extras);
   }
 
   /**
-   * Navigation using URL
-   * @param url
+   * Resolves the relative url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url can be resolved using `getFullUrl()`.
    */
-  goByUrl(url: string) {
-    this.store.dispatch(new RoutingActions.RouteGoByUrlAction(url));
+  getUrl(commands: UrlCommands, extras?: NavigationExtras): string {
+    let url = this.router.serializeUrl(
+      this.router.createUrlTree(
+        this.semanticPathService.transform(commands),
+        extras
+      )
+    );
+    if (!url.startsWith('/')) {
+      url = `/${url}`;
+    }
+    return url;
+  }
+
+  /**
+   * Returns the absolute url for the given `UrlCommands` and `NavigationExtras`.
+   *
+   * The absolute url uses the origin of the current location.
+   */
+  getFullUrl(commands: UrlCommands, extras?: NavigationExtras) {
+    return `${this.winRef.document.location.origin}${this.getUrl(
+      commands,
+      extras
+    )}`;
+  }
+
+  /**
+   * Navigation using absolute route path
+   * @param url
+   * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
+   */
+  goByUrl(url: string, extras?: NavigationBehaviorOptions): Promise<boolean> {
+    return this.router.navigateByUrl(url, extras);
   }
 
   /**
@@ -95,7 +137,7 @@ export class RoutingService {
       this.winRef.nativeWindow.location.origin
     );
     if (isLastPageInApp) {
-      this.store.dispatch(new RoutingActions.RouteBackAction());
+      this.location.back();
       return;
     }
     this.go(['/']);
@@ -106,26 +148,18 @@ export class RoutingService {
    * Navigating forward
    */
   forward(): void {
-    this.store.dispatch(new RoutingActions.RouteForwardAction());
+    this.location.forward();
   }
 
   /**
    * Navigation with a new state into history
    * @param path
-   * @param query
    * @param extras: Represents the extra options used during navigation.
+   *
+   * @returns Promise that resolves to `true` when navigation succeeds,
+   *          to `false` when navigation fails, or is rejected on error.
    */
-  protected navigate(
-    path: any[],
-    query?: object,
-    extras?: NavigationExtras
-  ): void {
-    this.store.dispatch(
-      new RoutingActions.RouteGoAction({
-        path,
-        query,
-        extras,
-      })
-    );
+  protected navigate(path: any[], extras?: NavigationExtras): Promise<boolean> {
+    return this.router.navigate(path, extras);
   }
 }

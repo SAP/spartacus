@@ -1,0 +1,423 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Organization schematics: ng-add Administration feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { AdministrationModule } from \\"@spartacus/organization/administration\\";
+import { organizationTranslationChunksConfig, organizationTranslations } from \\"@spartacus/organization/administration/assets\\";
+import { AdministrationRootModule } from \\"@spartacus/organization/administration/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AdministrationRootModule,
+    AdministrationModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: organizationTranslations,
+      chunks: organizationTranslationChunksConfig,
+    },
+  })]
+})
+export class OrganizationAdministrationFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup b2b features configuration should be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
+import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {
+      currency: ['USD'],
+      language: ['en'],
+    },
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '4.1'
+    }
+  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { organizationTranslationChunksConfig, organizationTranslations } from \\"@spartacus/organization/administration/assets\\";
+import { AdministrationRootModule, ORGANIZATION_ADMINISTRATION_FEATURE } from \\"@spartacus/organization/administration/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AdministrationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORGANIZATION_ADMINISTRATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/organization/administration').then((m) => m.AdministrationModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: organizationTranslations,
+      chunks: organizationTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrganizationAdministrationFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+
+exports[`Spartacus Organization schematics: ng-add Administration feature general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/organization.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/organization.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { OrderApprovalModule } from \\"@spartacus/organization/order-approval\\";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@spartacus/organization/order-approval/assets\\";
+import { OrderApprovalRootModule } from \\"@spartacus/organization/order-approval/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderApprovalRootModule,
+    OrderApprovalModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderApprovalTranslations,
+      chunks: orderApprovalTranslationChunksConfig,
+    },
+  })]
+})
+export class OrganizationOrderApprovalFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup b2b features configuration should be added 1`] = `
+"import { NgModule } from '@angular/core';
+import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
+import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
+import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
+import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+  ],
+  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
+    backend: {
+      occ: {
+        baseUrl: 'https://localhost:9002',
+      }
+    },
+  }), provideConfig(<SiteContextConfig>{
+    context: {
+      currency: ['USD'],
+      language: ['en'],
+    },
+  }), provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunksConfig,
+      fallbackLang: 'en'
+    },
+  }), provideConfig(<FeaturesConfig>{
+    features: {
+      level: '4.1'
+    }
+  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
+})
+export class SpartacusConfigurationModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { orderApprovalTranslationChunksConfig, orderApprovalTranslations } from \\"@spartacus/organization/order-approval/assets\\";
+import { OrderApprovalRootModule, ORGANIZATION_ORDER_APPROVAL_FEATURE } from \\"@spartacus/organization/order-approval/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    OrderApprovalRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ORGANIZATION_ORDER_APPROVAL_FEATURE]: {
+        module: () =>
+          import('@spartacus/organization/order-approval').then((m) => m.OrderApprovalModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: orderApprovalTranslations,
+      chunks: orderApprovalTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class OrganizationOrderApprovalFeatureModule { }
+"
+`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/organization\\";"`;
+
+exports[`Spartacus Organization schematics: ng-add Order approval feature general setup styling should update angular.json 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/organization.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/organization.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;

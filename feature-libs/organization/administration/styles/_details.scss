@@ -22,12 +22,18 @@
       margin-bottom: 30px;
     }
 
-    label {
+    label,
+    legend {
       font-weight: bold;
       font-size: 18px;
-      label {
-        font-weight: normal;
-      }
+    }
+
+    label.form-check,
+    fieldset {
+      font-weight: normal;
+      padding-inline-end: 20px;
+      padding-bottom: 10px;
+      margin: 0;
     }
     .value {
       font-size: 16px;
@@ -51,6 +57,23 @@
           content: ', ';
         }
       }
+    }
+  }
+  cx-org-disable-info > section {
+    padding: 25px 30px;
+
+    ul {
+      margin: 0;
+      > li:only-child {
+        list-style: none;
+        margin-inline-start: -1.5em;
+      }
+    }
+
+    > .cx-icon {
+      align-self: flex-start;
+      margin-top: 4px;
+      color: var(--cx-color, var(--cx-color-info));
     }
   }
 }

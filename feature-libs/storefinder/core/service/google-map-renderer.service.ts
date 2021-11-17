@@ -1,8 +1,8 @@
 /// <reference types="@types/googlemaps" />
-import { ExternalJsFileLoader } from '@spartacus/core';
 import { Injectable } from '@angular/core';
-import { StoreDataService } from '../facade/store-data.service';
+import { ScriptLoader } from '@spartacus/core';
 import { StoreFinderConfig } from '../config/store-finder-config';
+import { StoreFinderService } from '../facade/store-finder.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,8 +13,8 @@ export class GoogleMapRendererService {
 
   constructor(
     protected config: StoreFinderConfig,
-    protected externalJsFileLoader: ExternalJsFileLoader,
-    protected storeDataService: StoreDataService
+    protected storeFinderService: StoreFinderService,
+    protected scriptLoader: ScriptLoader
   ) {}
 
   /**
@@ -29,17 +29,19 @@ export class GoogleMapRendererService {
     locations: any[],
     selectMarkerHandler?: Function
   ): void {
-    if (this.googleMap === null) {
-      this.externalJsFileLoader.load(
-        this.config.googleMaps.apiUrl,
-        { key: this.config.googleMaps.apiKey },
-        () => {
-          this.drawMap(mapElement, locations, selectMarkerHandler);
-        }
-      );
-    } else {
-      this.drawMap(mapElement, locations, selectMarkerHandler);
-    }
+    if (Object.entries(locations[Object.keys(locations)[0]]).length > 0)
+      if (this.googleMap === null) {
+        this.scriptLoader.embedScript({
+          src: this.config.googleMaps.apiUrl,
+          params: { key: this.config.googleMaps.apiKey },
+          attributes: { type: 'text/javascript' },
+          callback: () => {
+            this.drawMap(mapElement, locations, selectMarkerHandler);
+          },
+        });
+      } else {
+        this.drawMap(mapElement, locations, selectMarkerHandler);
+      }
   }
 
   /**
@@ -58,8 +60,8 @@ export class GoogleMapRendererService {
    */
   private defineMapCenter(locations: any[]): google.maps.LatLng {
     return new google.maps.LatLng(
-      this.storeDataService.getStoreLatitude(locations[0]),
-      this.storeDataService.getStoreLongitude(locations[0])
+      this.storeFinderService.getStoreLatitude(locations[0]),
+      this.storeFinderService.getStoreLongitude(locations[0])
     );
   }
 
@@ -97,8 +99,8 @@ export class GoogleMapRendererService {
     locations.forEach((element, index) => {
       const marker = new google.maps.Marker({
         position: new google.maps.LatLng(
-          this.storeDataService.getStoreLatitude(element),
-          this.storeDataService.getStoreLongitude(element)
+          this.storeFinderService.getStoreLatitude(element),
+          this.storeFinderService.getStoreLongitude(element)
         ),
         label: index + 1 + '',
       });

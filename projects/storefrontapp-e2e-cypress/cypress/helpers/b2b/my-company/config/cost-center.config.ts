@@ -1,15 +1,26 @@
 import { FULL_BASE_URL_EN_USD } from '../../../site-context-selector';
 import { randomString } from '../../../user';
-import { INPUT_TYPE, MyCompanyConfig } from '../models';
+import { INPUT_TYPE, MyCompanyConfig, MY_COMPANY_FEATURE } from '../models';
 
 export const costCenterConfig: MyCompanyConfig = {
   name: 'Cost Center',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/cost-centers`,
   apiEndpoint: '/costcenters',
   objectType: 'costCenters',
-  canDisable: true,
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*'],
   rows: [
+    {
+      label: 'Code',
+      sortLabel: 'Code',
+      variableName: 'uid',
+      inputType: INPUT_TYPE.TEXT,
+      createValue: `test-entity-${randomString()}`,
+      updateValue: `edited-entity-${randomString()}`,
+      formLabel: 'Code',
+      showInDetails: true,
+      useInUrl: true,
+    },
     {
       label: 'Name',
       variableName: 'name',
@@ -31,17 +42,6 @@ export const costCenterConfig: MyCompanyConfig = {
       showInDetails: true,
     },
     {
-      label: 'Code',
-      sortLabel: 'code',
-      variableName: 'uid',
-      inputType: INPUT_TYPE.TEXT,
-      createValue: `test-entity-${randomString()}`,
-      updateValue: `edited-entity-${randomString()}`,
-      formLabel: 'Code',
-      showInDetails: true,
-      useInUrl: true,
-    },
-    {
       label: 'Currency',
       variableName: 'currency',
       inputType: INPUT_TYPE.NG_SELECT,
@@ -54,10 +54,10 @@ export const costCenterConfig: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/Custom%20Retail`,
       updatedLink: `/organization/units/Rustic%20Retail`,
-      sortLabel: 'unit',
+      sortLabel: 'Unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Custom Retail',
-      updateValue: 'Rustic',
+      updateValue: 'Rustic Retail',
       showInTable: true,
       formLabel: 'Parent Unit',
       showInDetails: true,
@@ -71,5 +71,12 @@ export const costCenterConfig: MyCompanyConfig = {
       objectType: 'budgets',
       manageAssignments: true,
     },
+  ],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
   ],
 };

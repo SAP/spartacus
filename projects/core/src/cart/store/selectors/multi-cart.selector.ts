@@ -91,15 +91,17 @@ export const getCartEntrySelectorFactory = (
   );
 };
 
-export const getActiveCartId: MemoizedSelector<
-  StateWithMultiCart,
-  string
-> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
+export const getActiveCartId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.active);
 
-export const getWishListId: MemoizedSelector<
+export const getWishListId: MemoizedSelector<StateWithMultiCart, string> =
+  createSelector(getMultiCartState, (state: MultiCartState) => state.wishList);
+
+export const getCartsSelectorFactory: MemoizedSelector<
   StateWithMultiCart,
-  string
+  Cart[]
 > = createSelector(
-  getMultiCartState,
-  (state: MultiCartState) => state.wishList
+  getMultiCartEntities,
+  (state: EntityProcessesLoaderState<Cart>) =>
+    Object.keys(state.entities).map((key) => entityValueSelector(state, key))
 );

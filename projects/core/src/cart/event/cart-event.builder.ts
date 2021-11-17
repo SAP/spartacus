@@ -12,7 +12,9 @@ import {
   CartAddEntryEvent,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+  CartRemoveEntryFailEvent,
   CartRemoveEntrySuccessEvent,
+  CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
 } from './cart.events';
 
@@ -61,12 +63,20 @@ export class CartEventBuilder {
       action: CartActions.CART_REMOVE_ENTRY_SUCCESS,
       event: CartRemoveEntrySuccessEvent,
     });
+    this.registerMapped({
+      action: CartActions.CART_REMOVE_ENTRY_FAIL,
+      event: CartRemoveEntryFailEvent,
+    });
   }
 
   protected registerUpdateEntry(): void {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_SUCCESS,
       event: CartUpdateEntrySuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CART_UPDATE_ENTRY_FAIL,
+      event: CartUpdateEntryFailEvent,
     });
   }
 
@@ -114,6 +124,8 @@ export class CartEventBuilder {
   protected getAction(
     actionType: string | string[]
   ): Observable<{ type: string; payload?: any }> {
-    return this.actionsSubject.pipe(ofType(...[].concat(actionType)));
+    return this.actionsSubject.pipe(
+      ofType(...([] as string[]).concat(actionType))
+    );
   }
 }

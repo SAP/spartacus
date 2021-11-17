@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-store-description',
@@ -11,7 +11,7 @@ export class StoreFinderStoreDescriptionComponent extends AbstractStoreItemCompo
   @Input() location: PointOfService;
   @Input() disableMap: boolean;
 
-  constructor(protected storeDataService: StoreDataService) {
-    super(storeDataService);
+  constructor(protected storeFinderService: StoreFinderService) {
+    super(storeFinderService);
   }
 }

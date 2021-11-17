@@ -55,7 +55,7 @@ describe('OccCustomerCouponAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
 
     spyOn(converter, 'pipeable').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -105,10 +105,10 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'customerCoupons',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
 
@@ -129,8 +129,8 @@ describe('OccCustomerCouponAdapter', () => {
         });
 
       httpMock.expectNone(
-        occEnpointsService.getUrl('customerCoupons', {
-          userId: OCC_USER_ID_ANONYMOUS,
+        occEnpointsService.buildUrl('customerCoupons', {
+          urlParams: { userId: OCC_USER_ID_ANONYMOUS },
         })
       );
     });
@@ -163,11 +163,10 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
-          userId: userId,
-          couponCode: couponCode,
+          urlParams: { userId: userId, couponCode: couponCode },
         }
       );
 
@@ -186,11 +185,10 @@ describe('OccCustomerCouponAdapter', () => {
       const mockReq = httpMock.expectOne((req) => {
         return req.method === 'DELETE';
       });
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'couponNotification',
         {
-          userId: userId,
-          couponCode: couponCode,
+          urlParams: { userId: userId, couponCode: couponCode },
         }
       );
 
@@ -225,9 +223,11 @@ describe('OccCustomerCouponAdapter', () => {
         return req.method === 'POST';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith('claimCoupon', {
-        userId: userId,
-        couponCode: couponCode,
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith('claimCoupon', {
+        urlParams: {
+          userId: userId,
+          couponCode: couponCode,
+        },
       });
 
       expect(mockReq.cancelled).toBeFalsy();

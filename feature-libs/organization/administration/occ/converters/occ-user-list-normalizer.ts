@@ -12,7 +12,8 @@ import { B2B_USER_NORMALIZER } from '@spartacus/organization/administration/core
   providedIn: 'root',
 })
 export class OccUserListNormalizer
-  implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>> {
+  implements Converter<Occ.OrgUnitUserList, EntitiesModel<B2BUser>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(
@@ -20,13 +21,11 @@ export class OccUserListNormalizer
     target?: EntitiesModel<B2BUser>
   ): EntitiesModel<B2BUser> {
     if (target === undefined) {
-      target = {
-        ...(source as any),
-        values: source.users.map((b2bUser) => ({
-          ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
-        })),
-      };
+      target = { ...(source as any) };
     }
+    target.values = source.users.map((b2bUser) => ({
+      ...this.converter.convert(b2bUser, B2B_USER_NORMALIZER),
+    }));
     return target;
   }
 }

@@ -12,6 +12,7 @@
         bindLabel="name"
         bindValue="code"
         appendTo="cx-org-list"
+        [placeholder]="'orgUser.title' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('titleCode')"></cx-form-errors>
@@ -58,10 +59,10 @@
       <cx-form-errors [control]="form.get('email')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" class="full-width" formArrayName="roles">
-      <span class="label-content required">
+    <fieldset aria-required="true" class="full-width" formArrayName="roles">
+      <legend class="label-content required">
         {{ 'orgUser.roles' | cxTranslate }}
-      </span>
+      </legend>
 
       <label
         class="form-check"
@@ -79,7 +80,7 @@
           {{ 'organization.userRoles.' + role | cxTranslate }}
         </span>
       </label>
-    </label>
+    </fieldset>
 
     <label aria-required="true" [formGroup]="form.get('orgUnit')">
       <span class="label-content required">{{
@@ -99,7 +100,7 @@
       <cx-form-errors [control]="form.get('orgUnit.uid')"></cx-form-errors>
     </label>
 
-    <label *ngIf="isAssignedToApprovers" class="full-width">
+    <div *ngIf="isAssignedToApprovers" class="full-width">
       <label class="form-check">
         <input
           type="checkbox"
@@ -110,6 +111,6 @@
           'orgUser.assignApprover' | cxTranslate
         }}</span>
       </label>
-    </label>
+    </div>
   </ng-container>
 </cx-org-form>

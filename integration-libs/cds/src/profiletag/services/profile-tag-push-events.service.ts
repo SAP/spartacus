@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   Category,
   EventService,
-  OrderPlacedEvent,
-  PersonalizationContextService,
 } from '@spartacus/core';
 import {
   CartPageEvent,
@@ -16,6 +15,7 @@ import {
   ProductDetailsPageEvent,
   SearchPageResultsEvent,
 } from '@spartacus/storefront';
+import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -95,8 +95,8 @@ export class ProfileTagPushEventsService {
       ),
       map(([item, personalizationContext]) => {
         item.data = item.data ? item.data : {};
-        item.data.segments = personalizationContext.segments;
-        item.data.actions = personalizationContext.actions;
+        item.data.segments = personalizationContext?.segments;
+        item.data.actions = personalizationContext?.actions;
         return item;
       })
     );
@@ -136,7 +136,8 @@ export class ProfileTagPushEventsService {
           return (
             previouslyEmittedCategoryPage.categoryCode ===
               currentCategoryPage.categoryCode &&
-            previousRoute.semanticRoute === currentRoute.semanticRoute
+            previousRoute.navigation.semanticRoute ===
+              currentRoute.navigation.semanticRoute
           ); // A true means that this item is not unique, so this is hard to wrap your head around.
           // What we are saying, is that if the categoryCode is the same AND the last emitted semantic route is the same
           // then this is a duplicate (I.E. via a facet change). In other words, no other page type was visited, and we are on the same categorycode

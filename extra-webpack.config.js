@@ -1,22 +1,24 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const keyPrefix = 'SPARTACUS_';
-
-let env = {};
+const keyPrefix = 'CX_';
+const env = {};
 
 const keys = Object.keys(process.env).filter((key) =>
   key.startsWith(keyPrefix)
 );
 
-keys.forEach((key) => (env[key] = JSON.stringify(process.env[key])));
+keys.forEach((key) => {
+  const value = process.env[key];
+  env[key] = value === 'true' ? true : value === 'false' ? false : value;
+});
 
 console.log('env=', env);
 
 module.exports = {
   plugins: [
     new webpack.DefinePlugin({
-      'build.process.env': env,
+      'buildProcess.env': JSON.stringify(env),
     }),
   ],
   resolve: {

@@ -5,7 +5,7 @@ export const initialState: ViewAllStoresState = {
   viewAllStoresEntities: {},
 };
 
-export function reducer(
+export function viewAllStoresReducer(
   state = initialState,
   action: StoreFinderActions.ViewAllStoresAction
 ): ViewAllStoresState {

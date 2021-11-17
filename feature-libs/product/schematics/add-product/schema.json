@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "ProductSchematics",
+  "title": "Product Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the Product feature.",
+      "default": true
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": ["Bulk-Pricing", "Product-Variants", "Image-Zoom"],
+        "type": "string"
+      },
+      "default": ["Product-Variants", "Image-Zoom"],
+      "x-prompt": {
+        "message": "Which Product features would you like to set up?",
+        "type": "list",
+        "items": [
+          {
+            "value": "Bulk-Pricing",
+            "label": "Bulk Pricing (b2b feature)"
+          },
+          {
+            "value": "Product-Variants",
+            "label": "Product Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Image Zoom"
+          }
+        ]
+      }
+    }
+  },
+  "required": []
+}

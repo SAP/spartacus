@@ -15,18 +15,18 @@ export class OccPermissionTypeListNormalizer
     Converter<
       Occ.OrderApprovalPermissionTypeList,
       OrderApprovalPermissionType[]
-    > {
+    >
+{
   constructor(private converter: ConverterService) {}
 
   convert(
     source: Occ.OrderApprovalPermissionTypeList,
     target?: OrderApprovalPermissionType[]
   ): OrderApprovalPermissionType[] {
-    if (target === undefined) {
-      target = source.orderApprovalPermissionTypes.map((permissionType) =>
-        this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
-      );
-    }
+    target = source.orderApprovalPermissionTypes.map((permissionType) =>
+      this.converter.convert(permissionType, PERMISSION_TYPE_NORMALIZER)
+    );
+
     return target;
   }
 }

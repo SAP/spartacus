@@ -60,6 +60,18 @@ cx-form-errors {
   }
 }
 
+cx-file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  input[type='file'] {
+    display: none;
+  }
+}
+
 input,
 input[type='checkbox'],
 input[type='radio'],
@@ -110,6 +122,10 @@ label {
       font-weight: var(--cx-font-weight-semi);
     }
   }
+}
+
+legend {
+  margin-bottom: $label-margin-bottom;
 }
 
 .form-check {

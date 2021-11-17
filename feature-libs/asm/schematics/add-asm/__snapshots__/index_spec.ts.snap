@@ -1,0 +1,56 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Spartacus Asm schematics: ng-add Asm feature eager loading should import appropriate modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { AsmModule } from \\"@spartacus/asm\\";
+import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
+import { AsmRootModule } from \\"@spartacus/asm/root\\";
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AsmRootModule,
+    AsmModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: asmTranslations,
+      chunks: asmTranslationChunksConfig,
+    },
+  })]
+})
+export class AsmFeatureModule { }
+"
+`;
+
+exports[`Spartacus Asm schematics: ng-add Asm feature general setup should add the feature using the lazy loading syntax 1`] = `
+"import { NgModule } from '@angular/core';
+import { asmTranslationChunksConfig, asmTranslations } from \\"@spartacus/asm/assets\\";
+import { AsmRootModule, ASM_FEATURE } from \\"@spartacus/asm/root\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    AsmRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [ASM_FEATURE]: {
+        module: () =>
+          import('@spartacus/asm').then((m) => m.AsmModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: asmTranslations,
+      chunks: asmTranslationChunksConfig,
+    },
+  })
+  ]
+})
+export class AsmFeatureModule { }
+"
+`;

@@ -1,0 +1,36 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "cart-${version}",
+    "commitMessage": "Bumping cart version to ${version}",
+    "tagAnnotation": "Bumping cart version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/cart"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:cart"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/cart@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib cart --to cart-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics",
+            "peerDependencies.@spartacus/styles"
+          ]
+        }
+      ]
+    }
+  }
+}

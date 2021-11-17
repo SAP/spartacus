@@ -34,9 +34,10 @@ const userGroupId = 'userGroupId';
 const params: SearchConfig = { sort: 'code' };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { userId }) => (url === 'b2bUser' ? `${url}/${userId}` : url)
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { userId } }) =>
+      url === 'b2bUser' ? `${url}/${userId}` : url
   );
 }
 

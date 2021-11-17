@@ -1,12 +1,6 @@
-import { clickHamburger } from './homepage';
-
 // Use language switcher to change language
 
-export function switchLanguage(lang: string, isMobile?: boolean) {
-  if (isMobile) {
-    clickHamburger();
-  }
-
+export function switchLanguage(lang: string) {
   cy.get('.SiteContext label')
     .contains('Language')
     .parent()

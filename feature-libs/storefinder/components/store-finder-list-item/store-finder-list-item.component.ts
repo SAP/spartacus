@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
+import { StoreFinderService } from '@spartacus/storefinder/core';
 import { AbstractStoreItemComponent } from '../abstract-store-item/abstract-store-item.component';
-import { StoreDataService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-list-item',
@@ -9,7 +8,7 @@ import { StoreDataService } from '@spartacus/storefinder/core';
 })
 export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Input()
-  locationIndex: number = null;
+  locationIndex: number | null = null;
   @Input()
   listOrderLabel: any;
   @Input()
@@ -19,8 +18,8 @@ export class StoreFinderListItemComponent extends AbstractStoreItemComponent {
   @Output()
   storeItemClick: EventEmitter<number> = new EventEmitter();
 
-  constructor(protected storeDataService: StoreDataService) {
-    super(storeDataService);
+  constructor(protected storeFinderService: StoreFinderService) {
+    super(storeFinderService);
   }
 
   handleStoreItemClick() {

@@ -10,11 +10,11 @@ import {
 export const userConfig: MyCompanyConfig = {
   name: 'User',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/users`,
-  apiEndpoint: '/users/current/orgCustomers',
+  apiEndpoint: '/orgCustomers',
   objectType: 'users',
   entityIdField: 'customerId',
   preserveCookies: true,
-  canDisable: true,
+  selectOptionsEndpoint: ['*availableOrgUnitNodes*', '*titles*'],
   rows: [
     {
       label: 'Name',
@@ -22,7 +22,7 @@ export const userConfig: MyCompanyConfig = {
       inputType: INPUT_TYPE.TEXT,
       createValue: `Test Entity ${randomString()}`,
       updateValue: `Edited Test Entity ${randomString()}`,
-      sortLabel: 'name',
+      sortLabel: 'Name',
       showInTable: true,
       showInDetails: false,
       useCookie: ENTITY_UID_COOKIE_KEY,
@@ -36,7 +36,6 @@ export const userConfig: MyCompanyConfig = {
       updateValue: 'Mrs.',
       showInTable: false,
     },
-
     {
       label: 'First name',
       variableName: 'firstName',
@@ -81,7 +80,7 @@ export const userConfig: MyCompanyConfig = {
     {
       label: 'Roles',
       variableName: 'roles',
-      formLabel: 'Roles',
+      inputType: INPUT_TYPE.CHECKBOX,
       createValue: 'Customer',
       updateValue: 'Manager',
       showInTable: true,
@@ -102,7 +101,7 @@ export const userConfig: MyCompanyConfig = {
       variableName: 'orgUnit.name',
       link: `/organization/units/Rustic%20Retail`,
       updatedLink: `/organization/units/Custom%20Retail`,
-      sortLabel: 'unit',
+      sortLabel: 'Unit',
       inputType: INPUT_TYPE.NG_SELECT,
       createValue: 'Rustic Retail',
       updateValue: 'Custom Retail',
@@ -115,10 +114,11 @@ export const userConfig: MyCompanyConfig = {
     {
       name: 'Approvers',
       baseUrl: `/approvers`,
-      apiEndpoint: '**/approvers**',
+      apiEndpoint: '**/orgCustomers**',
       entityIdField: 'customerId',
       objectType: 'users',
       manageAssignments: true,
+      skipAssignmentWaits: true,
     },
     {
       name: 'User groups',
@@ -137,5 +137,12 @@ export const userConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
   ],
-  features: [MY_COMPANY_FEATURE.USER_PASSWORD],
+  features: [
+    MY_COMPANY_FEATURE.CREATE,
+    MY_COMPANY_FEATURE.DISABLE,
+    MY_COMPANY_FEATURE.UPDATE,
+    MY_COMPANY_FEATURE.LIST,
+    MY_COMPANY_FEATURE.ASSIGNMENTS,
+    MY_COMPANY_FEATURE.USER_PASSWORD,
+  ],
 };

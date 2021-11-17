@@ -1,0 +1,92 @@
+<form [formGroup]="form" class="quick-order-form-container">
+  <div class="quick-order-form-input">
+    <input
+      (blur)="onBlur($event)"
+      (focus)="open()"
+      (keydown.arrowdown)="focusNextChild($event)"
+      (keydown.arrowup)="focusPreviousChild($event)"
+      (keydown.enter)="addProduct($event)"
+      (keydown.escape)="clear($event)"
+      [attr.aria-label]="'common.search' | cxTranslate"
+      class="form-control"
+      formControlName="product"
+      placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
+      type="text"
+    />
+
+    <button
+      *ngIf="form.get('product')?.value; else searchIcon"
+      (click)="clear($event)"
+      (keydown.enter)="clear($event)"
+      [attr.aria-label]="'common.reset' | cxTranslate"
+      class="quick-order-form-reset-icon"
+    >
+      <cx-icon [type]="iconTypes.RESET"></cx-icon>
+    </button>
+
+    <ng-template #searchIcon>
+      <button
+        [attr.aria-label]="'common.search' | cxTranslate"
+        class="quick-order-form-search-icon"
+        tabindex="-1"
+      >
+        <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+      </button>
+    </ng-template>
+
+    <span
+      *ngIf="!(canAddProduct() | async) && form.get('product')?.dirty"
+      class="list-limit-reached-text"
+    >
+      {{ 'quickOrderForm.listLimitReached' | cxTranslate }}
+    </span>
+  </div>
+
+  <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">
+    <ul *ngIf="results.length" class="quick-order-results-products">
+      <li
+        *ngFor="let product of results; let i = index"
+        class="quick-order-results-product-container"
+      >
+        <button
+          (blur)="onBlur($event)"
+          (click)="add(product, $event)"
+          (keydown.arrowdown)="focusNextChild($event)"
+          (keydown.arrowup)="focusPreviousChild($event)"
+          (keydown.enter)="add(product, $event)"
+          (keydown.escape)="clear($event)"
+          [attr.aria-label]="
+            'quickOrderForm.addProduct' | cxTranslate: { product: product.name }
+          "
+          [class.has-media]="
+            config?.quickOrder?.searchForm?.displayProductImages
+          "
+          class="quick-order-results-product"
+        >
+          <cx-media
+            *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
+            [container]="product.images?.PRIMARY"
+            class="media"
+            format="thumbnail"
+            role="presentation"
+          ></cx-media>
+          <div class="name" [innerHTML]="product.name"></div>
+          <span class="id">
+            {{
+              'quickOrderForm.id'
+                | cxTranslate
+                  : {
+                      id: product.code
+                    }
+            }}
+          </span>
+          <span class="price">{{ product.price?.formattedValue }}</span>
+        </button>
+      </li>
+    </ul>
+
+    <span *ngIf="noResults" class="quick-order-no-results">
+      {{ 'quickOrderForm.noResults' | cxTranslate }}
+    </span>
+  </div>
+</form>

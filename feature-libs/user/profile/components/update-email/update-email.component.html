@@ -1,0 +1,76 @@
+<cx-spinner class="overlay" *ngIf="isUpdating$ | async"> </cx-spinner>
+
+<form (ngSubmit)="onSubmit()" [formGroup]="form">
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.newEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      aria-required="true"
+      type="email"
+      name="email"
+      formControlName="email"
+      placeholder="{{
+        'updateEmailForm.newEmailAddress.placeholder' | cxTranslate
+      }}"
+      class="form-control"
+    />
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('email')"
+    ></cx-form-errors>
+  </label>
+
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.confirmNewEmailAddress.label' | cxTranslate
+    }}</span>
+    <input
+      aria-required="true"
+      type="email"
+      name="confirmEmail"
+      formControlName="confirmEmail"
+      placeholder="{{
+        'updateEmailForm.confirmNewEmailAddress.placeholder' | cxTranslate
+      }}"
+      class="form-control"
+    />
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('confirmEmail')"
+    ></cx-form-errors>
+  </label>
+
+  <label>
+    <span class="label-content">{{
+      'updateEmailForm.password.label' | cxTranslate
+    }}</span>
+    <input
+      aria-required="true"
+      type="password"
+      name="password"
+      formControlName="password"
+      placeholder="{{ 'updateEmailForm.password.placeholder' | cxTranslate }}"
+      class="form-control"
+      autocomplete="new-password"
+    />
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="form.get('password')"
+    ></cx-form-errors>
+  </label>
+
+  <a
+    class="btn btn-block btn-secondary"
+    [routerLink]="{ cxRoute: 'home' } | cxUrl"
+  >
+    {{ 'common.cancel' | cxTranslate }}
+  </a>
+
+  <button class="btn btn-block btn-primary" [disabled]="form.disabled">
+    {{ 'common.save' | cxTranslate }}
+  </button>
+</form>

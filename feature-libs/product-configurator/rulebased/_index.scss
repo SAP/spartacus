@@ -1,0 +1,51 @@
+@import './styles/index';
+
+$configurator-rulebased-components: cx-configurator-template,
+  cx-configurator-attribute-header, cx-configurator-form,
+  cx-configurator-attribute-type, cx-required-error-msg,
+  cx-configurator-footer-container, cx-configurator-footer-container-item,
+  cx-configurator-form-group, cx-configurator-attribute-radio-button,
+  cx-configurator-show-more, cx-configurator-attribute-product-card,
+  cx-configurator-attribute-single-selection-bundle-dropdown,
+  cx-configurator-attribute-single-selection-bundle,
+  cx-configurator-attribute-multi-selection-bundle,
+  cx-configurator-attribute-read-only, cx-configurator-previous-next-buttons,
+  cx-configurator-overview-form, cx-configurator-overview-attribute,
+  cx-configurator-cpq-overview-attribute, cx-configurator-attribute-quantity,
+  cx-configurator-attribute-footer, cx-configurator-attribute-drop-down,
+  cx-configurator-group-menu, cx-configurator-price-summary,
+  cx-configurator-price, cx-configurator-add-to-cart-button,
+  cx-configurator-exit-button, cx-configurator-attribute-input-field,
+  cx-configurator-attribute-numeric-input-field, cx-configurator-tab-bar,
+  cx-configurator-textfield-add-to-cart-button, cx-configurator-group-title,
+  cx-configurator-attribute-checkbox, cx-configurator-attribute-checkbox-list,
+  cx-configurator-attribute-selection-image,
+  cx-configurator-attribute-multi-selection-image,
+  cx-configurator-attribute-single-selection-image,
+  cx-configurator-update-message, cx-configurator-product-title,
+  cx-configurator-conflict-suggestion, cx-configurator-conflict-description,
+  cx-configurator-overview-notification-banner,
+  cx-configuration-conflict-and-error-messages !default;
+
+$configurator-rulebased-pages: VariantConfigurationTemplate,
+  VariantConfigurationOverviewTemplate, CpqConfigurationTemplate,
+  CpqConfigurationOverviewTemplate !default;
+
+@each $selector in $configurator-rulebased-components {
+  #{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}
+
+// add body specific selectors
+body {
+  @each $selector in $configurator-rulebased-components {
+    @extend %#{$selector}__body !optional;
+  }
+}
+
+@each $selector in $configurator-rulebased-pages {
+  cx-page-layout.#{$selector} {
+    @extend %#{$selector} !optional;
+  }
+}

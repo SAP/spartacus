@@ -10,6 +10,7 @@
         required
         placeholder="{{ 'orgCostCenter.name' | cxTranslate }}"
         formControlName="name"
+        (blur)="createCodeWithName(form.get('name'), form.get('code'))"
       />
       <cx-form-errors [control]="form.get('name')"></cx-form-errors>
     </label>
@@ -41,6 +42,7 @@
         bindValue="isocode"
         [class.invalid]="form.get('currency.isocode').invalid"
         appendTo="cx-org-list"
+        [placeholder]="'orgCostCenter.currency' | cxTranslate"
       >
       </ng-select>
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>

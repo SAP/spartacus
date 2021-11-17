@@ -54,7 +54,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -62,14 +64,18 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new OrgUnitActions.LoadOrgUnitNodes({ userId })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
   loadTree(): void {
     this.userIdService.takeUserId(true).subscribe(
       (userId) => this.store.dispatch(new OrgUnitActions.LoadTree({ userId })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -79,7 +85,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadApprovalProcesses({ userId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -94,7 +102,9 @@ export class OrgUnitService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -108,7 +118,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.LoadOrgUnit({ userId, orgUnitId })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -249,8 +261,17 @@ export class OrgUnitService {
 
   getActiveUnitList(): Observable<B2BUnitNode[]> {
     return this.getList().pipe(
-      map((units) => units.filter((unit) => unit.active))
+      map((units) => units.filter((unit) => unit.active)),
+      map((units) => units.sort(this.sortUnitList))
     );
+  }
+
+  protected sortUnitList(a: B2BUnitNode, b: B2BUnitNode) {
+    return a.id.toLowerCase() < b.id.toLowerCase()
+      ? -1
+      : a.id.toLowerCase() > b.id.toLowerCase()
+      ? 1
+      : 0;
   }
 
   getUsers(
@@ -283,7 +304,9 @@ export class OrgUnitService {
     this.userIdService.takeUserId(true).subscribe(
       (userId) =>
         this.store.dispatch(new OrgUnitActions.CreateUnit({ userId, unit })),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -293,7 +316,9 @@ export class OrgUnitService {
         this.store.dispatch(
           new OrgUnitActions.UpdateUnit({ userId, unitCode, unit })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -313,7 +338,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -327,7 +354,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -346,7 +375,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -365,7 +396,9 @@ export class OrgUnitService {
             roleId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -379,7 +412,9 @@ export class OrgUnitService {
             address,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -420,7 +455,9 @@ export class OrgUnitService {
             address,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -440,7 +477,9 @@ export class OrgUnitService {
             addressId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

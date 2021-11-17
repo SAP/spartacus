@@ -10,6 +10,7 @@ import {
   PERMISSIONS_NORMALIZER,
   USER_GROUPS_NORMALIZER,
   USER_GROUP_NORMALIZER,
+  USER_GROUP_SERIALIZER,
 } from '@spartacus/organization/administration/core';
 import { OccUserGroupAdapter } from './occ-user-group.adapter';
 
@@ -31,9 +32,10 @@ const member = {
 };
 
 class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // tslint:disable-next-line:no-shadowed-variable
-    (url, { userGroupId }) => (url === 'userGroup' ? url + userGroupId : url)
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
+    // eslint-disable-next-line no-shadow
+    (url, { urlParams: { userGroupId } }) =>
+      url === 'userGroup' ? url + userGroupId : url
   );
 }
 
@@ -61,6 +63,7 @@ describe('OccUserGroupAdapter', () => {
       HttpTestingController as Type<HttpTestingController>
     );
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(converterService, 'convert').and.callThrough();
   });
 
   afterEach(() => {
@@ -104,6 +107,10 @@ describe('OccUserGroupAdapter', () => {
   describe('create userGroup', () => {
     it('should create userGroup', () => {
       service.create(userId, userGroup).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        userGroup,
+        USER_GROUP_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'POST' &&
@@ -122,6 +129,10 @@ describe('OccUserGroupAdapter', () => {
   describe('update userGroup', () => {
     it('should update userGroup', () => {
       service.update(userId, userGroupId, userGroup).subscribe();
+      expect(converterService.convert).toHaveBeenCalledWith(
+        userGroup,
+        USER_GROUP_SERIALIZER
+      );
       const mockReq = httpMock.expectOne(
         (req) =>
           req.method === 'PATCH' &&

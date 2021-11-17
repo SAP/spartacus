@@ -8,6 +8,7 @@ import { CardModule } from '../card/card.module';
 import { MessageModule } from '../message/message.module';
 import { MessageService } from '../message/services/message.service';
 import { FormComponent } from './form.component';
+import { KeyboardFocusModule } from '@spartacus/storefront';
 
 @NgModule({
   imports: [
@@ -18,6 +19,7 @@ import { FormComponent } from './form.component';
     CardModule,
     MessageModule,
     ItemActiveModule,
+    KeyboardFocusModule,
   ],
   declarations: [FormComponent],
   providers: [MessageService],

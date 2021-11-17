@@ -5,7 +5,7 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule, SplitViewModule } from '@spartacus/storefront';
 import { MessageModule } from '../message/message.module';
 import { CardComponent } from './card.component';
-
+import { PopoverModule } from '@spartacus/storefront';
 /**
  * Provides a reusable card UI component for the organization split views.
  *
@@ -21,6 +21,7 @@ import { CardComponent } from './card.component';
     IconModule,
     UrlModule,
     MessageModule,
+    PopoverModule,
   ],
   declarations: [CardComponent],
   exports: [CardComponent],

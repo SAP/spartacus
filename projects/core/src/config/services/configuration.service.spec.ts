@@ -1,6 +1,5 @@
+import { Compiler, Injector, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-
-import { ConfigurationService } from './configuration.service';
 import {
   Config,
   createFrom,
@@ -9,13 +8,13 @@ import {
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { Compiler, Injector, NgModule } from '@angular/core';
 import { take } from 'rxjs/operators';
+import { ConfigurationService } from './configuration.service';
 
 @NgModule({
   providers: [
-    provideDefaultConfig({ b: 'module default b' }),
-    provideConfig({ c: 'module c', d: 'module d' }),
+    provideDefaultConfig({ b: 'module default b' } as Config),
+    provideConfig({ c: 'module c', d: 'module d' } as Config),
   ],
 })
 export class TestModule {}
@@ -30,10 +29,10 @@ describe('ConfigurationService', () => {
           a: 'default a',
           b: 'default b',
           c: 'default c',
-        }),
+        } as Config),
         provideConfig({
           d: 'root d',
-        }),
+        } as Config),
       ],
     });
     service = TestBed.inject(ConfigurationService);
@@ -80,7 +79,9 @@ describe('ConfigurationService', () => {
 
       it('should contribute to general config', async () => {
         eventService.dispatch(moduleEvent);
-        const config = await service.unifiedConfig$.pipe(take(1)).toPromise();
+        const config: any = await service.unifiedConfig$
+          .pipe(take(1))
+          .toPromise();
         expect(config.a).toEqual('default a');
         expect(config.b).toEqual('module default b');
         expect(config.c).toEqual('module c');
@@ -88,13 +89,15 @@ describe('ConfigurationService', () => {
 
       it('should favor root config over lazy config', async () => {
         eventService.dispatch(moduleEvent);
-        const config = await service.unifiedConfig$.pipe(take(1)).toPromise();
+        const config: any = await service.unifiedConfig$
+          .pipe(take(1))
+          .toPromise();
         expect(config.d).toEqual('root d');
       });
 
       it('should apply change to global configuration', () => {
         eventService.dispatch(moduleEvent);
-        const config = TestBed.inject(Config);
+        const config: any = TestBed.inject(Config);
         expect(config.a).toEqual('default a');
         expect(config.b).toEqual('module default b');
         expect(config.c).toEqual('module c');
@@ -118,7 +121,7 @@ describe('ConfigurationService', () => {
         });
         it('should not apply changes to global configuration', () => {
           eventService.dispatch(moduleEvent);
-          const config = TestBed.inject(Config);
+          const config: any = TestBed.inject(Config);
           expect(config.a).toEqual('default a');
           expect(config.b).toEqual('default b');
           expect(config.c).toEqual('default c');

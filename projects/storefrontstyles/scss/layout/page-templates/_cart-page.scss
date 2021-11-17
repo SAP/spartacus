@@ -7,6 +7,8 @@
 
   .TopContent {
     --cx-flex-basis: 68%;
+    flex-direction: column;
+    flex-wrap: nowrap;
 
     @include media-breakpoint-down(md) {
       --cx-flex-basis: 100%;
@@ -46,8 +48,16 @@
         max-width: none;
       }
 
+      cx-cart-quick-form {
+        max-width: 100%;
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+      }
+
       cx-cart-coupon {
         max-width: 100%;
+        padding-inline-end: 0;
+        padding-inline-start: 0;
       }
     }
   }

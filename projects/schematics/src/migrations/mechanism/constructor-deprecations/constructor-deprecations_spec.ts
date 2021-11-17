@@ -10,7 +10,7 @@ import {
   isImported,
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
-import * as ts from 'typescript';
+import ts from 'typescript';
 import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
 import {
   getConstructor,
@@ -448,7 +448,7 @@ describe('constructor migrations', () => {
   beforeEach(() => {
     schematicRunner = new SchematicTestRunner(
       'test',
-      require.resolve('../../migrations.json')
+      require.resolve('../../test/migrations-test.json')
     );
     host = new TempScopedNodeJsSyncHost();
     appTree = new UnitTestTree(new HostTree(host));

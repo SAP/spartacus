@@ -4,7 +4,11 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Occ } from '../../occ-models';
-import { OccEndpointsService } from '../../services';
+import {
+  BaseOccUrlProperties,
+  DynamicAttributes,
+  OccEndpointsService,
+} from '../../services';
 import { OccSaveCartAdapter } from './occ-save-cart.adapter';
 
 const userId = '123';
@@ -20,7 +24,11 @@ const saveCartData: Occ.SaveCartResult = {
 };
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return endpoint;
   }
 }
@@ -43,7 +51,7 @@ describe('OccSaveCartAdapter', () => {
     httpMock = TestBed.inject(HttpTestingController);
     occEndpointsService = TestBed.inject(OccEndpointsService);
 
-    spyOn(occEndpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -67,9 +75,11 @@ describe('OccSaveCartAdapter', () => {
         { param: 'saveCartName', value: 'Name', op: 's' },
         { param: 'saveCartDescription', value: 'Description', op: 's' },
       ]);
-      expect(occEndpointsService.getUrl).toHaveBeenCalledWith('saveCart', {
-        userId,
-        cartId,
+      expect(occEndpointsService.buildUrl).toHaveBeenCalledWith('saveCart', {
+        urlParams: {
+          userId,
+          cartId,
+        },
       });
       mockReq.flush(saveCartData);
       expect(result).toEqual(saveCartData);

@@ -11,21 +11,21 @@ import {
 import {
   addPackageJsonDependencies,
   ANGULAR_OAUTH2_OIDC,
-  DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
   installPackageJsonDependencies,
+  readPackageJson,
 } from '../../../shared/index';
 
 export function migrate(): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
-        version: DEFAULT_ANGULAR_OAUTH2_OIDC_VERSION,
+        version: '^10.0.0',
         name: ANGULAR_OAUTH2_OIDC,
       },
     ];
     return chain([
-      addPackageJsonDependencies(dependencies),
+      addPackageJsonDependencies(dependencies, readPackageJson(tree)),
       installPackageJsonDependencies,
     ]);
   };
