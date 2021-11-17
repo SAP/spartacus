@@ -20,5 +20,5 @@ export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
 export * from './checkout-review-submit/checkout-review-submit.component';
 export * from './checkout-review-submit/checkout-review-submit.module';
-export * from './shipping-address/shipping-address.component';
-export * from './shipping-address/shipping-address.module';
+export * from './checkout-shipping-address/checkout-shipping-address.component';
+export * from './checkout-shipping-address/checkout-shipping-address.module';

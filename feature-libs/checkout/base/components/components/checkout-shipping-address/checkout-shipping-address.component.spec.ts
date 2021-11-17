@@ -13,7 +13,7 @@ import {
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { ShippingAddressComponent } from './shipping-address.component';
+import { CheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -114,8 +114,8 @@ class MockCardComponent {
 }
 
 describe('ShippingAddressComponent', () => {
-  let component: ShippingAddressComponent;
-  let fixture: ComponentFixture<ShippingAddressComponent>;
+  let component: CheckoutShippingAddressComponent;
+  let fixture: ComponentFixture<CheckoutShippingAddressComponent>;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartService: ActiveCartService;
@@ -126,7 +126,7 @@ describe('ShippingAddressComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          ShippingAddressComponent,
+          CheckoutShippingAddressComponent,
           MockAddressFormComponent,
           MockCardComponent,
           MockSpinnerComponent,
@@ -142,7 +142,7 @@ describe('ShippingAddressComponent', () => {
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
         ],
       })
-        .overrideComponent(ShippingAddressComponent, {
+        .overrideComponent(CheckoutShippingAddressComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -159,7 +159,7 @@ describe('ShippingAddressComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShippingAddressComponent);
+    fixture = TestBed.createComponent(CheckoutShippingAddressComponent);
     component = fixture.componentInstance;
 
     spyOn(component, 'addAddress').and.callThrough();

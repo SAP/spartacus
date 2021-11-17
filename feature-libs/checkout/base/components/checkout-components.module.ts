@@ -10,7 +10,7 @@ import { CheckoutProgressMobileBottomModule } from './components/checkout-progre
 import { CheckoutProgressMobileTopModule } from './components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './components/checkout-progress/checkout-progress.module';
 import { CheckoutReviewSubmitModule } from './components/checkout-review-submit/checkout-review-submit.module';
-import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
+import { CheckoutShippingAddressModule } from './components/checkout-shipping-address/checkout-shipping-address.module';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 
 @NgModule({
@@ -25,7 +25,7 @@ import { OrderConfirmationModule } from './order-confirmation/order-confirmation
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
-    ShippingAddressModule,
+    CheckoutShippingAddressModule,
     OrderConfirmationModule,
     CheckoutLoginModule,
   ],

@@ -5,12 +5,12 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
-  SpinnerModule,
   CartValidationGuard,
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { ShippingAddressComponent } from './shipping-address.component';
+import { CheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 
 @NgModule({
   imports: [
@@ -25,13 +25,13 @@ import { ShippingAddressComponent } from './shipping-address.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutShippingAddress: {
-          component: ShippingAddressComponent,
+          component: CheckoutShippingAddressComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),
   ],
-  declarations: [ShippingAddressComponent],
-  exports: [ShippingAddressComponent],
+  declarations: [CheckoutShippingAddressComponent],
+  exports: [CheckoutShippingAddressComponent],
 })
-export class ShippingAddressModule {}
+export class CheckoutShippingAddressModule {}
