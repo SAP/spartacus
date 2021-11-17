@@ -20,20 +20,6 @@ const cart: Cart = {
 const tempCartId = 'tempCartId';
 
 describe('MultiCart Actions', () => {
-  describe('TempCart Actions', () => {
-    describe('SetTempCart', () => {
-      it('should create the action', () => {
-        const payload = { cart, tempCartId };
-        const action = new CartActions.SetTempCart(payload);
-        expect({ ...action }).toEqual({
-          type: CartActions.SET_TEMP_CART,
-          payload,
-          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, tempCartId),
-        });
-      });
-    });
-  });
-
   describe('CartProcessesIncrement', () => {
     it('should create the action', () => {
       const payload = 'cartId';
@@ -82,12 +68,12 @@ describe('MultiCart Actions', () => {
   describe('SetCartData Actions', () => {
     describe('SetCartData', () => {
       it('should create the action', () => {
-        const payload = { cart, userId: 'testUserId' };
+        const payload = { cart, cartId: 'testUserId' };
         const action = new CartActions.SetCartData(payload);
         expect({ ...action }).toEqual({
           type: CartActions.SET_CART_DATA,
           payload,
-          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, 'xxx'),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, 'testUserId'),
         });
       });
     });

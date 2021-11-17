@@ -46,21 +46,6 @@ describe('Multi Cart effect', () => {
     cartEffects = TestBed.inject(fromEffects.MultiCartEffects);
   });
 
-  describe('setTempCart$', () => {
-    it('should dispatch RemoveCart just after setting', () => {
-      const payload = { cart: testCart, tempCartId: 'tempCartId' };
-      const action = new CartActions.SetTempCart(payload);
-      const removeTempCartCompletion = new CartActions.RemoveCart({
-        cartId: payload.tempCartId,
-      });
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', {
-        b: removeTempCartCompletion,
-      });
-      expect(cartEffects.setTempCart$).toBeObservable(expected);
-    });
-  });
-
   describe('processesIncrement$', () => {
     it('should dispatch CartProcessesIncrement action', () => {
       const payload = {

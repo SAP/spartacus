@@ -224,15 +224,14 @@ describe('Cart effect', () => {
         tempCartId,
         cartId: testCart.code,
       });
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId: tempCartId,
+      const removeCart = new CartActions.RemoveCart({
+        cartId: tempCartId,
       });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: createCartSuccessCompletion,
-        c: setTempCartCompletion,
+        c: removeCart,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);

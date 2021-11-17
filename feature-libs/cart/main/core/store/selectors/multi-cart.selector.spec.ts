@@ -285,21 +285,6 @@ describe('Multi Cart selectors', () => {
     });
   });
 
-  describe('getActiveCartId', () => {
-    it('should return active cart id', () => {
-      let result;
-      store
-        .pipe(select(MultiCartSelectors.getActiveCartId))
-        .subscribe((value) => (result = value));
-
-      expect(result).toEqual('');
-
-      loadCart();
-
-      expect(result).toEqual(testCart.code);
-    });
-  });
-
   describe('getCartTypeIndex', () => {
     it('should return cartTypeIndex state', () => {
       let result;
