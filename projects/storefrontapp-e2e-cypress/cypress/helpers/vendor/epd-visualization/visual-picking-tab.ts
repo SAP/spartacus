@@ -2,10 +2,13 @@ export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
   cy.cxConfig({
     context: {
-      baseSite: ['electronics-spa'],
+      baseSite: ['powertools-spa'],
       currency: ['USD'],
     },
   });
+
+  // We need to ensure we use control the screen width, since the animation controls are removed at lower breakpoints.
+  cy.viewport(1200, 800); // Bootstrap 4 XL breakpoint
 
   cy.intercept(
     'GET',
@@ -31,6 +34,8 @@ export function verifyTabbingOrder() {
   cy.get('cx-visual-viewer-toolbar-button', { timeout: 30000 }).should(
     'be.visible'
   );
+
+  cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
 
   cy.get('cx-icon.fa-home').parent().parent('button').focus();
 
@@ -127,7 +132,7 @@ export function verifyTabbingOrder() {
     .find('cx-icon')
     .should('have.class', 'cx-icon fas fa-angle-right flip-at-rtl');
 
-  // outside visual-picking
+  // should end up in the footer area
   cy.pressTab();
-  cy.focused().should('contain', 'About SAP Commerce Cloud');
+  cy.get('cx-footer-navigation:focus-within');
 }
