@@ -39,9 +39,10 @@
       border-width: 0 1px;
       padding: 12px 9px;
       max-height: 48px;
-      min-width: 48px;
-      max-width: 78px;
-
+      @include forVersion(4.1) {
+        min-width: 48px;
+        max-width: 78px;
+      }
       @include forVersion(4.2) {
         min-width: 46%;
         max-width: 46%;
@@ -60,7 +61,10 @@
     cursor: pointer;
     margin: 0;
     max-height: 48px;
-    min-width: 40px;
+
+    @include forVersion(4.1) {
+      min-width: 40px;
+    }
 
     @include forVersion(4.2) {
       min-width: 27%;
