@@ -90,7 +90,8 @@ export const configurator = {
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
-      selectedValueOfAttributeFull: 'Selected value {{ value }} of attribute {{ attribute }}',
+      selectedValueOfAttributeFull:
+        'Selected value {{ value }} of attribute {{ attribute }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -106,7 +107,8 @@ export const configurator = {
         'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect.',
       itemOfAttributeUnselected:
         'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select.',
-      selectNoItemOfAttribute: 'To select no item for attribute {{ attribute }} press button.',
+      selectNoItemOfAttribute:
+        'To select no item for attribute {{ attribute }} press button.',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
