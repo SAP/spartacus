@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
+import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;

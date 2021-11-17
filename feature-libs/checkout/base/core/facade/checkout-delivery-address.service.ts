@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutDeliveryAddressConnector } from '../connectors/delivery-address/checkout-delivery-address.connector';
+import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 
 @Injectable()
 export class CheckoutDeliveryAddressService
