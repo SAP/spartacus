@@ -25,7 +25,7 @@ import {
   ModalService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PaymentFormComponent } from './payment-form.component';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -180,8 +180,8 @@ class MockUserAddressService implements Partial<UserAddressService> {
 }
 
 describe('PaymentFormComponent', () => {
-  let component: PaymentFormComponent;
-  let fixture: ComponentFixture<PaymentFormComponent>;
+  let component: CheckoutPaymentFormComponent;
+  let fixture: ComponentFixture<CheckoutPaymentFormComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;
   let mockCheckoutPaymentService: MockCheckoutPaymentService;
   let mockUserPaymentService: MockUserPaymentService;
@@ -208,7 +208,7 @@ describe('PaymentFormComponent', () => {
           FormErrorsModule,
         ],
         declarations: [
-          PaymentFormComponent,
+          CheckoutPaymentFormComponent,
           MockCardComponent,
           MockBillingAddressFormComponent,
           MockCxIconComponent,
@@ -229,7 +229,7 @@ describe('PaymentFormComponent', () => {
           { provide: UserAddressService, useClass: MockUserAddressService },
         ],
       })
-        .overrideComponent(PaymentFormComponent, {
+        .overrideComponent(CheckoutPaymentFormComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -237,7 +237,7 @@ describe('PaymentFormComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaymentFormComponent);
+    fixture = TestBed.createComponent(CheckoutPaymentFormComponent);
     component = fixture.componentInstance;
     controls = {
       payment: component.paymentForm.controls,

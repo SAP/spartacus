@@ -31,10 +31,10 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-payment-method',
-  templateUrl: './payment-method.component.html',
+  templateUrl: './checkout-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentMethodComponent implements OnInit, OnDestroy {
+export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;

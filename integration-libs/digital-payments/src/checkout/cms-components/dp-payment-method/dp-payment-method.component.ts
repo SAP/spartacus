@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,

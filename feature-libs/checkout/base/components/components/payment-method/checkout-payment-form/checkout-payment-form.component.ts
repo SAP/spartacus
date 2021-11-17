@@ -34,10 +34,10 @@ import { filter, map, switchMap, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-form',
-  templateUrl: './payment-form.component.html',
+  templateUrl: './checkout-payment-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentFormComponent implements OnInit {
+export class CheckoutPaymentFormComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   suggestedAddressModalRef: ModalRef | null;

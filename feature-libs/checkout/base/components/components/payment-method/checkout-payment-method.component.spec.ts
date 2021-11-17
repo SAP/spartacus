@@ -19,7 +19,7 @@ import {
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { PaymentMethodComponent } from './payment-method.component';
+import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -133,8 +133,8 @@ class MockPaymentFormComponent {
 class MockSpinnerComponent {}
 
 describe('PaymentMethodComponent', () => {
-  let component: PaymentMethodComponent;
-  let fixture: ComponentFixture<PaymentMethodComponent>;
+  let component: CheckoutPaymentMethodComponent;
+  let fixture: ComponentFixture<CheckoutPaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
@@ -146,7 +146,7 @@ describe('PaymentMethodComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          PaymentMethodComponent,
+          CheckoutPaymentMethodComponent,
           MockPaymentFormComponent,
           CardComponent,
           MockSpinnerComponent,
@@ -183,7 +183,7 @@ describe('PaymentMethodComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaymentMethodComponent);
+    fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
     component = fixture.componentInstance;
   });
 

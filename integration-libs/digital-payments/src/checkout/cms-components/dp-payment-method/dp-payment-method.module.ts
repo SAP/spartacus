@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { PaymentMethodModule as CorePaymentMethodModule } from '@spartacus/checkout/base/components';
+import { CheckoutPaymentMethodModule as CorePaymentMethodModule } from '@spartacus/checkout/base/components';
 import { ConfigModule, I18nModule } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
 import { DpPaymentCallbackModule } from './dp-payment-callback/dp-payment-callback.module';

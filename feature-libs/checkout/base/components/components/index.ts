@@ -12,10 +12,10 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
-export * from './payment-method/payment-form/payment-form.component';
-export * from './payment-method/payment-form/payment-form.module';
-export * from './payment-method/payment-method.component';
-export * from './payment-method/payment-method.module';
+export * from './payment-method/checkout-payment-form/checkout-payment-form.component';
+export * from './payment-method/checkout-payment-form/checkout-payment-form.module';
+export * from './payment-method/checkout-payment-method.component';
+export * from './payment-method/checkout-payment-method.module';
 export * from './place-order/place-order.component';
 export * from './place-order/place-order.module';
 export * from './review-submit/review-submit.component';

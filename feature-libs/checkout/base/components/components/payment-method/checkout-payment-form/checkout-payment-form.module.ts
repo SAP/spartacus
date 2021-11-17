@@ -9,7 +9,7 @@ import {
   IconModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { PaymentFormComponent } from './payment-form.component';
+import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 
 @NgModule({
   imports: [
@@ -22,7 +22,7 @@ import { PaymentFormComponent } from './payment-form.component';
     SpinnerModule,
     FormErrorsModule,
   ],
-  declarations: [PaymentFormComponent],
-  exports: [PaymentFormComponent],
+  declarations: [CheckoutPaymentFormComponent],
+  exports: [CheckoutPaymentFormComponent],
 })
-export class PaymentFormModule {}
+export class CheckoutPaymentFormModule {}
