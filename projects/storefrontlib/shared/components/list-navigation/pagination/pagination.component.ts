@@ -62,6 +62,22 @@ export class PaginationComponent {
   }
 
   /**
+   * Format aria-label based on pagination item type.
+   *
+   * @param label string
+   * @param type PaginationItemType
+   * @returns string
+   */
+  getAriaLabel(label: string, type: PaginationItemType): string {
+    // Convert 'Start' to First, and 'End' to Last for a more natural screen read.
+    type = type === PaginationItemType.START ? PaginationItemType.FIRST : type;
+    type = type === PaginationItemType.END ? PaginationItemType.LAST : type;
+    return type === PaginationItemType.PAGE
+      ? `${type} ${label}`
+      : `${type} ${PaginationItemType.PAGE}`;
+  }
+
+  /**
    * Indicates whether the given item is the current item.
    *
    * @param item PaginationItem

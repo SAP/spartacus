@@ -29,9 +29,9 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
 
   ngOnInit() {
     const noCommerceProduct: Product = { images: {} };
-    if (this.attributeOverview?.productCode) {
+    if (this.attributeOverview.productCode) {
       this.product$ = this.productService
-        .get(this.attributeOverview?.productCode, ProductScope.LIST)
+        .get(this.attributeOverview.productCode, ProductScope.LIST)
         .pipe(
           map((respProduct) => {
             return respProduct ? respProduct : noCommerceProduct;
@@ -61,9 +61,9 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attributeOverview?.quantity,
-      price: this.attributeOverview?.valuePrice,
-      priceTotal: this.attributeOverview?.valuePriceTotal,
+      quantity: this.attributeOverview.quantity,
+      price: this.attributeOverview.valuePrice,
+      priceTotal: this.attributeOverview.valuePriceTotal,
       isLightedUp: true,
     };
   }
@@ -74,7 +74,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    * @return {boolean} - 'true' if the quantity should be displayed, otherwise 'false'
    */
   displayQuantity(): boolean {
-    const quantity = this.attributeOverview?.quantity;
+    const quantity = this.attributeOverview.quantity;
     return quantity !== undefined && quantity > 0;
   }
 
@@ -85,8 +85,8 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
    */
   displayPrice(): boolean {
     return (
-      this.attributeOverview?.valuePrice?.value !== undefined &&
-      this.attributeOverview?.valuePrice?.value > 0
+      this.attributeOverview.valuePrice?.value !== undefined &&
+      this.attributeOverview.valuePrice?.value > 0
     );
   }
 }

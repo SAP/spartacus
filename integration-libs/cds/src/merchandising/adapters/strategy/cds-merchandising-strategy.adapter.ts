@@ -10,7 +10,8 @@ const STRATEGY_PRODUCTS_ENDPOINT_KEY = 'strategyProducts';
 
 @Injectable()
 export class CdsMerchandisingStrategyAdapter
-  implements MerchandisingStrategyAdapter {
+  implements MerchandisingStrategyAdapter
+{
   constructor(
     private cdsEndpointsService: CdsEndpointsService,
     protected http: HttpClient

@@ -11,31 +11,15 @@ assignees: ''
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
 - [ ] If there is no maintenance branch yet:
-  - [ ] Create new maintenance branch (`release/*.*.x`)
+  - [ ] Create new maintenance branch (`release/major.minor.x`)
   - [ ] Announce new maintenance branch (Set topic in tribe channel)
   - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
-- [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
+- [ ] Create new release branch `release/major.minor.patch.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
-- [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
-
-    ```bash
-    BACKEND_URL="https://20.83.184.244:9002"
-    BRANCH='release/*.*.*'
-    SPARTACUS_VERSION='*.*.*'
-    ```
-
-  Finally, run the script:
-
-    ```bash
-    cd scripts/install && ./run.sh install
-    ```
-
-  Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
-
-  This can be done on a separate machine to speed up the release process.
-
-- [ ] Trigger a Travis build to run all e2e tests on this latest branch. Make sure all the tests pass.
+- [ ] Trigger a Travis build and make sure:
+  - [ ] All e2e tests pass.
+  - [ ] Installation script job runs successfully
 
 ---
 
@@ -47,17 +31,19 @@ assignees: ''
 
 ### For Windows
 
-- [ ] Cleanup repo, build and generate compodocs and publish on github pages (`yarn generate:docs` and `yarn publish:docs` for patch stable/releases)
-- [ ] Get the spartacussampledata source code zips for all 1905, 2005 and 2011 CX versions (use `release/1905/next`, `release/2005/next` and `release/2011/next` branches)
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
-  - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
-
+- [ ] For patch and stable releases:
+  - [ ] Remove old versions sample data and documentation.
+  - [ ] Generate compodocs (`yarn generate:docs`)
+  - [ ] Publish the new compodocs on github pages (`yarn publish:docs`)
+  - [ ] Get the spartacussampledata source code zips for versions 1905, 2005, 2011 and 2105 of CX (use `release/[version]/next` branches)
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.zip` -> `spartacussampledataaddon.1905.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/1905/next.tar.gz` -> `spartacussampledataaddon.1905.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.zip` -> `spartacussampledata.2005.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2005/next.tar.gz` -> `spartacussampledata.2005.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.zip` -> `spartacussampledata.2011.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2011/next.tar.gz` -> `spartacussampledata.2011.tar.gz`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.zip` -> `spartacussampledata.2105.zip`
+    - [ ] Download and rename in root directory `https://github.tools.sap/cx-commerce/spartacussampledata/archive/release/2105/next.tar.gz` -> `spartacussampledata.2105.tar.gz`
 
 ### For all operative systems
 

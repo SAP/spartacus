@@ -9,9 +9,9 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy(
-    'UserOrderAdapter.loadHistory'
-  ).and.callFake((userId) => of(`orderHistory-${userId}`));
+  loadHistory = createSpy('UserOrderAdapter.loadHistory').and.callFake(
+    (userId) => of(`orderHistory-${userId}`)
+  );
 
   getConsignmentTracking = createSpy(
     'UserOrderAdapter.getConsignmentTracking'
@@ -33,10 +33,8 @@ class MockOrderAdapter implements UserOrderAdapter {
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy(
-    'UserOrderAdapter.cancel'
-  ).and.callFake((userId, orderCode, {}) =>
-    of(`cancel-${userId}-${orderCode}`)
+  cancel = createSpy('UserOrderAdapter.cancel').and.callFake(
+    (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(

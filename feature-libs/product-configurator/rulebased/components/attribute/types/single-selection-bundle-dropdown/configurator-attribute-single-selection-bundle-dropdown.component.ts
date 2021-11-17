@@ -17,14 +17,15 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeDropDownForm = new FormControl('');
   selectionValue: Configurator.Value;
 
   @Input() group: string;
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     const values = this.attribute.values;
     if (values && values.length > 0) {
