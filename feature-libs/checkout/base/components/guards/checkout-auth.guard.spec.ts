@@ -5,11 +5,10 @@ import {
   ActiveCartService,
   AuthRedirectService,
   AuthService,
-  B2BUserRole,
   GlobalMessageService,
   SemanticPathService,
 } from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { User } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
@@ -60,7 +59,6 @@ describe('CheckoutAuthGuard', () => {
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
-  let userService: UserAccountFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -98,7 +96,6 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-    userService = TestBed.inject(UserAccountFacade);
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -205,24 +202,6 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return true', () => {
-        let result: boolean | UrlTree | undefined;
-        checkoutGuard
-          .canActivate()
-          .subscribe((value) => (result = value))
-          .unsubscribe();
-        expect(result).toBe(true);
-      });
-    });
-
-    describe('and user is b2b user, ', () => {
-      beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
-      });
-
-      it('should return true when user roles has b2bcustomergroup', () => {
-        spyOn(userService, 'get').and.returnValue(
-          of({ uid: 'testUser', roles: [B2BUserRole.CUSTOMER] })
-        );
         let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
