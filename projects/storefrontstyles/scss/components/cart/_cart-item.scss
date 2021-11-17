@@ -106,23 +106,17 @@
 
   .cx-quantity {
     display: flex;
+    justify-content: center;
     align-items: center;
 
-    // Remove this wrapper for 5.0
-    @include media-breakpoint-up(md) {
-      justify-content: center;
-    }
+    @include media-breakpoint-down(sm) {
+      .readonly-value {
+        display: flex;
+        justify-content: space-between;
 
-    @include forVersion(4.2) {
-      @include media-breakpoint-down(sm) {
-        .readonly-value {
-          display: flex;
-          justify-content: space-between;
-
-          &::before {
-            content: '';
-            width: 105px;
-          }
+        &::before {
+          content: '';
+          width: 105px;
         }
       }
     }
@@ -130,22 +124,13 @@
 
   .cx-total {
     display: flex;
+    justify-content: flex-end;
     align-items: center;
     margin-bottom: 0;
-
-    // Remove this wrapper for 5.0
-    @include media-breakpoint-up(md) {
-      justify-content: flex-end;
-    }
-
-    @include forVersion(4.2) {
-      padding-inline-start: 0;
-    }
+    padding-inline-start: 0;
 
     @include media-breakpoint-down(sm) {
-      @include forVersion(4.2) {
-        padding-inline-start: 15px;
-      }
+      padding-inline-start: 15px;
     }
 
     .cx-value {
@@ -154,26 +139,24 @@
     }
   }
 
-  @include forVersion(4.1) {
-    .cx-price,
-    .cx-quantity,
-    .cx-actions,
-    .cx-total {
-      @include media-breakpoint-down(sm) {
-        justify-content: flex-start;
-      }
-    }
-  }
+  // @include forVersion(4.1) {
+  //   .cx-price,
+  //   .cx-quantity,
+  //   .cx-actions,
+  //   .cx-total {
+  //     @include media-breakpoint-down(sm) {
+  //       justify-content: flex-start;
+  //     }
+  //   }
+  // }
 
-  @include forVersion(4.2) {
-    .cx-price,
-    .cx-quantity,
-    .cx-actions,
-    .cx-total {
-      @include media-breakpoint-down(sm) {
-        width: 250px;
-        justify-content: space-between;
-      }
+  .cx-price,
+  .cx-quantity,
+  .cx-actions,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      width: 250px;
+      justify-content: space-between;
     }
   }
 
@@ -193,11 +176,8 @@
 
   .cx-actions {
     display: flex;
+    justify-content: flex-end;
     padding: 0;
-
-    @include media-breakpoint-up(md) {
-      justify-content: flex-end;
-    }
 
     button.link {
       @include type('7');
@@ -211,12 +191,10 @@
     }
   }
 
-  @include forVersion(4.2) {
-    .cx-price,
-    .cx-quantity {
-      @include media-breakpoint-down(sm) {
-        padding-bottom: 10px;
-      }
+  .cx-price,
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
     }
   }
 
