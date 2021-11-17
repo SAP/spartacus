@@ -12,16 +12,16 @@ import {
   DeliveryMode,
   PaymentDetails,
   QueryState,
+  RouteConfig,
   RoutingConfigService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
-
 import createSpy = jasmine.createSpy;
 
-class MockRoutingConfigService {
-  getRouteConfig(stepRoute: string) {
+class MockRoutingConfigService implements Partial<RoutingConfigService> {
+  getRouteConfig(stepRoute: string): RouteConfig | undefined {
     if (stepRoute === 'route0') {
       return { paths: ['checkout/route0'] };
     } else if (stepRoute === 'route1') {
@@ -35,7 +35,7 @@ class MockRoutingConfigService {
     } else if (stepRoute === 'checkout') {
       return { paths: ['checkout'] };
     }
-    return null;
+    return undefined;
   }
 }
 
