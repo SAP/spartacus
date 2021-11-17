@@ -1,7 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
-import { forkJoin, from, Observable, of, Subject } from 'rxjs';
-import { catchError, filter, switchMap, take, tap } from 'rxjs/operators';
+import { merge, Observable, of } from 'rxjs';
+import {
+  catchError,
+  // concatAll,
+  filter,
+  map,
+  mergeAll,
+  // switchAll,
+  switchMap,
+  take,
+} from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
   OrderEntriesSource,
@@ -31,92 +40,77 @@ export class QuickOrderOrderEntriesContext
   }
 
   addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
-    const results$ = new Subject<ProductImportInfo>();
-
-    forkJoin(
+    return merge(
       productsData.map((productData) =>
         this.productConnector.get(productData.productCode).pipe(
-          take(1),
+          filter((product) => !!product),
+          switchMap((product: Product) =>
+            this.quickOrderService.canAdd(product.code).pipe(
+              map((canAdd: boolean) => {
+                const productData = productsData.find(
+                  (p) => p.productCode === product.code
+                ) as ProductData;
+                if (canAdd) {
+                  this.quickOrderService.addProduct(
+                    product,
+                    productData.quantity
+                  );
+                  return this.handleResults(product, productData);
+                } else {
+                  return {
+                    productCode: productData.productCode,
+                    statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+                  };
+                }
+              })
+            )
+          ),
           catchError((response: HttpErrorResponse) => {
-            this.handleErrors(response, productData.productCode, results$);
-            return of(null);
+            return of(this.handleErrors(response, productData.productCode));
           })
         )
       )
-    )
-      .pipe(
-        switchMap((products) =>
-          from(products as Product[]).pipe(
-            filter((product) => !!product),
-            switchMap((product: Product) =>
-              this.quickOrderService.canAdd(product.code).pipe(
-                take(1),
-                tap((canAdd: boolean) => {
-                  const productData = productsData.find(
-                    (p) => p.productCode === product.code
-                  ) as ProductData;
-                  if (canAdd) {
-                    this.handleResults(product, productData, results$);
-                    this.quickOrderService.addProduct(
-                      product,
-                      productData.quantity
-                    );
-                  } else {
-                    results$.next({
-                      productCode: productData.productCode,
-                      statusCode: ProductImportStatus.LIMIT_EXCEEDED,
-                    });
-                  }
-                })
-              )
-            )
-          )
-        )
-      )
-      .subscribe();
-    return results$.pipe(take(productsData.length));
+    ).pipe(mergeAll(), take(productsData.length));
   }
 
   protected handleResults(
     product: Product,
-    productData: ProductData,
-    results$: Subject<ProductImportInfo>
-  ) {
+    productData: ProductData
+  ): ProductImportInfo {
     if (
       product.stock?.stockLevel &&
       productData.quantity >= product.stock.stockLevel
     ) {
-      results$.next({
+      return {
         productCode: productData.productCode,
         productName: product?.name,
         statusCode: ProductImportStatus.LOW_STOCK,
         quantity: productData.quantity,
         quantityAdded: product.stock.stockLevel,
-      });
+      };
     } else if (product.stock?.stockLevelStatus === 'outOfStock') {
-      results$.next({
+      return {
         productCode: productData.productCode,
         statusCode: ProductImportStatus.NO_STOCK,
         productName: product?.name,
-      });
+      };
     } else {
-      results$.next({
+      return {
         productCode: productData.productCode,
         statusCode: ProductImportStatus.SUCCESS,
-      });
+      };
     }
   }
 
   protected handleErrors(
     response: HttpErrorResponse,
-    productCode: string,
-    results$: Subject<ProductImportInfo>
-  ) {
+    productCode: string
+  ): ProductImportInfo {
     if (response?.error?.errors[0].type === 'UnknownIdentifierError') {
-      results$.next({
+      return {
         productCode,
         statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
-      });
+      };
     } else {
       if (isDevMode()) {
         console.warn(
@@ -124,10 +118,10 @@ export class QuickOrderOrderEntriesContext
           response
         );
       }
-      results$.next({
+      return {
         productCode,
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
-      });
+      };
     }
   }
 }
