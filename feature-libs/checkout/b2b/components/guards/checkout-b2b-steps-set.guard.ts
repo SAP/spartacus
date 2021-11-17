@@ -70,7 +70,7 @@ export class CheckoutB2BStepsSetGuard
       switchMap(([steps, isAccount]) => {
         currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths?.[0]
+            this.routingConfigService.getRouteConfig(step.routeName)?.paths?.[0]
           }`;
           return stepRouteUrl === currentRouteUrl;
         });
