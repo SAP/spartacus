@@ -50,12 +50,6 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
   }
 }
 
-class MockUserAccountFacade implements Partial<UserAccountFacade> {
-  get(): Observable<User> {
-    return of({});
-  }
-}
-
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
@@ -91,10 +85,6 @@ describe('CheckoutAuthGuard', () => {
         {
           provide: CheckoutConfigService,
           useClass: MockCheckoutConfigService,
-        },
-        {
-          provide: UserAccountFacade,
-          useClass: MockUserAccountFacade,
         },
         {
           provide: GlobalMessageService,
