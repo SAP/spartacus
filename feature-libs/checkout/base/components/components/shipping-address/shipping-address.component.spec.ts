@@ -234,6 +234,12 @@ describe('ShippingAddressComponent', () => {
     ).toHaveBeenCalledWith({});
   });
 
+  it('should automatically select default shipping address when there is no current selection for a credit card payment', () => {
+    component.doneAutoSelect = false;
+    component.selectDefaultAddress(mockAddresses, undefined);
+    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
+  });
+
   it('should be able to get card content', () => {
     const card = component.getCardContent(
       mockAddress1,

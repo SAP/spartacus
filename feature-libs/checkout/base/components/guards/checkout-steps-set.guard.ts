@@ -40,7 +40,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
       switchMap((steps) => {
         currentIndex = steps.findIndex((step) => {
           const stepRouteUrl = `/${
-            this.routingConfigService.getRouteConfig(step.routeName).paths?.[0]
+            this.routingConfigService.getRouteConfig(step.routeName)?.paths?.[0]
           }`;
           return stepRouteUrl === currentRouteUrl;
         });
@@ -125,7 +125,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
 
   protected getUrl(routeName: string): UrlTree {
     return this.router.parseUrl(
-      this.routingConfigService.getRouteConfig(routeName).paths?.[0] as string
+      this.routingConfigService.getRouteConfig(routeName)?.paths?.[0] as string
     );
   }
 }

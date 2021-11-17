@@ -43,10 +43,13 @@ class MockUserAddressService implements Partial<UserAddressService> {
   }
 }
 
+const mockGetPaymentMethods = new BehaviorSubject<PaymentDetails[]>([
+  mockCheckoutPaymentInfo,
+]);
 const mockGetPaymentMethodsLoadedSuccess = new BehaviorSubject<boolean>(true);
 class MockUserPaymentService implements Partial<UserPaymentService> {
   getPaymentMethods(): Observable<PaymentDetails[]> {
-    return of([mockCheckoutPaymentInfo]);
+    return mockGetPaymentMethods.asObservable();
   }
   getPaymentMethodsLoadedSuccess(): Observable<boolean> {
     return mockGetPaymentMethodsLoadedSuccess.asObservable();
@@ -54,6 +57,13 @@ class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods() {}
 }
 
+const mockGetDeliveryAddressState = new BehaviorSubject<
+  QueryState<Address | undefined>
+>({
+  loading: false,
+  error: false,
+  data: mockCheckoutDeliveryAddress,
+});
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
@@ -61,11 +71,7 @@ class MockCheckoutDeliveryAddressFacade
     return of(undefined);
   }
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({
-      loading: false,
-      error: false,
-      data: mockCheckoutDeliveryAddress,
-    });
+    return mockGetDeliveryAddressState.asObservable();
   }
 }
 
@@ -144,7 +150,13 @@ describe('ExpressCheckoutService', () => {
     });
     mockAddresses.next([mockCheckoutDeliveryAddress]);
     mockGetAddressesLoadedSuccess.next(true);
+    mockGetPaymentMethods.next([mockCheckoutPaymentInfo]);
     mockGetPaymentMethodsLoadedSuccess.next(true);
+    mockGetDeliveryAddressState.next({
+      loading: false,
+      error: false,
+      data: mockCheckoutDeliveryAddress,
+    });
 
     service = TestBed.inject(ExpressCheckoutService);
     userAddressService = TestBed.inject(UserAddressService);
@@ -280,8 +292,8 @@ describe('ExpressCheckoutService', () => {
           });
       });
 
-      xit('should return false if there are no payment methods', (done) => {
-        spyOn(userPaymentService, 'getPaymentMethods').and.returnValue(of([]));
+      it('should return false if there are no payment methods', (done) => {
+        mockGetPaymentMethods.next([]);
 
         service
           .trySetDefaultCheckoutDetails()
@@ -323,11 +335,12 @@ describe('ExpressCheckoutService', () => {
           });
       });
 
-      xit('should return false if there are no delivery modes', (done) => {
-        spyOn(
-          checkoutDeliveryModesFacade,
-          'getSupportedDeliveryModesState'
-        ).and.returnValue(of({ loading: false, error: false, data: [] }));
+      it('should return false if there are no delivery modes', (done) => {
+        mockGetDeliveryAddressState.next({
+          loading: false,
+          error: false,
+          data: {},
+        });
 
         service
           .trySetDefaultCheckoutDetails()
