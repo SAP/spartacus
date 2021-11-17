@@ -130,7 +130,7 @@ describe('PlaceOrderComponent', () => {
       controls.termsAndConditions.setValue(true);
     });
 
-    it('should have button ENABLED when a checkbox for weekday in WEEKLY view is checked and terms and condition checked', () => {
+      it('should have the place order button ENABLED when terms and condition is checked', () => {
       fixture.detectChanges();
 
       expect(
