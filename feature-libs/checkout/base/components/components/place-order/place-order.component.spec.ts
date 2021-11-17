@@ -94,8 +94,15 @@ describe('PlaceOrderComponent', () => {
   });
 
   it('should place order when checkbox checked', () => {
+    spyOn(launchDialogService, 'launch').and.stub();
+    controls.termsAndConditions.setValue(true);
+
     submitForm(true);
 
+    expect(launchDialogService.launch).toHaveBeenCalledWith(
+      LAUNCH_CALLER.PLACE_ORDER_SPINNER,
+      component['vcr']
+    );
     expect(checkoutService.placeOrder).toHaveBeenCalled();
   });
 
@@ -109,28 +116,12 @@ describe('PlaceOrderComponent', () => {
     });
   });
 
-  describe('when order was successfully placed', () => {
-    beforeEach(() => {
-      controls.termsAndConditions.setValue(true);
-    });
-    it('should open popover dialog', () => {
-      spyOn(launchDialogService, 'launch').and.stub();
-
-      component.submitForm();
-
-      expect(launchDialogService.launch).toHaveBeenCalledWith(
-        LAUNCH_CALLER.PLACE_ORDER_SPINNER,
-        component['vcr']
-      );
-    });
-  });
-
   describe('Place order UI', () => {
     beforeEach(() => {
       controls.termsAndConditions.setValue(true);
     });
 
-      it('should have the place order button ENABLED when terms and condition is checked', () => {
+    it('should have the place order button ENABLED when terms and condition is checked', () => {
       fixture.detectChanges();
 
       expect(
