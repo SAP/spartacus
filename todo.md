@@ -52,6 +52,7 @@ Deprecation strategy:
   - feature/base-entry-point
   - feature/b2b-checkout-entry-point
   - feature/checkout-scheduled-replenishement-entry-point
+  - feature/prefix-components
 
 1. implement unit tests
    - b2b entry point
