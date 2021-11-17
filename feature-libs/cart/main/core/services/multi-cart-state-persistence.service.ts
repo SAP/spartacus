@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { CartType } from '@spartacus/cart/main/root';
 import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
@@ -42,10 +43,10 @@ export class MultiCartStatePersistenceService implements OnDestroy {
       filter((store) => !!store.cart),
       select(MultiCartSelectors.getMultiCartState),
       filter((state) => !!state),
-      distinctUntilKeyChanged('active'),
+      distinctUntilKeyChanged('index'),
       map((state) => {
         return {
-          active: state.active ?? '',
+          active: state.index[CartType.ACTIVE] ?? '',
         };
       })
     );

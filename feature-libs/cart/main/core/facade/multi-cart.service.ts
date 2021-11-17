@@ -362,7 +362,8 @@ export class MultiCartService implements MultiCartFacade {
    */
   getCartIdByType(cartType: CartType): Observable<string> {
     return this.store.pipe(
-      select(MultiCartSelectors.getCartIdByTypeFactory(cartType))
+      select(MultiCartSelectors.getCartIdByTypeFactory(cartType)),
+      distinctUntilChanged()
     );
   }
 }

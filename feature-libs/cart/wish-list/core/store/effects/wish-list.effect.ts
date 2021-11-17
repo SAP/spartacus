@@ -11,6 +11,7 @@ import {
 } from '@spartacus/cart/main/core';
 import { Cart, CartType } from '@spartacus/cart/main/root';
 import {
+  isNotUndefined,
   normalizeHttpError,
   SiteContextActions,
   StateUtils,
@@ -153,51 +154,51 @@ export class WishListEffects {
   );
 
   @Effect()
-  setWishListId$: Observable<CartActions.SetCartTypeIndex | undefined> =
-    this.actions$.pipe(
-      ofType(
-        WishListActions.CREATE_WISH_LIST_SUCCESS,
-        WishListActions.LOAD_WISH_LIST_SUCCESS,
-        CartActions.CLEAR_CART_STATE
-      ),
-      map((action: Action) => {
-        switch (action.type) {
-          case WishListActions.CREATE_WISH_LIST_SUCCESS:
-          case WishListActions.LOAD_WISH_LIST_SUCCESS: {
-            return new CartActions.SetCartTypeIndex({
-              cartType: CartType.WISH_LIST,
-              cartId: (action as StateUtils.EntitySuccessAction).meta
-                .entityId as string,
-            });
-          }
-          case CartActions.CLEAR_CART_STATE:
-            return new CartActions.SetCartTypeIndex({
-              cartType: CartType.WISH_LIST,
-              cartId: undefined,
-            });
+  setWishListId$: Observable<CartActions.SetCartTypeIndex> = this.actions$.pipe(
+    ofType(
+      WishListActions.CREATE_WISH_LIST_SUCCESS,
+      WishListActions.LOAD_WISH_LIST_SUCCESS,
+      CartActions.CLEAR_CART_STATE
+    ),
+    map((action: Action) => {
+      switch (action.type) {
+        case WishListActions.CREATE_WISH_LIST_SUCCESS:
+        case WishListActions.LOAD_WISH_LIST_SUCCESS: {
+          return new CartActions.SetCartTypeIndex({
+            cartType: CartType.WISH_LIST,
+            cartId: (action as StateUtils.EntitySuccessAction).meta
+              .entityId as string,
+          });
         }
-      })
-    );
+        case CartActions.CLEAR_CART_STATE:
+          return new CartActions.SetCartTypeIndex({
+            cartType: CartType.WISH_LIST,
+            cartId: undefined,
+          });
+      }
+    }),
+    filter(isNotUndefined)
+  );
 
   @Effect()
-  setWishListData$: Observable<CartActions.SetCartData | undefined> =
-    this.actions$.pipe(
-      ofType(
-        WishListActions.CREATE_WISH_LIST_SUCCESS,
-        WishListActions.LOAD_WISH_LIST_SUCCESS
-      ),
-      map((action: StateUtils.EntitySuccessAction) => {
-        switch (action.type) {
-          case WishListActions.CREATE_WISH_LIST_SUCCESS:
-          case WishListActions.LOAD_WISH_LIST_SUCCESS: {
-            return new CartActions.SetCartData({
-              cart: action.payload.cart,
-              cartId: action.payload.cartId,
-            });
-          }
+  setWishListData$: Observable<CartActions.SetCartData> = this.actions$.pipe(
+    ofType(
+      WishListActions.CREATE_WISH_LIST_SUCCESS,
+      WishListActions.LOAD_WISH_LIST_SUCCESS
+    ),
+    map((action: StateUtils.EntitySuccessAction) => {
+      switch (action.type) {
+        case WishListActions.CREATE_WISH_LIST_SUCCESS:
+        case WishListActions.LOAD_WISH_LIST_SUCCESS: {
+          return new CartActions.SetCartData({
+            cart: action.payload.cart,
+            cartId: action.payload.cartId,
+          });
         }
-      })
-    );
+      }
+    }),
+    filter(isNotUndefined)
+  );
 
   constructor(
     private actions$: Actions,

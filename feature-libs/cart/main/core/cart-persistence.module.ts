@@ -3,7 +3,6 @@ import { Action, ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
 import { ConfigInitializerService, MODULE_INITIALIZER } from '@spartacus/core';
 import { tap } from 'rxjs/operators';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
-import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
 
 export function cartStatePersistenceFactory(
   cartStatePersistenceService: MultiCartStatePersistenceService,
@@ -34,7 +33,7 @@ export function uninitializeActiveCartMetaReducerFactory(): MetaReducer<any> {
       if (action.type === '@ngrx/store/init') {
         newState.cart = {
           ...newState.cart,
-          ...{ active: activeCartInitialState },
+          ...{ active: null },
         };
       }
       return reducer(newState, action);

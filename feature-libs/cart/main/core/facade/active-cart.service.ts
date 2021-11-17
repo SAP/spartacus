@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { Store } from '@ngrx/store';
+import {
+  ActiveCartFacade,
+  Cart,
+  CartType,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import {
   EMAIL_PATTERN,
   getLastValueSync,
@@ -11,17 +16,8 @@ import {
   User,
   UserIdService,
 } from '@spartacus/core';
+import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
-  combineLatest,
-  EMPTY,
-  Observable,
-  of,
-  Subscription,
-  timer,
-  using,
-} from 'rxjs';
-import {
-  debounce,
   distinctUntilChanged,
   filter,
   map,
@@ -34,8 +30,6 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
-import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isEmpty, isTempCartId } from '../utils/utils';
 import { MultiCartService } from './multi-cart.service';
 
@@ -49,17 +43,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // We want to wait with initialization of cartId until we have userId initialized
     // We have take(1) to not trigger this stream, when userId changes.
     take(1),
-    switchMapTo(this.store),
-    select(MultiCartSelectors.getActiveCartId),
-    // We also wait until we initialize cart from localStorage. Before that happens cartId in store === null
-    filter((cartId) => cartId !== activeCartInitialState),
-    map((cartId) => {
-      if (cartId === '' || cartId === null) {
-        // We fallback to current when we don't have particular cart id -> cartId === '', because that's how you reference latest user cart.
-        return OCC_CART_ID_CURRENT;
-      }
-      return cartId;
-    })
+    switchMapTo(this.multiCartService.getCartIdByType(CartType.ACTIVE)),
+    // We also wait until we initialize cart from localStorage
+    filter((cartId) => cartId !== undefined),
+    // fallback to current when we don't have particular cart id
+    map((cartId) => (cartId === '' ? OCC_CART_ID_CURRENT : cartId))
   );
 
   // Stream with active cart entity
@@ -87,16 +75,10 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         .pipe(
           // We never trigger cart merge/load on app initialization here and that's why we wait with pairwise for a change of userId (not initialization).
           pairwise(),
-          switchMap(([previousUserId, userId]) =>
-            // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
-            combineLatest([
-              of(previousUserId),
-              of(userId),
-              this.activeCartId$,
-            ]).pipe(take(1))
-          )
+          // We need cartId once we have the previous and current userId. We don't want to subscribe to cartId stream before.
+          withLatestFrom(this.activeCartId$)
         )
-        .subscribe(([previousUserId, userId, cartId]) => {
+        .subscribe(([[previousUserId, userId], cartId]) => {
           // Only change of user and not a logout (current user id !== anonymous) should trigger loading mechanism
           if (this.isJustLoggedIn(userId, previousUserId)) {
             this.loadOrMerge(cartId, userId, previousUserId);
@@ -106,23 +88,15 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
 
     // Stream for getting the cart value
     const activeCartValue$ = this.cartSelector$.pipe(
-      map(
-        (
-          cartEntity: StateUtils.ProcessesLoaderState<Cart | undefined>
-        ): {
-          cart: Cart;
-          isStable: boolean;
-          loaded: boolean;
-        } => {
-          return {
-            cart: cartEntity.value as Cart,
-            isStable: !cartEntity.loading && cartEntity.processesCount === 0,
-            loaded: Boolean(
-              (cartEntity.error || cartEntity.success) && !cartEntity.loading
-            ),
-          };
-        }
-      ),
+      map((cartEntity) => {
+        return {
+          cart: cartEntity.value,
+          isStable: !cartEntity.loading && cartEntity.processesCount === 0,
+          loaded: Boolean(
+            (cartEntity.error || cartEntity.success) && !cartEntity.loading
+          ),
+        };
+      }),
       // we want to emit empty carts even if those are not stable
       // on merge cart action we want to switch to empty cart so no one would use old cartId which can be already obsolete
       // so on merge action the resulting stream looks like this: old_cart -> {} -> new_cart
@@ -143,7 +117,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       () => activeCartLoading$.subscribe(),
       () => activeCartValue$
     ).pipe(
-      // Normalization for empty cart value. It will always be returned as empty object.
+      // Normalization for empty cart value returned as empty object.
       map(({ cart }) => (cart ? cart : {})),
       distinctUntilChanged(),
       shareReplay({ bufferSize: 1, refCount: true })
@@ -161,11 +135,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
-    return this.activeCart$.pipe(
-      withLatestFrom(this.userIdService.getUserId()),
-      map(([cart, userId]) => getCartIdByUserId(cart, userId)),
-      distinctUntilChanged()
-    );
+    return this.multiCartService.getCartIdByType(CartType.ACTIVE);
   }
 
   /**
@@ -208,19 +178,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns true when cart is stable (not loading and not pending processes on cart)
    */
   isStable(): Observable<boolean> {
-    // Debounce is used here, to avoid flickering when we switch between different cart entities.
-    // For example during `addEntry` method. We might try to load current cart, so `current cart will be then active id.
-    // After load fails we might create new cart so we switch to `temp-${uuid}` cart entity used when creating cart.
-    // At the end we finally switch to cart `code` for cart id. Between those switches cart `isStable` function should not flicker.
     return this.activeCartId$.pipe(
-      switchMap((cartId) => this.multiCartService.isStable(cartId)),
-      debounce((state) => (state ? timer(0) : EMPTY)),
-      distinctUntilChanged()
+      switchMap((cartId) => this.multiCartService.isStable(cartId))
     );
   }
 
   /**
-   * Loads cart or upon login, whenever there's an existing cart, merge it into the current user cart
+   * Loads cart upon login, whenever there's an existing cart, merge it into the current user cart
    * cartId will be defined (not '', null, undefined)
    */
   protected loadOrMerge(
@@ -232,10 +196,9 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       cartId === OCC_CART_ID_CURRENT ||
       // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
       // Similarly when you are logged in as asm user and you logout and want to resume previous user session
-      (userId !== previousUserId &&
-        userId !== OCC_USER_ID_ANONYMOUS &&
-        previousUserId !== OCC_USER_ID_ANONYMOUS)
+      previousUserId !== OCC_USER_ID_ANONYMOUS
     ) {
+      console.log('load from loadOrMerge');
       this.multiCartService.loadCart({
         userId,
         cartId,
@@ -262,6 +225,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   protected load(cartId: string, userId: string): void {
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
+      console.log('load from load');
       this.multiCartService.loadCart({
         userId,
         cartId,
@@ -557,6 +521,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(
         take(1),
         map(([cartId, userId]) => {
+          console.log('load from reload');
           this.multiCartService.loadCart({ cartId, userId });
         })
       )
