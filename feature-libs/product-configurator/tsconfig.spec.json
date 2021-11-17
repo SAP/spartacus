@@ -4,6 +4,7 @@
     "outDir": "../../out-tsc/spec",
     "strict": false,
     "types": ["jasmine", "node"],
+    "target": "es2015",
     "module": "es2020"
   },
   "files": ["test.ts"],
