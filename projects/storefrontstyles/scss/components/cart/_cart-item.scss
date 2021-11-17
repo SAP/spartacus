@@ -70,14 +70,10 @@
 
   .cx-price {
     display: flex;
+    justify-content: center;
     align-items: center;
     @include type('5');
     font-weight: $font-weight-normal;
-
-    // Remove this wrapper for 5.0
-    @include media-breakpoint-up(md) {
-      justify-content: center;
-    }
 
     @include media-breakpoint-only(xl) {
       padding-inline-start: 0px;
@@ -139,27 +135,6 @@
     }
   }
 
-  // @include forVersion(4.1) {
-  //   .cx-price,
-  //   .cx-quantity,
-  //   .cx-actions,
-  //   .cx-total {
-  //     @include media-breakpoint-down(sm) {
-  //       justify-content: flex-start;
-  //     }
-  //   }
-  // }
-
-  .cx-price,
-  .cx-quantity,
-  .cx-actions,
-  .cx-total {
-    @include media-breakpoint-down(sm) {
-      width: 250px;
-      justify-content: space-between;
-    }
-  }
-
   .cx-promo {
     @include type('8');
     color: var(--cx-color-success);
@@ -188,6 +163,16 @@
       &:hover {
         color: var(--cx-color-primary);
       }
+    }
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-actions,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      width: 250px;
+      justify-content: space-between;
     }
   }
 
