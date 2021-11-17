@@ -1,10 +1,11 @@
 <div
   *ngIf="content"
   class="cx-card"
+  tabindex="0"
+  role="region"
+  [attr.aria-label]="content.label | cxTranslate: { number: this.index }"
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
-  [attr.role]="content.label ? 'region' : null"
-  [attr.aria-label]="content.label"
 >
   <!-- Card Header -->
   <div *ngIf="content.header && !editMode" class="card-header">

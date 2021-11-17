@@ -59,8 +59,6 @@ export class PaymentMethodsComponent implements OnInit {
         year: expiryYear,
       }),
       this.translation.translate('paymentCard.defaultPaymentMethod'),
-      this.translation.translate('paymentCard.defaultPaymentLabel'),
-      this.translation.translate('paymentCard.additionalPaymentLabel'),
     ]).pipe(
       map(
         ([
@@ -69,8 +67,6 @@ export class PaymentMethodsComponent implements OnInit {
           textDeleteConfirmation,
           textExpires,
           textDefaultPaymentMethod,
-          textDefaultPaymentLabel,
-          textAdditionalPaymentLabel,
         ]) => {
           const actions: { name: string; event: string }[] = [];
           if (!defaultPayment) {
@@ -85,8 +81,8 @@ export class PaymentMethodsComponent implements OnInit {
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType.code),
             label: defaultPayment
-              ? textDefaultPaymentLabel
-              : textAdditionalPaymentLabel,
+              ? 'paymentCard.defaultPaymentLabel'
+              : 'paymentCard.additionalPaymentLabel',
           };
 
           return card;
