@@ -4,8 +4,8 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
+  CheckoutReviewSubmitComponent,
   CheckoutStepService,
-  ReviewSubmitComponent,
 } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressFacade,
@@ -30,7 +30,7 @@ import { filter, map, switchMap } from 'rxjs/operators';
   templateUrl: './review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
+export class B2BReviewSubmitComponent extends CheckoutReviewSubmitComponent {
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,

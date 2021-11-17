@@ -9,7 +9,7 @@ import { CheckoutPlaceOrderModule } from './components/checkout-place-order/chec
 import { CheckoutProgressMobileBottomModule } from './components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module';
 import { CheckoutProgressMobileTopModule } from './components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 import { CheckoutProgressModule } from './components/checkout-progress/checkout-progress.module';
-import { ReviewSubmitModule } from './components/review-submit/review-submit.module';
+import { CheckoutReviewSubmitModule } from './components/checkout-review-submit/checkout-review-submit.module';
 import { ShippingAddressModule } from './components/shipping-address/shipping-address.module';
 import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 
@@ -24,7 +24,7 @@ import { OrderConfirmationModule } from './order-confirmation/order-confirmation
     CheckoutDeliveryModeModule,
     CheckoutPaymentMethodModule,
     CheckoutPlaceOrderModule,
-    ReviewSubmitModule,
+    CheckoutReviewSubmitModule,
     ShippingAddressModule,
     OrderConfirmationModule,
     CheckoutLoginModule,

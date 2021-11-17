@@ -25,10 +25,10 @@ import { CheckoutStepService } from '../../services/index';
 
 @Component({
   selector: 'cx-review-submit',
-  templateUrl: './review-submit.component.html',
+  templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReviewSubmitComponent {
+export class CheckoutReviewSubmitComponent {
   iconTypes = ICON_TYPE;
   checkoutStepType = CheckoutStepType;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;

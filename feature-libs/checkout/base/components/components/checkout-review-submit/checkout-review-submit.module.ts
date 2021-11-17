@@ -15,7 +15,7 @@ import {
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { ReviewSubmitComponent } from './review-submit.component';
+import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({
   imports: [
@@ -32,14 +32,14 @@ import { ReviewSubmitComponent } from './review-submit.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
-          component: ReviewSubmitComponent,
+          component: CheckoutReviewSubmitComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [ReviewSubmitComponent],
-  exports: [ReviewSubmitComponent],
+  declarations: [CheckoutReviewSubmitComponent],
+  exports: [CheckoutReviewSubmitComponent],
 })
-export class ReviewSubmitModule {}
+export class CheckoutReviewSubmitModule {}

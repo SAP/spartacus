@@ -18,7 +18,7 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
-export * from './review-submit/review-submit.component';
-export * from './review-submit/review-submit.module';
+export * from './checkout-review-submit/checkout-review-submit.component';
+export * from './checkout-review-submit/checkout-review-submit.module';
 export * from './shipping-address/shipping-address.component';
 export * from './shipping-address/shipping-address.module';
