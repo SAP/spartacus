@@ -4,7 +4,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/main/root';
 import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { AddToCartModule } from './cart/add-to-cart/add-to-cart.module';
-import { AddToWishListModule } from './cart/add-to-wishlist/add-to-wish-list.module';
 import { CartDetailsModule } from './cart/cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart/cart-page-layout-handler';
 import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
@@ -14,7 +13,6 @@ import { AddOrderEntriesContext } from './cart/order-entries-context/add-order-e
 import { ActiveCartOrderEntriesContext } from './cart/order-entries-context/cart-page/active-cart-order-entries-context';
 import { GetOrderEntriesContext } from './cart/order-entries-context/get-order-entries.context';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
-import { WishListModule } from './wish-list/wish-list.module';
 
 export type OrderEntriesContext = Partial<
   AddOrderEntriesContext & GetOrderEntriesContext
@@ -28,11 +26,9 @@ export type OrderEntriesContext = Partial<
     CartTotalsModule,
     CartSharedModule,
     SaveForLaterModule,
-    WishListModule,
     OutletModule.forChild(),
   ],
   exports: [
-    AddToWishListModule,
     CartDetailsModule,
     CartTotalsModule,
     CartSharedModule,

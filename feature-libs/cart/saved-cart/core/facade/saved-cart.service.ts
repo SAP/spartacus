@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import {
-  getWishlistName,
-  isSelectiveCart,
-  StateWithMultiCart,
-} from '@spartacus/cart/main/core';
+import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/main/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartEvent,
@@ -163,7 +159,7 @@ export class SavedCartService implements SavedCartFacade {
         carts.filter(
           (cart) =>
             (user?.customerId !== undefined
-              ? cart?.name !== getWishlistName(user?.customerId)
+              ? cart?.name !== `wishlist${user?.customerId}`
               : true) &&
             !isSelectiveCart(cart?.code) &&
             cart?.saveTime

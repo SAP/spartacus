@@ -4,7 +4,6 @@ import { CartActions } from '../actions/index';
 
 export const activeCartInitialState = null;
 export const activeCartDefaultState = '';
-export const wishListInitialState = '';
 
 export function activeCartReducer(
   state: string | null = activeCartDefaultState,
@@ -36,6 +35,25 @@ export function activeCartReducer(
   return state;
 }
 
+export const cartTypeIndexInitialState = {};
+export function cartTypeIndexReducer(
+  state: {
+    [cartType: string]: string;
+  } = cartTypeIndexInitialState,
+  action: CartActions.MultiCartActions
+): {
+  [cartType: string]: string;
+} {
+  switch (action.type) {
+    case CartActions.SET_CART_TYPE_INDEX:
+      return {
+        ...state,
+        [action.payload.cartType]: action.payload.cartId,
+      };
+  }
+  return state;
+}
+
 export const cartEntitiesInitialState = undefined;
 
 export function cartEntitiesReducer(
@@ -48,24 +66,9 @@ export function cartEntitiesReducer(
 
     case CartActions.LOAD_CART_SUCCESS:
     case CartActions.CREATE_CART_SUCCESS:
-    case CartActions.CREATE_WISH_LIST_SUCCESS:
-    case CartActions.LOAD_WISH_LIST_SUCCESS:
     case CartActions.SET_TEMP_CART:
+    case CartActions.SET_CART_DATA:
       return action.payload.cart;
-  }
-  return state;
-}
-
-export function wishListReducer(
-  state = wishListInitialState,
-  action: CartActions.WishListActions | CartActions.ClearCartState
-): string {
-  switch (action.type) {
-    case CartActions.CREATE_WISH_LIST_SUCCESS:
-    case CartActions.LOAD_WISH_LIST_SUCCESS:
-      return action.meta.entityId as string;
-    case CartActions.CLEAR_CART_STATE:
-      return wishListInitialState;
   }
   return state;
 }

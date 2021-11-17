@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  CartType,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import { StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
 import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
@@ -347,6 +352,17 @@ export class MultiCartService implements MultiCartFacade {
           extraData,
         })
       )
+    );
+  }
+
+  /**
+   * Get the cart id based on cart type
+   *
+   * @param cartType
+   */
+  getCartIdByType(cartType: CartType): Observable<string> {
+    return this.store.pipe(
+      select(MultiCartSelectors.getCartIdByTypeFactory(cartType))
     );
   }
 }

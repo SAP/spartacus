@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
-import { Cart, OrderEntry } from '../models/cart.model';
+import { Cart, CartType, OrderEntry } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +28,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
         'assignEmail',
         'deleteCart',
         'reloadCart',
+        'getCartIdByType',
       ],
       async: true,
     }),
@@ -223,4 +224,11 @@ export abstract class MultiCartFacade {
    * @param extraData
    */
   abstract reloadCart(cartId: string, extraData?: { active: boolean }): void;
+
+  /**
+   * Get the cart id based on cart type
+   *
+   * @param cartType
+   */
+  abstract getCartIdByType(cartType: CartType): Observable<string>;
 }

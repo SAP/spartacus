@@ -6,7 +6,7 @@ import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
   activeCartReducer,
   cartEntitiesReducer,
-  wishListReducer,
+  cartTypeIndexReducer,
 } from './multi-cart.reducer';
 
 export function clearMultiCartState(
@@ -33,7 +33,7 @@ export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
       cartEntitiesReducer
     ),
     active: activeCartReducer,
-    wishList: wishListReducer,
+    index: cartTypeIndexReducer,
   };
 }
 

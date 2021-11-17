@@ -49,9 +49,6 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
-  wishlist: {
-    empty: 'No products in your wish list yet',
-  },
   validation: {
     cartEntriesChangeDuringCheckout:
       'During checkout we found problems with your entries. Please review your cart.',
@@ -66,5 +63,6 @@ export const cart = {
       'Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.',
     unresolvableIssues:
       'The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.',
+    inProgress: 'Cart validation is running',
   },
 };

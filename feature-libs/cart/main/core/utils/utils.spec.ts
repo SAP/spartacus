@@ -2,7 +2,6 @@ import { Cart } from '@spartacus/cart/main/root';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/core';
 import {
   getCartIdByUserId,
-  getWishlistName,
   isCartNotFoundError,
   isSelectiveCart,
   isTempCartId,
@@ -21,12 +20,6 @@ describe('Cart utils', () => {
 
     it('should return cart code for non anonymous user', () => {
       expect(getCartIdByUserId(cart, OCC_USER_ID_CURRENT)).toEqual(cart.code);
-    });
-  });
-
-  describe('getWishlistName', () => {
-    it('should return wishlist name', () => {
-      expect(getWishlistName('Id123')).toEqual(`wishlistId123`);
     });
   });
 
