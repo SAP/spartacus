@@ -5,7 +5,11 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { RoutingConfigService, RoutingService } from '@spartacus/core';
+import {
+  RouteConfig,
+  RoutingConfigService,
+  RoutingService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutStepService } from './checkout-step.service';
 import createSpy = jasmine.createSpy;
@@ -17,26 +21,26 @@ const checkoutConfig: CheckoutConfig = {
         id: 'step0',
         name: 'step 0',
         routeName: 'route0',
-        type: [CheckoutStepType.PAYMENT_DETAILS],
+        type: [CheckoutStepType.SHIPPING_ADDRESS],
       },
       {
         id: 'step1',
         name: 'step 1',
         routeName: 'route1',
-        type: [CheckoutStepType.SHIPPING_ADDRESS],
+        type: [CheckoutStepType.DELIVERY_MODE],
       },
       {
         id: 'step2',
         name: 'step 2',
         routeName: 'route2',
-        type: [CheckoutStepType.DELIVERY_MODE],
+        type: [CheckoutStepType.PAYMENT_DETAILS],
       },
     ],
   },
 };
 
-class MockRoutingConfigService {
-  getRouteConfig(stepRoute: string) {
+class MockRoutingConfigService implements Partial<RoutingConfigService> {
+  getRouteConfig(stepRoute: string): RouteConfig | undefined {
     if (stepRoute === 'route0') {
       return { paths: ['checkout/route0'] };
     } else if (stepRoute === 'route1') {
@@ -44,7 +48,7 @@ class MockRoutingConfigService {
     } else if (stepRoute === 'route2') {
       return { paths: ['checkout/route2'] };
     }
-    return null;
+    return undefined;
   }
 }
 
@@ -127,7 +131,7 @@ describe('CheckoutStepService', () => {
   it('should be able to reset the steps', () => {
     let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, true);
+    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     // reset
@@ -140,27 +144,27 @@ describe('CheckoutStepService', () => {
   it('should be able to disable/enable step', () => {
     let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, true);
+    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
-    service.disableEnableStep(CheckoutStepType.PAYMENT_DETAILS, false);
+    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, false);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');
   });
 
   it('should get checkout step by type', () => {
-    expect(service.getCheckoutStep(CheckoutStepType.SHIPPING_ADDRESS)).toEqual(
+    expect(service.getCheckoutStep(CheckoutStepType.DELIVERY_MODE)).toEqual(
       checkoutConfig.checkout?.steps?.[1]
     );
   });
 
   it('should get checkout step route by type', () => {
     expect(
-      service.getCheckoutStepRoute(CheckoutStepType.SHIPPING_ADDRESS)
+      service.getCheckoutStepRoute(CheckoutStepType.DELIVERY_MODE)
     ).toEqual(checkoutConfig.checkout?.steps?.[1].routeName);
   });
 
@@ -181,7 +185,7 @@ describe('CheckoutStepService', () => {
       'checkout/route1'
     );
     //disable step 1, then next step should be step 2
-    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    service.disableEnableStep(CheckoutStepType.DELIVERY_MODE, true);
     expect(service.getNextCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
       'checkout/route2'
     );
@@ -198,7 +202,7 @@ describe('CheckoutStepService', () => {
       'checkout/route1'
     );
     //disable step 1, then previous step should be step 0
-    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    service.disableEnableStep(CheckoutStepType.DELIVERY_MODE, true);
     expect(service.getPreviousCheckoutStepUrl(<any>mockActivatedRoute)).toBe(
       'checkout/route0'
     );
