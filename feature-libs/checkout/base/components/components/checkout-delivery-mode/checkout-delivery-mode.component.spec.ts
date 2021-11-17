@@ -9,7 +9,7 @@ import { LoaderState } from 'projects/core/src/state/utils/loader';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
-import { DeliveryModeComponent } from './delivery-mode.component';
+import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -72,9 +72,9 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   mockDeliveryMode2,
 ];
 
-describe('DeliveryModeComponent', () => {
-  let component: DeliveryModeComponent;
-  let fixture: ComponentFixture<DeliveryModeComponent>;
+describe('CheckoutDeliveryModeComponent', () => {
+  let component: CheckoutDeliveryModeComponent;
+  let fixture: ComponentFixture<CheckoutDeliveryModeComponent>;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutConfigService: CheckoutConfigService;
   let checkoutStepService: CheckoutStepService;
@@ -83,7 +83,7 @@ describe('DeliveryModeComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule],
-        declarations: [DeliveryModeComponent, MockSpinnerComponent],
+        declarations: [CheckoutDeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
             provide: CheckoutDeliveryModesFacade,
@@ -107,7 +107,7 @@ describe('DeliveryModeComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeliveryModeComponent);
+    fixture = TestBed.createComponent(CheckoutDeliveryModeComponent);
     component = fixture.componentInstance;
   });
 

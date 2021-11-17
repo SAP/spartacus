@@ -20,10 +20,10 @@ import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
   selector: 'cx-delivery-mode',
-  templateUrl: './delivery-mode.component.html',
+  templateUrl: './checkout-delivery-mode.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DeliveryModeComponent implements OnInit, OnDestroy {
+export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   continueButtonPressed = false;

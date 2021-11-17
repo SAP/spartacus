@@ -1,15 +1,9 @@
 ## b2b
 
-- feature-libs/checkout/base/components/components/shipping-address/shipping-address.component.spec.ts contained some b2b-related tests
-- feature-libs/checkout/base/components/components/review-submit/review-submit.component.spec.ts
 - do we have a b2b express checkout?
 - LL broken for b2b? in feature-libs/checkout/b2b/root/config/default-b2b-occ-config.ts:
   - there's an import from the user/account and user/profile
   - does this mean we are bundling both user/account and user/profile with the b2b checkout?
-
-## scheduled replenishment
-
-- feature-libs/checkout/base/components/components/place-order/place-order.component.spec.ts
 
 ## other-to-merge-with-later
 
@@ -84,3 +78,26 @@ Deprecation strategy:
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the lister was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
+
+
+
+
+
+
+
+1. option
+  - 5.0 -> release with the old-ish components in the new checkout/base
+  - 5.0 -> deprecate the whole current checkout
+  - 6.0 -> remove the current (now old) checkout
+  - 6.0+ -> refactor components, add a11y, talk to UX guys and change UX
+
+
+
+Feature matrix
+- version in which was introduced
+- checkout - from 5.0 default in our shell app
+- order lib
+- etc.
+- comment - how to enable the new or the old one
+- add cart
+

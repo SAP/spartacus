@@ -5,7 +5,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { SpinnerModule } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
-import { DeliveryModeComponent } from './delivery-mode.component';
+import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, I18nModule, SpinnerModule],
@@ -13,14 +13,14 @@ import { DeliveryModeComponent } from './delivery-mode.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutDeliveryMode: {
-          component: DeliveryModeComponent,
+          component: CheckoutDeliveryModeComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [DeliveryModeComponent],
-  exports: [DeliveryModeComponent],
+  declarations: [CheckoutDeliveryModeComponent],
+  exports: [CheckoutDeliveryModeComponent],
 })
-export class DeliveryModeModule {}
+export class CheckoutDeliveryModeModule {}

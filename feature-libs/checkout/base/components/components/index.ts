@@ -1,3 +1,5 @@
+export * from './checkout-delivery-mode/checkout-delivery-mode.component';
+export * from './checkout-delivery-mode/checkout-delivery-mode.module';
 export * from './checkout-login/checkout-login.component';
 export * from './checkout-login/checkout-login.module';
 export * from './checkout-orchestrator/checkout-orchestrator.component';
@@ -10,8 +12,6 @@ export * from './checkout-progress/checkout-progress-mobile-top/checkout-progres
 export * from './checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.module';
 export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
-export * from './delivery-mode/delivery-mode.component';
-export * from './delivery-mode/delivery-mode.module';
 export * from './payment-method/payment-form/payment-form.component';
 export * from './payment-method/payment-form/payment-form.module';
 export * from './payment-method/payment-method.component';
