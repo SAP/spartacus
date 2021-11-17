@@ -17,7 +17,7 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { PlaceOrderComponent } from './place-order.component';
+import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
   placeOrder(_termsChecked: boolean): Observable<Order> {
@@ -50,8 +50,8 @@ class MockUrlPipe implements PipeTransform {
 }
 
 describe('PlaceOrderComponent', () => {
-  let component: PlaceOrderComponent;
-  let fixture: ComponentFixture<PlaceOrderComponent>;
+  let component: CheckoutPlaceOrderComponent;
+  let fixture: ComponentFixture<CheckoutPlaceOrderComponent>;
   let controls: FormGroup['controls'];
   let checkoutService: CheckoutFacade;
   let routingService: RoutingService;
@@ -61,7 +61,7 @@ describe('PlaceOrderComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-        declarations: [MockUrlPipe, PlaceOrderComponent],
+        declarations: [MockUrlPipe, CheckoutPlaceOrderComponent],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           { provide: RoutingService, useClass: MockRoutingService },
@@ -72,7 +72,7 @@ describe('PlaceOrderComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PlaceOrderComponent);
+    fixture = TestBed.createComponent(CheckoutPlaceOrderComponent);
     component = fixture.componentInstance;
     controls = component.checkoutSubmitForm.controls;
 

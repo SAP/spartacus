@@ -13,10 +13,10 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-place-order',
-  templateUrl: './place-order.component.html',
+  templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PlaceOrderComponent implements OnDestroy {
+export class CheckoutPlaceOrderComponent implements OnDestroy {
   placedOrder: void | Observable<ComponentRef<any> | undefined>;
 
   checkoutSubmitForm: FormGroup = this.fb.group({

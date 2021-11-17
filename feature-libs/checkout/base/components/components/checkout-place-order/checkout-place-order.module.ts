@@ -11,8 +11,8 @@ import {
 } from '@spartacus/core';
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
 import { defaultPlaceOrderSpinnerLayoutConfig } from './default-place-order-spinner-layout.config';
-import { PlaceOrderComponent } from './place-order.component';
 
 @NgModule({
   imports: [
@@ -27,13 +27,13 @@ import { PlaceOrderComponent } from './place-order.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {
-          component: PlaceOrderComponent,
+          component: CheckoutPlaceOrderComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [PlaceOrderComponent],
-  exports: [PlaceOrderComponent],
+  declarations: [CheckoutPlaceOrderComponent],
+  exports: [CheckoutPlaceOrderComponent],
 })
-export class PlaceOrderModule {}
+export class CheckoutPlaceOrderModule {}

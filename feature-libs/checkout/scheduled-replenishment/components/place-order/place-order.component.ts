@@ -6,7 +6,7 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { PlaceOrderComponent } from '@spartacus/checkout/base/components';
+import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
@@ -25,7 +25,7 @@ import { CheckoutReplenishmentFormService } from '../../../scheduled-replenishme
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ScheduledReplenishmentPlaceOrderComponent
-  extends PlaceOrderComponent
+  extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
   private subscriptions = new Subscription();
