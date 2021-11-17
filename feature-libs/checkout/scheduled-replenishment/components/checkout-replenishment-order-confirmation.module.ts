@@ -21,10 +21,10 @@ import {
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
+import { CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message/checkout-order-confirmation-thank-you-message.component';
 
 const orderConfirmationComponents: Type<any>[] = [
-  ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+  CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
 ];
 
 @NgModule({
@@ -45,12 +45,12 @@ const orderConfirmationComponents: Type<any>[] = [
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
           component:
-            ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+            CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationMessageComponent: {
           component:
-            ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+            CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationOverviewComponent: {
@@ -71,4 +71,4 @@ const orderConfirmationComponents: Type<any>[] = [
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
 })
-export class ScheduledReplenishmentOrderConfirmationModule {}
+export class CheckoutScheduledReplenishmentOrderConfirmationModule {}

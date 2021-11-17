@@ -18,8 +18,8 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../../../scheduled-replenishment/components/services/checkout-replenishment-form-service';
-import { ScheduledReplenishmentPlaceOrderComponent } from './place-order.component';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -89,9 +89,9 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('ScheduledReplenishmentPlaceOrderComponent', () => {
-  let component: ScheduledReplenishmentPlaceOrderComponent;
-  let fixture: ComponentFixture<ScheduledReplenishmentPlaceOrderComponent>;
+describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
+  let component: CheckoutScheduledReplenishmentPlaceOrderComponent;
+  let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
   let controls: FormGroup['controls'];
 
   let checkoutService: CheckoutFacade;
@@ -104,7 +104,10 @@ describe('ScheduledReplenishmentPlaceOrderComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, RouterTestingModule, I18nTestingModule],
-        declarations: [MockUrlPipe, ScheduledReplenishmentPlaceOrderComponent],
+        declarations: [
+          MockUrlPipe,
+          CheckoutScheduledReplenishmentPlaceOrderComponent,
+        ],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
@@ -124,7 +127,7 @@ describe('ScheduledReplenishmentPlaceOrderComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ScheduledReplenishmentPlaceOrderComponent
+      CheckoutScheduledReplenishmentPlaceOrderComponent
     );
     component = fixture.componentInstance;
 

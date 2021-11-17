@@ -12,7 +12,7 @@ import {
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { Observable, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
-import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
+import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: '14',
@@ -46,9 +46,9 @@ class MockCheckoutReplenishmentFormService
   ): void {}
 }
 
-describe('ScheduleReplenishmentOrderComponent', () => {
-  let component: ScheduleReplenishmentOrderComponent;
-  let fixture: ComponentFixture<ScheduleReplenishmentOrderComponent>;
+describe('CheckoutScheduleReplenishmentOrderComponent', () => {
+  let component: CheckoutScheduleReplenishmentOrderComponent;
+  let fixture: ComponentFixture<CheckoutScheduleReplenishmentOrderComponent>;
 
   let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
@@ -57,7 +57,7 @@ describe('ScheduleReplenishmentOrderComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
-        declarations: [ScheduleReplenishmentOrderComponent],
+        declarations: [CheckoutScheduleReplenishmentOrderComponent],
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
@@ -74,7 +74,9 @@ describe('ScheduleReplenishmentOrderComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScheduleReplenishmentOrderComponent);
+    fixture = TestBed.createComponent(
+      CheckoutScheduleReplenishmentOrderComponent
+    );
     component = fixture.componentInstance;
 
     checkoutScheduledReplenishmentFacade = TestBed.inject(

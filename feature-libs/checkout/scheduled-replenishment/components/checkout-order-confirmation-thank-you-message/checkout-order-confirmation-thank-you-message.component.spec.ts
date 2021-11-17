@@ -10,7 +10,7 @@ import {
   ReplenishmentOrder,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { ScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
+import { CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
@@ -41,9 +41,9 @@ class MockCheckoutScheduledReplenishmentService
   }
 }
 
-describe('ScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () => {
-  let component: ScheduledReplenishmentOrderConfirmationThankYouMessageComponent;
-  let fixture: ComponentFixture<ScheduledReplenishmentOrderConfirmationThankYouMessageComponent>;
+describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () => {
+  let component: CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent;
+  let fixture: ComponentFixture<CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent>;
 
   let checkoutService: CheckoutFacade;
   let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
@@ -53,7 +53,7 @@ describe('ScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () =
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          ScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
+          CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent,
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
@@ -70,7 +70,7 @@ describe('ScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () =
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      ScheduledReplenishmentOrderConfirmationThankYouMessageComponent
+      CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(CheckoutFacade);

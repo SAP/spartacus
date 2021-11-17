@@ -18,10 +18,12 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
 
 @Component({
   selector: 'cx-schedule-replenishment-order',
-  templateUrl: './schedule-replenishment-order.component.html',
+  templateUrl: './checkout-schedule-replenishment-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduleReplenishmentOrderComponent implements OnInit, OnDestroy {
+export class CheckoutScheduleReplenishmentOrderComponent
+  implements OnInit, OnDestroy
+{
   private subscription: Subscription = new Subscription();
 
   iconTypes = ICON_TYPE;

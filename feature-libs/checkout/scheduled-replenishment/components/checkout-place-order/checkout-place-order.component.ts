@@ -17,14 +17,14 @@ import {
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../../../scheduled-replenishment/components/services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
 
 @Component({
   selector: 'cx-place-order',
-  templateUrl: './place-order.component.html',
+  templateUrl: './checkout-place-order.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduledReplenishmentPlaceOrderComponent
+export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {

@@ -13,10 +13,10 @@ import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
-  templateUrl: './order-confirmation-thank-you-message.component.html',
+  templateUrl: './checkout-order-confirmation-thank-you-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ScheduledReplenishmentOrderConfirmationThankYouMessageComponent
+export class CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent
   extends OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy
 {

@@ -12,7 +12,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { ScheduledReplenishmentPlaceOrderComponent } from './place-order.component';
+import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 
 @NgModule({
   imports: [
@@ -26,13 +26,13 @@ import { ScheduledReplenishmentPlaceOrderComponent } from './place-order.compone
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutPlaceOrder: {
-          component: ScheduledReplenishmentPlaceOrderComponent,
+          component: CheckoutScheduledReplenishmentPlaceOrderComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [ScheduledReplenishmentPlaceOrderComponent],
-  exports: [ScheduledReplenishmentPlaceOrderComponent],
+  declarations: [CheckoutScheduledReplenishmentPlaceOrderComponent],
+  exports: [CheckoutScheduledReplenishmentPlaceOrderComponent],
 })
-export class ScheduledReplenishmentPlaceOrderModule {}
+export class CheckoutScheduledReplenishmentPlaceOrderModule {}

@@ -7,7 +7,7 @@ import {
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-order.component';
+import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule, I18nModule, IconModule],
@@ -15,13 +15,13 @@ import { ScheduleReplenishmentOrderComponent } from './schedule-replenishment-or
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutScheduleReplenishmentOrder: {
-          component: ScheduleReplenishmentOrderComponent,
+          component: CheckoutScheduleReplenishmentOrderComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [ScheduleReplenishmentOrderComponent],
-  exports: [ScheduleReplenishmentOrderComponent],
+  declarations: [CheckoutScheduleReplenishmentOrderComponent],
+  exports: [CheckoutScheduleReplenishmentOrderComponent],
 })
-export class ScheduleReplenishmentOrderModule {}
+export class CheckoutScheduleReplenishmentOrderModule {}
