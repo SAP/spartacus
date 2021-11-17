@@ -5,24 +5,22 @@ import {
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { CartValidationGuard, SpinnerModule } from '@spartacus/storefront';
-import { PaymentTypeComponent } from './payment-type.component';
+import { CartValidationGuard } from '@spartacus/storefront';
+import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 
 @NgModule({
   imports: [
     CommonModule,
     I18nModule,
-    SpinnerModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        CheckoutPaymentType: {
-          component: PaymentTypeComponent,
+        CheckoutCostCenterComponent: {
+          component: CheckoutCostCenterComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),
   ],
-  declarations: [PaymentTypeComponent],
-  exports: [PaymentTypeComponent],
+  declarations: [CheckoutCostCenterComponent],
 })
-export class PaymentTypeModule {}
+export class CheckoutCostCenterModule {}

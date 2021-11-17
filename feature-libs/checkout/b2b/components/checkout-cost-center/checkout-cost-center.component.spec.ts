@@ -11,7 +11,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CostCenterComponent } from './cost-center.component';
+import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 
 const mockCostCenters: CostCenter[] = [
   {
@@ -50,15 +50,15 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   }
 }
 
-describe('CostCenterComponent', () => {
-  let component: CostCenterComponent;
-  let fixture: ComponentFixture<CostCenterComponent>;
+describe('CheckoutCostCenterComponent', () => {
+  let component: CheckoutCostCenterComponent;
+  let fixture: ComponentFixture<CheckoutCostCenterComponent>;
   let checkoutCostCenterService: CheckoutCostCenterFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
-      declarations: [CostCenterComponent],
+      declarations: [CheckoutCostCenterComponent],
       providers: [
         {
           provide: UserCostCenterService,
@@ -77,7 +77,7 @@ describe('CostCenterComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CostCenterComponent);
+    fixture = TestBed.createComponent(CheckoutCostCenterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     checkoutCostCenterService = TestBed.inject(CheckoutCostCenterFacade);

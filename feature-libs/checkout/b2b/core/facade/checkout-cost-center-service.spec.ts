@@ -16,7 +16,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
+import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;

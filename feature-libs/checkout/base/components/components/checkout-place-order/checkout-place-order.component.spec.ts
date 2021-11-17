@@ -49,7 +49,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('PlaceOrderComponent', () => {
+describe('CheckoutPlaceOrderComponent', () => {
   let component: CheckoutPlaceOrderComponent;
   let fixture: ComponentFixture<CheckoutPlaceOrderComponent>;
   let controls: FormGroup['controls'];

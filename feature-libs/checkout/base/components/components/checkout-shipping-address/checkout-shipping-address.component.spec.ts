@@ -113,7 +113,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('ShippingAddressComponent', () => {
+describe('CheckoutShippingAddressComponent', () => {
   let component: CheckoutShippingAddressComponent;
   let fixture: ComponentFixture<CheckoutShippingAddressComponent>;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;

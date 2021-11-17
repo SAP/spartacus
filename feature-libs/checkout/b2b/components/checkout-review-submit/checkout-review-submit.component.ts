@@ -27,10 +27,10 @@ import { filter, map, switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-review-submit',
-  templateUrl: './review-submit.component.html',
+  templateUrl: './checkout-review-submit.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class B2BReviewSubmitComponent extends CheckoutReviewSubmitComponent {
+export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitComponent {
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,

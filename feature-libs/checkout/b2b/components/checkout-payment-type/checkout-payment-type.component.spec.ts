@@ -6,7 +6,7 @@ import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, PaymentType, QueryState } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { PaymentTypeComponent } from './payment-type.component';
+import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -61,9 +61,9 @@ const mockActivatedRoute = {
   },
 };
 
-describe('PaymentTypeComponent', () => {
-  let component: PaymentTypeComponent;
-  let fixture: ComponentFixture<PaymentTypeComponent>;
+describe('CheckoutPaymentTypeComponent', () => {
+  let component: CheckoutPaymentTypeComponent;
+  let fixture: ComponentFixture<CheckoutPaymentTypeComponent>;
 
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
@@ -72,7 +72,7 @@ describe('PaymentTypeComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [PaymentTypeComponent, MockSpinnerComponent],
+        declarations: [CheckoutPaymentTypeComponent, MockSpinnerComponent],
         providers: [
           {
             provide: CheckoutPaymentTypeFacade,
@@ -100,7 +100,7 @@ describe('PaymentTypeComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PaymentTypeComponent);
+    fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -179,7 +179,7 @@ class MockUserAddressService implements Partial<UserAddressService> {
   }
 }
 
-describe('PaymentFormComponent', () => {
+describe('CheckoutPaymentFormComponent', () => {
   let component: CheckoutPaymentFormComponent;
   let fixture: ComponentFixture<CheckoutPaymentFormComponent>;
   let mockCheckoutDeliveryService: MockCheckoutDeliveryService;

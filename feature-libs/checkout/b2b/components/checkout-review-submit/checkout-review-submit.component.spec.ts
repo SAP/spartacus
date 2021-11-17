@@ -33,7 +33,7 @@ import {
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { B2BReviewSubmitComponent } from './review-submit.component';
+import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 import createSpy = jasmine.createSpy;
 
@@ -226,9 +226,9 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('ReviewSubmitComponent', () => {
-  let component: B2BReviewSubmitComponent;
-  let fixture: ComponentFixture<B2BReviewSubmitComponent>;
+describe('B2BCheckoutReviewSubmitComponent', () => {
+  let component: B2BCheckoutReviewSubmitComponent;
+  let fixture: ComponentFixture<B2BCheckoutReviewSubmitComponent>;
 
   beforeEach(
     waitForAsync(() => {
@@ -240,7 +240,7 @@ describe('ReviewSubmitComponent', () => {
           IconTestingModule,
         ],
         declarations: [
-          B2BReviewSubmitComponent,
+          B2BCheckoutReviewSubmitComponent,
           MockCartItemListComponent,
           MockCardComponent,
           MockUrlPipe,
@@ -282,7 +282,7 @@ describe('ReviewSubmitComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(B2BReviewSubmitComponent);
+    fixture = TestBed.createComponent(B2BCheckoutReviewSubmitComponent);
     component = fixture.componentInstance;
 
     addressBS.next(mockCountry);

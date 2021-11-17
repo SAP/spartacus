@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { B2BShippingAddressComponent } from './shipping-address.component';
+import { B2BCheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -143,9 +143,9 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('ShippingAddressComponent', () => {
-  let component: B2BShippingAddressComponent;
-  let fixture: ComponentFixture<B2BShippingAddressComponent>;
+describe('B2BCheckoutShippingAddressComponent', () => {
+  let component: B2BCheckoutShippingAddressComponent;
+  let fixture: ComponentFixture<B2BCheckoutShippingAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartService: ActiveCartService;
@@ -158,7 +158,7 @@ describe('ShippingAddressComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          B2BShippingAddressComponent,
+          B2BCheckoutShippingAddressComponent,
           MockAddressFormComponent,
           MockCardComponent,
           MockSpinnerComponent,
@@ -186,7 +186,7 @@ describe('ShippingAddressComponent', () => {
           },
         ],
       })
-        .overrideComponent(B2BShippingAddressComponent, {
+        .overrideComponent(B2BCheckoutShippingAddressComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -203,7 +203,7 @@ describe('ShippingAddressComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(B2BShippingAddressComponent);
+    fixture = TestBed.createComponent(B2BCheckoutShippingAddressComponent);
     component = fixture.componentInstance;
 
     spyOn(component, 'addAddress').and.callThrough();

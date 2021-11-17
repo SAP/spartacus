@@ -11,7 +11,7 @@ import {
   CardModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { B2BShippingAddressComponent } from './shipping-address.component';
+import { B2BCheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 
 @NgModule({
   imports: [
@@ -26,13 +26,13 @@ import { B2BShippingAddressComponent } from './shipping-address.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutShippingAddress: {
-          component: B2BShippingAddressComponent,
+          component: B2BCheckoutShippingAddressComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [B2BShippingAddressComponent],
-  exports: [B2BShippingAddressComponent],
+  declarations: [B2BCheckoutShippingAddressComponent],
+  exports: [B2BCheckoutShippingAddressComponent],
 })
-export class B2BShippingAddressModule {}
+export class B2BCheckoutShippingAddressModule {}

@@ -17,7 +17,7 @@ import {
   IconModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { B2BReviewSubmitComponent } from './review-submit.component';
+import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({
   imports: [
@@ -34,14 +34,14 @@ import { B2BReviewSubmitComponent } from './review-submit.component';
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         CheckoutReviewOrder: {
-          component: B2BReviewSubmitComponent,
+          component: B2BCheckoutReviewSubmitComponent,
           // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
-  declarations: [B2BReviewSubmitComponent],
-  exports: [B2BReviewSubmitComponent],
+  declarations: [B2BCheckoutReviewSubmitComponent],
+  exports: [B2BCheckoutReviewSubmitComponent],
 })
-export class B2BReviewSubmitModule {}
+export class B2BCheckoutReviewSubmitModule {}

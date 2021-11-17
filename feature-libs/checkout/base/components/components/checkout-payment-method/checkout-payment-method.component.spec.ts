@@ -132,7 +132,7 @@ class MockPaymentFormComponent {
 })
 class MockSpinnerComponent {}
 
-describe('PaymentMethodComponent', () => {
+describe('CheckoutPaymentMethodComponent', () => {
   let component: CheckoutPaymentMethodComponent;
   let fixture: ComponentFixture<CheckoutPaymentMethodComponent>;
   let mockUserPaymentService: UserPaymentService;

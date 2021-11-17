@@ -172,7 +172,7 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('ReviewSubmitComponent', () => {
+describe('CheckoutReviewSubmitComponent', () => {
   let component: CheckoutReviewSubmitComponent;
   let fixture: ComponentFixture<CheckoutReviewSubmitComponent>;
 

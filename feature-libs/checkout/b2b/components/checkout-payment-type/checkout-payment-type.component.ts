@@ -18,10 +18,10 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-payment-type',
-  templateUrl: './payment-type.component.html',
+  templateUrl: './checkout-payment-type.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PaymentTypeComponent {
+export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
   private _poNumberInput: ElementRef;
 

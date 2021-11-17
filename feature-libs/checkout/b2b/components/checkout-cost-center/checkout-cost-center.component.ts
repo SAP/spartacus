@@ -9,10 +9,10 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center',
-  templateUrl: 'cost-center.component.html',
+  templateUrl: './checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CostCenterComponent {
+export class CheckoutCostCenterComponent {
   costCenterId: string | undefined;
 
   constructor(

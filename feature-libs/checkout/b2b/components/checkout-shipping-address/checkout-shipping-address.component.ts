@@ -32,10 +32,10 @@ export interface CardWithAddress {
 
 @Component({
   selector: 'cx-shipping-address',
-  templateUrl: './shipping-address.component.html',
+  templateUrl: './checkout-shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class B2BShippingAddressComponent
+export class B2BCheckoutShippingAddressComponent
   extends CheckoutShippingAddressComponent
   implements OnInit, OnDestroy
 {
