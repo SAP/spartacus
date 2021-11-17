@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject, of } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
-import { ProductData } from '@spartacus/storefront';
+import { ProductData, ProductImportStatus } from '@spartacus/storefront';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries-context';
 import createSpy = jasmine.createSpy;
@@ -77,8 +77,14 @@ describe('QuickOrderOrderEntriesContext', () => {
 
   describe('addEntries', () => {
     it('should add entries to quick order', () => {
+      let result;
       canAdd$.next(true);
-      service.addEntries(mockProductData).subscribe();
+      service
+        .addEntries(mockProductData)
+        .subscribe((data) => {
+          result = data;
+        })
+        .unsubscribe();
 
       expect(productConnector.get).toHaveBeenCalledTimes(
         mockProductData.length
@@ -100,6 +106,10 @@ describe('QuickOrderOrderEntriesContext', () => {
         products['232133'],
         mockProductData[1].quantity
       );
+      expect(result).toEqual({
+        productCode: mockProductData[1].productCode,
+        statusCode: ProductImportStatus.SUCCESS,
+      });
     });
 
     it('should not add entries due to limit', () => {
