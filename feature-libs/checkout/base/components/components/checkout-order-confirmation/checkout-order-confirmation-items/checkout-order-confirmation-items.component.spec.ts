@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
+import { CheckoutOrderConfirmationItemsComponent } from './checkout-order-confirmation-items.component';
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
@@ -34,16 +34,16 @@ class MockCheckoutService implements Partial<CheckoutFacade> {
   }
 }
 
-describe('OrderConfirmationItemsComponent', () => {
-  let component: OrderConfirmationItemsComponent;
-  let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
+describe('CheckoutOrderConfirmationItemsComponent', () => {
+  let component: CheckoutOrderConfirmationItemsComponent;
+  let fixture: ComponentFixture<CheckoutOrderConfirmationItemsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, PromotionsModule, FeaturesConfigModule],
         declarations: [
-          OrderConfirmationItemsComponent,
+          CheckoutOrderConfirmationItemsComponent,
           MockReviewSubmitComponent,
         ],
         providers: [
@@ -60,7 +60,7 @@ describe('OrderConfirmationItemsComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderConfirmationItemsComponent);
+    fixture = TestBed.createComponent(CheckoutOrderConfirmationItemsComponent);
     component = fixture.componentInstance;
   });
 

@@ -40,10 +40,9 @@ Deprecation strategy:
 
 1. Rename component to have a Checkout prefix in order to avoid name clashes
 2. Prefix the components' selectors
-3. Move /base/components/order-confirmation/* to components and guards folders?
-4. coordinate with UX and A11Y teams about the new checkout and announce a work on the components
-5. not expose components in the public API --> how to use them internally? in our app, between endpoints, etc.
-6. rename endpoints to b2b_experimental and publish / expose everything. Be clear to customers that it's still in an experimental state. --> what to do about the deprecations of the current classes? Deprecate them? Wait until 5.1?
+3. coordinate with UX and A11Y teams about the new checkout and announce a work on the components
+4. not expose components in the public API --> how to use them internally? in our app, between endpoints, etc.
+5. rename endpoints to b2b_experimental and publish / expose everything. Be clear to customers that it's still in an experimental state. --> what to do about the deprecations of the current classes? Deprecate them? Wait until 5.1?
 
 
 

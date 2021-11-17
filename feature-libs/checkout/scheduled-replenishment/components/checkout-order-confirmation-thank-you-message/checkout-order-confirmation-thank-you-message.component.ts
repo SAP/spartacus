@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { OrderConfirmationThankYouMessageComponent } from '@spartacus/checkout/base/components';
+import { CheckoutOrderConfirmationThankYouMessageComponent } from '@spartacus/checkout/base/components';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import { ORDER_TYPE } from '@spartacus/core';
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent
-  extends OrderConfirmationThankYouMessageComponent
+  extends CheckoutOrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy
 {
   isReplenishmentOrderType$: Observable<boolean>;

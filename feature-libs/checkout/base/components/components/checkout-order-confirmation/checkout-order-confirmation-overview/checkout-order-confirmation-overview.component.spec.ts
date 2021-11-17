@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderConfirmationOverviewComponent } from './order-confirmation-overview.component';
+import { CheckoutOrderConfirmationOverviewComponent } from './checkout-order-confirmation-overview.component';
 
 const mockOrder: Order = {
   code: 'test-code-412',
@@ -23,23 +23,25 @@ class MockCheckoutService implements Partial<CheckoutFacade> {
   }
 }
 
-describe('OrderConfirmationOverviewComponent', () => {
-  let component: OrderConfirmationOverviewComponent;
-  let fixture: ComponentFixture<OrderConfirmationOverviewComponent>;
+describe('CheckoutOrderConfirmationOverviewComponent', () => {
+  let component: CheckoutOrderConfirmationOverviewComponent;
+  let fixture: ComponentFixture<CheckoutOrderConfirmationOverviewComponent>;
   let checkoutService: CheckoutFacade;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [OrderConfirmationOverviewComponent],
+        declarations: [CheckoutOrderConfirmationOverviewComponent],
         providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderConfirmationOverviewComponent);
+    fixture = TestBed.createComponent(
+      CheckoutOrderConfirmationOverviewComponent
+    );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(CheckoutFacade);
   });

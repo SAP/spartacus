@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { Cart, I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
+import { CheckoutOrderConfirmationTotalsComponent } from './checkout-order-confirmation-totals.component';
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -20,16 +20,16 @@ class MockCheckoutService implements Partial<CheckoutFacade> {
   }
 }
 
-describe('OrderConfirmationComponent', () => {
-  let component: OrderConfirmationTotalsComponent;
-  let fixture: ComponentFixture<OrderConfirmationTotalsComponent>;
+describe('CheckoutOrderConfirmationTotalsComponent', () => {
+  let component: CheckoutOrderConfirmationTotalsComponent;
+  let fixture: ComponentFixture<CheckoutOrderConfirmationTotalsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          OrderConfirmationTotalsComponent,
+          CheckoutOrderConfirmationTotalsComponent,
           MockOrderSummaryComponent,
         ],
         providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
@@ -38,7 +38,7 @@ describe('OrderConfirmationComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OrderConfirmationTotalsComponent);
+    fixture = TestBed.createComponent(CheckoutOrderConfirmationTotalsComponent);
     component = fixture.componentInstance;
   });
 

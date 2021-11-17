@@ -2,11 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  CheckoutOrderConfirmationItemsComponent,
+  CheckoutOrderConfirmationModule,
+  CheckoutOrderConfirmationOverviewComponent,
+  CheckoutOrderConfirmationTotalsComponent,
   OrderConfirmationGuard,
-  OrderConfirmationItemsComponent,
-  OrderConfirmationModule,
-  OrderConfirmationOverviewComponent,
-  OrderConfirmationTotalsComponent,
 } from '@spartacus/checkout/base/components';
 import {
   CmsConfig,
@@ -38,7 +38,7 @@ const orderConfirmationComponents: Type<any>[] = [
     ReactiveFormsModule,
     FeaturesConfigModule,
     FormErrorsModule,
-    OrderConfirmationModule,
+    CheckoutOrderConfirmationModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -54,15 +54,15 @@ const orderConfirmationComponents: Type<any>[] = [
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationOverviewComponent: {
-          component: OrderConfirmationOverviewComponent,
+          component: CheckoutOrderConfirmationOverviewComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationItemsComponent: {
-          component: OrderConfirmationItemsComponent,
+          component: CheckoutOrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationTotalsComponent: {
-          component: OrderConfirmationTotalsComponent,
+          component: CheckoutOrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
       },

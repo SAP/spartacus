@@ -4,6 +4,7 @@ export * from './checkout-login/checkout-login.component';
 export * from './checkout-login/checkout-login.module';
 export * from './checkout-orchestrator/checkout-orchestrator.component';
 export * from './checkout-orchestrator/checkout-orchestrator.module';
+export * from './checkout-order-confirmation/index';
 export * from './checkout-order-summary/checkout-order-summary.component';
 export * from './checkout-order-summary/checkout-order-summary.module';
 export * from './checkout-payment-method/checkout-payment-form/checkout-payment-form.component';

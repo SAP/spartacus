@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, Order } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
+import { CheckoutOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
@@ -27,9 +27,9 @@ class MockCheckoutService implements Partial<CheckoutFacade> {
   }
 }
 
-describe('OrderConfirmationComponent', () => {
-  let component: OrderConfirmationThankYouMessageComponent;
-  let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
+describe('CheckoutOrderConfirmationThankYouMessageComponent', () => {
+  let component: CheckoutOrderConfirmationThankYouMessageComponent;
+  let fixture: ComponentFixture<CheckoutOrderConfirmationThankYouMessageComponent>;
 
   let checkoutService: CheckoutFacade;
 
@@ -38,7 +38,7 @@ describe('OrderConfirmationComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          OrderConfirmationThankYouMessageComponent,
+          CheckoutOrderConfirmationThankYouMessageComponent,
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
@@ -49,7 +49,7 @@ describe('OrderConfirmationComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      OrderConfirmationThankYouMessageComponent
+      CheckoutOrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(CheckoutFacade);

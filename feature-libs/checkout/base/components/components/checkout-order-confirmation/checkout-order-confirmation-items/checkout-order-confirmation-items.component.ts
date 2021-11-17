@@ -10,10 +10,12 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-order-confirmation-items',
-  templateUrl: './order-confirmation-items.component.html',
+  templateUrl: './checkout-order-confirmation-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OrderConfirmationItemsComponent implements OnInit, OnDestroy {
+export class CheckoutOrderConfirmationItemsComponent
+  implements OnInit, OnDestroy
+{
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order | undefined>;
 

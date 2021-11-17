@@ -8,7 +8,7 @@ import {
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
 import { Observable, of } from 'rxjs';
-import { GuestRegisterFormComponent } from './guest-register-form.component';
+import { CheckoutGuestRegisterFormComponent } from './checkout-guest-register-form.component';
 import createSpy = jasmine.createSpy;
 
 class MockAuthService implements Partial<AuthService> {
@@ -25,9 +25,9 @@ class MockRoutingService implements Partial<RoutingService> {
   go = jasmine.createSpy('go');
 }
 
-describe('GuestRegisterFormComponent', () => {
-  let component: GuestRegisterFormComponent;
-  let fixture: ComponentFixture<GuestRegisterFormComponent>;
+describe('CheckoutGuestRegisterFormComponent', () => {
+  let component: CheckoutGuestRegisterFormComponent;
+  let fixture: ComponentFixture<CheckoutGuestRegisterFormComponent>;
 
   let userRegisterFacade: UserRegisterFacade;
   let routingService: RoutingService;
@@ -36,7 +36,7 @@ describe('GuestRegisterFormComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, ReactiveFormsModule, FormErrorsModule],
-        declarations: [GuestRegisterFormComponent],
+        declarations: [CheckoutGuestRegisterFormComponent],
         providers: [
           { provide: AuthService, useClass: MockAuthService },
           { provide: UserRegisterFacade, useClass: MockUserRegisterFacade },
@@ -47,7 +47,7 @@ describe('GuestRegisterFormComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GuestRegisterFormComponent);
+    fixture = TestBed.createComponent(CheckoutGuestRegisterFormComponent);
 
     userRegisterFacade = TestBed.inject(UserRegisterFacade);
     routingService = TestBed.inject(RoutingService);
