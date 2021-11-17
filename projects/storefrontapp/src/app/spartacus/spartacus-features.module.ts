@@ -6,8 +6,8 @@ import {
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserOccModule,
   UserModule,
+  UserOccModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -57,9 +57,10 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
@@ -73,7 +74,7 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
-import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
+import { WishListFeatureModule } from './features/wish-list-feature.module';
 
 const featureModules = [];
 
@@ -172,6 +173,7 @@ if (environment.digitalPayments) {
     /************************* Feature libraries *************************/
     UserFeatureModule,
     CartFeatureModule,
+    WishListFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
