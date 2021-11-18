@@ -131,7 +131,6 @@ describe(`CheckoutQueryService`, () => {
       const subscription = service
         .getCheckoutDetailsState()
         .subscribe((result) => {
-          console.log('result', result);
           return (resultState = result);
         });
 

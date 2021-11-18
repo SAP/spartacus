@@ -194,7 +194,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
   describe(`setDeliveryAddress`, () => {
     it(`should throw an error if the address ID is not present`, (done) => {
       service
-        .setDeliveryAddress(<Address>{})
+        .setDeliveryAddress({})
         .pipe(take(1))
         .subscribe({
           error: (error) => {

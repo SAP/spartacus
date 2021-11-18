@@ -322,6 +322,18 @@ describe(`CheckoutPaymentService`, () => {
   });
 
   describe(`setPaymentDetails`, () => {
+    it(`should throw an error if the payment details ID is not present`, (done) => {
+      service
+        .setPaymentDetails({})
+        .pipe(take(1))
+        .subscribe({
+          error: (error) => {
+            expect(error).toEqual(new Error('Checkout conditions not met'));
+            done();
+          },
+        });
+    });
+
     it(`should call checkoutPaymentConnector.set`, () => {
       spyOn(connector, 'set').and.stub();
 
