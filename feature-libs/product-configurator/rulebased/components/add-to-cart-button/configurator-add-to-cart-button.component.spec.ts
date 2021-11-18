@@ -429,7 +429,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
   describe('displayOnlyButton', () => {
-    it('should navigate to order overview', () => {
+    it('should navigate to review order', () => {
       setRouterTestDataReadOnlyCart();
       initialize();
       component.leaveConfigurationOverview();
