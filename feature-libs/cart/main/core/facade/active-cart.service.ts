@@ -1,6 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import {
   EMAIL_PATTERN,
   getLastValueSync,
@@ -37,7 +42,6 @@ import { StateWithMultiCart } from '../store/multi-cart-state';
 import { activeCartInitialState } from '../store/reducers/multi-cart.reducer';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getCartIdByUserId, isTempCartId } from '../utils/utils';
-import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class ActiveCartService implements ActiveCartFacade, OnDestroy {
@@ -64,12 +68,12 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
 
   // Stream with active cart entity
   protected cartSelector$ = this.activeCartId$.pipe(
-    switchMap((cartId) => this.multiCartService.getCartEntity(cartId))
+    switchMap((cartId) => this.multiCartFacade.getCartEntity(cartId))
   );
 
   constructor(
     protected store: Store<StateWithMultiCart>,
-    protected multiCartService: MultiCartService,
+    protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService
   ) {
     this.initActiveCart();
@@ -178,7 +182,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   getEntries(): Observable<OrderEntry[]> {
     return this.activeCartId$.pipe(
-      switchMap((cartId) => this.multiCartService.getEntries(cartId)),
+      switchMap((cartId) => this.multiCartFacade.getEntries(cartId)),
       distinctUntilChanged()
     );
   }
@@ -193,7 +197,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   getLastEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
       switchMap((cartId) =>
-        this.multiCartService.getLastEntry(cartId, productCode)
+        this.multiCartFacade.getLastEntry(cartId, productCode)
       ),
       distinctUntilChanged()
     );
@@ -218,7 +222,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // After load fails we might create new cart so we switch to `temp-${uuid}` cart entity used when creating cart.
     // At the end we finally switch to cart `code` for cart id. Between those switches cart `isStable` function should not flicker.
     return this.activeCartId$.pipe(
-      switchMap((cartId) => this.multiCartService.isStable(cartId)),
+      switchMap((cartId) => this.multiCartFacade.isStable(cartId)),
       debounce((state) => (state ? timer(0) : EMPTY)),
       distinctUntilChanged()
     );
@@ -234,7 +238,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     previousUserId: string
   ): void {
     if (cartId === OCC_CART_ID_CURRENT) {
-      this.multiCartService.loadCart({
+      this.multiCartFacade.loadCart({
         userId,
         cartId: OCC_CART_ID_CURRENT,
         extraData: {
@@ -250,7 +254,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     ) {
       // This case covers the case when you are logged in and then asm user logs in and you don't want to merge, but only load emulated user cart
       // Similarly when you are logged in as asm user and you logout and want to resume previous user session
-      this.multiCartService.loadCart({
+      this.multiCartFacade.loadCart({
         userId,
         cartId,
         extraData: {
@@ -259,7 +263,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       });
     } else {
       // We have particular cart locally, but we logged in, so we need to combine this with current cart or make it ours.
-      this.multiCartService.mergeToCurrentCart({
+      this.multiCartFacade.mergeToCurrentCart({
         userId,
         cartId,
         extraData: {
@@ -274,7 +278,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   protected load(cartId: string, userId: string): void {
     if (!(userId === OCC_USER_ID_ANONYMOUS && cartId === OCC_CART_ID_CURRENT)) {
-      this.multiCartService.loadCart({
+      this.multiCartFacade.loadCart({
         userId,
         cartId,
         extraData: {
@@ -295,7 +299,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.requireLoadedCartForGuestMerge()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
-        this.multiCartService.addEntries(
+        this.multiCartFacade.addEntries(
           userId,
           getCartIdByUserId(cartState.value, userId),
           entriesToAdd
@@ -369,7 +373,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       take(1),
       tap(([cartState, userId]) => {
         if (this.isEmpty(cartState.value)) {
-          this.multiCartService.createCart({
+          this.multiCartFacade.createCart({
             userId,
             extraData: {
               active: true,
@@ -402,7 +406,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.requireLoadedCart()
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
-        this.multiCartService.addEntry(
+        this.multiCartFacade.addEntry(
           userId,
           getCartIdByUserId(cartState.value, userId),
           productCode,
@@ -420,7 +424,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartService.removeEntry(
+        this.multiCartFacade.removeEntry(
           userId,
           cartId,
           entry.entryNumber as number
@@ -438,12 +442,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartService.updateEntry(
-          userId,
-          cartId,
-          entryNumber,
-          quantity
-        );
+        this.multiCartFacade.updateEntry(userId, cartId, entryNumber, quantity);
       });
   }
 
@@ -454,9 +453,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    */
   getEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.activeCartId$.pipe(
-      switchMap((cartId) =>
-        this.multiCartService.getEntry(cartId, productCode)
-      ),
+      switchMap((cartId) => this.multiCartFacade.getEntry(cartId, productCode)),
       distinctUntilChanged()
     );
   }
@@ -470,7 +467,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     this.activeCartId$
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
       .subscribe(([cartId, userId]) => {
-        this.multiCartService.assignEmail(cartId, userId, email);
+        this.multiCartFacade.assignEmail(cartId, userId, email);
       });
   }
 
@@ -516,7 +513,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(withLatestFrom(this.userIdService.getUserId()))
       .subscribe(([cartState, userId]) => {
         if (cartState.value) {
-          this.multiCartService.addEntries(
+          this.multiCartFacade.addEntries(
             userId,
             getCartIdByUserId(cartState.value, userId),
             entriesToAdd
@@ -546,7 +543,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(take(1))
       .subscribe((entries) => {
         cartEntries = entries;
-        this.multiCartService.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
+        this.multiCartFacade.deleteCart(cartId, OCC_USER_ID_ANONYMOUS);
         this.addEntriesGuestMerge(cartEntries);
       });
   }
@@ -579,7 +576,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .pipe(
         take(1),
         map(([cartId, userId]) => {
-          this.multiCartService.loadCart({ cartId, userId });
+          this.multiCartFacade.loadCart({ cartId, userId });
         })
       )
       .subscribe();

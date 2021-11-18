@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   Cart,
+  MultiCartFacade,
   OrderEntry,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
@@ -15,7 +16,6 @@ import {
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { StateWithMultiCart } from '../store/multi-cart-state';
-import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
@@ -32,14 +32,14 @@ export class SelectiveCartService implements SelectiveCartFacade {
   protected cartSelector$ = this.cartId$.pipe(
     switchMap((cartId) => {
       this.cartId = cartId;
-      return this.multiCartService.getCartEntity(cartId);
+      return this.multiCartFacade.getCartEntity(cartId);
     })
   );
 
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
-    protected multiCartService: MultiCartService,
+    protected multiCartFacade: MultiCartFacade,
     protected baseSiteService: BaseSiteService,
     protected userIdService: UserIdService
   ) {
@@ -99,7 +99,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.multiCartService.getEntries(this.cartId);
+    return this.multiCartFacade.getEntries(this.cartId);
   }
 
   /**
@@ -107,7 +107,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
    */
   isStable(): Observable<boolean> {
     return this.cartId$.pipe(
-      switchMap((cartId) => this.multiCartService.isStable(cartId))
+      switchMap((cartId) => this.multiCartFacade.isStable(cartId))
     );
   }
 
@@ -116,7 +116,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
    */
   protected load() {
     if (this.isLoggedIn(this.userId) && this.cartId) {
-      this.multiCartService.loadCart({
+      this.multiCartFacade.loadCart({
         userId: this.userId,
         cartId: this.cartId,
       });
@@ -139,7 +139,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
         take(1)
       )
       .subscribe(() => {
-        this.multiCartService.addEntry(
+        this.multiCartFacade.addEntry(
           this.userId,
           this.cartId,
           productCode,
@@ -149,7 +149,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.multiCartService.removeEntry(
+    this.multiCartFacade.removeEntry(
       this.userId,
       this.cartId,
       entry.entryNumber as number
@@ -157,7 +157,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
-    this.multiCartService.updateEntry(
+    this.multiCartFacade.updateEntry(
       this.userId,
       this.cartId,
       entryNumber,
@@ -166,7 +166,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   getEntry(productCode: string): Observable<OrderEntry | undefined> {
-    return this.multiCartService.getEntry(this.cartId, productCode);
+    return this.multiCartFacade.getEntry(this.cartId, productCode);
   }
 
   /**

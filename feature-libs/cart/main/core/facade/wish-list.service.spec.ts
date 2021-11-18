@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
 import { User, UserIdService, UserService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartActions } from '../store/actions/index';
@@ -10,7 +10,6 @@ import {
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { getCartIdByUserId, getWishlistName } from '../utils/utils';
-import { MultiCartService } from './multi-cart.service';
 import { WishListService } from './wish-list.service';
 import createSpy = jasmine.createSpy;
 
@@ -52,7 +51,7 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(user));
 }
 
-class MockMultiCartService implements Partial<MultiCartService> {
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();
@@ -62,7 +61,7 @@ class MockMultiCartService implements Partial<MultiCartService> {
 describe('WishListService', () => {
   let service: WishListService;
   let store: Store<StateWithMultiCart>;
-  let multiCartService: MultiCartService;
+  let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -76,14 +75,14 @@ describe('WishListService', () => {
       providers: [
         WishListService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: MultiCartService, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserService, useClass: MockUserService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(WishListService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -183,7 +182,7 @@ describe('WishListService', () => {
       );
       service.addEntry(productCode);
 
-      expect(multiCartService.addEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.addEntry).toHaveBeenCalledWith(
         userId,
         cartCode,
         productCode,
@@ -215,7 +214,7 @@ describe('WishListService', () => {
         })
       );
       service.removeEntry(mockCartEntry);
-      expect(multiCartService.removeEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
         userId,
         cartCode,
         mockCartEntry.entryNumber

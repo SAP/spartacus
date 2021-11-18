@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Cart, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
+import { Cart, MultiCartFacade, OrderEntry, WishListFacade } from '@spartacus/cart/main/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
@@ -20,14 +20,13 @@ import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
 import { getWishlistName } from '../utils/utils';
-import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class WishListService implements WishListFacade {
   constructor(
     protected store: Store<StateWithMultiCart>,
     protected userService: UserService,
-    protected multiCartService: MultiCartService,
+    protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService
   ) {}
 
@@ -55,7 +54,7 @@ export class WishListService implements WishListFacade {
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
-      switchMap(([wishListId]) => this.multiCartService.getCart(wishListId))
+      switchMap(([wishListId]) => this.multiCartFacade.getCart(wishListId))
     );
   }
 
@@ -83,7 +82,7 @@ export class WishListService implements WishListFacade {
         take(1)
       )
       .subscribe(([wishListId, userId]) =>
-        this.multiCartService.addEntry(userId, wishListId, productCode, 1)
+        this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
       );
   }
 
@@ -101,7 +100,7 @@ export class WishListService implements WishListFacade {
         take(1)
       )
       .subscribe(([wishListId, userId]) =>
-        this.multiCartService.removeEntry(
+        this.multiCartFacade.removeEntry(
           userId,
           wishListId,
           entry.entryNumber as number
@@ -112,7 +111,7 @@ export class WishListService implements WishListFacade {
   getWishListLoading(): Observable<boolean> {
     return this.getWishListId().pipe(
       switchMap((wishListId) =>
-        this.multiCartService
+        this.multiCartFacade
           .isStable(wishListId)
           .pipe(map((stable) => !stable))
       )

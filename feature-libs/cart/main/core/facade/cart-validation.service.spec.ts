@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
-import { ActiveCartService } from './active-cart.service';
 import { CartValidationService } from './cart-validation.service';
 
 import createSpy = jasmine.createSpy;
@@ -18,7 +18,7 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId() {
     return of('current');
   }
@@ -44,8 +44,8 @@ describe('CartValidationService', () => {
           useClass: MockUserIdService,
         },
         {
-          provide: ActiveCartService,
-          useClass: MockActiveCartService,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartFacade,
         },
       ],
     });
