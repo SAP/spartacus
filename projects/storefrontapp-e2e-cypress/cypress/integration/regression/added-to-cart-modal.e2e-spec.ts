@@ -15,8 +15,8 @@ describe('Added to cart modal - Anonymous user', () => {
     });
 
     it('should test item counter on PDP', () => {
-      interceptGet('getProduct', '/products/*?fields=*stock*');
-      cy.wait('@getProduct').then((xhr) => {
+      interceptGet('getProductStock', '/products/*?fields=*stock*');
+      cy.wait('@getProductStock').then((xhr) => {
         const stock = xhr.response.body.stock.stockLevel;
 
         // Value change to 'max stock'. '+' button disabled
@@ -50,14 +50,13 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('[aria-label="Close Modal"]').click();
       });
 
-      // add same product to cart again
       cy.get('cx-add-to-cart button[type=submit]').click();
 
       cy.get('cx-added-to-cart-dialog').within(() => {
         cy.get('.cx-quantity cx-item-counter input').should('have.value', '2');
         cy.get('.cx-dialog-total').should('contain', '2 items');
 
-        // action buttons links correctly
+        // check action button links
         cy.get('.btn-primary')
           .should('have.attr', 'href')
           .then(($href) => {
