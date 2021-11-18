@@ -244,48 +244,43 @@ describe('MultiCartService', () => {
     });
   });
 
-  fdescribe('createCart', () => {
+  describe('createCart', () => {
     it('should create cart and return observable with cart', () => {
       spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
 
-      const results = [];
+      let result;
 
       service.createCart({ userId: 'userId' }).subscribe((cart) => {
-        console.log('cart', cart);
-        results.push(cart);
+        console.log('cart: ', cart);
+        result = cart;
       });
+      expect(result).toEqual(undefined);
 
+      const payload = {
+        userId: 'userId',
+        extraData: undefined,
+        oldCartId: undefined,
+        toMergeCartGuid: undefined,
+        tempCartId: 'temp-uuid',
+      };
       expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.CreateCart({
-          userId: 'userId',
-          extraData: undefined,
-          oldCartId: undefined,
-          toMergeCartGuid: undefined,
-          tempCartId: 'temp-uuid',
-        })
+        new CartActions.CreateCart(payload)
       );
-
-      expect(results[0]).toEqual({
-        loading: true,
-        error: false,
-        success: false,
-        value: undefined,
-        processesCount: 0,
-      });
 
       store.dispatch(
-        new CartActions.RemoveCart({
-          cartId: 'temp-uuid',
+        new CartActions.CreateCartSuccess({
+          ...payload,
+          cart: testCart,
+          cartId: testCart.code as string,
         })
       );
-
-      /*expect(results[1]).toEqual({
-        processesCount: 0,
-        loading: false,
-        error: false,
-        success: true,
-        value: testCart,
-      });*/
+      store.dispatch(
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.NEW_CREATED,
+          cartId: testCart.code,
+        })
+      );
+      expect(result).toEqual(testCart);
     });
   });
 

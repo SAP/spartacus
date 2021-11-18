@@ -57,7 +57,6 @@ export class MultiCartEffects {
     map((action: any) => {
       switch (action.type) {
         case CartActions.LOAD_CART_SUCCESS:
-        case CartActions.CREATE_CART_SUCCESS:
         // point to `temp-${uuid}` when we are creating/merging cart
         case CartActions.CREATE_CART: {
           if (action?.payload?.extraData?.active) {
@@ -67,6 +66,14 @@ export class MultiCartEffects {
             });
           }
           break;
+        }
+        case CartActions.CREATE_CART_SUCCESS: {
+          return new CartActions.SetCartTypeIndex({
+            cartType: action?.payload?.extraData?.active
+              ? CartType.ACTIVE
+              : CartType.NEW_CREATED,
+            cartId: action.meta.entityId as string,
+          });
         }
         case CartActions.SET_ACTIVE_CART_ID:
           return new CartActions.SetCartTypeIndex({

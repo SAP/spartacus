@@ -157,6 +157,7 @@ export enum CartType {
   ACTIVE = 'Active',
   WISH_LIST = 'WishList',
   SELECTIVE = 'Selective',
+  NEW_CREATED = 'NewCreated',
 }
 
 export interface CartModificationList {

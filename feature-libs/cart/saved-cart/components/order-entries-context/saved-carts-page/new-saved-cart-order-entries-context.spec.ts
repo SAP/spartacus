@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { StateUtils, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
 import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries-context';
 import createSpy = jasmine.createSpy;
@@ -14,8 +14,8 @@ const mockCartId = '00004546';
 
 const mockSavedCart = { name: 'mockSavedCart', description: 'mock saved cart' };
 
-const mockCartData: StateUtils.ProcessesLoaderState<Cart> = {
-  value: { code: mockCartId },
+const mockCartData: Cart = {
+  code: mockCartId,
 };
 
 const mockProductData: ProductData[] = [

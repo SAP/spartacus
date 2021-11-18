@@ -6,9 +6,15 @@ import {
   MultiCartFacade,
   OrderEntry,
 } from '@spartacus/cart/main/root';
-import { StateUtils, UserIdService } from '@spartacus/core';
+import { isNotUndefined, StateUtils, UserIdService } from '@spartacus/core';
 import { EMPTY, Observable, timer } from 'rxjs';
-import { debounce, distinctUntilChanged, map } from 'rxjs/operators';
+import {
+  debounce,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+} from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import { MultiCartSelectors } from '../store/selectors/index';
@@ -94,7 +100,7 @@ export class MultiCartService implements MultiCartFacade {
     extraData?: {
       active?: boolean;
     };
-  }): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>> {
+  }): Observable<Cart> {
     // to support creating multiple carts at the same time we need to use different entity for every process
     // simple random uuid generator is used here for entity names
     const tempCartId = this.generateTempCartId();
@@ -107,7 +113,13 @@ export class MultiCartService implements MultiCartFacade {
         tempCartId,
       })
     );
-    return this.getCartEntity(tempCartId);
+
+    return this.getCartIdByType(
+      extraData?.active ? CartType.ACTIVE : CartType.NEW_CREATED
+    ).pipe(
+      filter(isNotUndefined),
+      switchMap((cartId) => this.getCart(cartId))
+    );
   }
 
   /**
@@ -360,7 +372,7 @@ export class MultiCartService implements MultiCartFacade {
    *
    * @param cartType
    */
-  getCartIdByType(cartType: CartType): Observable<string> {
+  getCartIdByType(cartType: CartType): Observable<string | undefined> {
     return this.store.pipe(
       select(MultiCartSelectors.getCartIdByTypeFactory(cartType)),
       distinctUntilChanged()
