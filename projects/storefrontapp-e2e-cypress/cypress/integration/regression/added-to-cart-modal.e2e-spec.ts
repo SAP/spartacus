@@ -5,8 +5,8 @@ const productId = '3595723';
 const productId2 = '4812254';
 const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
-describe('Added to cart modal', () => {
-  viewportContext(['desktop', 'mobile'], () => {
+describe('Added to cart modal - Anonymous user', () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -79,9 +79,7 @@ describe('Added to cart modal', () => {
       });
 
       // search for new product and select it, and add to cart
-      cy.get('cx-searchbox input[aria-label="Search"]').type(productId2, {
-        force: true,
-      });
+      cy.get('cx-searchbox input[aria-label="Search"]').type(productId2);
       cy.onDesktop(() => {
         cy.get('cx-searchbox')
           .contains('.results .products .name', productName2.substr(0, 12))
@@ -93,6 +91,7 @@ describe('Added to cart modal', () => {
         cy.get('cx-searchbox input[aria-label="Search"]').type('{enter}');
         cy.get('cx-product-list-item').first().get('.cx-product-name').click();
       });
+
       cy.get('cx-breadcrumb h1').contains(productName2);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
@@ -117,12 +116,7 @@ describe('Added to cart modal', () => {
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
       cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
-      cy.intercept({
-        method: 'GET',
-        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/anonymous/carts/*`,
-      }).as('getRefreshedCart');
+      interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
 
       // delete a product and check if the total is updated
       cy.get('cx-cart-item-list .cx-item-list-items')
@@ -152,6 +146,7 @@ describe('Added to cart modal', () => {
         });
 
       // check the item price total of the product
+      //TODO compare item price and total price with backend values
       cy.get('cx-cart-item-list .cx-item-list-items')
         .contains('.cx-info', productName2)
         .find('.cx-total .cx-value')
@@ -160,7 +155,7 @@ describe('Added to cart modal', () => {
           expect(totalPrice).equal('$927.89');
         });
 
-      cy.wait('@getRefreshedCart').its('response.statusCode').should('eq', 200);
+      cy.wait('@getRefreshedCart');
       // delete the last product in cart
       cy.get('cx-cart-item-list .cx-item-list-items')
         .contains('.cx-info', productName2)
@@ -187,4 +182,3 @@ describe('Added to cart modal', () => {
     });
   });
 });
-// }
