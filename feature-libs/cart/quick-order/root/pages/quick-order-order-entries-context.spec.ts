@@ -1,10 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { OrderEntry, ProductConnector } from '@spartacus/core';
 import { ProductData, ProductImportStatus } from '@spartacus/storefront';
 import { QuickOrderFacade } from '../facade/quick-order.facade';
 import { QuickOrderOrderEntriesContext } from './quick-order-order-entries-context';
 import createSpy = jasmine.createSpy;
+
+const unhandledItemErrorId = 'UnhandledItemErrorId';
 
 const mockProductData: ProductData[] = [
   { productCode: '693923', quantity: 1 },
@@ -47,48 +49,12 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-const unhandledItemErrorId = 'UnhandledItemErrorId';
-
 const canAdd$ = new BehaviorSubject<boolean>(true);
 
 class MockProductConnector implements Partial<ProductConnector> {
-  // get = createSpy().and.callFake((code) => {
-  //   if (code === unhandledItemErrorId) {
-  //     const response = {
-  //       error: {},
-  //     };
-  //     return throwError(response);
-  //   }
-  //   if (products[code]) {
-  //     return of(products[code]);
-  //   } else {
-  //     const response = {
-  //       error: {
-  //         errors: [{ type: 'UnknownIdentifierError' }],
-  //       },
-  //     };
-  //     return throwError(response);
-  //   }
-  // });
-  get = createSpy().and.callFake((code) => {
-    return new Observable((observer) => {
-      if (code === unhandledItemErrorId) {
-        observer.error({
-          error: {},
-        });
-      }
-      if (products[code]) {
-        observer.next(products[code]);
-      } else {
-        observer.error({
-          error: {
-            errors: [{ type: 'UnknownIdentifierError' }],
-          },
-        });
-      }
-      observer.complete();
-    });
-  });
+  get(_code) {
+    return of();
+  }
 }
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
@@ -134,8 +100,11 @@ describe('QuickOrderOrderEntriesContext', () => {
   });
 
   describe('addEntries', () => {
-    it('should add entries to quick order', () => {
+    it('should try add entries to quick order', () => {
       canAdd$.next(true);
+      productConnector.get = createSpy().and.callFake((code) =>
+        of(products[code])
+      );
       const results = [];
 
       service
@@ -186,6 +155,9 @@ describe('QuickOrderOrderEntriesContext', () => {
 
     it('should not add entries due to limit', () => {
       canAdd$.next(false);
+      productConnector.get = createSpy().and.callFake((code) =>
+        of(products[code])
+      );
       const results = [];
 
       service
@@ -216,17 +188,46 @@ describe('QuickOrderOrderEntriesContext', () => {
       ]);
     });
 
-    xit('should not add entries due other reason', () => {
+    it('should catch unknown identifier error', () => {
       canAdd$.next(true);
+      productConnector.get = createSpy().and.returnValue(
+        throwError({
+          error: {
+            errors: [{ type: 'UnknownIdentifierError' }],
+          },
+        })
+      );
+
       const unableToAddProductsData: ProductData[] = [
-        { productCode: unhandledItemErrorId, quantity: 1 },
-        { productCode: 'unknownId', quantity: 2 },
+        { productCode: '1232143', quantity: 2 },
       ];
       const results = [];
-      // spyOnProperty(AngularCore, 'isDevMode', 'get').and.returnValue(
-      //   () => true
-      // );
-      spyOn(console, 'warn');
+
+      service
+        .addEntries(unableToAddProductsData)
+        .subscribe((data) => {
+          results.push(data);
+        })
+        .unsubscribe();
+
+      expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
+      expect(results).toEqual([
+        {
+          productCode: unableToAddProductsData[0].productCode,
+          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
+        },
+      ]);
+    });
+
+    it('should catch unwnown errors', () => {
+      canAdd$.next(true);
+      productConnector.get = createSpy().and.returnValue(throwError({}));
+
+      const unableToAddProductsData: ProductData[] = [
+        { productCode: unhandledItemErrorId, quantity: 1 },
+      ];
+      const results = [];
+      spyOn(console, 'warn').and.stub();
 
       service
         .addEntries(unableToAddProductsData)
@@ -241,15 +242,11 @@ describe('QuickOrderOrderEntriesContext', () => {
           productCode: unableToAddProductsData[0].productCode,
           statusCode: ProductImportStatus.UNKNOWN_ERROR,
         },
-        {
-          productCode: unableToAddProductsData[1].productCode,
-          statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
-        },
       ]);
-      // expect(console.warn).toHaveBeenCalledWith(
-      //   'Unrecognized cart add entry action type while mapping messages',
-      //   { error: {} }
-      // );
+      expect(console.warn).toHaveBeenCalledWith(
+        'Unrecognized cart add entry action type while mapping messages',
+        {}
+      );
     });
   });
 });

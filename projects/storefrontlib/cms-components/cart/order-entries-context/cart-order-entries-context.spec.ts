@@ -146,25 +146,29 @@ describe('CartOrderEntriesContext', () => {
     });
 
     it('should return unknown error action', () => {
+      const payload = {
+        userId: mockUserId,
+        cartId: mockCartId,
+        productCode: '693923',
+        entry: { product: { name: 'mockProduct1' } },
+        quantity: 4,
+        quantityAdded: 1,
+        statusCode: 'CODE_WHICH_WE_DIDNT_REGISTER',
+      };
       let action;
       service.addEntries(mockProductsData).subscribe((data) => (action = data));
+      spyOn(console, 'warn').and.stub();
 
-      mockActionsSubject.next(
-        new CartActions.CartAddEntrySuccess({
-          userId: mockUserId,
-          cartId: mockCartId,
-          productCode: '693923',
-          entry: { product: { name: 'mockProduct1' } },
-          quantity: 4,
-          quantityAdded: 1,
-          statusCode: 'CODE_WHICH_WE_DIDNT_REGISTER',
-        })
-      );
+      mockActionsSubject.next(new CartActions.CartAddEntrySuccess(payload));
 
       expect(action).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });
+      expect(console.warn).toHaveBeenCalledWith(
+        'Unrecognized cart add entry action type while mapping messages',
+        new CartActions.CartAddEntrySuccess(payload)
+      );
     });
   });
 });
