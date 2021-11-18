@@ -3,7 +3,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
