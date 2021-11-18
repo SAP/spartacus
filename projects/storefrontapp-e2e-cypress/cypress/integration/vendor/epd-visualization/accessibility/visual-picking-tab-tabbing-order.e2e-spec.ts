@@ -1,7 +1,7 @@
 import {
   configureDefaultProduct,
   verifyTabbingOrder,
-} from '../../helpers/vendor/epd-visualization/visual-picking-tab';
+} from '../../../../helpers/vendor/epd-visualization/visual-picking-tab';
 
 context("Tabbing order - tests don't require user to be logged in", () => {
   describe('Spare Parts Tab', () => {

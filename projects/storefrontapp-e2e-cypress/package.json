@@ -17,7 +17,7 @@
     "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\"",
     "cy:run:ci:cdc": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,cdc\" --group CDC --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\"",
     "cy:run:ci:digital-payments": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,digital-payments\" --group DIGITAL-PAYMENTS --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/digital-payments/*.e2e-spec.ts\"",
-    "cy:run:ci:epd-visualization": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/epd-visualization/*.e2e-spec.ts\""
+    "cy:run:ci:epd-visualization": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/epd-visualization/**/*.e2e-spec.ts\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.1",
