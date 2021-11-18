@@ -17,7 +17,6 @@ context('Product search pricing flow', () => {
 
     describe('Product search', () => {
       it('should be able to search product and sort by price', () => {
-        // compact cameras category ID
         const categoryId = '576';
         const category = 'Digital Compacts';
         createProductQuery(
@@ -44,9 +43,7 @@ context('Product search pricing flow', () => {
             .click({ force: true });
         });
 
-        cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
-          .its('response.statusCode')
-          .should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
 
