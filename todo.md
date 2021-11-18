@@ -34,6 +34,7 @@
 10. check the cart validation feature - is it using something from the checkout?
     1.  maybe the checkout needs to switch to using it?
 11. query debounce?
+12. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
 
 Deprecation strategy:
