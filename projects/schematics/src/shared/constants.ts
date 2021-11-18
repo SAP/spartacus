@@ -1081,6 +1081,10 @@ export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 
 export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
 
+export const CLI_CART_MAIN_FEATURE = 'Cart';
+
+export const CLI_CART_WISHLIST_FEATURE = 'WishList';
+
 export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
