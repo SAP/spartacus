@@ -39,50 +39,41 @@ describe('Added to cart modal', () => {
       });
     });
 
-    it('adding same product twice to cart', () => {
-      // add a product to cart
+    it('Should add to cart twice', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
-      cy.get(
-        'cx-added-to-cart-dialog .cx-quantity cx-item-counter input'
-      ).should('have.value', '1');
-      cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-        'contain',
-        '1 item'
-      );
-      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
+      cy.get('cx-added-to-cart-dialog').within(() => {
+        cy.get('.cx-quantity cx-item-counter input').should('have.value', '1');
+        cy.get('.cx-dialog-total').should('contain', '1 item');
+        cy.get('[aria-label="Close Modal"]').click();
+      });
 
       // add same product to cart again
       cy.get('cx-add-to-cart button[type=submit]').click();
 
-      // quantity is correctly updated
-      cy.get(
-        'cx-added-to-cart-dialog .cx-quantity cx-item-counter input'
-      ).should('have.value', '2');
-      cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-        'contain',
-        '2 items'
-      );
+      cy.get('cx-added-to-cart-dialog').within(() => {
+        cy.get('.cx-quantity cx-item-counter input').should('have.value', '2');
+        cy.get('.cx-dialog-total').should('contain', '2 items');
 
-      // action buttons links correctly
-      cy.get('cx-added-to-cart-dialog .btn-primary')
-        .should('have.attr', 'href')
-        .then(($href) => {
-          expect($href).contain('/cart');
-        });
-      cy.get('cx-added-to-cart-dialog .btn-secondary')
-        .should('have.attr', 'href')
-        .then(($href) => {
-          expect($href).contain('/checkout');
-        });
+        // action buttons links correctly
+        cy.get('.btn-primary')
+          .should('have.attr', 'href')
+          .then(($href) => {
+            expect($href).contain('/cart');
+          });
+        cy.get('.btn-secondary')
+          .should('have.attr', 'href')
+          .then(($href) => {
+            expect($href).contain('/checkout');
+          });
 
-      // closing modal works
-      cy.get('cx-added-to-cart-dialog [aria-label="Close Modal"]').click();
+        cy.get('[aria-label="Close Modal"]').click();
+      });
       cy.get('cx-added-to-cart-dialog').should('not.exist');
     });
 
-    it('adding different products to cart', () => {
+    it('should add different products to cart', () => {
       cy.onMobile(() => {
         cy.get('cx-searchbox button.search').click();
       });
