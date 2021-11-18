@@ -35,8 +35,8 @@ const mockCardTypes: CardType[] = [
     name: 'Visa',
   },
   {
-    code: 'MASTER',
-    name: 'Master',
+    code: 'MASTERCARD',
+    name: 'MasterCart',
   },
 ];
 const mockPaymentInfo: PaymentDetails = {
