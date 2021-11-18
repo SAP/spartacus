@@ -34,7 +34,7 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
 }
 
-describe('CheckoutDeliveryAddressEventListener', () => {
+describe(`CheckoutDeliveryAddressEventListener`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let eventService: EventService;
 
@@ -60,8 +60,8 @@ describe('CheckoutDeliveryAddressEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe('onUserAddressChange', () => {
-    it('UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent', () => {
+  describe(`onUserAddressChange`, () => {
+    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
       spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
       spyOn(eventService, 'dispatch');
 
@@ -76,7 +76,7 @@ describe('CheckoutDeliveryAddressEventListener', () => {
       );
     });
 
-    it('DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent', () => {
+    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
       spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
       spyOn(eventService, 'dispatch');
 
@@ -92,8 +92,8 @@ describe('CheckoutDeliveryAddressEventListener', () => {
     });
   });
 
-  describe('onDeliveryAddressChange', () => {
-    it('DeliveryAddressSetEvent should dispatch ResetDeliveryModesEvent and ResetCheckoutQueryEvent', () => {
+  describe(`onDeliveryAddressChange`, () => {
+    it(`DeliveryAddressSetEvent should dispatch ResetDeliveryModesEvent and ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new DeliveryAddressSetEvent());
@@ -108,7 +108,7 @@ describe('CheckoutDeliveryAddressEventListener', () => {
       );
     });
 
-    it('DeliveryAddressClearedEvent should dispatch ResetCheckoutQueryEvent', () => {
+    it(`DeliveryAddressClearedEvent should dispatch ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new DeliveryAddressClearedEvent());
@@ -119,7 +119,7 @@ describe('CheckoutDeliveryAddressEventListener', () => {
       );
     });
 
-    it('ClearCheckoutDeliveryAddressEvent should call clearCheckoutDeliveryAddress()', () => {
+    it(`ClearCheckoutDeliveryAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
       spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
       spyOn(eventService, 'dispatch');
 

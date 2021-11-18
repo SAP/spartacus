@@ -22,7 +22,7 @@ const mockCartId = 'mockCartId';
 const mockUserId = 'mockUserId';
 const mockCode = 'mockCode';
 
-describe('CheckoutCostCenterEventListener', () => {
+describe(`CheckoutCostCenterEventListener`, () => {
   let eventService: EventService;
 
   beforeEach(() => {
@@ -40,8 +40,8 @@ describe('CheckoutCostCenterEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe('onCostCenterChange', () => {
-    it('should dispatch ResetDeliveryModesEvent', () => {
+  describe(`onCostCenterChange`, () => {
+    it(`should dispatch ResetDeliveryModesEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new CostCenterSetEvent());
@@ -52,7 +52,7 @@ describe('CheckoutCostCenterEventListener', () => {
       );
     });
 
-    it('should dispatch ClearCheckoutDeliveryAddressEvent', () => {
+    it(`should dispatch ClearCheckoutDeliveryAddressEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       const event = createFrom(CostCenterSetEvent, {
@@ -68,7 +68,7 @@ describe('CheckoutCostCenterEventListener', () => {
       );
     });
 
-    it('should dispatch ResetCheckoutQueryEvent', () => {
+    it(`should dispatch ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new CostCenterSetEvent());
