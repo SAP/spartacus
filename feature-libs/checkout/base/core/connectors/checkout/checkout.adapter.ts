@@ -5,10 +5,6 @@ import { Observable } from 'rxjs';
 export abstract class CheckoutAdapter {
   /**
    * Abstract method used to place an order.
-   *
-   * @param userId The `userId` for given user
-   * @param cartId The `cartId` for cart used for placing order
-   * @param termsChecked The `boolean value` whether the terms were accepted or not
    */
   abstract placeOrder(
     userId: string,
@@ -18,9 +14,6 @@ export abstract class CheckoutAdapter {
 
   /**
    * Abstract method used to get checkout details
-   *
-   * @param userId
-   * @param cartId
    */
   abstract getCheckoutDetails(
     userId: string,

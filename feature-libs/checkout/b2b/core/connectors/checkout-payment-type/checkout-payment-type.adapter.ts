@@ -9,11 +9,6 @@ export abstract class CheckoutPaymentTypeAdapter {
 
   /**
    * Abstract method used to set payment type to cart
-   *
-   * @param userId
-   * @param cartId
-   * @param typeCode
-   * @param purchaseOrderNumber: purchase order number
    */
   abstract setPaymentType(
     userId: string,
