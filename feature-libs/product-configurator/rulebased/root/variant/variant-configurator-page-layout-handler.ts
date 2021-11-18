@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   CommonConfiguratorUtilsService,
-  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import {
@@ -15,8 +14,8 @@ import { map, switchMap, take } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root',
 })
-export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
-  protected static templateName = 'CpqConfigurationTemplate';
+export class VariantConfiguratorPageLayoutHandler implements PageLayoutHandler {
+  protected static templateName = 'VariantConfigurationOverviewTemplate';
   protected static sectionDisplayOnlyName = 'headerDisplayOnly';
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
@@ -30,51 +29,35 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
     section?: string
   ) {
     if (
-      pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
+      pageTemplate === VariantConfiguratorPageLayoutHandler.templateName &&
       section === 'header'
     ) {
       this.configuratorRouterExtractorService
         .extractRouterData()
-        .pipe(
-          switchMap((routerData) =>
-            this.breakpointService.isUp(BREAKPOINT.lg).pipe(
-              map((isLargeResolution) => ({
-                isLargeResolution: isLargeResolution,
-                routerData,
-              }))
-            )
-          ),
-          take(1)
-        )
-        .subscribe((cont) => {
-          slots$ = slots$.pipe(
-            map((slots) => {
-              if (
-                cont.routerData.pageType ===
-                ConfiguratorRouter.PageType.CONFIGURATION
-              ) {
-                const extendedSlots = ['PreHeader'];
-                extendedSlots.push(...slots);
-                return extendedSlots;
-              } else if (cont.routerData.displayOnly) {
-                if (cont.isLargeResolution) {
+        .pipe(take(1))
+        .subscribe((routerData) => {
+          if (routerData.displayOnly) {
+            slots$ = slots$.pipe(
+              switchMap(() => this.breakpointService.isUp(BREAKPOINT.lg)),
+              map((isLargeResolution) => {
+                if (isLargeResolution) {
                   return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
                     this.layoutConfig,
-                    CpqConfiguratorPageLayoutHandler.templateName,
-                    CpqConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
+                    VariantConfiguratorPageLayoutHandler.templateName,
+                    VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
                     BREAKPOINT.lg
                   );
                 } else {
                   return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
                     this.layoutConfig,
-                    CpqConfiguratorPageLayoutHandler.templateName,
-                    CpqConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
+                    VariantConfiguratorPageLayoutHandler.templateName,
+                    VariantConfiguratorPageLayoutHandler.sectionDisplayOnlyName,
                     BREAKPOINT.xs
                   );
                 }
-              } else return slots;
-            })
-          );
+              })
+            );
+          }
         });
     }
 
