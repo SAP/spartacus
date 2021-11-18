@@ -209,11 +209,13 @@ export function verifyImportedData(config: ImportConfig, cart) {
  * @param productCode identifies the unique product to add.
  */
 export function addProductToCart(productCode: string = cart.products[1].code) {
-  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
+  cy.intercept('GET', `**/products/${productCode}**`).as('productPage')
+  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refreshCart');
   cy.intercept('POST', `**/users/*/carts/*/entries?**`).as('addToCart');
   cy.visit(`/product/${productCode}`);
+  cy.wait('@productPage');
   cart.clickAddToCart();
-  cy.wait(['@refresh_cart', '@addToCart']);
+  cy.wait(['@refreshCart', '@addToCart']);
 }
 
 /**
@@ -221,7 +223,9 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
  * @param expectedData will compare the data of the downloaded .csv to the parsed string.
  */
 export function exportCart(expectedData?: string) {
+  cy.intercept('GET', `**ContentPage&pageLabelOrId=%2Fcart**`).as('cart');
   cy.visit('cart');
+  cy.wait('@cart')
   cy.get('cx-export-order-entries button').contains('Export to CSV').click();
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
