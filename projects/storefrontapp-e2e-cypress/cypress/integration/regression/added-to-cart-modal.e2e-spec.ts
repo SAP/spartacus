@@ -196,31 +196,6 @@ describe('Added to cart modal', () => {
         .click();
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
     });
-
-    it('total price is correctly estimated', () => {
-      // helper function to prettify the text
-      function extractPriceFromText(text) {
-        return parseFloat(text.trim().substring(1).replace(',', ''));
-      }
-
-      cy.visit(`/product/${productId}`);
-
-      // increase the quantity to 2 and add it to cart
-      cy.get('cx-add-to-cart cx-item-counter button').contains('+').click();
-      cy.get('cx-add-to-cart button[type=submit]').click();
-      // check if the item price * quantity matches the total
-      cy.get('cx-added-to-cart-dialog').within(() => {
-        cy.get('.cx-price .cx-value').then(($itemPrice) => {
-          cy.get('.cx-quantity cx-item-counter input').then(($itemQuantity) => {
-            cy.get('.cx-total .cx-value').then(($itemTotalPrice) => {
-              expect(extractPriceFromText($itemTotalPrice.text())).equal(
-                extractPriceFromText($itemPrice.text()) *
-                  parseInt($itemQuantity.val().toString(), 10)
-              );
-            });
-          });
-        });
-      });
-    });
   });
 });
+// }
