@@ -53,7 +53,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-ng lint
+DEBUG=typescript-eslint:* ng lint
 
 echo "-----"
 
