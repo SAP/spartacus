@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
