@@ -8,6 +8,7 @@ import {
   mergeAll,
   switchMap,
   take,
+  tap,
 } from 'rxjs/operators';
 import { OrderEntry, Product, ProductConnector } from '@spartacus/core';
 import {
@@ -40,31 +41,30 @@ export class QuickOrderOrderEntriesContext
   addEntries(productsData: ProductData[]): Observable<ProductImportInfo> {
     return merge(
       productsData.map((productData) =>
-        this.productConnector.get(productData.productCode).pipe(
-          filter((product) => !!product),
-          switchMap((product: Product) =>
-            this.quickOrderService.canAdd(product.code).pipe(
-              map((canAdd: boolean) => {
-                const productData = productsData.find(
-                  (p) => p.productCode === product.code
-                ) as ProductData;
-                if (canAdd) {
+        this.quickOrderService.canAdd(productData.productCode).pipe(
+          switchMap((canAdd) => {
+            if (canAdd) {
+              return this.productConnector.get(productData.productCode).pipe(
+                filter((product) => !!product),
+                tap((product) => {
                   this.quickOrderService.addProduct(
                     product,
                     productData.quantity
                   );
-                  return this.handleResults(product, productData);
-                } else {
-                  return {
-                    productCode: productData.productCode,
-                    statusCode: ProductImportStatus.LIMIT_EXCEEDED,
-                  };
-                }
-              })
-            )
-          ),
-          catchError((response: HttpErrorResponse) => {
-            return of(this.handleErrors(response, productData.productCode));
+                }),
+                map((product) => this.handleResults(product, productData)),
+                catchError((response: HttpErrorResponse) => {
+                  return of(
+                    this.handleErrors(response, productData.productCode)
+                  );
+                })
+              );
+            } else {
+              return of({
+                productCode: productData.productCode,
+                statusCode: ProductImportStatus.LIMIT_EXCEEDED,
+              });
+            }
           })
         )
       )

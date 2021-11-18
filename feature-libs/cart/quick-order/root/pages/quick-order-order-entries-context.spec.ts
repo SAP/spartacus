@@ -114,6 +114,9 @@ describe('QuickOrderOrderEntriesContext', () => {
         })
         .unsubscribe();
 
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        mockProductData.length
+      );
       expect(productConnector.get).toHaveBeenCalledTimes(
         mockProductData.length
       );
@@ -167,6 +170,10 @@ describe('QuickOrderOrderEntriesContext', () => {
         })
         .unsubscribe();
 
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        mockProductData.length
+      );
+      expect(productConnector.get).not.toHaveBeenCalled();
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
       expect(results).toEqual([
         {
@@ -210,6 +217,12 @@ describe('QuickOrderOrderEntriesContext', () => {
         })
         .unsubscribe();
 
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
       expect(results).toEqual([
         {
@@ -236,6 +249,12 @@ describe('QuickOrderOrderEntriesContext', () => {
         })
         .unsubscribe();
 
+      expect(quickOrderFacade.canAdd).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
+      expect(productConnector.get).toHaveBeenCalledTimes(
+        unableToAddProductsData.length
+      );
       expect(quickOrderFacade.addProduct).not.toHaveBeenCalled();
       expect(results).toEqual([
         {
