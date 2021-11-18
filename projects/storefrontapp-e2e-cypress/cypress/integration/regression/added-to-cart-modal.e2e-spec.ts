@@ -98,49 +98,49 @@ describe('Added to cart modal - Anonymous user', () => {
 
         cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
-      interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
+        interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
 
-      // delete a product and check if the total is updated
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', 'Battery Video Light')
-        .find('.cx-actions .cx-remove-btn > .link')
-        .click();
-      cy.get('cx-cart-details').should('contain', 'Cart #');
+        // delete a product and check if the total is updated
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', 'Battery Video Light')
+          .find('.cx-actions .cx-remove-btn > .link')
+          .click();
+        cy.get('cx-cart-details').should('contain', 'Cart #');
 
-      // check for the other product still exist
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', productName2)
-        .should('be.visible');
+        // check for the other product still exist
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', productName2)
+          .should('be.visible');
 
-      // check the item quantity of the product
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', productName2)
-        .find('cx-item-counter input')
-        .should('have.value', '1');
+        // check the item quantity of the product
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', productName2)
+          .find('cx-item-counter input')
+          .should('have.value', '1');
 
-      // check the item price of the product
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', productName2)
-        .find('.cx-price .cx-value')
-        .first()
-        .should('contain', cartEntryPrice);
+        // check the item price of the product
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', productName2)
+          .find('.cx-price .cx-value')
+          .first()
+          .should('contain', cartEntryPrice);
 
-      // check the item price total of the product
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', productName2)
-        .find('.cx-total .cx-value')
-        .first()
-        .should('contain', cartEntryPrice);
+        // check the item price total of the product
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', productName2)
+          .find('.cx-total .cx-value')
+          .first()
+          .should('contain', cartEntryPrice);
 
-      cy.wait('@getRefreshedCart');
-      // delete the last product in cart
-      cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', productName2)
-        .find('.cx-actions .cx-remove-btn > .link')
-        .click();
+        cy.wait('@getRefreshedCart');
 
-      // check if the cart is empty
-      cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
+        // delete the last product in cart
+        cy.get('cx-cart-item-list .cx-item-list-items')
+          .contains('.cx-info', productName2)
+          .find('.cx-actions .cx-remove-btn > .link')
+          .click();
+
+        cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
       });
     });
 
