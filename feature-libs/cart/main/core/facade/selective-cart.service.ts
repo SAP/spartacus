@@ -46,6 +46,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
           userId !== OCC_USER_ID_ANONYMOUS &&
           user?.customerId
         ) {
+          console.log('userId: ', userId);
           this.multiCartService.loadCart({
             userId: userId,
             cartId: `selectivecart${activeBaseSite}${user.customerId}`,
@@ -71,7 +72,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   addEntry(productCode: string, quantity: number): void {
-    this.prepareEntryAction().subscribe(([selectiveId, userId]) => {
+    this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
       this.multiCartService.addEntry(
         userId,
         selectiveId,
@@ -82,7 +83,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.prepareEntryAction().subscribe(([selectiveId, userId]) => {
+    this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
       this.multiCartService.removeEntry(
         userId,
         selectiveId,
@@ -92,7 +93,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
   }
 
   updateEntry(entryNumber: number, quantity: number): void {
-    this.prepareEntryAction().subscribe(([selectiveId, userId]) => {
+    this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
       this.multiCartService.updateEntry(
         userId,
         selectiveId,
@@ -114,7 +115,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
     return this.multiCartService.getCartIdByType(CartType.SELECTIVE);
   }
 
-  private prepareEntryAction(): Observable<string[]> {
+  private getSelectiveIdWithUserId(): Observable<string[]> {
     return this.getSelectiveCartId().pipe(
       distinctUntilChanged(),
       withLatestFrom(this.userIdService.getUserId()),

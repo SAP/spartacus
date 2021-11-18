@@ -163,7 +163,7 @@ describe('WishListService', () => {
   });
 
   describe('addEntry', () => {
-    it('should dispatch CartAddEntry if wish list exists', () => {
+    it('should dispatch CartAddEntry if wishlist exists', () => {
       store.dispatch(
         new WishListActions.LoadWishListSuccess({
           cart: testCart,

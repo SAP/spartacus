@@ -230,5 +230,5 @@ export abstract class MultiCartFacade {
    *
    * @param cartType
    */
-  abstract getCartIdByType(cartType: CartType): Observable<string | undefined>;
+  abstract getCartIdByType(cartType: CartType): Observable<string>;
 }
