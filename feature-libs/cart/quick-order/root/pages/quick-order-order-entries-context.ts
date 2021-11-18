@@ -3,11 +3,9 @@ import { Injectable, isDevMode } from '@angular/core';
 import { merge, Observable, of } from 'rxjs';
 import {
   catchError,
-  // concatAll,
   filter,
   map,
   mergeAll,
-  // switchAll,
   switchMap,
   take,
 } from 'rxjs/operators';
