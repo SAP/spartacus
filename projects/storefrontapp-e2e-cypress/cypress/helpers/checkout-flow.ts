@@ -16,9 +16,18 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { randomNumber } from '../helpers/user';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
+
+const randomQuantity = randomNumber(9);
+const randomQuantityInDialog = randomNumber(9);
+function getCartTotalWithRandomNumber(cartTotal: string, randomNumber: number) {
+  return (
+    Math.round(Number(cartTotal.replace('$', '')) * randomNumber * 100) / 100
+  );
+}
 
 /**
  * Clicks the main menu (on mobile only)
@@ -156,11 +165,15 @@ export function goToProductDetailsPage() {
 }
 
 export function addProductToCart() {
-  cy.get('cx-item-counter').findByText('+').click();
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .type(`{selectall}${randomQuantity}`)
+    .blur();
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
   cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('cx-item-counter input').eq(1).should('contain', randomQuantity);
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/proceed to checkout/i).click();
   });
@@ -175,6 +188,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
+
     .should('contain', cart.total);
   fillShippingAddress(shippingAddressData);
 }
@@ -288,6 +302,11 @@ export function addCheapProductToCartAndLogin(
 ) {
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .type(`{selectall}${randomQuantityInDialog}`)
+    .blur();
+
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
@@ -307,6 +326,7 @@ export function addCheapProductToCartAndProceedToCheckout(
 ) {
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.get('cx-item-counter input').eq(1).should('contain', randomQuantity);
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 }
@@ -319,6 +339,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
     '/checkout/shipping-address',
     'getShippingPage'
   );
+  cy.get('cx-item-counter input').eq(1).should('contain', randomQuantity);
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
@@ -326,6 +347,10 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
 export function addCheapProductToCart(
   sampleProduct: SampleProduct = cheapProduct
 ) {
+  cy.get('cx-item-counter input')
+    // .eq(1)
+    .type(`{selectall}${randomQuantity}`)
+    .blur();
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
@@ -339,12 +364,14 @@ export function fillAddressFormWithCheapProduct(
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
   cy.log('🛒 Filling shipping address form');
-
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
-    .should('contain', cartData.total);
+    .should(
+      'contain',
+      getCartTotalWithRandomNumber(cartData.total, randomQuantityInDialog)
+    );
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -392,7 +419,10 @@ export function placeOrderWithCheapProduct(
     });
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(0)
-    .should('contain', cartData.total);
+    .should(
+      'contain',
+      getCartTotalWithRandomNumber(cartData.total, randomQuantityInDialog)
+    );
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
     .should('contain', cartData.estimatedShipping);
@@ -452,6 +482,10 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   });
   if (!isApparel) {
     cy.get('cx-cart-item .cx-code').should('contain', sampleProduct.code);
+    cy.get('cx-cart-item .cx-quantity .cx-value cx-item-counter input').should(
+      'have.value',
+      randomQuantityInDialog
+    );
   } else {
     cy.get('cx-cart-item .cx-code')
       .should('have.length', products.length)
