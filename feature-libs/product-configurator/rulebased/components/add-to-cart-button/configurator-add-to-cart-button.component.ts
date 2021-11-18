@@ -237,10 +237,7 @@ export class ConfiguratorAddToCartButtonComponent {
         CommonConfigurator.OwnerType.ORDER_ENTRY
       ) {
         this.goToOrderDetails(container.routerData.owner);
-      } else if (
-        container.routerData.owner.type ===
-        CommonConfigurator.OwnerType.CART_ENTRY
-      ) {
+      } else {
         this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
       }
     });
