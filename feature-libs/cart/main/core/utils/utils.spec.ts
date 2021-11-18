@@ -3,6 +3,9 @@ import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/core';
 import {
   getCartIdByUserId,
   isCartNotFoundError,
+  isEmail,
+  isEmpty,
+  isJustLoggedIn,
   isSelectiveCart,
   isTempCartId,
 } from './utils';
@@ -88,6 +91,59 @@ describe('Cart utils', () => {
           subjectType: 'cart',
         })
       ).toEqual(false);
+    });
+  });
+
+  describe('isEmail', () => {
+    it('should return false for empty email', () => {
+      const result = isEmail('');
+      expect(result).toBe(false);
+    });
+
+    it('should return false for incorrect email', () => {
+      const result = isEmail('test@email');
+      expect(result).toBe(false);
+    });
+
+    it('should return true for correct email', () => {
+      const result = isEmail('test@email.com');
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('isEmpty', () => {
+    it('should return true for undefined', () => {
+      const result = isEmpty(undefined);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for null', () => {
+      const result = isEmpty(null);
+      expect(result).toBe(true);
+    });
+
+    it('should return true for empty object', () => {
+      const result = isEmpty({});
+      expect(result).toBe(true);
+    });
+
+    it('should return false for correct cart', () => {
+      const result = isEmpty({ code: 'testCode' });
+      expect(result).toBe(false);
+    });
+  });
+
+  describe('isJustLoggedIn', () => {
+    it('should only return true after user change', () => {
+      // set to anonymous value as other tests altered that value
+      const result = isJustLoggedIn(OCC_USER_ID_CURRENT, OCC_USER_ID_ANONYMOUS);
+      expect(result).toBe(true);
+    });
+
+    it('should return false when previous user is identical', () => {
+      // simulate that we got current user after initialization
+      const result = isJustLoggedIn(OCC_USER_ID_CURRENT, OCC_USER_ID_CURRENT);
+      expect(result).toBe(false);
     });
   });
 });

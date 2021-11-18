@@ -17,8 +17,6 @@ const cart: Cart = {
   },
 };
 
-const tempCartId = 'tempCartId';
-
 describe('MultiCart Actions', () => {
   describe('CartProcessesIncrement', () => {
     it('should create the action', () => {

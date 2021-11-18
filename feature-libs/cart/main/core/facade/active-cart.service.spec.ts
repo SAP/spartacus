@@ -544,23 +544,6 @@ describe('ActiveCartService', () => {
     });
   });
 
-  describe('isEmail', () => {
-    it('should return false for empty email', () => {
-      const result = service['isEmail']('');
-      expect(result).toBe(false);
-    });
-
-    it('should return false for incorrect email', () => {
-      const result = service['isEmail']('test@email');
-      expect(result).toBe(false);
-    });
-
-    it('should return true for correct email', () => {
-      const result = service['isEmail']('test@email.com');
-      expect(result).toBe(true);
-    });
-  });
-
   describe('guestCartMerge', () => {
     it('should delete cart and add entries from previous cart', () => {
       spyOn(multiCartService, 'deleteCart').and.callThrough();
@@ -576,48 +559,6 @@ describe('ActiveCartService', () => {
         'cartId',
         OCC_USER_ID_ANONYMOUS
       );
-    });
-  });
-
-  describe('isEmpty', () => {
-    it('should return true for undefined', () => {
-      const result = service['isEmpty'](undefined);
-      expect(result).toBe(true);
-    });
-
-    it('should return true for null', () => {
-      const result = service['isEmpty'](null);
-      expect(result).toBe(true);
-    });
-
-    it('should return true for empty object', () => {
-      const result = service['isEmpty']({});
-      expect(result).toBe(true);
-    });
-
-    it('should return false for correct cart', () => {
-      const result = service['isEmpty']({ code: 'testCode' });
-      expect(result).toBe(false);
-    });
-  });
-
-  describe('isJustLoggedIn', () => {
-    it('should only return true after user change', () => {
-      // set to anonymous value as other tests altered that value
-      const result = service['isJustLoggedIn'](
-        OCC_USER_ID_CURRENT,
-        OCC_USER_ID_ANONYMOUS
-      );
-      expect(result).toBe(true);
-    });
-
-    it('should return false when previous user is identical', () => {
-      // simulate that we got current user after initialization
-      const result = service['isJustLoggedIn'](
-        OCC_USER_ID_CURRENT,
-        OCC_USER_ID_CURRENT
-      );
-      expect(result).toBe(false);
     });
   });
 

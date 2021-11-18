@@ -39,14 +39,14 @@ export class CreateWishListFail extends StateUtils.EntityFailAction {
 interface LoadWishListPayload {
   userId: string;
   /**
-   * which is computed from wishlist name
+   * This is tempCartId which is exact the wishlist name computed from customerId
    */
   cartId: string;
 }
 
 /**
  * When we try load wishlist for the first time we don't know cart id.
- * Instead we create temporary cart with id equal to wishlist name to keep track of loading/error state.
+ * Instead we create temporary cartId from wishlist name to keep track of loading/error state.
  */
 export class LoadWishList extends StateUtils.EntityLoadAction {
   readonly type = LOAD_WISH_LIST;

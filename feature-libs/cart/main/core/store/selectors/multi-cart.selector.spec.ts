@@ -62,6 +62,12 @@ describe('Multi Cart selectors', () => {
         cartId: testCart.code,
       })
     );
+    store.dispatch(
+      new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: testCart.code,
+      })
+    );
   }
 
   function loadCarts() {
@@ -91,8 +97,7 @@ describe('Multi Cart selectors', () => {
         .subscribe((value) => (result = value));
 
       expect(result).toEqual({
-        active: '',
-        index: {},
+        index: { Active: '' },
         carts: {
           entities: {},
         },
@@ -101,8 +106,7 @@ describe('Multi Cart selectors', () => {
       loadCart();
 
       expect(result).toEqual({
-        active: testCart.code,
-        index: {},
+        index: { Active: testCart.code },
         carts: {
           entities: {
             [testCart.code]: {
@@ -292,7 +296,7 @@ describe('Multi Cart selectors', () => {
         .pipe(select(MultiCartSelectors.getCartTypeIndex))
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual({});
+      expect(result).toEqual({ Active: '' });
 
       store.dispatch(
         new CartActions.SetCartTypeIndex({
@@ -316,7 +320,7 @@ describe('Multi Cart selectors', () => {
         )
         .subscribe((value) => (result = value));
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual('');
 
       store.dispatch(
         new CartActions.SetCartTypeIndex({

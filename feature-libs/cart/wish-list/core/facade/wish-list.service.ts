@@ -54,7 +54,7 @@ export class WishListService implements WishListFacade {
           userId !== OCC_USER_ID_ANONYMOUS &&
           user?.customerId
         ) {
-          this.loadWishList(userId, getWishlistName(user.customerId));
+          this.loadWishList(userId, user.customerId);
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),
@@ -62,23 +62,23 @@ export class WishListService implements WishListFacade {
     );
   }
 
-  loadWishList(userId: string, cartId: string): void {
+  loadWishList(userId: string, customerId: string): void {
     this.store.dispatch(
       new WishListActions.LoadWishList({
         userId,
-        cartId,
+        cartId: getWishlistName(customerId),
       })
     );
   }
 
   addEntry(productCode: string): void {
-    this.prepareEntryAction().subscribe(([wishListId, userId]) =>
+    this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
       this.multiCartFacade.addEntry(userId, wishListId, productCode, 1)
     );
   }
 
   removeEntry(entry: OrderEntry): void {
-    this.prepareEntryAction().subscribe(([wishListId, userId]) =>
+    this.getWishListIdWithUserId().subscribe(([wishListId, userId]) =>
       this.multiCartFacade.removeEntry(
         userId,
         wishListId,
@@ -99,13 +99,13 @@ export class WishListService implements WishListFacade {
     return this.multiCartFacade.getCartIdByType(CartType.WISH_LIST);
   }
 
-  private prepareEntryAction(): Observable<string[]> {
+  private getWishListIdWithUserId(): Observable<string[]> {
     return this.getWishListId().pipe(
       distinctUntilChanged(),
       withLatestFrom(this.userIdService.getUserId(), this.userService.get()),
       tap(([wishListId, userId, user]) => {
         if (!Boolean(wishListId) && user && user.customerId) {
-          this.loadWishList(userId, getWishlistName(user.customerId));
+          this.loadWishList(userId, user.customerId);
         }
       }),
       filter(([wishListId]) => Boolean(wishListId)),

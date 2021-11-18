@@ -99,7 +99,7 @@ export class WishListEffects {
                   name: wishListName,
                 })
           );
-          // remove temp wishlist, which id is name
+          // remove temp wishlist, which id is whishlist name
           actions.push(new CartActions.RemoveCart({ cartId: wishListName }));
           return actions;
         }),

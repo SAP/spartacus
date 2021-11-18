@@ -110,7 +110,7 @@ describe('Wish List Effect', () => {
       const createWishListCompletion =
         new WishListActions.CreateWishListSuccess({
           cart: saveCartResult.savedCartData,
-          userId,
+          cartId: 'xxx',
         });
 
       actions$ = hot('-a', { a: action });
@@ -122,14 +122,12 @@ describe('Wish List Effect', () => {
 
   describe('loadWishList$', () => {
     it('should create wish list if it does NOT exist', () => {
-      const payload = {
-        userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
-      };
-
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart]));
 
+      const payload = {
+        userId,
+        cartId: getWishlistName(customerId),
+      };
       const action = new WishListActions.LoadWishList(payload);
 
       const createWishListAction = new WishListActions.CreateWishList({
@@ -137,29 +135,32 @@ describe('Wish List Effect', () => {
         name: getWishlistName(customerId),
       });
 
+      const removeCartAction = new CartActions.RemoveCart({
+        cartId: getWishlistName(customerId),
+      });
+
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: createWishListAction });
+      const expected = cold('-(bc)', {
+        b: createWishListAction,
+        c: removeCartAction,
+      });
 
       expect(wishListEffect.loadWishList$).toBeObservable(expected);
     });
-    it('should dispatch load wish list success if it exists', () => {
-      const payload = {
-        userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
-      };
 
+    it('should dispatch load wish list success if it exists', () => {
       spyOn(cartConnector, 'loadAll').and.returnValue(of([testCart, wishList]));
 
+      const payload = {
+        userId,
+        cartId: getWishlistName(customerId),
+      };
       const action = new WishListActions.LoadWishList(payload);
 
       const loadWishListSuccessAction = new WishListActions.LoadWishListSuccess(
         {
           cart: wishList,
-          userId,
           cartId: getCartIdByUserId(wishList, userId),
-          tempCartId: getWishlistName(customerId),
-          customerId,
         }
       );
 
@@ -193,7 +194,6 @@ describe('Wish List Effect', () => {
 
       const resetWishListAction = new WishListActions.LoadWishListSuccess({
         cart: wishList,
-        userId,
         cartId: getCartIdByUserId(wishList, userId),
       });
 
@@ -208,7 +208,7 @@ describe('Wish List Effect', () => {
     it('should set wishlist id to state', () => {
       const action = new WishListActions.CreateWishListSuccess({
         cart: wishList,
-        userId,
+        cartId: wishList.code as string,
       });
 
       const setWishListIdAction = new CartActions.SetCartTypeIndex({
@@ -227,7 +227,7 @@ describe('Wish List Effect', () => {
 
       const setWishListIdAction = new CartActions.SetCartTypeIndex({
         cartType: CartType.WISH_LIST,
-        cartId: '',
+        cartId: undefined,
       });
 
       actions$ = hot('-a', { a: action });
@@ -241,12 +241,12 @@ describe('Wish List Effect', () => {
     it('should set wishlist data to state', () => {
       const action = new WishListActions.CreateWishListSuccess({
         cart: wishList,
-        userId,
+        cartId: 'testCartId',
       });
 
       const setWishListDataAction = new CartActions.SetCartData({
         cart: wishList,
-        userId,
+        cartId: 'testCartId',
       });
 
       actions$ = hot('-a', { a: action });

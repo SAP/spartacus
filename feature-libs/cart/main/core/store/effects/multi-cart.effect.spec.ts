@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';
@@ -9,7 +8,7 @@ import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './multi-cart.effect';
 
-const testCart: Cart = {
+/*const testCart: Cart = {
   code: 'xxx',
   guid: 'testGuid',
   totalItems: 0,
@@ -21,7 +20,7 @@ const testCart: Cart = {
     currencyIso: 'USD',
     value: 0,
   },
-};
+};*/
 
 describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;

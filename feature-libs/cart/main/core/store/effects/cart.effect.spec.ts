@@ -251,9 +251,8 @@ describe('Cart effect', () => {
         cartId: testCart.code,
         oldCartId: 'testOldCartId',
       });
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId,
+      const removeCompletion = new CartActions.RemoveCart({
+        cartId: tempCartId,
       });
       const mergeCartCompletion = new CartActions.MergeCartSuccess({
         userId,
@@ -266,7 +265,7 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
         b: createCartCompletion,
-        c: setTempCartCompletion,
+        c: removeCompletion,
         d: mergeCartCompletion,
       });
 

@@ -120,8 +120,7 @@ describe('WishListService', () => {
       spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
+        cartId: getWishlistName(customerId),
       };
       service.getWishList().subscribe();
 
@@ -129,6 +128,7 @@ describe('WishListService', () => {
         new WishListActions.LoadWishList(payload)
       );
     });
+
     it('should return wish list if loaded', (done) => {
       spyOn(service, 'loadWishList');
       let result;
@@ -136,7 +136,6 @@ describe('WishListService', () => {
       store.dispatch(
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
-          userId,
           cartId: getCartIdByUserId(testCart, userId),
         })
       );
@@ -153,8 +152,7 @@ describe('WishListService', () => {
     it('should dispatch load wish list action', () => {
       const payload = {
         userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
+        cartId: getWishlistName(customerId),
       };
 
       service.loadWishList(userId, customerId);
@@ -169,7 +167,6 @@ describe('WishListService', () => {
       store.dispatch(
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
-          userId,
           cartId: getCartIdByUserId(testCart, userId),
         })
       );
@@ -183,12 +180,11 @@ describe('WishListService', () => {
       );
     });
 
-    it('should call load wish list if not loaded', () => {
+    it('should call load wishlist if not loaded', () => {
       spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
+        cartId: getWishlistName(customerId),
       };
       service.addEntry(productCode);
 
@@ -203,7 +199,6 @@ describe('WishListService', () => {
       store.dispatch(
         new WishListActions.LoadWishListSuccess({
           cart: testCart,
-          userId,
           cartId: getCartIdByUserId(testCart, userId),
         })
       );
@@ -219,8 +214,7 @@ describe('WishListService', () => {
       spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
-        customerId,
-        tempCartId: getWishlistName(customerId),
+        cartId: getWishlistName(customerId),
       };
       service.removeEntry(mockCartEntry);
 
