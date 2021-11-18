@@ -81,6 +81,7 @@
                       }
               "
               aria-selected="true"
+              role="option"
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
@@ -102,6 +103,7 @@
                         }
                 "
                 aria-selected="false"
+                role="option"
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -135,6 +137,7 @@
                       : { attribute: productCardOptions?.attributeLabel })
               "
               aria-selected="false"
+              role="option"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -163,10 +166,11 @@
                           }
                   "
                   aria-selected="true"
+                  role="option"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>
-                <span class="cx-visually-hidden" tabindex="0">
+                <span class="cx-visually-hidden" tabindex="0" role="option">
                   {{
                     'configurator.a11y.itemOfAttributeSelected'
                       | cxTranslate
@@ -187,6 +191,7 @@
         class="cx-product-card-rows deselection-error-message"
         aria-live="assertive"
         aria-atomic="true"
+        role="option"
       >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}

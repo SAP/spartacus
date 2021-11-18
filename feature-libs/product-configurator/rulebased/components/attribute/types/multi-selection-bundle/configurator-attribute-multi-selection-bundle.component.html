@@ -1,6 +1,7 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
+  role="listbox"
 >
   <div
     *ngIf="withQuantityOnAttributeLevel"
