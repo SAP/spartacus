@@ -13,6 +13,7 @@ import {
   Cart,
   EventService,
   HttpErrorModel,
+  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   PaymentDetails,
   QueryState,
@@ -99,6 +100,7 @@ describe(`CheckoutPaymentService`, () => {
   let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -121,6 +123,7 @@ describe(`CheckoutPaymentService`, () => {
     store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
+    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutPaymentService`, inject(
@@ -303,6 +306,18 @@ describe(`CheckoutPaymentService`, () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new UserActions.LoadUserPaymentMethods(mockUserId)
       );
+    });
+
+    // TODO: Replace with event testing once we remove ngrx store.
+    it(`should NOT dispatch UserActions.LoadUserPaymentMethods when the use is anonymous`, () => {
+      spyOn(userIdService, 'takeUserId').and.returnValue(
+        of(OCC_USER_ID_ANONYMOUS)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      service.createPaymentDetails(mockPaymentInfo);
+
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 
