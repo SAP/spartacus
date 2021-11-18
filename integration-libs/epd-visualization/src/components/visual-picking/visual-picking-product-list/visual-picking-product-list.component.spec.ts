@@ -11,10 +11,7 @@ import { CarouselModule, IconModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 import { I18nTestingModule } from '@spartacus/core';
-import {
-  MediaModule,
-  AddToCartModule,
-} from '@spartacus/storefront';
+import { MediaModule, AddToCartModule } from '@spartacus/storefront';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
 import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { Component, EventEmitter } from '@angular/core';

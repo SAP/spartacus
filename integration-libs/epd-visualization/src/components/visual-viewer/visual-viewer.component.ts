@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  Output,
+} from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { NavigationMode } from './models/navigation-mode';

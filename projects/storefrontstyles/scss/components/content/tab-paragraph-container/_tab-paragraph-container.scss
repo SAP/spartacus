@@ -1,15 +1,14 @@
 $useTabsOnPDP: false !default;
 
 %pdpTabs {
-
   // On small devices we hide the toggled items
   // in order to allow for a more condensed layout
   @include media-breakpoint-down(sm) {
-    >div.active.toggled {
+    > div.active.toggled {
       display: none;
     }
 
-    >button.active.toggled {
+    > button.active.toggled {
       color: initial;
 
       &:before {
@@ -23,19 +22,19 @@ $useTabsOnPDP: false !default;
     }
   }
 
-  >div {
+  > div {
     background: var(--cx-color-background);
 
     &:not(.active) {
       display: none;
     }
 
-    .container>h2 {
+    .container > h2 {
       display: none;
     }
   }
 
-  >button {
+  > button {
     @include button-reset();
     margin-bottom: 0;
 
@@ -90,7 +89,7 @@ $useTabsOnPDP: false !default;
   }
 
   @include media-breakpoint-down(sm) {
-    >button {
+    > button {
       border-top: 1px var(--cx-color-light) solid;
       font-size: 18px;
       padding-top: 15px;
@@ -130,7 +129,7 @@ $useTabsOnPDP: false !default;
       }
     }
 
-    >div {
+    > div {
       padding: 15px 5px;
     }
   }
@@ -153,7 +152,7 @@ $useTabsOnPDP: false !default;
   @include media-breakpoint-up(md) {
     display: grid;
 
-    >button {
+    > button {
       order: 0;
       transition: all 0.6s;
       font-size: 1.2rem;
@@ -166,7 +165,7 @@ $useTabsOnPDP: false !default;
     }
 
     // the div elements contain the content and will be rendered after the tabs
-    >div {
+    > div {
       order: 2;
       grid-column-start: 1;
       grid-column-end: -1;
@@ -188,7 +187,7 @@ $useTabsOnPDP: false !default;
   grid-template-columns: repeat(4, auto) auto;
   justify-content: start;
 
-  >button {
+  > button {
     @include button-reset();
     order: 2;
     color: var(--cx-color-primary);
@@ -206,7 +205,7 @@ $useTabsOnPDP: false !default;
     }
   }
 
-  >div {
+  > div {
     order: 4;
     grid-column: 1 / span 5;
   }
@@ -215,9 +214,7 @@ $useTabsOnPDP: false !default;
 %cx-tab-paragraph-container {
   @if $useTabsOnPDP==true {
     @extend %pdpTabs !optional;
-  }
-
-  @else {
+  } @else {
     @extend %pdpFlat !optional;
   }
 
