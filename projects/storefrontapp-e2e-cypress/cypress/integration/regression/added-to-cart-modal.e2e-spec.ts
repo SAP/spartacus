@@ -70,25 +70,10 @@ describe('Added to cart modal - Anonymous user', () => {
 
         cy.get('[aria-label="Close Modal"]').click();
       });
+
       cy.get('cx-added-to-cart-dialog').should('not.exist');
 
-      cy.onMobile(() => {
-        cy.get('cx-searchbox button.search').click();
-      });
-
-      // search for new product and select it, and add to cart
-      cy.get('cx-searchbox input[aria-label="Search"]').type(productId2);
-      cy.onDesktop(() => {
-        cy.get('cx-searchbox')
-          .contains('.results .products .name', productName2.substr(0, 12))
-          .click();
-      });
-      cy.onMobile(() => {
-        // we don't show product in search suggestions on mobile
-        // instead search and click first result
-        cy.get('cx-searchbox input[aria-label="Search"]').type('{enter}');
-        cy.get('cx-product-list-item').first().get('.cx-product-name').click();
-      });
+      cy.visit(`/product/${productId2}`);
 
       cy.get('cx-breadcrumb h1').contains(productName2);
       cy.get('cx-add-to-cart button[type=submit]').click();
