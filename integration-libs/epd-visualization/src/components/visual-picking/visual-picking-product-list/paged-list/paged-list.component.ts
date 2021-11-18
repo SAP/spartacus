@@ -8,24 +8,22 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 /**
- * Generic carousel component that can be used to render any carousel items,
- * such as products, images, banners, or any component in a vertical orientation.
- * VerticalCarousel items are
- * rendered in so-called carousel slides, and the previous/next buttons as well as
- * the indicator-buttons can used to navigate the slides.
+ * Generic in-memory paged list component that can be used to render arbitrary items in
+ * a vertical orientation.
+ * Previous/next buttons as well as indicator-buttons can used to navigate the slides (pages).
  *
  * To allow for flexible rendering of items, the rendering is delegated to the
  * given `template` and `headerTemplate`.
  */
 @Component({
-  selector: 'cx-vertical-carousel',
-  templateUrl: './vertical-carousel.component.html',
+  selector: 'cx-paged-list',
+  templateUrl: './paged-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VerticalCarouselComponent implements OnInit {
+export class PagedListComponent implements OnInit {
   /**
    * The title is rendered as the carousel heading.
    */
@@ -43,7 +41,7 @@ export class VerticalCarouselComponent implements OnInit {
 
   /**
    * The template is rendered for each item, so that the actual
-   * view can be given by the component that uses the `VerticalCarouselComponent`.
+   * view can be given by the component that uses the `PagedListComponent`.
    */
   @Input() template: TemplateRef<any>;
 
@@ -74,14 +72,14 @@ export class VerticalCarouselComponent implements OnInit {
   ngOnInit() {
     if (!this.headerTemplate) {
       console.error(
-        'No template reference provided to render the header for the `cx-vertical-carousel`'
+        'No template reference provided to render the header for the `cx-paged-list`'
       );
       return;
     }
 
     if (!this.template) {
       console.error(
-        'No template reference provided to render the items for the `cx-vertical-carousel`'
+        'No template reference provided to render the items for the `cx-paged-list`'
       );
       return;
     }
