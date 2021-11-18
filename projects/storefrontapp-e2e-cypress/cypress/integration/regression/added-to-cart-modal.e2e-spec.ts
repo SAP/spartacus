@@ -13,30 +13,24 @@ describe('Added to cart modal', () => {
       cy.visit(`/product/${productId}`);
     });
 
-    it('testing itemCounter on PDP', () => {
-      // Type 1000 in the input to see if the value will change to maximum 'max stock'
-      cy.get('cx-add-to-cart cx-item-counter input')
-        .type('{selectall}{backspace}')
-        .type('1000')
-        .blur()
-        .should('have.value', '98');
+    it('should test item counter on PDP', () => {
+      // Value change to 'max stock'. '+' button disabled
+      cy.get('cx-add-to-cart cx-item-counter').within(() => {
+        cy.get('input')
+          .type('{selectall}{backspace}1000')
+          .blur()
+          .should('have.value', '98');
 
-      // check if the '+' button is disabled when the quantity is the maximum 'max stock'
-      cy.get('cx-add-to-cart cx-item-counter button')
-        .contains('+')
-        .should('be.disabled');
+        cy.get('button').contains('+').should('be.disabled');
 
-      // Type 0 in the input to see if the value will change to minimum '1'
-      cy.get('cx-add-to-cart cx-item-counter input')
-        .type('{selectall}{backspace}')
-        .type('0')
-        .blur()
-        .should('have.value', '1');
+        // Value should change to minimum, '-' button disabled
+        cy.get('input')
+          .type('{selectall}{backspace}0')
+          .blur()
+          .should('have.value', '1');
 
-      // check if the '-' button is disabled when the quantity is the minimum '1'
-      cy.get('cx-add-to-cart cx-item-counter button')
-        .contains('-')
-        .should('be.disabled');
+        cy.get('button').contains('-').should('be.disabled');
+      });
     });
 
     it('adding same product twice to cart', () => {
