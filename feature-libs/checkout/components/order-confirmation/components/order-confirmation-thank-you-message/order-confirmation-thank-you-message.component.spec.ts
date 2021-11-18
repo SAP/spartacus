@@ -2,13 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import {
-  I18nTestingModule,
-  Order,
-  ORDER_TYPE,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { I18nTestingModule, Order, ORDER_TYPE } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
@@ -20,10 +14,6 @@ class MockAddtoHomeScreenBannerComponent {}
 class MockGuestRegisterFormComponent {
   @Input() guid;
   @Input() email;
-}
-
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
 }
 
 class MockCheckoutService {
@@ -47,7 +37,6 @@ describe('OrderConfirmationComponent', () => {
   let component: OrderConfirmationThankYouMessageComponent;
   let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
 
-  let globalMessageService: GlobalMessageService;
   let checkoutService: CheckoutFacade;
 
   beforeEach(
@@ -59,13 +48,7 @@ describe('OrderConfirmationComponent', () => {
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
-        providers: [
-          { provide: CheckoutFacade, useClass: MockCheckoutService },
-          {
-            provide: GlobalMessageService,
-            useClass: MockGlobalMessageService,
-          },
-        ],
+        providers: [{ provide: CheckoutFacade, useClass: MockCheckoutService }],
       }).compileComponents();
     })
   );
@@ -76,23 +59,11 @@ describe('OrderConfirmationComponent', () => {
     );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(CheckoutFacade);
-    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
     component.ngOnInit();
     expect(component).toBeTruthy();
-  });
-
-  it('should add success global message', () => {
-    component.ngOnInit();
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'checkoutOrderConfirmation.successfullMessage',
-        params: { number: 'test-code-412' },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
   });
 
   it('should display order code', () => {

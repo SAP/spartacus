@@ -5,12 +5,8 @@ import {
   OnInit,
 } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import {
-  ORDER_TYPE,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
-import { Observable, combineLatest } from 'rxjs';
+import { ORDER_TYPE } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
 @Component({
@@ -27,10 +23,7 @@ export class OrderConfirmationThankYouMessageComponent
   isGuestCustomer = false;
   orderGuid: string;
 
-  constructor(
-    protected checkoutService: CheckoutFacade,
-    private globalMessageService: GlobalMessageService
-  ) {}
+  constructor(protected checkoutService: CheckoutFacade) {}
 
   ngOnInit() {
     this.order$ = this.checkoutService.getOrderDetails().pipe(
@@ -48,22 +41,6 @@ export class OrderConfirmationThankYouMessageComponent
           (orderType) => ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER === orderType
         )
       );
-
-    combineLatest([this.isReplenishmentOrderType$, this.order$])
-      .subscribe(([isReplenishmentOrderType, order]) => {
-        let code = isReplenishmentOrderType
-          ? order.replenishmentOrderCode
-          : order.code;
-
-        this.globalMessageService.add(
-          {
-            key: 'checkoutOrderConfirmation.successfullMessage',
-            params: { number: code },
-          },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-      })
-      .unsubscribe();
   }
 
   ngOnDestroy() {

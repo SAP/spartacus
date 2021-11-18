@@ -17,6 +17,23 @@
     </p>
   </div>
 
+  <div
+    *ngIf="order$ | async as order"
+    class="cx-visually-hidden"
+    aria-live="polite"
+    aria-atomic="true"
+    [attr.aria-label]="
+      'checkoutOrderConfirmation.successfullMessage'
+        | cxTranslate
+          : {
+              number:
+                (isReplenishmentOrderType$ | async)
+                  ? order.replenishmentOrderCode
+                  : order.code
+            }
+    "
+  ></div>
+
   <div *ngIf="isGuestCustomer">
     <cx-guest-register-form
       [guid]="orderGuid"
