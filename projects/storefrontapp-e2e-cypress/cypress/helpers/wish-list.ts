@@ -193,7 +193,7 @@ export function checkWishListPersisted(product: TestProduct) {
 
 export function goToProductPage(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
-  waitForGetWishList();
+  cy.get('cx-wish-list').should('be.visible');
   cy.get('cx-wish-list')
     .contains('cx-wish-list-item', product.name)
     .within(() => {
