@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
-import { LayoutConfig } from '@spartacus/storefront';
+import { LayoutConfig, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
+import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 /**
  *  Contains the layout configuration for the overview configuration page. This configuration is
@@ -29,6 +30,22 @@ import { LayoutConfig } from '@spartacus/storefront';
               ],
             },
           },
+          headerDisplayOnly: {
+            lg: {
+              slots: [
+                'SiteContext',
+                'SiteLinks',
+                'SiteLogo',
+                'SearchBox',
+                'SiteLogin',
+                'MiniCart',
+                'NavigationBar',
+              ],
+            },
+            xs: {
+              slots: ['SiteLogo', 'SearchBox', 'MiniCart'],
+            },
+          },
           slots: [
             'VariantConfigOverviewHeader',
             'VariantConfigOverviewBanner',
@@ -38,6 +55,11 @@ import { LayoutConfig } from '@spartacus/storefront';
         },
       },
     }),
+    {
+      provide: PAGE_LAYOUT_HANDLER,
+      useExisting: VariantConfiguratorPageLayoutHandler,
+      multi: true,
+    },
   ],
 })
 export class VariantConfiguratorOverviewLayoutModule {}
