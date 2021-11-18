@@ -203,6 +203,44 @@ describe(`CheckoutDeliveryModesService`, () => {
     }));
   });
 
+  describe(`getSupportedDeliveryModes`, () => {
+    it(`should call facade's getSupportedDeliveryModesState()`, (done) => {
+      spyOn(service, 'getSupportedDeliveryModesState').and.returnValue(
+        of({
+          loading: false,
+          error: false,
+          data: mockSupportedDeliveryModes,
+        })
+      );
+
+      service
+        .getSupportedDeliveryModes()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(mockSupportedDeliveryModes);
+          done();
+        });
+    });
+
+    it(`should return an empty array if query's data is falsy`, (done) => {
+      spyOn(service, 'getSupportedDeliveryModesState').and.returnValue(
+        of({
+          loading: false,
+          error: false,
+          data: undefined,
+        })
+      );
+
+      service
+        .getSupportedDeliveryModes()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual([]);
+          done();
+        });
+    });
+  });
+
   describe(`getSelectedDeliveryModeState`, () => {
     it(`should return the delivery modes`, (done) => {
       spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
