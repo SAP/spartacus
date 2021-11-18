@@ -53,7 +53,7 @@ class MockUserService implements Partial<UserService> {
   get = createSpy().and.returnValue(of(user));
 }
 
-class MockMultiCartService implements Partial<MultiCartFacade> {
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();
@@ -66,7 +66,7 @@ class MockMultiCartService implements Partial<MultiCartFacade> {
 describe('WishListService', () => {
   let service: WishListService;
   let store: Store<StateWithMultiCart>;
-  let multiCartService: MultiCartFacade;
+  let multiCartFacade: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,14 +77,14 @@ describe('WishListService', () => {
       providers: [
         WishListService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: MultiCartFacade, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserService, useClass: MockUserService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(WishListService);
-    multiCartService = TestBed.inject(MultiCartFacade);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -117,7 +117,7 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
@@ -184,7 +184,7 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
@@ -216,7 +216,7 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         customerId,
