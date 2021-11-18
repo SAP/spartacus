@@ -13,6 +13,7 @@ import {
   Cart,
   EventService,
   HttpErrorModel,
+  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   PaymentDetails,
   QueryState,
@@ -35,8 +36,8 @@ const mockCardTypes: CardType[] = [
     name: 'Visa',
   },
   {
-    code: 'MASTER',
-    name: 'Master',
+    code: 'MASTERCARD',
+    name: 'MasterCart',
   },
 ];
 const mockPaymentInfo: PaymentDetails = {
@@ -99,6 +100,7 @@ describe(`CheckoutPaymentService`, () => {
   let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -121,6 +123,7 @@ describe(`CheckoutPaymentService`, () => {
     store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
+    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutPaymentService`, inject(
@@ -180,7 +183,6 @@ describe(`CheckoutPaymentService`, () => {
 
       let resultState: QueryState<CardType[] | undefined> | undefined;
       const subscription = service.getCardTypesState().subscribe((result) => {
-        console.log('result', result);
         return (resultState = result);
       });
 
@@ -305,9 +307,33 @@ describe(`CheckoutPaymentService`, () => {
         new UserActions.LoadUserPaymentMethods(mockUserId)
       );
     });
+
+    // TODO: Replace with event testing once we remove ngrx store.
+    it(`should NOT dispatch UserActions.LoadUserPaymentMethods when the use is anonymous`, () => {
+      spyOn(userIdService, 'takeUserId').and.returnValue(
+        of(OCC_USER_ID_ANONYMOUS)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      service.createPaymentDetails(mockPaymentInfo);
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
   });
 
   describe(`setPaymentDetails`, () => {
+    it(`should throw an error if the payment details ID is not present`, (done) => {
+      service
+        .setPaymentDetails({})
+        .pipe(take(1))
+        .subscribe({
+          error: (error) => {
+            expect(error).toEqual(new Error('Checkout conditions not met'));
+            done();
+          },
+        });
+    });
+
     it(`should call checkoutPaymentConnector.set`, () => {
       spyOn(connector, 'set').and.stub();
 

@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesAdapter } from './checkout-delivery-modes.adapter';
 import { CheckoutDeliveryModesConnector } from './checkout-delivery-modes.connector';
 import createSpy = jasmine.createSpy;
@@ -34,25 +35,25 @@ describe('CheckoutDeliveryModesConnector', () => {
 
   it('setMode should call adapter', () => {
     const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
-    service.setMode('1', '2', '3').subscribe();
+    service.setMode('1', '2', '3').pipe(take(1)).subscribe();
     expect(adapter.setMode).toHaveBeenCalledWith('1', '2', '3');
   });
 
   it('getMode should call adapter', () => {
     const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
-    service.getMode('1', '2').subscribe();
+    service.getMode('1', '2').pipe(take(1)).subscribe();
     expect(adapter.getMode).toHaveBeenCalledWith('1', '2');
   });
 
   it('getSupportedModes should call adapter', () => {
     const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
-    service.getSupportedModes('1', '2').subscribe();
+    service.getSupportedModes('1', '2').pipe(take(1)).subscribe();
     expect(adapter.getSupportedModes).toHaveBeenCalledWith('1', '2');
   });
 
   it('clearCheckoutDeliveryMode should call adapter', () => {
     const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
-    service.clearCheckoutDeliveryMode('1', '2').subscribe();
+    service.clearCheckoutDeliveryMode('1', '2').pipe(take(1)).subscribe();
     expect(adapter.clearCheckoutDeliveryMode).toHaveBeenCalledWith('1', '2');
   });
 });
