@@ -1,4 +1,5 @@
 import { viewportContext } from '../../helpers/viewport-context';
+import { interceptGet } from '../../support/utils/intercept';
 
 const productId = '3595723';
 const productId2 = '4812254';
@@ -14,22 +15,27 @@ describe('Added to cart modal', () => {
     });
 
     it('should test item counter on PDP', () => {
-      // Value change to 'max stock'. '+' button disabled
-      cy.get('cx-add-to-cart cx-item-counter').within(() => {
-        cy.get('input')
-          .type('{selectall}{backspace}1000')
-          .blur()
-          .should('have.value', '98');
+      interceptGet('getProduct', '/products/*?fields=*stock*');
+      cy.wait('@getProduct').then((xhr) => {
+        const stock = xhr.response.body.stock.stockLevel;
 
-        cy.get('button').contains('+').should('be.disabled');
+        // Value change to 'max stock'. '+' button disabled
+        cy.get('cx-add-to-cart cx-item-counter').within(() => {
+          cy.get('input')
+            .type('{selectall}{backspace}1000')
+            .blur()
+            .should('have.value', stock);
 
-        // Value should change to minimum, '-' button disabled
-        cy.get('input')
-          .type('{selectall}{backspace}0')
-          .blur()
-          .should('have.value', '1');
+          cy.get('button').contains('+').should('be.disabled');
 
-        cy.get('button').contains('-').should('be.disabled');
+          // Value should change to minimum, '-' button disabled
+          cy.get('input')
+            .type('{selectall}{backspace}0')
+            .blur()
+            .should('have.value', '1');
+
+          cy.get('button').contains('-').should('be.disabled');
+        });
       });
     });
 
