@@ -15,6 +15,8 @@ import { CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutScheduledReplenishmentFacade,
       feature: CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder', 'setOrderType', 'getOrderType'],
+      // TODO:#checkout - remove once we remove ngrx
+      async: true,
     }),
 })
 export abstract class CheckoutScheduledReplenishmentFacade {

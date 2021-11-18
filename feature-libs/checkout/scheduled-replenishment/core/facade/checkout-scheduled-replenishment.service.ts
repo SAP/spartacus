@@ -72,6 +72,11 @@ export class CheckoutScheduledReplenishmentService
             .pipe(
               tap((replenishmentOrder) => {
                 this.checkoutFacade.setOrder(replenishmentOrder);
+                /**
+                 * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                 * Remove once it is switched from ngrx to c&q.
+                 * We should dispatch an event, which will remove the cart
+                 */
                 this.store.dispatch(new CartActions.RemoveCart({ cartId }));
                 this.eventService.dispatch(
                   {
@@ -91,6 +96,7 @@ export class CheckoutScheduledReplenishmentService
   );
 
   constructor(
+    // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
