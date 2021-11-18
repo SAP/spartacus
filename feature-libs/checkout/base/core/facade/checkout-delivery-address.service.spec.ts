@@ -12,6 +12,7 @@ import {
   Address,
   Cart,
   EventService,
+  OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserActions,
@@ -86,6 +87,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
   let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
+  let userIdService: UserIdService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -108,6 +110,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
     store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
+    userIdService = TestBed.inject(UserIdService);
   });
 
   it(`should inject CheckoutDeliveryAddressService`, inject(
@@ -174,9 +177,33 @@ describe(`CheckoutDeliveryAddressService`, () => {
         new UserActions.LoadUserAddresses(mockUserId)
       );
     });
+
+    // TODO: Replace with event testing once we remove ngrx store.
+    it(`should NOT dispatch UserActions.LoadUserAddresses when the use is anonymous`, () => {
+      spyOn(userIdService, 'takeUserId').and.returnValue(
+        of(OCC_USER_ID_ANONYMOUS)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      service.createAndSetAddress(mockAddress);
+
+      expect(store.dispatch).not.toHaveBeenCalled();
+    });
   });
 
   describe(`setDeliveryAddress`, () => {
+    it(`should throw an error if the address ID is not present`, (done) => {
+      service
+        .setDeliveryAddress(<Address>{})
+        .pipe(take(1))
+        .subscribe({
+          error: (error) => {
+            expect(error).toEqual(new Error('Checkout conditions not met'));
+            done();
+          },
+        });
+    });
+
     it(`should call checkoutDeliveryConnector.setAddress`, () => {
       spyOn(connector, 'setAddress').and.stub();
 
