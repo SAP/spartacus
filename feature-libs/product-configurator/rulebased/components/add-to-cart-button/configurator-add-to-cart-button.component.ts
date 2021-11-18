@@ -246,7 +246,7 @@ export class ConfiguratorAddToCartButtonComponent {
     });
   }
 
-  private goToOrderDetails(owner: CommonConfigurator.Owner): void {
+  protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
     this.userOrderService.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
