@@ -16,6 +16,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSelectedDeliveryModeState',
         'clearCheckoutDeliveryMode',
       ],
+      // TODO:#checkout - remove once we remove ngrx
       async: true,
     }),
 })
