@@ -2,9 +2,9 @@ import { Component, Input, TemplateRef, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { VerticalCarouselComponent } from './vertical-carousel.component';
+import { PagedListComponent } from './paged-list.component';
 
 @Component({
   selector: 'cx-icon',
@@ -36,9 +36,9 @@ class MockHeaderTemplateComponent {
   @ViewChild('headerTemplate') template: TemplateRef<any>;
 }
 
-describe('VerticalCarousel Component', () => {
-  let component: VerticalCarouselComponent;
-  let fixture: ComponentFixture<VerticalCarouselComponent>;
+describe('PagedList Component', () => {
+  let component: PagedListComponent;
+  let fixture: ComponentFixture<PagedListComponent>;
 
   let templateFixture: ComponentFixture<MockTemplateComponent>;
   let template: any;
@@ -49,7 +49,7 @@ describe('VerticalCarousel Component', () => {
       TestBed.configureTestingModule({
         imports: [RouterTestingModule],
         declarations: [
-          VerticalCarouselComponent,
+          PagedListComponent,
           MockCxIconComponent,
           MockHeaderTemplateComponent,
           MockTemplateComponent,
@@ -59,7 +59,7 @@ describe('VerticalCarousel Component', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VerticalCarouselComponent);
+    fixture = TestBed.createComponent(PagedListComponent);
     component = fixture.componentInstance;
 
     headerTemplateFixture = TestBed.createComponent(
@@ -83,7 +83,7 @@ describe('VerticalCarousel Component', () => {
       component.template = template;
       component.ngOnInit();
       expect(console.error).toHaveBeenCalledWith(
-        'No template reference provided to render the header for the `cx-vertical-carousel`'
+        'No template reference provided to render the header for the `cx-paged-list`'
       );
     });
 
@@ -92,7 +92,7 @@ describe('VerticalCarousel Component', () => {
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
       expect(console.error).toHaveBeenCalledWith(
-        'No template reference provided to render the items for the `cx-vertical-carousel`'
+        'No template reference provided to render the items for the `cx-paged-list`'
       );
     });
 
@@ -145,14 +145,14 @@ describe('VerticalCarousel Component', () => {
       component.headerTemplate = headerTemplate;
       component.template = template;
     });
-    describe('carousel title', () => {
+    describe('list title', () => {
       beforeEach(() => {
         component.itemsPerSlide = 1;
         component.items = [of()];
       });
 
       it('should have h3 with title', () => {
-        component.title = 'test carousel with title';
+        component.title = 'test list with title';
         component.ngOnInit();
         fixture.detectChanges();
 
@@ -160,7 +160,7 @@ describe('VerticalCarousel Component', () => {
         expect(el.nativeElement).toBeTruthy();
 
         expect((<HTMLElement>el.nativeElement).innerText).toEqual(
-          'test carousel with title'
+          'test list with title'
         );
       });
 
@@ -173,7 +173,7 @@ describe('VerticalCarousel Component', () => {
       });
     });
 
-    describe('carousel buttons', () => {
+    describe('list buttons', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
         component.items = [of(), of(), of(), of(), of()];
@@ -272,7 +272,7 @@ describe('VerticalCarousel Component', () => {
       });
     });
 
-    describe('carousel with 5 items divided by 2 slides', () => {
+    describe('list with 5 items divided by 2 slides', () => {
       beforeEach(() => {
         component.itemsPerSlide = 4;
         component.items = [of(), of(), of(), of(), of()];
@@ -298,10 +298,10 @@ describe('VerticalCarousel Component', () => {
       });
     });
 
-    describe('carousel with 7 items divided by 3 slides', () => {
+    describe('list with 7 items divided by 3 slides', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
-        component.title = 'test carousel with title';
+        component.title = 'test list with title';
         component.items = [of(), of(), of(), of(), of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -325,10 +325,10 @@ describe('VerticalCarousel Component', () => {
       });
     });
 
-    describe('carousel with 3 items divided by 1 slide', () => {
+    describe('list with 3 items divided by 1 slide', () => {
       beforeEach(() => {
         component.itemsPerSlide = 3;
-        component.title = 'test carousel with title';
+        component.title = 'test list with title';
         component.items = [of(), of(), of()];
         component.ngOnInit();
         fixture.detectChanges();
@@ -352,17 +352,17 @@ describe('VerticalCarousel Component', () => {
       });
     });
 
-    describe('empty carousel', () => {
+    describe('empty list', () => {
       beforeEach(() => {
         component.itemsPerSlide = 1;
         component.items = [];
       });
 
-      it('should not render the carousel', () => {
+      it('should not render the list', () => {
         component.ngOnInit();
         fixture.detectChanges();
 
-        const el = fixture.debugElement.query(By.css('div.carousel-panel'));
+        const el = fixture.debugElement.query(By.css('div.list-panel'));
         expect(el).toBeNull();
       });
     });

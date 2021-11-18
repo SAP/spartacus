@@ -15,8 +15,8 @@ import {
   ProductReferencesModule,
 } from '@spartacus/storefront';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
-import { VerticalCarouselModule } from '@spartacus/storefront';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
+import { PagedListModule } from './paged-list/paged-list.module';
 
 @NgModule({
   imports: [
@@ -26,7 +26,7 @@ import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-car
     MediaModule,
     IconModule,
     CarouselModule,
-    VerticalCarouselModule,
+    PagedListModule,
     AddToCartModule,
     UrlModule,
     I18nModule,

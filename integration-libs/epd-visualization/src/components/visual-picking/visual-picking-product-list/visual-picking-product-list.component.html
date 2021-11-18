@@ -1,4 +1,4 @@
-<cx-vertical-carousel
+<cx-paged-list
   [items]="filteredItems$ | async"
   [title]="title"
   [headerTemplate]="headerTemplate"
@@ -6,7 +6,7 @@
   [itemsPerSlide]="itemsPerSlide"
   [(activeSlideStartIndex)]="activeSlideStartIndex"
 >
-</cx-vertical-carousel>
+</cx-paged-list>
 
 <ng-template #headerTemplate>
   <div class="cx-item-list-header row">

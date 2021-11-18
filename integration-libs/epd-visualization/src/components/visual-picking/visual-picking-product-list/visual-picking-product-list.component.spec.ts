@@ -12,7 +12,6 @@ import { Observable, of } from 'rxjs';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-  VerticalCarouselModule,
   MediaModule,
   AddToCartModule,
 } from '@spartacus/storefront';
@@ -21,6 +20,7 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
 import { Component, EventEmitter } from '@angular/core';
 import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { Actions } from '@ngrx/effects';
+import { PagedListModule } from './paged-list/paged-list.module';
 
 const productReferences: ProductReference[] = [
   {
@@ -141,7 +141,7 @@ describe('VisualPickingProductListComponent', () => {
         MediaModule,
         IconModule,
         CarouselModule,
-        VerticalCarouselModule,
+        PagedListModule,
         AddToCartModule,
         UrlModule,
         I18nTestingModule,

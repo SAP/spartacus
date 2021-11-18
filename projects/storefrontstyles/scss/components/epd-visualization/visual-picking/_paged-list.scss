@@ -1,10 +1,10 @@
-%cx-vertical-carousel {
+%cx-paged-list {
   display: flex;
   flex: 100%;
   --cx-speed: 0.5;
   flex-direction: column;
 
-  > h3 {
+  >h3 {
     @include type('3');
     font-weight: bold;
     text-align: center;
@@ -16,7 +16,7 @@
     }
   }
 
-  .carousel-panel {
+  .list-panel {
     display: flex;
     justify-content: space-between;
 
