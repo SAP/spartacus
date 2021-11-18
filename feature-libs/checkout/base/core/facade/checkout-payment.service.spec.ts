@@ -180,7 +180,6 @@ describe(`CheckoutPaymentService`, () => {
 
       let resultState: QueryState<CardType[] | undefined> | undefined;
       const subscription = service.getCardTypesState().subscribe((result) => {
-        console.log('result', result);
         return (resultState = result);
       });
 
