@@ -60,8 +60,7 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
     protected userOrderService: OrderFacade,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    protected windowRef: WindowRef
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   protected navigateToCart(): void {
