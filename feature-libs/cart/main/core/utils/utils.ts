@@ -35,13 +35,6 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
 }
 
 /**
- * Compute wishlist cart name for customer.
- */
-export function getWishlistName(customerId: string): string {
-  return `wishlist${customerId}`;
-}
-
-/**
  * What is a temporary cart?
  * - frontend only cart entity!
  * - can be identified in store by `temp-` prefix with some unique id (multiple carts can be created at the same time eg. active cart, wishlist)

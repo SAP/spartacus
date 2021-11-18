@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -526,6 +526,26 @@ describe('MultiCartService', () => {
           },
         })
       );
+    });
+  });
+
+  describe('getCartIdByType', () => {
+    it('should return cartId by cart type', () => {
+      let result;
+      service.getCartIdByType(CartType.ACTIVE).subscribe((cartId) => {
+        result = cartId;
+      });
+
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.ACTIVE,
+          cartId: 'testCartId',
+        })
+      );
+
+      expect(result).toEqual('testCartId');
     });
   });
 });

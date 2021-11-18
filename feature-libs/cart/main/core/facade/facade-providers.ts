@@ -5,14 +5,12 @@ import {
   CartVoucherFacade,
   MultiCartFacade,
   SelectiveCartFacade,
-  WishListFacade,
 } from '@spartacus/cart/main/root';
 import { ActiveCartService } from './active-cart.service';
 import { CartValidationService } from './cart-validation.service';
 import { CartVoucherService } from './cart-voucher.service';
 import { MultiCartService } from './multi-cart.service';
 import { SelectiveCartService } from './selective-cart.service';
-import { WishListService } from './wish-list.service';
 
 export const facadeProviders: Provider[] = [
   ActiveCartService,
@@ -34,11 +32,6 @@ export const facadeProviders: Provider[] = [
   {
     provide: SelectiveCartFacade,
     useExisting: SelectiveCartService,
-  },
-  WishListService,
-  {
-    provide: WishListFacade,
-    useExisting: WishListService,
   },
   CartValidationService,
   {

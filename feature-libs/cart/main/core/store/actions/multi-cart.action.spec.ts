@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';
@@ -75,6 +75,33 @@ describe('MultiCart Actions', () => {
       expect({ ...action }).toEqual({
         type: CartActions.CLEAR_CART_STATE,
         meta: StateUtils.entityRemoveAllMeta(MULTI_CART_DATA),
+      });
+    });
+  });
+
+  describe('SetCartData Actions', () => {
+    describe('SetCartData', () => {
+      it('should create the action', () => {
+        const payload = { cart, userId: 'testUserId' };
+        const action = new CartActions.SetCartData(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.SET_CART_DATA,
+          payload,
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, 'xxx'),
+        });
+      });
+    });
+  });
+
+  describe('SetCartTypeIndex Actions', () => {
+    describe('SetCartTypeIndex', () => {
+      it('should create the action', () => {
+        const payload = { cartType: CartType.ACTIVE, cartId: 'testCartId' };
+        const action = new CartActions.SetCartTypeIndex(payload);
+        expect({ ...action }).toEqual({
+          type: CartActions.SET_CART_TYPE_INDEX,
+          payload,
+        });
       });
     });
   });
