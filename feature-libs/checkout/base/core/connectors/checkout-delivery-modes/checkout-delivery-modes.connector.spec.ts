@@ -6,7 +6,6 @@ import createSpy = jasmine.createSpy;
 
 class MockCheckoutDeliveryModesAdapter implements CheckoutDeliveryModesAdapter {
   setMode = createSpy().and.returnValue(of({}));
-  getMode = createSpy().and.returnValue(of({}));
   getSupportedModes = createSpy().and.returnValue(of({}));
   clearCheckoutDeliveryMode = createSpy().and.returnValue(of({}));
 }
@@ -36,12 +35,6 @@ describe('CheckoutDeliveryModesConnector', () => {
     const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
     service.setMode('1', '2', '3').subscribe();
     expect(adapter.setMode).toHaveBeenCalledWith('1', '2', '3');
-  });
-
-  it('getMode should call adapter', () => {
-    const adapter = TestBed.inject(CheckoutDeliveryModesAdapter);
-    service.getMode('1', '2').subscribe();
-    expect(adapter.getMode).toHaveBeenCalledWith('1', '2');
   });
 
   it('getSupportedModes should call adapter', () => {

@@ -15,10 +15,6 @@ export class CheckoutDeliveryModesConnector {
     return this.adapter.setMode(userId, cartId, deliveryModeId);
   }
 
-  public getMode(userId: string, cartId: string): Observable<DeliveryMode> {
-    return this.adapter.getMode(userId, cartId);
-  }
-
   public getSupportedModes(
     userId: string,
     cartId: string
