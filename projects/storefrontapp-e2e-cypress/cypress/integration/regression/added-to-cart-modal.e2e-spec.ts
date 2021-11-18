@@ -1,7 +1,7 @@
 import { viewportContext } from '../../helpers/viewport-context';
 import { interceptGet } from '../../support/utils/intercept';
 
-const productId = '3595723';
+const productId = '266685';
 const productId2 = '4812254';
 const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
 
@@ -119,7 +119,7 @@ describe('Added to cart modal - Anonymous user', () => {
 
       // delete a product and check if the total is updated
       cy.get('cx-cart-item-list .cx-item-list-items')
-        .contains('.cx-info', 'F 100mm f/2.8L Macro IS USM')
+        .contains('.cx-info', 'Battery Video Light')
         .find('.cx-actions .cx-remove-btn > .link')
         .click();
       cy.get('cx-cart-details').should('contain', 'Cart #');
