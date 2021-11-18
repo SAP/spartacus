@@ -5,7 +5,7 @@ export abstract class CheckoutPaymentTypeAdapter {
   /**
    * Abstract method used to get available payment types
    */
-  abstract loadPaymentTypes(): Observable<PaymentType[]>;
+  abstract getPaymentTypes(): Observable<PaymentType[]>;
 
   /**
    * Abstract method used to set payment type to cart

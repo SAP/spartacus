@@ -8,7 +8,7 @@ export class CheckoutPaymentTypeConnector {
   constructor(protected adapter: CheckoutPaymentTypeAdapter) {}
 
   getPaymentTypes(): Observable<PaymentType[]> {
-    return this.adapter.loadPaymentTypes();
+    return this.adapter.getPaymentTypes();
   }
 
   setPaymentType(
