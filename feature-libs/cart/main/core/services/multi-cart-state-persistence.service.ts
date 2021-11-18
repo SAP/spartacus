@@ -43,10 +43,11 @@ export class MultiCartStatePersistenceService implements OnDestroy {
       filter((store) => !!store.cart),
       select(MultiCartSelectors.getMultiCartState),
       filter((state) => !!state),
-      distinctUntilKeyChanged('index'),
-      map((state) => {
+      map((state) => state.index),
+      distinctUntilKeyChanged('Active'),
+      map((indexState) => {
         return {
-          active: state.index[CartType.ACTIVE] ?? '',
+          active: indexState[CartType.ACTIVE] ?? '',
         };
       })
     );

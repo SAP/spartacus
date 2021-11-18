@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { Cart, CartType } from '@spartacus/cart/main/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';
@@ -8,7 +9,7 @@ import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './multi-cart.effect';
 
-/*const testCart: Cart = {
+const testCart: Cart = {
   code: 'xxx',
   guid: 'testGuid',
   totalItems: 0,
@@ -20,7 +21,7 @@ import * as fromEffects from './multi-cart.effect';
     currencyIso: 'USD',
     value: 0,
   },
-};*/
+};
 
 describe('Multi Cart effect', () => {
   let cartEffects: fromEffects.MultiCartEffects;
@@ -65,6 +66,108 @@ describe('Multi Cart effect', () => {
         1: processesIncrementCompletion,
       });
       expect(cartEffects.processesIncrement$).toBeObservable(expected);
+    });
+  });
+
+  describe('setSelectiveId$', () => {
+    it('should set selective cart id to state', () => {
+      const action = new CartActions.LoadCartSuccess({
+        userId: 'userId',
+        cartId: 'selectivecart-cartId',
+        cart: testCart,
+      });
+
+      const setSelectiveIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.SELECTIVE,
+        cartId: 'selectivecart-cartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setSelectiveIdAction });
+
+      expect(cartEffects.setSelectiveId$).toBeObservable(expected);
+    });
+
+    it('should clear selective cart id', () => {
+      const action = new CartActions.ClearCartState();
+
+      const setSelectiveIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.SELECTIVE,
+        cartId: undefined,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setSelectiveIdAction });
+
+      expect(cartEffects.setSelectiveId$).toBeObservable(expected);
+    });
+  });
+
+  describe('setActiveCartId$', () => {
+    it('should set active cart id to state for LoadCartSuccess/CreateCart', () => {
+      const action = new CartActions.LoadCartSuccess({
+        userId: 'userId',
+        cartId: 'cartId',
+        cart: testCart,
+        extraData: { active: true },
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: 'cartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should set active cart id to state for SetActiveCartId', () => {
+      const action = new CartActions.SetActiveCartId('testCartId');
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: 'testCartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should set new_created cart id to state for CreateCartSuccess', () => {
+      const action = new CartActions.CreateCartSuccess({
+        userId: 'userId',
+        tempCartId: 'tempCartId',
+        cart: testCart,
+        cartId: 'testCartId',
+      });
+
+      const setNewCreatedCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.NEW_CREATED,
+        cartId: 'testCartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setNewCreatedCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should clear active cart id', () => {
+      const action = new CartActions.ClearCartState();
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });
   });
 });
