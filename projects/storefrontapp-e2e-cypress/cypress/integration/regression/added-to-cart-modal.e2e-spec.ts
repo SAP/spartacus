@@ -39,11 +39,12 @@ describe('Added to cart modal - Anonymous user', () => {
       });
     });
 
-    it('Should add to cart twice', () => {
+    it('Should add products to cart', () => {
       cy.visit(`/product/${productId}`);
       cy.get('cx-add-to-cart button[type=submit]').click();
 
       cy.get('cx-added-to-cart-dialog').within(() => {
+        //check for initial default values
         cy.get('.cx-quantity cx-item-counter input').should('have.value', '1');
         cy.get('.cx-dialog-total').should('contain', '1 item');
         cy.get('[aria-label="Close Modal"]').click();
@@ -71,9 +72,7 @@ describe('Added to cart modal - Anonymous user', () => {
         cy.get('[aria-label="Close Modal"]').click();
       });
       cy.get('cx-added-to-cart-dialog').should('not.exist');
-    });
 
-    it('should add different products to cart', () => {
       cy.onMobile(() => {
         cy.get('cx-searchbox button.search').click();
       });
