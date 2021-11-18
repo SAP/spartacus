@@ -1,9 +1,9 @@
 import { viewportContext } from '../../helpers/viewport-context';
-import { interceptGet } from '../../support/utils/intercept';
+import { interceptGet, interceptPost } from '../../support/utils/intercept';
 
 const productId = '266685';
-const productId2 = '4812254';
-const productName2 = '500D + 18-55mm IS + EF-S 55-250 IS';
+const productId2 = '2006139';
+const productName2 = 'M340';
 
 describe('Added to cart modal - Anonymous user', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -74,30 +74,29 @@ describe('Added to cart modal - Anonymous user', () => {
       cy.get('cx-added-to-cart-dialog').should('not.exist');
 
       cy.visit(`/product/${productId2}`);
-
       cy.get('cx-breadcrumb h1').contains(productName2);
+
+      interceptPost('addCartEntry', '/users/anonymous/carts/*/entries?*');
       cy.get('cx-add-to-cart button[type=submit]').click();
 
-      // quantity is correctly updated
-      cy.get(
-        'cx-added-to-cart-dialog .cx-quantity cx-item-counter input'
-      ).should('have.value', '1');
-      cy.get('cx-added-to-cart-dialog .cx-dialog-total').should(
-        'contain',
-        '3 items'
-      );
+      let cartEntryPrice: string;
+      cy.wait('@addCartEntry').then((xhr) => {
+        cartEntryPrice = xhr.response.body.entry.totalPrice.value;
 
-      // check if the total is correct
-      cy.get('cx-added-to-cart-dialog .cx-total .cx-value').then(
-        ($cartTotalItemPrice) => {
-          const totalPrice = $cartTotalItemPrice.text().trim();
-          expect(totalPrice).equal('$927.89');
-        }
-      );
+        cy.get('cx-added-to-cart-dialog').within(() => {
+          cy.get('.cx-quantity cx-item-counter input').should(
+            'have.value',
+            '1'
+          );
+          cy.get('.cx-dialog-total').should('contain', '3 items');
 
-      // navigate to cart details
-      cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
+          // check if the total is correct
+          cy.get('.cx-total .cx-value').contains(cartEntryPrice);
+          // navigate to cart details
+          cy.get('.btn-primary').click();
+        });
+
+        cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
 
       interceptGet('getRefreshedCart', '/users/anonymous/carts/*');
 
@@ -123,20 +122,15 @@ describe('Added to cart modal - Anonymous user', () => {
       cy.get('cx-cart-item-list .cx-item-list-items')
         .contains('.cx-info', productName2)
         .find('.cx-price .cx-value')
-        .then(($cartItemPrice) => {
-          const price = $cartItemPrice.text().trim();
-          expect(price).equal('$927.89');
-        });
+        .first()
+        .should('contain', cartEntryPrice);
 
       // check the item price total of the product
-      //TODO compare item price and total price with backend values
       cy.get('cx-cart-item-list .cx-item-list-items')
         .contains('.cx-info', productName2)
         .find('.cx-total .cx-value')
-        .then(($cartTotalItemPrice) => {
-          const totalPrice = $cartTotalItemPrice.text().trim();
-          expect(totalPrice).equal('$927.89');
-        });
+        .first()
+        .should('contain', cartEntryPrice);
 
       cy.wait('@getRefreshedCart');
       // delete the last product in cart
@@ -147,6 +141,7 @@ describe('Added to cart modal - Anonymous user', () => {
 
       // check if the cart is empty
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
+      });
     });
 
     it('Should not show cart modal when page is refreshed', () => {
