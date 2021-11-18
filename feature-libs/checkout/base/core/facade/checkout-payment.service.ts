@@ -51,12 +51,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     this.commandService.create<PaymentDetails>(
       (paymentDetails) =>
         this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) => {
-            if (!paymentDetails) {
-              throw new Error('Checkout conditions not met');
-            }
-
-            return this.checkoutPaymentConnector
+          switchMap(([userId, cartId]) =>
+            this.checkoutPaymentConnector
               .createPaymentDetails(userId, cartId, paymentDetails)
               .pipe(
                 tap((response) => {
@@ -79,8 +75,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                     );
                   }
                 })
-              );
-          })
+              )
+          )
         ),
       {
         strategy: CommandStrategy.CancelPrevious,

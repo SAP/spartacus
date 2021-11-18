@@ -90,12 +90,8 @@ export class CheckoutDeliveryModesService
     this.commandService.create<string>(
       (deliveryModeCode) =>
         this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) => {
-            if (!deliveryModeCode) {
-              throw new Error('Checkout conditions not met');
-            }
-
-            return this.checkoutDeliveryModesConnector
+          switchMap(([userId, cartId]) =>
+            this.checkoutDeliveryModesConnector
               .setMode(userId, cartId, deliveryModeCode)
               .pipe(
                 tap(() => {
@@ -119,8 +115,8 @@ export class CheckoutDeliveryModesService
                     })
                   );
                 })
-              );
-          })
+              )
+          )
         ),
       {
         strategy: CommandStrategy.CancelPrevious,
