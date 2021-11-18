@@ -7,23 +7,23 @@ import { CheckoutPaymentAdapter } from './checkout-payment.adapter';
 export class CheckoutPaymentConnector {
   constructor(protected adapter: CheckoutPaymentAdapter) {}
 
-  public create(
+  public createPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
   ): Observable<PaymentDetails> {
-    return this.adapter.create(userId, cartId, paymentDetails);
+    return this.adapter.createPaymentDetails(userId, cartId, paymentDetails);
   }
 
-  public set(
+  public setPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: string
   ): Observable<unknown> {
-    return this.adapter.set(userId, cartId, paymentDetailsId);
+    return this.adapter.setPaymentDetails(userId, cartId, paymentDetailsId);
   }
 
   getCardTypes(): Observable<CardType[]> {
-    return this.adapter.loadCardTypes();
+    return this.adapter.getCardTypes();
   }
 }

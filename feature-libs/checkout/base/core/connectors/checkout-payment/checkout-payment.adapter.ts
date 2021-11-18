@@ -4,12 +4,8 @@ import { Observable } from 'rxjs';
 export abstract class CheckoutPaymentAdapter {
   /**
    * Abstract method used to create payment details on cart
-   *
-   * @param userId
-   * @param cartId
-   * @param paymentDetails
    */
-  abstract create(
+  abstract createPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
@@ -17,12 +13,8 @@ export abstract class CheckoutPaymentAdapter {
 
   /**
    * Abstract method used to set payment details on cart
-   *
-   * @param userId
-   * @param cartId
-   * @param paymentDetailsId
    */
-  abstract set(
+  abstract setPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: string
@@ -31,5 +23,5 @@ export abstract class CheckoutPaymentAdapter {
   /**
    * Abstract method used to get available cart types
    */
-  abstract loadCardTypes(): Observable<CardType[]>;
+  abstract getCardTypes(): Observable<CardType[]>;
 }

@@ -5,9 +5,9 @@ import { CheckoutPaymentConnector } from './checkout-payment.connector';
 import createSpy = jasmine.createSpy;
 
 class MockCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
-  create = createSpy().and.returnValue(of({}));
-  set = createSpy().and.returnValue(of({}));
-  loadCardTypes = createSpy().and.returnValue(of([]));
+  createPaymentDetails = createSpy().and.returnValue(of({}));
+  setPaymentDetails = createSpy().and.returnValue(of({}));
+  getCardTypes = createSpy().and.returnValue(of([]));
 }
 
 describe('CheckoutPaymentConnector', () => {
@@ -34,19 +34,19 @@ describe('CheckoutPaymentConnector', () => {
   });
 
   it('create should call adapter', () => {
-    service.create('1', '2', {}).subscribe();
-    expect(adapter.create).toHaveBeenCalledWith('1', '2', {});
+    service.createPaymentDetails('1', '2', {}).subscribe();
+    expect(adapter.createPaymentDetails).toHaveBeenCalledWith('1', '2', {});
   });
 
   it('set should call adapter', () => {
-    service.set('1', '2', '3').subscribe();
-    expect(adapter.set).toHaveBeenCalledWith('1', '2', '3');
+    service.setPaymentDetails('1', '2', '3').subscribe();
+    expect(adapter.setPaymentDetails).toHaveBeenCalledWith('1', '2', '3');
   });
 
   it('getCardTypes should call adapter', () => {
     let result;
     service.getCardTypes().subscribe((res) => (result = res));
     expect(result).toEqual([]);
-    expect(adapter.loadCardTypes).toHaveBeenCalledWith();
+    expect(adapter.getCardTypes).toHaveBeenCalledWith();
   });
 });

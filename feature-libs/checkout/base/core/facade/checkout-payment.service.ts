@@ -57,7 +57,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             }
 
             return this.checkoutPaymentConnector
-              .create(userId, cartId, paymentDetails)
+              .createPaymentDetails(userId, cartId, paymentDetails)
               .pipe(
                 tap((response) => {
                   this.eventService.dispatch(
@@ -98,7 +98,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             }
 
             return this.checkoutPaymentConnector
-              .set(userId, cartId, paymentDetailsId)
+              .setPaymentDetails(userId, cartId, paymentDetailsId)
               .pipe(
                 tap(() =>
                   this.eventService.dispatch(
