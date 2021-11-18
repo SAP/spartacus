@@ -404,29 +404,25 @@ export const approvalOrderDetail = {
                   altText: 'Angle Grinder RT-AG 115',
                   format: 'zoom',
                   imageType: 'PRIMARY',
-                  url:
-                    '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
                 },
                 {
                   altText: 'Angle Grinder RT-AG 115',
                   format: 'product',
                   imageType: 'PRIMARY',
-                  url:
-                    '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
                 },
                 {
                   altText: 'Angle Grinder RT-AG 115',
                   format: 'thumbnail',
                   imageType: 'PRIMARY',
-                  url:
-                    '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
                 },
                 {
                   altText: 'Angle Grinder RT-AG 115',
                   format: 'cartIcon',
                   imageType: 'PRIMARY',
-                  url:
-                    '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
+                  url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
                 },
               ],
               manufacturer: 'Einhell',
@@ -437,8 +433,7 @@ export const approvalOrderDetail = {
                 stockLevel: 193,
                 stockLevelStatus: 'inStock',
               },
-              url:
-                '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
+              url: '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
             },
             quantity: 100,
             returnableQuantity: 0,
@@ -493,29 +488,25 @@ export const approvalOrderDetail = {
               altText: 'Angle Grinder RT-AG 115',
               format: 'zoom',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'product',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'thumbnail',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'cartIcon',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
             },
           ],
           manufacturer: 'Einhell',
@@ -526,8 +517,7 @@ export const approvalOrderDetail = {
             stockLevel: 193,
             stockLevelStatus: 'inStock',
           },
-          url:
-            '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
+          url: '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
         },
         quantity: 100,
         returnableQuantity: 0,
@@ -691,29 +681,25 @@ export const approvalOrderDetail = {
               altText: 'Angle Grinder RT-AG 115',
               format: 'zoom',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDk4OHxpbWFnZS9qcGVnfGltYWdlcy9oMDcvaGIwLzg3OTYyMzQyMTk1NTAuanBnfDQ1ZGQzMmNmOGEzMTczMjQ5ZjUzOWM5MTc2MmIyZDkyNTUyNmFiMmIzYzA0Y2NjYjY1OTEwYTEyMjJmY2UyNDg',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'product',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMTY4NXxpbWFnZS9qcGVnfGltYWdlcy9oYzUvaDM1Lzg3OTYyNjE0ODI1MjYuanBnfGFiMzM3ZDI1MWQ5YWRjNTg3NWUxNjNhY2U4NTNhYTdhYzJiOTBiYzE2YTg4NjQ4ZDQxMjkzNWMyNDM1NDE3MTc',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'thumbnail',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNDEzfGltYWdlL2pwZWd8aW1hZ2VzL2g1OS9oMDcvODc5NjI4ODc0NTUwMi5qcGd8YjA2ZTk2ZWY1OWQ4NWY4ZTQyMThjMGZkZDgwNjZmOTVkOTZmN2U3YTA1NzIxNDlhY2EyZjQ2NDM3ZmUwMTUzNw',
             },
             {
               altText: 'Angle Grinder RT-AG 115',
               format: 'cartIcon',
               imageType: 'PRIMARY',
-              url:
-                '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
+              url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNDU1fGltYWdlL2pwZWd8aW1hZ2VzL2hiZC9oYzkvODc5NjMxNjAwODQ3OC5qcGd8ZjFmNzU4OTA0NTg2ZGI2NGIxZjdjNzU4MDVkNmNlNTg3NDc5ODUwZDk1NzIwZWM0M2NkZWZjOGIxMDViMTU3Yw',
             },
           ],
           manufacturer: 'Einhell',
@@ -724,8 +710,7 @@ export const approvalOrderDetail = {
             stockLevel: 193,
             stockLevelStatus: 'inStock',
           },
-          url:
-            '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
+          url: '/Open-Catalogue/Tools/Angle-Grinders/Angle-Grinder-RT-AG-115/p/3881018',
         },
         quantity: 100,
         returnableQuantity: 0,

@@ -1,6 +1,6 @@
 import * as cart from '../../helpers/cart';
-import * as productSearch from '../../helpers/product-search';
-import * as textfiledConfiguration from '../../helpers/textfield-configuration';
+import * as configuration from '../../helpers/product-configurator';
+import * as textfieldConfiguration from '../../helpers/textfield-configuration';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = '1934793';
@@ -14,63 +14,63 @@ context('Textfield Configuration', () => {
 
   describe('Navigate to Textfield Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      productSearch.searchForProduct(testProduct);
-      textfiledConfiguration.clickOnConfigureButton();
+      configuration.searchForProduct(testProduct);
+      textfieldConfiguration.clickOnConfigureButton();
     });
 
     it('should be able to navigate from the product details page', () => {
-      textfiledConfiguration.goToProductDetailsPage(
+      textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
         testProduct
       );
-      textfiledConfiguration.clickOnConfigureButton();
+      textfieldConfiguration.clickOnConfigureButton();
     });
 
     it('should be able to navigate from the cart', () => {
-      textfiledConfiguration.goToConfigurationPage(
+      textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct
       );
-      textfiledConfiguration.checkConfigurationPageIsDisplayed();
-      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
-      textfiledConfiguration.clickOnEditConfigurationLink(0);
+      textfieldConfiguration.checkConfigurationPageIsDisplayed();
+      textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
+      textfieldConfiguration.clickOnEditConfigurationLink(0);
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
-      textfiledConfiguration.goToProductDetailsPage(
+      textfieldConfiguration.goToProductDetailsPage(
         electronicsShop,
         testProduct
       );
-      textfiledConfiguration.clickOnAddToCartBtnOnPD();
-      textfiledConfiguration.clickOnViewCartBtnOnPD();
+      textfieldConfiguration.clickOnAddToCartBtnOnPD();
+      textfieldConfiguration.clickOnViewCartBtnOnPD();
       cart.verifyCartNotEmpty();
-      textfiledConfiguration.clickOnEditConfigurationLink(0);
+      textfieldConfiguration.clickOnEditConfigurationLink(0);
     });
   });
 
   describe('Configure Product and add to cart', () => {
     it('should enter value and add textfield product to cart', () => {
-      textfiledConfiguration.goToConfigurationPage(
+      textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct
       );
-      textfiledConfiguration.checkConfigurationPageIsDisplayed();
-      textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
-      textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
-      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
+      textfieldConfiguration.checkConfigurationPageIsDisplayed();
+      textfieldConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
+      textfieldConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
+      textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
     });
 
     it('should be able to update a configured product from the cart', () => {
-      textfiledConfiguration.goToConfigurationPage(
+      textfieldConfiguration.goToConfigurationPage(
         electronicsShop,
         testProduct
       );
-      textfiledConfiguration.checkConfigurationPageIsDisplayed();
-      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
-      textfiledConfiguration.clickOnEditConfigurationLink(0);
-      textfiledConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
-      textfiledConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
-      textfiledConfiguration.addToCartAndVerify(electronicsShop, testProduct);
+      textfieldConfiguration.checkConfigurationPageIsDisplayed();
+      textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
+      textfieldConfiguration.clickOnEditConfigurationLink(0);
+      textfieldConfiguration.checkAttributeDisplayed(ENGRAVED_TEXT);
+      textfieldConfiguration.selectAttribute(ENGRAVED_TEXT, HALLO);
+      textfieldConfiguration.addToCartAndVerify(electronicsShop, testProduct);
     });
   });
 });

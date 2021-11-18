@@ -46,6 +46,7 @@ class MockSavedCartConnector implements Partial<SavedCartConnector> {
   getList = createSpy().and.returnValue(of(mockSavedCarts));
   restoreSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
   saveCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
+  cloneSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
 }
 
 const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
@@ -303,6 +304,43 @@ describe('SavedCart Effects', () => {
         mockCartId,
         mockSavedCarts[0].name,
         mockSavedCarts[0].description
+      );
+    });
+  });
+
+  describe('cloneSavedCart$', () => {
+    it('should clone a saved cart', () => {
+      const action = new SavedCartActions.CloneSavedCart({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+      });
+
+      const completion1 = new SavedCartActions.CloneSavedCartSuccess({
+        userId: mockUserId,
+        cartId: mockCartId,
+        saveCartName: mockSavedCarts[0].name,
+      });
+      const completion2 = new SavedCartActions.RestoreSavedCart({
+        userId: mockUserId,
+        cartId: mockCartId,
+      });
+      const completion3 = new SavedCartActions.LoadSavedCarts({
+        userId: mockUserId,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: completion1,
+        c: completion2,
+        d: completion3,
+      });
+
+      expect(effects.cloneSavedCart$).toBeObservable(expected);
+      expect(connector.cloneSavedCart).toHaveBeenCalledWith(
+        mockUserId,
+        mockCartId,
+        mockSavedCarts[0].name
       );
     });
   });

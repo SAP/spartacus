@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "StorefinderSchematics",
+  "$id": "StorefinderSchematics",
   "title": "Storefinder Schematics",
   "type": "object",
   "properties": {

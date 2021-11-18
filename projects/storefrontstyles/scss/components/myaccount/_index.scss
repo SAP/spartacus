@@ -1,8 +1,9 @@
-@use "sass:list";
+@use 'sass:list';
 
 @import './anonymous-consent/index';
 @import './order-history/index';
 @import './address-book';
+@import './address-form';
 @import './payment-methods';
 @import './consent-management';
 @import './consent-management-form';
@@ -11,10 +12,11 @@
 @import './my-coupons-dialog';
 @import './my-interests';
 
-$myaccount-components-allowlist: cx-address-book, cx-order-summary,
-  cx-order-history, cx-order-confirmation-items, cx-order-confirmation-totals,
-  cx-order-confirmation-thank-you-message, cx-promotions, cx-order-detail-items,
-  cx-order-detail-shipping, cx-order-detail-totals, cx-order-detail-totals,
+$myaccount-components-allowlist: cx-address-book, cx-address-form,
+  cx-order-summary, cx-order-history, cx-order-confirmation-items,
+  cx-order-confirmation-totals, cx-order-confirmation-thank-you-message,
+  cx-promotions, cx-order-detail-items, cx-order-detail-shipping,
+  cx-order-detail-totals, cx-order-detail-totals,
   cx-anonymous-consent-management-banner, cx-anonymous-consent-dialog,
   cx-anonymous-consent-open-dialog, cx-consent-management-form,
   cx-consent-management, cx-tracking-events, cx-order-return-request-list,

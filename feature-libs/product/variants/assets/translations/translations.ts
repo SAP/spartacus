@@ -7,5 +7,5 @@ export const productVariantsTranslations: TranslationResources = {
 
 // expose all translation chunk mapping for variants sub features
 export const productVariantsTranslationChunksConfig: TranslationChunksConfig = {
-  variants: ['variants'],
+  productVariants: ['productVariants'],
 };

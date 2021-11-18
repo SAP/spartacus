@@ -27,8 +27,8 @@
   {{ getRequiredMessageKey() | cxTranslate }}
 </div>
 <img
-  *ngIf="attribute.images[0]"
+  *ngIf="hasImage"
   class="cx-attribute-img"
-  src="{{ attribute.images[0].url }}"
-  alt="{{ attribute.images[0].altText }}"
+  src="{{ image?.url }}"
+  alt="{{ image?.altText }}"
 />

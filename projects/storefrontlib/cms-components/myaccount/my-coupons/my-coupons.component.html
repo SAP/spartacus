@@ -1,0 +1,102 @@
+<div class="cx-section">
+  <ng-container *ngIf="!(couponsLoading$ | async); else loading">
+    <ng-container *ngIf="couponResult$ | async as couponResult">
+      <div class="cx-my-coupons-header">
+        <h3>{{ 'myCoupons.myCoupons' | cxTranslate }}</h3>
+      </div>
+
+      <ng-container
+        *ngIf="couponResult.pagination.totalCount > 0; else noCoupons"
+      >
+        <div class="cx-my-coupons-sort top row">
+          <label
+            class="
+              cx-my-coupons-form-group
+              form-group
+              col-sm-12 col-md-4 col-lg-4
+            "
+          >
+            <span>{{ 'myCoupons.sortBy' | cxTranslate }}</span>
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels | async"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+            >
+            </cx-sorting>
+          </label>
+          <div class="cx-my-coupons-pagination cx-mycoupon-thead-mobile">
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+
+        <div class="row cx-coupon-deck">
+          <div
+            *ngFor="let coupon of couponResult.coupons"
+            class="col-md-6 cx-coupon-card"
+          >
+            <cx-coupon-card
+              [coupon]="coupon"
+              [couponSubscriptionLoading$]="couponSubscriptionLoading$"
+              (notificationChanged)="notificationChange($event)"
+            ></cx-coupon-card>
+          </div>
+        </div>
+
+        <div class="cx-my-coupons-sort bottom row">
+          <label
+            class="
+              cx-my-coupons-form-group
+              form-group
+              cx-mycoupon-thead-mobile
+              col-sm-12 col-md-4 col-lg-4
+            "
+          >
+            <span>{{ 'myCoupons.sortBy' | cxTranslate }}</span>
+            <cx-sorting
+              [sortOptions]="sortOptions"
+              [sortLabels]="sortLabels | async"
+              (sortListEvent)="sortChange($event)"
+              [selectedOption]="sort"
+              placeholder="{{ 'myCoupons.sortBy' | cxTranslate }}"
+            >
+            </cx-sorting>
+          </label>
+          <div class="cx-my-coupons-pagination">
+            <cx-pagination
+              [pagination]="pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+        <div class="cx-my-coupons-notes">
+          <span>
+            <cx-icon [type]="iconTypes.INFO"></cx-icon>
+            {{ 'myCoupons.notesPreffix' | cxTranslate
+            }}<a [routerLink]="['/my-account/notification-preference']">{{
+              'myCoupons.notesLink' | cxTranslate
+            }}</a
+            >{{ 'myCoupons.notesSuffix' | cxTranslate }}</span
+          >
+        </div>
+      </ng-container>
+    </ng-container>
+
+    <ng-template #noCoupons>
+      <section>
+        <p class="cx-section-msg">
+          {{ 'myCoupons.noCouponsMessage' | cxTranslate }}
+        </p>
+      </section>
+    </ng-template>
+  </ng-container>
+
+  <ng-template #loading>
+    <div class="col-md-12 cx-coupon-spinner">
+      <cx-spinner></cx-spinner>
+    </div>
+  </ng-template>
+</div>

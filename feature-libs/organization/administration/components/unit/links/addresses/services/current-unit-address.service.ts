@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Address, RoutingService } from '@spartacus/core';
 import { OrgUnitService } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable, of } from 'rxjs';
 import { filter, switchMap } from 'rxjs/operators';
-import { ROUTE_PARAMS } from '../../../../constants';
 import { CurrentItemService } from '../../../../shared/current-item.service';
 
 @Injectable({

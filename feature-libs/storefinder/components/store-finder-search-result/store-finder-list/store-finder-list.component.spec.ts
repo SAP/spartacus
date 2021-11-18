@@ -8,9 +8,11 @@ import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map
 import { StoreFinderListComponent } from './store-finder-list.component';
 import {
   GoogleMapRendererService,
-  StoreDataService,
+  StoreFinderService,
 } from '@spartacus/storefinder/core';
 import { SpinnerModule } from '@spartacus/storefront';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 
 const location: PointOfService = {
@@ -19,7 +21,12 @@ const location: PointOfService = {
 const stores: Array<PointOfService> = [location];
 const locations = { stores: stores, pagination: { currentPage: 0 } };
 
-class StoreDataServiceMock {
+class StoreFinderServiceMock implements Partial<StoreFinderService> {
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  getStoresLoading = createSpy('getStoresLoading');
+  callFindStoresAction = createSpy('callFindStoresAction');
   getStoreLatitude(_location: any): number {
     return 35.528984;
   }
@@ -38,7 +45,7 @@ describe('StoreFinderDisplayListComponent', () => {
   let component: StoreFinderListComponent;
   let fixture: ComponentFixture<StoreFinderListComponent>;
   let storeMapComponent: StoreFinderMapComponent;
-  let storeDataService: StoreDataService;
+  let storeFinderService: StoreFinderService;
   let googleMapRendererService: GoogleMapRendererService;
 
   beforeEach(
@@ -58,7 +65,7 @@ describe('StoreFinderDisplayListComponent', () => {
             provide: GoogleMapRendererService,
             useClass: GoogleMapRendererServiceMock,
           },
-          { provide: StoreDataService, useClass: StoreDataServiceMock },
+          { provide: StoreFinderService, useClass: StoreFinderServiceMock },
         ],
       }).compileComponents();
     })
@@ -67,11 +74,11 @@ describe('StoreFinderDisplayListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(StoreFinderListComponent);
     component = fixture.componentInstance;
-    storeDataService = TestBed.inject(StoreDataService);
+    storeFinderService = TestBed.inject(StoreFinderService);
     googleMapRendererService = TestBed.inject(GoogleMapRendererService);
 
-    spyOn(storeDataService, 'getStoreLatitude');
-    spyOn(storeDataService, 'getStoreLongitude');
+    spyOn(storeFinderService, 'getStoreLatitude');
+    spyOn(storeFinderService, 'getStoreLongitude');
     spyOn(googleMapRendererService, 'centerMap');
 
     fixture.detectChanges();
@@ -92,8 +99,8 @@ describe('StoreFinderDisplayListComponent', () => {
     component.centerStoreOnMapByIndex(0, location);
 
     expect(storeMapComponent.centerMap).toHaveBeenCalled();
-    expect(storeDataService.getStoreLatitude).toHaveBeenCalled();
-    expect(storeDataService.getStoreLongitude).toHaveBeenCalled();
+    expect(storeFinderService.getStoreLatitude).toHaveBeenCalled();
+    expect(storeFinderService.getStoreLongitude).toHaveBeenCalled();
   });
 
   it('should select store from list', () => {

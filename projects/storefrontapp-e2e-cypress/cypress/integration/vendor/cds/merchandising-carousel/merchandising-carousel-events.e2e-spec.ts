@@ -15,7 +15,6 @@ context('Merchandising Carousel - events', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });
@@ -27,14 +26,14 @@ context('Merchandising Carousel - events', () => {
         win.localStorage.clear();
       });
 
-      cy.route('POST', '/edge/clickstreamEvents').as(
+      cy.intercept({ method: 'POST', path: '/edge/clickstreamEvents' }).as(
         merchandisingCarousel.carouselEventRequestAlias
       );
 
       const homePage = waitForPage('homepage', 'getHomePage');
       navigation.visitHomePage({});
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 
       merchandisingCarousel.verifyRequestToStrategyService(
         strategyRequestAlias,
@@ -63,7 +62,8 @@ context('Merchandising Carousel - events', () => {
       );
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName
+        merchandisingCarousel.filmCamerasCategoryName,
+        merchandisingCarousel.filmCamerasCategoryCode
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -86,7 +86,8 @@ context('Merchandising Carousel - events', () => {
       );
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.filmCamerasCategoryName
+        merchandisingCarousel.filmCamerasCategoryName,
+        merchandisingCarousel.filmCamerasCategoryCode
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
@@ -100,7 +101,8 @@ context('Merchandising Carousel - events', () => {
       merchandisingCarousel.waitForCarouselViewEvent();
 
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName
+        merchandisingCarousel.camcordersCategoryName,
+        merchandisingCarousel.camcordersCategoryCode
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(

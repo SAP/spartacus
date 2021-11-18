@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, ReplaySubject, Subscription } from 'rxjs';
+import { Observable, ReplaySubject } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -39,19 +39,6 @@ export class UserIdService {
    */
   public getUserId(): Observable<string> {
     return this._userId;
-  }
-
-  /**
-   * @deprecated Use `takeUserId` method instead.
-   *
-   * Calls provided callback with current user id.
-   *
-   * @param cb callback function to invoke
-   */
-  public invokeWithUserId(cb: (userId: string) => any): Subscription {
-    return this.getUserId()
-      .pipe(take(1))
-      .subscribe((id) => cb(id));
   }
 
   /**

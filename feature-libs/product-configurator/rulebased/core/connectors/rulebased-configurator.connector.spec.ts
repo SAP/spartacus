@@ -7,7 +7,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { RulebasedConfiguratorAdapter } from './rulebased-configurator.adapter';
 import { RulebasedConfiguratorConnector } from './rulebased-configurator.connector';
@@ -32,24 +32,27 @@ const productConfiguration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
 };
 
-const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  owner: productConfiguration.owner,
-};
+const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    owner: productConfiguration.owner,
+  };
 
-const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-  userId: USER_ID,
-  orderId: CART_ID,
-  owner: productConfiguration.owner,
-};
+const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+  {
+    userId: USER_ID,
+    orderId: CART_ID,
+    owner: productConfiguration.owner,
+  };
 
-const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters = {
-  userId: USER_ID,
-  cartId: CART_ID,
-  configuration: productConfiguration,
-  cartEntryNumber: '0',
-};
+const updateFromCartEntryParameters: Configurator.UpdateConfigurationForCartEntryParameters =
+  {
+    userId: USER_ID,
+    cartId: CART_ID,
+    configuration: productConfiguration,
+    cartEntryNumber: '0',
+  };
 
 const cartModification: CartModification = {};
 

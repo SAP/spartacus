@@ -80,6 +80,10 @@ export const unitConfig: MyCompanyConfig = {
   apiEndpoint: '/orgUnits',
   objectType: 'children',
   verifyStatusInDetails: true,
+  selectOptionsEndpoint: [
+    '*availableOrgUnitNodes*',
+    '*orgUnitsAvailableApprovalProcesses*',
+  ],
   rows: [
     {
       label: 'Name',
@@ -90,7 +94,7 @@ export const unitConfig: MyCompanyConfig = {
       showInTable: true,
       showInDetails: true,
       formLabel: 'Name',
-      sortLabel: 'name',
+      sortLabel: 'Name',
     },
     {
       label: 'Status',

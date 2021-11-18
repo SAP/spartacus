@@ -7,7 +7,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item/cart-item.component.ts
   class: CART_ITEM_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -19,6 +19,12 @@ export const CART_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {
   addParams: [
     {
       className: CART_ITEM_CONTEXT_SOURCE,
+      importPath: SPARTACUS_STOREFRONTLIB,
+    },
+  ],
+  removeParams: [
+    {
+      className: PROMOTION_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
   ],

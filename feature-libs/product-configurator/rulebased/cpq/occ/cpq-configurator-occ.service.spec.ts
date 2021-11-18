@@ -17,10 +17,8 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
   CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
@@ -54,52 +52,55 @@ describe('CpqConfigurationOccService', () => {
     userId: userId,
     cartId: documentId,
   };
-  const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters = {
-    userId: userId,
-    cartId: documentId,
-    cartEntryNumber: entryNumber.toString(),
-    configuration: {
-      ...ConfiguratorTestUtils.createConfiguration(configId, {
+  const updateCartParams: Configurator.UpdateConfigurationForCartEntryParameters =
+    {
+      userId: userId,
+      cartId: documentId,
+      cartEntryNumber: entryNumber.toString(),
+      configuration: {
+        ...ConfiguratorTestUtils.createConfiguration(configId, {
+          type: CommonConfigurator.OwnerType.CART_ENTRY,
+          id: entryNumber.toString(),
+          key: ConfiguratorModelUtils.getOwnerKey(
+            CommonConfigurator.OwnerType.PRODUCT,
+            entryNumber.toString()
+          ),
+          configuratorType: ConfiguratorType.CPQ,
+        }),
+      },
+    };
+
+  const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+    {
+      userId: userId,
+      cartId: documentId,
+      cartEntryNumber: '3',
+      owner: {
         type: CommonConfigurator.OwnerType.CART_ENTRY,
-        id: entryNumber.toString(),
+        id: productCode,
         key: ConfiguratorModelUtils.getOwnerKey(
-          CommonConfigurator.OwnerType.PRODUCT,
-          entryNumber.toString()
+          CommonConfigurator.OwnerType.CART_ENTRY,
+          productCode
         ),
         configuratorType: ConfiguratorType.CPQ,
-      }),
-    },
-  };
+      },
+    };
 
-  const readConfigCartParams: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-    userId: userId,
-    cartId: documentId,
-    cartEntryNumber: '3',
-    owner: {
-      type: CommonConfigurator.OwnerType.CART_ENTRY,
-      id: productCode,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.CART_ENTRY,
-        productCode
-      ),
-      configuratorType: ConfiguratorType.CPQ,
-    },
-  };
-
-  const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-    userId: userId,
-    orderId: documentId,
-    orderEntryNumber: '3',
-    owner: {
-      type: CommonConfigurator.OwnerType.ORDER_ENTRY,
-      id: productCode,
-      key: ConfiguratorModelUtils.getOwnerKey(
-        CommonConfigurator.OwnerType.ORDER_ENTRY,
-        productCode
-      ),
-      configuratorType: ConfiguratorType.CPQ,
-    },
-  };
+  const readConfigOrderEntryParams: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+    {
+      userId: userId,
+      orderId: documentId,
+      orderEntryNumber: '3',
+      owner: {
+        type: CommonConfigurator.OwnerType.ORDER_ENTRY,
+        id: productCode,
+        key: ConfiguratorModelUtils.getOwnerKey(
+          CommonConfigurator.OwnerType.ORDER_ENTRY,
+          productCode
+        ),
+        configuratorType: ConfiguratorType.CPQ,
+      },
+    };
 
   class MockOccEndpointsService {
     buildUrl(

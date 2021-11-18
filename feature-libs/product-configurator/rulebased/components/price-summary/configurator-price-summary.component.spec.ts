@@ -12,7 +12,7 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorPriceSummaryComponent } from './configurator-price-summary.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -39,18 +39,24 @@ const config: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   priceSummary: {
     basePrice: {
+      value: 22000,
+      currencyIso: 'EUR',
       formattedValue: '22.000 €',
     },
     selectedOptions: {
+      value: 900,
+      currencyIso: 'EUR',
       formattedValue: '900 €',
     },
     currentTotal: {
+      value: 22900,
+      currencyIso: 'EUR',
       formattedValue: '22.900 €',
     },
   },
 };
 
-let routerStateObservable = null;
+let routerStateObservable: Observable<RouterState>;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -106,8 +112,8 @@ describe('ConfigPriceSummaryComponent', () => {
     component.configuration$
       .subscribe((data: Configurator.Configuration) => {
         expect(data.productCode).toEqual(PRODUCT_CODE);
-        expect(data.priceSummary.basePrice).toEqual(
-          config.priceSummary.basePrice
+        expect(data.priceSummary?.basePrice).toEqual(
+          config.priceSummary?.basePrice
         );
       })
       .unsubscribe();

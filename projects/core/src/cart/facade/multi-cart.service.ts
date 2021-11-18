@@ -338,7 +338,7 @@ export class MultiCartService {
    * @param extraData
    */
   reloadCart(cartId: string, extraData?: { active: boolean }): void {
-    this.userIdService.invokeWithUserId((userId) =>
+    this.userIdService.takeUserId().subscribe((userId) =>
       this.store.dispatch(
         new CartActions.LoadCart({
           userId,

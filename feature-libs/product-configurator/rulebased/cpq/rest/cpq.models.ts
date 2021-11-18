@@ -27,7 +27,7 @@ export namespace Cpq {
     errorMessages?: string[];
     conflictMessages?: string[];
     numberOfConflicts?: number;
-    currencyISOCode?: string;
+    currencyISOCode: string;
     currencySign?: string;
     responder?: Cpq.Responder;
     tabs?: Tab[];

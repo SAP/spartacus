@@ -7,7 +7,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-//projects/storefrontlib/src/cms-structure/seo/structured-data/builders/product/jsonld-product-review.builder.ts
+//projects/storefrontlib/cms-structure/seo/structured-data/builders/product/jsonld-product-review.builder.ts
 export const JSONLD_PRODUCT_REVIEW_BUILDER_MIGRATION: ConstructorDeprecation = {
   class: JSONLD_PRODUCT_REVIEW_BUILDER,
   importPath: SPARTACUS_STOREFRONTLIB,

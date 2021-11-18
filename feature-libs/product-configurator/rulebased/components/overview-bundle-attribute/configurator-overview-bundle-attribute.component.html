@@ -27,14 +27,14 @@
           'configurator.overviewForm.itemPrice' | cxTranslate
         }}</span>
         <span class="cx-item">{{
-          attributeOverview.valuePrice.formattedValue
+          attributeOverview.valuePrice?.formattedValue
         }}</span>
       </div>
     </div>
   </div>
 
   <div class="cx-attribute-price-container">
-    <span class="cx-attribute-label">{{ attributeOverview?.attribute }}</span>
+    <span class="cx-attribute-label">{{ attributeOverview.attribute }}</span>
     <cx-configurator-price
       [formula]="extractPriceFormulaParameters()"
     ></cx-configurator-price>

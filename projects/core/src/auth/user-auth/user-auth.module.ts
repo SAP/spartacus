@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
+import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { provideDefaultConfig } from '../../config/config-providers';
 import { provideConfigValidator } from '../../config/config-validator/config-validator';
@@ -20,10 +21,15 @@ export function checkOAuthParamsInUrl(
   configInit: ConfigInitializerService
 ) {
   const result = () =>
-    configInit.getStableConfig().then(() => {
-      // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-      authService.checkOAuthParamsInUrl();
-    });
+    configInit
+      .getStable()
+      .pipe(
+        tap(() => {
+          // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+          authService.checkOAuthParamsInUrl();
+        })
+      )
+      .toPromise();
 
   return result;
 }

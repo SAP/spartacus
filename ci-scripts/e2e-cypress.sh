@@ -73,7 +73,7 @@ if [[ "${SSR}" = true ]]; then
     yarn build:ssr:ci
 
     echo "Starting Spartacus storefrontapp in SSR mode"
-    (yarn serve:ssr &)
+    (yarn serve:ssr:ci &)
 
     echo '-----'
     echo "Running SSR Cypress smoke test"

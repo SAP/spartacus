@@ -164,7 +164,7 @@
           padding-inline-end: var(--cx-split-gutter);
           border-inline-end: solid 0 var(--cx-color-light);
           border-inline-end-width: calc(
-            min(var(--cx-active-view) - 1, 1) * 1px
+            min(calc(var(--cx-active-view) - 1), 1) * 1px
           );
         }
       }
@@ -389,10 +389,6 @@
         text-overflow: ellipsis;
         white-space: nowrap;
 
-        @include media-breakpoint-up(lg) {
-          padding-inline-start: 20px;
-        }
-
         &.button {
           color: var(--cx-color-primary);
         }
@@ -410,8 +406,6 @@
         }
       }
       a {
-        padding-inline-start: 20px;
-
         display: flex;
         align-items: center;
         width: 100%;
@@ -474,8 +468,16 @@
         align-items: center;
         justify-content: flex-end;
 
-        .sort {
-          margin-inline-end: auto;
+        label {
+          align-items: center;
+          display: inline-flex;
+          span {
+            margin-inline-end: 0.5rem;
+          }
+          .sort {
+            margin-inline-end: auto;
+            min-width: 170px;
+          }
         }
 
         button {

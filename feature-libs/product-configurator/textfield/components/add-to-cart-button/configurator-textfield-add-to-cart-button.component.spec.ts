@@ -5,6 +5,8 @@ import {
   Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   I18nTestingModule,
   RouterState,
@@ -74,13 +76,16 @@ describe('ConfigTextfieldAddToCartButtonComponent', () => {
     );
     expect(buttonElements).toBeDefined();
     expect(buttonElements.length).toBe(1);
-    expect(buttonElements[0].textContent.trim()).toBe(buttonText);
+    const seenText = buttonElements[0].textContent
+      ? buttonElements[0].textContent.trim()
+      : undefined;
+    expect(seenText).toBe(buttonText);
   }
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
+        imports: [I18nTestingModule, RouterTestingModule, RouterModule],
         declarations: [
           ConfiguratorTextfieldAddToCartButtonComponent,
           MockUrlPipe,

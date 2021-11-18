@@ -30,6 +30,7 @@ const quantity = 1;
 
 const productConfiguration: ConfiguratorTextfield.Configuration = {
   configurationInfos: [],
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
   error: 'notFound',
@@ -47,6 +48,7 @@ const cartModification: CartModification = {
 describe('ConfiguratorTextfieldEffect', () => {
   let createMock: jasmine.Spy;
   let readFromCartEntryMock: jasmine.Spy;
+  let readFromOrderEntryMock: jasmine.Spy;
   let addToCartMock: jasmine.Spy;
   let updateCartEntryMock: jasmine.Spy;
 
@@ -59,6 +61,9 @@ describe('ConfiguratorTextfieldEffect', () => {
     readFromCartEntryMock = jasmine
       .createSpy()
       .and.returnValue(of(productConfiguration));
+    readFromOrderEntryMock = jasmine
+      .createSpy()
+      .and.returnValue(of(productConfiguration));
     addToCartMock = jasmine.createSpy().and.returnValue(of(cartModification));
     updateCartEntryMock = jasmine
       .createSpy()
@@ -67,6 +72,7 @@ describe('ConfiguratorTextfieldEffect', () => {
       createConfiguration = createMock;
       addToCart = addToCartMock;
       readConfigurationForCartEntry = readFromCartEntryMock;
+      readConfigurationForOrderEntry = readFromOrderEntryMock;
       updateConfigurationForCartEntry = updateCartEntryMock;
     }
 
@@ -100,14 +106,18 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type createConfiguration', () => {
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
 
-    const completion = new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
-      productConfiguration
-    );
+    const completion =
+      new ConfiguratorTextfieldActions.CreateConfigurationSuccess(
+        productConfiguration
+      );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completion });
 
@@ -116,14 +126,18 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case something goes wrong', () => {
     createMock.and.returnValue(throwError(errorResponse));
-    const payloadInput = { productCode: productCode, owner: undefined };
+    const payloadInput = {
+      productCode: productCode,
+      owner: ConfiguratorModelUtils.createInitialOwner(),
+    };
     const action = new ConfiguratorTextfieldActions.CreateConfiguration(
       payloadInput
     );
 
-    const completionFailure = new ConfiguratorTextfieldActions.CreateConfigurationFail(
-      normalizeHttpError(errorResponse)
-    );
+    const completionFailure =
+      new ConfiguratorTextfieldActions.CreateConfigurationFail(
+        normalizeHttpError(errorResponse)
+      );
     actions$ = hot('-a', { a: action });
     const expected = cold('-b', { b: completionFailure });
 
@@ -131,16 +145,18 @@ describe('ConfiguratorTextfieldEffect', () => {
   });
 
   it('should emit a success action with content for an action of type readConfigurationFromCart if read from cart is successful', () => {
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );
 
-    const completion = new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
-      productConfiguration
-    );
+    const completion =
+      new ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess(
+        productConfiguration
+      );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completion });
 
@@ -151,16 +167,18 @@ describe('ConfiguratorTextfieldEffect', () => {
 
   it('should emit a fail action in case read from cart leads to an error', () => {
     readFromCartEntryMock.and.returnValue(throwError(errorResponse));
-    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
+    const payloadInput: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
     const action = new ConfiguratorTextfieldActions.ReadCartEntryConfiguration(
       payloadInput
     );
 
-    const completionFailure = new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
-      normalizeHttpError(errorResponse)
-    );
+    const completionFailure =
+      new ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail(
+        normalizeHttpError(errorResponse)
+      );
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-b', { b: completionFailure });
 
@@ -169,9 +187,53 @@ describe('ConfiguratorTextfieldEffect', () => {
     );
   });
 
+  it('should emit a success action with content for an action of type readOrderEntryConfiguration if read from order entry is successful', () => {
+    const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
+    const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+      payloadInput
+    );
+
+    const completion =
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess(
+        productConfiguration
+      );
+    actions$ = cold('-a', { a: action });
+    const expectedObs = cold('-b', { b: completion });
+
+    expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
+      expectedObs
+    );
+  });
+
+  it('should emit a fail action in case read from order entry leads to an error', () => {
+    readFromOrderEntryMock.and.returnValue(throwError(errorResponse));
+    const payloadInput: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
+    const action = new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+      payloadInput
+    );
+
+    const completionFailure =
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail(
+        normalizeHttpError(errorResponse)
+      );
+    actions$ = cold('-a', { a: action });
+    const expectedObs = cold('-b', { b: completionFailure });
+
+    expect(configEffects.readConfigurationForOrderEntry$).toBeObservable(
+      expectedObs
+    );
+  });
+
   it('createConfiguration must not emit anything in case source action is not covered', () => {
     const action = new ConfiguratorTextfieldActions.CreateConfigurationSuccess({
       configurationInfos: [],
+      owner: ConfiguratorModelUtils.createInitialOwner(),
     });
     actions$ = hot('-a', { a: action });
     const expectedObs = cold('-');
@@ -194,7 +256,8 @@ describe('ConfiguratorTextfieldEffect', () => {
         userId: userId,
       });
 
-      const removeConfiguration = new ConfiguratorTextfieldActions.RemoveConfiguration();
+      const removeConfiguration =
+        new ConfiguratorTextfieldActions.RemoveConfiguration();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -235,15 +298,17 @@ describe('ConfiguratorTextfieldEffect', () => {
         cartEntryNumber: cartEntryNumber,
         configuration: productConfiguration,
       };
-      const action = new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-        payloadInput
-      );
+      const action =
+        new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
+          payloadInput
+        );
       const loadCart = new CartActions.LoadCart({
         userId: userId,
         cartId: cartId,
       });
 
-      const removeConfiguration = new ConfiguratorTextfieldActions.RemoveConfiguration();
+      const removeConfiguration =
+        new ConfiguratorTextfieldActions.RemoveConfiguration();
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
@@ -261,12 +326,14 @@ describe('ConfiguratorTextfieldEffect', () => {
         cartEntryNumber: cartEntryNumber,
         configuration: productConfiguration,
       };
-      const action = new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
-        payloadInput
-      );
-      const cartUpdateFail = new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
-        normalizeHttpError(errorResponse)
-      );
+      const action =
+        new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
+          payloadInput
+        );
+      const cartUpdateFail =
+        new ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail(
+          normalizeHttpError(errorResponse)
+        );
 
       actions$ = hot('-a', { a: action });
 

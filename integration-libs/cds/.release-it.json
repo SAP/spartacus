@@ -27,7 +27,8 @@
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/schematics",
             "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/tracking"
+            "peerDependencies.@spartacus/tracking",
+            "peerDependencies.@spartacus/checkout"
           ]
         }
       ]

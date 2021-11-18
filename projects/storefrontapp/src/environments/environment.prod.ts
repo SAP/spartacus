@@ -8,4 +8,5 @@ export const environment: Environment = {
   b2b: buildProcess.env.CX_B2B,
   cdc: buildProcess.env.CX_CDC,
   cpq: buildProcess.env.CX_CPQ,
+  digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS,
 };

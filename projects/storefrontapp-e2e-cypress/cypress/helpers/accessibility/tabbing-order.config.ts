@@ -163,8 +163,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
     { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
+    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
   ],
   productConfigurationPage: [
     {
@@ -180,22 +180,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Basics',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Specification',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Display',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Lens',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Options',
       type: TabbingOrderTypes.BUTTON,
     },
     {
@@ -556,6 +540,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       type: TabbingOrderTypes.GENERIC_INPUT,
     },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     {
       value: 'Back',
       type: TabbingOrderTypes.LINK,
@@ -615,6 +600,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Currency',
       type: TabbingOrderTypes.SELECT,
+    },
+    {
+      value: 'Quick Order',
+      type: TabbingOrderTypes.LINK,
     },
     {
       value: 'Find a Store',

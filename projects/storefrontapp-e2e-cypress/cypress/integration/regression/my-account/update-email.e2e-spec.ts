@@ -60,7 +60,7 @@ describe('My Account - Update Email', () => {
 
         login(newUid, password);
 
-        cy.get('cx-update-email').should('exist');
+        cy.get('cx-login .cx-login-greet').should('exist');
       });
 
       it('should not allow login with old email address', () => {

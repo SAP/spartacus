@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/smartedit",
-  "version": "3.2.0-next.2",
+  "version": "4.1.0-next.0",
   "description": "Smart Edit feature library for Spartacus",
   "keywords": [
     "spartacus",
@@ -17,14 +17,14 @@
     "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular-devkit/schematics": "^10.1.0",
-    "@angular/common": "^10.1.0",
-    "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.2.0-next.2",
-    "@spartacus/schematics": "3.2.0-next.2",
+    "@angular-devkit/schematics": "^12.0.5",
+    "@angular/common": "^12.0.5",
+    "@angular/core": "^12.0.5",
+    "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/schematics": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

@@ -22,5 +22,5 @@ export const getConfigurationsState: MemoizedSelector<
 
 export const getConfigurationContent: MemoizedSelector<
   StateWithConfigurationTextfield,
-  ConfiguratorTextfield.Configuration
+  ConfiguratorTextfield.Configuration | undefined
 > = createSelector(getConfigurationsState, getConfigurationContentSelector);

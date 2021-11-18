@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfieldUpdateCartEntrySerializer } from './occ-configurator-textfield-update-cart-entry-serializer';
 
@@ -21,6 +22,7 @@ describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {
         status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
       },
     ],
+    owner: ConfiguratorModelUtils.createInitialOwner(),
   };
 
   const sourceParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
@@ -41,17 +43,15 @@ describe('OccConfiguratorTextfieldUpdateCartEntrySerializer', () => {
   });
 
   it('should convert updateCartEntry parameters', () => {
-    const convertedParameters = occConfiguratorUpdateCartEntrySerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorUpdateCartEntrySerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(sourceParameters.userId);
-    expect(convertedParameters.configurationInfos[0].configuratorType).toEqual(
-      TEXTFIELD
-    );
-    expect(
-      convertedParameters.configurationInfos[0].configurationLabel
-    ).toEqual(
-      sourceParameters.configuration.configurationInfos[0].configurationLabel
-    );
+    const configurationInfos = convertedParameters.configurationInfos;
+    if (configurationInfos) {
+      expect(configurationInfos[0].configuratorType).toEqual(TEXTFIELD);
+      expect(configurationInfos[0].configurationLabel).toEqual(LABEL1);
+    } else {
+      fail();
+    }
   });
 });

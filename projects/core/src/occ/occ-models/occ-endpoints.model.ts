@@ -144,60 +144,6 @@ export interface OccEndpoints {
    *
    * @member {string}
    */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  titles?: string | OccEndpoint;
-  /**
-   * Get user details
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  user?: string | OccEndpoint;
-  /**
-   * Register a new user.
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userRegister?: string | OccEndpoint;
-  /**
-   * Request an email to reset the password
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userForgotPassword?: string | OccEndpoint;
-  /**
-   * Reset the password once the email is recieved.
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userResetPassword?: string | OccEndpoint;
-  /**
-   * Update the user id with which the user authenticates.
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userUpdateLoginId?: string | OccEndpoint;
-  /**
-   * Update the user's password
-   *
-   * @member {string}
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userUpdatePassword?: string | OccEndpoint;
-  /**
-   * Update the user's profile
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userUpdateProfile?: string | OccEndpoint;
-  /**
-   * Close user account
-   */
-  // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
-  userCloseAccount?: string | OccEndpoint;
   /**
    * Payment details root endpoint.
    *
@@ -212,12 +158,14 @@ export interface OccEndpoints {
   paymentDetail?: string | OccEndpoint;
   /**
    * Endpoint for the list of one user's orders
+   * @deprecated since 4.2 - use order lib instead
    *
    * @member {string}
    */
   orderHistory?: string | OccEndpoint;
   /**
    * Endpoint for the details of one user's order
+   * @deprecated since 4.2 - use order lib instead
    *
    * @member {string}
    */
@@ -334,6 +282,7 @@ export interface OccEndpoints {
   getVariantConfigurationOverview?: string;
   /**
    * Endpoint for consignment tracking
+   * @deprecated since 4.2 - use order lib instead
    *
    * @member {string}
    */
@@ -382,59 +331,62 @@ export interface OccEndpoints {
   getProductInterests?: string | OccEndpoint;
   /**
    * Endpoint for cancel an order
+   * @deprecated since 4.2 - use order lib instead
    */
   cancelOrder?: string | OccEndpoint;
   /**
    * Endpoint for creating order return request
+   * @deprecated since 4.2 - use order lib instead
    */
   returnOrder?: string | OccEndpoint;
   /**
    * Endpoint for user's order return requests
+   * @deprecated since 4.2 - use order lib instead
    */
   orderReturns?: string | OccEndpoint;
   /**
    * Endpoint for order return request details
+   * @deprecated since 4.2 - use order lib instead
    */
   orderReturnDetail?: string | OccEndpoint;
   /**
    * Endpoint for cancelling return request
+   * @deprecated since 4.2 - use order lib instead
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint for set delivery address to cart
-   */
-  setDeliveryAddress?: string | OccEndpoint;
-  /**
-   * Endpoint for place order
-   */
-  placeOrder?: string | OccEndpoint;
-  /**
    * Endpoint to schedule a replenishment order
+   * @deprecated since 4.2 - use order lib instead
    *
-   * * @member {string}
+   * @member {string}
    */
   scheduleReplenishmentOrder?: string | OccEndpoint;
   /**
-   * * Endpoint for the list of one user's replenishment orders
+   * Endpoint for the list of one user's replenishment orders
+   * @deprecated since 4.2 - use order lib instead
    *
-   * * @member {string}
+   * @member {string}
    */
   replenishmentOrderHistory?: string | OccEndpoint;
-  /* Endpoint to get a replenishment order details
+  /**
+   * Endpoint to get a replenishment order details
+   * @deprecated since 4.2 - use order lib instead
    *
-   * * @member {string}
+   * @member {string}
    */
   replenishmentOrderDetails?: string | OccEndpoint;
   /**
    * Endpoint to get a replenishment order history for a replenishment
+   * @deprecated since 4.2 - use order lib instead
    *
-   * * @member {string}
+   * @member {string}
    */
   replenishmentOrderDetailsHistory?: string | OccEndpoint;
   /**
    * Endpoint to get a replenishment order history for a replenishment
+   * @deprecated since 4.2 - use order lib instead
    *
-   * * @member {string}
+   * @member {string}
    */
   cancelReplenishmentOrder?: string | OccEndpoint;
   /**
@@ -443,20 +395,15 @@ export interface OccEndpoints {
    * @member {string}
    */
   baseSites?: string | OccEndpoint;
-  /**
-   * Endpoint for getting all base sites for the site context configuration
-   *
-   * @deprecated since 3.2
-   *
-   * @member {string}
-   */
-  // TODO(#11515): in 4.0, replace the value of `baseSites` with `baseSitesForConfig` and remove `baseSitesForConfig`.
-  baseSitesForConfig?: string | OccEndpoint;
   /** Endpoint to returns active cost centers
    *
    * @member {string}
    */
   getActiveCostCenters?: string | OccEndpoint;
+  /**
+   * Get cart validation results
+   */
+  validate?: string | OccEndpoint;
 
   // TODO @deprecation for 3.2 DEPRECATION START - The endpoint bellow were moved to separate feature libraries
   /**

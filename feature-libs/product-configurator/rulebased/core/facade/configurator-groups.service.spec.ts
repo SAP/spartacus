@@ -5,13 +5,14 @@ import { ActiveCartService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
+  CONFIG_ID,
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_4,
   productConfiguration,
   productConfigurationWithConflicts,
-} from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+} from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { Configurator } from './../model/configurator.model';
@@ -122,13 +123,12 @@ describe('ConfiguratorGroupsService', () => {
       });
     });
 
-    it('should return null if no group exist', (done) => {
+    it('should return undefined if no group exist', (done) => {
       const configNoGroups: Configurator.Configuration = {
         ...ConfiguratorTestUtils.createConfiguration(
           'abc',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        flatGroups: undefined,
       };
       spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
         of(configNoGroups)
@@ -138,24 +138,70 @@ describe('ConfiguratorGroupsService', () => {
         productConfiguration.owner
       );
       currentGroupId.subscribe((groupId) => {
-        expect(groupId).toBeNull();
+        expect(groupId).toBeUndefined();
         done();
       });
     });
   });
 
-  it('should get the parentGroup from uiState', (done) => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    const parentGroup = classUnderTest.getMenuParentGroup(
-      productConfiguration.owner
-    );
+  describe('getMenuParentGroup', () => {
+    it('should get the parentGroup from uiState', (done) => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
 
-    expect(parentGroup).toBeDefined();
-    parentGroup.subscribe((group) => {
-      expect(group).toBe(productConfiguration.groups[2]);
-      done();
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBe(productConfiguration.groups[2]);
+        done();
+      });
+    });
+
+    it('should return undefined if menu parent group is not availaible in uiState', (done) => {
+      const configurationWoMenuParentGroup =
+        ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        );
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configurationWoMenuParentGroup)
+      );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
+
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBeUndefined();
+        done();
+      });
+    });
+
+    it('should return undefined if menu parent group cannot be found', (done) => {
+      const configurationWoMenuParentGroup: Configurator.Configuration = {
+        ...ConfiguratorTestUtils.createConfiguration(
+          CONFIG_ID,
+          ConfiguratorModelUtils.createInitialOwner()
+        ),
+        interactionState: {
+          menuParentGroup: 'Conflict header group that is gone',
+        },
+      };
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(configurationWoMenuParentGroup)
+      );
+      const parentGroup = classUnderTest.getMenuParentGroup(
+        productConfiguration.owner
+      );
+
+      expect(parentGroup).toBeDefined();
+      parentGroup.subscribe((group) => {
+        expect(group).toBeUndefined();
+        done();
+      });
     });
   });
 
@@ -187,7 +233,7 @@ describe('ConfiguratorGroupsService', () => {
 
       expect(currentGroup).toBeDefined();
       currentGroup.subscribe((groupId) => {
-        expect(groupId).toEqual(null);
+        expect(groupId).toBeUndefined();
         done();
       });
     });
@@ -267,72 +313,59 @@ describe('ConfiguratorGroupsService', () => {
     ).toBe(productConfigurationWithConflicts.flatGroups[0]);
   });
 
-  it('should go to conflict solver', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfigurationWithConflicts)
-    );
-    classUnderTest.navigateToConflictSolver(
-      productConfigurationWithConflicts.owner
-    );
+  describe('navigateToConflictSolver', () => {
+    it('should go to conflict solver', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfigurationWithConflicts)
+      );
+      classUnderTest.navigateToConflictSolver(
+        productConfigurationWithConflicts.owner
+      );
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfigurationWithConflicts,
-        groupId: productConfigurationWithConflicts.flatGroups[0].id,
-        parentGroupId: productConfigurationWithConflicts.groups[0].id,
-      })
-    );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: productConfigurationWithConflicts,
+          groupId: productConfigurationWithConflicts.flatGroups[0].id,
+          parentGroupId: productConfigurationWithConflicts.groups[0].id,
+        })
+      );
+    });
+    it('should not navigate in case no conflict group is present', () => {
+      const consistentConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(consistentConfiguration)
+      );
+      classUnderTest.navigateToConflictSolver(consistentConfiguration.owner);
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
   });
 
-  it('should set change group to undefined it no conflict group exists (caller has to verify this)', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
+  describe('navigateToFirstIncompleteGroup', () => {
+    it('should go to first incomplete group', () => {
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(productConfiguration)
+      );
+      classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
 
-    classUnderTest.navigateToConflictSolver(
-      productConfigurationWithConflicts.owner
-    );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.ChangeGroup({
+          configuration: productConfiguration,
+          groupId: productConfiguration.flatGroups[0].id,
+          parentGroupId: undefined,
+        })
+      );
+    });
+    it('should not navigate in case no incomplete group is present', () => {
+      const completeConfiguration =
+        ConfiguratorTestUtils.createConfiguration('1');
+      spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+        of(completeConfiguration)
+      );
+      classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
 
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: undefined,
-        parentGroupId: null,
-      })
-    );
-  });
-
-  it('should go to first incomplete group', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: productConfiguration.flatGroups[0].id,
-        parentGroupId: null,
-      })
-    );
-  });
-
-  it('should set change group to undefined if no incomplete group exists (caller has to verify this)', () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(productConfiguration)
-    );
-    spyOn(configGroupStatusService, 'getFirstIncompleteGroup').and.returnValue(
-      undefined
-    );
-    classUnderTest.navigateToFirstIncompleteGroup(productConfiguration.owner);
-
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new ConfiguratorActions.ChangeGroup({
-        configuration: productConfiguration,
-        groupId: undefined,
-        parentGroupId: null,
-      })
-    );
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
+    });
   });
 
   it('should delegate calls for parent group to the facade utils service', () => {

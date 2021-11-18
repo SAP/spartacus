@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { TokenResponse } from 'angular-oauth2-oidc';
 import { OCC_USER_ID_CURRENT } from 'projects/core/src/occ';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
 import { AuthToken } from '../models/auth-token.model';
@@ -48,7 +48,7 @@ class MockAuthRedirectService implements Partial<AuthRedirectService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 describe('AuthService', () => {
@@ -149,6 +149,9 @@ describe('AuthService', () => {
 
       await service.coreLogout();
 
+      expect(
+        (service.logoutInProgress$ as BehaviorSubject<boolean>).value
+      ).toBeTruthy();
       expect(userIdService.clearUserId).toHaveBeenCalled();
       expect(oAuthLibWrapperService.revokeAndLogout).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Logout());

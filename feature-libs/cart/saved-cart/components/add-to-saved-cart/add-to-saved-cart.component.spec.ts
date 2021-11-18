@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
@@ -35,7 +36,7 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
+  go = () => Promise.resolve(true);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -56,7 +57,12 @@ describe('AddToSavedCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, UrlTestingModule],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        UrlTestingModule,
+        RouterTestingModule,
+      ],
       declarations: [AddToSavedCartComponent],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },

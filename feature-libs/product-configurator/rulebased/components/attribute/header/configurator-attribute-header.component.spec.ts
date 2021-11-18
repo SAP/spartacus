@@ -11,7 +11,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/shared/testing/common-configurator-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
@@ -44,14 +44,20 @@ describe('ConfigAttributeHeaderComponent', () => {
     'PRODUCT_CODE'
   );
 
+  const image = {
+    url: 'someImageURL',
+  };
+
+  const image2 = {
+    url: 'someOtherImageURL',
+  };
+
+  const images = [image, image2];
+
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
-    images: [
-      {
-        url: 'someImageURL',
-      },
-    ],
+    images: images,
   };
   let htmlElem: HTMLElement;
 
@@ -97,6 +103,42 @@ describe('ConfigAttributeHeaderComponent', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
+  describe('getImage', () => {
+    it('should return first image', () => {
+      expect(classUnderTest.image).toBe(image);
+    });
+
+    it('should return undefined if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(classUnderTest.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(classUnderTest.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+  });
+
+  describe('hasImage', () => {
+    it('should return true if image available', () => {
+      expect(classUnderTest.hasImage).toBe(true);
+    });
+
+    it('should return false if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(classUnderTest.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(classUnderTest.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
+  });
+
   describe('Render corresponding part of the component', () => {
     it('should render a label', () => {
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -110,13 +152,10 @@ describe('ConfigAttributeHeaderComponent', () => {
         'label',
         'label of attribute'
       );
-      const id = htmlElem.querySelector('label').getAttribute('id');
-      expect(id.indexOf('123')).toBeGreaterThan(
-        0,
-        'id of label does not contain the StdAttrCode'
-      );
+      const id = htmlElem.querySelector('label')?.getAttribute('id');
+      expect((id ? id : '').indexOf('123')).toBeGreaterThan(0);
       expect(
-        htmlElem.querySelector('label').getAttribute('aria-label')
+        htmlElem.querySelector('label')?.getAttribute('aria-label')
       ).toEqual(classUnderTest.attribute.label);
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,

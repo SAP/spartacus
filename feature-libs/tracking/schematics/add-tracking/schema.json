@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "TrackingSchematics",
+  "$id": "TrackingSchematics",
   "title": "Tracking Schematics",
   "type": "object",
   "properties": {

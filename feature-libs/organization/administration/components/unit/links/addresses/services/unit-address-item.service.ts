@@ -4,9 +4,9 @@ import {
   OrganizationItemStatus,
   OrgUnitService,
 } from '@spartacus/organization/administration/core';
+import { ROUTE_PARAMS } from '@spartacus/organization/administration/root';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, first, pluck } from 'rxjs/operators';
-import { ROUTE_PARAMS } from '../../../../constants';
 import { ItemService } from '../../../../shared/item.service';
 import { UnitAddressFormService } from '../form/unit-address-form.service';
 import { CurrentUnitAddressService } from './current-unit-address.service';

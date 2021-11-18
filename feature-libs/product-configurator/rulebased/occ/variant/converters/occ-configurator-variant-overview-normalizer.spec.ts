@@ -1,12 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, TranslationService } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
 import {
   GROUP_ID_1,
   GROUP_ID_2,
   GROUP_ID_3,
-} from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-data';
-import { Observable, of } from 'rxjs';
+} from '../../../testing/configurator-test-data';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantOverviewNormalizer } from './occ-configurator-variant-overview-normalizer';
@@ -38,7 +38,9 @@ const convertedOverview: Configurator.Overview = {
       attributes: [
         {
           attribute: 'C1',
+          attributeId: undefined,
           value: 'V1',
+          valueId: undefined,
         },
       ],
       subGroups: [
@@ -55,11 +57,15 @@ const convertedOverview: Configurator.Overview = {
       attributes: [
         {
           attribute: 'C2',
+          attributeId: undefined,
           value: 'V2',
+          valueId: undefined,
         },
         {
           attribute: 'C3',
+          attributeId: undefined,
           value: 'V3',
+          valueId: undefined,
         },
       ],
     },
@@ -188,9 +194,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
       subGroups: [group1, group3],
     };
 
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      groupWithSubgroups
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     expect(result.length).toBe(1);
   });
 
@@ -205,9 +210,8 @@ describe('OccConfiguratorVariantNormalizer', () => {
       subGroups: [group1, group3, secondLevelGroup],
     };
 
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      groupWithSubgroups
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(groupWithSubgroups);
     const rootGroup = result[0];
     expect(rootGroup).toBeDefined();
     const subGroups = rootGroup.subGroups;
@@ -233,15 +237,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
   });
 
   it('should convert a standard group', () => {
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      group1
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(group1);
     expect(result[0].groupDescription).toBe(groupDescription);
   });
   it('should convert a general group', () => {
-    const result = occConfiguratorVariantOverviewNormalizer.convertGroup(
-      generalGroup
-    );
+    const result =
+      occConfiguratorVariantOverviewNormalizer.convertGroup(generalGroup);
     expect(result[0].groupDescription).toBe(generalGroupDescription);
   });
 });

@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -16,13 +16,13 @@ function testCategoryPage(
   categoryPagePath: string = merchandisingCarousel.filmCamerasCategoryPagePath,
   containsConsentReference?: boolean
 ): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+  const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
 
   cy.visit(
     `/${merchandisingCarousel.DEFAULT_LANGUAGE}/${merchandisingCarousel.DEFAULT_CURRENCY}/${categoryPagePath}`
   );
 
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(
     strategyRequestAlias,
@@ -40,7 +40,6 @@ context('Merchandising Carousel - Category page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });
@@ -107,7 +106,8 @@ context('Merchandising Carousel - Category page', () => {
 
     it('should ignore previous category page content when navigating to a different category page', () => {
       merchandisingCarousel.navigateToCategory(
-        merchandisingCarousel.camcordersCategoryName
+        merchandisingCarousel.camcordersCategoryName,
+        merchandisingCarousel.camcordersCategoryCode
       );
 
       merchandisingCarousel.verifyMerchandisingCarouselRendersOnCategoryPage(

@@ -1,12 +1,12 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
   CxEvent,
   EventService,
-  OrderPlacedEvent,
 } from '@spartacus/core';
 import {
   CartPageEvent,

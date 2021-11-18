@@ -8,7 +8,11 @@ import {
 } from '@angular/core';
 import { Product, ProductService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
-import { FocusConfig, KeyboardFocusService } from '@spartacus/storefront';
+import {
+  FocusConfig,
+  ICON_TYPE,
+  KeyboardFocusService,
+} from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
@@ -44,9 +48,11 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
+  showDeselectionNotPossible = false;
 
   @Input()
   productCardOptions: ConfiguratorAttributeProductCardComponentOptions;
@@ -61,11 +67,12 @@ export class ConfiguratorAttributeProductCardComponent
   ) {
     super();
   }
+  iconType = ICON_TYPE;
 
   ngOnInit() {
     this.loading$.next(true);
-    const productSystemId = this.productCardOptions.productBoundValue
-      .productSystemId;
+    const productSystemId =
+      this.productCardOptions.productBoundValue.productSystemId;
 
     this.product$ = this.productService
       .get(
@@ -115,10 +122,19 @@ export class ConfiguratorAttributeProductCardComponent
   }
 
   onHandleDeselect(): void {
-    this.loading$.next(true);
-    this.handleDeselect.emit(
-      this.productCardOptions.productBoundValue.valueCode
-    );
+    {
+      if (
+        this.productCardOptions.productBoundValue.selected &&
+        this.productCardOptions.hideRemoveButton
+      ) {
+        this.showDeselectionNotPossibleMessage();
+        return;
+      }
+      this.loading$.next(true);
+      this.handleDeselect.emit(
+        this.productCardOptions.productBoundValue.valueCode
+      );
+    }
   }
 
   onChangeQuantity(eventObject: any): void {
@@ -183,8 +199,8 @@ export class ConfiguratorAttributeProductCardComponent
    * @return {ConfiguratorAttributeQuantityComponentOptions} - New quantity options
    */
   extractQuantityParameters(): ConfiguratorAttributeQuantityComponentOptions {
-    const quantityFromOptions = this.productCardOptions.productBoundValue
-      .quantity;
+    const quantityFromOptions =
+      this.productCardOptions.productBoundValue.quantity;
 
     const mergedLoading = this.productCardOptions.loading$
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
@@ -229,5 +245,9 @@ export class ConfiguratorAttributeProductCardComponent
       quantity,
       valueCode: this.productCardOptions.productBoundValue.valueCode,
     });
+  }
+
+  showDeselectionNotPossibleMessage() {
+    this.showDeselectionNotPossible = true;
   }
 }

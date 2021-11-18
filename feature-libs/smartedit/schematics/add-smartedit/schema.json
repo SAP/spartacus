@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SmartEditSchematics",
+  "$id": "SmartEditSchematics",
   "title": "SmartEdit Schematics",
   "type": "object",
   "properties": {

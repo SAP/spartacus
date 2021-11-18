@@ -1,5 +1,5 @@
 export const PRODUCT_LISTING = {
-  PRODUCTS_PER_PAGE: 10,
+  PRODUCTS_PER_PAGE: 12,
   SORTING_TYPES: {
     BY_TOP_RATED: 'Top Rated',
     BY_RELEVANCE: 'Relevance',

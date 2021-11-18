@@ -1,13 +1,12 @@
 import * as savedCart from '../../../../helpers/b2b/b2b-saved-cart';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.window().then((win) => win.localStorage.clear());
-      cy.clearLocalStorageMemory();
+      clearAllStorage();
     });
 
     describe('Accessibility - keyboarding', () => {
@@ -117,6 +116,15 @@ context('B2B - Saved Cart', () => {
         );
       });
 
+      it('should make cart active and not swap cart when active cart is empty, and clone saved cart with new cart name', () => {
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          true,
+          { isCloneCartActive: true, cloneName: 'newClonedName' }
+        );
+      });
+
       it('should make cart active and swap cart when active cart has entries', () => {
         savedCart.waitForCartPageData(sampleData.products[2]);
         savedCart.visitCartPage();
@@ -126,6 +134,20 @@ context('B2B - Saved Cart', () => {
         savedCart.restoreCart(
           sampleData.products[1],
           sampleData.savedActiveCartForm[2]
+        );
+      });
+
+      it('should make cart active and swap cart when active cart has entries, and clone saved cart', () => {
+        savedCart.waitForCartPageData(sampleData.products[2]);
+        savedCart.visitCartPage();
+
+        savedCart.verifyCartDetails(sampleData.savedCarts.carts[1]);
+
+        savedCart.restoreCart(
+          sampleData.products[1],
+          sampleData.savedActiveCartForm[2],
+          false,
+          { isCloneCartActive: true }
         );
       });
     });

@@ -18,7 +18,7 @@
     "migration-v3-methods-and-properties-deprecations-04": {
       "version": "3.2.0-next.2",
       "factory": "./3_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
-      "description": "Comment about usage of remove public methods or properties"
+      "description": "Comment about usage of removed public methods or properties"
     },
     "migration-v3-removed-public-api-deprecation-05": {
       "version": "3.2.0-next.2",
@@ -46,40 +46,50 @@
       "description": "Migrate ssr to the new setup"
     },
 
-    "migration-v4-removed-public-api-deprecation-01": {
-      "version": "4.0.0",
-      "factory": "./4_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
-      "description": "Comment about usage of removed public api"
-    },
-    "migration-v4-methods-and-properties-deprecations-01": {
-      "version": "4.0.0",
-      "factory": "./4_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
-      "description": "Comment about usage of remove public methods or properties"
-    },
-    "migration-v4-constructor-deprecations-01": {
-      "version": "4.0.0",
-      "factory": "./4_0/constructor-deprecations/constructor-deprecations#migrate",
-      "description": "Add or remove constructor parameters"
-    },
-    "migration-v4-config-deprecations-01": {
-      "version": "4.0.0",
-      "factory": "./4_0/config-deprecations/config-deprecation#migrate",
-      "description": "Handle deprecated configuration properties"
-    },
-    "migration-v4-rename-symbol-02": {
-      "version": "4.0.0",
+    "00-migration-v4-rename-symbol": {
+      "version": "4.1.0-next.0",
       "factory": "./4_0/rename-symbol/rename-symbol#migrate",
       "description": "Rename import symbols that were moved/changed in majors"
     },
-    "migration-v4-dependency-management-03": {
-      "version": "4.0.0",
+    "01-migration-v4-removed-public-api-deprecation": {
+      "version": "4.1.0-next.0",
+      "factory": "./4_0/removed-public-api-deprecations/removed-public-api-deprecation#migrate",
+      "description": "Comment about usage of removed public api"
+    },
+    "02-migration-v4-methods-and-properties-deprecations": {
+      "version": "4.1.0-next.0",
+      "factory": "./4_0/methods-and-properties-deprecations/methods-and-properties-deprecations#migrate",
+      "description": "Comment about usage of removed public methods or properties"
+    },
+    "03-migration-v4-constructor-deprecations": {
+      "version": "4.1.0-next.0",
+      "factory": "./4_0/constructor-deprecations/constructor-deprecations#migrate",
+      "description": "Add or remove constructor parameters"
+    },
+    "04-migration-v4-config-deprecations": {
+      "version": "4.1.0-next.0",
+      "factory": "./4_0/config-deprecations/config-deprecation#migrate",
+      "description": "Handle deprecated configuration properties"
+    },
+    "05-migration-v4-dependency-management": {
+      "version": "4.1.0-next.0",
       "factory": "./4_0/dependency-management/dependency-management#migrate",
       "description": "Update dependencies"
     },
-    "migration-v4-css-04": {
-      "version": "4.0.0",
+    "06-migration-v4-css": {
+      "version": "4.1.0-next.0",
       "factory": "./4_0/css/css#migrate",
       "description": "Handle deprecated CSS"
+    },
+    "07-migration-v4-missing-packages": {
+      "version": "4.1.0-next.0",
+      "factory": "./4_0/missing-packages/missing-packages#migrate",
+      "description": "Check missing packages"
+    },
+    "08-migration-v4-scaffold-app-structure": {
+      "version": "4.0.0",
+      "factory": "./mechanism/scaffold-app-structure/scaffold-app-structure#scaffoldAppStructure",
+      "description": "Scaffold the new app structure"
     }
   }
 }

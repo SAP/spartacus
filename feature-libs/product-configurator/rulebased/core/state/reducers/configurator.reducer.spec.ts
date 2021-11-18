@@ -3,9 +3,9 @@ import {
   ConfiguratorModelUtils,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorTestUtils } from 'feature-libs/product-configurator/rulebased/shared/testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
+import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import * as StateReduce from './configurator.reducer';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -28,12 +28,8 @@ const interactionState: Configurator.InteractionState = {
 };
 
 const groups: Configurator.Group[] = [
-  {
-    id: 'firstGroup',
-  },
-  {
-    id: 'secondGroup',
-  },
+  ConfiguratorTestUtils.createGroup('firstGroup'),
+  ConfiguratorTestUtils.createGroup('secondGroup'),
 ];
 
 const configuration: Configurator.Configuration = {
@@ -41,6 +37,7 @@ const configuration: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
+  flatGroups: [],
   isCartEntryUpdateRequired: false,
   interactionState: interactionState,
 };
@@ -49,6 +46,7 @@ const configurationWithoutOv: Configurator.Configuration = {
   productCode: PRODUCT_CODE,
   owner: owner,
   groups: groups,
+  flatGroups: [],
   isCartEntryUpdateRequired: false,
   interactionState: interactionState,
 };
@@ -83,12 +81,8 @@ describe('Configurator reducer', () => {
         productCode: PRODUCT_CODE,
         overview: { configId: CONFIG_ID },
         flatGroups: [
-          {
-            id: 'flatFirstGroup',
-          },
-          {
-            id: 'flatSecondGroup',
-          },
+          ConfiguratorTestUtils.createGroup('flatFirstGroup'),
+          ConfiguratorTestUtils.createGroup('flatFirstGroup'),
         ],
       };
       const action = new ConfiguratorActions.CreateConfigurationSuccess(
@@ -98,6 +92,7 @@ describe('Configurator reducer', () => {
       expect(state.interactionState.currentGroup).toEqual('flatFirstGroup');
     });
   });
+
   describe('ReadCartEntryConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadCartEntryConfigurationSuccess(
@@ -111,6 +106,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('ReadConfigurationSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.ReadConfigurationSuccess(
@@ -124,6 +120,7 @@ describe('Configurator reducer', () => {
       );
     });
   });
+
   describe('UpdateConfigurationSuccess action', () => {
     it('should not put configuration into the state because first we need to check for pending changes', () => {
       const { initialState } = StateReduce;
@@ -135,31 +132,32 @@ describe('Configurator reducer', () => {
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFail action', () => {
     it('should not put configuration into the state', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfigurationFail(
-        {
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfigurationFail({
           configuration: configuration,
           error: null,
-        }
-      );
+        });
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfiguration action', () => {
     it('should not put configuration into the state because it is only triggering the update process', () => {
       const { initialState } = StateReduce;
-      const action: ConfiguratorActions.ConfiguratorAction = new ConfiguratorActions.UpdateConfiguration(
-        configuration
-      );
+      const action: ConfiguratorActions.ConfiguratorAction =
+        new ConfiguratorActions.UpdateConfiguration(configuration);
       const state = StateReduce.configuratorReducer(undefined, action);
 
       expect(state).toEqual(initialState);
     });
   });
+
   describe('UpdateConfigurationFinalizeSuccess action', () => {
     it('should put configuration into the state', () => {
       const action = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
@@ -217,10 +215,9 @@ describe('Configurator reducer', () => {
   });
 
   describe('UpdatePriceSummarySuccess action', () => {
-    it('should keep the existing groups altough it does not provide groups in its data', () => {
-      const actionProvidingState = new ConfiguratorActions.CreateConfigurationSuccess(
-        configuration
-      );
+    it('should keep the existing groups although it does not provide groups in its data', () => {
+      const actionProvidingState =
+        new ConfiguratorActions.CreateConfigurationSuccess(configuration);
       const firstState = StateReduce.configuratorReducer(
         undefined,
         actionProvidingState
@@ -230,7 +227,7 @@ describe('Configurator reducer', () => {
           'A',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        priceSummary: { basePrice: {} },
+        priceSummary: { basePrice: { value: 0, currencyIso: 'EUR' } },
       };
       const action = new ConfiguratorActions.UpdatePriceSummarySuccess(
         configurationWithPriceSummary

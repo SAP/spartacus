@@ -1,0 +1,149 @@
+<label class="searchbox" [class.dirty]="!!searchInput.value">
+  <input
+    #searchInput
+    [placeholder]="'searchBox.placeholder' | cxTranslate"
+    autocomplete="off"
+    aria-describedby="initialDescription"
+    aria-controls="results"
+    [attr.aria-label]="'common.search' | cxTranslate"
+    (focus)="open()"
+    (click)="open()"
+    (input)="search(searchInput.value)"
+    (blur)="close($event)"
+    (keydown.escape)="close($event)"
+    (keydown.enter)="
+      close($event, true);
+      launchSearchResult($event, searchInput.value);
+      updateChosenWord(searchInput.value)
+    "
+    (keydown.arrowup)="focusPreviousChild($event)"
+    (keydown.arrowdown)="focusNextChild($event)"
+    value="{{ chosenWord }}"
+  />
+
+  <button
+    [attr.aria-label]="'common.reset' | cxTranslate"
+    (mousedown)="clear(searchInput)"
+    (keydown.enter)="clear(searchInput)"
+    class="reset"
+  >
+    <cx-icon [type]="iconTypes.RESET"></cx-icon>
+  </button>
+
+  <div role="presentation" class="search-icon">
+    <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+  </div>
+
+  <button
+    [attr.aria-label]="'common.search' | cxTranslate"
+    class="search"
+    (click)="open()"
+  >
+    <cx-icon [type]="iconTypes.SEARCH"></cx-icon>
+  </button>
+</label>
+
+<div
+  *ngIf="results$ | async as result"
+  class="results"
+  id="results"
+  (click)="close($event, true)"
+  role="listbox"
+>
+  <div
+    *ngIf="result.message"
+    class="message"
+    [innerHTML]="result.message"
+  ></div>
+
+  <ul
+    class="suggestions"
+    attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
+    tabindex="0"
+  >
+    <li *ngFor="let suggestion of result.suggestions">
+      <a
+        [innerHTML]="suggestion | cxHighlight: searchInput.value"
+        [routerLink]="
+          {
+            cxRoute: 'search',
+            params: { query: suggestion }
+          } | cxUrl
+        "
+        (keydown.arrowup)="focusPreviousChild($event)"
+        (keydown.arrowdown)="focusNextChild($event)"
+        (keydown.enter)="close($event, true)"
+        (keydown.escape)="close($event, true)"
+        (blur)="close($event)"
+        (mousedown)="preventDefault($event)"
+        (click)="
+          dispatchSuggestionEvent({
+            freeText: searchInput.value,
+            selectedSuggestion: suggestion,
+            searchSuggestions: result.suggestions
+          });
+          updateChosenWord(suggestion)
+        "
+      >
+      </a>
+    </li>
+  </ul>
+
+  <ul
+    class="products"
+    *ngIf="result.products"
+    attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
+    tabindex="0"
+  >
+    <li *ngFor="let product of result.products">
+      <a
+        [routerLink]="
+          {
+            cxRoute: 'product',
+            params: product
+          } | cxUrl
+        "
+        [class.has-media]="config.displayProductImages"
+        (keydown.arrowup)="focusPreviousChild($event)"
+        (keydown.arrowdown)="focusNextChild($event)"
+        (keydown.enter)="close($event, true)"
+        (keydown.escape)="close($event, true)"
+        (blur)="close($event)"
+        (mousedown)="preventDefault($event)"
+        (click)="
+          dispatchProductEvent({
+            freeText: searchInput.value,
+            productCode: product.code
+          })
+        "
+      >
+        <cx-media
+          *ngIf="config.displayProductImages"
+          [container]="product.images?.PRIMARY"
+          format="thumbnail"
+          role="presentation"
+        ></cx-media>
+        <div class="name" [innerHTML]="product.nameHtml"></div>
+        <span class="price">{{ product.price?.formattedValue }}</span>
+      </a>
+    </li>
+  </ul>
+  <span id="initialDescription" class="cx-visually-hidden">
+    {{ 'searchBox.initialDescription' | cxTranslate }}
+  </span>
+  <div
+    *ngIf="result.suggestions?.length || result.products?.length"
+    aria-live="assertive"
+    class="cx-visually-hidden"
+  >
+    {{
+      'searchBox.suggestionsResult'
+        | cxTranslate: { count: result.suggestions?.length }
+    }}
+    {{
+      'searchBox.productsResult'
+        | cxTranslate: { count: result.products?.length }
+    }}
+    {{ 'searchBox.initialDescription' | cxTranslate }}
+  </div>
+</div>

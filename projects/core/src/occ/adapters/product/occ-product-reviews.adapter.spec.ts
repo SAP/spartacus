@@ -24,7 +24,7 @@ const productReviews: Occ.ReviewList = {
 const endpoint = '/productReviews';
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.returnValue(
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.returnValue(
     endpoint
   );
 }

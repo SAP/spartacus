@@ -4,10 +4,12 @@ import {
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
+import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
   groups: [],
+  flatGroups: [],
   interactionState: {
     currentGroup: undefined,
     groupsVisited: {},
@@ -37,9 +39,12 @@ export function configuratorReducer(
     }
     case ConfiguratorActions.CREATE_CONFIGURATION_SUCCESS:
     case ConfiguratorActions.READ_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS:
-    case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
+    case ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION_SUCCESS: {
       return setInitialCurrentGroup(takeOverChanges(action, state));
+    }
+
+    case ConfiguratorActions.UPDATE_PRICE_SUMMARY_SUCCESS: {
+      return setInitialCurrentGroup(takeOverPricingChanges(action, state));
     }
 
     case ConfiguratorActions.GET_CONFIGURATION_OVERVIEW_SUCCESS: {
@@ -160,7 +165,7 @@ function setInitialCurrentGroup(
     return state;
   }
   let initialCurrentGroup;
-  const flatGroups = state?.flatGroups;
+  const flatGroups = state.flatGroups;
   if (flatGroups && flatGroups.length > 0) {
     initialCurrentGroup = flatGroups[0]?.id;
   }
@@ -180,7 +185,6 @@ function takeOverChanges(
   action:
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationSuccess
-    | ConfiguratorActions.UpdatePriceSummarySuccess
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess,
@@ -188,6 +192,34 @@ function takeOverChanges(
 ): Configurator.Configuration {
   const content = { ...action.payload };
   const groups = content.groups.length > 0 ? content.groups : state.groups;
+
+  const result: Configurator.Configuration = {
+    ...state,
+    ...content,
+    groups: groups,
+    interactionState: {
+      ...state.interactionState,
+      ...content.interactionState,
+      issueNavigationDone: true,
+    },
+  };
+  return result;
+}
+
+function takeOverPricingChanges(
+  action: ConfiguratorActions.UpdatePriceSummarySuccess,
+  state: Configurator.Configuration
+): Configurator.Configuration {
+  const content = { ...action.payload };
+  const priceSupplements = content.priceSupplements;
+  const groups =
+    priceSupplements && priceSupplements.length > 0
+      ? ConfiguratorStateUtils.mergeGroupsWithSupplements(
+          state.groups,
+          priceSupplements
+        )
+      : state.groups;
+
   const result = {
     ...state,
     ...content,

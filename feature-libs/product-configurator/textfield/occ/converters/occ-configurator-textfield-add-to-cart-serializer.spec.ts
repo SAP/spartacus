@@ -1,5 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfieldAddToCartSerializer } from './occ-configurator-textfield-add-to-cart-serializer';
 
@@ -22,6 +23,7 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
         status: ConfiguratorTextfield.ConfigurationStatus.SUCCESS,
       },
     ],
+    owner: ConfiguratorModelUtils.createInitialOwner(),
   };
 
   const sourceParameters: ConfiguratorTextfield.AddToCartParameters = {
@@ -43,20 +45,18 @@ describe('OccConfiguratorTextfieldAddToCartSerializer', () => {
   });
 
   it('should convert addToCart parameters to occAddToCartParameters', () => {
-    const convertedParameters = occConfiguratorVariantAddToCartSerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorVariantAddToCartSerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(sourceParameters.userId);
-    expect(convertedParameters.product.code).toEqual(
+    expect(convertedParameters.product?.code).toEqual(
       sourceParameters.productCode
     );
-    expect(convertedParameters.configurationInfos[0].configuratorType).toEqual(
-      TEXTFIELD
-    );
-    expect(
-      convertedParameters.configurationInfos[0].configurationLabel
-    ).toEqual(
-      sourceParameters.configuration.configurationInfos[0].configurationLabel
-    );
+    const configurationInfos = convertedParameters.configurationInfos;
+    if (configurationInfos) {
+      expect(configurationInfos[0].configuratorType).toEqual(TEXTFIELD);
+      expect(configurationInfos[0].configurationLabel).toEqual(LABEL1);
+    } else {
+      fail();
+    }
   });
 });

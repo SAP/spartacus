@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorConflictDescriptionComponent } from './configurator-conflict-description.component';
 
 @Component({
@@ -44,9 +45,15 @@ describe('ConfigurationConflictDescriptionComponent', () => {
   });
 
   it('should return true for conflict group', () => {
-    const conflictGroup = { groupType: Configurator.GroupType.CONFLICT_GROUP };
+    const conflictGroup: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup('1'),
+      groupType: Configurator.GroupType.CONFLICT_GROUP,
+    };
     expect(component.displayConflictDescription(conflictGroup)).toBe(true);
-    const group = { groupType: Configurator.GroupType.ATTRIBUTE_GROUP };
+    const group: Configurator.Group = {
+      ...ConfiguratorTestUtils.createGroup('2'),
+      groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+    };
     expect(component.displayConflictDescription(group)).toBe(false);
   });
 });

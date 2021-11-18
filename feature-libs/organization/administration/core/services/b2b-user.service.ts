@@ -42,7 +42,9 @@ export class B2BUserService {
             orgCustomerId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -52,7 +54,9 @@ export class B2BUserService {
         this.store.dispatch(
           new B2BUserActions.LoadB2BUsers({ userId, params })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -109,7 +113,9 @@ export class B2BUserService {
             orgCustomer,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -123,7 +129,9 @@ export class B2BUserService {
             orgCustomer,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -143,7 +151,9 @@ export class B2BUserService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -176,7 +186,9 @@ export class B2BUserService {
             approverId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -190,7 +202,9 @@ export class B2BUserService {
             approverId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -204,7 +218,9 @@ export class B2BUserService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -237,7 +253,9 @@ export class B2BUserService {
             permissionId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -251,7 +269,9 @@ export class B2BUserService {
             permissionId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -265,7 +285,9 @@ export class B2BUserService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -298,7 +320,9 @@ export class B2BUserService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -312,7 +336,9 @@ export class B2BUserService {
             userGroupId,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

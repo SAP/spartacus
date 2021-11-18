@@ -34,27 +34,27 @@ export const QUERY_ALIAS = {
 };
 
 export function enterProduct() {
-  cy.get('cx-searchbox input[aria-label="Search"]').type('camera{enter}');
+  cy.get('cx-searchbox input').type('camera{enter}');
 }
 
 export function clickSearchIcon() {
-  cy.get('cx-searchbox cx-icon[aria-label="Search"]').click({ force: true });
+  cy.get('cx-searchbox button.search').click({ force: true });
 }
 
 export function searchForProduct(product: string) {
-  cy.get('cx-searchbox input').type(`${product}{enter}`);
+  cy.get('cx-searchbox input').type(`${product}{enter}`, { force: true });
 }
 
 export function assertFirstProduct() {
   cy.get(productNameSelector).first().invoke('text').should('match', /\w+/);
 }
 
-export function checkDistinctProductName(firstProduct: string) {
+export function validateFirstProduct(xhr: any) {
+  const firstProduct = xhr.response.body.products[0].name;
   cy.get(productNameSelector)
     .first()
-    .invoke('text')
-    .should('match', /\w+/)
-    .should('not.be.eq', firstProduct);
+    .invoke('html')
+    .should('contain', firstProduct);
 }
 
 export function verifyProductSearch(
@@ -62,32 +62,34 @@ export function verifyProductSearch(
   sortingAlias: string,
   sortBy: string
 ): void {
-  cy.get(productNameSelector)
-    .first()
-    .invoke('text')
-    .should('match', /\w+/)
-    .then((firstProduct) => {
-      // Navigate to next page
-      nextPage();
-      cy.get(pageLinkSelector).should('contain', '2');
+  assertFirstProduct();
 
-      cy.wait(`@${productAlias}`);
+  nextPage();
 
-      checkDistinctProductName(firstProduct);
+  cy.get(pageLinkSelector).should('contain', '2');
 
-      cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
+  cy.wait(`@${productAlias}`).then((xhr) => {
+    validateFirstProduct(xhr);
+  });
 
-      cy.wait(`@${sortingAlias}`);
+  cy.get('cx-sorting .ng-select:first').ngSelect(sortBy);
 
-      cy.get(pageLinkSelector).should('contain', '2');
+  cy.wait(`@${sortingAlias}`).then((xhr) => {
+    validateFirstProduct(xhr);
+  });
 
-      checkDistinctProductName(firstProduct);
-    });
+  cy.get(pageLinkSelector).should('contain', '2');
 }
 
 export function searchResult() {
-  cy.server();
-  createCameraQuery(QUERY_ALIAS.CAMERA);
+  cy.intercept({
+    method: 'GET',
+    pathname: searchUrlPrefix,
+    query: {
+      fields: '*',
+      query: 'camera',
+    },
+  }).as(QUERY_ALIAS.CAMERA);
   cy.onMobile(() => {
     clickSearchIcon();
   });
@@ -145,8 +147,14 @@ export function viewMode() {
 }
 
 export function filterUsingFacetFiltering() {
-  cy.server();
-  createFacetFilterQuery(QUERY_ALIAS.FACET);
+  cy.intercept({
+    method: 'GET',
+    pathname: searchUrlPrefix,
+    query: {
+      fields: '*',
+      query: 'camera:relevance:availableInStores:*',
+    },
+  }).as(QUERY_ALIAS.FACET);
 
   clickFacet('Stores');
 
@@ -169,35 +177,35 @@ export function sortByLowestPrice() {
   enterProduct();
   createProductSortQuery('price-asc', 'query_price_asc');
   cy.get(sortingOptionSelector).ngSelect('Price (lowest first)');
-  cy.wait('@query_price_asc').its('status').should('eq', 200);
+  cy.wait('@query_price_asc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$1.58');
 }
 
 export function sortByHighestPrice() {
   createProductSortQuery('price-desc', 'query_price_desc');
   cy.get(sortingOptionSelector).ngSelect('Price (highest first)');
-  cy.wait('@query_price_desc').its('status').should('eq', 200);
+  cy.wait('@query_price_desc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductPriceSelector).should('contain', '$6,030.71');
 }
 
 export function sortByNameAscending() {
   createProductSortQuery('name-asc', 'query_name_asc');
   cy.get(sortingOptionSelector).ngSelect('Name (ascending)');
-  cy.wait('@query_name_asc').its('status').should('eq', 200);
+  cy.wait('@query_name_asc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', '10.2 Megapixel D-SLR');
 }
 
 export function sortByNameDescending() {
   createProductSortQuery('name-desc', 'query_name_desc');
   cy.get(sortingOptionSelector).ngSelect('Name (descending)');
-  cy.wait('@query_name_desc').its('status').should('eq', 200);
+  cy.wait('@query_name_desc').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('contain', 'Wide Strap for EOS 450D');
 }
 
 export function sortByRelevance() {
   createProductSortQuery('relevance', 'query_relevance');
   cy.get(sortingOptionSelector).ngSelect('Relevance');
-  cy.wait('@query_relevance').its('status').should('eq', 200);
+  cy.wait('@query_relevance').its('response.statusCode').should('eq', 200);
   cy.get(firstProductNameSelector).should('not.be.empty');
 }
 
@@ -243,23 +251,11 @@ export function clearSelectedFacet() {
   cy.get('cx-product-facet-navigation cx-active-facets a').first().click();
 }
 
-function createCameraQuery(alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}?fields=*&query=camera*`).as(alias);
-}
-
-function createFacetFilterQuery(alias: string): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=camera:relevance:availableInStores*`
-  ).as(alias);
-}
-
 export function createProductSortQuery(sort: string, alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}?fields=*&sort=${sort}*`).as(alias);
-}
-
-export function createAllProductQuery(alias: string): void {
-  cy.route('GET', `${searchUrlPrefix}*`).as(alias);
+  cy.intercept({
+    method: 'GET',
+    path: `${searchUrlPrefix}?fields=*&sort=${sort}*`,
+  }).as(alias);
 }
 
 export function createProductQuery(
@@ -268,10 +264,17 @@ export function createProductQuery(
   pageSize: number,
   currentPage: string = ''
 ): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=${queryId}${currentPage}&pageSize=${pageSize}&lang=en&curr=USD`
-  ).as(alias);
+  cy.intercept({
+    method: 'GET',
+    pathname: `${searchUrlPrefix}`,
+    query: {
+      query: queryId,
+      pageSize: `${pageSize}`,
+      lang: 'en',
+      curr: 'USD',
+      currentPage: currentPage ?? undefined,
+    },
+  }).as(alias);
 }
 
 export function createProductFacetQuery(
@@ -279,10 +282,13 @@ export function createProductFacetQuery(
   search: string,
   alias: string
 ): void {
-  cy.route(
-    'GET',
-    `${searchUrlPrefix}?fields=*&query=${search}:relevance:${param}*`
-  ).as(alias);
+  cy.intercept({
+    method: 'GET',
+    pathname: `${searchUrlPrefix}`,
+    query: {
+      query: `${search}:relevance:${param}*`,
+    },
+  }).as(alias);
 }
 
 export function assertNumberOfProducts(alias: string, category: string) {

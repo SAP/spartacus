@@ -11,7 +11,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import {
   ItemCounterComponent,
   KeyboardFocusService,
@@ -20,6 +19,7 @@ import {
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../show-more/configurator-show-more.component';
@@ -103,7 +103,7 @@ function setProductBoundValueAttributes(
     productBoundValue.valuePriceTotal = undefined;
     return productBoundValue;
   }
-  return {};
+  return { valueCode: 'A' };
 }
 
 function takeOneDisableQtyObs(
@@ -248,8 +248,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('Buttons constellation', () => {
     it('should button be enabled when card actions are disabled and card is no selected', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       expect(button.disabled).toBe(false);
     });
 
@@ -258,14 +259,16 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       expect(button.disabled).toBe(false);
     });
 
     it('should button be called with proper select method', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
       button.click();
 
       fixture.detectChanges();
@@ -278,8 +281,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       button.click();
 
@@ -289,8 +293,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
     });
 
     it('should button have select text when card type is no multi select and card is no selected', () => {
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.select');
     });
@@ -300,8 +305,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.deselect');
     });
@@ -312,8 +318,9 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.add');
     });
@@ -324,10 +331,28 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
       fixture.detectChanges();
 
-      const button = fixture.debugElement.query(By.css('button.btn'))
-        .nativeElement;
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
 
       expect(button.innerText).toContain('configurator.button.remove');
+    });
+
+    it('should show deselection error message when removing required attribute', () => {
+      component.productCardOptions.multiSelect = true;
+      component.productCardOptions.hideRemoveButton = true;
+      setProductBoundValueAttributes(component);
+
+      fixture.detectChanges();
+
+      const button = fixture.debugElement.query(
+        By.css('button.btn')
+      ).nativeElement;
+
+      button.click();
+
+      expect(component.onHandleDeselect).toHaveBeenCalled();
+      expect(component.showDeselectionNotPossible).toBe(true);
     });
   });
 
