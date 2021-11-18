@@ -39,7 +39,8 @@ export class OccCheckoutDeliveryAddressAdapter
         }
       )
       .pipe(
-        this.converter.pipeable(ADDRESS_NORMALIZER),
+      catchError((error) => throwError(normalizeHttpError(error)))
+       this.converter.pipeable(ADDRESS_NORMALIZER)
         catchError((error) => throwError(normalizeHttpError(error)))
       );
   }
