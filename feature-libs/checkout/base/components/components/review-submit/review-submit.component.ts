@@ -64,26 +64,23 @@ export class ReviewSubmitComponent {
 
   steps$: Observable<CheckoutStep[]> = this.checkoutStepService.steps$;
 
-  deliveryAddress$: Observable<
-    Address | undefined
-  > = this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
-    filter((state) => !state.loading && !state.error),
-    map((state) => state.data)
-  );
+  deliveryAddress$: Observable<Address | undefined> =
+    this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
-  deliveryMode$: Observable<
-    DeliveryMode | undefined
-  > = this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
-    filter((state) => !state.loading && !state.error),
-    map((state) => state.data)
-  );
+  deliveryMode$: Observable<DeliveryMode | undefined> =
+    this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
-  paymentDetails$: Observable<
-    PaymentDetails | undefined
-  > = this.checkoutPaymentService.getPaymentDetailsState().pipe(
-    filter((state) => !state.loading && !state.error),
-    map((state) => state.data)
-  );
+  paymentDetails$: Observable<PaymentDetails | undefined> =
+    this.checkoutPaymentService.getPaymentDetailsState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
+    );
 
   get countryName$(): Observable<string | undefined> {
     return this.deliveryAddress$.pipe(

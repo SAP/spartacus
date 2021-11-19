@@ -21,7 +21,9 @@ export class OrderConfirmationGuard implements CanActivate {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;
         } else {
-          return this.router.parseUrl(this.semanticPathService.get('orders'));
+          return this.router.parseUrl(
+            this.semanticPathService.get('orders') as string
+          );
         }
       })
     );

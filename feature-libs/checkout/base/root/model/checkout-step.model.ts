@@ -1,4 +1,4 @@
-export const enum CheckoutStepType {
+export enum CheckoutStepType {
   SHIPPING_ADDRESS = 'shippingAddress',
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
