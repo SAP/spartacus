@@ -20,7 +20,7 @@ export class MultiCartEffects {
 
   @Effect()
   setSelectiveId$: Observable<CartActions.SetCartTypeIndex> = this.actions$.pipe(
-    ofType(CartActions.LOAD_CART_SUCCESS, CartActions.CLEAR_CART_STATE),
+    ofType(CartActions.LOAD_CART_SUCCESS),
     map((action: Action) => {
       switch (action.type) {
         case CartActions.LOAD_CART_SUCCESS: {
@@ -33,11 +33,6 @@ export class MultiCartEffects {
           }
           break;
         }
-        case CartActions.CLEAR_CART_STATE:
-          return new CartActions.SetCartTypeIndex({
-            cartType: CartType.SELECTIVE,
-            cartId: undefined,
-          });
       }
     }),
     filter(isNotUndefined)
@@ -51,8 +46,7 @@ export class MultiCartEffects {
       CartActions.CREATE_CART,
       CartActions.SET_ACTIVE_CART_ID,
       CartActions.REMOVE_CART,
-      CartActions.DELETE_CART_SUCCESS,
-      CartActions.CLEAR_CART_STATE
+      CartActions.DELETE_CART_SUCCESS
     ),
     map((action: any) => {
       switch (action.type) {
@@ -80,12 +74,6 @@ export class MultiCartEffects {
             cartType: CartType.ACTIVE,
             cartId: action.payload,
           });
-        case CartActions.CLEAR_CART_STATE: {
-          return new CartActions.SetCartTypeIndex({
-            cartType: CartType.ACTIVE,
-            cartId: '',
-          });
-        }
       }
     }),
     filter(isNotUndefined)

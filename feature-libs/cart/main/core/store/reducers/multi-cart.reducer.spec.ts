@@ -139,6 +139,15 @@ describe('Multi Cart reducer', () => {
       });
     });
 
+    describe('CLEAR_CART_STATE action', () => {
+      it('should clear cart type index in state', () => {
+        const initialState = { Active: '1234', Selective: '123456' };
+        const action = new CartActions.ClearCartState();
+        const state = fromMultiCart.cartTypeIndexReducer(initialState, action);
+        expect(state).toEqual(fromMultiCart.cartTypeIndexInitialState);
+      });
+    });
+
     describe('other actions', () => {
       it('should return the default state', () => {
         const previousState = { Active: 'testCartId' };

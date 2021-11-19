@@ -157,8 +157,7 @@ export class WishListEffects {
   setWishListId$: Observable<CartActions.SetCartTypeIndex> = this.actions$.pipe(
     ofType(
       WishListActions.CREATE_WISH_LIST_SUCCESS,
-      WishListActions.LOAD_WISH_LIST_SUCCESS,
-      CartActions.CLEAR_CART_STATE
+      WishListActions.LOAD_WISH_LIST_SUCCESS
     ),
     map((action: Action) => {
       switch (action.type) {
@@ -170,11 +169,6 @@ export class WishListEffects {
               .entityId as string,
           });
         }
-        case CartActions.CLEAR_CART_STATE:
-          return new CartActions.SetCartTypeIndex({
-            cartType: CartType.WISH_LIST,
-            cartId: undefined,
-          });
       }
     }),
     filter(isNotUndefined)

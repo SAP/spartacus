@@ -46,7 +46,6 @@ export class SelectiveCartService implements SelectiveCartFacade {
           userId !== OCC_USER_ID_ANONYMOUS &&
           user?.customerId
         ) {
-          console.log('userId: ', userId);
           this.multiCartService.loadCart({
             userId: userId,
             cartId: `selectivecart${activeBaseSite}${user.customerId}`,

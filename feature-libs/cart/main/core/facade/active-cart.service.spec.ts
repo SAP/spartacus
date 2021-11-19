@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { Cart, CartType, OrderEntry } from '@spartacus/cart/main/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -51,6 +51,9 @@ class MultiCartServiceStub {
   addEntry() {}
   addEntries() {}
   isStable() {}
+  getCartIdByType(): Observable<string> {
+    return of('');
+  }
 }
 
 const mockCartEntry: OrderEntry = {
@@ -148,28 +151,19 @@ describe('ActiveCartService', () => {
   });
 
   describe('getActiveCartId', () => {
-    it('should return active cart id as guid for anonymous user', () => {
-      userId$.next(OCC_USER_ID_ANONYMOUS);
-      service['activeCart$'] = of({ code: 'code', guid: 'guid' });
-
+    it('should return active cart id', () => {
+      spyOn(multiCartService, 'getCartIdByType').and.returnValue(
+        of('testCode')
+      );
       let result;
       service
         .getActiveCartId()
-        .subscribe((val) => (result = val))
+        .subscribe((value) => (result = value))
         .unsubscribe();
-      expect(result).toBe('guid');
-    });
-
-    it('should return active cart id as guid for non anonymous user', () => {
-      userId$.next(OCC_USER_ID_CURRENT);
-      service['activeCart$'] = of({ code: 'code', guid: 'guid' });
-
-      let result;
-      service
-        .getActiveCartId()
-        .subscribe((val) => (result = val))
-        .unsubscribe();
-      expect(result).toBe('code');
+      expect(multiCartService['getCartIdByType']).toHaveBeenCalledWith(
+        CartType.ACTIVE
+      );
+      expect(result).toBe('testCode');
     });
   });
 
@@ -334,7 +328,7 @@ describe('ActiveCartService', () => {
   describe('addEntry', () => {
     it('should just add entry after cart is provided', () => {
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ value: { code: 'code', guid: 'guid' } })
+        of({ code: 'code', guid: 'guid' })
       );
       spyOn(multiCartService, 'addEntry').and.callThrough();
       userId$.next(OCC_USER_ID_ANONYMOUS);
@@ -444,12 +438,10 @@ describe('ActiveCartService', () => {
         name: OCC_USER_ID_ANONYMOUS,
         uid: 'test|test@email.com',
       };
-      spyOn(service, 'getActive').and.returnValue(
-        of({
-          code: 'xxx',
-          user: mockCartUser,
-        })
-      );
+      service['activeCart$'] = of({
+        code: 'xxx',
+        user: mockCartUser,
+      });
 
       let result;
       service
@@ -522,7 +514,7 @@ describe('ActiveCartService', () => {
     it('should add multiple entries at once', () => {
       spyOn(multiCartService, 'addEntries').and.callThrough();
       spyOn<any>(service, 'requireLoadedCart').and.returnValue(
-        of({ value: { code: 'someCode', guid: 'guid' } })
+        of({ code: 'someCode', guid: 'guid' })
       );
       userId$.next('someUserId');
 
@@ -582,8 +574,8 @@ describe('ActiveCartService', () => {
 
       service['cartEntity$'] = of(cartState);
 
-      service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState);
+      service.requireLoadedCart().subscribe((cart) => {
+        expect(cart).toEqual(cartState.value);
         expect(service['load']).not.toHaveBeenCalled();
         expect(multiCartService.createCart).not.toHaveBeenCalled();
         done();
@@ -610,7 +602,7 @@ describe('ActiveCartService', () => {
       userId$.next(OCC_USER_ID_CURRENT);
 
       service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState);
+        expect(cart).toEqual(cartState.value);
         expect(service['load']).toHaveBeenCalledWith(
           OCC_CART_ID_CURRENT,
           OCC_USER_ID_CURRENT
@@ -648,7 +640,7 @@ describe('ActiveCartService', () => {
       service['cartEntity$'] = cart$.asObservable();
 
       service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState);
+        expect(cart).toEqual(cartState.value);
         expect(service['load']).toHaveBeenCalledWith(
           OCC_CART_ID_CURRENT,
           OCC_USER_ID_CURRENT
@@ -685,7 +677,7 @@ describe('ActiveCartService', () => {
       service['cartEntity$'] = cart$.asObservable();
 
       service['requireLoadedCart']().subscribe((cart) => {
-        expect(cart).toEqual(cartState);
+        expect(cart).toEqual(cartState.value);
         expect(service['load']).not.toHaveBeenCalled();
         expect(multiCartService.createCart).toHaveBeenCalledWith({
           userId: OCC_USER_ID_ANONYMOUS,

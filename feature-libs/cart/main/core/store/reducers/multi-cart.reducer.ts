@@ -27,6 +27,8 @@ export function cartTypeIndexReducer(
       }
       return state;
     }
+    case CartActions.CLEAR_CART_STATE:
+      return cartTypeIndexInitialState;
   }
   return state;
 }

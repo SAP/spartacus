@@ -87,20 +87,6 @@ describe('Multi Cart effect', () => {
 
       expect(cartEffects.setSelectiveId$).toBeObservable(expected);
     });
-
-    it('should clear selective cart id', () => {
-      const action = new CartActions.ClearCartState();
-
-      const setSelectiveIdAction = new CartActions.SetCartTypeIndex({
-        cartType: CartType.SELECTIVE,
-        cartId: undefined,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: setSelectiveIdAction });
-
-      expect(cartEffects.setSelectiveId$).toBeObservable(expected);
-    });
   });
 
   describe('setActiveCartId$', () => {
@@ -152,20 +138,6 @@ describe('Multi Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: setNewCreatedCartIdAction });
-
-      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
-    });
-
-    it('should clear active cart id', () => {
-      const action = new CartActions.ClearCartState();
-
-      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
-        cartType: CartType.ACTIVE,
-        cartId: '',
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: setActiveCartIdAction });
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });

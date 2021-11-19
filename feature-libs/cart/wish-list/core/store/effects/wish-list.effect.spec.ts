@@ -221,20 +221,6 @@ describe('Wish List Effect', () => {
 
       expect(wishListEffect.setWishListId$).toBeObservable(expected);
     });
-
-    it('should clear wishlist id', () => {
-      const action = new CartActions.ClearCartState();
-
-      const setWishListIdAction = new CartActions.SetCartTypeIndex({
-        cartType: CartType.WISH_LIST,
-        cartId: undefined,
-      });
-
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: setWishListIdAction });
-
-      expect(wishListEffect.setWishListId$).toBeObservable(expected);
-    });
   });
 
   describe('setWishListData$', () => {
