@@ -18,11 +18,11 @@
 
       <div class="cx-item-infos" [class.open]="!hideItems">
         <div
-          aria-describedby="cx-item-hidden-info"
+          *ngFor="let lineItem of lineItems$ | async; let i = index"
           class="cx-item-info"
-          *ngFor="let lineItem of lineItems$ | async"
+          attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
         >
-          <span id="cx-item-hidden-info" class="cx-visually-hidden">
+          <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
             {{ getItemInfoMsg(lineItem) }}
           </span>
           <div class="cx-item-name" aria-hidden="true">

@@ -160,4 +160,8 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     }
     return translatedText;
   }
+
+  getHiddenItemInfoId(index: number): string {
+    return 'cx-item-hidden-info-' + index?.toString();
+  }
 }

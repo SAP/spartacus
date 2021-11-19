@@ -95,6 +95,7 @@ export const configurator = {
       cartEntryBundleNameWithPrice: 'Item name {{ name }} item price {{price}}',
       cartEntryBundleInfo:
         'Item name {{ name }} item price {{price}} item quantity {{quantity}}',
+      cartEntryInfo: 'Item name {{ label }} item value {{value}}',
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
