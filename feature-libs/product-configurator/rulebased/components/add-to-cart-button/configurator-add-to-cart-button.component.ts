@@ -4,7 +4,6 @@ import {
   GlobalMessageType,
   Order,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
