@@ -26,7 +26,7 @@ export class OccCheckoutPaymentTypeAdapter
     protected converter: ConverterService
   ) {}
 
-  loadPaymentTypes(): Observable<PaymentType[]> {
+  getPaymentTypes(): Observable<PaymentType[]> {
     return this.http
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
       .pipe(

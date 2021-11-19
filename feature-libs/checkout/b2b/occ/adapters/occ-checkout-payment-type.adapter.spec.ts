@@ -82,7 +82,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       };
 
       service
-        .loadPaymentTypes()
+        .getPaymentTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(paymentTypesList.paymentTypes);
@@ -99,7 +99,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
     });
 
     it('should use converter', () => {
-      service.loadPaymentTypes().subscribe();
+      service.getPaymentTypes().subscribe();
       httpMock.expectOne('paymenttypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
         CHECKOUT_PAYMENT_TYPE_NORMALIZER
