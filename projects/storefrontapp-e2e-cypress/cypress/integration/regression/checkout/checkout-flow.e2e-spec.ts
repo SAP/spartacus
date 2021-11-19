@@ -4,9 +4,12 @@ import {
   filterUsingFacetFiltering,
   searchResult,
 } from '../../../helpers/product-search';
-import { getSampleUser } from '../../../sample-data/checkout-flow';
+import {
+  carts,
+  getSampleUser,
+  products,
+} from '../../../sample-data/checkout-flow';
 
-import { carts, products } from '../../../sample-data/product-search-checkout';
 import { AddressData, PaymentDetails } from '../../../helpers/checkout-forms';
 
 context('Checkout flow', () => {
