@@ -90,11 +90,29 @@ describe('Multi Cart effect', () => {
   });
 
   describe('setActiveCartId$', () => {
-    it('should set active cart id to state for LoadCartSuccess/CreateCart', () => {
+    it('should set active cart id to state for LoadCartSuccess', () => {
       const action = new CartActions.LoadCartSuccess({
         userId: 'userId',
         cartId: 'cartId',
         cart: testCart,
+        extraData: { active: true },
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: 'cartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should set active cart id to state for CreateCart', () => {
+      const action = new CartActions.CreateCart({
+        userId: 'userId',
+        tempCartId: 'cartId',
         extraData: { active: true },
       });
 
@@ -123,12 +141,13 @@ describe('Multi Cart effect', () => {
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });
 
-    it('should set new_created cart id to state for CreateCartSuccess', () => {
+    it('should set new_created cart id to state for CreateCartSuccess with activve=false', () => {
       const action = new CartActions.CreateCartSuccess({
         userId: 'userId',
         tempCartId: 'tempCartId',
         cart: testCart,
         cartId: 'testCartId',
+        extraData: { active: false },
       });
 
       const setNewCreatedCartIdAction = new CartActions.SetCartTypeIndex({
@@ -138,6 +157,26 @@ describe('Multi Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: setNewCreatedCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
+
+    it('should set active cart id to state for CreateCartSuccess with active=true', () => {
+      const action = new CartActions.CreateCartSuccess({
+        userId: 'userId',
+        tempCartId: 'tempCartId',
+        cart: testCart,
+        cartId: 'testCartId',
+        extraData: { active: true },
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: 'testCartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
 
       expect(cartEffects.setActiveCartId$).toBeObservable(expected);
     });

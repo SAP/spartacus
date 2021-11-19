@@ -101,6 +101,16 @@ describe('Selective Cart Service', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
+  it('should return the stream directly if the selectiveCart$ exist', () => {
+    service['selectiveCart$'] = of({ code: 'test' });
+    let result;
+    service
+      .getCart()
+      .subscribe((val) => (result = val))
+      .unsubscribe();
+    expect(result).toEqual({ code: 'test' });
+  });
+
   it('should load selective cart when it does not exist', () => {
     spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
     spyOn(multiCartService, 'loadCart').and.stub();

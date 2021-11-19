@@ -205,8 +205,25 @@ describe('Wish List Effect', () => {
   });
 
   describe('setWishListId$', () => {
-    it('should set wishlist id to state', () => {
+    it('when CreateWishListSuccess, should set wishlist id to state', () => {
       const action = new WishListActions.CreateWishListSuccess({
+        cart: wishList,
+        cartId: wishList.code as string,
+      });
+
+      const setWishListIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.WISH_LIST,
+        cartId: wishList.code as string,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setWishListIdAction });
+
+      expect(wishListEffect.setWishListId$).toBeObservable(expected);
+    });
+
+    it('when LoadWishListSuccess, should set wishlist id to state', () => {
+      const action = new WishListActions.LoadWishListSuccess({
         cart: wishList,
         cartId: wishList.code as string,
       });
@@ -224,8 +241,25 @@ describe('Wish List Effect', () => {
   });
 
   describe('setWishListData$', () => {
-    it('should set wishlist data to state', () => {
+    it('when CreateWishListSuccess, should set wishlist data to state', () => {
       const action = new WishListActions.CreateWishListSuccess({
+        cart: wishList,
+        cartId: 'testCartId',
+      });
+
+      const setWishListDataAction = new CartActions.SetCartData({
+        cart: wishList,
+        cartId: 'testCartId',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setWishListDataAction });
+
+      expect(wishListEffect.setWishListData$).toBeObservable(expected);
+    });
+
+    it('when LoadWishListSuccess, should set wishlist data to state', () => {
+      const action = new WishListActions.LoadWishListSuccess({
         cart: wishList,
         cartId: 'testCartId',
       });
