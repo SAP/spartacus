@@ -25,6 +25,8 @@ import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
+  protected selectiveCart$: Observable<Cart>;
+
   constructor(
     protected userService: UserService,
     protected multiCartService: MultiCartService,
@@ -32,30 +34,38 @@ export class SelectiveCartService implements SelectiveCartFacade {
     protected userIdService: UserIdService
   ) {}
 
+  /**
+   * Initialize the stream when first call this function
+   */
   getCart(): Observable<Cart> {
-    return combineLatest([
-      this.getSelectiveCartId(),
-      this.userService.get(),
-      this.userIdService.getUserId(),
-      this.baseSiteService.getActive(),
-    ]).pipe(
-      distinctUntilChanged(),
-      tap(([selectiveId, user, userId, activeBaseSite]) => {
-        if (
-          !Boolean(selectiveId) &&
-          userId !== OCC_USER_ID_ANONYMOUS &&
-          user?.customerId
-        ) {
-          this.multiCartService.loadCart({
-            userId: userId,
-            cartId: `selectivecart${activeBaseSite}${user.customerId}`,
-          });
-        }
-      }),
-      filter(([selectiveId]) => Boolean(selectiveId)),
-      switchMap(([selectiveId]) => this.multiCartService.getCart(selectiveId)),
-      shareReplay({ bufferSize: 1, refCount: true })
-    );
+    if (!this.selectiveCart$) {
+      this.selectiveCart$ = combineLatest([
+        this.getSelectiveCartId(),
+        this.userService.get(),
+        this.userIdService.getUserId(),
+        this.baseSiteService.getActive(),
+      ]).pipe(
+        distinctUntilChanged(),
+        tap(([selectiveId, user, userId, activeBaseSite]) => {
+          if (
+            !Boolean(selectiveId) &&
+            userId !== OCC_USER_ID_ANONYMOUS &&
+            user?.customerId
+          ) {
+            this.multiCartService.loadCart({
+              userId: userId,
+              cartId: `selectivecart${activeBaseSite}${user.customerId}`,
+            });
+          }
+        }),
+        filter(([selectiveId]) => Boolean(selectiveId)),
+        switchMap(([selectiveId]) =>
+          this.multiCartService.getCart(selectiveId)
+        ),
+        shareReplay({ bufferSize: 1, refCount: true })
+      );
+    }
+    return this.selectiveCart$;
   }
 
   getEntries(): Observable<OrderEntry[]> {
