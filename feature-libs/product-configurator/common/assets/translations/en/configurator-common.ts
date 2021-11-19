@@ -89,6 +89,7 @@ export const configurator = {
     a11y: {
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
+      forAttribute: '{{ value }} for attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
       selectedValueOfAttributeFull:
         'Selected value {{ value }} of attribute {{ attribute }}',
