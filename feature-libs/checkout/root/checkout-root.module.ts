@@ -6,8 +6,8 @@ import {
 } from '@spartacus/core';
 import {
   CmsPageGuard,
-  PageLayoutComponent,
   ORDER_ENTRIES_CONTEXT,
+  PageLayoutComponent,
 } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';

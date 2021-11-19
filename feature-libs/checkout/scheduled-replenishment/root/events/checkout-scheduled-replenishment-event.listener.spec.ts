@@ -1,16 +1,12 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ResetCheckoutQueryEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { Observable, Subject } from 'rxjs';
-import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
-import {
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
-} from './checkout.events';
+import { CheckoutScheduledReplenishmentEventListener } from './checkout-scheduled-replenishment-event.listener';
+import { ReplenishmentOrderScheduledEvent } from './checkout-scheduled-replenishment.events';
 
 const mockEventStream$ = new Subject<CxEvent>();
-
 class MockEventService implements Partial<EventService> {
   get(): Observable<any> {
     return mockEventStream$.asObservable();
@@ -18,13 +14,13 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
 }
 
-describe(`CheckoutPaymentEventListener`, () => {
+describe(`CheckoutScheduledReplenishmentEventListener`, () => {
   let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        CheckoutPaymentEventListener,
+        CheckoutScheduledReplenishmentEventListener,
         {
           provide: EventService,
           useClass: MockEventService,
@@ -32,26 +28,15 @@ describe(`CheckoutPaymentEventListener`, () => {
       ],
     });
 
-    TestBed.inject(CheckoutPaymentEventListener);
+    TestBed.inject(CheckoutScheduledReplenishmentEventListener);
     eventService = TestBed.inject(EventService);
   });
 
-  describe(`onPaymentChange`, () => {
-    it(`should dispatch ResetCheckoutQueryEvent`, () => {
+  describe(`onReplenishmentOrder`, () => {
+    it(`ReplenishmentOrderScheduledEvent should dispatch ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
-      mockEventStream$.next(new PaymentDetailsCreatedEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        ResetCheckoutQueryEvent
-      );
-    });
-
-    it(`PaymentDetailsSetEvent dispatch ResetCheckoutQueryEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
-      mockEventStream$.next(new PaymentDetailsSetEvent());
+      mockEventStream$.next(new ReplenishmentOrderScheduledEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},

@@ -82,11 +82,11 @@ export class CheckoutStepService {
   }
 
   disableEnableStep(
-    currentStepType: CheckoutStepType,
+    currentStepType: CheckoutStepType | string,
     disabled: boolean
   ): void {
     const currentStep = this.allSteps.find((step) =>
-      step.type.includes(currentStepType)
+      step.type.includes(currentStepType as CheckoutStepType)
     );
     if (currentStep && currentStep.disabled !== disabled) {
       currentStep.disabled = disabled;

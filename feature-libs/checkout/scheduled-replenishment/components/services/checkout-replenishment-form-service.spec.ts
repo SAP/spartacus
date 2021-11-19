@@ -25,7 +25,7 @@ describe('Checkout Replenishment Form Service', () => {
   it('should get default schedule replenishment form data', () => {
     const defaultFormData: ScheduleReplenishmentForm = service.defaultFormData;
     defaultFormData.nthDayOfMonth = '2';
-    let expectedFormData: ScheduleReplenishmentForm;
+    let expectedFormData: ScheduleReplenishmentForm | undefined;
 
     service
       .getScheduleReplenishmentFormData()
@@ -33,10 +33,10 @@ describe('Checkout Replenishment Form Service', () => {
       .unsubscribe();
 
     expect(expectedFormData).toEqual(defaultFormData);
-    expect(expectedFormData.replenishmentStartDate).toMatch(
+    expect(expectedFormData?.replenishmentStartDate).toMatch(
       /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]$/
     );
-    expect(expectedFormData.replenishmentStartDate).not.toMatch(
+    expect(expectedFormData?.replenishmentStartDate).not.toMatch(
       /^[0-9]{4}-[0-1][0-9]-[0-3][0-9]T$/
     );
   });
@@ -44,7 +44,7 @@ describe('Checkout Replenishment Form Service', () => {
   it('should set new replenishment form data', () => {
     service.setScheduleReplenishmentFormData(newReplenishmentFormData);
 
-    let result: ScheduleReplenishmentForm;
+    let result: ScheduleReplenishmentForm | undefined;
 
     service
       .getScheduleReplenishmentFormData()
@@ -57,7 +57,7 @@ describe('Checkout Replenishment Form Service', () => {
   it('should reset the form data to default', () => {
     service.setScheduleReplenishmentFormData(newReplenishmentFormData);
 
-    let result: ScheduleReplenishmentForm;
+    let result: ScheduleReplenishmentForm | undefined;
 
     service
       .getScheduleReplenishmentFormData()
