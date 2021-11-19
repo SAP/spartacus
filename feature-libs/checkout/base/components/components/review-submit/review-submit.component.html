@@ -9,7 +9,7 @@
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-payment-col">
         <ng-container *ngFor="let step of paymentSteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepType.PAYMENT_DETAILS">
+            <ng-container *ngSwitchCase="checkoutStepTypePaymentDetails">
               <ng-container *ngTemplateOutlet="paymentMethod"></ng-container>
             </ng-container>
           </ng-container>
@@ -18,10 +18,10 @@
       <div class="col-md-12 col-lg-6 col-xl-6 cx-review-shipping-col">
         <ng-container *ngFor="let step of shippingSteps(steps)">
           <ng-container [ngSwitch]="step.type[0]">
-            <ng-container *ngSwitchCase="checkoutStepType.SHIPPING_ADDRESS">
+            <ng-container *ngSwitchCase="checkoutStepTypeShippingAddress">
               <ng-container *ngTemplateOutlet="shippingAddress"></ng-container>
             </ng-container>
-            <ng-container *ngSwitchCase="checkoutStepType.DELIVERY_MODE">
+            <ng-container *ngSwitchCase="checkoutStepTypeDeliveryMode">
               <ng-container *ngTemplateOutlet="deliveryMode"></ng-container>
             </ng-container>
           </ng-container>
@@ -46,7 +46,7 @@
           "
           [routerLink]="
             {
-              cxRoute: getCheckoutStepUrl(checkoutStepType)
+              cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode)
             } | cxUrl
           "
           ><cx-icon aria-hidden="true" [type]="iconTypes.PENCIL"></cx-icon
@@ -66,7 +66,7 @@
         <a
           [attr.aria-label]="'checkoutReview.editDeliveryMode' | cxTranslate"
           [routerLink]="
-            { cxRoute: getCheckoutStepUrl(checkoutStepType.DELIVERY_MODE) }
+            { cxRoute: getCheckoutStepUrl(checkoutStepTypeDeliveryMode) }
               | cxUrl
           "
         >
@@ -89,7 +89,7 @@
         <a
           [attr.aria-label]="'checkoutReview.editPaymentDetails' | cxTranslate"
           [routerLink]="
-            { cxRoute: getCheckoutStepUrl(checkoutStepType.PAYMENT_DETAILS) }
+            { cxRoute: getCheckoutStepUrl(checkoutStepTypePaymentDetails) }
               | cxUrl
           "
         >
