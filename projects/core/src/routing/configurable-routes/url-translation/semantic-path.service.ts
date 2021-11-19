@@ -17,7 +17,7 @@ export class SemanticPathService {
   /**
    * Returns the first path alias configured for a given route name. It adds `/` at the beginning.
    */
-  get(routeName: string): string {
+  get(routeName: string): string | undefined {
     const routeConfig = this.routingConfigService.getRouteConfig(routeName);
     return routeConfig && Array.isArray(routeConfig.paths)
       ? '/' + routeConfig.paths[0]

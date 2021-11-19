@@ -11,8 +11,8 @@ class MockCheckoutService {
   }
 }
 
-class MockSemanticPageService {
-  get(route: string): string {
+class MockSemanticPageService implements Partial<SemanticPathService> {
+  get(route: string): string | undefined {
     if (route === 'orders') {
       return '/my-account/orders';
     }
