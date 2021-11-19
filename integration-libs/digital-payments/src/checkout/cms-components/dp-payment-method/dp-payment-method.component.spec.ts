@@ -1,24 +1,23 @@
-import { DpPaymentMethodComponent } from './dp-payment-method.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CheckoutStepService } from '@spartacus/checkout/components';
-import { StoreModule } from '@ngrx/store';
 import {
   ActivatedRoute,
-  RouterModule,
   convertToParamMap,
+  RouterModule,
 } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
-  CheckoutService,
-  CheckoutDeliveryService,
+  CheckoutDeliveryAddressService,
   CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+} from '@spartacus/checkout/base/core';
 import {
+  PaymentDetails,
   TranslationService,
   UserPaymentService,
-  PaymentDetails,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
 import { CheckoutPaymentFacade } from 'feature-libs/checkout/root';
+import { Observable, of } from 'rxjs';
+import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
@@ -33,25 +32,26 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-class MockCheckoutService {}
-class MockCheckoutDeliveryService {
+class MockCheckoutDeliveryAddressService {
   getDeliveryAddress(): Observable<PaymentDetails> {
     return of({});
   }
 }
-class MockCheckoutPaymentService {
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentService> {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
-  setPaymentDetails() {}
+  setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
+    return of();
+  }
 }
-class MockCheckoutPaymentFacade {}
-class MockTranslationService {
+class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {}
+class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
     return of('');
   }
 }
-class MockUserPaymentService {
+class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
     return of();
@@ -60,7 +60,7 @@ class MockUserPaymentService {
     return of();
   }
 }
-class MockCheckoutStepService {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next() {}
   getBackBntText(): string {
     return '';
@@ -93,16 +93,12 @@ describe('DpPaymentMethodComponent', () => {
           useClass: MockTranslationService,
         },
         {
-          provide: CheckoutService,
-          useClass: MockCheckoutService,
-        },
-        {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutDeliveryAddressService,
+          useClass: MockCheckoutDeliveryAddressService,
         },
         {
           provide: CheckoutPaymentFacade,

@@ -47,6 +47,21 @@
       "@spartacus/asm/root": [
         "feature-libs/asm/root/public_api"
       ],
+      "@spartacus/cart/import-export/assets": [
+        "feature-libs/cart/import-export/assets/public_api"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "feature-libs/cart/import-export/components/public_api"
+      ],
+      "@spartacus/cart/import-export/core": [
+        "feature-libs/cart/import-export/core/public_api"
+      ],
+      "@spartacus/cart/import-export": [
+        "feature-libs/cart/import-export/public_api"
+      ],
+      "@spartacus/cart/import-export/root": [
+        "feature-libs/cart/import-export/root/public_api"
+      ],
       "@spartacus/cart": [
         "feature-libs/cart/public_api"
       ],
@@ -83,23 +98,26 @@
       "@spartacus/cart/saved-cart/root": [
         "feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/import-export/assets": [
-        "feature-libs/cart/import-export/assets/public_api"
-      ],
-      "@spartacus/cart/import-export/components": [
-        "feature-libs/cart/import-export/components/public_api"
-      ],
-      "@spartacus/cart/import-export/core": [
-        "feature-libs/cart/import-export/core/public_api"
-      ],
-      "@spartacus/cart/import-export": [
-        "feature-libs/cart/import-export/public_api"
-      ],
-      "@spartacus/cart/import-export/root": [
-        "feature-libs/cart/import-export/root/public_api"
-      ],
       "@spartacus/checkout/assets": [
         "feature-libs/checkout/assets/public_api"
+      ],
+      "@spartacus/checkout/base/assets": [
+        "feature-libs/checkout/base/assets/public_api"
+      ],
+      "@spartacus/checkout/base/components": [
+        "feature-libs/checkout/base/components/public_api"
+      ],
+      "@spartacus/checkout/base/core": [
+        "feature-libs/checkout/base/core/public_api"
+      ],
+      "@spartacus/checkout/base": [
+        "feature-libs/checkout/base/public_api"
+      ],
+      "@spartacus/checkout/base/occ": [
+        "feature-libs/checkout/base/occ/public_api"
+      ],
+      "@spartacus/checkout/base/root": [
+        "feature-libs/checkout/base/root/public_api"
       ],
       "@spartacus/checkout/components": [
         "feature-libs/checkout/components/public_api"
