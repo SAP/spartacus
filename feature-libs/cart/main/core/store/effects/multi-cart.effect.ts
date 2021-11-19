@@ -44,9 +44,7 @@ export class MultiCartEffects {
       CartActions.LOAD_CART_SUCCESS,
       CartActions.CREATE_CART_SUCCESS,
       CartActions.CREATE_CART,
-      CartActions.SET_ACTIVE_CART_ID,
-      CartActions.REMOVE_CART,
-      CartActions.DELETE_CART_SUCCESS
+      CartActions.SET_ACTIVE_CART_ID
     ),
     map((action: any) => {
       switch (action.type) {

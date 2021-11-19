@@ -73,6 +73,7 @@ describe('Selective Cart Service', () => {
   let multiCartService: MultiCartService;
   let store: Store<StateWithMultiCart | StateWithProcess<void>>;
   let userIdService: UserIdService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -96,6 +97,7 @@ describe('Selective Cart Service', () => {
     service = TestBed.inject(SelectiveCartService);
     userIdService = TestBed.inject(UserIdService);
     multiCartService = TestBed.inject(MultiCartService);
+    userService = TestBed.inject(UserService);
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();
@@ -124,14 +126,13 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load cart when it exists', () => {
-    spyOn(multiCartService, 'getCart').and.returnValue(of({}));
     spyOn(multiCartService, 'loadCart').and.stub();
     let result;
     service
       .getCart()
       .subscribe((val) => (result = val))
       .unsubscribe();
-    expect(result).toEqual({});
+    expect(result).toEqual(undefined);
     expect(multiCartService.loadCart).not.toHaveBeenCalled();
   });
 
@@ -140,6 +141,13 @@ describe('Selective Cart Service', () => {
     spyOn(userIdService, 'getUserId').and.returnValue(
       of(OCC_USER_ID_ANONYMOUS)
     );
+    spyOn(multiCartService, 'loadCart').and.stub();
+    service.getCart().subscribe().unsubscribe();
+    expect(multiCartService.loadCart).not.toHaveBeenCalled();
+  });
+
+  it('should not load selective cart for if customerId not exist', () => {
+    spyOn(userService, 'get').and.returnValue(of({}));
     spyOn(multiCartService, 'loadCart').and.stub();
     service.getCart().subscribe().unsubscribe();
     expect(multiCartService.loadCart).not.toHaveBeenCalled();

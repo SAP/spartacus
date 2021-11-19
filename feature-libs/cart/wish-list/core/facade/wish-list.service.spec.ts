@@ -6,7 +6,12 @@ import {
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
-import { User, UserIdService, UserService } from '@spartacus/core';
+import {
+  OCC_USER_ID_ANONYMOUS,
+  User,
+  UserIdService,
+  UserService,
+} from '@spartacus/core';
 import { getMultiCartReducers } from 'feature-libs/cart/main/core/store/reducers';
 import { Observable, of } from 'rxjs';
 import { WishListActions } from '../store/actions/index';
@@ -46,11 +51,15 @@ const mockCartEntry: OrderEntry = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  getUserId = createSpy().and.returnValue(of(userId));
+  getUserId(): Observable<string> {
+    return of(userId);
+  }
 }
 
 class MockUserService implements Partial<UserService> {
-  get = createSpy().and.returnValue(of(user));
+  get() {
+    return of(user);
+  }
 }
 
 class MockMultiCartService implements Partial<MultiCartFacade> {
@@ -67,6 +76,8 @@ describe('WishListService', () => {
   let service: WishListService;
   let store: Store<StateWithMultiCart>;
   let multiCartService: MultiCartFacade;
+  let userIdService: UserIdService;
+  let userService: UserService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -85,6 +96,8 @@ describe('WishListService', () => {
     store = TestBed.inject(Store);
     service = TestBed.inject(WishListService);
     multiCartService = TestBed.inject(MultiCartFacade);
+    userIdService = TestBed.inject(UserIdService);
+    userService = TestBed.inject(UserService);
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -127,6 +140,24 @@ describe('WishListService', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         new WishListActions.LoadWishList(payload)
       );
+    });
+
+    it('should not load wishlist for anonymous user', () => {
+      spyOn(service, 'loadWishList');
+      spyOn(userIdService, 'getUserId').and.returnValue(
+        of(OCC_USER_ID_ANONYMOUS)
+      );
+      service.getWishList().subscribe();
+
+      expect(service.loadWishList).not.toHaveBeenCalled();
+    });
+
+    it('should not load wishlist if custoemr not exist', () => {
+      spyOn(service, 'loadWishList');
+      spyOn(userService, 'get').and.returnValue(of({}));
+      service.getWishList().subscribe();
+
+      expect(service.loadWishList).not.toHaveBeenCalled();
     });
 
     it('should return wish list if loaded', (done) => {

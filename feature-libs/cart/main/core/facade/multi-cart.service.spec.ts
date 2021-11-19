@@ -245,24 +245,23 @@ describe('MultiCartService', () => {
   });
 
   describe('createCart', () => {
-    it('should create cart and return observable with cart', () => {
+    const payload = {
+      userId: 'userId',
+      extraData: undefined,
+      oldCartId: undefined,
+      toMergeCartGuid: undefined,
+      tempCartId: 'temp-uuid',
+    };
+
+    it('should create a non-active cart and return observable with cart', () => {
       spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
 
       let result;
-
-      service.createCart({ userId: 'userId' }).subscribe((cart) => {
-        console.log('cart: ', cart);
-        result = cart;
-      });
+      service
+        .createCart({ userId: 'userId' })
+        .subscribe((cart) => (result = cart));
       expect(result).toEqual(undefined);
 
-      const payload = {
-        userId: 'userId',
-        extraData: undefined,
-        oldCartId: undefined,
-        toMergeCartGuid: undefined,
-        tempCartId: 'temp-uuid',
-      };
       expect(store.dispatch).toHaveBeenCalledWith(
         new CartActions.CreateCart(payload)
       );
@@ -277,6 +276,32 @@ describe('MultiCartService', () => {
       store.dispatch(
         new CartActions.SetCartTypeIndex({
           cartType: CartType.NEW_CREATED,
+          cartId: testCart.code,
+        })
+      );
+      expect(result).toEqual(testCart);
+    });
+
+    it('should create an active cart and return observable with cart', () => {
+      spyOn(service as any, 'generateTempCartId').and.returnValue('temp-uuid');
+
+      let result;
+      service
+        .createCart({ userId: 'userId', extraData: { active: true } })
+        .subscribe((cart) => (result = cart));
+      expect(result).toEqual(undefined);
+
+      store.dispatch(
+        new CartActions.CreateCartSuccess({
+          ...payload,
+          cart: testCart,
+          cartId: testCart.code as string,
+          extraData: { active: true },
+        })
+      );
+      store.dispatch(
+        new CartActions.SetCartTypeIndex({
+          cartType: CartType.ACTIVE,
           cartId: testCart.code,
         })
       );

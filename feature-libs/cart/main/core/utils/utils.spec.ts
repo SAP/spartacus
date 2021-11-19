@@ -24,6 +24,10 @@ describe('Cart utils', () => {
     it('should return cart code for non anonymous user', () => {
       expect(getCartIdByUserId(cart, OCC_USER_ID_CURRENT)).toEqual(cart.code);
     });
+
+    it('should return empty string if cart empty', () => {
+      expect(getCartIdByUserId({}, OCC_USER_ID_CURRENT)).toEqual('');
+    });
   });
 
   describe('isTempCartId', () => {
@@ -96,7 +100,10 @@ describe('Cart utils', () => {
 
   describe('isEmail', () => {
     it('should return false for empty email', () => {
-      const result = isEmail('');
+      let result = isEmail('');
+      expect(result).toBe(false);
+
+      result = isEmail(undefined);
       expect(result).toBe(false);
     });
 
@@ -143,6 +150,12 @@ describe('Cart utils', () => {
     it('should return false when previous user is identical', () => {
       // simulate that we got current user after initialization
       const result = isJustLoggedIn(OCC_USER_ID_CURRENT, OCC_USER_ID_CURRENT);
+      expect(result).toBe(false);
+    });
+
+    it('should return false when user not login', () => {
+      // simulate that we got current user after initialization
+      const result = isJustLoggedIn(OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT);
       expect(result).toBe(false);
     });
   });
