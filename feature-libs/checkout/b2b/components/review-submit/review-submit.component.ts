@@ -31,6 +31,8 @@ import { filter, map, switchMap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
+  checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
+
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,

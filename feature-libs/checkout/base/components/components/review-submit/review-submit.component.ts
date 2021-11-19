@@ -30,7 +30,10 @@ import { CheckoutStepService } from '../../services/index';
 })
 export class ReviewSubmitComponent {
   iconTypes = ICON_TYPE;
-  checkoutStepType = CheckoutStepType;
+  checkoutStepTypeShippingAddress = CheckoutStepType.SHIPPING_ADDRESS;
+  checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
+  checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
+
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   constructor(
