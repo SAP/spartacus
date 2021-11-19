@@ -22,7 +22,7 @@
     (change)="onSelect(attributeDropDownForm.value)"
   >
     <option
-      *ngFor="let item of attribute.values; let i = index"
+      *ngFor="let item of attribute.values"
       [label]="item.valueDisplay"
       [selected]="item.selected"
       [attr.aria-selected]="item.selected"
