@@ -16,9 +16,12 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
+
+export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 /**
  * Clicks the main menu (on mobile only)
@@ -479,4 +482,14 @@ export function viewOrderHistoryWithCheapProduct(
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('not.be.empty');
+}
+
+export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
+  cy.get(firstAddToCartSelector)
+    .findByText(/Add To Cart/i)
+    .click();
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.findByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`);
+  loginUser(sampleUser);
 }
