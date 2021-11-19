@@ -1,4 +1,5 @@
 import * as appliedPromotions from '../../helpers/applied-promotions';
+import { waitForProductPage } from '../../helpers/checkout-flow';
 import { viewportContext } from '../../helpers/viewport-context';
 import { standardUser } from '../../sample-data/shared-users';
 
@@ -13,6 +14,20 @@ context('Applied promotions', () => {
     });
 
     describe('As a logged in user', () => {
+      before(() => {
+        const eosCameraProductCode = '1382080';
+        const productPage = waitForProductPage(
+          eosCameraProductCode,
+          'getProductPage'
+        );
+        cy.visit(`/product/${eosCameraProductCode}`);
+        cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+        appliedPromotions.addProductToCart();
+        appliedPromotions.checkForAppliedPromotionsInCartModal(
+          appliedPromotions.eosCameraProductName
+        );
+        appliedPromotions.closeCartDialog();
+      });
       beforeEach(() => {
         cy.restoreLocalStorage();
       });
