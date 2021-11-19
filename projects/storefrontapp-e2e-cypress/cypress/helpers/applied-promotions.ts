@@ -1,7 +1,7 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
-import { waitForPage } from './checkout-flow';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -88,6 +88,13 @@ export function goToOrderHistoryDetailsFromSummary() {
 
 export function checkAppliedPromotions() {
   it('Should display promotions for product in cart and checkout', () => {
+    const eosCameraProductCode = '1382080';
+    const productPage = waitForProductPage(
+      eosCameraProductCode,
+      'getProductPage'
+    );
+    cy.visit(`/product/${eosCameraProductCode}`);
+    cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
     addProductToCart();
     checkForAppliedPromotionsInCartModal(eosCameraProductName);
     goToCartDetailsViewFromCartDialog();
