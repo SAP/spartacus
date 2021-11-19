@@ -95,16 +95,14 @@ class MockCardComponent {
 }
 
 class MockCheckoutDeliveryAddressService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+  implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState(): Observable<QueryState<Address>> {
     return of({ loading: false, error: false, data: mockAddress });
   }
 }
 
 class MockCheckoutDeliveryModesService
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+  implements Partial<CheckoutDeliveryModesFacade> {
   getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
     return of({ loading: false, error: false, data: [] });
   }
@@ -292,15 +290,6 @@ describe('ReviewSubmitComponent', () => {
     });
 
     expect(deliveryMode).toEqual(mockDeliveryMode);
-  });
-
-  it('should be able to get country', () => {
-    let countryName: string | undefined;
-    component.countryName$.subscribe((data) => {
-      countryName = data;
-    });
-
-    expect(countryName).toEqual(mockCountry.name);
   });
 
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {

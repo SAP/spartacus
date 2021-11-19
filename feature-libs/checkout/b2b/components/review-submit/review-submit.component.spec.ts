@@ -109,8 +109,7 @@ class MockCardComponent {
 }
 
 class MockCheckoutDeliveryAddressService
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
+  implements Partial<CheckoutDeliveryAddressFacade> {
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({
       loading: false,
@@ -121,8 +120,7 @@ class MockCheckoutDeliveryAddressService
 }
 
 class MockCheckoutDeliveryModesService
-  implements Partial<CheckoutDeliveryModesFacade>
-{
+  implements Partial<CheckoutDeliveryModesFacade> {
   loadSupportedDeliveryModes = createSpy();
   getSelectedDeliveryModeState(): Observable<
     QueryState<DeliveryMode | undefined>
@@ -182,8 +180,7 @@ class MockCheckoutStepService {
 }
 
 class MockCheckoutPaymentTypeFacade
-  implements Partial<CheckoutPaymentTypeFacade>
-{
+  implements Partial<CheckoutPaymentTypeFacade> {
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return of({ loading: false, error: false, data: 'test-po' });
   }
@@ -202,8 +199,7 @@ class MockCheckoutPaymentTypeFacade
 }
 
 class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
+  implements Partial<CheckoutCostCenterFacade> {
   getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
     return of({
       loading: false,
@@ -358,15 +354,6 @@ describe('ReviewSubmitComponent', () => {
     });
 
     expect(deliveryMode).toEqual(mockDeliveryMode);
-  });
-
-  it('should be able to get country', () => {
-    let countryName: string | undefined;
-    component.countryName$.subscribe((data) => {
-      countryName = data;
-    });
-
-    expect(countryName).toEqual(mockCountry.name);
   });
 
   it('should be able to get po number', () => {
