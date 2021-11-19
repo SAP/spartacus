@@ -461,10 +461,10 @@ describe('profileTagPushEventsService', () => {
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: OrderPlacedEvent[] = [{ code: '123' }];
+      const mockOrderEntry: OrderPlacedEvent[] = [{ order: { code: '123' } }];
       const mockOrderEntries: OrderPlacedEvent[] = [
-        { code: '234' },
-        { code: '345' },
+        { order: { code: '234' } },
+        { order: { code: '345' } },
       ];
       eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntry);
       eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntries);

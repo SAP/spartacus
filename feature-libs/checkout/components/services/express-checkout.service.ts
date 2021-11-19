@@ -7,7 +7,6 @@ import {
 import {
   Address,
   DeliveryMode,
-  PaymentDetails,
   StateUtils,
   UserAddressService,
   UserPaymentService,
@@ -114,81 +113,6 @@ export class ExpressCheckoutService {
     );
   }
 
-  protected setPaymentMethod() {
-    this.paymentMethodSet$ = combineLatest([
-      this.userPaymentService.getPaymentMethods(),
-      this.userPaymentService.getPaymentMethodsLoadedSuccess(),
-      this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
-    ]).pipe(
-      debounceTime(0),
-      tap(
-        ([, paymentMethodsLoadedSuccess]: [
-          PaymentDetails[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => {
-          if (!paymentMethodsLoadedSuccess) {
-            this.userPaymentService.loadPaymentMethods();
-          }
-        }
-      ),
-      filter(
-        ([, success]: [
-          PaymentDetails[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => success
-      ),
-      switchMap(
-        ([payments, , setPaymentDetailsProcess]: [
-          PaymentDetails[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => {
-          const defaultPayment =
-            payments.find((address) => address.defaultPayment) || payments[0];
-          if (defaultPayment && Object.keys(defaultPayment).length) {
-            if (
-              !(
-                setPaymentDetailsProcess.success ||
-                setPaymentDetailsProcess.error ||
-                setPaymentDetailsProcess.loading
-              )
-            ) {
-              this.checkoutPaymentService.setPaymentDetails(defaultPayment);
-            }
-            return of(setPaymentDetailsProcess).pipe(
-              filter(
-                (
-                  setPaymentDetailsProcessState: StateUtils.LoaderState<void>
-                ) => {
-                  return (
-                    ((setPaymentDetailsProcessState.success ||
-                      setPaymentDetailsProcessState.error) &&
-                      !setPaymentDetailsProcessState.loading) ??
-                    false
-                  );
-                }
-              ),
-              switchMap(
-                (
-                  setPaymentDetailsProcessState: StateUtils.LoaderState<void>
-                ) => {
-                  if (setPaymentDetailsProcessState.success) {
-                    return this.checkoutDetailsService.getPaymentDetails();
-                  }
-                  return of(false);
-                }
-              ),
-              map((data) => Boolean(data && Object.keys(data).length))
-            );
-          }
-          return of(false);
-        }
-      )
-    );
-  }
-
   protected setDeliveryMode() {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
@@ -282,6 +206,81 @@ export class ExpressCheckoutService {
           } else {
             return of(false);
           }
+        }
+      )
+    );
+  }
+
+  protected setPaymentMethod() {
+    this.paymentMethodSet$ = combineLatest([
+      this.userPaymentService.getPaymentMethods(),
+      this.userPaymentService.getPaymentMethodsLoadedSuccess(),
+      this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
+    ]).pipe(
+      debounceTime(0),
+      tap(
+        ([, paymentMethodsLoadedSuccess]: [
+          PaymentDetails[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => {
+          if (!paymentMethodsLoadedSuccess) {
+            this.userPaymentService.loadPaymentMethods();
+          }
+        }
+      ),
+      filter(
+        ([, success]: [
+          PaymentDetails[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => success
+      ),
+      switchMap(
+        ([payments, , setPaymentDetailsProcess]: [
+          PaymentDetails[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => {
+          const defaultPayment =
+            payments.find((address) => address.defaultPayment) || payments[0];
+          if (defaultPayment && Object.keys(defaultPayment).length) {
+            if (
+              !(
+                setPaymentDetailsProcess.success ||
+                setPaymentDetailsProcess.error ||
+                setPaymentDetailsProcess.loading
+              )
+            ) {
+              this.checkoutPaymentService.setPaymentDetails(defaultPayment);
+            }
+            return of(setPaymentDetailsProcess).pipe(
+              filter(
+                (
+                  setPaymentDetailsProcessState: StateUtils.LoaderState<void>
+                ) => {
+                  return (
+                    ((setPaymentDetailsProcessState.success ||
+                      setPaymentDetailsProcessState.error) &&
+                      !setPaymentDetailsProcessState.loading) ??
+                    false
+                  );
+                }
+              ),
+              switchMap(
+                (
+                  setPaymentDetailsProcessState: StateUtils.LoaderState<void>
+                ) => {
+                  if (setPaymentDetailsProcessState.success) {
+                    return this.checkoutDetailsService.getPaymentDetails();
+                  }
+                  return of(false);
+                }
+              ),
+              map((data) => Boolean(data && Object.keys(data).length))
+            );
+          }
+          return of(false);
         }
       )
     );
