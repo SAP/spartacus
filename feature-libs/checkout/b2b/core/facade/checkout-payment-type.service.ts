@@ -142,8 +142,6 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     );
   }
 
-  // TODO:#checkout - add isCreditCardPayment()?
-
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return this.checkoutQuery
       .getCheckoutDetailsState()
