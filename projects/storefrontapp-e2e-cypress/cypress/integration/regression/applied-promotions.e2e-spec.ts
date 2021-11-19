@@ -28,6 +28,7 @@ context('Applied promotions', () => {
         );
         appliedPromotions.closeCartDialog();
       });
+
       beforeEach(() => {
         cy.restoreLocalStorage();
       });
