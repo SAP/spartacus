@@ -104,3 +104,20 @@ Feature matrix
 - comment - how to enable the new or the old one
 - add cart
 
+
+Usages of CART:
+
+## Core
+
+- ActiveCartService - added a method
+- Cart - just a model
+- StateWithMultiCart - not important, used just for the Store's type safety. We can use anything here really. 
+- CartActions - how to import without breaking LL?
+- MergeCartSuccessEvent - I created it. Move it to cart lib
+- CART_NORMALIZER - how to import without breaking LL?
+
+## Storefrontlib
+
+- CartSharedModule - seems important how to import it without breaking LL?
+- CartValidationGuard - seems important. How to import it without breaking LL?
+
