@@ -126,13 +126,14 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load cart when it exists', () => {
+    spyOn(multiCartService, 'getCart').and.returnValue(of({}));
     spyOn(multiCartService, 'loadCart').and.stub();
     let result;
     service
       .getCart()
       .subscribe((val) => (result = val))
       .unsubscribe();
-    expect(result).toEqual(undefined);
+    expect(result).toEqual({});
     expect(multiCartService.loadCart).not.toHaveBeenCalled();
   });
 
@@ -147,6 +148,7 @@ describe('Selective Cart Service', () => {
   });
 
   it('should not load selective cart for if customerId not exist', () => {
+    spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
     spyOn(userService, 'get').and.returnValue(of({}));
     spyOn(multiCartService, 'loadCart').and.stub();
     service.getCart().subscribe().unsubscribe();
