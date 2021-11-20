@@ -3,50 +3,50 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
+  RouteConfig,
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { CheckoutGuard } from './checkout.guard';
 
-const isExpressCheckoutSet = new BehaviorSubject(false);
 const setDefaultCheckoutDetailsSuccess = new BehaviorSubject(false);
 const MockRoutesConfig: RoutesConfig =
-  defaultCheckoutRoutingConfig.routing?.routes;
+  defaultCheckoutRoutingConfig.routing?.routes ?? {};
 
-class MockCheckoutConfigService {
-  isExpressCheckout() {
-    return isExpressCheckoutSet;
+class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
+  isExpressCheckout(): boolean {
+    return true;
   }
 }
 
-class MockCheckoutStepService {
-  getFirstCheckoutStepRoute() {
+class MockCheckoutStepService implements Partial<CheckoutStepService> {
+  getFirstCheckoutStepRoute(): string {
     return 'checkoutShippingAddress';
   }
-  getCheckoutStepRoute() {
+  getCheckoutStepRoute(): string {
     return 'checkoutReviewOrder';
   }
 }
 
-class MockExpressCheckoutService {
-  trySetDefaultCheckoutDetails() {
+class MockExpressCheckoutService implements Partial<ExpressCheckoutService> {
+  trySetDefaultCheckoutDetails(): Observable<boolean> {
     return setDefaultCheckoutDetailsSuccess;
   }
 }
 
-class MockRoutingConfigService {
-  getRouteConfig(routeName: string) {
+class MockRoutingConfigService implements Partial<RoutingConfigService> {
+  getRouteConfig(routeName: string): RouteConfig | undefined {
     return MockRoutesConfig[routeName];
   }
 }
 
-class MockCartService {
-  isGuestCart() {
+class MockCartService implements Partial<ActiveCartService> {
+  isGuestCart(): boolean {
     return false;
   }
 }
@@ -56,6 +56,7 @@ describe(`CheckoutGuard`, () => {
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutStepService: CheckoutStepService;
   let cartService: ActiveCartService;
+  let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,10 +78,11 @@ describe(`CheckoutGuard`, () => {
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
     cartService = TestBed.inject(ActiveCartService);
+    checkoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, (done) => {
-    isExpressCheckoutSet.next(false);
+    spyOn(checkoutConfigService, 'isExpressCheckout').and.returnValue(false);
     guard
       .canActivate()
       .subscribe((result) => {
@@ -88,7 +90,7 @@ describe(`CheckoutGuard`, () => {
           `/${
             mockRoutingConfigService.getRouteConfig(
               mockCheckoutStepService.getFirstCheckoutStepRoute()
-            ).paths[0]
+            )?.paths?.[0]
           }`
         );
         done();
@@ -97,7 +99,6 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if is guest checkout`, (done) => {
-    isExpressCheckoutSet.next(true);
     spyOn(cartService, 'isGuestCart').and.returnValue(true);
 
     guard
@@ -107,7 +108,7 @@ describe(`CheckoutGuard`, () => {
           `/${
             mockRoutingConfigService.getRouteConfig(
               mockCheckoutStepService.getFirstCheckoutStepRoute()
-            ).paths[0]
+            )?.paths?.[0]
           }`
         );
         done();
@@ -116,7 +117,6 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if express checkout is not possible`, (done) => {
-    isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(false);
     guard
       .canActivate()
@@ -125,7 +125,7 @@ describe(`CheckoutGuard`, () => {
           `/${
             mockRoutingConfigService.getRouteConfig(
               mockCheckoutStepService.getFirstCheckoutStepRoute()
-            ).paths[0]
+            )?.paths?.[0]
           }`
         );
         done();
@@ -134,7 +134,6 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to review order`, (done) => {
-    isExpressCheckoutSet.next(true);
     setDefaultCheckoutDetailsSuccess.next(true);
     guard
       .canActivate()
@@ -144,8 +143,8 @@ describe(`CheckoutGuard`, () => {
             mockRoutingConfigService.getRouteConfig(
               mockCheckoutStepService.getCheckoutStepRoute(
                 CheckoutStepType.REVIEW_ORDER
-              )
-            ).paths[0]
+              ) as string
+            )?.paths?.[0]
           }`
         );
         done();
