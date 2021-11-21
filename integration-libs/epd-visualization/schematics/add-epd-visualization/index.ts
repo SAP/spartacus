@@ -121,7 +121,7 @@ function updateTsConfig(): Rule {
       tsconfig.compilerOptions = {};
     }
     tsconfig.compilerOptions.skipLibCheck = true;
-    const updatedTsConfigString = stringify(tsconfig);
+    const updatedTsConfigString = stringify(tsconfig, null, 2);
 
     tree.overwrite(TSConfigFileName, updatedTsConfigString);
   };
