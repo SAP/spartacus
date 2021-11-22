@@ -30,46 +30,44 @@ export class CheckoutService implements CheckoutFacade {
     Order | ReplenishmentOrder | undefined
   >(undefined);
 
-  protected placeOrderCommand: Command<boolean, Order> = this.command.create<
-    boolean,
-    Order
-  >(
-    (payload) =>
-      this.checkoutPreconditions().pipe(
-        switchMap(([userId, cartId]) =>
-          this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
-            tap((order) => {
-              // TODO:#checkout - if we decide to keep this, test it
-              this.order$.next(order);
-              /**
-               * TODO: We have to keep this here, since the cart feature is still ngrx-based.
-               * Remove once it is switched from ngrx to c&q.
-               * We should dispatch an event, which will load the cart$ query.
-               */
-              this.store.dispatch(new CartActions.RemoveCart({ cartId }));
-              this.eventService.dispatch(
-                {
-                  userId,
-                  cartId,
-                  order,
-                },
-                OrderPlacedEvent
-              );
-            })
+  protected placeOrderCommand: Command<boolean, Order> =
+    this.commandService.create<boolean, Order>(
+      (payload) =>
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) =>
+            this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
+              tap((order) => {
+                // TODO:#checkout - if we decide to keep this, test it
+                this.order$.next(order);
+                /**
+                 * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                 * Remove once it is switched from ngrx to c&q.
+                 * We should dispatch an event, which will load the cart$ query.
+                 */
+                this.store.dispatch(new CartActions.RemoveCart({ cartId }));
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    order,
+                  },
+                  OrderPlacedEvent
+                );
+              })
+            )
           )
-        )
-      ),
-    {
-      strategy: CommandStrategy.CancelPrevious,
-    }
-  );
+        ),
+      {
+        strategy: CommandStrategy.CancelPrevious,
+      }
+    );
 
   constructor(
     // TODO: remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected command: CommandService,
+    protected commandService: CommandService,
     protected checkoutConnector: CheckoutConnector,
     protected eventService: EventService
   ) {}

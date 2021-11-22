@@ -28,7 +28,7 @@ export class PlaceOrderComponent implements OnDestroy {
   }
 
   constructor(
-    protected checkoutService: CheckoutFacade,
+    protected checkoutFacade: CheckoutFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
@@ -41,7 +41,7 @@ export class PlaceOrderComponent implements OnDestroy {
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
       );
-      this.checkoutService.placeOrder(this.checkoutSubmitForm.valid).subscribe({
+      this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {
           if (!this.placedOrder) {
             return;

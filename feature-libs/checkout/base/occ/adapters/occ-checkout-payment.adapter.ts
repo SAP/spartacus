@@ -180,11 +180,13 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       'Content-Type': 'application/x-www-form-urlencoded',
     });
 
-    return this.http.post<PaymentDetails>(
-      this.getCreatePaymentDetailsEndpoint(userId, cartId),
-      httpParams,
-      { headers }
-    );
+    return this.http
+      .post<PaymentDetails>(
+        this.getCreatePaymentDetailsEndpoint(userId, cartId),
+        httpParams,
+        { headers }
+      )
+      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
   private getParamsForPaymentProvider(

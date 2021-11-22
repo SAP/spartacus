@@ -17,12 +17,12 @@ export class CostCenterComponent {
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
   ) {}
 
   get isAccountPayment$(): Observable<boolean> {
-    return this.checkoutPaymentTypeService.isAccountPayment();
+    return this.checkoutPaymentTypeFacade.isAccountPayment();
   }
 
   get costCenters$(): Observable<CostCenter[]> {
@@ -30,7 +30,7 @@ export class CostCenterComponent {
       this.userCostCenterService
         .getActiveCostCenters()
         .pipe(filter((costCenters) => !!costCenters)),
-      this.checkoutCostCenterService.getCostCenterState().pipe(
+      this.checkoutCostCenterFacade.getCostCenterState().pipe(
         filter((state) => !state.loading),
         map((state) => state.data),
         distinctUntilChanged()
@@ -49,6 +49,6 @@ export class CostCenterComponent {
 
   setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
-    this.checkoutCostCenterService.setCostCenter(this.costCenterId);
+    this.checkoutCostCenterFacade.setCostCenter(this.costCenterId);
   }
 }

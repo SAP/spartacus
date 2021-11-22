@@ -37,7 +37,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -57,7 +57,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryAddressService.getDeliveryAddressState().pipe(
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -154,13 +154,13 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
-    this.checkoutDeliveryAddressService.setDeliveryAddress(address);
+    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
   }
 
   addAddress(address: Address | undefined): void {
     this.forceLoader = true;
     if (address) {
-      this.checkoutDeliveryAddressService.createAndSetAddress(address);
+      this.checkoutDeliveryAddressFacade.createAndSetAddress(address);
     } else {
       this.forceLoader = false;
       this.next();

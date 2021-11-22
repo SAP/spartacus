@@ -5,9 +5,9 @@ import {
   PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
-  CheckoutDeliveryAddressService,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/base/core';
+  CheckoutDeliveryAddressFacade,
+  CheckoutPaymentFacade,
+} from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   GlobalMessageService,
@@ -51,21 +51,21 @@ export class DpPaymentMethodComponent
   // TODO:#checkout - handle breaking changes
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressService,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService
   ) {
     super(
       userPaymentService,
-      checkoutDeliveryAddressService,
-      checkoutPaymentService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
       globalMessageService,
       activatedRoute,
-      translation,
+      translationService,
       activeCartService,
       checkoutStepService
     );

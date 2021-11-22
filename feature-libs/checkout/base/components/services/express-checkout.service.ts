@@ -28,10 +28,10 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutConfigService: CheckoutConfigService,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -55,11 +55,11 @@ export class ExpressCheckoutService {
         const defaultAddress =
           addresses.find((address) => address.defaultAddress) || addresses[0];
         if (defaultAddress && Object.keys(defaultAddress).length) {
-          return this.checkoutDeliveryAddressService
+          return this.checkoutDeliveryAddressFacade
             .setDeliveryAddress(defaultAddress)
             .pipe(
               switchMap(() =>
-                this.checkoutDeliveryAddressService.getDeliveryAddressState()
+                this.checkoutDeliveryAddressFacade.getDeliveryAddressState()
               ),
               filter((state) => !state.error && !state.loading),
               map((state) => state.data),
@@ -75,7 +75,7 @@ export class ExpressCheckoutService {
   protected setDeliveryMode(): void {
     this.deliveryModeSet$ = combineLatest([
       this.shippingAddressSet$,
-      this.checkoutDeliveryModesService.getSupportedDeliveryModesState(),
+      this.checkoutDeliveryModesFacade.getSupportedDeliveryModesState(),
     ]).pipe(
       debounceTime(0),
       switchMap(([addressSet, supportedDeliveryModesState]) => {
@@ -101,11 +101,11 @@ export class ExpressCheckoutService {
                 if (!deliveryMode) {
                   return of(false);
                 }
-                return this.checkoutDeliveryModesService
+                return this.checkoutDeliveryModesFacade
                   .setDeliveryMode(deliveryMode)
                   .pipe(
                     switchMap(() =>
-                      this.checkoutDeliveryModesService.getSelectedDeliveryModeState()
+                      this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState()
                     ),
                     filter((state) => !state.error && !state.loading),
                     map((state) => state.data),
@@ -138,11 +138,11 @@ export class ExpressCheckoutService {
         if (!defaultPayment || Object.keys(defaultPayment).length === 0) {
           return of(false);
         }
-        return this.checkoutPaymentService
+        return this.checkoutPaymentFacade
           .setPaymentDetails(defaultPayment)
           .pipe(
             switchMap(() =>
-              this.checkoutPaymentService.getPaymentDetailsState()
+              this.checkoutPaymentFacade.getPaymentDetailsState()
             ),
             filter((state) => !state.error && !state.loading),
             map((state) => state.data),

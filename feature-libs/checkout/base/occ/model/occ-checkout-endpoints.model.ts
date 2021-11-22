@@ -26,10 +26,6 @@ export interface CheckoutOccEndpoints {
    */
   createPaymentDetails?: string | OccEndpoint;
   /**
-   *  Get a cart with a given identifier.
-   */
-  loadCheckoutDetails?: string | OccEndpoint;
-  /**
    * Get checkout details
    */
   getCheckoutDetails?: string | OccEndpoint;

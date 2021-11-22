@@ -43,30 +43,30 @@ export class B2BShippingAddressComponent
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade
   ) {
     super(
       userAddressService,
-      checkoutDeliveryAddressService,
+      checkoutDeliveryAddressFacade,
       activatedRoute,
-      translation,
+      translationService,
       activeCartService,
       checkoutStepService
     );
   }
 
   getSupportedAddresses(): Observable<Address[]> {
-    return this.checkoutPaymentTypeService.isAccountPayment().pipe(
+    return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
       switchMap((isAccountPayment) => {
         return isAccountPayment
-          ? this.checkoutCostCenterService.getCostCenterState().pipe(
+          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
               filter((state) => !state.loading),
               map((state) => state.data),
               distinctUntilChanged(),
@@ -104,7 +104,7 @@ export class B2BShippingAddressComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutPaymentTypeService
+      this.checkoutPaymentTypeFacade
         .isAccountPayment()
         .pipe(distinctUntilChanged())
         .subscribe((isAccount) => (this.isAccountPayment = isAccount))

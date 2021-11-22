@@ -34,44 +34,44 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
   checkoutStepTypePaymentType = CheckoutStepType.PAYMENT_TYPE;
 
   constructor(
-    protected checkoutDeliveryAddressService: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutPaymentTypeService: CheckoutPaymentTypeFacade,
-    protected checkoutCostCenterService: CheckoutCostCenterFacade,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected userCostCenterService: UserCostCenterService
   ) {
     super(
-      checkoutDeliveryAddressService,
-      checkoutPaymentService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
       userAddressService,
       activeCartService,
-      translation,
+      translationService,
       checkoutStepService,
-      checkoutDeliveryModesService
+      checkoutDeliveryModesFacade
     );
   }
 
   get poNumber$(): Observable<string | undefined> {
-    return this.checkoutPaymentTypeService.getPurchaseOrderNumberState().pipe(
+    return this.checkoutPaymentTypeFacade.getPurchaseOrderNumberState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
   }
 
   get paymentType$(): Observable<PaymentType | undefined> {
-    return this.checkoutPaymentTypeService.getSelectedPaymentTypeState().pipe(
+    return this.checkoutPaymentTypeFacade.getSelectedPaymentTypeState().pipe(
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
   }
 
   get isAccountPayment$(): Observable<boolean> {
-    return this.checkoutPaymentTypeService.isAccountPayment();
+    return this.checkoutPaymentTypeFacade.isAccountPayment();
   }
 
   /**
@@ -82,7 +82,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
     return this.userCostCenterService.getActiveCostCenters().pipe(
       filter((costCenters) => !!costCenters),
       switchMap((costCenters) =>
-        this.checkoutCostCenterService
+        this.checkoutCostCenterFacade
           .getCostCenterState()
           .pipe(
             map((state) =>
@@ -103,7 +103,7 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getCostCenterCard(costCenter?: CostCenter): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutB2B.costCenter'),
+      this.translationService.translate('checkoutB2B.costCenter'),
     ]).pipe(
       map(([textTitle]) => {
         return {
@@ -117,8 +117,8 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getPoNumberCard(poNumber?: string | null): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutB2B.review.poNumber'),
-      this.translation.translate('checkoutB2B.noPoNumber'),
+      this.translationService.translate('checkoutB2B.review.poNumber'),
+      this.translationService.translate('checkoutB2B.noPoNumber'),
     ]).pipe(
       map(([textTitle, noneTextTitle]) => {
         return {
@@ -131,8 +131,8 @@ export class B2BReviewSubmitComponent extends ReviewSubmitComponent {
 
   getPaymentTypeCard(paymentType: PaymentType): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutB2B.progress.methodOfPayment'),
-      this.translation.translate(
+      this.translationService.translate('checkoutB2B.progress.methodOfPayment'),
+      this.translationService.translate(
         'paymentTypes.paymentType_' + paymentType.code
       ),
     ]).pipe(

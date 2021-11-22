@@ -36,7 +36,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     return [LogoutEvent, LoginEvent];
   }
 
-  protected paymentTypesQuery: Query<PaymentType[]> = this.query.create(
+  protected paymentTypesQuery: Query<PaymentType[]> = this.queryService.create(
     () => this.paymentTypeConnector.getPaymentTypes(),
     {
       reloadOn: this.getPaymentTypesQueryReloadEvents(),
@@ -47,7 +47,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   protected setPaymentTypeCommand: Command<
     { paymentTypeCode: string; purchaseOrderNumber?: string },
     unknown
-  > = this.command.create<{
+  > = this.commandService.create<{
     paymentTypeCode: string;
     purchaseOrderNumber?: string;
   }>(
@@ -84,11 +84,11 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   constructor(
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected query: QueryService,
-    protected command: CommandService,
+    protected queryService: QueryService,
+    protected commandService: CommandService,
     protected paymentTypeConnector: CheckoutPaymentTypeConnector,
     protected eventService: EventService,
-    protected checkoutQuery: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
@@ -130,7 +130,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   getSelectedPaymentTypeState(): Observable<
     QueryState<PaymentType | undefined>
   > {
-    return this.checkoutQuery
+    return this.checkoutQueryFacade
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentType })));
   }
@@ -142,8 +142,10 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     );
   }
 
+  // TODO:#checkout - add isCreditCardPayment()?
+
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
-    return this.checkoutQuery
+    return this.checkoutQueryFacade
       .getCheckoutDetailsState()
       .pipe(
         map((state) => ({ ...state, data: state.data?.purchaseOrderNumber }))

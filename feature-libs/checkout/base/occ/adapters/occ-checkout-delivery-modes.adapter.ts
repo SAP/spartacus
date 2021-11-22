@@ -25,9 +25,10 @@ export class OccCheckoutDeliveryModesAdapter
   ) {}
 
   public getMode(userId: string, cartId: string): Observable<any> {
-    return this.http
-      .get(this.getDeliveryModeEndpoint(userId, cartId))
-      .pipe(this.converter.pipeable(DELIVERY_MODE_NORMALIZER));
+    return this.http.get(this.getDeliveryModeEndpoint(userId, cartId)).pipe(
+      catchError((error) => throwError(normalizeHttpError(error))),
+      this.converter.pipeable(DELIVERY_MODE_NORMALIZER)
+    );
   }
 
   protected getDeliveryModeEndpoint(userId: string, cartId: string): string {

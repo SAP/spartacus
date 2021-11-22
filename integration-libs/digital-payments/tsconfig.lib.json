@@ -31,6 +31,24 @@
       "@spartacus/checkout": ["dist/checkout"],
       "@spartacus/checkout/occ": ["dist/checkout/occ"],
       "@spartacus/checkout/root": ["dist/checkout/root"],
+      "@spartacus/checkout/scheduled-replenishment/assets": [
+        "dist/checkout/scheduled-replenishment/assets"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/components": [
+        "dist/checkout/scheduled-replenishment/components"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/core": [
+        "dist/checkout/scheduled-replenishment/core"
+      ],
+      "@spartacus/checkout/scheduled-replenishment": [
+        "dist/checkout/scheduled-replenishment"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/occ": [
+        "dist/checkout/scheduled-replenishment/occ"
+      ],
+      "@spartacus/checkout/scheduled-replenishment/root": [
+        "dist/checkout/scheduled-replenishment/root"
+      ],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/cart/import-export/assets": [

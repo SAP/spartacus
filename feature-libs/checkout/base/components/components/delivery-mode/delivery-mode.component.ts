@@ -41,11 +41,11 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     protected checkoutConfigService: CheckoutConfigService,
     protected activatedRoute: ActivatedRoute,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesService: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   ngOnInit(): void {
-    this.supportedDeliveryModes$ = this.checkoutDeliveryModesService
+    this.supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
       .getSupportedDeliveryModes()
       .pipe(
         filter((deliveryModes) => !!deliveryModes?.length),
@@ -57,7 +57,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
     this.deliveryModeSub = this.supportedDeliveryModes$
       .pipe(
         withLatestFrom(
-          this.checkoutDeliveryModesService.getSelectedDeliveryModeState().pipe(
+          this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
             filter((state) => !state.loading),
             map((state) => state.data),
             map((deliveryMode) => deliveryMode?.code)
@@ -82,7 +82,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   changeMode(code: string): void {
-    this.checkoutDeliveryModesService.setDeliveryMode(code);
+    this.checkoutDeliveryModesFacade.setDeliveryMode(code);
   }
 
   next(): void {

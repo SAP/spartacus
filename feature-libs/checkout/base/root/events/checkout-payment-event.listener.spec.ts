@@ -18,7 +18,7 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
 }
 
-describe('CheckoutPaymentEventListener', () => {
+describe(`CheckoutPaymentEventListener`, () => {
   let eventService: EventService;
 
   beforeEach(() => {
@@ -36,8 +36,8 @@ describe('CheckoutPaymentEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe('onPaymentChange', () => {
-    it('should dispatch ResetCheckoutQueryEvent', () => {
+  describe(`onPaymentChange`, () => {
+    it(`should dispatch ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new PaymentDetailsCreatedEvent());
@@ -48,7 +48,7 @@ describe('CheckoutPaymentEventListener', () => {
       );
     });
 
-    it('PaymentDetailsSetEvent dispatch ResetCheckoutQueryEvent', () => {
+    it(`PaymentDetailsSetEvent dispatch ResetCheckoutQueryEvent`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new PaymentDetailsSetEvent());

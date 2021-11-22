@@ -11,12 +11,12 @@ class MockCheckoutService implements Partial<CheckoutFacade> {
   }
 }
 
-class MockSemanticPageService {
-  get(route: string): string | undefined {
+class MockSemanticPageService implements Partial<SemanticPathService> {
+  get(route: string): string {
     if (route === 'orders') {
       return '/my-account/orders';
     }
-    return undefined;
+    return '';
   }
 }
 

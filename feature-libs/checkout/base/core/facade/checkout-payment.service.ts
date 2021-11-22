@@ -39,7 +39,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     return [LanguageSetEvent, CurrencySetEvent];
   }
 
-  protected cardTypesQuery: Query<CardType[]> = this.query.create(
+  protected cardTypesQuery: Query<CardType[]> = this.queryService.create(
     () => this.checkoutPaymentConnector.getCardTypes(),
     {
       reloadOn: this.getCardTypesReloadTriggers(),
@@ -48,7 +48,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   );
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
-    this.command.create<PaymentDetails>(
+    this.commandService.create<PaymentDetails>(
       (paymentDetails) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
@@ -84,7 +84,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   protected setPaymentMethodCommand: Command<PaymentDetails, unknown> =
-    this.command.create<PaymentDetails>(
+    this.commandService.create<PaymentDetails>(
       (paymentDetails) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
@@ -119,11 +119,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected query: QueryService,
-    protected command: CommandService,
+    protected queryService: QueryService,
+    protected commandService: CommandService,
     protected eventService: EventService,
     protected checkoutPaymentConnector: CheckoutPaymentConnector,
-    protected checkoutQuery: CheckoutQueryFacade
+    protected checkoutQueryFacade: CheckoutQueryFacade
   ) {}
 
   /**
@@ -158,7 +158,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   }
 
   getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return this.checkoutQuery
+    return this.checkoutQueryFacade
       .getCheckoutDetailsState()
       .pipe(map((state) => ({ ...state, data: state.data?.paymentInfo })));
   }

@@ -32,7 +32,7 @@ export class CheckoutB2BAuthGuard
     protected activeCartService: ActiveCartService,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
-    protected userService: UserAccountFacade,
+    protected userAccountFacade: UserAccountFacade,
     protected globalMessageService: GlobalMessageService
   ) {
     super(
@@ -49,7 +49,7 @@ export class CheckoutB2BAuthGuard
     return combineLatest([
       this.authService.isUserLoggedIn(),
       this.activeCartService.getAssignedUser(),
-      this.userService.get(),
+      this.userAccountFacade.get(),
       this.activeCartService.isStable(),
     ]).pipe(
       filter(([_isLoggedIn, _cartUser, _user, isStable]) => isStable),

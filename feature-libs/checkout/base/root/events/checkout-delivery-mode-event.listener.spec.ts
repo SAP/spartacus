@@ -34,7 +34,7 @@ class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
 }
 
-describe('CheckoutDeliveryModeEventListener', () => {
+describe(`CheckoutDeliveryModeEventListener`, () => {
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let eventService: EventService;
 
@@ -58,8 +58,8 @@ describe('CheckoutDeliveryModeEventListener', () => {
     eventService = TestBed.inject(EventService);
   });
 
-  describe('onUserAddressChange', () => {
-    it('UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent', () => {
+  describe(`onUserAddressChange`, () => {
+    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent`, () => {
       spyOn(checkoutDeliveryModesFacade, 'clearCheckoutDeliveryMode');
       spyOn(eventService, 'dispatch');
 
@@ -74,7 +74,7 @@ describe('CheckoutDeliveryModeEventListener', () => {
       );
     });
 
-    it('DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent', () => {
+    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent`, () => {
       spyOn(checkoutDeliveryModesFacade, 'clearCheckoutDeliveryMode');
       spyOn(eventService, 'dispatch');
 
@@ -90,8 +90,8 @@ describe('CheckoutDeliveryModeEventListener', () => {
     });
   });
 
-  describe('onDeliveryAddressChange', () => {
-    it('DeliveryAddressSetEvent should call clearCheckoutDeliveryMode()', () => {
+  describe(`onDeliveryAddressChange`, () => {
+    it(`DeliveryAddressSetEvent should call clearCheckoutDeliveryMode()`, () => {
       spyOn(checkoutDeliveryModesFacade, 'clearCheckoutDeliveryMode');
 
       mockEventStream$.next(new DeliveryAddressSetEvent());
@@ -102,8 +102,8 @@ describe('CheckoutDeliveryModeEventListener', () => {
     });
   });
 
-  describe('onDeliveryModeChange', () => {
-    it('DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()', () => {
+  describe(`onDeliveryModeChange`, () => {
+    it(`DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new DeliveryModeSetEvent());
@@ -115,8 +115,8 @@ describe('CheckoutDeliveryModeEventListener', () => {
     });
   });
 
-  describe('onDeliveryModeChange', () => {
-    it('DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()', () => {
+  describe(`onDeliveryModeChange`, () => {
+    it(`DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new DeliveryModeSetEvent());
@@ -126,7 +126,7 @@ describe('CheckoutDeliveryModeEventListener', () => {
         ResetCheckoutQueryEvent
       );
     });
-    it('DeliveryModeClearedEvent should dispatch ResetCheckoutQueryEvent()', () => {
+    it(`DeliveryModeClearedEvent should dispatch ResetCheckoutQueryEvent()`, () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new DeliveryModeClearedEvent());
