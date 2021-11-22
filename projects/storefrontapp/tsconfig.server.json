@@ -281,6 +281,15 @@
       "@spartacus/digital-payments": [
         "../../integration-libs/digital-payments/public_api"
       ],
+      "@spartacus/epd-visualization/components": [
+        "../../integration-libs/epd-visualization/components/public_api"
+      ],
+      "@spartacus/epd-visualization/assets": [
+        "../../integration-libs/epd-visualization/assets/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "../../integration-libs/epd-visualization/root/public_api"
+      ],
       "@spartacus/epd-visualization": [
         "../../integration-libs/epd-visualization/public_api"
       ],

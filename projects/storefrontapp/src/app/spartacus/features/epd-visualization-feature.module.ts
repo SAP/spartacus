@@ -1,11 +1,18 @@
 import { NgModule } from '@angular/core';
-import { I18nConfig, provideConfig } from '@spartacus/core';
+import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
+
 import {
+  EPD_VISUALIZATION_FEATURE,
   EpdVisualizationConfig,
-  EpdVisualizationModule,
+} from '@spartacus/epd-visualization/root';
+
+import { EpdVisualizationModule } from '@spartacus/epd-visualization';
+
+import {
   epdVisualizationTranslationChunksConfig,
   epdVisualizationTranslations,
-} from '@spartacus/epd-visualization';
+} from '@spartacus/epd-visualization/assets';
+
 @NgModule({
   imports: [EpdVisualizationModule],
   providers: [
@@ -49,6 +56,17 @@ import {
 
       visualPicking: {
         productReferenceType: 'SPAREPART',
+      },
+    }),
+
+    provideConfig(<CmsConfig>{
+      featureModules: {
+        [EPD_VISUALIZATION_FEATURE]: {
+          module: () =>
+            import('@spartacus/epd-visualization').then(
+              (m) => m.EpdVisualizationModule
+            ),
+        },
       },
     }),
   ],
