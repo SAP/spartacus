@@ -1,14 +1,16 @@
 // We need this import for augmentation of OccEndpoints to pick up
-import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
+// TODO#checkout: type CheckoutOccEndpoints breaks build (might need to move this elsewhere for ll?)
+// import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
+import { OccConfig } from '@spartacus/core';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
-import { OccConfig } from '@spartacus/core';
 
 // While it is not strictly required to define checkout endpoints in a separate `CheckoutOccEndpoints`
 // variable, type augmentation does require that this file imports `CheckoutOccEndpoints`.
 // A good way to make sure the `CheckoutOccEndpoints` import is not removed by mistake is to use
 // `CheckoutOccEndpoints` in the code.
-const defaultB2bCheckoutOccEndpoints: CheckoutOccEndpoints = {
+// TODO#checkout: type CheckoutOccEndpoints breaks build (might need to move this elsewhere for ll?)
+const defaultB2bCheckoutOccEndpoints = {
   setDeliveryAddress: 'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
   placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
 };
