@@ -2,14 +2,14 @@ import {
   CheckoutConfig,
   CheckoutStepType,
   DeliveryModePreferences,
-} from '@spartacus/checkout/root';
+} from '@spartacus/checkout/base/root';
 
 export const defaultB2bCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
         id: 'paymentType',
-        name: 'checkoutProgress.methodOfPayment',
+        name: 'checkoutB2B.progress.methodOfPayment',
         routeName: 'checkoutPaymentType',
         type: [CheckoutStepType.PAYMENT_TYPE],
       },

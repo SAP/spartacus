@@ -61,11 +61,13 @@ import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { ImportExportFeatureModule } from './features/import-export-feature.module';
+import { CheckoutB2BFeatureModule } from './features/checkout-b2b-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
-import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
 import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
 import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
@@ -77,7 +79,6 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
-import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 
 const featureModules = [];
 
@@ -85,7 +86,8 @@ if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule
+    OrderApprovalFeatureModule,
+    CheckoutB2BFeatureModule
   );
 }
 if (environment.cdc) {

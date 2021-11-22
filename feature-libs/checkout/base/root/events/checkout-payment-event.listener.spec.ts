@@ -37,7 +37,7 @@ describe('CheckoutPaymentEventListener', () => {
   });
 
   describe('onPaymentChange', () => {
-    it('PaymentDetailsCreatedEvent dispatch ResetCheckoutQueryEvent', () => {
+    it('should dispatch ResetCheckoutQueryEvent', () => {
       spyOn(eventService, 'dispatch');
 
       mockEventStream$.next(new PaymentDetailsCreatedEvent());
