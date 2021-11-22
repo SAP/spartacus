@@ -16,6 +16,7 @@ export class OrderEntryPromotionsNormalizer
     target = this.getProductPromotion(source.item, source.promotions);
     return target;
   }
+
   /**
    * Get consumed promotions for the given order entry
    *

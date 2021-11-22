@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
+import { ORDRE_ENTRY_PROMOTIONS_NORMALIZER } from '@spartacus/cart/main/root';
 import {
   Converter,
   ConverterService,
@@ -13,9 +13,9 @@ export class OccReplenishmentOrderNormalizer
   implements Converter<Occ.ReplenishmentOrder, ReplenishmentOrder>
 {
   constructor(
-    private converter: ConverterService,
-    private entryPromotionService?: OrderEntryPromotionsService
-  ) {}
+    private converter: ConverterService
+  ) //private entryPromotionService?: OrderEntryPromotionsService
+  {}
 
   convert(
     source: Occ.ReplenishmentOrder,
@@ -29,12 +29,10 @@ export class OccReplenishmentOrderNormalizer
       target.entries = source.entries.map((entry) => ({
         ...entry,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-        promotions: this.entryPromotionService
-          ? this.entryPromotionService.getProductPromotion(
-              entry,
-              source.appliedProductPromotions
-            )
-          : [],
+        promotions: this.converter.convert(
+          { item: entry, promotions: source.appliedProductPromotions },
+          ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+        ),
       }));
     }
 

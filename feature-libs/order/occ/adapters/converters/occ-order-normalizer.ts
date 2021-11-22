@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
-import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
-import { OrderEntry, PromotionResult } from '@spartacus/cart/main/root';
+import {
+  OrderEntry,
+  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+  PromotionResult,
+} from '@spartacus/cart/main/root';
 import {
   Converter,
   ConverterService,
@@ -12,8 +15,7 @@ import { Order } from '@spartacus/order/root';
 @Injectable({ providedIn: 'root' })
 export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
   constructor(
-    private converter: ConverterService,
-    private entryPromotionService?: OrderEntryPromotionsService
+    private converter: ConverterService //private entryPromotionService?: OrderEntryPromotionsService
   ) {}
 
   convert(source: Occ.Order, target?: Order): Order {
@@ -67,9 +69,10 @@ export class OccOrderNormalizer implements Converter<Occ.Order, Order> {
       ...source,
       product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
       orderCode: code,
-      promotions: this.entryPromotionService
-        ? this.entryPromotionService.getProductPromotion(source, promotions)
-        : [],
+      promotions: this.converter.convert(
+        { item: source, promotions: promotions },
+        ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+      ),
     };
   }
 }
