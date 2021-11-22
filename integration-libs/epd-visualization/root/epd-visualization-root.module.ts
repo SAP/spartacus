@@ -17,7 +17,7 @@ export function defaultEpdVisualizationComponentsConfig(): CmsConfig {
     featureModules: {
       [EPD_VISUALIZATION_FEATURE]: {
         cmsComponents: ['VisualPickingTabComponent'],
-      }
+      },
     },
   };
   return config;
