@@ -17,6 +17,7 @@ import { CheckoutService } from './checkout.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
+const termsChecked = true;
 const mockOrder: Order = { code: 'mockOrderCode' };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
@@ -86,7 +87,6 @@ describe(`CheckoutService`, () => {
   ));
 
   describe(`placeOrder`, () => {
-    const termsChecked = true;
     it(`should call checkoutConnector.placeOrder`, () => {
       spyOn(connector, 'placeOrder').and.callThrough();
 
@@ -123,6 +123,47 @@ describe(`CheckoutService`, () => {
         },
         OrderPlacedEvent
       );
+    });
+  });
+
+  describe(`getOrder`, () => {
+    it(`should return an order`, () => {
+      service.placeOrder(termsChecked);
+
+      service
+        .getOrder()
+        .subscribe((result) => {
+          expect(result).toEqual(mockOrder);
+        })
+        .unsubscribe();
+    });
+  });
+
+  describe(`setOrder`, () => {
+    it(`should set a new order`, () => {
+      const newMockOrder: Order = { code: 'newMockCode' };
+
+      service.setOrder(newMockOrder);
+
+      service
+        .getOrder()
+        .subscribe((result) => {
+          expect(result).toEqual(newMockOrder);
+        })
+        .unsubscribe();
+    });
+  });
+
+  describe(`clearOrder`, () => {
+    it(`should clear the order`, () => {
+      service.clearOrder();
+
+      service
+        .getOrder()
+        .subscribe((result) => {
+          expect(result).toEqual(undefined);
+        })
+        .unsubscribe();
     });
   });
 });
