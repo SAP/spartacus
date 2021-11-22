@@ -11,6 +11,10 @@ export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
   'CartNormalizer'
 );
 
+export const ORDRE_ENTRY_PROMOTIONS_NORMALIZER = new InjectionToken<
+  Converter<any, Cart>
+>('OrderEntryPromotionsNormalizer');
+
 export const CART_MODIFICATION_NORMALIZER = new InjectionToken<
   Converter<any, CartModification>
 >('CartModificationNormalizer');

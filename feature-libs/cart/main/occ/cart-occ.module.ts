@@ -7,9 +7,13 @@ import {
   CartVoucherAdapter,
   SaveCartAdapter,
 } from '@spartacus/cart/main/core';
-import { CART_NORMALIZER } from '@spartacus/cart/main/root';
+import {
+  CART_NORMALIZER,
+  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+} from '@spartacus/cart/main/root';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
+import { OrderEntryPromotionsNormalizer } from './adapters/converters/order-entry-promotions-normalizer';
 import { defaultOccCartConfig } from './adapters/default-occ-cart-config';
 import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
@@ -28,6 +32,11 @@ import { OccSaveCartAdapter } from './adapters/occ-save-cart.adapter';
     {
       provide: CART_NORMALIZER,
       useExisting: OccCartNormalizer,
+      multi: true,
+    },
+    {
+      provide: ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+      useExisting: OrderEntryPromotionsNormalizer,
       multi: true,
     },
     {
