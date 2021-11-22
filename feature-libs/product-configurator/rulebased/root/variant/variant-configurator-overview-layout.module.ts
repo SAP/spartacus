@@ -15,7 +15,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
       layoutSlots: {
         VariantConfigurationOverviewTemplate: {
           header: {
-            md: {
+            lg: {
               slots: [
                 'SiteLogo',
                 'VariantConfigOverviewExitButton',
