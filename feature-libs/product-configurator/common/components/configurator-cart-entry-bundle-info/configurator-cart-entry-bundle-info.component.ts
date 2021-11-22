@@ -85,7 +85,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   readonly shouldShowButton$: Observable<boolean> =
     this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 
-  getButtonMsg(translatedText?: string): string {
+  getButtonText(translatedText?: string): string {
     if (!translatedText) {
       translatedText = '';
     }
@@ -100,6 +100,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
         .pipe(take(1))
         .subscribe((text) => (translatedText += text));
     }
+
     return translatedText;
   }
 
@@ -116,11 +117,10 @@ export class ConfiguratorCartEntryBundleInfoComponent {
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
     }
-
-    return this.getButtonMsg(translatedText);
+    return this.getButtonText(translatedText);
   }
 
-  getItemInfoMsg(item: LineItem): string {
+  getHiddenItemInfo(item: LineItem): string {
     let translatedText = '';
 
     if (item) {

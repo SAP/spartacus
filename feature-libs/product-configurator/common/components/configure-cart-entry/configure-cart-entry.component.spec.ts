@@ -203,7 +203,7 @@ describe('ConfigureCartEntryComponent', () => {
     });
   });
 
-  describe('getResolveIssuesMsg', () => {
+  describe('getResolveIssuesA11yDescription', () => {
     it("should return 'undefined'", () => {
       component.readOnly = true;
       component.msgBanner = true;
@@ -212,7 +212,7 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(component.getResolveIssuesMsg()).toBeUndefined();
+      expect(component.getResolveIssuesA11yDescription()).toBeUndefined();
     });
 
     it("should return 'cx-error-msg'", () => {
@@ -223,7 +223,31 @@ describe('ConfigureCartEntryComponent', () => {
         product: { configuratorType: configuratorType },
       };
       fixture.detectChanges();
-      expect(component.getResolveIssuesMsg()).toEqual('cx-error-msg');
+      expect(component.getResolveIssuesA11yDescription()).toEqual(
+        'cx-error-msg'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain a element with ID 'cx-error-msg' and aria-describedby attribute", function () {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'a',
+        'cx-action-link',
+        undefined,
+        'aria-describedby',
+        'cx-error-msg'
+      );
     });
   });
 });

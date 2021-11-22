@@ -1,6 +1,12 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isAttributeBasedConfigurator(orderEntry)">
     <ng-container *ngIf="hasStatus(orderEntry)">
+      <span
+        *ngIf="orderEntry.configurationInfos.length > 0"
+        class="cx-intro cx-visually-hidden"
+      >
+        {{ 'configurator.a11y.cartEntryInfoIntro' | cxTranslate }}
+      </span>
       <div
         *ngFor="let info of orderEntry.configurationInfos; let i = index"
         class="cx-configuration-info"
@@ -14,7 +20,7 @@
             'configurator.a11y.cartEntryInfo'
               | cxTranslate
                 : {
-                    label: info?.configurationLabel,
+                    attribute: info?.configurationLabel,
                     value: info?.configurationValue
                   }
           }}

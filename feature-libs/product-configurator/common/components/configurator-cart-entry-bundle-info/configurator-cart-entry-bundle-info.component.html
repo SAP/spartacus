@@ -12,7 +12,7 @@
         [attr.aria-label]="getItemsMsg(numberOfItems)"
       >
         <div class="cx-toggle-hide-items">
-          {{ getButtonMsg() }}
+          {{ getButtonText() }}
         </div>
       </button>
 
@@ -23,7 +23,7 @@
           attr.aria-describedby="{{ getHiddenItemInfoId(i) }}"
         >
           <span id="{{ getHiddenItemInfoId(i) }}" class="cx-visually-hidden">
-            {{ getItemInfoMsg(lineItem) }}
+            {{ getHiddenItemInfo(lineItem) }}
           </span>
           <div class="cx-item-name" aria-hidden="true">
             {{ lineItem?.name }}

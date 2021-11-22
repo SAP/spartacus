@@ -18,6 +18,7 @@ import {
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
   ConfiguratorType,
+  LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService, CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
@@ -723,6 +724,249 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           htmlElem.querySelectorAll('cx-configure-cart-entry').length
         ).toBe(1);
+      });
+    });
+
+    describe('getButtonText', () => {
+      it("should return 'configurator.header.show'", () => {
+        component.hideItems = true;
+        fixture.detectChanges();
+        expect(
+          component.getButtonText().indexOf('configurator.header.show')
+        ).toBe(0);
+      });
+
+      it("should return 'configurator.header.hide'", () => {
+        component.hideItems = false;
+        fixture.detectChanges();
+        expect(
+          component.getButtonText().indexOf('configurator.header.hide')
+        ).toBe(0);
+      });
+    });
+
+    describe('getItemsMsg', () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfoSg'", () => {
+        let numberOfItems: number = 1;
+        expect(
+          component
+            .getItemsMsg(numberOfItems)
+            .indexOf('configurator.a11y.cartEntryBundleInfoSg')
+        ).toBe(0);
+      });
+
+      it("should return 'configurator.a11y.cartEntryBundleInfoPl'", () => {
+        let numberOfItems: number = 4;
+        expect(
+          component
+            .getItemsMsg(numberOfItems)
+            .indexOf('configurator.a11y.cartEntryBundleInfoPl')
+        ).toBe(0);
+      });
+    });
+
+    describe('getHiddenItemInfo', () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo'", () => {
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+          formattedPrice: '$1,000.00',
+          formattedQuantity: '5',
+        };
+        expect(
+          component
+            .getHiddenItemInfo(lineItem)
+            .indexOf('configurator.a11y.cartEntryBundleInfo')
+        ).toBe(0);
+      });
+
+      it("should return 'configurator.a11y.cartEntryBundleNameWithPrice'", () => {
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+          formattedPrice: '$1,000.00',
+        };
+        expect(
+          component
+            .getHiddenItemInfo(lineItem)
+            .indexOf('configurator.a11y.cartEntryBundleNameWithPrice')
+        ).toBe(0);
+      });
+
+      it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity'", () => {
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+          formattedQuantity: '5',
+        };
+        expect(
+          component
+            .getHiddenItemInfo(lineItem)
+            .indexOf('configurator.a11y.cartEntryBundleNameWithQuantity')
+        ).toBe(0);
+      });
+
+      it("should return 'configurator.a11y.cartEntryBundleName'", () => {
+        let lineItem: LineItem = {
+          name: 'Canon ABC',
+        };
+        expect(
+          component
+            .getHiddenItemInfo(lineItem)
+            .indexOf('configurator.a11y.cartEntryBundleName')
+        ).toBe(0);
+      });
+    });
+
+    describe('Accessibility', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: undefined,
+          configurationInfos: [
+            {
+              configurationLabel: 'Canon ABC',
+              configurationValue: '5 x $1,000.00',
+              configuratorType: ConfiguratorType.CPQ,
+              status: 'SUCCESS',
+            },
+          ],
+          product: {
+            configurable: true,
+          },
+        });
+        mockCartItemContext.readonly$.next(false);
+        mockCartItemContext.quantityControl$.next(new FormControl());
+        component.hideItems = false;
+        spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+        fixture.detectChanges();
+      });
+      it("should contain div element with class name 'cx-number-items'", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-number-items',
+          undefined,
+          undefined,
+          undefined,
+          'configurator.header.items'
+        );
+      });
+
+      it('should contain button element', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'button',
+          undefined,
+          undefined,
+          'aria-label',
+          'configurator.a11y.cartEntryBundleInfoSgconfigurator.header.hide'
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-toggle-hide-items',
+          undefined,
+          undefined,
+          undefined,
+          'configurator.header.hide'
+        );
+      });
+
+      it("should contain div element with class name 'cx-item-info' and aria-describedby attribute", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-item-info',
+          undefined,
+          'aria-describedby',
+          'cx-item-hidden-info-0'
+        );
+      });
+
+      it("should contain span element with class name 'cx-visually-hidden'", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          undefined,
+          undefined,
+          undefined,
+          'configurator.a11y.cartEntryBundleInfo'
+        );
+      });
+
+      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-item-name',
+          undefined,
+          'aria-hidden',
+          'true',
+          'Canon ABC'
+        );
+      });
+
+      it("should contain div element with class name 'cx-item-price' and aria-hidden attribute", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-item-price',
+          undefined,
+          'aria-hidden',
+          'true'
+        );
+      });
+
+      it("should contain span element with class name 'cx-item' and price content", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-item',
+          0,
+          undefined,
+          undefined,
+          '$1,000.00'
+        );
+      });
+
+      it("should contain div element with class name 'cx-item-quantity' and aria-hidden attribute", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-item-quantity',
+          undefined,
+          'aria-hidden',
+          'true'
+        );
+      });
+
+      it("should contain span element with class name 'cx-item' and quantity content", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-item',
+          1,
+          undefined,
+          undefined,
+          '5'
+        );
+      });
+    });
+
+    describe('getHiddenItemInfoId', () => {
+      it("should return 'cx-item-hidden-info-4'", () => {
+        expect(
+          component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
+        ).toBe(0);
       });
     });
   });
