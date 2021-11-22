@@ -16,7 +16,10 @@ import {
   tap,
 } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
-import { ghostConfiguration } from '../model/configurator.ghostdata';
+import {
+  ghostConfiguration,
+  ghostConfigurationId,
+} from '../model/configurator.ghostdata';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
@@ -215,6 +218,9 @@ export class ConfiguratorCommonsService {
    */
   hasConflicts(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.getConfiguration(owner).pipe(
+      filter(
+        (configuration) => configuration.configId !== ghostConfigurationId
+      ),
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
