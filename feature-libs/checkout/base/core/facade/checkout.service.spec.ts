@@ -126,6 +126,7 @@ describe(`CheckoutService`, () => {
     });
   });
 
+  // TODO:#checkout - if we decide to keep this, test it
   describe(`getOrder`, () => {
     it(`should return an order`, () => {
       service.placeOrder(termsChecked);
@@ -139,6 +140,7 @@ describe(`CheckoutService`, () => {
     });
   });
 
+  // TODO:#checkout - if we decide to keep this, test it
   describe(`setOrder`, () => {
     it(`should set a new order`, () => {
       const newMockOrder: Order = { code: 'newMockCode' };
@@ -154,6 +156,7 @@ describe(`CheckoutService`, () => {
     });
   });
 
+  // TODO:#checkout - if we decide to keep this, test it
   describe(`clearOrder`, () => {
     it(`should clear the order`, () => {
       service.clearOrder();

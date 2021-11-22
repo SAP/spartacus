@@ -10,6 +10,7 @@ import {
   EventService,
   OCC_USER_ID_CURRENT,
   Order,
+  ORDER_TYPE,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
   UserIdService,
@@ -170,6 +171,19 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
         },
         ReplenishmentOrderScheduledEvent
       );
+    });
+
+    describe(`getOrderType and setOrderType`, () => {
+      it(`should return an order type`, () => {
+        service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+
+        service
+          .getOrderType()
+          .subscribe((result) => {
+            expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+          })
+          .unsubscribe();
+      });
     });
   });
 });
