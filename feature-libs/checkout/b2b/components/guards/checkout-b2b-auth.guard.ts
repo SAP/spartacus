@@ -52,7 +52,7 @@ export class CheckoutB2BAuthGuard
       this.userAccountFacade.get(),
       this.activeCartService.isStable(),
     ]).pipe(
-      filter(([, , _user, isStable]) => isStable),
+      filter(([_isLoggedIn, _cartUser, _user, isStable]) => isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous
       filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
       map(([isLoggedIn, cartUser, user]) => {

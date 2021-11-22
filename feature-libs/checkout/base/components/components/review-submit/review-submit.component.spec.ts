@@ -294,15 +294,6 @@ describe('ReviewSubmitComponent', () => {
     expect(deliveryMode).toEqual(mockDeliveryMode);
   });
 
-  it('should be able to get country', () => {
-    let countryName: string | undefined;
-    component.countryName$.subscribe((data) => {
-      countryName = data;
-    });
-
-    expect(countryName).toEqual(mockCountry.name);
-  });
-
   it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
     component
       .getShippingAddressCard(mockAddress, 'Canada')

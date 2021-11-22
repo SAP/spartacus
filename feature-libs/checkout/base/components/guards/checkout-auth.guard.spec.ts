@@ -12,7 +12,6 @@ import { User } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
-
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {

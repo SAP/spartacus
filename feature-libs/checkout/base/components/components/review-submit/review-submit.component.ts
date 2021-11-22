@@ -10,7 +10,6 @@ import {
   ActiveCartService,
   Address,
   Cart,
-  Country,
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
@@ -20,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -84,20 +83,6 @@ export class ReviewSubmitComponent {
       filter((state) => !state.loading && !state.error),
       map((state) => state.data)
     );
-
-  get countryName$(): Observable<string | undefined> {
-    return this.deliveryAddress$.pipe(
-      switchMap((address: Address | undefined) =>
-        this.userAddressService.getCountry(address?.country?.isocode as string)
-      ),
-      tap((country: Country) => {
-        if (country === null) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      }),
-      map((country: Country) => country && country.name)
-    );
-  }
 
   getShippingAddressCard(
     deliveryAddress: Address,
