@@ -45,7 +45,7 @@ export class B2BShippingAddressComponent
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
@@ -56,7 +56,7 @@ export class B2BShippingAddressComponent
       userAddressService,
       checkoutDeliveryAddressFacade,
       activatedRoute,
-      translation,
+      translationService,
       activeCartService,
       checkoutStepService
     );

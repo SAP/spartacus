@@ -40,7 +40,7 @@ export class ReviewSubmitComponent {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
@@ -88,7 +88,7 @@ export class ReviewSubmitComponent {
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
-    return this.translation.translate('addressCard.shipTo').pipe(
+    return this.translationService.translate('addressCard.shipTo').pipe(
       map((textTitle) => {
         if (!countryName) {
           countryName = deliveryAddress?.country?.name as string;
@@ -120,7 +120,7 @@ export class ReviewSubmitComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutShipping.shippingMethod'),
+      this.translationService.translate('checkoutShipping.shippingMethod'),
     ]).pipe(
       map(([textTitle]) => {
         return {
@@ -139,12 +139,12 @@ export class ReviewSubmitComponent {
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
-      this.translation.translate('paymentForm.payment'),
-      this.translation.translate('paymentCard.expires', {
+      this.translationService.translate('paymentForm.payment'),
+      this.translationService.translate('paymentCard.expires', {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
-      this.translation.translate('paymentForm.billingAddress'),
+      this.translationService.translate('paymentForm.billingAddress'),
     ]).pipe(
       map(([textTitle, textExpires, billingAddress]) => {
         const region = paymentDetails.billingAddress?.region?.isocode
