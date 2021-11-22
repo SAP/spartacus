@@ -1,5 +1,8 @@
 <div [class.container-fluid]="!hideViewport" [class.container]="hideViewport">
-  <div [hidden]="hideNoProductReferencesIndicator">
+  <div
+    class="no-product-references"
+    [hidden]="hideNoProductReferencesIndicator"
+  >
     <span>{{
       'visualPicking.visualPickingTab.noProductReferences' | cxTranslate
     }}</span>
