@@ -86,3 +86,5 @@ Deprecation strategy:
     5.  if the lister was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
 12. order$ from checkoutService should stay and not todo from Marcin. Maybe you're mentioning about part 17 (38:00 - 44:00)
 13. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
+14. fix b2b mechanism if not done already for importing config (old vs new) - done but double check 
+15. update schematic test for @spartacus/checkout assertions https://app.travis-ci.com/github/SAP/spartacus/jobs/549205902

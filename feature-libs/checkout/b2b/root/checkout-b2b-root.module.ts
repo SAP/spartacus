@@ -3,7 +3,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
+import { defaultCheckoutB2BRoutingConfig } from './config/index';
 import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';
 import {
   CHECKOUT_B2B_CORE_FEATURE,
