@@ -174,7 +174,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
     });
 
     describe(`getOrderType and setOrderType`, () => {
-      it(`should return an order type`, () => {
+      it(`should set an order type return an order type`, () => {
         service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
         service
