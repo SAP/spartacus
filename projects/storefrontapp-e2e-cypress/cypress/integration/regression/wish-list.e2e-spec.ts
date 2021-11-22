@@ -42,6 +42,7 @@ describe('Wish list', () => {
 
     it('should persist wish list between sessions', () => {
       wishList.addToWishList(wishList.products[1]);
+      wishList.verifyProductInWishList(wishList.products[1]);
       wishList.checkWishListPersisted(wishList.products[1]);
     });
 
