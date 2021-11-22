@@ -7,6 +7,7 @@ import {
 import {
   Address,
   DeliveryMode,
+  PaymentDetails,
   StateUtils,
   UserAddressService,
   UserPaymentService,
