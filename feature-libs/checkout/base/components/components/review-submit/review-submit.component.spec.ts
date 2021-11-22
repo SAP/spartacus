@@ -95,14 +95,16 @@ class MockCardComponent {
 }
 
 class MockCheckoutDeliveryAddressService
-  implements Partial<CheckoutDeliveryAddressFacade> {
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
   getDeliveryAddressState(): Observable<QueryState<Address>> {
     return of({ loading: false, error: false, data: mockAddress });
   }
 }
 
 class MockCheckoutDeliveryModesService
-  implements Partial<CheckoutDeliveryModesFacade> {
+  implements Partial<CheckoutDeliveryModesFacade>
+{
   getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
     return of({ loading: false, error: false, data: [] });
   }

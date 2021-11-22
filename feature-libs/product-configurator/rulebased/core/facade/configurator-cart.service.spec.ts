@@ -165,12 +165,13 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForCartEntry', () => {
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -183,23 +184,25 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
-      const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: OWNER_CART_ENTRY,
-        cartEntryNumber: OWNER_CART_ENTRY.id,
-        cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
-      };
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+        {
+          owner: OWNER_CART_ENTRY,
+          cartEntryNumber: OWNER_CART_ENTRY.id,
+          cartId: CART_GUID,
+          userId: OCC_USER_ID_ANONYMOUS,
+        };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -222,17 +225,18 @@ describe('ConfiguratorCartService', () => {
         a: { loading: false, error: false, data: undefined },
       });
 
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
 
       expect(
@@ -249,17 +253,18 @@ describe('ConfiguratorCartService', () => {
         y: { loading: false, error: false, data: undefined },
       });
 
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
 
       expect(
@@ -270,12 +275,13 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForOrderEntry', () => {
     it('should not dispatch ReadOrderEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -288,23 +294,25 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadOrderEntryConfiguration action in case configuration is not present so far', () => {
-      const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-        owner: OWNER_ORDER_ENTRY,
-        orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
-        orderId: ORDER_ID,
-        userId: OCC_USER_ID_CURRENT,
-      };
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+        {
+          owner: OWNER_ORDER_ENTRY,
+          orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
+          orderId: ORDER_ID,
+          userId: OCC_USER_ID_CURRENT,
+        };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
