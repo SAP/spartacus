@@ -4,7 +4,6 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   DaysOfWeek,
@@ -43,7 +42,6 @@ export class CheckoutScheduleReplenishmentOrderComponent
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
-    protected checkoutFacade: CheckoutFacade,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
   ) {}

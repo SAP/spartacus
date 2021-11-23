@@ -12,6 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutService } from './checkout.service';
 
@@ -126,47 +127,58 @@ describe(`CheckoutService`, () => {
     });
   });
 
-  // TODO:#checkout - if we decide to keep this, test it
   describe(`getOrder`, () => {
-    it(`should return an order`, () => {
+    it(`should return falsy when there's no order`, (done) => {
+      service
+        .getOrder()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toBeFalsy();
+          done();
+        });
+    });
+
+    it(`should return an order when it is placed`, (done) => {
       service.placeOrder(termsChecked);
 
       service
         .getOrder()
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockOrder);
-        })
-        .unsubscribe();
+          done();
+        });
     });
   });
 
-  // TODO:#checkout - if we decide to keep this, test it
+  describe(`clearOrder`, () => {
+    it(`should clear the order`, (done) => {
+      service.placeOrder(termsChecked);
+      service.clearOrder();
+
+      service
+        .getOrder()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual(undefined);
+          done();
+        });
+    });
+  });
+
   describe(`setOrder`, () => {
-    it(`should set a new order`, () => {
+    it(`should set a new order`, (done) => {
       const newMockOrder: Order = { code: 'newMockCode' };
 
       service.setOrder(newMockOrder);
 
       service
         .getOrder()
+        .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(newMockOrder);
-        })
-        .unsubscribe();
-    });
-  });
-
-  // TODO:#checkout - if we decide to keep this, test it
-  describe(`clearOrder`, () => {
-    it(`should clear the order`, () => {
-      service.clearOrder();
-
-      service
-        .getOrder()
-        .subscribe((result) => {
-          expect(result).toEqual(undefined);
-        })
-        .unsubscribe();
+          done();
+        });
     });
   });
 });

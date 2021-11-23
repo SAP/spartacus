@@ -21,7 +21,7 @@
       1. projects/core/src/util/command-query/query.service.spec.ts
       2. feature-libs/checkout/base/core/facade/checkout-payment.service.spec.ts
       3. feature-libs/checkout/base/core/facade/checkout-query.service.spec.ts
-   2. To double check:
+   2. To double check:     
       1. If we start with an error in plain Subject.error, and then try Subject.next -> it doesn't work?
       2. Wrapping an observable$ which errors and providing it as such to the query service - it works. See `supportedDeliveryModesQuery` and its test - it is wrapped `checkoutPreconditions()`, and in the test we emit an error two times from the connector, and then a success. Is it because the preconditions are retried by the back-off operator? 
    3. feature-libs/checkout/base/components/services/express-checkout.service.spec.ts
@@ -87,6 +87,12 @@ Deprecation strategy:
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the lister was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
+12. adjust b2b's file structure (components/components)   https://github.com/SAP/spartacus/pull/14174/#discussion_r752874030
+13. update schematics
+    1. install from the new entry-points
+    2. offer options for b2b and repl checkouts?
+14. feature-libs/checkout/b2b/root/config/default-b2b-occ-config.ts - move to feature module?
+15. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
 12. order$ from checkoutService should stay and not todo from Marcin. Maybe you're mentioning about part 17 (38:00 - 44:00)
 13. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
 14. fix b2b mechanism if not done already for importing config (old vs new) - done but double check 
@@ -98,7 +104,7 @@ Deprecation strategy:
 
 
 
-1. option
+16. option
   - 5.0 -> release with the old-ish components in the new checkout/base
   - 5.0 -> deprecate the whole current checkout
   - 6.0 -> remove the current (now old) checkout
@@ -130,3 +136,8 @@ Usages of CART:
 
 - CartSharedModule - seems important how to import it without breaking LL?
 - CartValidationGuard - seems important. How to import it without breaking LL?
+
+### Test
+
+- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 and  https://github.com/SAP/spartacus/issues/14386
+

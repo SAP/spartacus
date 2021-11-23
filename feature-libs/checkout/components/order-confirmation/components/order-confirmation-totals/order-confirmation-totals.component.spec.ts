@@ -47,14 +47,12 @@ describe('OrderConfirmationComponent', () => {
   });
 
   it('should create', () => {
-    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
   it('should display order-summary', () => {
     const getOrderSummary = () =>
       fixture.debugElement.query(By.css('cx-order-summary'));
-    component.ngOnInit();
     fixture.detectChanges();
     expect(getOrderSummary()).toBeTruthy();
   });

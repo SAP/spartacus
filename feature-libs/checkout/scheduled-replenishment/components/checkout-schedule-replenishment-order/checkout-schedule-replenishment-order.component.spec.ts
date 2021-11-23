@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   DaysOfWeek,
@@ -22,8 +21,6 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   replenishmentStartDate: '2025-01-30',
   daysOfWeek: [],
 };
-
-class MockCheckoutService implements Partial<CheckoutFacade> {}
 
 class MockCheckoutScheduledReplenishmentFacade
   implements Partial<CheckoutScheduledReplenishmentFacade>
@@ -59,7 +56,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
         declarations: [CheckoutScheduleReplenishmentOrderComponent],
         providers: [
-          { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutScheduledReplenishmentFacade,
             useClass: MockCheckoutScheduledReplenishmentFacade,

@@ -13,7 +13,6 @@ import {
   EventService,
   OCC_USER_ID_ANONYMOUS,
   Order,
-  ReplenishmentOrder,
   StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
@@ -23,12 +22,7 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
-  // TODO:#checkout - check the types
-  // TODO:#checkout - can it be a Subject?
-  // TODO:#checkout - remove? check the recordings with Marcin
-  protected order$ = new BehaviorSubject<
-    Order | ReplenishmentOrder | undefined
-  >(undefined);
+  protected order$ = new BehaviorSubject<Order | undefined>(undefined);
 
   protected placeOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
@@ -37,7 +31,6 @@ export class CheckoutService implements CheckoutFacade {
           switchMap(([userId, cartId]) =>
             this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
               tap((order) => {
-                // TODO:#checkout - if we decide to keep this, test it
                 this.order$.next(order);
                 /**
                  * TODO: We have to keep this here, since the cart feature is still ngrx-based.
@@ -95,22 +88,19 @@ export class CheckoutService implements CheckoutFacade {
     );
   }
 
-  // TODO:#checkout - if we decide to keep this, test it
+  placeOrder(termsChecked: boolean): Observable<Order> {
+    return this.placeOrderCommand.execute(termsChecked);
+  }
+
   getOrder(): Observable<Order | undefined> {
     return this.order$.asObservable();
   }
 
-  // TODO:#checkout - if we decide to keep this, test it
   clearOrder(): void {
     this.order$.next(undefined);
   }
 
-  // TODO:#checkout - if we decide to keep this, test it
   setOrder(order: Order): void {
     this.order$.next(order);
-  }
-
-  placeOrder(termsChecked: boolean): Observable<Order> {
-    return this.placeOrderCommand.execute(termsChecked);
   }
 }

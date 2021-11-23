@@ -43,10 +43,8 @@ export function addProductToCart() {
   cy.wait(`@addToCart`);
 }
 
-export function goToCartDetailsViewFromCartDialog() {
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.findByText(/view cart/i).click();
-  });
+export function goToCartDetailsView() {
+  cy.get('cx-mini-cart').click();
 }
 
 export function selectShippingAddress() {
@@ -88,9 +86,7 @@ export function goToOrderHistoryDetailsFromSummary() {
 
 export function checkAppliedPromotions() {
   it('Should display promotions for product in cart and checkout', () => {
-    addProductToCart();
-    checkForAppliedPromotionsInCartModal(eosCameraProductName);
-    goToCartDetailsViewFromCartDialog();
+    goToCartDetailsView();
     checkForAppliedPromotions();
 
     cy.get('.cart-details-wrapper > .cx-total').then(($cart) => {
@@ -131,6 +127,13 @@ export function removeCartEntry() {
   });
 }
 
+export function closeCartDialog() {
+  cy.get('cx-added-to-cart-dialog').should('be.visible');
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('button.close').click({ force: true });
+  });
+}
+
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
@@ -148,7 +151,8 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
       )}/users/*/customercoupons`,
     }).as('customer_coupons');
 
-    goToCartDetailsViewFromCartDialog();
+    closeCartDialog();
+    goToCartDetailsView();
     cy.wait('@cart_page');
     cy.wait('@customer_coupons');
     cy.get('.cx-promotions').should('contain', '200');
