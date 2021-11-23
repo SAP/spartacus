@@ -16,6 +16,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
 
@@ -174,15 +175,16 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
     });
 
     describe(`getOrderType and setOrderType`, () => {
-      it(`should set an order type return an order type`, () => {
+      it(`should set an order type return an order type`, (done) => {
         service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
         service
           .getOrderType()
+          .pipe(take(1))
           .subscribe((result) => {
             expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-          })
-          .unsubscribe();
+            done();
+          });
       });
     });
   });
