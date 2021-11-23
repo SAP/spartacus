@@ -193,4 +193,22 @@ describe('ConfigureProductComponent', () => {
       done();
     });
   });
+
+  describe('Accessibility', () => {
+    it('should contain a link element with aria-label attribute that contains a hidden link content', function () {
+      setupWithCurrentProductService(true);
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'a',
+        'btn',
+        undefined,
+        'aria-label',
+        'configurator.a11y.configureProduct',
+        'configurator.header.toconfig'
+      );
+    });
+  });
 });
