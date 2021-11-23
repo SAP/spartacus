@@ -606,7 +606,7 @@
     "epd-visualization": {
       "projectType": "library",
       "root": "integration-libs/epd-visualization",
-      "sourceRoot": "integration-libs/epd-visualization/src",
+      "sourceRoot": "integration-libs/epd-visualization",
       "prefix": "cx",
       "architect": {
         "build": {
