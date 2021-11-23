@@ -8,11 +8,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
   ],
-  resetPassword: [
-    { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
-    { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
-  ],
   productConfigurationPage: [
     {
       type: TabbingOrderTypes.GENERIC_ELEMENT,
@@ -105,28 +100,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     { value: 'Move To Cart', type: TabbingOrderTypes.LINK },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
-  ],
-  changePassword: [
-    {
-      value: 'oldPassword',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'newPassword',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'newPasswordConfirm',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'Cancel',
-      type: TabbingOrderTypes.BUTTON,
-    },
-    {
-      value: 'Save',
-      type: TabbingOrderTypes.BUTTON,
-    },
   ],
   notificationPreference: [
     { value: 'Email', type: TabbingOrderTypes.CHECKBOX_WITH_LABEL },
