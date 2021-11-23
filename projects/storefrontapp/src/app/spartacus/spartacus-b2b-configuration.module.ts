@@ -3,11 +3,11 @@ import {
   defaultB2bCheckoutConfig,
   defaultB2bOccConfig,
 } from '@spartacus/checkout/b2b/root';
+import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultB2bCheckoutConfig as oldDefaultB2bCheckoutConfig,
   defaultB2bOccConfig as oldDefaultB2bOccConfig,
-} from '@spartacus/checkout/root';
-import { provideConfig, SiteContextConfig } from '@spartacus/core';
+} from '@spartacus/setup';
 import {
   defaultCmsContentProviders,
   layoutConfig,

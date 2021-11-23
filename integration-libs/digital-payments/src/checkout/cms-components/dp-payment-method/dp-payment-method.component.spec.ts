@@ -52,7 +52,6 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     return of();
   }
 }
-
 class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
     return of('');
