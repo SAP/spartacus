@@ -28,7 +28,7 @@ import { CheckoutB2BStepsSetGuard } from './checkout-b2b-steps-set.guard';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
-  getRouteConfig(stepRoute: string): RouteConfig {
+  getRouteConfig(stepRoute: string): RouteConfig | undefined {
     if (stepRoute === 'route0') {
       return { paths: ['checkout/route0'] };
     } else if (stepRoute === 'route1') {
@@ -42,7 +42,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
     } else if (stepRoute === 'checkout') {
       return { paths: ['checkout'] };
     }
-    return { paths: [''] };
+    return undefined;
   }
 }
 

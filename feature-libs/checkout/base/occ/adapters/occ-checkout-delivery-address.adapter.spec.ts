@@ -145,7 +145,6 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
         });
 
       const mockReq = httpMock.expectOne((req) => {
-        console.log('test URL: ', req.url);
         return (
           req.method === 'DELETE' &&
           req.url === `users/${userId}/carts/${cartId}/addresses/delivery`

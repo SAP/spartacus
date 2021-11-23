@@ -1,9 +1,15 @@
 ## b2b
 
+- feature-libs/checkout/base/components/components/shipping-address/shipping-address.component.spec.ts contained some b2b-related tests
+- feature-libs/checkout/base/components/components/review-submit/review-submit.component.spec.ts
 - do we have a b2b express checkout?
 - LL broken for b2b? in feature-libs/checkout/b2b/root/config/default-b2b-occ-config.ts:
   - there's an import from the user/account and user/profile
   - does this mean we are bundling both user/account and user/profile with the b2b checkout?
+
+## scheduled replenishment
+
+- feature-libs/checkout/base/components/components/place-order/place-order.component.spec.ts
 
 ## other-to-merge-with-later
 
@@ -81,6 +87,10 @@ Deprecation strategy:
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the lister was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
+12. order$ from checkoutService should stay and not todo from Marcin. Maybe you're mentioning about part 17 (38:00 - 44:00)
+13. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
+14. fix b2b mechanism if not done already for importing config (old vs new) - done but double check 
+15. update schematic test for @spartacus/checkout assertions https://app.travis-ci.com/github/SAP/spartacus/jobs/549205902
 
 
 
@@ -120,4 +130,3 @@ Usages of CART:
 
 - CartSharedModule - seems important how to import it without breaking LL?
 - CartValidationGuard - seems important. How to import it without breaking LL?
-

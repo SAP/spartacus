@@ -24,15 +24,6 @@ export class OccCheckoutDeliveryModesAdapter
     protected converter: ConverterService
   ) {}
 
-  protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.buildUrl('deliveryMode', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
   public setMode(
     userId: string,
     cartId: string,

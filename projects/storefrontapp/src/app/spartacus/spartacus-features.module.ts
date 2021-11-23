@@ -83,16 +83,25 @@ import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
+let CheckoutFeature = CheckoutFeatureModule;
 
+if (environment.oldCheckout) {
+  CheckoutFeature = CheckoutOldFeatureModule;
+}
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
     BulkPricingFeatureModule,
-    OrderApprovalFeatureModule,
+    OrderApprovalFeatureModule
+  );
+}
+if (environment.b2b && !environment.oldCheckout) {
+  featureModules.push(
     CheckoutB2BFeatureModule,
     CheckoutScheduledReplenishmentFeatureModule
   );
 }
+
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
@@ -106,10 +115,6 @@ if (environment.cpq) {
 }
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
-}
-let CheckoutFeature = CheckoutFeatureModule;
-if (environment.oldCheckout) {
-  CheckoutFeature = CheckoutOldFeatureModule;
 }
 
 @NgModule({

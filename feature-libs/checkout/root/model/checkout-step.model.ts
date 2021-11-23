@@ -21,6 +21,6 @@ export interface CheckoutStep {
   id: string;
   name: string;
   routeName: string;
-  type: Array<CheckoutStepType>;
+  type: Array<CheckoutStepType | any>;
   disabled?: boolean;
 }

@@ -360,15 +360,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
     expect(deliveryMode).toEqual(mockDeliveryMode);
   });
 
-  it('should be able to get country', () => {
-    let countryName: string | undefined;
-    component.countryName$.subscribe((data) => {
-      countryName = data;
-    });
-
-    expect(countryName).toEqual(mockCountry.name);
-  });
-
   it('should be able to get po number', () => {
     let po: string | undefined;
     component.poNumber$.subscribe((data) => {

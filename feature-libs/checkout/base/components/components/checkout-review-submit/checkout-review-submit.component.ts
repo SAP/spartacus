@@ -10,7 +10,6 @@ import {
   ActiveCartService,
   Address,
   Cart,
-  Country,
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
@@ -20,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/index';
 
 @Component({
@@ -41,7 +40,7 @@ export class CheckoutReviewSubmitComponent {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
@@ -85,25 +84,11 @@ export class CheckoutReviewSubmitComponent {
       map((state) => state.data)
     );
 
-  get countryName$(): Observable<string | undefined> {
-    return this.deliveryAddress$.pipe(
-      switchMap((address: Address | undefined) =>
-        this.userAddressService.getCountry(address?.country?.isocode as string)
-      ),
-      tap((country: Country) => {
-        if (country === null) {
-          this.userAddressService.loadDeliveryCountries();
-        }
-      }),
-      map((country: Country) => country && country.name)
-    );
-  }
-
   getShippingAddressCard(
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
-    return this.translation.translate('addressCard.shipTo').pipe(
+    return this.translationService.translate('addressCard.shipTo').pipe(
       map((textTitle) => {
         if (!countryName) {
           countryName = deliveryAddress?.country?.name as string;
@@ -135,7 +120,7 @@ export class CheckoutReviewSubmitComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translation.translate('checkoutShipping.shippingMethod'),
+      this.translationService.translate('checkoutShipping.shippingMethod'),
     ]).pipe(
       map(([textTitle]) => {
         return {
@@ -154,12 +139,12 @@ export class CheckoutReviewSubmitComponent {
 
   getPaymentMethodCard(paymentDetails: PaymentDetails): Observable<Card> {
     return combineLatest([
-      this.translation.translate('paymentForm.payment'),
-      this.translation.translate('paymentCard.expires', {
+      this.translationService.translate('paymentForm.payment'),
+      this.translationService.translate('paymentCard.expires', {
         month: paymentDetails.expiryMonth,
         year: paymentDetails.expiryYear,
       }),
-      this.translation.translate('paymentForm.billingAddress'),
+      this.translationService.translate('paymentForm.billingAddress'),
     ]).pipe(
       map(([textTitle, textExpires, billingAddress]) => {
         const region = paymentDetails.billingAddress?.region?.isocode
