@@ -9,7 +9,9 @@ import { EPD_VISUALIZATION_FEATURE } from './feature-name';
 export function epdVisualizationJsFactory(
   _configInit: ConfigInitializerService
 ) {
-  return Promise.resolve();
+  return () => {
+    return Promise.resolve();
+  };
 }
 
 export function defaultEpdVisualizationComponentsConfig(): CmsConfig {
