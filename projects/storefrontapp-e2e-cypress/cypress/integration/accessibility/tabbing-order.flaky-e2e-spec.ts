@@ -24,9 +24,6 @@ import {
   consignmentTrackingEventsTabbingOrder,
   consignmentTrackingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
-import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
-import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
-import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 import {
   addressBookDirectoryTabbingOrder,
   addressBookFormTabbingOrder,
@@ -69,16 +66,6 @@ import { storesListTabbingOrder } from '../../helpers/accessibility/tabbing-orde
 describe("Tabbing order - tests don't require user to be logged in", () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
-  });
-
-  context('Login page', () => {
-    it('should allow to navigate with tab key (empty form)', () => {
-      loginTabbingOrder(config.login);
-    });
-
-    it('should allow to navigate with tab key (filled out form)', () => {
-      loginTabbingOrder(config.login, true);
-    });
   });
 
   context('Product List', () => {
@@ -172,30 +159,6 @@ describe('Tabbing order - tests do require user to be logged in', () => {
 
   afterEach(() => {
     cy.saveLocalStorage();
-  });
-
-  context('Header - Desktop (logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerDesktopLoggedIn, false, true);
-    });
-  });
-
-  context('Header - Mobile (logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerMobileLoggedIn, true, true);
-    });
-  });
-
-  context('My Account - Desktop', () => {
-    it('should allow to navigate with tab key', () => {
-      myAccountTabbingOrder(config.myAccount);
-    });
-  });
-
-  context('My Account - Mobile', () => {
-    it('should allow to navigate with tab key', () => {
-      myAccountTabbingOrder(config.myAccount, true);
-    });
   });
 
   describe('Checkout', () => {
