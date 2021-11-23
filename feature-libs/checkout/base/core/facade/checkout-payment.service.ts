@@ -14,7 +14,6 @@ import {
   CommandStrategy,
   CurrencySetEvent,
   EventService,
-  isJaloError,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
@@ -43,7 +42,6 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     () => this.checkoutPaymentConnector.getCardTypes(),
     {
       reloadOn: this.getCardTypesReloadTriggers(),
-      retryOn: { shouldRetry: isJaloError },
     }
   );
 

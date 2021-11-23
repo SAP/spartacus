@@ -1,5 +1,5 @@
 import { AbstractType, Type } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   CheckoutQueryFacade,
@@ -12,7 +12,6 @@ import {
   CardType,
   Cart,
   EventService,
-  HttpErrorModel,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   PaymentDetails,
@@ -20,16 +19,14 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
-};
+
 const mockCardTypes: CardType[] = [
   {
     code: 'VISA',
@@ -150,59 +147,6 @@ describe(`CheckoutPaymentService`, () => {
           done();
         });
     });
-
-    it(`should unsuccessfully backOff on Jalo error and put the error in the state`, fakeAsync(() => {
-      spyOn(connector, 'getCardTypes').and.returnValue(
-        throwError(mockJaloError)
-      );
-
-      let resultState: QueryState<CardType[] | undefined> | undefined;
-      const subscription = service
-        .getCardTypesState()
-        .subscribe((result) => (resultState = result));
-
-      tick(4200);
-
-      expect(resultState).toEqual({
-        loading: false,
-        error: <Error>mockJaloError,
-        data: undefined,
-      });
-      subscription.unsubscribe();
-    }));
-
-    xit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
-      spyOn(connector, 'getCardTypes').and.returnValues(
-        // first attempt
-        throwError(mockJaloError),
-        // second attempt
-        throwError(mockJaloError),
-        // third time the charm
-        of(mockCardTypes)
-      );
-
-      let resultState: QueryState<CardType[] | undefined> | undefined;
-      const subscription = service.getCardTypesState().subscribe((result) => {
-        return (resultState = result);
-      });
-
-      // 1*1*300 = 300
-      tick(300);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(resultState).toEqual({
-        loading: false,
-        error: false,
-        data: mockCardTypes,
-      });
-      subscription.unsubscribe();
-    }));
   });
 
   describe(`getCardTypes`, () => {

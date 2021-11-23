@@ -17,7 +17,6 @@ import {
   CurrencySetEvent,
   DeliveryMode,
   EventService,
-  isJaloError,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -82,7 +81,6 @@ export class CheckoutDeliveryModesService
       {
         reloadOn: this.getSupportedDeliveryModesReloadTriggers(),
         resetOn: this.getSupportedDeliveryModesQueryResetTriggers(),
-        retryOn: { shouldRetry: isJaloError },
       }
     );
 
