@@ -87,6 +87,18 @@ export const configurator = {
       viewConfigurationDetails: '',
     },
     a11y: {
+      configureProduct: 'Configure product',
+      cartEntryBundleInfo: 'There is an item ',
+      cartEntryBundleInfo_plural: 'There are {{items}} items ',
+      cartEntryBundleName: 'Item {{ name }}',
+      cartEntryBundleNameWithQuantity:
+        'Item {{ name }} item quantity {{quantity}}',
+      cartEntryBundleNameWithPrice: 'Item {{ name }} item price {{price}}',
+      cartEntryBundle:
+        'Item {{ name }} item price {{price}} item quantity {{quantity}}',
+      cartEntryInfoIntro:
+        'Product has the following attributes and selected values',
+      cartEntryInfo: 'Attribute {{ attribute }} has selected value {{value}}',
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
