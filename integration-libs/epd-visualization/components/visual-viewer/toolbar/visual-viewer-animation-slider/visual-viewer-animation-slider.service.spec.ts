@@ -1,4 +1,9 @@
-import { ElementRef, EventEmitter, Renderer2 } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ElementRef,
+  EventEmitter,
+  Renderer2,
+} from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 import { TranslationService, LanguageService } from '@spartacus/core';
@@ -12,6 +17,14 @@ class MockRenderer2 {}
 class MockElementRef {}
 
 class MockTranslationService {}
+
+class MockChangeDetectorRef {
+  markForCheck(): void {}
+  detach(): void {}
+  detectChanges(): void {}
+  checkNoChanges(): void {}
+  reattach(): void {}
+}
 
 class MockLanguageService {
   getActive(): Observable<string> {
@@ -47,6 +60,7 @@ describe('VisualViewerAnimationSliderService', () => {
   let mockTranslationService: MockTranslationService;
   let mockLanguageService: MockLanguageService;
   let mockDirectionService: MockDirectionService;
+  let mockChangeDetectorRef = new MockChangeDetectorRef();
   let applyValue: (value: number) => void;
 
   let clampToRange: (value: number) => number;
@@ -74,6 +88,10 @@ describe('VisualViewerAnimationSliderService', () => {
           provide: DirectionService,
           useValue: mockDirectionService,
         },
+        {
+          provide: ChangeDetectorRef,
+          useValue: mockChangeDetectorRef,
+        },
       ],
     });
 
@@ -95,18 +113,7 @@ describe('VisualViewerAnimationSliderService', () => {
   });
 
   describe('initialize', () => {
-    it('should set handle position, update event bindings, setup resize observer and set initialized property', () => {
-      spyOn<any>(
-        visualViewerAnimationSliderService,
-        'valueToPosition'
-      ).and.returnValue(0);
-
-      const setPositionSpy = spyOnProperty(
-        visualViewerAnimationSliderService,
-        'position',
-        'set'
-      );
-
+    it('should update event bindings, setup resize observer and set initialized property', () => {
       const updateEventBindingsSpy = spyOn<any>(
         visualViewerAnimationSliderService,
         'updateEventBindings'
@@ -124,7 +131,6 @@ describe('VisualViewerAnimationSliderService', () => {
 
       visualViewerAnimationSliderService.initialize();
 
-      expect(setPositionSpy).toHaveBeenCalledWith(0);
       expect(updateEventBindingsSpy).toHaveBeenCalledTimes(1);
       expect(setupResizeObserverSpy).toHaveBeenCalledTimes(1);
       expect(setInitializedSpy).toHaveBeenCalledTimes(1);
@@ -152,10 +158,7 @@ describe('VisualViewerAnimationSliderService', () => {
   describe('input', () => {
     it('should not do anything when value (after clamping) has not changed', () => {
       expect(visualViewerAnimationSliderService.value).toEqual(0);
-      const valueToPositionSpy = spyOn<any>(
-        visualViewerAnimationSliderService,
-        'valueToPosition'
-      );
+
       const valueChangeEmitSpy = spyOn(
         visualViewerAnimationSliderService.valueChange,
         'emit'
@@ -167,16 +170,11 @@ describe('VisualViewerAnimationSliderService', () => {
       visualViewerAnimationSliderService.value = -1;
       expect(visualViewerAnimationSliderService.value).toEqual(0);
 
-      expect(valueToPositionSpy).toHaveBeenCalledTimes(0);
       expect(valueChangeEmitSpy).toHaveBeenCalledTimes(0);
     });
 
-    it('should set position and emit valueChange when value has changed', () => {
+    it('should emit valueChange when value has changed', () => {
       expect(visualViewerAnimationSliderService.value).toEqual(0);
-      const valueToPositionSpy = spyOn<any>(
-        visualViewerAnimationSliderService,
-        'valueToPosition'
-      );
       const valueChangeEmitSpy = spyOn(
         visualViewerAnimationSliderService.valueChange,
         'emit'
@@ -188,7 +186,6 @@ describe('VisualViewerAnimationSliderService', () => {
       visualViewerAnimationSliderService.value = 0.6;
       expect(visualViewerAnimationSliderService.value).toEqual(0.6);
 
-      expect(valueToPositionSpy).toHaveBeenCalledTimes(2);
       expect(valueChangeEmitSpy).toHaveBeenCalledTimes(2);
     });
   });
@@ -219,37 +216,6 @@ describe('VisualViewerAnimationSliderService', () => {
       expect(visualViewerAnimationSliderService.disabled).toEqual(false);
 
       expect(updateEventBindingsSpy).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('position', () => {
-    it('should not do anything when value has not changed', () => {
-      expect(visualViewerAnimationSliderService.position).toEqual(0);
-      const positionChangeEmitSpy = spyOn(
-        visualViewerAnimationSliderService.positionChange,
-        'emit'
-      );
-
-      visualViewerAnimationSliderService.position = 0;
-      expect(visualViewerAnimationSliderService.value).toEqual(0);
-
-      expect(positionChangeEmitSpy).toHaveBeenCalledTimes(0);
-    });
-
-    it('should set emit positionChange when value has changed', () => {
-      expect(visualViewerAnimationSliderService.position).toEqual(0);
-      const positionChangeEmitSpy = spyOn(
-        visualViewerAnimationSliderService.positionChange,
-        'emit'
-      );
-
-      visualViewerAnimationSliderService.position = 0.5;
-      expect(visualViewerAnimationSliderService.position).toEqual(0.5);
-
-      visualViewerAnimationSliderService.position = 0.6;
-      expect(visualViewerAnimationSliderService.position).toEqual(0.6);
-
-      expect(positionChangeEmitSpy).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -323,25 +289,17 @@ describe('VisualViewerAnimationSliderService', () => {
   });
 
   describe('onResize', () => {
-    it('should apply position calculated from value (using handleMaxPosition calculated after resize)', () => {
-      const valueToPositionSpy = spyOn<any>(
-        visualViewerAnimationSliderService,
-        'valueToPosition'
-      ).and.returnValue(0.5);
-      const setPositionPropertySpy = spyOnProperty(
-        visualViewerAnimationSliderService,
-        'position',
-        'set'
+    it('should trigger change detection', () => {
+      const detectChangesSpy = spyOn<any>(
+        mockChangeDetectorRef,
+        'detectChanges'
       );
 
       visualViewerAnimationSliderService['onResize']();
 
-      expect(valueToPositionSpy).toHaveBeenCalledTimes(1);
-      expect(setPositionPropertySpy).toHaveBeenCalledTimes(1);
-      expect(setPositionPropertySpy).toHaveBeenCalledWith(0.5);
+      expect(detectChangesSpy).toHaveBeenCalledTimes(1);
     });
   });
-
   describe('updateEventBindings', () => {
     it('should detach all event listeners from document, bar and handle when disabled', () => {
       expect(visualViewerAnimationSliderService.disabled).toEqual(false);
@@ -1453,7 +1411,7 @@ describe('VisualViewerAnimationSliderService', () => {
   });
 
   describe('applyValue', () => {
-    it('should set value and position properties if clamped value has changed', (done) => {
+    it('should set value property if clamped value has changed', (done) => {
       expect(visualViewerAnimationSliderService.position).toEqual(0);
 
       spyOnProperty(
@@ -1463,14 +1421,8 @@ describe('VisualViewerAnimationSliderService', () => {
 
       visualViewerAnimationSliderService.valueChange.subscribe((value) => {
         expect(value).toEqual(1);
+        done();
       });
-
-      visualViewerAnimationSliderService.positionChange.subscribe(
-        (position: number) => {
-          expect(position).toEqual(45);
-          done();
-        }
-      );
 
       applyValue(1.2);
     });
@@ -1483,16 +1435,10 @@ describe('VisualViewerAnimationSliderService', () => {
         'value',
         'set'
       );
-      const setPositionPropertySpy = spyOnProperty(
-        visualViewerAnimationSliderService,
-        'position',
-        'set'
-      );
 
       applyValue(-1); // 0 after clamping
 
       expect(setValuePropertySpy).toHaveBeenCalledTimes(0);
-      expect(setPositionPropertySpy).toHaveBeenCalledTimes(0);
     });
   });
 
