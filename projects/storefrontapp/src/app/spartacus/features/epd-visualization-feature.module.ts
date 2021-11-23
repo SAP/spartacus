@@ -4,9 +4,8 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
 import {
   EPD_VISUALIZATION_FEATURE,
   EpdVisualizationConfig,
+  EpdVisualizationRootModule,
 } from '@spartacus/epd-visualization/root';
-
-import { EpdVisualizationModule } from '@spartacus/epd-visualization';
 
 import {
   epdVisualizationTranslationChunksConfig,
@@ -14,7 +13,7 @@ import {
 } from '@spartacus/epd-visualization/assets';
 
 @NgModule({
-  imports: [EpdVisualizationModule],
+  imports: [EpdVisualizationRootModule],
   providers: [
     provideConfig(<I18nConfig>{
       i18n: {
