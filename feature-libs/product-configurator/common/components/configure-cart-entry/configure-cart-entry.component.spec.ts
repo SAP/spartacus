@@ -204,7 +204,7 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('getResolveIssuesA11yDescription', () => {
-    it("should return 'undefined'", () => {
+    it("should return 'undefined' if the expected conditions are not met", () => {
       component.readOnly = true;
       component.msgBanner = true;
       component.cartEntry = {
@@ -215,7 +215,7 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component.getResolveIssuesA11yDescription()).toBeUndefined();
     });
 
-    it("should return 'cx-error-msg'", () => {
+    it("should return 'cx-error-msg' ID for a HTML element if the expected conditions are met", () => {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -230,7 +230,7 @@ describe('ConfigureCartEntryComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain a element with ID 'cx-error-msg' and aria-describedby attribute", function () {
+    it("should contain link element with ID 'cx-error-msg' and aria-describedby attribute that refers to the corresponding resolve issue message", function () {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {

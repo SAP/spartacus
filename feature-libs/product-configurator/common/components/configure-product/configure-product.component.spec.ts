@@ -195,7 +195,7 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it('should contain an element with aria-label attribute', function () {
+    it('should contain a link element with aria-label attribute that contains a hidden link content', function () {
       setupWithCurrentProductService(true);
       fixture.detectChanges();
 

@@ -260,7 +260,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         fixture.detectChanges();
       });
 
-      it("should contain div element with class name 'cx-configuration-info' and aria-describedby attribute", function () {
+      it("should contain span element with class name 'cx-visually-hidden' that contains a hidden introduction", function () {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -273,7 +273,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-configuration-info' and aria-describedby attribute", function () {
+      it("should contain div element with 'cx-configuration-info' and aria-describedby attribute that refers to a corresponding attribute-value pair", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -285,7 +285,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         );
       });
 
-      it("should contain span element with class name 'cx-visually-hidden'", () => {
+      it("should contain span element with class name 'cx-visually-hidden' that refers to a corresponding attribute-value pair", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,

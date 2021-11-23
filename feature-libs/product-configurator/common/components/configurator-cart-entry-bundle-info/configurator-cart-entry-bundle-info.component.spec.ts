@@ -746,7 +746,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getItemsMsg', () => {
-      it("should return 'configurator.a11y.cartEntryBundleInfoSg'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfoSg' if there is only one line item", () => {
         let numberOfItems: number = 1;
         expect(
           component
@@ -755,7 +755,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleInfoPl'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfoPl' if there are more than one line item", () => {
         let numberOfItems: number = 4;
         expect(
           component
@@ -766,7 +766,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfo', () => {
-      it("should return 'configurator.a11y.cartEntryBundleInfo'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo' if the item name, price and quantity are defined", () => {
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -779,7 +779,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithPrice'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleNameWithPrice' if the item name and price are defined", () => {
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedPrice: '$1,000.00',
@@ -791,7 +791,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleNameWithQuantity' if the item name and quantity are defined", () => {
         let lineItem: LineItem = {
           name: 'Canon ABC',
           formattedQuantity: '5',
@@ -803,7 +803,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleName'", () => {
+      it("should return 'configurator.a11y.cartEntryBundleName' if only item name is defined", () => {
         let lineItem: LineItem = {
           name: 'Canon ABC',
         };
@@ -837,7 +837,8 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         spyOn(breakpointService, 'isUp').and.returnValue(of(true));
         fixture.detectChanges();
       });
-      it("should contain div element with class name 'cx-number-items'", () => {
+
+      it("should contain div element with class name 'cx-number-items' that displays the number of line items", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -850,7 +851,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it('should contain button element', () => {
+      it("should contain 'hide' button", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -885,7 +886,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain span element with class name 'cx-visually-hidden'", () => {
+      it("should contain span element with class name 'cx-visually-hidden' and a hidden line item information", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -898,7 +899,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute", () => {
+      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute taht displays an item name", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -911,7 +912,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-item-price' and aria-hidden attribute", () => {
+      it("should contain div element with class name 'cx-item-price' and aria-hidden attribute that displays an item price", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -936,7 +937,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-item-quantity' and aria-hidden attribute", () => {
+      it("should contain div element with class name 'cx-item-quantity' and aria-hidden attribute that displays an item quantity", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -963,7 +964,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfoId', () => {
-      it("should return 'cx-item-hidden-info-4'", () => {
+      it("should return 'cx-item-hidden-info-4' ID for a coreesponding line item", () => {
         expect(
           component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
         ).toBe(0);
