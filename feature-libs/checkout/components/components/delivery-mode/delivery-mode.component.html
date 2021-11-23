@@ -8,31 +8,33 @@
       <ng-container
         *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
       >
-        <div
-          class="form-check"
-          *ngFor="let mode of supportedDeliveryModes$ | async"
-        >
-          <input
-            class="form-check-input"
-            role="radio"
-            type="radio"
-            id="deliveryMode-{{ mode.code }}"
-            aria-checked="true"
-            (change)="changeMode(mode.code)"
-            [value]="mode.code"
-            formControlName="deliveryModeId"
-          />
-          <label
-            class="cx-delivery-label form-check-label form-radio-label"
-            for="deliveryMode-{{ mode.code }}"
+        <ng-container *ngIf="deliveryModeLoaded$ | async; else loading">
+          <div
+            class="form-check"
+            *ngFor="let mode of supportedDeliveryModes$ | async"
           >
-            <div class="cx-delivery-mode">{{ mode.name }}</div>
-            <div class="cx-delivery-price">
-              {{ mode.deliveryCost.formattedValue }}
-            </div>
-            <div class="cx-delivery-details">{{ mode.description }}</div>
-          </label>
-        </div>
+            <input
+              class="form-check-input"
+              role="radio"
+              type="radio"
+              id="deliveryMode-{{ mode.code }}"
+              aria-checked="true"
+              (change)="changeMode(mode.code)"
+              [value]="mode.code"
+              formControlName="deliveryModeId"
+            />
+            <label
+              class="cx-delivery-label form-check-label form-radio-label"
+              for="deliveryMode-{{ mode.code }}"
+            >
+              <div class="cx-delivery-mode">{{ mode.name }}</div>
+              <div class="cx-delivery-price">
+                {{ mode.deliveryCost.formattedValue }}
+              </div>
+              <div class="cx-delivery-details">{{ mode.description }}</div>
+            </label>
+          </div>
+        </ng-container>
       </ng-container>
     </div>
   </div>

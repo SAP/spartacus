@@ -22,6 +22,7 @@ class MockSpinnerComponent {}
 class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
+
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
     return of();
   }
@@ -30,6 +31,9 @@ class MockCheckoutDeliveryService {
   }
   getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of();
+  }
+  getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
+    return of({});
   }
 }
 
@@ -197,6 +201,36 @@ describe('DeliveryModeComponent', () => {
     expect(
       mockCheckoutDeliveryService.loadSupportedDeliveryModes
     ).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Shipping method radio input', () => {
+    const getRadioInput = () =>
+      fixture.debugElement.query(By.css('.form-check .form-check-input'));
+
+    it('should be displayed by default', () => {
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getSupportedDeliveryModes'
+      ).and.returnValue(of(mockSupportedDeliveryModes));
+      component.ngOnInit();
+
+      fixture.detectChanges();
+
+      expect(getRadioInput().nativeElement).toBeTruthy();
+    });
+
+    it('should not be displayed when there is another ongoing request', () => {
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getSupportedDeliveryModes'
+      ).and.returnValue(of(mockSupportedDeliveryModes));
+      component.ngOnInit();
+
+      component.deliveryModeLoaded$ = of(false);
+      fixture.detectChanges();
+
+      expect(getRadioInput()).not.toBeTruthy();
+    });
   });
 
   describe('UI continue button', () => {
