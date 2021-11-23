@@ -25,12 +25,7 @@ import {
   consignmentTrackingEventsTabbingOrder,
   consignmentTrackingTabbingOrder,
 } from '../../helpers/accessibility/tabbing-order/consignment-tracking';
-import { footerTabbingOrder } from '../../helpers/accessibility/tabbing-order/footer';
-import {
-  headerTabbingOrder,
-  subCategoryTabbingOrder,
-} from '../../helpers/accessibility/tabbing-order/header';
-import { homeTabbingOrder } from '../../helpers/accessibility/tabbing-order/home';
+import { headerTabbingOrder } from '../../helpers/accessibility/tabbing-order/header';
 import { loginTabbingOrder } from '../../helpers/accessibility/tabbing-order/login';
 import { myAccountTabbingOrder } from '../../helpers/accessibility/tabbing-order/my-account';
 import {
@@ -60,7 +55,6 @@ import {
 } from '../../helpers/accessibility/tabbing-order/product-list';
 import { productPageTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page';
 import { productPageTabsTabbingOrder } from '../../helpers/accessibility/tabbing-order/product-page-tabs';
-import { registerTabbingOrder } from '../../helpers/accessibility/tabbing-order/register';
 import { saveForLaterTabbingOrder } from '../../helpers/accessibility/tabbing-order/save-for-later';
 import {
   stockNotificationDialogTabbingOrder,
@@ -80,84 +74,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
-  context('Header - Desktop (not logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerDesktopNotLoggedIn);
-    });
-  });
-
-  context('Header - Mobile (not logged in)', () => {
-    it('should allow to navigate with tab key', () => {
-      headerTabbingOrder(config.headerMobileNotLoggedIn, true);
-    });
-  });
-
-  describe('Header Sub Categories - Desktop', () => {
-    context('Brands', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands');
-      });
-    });
-
-    context('Digital Cameras', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(
-          config.headerCategoryDigitalCameras,
-          'Digital Cameras'
-        );
-      });
-    });
-
-    context('Accessories', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(
-          config.headerCategoryAccessories,
-          'Accessories'
-        );
-      });
-    });
-  });
-
-  describe('Header Sub Categories - Mobile', () => {
-    context('Brands', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(config.headerCategoryBrands, 'Brands', true);
-      });
-    });
-
-    context('Digital Cameras', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(
-          config.headerCategoryDigitalCameras,
-          'Digital Cameras',
-          true
-        );
-      });
-    });
-
-    context('Accessories', () => {
-      it('should allow to navigate with tab key', () => {
-        subCategoryTabbingOrder(
-          config.headerCategoryAccessories,
-          'Accessories',
-          true
-        );
-      });
-    });
-  });
-
-  context('Home page', () => {
-    it('should allow to navigate with tab key', () => {
-      homeTabbingOrder(config.home);
-    });
-  });
-
-  context('Footer', () => {
-    it('should allow to navigate with tab key', () => {
-      footerTabbingOrder(config.footer);
-    });
-  });
-
   context('Login page', () => {
     it('should allow to navigate with tab key (empty form)', () => {
       loginTabbingOrder(config.login);
@@ -165,12 +81,6 @@ describe("Tabbing order - tests don't require user to be logged in", () => {
 
     it('should allow to navigate with tab key (filled out form)', () => {
       loginTabbingOrder(config.login, true);
-    });
-  });
-
-  context('Register page', () => {
-    it('should allow to navigate with tab key', () => {
-      registerTabbingOrder(config.register);
     });
   });
 

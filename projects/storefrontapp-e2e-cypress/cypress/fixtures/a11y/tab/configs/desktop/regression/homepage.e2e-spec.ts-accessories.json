@@ -1,0 +1,62 @@
+[
+  {
+    "element": "<span aria-label=\"Brands\" tabindex=\"0\"> Brands <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Brands <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<span aria-label=\"Digital Cameras\" tabindex=\"0\"> Digital Cameras <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Digital Cameras <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Film-C\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Film-Cameras/c/574\"> Film Cameras <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Film Cameras <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Hand-h\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Hand-held-Camcorders/c/584\"> Camcorders <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Camcorders <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Webcam\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Webcams/c/577\"> Webcams <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Webcams <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<span aria-label=\"Accessories\" tabindex=\"0\"> Accessories <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}--></span>",
+    "child": " Accessories <cx-icon class=\"cx-icon fas fa-angle-down\" ng-reflect-type=\"CARET_DOWN\"></cx-icon><!--bindings={\n  \"ng-reflect-ng-if\": \"true\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" class=\"all\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/c/585\"> Shop all Accessories &gt; <!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Shop all Accessories &gt; <!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Camera-Flashes/c/586\"> Camera Flashes <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Camera Flashes <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Tripods/c/587\"> Tripods <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Tripods <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Camera-Lenses/c/588\"> Camera Lenses <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Camera Lenses <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Data-storage/F\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Data-storage/Flash-Memory/c/902\"> Flash Memory <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Flash Memory <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Components/Pow\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Components/Power-Supplies/c/816\"> Power Supplies <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Power Supplies <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Colour-Films/c/597\"> Color Films <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Color Films <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Black-26-White-Films/c/598\"> Black &amp; White Films <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Black &amp; White Films <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/Open-Catalogue/Cameras/Camera\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/Open-Catalogue/Cameras/Camera-Accessories-26-Supplies/Blank-Video-Tapes/c/604\"> Blank Videotapes <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": " Blank Videotapes <!--bindings={\n  \"ng-reflect-ng-if\": \"false\"\n}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  }
+]

@@ -1,0 +1,46 @@
+[
+  {
+    "element": "<select formcontrolname=\"titleCode\" class=\"form-control ng-untouched ng-pristine ng-valid\" ng-reflect-name=\"titleCode\"><option selected=\"\" value=\"\" disabled=\"\" ng-reflect-value=\"\"> Select Title </option><!--bindings={\n  \"ng-reflect-ng-for-of\": \"\"\n}--></select>",
+    "child": "<option selected=\"\" value=\"\" disabled=\"\" ng-reflect-value=\"\"> Select Title </option><!--bindings={\n  \"ng-reflect-ng-for-of\": \"\"\n}-->"
+  },
+  {
+    "element": "<input type=\"text\" name=\"firstname\" formcontrolname=\"firstName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"firstName\" placeholder=\"First name\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"text\" name=\"lastname\" formcontrolname=\"lastName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"lastName\" placeholder=\"Last name\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"email\" name=\"email\" formcontrolname=\"email\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"email\" placeholder=\"Email address\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"password\" name=\"password\" formcontrolname=\"password\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"password\" placeholder=\"Password\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"password\" name=\"confirmpassword\" formcontrolname=\"passwordconf\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"passwordconf\" placeholder=\"Confirm Password\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"checkbox\" name=\"newsletter\" formcontrolname=\"newsletter\" class=\"form-check-input ng-untouched ng-pristine ng-valid\" ng-reflect-name=\"newsletter\">",
+    "child": ""
+  },
+  {
+    "element": "<input type=\"checkbox\" name=\"termsandconditions\" formcontrolname=\"termsandconditions\" ng-reflect-name=\"termsandconditions\" class=\"ng-untouched ng-pristine ng-invalid\">",
+    "child": ""
+  },
+  {
+    "element": "<a target=\"_blank\" ng-reflect-target=\"_blank\" ng-reflect-router-link=\"/,terms-and-conditions\" href=\"/electronics-spa/en/USD/terms-and-conditions\"> Terms &amp; Conditions </a>",
+    "child": " Terms &amp; Conditions "
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-block btn-primary\"> Register </button>",
+    "child": " Register "
+  },
+  {
+    "element": "<a class=\"cx-login-link btn-link\" ng-reflect-router-link=\"/,login\" href=\"/electronics-spa/en/USD/login\">I already have an account. Sign In</a>",
+    "child": "I already have an account. Sign In"
+  }
+]
