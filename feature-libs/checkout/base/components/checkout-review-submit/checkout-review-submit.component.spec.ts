@@ -25,7 +25,7 @@ import {
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 import createSpy = jasmine.createSpy;

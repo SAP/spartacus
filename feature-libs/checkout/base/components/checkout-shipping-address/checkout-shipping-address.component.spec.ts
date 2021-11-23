@@ -12,7 +12,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 import createSpy = jasmine.createSpy;
 
