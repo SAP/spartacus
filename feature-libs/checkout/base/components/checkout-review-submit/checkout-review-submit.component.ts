@@ -15,7 +15,6 @@ import {
   PaymentDetails,
   PromotionLocation,
   TranslationService,
-  UserAddressService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
@@ -38,7 +37,6 @@ export class CheckoutReviewSubmitComponent {
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
