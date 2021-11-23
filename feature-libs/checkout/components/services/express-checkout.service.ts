@@ -5,7 +5,6 @@ import {
   ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
-  Address,
   DeliveryMode,
   PaymentDetails,
   StateUtils,
@@ -13,7 +12,14 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 
@@ -46,83 +52,57 @@ export class ExpressCheckoutService {
       this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
     ]).pipe(
       debounceTime(0),
-      tap(
-        ([, addressesLoadedSuccess]: [
-          Address[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => {
-          if (!addressesLoadedSuccess) {
-            this.userAddressService.loadAddresses();
-          }
+      tap(([, addressesLoadedSuccess]) => {
+        if (!addressesLoadedSuccess) {
+          this.userAddressService.loadAddresses();
         }
-      ),
-      filter(
-        ([, addressesLoadedSuccess]: [
-          Address[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => addressesLoadedSuccess
-      ),
-      switchMap(
-        ([addresses, , setDeliveryAddressProcess]: [
-          Address[],
-          boolean,
-          StateUtils.LoaderState<void>
-        ]) => {
-          const defaultAddress =
-            addresses.find((address) => address.defaultAddress) || addresses[0];
-          if (defaultAddress && Object.keys(defaultAddress).length) {
-            if (
-              !(
-                setDeliveryAddressProcess.success ||
-                setDeliveryAddressProcess.error ||
-                setDeliveryAddressProcess.loading
-              )
-            ) {
-              this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
-            }
-            return of(setDeliveryAddressProcess).pipe(
-              filter(
-                (
-                  setDeliveryAddressProcessState: StateUtils.LoaderState<void>
-                ) => {
-                  return (
-                    ((setDeliveryAddressProcessState.success ||
-                      setDeliveryAddressProcessState.error) &&
-                      !setDeliveryAddressProcessState.loading) ??
-                    false
-                  );
-                }
-              ),
-              switchMap(
-                (
-                  setDeliveryAddressProcessState: StateUtils.LoaderState<void>
-                ) => {
-                  if (setDeliveryAddressProcessState.success) {
-                    return this.checkoutDetailsService.getDeliveryAddress();
-                  }
-                  return of(false);
-                }
-              ),
-              map((data) => Boolean(data && Object.keys(data).length))
-            );
+      }),
+      filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
+      switchMap(([addresses, , processState]) => {
+        const defaultAddress =
+          addresses.find((address) => address.defaultAddress) || addresses[0];
+        if (defaultAddress && Object.keys(defaultAddress).length) {
+          if (
+            !(
+              processState.success ||
+              processState.error ||
+              processState.loading
+            )
+          ) {
+            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
           }
-          return of(false);
+          return of(processState).pipe(
+            filter((processState: StateUtils.LoaderState<void>) => {
+              return (
+                ((processState.success || processState.error) &&
+                  !processState.loading) ??
+                false
+              );
+            }),
+            switchMap((processState: StateUtils.LoaderState<void>) =>
+              processState.success
+                ? this.checkoutDetailsService.getDeliveryAddress()
+                : of(false)
+            ),
+            map((data) => Boolean(data && Object.keys(data).length))
+          );
         }
-      )
+        return of(false);
+      })
     );
   }
 
   protected setPaymentMethod() {
     this.paymentMethodSet$ = combineLatest([
+      this.deliveryModeSet$,
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
       debounceTime(0),
       tap(
-        ([, paymentMethodsLoadedSuccess]: [
+        ([, , paymentMethodsLoadedSuccess]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
@@ -133,18 +113,24 @@ export class ExpressCheckoutService {
         }
       ),
       filter(
-        ([, success]: [
+        ([, , success]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => success
       ),
       switchMap(
-        ([payments, , setPaymentDetailsProcess]: [
+        ([deliveryModeSet, payments, , setPaymentDetailsProcess]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => {
+          if (!deliveryModeSet) {
+            return of(false);
+          }
+
           const defaultPayment =
             payments.find((address) => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
@@ -219,6 +205,7 @@ export class ExpressCheckoutService {
                 ([, , supportedDeliveryModeStatus]: any) =>
                   supportedDeliveryModeStatus.success ?? false
               ),
+              distinctUntilChanged(),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
                   DeliveryMode[],
@@ -290,10 +277,8 @@ export class ExpressCheckoutService {
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
     this.clearCheckoutService.resetCheckoutProcesses();
 
-    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      map(([deliveryModeSet, paymentMethodSet]) =>
-        Boolean(deliveryModeSet && paymentMethodSet)
-      )
+    return this.paymentMethodSet$.pipe(
+      map((paymentMethodSet) => Boolean(paymentMethodSet))
     );
   }
 }
