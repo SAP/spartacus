@@ -1,13 +1,13 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry, TranslationService } from '@spartacus/core';
 import {
   BREAKPOINT,
   BreakpointService,
   CartItemContext,
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
@@ -25,6 +25,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService,
     protected breakpointService: BreakpointService,
+    protected translation: TranslationService,
     @Optional() protected cartItemContext?: CartItemContext
   ) {}
 
@@ -83,4 +84,78 @@ export class ConfiguratorCartEntryBundleInfoComponent {
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
   readonly shouldShowButton$: Observable<boolean> =
     this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
+
+  getButtonText(translatedText?: string): string {
+    if (!translatedText) {
+      translatedText = '';
+    }
+    if (this.hideItems) {
+      this.translation
+        .translate('configurator.header.show')
+        .pipe(take(1))
+        .subscribe((text) => (translatedText += text));
+    } else {
+      this.translation
+        .translate('configurator.header.hide')
+        .pipe(take(1))
+        .subscribe((text) => (translatedText += text));
+    }
+
+    return translatedText;
+  }
+
+  getItemsMsg(items: number): string {
+    let translatedText = '';
+    this.translation
+      .translate('configurator.a11y.cartEntryBundleInfo', { items: items })
+      .pipe(take(1))
+      .subscribe((text) => (translatedText = text));
+
+    return this.getButtonText(translatedText);
+  }
+
+  getHiddenItemInfo(item: LineItem): string {
+    let translatedText = '';
+
+    if (item) {
+      if (item.name && item.formattedPrice && item.formattedQuantity) {
+        this.translation
+          .translate('configurator.a11y.cartEntryBundle', {
+            name: item.name,
+            price: item.formattedPrice,
+            quantity: item.formattedQuantity,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else if (item.name && item.formattedPrice) {
+        this.translation
+          .translate('configurator.a11y.cartEntryBundleNameWithPrice', {
+            name: item.name,
+            price: item.formattedPrice,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else if (item.name && item.formattedQuantity) {
+        this.translation
+          .translate('configurator.a11y.cartEntryBundleNameWithQuantity', {
+            name: item.name,
+            quantity: item.formattedQuantity,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        this.translation
+          .translate('configurator.a11y.cartEntryBundleName', {
+            name: item.name,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+    }
+    return translatedText;
+  }
+
+  getHiddenItemInfoId(index: number): string {
+    return 'cx-item-hidden-info-' + index?.toString();
+  }
 }
