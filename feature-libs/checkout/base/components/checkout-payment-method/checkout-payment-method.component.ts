@@ -27,7 +27,7 @@ import {
   Subscription,
 } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
   selector: 'cx-payment-method',

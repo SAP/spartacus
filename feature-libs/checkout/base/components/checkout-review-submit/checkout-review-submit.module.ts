@@ -13,8 +13,8 @@ import {
   IconModule,
   PromotionsModule,
 } from '@spartacus/storefront';
-import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
-import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
+import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({

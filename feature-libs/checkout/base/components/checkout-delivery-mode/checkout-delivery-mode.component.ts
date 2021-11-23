@@ -15,8 +15,8 @@ import {
   map,
   withLatestFrom,
 } from 'rxjs/operators';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
   selector: 'cx-delivery-mode',

@@ -3,8 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { CardModule, SpinnerModule } from '@spartacus/storefront';
-import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
-import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
+import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
+import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutPaymentFormModule } from './checkout-payment-form/checkout-payment-form.module';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 

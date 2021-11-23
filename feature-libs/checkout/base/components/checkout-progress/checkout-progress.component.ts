@@ -2,14 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { CheckoutStepService } from '../../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
-  selector: 'cx-checkout-progress-mobile-bottom',
-  templateUrl: './checkout-progress-mobile-bottom.component.html',
+  selector: 'cx-checkout-progress',
+  templateUrl: './checkout-progress.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutProgressMobileBottomComponent {
+export class CheckoutProgressComponent {
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
 
@@ -23,5 +23,17 @@ export class CheckoutProgressMobileBottomComponent {
 
   get steps$(): Observable<CheckoutStep[]> {
     return this._steps$.asObservable();
+  }
+
+  getTabIndex(stepIndex: number): number {
+    return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
+  }
+
+  isActive(index: number): boolean {
+    return index === this.activeStepIndex;
+  }
+
+  isDisabled(index: number): boolean {
+    return index > this.activeStepIndex;
   }
 }

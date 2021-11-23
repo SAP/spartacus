@@ -15,7 +15,7 @@ import {
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
   card: Card;

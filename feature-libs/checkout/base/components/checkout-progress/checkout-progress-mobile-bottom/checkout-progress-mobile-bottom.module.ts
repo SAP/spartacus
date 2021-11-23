@@ -10,22 +10,21 @@ import {
 import { CartNotEmptyGuard } from '../../guards/cart-not-empty.guard';
 import { CheckoutAuthGuard } from '../../guards/checkout-auth.guard';
 import { CheckoutStepsSetGuard } from '../../guards/checkout-steps-set.guard';
-import { CheckoutProgressComponent } from './checkout-progress.component';
-import { MultiLinePipe } from './multiline-titles.pipe';
+import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobile-bottom.component';
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
-  declarations: [CheckoutProgressComponent, MultiLinePipe],
-  exports: [CheckoutProgressComponent],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        CheckoutProgress: {
-          component: CheckoutProgressComponent,
+        CheckoutProgressMobileBottom: {
+          component: CheckoutProgressMobileBottomComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutStepsSetGuard],
         },
       },
     }),
   ],
+  declarations: [CheckoutProgressMobileBottomComponent],
+  exports: [CheckoutProgressMobileBottomComponent],
 })
-export class CheckoutProgressModule {}
+export class CheckoutProgressMobileBottomModule {}

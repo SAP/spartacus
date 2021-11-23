@@ -7,8 +7,8 @@ import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { DeliveryMode, I18nTestingModule, QueryState } from '@spartacus/core';
 import { LoaderState } from 'projects/core/src/state/utils/loader';
 import { Observable, of } from 'rxjs';
-import { CheckoutConfigService } from '../../services/checkout-config.service';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutConfigService } from '../services/checkout-config.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
 
 import createSpy = jasmine.createSpy;

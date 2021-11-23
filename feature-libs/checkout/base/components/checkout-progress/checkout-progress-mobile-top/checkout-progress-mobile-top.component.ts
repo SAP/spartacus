@@ -1,19 +1,25 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
+import { ActiveCartService, Cart } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 @Component({
-  selector: 'cx-checkout-progress',
-  templateUrl: './checkout-progress.component.html',
+  selector: 'cx-checkout-progress-mobile-top',
+  templateUrl: './checkout-progress-mobile-top.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutProgressComponent {
+export class CheckoutProgressMobileTopComponent implements OnInit {
   private _steps$: BehaviorSubject<CheckoutStep[]> =
     this.checkoutStepService.steps$;
 
-  constructor(protected checkoutStepService: CheckoutStepService) {}
+  constructor(
+    protected activeCartService: ActiveCartService,
+    protected checkoutStepService: CheckoutStepService
+  ) {}
+
+  cart$: Observable<Cart>;
 
   activeStepIndex: number;
   activeStepIndex$: Observable<number> =
@@ -25,15 +31,7 @@ export class CheckoutProgressComponent {
     return this._steps$.asObservable();
   }
 
-  getTabIndex(stepIndex: number): number {
-    return !this.isActive(stepIndex) && !this.isDisabled(stepIndex) ? 0 : -1;
-  }
-
-  isActive(index: number): boolean {
-    return index === this.activeStepIndex;
-  }
-
-  isDisabled(index: number): boolean {
-    return index > this.activeStepIndex;
+  ngOnInit(): void {
+    this.cart$ = this.activeCartService.getActive();
   }
 }

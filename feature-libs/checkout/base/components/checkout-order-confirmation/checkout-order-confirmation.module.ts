@@ -10,7 +10,7 @@ import {
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
-import { OrderConfirmationGuard } from '../../guards/order-confirmation.guard';
+import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
 import { CheckoutGuestRegisterFormComponent } from './checkout-guest-register-form/checkout-guest-register-form.component';
 import { CheckoutOrderConfirmationItemsComponent } from './checkout-order-confirmation-items/checkout-order-confirmation-items.component';
 import { CheckoutOrderConfirmationOverviewComponent } from './checkout-order-confirmation-overview/checkout-order-confirmation-overview.component';
