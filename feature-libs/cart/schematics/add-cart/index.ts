@@ -27,9 +27,9 @@ import {
   CART_IMPORT_EXPORT_ROOT_MODULE,
   CART_IMPORT_EXPORT_TRANSLATIONS,
   CART_IMPORT_EXPORT_TRANSLATION_CHUNKS_CONFIG,
+  CART_MAIN_FEATURE_MODULE_NAME,
   CART_MAIN_FEATURE_NAME_CONSTANT,
   CART_MAIN_MODULE,
-  CART_MAIN_MODULE_NAME,
   CART_MAIN_ROOT_MODULE,
   CART_MAIN_TRANSLATIONS,
   CART_MAIN_TRANSLATION_CHUNKS_CONFIG,
@@ -90,7 +90,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
 function addMainCartFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
-    moduleName: CART_MAIN_MODULE_NAME,
+    moduleName: CART_MAIN_FEATURE_MODULE_NAME,
     featureModule: {
       name: CART_MAIN_MODULE,
       importPath: SPARTACUS_CART_MAIN,
