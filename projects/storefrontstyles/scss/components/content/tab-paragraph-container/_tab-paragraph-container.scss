@@ -7,14 +7,11 @@ $useTabsOnPDP: false !default;
     > div.active.toggled {
       display: none;
     }
-
     > button.active.toggled {
       color: initial;
-
       &:before {
         content: '+';
       }
-
       &:after {
         width: 0;
         opacity: var(--cx-opacity, 0);
@@ -24,31 +21,24 @@ $useTabsOnPDP: false !default;
 
   > div {
     background: var(--cx-color-background);
-
     &:not(.active) {
       display: none;
     }
-
     .container > h2 {
       display: none;
     }
   }
-
   > button {
     @include button-reset();
     margin-bottom: 0;
-
     &.active,
     &:hover {
       color: var(--cx-color-primary);
     }
-
     &:focus {
       z-index: 1;
     }
-
     cursor: pointer;
-
     @include media-breakpoint-up(md) {
       &.active {
         cursor: initial;
@@ -77,12 +67,10 @@ $useTabsOnPDP: false !default;
     &:hover:after {
       width: 100%;
     }
-
     &.active:after,
     &.active:hover:after {
       opacity: 1;
     }
-
     &:not(.active):hover:after {
       opacity: 0.5;
     }
@@ -109,20 +97,17 @@ $useTabsOnPDP: false !default;
         position: relative;
         color: var(--cx-color-text);
       }
-
       &:after {
         margin-top: 15px;
         margin-inline-end: auto;
         margin-bottom: auto;
         margin-inline-start: -4%;
       }
-
       &.active {
         &:before {
           content: '–';
         }
       }
-
       &.active:after,
       &:hover:after {
         width: 104%;
@@ -134,19 +119,16 @@ $useTabsOnPDP: false !default;
     }
   }
 
-  // Expect up to 5 tabs instead of 4
   // in order to align the tabs to the left
   // we simulate the container size
   @include media-breakpoint-only(md) {
-    grid-template-columns: auto 10px repeat(4, 180px) 0px auto !important;
+    grid-template-columns: auto 10px repeat(4, 180px) 0px auto;
   }
-
   @include media-breakpoint-only(lg) {
-    grid-template-columns: auto 10px repeat(4, 180px) 272px auto !important;
+    grid-template-columns: auto 10px repeat(4, 180px) 272px auto;
   }
-
   @include media-breakpoint-only(xl) {
-    grid-template-columns: auto 10px repeat(4, 180px) 420px auto !important;
+    grid-template-columns: auto 10px repeat(4, 180px) 420px auto;
   }
 
   @include media-breakpoint-up(md) {
@@ -181,12 +163,10 @@ $useTabsOnPDP: false !default;
   @include media-breakpoint-down(xl) {
     max-width: var(--cx-page-width-max);
   }
-
   // make a small header with links
   display: grid;
   grid-template-columns: repeat(4, auto) auto;
   justify-content: start;
-
   > button {
     @include button-reset();
     order: 2;
@@ -195,11 +175,9 @@ $useTabsOnPDP: false !default;
     font-size: 0.9em;
     cursor: pointer;
     margin: 10px 15px;
-
     &:hover {
       text-decoration: underline;
     }
-
     &:focus {
       z-index: 1;
     }
@@ -212,7 +190,7 @@ $useTabsOnPDP: false !default;
 }
 
 %cx-tab-paragraph-container {
-  @if $useTabsOnPDP==true {
+  @if $useTabsOnPDP == true {
     @extend %pdpTabs !optional;
   } @else {
     @extend %pdpFlat !optional;

@@ -1,13 +1,14 @@
 import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
-import * as alerts from '../../../../helpers/global-message';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-checkout';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as alerts from '../../../../helpers/global-message';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      clearAllStorage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.window().then((win) => win.localStorage.clear());
+      cy.clearLocalStorageMemory();
     });
 
     describe('Quick Order Page', () => {

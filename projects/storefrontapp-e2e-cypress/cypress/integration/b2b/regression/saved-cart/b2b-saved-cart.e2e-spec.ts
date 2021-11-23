@@ -1,12 +1,13 @@
 import * as savedCart from '../../../../helpers/b2b/b2b-saved-cart';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      clearAllStorage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.window().then((win) => win.localStorage.clear());
+      cy.clearLocalStorageMemory();
     });
 
     describe('Accessibility - keyboarding', () => {

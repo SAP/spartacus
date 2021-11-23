@@ -2,14 +2,14 @@ import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
-import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('Express checkout', () => {
   viewportContext(['mobile', 'desktop'], () => {
     let user;
 
     before(() => {
-      clearAllStorage();
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.clearLocalStorageMemory(); // avoid restoring the local storage in the desktop run after the mobile run
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
       user = getSampleUser();
       Cypress.log({
