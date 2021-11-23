@@ -22,6 +22,7 @@ const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
   userCloseAccount: 'users/${userId}',
 };
 
+// TODO:#checkout - add schematics
 /**
  * Use 'defaultB2bOccConfig' from '@spartacus/checkout/b2b/root' instead.
  * @deprecated since version 5.0
