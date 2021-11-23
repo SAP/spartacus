@@ -18,7 +18,7 @@ import {
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { CheckoutStepService } from '../../services/checkout-step.service';
+import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
 
 import createSpy = jasmine.createSpy;
