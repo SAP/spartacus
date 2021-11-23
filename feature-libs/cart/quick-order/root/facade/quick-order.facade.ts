@@ -9,16 +9,26 @@ export function quickOrderFacadeFactory() {
     facade: QuickOrderFacade,
     feature: CART_QUICK_ORDER_CORE_FEATURE,
     methods: [
-      'getEntries',
-      'search',
-      'clearList',
-      'loadEntries',
-      'updateEntryQuantity',
-      'removeEntry',
       'addProduct',
-      'getProductAdded',
-      'setProductAdded',
       'addToCart',
+      'clearList',
+      'canAdd',
+      'setListLimit',
+      'getEntries',
+      'getProductAdded',
+      'loadEntries',
+      'softDeleteEntry',
+      'search',
+      'searchProducts',
+      'setProductAdded',
+      'updateEntryQuantity',
+      'getSoftDeletedEntries',
+      'restoreSoftDeletedEntry',
+      'hardDeleteEntry',
+      'clearDeletedEntries',
+      'getNonPurchasableProductError',
+      'setNonPurchasableProductError',
+      'clearNonPurchasableProductError',
     ],
   });
 }
@@ -34,14 +44,33 @@ export abstract class QuickOrderFacade {
   abstract getEntries(): BehaviorSubject<OrderEntry[]>;
 
   /**
-   * Search product using sku
+   * @deprecated since 4.2 - use searchProducts instead
+   * Search product using SKU
    */
   abstract search(productCode: string): Observable<Product>;
+
+  /**
+   * Search products using query
+   */
+  abstract searchProducts(
+    query: string,
+    maxProducts?: number
+  ): Observable<Product[]>;
 
   /**
    * Clear a list of added entries
    */
   abstract clearList(): void;
+
+  /**
+   * Get information about the possibility to add the next product
+   */
+  abstract canAdd(code?: string): Observable<boolean>;
+
+  /**
+   * Set quick order list limit property
+   */
+  abstract setListLimit(limit: number): void;
 
   /**
    * Load a list of entries
@@ -54,14 +83,19 @@ export abstract class QuickOrderFacade {
   abstract updateEntryQuantity(entryIndex: number, quantity: number): void;
 
   /**
-   * Remove single entry from the list
+   * Delete single entry from the list
+   */
+  abstract softDeleteEntry(index: number): void;
+
+  /**
+   * @deprecated since 4.2 - use softDeleteEntry instead
    */
   abstract removeEntry(index: number): void;
 
   /**
    * Add product to the quick order list
    */
-  abstract addProduct(product: Product): void;
+  abstract addProduct(product: Product, quantity?: number): void;
 
   /**
    * Return product added subject
@@ -77,4 +111,39 @@ export abstract class QuickOrderFacade {
    * Adding to cart all products from the list
    */
   abstract addToCart(): Observable<[OrderEntry[], QuickOrderAddEntryEvent[]]>;
+
+  /**
+   * Return soft deleted entries
+   */
+  abstract getSoftDeletedEntries(): Observable<Record<string, OrderEntry>>;
+
+  /**
+   * Restore soft deleted entry
+   */
+  abstract restoreSoftDeletedEntry(productCode: string): void;
+
+  /**
+   * Clear deleted entry from the list
+   */
+  abstract hardDeleteEntry(productCode: string): void;
+
+  /**
+   * Clear all deleted entries and timeout subscriptions
+   */
+  abstract clearDeletedEntries(): void;
+
+  /**
+   *  Return non purchasable product error
+   */
+  abstract getNonPurchasableProductError(): Observable<Product | null>;
+
+  /**
+   * Set error that selected product is not purchasable
+   */
+  abstract setNonPurchasableProductError(product: Product): void;
+
+  /**
+   * Clear not purchasable product error
+   */
+  abstract clearNonPurchasableProductError(): void;
 }

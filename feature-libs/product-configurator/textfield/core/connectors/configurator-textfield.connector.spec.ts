@@ -37,6 +37,10 @@ class MockConfiguratorTextfieldAdapter implements ConfiguratorTextfieldAdapter {
     (params: CommonConfigurator.ReadConfigurationFromCartEntryParameters) =>
       of('readConfigurationForCartEntry' + params)
   );
+  readConfigurationForOrderEntry = createSpy().and.callFake(
+    (params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters) =>
+      of('readConfigurationForOrderEntry' + params)
+  );
 }
 
 describe('ConfiguratorTextfieldConnector', () => {
@@ -88,15 +92,33 @@ describe('ConfiguratorTextfieldConnector', () => {
       ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
     );
 
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: ConfiguratorModelUtils.createInitialOwner(),
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
     let result;
     service
       .readConfigurationForCartEntry(params)
       .subscribe((res) => (result = res));
     expect(result).toBe('readConfigurationForCartEntry' + params);
     expect(adapter.readConfigurationForCartEntry).toHaveBeenCalledWith(params);
+  });
+
+  it('should call adapter on readConfigurationForOrderEntry', () => {
+    const adapter = TestBed.inject(
+      ConfiguratorTextfieldAdapter as Type<ConfiguratorTextfieldAdapter>
+    );
+
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: ConfiguratorModelUtils.createInitialOwner(),
+      };
+    let result;
+    service
+      .readConfigurationForOrderEntry(params)
+      .subscribe((res) => (result = res));
+    expect(result).toBe('readConfigurationForOrderEntry' + params);
+    expect(adapter.readConfigurationForOrderEntry).toHaveBeenCalledWith(params);
   });
 
   it('should call adapter on addToCart', () => {

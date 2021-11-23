@@ -1,4 +1,4 @@
-import { waitForPage } from '../../../../helpers/checkout-flow';
+import { waitForCategoryPage } from '../../../../helpers/checkout-flow';
 import {
   CURRENCY_JPY,
   CURRENCY_LABEL,
@@ -15,13 +15,16 @@ function testBrandPage(
   language: string = merchandisingCarousel.DEFAULT_LANGUAGE,
   currency: string = merchandisingCarousel.DEFAULT_CURRENCY
 ): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+  const categoryPage = waitForCategoryPage(
+    merchandisingCarousel.canonBrandCode,
+    'getCategory'
+  );
 
   cy.visit(
     `/${language}/${currency}/${merchandisingCarousel.canonBrandPagePath}`
   );
 
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 
   merchandisingCarousel.verifyMerchandisingCarouselRendersOnBrandPage(
     strategyRequestAlias,
@@ -37,7 +40,6 @@ context('Merchandising Carousel - Brand page', () => {
     });
   });
   beforeEach(() => {
-    cy.server();
     cdsHelper.setUpMocks(strategyRequestAlias);
     cdsHelper.allowInsecureCookies();
   });

@@ -20,9 +20,6 @@ const testMapping = {
 export function testFeaturesFromConfig(config: MyCompanyConfig) {
   if (config.features?.length) {
     describe('My Company Features', () => {
-      before(() => {
-        cy.server();
-      });
       config.features.forEach((featureToggle: string) => {
         testMapping[featureToggle](config);
       });

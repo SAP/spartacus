@@ -16,7 +16,8 @@ import { Configurator } from '../../../../core/model/configurator.model';
 })
 export class ConfiguratorAttributeDropDownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeDropDownForm = new FormControl('');
   @Input() group: string;
 
@@ -25,7 +26,7 @@ export class ConfiguratorAttributeDropDownComponent
   }
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
   }
 
   getSelectedValue(): Configurator.Value | undefined {

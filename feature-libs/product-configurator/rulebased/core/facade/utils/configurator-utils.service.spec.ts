@@ -99,11 +99,12 @@ function mergeChangesAndGetFirstGroup(
   changedAttribute: Configurator.Attribute,
   configuration: Configurator.Configuration
 ) {
-  const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
-    changedAttribute,
-    configuration,
-    updateType
-  );
+  const configurationForSendingChanges =
+    serviceUnderTest.createConfigurationExtract(
+      changedAttribute,
+      configuration,
+      updateType
+    );
 
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
@@ -329,10 +330,11 @@ describe('ConfiguratorGroupUtilsService', () => {
         name: ATTRIBUTE_1_CHECKBOX,
         groupId: GROUP_ID_1,
       };
-      const configurationForSendingChanges = classUnderTest.createConfigurationExtract(
-        changedAttribute,
-        productConfiguration
-      );
+      const configurationForSendingChanges =
+        classUnderTest.createConfigurationExtract(
+          changedAttribute,
+          productConfiguration
+        );
       expect(configurationForSendingChanges.updateType).toBe(
         Configurator.UpdateType.ATTRIBUTE
       );
@@ -341,15 +343,17 @@ describe('ConfiguratorGroupUtilsService', () => {
 
   describe('getConfigurationFromState', () => {
     it('should retrieve configuration from state', () => {
-      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
       expect(classUnderTest.getConfigurationFromState(configurationState)).toBe(
         productConfiguration
       );
     });
     it('should throw error in case no configuration is present in state', () => {
-      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {};
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> =
+        {};
       expect(() =>
         classUnderTest.getConfigurationFromState(configurationState)
       ).toThrowError();

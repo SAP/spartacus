@@ -10,6 +10,7 @@
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
           </label>
           <input
+            aria-required="true"
             class="form-control input-product-code"
             formControlName="productCode"
             placeholder="{{
@@ -24,7 +25,7 @@
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
           <input
-            [min]="min"
+            aria-required="true"
             class="form-control input-quantity"
             formControlName="quantity"
             type="number"
@@ -39,9 +40,13 @@
           {{ 'quickOrderCartForm.addToCart' | cxTranslate }}
         </button>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="quickOrderForm.get('productCode')"
         ></cx-form-errors>
         <cx-form-errors
+          aria-live="assertive"
+          aria-atomic="true"
           [control]="quickOrderForm.get('quantity')"
         ></cx-form-errors>
       </div>

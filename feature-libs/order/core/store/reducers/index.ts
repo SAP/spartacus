@@ -54,9 +54,8 @@ export function getReducers(): ActionReducerMap<OrderState, any> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<OrderState>
-> = new InjectionToken<ActionReducerMap<OrderState>>('OrderReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<OrderState>> =
+  new InjectionToken<ActionReducerMap<OrderState>>('OrderReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,

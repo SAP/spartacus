@@ -1,0 +1,19 @@
+<input
+  type="file"
+  aria-hidden="true"
+  [accept]="accept"
+  [multiple]="multiple"
+  (change)="selectFile($event)"
+  #fileInput
+/>
+<button
+  [attr.aria-label]="'common.selectFile' | cxTranslate"
+  class="btn btn-action"
+  type="button"
+  (click)="fileInput.click()"
+>
+  <ng-content></ng-content>
+</button>
+<p *ngFor="let file of selectedFiles">
+  {{ file?.name }}
+</p>
