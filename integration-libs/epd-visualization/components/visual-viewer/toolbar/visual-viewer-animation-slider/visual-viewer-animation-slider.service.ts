@@ -5,6 +5,7 @@ import {
   Output,
   Injectable,
   Renderer2,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
@@ -17,13 +18,13 @@ export class VisualViewerAnimationSliderService {
   public constructor(
     private elementRef: ElementRef,
     private windowRef: WindowRef,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private changeDetectorRef: ChangeDetectorRef
   ) {
     this.eventListenerUtils.initialize(this.renderer);
   }
 
   public initialize(): void {
-    this.position = this.valueToPosition(this.value);
     this.updateEventBindings();
     this.setupResizeObserver();
     this.setInitialized();
@@ -50,7 +51,6 @@ export class VisualViewerAnimationSliderService {
       return;
     }
     this._value = value;
-    this.position = this.valueToPosition(this.value);
     this.valueChange.emit(this.value);
   }
   get value() {
@@ -73,18 +73,25 @@ export class VisualViewerAnimationSliderService {
   }
   private _disabled: boolean = false;
 
-  set position(position: number) {
-    if (this._position === position) {
+  @Input()
+  set hidden(hidden: boolean) {
+    if (this._hidden === hidden) {
       return;
     }
-    this._position = position;
-    this.positionChange.emit(position);
+    this._hidden = hidden;
+    // Ensure handle position is recalculated when the animation slider visibility changes
+    // Fixes a bug in which the initial position of the slider handle is incorrect
+    // because the bar width is calculated while the animation slider is hidden (noticeable in RTL mode)
+    this.changeDetectorRef.detectChanges();
   }
+  get hidden(): boolean {
+    return this._hidden;
+  }
+  private _hidden: boolean;
+
   get position(): number {
-    return this._position;
+    return this.valueToPosition(this.value);
   }
-  private _position: number = 0;
-  positionChange = new EventEmitter<number>();
 
   get rightToLeft(): boolean {
     return this.windowRef.document.documentElement.dir === 'rtl';
@@ -123,17 +130,20 @@ export class VisualViewerAnimationSliderService {
   }
   private _touchIdentifier?: number = undefined;
 
-  private getClientWidth(elementRef: ElementRef): number {
+  private getClientWidth(elementRef: ElementRef): number | undefined {
+    if (!elementRef || !elementRef.nativeElement) {
+      return undefined;
+    }
     const clientRect = this.getClientRect(elementRef);
     return clientRect.right - clientRect.left;
   }
 
-  private getClientRect(elementRef: ElementRef): ClientRect {
+  private getClientRect(elementRef: ElementRef): DOMRect {
     return elementRef.nativeElement.getBoundingClientRect();
   }
 
   private resizeObserverSupported(): boolean {
-    return (window as any).ResizeObserve !== undefined;
+    return window.ResizeObserver !== undefined;
   }
 
   private setupResizeObserver() {
@@ -144,8 +154,10 @@ export class VisualViewerAnimationSliderService {
   }
 
   private onResize() {
-    this.position = this.valueToPosition(this.value);
+    // Ensure handle position is recalculated on resize
+    this.changeDetectorRef.detectChanges();
   }
+  sizeChange = new EventEmitter();
 
   private updateEventBindings(): void {
     if (this.disabled) {
@@ -186,11 +198,11 @@ export class VisualViewerAnimationSliderService {
   }
 
   get handleWidth(): number {
-    return this.getClientWidth(this.handleElement);
+    return this.getClientWidth(this.handleElement) ?? 0;
   }
 
   get barWidth(): number {
-    return this.getClientWidth(this.barElement);
+    return this.getClientWidth(this.barElement) ?? 0;
   }
 
   get handleMaxPosition(): number {
@@ -395,7 +407,6 @@ export class VisualViewerAnimationSliderService {
     if (this.value !== value) {
       this.value = value;
       this.valueChange.emit(this.value);
-      this.position = this.valueToPosition(value);
     }
   }
 

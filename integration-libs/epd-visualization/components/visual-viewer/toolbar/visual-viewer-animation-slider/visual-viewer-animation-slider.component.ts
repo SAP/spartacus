@@ -27,6 +27,14 @@ export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   }
 
   @Input()
+  set hidden(hidden: boolean) {
+    this.visualViewerAnimationSliderService.hidden = hidden;
+  }
+  get hidden(): boolean {
+    return this.visualViewerAnimationSliderService.hidden;
+  }
+
+  @Input()
   set value(value: number) {
     this.visualViewerAnimationSliderService.value = value;
   }
@@ -39,8 +47,6 @@ export class VisualViewerAnimationSliderComponent implements AfterViewInit {
   get position(): number {
     return this.visualViewerAnimationSliderService.position;
   }
-  @Output()
-  positionChange = this.visualViewerAnimationSliderService.positionChange;
 
   @Input()
   set disabled(disabled: boolean) {
