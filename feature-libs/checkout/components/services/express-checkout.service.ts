@@ -5,6 +5,7 @@ import {
   ClearCheckoutFacade,
 } from '@spartacus/checkout/root';
 import {
+  Address,
   DeliveryMode,
   PaymentDetails,
   StateUtils,
@@ -52,43 +53,71 @@ export class ExpressCheckoutService {
       this.checkoutDeliveryService.getSetDeliveryAddressProcess(),
     ]).pipe(
       debounceTime(0),
-      tap(([, addressesLoadedSuccess]) => {
-        if (!addressesLoadedSuccess) {
-          this.userAddressService.loadAddresses();
-        }
-      }),
-      filter(([, addressesLoadedSuccess]) => addressesLoadedSuccess),
-      switchMap(([addresses, , processState]) => {
-        const defaultAddress =
-          addresses.find((address) => address.defaultAddress) || addresses[0];
-        if (defaultAddress && Object.keys(defaultAddress).length) {
-          if (
-            !(
-              processState.success ||
-              processState.error ||
-              processState.loading
-            )
-          ) {
-            this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+      tap(
+        ([, addressesLoadedSuccess]: [
+          Address[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => {
+          if (!addressesLoadedSuccess) {
+            this.userAddressService.loadAddresses();
           }
-          return of(processState).pipe(
-            filter((processState: StateUtils.LoaderState<void>) => {
-              return (
-                ((processState.success || processState.error) &&
-                  !processState.loading) ??
-                false
-              );
-            }),
-            switchMap((processState: StateUtils.LoaderState<void>) =>
-              processState.success
-                ? this.checkoutDetailsService.getDeliveryAddress()
-                : of(false)
-            ),
-            map((data) => Boolean(data && Object.keys(data).length))
-          );
         }
-        return of(false);
-      })
+      ),
+      filter(
+        ([, addressesLoadedSuccess]: [
+          Address[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => addressesLoadedSuccess
+      ),
+      switchMap(
+        ([addresses, , setDeliveryAddressProcess]: [
+          Address[],
+          boolean,
+          StateUtils.LoaderState<void>
+        ]) => {
+          const defaultAddress =
+            addresses.find((address) => address.defaultAddress) || addresses[0];
+          if (defaultAddress && Object.keys(defaultAddress).length) {
+            if (
+              !(
+                setDeliveryAddressProcess.success ||
+                setDeliveryAddressProcess.error ||
+                setDeliveryAddressProcess.loading
+              )
+            ) {
+              this.checkoutDeliveryService.setDeliveryAddress(defaultAddress);
+            }
+            return of(setDeliveryAddressProcess).pipe(
+              filter(
+                (
+                  setDeliveryAddressProcessState: StateUtils.LoaderState<void>
+                ) => {
+                  return (
+                    ((setDeliveryAddressProcessState.success ||
+                      setDeliveryAddressProcessState.error) &&
+                      !setDeliveryAddressProcessState.loading) ??
+                    false
+                  );
+                }
+              ),
+              switchMap(
+                (
+                  setDeliveryAddressProcessState: StateUtils.LoaderState<void>
+                ) => {
+                  if (setDeliveryAddressProcessState.success) {
+                    return this.checkoutDetailsService.getDeliveryAddress();
+                  }
+                  return of(false);
+                }
+              ),
+              map((data) => Boolean(data && Object.keys(data).length))
+            );
+          }
+          return of(false);
+        }
+      )
     );
   }
 

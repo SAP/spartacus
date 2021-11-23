@@ -5,7 +5,6 @@ import {
   ActiveCartService,
   Address,
   DeliveryMode,
-  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
   StateUtils,
@@ -13,14 +12,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  pluck,
-  shareReplay,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -228,25 +220,25 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      const userId = getLastValueSync(this.userIdService.getUserId());
-      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
+      let userId;
+      this.userIdService
+        .getUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
 
-      if (cartId && userId) {
-        this.activeCartService
-          .isStable()
-          .pipe(
-            filter((isStable) => isStable),
-            take(1)
-          )
-          .subscribe(() => {
-            this.checkoutStore.dispatch(
-              new CheckoutActions.SetDeliveryMode({
-                userId,
-                cartId,
-                selectedModeId: mode,
-              })
-            );
-          });
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
+      if (userId && cartId) {
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetDeliveryMode({
+            userId,
+            cartId,
+            selectedModeId: mode,
+          })
+        );
       }
     }
   }
@@ -257,9 +249,17 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryAddress(address: Address): void {
     if (this.actionAllowed()) {
-      const userId = getLastValueSync(this.userIdService.getUserId());
-      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
+      let userId;
+      this.userIdService
+        .getUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
 
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
       if (cartId && userId) {
         this.checkoutStore.dispatch(
           new CheckoutActions.SetDeliveryAddress({

@@ -12,7 +12,7 @@ import {
   OCC_USER_ID_GUEST,
   PaymentDetails,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -36,12 +36,8 @@ export class CheckoutDetailsService {
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartService
   ) {
-    this.cartId$ = combineLatest([
-      this.activeCartService.getActive(),
-      this.activeCartService.isStable(),
-    ]).pipe(
-      filter(([, isStable]) => isStable),
-      map(([cartData]) => {
+    this.cartId$ = this.activeCartService.getActive().pipe(
+      map((cartData) => {
         const cartUser = cartData.user;
         if (
           cartUser &&
