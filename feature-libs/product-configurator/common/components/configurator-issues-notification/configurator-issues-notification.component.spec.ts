@@ -9,6 +9,7 @@ import {
 } from '@spartacus/cart/main/root';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
@@ -201,6 +202,25 @@ describe('ConfigureIssuesNotificationComponent', () => {
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
         1
+      );
+    });
+  });
+
+  describe('Notification banner', () => {
+    it('should contain div element with ID cx-error-msg', function () {
+      emitNewContextValue({
+        statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+        configurationInfos: [],
+        readOnly: false,
+        productConfigurable: true,
+      });
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '#cx-error-msg'
       );
     });
   });
