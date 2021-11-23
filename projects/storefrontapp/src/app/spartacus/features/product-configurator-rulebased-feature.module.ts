@@ -9,11 +9,7 @@ import {
 } from '@spartacus/product-configurator/rulebased/root';
 
 @NgModule({
-  imports: [
-    RulebasedConfiguratorRootModule,
-    VariantConfiguratorInteractiveLayoutModule,
-    VariantConfiguratorOverviewLayoutModule,
-  ],
+  imports: [RulebasedConfiguratorRootModule],
   providers: [
     provideConfig({
       featureModules: {
