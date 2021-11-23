@@ -11,6 +11,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_PRODUCT_BULK_PRICING_FEATURE,
+  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
   LibraryOptions as SpartacusProductOptions,
   SpartacusOptions,
@@ -24,6 +25,8 @@ const bulkPricingModulePath =
   'src/app/spartacus/features/product/product-bulk-pricing-feature.module.ts';
 const variantsFeatureModulePath =
   'src/app/spartacus/features/product/product-variants-feature.module.ts';
+const imageZoomFeatureModulePath =
+  'src/app/spartacus/features/product/product-image-zoom-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/product.scss';
 
 describe('Spartacus Product schematics: ng-add', () => {
@@ -68,6 +71,11 @@ describe('Spartacus Product schematics: ng-add', () => {
     features: [CLI_PRODUCT_VARIANTS_FEATURE],
   };
 
+  const imageZoomOptions: SpartacusProductOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_PRODUCT_IMAGE_ZOOM_FEATURE],
+  };
+
   beforeEach(async () => {
     schematicRunner.registerCollection(
       SPARTACUS_SCHEMATICS,
@@ -109,6 +117,7 @@ describe('Spartacus Product schematics: ng-add', () => {
     it('should not create any of the feature modules', () => {
       expect(appTree.exists(bulkPricingModulePath)).toBeFalsy();
       expect(appTree.exists(variantsFeatureModulePath)).toBeFalsy();
+      expect(appTree.exists(imageZoomFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -220,6 +229,50 @@ describe('Spartacus Product schematics: ng-add', () => {
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(variantsFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('ImageZoom feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', imageZoomOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(imageZoomFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...imageZoomOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(imageZoomFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

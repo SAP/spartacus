@@ -41,12 +41,12 @@ context('Save for later', () => {
           cart.logOutAndEmptyCart();
           const loginPage = waitForPage('/login', 'getLoginPage');
           cy.visit('/login');
-          cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+          cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
           login(account.username, account.password);
           cy.url().should('not.contain', 'login');
         });
         cy.visit(`/cart`);
-        cy.wait(`@${alias}`).its('status').should('eq', 200);
+        cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
         verifyMiniCartQty(0);
         validateProduct(products[2], 1, ItemList.SaveForLater);
@@ -94,8 +94,9 @@ context('Save for later', () => {
       });
 
       it('should place order and keep save for later', () => {
-        const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'))
-          .token;
+        const stateAuth = JSON.parse(
+          localStorage.getItem('spartacus⚿⚿auth')
+        ).token;
         addProductToCart(products[0]);
         addProductToCart(products[1]);
         moveItem(products[0], ItemList.SaveForLater);

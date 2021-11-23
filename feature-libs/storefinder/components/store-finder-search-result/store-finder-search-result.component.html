@@ -19,9 +19,9 @@
   ></cx-store-finder-list>
   <div class="container" *ngIf="!locations?.stores.length">
     <div class="row">
-      <span class="cx-no-stores">{{
-        'storeFinder.noStoresMessage' | cxTranslate
-      }}</span>
+      <span class="cx-no-stores" role="alert">
+        {{ 'storeFinder.noStoresMessage' | cxTranslate }}
+      </span>
     </div>
   </div>
 </div>

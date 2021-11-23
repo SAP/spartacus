@@ -12,7 +12,8 @@ import { ORDER_APPROVAL_NORMALIZER } from '../../core/connectors/converters';
   providedIn: 'root',
 })
 export class OccOrderApprovalListNormalizer
-  implements Converter<Occ.OrderApprovalsList, EntitiesModel<OrderApproval>> {
+  implements Converter<Occ.OrderApprovalsList, EntitiesModel<OrderApproval>>
+{
   constructor(private converter: ConverterService) {}
 
   convert(

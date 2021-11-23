@@ -16,6 +16,15 @@
     "lib": ["dom", "esnext"],
     "strict": true,
     "paths": {
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
       "@spartacus/cart/saved-cart/components": [

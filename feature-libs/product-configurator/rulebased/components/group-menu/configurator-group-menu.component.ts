@@ -31,30 +31,33 @@ import { ConfiguratorGroupMenuService } from './configurator-group-menu.componen
 export class ConfiguratorGroupMenuComponent {
   @ViewChildren('groupItem') groups: QueryList<ElementRef<HTMLElement>>;
 
-  routerData$: Observable<ConfiguratorRouter.Data> = this.configRouterExtractorService.extractRouterData();
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
 
-  configuration$: Observable<Configurator.Configuration> = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configCommonsService
-        .getConfiguration(routerData.owner)
-        .pipe(
-          map((configuration) => ({ routerData, configuration })),
-          //We need to ensure that the navigation to conflict groups or
-          //groups with mandatory attributes already has taken place, as this happens
-          //in an onInit of another component.
-          //otherwise we risk that this component is completely initialized too early,
-          //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
-          filter(
-            (cont) =>
-              (cont.configuration.complete && cont.configuration.consistent) ||
-              cont.configuration.interactionState.issueNavigationDone ||
-              !cont.routerData.resolveIssues
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configCommonsService
+          .getConfiguration(routerData.owner)
+          .pipe(
+            map((configuration) => ({ routerData, configuration })),
+            //We need to ensure that the navigation to conflict groups or
+            //groups with mandatory attributes already has taken place, as this happens
+            //in an onInit of another component.
+            //otherwise we risk that this component is completely initialized too early,
+            //in dev mode resulting in ExpressionChangedAfterItHasBeenCheckedError
+            filter(
+              (cont) =>
+                (cont.configuration.complete &&
+                  cont.configuration.consistent) ||
+                cont.configuration.interactionState.issueNavigationDone ||
+                !cont.routerData.resolveIssues
+            )
           )
-        )
 
-        .pipe(map((cont) => cont.configuration))
-    )
-  );
+          .pipe(map((cont) => cont.configuration))
+      )
+    );
 
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
@@ -64,34 +67,32 @@ export class ConfiguratorGroupMenuComponent {
   /**
    * Current parent group. Undefined for top level groups
    */
-  displayedParentGroup$: Observable<
-    Configurator.Group | undefined
-  > = this.configuration$.pipe(
-    switchMap((configuration) =>
-      this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
-    ),
-    switchMap((parentGroup) => {
-      return parentGroup
-        ? this.getCondensedParentGroup(parentGroup)
-        : of(parentGroup);
-    })
-  );
+  displayedParentGroup$: Observable<Configurator.Group | undefined> =
+    this.configuration$.pipe(
+      switchMap((configuration) =>
+        this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
+      ),
+      switchMap((parentGroup) => {
+        return parentGroup
+          ? this.getCondensedParentGroup(parentGroup)
+          : of(parentGroup);
+      })
+    );
 
-  displayedGroups$: Observable<
-    Configurator.Group[]
-  > = this.displayedParentGroup$.pipe(
-    switchMap((parentGroup) => {
-      return this.configuration$.pipe(
-        map((configuration) => {
-          if (parentGroup) {
-            return this.condenseGroups(parentGroup.subGroups);
-          } else {
-            return this.condenseGroups(configuration.groups);
-          }
-        })
-      );
-    })
-  );
+  displayedGroups$: Observable<Configurator.Group[]> =
+    this.displayedParentGroup$.pipe(
+      switchMap((parentGroup) => {
+        return this.configuration$.pipe(
+          map((configuration) => {
+            if (parentGroup) {
+              return this.condenseGroups(parentGroup.subGroups);
+            } else {
+              return this.condenseGroups(configuration.groups);
+            }
+          })
+        );
+      })
+    );
 
   iconTypes = ICON_TYPE;
   ERROR = ' ERROR';
@@ -110,7 +111,7 @@ export class ConfiguratorGroupMenuComponent {
 
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (configuration.interactionState?.currentGroup === group.id) {
+      if (configuration.interactionState.currentGroup === group.id) {
         return;
       }
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
@@ -272,15 +273,13 @@ export class ConfiguratorGroupMenuComponent {
         const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           !group.consistent
         ) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           group.complete &&
           group.consistent &&
           isVisited
@@ -354,12 +353,12 @@ export class ConfiguratorGroupMenuComponent {
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
         this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup?.id);
+        this.setFocusForSubGroup(targetGroup, currentGroup.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
-        this.setFocusForMainMenu(currentGroup?.id);
+        this.setFocusForMainMenu(currentGroup.id);
       }
     }
   }
@@ -373,13 +372,13 @@ export class ConfiguratorGroupMenuComponent {
   setFocusForMainMenu(currentGroupId?: string): void {
     let key: string | undefined = currentGroupId;
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      configuration?.groups?.forEach((group) => {
+      configuration.groups?.forEach((group) => {
         if (
-          group?.subGroups?.length !== 1 &&
-          (this.isGroupSelected(group?.id, currentGroupId) ||
+          group.subGroups?.length !== 1 &&
+          (this.isGroupSelected(group.id, currentGroupId) ||
             this.containsSelectedGroup(group, currentGroupId))
         ) {
-          key = group?.id;
+          key = group.id;
         }
       });
     });
@@ -416,7 +415,7 @@ export class ConfiguratorGroupMenuComponent {
     currentGroupId?: string
   ): boolean {
     let isCurrentGroupFound = false;
-    group?.subGroups?.forEach((subGroup) => {
+    group.subGroups?.forEach((subGroup) => {
       if (this.isGroupSelected(subGroup.id, currentGroupId)) {
         isCurrentGroupFound = true;
       }

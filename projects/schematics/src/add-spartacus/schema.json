@@ -17,15 +17,18 @@
       "items": {
         "enum": [
           "ASM",
+          "Import-Export",
           "Saved-Cart",
           "Quick-Order",
           "CDC",
           "CDS",
           "Checkout",
+          "Order",
           "Digital-Payments",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
+          "Image-Zoom",
           "Product-Variants",
           "VC-Configurator",
           "Textfield-Configurator",
@@ -44,8 +47,11 @@
       "default": [
         "ASM",
         "Checkout",
+        "Order",
+        "Import-Export",
         "Saved-Cart",
         "Quick-Order",
+        "Image-Zoom",
         "Product-Variants",
         "SmartEdit",
         "Store-Finder",
@@ -60,6 +66,10 @@
           {
             "value": "ASM",
             "label": "Assisted Services Module"
+          },
+          {
+            "value": "Import-Export",
+            "label": "Import/Export"
           },
           {
             "value": "Saved-Cart",
@@ -82,6 +92,10 @@
             "label": "Checkout"
           },
           {
+            "value": "Order",
+            "label": "Order"
+          },
+          {
             "value": "Digital-Payments",
             "label": "Digital Payments Integration"
           },
@@ -100,6 +114,10 @@
           {
             "value": "Product-Variants",
             "label": "Product - Variants"
+          },
+          {
+            "value": "Image-Zoom",
+            "label": "Product - Image Zoom"
           },
           {
             "value": "VC-Configurator",
