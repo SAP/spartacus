@@ -62,6 +62,6 @@ export class ConfiguratorCartEntryInfoComponent {
   }
 
   getHiddenConfigurationInfoId(index: number): string {
-    return 'cx-configuration-hidden-info-' + index?.toString();
+    return 'cx-configuration-hidden-info-' + index.toString();
   }
 }
