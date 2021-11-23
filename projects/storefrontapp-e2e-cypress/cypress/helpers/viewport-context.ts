@@ -51,15 +51,10 @@ export function viewportContext(
 }
 
 /**
- * Gets the current viewport name.
- *
- * @param callback returns viewport name.
+ * Gets the current viewport of the test.
  */
-export function getViewport(callback: (viewport: string) => unknown) {
-  return cy.window().then((window) => {
-    const viewport: Viewport = viewportConfigs.find(
-      (viewport: Viewport) => viewport.width === window.innerWidth
-    );
-    return callback(viewport.viewport);
-  });
+export function getViewport(): Viewports | undefined {
+  return viewportConfigs.find(
+    (config) => config.width === Cypress.config('viewportWidth')
+  )?.viewport;
 }
