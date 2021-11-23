@@ -1,3 +1,4 @@
+import { getViewport } from '../helpers/viewport-context';
 import { focusableSelectors, getNextFocusableElement } from './utils/a11y-tab';
 
 declare global {
@@ -63,14 +64,13 @@ export interface TabScreenshotConfig {
 Cypress.Commands.add(
   'tabScreenshot',
   (config: TabScreenshotConfig = { container: 'body' }) => {
-    const CONTEXT = Cypress.mocha.getRunner().suite.title.toLowerCase();
-    const FILE_NAME = `${CONTEXT}/${Cypress.spec.name}${
+    const FILE_NAME = `${getViewport()}/${Cypress.spec.name}${
       config.scenario ? `-${config.scenario}` : ''
     }.json`;
     const DRAFT_FILE = `cypress/fixtures/a11y/tab/drafts/${FILE_NAME}`;
     const CONFIG_FILE = `cypress/fixtures/a11y/tab/configs/${FILE_NAME}`;
     const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify with screenshots that keyboard accessibility is correct and move to '${CONFIG_FILE}' to pass assertion.`;
-
+    
     cy.document().then((document) => {
       const focusable = Array.from(
         <NodeListOf<HTMLElement>>(
