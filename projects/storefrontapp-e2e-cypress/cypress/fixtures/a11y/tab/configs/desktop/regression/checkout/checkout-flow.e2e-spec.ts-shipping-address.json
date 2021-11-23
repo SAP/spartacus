@@ -1,0 +1,18 @@
+[
+  {
+    "element": "<button class=\"btn btn-block btn-action\"> Add New Address </button>",
+    "child": " Add New Address "
+  },
+  {
+    "element": "<a tabindex=\"0\" class=\"cx-card-link card-link btn-link cx-action-link\">Ship to this address</a>",
+    "child": "Ship to this address"
+  },
+  {
+    "element": "<button class=\"cx-btn btn btn-block btn-action\"> Back to cart </button>",
+    "child": " Back to cart "
+  },
+  {
+    "element": "<button class=\"cx-btn btn btn-block btn-primary\"> Continue </button>",
+    "child": " Continue "
+  }
+]

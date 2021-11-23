@@ -253,8 +253,20 @@ export function viewOrderHistory() {
     .should('not.be.empty');
 }
 
+export function goToShippingAddresses() {
+  cy.get('cx-checkout-progress li:nth-child(1) > a').click();
+}
+
+export function goToDeliveryModes() {
+  cy.get('cx-checkout-progress li:nth-child(2) > a').click();
+}
+
 export function goToPaymentDetails() {
   cy.get('cx-checkout-progress li:nth-child(3) > a').click();
+}
+
+export function goToReviewOrder() {
+  cy.get('cx-checkout-progress li:nth-child(4) > a').click();
 }
 
 export function clickAddNewPayment() {

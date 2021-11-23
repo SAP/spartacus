@@ -1,0 +1,42 @@
+[
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,shipping-address\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/shipping-address\">Shipping<br>Address</a>",
+    "child": "Shipping<br>Address"
+  },
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,delivery-mode\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/delivery-mode\">Delivery<br>Mode</a>",
+    "child": "Delivery<br>Mode"
+  },
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,payment-details\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/payment-details\">Payment<br>Details</a>",
+    "child": "Payment<br>Details"
+  },
+  {
+    "element": "<a ng-reflect-router-link=\"/,checkout,payment-details\" href=\"/electronics-spa/en/USD/checkout/payment-details\"><cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon></a>",
+    "child": "<cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon>"
+  },
+  {
+    "element": "<a ng-reflect-router-link=\"/,checkout,shipping-address\" href=\"/electronics-spa/en/USD/checkout/shipping-address\"><cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon></a>",
+    "child": "<cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon>"
+  },
+  {
+    "element": "<a ng-reflect-router-link=\"/,checkout,delivery-mode\" href=\"/electronics-spa/en/USD/checkout/delivery-mode\"><cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon></a>",
+    "child": "<cx-icon class=\"cx-icon fas fa-pencil-alt\" ng-reflect-type=\"PENCIL\"></cx-icon>"
+  },
+  {
+    "element": "<a cxmodal=\"dismiss\" class=\"cx-link\" ng-reflect-cx-modal=\"dismiss\" ng-reflect-router-link=\"/,product,280916,web-camera-10\" href=\"/electronics-spa/en/USD/product/280916/web-camera-100kpixelm-cmos-640x480-usb-1.1-black\"><h2>Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black</h2></a>",
+    "child": "<h2>Web Camera (100KpixelM CMOS, 640X480, USB 1.1) Black</h2>"
+  },
+  {
+    "element": "<input formcontrolname=\"termsAndConditions\" type=\"checkbox\" class=\"scaled-input form-check-input ng-untouched ng-dirty ng-valid\" ng-reflect-name=\"termsAndConditions\">",
+    "child": ""
+  },
+  {
+    "element": "<a target=\"_blank\" class=\"cx-tc-link\" ng-reflect-target=\"_blank\" ng-reflect-router-link=\"/,terms-and-conditions\" href=\"/electronics-spa/en/USD/terms-and-conditions\"> Terms &amp; Conditions </a>",
+    "child": " Terms &amp; Conditions "
+  },
+  {
+    "element": "<button type=\"submit\" class=\"btn btn-primary btn-block\"> Place Order </button>",
+    "child": " Place Order "
+  }
+]

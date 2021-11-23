@@ -1,0 +1,22 @@
+[
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,shipping-address\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/shipping-address\">Shipping<br>Address</a>",
+    "child": "Shipping<br>Address"
+  },
+  {
+    "element": "<input role=\"radio\" type=\"radio\" aria-checked=\"true\" formcontrolname=\"deliveryModeId\" class=\"form-check-input ng-untouched ng-pristine ng-valid\" ng-reflect-form-control-name=\"deliveryModeId\" ng-reflect-name=\"deliveryModeId\" id=\"deliveryMode-standard-gross\" ng-reflect-value=\"standard-gross\">",
+    "child": ""
+  },
+  {
+    "element": "<input role=\"radio\" type=\"radio\" aria-checked=\"true\" formcontrolname=\"deliveryModeId\" class=\"form-check-input ng-untouched ng-pristine ng-valid\" ng-reflect-form-control-name=\"deliveryModeId\" ng-reflect-name=\"deliveryModeId\" id=\"deliveryMode-premium-gross\" ng-reflect-value=\"premium-gross\">",
+    "child": ""
+  },
+  {
+    "element": "<button class=\"btn btn-block btn-action\"> Back </button>",
+    "child": " Back "
+  },
+  {
+    "element": "<button class=\"btn btn-block btn-primary\"> Continue </button>",
+    "child": " Continue "
+  }
+]

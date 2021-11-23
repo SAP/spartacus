@@ -1,0 +1,26 @@
+[
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,shipping-address\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/shipping-address\">Shipping<br>Address</a>",
+    "child": "Shipping<br>Address"
+  },
+  {
+    "element": "<a class=\"cx-link\" ng-reflect-router-link=\"/,checkout,delivery-mode\" tabindex=\"0\" href=\"/electronics-spa/en/USD/checkout/delivery-mode\">Delivery<br>Mode</a>",
+    "child": "Delivery<br>Mode"
+  },
+  {
+    "element": "<button class=\"btn btn-block btn-action\"> Add New Payment </button>",
+    "child": " Add New Payment "
+  },
+  {
+    "element": "<a tabindex=\"0\" class=\"cx-card-link card-link btn-link cx-action-link\">Use this payment</a>",
+    "child": "Use this payment"
+  },
+  {
+    "element": "<button class=\"btn btn-block btn-action\"> Back </button>",
+    "child": " Back "
+  },
+  {
+    "element": "<button class=\"btn btn-block btn-primary\"> Continue </button>",
+    "child": " Continue "
+  }
+]
