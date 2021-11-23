@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CheckoutStepService } from '../../../services/checkout-step.service';
+import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressMobileBottomComponent } from './checkout-progress-mobile-bottom.component';
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
