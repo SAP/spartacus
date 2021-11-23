@@ -1,10 +1,10 @@
+import { SERVER_REQUEST_URL } from '@spartacus/core';
 import {
   decorateExpressEngine,
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
 } from './ng-express-engine-decorator';
-import { SERVER_REQUEST_URL } from '@spartacus/core';
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
@@ -87,13 +87,21 @@ describe('decorateExpressEngine', () => {
   let engineInstance;
 
   beforeEach(() => {
+    const app = {
+      get:
+        (_name: string): any =>
+        (_connectionRemoteAddress: string) => {},
+    };
+
     mockOptions = {
       req: {
         protocol: 'https',
         originalUrl: '/electronics/en/USD/cart',
         get: jasmine.createSpy('req.get').and.returnValue('site.com'),
+        app,
+        connection: {},
       },
-      res: {
+      res: <Partial<Response>>{
         set: jasmine.createSpy('req.set'),
       },
     } as any;
