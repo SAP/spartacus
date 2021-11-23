@@ -46,9 +46,38 @@ context('Checkout backoff test', () => {
           req.reply({
             statusCode: 400,
             body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
+            delay: 300,
           });
         }
       ).as('test2err');
+
+      cy.intercept(
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
+        { times: 1 },
+        (req) => {
+          req.reply({
+            statusCode: 400,
+            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
+            delay: 1200,
+          });
+        }
+      ).as('test3err');
+
+      cy.intercept(
+        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
+        { times: 1 },
+        (req) => {
+          req.reply({
+            statusCode: 400,
+            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
+            delay: 1200,
+          });
+        }
+      ).as('test4err');
 
       // cy.intercept(
       //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -66,6 +95,8 @@ context('Checkout backoff test', () => {
       cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
 
       cy.wait(`@test2err`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@test3err`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@test4err`).its('response.statusCode').should('eq', 400);
       // cy.wait(`@test3successhopefully`)
       //   .its('response.statusCode')
       //   .should('eq', 200);
