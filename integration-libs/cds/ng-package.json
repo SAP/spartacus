@@ -8,6 +8,7 @@
       "@spartacus/storefront": "storefront",
       "@spartacus/tracking/personalization/core": "personalization",
       "@spartacus/checkout": "checkout",
+      "@spartacus/checkout/base/root": "checkoutRoot",
       "@ngrx/store": "store",
       "rxjs": "rxjs"
     }
