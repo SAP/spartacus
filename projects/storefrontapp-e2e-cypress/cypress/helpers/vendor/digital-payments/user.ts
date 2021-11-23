@@ -11,7 +11,7 @@ export const my_user = {
     country: 'AD',
   },
   payment: {
-    number: '5105105105105100',
+    number: '************5100',
     expires: {
       month: '08',
       year: '2030',
@@ -25,7 +25,7 @@ export function checkoutShippingAddress() {
     'getDeliveryModePage'
   );
   cy.get('cx-shipping-address').within(() => {
-    cy.get('cx-card').eq(0).findByText('Selected');
+    cy.findByText('Selected');
     cy.get('cx-card')
       .eq(0)
       .within(() => {
