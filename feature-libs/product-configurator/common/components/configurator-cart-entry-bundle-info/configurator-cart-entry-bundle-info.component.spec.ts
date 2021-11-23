@@ -728,7 +728,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getButtonText', () => {
-      it("should return 'configurator.header.show'", () => {
+      it("should return 'configurator.header.show' in case items are hidden", () => {
         component.hideItems = true;
         fixture.detectChanges();
         expect(
