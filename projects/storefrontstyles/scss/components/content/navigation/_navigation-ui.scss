@@ -77,7 +77,7 @@
   }
 
   &.flyout {
-    span,
+    button,
     cx-generic-link {
       display: flex;
       align-items: center;
@@ -107,13 +107,13 @@
     @include media-breakpoint-down(md) {
       // make all first level hedings uppercase in mobile view
       > nav {
-        > span,
+        > button,
         > cx-generic-link {
           text-transform: uppercase;
           font-weight: 600;
         }
       }
-      span,
+      button,
       cx-generic-link {
         border-bottom: 1px solid var(--cx-color-light);
         display: flex;
@@ -122,7 +122,7 @@
         cursor: pointer;
       }
 
-      span,
+      button,
       cx-generic-link a {
         padding: 1rem;
       }
@@ -132,14 +132,14 @@
       > nav {
         cursor: pointer;
         // top level headings
-        > span {
+        > button {
           padding-top: 20px;
           padding-inline-end: 15px;
           padding-bottom: 22px;
           padding-inline-start: 0;
         }
         // first level headings will be bold in desktop
-        nav > span {
+        nav > button {
           @include type('5');
           cursor: default;
 
@@ -243,6 +243,12 @@
 
   nav {
     outline: none;
+
+    button {
+      border: none;
+      padding: 0;
+      background-color: transparent;
+    }
   }
 
   &.flyout {
@@ -277,7 +283,8 @@
               display: initial;
             }
           }
-          > span {
+          //> span {
+          > button {
             display: none;
           }
           > .wrapper {

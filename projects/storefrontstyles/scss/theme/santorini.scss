@@ -106,7 +106,8 @@
 
   cx-login {
     .cx-login-greet,
-    cx-navigation-ui.flyout span {
+    //cx-navigation-ui.flyout span {
+    cx-navigation-ui.flyout button {
       color: var(--cx-color-text);
     }
   }
