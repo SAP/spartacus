@@ -4,8 +4,6 @@ import { configuratorTranslations } from '@spartacus/product-configurator/common
 import {
   PRODUCT_CONFIGURATOR_RULEBASED_FEATURE,
   RulebasedConfiguratorRootModule,
-  VariantConfiguratorInteractiveLayoutModule,
-  VariantConfiguratorOverviewLayoutModule,
 } from '@spartacus/product-configurator/rulebased/root';
 
 @NgModule({
