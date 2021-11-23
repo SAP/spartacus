@@ -736,7 +736,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.header.hide'", () => {
+      it("should return 'configurator.header.hide' in case items are shown", () => {
         component.hideItems = false;
         fixture.detectChanges();
         expect(
