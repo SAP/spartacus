@@ -6,7 +6,8 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "@spartacus/user": "user"
+      "@spartacus/user": "user",
+      "@spartacus/checkout/root": "checkoutRoot"
     }
   }
 }

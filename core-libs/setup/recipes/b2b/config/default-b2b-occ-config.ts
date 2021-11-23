@@ -1,6 +1,5 @@
 // We need this import for augmentation of OccEndpoints to pick up
-// TODO#checkout: type CheckoutOccEndpoints breaks build (might need to move this elsewhere for ll?)
-// import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
+import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
@@ -9,8 +8,7 @@ import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
 // variable, type augmentation does require that this file imports `CheckoutOccEndpoints`.
 // A good way to make sure the `CheckoutOccEndpoints` import is not removed by mistake is to use
 // `CheckoutOccEndpoints` in the code.
-// TODO#checkout: type CheckoutOccEndpoints breaks build (might need to move this elsewhere for ll?)
-const defaultB2bCheckoutOccEndpoints = {
+const defaultB2bCheckoutOccEndpoints: CheckoutOccEndpoints = {
   setDeliveryAddress: 'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
   placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
 };
@@ -24,6 +22,11 @@ const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
   userCloseAccount: 'users/${userId}',
 };
 
+// TODO:#checkout - add schematics
+/**
+ * Use 'defaultB2bOccConfig' from '@spartacus/checkout/b2b/root' instead.
+ * @deprecated since version 5.0
+ */
 export const defaultB2bOccConfig: OccConfig = {
   backend: {
     occ: {
