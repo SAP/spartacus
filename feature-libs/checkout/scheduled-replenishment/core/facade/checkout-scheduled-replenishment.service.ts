@@ -43,7 +43,7 @@ import {
   Subscription,
 } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutReplenishmentOrderConnector } from '../connectors/replenishment-order/checkout-replenishment-order.connector';
+import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 
 @Injectable()
 export class CheckoutScheduledReplenishmentService

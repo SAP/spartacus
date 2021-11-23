@@ -31,7 +31,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
 import { catchError, map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutDeliveryModesConnector } from '../connectors/delivery-modes/checkout-delivery-modes.connector';
+import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 
 @Injectable()
 export class CheckoutDeliveryModesService

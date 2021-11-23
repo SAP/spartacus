@@ -71,7 +71,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     return this.occEndpoints.buildUrl('cardTypes');
   }
 
-  public create(
+  public createPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetails: PaymentDetails
@@ -117,7 +117,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     );
   }
 
-  public set(
+  public setPaymentDetails(
     userId: string,
     cartId: string,
     paymentDetailsId: string
@@ -130,7 +130,7 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       .pipe(catchError((error) => throwError(normalizeHttpError(error))));
   }
 
-  loadCardTypes(): Observable<CardType[]> {
+  getCardTypes(): Observable<CardType[]> {
     return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
       map((cardTypeList) => cardTypeList.cardTypes ?? []),

@@ -1,1 +1,1 @@
-export * from './replenishment-order/index';
+export * from './checkout-replenishment-order/index';

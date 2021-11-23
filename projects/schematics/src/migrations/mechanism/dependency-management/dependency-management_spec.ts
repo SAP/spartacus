@@ -159,7 +159,7 @@ describe('dependency management migrations', () => {
               '@spartacus/core': '3.0.0',
               '@spartacus/storefront': '3.0.0',
               '@spartacus/organization': '3.0.0',
-              '@spartacus/setup': '3.0.0',
+              '@spartacus/product-configurator': '3.0.0',
             },
           })
         );

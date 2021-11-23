@@ -1,13 +1,13 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import {
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent,
 } from '@spartacus/checkout/base/components';
 import {
-  CheckoutDeliveryAddressFacade,
-  CheckoutPaymentFacade,
-} from '@spartacus/checkout/base/root';
+  CheckoutDeliveryAddressService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/base/core';
 import {
   ActiveCartService,
   GlobalMessageService,
@@ -51,8 +51,8 @@ export class DpPaymentMethodComponent
   // TODO:#checkout - handle breaking changes
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
+    protected checkoutPaymentFacade: CheckoutPaymentService,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,

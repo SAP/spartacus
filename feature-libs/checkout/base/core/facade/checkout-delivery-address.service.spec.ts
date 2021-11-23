@@ -20,7 +20,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CheckoutDeliveryAddressConnector } from '../connectors/delivery-address/checkout-delivery-address.connector';
+import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;

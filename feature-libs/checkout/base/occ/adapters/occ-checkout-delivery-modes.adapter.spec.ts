@@ -102,30 +102,6 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
     });
   });
 
-  describe('get delivery mode for cart', () => {
-    it('should delivery modes for cart for given user id and cart id', (done) => {
-      service
-        .getMode(userId, cartId)
-        .pipe(take(1))
-        .subscribe((result) => {
-          expect(result).toEqual(cartData);
-          done();
-        });
-
-      const mockReq = httpMock.expectOne((req) => {
-        return (
-          req.method === 'GET' &&
-          req.url === `users/${userId}/carts/${cartId}/deliverymode`
-        );
-      });
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(cartData);
-      expect(converter.pipeable).toHaveBeenCalledWith(DELIVERY_MODE_NORMALIZER);
-    });
-  });
-
   describe('set delivery mode for cart', () => {
     it('should set modes for cart for given user id, cart id and delivery mode id', (done) => {
       const deliveryModeId = 'deliveryModeId';

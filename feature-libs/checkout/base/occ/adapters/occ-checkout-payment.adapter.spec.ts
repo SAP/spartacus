@@ -210,7 +210,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       const paymentDetailsId = '999';
 
       service
-        .set(userId, cartId, paymentDetailsId)
+        .setPaymentDetails(userId, cartId, paymentDetailsId)
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cartData);
@@ -234,7 +234,7 @@ describe('OccCheckoutPaymentAdapter', () => {
   describe('create payment', () => {
     it('should create payment', (done) => {
       service
-        .create(userId, cartId, mockPaymentDetails)
+        .createPaymentDetails(userId, cartId, mockPaymentDetails)
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockPaymentDetails);
@@ -446,7 +446,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       };
 
       service
-        .loadCardTypes()
+        .getCardTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(cardTypesList.cardTypes);
@@ -464,7 +464,7 @@ describe('OccCheckoutPaymentAdapter', () => {
 
     it('should use converter', (done) => {
       service
-        .loadCardTypes()
+        .getCardTypes()
         .pipe(take(1))
         .subscribe(() => {
           done();

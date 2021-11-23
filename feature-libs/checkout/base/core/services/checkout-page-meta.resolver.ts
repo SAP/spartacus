@@ -31,7 +31,7 @@ export class CheckoutPageMetaResolver
   protected cart$: Observable<Cart> = this.activeCartService.getActive();
 
   constructor(
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected basePageMetaResolver: BasePageMetaResolver
   ) {
@@ -50,7 +50,7 @@ export class CheckoutPageMetaResolver
   resolveTitle(): Observable<string> {
     return this.cart$.pipe(
       switchMap((c) =>
-        this.translation.translate('pageMetaResolver.checkout.title', {
+        this.translationService.translate('pageMetaResolver.checkout.title', {
           count: c.totalItems,
         })
       )

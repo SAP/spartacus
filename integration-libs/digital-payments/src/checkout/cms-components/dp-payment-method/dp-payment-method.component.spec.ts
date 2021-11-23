@@ -7,6 +7,10 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
+  CheckoutDeliveryAddressService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/base/core';
+import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
@@ -32,6 +36,23 @@ const mockPaymentDetails: PaymentDetails = {
   expiryYear: '2022',
   cvn: '123',
 };
+
+class MockCheckoutDeliveryAddressService
+  implements Partial<CheckoutDeliveryAddressFacade>
+{
+  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
+    return of({ loading: false, error: false, data: undefined });
+  }
+}
+class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
+  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
+    return of({ loading: false, error: false, data: mockPaymentDetails });
+  }
+  setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
+    return of();
+  }
+}
+
 class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
     return of('');
@@ -50,31 +71,6 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next() {}
   getBackBntText(): string {
     return '';
-  }
-}
-
-class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
-  setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
-  }
-  createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
-  }
-  getPaymentDetails(): Observable<PaymentDetails> {
-    return of(mockPaymentDetails);
-  }
-  paymentProcessSuccess() {}
-
-  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return of();
-  }
-}
-
-class MockCheckoutDeliveryFacade
-  implements Partial<CheckoutDeliveryAddressFacade>
-{
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({ loading: false, error: false, data: undefined });
   }
 }
 
@@ -108,12 +104,12 @@ describe('DpPaymentMethodComponent', () => {
           useClass: MockCheckoutStepService,
         },
         {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentFacade,
+          provide: CheckoutDeliveryAddressService,
+          useClass: MockCheckoutDeliveryAddressService,
         },
         {
-          provide: CheckoutDeliveryAddressFacade,
-          useClass: MockCheckoutDeliveryFacade,
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
         },
         {
           provide: ActivatedRoute,

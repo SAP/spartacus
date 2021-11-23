@@ -1,2 +1,2 @@
-export * from './cost-center/index';
-export * from './payment-type/index';
+export * from './checkout-cost-center/index';
+export * from './checkout-payment-type/index';

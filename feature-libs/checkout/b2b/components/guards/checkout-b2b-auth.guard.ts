@@ -54,7 +54,9 @@ export class CheckoutB2BAuthGuard
     ]).pipe(
       filter(([_isLoggedIn, _cartUser, _user, isStable]) => isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous
-      filter(([isLoggedIn, , user]) => (!!user && isLoggedIn) || !isLoggedIn),
+      filter(
+        ([isLoggedIn, _cartUser, user]) => (!!user && isLoggedIn) || !isLoggedIn
+      ),
       map(([isLoggedIn, cartUser, user]) => {
         if (!isLoggedIn) {
           return this.handleAnonymousUser(cartUser);

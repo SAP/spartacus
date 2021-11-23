@@ -83,8 +83,8 @@ import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
 
 const featureModules = [];
-
 let CheckoutFeature = CheckoutFeatureModule;
+
 if (environment.oldCheckout) {
   CheckoutFeature = CheckoutOldFeatureModule;
 }

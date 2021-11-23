@@ -22,7 +22,7 @@ import {
 } from '@spartacus/core';
 import { Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
+import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
@@ -72,14 +72,14 @@ class MockCheckoutPaymentConnector
   getCardTypes(): Observable<CardType[]> {
     return of(mockCardTypes);
   }
-  create(
+  createPaymentDetails(
     _userId: string,
     _cartId: string,
     _paymentDetails: PaymentDetails
   ): Observable<PaymentDetails> {
     return of(mockPaymentInfo);
   }
-  set(
+  setPaymentDetails(
     _userId: string,
     _cartId: string,
     _paymentDetailsId: string
@@ -271,11 +271,11 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`createPaymentDetails`, () => {
     it(`should call checkoutPaymentConnector.create`, () => {
-      spyOn(connector, 'create').and.stub();
+      spyOn(connector, 'createPaymentDetails').and.stub();
 
       service.createPaymentDetails(mockPaymentInfo);
 
-      expect(connector.create).toHaveBeenCalledWith(
+      expect(connector.createPaymentDetails).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
         mockPaymentInfo
@@ -335,11 +335,11 @@ describe(`CheckoutPaymentService`, () => {
     });
 
     it(`should call checkoutPaymentConnector.set`, () => {
-      spyOn(connector, 'set').and.stub();
+      spyOn(connector, 'setPaymentDetails').and.stub();
 
       service.setPaymentDetails(mockPaymentInfo);
 
-      expect(connector.set).toHaveBeenCalledWith(
+      expect(connector.setPaymentDetails).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
         mockPaymentInfo.id

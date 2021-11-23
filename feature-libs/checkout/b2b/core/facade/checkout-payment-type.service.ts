@@ -25,7 +25,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutPaymentTypeConnector } from '../connectors/payment-type/checkout-payment-type.connector';
+import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 
 @Injectable()
 export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {

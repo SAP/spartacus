@@ -18,7 +18,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutCostCenterConnector } from '../connectors/cost-center/checkout-cost-center.connector';
+import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 
 @Injectable()
 export class CheckoutCostCenterService implements CheckoutCostCenterFacade {

@@ -28,7 +28,7 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { CheckoutPaymentConnector } from '../connectors/payment/checkout-payment.connector';
+import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
@@ -53,7 +53,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
             this.checkoutPaymentConnector
-              .create(userId, cartId, paymentDetails)
+              .createPaymentDetails(userId, cartId, paymentDetails)
               .pipe(
                 tap((response) => {
                   this.eventService.dispatch(
@@ -94,7 +94,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
             }
 
             return this.checkoutPaymentConnector
-              .set(userId, cartId, paymentDetailsId)
+              .setPaymentDetails(userId, cartId, paymentDetailsId)
               .pipe(
                 tap(() =>
                   this.eventService.dispatch(
