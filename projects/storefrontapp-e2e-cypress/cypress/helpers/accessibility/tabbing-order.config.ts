@@ -481,20 +481,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
     { value: 'Place Order', type: TabbingOrderTypes.BUTTON },
   ],
-  productPage: [
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    {
-      value: 'FUN Flash Single Use Camera, 27+12 pic',
-      type: TabbingOrderTypes.CX_MEDIA,
-    },
-    { value: 'Show reviews', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.GENERIC_INPUT },
-    { value: 'Add to cart', type: TabbingOrderTypes.BUTTON },
-    { value: 'add to wish list', type: TabbingOrderTypes.LINK },
-  ],
   headerMobileLoggedIn: [
     {
       type: TabbingOrderTypes.GENERIC_BUTTON,
