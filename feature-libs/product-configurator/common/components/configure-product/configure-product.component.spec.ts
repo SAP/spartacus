@@ -195,7 +195,7 @@ describe('ConfigureProductComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it('should contain a element with aria-label attribute', function () {
+    it('should contain an element with aria-label attribute', function () {
       setupWithCurrentProductService(true);
       fixture.detectChanges();
 
