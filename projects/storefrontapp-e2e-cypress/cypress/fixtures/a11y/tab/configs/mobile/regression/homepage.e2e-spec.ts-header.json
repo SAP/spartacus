@@ -1,0 +1,22 @@
+[
+  {
+    "element": "<button type=\"button\" aria-controls=\"header-account-container, header-categories-container, header-locale-container\" class=\"cx-hamburger\" aria-expanded=\"false\" aria-label=\"Menu\"><span class=\"hamburger-box\"><span class=\"hamburger-inner\"></span></span></button>",
+    "child": "<span class=\"hamburger-box\"><span class=\"hamburger-inner\"></span></span>"
+  },
+  {
+    "element": "<a role=\"link\" ng-reflect-router-link=\"/\" ng-reflect-query-params=\"[object Object]\" href=\"/electronics-spa/en/USD/\"><!--bindings={}--><cx-media ng-reflect-container=\"[object Object]\" class=\"is-initialized\"><img src=\"https://40.76.109.9:9002/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8aW1hZ2VzL2g0NS9oMTAvODc5NzQ1OTc3NTUxOC5wbmd8MzFjMzMzMTExOGQ2OGEwNjBhYjRlYmNjOThhYTY3NDZiYzUxMGRmNzJkODQ5OWRiYmRhODE1NzU4MDY2MDExZA\" alt=\"SAP Commerce\"><!--bindings={\n  \"ng-reflect-ng-if\": \"https://40.76.109.9:9002/media\"\n}--></cx-media><!--bindings={}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}--></a>",
+    "child": "<!--bindings={}--><cx-media ng-reflect-container=\"[object Object]\" class=\"is-initialized\"><img src=\"https://40.76.109.9:9002/medias/SAP-scrn-R.png?context=bWFzdGVyfGltYWdlc3wxMDEyN3xpbWFnZS9wbmd8aW1hZ2VzL2g0NS9oMTAvODc5NzQ1OTc3NTUxOC5wbmd8MzFjMzMzMTExOGQ2OGEwNjBhYjRlYmNjOThhYTY3NDZiYzUxMGRmNzJkODQ5OWRiYmRhODE1NzU4MDY2MDExZA\" alt=\"SAP Commerce\"><!--bindings={\n  \"ng-reflect-ng-if\": \"https://40.76.109.9:9002/media\"\n}--></cx-media><!--bindings={}--><!--bindings={\n  \"ng-reflect-ng-template-outlet\": \"[object Object]\"\n}-->"
+  },
+  {
+    "element": "<input autocomplete=\"off\" aria-describedby=\"initialDescription\" aria-controls=\"results\" aria-autocomplete=\"both\" placeholder=\"Search here...\" aria-label=\"Search\">",
+    "child": ""
+  },
+  {
+    "element": "<button class=\"search\" aria-label=\"Search\"><cx-icon class=\"cx-icon fas fa-search\" ng-reflect-type=\"SEARCH\"></cx-icon></button>",
+    "child": "<cx-icon class=\"cx-icon fas fa-search\" ng-reflect-type=\"SEARCH\"></cx-icon>"
+  },
+  {
+    "element": "<a ng-reflect-router-link=\"/,cart\" aria-label=\"0 items currently in your cart\" href=\"/electronics-spa/en/USD/cart\"><cx-icon class=\"cx-icon fas fa-shopping-cart\" ng-reflect-type=\"CART\"></cx-icon><span class=\"total\">  </span><span class=\"count\"> 0 </span></a>",
+    "child": "<cx-icon class=\"cx-icon fas fa-shopping-cart\" ng-reflect-type=\"CART\"></cx-icon><span class=\"total\">  </span><span class=\"count\"> 0 </span>"
+  }
+]
