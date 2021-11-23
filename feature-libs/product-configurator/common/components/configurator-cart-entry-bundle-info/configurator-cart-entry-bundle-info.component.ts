@@ -106,17 +106,11 @@ export class ConfiguratorCartEntryBundleInfoComponent {
 
   getItemsMsg(items: number): string {
     let translatedText = '';
-    if (items === 1) {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleInfoSg')
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    } else {
-      this.translation
-        .translate('configurator.a11y.cartEntryBundleInfoPl', { items: items })
-        .pipe(take(1))
-        .subscribe((text) => (translatedText = text));
-    }
+    this.translation
+      .translate('configurator.a11y.cartEntryBundleInfo', { items: items })
+      .pipe(take(1))
+      .subscribe((text) => (translatedText = text));
+
     return this.getButtonText(translatedText);
   }
 
@@ -126,7 +120,7 @@ export class ConfiguratorCartEntryBundleInfoComponent {
     if (item) {
       if (item.name && item.formattedPrice && item.formattedQuantity) {
         this.translation
-          .translate('configurator.a11y.cartEntryBundleInfo', {
+          .translate('configurator.a11y.cartEntryBundle', {
             name: item.name,
             price: item.formattedPrice,
             quantity: item.formattedQuantity,

@@ -746,21 +746,21 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getItemsMsg', () => {
-      it("should return 'configurator.a11y.cartEntryBundleInfoSg' if there is only one line item", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo' if there is only one line item", () => {
         let numberOfItems: number = 1;
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfoSg')
+            .indexOf('configurator.a11y.cartEntryBundleInfo items:1')
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleInfoPl' if there are more than one line item", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo_plural' if there are more than one line item", () => {
         let numberOfItems: number = 4;
         expect(
           component
             .getItemsMsg(numberOfItems)
-            .indexOf('configurator.a11y.cartEntryBundleInfoPl')
+            .indexOf('configurator.a11y.cartEntryBundleInfo items:4')
         ).toBe(0);
       });
     });
@@ -775,7 +775,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         expect(
           component
             .getHiddenItemInfo(lineItem)
-            .indexOf('configurator.a11y.cartEntryBundleInfo')
+            .indexOf('configurator.a11y.cartEntryBundle')
         ).toBe(0);
       });
 
@@ -851,7 +851,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         );
       });
 
-      it("should contain 'hide' button", () => {
+      it("should contain 'hide' button with class name 'aria-label' that overwrites the button content", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -859,7 +859,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           'aria-label',
-          'configurator.a11y.cartEntryBundleInfoSgconfigurator.header.hide'
+          'configurator.a11y.cartEntryBundleInfo items:1configurator.header.hide'
         );
 
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -895,11 +895,11 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
           undefined,
           undefined,
           undefined,
-          'configurator.a11y.cartEntryBundleInfo'
+          'configurator.a11y.cartEntryBundle'
         );
       });
 
-      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute taht displays an item name", () => {
+      it("should contain div element with class name 'cx-item-name' and aria-hidden attribute that displays an item name", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -964,7 +964,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
     });
 
     describe('getHiddenItemInfoId', () => {
-      it("should return 'cx-item-hidden-info-4' ID for a coreesponding line item", () => {
+      it("should return 'cx-item-hidden-info-4' ID for a corresponding line item", () => {
         expect(
           component.getHiddenItemInfoId(4).indexOf('cx-item-hidden-info-4')
         ).toBe(0);

@@ -88,13 +88,13 @@ export const configurator = {
     },
     a11y: {
       configureProduct: 'Configure product',
-      cartEntryBundleInfoSg: 'There is an item ',
-      cartEntryBundleInfoPl: 'There are {{items}} items ',
+      cartEntryBundleInfo: 'There is an item ',
+      cartEntryBundleInfo_plural: 'There are {{items}} items ',
       cartEntryBundleName: 'Item {{ name }}',
       cartEntryBundleNameWithQuantity:
         'Item {{ name }} item quantity {{quantity}}',
       cartEntryBundleNameWithPrice: 'Item {{ name }} item price {{price}}',
-      cartEntryBundleInfo:
+      cartEntryBundle:
         'Item {{ name }} item price {{price}} item quantity {{quantity}}',
       cartEntryInfoIntro:
         'Product has the following attributes and selected values',
