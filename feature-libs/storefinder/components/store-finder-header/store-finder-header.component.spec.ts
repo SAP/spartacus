@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { StoreFinderHeaderComponent } from './store-finder-header.component';
+import { I18nTestingModule } from '@spartacus/core';
 
 @Component({
   template: '',
@@ -15,6 +16,7 @@ describe('StoreFinderHeaderComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [I18nTestingModule],
         declarations: [
           StoreFinderHeaderComponent,
           MockStoreFinderSearchComponent,

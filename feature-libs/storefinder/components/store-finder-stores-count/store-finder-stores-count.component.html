@@ -6,6 +6,11 @@
 >
   <div class="cx-count container">
     <div class="row" *ngIf="locations?.length">
+      <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+        {{
+          'storeFinder.resultsFound' | cxTranslate: { count: locations?.length }
+        }}
+      </div>
       <div
         *ngFor="let country of locations"
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
