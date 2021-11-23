@@ -8,28 +8,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
   ],
-  register: [
-    { value: 'titleCode', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
-    { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
-    {
-      value: 'newsletter',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    {
-      value: 'termsandconditions',
-      type: TabbingOrderTypes.FORM_FIELD,
-    },
-    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
-    { value: 'Register', type: TabbingOrderTypes.BUTTON },
-    {
-      value: 'I already have an account. Sign In',
-      type: TabbingOrderTypes.LINK,
-    },
-  ],
   resetPassword: [
     { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
     { value: 'Submit', type: TabbingOrderTypes.BUTTON },
