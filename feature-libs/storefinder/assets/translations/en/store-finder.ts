@@ -11,6 +11,8 @@ export const storeFinder = {
     noStoresFound: 'No Stores Found.',
     storeHours: 'Store hours',
     storeFeatures: 'Store features',
+    storeFinder: 'Store Finder',
+    resultsFound: '{{ count }} results found',
     fromStoresFound: 'from {{ count }} store found',
     fromStoresFound_plural: 'from {{ count }} stores found',
     findStore: 'Find store',
