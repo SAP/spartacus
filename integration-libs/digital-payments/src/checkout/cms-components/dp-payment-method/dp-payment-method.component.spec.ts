@@ -52,7 +52,6 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     return of();
   }
 }
-class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {}
 class MockTranslationService implements Partial<TranslationService> {
   translate(): Observable<string> {
     return of('');
@@ -106,10 +105,6 @@ describe('DpPaymentMethodComponent', () => {
         {
           provide: CheckoutDeliveryAddressService,
           useClass: MockCheckoutDeliveryAddressService,
-        },
-        {
-          provide: CheckoutPaymentFacade,
-          useClass: MockCheckoutPaymentFacade,
         },
         {
           provide: CheckoutPaymentService,

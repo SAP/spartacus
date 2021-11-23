@@ -32,14 +32,14 @@ export class CheckoutB2BStepsSetGuard
   implements CanActivate
 {
   constructor(
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected router: Router
+    protected router: Router,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade
   ) {
     super(
       checkoutStepService,

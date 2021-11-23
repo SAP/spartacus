@@ -39,9 +39,9 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected checkoutFacade: CheckoutFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
   ) {
     super(checkoutFacade, routingService, fb, launchDialogService, vcr);
