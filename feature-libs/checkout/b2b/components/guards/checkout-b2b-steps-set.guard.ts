@@ -126,7 +126,7 @@ export class CheckoutB2BStepsSetGuard
       filter((state) => !state.loading),
       map((state) => state.data),
       map((paymentType) => {
-        if (Boolean(paymentType)) {
+        if (paymentType) {
           return true;
         } else {
           return this.getUrl(step.routeName);

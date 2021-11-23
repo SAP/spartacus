@@ -10,9 +10,9 @@ import { map } from 'rxjs/operators';
 })
 export class OrderConfirmationGuard implements CanActivate {
   constructor(
-    private checkoutFacade: CheckoutFacade,
-    private router: Router,
-    private semanticPathService: SemanticPathService
+    protected checkoutFacade: CheckoutFacade,
+    protected router: Router,
+    protected semanticPathService: SemanticPathService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {

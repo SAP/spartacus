@@ -56,13 +56,13 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return homepage url', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
         .unsubscribe();
 
-      expect(result.toString()).toBe('/home');
+      expect(result?.toString()).toBe('/home');
     });
   });
 
@@ -72,13 +72,13 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return cart page url', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))
         .unsubscribe();
 
-      expect(result.toString()).toBe('/cart');
+      expect(result?.toString()).toBe('/cart');
     });
   });
 
@@ -89,7 +89,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
 
     it('should return true', () => {
-      let result: boolean | UrlTree;
+      let result: boolean | UrlTree | undefined;
       guard
         .canActivate()
         .subscribe((value) => (result = value))

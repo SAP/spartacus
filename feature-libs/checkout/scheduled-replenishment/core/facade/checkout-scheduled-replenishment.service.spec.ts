@@ -10,12 +10,13 @@ import {
   EventService,
   OCC_USER_ID_CURRENT,
   Order,
+  ORDER_TYPE,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
   UserIdService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CheckoutReplenishmentOrderConnector } from '../connectors/replenishment-order/checkout-replenishment-order.connector';
+import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
@@ -170,6 +171,19 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
         },
         ReplenishmentOrderScheduledEvent
       );
+    });
+
+    describe(`getOrderType and setOrderType`, () => {
+      it(`should set an order type return an order type`, () => {
+        service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+
+        service
+          .getOrderType()
+          .subscribe((result) => {
+            expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+          })
+          .unsubscribe();
+      });
     });
   });
 });

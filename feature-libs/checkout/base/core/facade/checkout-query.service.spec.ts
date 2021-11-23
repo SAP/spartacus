@@ -117,7 +117,7 @@ describe(`CheckoutQueryService`, () => {
       subscription.unsubscribe();
     }));
 
-    xit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
       spyOn(connector, 'getCheckoutDetails').and.returnValues(
         // first attempt
         throwError(mockJaloError),
