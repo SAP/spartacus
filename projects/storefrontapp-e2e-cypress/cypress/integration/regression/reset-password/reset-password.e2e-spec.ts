@@ -7,6 +7,11 @@ context('Reset Password Page', () => {
     cy.visit('/login/pw/change?token=123');
   });
 
+  it('should check keyboard accessibility', () => {
+    cy.get('main');
+    cy.tabScreenshot({ container: 'main' });
+  });
+
   it('should not submit an empty form', () => {
     // Submitting an empty form should not procede. Detailed form validation cases are covered by unit tests.
     alerts.getAlert().should('not.exist');

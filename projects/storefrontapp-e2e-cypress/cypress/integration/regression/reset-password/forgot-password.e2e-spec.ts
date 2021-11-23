@@ -7,6 +7,11 @@ context('Forgot Password Page', () => {
     cy.visit('/login/forgot-password');
   });
 
+  it('should check keyboard accessibility', () => {
+    cy.get('main');
+    cy.tabScreenshot({ container: 'main' });
+  });
+
   it('should request password reset email on submit', () => {
     cy.get('cx-forgot-password form').within(() => {
       cy.get('[formcontrolname="userEmail"]').type(getRandomEmailAddress());
