@@ -39,7 +39,7 @@ export class CheckoutShippingAddressComponent implements OnInit, OnDestroy {
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
+    protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService
   ) {}
@@ -79,9 +79,11 @@ export class CheckoutShippingAddressComponent implements OnInit, OnDestroy {
     return combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
-      this.translation.translate('checkoutAddress.defaultShippingAddress'),
-      this.translation.translate('checkoutAddress.shipToThisAddress'),
-      this.translation.translate('addressCard.selected'),
+      this.translationService.translate(
+        'checkoutAddress.defaultShippingAddress'
+      ),
+      this.translationService.translate('checkoutAddress.shipToThisAddress'),
+      this.translationService.translate('addressCard.selected'),
     ]).pipe(
       tap(([addresses, selected]) =>
         this.selectDefaultAddress(addresses, selected)

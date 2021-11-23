@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { CheckoutDeliveryModeModule } from './checkout-delivery-mode/checkout-delivery-mode.module';
 import { CheckoutLoginModule } from './checkout-login/checkout-login.module';
@@ -15,7 +14,6 @@ import { CheckoutShippingAddressModule } from './checkout-shipping-address/check
 
 @NgModule({
   imports: [
-    CommonModule,
     CheckoutOrchestratorModule,
     CheckoutOrderSummaryModule,
     CheckoutProgressModule,

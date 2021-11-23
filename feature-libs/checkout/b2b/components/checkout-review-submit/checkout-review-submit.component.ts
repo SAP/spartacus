@@ -18,7 +18,6 @@ import {
   CostCenter,
   PaymentType,
   TranslationService,
-  UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
@@ -36,19 +35,17 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected userAddressService: UserAddressService,
     protected activeCartService: ActiveCartService,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected userCostCenterService: UserCostCenterService
   ) {
     super(
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
-      userAddressService,
       activeCartService,
       translationService,
       checkoutStepService,

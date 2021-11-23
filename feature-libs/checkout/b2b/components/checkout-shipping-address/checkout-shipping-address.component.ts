@@ -49,8 +49,8 @@ export class B2BCheckoutShippingAddressComponent
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutCostCenterFacade: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected userCostCenterService: UserCostCenterService
   ) {
     super(
       userAddressService,

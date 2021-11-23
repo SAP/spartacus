@@ -20,15 +20,12 @@ import {
   PaymentDetails,
   PromotionLocation,
   QueryState,
-  UserAddressService,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
-
-import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -122,13 +119,6 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   paymentProcessSuccess(): void {}
 }
 
-class MockUserAddressService implements Partial<UserAddressService> {
-  loadDeliveryCountries = createSpy();
-  getCountry(): Observable<Country> {
-    return addressBS.asObservable();
-  }
-}
-
 class MockActiveCartService implements Partial<ActiveCartService> {
   getActive(): Observable<Cart> {
     return of(mockCart);
@@ -204,7 +194,6 @@ describe('CheckoutReviewSubmitComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: ActiveCartService, useClass: MockActiveCartService },
           {
             provide: CheckoutStepService,

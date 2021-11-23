@@ -27,7 +27,6 @@ import {
   PaymentType,
   PromotionLocation,
   QueryState,
-  UserAddressService,
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
@@ -136,13 +135,6 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
     return of({ loading: false, error: false, data: mockPaymentDetails });
   }
   paymentProcessSuccess(): void {}
-}
-
-class MockUserAddressService {
-  loadDeliveryCountries = createSpy();
-  getCountry(): Observable<Country> {
-    return addressBS.asObservable();
-  }
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
@@ -258,7 +250,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: UserAddressService, useClass: MockUserAddressService },
           { provide: ActiveCartService, useClass: MockActiveCartService },
           {
             provide: CheckoutStepService,
