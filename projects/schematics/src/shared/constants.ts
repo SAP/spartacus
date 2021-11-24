@@ -22,6 +22,7 @@ export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
+export const SPARTACUS_EPD_VISUALIZATION = '@spartacus/epd-visualization';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
@@ -384,6 +385,7 @@ export const USER_PROFILE_FACADE = 'UserProfileFacade';
 export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
+export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -1085,6 +1087,7 @@ export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
 export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
+export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';

@@ -1,0 +1,7 @@
+@import './visual-picking/index';
+@import './visual-viewer/index';
+
+$epd-visualization-components-allowlist: cx-visual-viewer,
+  cx-visual-viewer-toolbar-button, cx-visual-picking-tab,
+  cx-visual-picking-product-filter, cx-visual-picking-product-list,
+  cx-visual-viewer-animation-slider, cx-paged-list !default;

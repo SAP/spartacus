@@ -4,8 +4,10 @@
     "module": "es2020",
     "outDir": "../../out-tsc/app",
     "strict": false, // TODO: Fix strict errors and remove this option
-    "types": [],
-    "target": "es2015"
+    "types": ["@sapui5/ts-types-esm"],
+    "target": "es2015",
+    "allowUmdGlobalAccess": true,
+    "skipLibCheck": true
   },
   "files": [
     "src/main.ts",
