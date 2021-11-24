@@ -20,3 +20,13 @@ export function visitCheckoutShippingAddressPage() {
     .should('eq', 200);
   cy.get('cx-shipping-address h2').should('contain', 'Shipping Address');
 }
+
+export function visitCheckoutDeliveryModePage() {
+  const deliveryModePage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryModePage'
+  );
+  cy.visit('/checkout/delivery-mode');
+  cy.wait(`@${deliveryModePage}`).its('response.statusCode').should('eq', 200);
+  cy.get('cx-delivery-mode h2').should('contain', 'Shipping Method');
+}

@@ -19,7 +19,7 @@ context('Checkout backoff test', () => {
       visitCartPage();
 
       checkoutBackoff.waitForShippingAddressdata();
-      checkoutBackoff.visitCheckoutShippingAddressPage();
+      checkoutBackoff.visitCheckoutDeliveryModePage();
     });
 
     it('should verify backoff mechanism in checkout', () => {
@@ -52,11 +52,25 @@ context('Checkout backoff test', () => {
         }
       ).as('test1err');
 
+      // cy.intercept(
+      //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      //     'BASE_SITE'
+      //   )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`
+      // ).as('test1err');
+
       cy.wait(3000);
 
-      cy.get('cx-shipping-address .cx-card-actions .cx-card-link').click({
-        force: true,
-      });
+      // shipping page, but not good cause it fires request twice :x
+      // cy.get('cx-shipping-address .cx-card-actions .cx-card-link').click({
+      //   force: true,
+      // });
+
+      // delvery method
+      cy.get('cx-delivery-mode input#deliveryMode-premium-gross')
+        .first()
+        .click({
+          force: true,
+        });
 
       cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
       cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
