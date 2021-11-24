@@ -85,8 +85,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
 
   protected checkoutQuery$: Query<CheckoutState | undefined> =
     this.queryService.create<CheckoutState | undefined>(
-      () => this.checkoutConnector.getCheckoutDetails('current', '00002062'),
-
+      () => this.checkoutConnector.getCheckoutDetails('current', '00002086'),
       {
         reloadOn: this.getQueryReloadTriggers(),
         resetOn: this.getQueryResetTriggers(),

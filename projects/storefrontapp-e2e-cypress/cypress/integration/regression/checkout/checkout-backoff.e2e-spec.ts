@@ -34,13 +34,14 @@ context('Checkout backoff test', () => {
             retry++;
             req.reply({
               statusCode: 400,
-              body: JSON.stringify(
-                {
-                  details: [{ type: 'JaloObjectNoLongerValidError' }],
-                },
-                null,
-                2
-              ),
+              body: {
+                errors: [
+                  {
+                    message: 'The application has encountered an error',
+                    type: 'JaloObjectNoLongerValidError',
+                  },
+                ],
+              },
             });
           } else {
             console.log('retry success', retry);
@@ -50,6 +51,8 @@ context('Checkout backoff test', () => {
           }
         }
       ).as('test1err');
+
+      cy.wait(3000);
 
       cy.get('cx-shipping-address .cx-card-actions .cx-card-link').click({
         force: true,
