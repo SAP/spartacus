@@ -1,15 +1,8 @@
-import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './configurator-textfield-input-field-readonly.component';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 describe('TextfieldInputFieldReadonlyComponent', () => {
   let component: ConfiguratorTextfieldInputFieldReadonlyComponent;
@@ -19,10 +12,8 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [
-          ConfiguratorTextfieldInputFieldReadonlyComponent,
-          MockTranslatePipe,
-        ],
+        imports: [I18nTestingModule],
+        declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
       });
     })
   );
@@ -70,6 +61,19 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   });
 
   describe('Accessibility', () => {
+    it("should contain span element with class name 'cx-visually-hidden' and its corresponding introduction text", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        undefined,
+        undefined,
+        undefined,
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123'
+      );
+    });
+
     it("should contain label element with 'aria-hidden' attribute and its 'true' value", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

@@ -1,17 +1,7 @@
-import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
-import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslatePipe implements PipeTransform {
-  transform(): any {}
-}
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;
@@ -21,18 +11,9 @@ describe('TextfieldInputFieldComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorTextfieldInputFieldComponent,
-          MockTranslatePipe,
-        ],
-      })
-        .overrideComponent(ConfiguratorTextfieldInputFieldComponent, {
-          set: {
-            changeDetection: ChangeDetectionStrategy.Default,
-          },
-        })
-        .compileComponents();
+        imports: [I18nTestingModule],
+        declarations: [ConfiguratorTextfieldInputFieldComponent],
+      });
     })
   );
 
@@ -70,7 +51,7 @@ describe('TextfieldInputFieldComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain label element with class name 'cx-configurator-textfield-label' and aria-label attribute", () => {
+    it("should contain label element with class name 'cx-configurator-textfield-label' and 'aria-label' attribute", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -82,7 +63,7 @@ describe('TextfieldInputFieldComponent', () => {
       );
     });
 
-    it("should contain input element with class name 'form-control' and aria-label attribute", () => {
+    it("should contain input element with class name 'form-control' and 'aria-label' attribute", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -90,7 +71,7 @@ describe('TextfieldInputFieldComponent', () => {
         'form-control',
         undefined,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull'
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123'
       );
     });
   });
