@@ -118,6 +118,9 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     if (event.type === 'keydown') {
       event.preventDefault();
     }
+    this.openNodes.forEach((node) =>
+      this.renderer.setAttribute(node.children[0], 'aria-expanded', 'false')
+    );
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
       if (event.type === 'keydown') {
@@ -128,6 +131,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
     } else {
       this.openNodes.push(node);
+      this.renderer.setAttribute(node.children[0], 'aria-expanded', 'true');
     }
 
     this.updateClasses();
@@ -148,6 +152,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
+    console.log('clear');
     this.openNodes = [];
     this.updateClasses();
   }
