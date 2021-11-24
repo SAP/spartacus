@@ -1,0 +1,42 @@
+<div
+  class="cx-visual-viewer-animation-slider"
+  [class.disabled]="disabled ? true : undefined"
+>
+  <div class="cx-visual-viewer-animation-slider-wrapper">
+    <span
+      cxVisualViewerAnimationSliderElement
+      #bar
+      class="
+        cx-visual-viewer-animation-slider-span
+        cx-visual-viewer-animation-slider-bar-wrapper
+      "
+    >
+      <span
+        class="
+          cx-visual-viewer-animation-slider-span
+          cx-visual-viewer-animation-slider-bar
+        "
+      ></span>
+    </span>
+
+    <span
+      cxVisualViewerAnimationSliderHandle
+      #handle
+      class="
+        cx-visual-viewer-animation-slider-span
+        cx-visual-viewer-animation-slider-pointer
+      "
+      [style.left]="(position | cxNumeric: '1.0-0') + 'px'"
+      [attr.role]="
+        'visualViewer.toolbar.visualViewerAnimationSlider.role' | cxTranslate
+      "
+      [attr.aria-label]="
+        'visualViewer.toolbar.visualViewerAnimationSlider.label' | cxTranslate
+      "
+      [attr.aria-valuenow]="value * 100 | cxNumeric: '1.0-0'"
+      [attr.aria-valuemin]="'0'"
+      [attr.aria-valuemax]="'100'"
+      [attr.tabindex]="disabled ? null : 0"
+    ></span>
+  </div>
+</div>

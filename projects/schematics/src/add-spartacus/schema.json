@@ -25,6 +25,7 @@
           "Checkout",
           "Order",
           "Digital-Payments",
+          "EPD-Visualization",
           "Administration",
           "Order-Approval",
           "Bulk-Pricing",
@@ -98,6 +99,10 @@
           {
             "value": "Digital-Payments",
             "label": "Digital Payments Integration"
+          },
+          {
+            "value": "EPD-Visualization",
+            "label": "EPD Visualization Integration"
           },
           {
             "value": "Administration",
