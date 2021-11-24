@@ -22,6 +22,11 @@ context('Applied promotions', () => {
         );
         cy.visit(`/product/${eosCameraProductCode}`);
         cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+        appliedPromotions.addProductToCart();
+        appliedPromotions.checkForAppliedPromotionsInCartModal(
+          appliedPromotions.eosCameraProductName
+        );
+        appliedPromotions.closeCartDialog();
       });
 
       beforeEach(() => {
