@@ -6,6 +6,6 @@ export const RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [];
 
 export function migrate(): Rule {
   return (tree: Tree) => {
-    return migrateRenamedSymbols(tree, [...RENAMED_SYMBOLS_DATA]);
+    return migrateRenamedSymbols(tree, RENAMED_SYMBOLS_DATA);
   };
 }
