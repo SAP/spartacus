@@ -5,7 +5,7 @@ import {
   HttpErrorModel,
   isJaloError,
 } from '@spartacus/core';
-import { defer, of, Subject } from 'rxjs';
+import { defer, of, Subject, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Query, QueryService, QueryState } from './query.service';
 
@@ -498,75 +498,87 @@ describe('QueryService', () => {
   });
 
   describe('when the backOff option is provided', () => {
+    const recoveredValue = 'xxx';
+    let calledTimes = -1;
     let backOffQuery: Query<string>;
-    let backOffLoadingStream$: Subject<string>;
 
-    beforeEach(() => {
-      backOffLoadingStream$ = new Subject<string>();
-      backOffQuery = service.create(() => defer(() => backOffLoadingStream$), {
-        retryOn: { shouldRetry: isJaloError },
+    describe('when it is able to recover', () => {
+      beforeEach(() => {
+        backOffQuery = service.create(
+          () =>
+            defer(() => {
+              calledTimes++;
+              if (calledTimes === 3) {
+                return of(recoveredValue);
+              }
+              return throwError(mockJaloError);
+            }),
+          {
+            retryOn: { shouldRetry: isJaloError },
+          }
+        );
       });
+
+      it('should be able to exponentially retry', fakeAsync(() => {
+        const emissions: QueryState<string>[] = [];
+        const subscription = backOffQuery
+          .getState()
+          .pipe(take(2))
+          .subscribe((state) => emissions.push(state));
+
+        // 1*1*300 + 2*2*300 + 3*3*300 = 4200
+        tick(4200);
+
+        expect(emissions).toEqual([
+          {
+            loading: true,
+            error: false,
+            data: undefined,
+          },
+          {
+            loading: false,
+            error: false,
+            data: recoveredValue,
+          },
+        ]);
+        subscription.unsubscribe();
+      }));
     });
 
-    xit('should exponentially retry and should be able to recover', fakeAsync(() => {
-      const recoveredValue = 'xxx';
-
-      const emissions: QueryState<string>[] = [];
-      const subscription = backOffQuery.getState().subscribe((state) => {
-        emissions.push(state);
+    describe('when it is NOT able to recover', () => {
+      beforeEach(() => {
+        backOffQuery = service.create(
+          () => defer(() => throwError(mockJaloError)),
+          {
+            retryOn: { shouldRetry: isJaloError },
+          }
+        );
       });
 
-      backOffLoadingStream$.error(mockJaloError);
+      it('should be able to exponentially retry but NOT recover', fakeAsync(() => {
+        const emissions: QueryState<string>[] = [];
+        const subscription = backOffQuery
+          .getState()
+          .pipe(take(2))
+          .subscribe((state) => emissions.push(state));
 
-      // retry 1/3 after 1*1*300 = 300ms
-      tick(300);
+        // 1*1*300 + 2*2*300 + 3*3*300 = 4200
+        tick(4200);
 
-      backOffLoadingStream$.next(recoveredValue);
-
-      // retry 2/3 after 2*2*300 = 1200ms
-      tick(1200);
-
-      expect(emissions).toEqual([
-        {
-          loading: true,
-          error: false,
-          data: undefined,
-        },
-        {
-          loading: false,
-          error: false,
-          data: recoveredValue,
-        },
-      ]);
-      subscription.unsubscribe();
-    }));
-
-    it('should re-throw if it does not recover', fakeAsync(() => {
-      const emissions: QueryState<string>[] = [];
-      const subscription = backOffQuery
-        .getState()
-        .pipe()
-        .subscribe((state) => emissions.push(state));
-
-      backOffLoadingStream$.error(mockJaloError);
-      // 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
-      tick(4200);
-
-      expect(emissions).toEqual([
-        // initial state
-        {
-          loading: true,
-          error: false,
-          data: undefined,
-        },
-        // the error
-        {
-          loading: false,
-          error: <Error>mockJaloError,
-          data: undefined,
-        },
-      ]);
-      subscription.unsubscribe();
-    }));
+        expect(emissions).toEqual([
+          {
+            loading: true,
+            error: false,
+            data: undefined,
+          },
+          {
+            loading: false,
+            error: <Error>mockJaloError,
+            data: undefined,
+          },
+        ]);
+        subscription.unsubscribe();
+      }));
+    });
   });
 });
