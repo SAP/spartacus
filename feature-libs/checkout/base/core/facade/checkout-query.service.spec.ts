@@ -107,6 +107,7 @@ describe(`CheckoutQueryService`, () => {
         .getCheckoutDetailsState()
         .subscribe((result) => (resultState = result));
 
+      // 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
       tick(4200);
 
       expect(resultState).toEqual({
