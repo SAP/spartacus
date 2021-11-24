@@ -102,7 +102,10 @@ export const configurator = {
       cartEntryInfo: 'Attribute {{ attribute }} has selected value {{value}}',
       nameOfAttribute: 'Name of Attribute',
       valueOfAttribute: 'Value of attribute {{ attribute }}',
+      forAttribute: '{{ value }} for attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      selectedValueOfAttributeFull:
+        'Selected value {{ value }} of attribute {{ attribute }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -112,6 +115,17 @@ export const configurator = {
       listOfAttributesAndValues: 'List of attributes and their values:',
       editAttributesAndValues: 'Edit values of attributes:',
       group: '{{ group }} group of attributes',
+      itemOfAttributeSelected:
+        'Item {{ item }} of attribute {{ attribute }} is selected',
+      itemOfAttributeSelectedPressToUnselect:
+        'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect.',
+      itemOfAttributeUnselected:
+        'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select.',
+      selectNoItemOfAttribute:
+        'To select no item for attribute {{ attribute }} press button.',
+      itemOfAttribute: 'Item of attribute {{ attribute }}',
+      itemDescription: 'Description for item {{ item }}',
+      listbox: 'Listbox with {{ count }} values.',
     },
   },
 };

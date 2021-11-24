@@ -25,6 +25,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       productBoundValue: value,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
     };
   }
 

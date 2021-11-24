@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -73,7 +74,7 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
           set: {

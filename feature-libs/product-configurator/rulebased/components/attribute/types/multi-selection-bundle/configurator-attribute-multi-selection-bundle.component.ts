@@ -191,6 +191,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       withQuantity: this.withQuantity,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
     };
   }
 }

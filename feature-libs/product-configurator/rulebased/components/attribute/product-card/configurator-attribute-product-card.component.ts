@@ -39,6 +39,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
    */
   loading$?: Observable<boolean>;
   attributeId: number;
+  attributeLabel?: string;
 }
 
 @Component({
