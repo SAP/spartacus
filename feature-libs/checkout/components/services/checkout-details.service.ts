@@ -14,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-  //distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -57,7 +56,6 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      //distinctUntilChanged(),
       tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
