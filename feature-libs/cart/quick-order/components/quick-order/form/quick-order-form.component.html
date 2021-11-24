@@ -8,6 +8,7 @@
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
+      aria-describedby="initialDescription"
       class="form-control"
       formControlName="product"
       placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
@@ -90,3 +91,14 @@
     </span>
   </div>
 </form>
+
+<span id="initialDescription" class="cx-visually-hidden">
+  {{ 'quickOrderForm.initialDescription' | cxTranslate }}
+</span>
+
+<div *ngIf="results.length" aria-live="assertive" class="cx-visually-hidden">
+  {{
+    'quickOrderForm.productsResults' | cxTranslate: { count: results.length }
+  }}
+  {{ 'quickOrderForm.initialDescription' | cxTranslate }}
+</div>
