@@ -15,6 +15,7 @@ import {
 import { CartItemContext } from '@spartacus/storefront';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
 import { ConfiguratorCartEntryInfoComponent } from './configurator-cart-entry-info.component';
 
@@ -40,6 +41,7 @@ class MockConfigureCartEntryComponent {
 describe('ConfiguratorCartEntryInfoComponent', () => {
   let component: ConfiguratorCartEntryInfoComponent;
   let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
+  let htmlElem: HTMLElement;
   let mockCartItemContext: MockCartItemContext;
 
   beforeEach(
@@ -68,6 +70,7 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     mockCartItemContext = TestBed.inject(CartItemContext) as any;
 
     fixture.detectChanges();
@@ -157,7 +160,6 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
       mockCartItemContext.readonly$.next(false);
 
       fixture.detectChanges();
-      const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('.cx-configuration-info').length).toBe(
         1
       );
@@ -237,6 +239,87 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         expect(
           htmlElem.querySelectorAll('cx-configure-cart-entry').length
         ).toBe(1);
+      });
+    });
+
+    describe('Accessibility', () => {
+      beforeEach(() => {
+        mockCartItemContext.item$.next({
+          statusSummaryList: undefined,
+          configurationInfos: [
+            {
+              configurationLabel: 'Color',
+              configurationValue: 'Blue',
+              configuratorType: ConfiguratorType.VARIANT,
+              status: 'WARNING',
+            },
+          ],
+        });
+        mockCartItemContext.readonly$.next(false);
+
+        fixture.detectChanges();
+      });
+
+      it("should contain span element with class name 'cx-visually-hidden' that contains a hidden introduction", function () {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          0,
+          undefined,
+          undefined,
+          'configurator.a11y.cartEntryInfoIntro'
+        );
+      });
+
+      it("should contain div element with 'cx-configuration-info' and aria-describedby attribute that refers to a corresponding attribute-value pair", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-configuration-info',
+          undefined,
+          'aria-describedby',
+          'cx-configuration-hidden-info-0'
+        );
+      });
+
+      it("should contain span element with class name 'cx-visually-hidden' that refers to a corresponding attribute-value pair", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          1,
+          undefined,
+          undefined,
+          'configurator.a11y.cartEntryInfo'
+        );
+      });
+
+      it('should contain div elements for label and value with corresponding content', () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-label',
+          undefined,
+          'aria-hidden',
+          'true',
+          'Color'
+        );
+
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-value',
+          undefined,
+          'aria-hidden',
+          'true',
+          'Blue'
+        );
       });
     });
   });
