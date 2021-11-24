@@ -61,7 +61,7 @@ export class CheckoutAuthGuard implements CanActivate {
                 this.semanticPathService.get('login')
               );
             }
-          } else if ('roles' in user) {
+          } else if (user && 'roles' in user) {
             const roles = (<B2BUser>user).roles;
             if (roles.includes(B2BUserRole.CUSTOMER)) {
               return true;
