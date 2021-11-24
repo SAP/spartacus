@@ -15,6 +15,14 @@
         (change)="onSelect()"
         [formControl]="attributeCheckBoxForm"
         name="{{ createAttributeIdForConfigurator(attribute) }}"
+        [attr.aria-label]="
+          'configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute?.values[0].valueDisplay,
+                  attribute: attribute.label
+                }
+        "
       />
       <label
         id="{{
@@ -30,6 +38,7 @@
             attribute?.values[0].valueCode
           )
         }}"
+        aria-hidden="true"
         class="form-check-label"
         >{{ attribute?.values[0].valueDisplay }}</label
       >
@@ -59,6 +68,14 @@
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
+            [attr.aria-label]="
+              'configurator.a11y.valueOfAttributeFull'
+                | cxTranslate
+                  : {
+                      value: attribute?.values[0].valueDisplay,
+                      attribute: attribute.label
+                    }
+            "
           />
           <label
             id="{{
@@ -74,6 +91,7 @@
                 attribute?.values[0].valueCode
               )
             }}"
+            aria-hidden="true"
             class="form-check-label"
             >{{ attribute?.values[0].valueDisplay }}</label
           >

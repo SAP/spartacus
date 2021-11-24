@@ -15,8 +15,10 @@
       [formControl]="attributeCheckBoxForms[i]"
       name="{{ createAttributeIdForConfigurator(attribute) }}"
       (click)="onSelect(i)"
-      [attr.aria-labelledby]="
-        createValueUiKey('label', attribute.name, value.valueCode)
+      [attr.aria-label]="
+        'configurator.a11y.valueOfAttributeFull'
+          | cxTranslate
+            : { value: value.valueDisplay, attribute: attribute.label }
       "
       [attr.aria-checked]="attributeCheckBoxForms[i].value"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
@@ -28,6 +30,7 @@
           createAttributeValueIdForConfigurator(attribute, value.valueCode) +
             '-input'
         }}"
+        aria-hidden="true"
         class="form-check-label"
       >
         <img

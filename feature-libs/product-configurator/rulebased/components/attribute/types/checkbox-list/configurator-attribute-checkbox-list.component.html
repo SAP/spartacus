@@ -29,6 +29,11 @@
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForms[i]"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
+            [attr.aria-label]="
+              'configurator.a11y.valueOfAttributeFull'
+                | cxTranslate
+                  : { value: value.valueDisplay, attribute: attribute.label }
+            "
           />
           <label
             id="{{
@@ -37,6 +42,7 @@
             for="{{
               createAttributeValueIdForConfigurator(attribute, value.valueCode)
             }}"
+            aria-hidden="true"
             class="cx-configurator-attribute-value-label form-check-label"
             >{{ value.valueDisplay }}</label
           >

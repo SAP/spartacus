@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorAttributeReadOnlyComponent } from './configurator-attribute-read-only.component';
@@ -26,7 +27,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorAttributeReadOnlyComponent],
-        imports: [ReactiveFormsModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeReadOnlyComponent, {
           set: {

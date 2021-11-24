@@ -7,7 +7,20 @@
     attr.aria-required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
-    attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
+    [attr.aria-label]="
+      attribute.userInput?.length === 0
+        ? ('configurator.a11y.valueOfAttributeBlank'
+          | cxTranslate
+            : {
+                attribute: attribute.label
+              })
+        : ('configurator.a11y.valueOfAttributeFull'
+          | cxTranslate
+            : {
+                value: attribute.userInput,
+                attribute: attribute.label
+              })
+    "
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"
