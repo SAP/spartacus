@@ -1,10 +1,10 @@
+import { user } from '../sample-data/checkout-flow';
 import {
   AddressData,
   fillPaymentDetails,
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { user } from '../sample-data/checkout-flow';
 import * as configurationCart from './product-configurator-cart';
 
 const shippingAddressData: AddressData = user;
@@ -23,7 +23,7 @@ export function checkNotificationBanner(
 ): void {
   const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
-    .get('.cx-error-msg')
+    .get('#cx-error-msg')
     .first()
     .invoke('text')
     .then((text) => {
