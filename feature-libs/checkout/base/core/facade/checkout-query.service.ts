@@ -26,7 +26,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
@@ -83,24 +83,14 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     ];
   }
 
-  // protected checkoutQuery$: Query<CheckoutState | undefined> =
-  //   this.queryService.create<CheckoutState | undefined>(
-  //     () =>
-  //       this.checkoutPreconditions().pipe(
-  //         switchMap(([userId, cartId]) =>
-  //           this.checkoutConnector.getCheckoutDetails(userId, cartId)
-  //         )
-  //       ),
-  //     {
-  //       reloadOn: this.getQueryReloadTriggers(),
-  //       resetOn: this.getQueryResetTriggers(),
-  //       retryOn: { shouldRetry: isJaloError },
-  //     }
-  //   );
-
   protected checkoutQuery$: Query<CheckoutState | undefined> =
     this.queryService.create<CheckoutState | undefined>(
-      () => this.checkoutConnector.getCheckoutDetails('current', '00002094'),
+      () =>
+        this.checkoutPreconditions().pipe(
+          switchMap(([userId, cartId]) =>
+            this.checkoutConnector.getCheckoutDetails(userId, cartId)
+          )
+        ),
       {
         reloadOn: this.getQueryReloadTriggers(),
         resetOn: this.getQueryResetTriggers(),

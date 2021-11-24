@@ -8,7 +8,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { defer, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutQueryService } from './checkout-query.service';
@@ -117,22 +117,22 @@ describe(`CheckoutQueryService`, () => {
       subscription.unsubscribe();
     }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
-      spyOn(connector, 'getCheckoutDetails').and.returnValues(
-        // first attempt
-        throwError(mockJaloError),
-        // second attempt
-        throwError(mockJaloError),
-        // third time the charm
-        of(mockCheckoutState)
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+      spyOn(connector, 'getCheckoutDetails').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(mockCheckoutState);
+          }
+          return throwError(mockJaloError);
+        })
       );
 
       let resultState: QueryState<CheckoutState | undefined> | undefined;
       const subscription = service
         .getCheckoutDetailsState()
-        .subscribe((result) => {
-          return (resultState = result);
-        });
+        .subscribe((result) => (resultState = result));
 
       // 1*1*300 = 300
       tick(300);
@@ -144,6 +144,14 @@ describe(`CheckoutQueryService`, () => {
 
       // 2*2*300 = 1200
       tick(1200);
+      expect(resultState).toEqual({
+        loading: true,
+        error: false,
+        data: undefined,
+      });
+
+      // 3*3*300 = 2700
+      tick(2700);
       expect(resultState).toEqual({
         loading: false,
         error: false,

@@ -20,7 +20,7 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { defer, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -171,21 +171,22 @@ describe(`CheckoutPaymentService`, () => {
       subscription.unsubscribe();
     }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
-      spyOn(connector, 'getCardTypes').and.returnValues(
-        // first attempt
-        throwError(mockJaloError),
-        // second attempt
-        throwError(mockJaloError),
-        // third time the charm
-        of(mockCardTypes)
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+      spyOn(connector, 'getCardTypes').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(mockCardTypes);
+          }
+          return throwError(mockJaloError);
+        })
       );
 
       let resultState: QueryState<CardType[] | undefined> | undefined;
-      const subscription = service.getCardTypesState().subscribe((result) => {
-        console.log('res', result);
-        return (resultState = result);
-      });
+      const subscription = service
+        .getCardTypesState()
+        .subscribe((result) => (resultState = result));
 
       // 1*1*300 = 300
       tick(300);
@@ -197,6 +198,14 @@ describe(`CheckoutPaymentService`, () => {
 
       // 2*2*300 = 1200
       tick(1200);
+      expect(resultState).toEqual({
+        loading: true,
+        error: false,
+        data: undefined,
+      });
+
+      // 3*3*300 = 2700
+      tick(2700);
       expect(resultState).toEqual({
         loading: false,
         error: false,

@@ -18,7 +18,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { defer, Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
@@ -169,23 +169,22 @@ describe(`CheckoutDeliveryModesService`, () => {
       subscription.unsubscribe();
     }));
 
-    fit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
-      spyOn(connector, 'getSupportedModes').and.returnValues(
-        // first attempt
-        throwError(mockJaloError),
-        // second attempt
-        throwError(mockJaloError),
-        // third time the charm
-        of(mockSupportedDeliveryModes)
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+      spyOn(connector, 'getSupportedModes').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(mockSupportedDeliveryModes);
+          }
+          return throwError(mockJaloError);
+        })
       );
 
       let resultState: QueryState<DeliveryMode[] | undefined> | undefined;
       const subscription = service
         .getSupportedDeliveryModesState()
-        .subscribe((result) => {
-          console.log('delviery mode res', result);
-          return (resultState = result);
-        });
+        .subscribe((result) => (resultState = result));
 
       // 1*1*300 = 300
       tick(300);
@@ -197,6 +196,14 @@ describe(`CheckoutDeliveryModesService`, () => {
 
       // 2*2*300 = 1200
       tick(1200);
+      expect(resultState).toEqual({
+        loading: true,
+        error: false,
+        data: undefined,
+      });
+
+      // 3*3*300 = 2700
+      tick(2700);
       expect(resultState).toEqual({
         loading: false,
         error: false,
