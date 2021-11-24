@@ -1,28 +1,31 @@
 import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldInputFieldComponent } from './configurator-textfield-input-field.component';
 
 @Pipe({
   name: 'cxTranslate',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
 describe('TextfieldInputFieldComponent', () => {
   let component: ConfiguratorTextfieldInputFieldComponent;
-
   let fixture: ComponentFixture<ConfiguratorTextfieldInputFieldComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
           ConfiguratorTextfieldInputFieldComponent,
-          MockTranslateUrlPipe,
+          MockTranslatePipe,
         ],
-        imports: [ReactiveFormsModule],
       })
         .overrideComponent(ConfiguratorTextfieldInputFieldComponent, {
           set: {
@@ -36,6 +39,7 @@ describe('TextfieldInputFieldComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldInputFieldComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     component.attribute = {
       configurationLabel: 'attributeName',
       configurationValue: 'input123',
@@ -63,5 +67,31 @@ describe('TextfieldInputFieldComponent', () => {
     expect(component.getId(component.attribute)).toEqual(
       'cx-configurator-textfieldattributeName'
     );
+  });
+
+  fdescribe('Accessibility', () => {
+    it("should contain label element with class name 'cx-configurator-textfield-label' and aria-label attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'cx-configurator-textfield-label',
+        undefined,
+        'aria-label',
+        'configurator.a11y.nameOfAttribute'
+      );
+    });
+
+    it("should contain input element with class name 'form-control' and aria-label attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        undefined,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull'
+      );
+    });
   });
 });

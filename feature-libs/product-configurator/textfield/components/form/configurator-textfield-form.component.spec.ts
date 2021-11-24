@@ -6,18 +6,21 @@ import {
   I18nTestingModule,
   RouterState,
   RoutingService,
+  LanguageService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
+  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { PageLayoutModule } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorTextfieldService } from '../../core/facade/configurator-textfield.service';
 import { ConfiguratorTextfield } from '../../core/model/configurator-textfield.model';
 import { ConfiguratorTextfieldAddToCartButtonComponent } from '../add-to-cart-button/configurator-textfield-add-to-cart-button.component';
 import { ConfiguratorTextfieldInputFieldComponent } from '../input-field/configurator-textfield-input-field.component';
+import { ConfiguratorTextfieldInputFieldReadonlyComponent } from '../input-field-readonly/configurator-textfield-input-field-readonly.component';
 import { ConfiguratorTextfieldFormComponent } from './configurator-textfield-form.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -69,29 +72,33 @@ class MockConfiguratorTextfieldService {
 @Pipe({
   name: 'cxTranslate',
 })
-class MockTranslateUrlPipe implements PipeTransform {
+class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('TextfieldFormComponent', () => {
+fdescribe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
+  let routerExtractorService: ConfiguratorRouterExtractorService;
+  let htmlElem: HTMLElement;
+  let mockLanguageService;
 
   beforeEach(
     waitForAsync(() => {
+      mockLanguageService = {
+        getAll: () => of([]),
+        getActive: jasmine.createSpy().and.returnValue(of('en')),
+      };
+
       TestBed.configureTestingModule({
-        imports: [
-          I18nTestingModule,
-          ReactiveFormsModule,
-          NgSelectModule,
-          PageLayoutModule,
-        ],
+        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
         declarations: [
           ConfiguratorTextfieldFormComponent,
           ConfiguratorTextfieldInputFieldComponent,
           ConfiguratorTextfieldAddToCartButtonComponent,
-          MockTranslateUrlPipe,
+          ConfiguratorTextfieldInputFieldReadonlyComponent,
+          MockTranslatePipe,
         ],
         providers: [
           {
@@ -102,6 +109,7 @@ describe('TextfieldFormComponent', () => {
             provide: ConfiguratorTextfieldService,
             useClass: MockConfiguratorTextfieldService,
           },
+          { provide: LanguageService, useValue: mockLanguageService },
         ],
       }).compileComponents();
     })
@@ -109,9 +117,23 @@ describe('TextfieldFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorTextfieldFormComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     textfieldService = TestBed.inject(
       ConfiguratorTextfieldService as Type<ConfiguratorTextfieldService>
     );
+
+    spyOn(textfieldService, 'createConfiguration').and.callThrough();
+
+    spyOn(textfieldService, 'readConfigurationForCartEntry').and.callThrough();
+
+    spyOn(textfieldService, 'readConfigurationForOrderEntry').and.callThrough();
+
+    spyOn(textfieldService, 'updateConfiguration').and.callThrough();
+
+    routerExtractorService = TestBed.inject(
+      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
+    );
+    spyOn(routerExtractorService, 'extractRouterData').and.callThrough();
   });
 
   it('should create component', () => {
@@ -166,7 +188,6 @@ describe('TextfieldFormComponent', () => {
   });
 
   it('should call update configuration on facade in case it was triggered on component', () => {
-    spyOn(textfieldService, 'updateConfiguration').and.callThrough();
     component.updateConfiguration(productConfig.configurationInfos[0]);
     expect(textfieldService.updateConfiguration).toHaveBeenCalledTimes(1);
   });
@@ -199,5 +220,43 @@ describe('TextfieldFormComponent', () => {
         b: false,
       })
     );
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      mockRouterState.state = {
+        params: {
+          ownerType: CommonConfigurator.OwnerType.PRODUCT,
+          entityKey: PRODUCT_CODE,
+        },
+        semanticRoute: ROUTE_CONFIGURATION,
+      };
+    });
+
+    it("should contain span element with class name 'cx-visually-hidden' and a hidden introduction text", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.editAttributesAndValues'
+      );
+    });
+
+    it("should contain span element with class name 'cx-visually-hidden' and a hidden list of attributes and values text", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        1,
+        undefined,
+        undefined,
+        'configurator.a11y.listOfAttributesAndValues'
+      );
+    });
   });
 });
