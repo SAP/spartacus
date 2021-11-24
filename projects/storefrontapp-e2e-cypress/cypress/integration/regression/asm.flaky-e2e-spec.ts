@@ -19,7 +19,6 @@ context('ASM e2e Test', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.window().then((win) => win.localStorage.clear());
       cy.clearLocalStorageMemory();
-
       checkout.visitHomePage();
       cy.onMobile(() => {
         isMobile = true;
