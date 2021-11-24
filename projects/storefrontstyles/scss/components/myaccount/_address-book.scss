@@ -10,4 +10,10 @@
   .cx-form {
     padding-top: 30px;
   }
+
+  @include forVersion(4.2) {
+    .cx-address-card {
+      padding-bottom: 30px;
+    }
+  }
 }
