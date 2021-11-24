@@ -12,6 +12,8 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouterExtractorService,
+  ConfiguratorRouter,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -29,11 +31,25 @@ const ORDER_ENTRY_KEY = '00100/3';
 const ATTRIBUTE_NAME = 'AttributeName';
 const ROUTE_CONFIGURATION = 'configureTEXTFIELD';
 const ROUTE_CONFIGURATION_OVERVIEW = 'configureOverviewTEXTFIELD';
+
+const mockRouterData: any = {
+  pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+  isOwnerCartEntry: false,
+  owner: {
+    type: CommonConfigurator.OwnerType.PRODUCT,
+    id: PRODUCT_CODE,
+    configuratorType: ConfiguratorType.TEXTFIELD,
+  },
+  semanticRoute: ROUTE_CONFIGURATION,
+};
+
 const mockRouterState: any = {
   state: {
     params: {
       ownerType: CommonConfigurator.OwnerType.PRODUCT,
       entityKey: PRODUCT_CODE,
+      configuratorType: ConfiguratorType.TEXTFIELD,
+      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
     },
     semanticRoute: ROUTE_CONFIGURATION,
   },
@@ -76,11 +92,16 @@ class MockTranslatePipe implements PipeTransform {
   transform(): any {}
 }
 
-fdescribe('TextfieldFormComponent', () => {
+class MockConfiguratorRouterExtractorService {
+  extractRouterData(): Observable<ConfiguratorRouter.Data> {
+    return of(mockRouterData);
+  }
+}
+
+describe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
   let textfieldService: ConfiguratorTextfieldService;
-  let routerExtractorService: ConfiguratorRouterExtractorService;
   let htmlElem: HTMLElement;
   let mockLanguageService;
 
@@ -109,6 +130,10 @@ fdescribe('TextfieldFormComponent', () => {
             provide: ConfiguratorTextfieldService,
             useClass: MockConfiguratorTextfieldService,
           },
+          {
+            provide: ConfiguratorRouterExtractorService,
+            useClass: MockConfiguratorRouterExtractorService,
+          },
           { provide: LanguageService, useValue: mockLanguageService },
         ],
       }).compileComponents();
@@ -129,11 +154,6 @@ fdescribe('TextfieldFormComponent', () => {
     spyOn(textfieldService, 'readConfigurationForOrderEntry').and.callThrough();
 
     spyOn(textfieldService, 'updateConfiguration').and.callThrough();
-
-    routerExtractorService = TestBed.inject(
-      ConfiguratorRouterExtractorService as Type<ConfiguratorRouterExtractorService>
-    );
-    spyOn(routerExtractorService, 'extractRouterData').and.callThrough();
   });
 
   it('should create component', () => {

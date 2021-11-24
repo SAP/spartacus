@@ -69,7 +69,7 @@ describe('TextfieldInputFieldComponent', () => {
     );
   });
 
-  fdescribe('Accessibility', () => {
+  describe('Accessibility', () => {
     it("should contain label element with class name 'cx-configurator-textfield-label' and aria-label attribute", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
