@@ -83,9 +83,24 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     ];
   }
 
+  // protected checkoutQuery$: Query<CheckoutState | undefined> =
+  //   this.queryService.create<CheckoutState | undefined>(
+  //     () =>
+  //       this.checkoutPreconditions().pipe(
+  //         switchMap(([userId, cartId]) =>
+  //           this.checkoutConnector.getCheckoutDetails(userId, cartId)
+  //         )
+  //       ),
+  //     {
+  //       reloadOn: this.getQueryReloadTriggers(),
+  //       resetOn: this.getQueryResetTriggers(),
+  //       retryOn: { shouldRetry: isJaloError },
+  //     }
+  //   );
+
   protected checkoutQuery$: Query<CheckoutState | undefined> =
     this.queryService.create<CheckoutState | undefined>(
-      () => this.checkoutConnector.getCheckoutDetails('current', '00002086'),
+      () => this.checkoutConnector.getCheckoutDetails('current', '00002094'),
       {
         reloadOn: this.getQueryReloadTriggers(),
         resetOn: this.getQueryResetTriggers(),
