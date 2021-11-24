@@ -5,6 +5,7 @@ import {
   ActiveCartService,
   Address,
   DeliveryMode,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
   StateUtils,
@@ -12,7 +13,14 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  filter,
+  pluck,
+  shareReplay,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -220,25 +228,25 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
 
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
       if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetDeliveryMode({
-            userId,
-            cartId,
-            selectedModeId: mode,
-          })
-        );
+        this.activeCartService
+          .isStable()
+          .pipe(
+            filter((isStable) => isStable),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetDeliveryMode({
+                userId,
+                cartId,
+                selectedModeId: mode,
+              })
+            );
+          });
       }
     }
   }
