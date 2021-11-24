@@ -17,6 +17,7 @@ SPARTACUS_PROJECTS=(
         "projects/schematics"
         "integration-libs/cds"
         "integration-libs/cdc"
+        "integration-libs/epd-visualization"
         "core-libs/setup"
         "feature-libs/asm"
         "feature-libs/organization"

@@ -180,7 +180,7 @@ function publish_package {
 function restore_clone {
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]} 
+        for path in ${SPARTACUS_PROJECTS[@]}
         do
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
@@ -242,6 +242,7 @@ function install_from_sources {
         'smartedit'
         'cds'
         'cdc'
+        'epd-visualization'
         'product-configurator'
     )
 
@@ -251,11 +252,11 @@ function install_from_sources {
     )
 
     for package in ${dist_packages[@]}; do
-        publish_dist_package ${package} 
+        publish_dist_package ${package}
     done
 
     for package in ${packages[@]}; do
-        publish_package ${package} 
+        publish_package ${package}
     done
 
     create_apps
