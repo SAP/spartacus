@@ -139,5 +139,6 @@ Usages of CART:
 
 ### Test
 
-- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 and  https://github.com/SAP/spartacus/issues/14386
+- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 - https://github.com/SAP/spartacus/issues/14386
 
+- express checkout update - might not need to update 'new' checkout - https://github.com/SAP/spartacus/pull/14418/files
