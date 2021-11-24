@@ -12,6 +12,7 @@ import {
   CommandStrategy,
   CurrencySetEvent,
   EventService,
+  isJaloError,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -41,6 +42,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     {
       reloadOn: this.getPaymentTypesQueryReloadEvents(),
       resetOn: this.getPaymentTypesQueryResetEvents(),
+      retryOn: { shouldRetry: isJaloError },
     }
   );
 
@@ -111,10 +113,12 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     );
   }
 
+  getPaymentTypesState(): Observable<QueryState<PaymentType[] | undefined>> {
+    return this.paymentTypesQuery.getState();
+  }
+
   getPaymentTypes(): Observable<PaymentType[]> {
-    return this.paymentTypesQuery
-      .get()
-      .pipe(map((paymentTypes) => paymentTypes ?? []));
+    return this.getPaymentTypesState().pipe(map((state) => state.data ?? []));
   }
 
   setPaymentType(
@@ -141,8 +145,6 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
       map((state) => state.data?.code === B2BPaymentTypeEnum.ACCOUNT_PAYMENT)
     );
   }
-
-  // TODO:#checkout - add isCreditCardPayment()?
 
   getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
     return this.checkoutQueryFacade
