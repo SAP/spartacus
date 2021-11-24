@@ -12,7 +12,7 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -20,6 +20,7 @@ import {
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { CheckoutService } from './checkout.service';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
@@ -27,7 +28,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -113,10 +115,12 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
       const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
 
       if (userId && cartId) {
-        this.activeCartService
-          .isStable()
+        combineLatest([
+          this.activeCartService.isStable(),
+          this.checkoutService.isLoading(),
+        ])
           .pipe(
-            filter((isStable) => isStable),
+            filter(([isStable, isLoading]) => isStable && !isLoading),
             take(1)
           )
           .subscribe(() => {

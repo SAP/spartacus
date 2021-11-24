@@ -117,7 +117,8 @@ export class ExpressCheckoutService {
           }
           return of(false);
         }
-      )
+      ),
+      distinctUntilChanged()
     );
   }
 
@@ -234,7 +235,6 @@ export class ExpressCheckoutService {
                 ([, , supportedDeliveryModeStatus]: any) =>
                   supportedDeliveryModeStatus.success ?? false
               ),
-              distinctUntilChanged(),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
                   DeliveryMode[],
@@ -299,7 +299,8 @@ export class ExpressCheckoutService {
             return of(false);
           }
         }
-      )
+      ),
+      distinctUntilChanged()
     );
   }
 
