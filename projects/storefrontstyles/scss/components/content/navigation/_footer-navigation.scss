@@ -9,14 +9,11 @@
 
   cx-navigation-ui {
     // first level heading / links
-    button {
-    //span {
+    span {
       text-transform: uppercase;
       @include type('5');
       margin-bottom: 20px;
       display: block;
-      color: var(--cx-color-inverse);
-      cursor: text !important;
     }
 
     justify-content: center;

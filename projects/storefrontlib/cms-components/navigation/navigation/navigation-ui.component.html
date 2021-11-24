@@ -3,10 +3,10 @@
   class="back is-open"
   (click)="back()"
 >
-  <span>
+  <button>
     <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
     {{ 'common.back' | cxTranslate }}
-  </span>
+  </button>
 </div>
 
 <ng-container *ngFor="let child of node?.children">
@@ -40,25 +40,21 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <!--      <span [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1" [attr.aria-expanded]="isOpen">-->
-      <!--        {{ node.title }}-->
-      <!--        <cx-icon-->
-      <!--          *ngIf="flyout && node.children?.length > 0"-->
-      <!--          [type]="iconType.CARET_DOWN"-->
-      <!--        ></cx-icon>-->
-      <!--      </span>-->
-
-      <button
-        [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
-        [attr.aria-haspopup]="true"
-        [attr.aria-expanded]="isOpen"
-      >
-        {{ node.title }}
-        <cx-icon
-          *ngIf="flyout && node.children?.length > 0"
-          [type]="iconType.CARET_DOWN"
-        ></cx-icon>
-      </button>
+      <ng-container *ngIf="flyout && node.children?.length > 0; else span">
+        <button
+          [attr.tabindex]="0"
+          [attr.aria-haspopup]="true"
+          [attr.aria-expanded]="isOpen"
+        >
+          {{ node.title }}
+          <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+        </button>
+      </ng-container>
+      <ng-template #span>
+        <span [attr.tabindex]="-1">
+          {{ node.title }}
+        </span>
+      </ng-template>
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
