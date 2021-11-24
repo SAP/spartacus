@@ -1,5 +1,5 @@
 import { AbstractType, Type } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   CheckoutQueryFacade,
@@ -13,12 +13,11 @@ import {
   CartActions,
   DeliveryMode,
   EventService,
-  HttpErrorModel,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
@@ -35,9 +34,6 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
     code: 'test-delivery-code-2',
   },
 ];
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
-};
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   takeActiveCartId(): Observable<string> {
@@ -148,70 +144,6 @@ describe(`CheckoutDeliveryModesService`, () => {
           done();
         });
     });
-
-    it(`should unsuccessfully backOff on Jalo error and put the error in the state`, fakeAsync(() => {
-      spyOn(connector, 'getSupportedModes').and.returnValue(
-        throwError(mockJaloError)
-      );
-
-      let resultState: QueryState<DeliveryMode[] | undefined> | undefined;
-      const subscription = service
-        .getSupportedDeliveryModesState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
-      tick(4200);
-
-      expect(resultState).toEqual({
-        loading: false,
-        error: <Error>mockJaloError,
-        data: undefined,
-      });
-      subscription.unsubscribe();
-    }));
-
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
-      spyOn(connector, 'getSupportedModes').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(mockSupportedDeliveryModes);
-          }
-          return throwError(mockJaloError);
-        })
-      );
-
-      let resultState: QueryState<DeliveryMode[] | undefined> | undefined;
-      const subscription = service
-        .getSupportedDeliveryModesState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 = 300
-      tick(300);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 3*3*300 = 2700
-      tick(2700);
-      expect(resultState).toEqual({
-        loading: false,
-        error: false,
-        data: mockSupportedDeliveryModes,
-      });
-      subscription.unsubscribe();
-    }));
   });
 
   describe(`getSupportedDeliveryModes`, () => {
@@ -358,7 +290,7 @@ describe(`CheckoutDeliveryModesService`, () => {
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should reload cart on error`, () => {
       spyOn(connector, 'clearCheckoutDeliveryMode').and.returnValue(
-        throwError(mockJaloError)
+        throwError('err')
       );
       spyOn(store, 'dispatch').and.stub();
 

@@ -12,7 +12,6 @@ import {
   CommandStrategy,
   CurrencySetEvent,
   EventService,
-  isJaloError,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
@@ -42,7 +41,6 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
     {
       reloadOn: this.getPaymentTypesQueryReloadEvents(),
       resetOn: this.getPaymentTypesQueryResetEvents(),
-      retryOn: { shouldRetry: isJaloError },
     }
   );
 

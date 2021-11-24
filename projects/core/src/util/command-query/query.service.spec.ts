@@ -1,20 +1,12 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import {
-  CxEvent,
-  EventService,
-  HttpErrorModel,
-  isJaloError,
-} from '@spartacus/core';
-import { defer, of, Subject, throwError } from 'rxjs';
+import { TestBed } from '@angular/core/testing';
+import { CxEvent, EventService } from '@spartacus/core';
+import { defer, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { Query, QueryService, QueryState } from './query.service';
 
 class ReloadEvent extends CxEvent {
   static readonly type = 'TestingEvent';
 }
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
-};
 
 describe('QueryService', () => {
   let service: QueryService;
@@ -464,121 +456,6 @@ describe('QueryService', () => {
 
         loadingStream$.next('new-value');
       });
-    });
-
-    describe('when the back-off option is NOT provided', () => {
-      it('should not exponentially retry', (done) => {
-        const state$ = query.getState();
-        const emissions: QueryState<string>[] = [];
-        state$.pipe(take(2)).subscribe((state) => {
-          emissions.push(state);
-
-          if (emissions.length === 2) {
-            expect(loaderFactoryCalls).toBe(1);
-            expect(emissions).toEqual([
-              // first emission should already present loading state
-              {
-                loading: true,
-                error: false,
-                data: undefined,
-              },
-              {
-                loading: false,
-                error: <Error>mockJaloError,
-                data: undefined,
-              },
-            ]);
-            done();
-          }
-        });
-
-        loadingStream$.error(mockJaloError);
-      });
-    });
-  });
-
-  describe('when the backOff option is provided', () => {
-    const recoveredValue = 'xxx';
-    let calledTimes = -1;
-    let backOffQuery: Query<string>;
-
-    describe('when it is able to recover', () => {
-      beforeEach(() => {
-        backOffQuery = service.create(
-          () =>
-            defer(() => {
-              calledTimes++;
-              if (calledTimes === 3) {
-                return of(recoveredValue);
-              }
-              return throwError(mockJaloError);
-            }),
-          {
-            retryOn: { shouldRetry: isJaloError },
-          }
-        );
-      });
-
-      it('should be able to exponentially retry', fakeAsync(() => {
-        const emissions: QueryState<string>[] = [];
-        const subscription = backOffQuery
-          .getState()
-          .pipe(take(2))
-          .subscribe((state) => emissions.push(state));
-
-        // 1*1*300 + 2*2*300 + 3*3*300 = 4200
-        tick(4200);
-
-        expect(emissions).toEqual([
-          {
-            loading: true,
-            error: false,
-            data: undefined,
-          },
-          {
-            loading: false,
-            error: false,
-            data: recoveredValue,
-          },
-        ]);
-        subscription.unsubscribe();
-      }));
-    });
-
-    describe('when it is NOT able to recover', () => {
-      beforeEach(() => {
-        backOffQuery = service.create(
-          () => defer(() => throwError(mockJaloError)),
-          {
-            retryOn: { shouldRetry: isJaloError },
-          }
-        );
-      });
-
-      it('should be able to exponentially retry but NOT recover', fakeAsync(() => {
-        const emissions: QueryState<string>[] = [];
-        const subscription = backOffQuery
-          .getState()
-          .pipe(take(2))
-          .subscribe((state) => emissions.push(state));
-
-        // 1*1*300 + 2*2*300 + 3*3*300 = 4200
-        tick(4200);
-
-        expect(emissions).toEqual([
-          {
-            loading: true,
-            error: false,
-            data: undefined,
-          },
-          {
-            loading: false,
-            error: <Error>mockJaloError,
-            data: undefined,
-          },
-        ]);
-        subscription.unsubscribe();
-      }));
     });
   });
 });

@@ -1,14 +1,13 @@
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   Cart,
-  HttpErrorModel,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutQueryService } from './checkout-query.service';
@@ -19,9 +18,6 @@ const mockCheckoutState: CheckoutState = {
   deliveryAddress: { id: 'mockAddressId' },
   deliveryMode: { code: 'mockDeliveryModeCore' },
   paymentInfo: { id: 'mockPaymentId' },
-};
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
@@ -96,69 +92,5 @@ describe(`CheckoutQueryService`, () => {
           done();
         });
     });
-
-    it(`should unsuccessfully backOff on Jalo error and put the error in the state`, fakeAsync(() => {
-      spyOn(connector, 'getCheckoutDetails').and.returnValue(
-        throwError(mockJaloError)
-      );
-
-      let resultState: QueryState<CheckoutState | undefined> | undefined;
-      const subscription = service
-        .getCheckoutDetailsState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
-      tick(4200);
-
-      expect(resultState).toEqual({
-        loading: false,
-        error: <Error>mockJaloError,
-        data: undefined,
-      });
-      subscription.unsubscribe();
-    }));
-
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
-      spyOn(connector, 'getCheckoutDetails').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(mockCheckoutState);
-          }
-          return throwError(mockJaloError);
-        })
-      );
-
-      let resultState: QueryState<CheckoutState | undefined> | undefined;
-      const subscription = service
-        .getCheckoutDetailsState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 = 300
-      tick(300);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 3*3*300 = 2700
-      tick(2700);
-      expect(resultState).toEqual({
-        loading: false,
-        error: false,
-        data: mockCheckoutState,
-      });
-      subscription.unsubscribe();
-    }));
   });
 });

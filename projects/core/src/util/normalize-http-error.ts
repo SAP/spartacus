@@ -31,7 +31,7 @@ export function normalizeHttpError(
         },
       ];
     }
-    console.log('normalized error', normalizedError);
+
     return normalizedError;
   }
 

@@ -1,5 +1,5 @@
 import { AbstractType, Type } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { PaymentTypeSetEvent } from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
@@ -10,13 +10,12 @@ import {
   B2BPaymentTypeEnum,
   Cart,
   EventService,
-  HttpErrorModel,
   OCC_USER_ID_CURRENT,
   PaymentType,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { defer, Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
@@ -28,9 +27,6 @@ const mockPaymentType: PaymentType = {
   code: mockB2bPaymentType,
 };
 const mockPurchaseOrderNumber = 'purchaseOrderNumber';
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
-};
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   takeActiveCartId(): Observable<string> {
@@ -126,70 +122,6 @@ describe(`CheckoutPaymentTypeService`, () => {
           done();
         });
     });
-
-    it(`should unsuccessfully backOff on Jalo error and put the error in the state`, fakeAsync(() => {
-      spyOn(connector, 'getPaymentTypes').and.returnValue(
-        throwError(mockJaloError)
-      );
-
-      let resultState: QueryState<PaymentType[] | undefined> | undefined;
-      const subscription = service
-        .getPaymentTypesState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
-      tick(4200);
-
-      expect(resultState).toEqual({
-        loading: false,
-        error: <Error>mockJaloError,
-        data: undefined,
-      });
-      subscription.unsubscribe();
-    }));
-
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
-      spyOn(connector, 'getPaymentTypes').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of([mockPaymentType]);
-          }
-          return throwError(mockJaloError);
-        })
-      );
-
-      let resultState: QueryState<PaymentType[] | undefined> | undefined;
-      const subscription = service
-        .getPaymentTypesState()
-        .subscribe((result) => (resultState = result));
-
-      // 1*1*300 = 300
-      tick(300);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 3*3*300 = 2700
-      tick(2700);
-      expect(resultState).toEqual({
-        loading: false,
-        error: false,
-        data: [mockPaymentType],
-      });
-      subscription.unsubscribe();
-    }));
   });
 
   describe(`getPaymentTypes`, () => {
