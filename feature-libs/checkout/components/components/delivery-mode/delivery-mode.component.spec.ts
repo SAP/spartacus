@@ -207,7 +207,7 @@ describe('DeliveryModeComponent', () => {
     const getRadioInput = () =>
       fixture.debugElement.query(By.css('.form-check .form-check-input'));
 
-    it('should be displayed by default', () => {
+    it('should be enabled by default', () => {
       spyOn(
         mockCheckoutDeliveryService,
         'getSupportedDeliveryModes'
@@ -216,10 +216,10 @@ describe('DeliveryModeComponent', () => {
 
       fixture.detectChanges();
 
-      expect(getRadioInput().nativeElement).toBeTruthy();
+      expect(getRadioInput().nativeElement.disabled).toBeFalsy();
     });
 
-    it('should not be displayed when there is another ongoing request', () => {
+    it('should be disabled when there is another ongoing request', () => {
       spyOn(
         mockCheckoutDeliveryService,
         'getSupportedDeliveryModes'
@@ -229,7 +229,7 @@ describe('DeliveryModeComponent', () => {
       component.deliveryModeLoaded$ = of(false);
       fixture.detectChanges();
 
-      expect(getRadioInput()).not.toBeTruthy();
+      expect(getRadioInput().nativeElement.disabled).toBeTruthy();
     });
   });
 
