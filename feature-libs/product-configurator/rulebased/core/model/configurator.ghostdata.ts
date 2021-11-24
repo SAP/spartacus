@@ -1,5 +1,5 @@
 import { Configurator } from './configurator.model';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 
 const ghostAttributes: Configurator.Attribute[] = [];
 for (let i = 0; i < 3; i++) {
@@ -95,10 +95,5 @@ export const ghostConfiguration: Configurator.Configuration = {
   flatGroups: ghostGroups,
   interactionState: {},
   overview: { configId: ghostConfigurationId, groups: ghostOverviewGroups },
-  owner: {
-    type: CommonConfigurator.OwnerType.PRODUCT,
-    key: '',
-    id: '',
-    configuratorType: '',
-  },
+  owner: ConfiguratorModelUtils.createInitialOwner(),
 };

@@ -10,10 +10,13 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { productConfigurationWithConflicts } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ghostConfigurationId } from '../model/configurator.ghostdata';
+import {
+  ghostConfiguration,
+  ghostConfigurationId,
+} from '../model/configurator.ghostdata';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -375,6 +378,21 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfigurationWithOverview', () => {
+    it('first emission should be ghost data for loading animation', (done) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      serviceUnderTest
+        .getConfigurationWithOverview(productConfiguration)
+        .pipe(take(1))
+        .subscribe((loadingGhostConfiguration) => {
+          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
+          done();
+        });
+    });
+
     it('should get an overview from occ, accessing the store', () => {
       expect(productConfiguration.overview).toBeUndefined();
       spyOnProperty(ngrxStore, 'select').and.returnValue(
@@ -423,6 +441,27 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfiguration', () => {
+    it('first emission should be ghost data for loading animation', (done) => {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: true,
+        };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.stub();
+
+      serviceUnderTest
+        .getConfiguration(OWNER_PRODUCT)
+        .pipe(take(1))
+        .subscribe((loadingGhostConfiguration) => {
+          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
+          done();
+        });
+    });
+
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
         x: productConfiguration,
@@ -470,6 +509,27 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getOrCreateConfiguration', () => {
+    it('first emission should be ghost data for loading animation', (done) => {
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          loading: true,
+        };
+
+      const obs = cold('x', {
+        x: productConfigurationLoaderState,
+      });
+      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
+      spyOn(store, 'dispatch').and.stub();
+
+      serviceUnderTest
+        .getOrCreateConfiguration(OWNER_PRODUCT)
+        .pipe(take(1))
+        .subscribe((loadingGhostConfiguration) => {
+          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
+          done();
+        });
+    });
+
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
       const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(

@@ -20,9 +20,12 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import { ghostConfigurationId } from '../model/configurator.ghostdata';
+import {
+  ghostConfiguration,
+  ghostConfigurationId,
+} from '../model/configurator.ghostdata';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -162,6 +165,21 @@ describe('ConfiguratorCartService', () => {
   });
 
   describe('readConfigurationForCartEntry', () => {
+    it('first emission should be ghost data for loading animation', (done) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      serviceUnderTest
+        .readConfigurationForCartEntry(OWNER_ORDER_ENTRY)
+        .pipe(take(1))
+        .subscribe((loadingGhostConfiguration) => {
+          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
+          done();
+        });
+    });
+
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -286,6 +304,21 @@ describe('ConfiguratorCartService', () => {
   });
 
   describe('readConfigurationForOrderEntry', () => {
+    it('first emission should be ghost data for loading animation', (done) => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfiguration)
+      );
+      spyOn(store, 'dispatch').and.stub();
+
+      serviceUnderTest
+        .readConfigurationForOrderEntry(OWNER_ORDER_ENTRY)
+        .pipe(take(1))
+        .subscribe((loadingGhostConfiguration) => {
+          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
+          done();
+        });
+    });
+
     it('should not dispatch ReadOrderEntryConfiguration action in case configuration is present', () => {
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
