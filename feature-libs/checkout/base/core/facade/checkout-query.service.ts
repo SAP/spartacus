@@ -26,7 +26,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap, take } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 
 @Injectable()
@@ -85,12 +85,8 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
 
   protected checkoutQuery$: Query<CheckoutState | undefined> =
     this.queryService.create<CheckoutState | undefined>(
-      () =>
-        this.checkoutPreconditions().pipe(
-          switchMap(([userId, cartId]) =>
-            this.checkoutConnector.getCheckoutDetails(userId, cartId)
-          )
-        ),
+      () => this.checkoutConnector.getCheckoutDetails('current', '00002062'),
+
       {
         reloadOn: this.getQueryReloadTriggers(),
         resetOn: this.getQueryResetTriggers(),

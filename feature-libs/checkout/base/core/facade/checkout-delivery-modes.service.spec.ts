@@ -169,7 +169,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       subscription.unsubscribe();
     }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
+    fit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
       spyOn(connector, 'getSupportedModes').and.returnValues(
         // first attempt
         throwError(mockJaloError),
@@ -182,7 +182,10 @@ describe(`CheckoutDeliveryModesService`, () => {
       let resultState: QueryState<DeliveryMode[] | undefined> | undefined;
       const subscription = service
         .getSupportedDeliveryModesState()
-        .subscribe((result) => (resultState = result));
+        .subscribe((result) => {
+          console.log('delviery mode res', result);
+          return (resultState = result);
+        });
 
       // 1*1*300 = 300
       tick(300);

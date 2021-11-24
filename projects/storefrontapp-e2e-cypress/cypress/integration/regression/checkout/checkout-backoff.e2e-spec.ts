@@ -23,83 +23,46 @@ context('Checkout backoff test', () => {
     });
 
     it('should verify backoff mechanism in checkout', () => {
-      // intercept for route
+      let retry = 1;
       cy.intercept(
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
-        { times: 1 },
         (req) => {
-          req.reply({
-            statusCode: 400,
-            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
-          });
+          if (retry <= 3) {
+            console.log('retry fail', retry);
+            retry++;
+            req.reply({
+              statusCode: 400,
+              body: JSON.stringify(
+                {
+                  details: [{ type: 'JaloObjectNoLongerValidError' }],
+                },
+                null,
+                2
+              ),
+            });
+          } else {
+            console.log('retry success', retry);
+            req.reply({
+              statusCode: 200,
+            });
+          }
         }
       ).as('test1err');
 
-      cy.intercept(
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
-        { times: 1 },
-        (req) => {
-          req.reply({
-            statusCode: 400,
-            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
-            delay: 300,
-          });
-        }
-      ).as('test2err');
-
-      cy.intercept(
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
-        { times: 1 },
-        (req) => {
-          req.reply({
-            statusCode: 400,
-            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
-            delay: 1200,
-          });
-        }
-      ).as('test3err');
-
-      cy.intercept(
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
-        { times: 1 },
-        (req) => {
-          req.reply({
-            statusCode: 400,
-            body: { details: [{ type: 'JaloObjectNoLongerValidError' }] },
-            delay: 1200,
-          });
-        }
-      ).as('test4err');
-
-      // cy.intercept(
-      //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      //     'BASE_SITE'
-      //   )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
-      //   { delay: 5000 }
-      // ).as('test3successhopefully');
-
-      // click the card (can reproduce easily in the storefront)
       cy.get('cx-shipping-address .cx-card-actions .cx-card-link').click({
         force: true,
       });
 
-      // do the 3 assert test (fail, fail, pass)
+      cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
       cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
 
-      cy.wait(`@test2err`).its('response.statusCode').should('eq', 400);
-      cy.wait(`@test3err`).its('response.statusCode').should('eq', 400);
-      cy.wait(`@test4err`).its('response.statusCode').should('eq', 400);
-      // cy.wait(`@test3successhopefully`)
-      //   .its('response.statusCode')
-      //   .should('eq', 200);
+      // if you add this one, it will fail because the next one is expected to be 200
+      // cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
+
+      cy.wait(`@test1err`).its('response.statusCode').should('eq', 200);
     });
   });
 });

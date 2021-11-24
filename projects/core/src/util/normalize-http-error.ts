@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { HttpErrorModel } from '../model/misc.model';
 import { isDevMode } from '@angular/core';
+import { HttpErrorModel } from '../model/misc.model';
 
 /**
  * Normalizes HttpErrorResponse to HttpErrorModel.
@@ -31,7 +31,7 @@ export function normalizeHttpError(
         },
       ];
     }
-
+    console.log('normalized error', normalizedError);
     return normalizedError;
   }
 

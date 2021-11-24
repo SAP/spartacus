@@ -7,7 +7,7 @@ import {
   timer,
   zip,
 } from 'rxjs';
-import { map, mergeMap, retryWhen } from 'rxjs/operators';
+import { map, mergeMap, retryWhen, tap } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 
 export interface BackOffOptions {
@@ -49,7 +49,9 @@ export function backOff<T>(options: BackOffOptions): OperatorFunction<T, T> {
       retryWhen<T>((sourceError$: Observable<HttpErrorModel | Error>) =>
         // emits only when both emit at the same time. In practice, this means emit when retried and the error happens again
         zip(maxRetryRange$, sourceError$).pipe(
+          tap(([x, y]) => console.log('1', [x, y])),
           mergeMap(([currentRetry, sourceError]) => {
+            console.log('called', [currentRetry, sourceError]);
             // if we've re-tried more than the maxTries, OR
             // if the source error is not the one we want to exponentially retry
             if (currentRetry > maxTries || !options.shouldRetry(sourceError)) {

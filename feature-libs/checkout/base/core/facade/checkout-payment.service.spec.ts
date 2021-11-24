@@ -171,7 +171,7 @@ describe(`CheckoutPaymentService`, () => {
       subscription.unsubscribe();
     }));
 
-    xit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
       spyOn(connector, 'getCardTypes').and.returnValues(
         // first attempt
         throwError(mockJaloError),
@@ -183,6 +183,7 @@ describe(`CheckoutPaymentService`, () => {
 
       let resultState: QueryState<CardType[] | undefined> | undefined;
       const subscription = service.getCardTypesState().subscribe((result) => {
+        console.log('res', result);
         return (resultState = result);
       });
 
