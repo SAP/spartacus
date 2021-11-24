@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
 import { CardType, PaymentDetails } from '../../model/cart.model';
@@ -8,6 +9,7 @@ import { OCC_USER_ID_ANONYMOUS } from '../../occ/utils/occ-constants';
 import { StateWithProcess } from '../../process/store/process-state';
 import { getProcessStateFactory } from '../../process/store/selectors/process-group.selectors';
 import { LoaderState } from '../../state/utils/loader/loader-state';
+import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
@@ -100,25 +102,27 @@ export class CheckoutPaymentService {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
 
-      let cart;
-      this.activeCartService
-        .getActive()
-        .subscribe((activeCart) => (cart = activeCart))
-        .unsubscribe();
-      if (userId && cart) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId: cart.code,
-            paymentDetails: paymentDetails,
-          })
-        );
+      if (userId && cartId) {
+        combineLatest([
+          this.activeCartService.isStable(),
+          this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading)),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) => isStable && !isLoading),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetPaymentDetails({
+                userId,
+                cartId: cartId,
+                paymentDetails: paymentDetails,
+              })
+            );
+          });
       }
     }
   }
