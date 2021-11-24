@@ -38,7 +38,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
 
     if (
-      this.attribute?.required &&
+      this.attribute.required &&
       this.multipleSelectionValues.filter((value) => value.selected).length < 2
     ) {
       this.preventAction$.next(true);
@@ -91,7 +91,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   }): ConfigFormUpdateEvent | undefined {
     const value: Configurator.Value | undefined =
       this.multipleSelectionValues.find(
-        (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
+        (selectionValue) => selectionValue.valueCode === eventValue.valueCode
       );
 
     if (!value) return;
