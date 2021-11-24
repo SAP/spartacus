@@ -4,17 +4,17 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output,
+  Output
 } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   ICON_TYPE,
-  KeyboardFocusService,
+  KeyboardFocusService
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
@@ -40,6 +40,8 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
   loading$?: Observable<boolean>;
   attributeId: number;
   attributeLabel?: string;
+  itemCount: number;
+  itemIndex: number;
 }
 
 @Component({
@@ -49,8 +51,7 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   showDeselectionNotPossible = false;
@@ -64,7 +65,8 @@ export class ConfiguratorAttributeProductCardComponent
 
   constructor(
     protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService
+    protected keyBoardFocus: KeyboardFocusService,
+    protected translation: TranslationService,
   ) {
     super();
   }
@@ -85,8 +87,8 @@ export class ConfiguratorAttributeProductCardComponent
           return respProduct
             ? respProduct
             : this.transformToProductType(
-                this.productCardOptions.productBoundValue
-              );
+              this.productCardOptions.productBoundValue
+            );
         }),
         tap(() => this.loading$.next(false))
       );
@@ -205,10 +207,10 @@ export class ConfiguratorAttributeProductCardComponent
 
     const mergedLoading = this.productCardOptions.loading$
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
-          map((values) => {
-            return values[0] || values[1];
-          })
-        )
+        map((values) => {
+          return values[0] || values[1];
+        })
+      )
       : this.loading$;
 
     return {
@@ -251,4 +253,165 @@ export class ConfiguratorAttributeProductCardComponent
   showDeselectionNotPossibleMessage() {
     this.showDeselectionNotPossible = true;
   }
+
+  getAriaLabelSingleUnselected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (this.isValueCodeDefined(this.productCardOptions?.productBoundValue?.valueCode)) {
+      if (this.hasPriceDisplay()) {
+        // Gets different text as soon as price is implemented
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeUnselected', {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+      else {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeUnselected', {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+    } else {
+      this.translation
+        .translate('configurator.a11y.selectNoItemOfAttribute', {
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    return translatedText;
+  }
+
+  getAriaLabelSingleSelected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (this.hasPriceDisplay()) {
+      // Gets different text as soon as price is implemented
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelSingleSelectedNoButton(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (this.hasPriceDisplay()) {
+      // Gets different text as soon as price is implemented
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelMultiSelected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (this.hasPriceDisplay()) {
+      // Gets different text as soon as price is implemented
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelMultiUnselected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (this.hasPriceDisplay()) {
+      // Gets different text as soon as price is implemented
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeUnselected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeUnselected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
 }

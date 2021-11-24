@@ -72,16 +72,8 @@
               class="btn btn-action"
               (click)="onHandleDeselect()"
               [cxFocus]="focusConfig"
-              [attr.aria-label]="
-                'configurator.a11y.itemOfAttributeSelectedPressToUnselect'
-                  | cxTranslate
-                    : {
-                        item: product.code,
-                        attribute: productCardOptions?.attributeLabel
-                      }
-              "
+              [attr.aria-label]="getAriaLabelMultiSelected(product)"
               aria-selected="true"
-              role="option"
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
@@ -94,16 +86,8 @@
                   productCardOptions?.disableAllButtons || (loading$ | async)
                 "
                 [cxFocus]="focusConfig"
-                [attr.aria-label]="
-                  'configurator.a11y.itemOfAttributeUnselected'
-                    | cxTranslate
-                      : {
-                          item: product.code,
-                          attribute: productCardOptions?.attributeLabel
-                        }
-                "
+                [attr.aria-label]="getAriaLabelMultiUnselected(product)"
                 aria-selected="false"
-                role="option"
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
@@ -122,22 +106,8 @@
                 else deselect
               "
               [cxFocus]="focusConfig"
-              [attr.aria-label]="
-                this.isValueCodeDefined(
-                  productCardOptions?.productBoundValue?.valueCode
-                )
-                  ? ('configurator.a11y.itemOfAttributeUnselected'
-                    | cxTranslate
-                      : {
-                          item: product.code,
-                          attribute: productCardOptions?.attributeLabel
-                        })
-                  : ('configurator.a11y.selectNoItemOfAttribute'
-                    | cxTranslate
-                      : { attribute: productCardOptions?.attributeLabel })
-              "
+              [attr.aria-label]="getAriaLabelSingleUnselected(product)"
               aria-selected="false"
-              role="option"
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -157,28 +127,17 @@
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
                   [cxFocus]="focusConfig"
-                  [attr.aria-label]="
-                    'configurator.a11y.itemOfAttributeSelectedPressToUnselect'
-                      | cxTranslate
-                        : {
-                            item: product.code,
-                            attribute: productCardOptions?.attributeLabel
-                          }
-                  "
+                  [attr.aria-label]="getAriaLabelSingleSelected(product)"
                   aria-selected="true"
-                  role="option"
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>
-                <span class="cx-visually-hidden" tabindex="0" role="option">
-                  {{
-                    'configurator.a11y.itemOfAttributeSelected'
-                      | cxTranslate
-                        : {
-                            item: product.code,
-                            attribute: productCardOptions?.attributeLabel
-                          }
-                  }}
+                <span
+                  *ngIf="productCardOptions?.hideRemoveButton"
+                  class="cx-visually-hidden"
+                  tabindex="0"
+                >
+                  {{ getAriaLabelSingleSelectedNoButton(product) }}
                 </span>
               </ng-container>
             </ng-template>
@@ -191,7 +150,6 @@
         class="cx-product-card-rows deselection-error-message"
         aria-live="assertive"
         aria-atomic="true"
-        role="option"
       >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
