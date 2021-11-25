@@ -80,7 +80,7 @@ export abstract class MultiCartFacade {
     extraData?: {
       active?: boolean;
     };
-  }): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
+  }): Observable<Cart>;
 
   /**
    * Merge provided cart to current user cart

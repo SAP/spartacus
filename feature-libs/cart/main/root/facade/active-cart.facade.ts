@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, StateUtils, User } from '@spartacus/core';
+import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
 import { Cart, OrderEntry } from '../models/cart.model';
@@ -122,11 +122,7 @@ export abstract class ActiveCartFacade {
    */
   abstract addEntries(cartEntries: OrderEntry[]): void;
 
-  abstract requireLoadedCart(
-    customCartSelector$?: Observable<
-      StateUtils.ProcessesLoaderState<Cart | undefined>
-    >
-  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
+  abstract requireLoadedCart(forGuestMerge?: boolean): Observable<Cart>;
 
   abstract reloadActiveCart(): void;
 }

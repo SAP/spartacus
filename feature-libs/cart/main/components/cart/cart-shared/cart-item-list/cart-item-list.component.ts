@@ -187,10 +187,10 @@ export class CartItemListComponent implements OnInit, OnDestroy {
   }
 
   removeEntry(item: OrderEntry): void {
-    if (this.selectiveCartService && this.options.isSaveForLater) {
+    if (this.options.isSaveForLater) {
       this.selectiveCartService.removeEntry(item);
     } else if (this.cartId && this.userId) {
-      this.multiCartService?.removeEntry(
+      this.multiCartService.removeEntry(
         this.userId,
         this.cartId,
         item.entryNumber as number
@@ -207,13 +207,13 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       startWith(null),
       tap((value) => {
         if (item.updateable && value && !this.readonly) {
-          if (this.selectiveCartService && this.options.isSaveForLater) {
+          if (this.options.isSaveForLater) {
             this.selectiveCartService.updateEntry(
               value.entryNumber,
               value.quantity
             );
           } else if (this.cartId && this.userId) {
-            this.multiCartService?.updateEntry(
+            this.multiCartService.updateEntry(
               this.userId,
               this.cartId,
               value.entryNumber,

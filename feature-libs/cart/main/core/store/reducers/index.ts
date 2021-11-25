@@ -4,7 +4,6 @@ import { Cart } from '@spartacus/cart/main/root';
 import { AuthActions, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
-  activeCartReducer,
   cartEntitiesReducer,
   cartTypeIndexReducer,
 } from './multi-cart.reducer';
@@ -32,7 +31,6 @@ export function getMultiCartReducers(): ActionReducerMap<MultiCartState, any> {
       MULTI_CART_DATA,
       cartEntitiesReducer
     ),
-    active: activeCartReducer,
     index: cartTypeIndexReducer,
   };
 }
