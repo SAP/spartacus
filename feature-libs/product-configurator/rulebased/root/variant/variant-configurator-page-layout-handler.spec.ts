@@ -8,7 +8,7 @@ import {
 import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
+import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
@@ -25,18 +25,6 @@ class MockBreakpointService {
     return of(isLargeResolution);
   }
 }
-const headerSlots = ['SiteLogo', 'MiniCart'];
-const headerSlotsIncludingPreHeader = ['PreHeader', 'SiteLogo', 'MiniCart'];
-const contentSlots = [
-  'CpqConfigHeader',
-  'CpqConfigBanner',
-  'CpqConfigMenu',
-  'CpqConfigContent',
-  'CpqConfigOverviewBanner',
-  'CpqConfigOverviewContent',
-  'CpqConfigBottombar',
-];
-
 const displayOnlyHeaderSlotsLargeResolution = [
   'SiteContext',
   'SiteLinks',
@@ -55,7 +43,7 @@ const displayOnlyHeaderSlotsSmallResolution = [
 
 const mockLayoutConfig: LayoutConfig = {
   layoutSlots: {
-    CpqConfigurationTemplate: {
+    VariantConfigurationOverviewTemplate: {
       headerDisplayOnly: {
         lg: {
           slots: displayOnlyHeaderSlotsLargeResolution,
@@ -67,13 +55,16 @@ const mockLayoutConfig: LayoutConfig = {
     },
   },
 };
-const pageTemplateCpq = CpqConfiguratorPageLayoutHandler['templateName'];
+const headerSlots = ['SiteLogo', 'MiniCart'];
+
+const pageTemplateVCOverview =
+  VariantConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
 const sectionHeader = 'header';
 const sectionContent = 'content';
 
-describe('CpqConfiguratorPageLayoutHandler', () => {
-  let classUnderTest: CpqConfiguratorPageLayoutHandler;
+describe('VariantConfiguratorPageLayoutHandler', () => {
+  let classUnderTest: VariantConfiguratorPageLayoutHandler;
 
   beforeEach(
     waitForAsync(() => {
@@ -97,7 +88,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
   );
   beforeEach(() => {
     classUnderTest = TestBed.inject(
-      CpqConfiguratorPageLayoutHandler as Type<CpqConfiguratorPageLayoutHandler>
+      VariantConfiguratorPageLayoutHandler as Type<VariantConfiguratorPageLayoutHandler>
     );
   });
 
@@ -107,69 +98,17 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
 
   it('should not touch slots for section different than header', () => {
     let slots$ = cold('-a', {
-      a: contentSlots,
+      a: displayOnlyHeaderSlotsLargeResolution,
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionContent
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
 
-  it('should change slots for header section in cpq template in case we are on configuration page', () => {
-    routerData = {
-      ...standardRouterData,
-      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-    };
-    let slots$ = cold('-a-a', {
-      a: headerSlots,
-    });
-    const handledSlots$ = classUnderTest.handle(
-      slots$,
-      pageTemplateCpq,
-      sectionHeader
-    );
-    expect(handledSlots$).toBeObservable(
-      cold('-a-a', {
-        a: headerSlotsIncludingPreHeader,
-      })
-    );
-  });
-
-  it('should not change slots for header section in cpq template in case we are on overview page', () => {
-    routerData = {
-      ...standardRouterData,
-      pageType: ConfiguratorRouter.PageType.OVERVIEW,
-    };
-    let slots$ = cold('-aaa', {
-      a: headerSlots,
-    });
-    const handledSlots$ = classUnderTest.handle(
-      slots$,
-      pageTemplateCpq,
-      sectionHeader
-    );
-    expect(handledSlots$).toBeObservable(slots$);
-  });
-
-  it('should not change slots for header section in other template', () => {
-    routerData = {
-      ...standardRouterData,
-      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
-    };
-    let slots$ = cold('-a-a', {
-      a: headerSlots,
-    });
-    const handledSlots$ = classUnderTest.handle(
-      slots$,
-      pageTemplateOther,
-      sectionHeader
-    );
-    expect(handledSlots$).toBeObservable(slots$);
-  });
-
-  it('should return SPA large resolution header slots in case we call overview in read-only mode, and lg resolution is active', () => {
+  it('should return SPA large resolution header slots in case we call overview in read-only mode, and ld resolution is active', () => {
     isLargeResolution = true;
     routerData = {
       ...standardRouterData,
@@ -181,7 +120,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionHeader
     );
     expect(handledSlots$).toBeObservable(
@@ -202,7 +141,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     });
     const handledSlots$ = classUnderTest.handle(
       slots$,
-      pageTemplateCpq,
+      pageTemplateVCOverview,
       sectionHeader
     );
     expect(handledSlots$).toBeObservable(
@@ -210,5 +149,37 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
         a: displayOnlyHeaderSlotsSmallResolution,
       })
     );
+  });
+
+  it('should not change slots for header section in case we are on overview, but not in read-only mode', () => {
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+    };
+    let slots$ = cold('-aaa', {
+      a: headerSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateVCOverview,
+      sectionHeader
+    );
+    expect(handledSlots$).toBeObservable(slots$);
+  });
+
+  it('should not change slots for header section in other template', () => {
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+    };
+    let slots$ = cold('-a-a', {
+      a: headerSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateOther,
+      sectionHeader
+    );
+    expect(handledSlots$).toBeObservable(slots$);
   });
 });
