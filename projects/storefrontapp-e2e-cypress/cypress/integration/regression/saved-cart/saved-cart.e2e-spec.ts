@@ -16,13 +16,12 @@ import {
   saveActiveCart,
 } from '../../../helpers/b2b/b2b-saved-cart';
 import * as sampleData from '../../../sample-data/saved-cart';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 context('B2C - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.window().then((win) => win.localStorage.clear());
-      cy.clearLocalStorageMemory();
+      clearAllStorage();
     });
 
     describe('Accessibility - keyboarding', () => {
@@ -125,6 +124,7 @@ context('B2C - Saved Cart', () => {
 
     describe('Saved Cart Listing Page', () => {
       beforeEach(() => {
+        clearAllStorage();
         savedCart.login();
       });
 
@@ -156,6 +156,7 @@ context('B2C - Saved Cart', () => {
 
     describe('Saved Cart Details Page', () => {
       beforeEach(() => {
+        clearAllStorage();
         savedCart.login();
       });
 
