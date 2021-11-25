@@ -30,8 +30,8 @@ context('Checkout backoff test', () => {
         )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`,
         (req) => {
           if (retry <= 3) {
-            console.log('retry fail', retry);
             retry++;
+            cy.log('retry fail', retry);
             req.reply({
               statusCode: 400,
               body: {
@@ -44,42 +44,30 @@ context('Checkout backoff test', () => {
               },
             });
           } else {
-            console.log('retry success', retry);
+            cy.log('retry success', retry);
             req.reply({
               statusCode: 200,
             });
           }
         }
-      ).as('test1err');
-
-      // cy.intercept(
-      //   `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      //     'BASE_SITE'
-      //   )}/users/current/carts/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)&lang=en&curr=USD`
-      // ).as('test1err');
+      ).as('testBackoff');
 
       cy.wait(3000);
 
-      // shipping page, but not good cause it fires request twice :x
-      // cy.get('cx-shipping-address .cx-card-actions .cx-card-link').click({
-      //   force: true,
-      // });
-
-      // delvery method
       cy.get('cx-delivery-mode input#deliveryMode-premium-gross')
         .first()
         .click({
           force: true,
         });
 
-      cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
-      cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
-      cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
+      cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
 
       // if you add this one, it will fail because the next one is expected to be 200
-      // cy.wait(`@test1err`).its('response.statusCode').should('eq', 400);
+      // cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
 
-      cy.wait(`@test1err`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 200);
     });
   });
 });
