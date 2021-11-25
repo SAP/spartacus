@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/cdc",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "description": "Customer Data Cloud Integration library for Spartacus",
   "keywords": [
     "spartacus",
@@ -28,11 +28,11 @@
     "@angular/router": "^10.1.0",
     "@ngrx/effects": "^10.0.0",
     "@ngrx/store": "^10.0.0",
-    "@spartacus/asm": "3.4.5",
-    "@spartacus/core": "3.4.5",
-    "@spartacus/schematics": "3.4.5",
-    "@spartacus/storefront": "3.4.5",
-    "@spartacus/user": "3.4.5",
+    "@spartacus/asm": "3.4.6",
+    "@spartacus/core": "3.4.6",
+    "@spartacus/schematics": "3.4.6",
+    "@spartacus/storefront": "3.4.6",
+    "@spartacus/user": "3.4.6",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {

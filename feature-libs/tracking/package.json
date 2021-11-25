@@ -1,6 +1,6 @@
 {
   "name": "@spartacus/tracking",
-  "version": "3.4.5",
+  "version": "3.4.6",
   "description": "Spartacus tracking and personalization library",
   "keywords": [
     "spartacus",
@@ -27,8 +27,8 @@
     "@angular-devkit/schematics": "^10.2.1",
     "@angular/common": "^10.2.4",
     "@angular/core": "^10.1.0",
-    "@spartacus/core": "3.4.5",
-    "@spartacus/schematics": "3.4.5",
+    "@spartacus/core": "3.4.6",
+    "@spartacus/schematics": "3.4.6",
     "rxjs": "^6.6.0"
   },
   "publishConfig": {
