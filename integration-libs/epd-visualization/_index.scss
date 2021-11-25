@@ -8,20 +8,16 @@
 @import './styles/index';
 
 $epd-visualization-components-allowlist: cx-visual-viewer,
-cx-visual-viewer-toolbar-button,
-cx-visual-picking-tab,
-cx-visual-picking-product-filter,
-cx-visual-picking-product-list,
-cx-visual-viewer-animation-slider,
-cx-paged-list !default;
+  cx-visual-viewer-toolbar-button, cx-visual-picking-tab,
+  cx-visual-picking-product-filter, cx-visual-picking-product-list,
+  cx-visual-viewer-animation-slider, cx-paged-list !default;
 
 $skipComponentStyles: () !default;
 
 @each $selector in $epd-visualization-components-allowlist {
   #{$selector} {
-
     // skip selectors if they're added to the $skipComponentStyles list
-    @if (index($skipComponentStyles, $selector)==null) {
+    @if (index($skipComponentStyles, $selector) ==null) {
       @extend %#{$selector} !optional;
     }
   }
@@ -30,7 +26,7 @@ $skipComponentStyles: () !default;
 // add body specific selectors
 body {
   @each $selector in $epd-visualization-components-allowlist {
-    @if (index($skipComponentStyles, $selector)==null) {
+    @if (index($skipComponentStyles, $selector) ==null) {
       @extend %#{$selector}__body !optional;
     }
   }
