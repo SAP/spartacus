@@ -5,7 +5,9 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/scheduled-replenishment/core';
 import {
+  backOff,
   ConverterService,
+  isJaloError,
   normalizeHttpError,
   OccEndpointsService,
   ReplenishmentOrder,
@@ -63,6 +65,7 @@ export class OccCheckoutReplenishmentOrderAdapter
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
       );
   }
