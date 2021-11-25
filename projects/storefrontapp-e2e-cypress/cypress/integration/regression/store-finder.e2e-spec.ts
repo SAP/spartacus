@@ -11,7 +11,8 @@ context('Store finder', () => {
     cy.visit('/store-finder');
   });
 
-  it('should show stores that matches search query', () => {
+  //TODO uncomment once stores search works in the backend
+  it.skip('should show stores that matches search query', () => {
     cy.get('cx-store-finder-search').within(() => {
       cy.get('input').type('Tokyo');
       cy.get('.search').click();
@@ -28,7 +29,8 @@ context('Store finder', () => {
     cy.get(googleMap);
   });
 
-  it('should allow to select store from result list', () => {
+  //TODO uncomment once stores search works in the backend
+  it.skip('should allow to select store from result list', () => {
     cy.get(resultListItem)
       .first()
       .within(() => {
