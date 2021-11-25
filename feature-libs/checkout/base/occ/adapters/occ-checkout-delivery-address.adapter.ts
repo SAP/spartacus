@@ -5,7 +5,9 @@ import {
   Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
+  backOff,
   ConverterService,
+  isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -40,6 +42,9 @@ export class OccCheckoutDeliveryAddressAdapter
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
         this.converter.pipeable(ADDRESS_NORMALIZER)
       );
   }
@@ -66,7 +71,12 @@ export class OccCheckoutDeliveryAddressAdapter
         this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
         {}
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   protected getSetDeliveryAddressEndpoint(
@@ -86,7 +96,12 @@ export class OccCheckoutDeliveryAddressAdapter
   ): Observable<unknown> {
     return this.http
       .delete<unknown>(this.getRemoveDeliveryAddressEndpoint(userId, cartId))
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   protected getRemoveDeliveryAddressEndpoint(

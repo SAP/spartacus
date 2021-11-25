@@ -6,9 +6,11 @@ import {
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
+  backOff,
   CardType,
   ConverterService,
   HttpParamsURIEncoder,
+  isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -109,6 +111,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               fromPaymentProvider
             ).pipe(
               catchError((error) => throwError(normalizeHttpError(error))),
+              backOff({
+                shouldRetry: isJaloError,
+              }),
               this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER)
             );
           })
@@ -127,12 +132,20 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
         {}
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   getCardTypes(): Observable<CardType[]> {
     return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
+      backOff({
+        shouldRetry: isJaloError,
+      }),
       map((cardTypeList) => cardTypeList.cardTypes ?? []),
       this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
     );
