@@ -12,10 +12,11 @@
       key: createAttributeIdForConfigurator(attribute)
     }"
   />
-  <div class="cx-validation-msg" *ngIf="mustDisplayValidationMessage()">
-    {{
-      'configurator.attribute.wrongNumericFormat'
-        | cxTranslate: { pattern: numericFormatPattern }
-    }}
-  </div>
+</div>
+<div class="cx-validation-msg" *ngIf="mustDisplayValidationMessage()">
+  <cx-icon [type]="iconType.WARNING"></cx-icon>
+  {{
+  'configurator.attribute.wrongNumericFormat'
+    | cxTranslate: { pattern: numericFormatPattern }
+  }}
 </div>
