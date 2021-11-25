@@ -199,7 +199,12 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         httpParams,
         { headers }
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   private getParamsForPaymentProvider(

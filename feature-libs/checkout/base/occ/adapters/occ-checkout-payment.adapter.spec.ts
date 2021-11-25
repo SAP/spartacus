@@ -711,8 +711,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): fix crazy test
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'post').and.returnValue(
@@ -841,7 +840,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('loadCardTypes', () => {
+  describe('getCardTypes', () => {
     const cardTypesList: Occ.CardTypeList = {
       cardTypes: [
         {
