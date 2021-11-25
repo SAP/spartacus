@@ -35,6 +35,10 @@ import {
         selectiveCart: {
           enabled: true,
         },
+      checkout:{
+        guest: true,
+        express: true,
+      },
       },
     }),
   ],

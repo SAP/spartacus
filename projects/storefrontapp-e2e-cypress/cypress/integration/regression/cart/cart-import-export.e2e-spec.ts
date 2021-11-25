@@ -1,7 +1,7 @@
-import * as cart from '../../helpers/cart';
-import * as importExport from '../../helpers/cart-import-export';
-import { APPAREL_BASESITE } from '../../helpers/variants/apparel-checkout-flow';
-import { viewportContext } from '../../helpers/viewport-context';
+import * as cart from '../../../helpers/cart';
+import * as importExport from '../../../helpers/cart-import-export';
+import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
