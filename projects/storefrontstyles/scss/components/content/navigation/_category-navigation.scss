@@ -6,7 +6,7 @@
   cx-navigation-ui > nav > cx-generic-link {
     text-transform: uppercase;
     font-weight: 600;
-    width: 100%
+    width: 100%;
   }
 
   li {
@@ -18,7 +18,8 @@
     @include media-breakpoint-down(md) {
       &.is-open {
         li.is-open {
-          > span, > button {
+          > span,
+          > button {
             display: none;
           }
         }

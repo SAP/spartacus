@@ -41,10 +41,7 @@
 
     <ng-template #heading>
       <ng-container *ngIf="flyout && node.children?.length > 0; else span">
-        <button
-          [attr.tabindex]="0"
-          [attr.aria-haspopup]="true"
-        >
+        <button [attr.tabindex]="0" [attr.aria-haspopup]="true">
           {{ node.title }}
           <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
         </button>
