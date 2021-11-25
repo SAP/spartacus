@@ -1,7 +1,6 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   *ngIf="attribute?.values?.length"
-  role="listbox"
 >
   <div *ngIf="withQuantity" class="cx-attribute-level-quantity-price">
     <cx-configurator-attribute-quantity
@@ -18,8 +17,8 @@
     [id]="createAttributeValueIdForConfigurator(attribute, value?.valueCode)"
     (handleDeselect)="onSelect('')"
     (handleSelect)="onSelect($event)"
-    *ngFor="let value of attribute?.values"
-    [productCardOptions]="extractProductCardParameters(value)"
+    *ngFor="let value of attribute?.values; let i = index"
+    [productCardOptions]="extractProductCardParameters(value, i)"
   >
   </cx-configurator-attribute-product-card>
 </div>

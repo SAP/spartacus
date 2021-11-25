@@ -116,13 +116,13 @@ export const configurator = {
       editAttributesAndValues: 'Edit values of attributes:',
       group: '{{ group }} group of attributes',
       itemOfAttributeSelected:
-        'Item {{ item }} of attribute {{ attribute }} is selected',
+        'Item {{ item }} of attribute {{ attribute }} is selected. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeSelectedPressToUnselect:
-        'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect.',
+        'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeUnselected:
-        'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select.',
+        'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select. {{ itemIndex }} of {{ itemCount }}',
       selectNoItemOfAttribute:
-        'To select no item for attribute {{ attribute }} press button.',
+        'To select no item for attribute {{ attribute }} press button. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',

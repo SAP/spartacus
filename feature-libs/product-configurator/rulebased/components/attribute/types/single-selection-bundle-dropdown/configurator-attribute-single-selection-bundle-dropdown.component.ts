@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  OnInit,
+  OnInit
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -17,8 +17,7 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   attributeDropDownForm = new FormControl('');
   selectionValue: Configurator.Value;
 
@@ -49,6 +48,8 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       withQuantity: false,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      itemCount: 0,
+      itemIndex: 0,
     };
   }
 }
