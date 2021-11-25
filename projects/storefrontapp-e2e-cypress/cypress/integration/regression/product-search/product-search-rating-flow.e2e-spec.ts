@@ -17,7 +17,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
 // * This test supports both desktop and mobile viewport
 context('Product search rating flow', () => {
-  viewportContext(['desktop', 'mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
