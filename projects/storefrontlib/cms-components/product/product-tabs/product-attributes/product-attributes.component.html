@@ -3,7 +3,7 @@
     <h2>{{ 'productDetails.specification' | cxTranslate }}</h2>
     <table *ngFor="let class of product?.classifications">
       <th>
-        <h3>{{ class.name }}</h3>
+        <h2>{{ class.name }}</h2>
       </th>
       <tr *ngFor="let feature of class.features">
         <td>{{ feature.name }}</td>
