@@ -8,7 +8,7 @@ import * as configurationVc from '../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
-
+//Touch file
 // UI types
 const radioGroup = 'radioGroup';
 
