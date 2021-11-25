@@ -1,6 +1,6 @@
-import * as authForms from '../../helpers/auth-forms';
-import { createUser, revokeAccessToken } from '../../helpers/auth-redirects';
-import { AccountData } from '../../support/require-logged-in.commands';
+import * as authForms from '../../../helpers/auth-forms';
+import { createUser, revokeAccessToken } from '../../../helpers/auth-redirects';
+import { AccountData } from '../../../support/require-logged-in.commands';
 
 context('Redirect after auth', () => {
   let user: AccountData;

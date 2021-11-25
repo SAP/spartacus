@@ -2,7 +2,6 @@ import * as cartValidation from '../../../helpers/cart-validation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   lowStockResponse,
-  outOfStockResponse,
   PRODUCT_1,
   PRODUCT_2,
 } from '../../../sample-data/cart-validation';
@@ -14,7 +13,7 @@ import {
 } from '../../../helpers/cart-validation';
 
 context('Cart validation', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
       cy.requireLoggedIn(standardUser);
@@ -58,43 +57,6 @@ context('Cart validation', () => {
 
         removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
         removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
-      });
-
-      it('should display information about removed product from cart due to out of stock', () => {
-        addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
-
-        cartValidation.validateStock(outOfStockResponse);
-
-        cy.findByText(/proceed to checkout/i).click();
-        cy.wait(`@validate`);
-
-        cartValidation.checkProductAvailabilityMessage();
-
-        cy.get('cx-cart-details')
-          .contains('cx-cart-validation-warnings span', PRODUCT_1.name)
-          .should(
-            'contain',
-            `has been removed from the cart due to insufficient stock.`
-          );
-
-        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
-        removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
-      });
-
-      it('should display information about only product in cart being removed due to out of stock', () => {
-        addMultipleProductsToCart([PRODUCT_1]);
-
-        cartValidation.validateStock(outOfStockResponse);
-
-        cy.findByText(/proceed to checkout/i).click();
-        cy.wait(`@validate`);
-
-        cy.get('cx-global-message').should(
-          'contain',
-          `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
-        );
-
-        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
       });
     });
   });

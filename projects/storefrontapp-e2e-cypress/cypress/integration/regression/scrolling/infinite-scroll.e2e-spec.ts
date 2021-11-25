@@ -8,8 +8,8 @@ import {
   verifyFilterResetsList,
   verifyGridResetsList,
   verifySortingResetsList,
-} from '../../helpers/infinite-scroll';
-import { searchUrlPrefix } from '../../helpers/product-search';
+} from '../../../helpers/infinite-scroll';
+import { searchUrlPrefix } from '../../../helpers/product-search';
 
 describe('Infinite scroll', () => {
   const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';

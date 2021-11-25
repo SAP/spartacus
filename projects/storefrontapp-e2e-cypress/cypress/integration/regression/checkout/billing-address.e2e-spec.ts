@@ -1,7 +1,7 @@
-import * as checkout from '../../helpers/checkout-flow';
-import { Address } from '../../helpers/checkout-forms';
-import { user } from '../../sample-data/checkout-flow';
-import { verifyGlobalMessageAfterRegistration } from '../../helpers/register';
+import * as checkout from '../../../helpers/checkout-flow';
+import { Address } from '../../../helpers/checkout-forms';
+import { user } from '../../../sample-data/checkout-flow';
+import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 
 const usaAddress: Address = {
   city: 'Los Angeles',

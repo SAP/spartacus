@@ -1,5 +1,3 @@
-import { visitHomePage } from '../../../helpers/checkout-flow';
-import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import * as myCoupons from '../../../helpers/coupons/my-coupons';
 import { viewportContext } from '../../../helpers/viewport-context';
 

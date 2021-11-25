@@ -1,8 +1,8 @@
-import { register } from '../../helpers/auth-forms';
-import { clickHamburger } from '../../helpers/homepage';
-import * as registerHelpers from '../../helpers/register';
-import { viewportContext } from '../../helpers/viewport-context';
-import { user } from '../../sample-data/checkout-flow';
+import { register } from '../../../helpers/auth-forms';
+import { clickHamburger } from '../../../helpers/homepage';
+import * as registerHelpers from '../../../helpers/register';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { user } from '../../../sample-data/checkout-flow';
 
 describe('Register', () => {
   viewportContext(['desktop', 'mobile'], () => {

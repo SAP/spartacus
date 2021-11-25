@@ -1,5 +1,5 @@
-import { viewportContext } from '../../helpers/viewport-context';
-import { interceptGet, interceptPost } from '../../support/utils/intercept';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { interceptGet, interceptPost } from '../../../support/utils/intercept';
 
 const productId = '266685';
 const productId2 = '2006139';

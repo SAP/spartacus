@@ -1,5 +1,5 @@
-import * as login from '../../helpers/login';
-import { viewportContext } from '../../helpers/viewport-context';
+import * as login from '../../../helpers/login';
+import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Login', () => {
   viewportContext(['mobile'], () => {

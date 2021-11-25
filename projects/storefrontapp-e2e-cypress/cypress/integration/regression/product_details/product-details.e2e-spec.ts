@@ -1,5 +1,5 @@
-import * as productDetails from '../../helpers/product-details';
-import { formats } from '../../sample-data/viewports';
+import * as productDetails from '../../../helpers/product-details';
+import { formats } from '../../../sample-data/viewports';
 
 function productDetailsTest() {
   it('should contain correct product details', () => {

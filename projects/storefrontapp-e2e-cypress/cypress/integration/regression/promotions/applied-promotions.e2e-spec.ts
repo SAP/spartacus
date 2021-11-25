@@ -1,7 +1,7 @@
-import * as appliedPromotions from '../../helpers/applied-promotions';
-import { waitForProductPage } from '../../helpers/checkout-flow';
-import { viewportContext } from '../../helpers/viewport-context';
-import { standardUser } from '../../sample-data/shared-users';
+import * as appliedPromotions from '../../../helpers/applied-promotions';
+import { waitForProductPage } from '../../../helpers/checkout-flow';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { standardUser } from '../../../sample-data/shared-users';
 
 context('Applied promotions', () => {
   viewportContext(['mobile'], () => {
