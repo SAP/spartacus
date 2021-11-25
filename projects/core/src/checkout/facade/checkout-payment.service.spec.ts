@@ -34,6 +34,10 @@ describe('CheckoutPaymentService', () => {
     getActive() {
       return of(cart);
     }
+
+    isStable() {
+      return of(true);
+    }
   }
 
   class UserIdServiceStub {

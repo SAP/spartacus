@@ -1,18 +1,24 @@
 import { Injectable, Optional } from '@angular/core';
-import { combineLatest, of, Observable } from 'rxjs';
-import { filter, map, switchMap, tap, debounceTime } from 'rxjs/operators';
-
 import {
   Address,
   CheckoutDeliveryService,
+  CheckoutPaymentService,
+  ClearCheckoutService,
+  DeliveryMode,
+  PaymentDetails,
+  StateUtils,
   UserAddressService,
   UserPaymentService,
-  PaymentDetails,
-  DeliveryMode,
-  CheckoutPaymentService,
-  StateUtils,
-  ClearCheckoutService,
 } from '@spartacus/core';
+import { combineLatest, Observable, of } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutConfigService } from './checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 
@@ -87,9 +93,10 @@ export class ExpressCheckoutService {
                   setDeliveryAddressProcessState: StateUtils.LoaderState<void>
                 ) => {
                   return (
-                    (setDeliveryAddressProcessState.success ||
+                    ((setDeliveryAddressProcessState.success ||
                       setDeliveryAddressProcessState.error) &&
-                    !setDeliveryAddressProcessState.loading
+                      !setDeliveryAddressProcessState.loading) ??
+                    false
                   );
                 }
               ),
@@ -108,19 +115,22 @@ export class ExpressCheckoutService {
           }
           return of(false);
         }
-      )
+      ),
+      distinctUntilChanged()
     );
   }
 
   protected setPaymentMethod() {
     this.paymentMethodSet$ = combineLatest([
+      this.deliveryModeSet$,
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
       debounceTime(0),
       tap(
-        ([, paymentMethodsLoadedSuccess]: [
+        ([, , paymentMethodsLoadedSuccess]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
@@ -131,18 +141,24 @@ export class ExpressCheckoutService {
         }
       ),
       filter(
-        ([, success]: [
+        ([, , success]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => success
       ),
       switchMap(
-        ([payments, , setPaymentDetailsProcess]: [
+        ([deliveryModeSet, payments, , setPaymentDetailsProcess]: [
+          boolean,
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => {
+          if (!deliveryModeSet) {
+            return of(false);
+          }
+
           const defaultPayment =
             payments.find((address) => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
@@ -161,9 +177,10 @@ export class ExpressCheckoutService {
                   setPaymentDetailsProcessState: StateUtils.LoaderState<void>
                 ) => {
                   return (
-                    (setPaymentDetailsProcessState.success ||
+                    ((setPaymentDetailsProcessState.success ||
                       setPaymentDetailsProcessState.error) &&
-                    !setPaymentDetailsProcessState.loading
+                      !setPaymentDetailsProcessState.loading) ??
+                    false
                   );
                 }
               ),
@@ -213,11 +230,8 @@ export class ExpressCheckoutService {
               loadSupportedDeliveryModeStatus,
             ]).pipe(
               filter(
-                ([, , supportedDeliveryModeStatus]: [
-                  DeliveryMode[],
-                  StateUtils.LoaderState<void>,
-                  StateUtils.LoaderState<void>
-                ]) => supportedDeliveryModeStatus.success
+                ([, , supportedDeliveryModeStatus]: any) =>
+                  supportedDeliveryModeStatus.success ?? false
               ),
               switchMap(
                 ([deliveryModes, setDeliveryModeStatus, ,]: [
@@ -233,34 +247,30 @@ export class ExpressCheckoutService {
                       preferredDeliveryMode,
                       setDeliveryModeStatus,
                     ]).pipe(
-                      tap(
-                        ([deliveryMode, deliveryModeLoadingStatus]: [
-                          string,
-                          StateUtils.LoaderState<void>
-                        ]) => {
-                          if (
-                            deliveryMode &&
-                            !(
-                              deliveryModeLoadingStatus.success ||
-                              deliveryModeLoadingStatus.error ||
-                              deliveryModeLoadingStatus.loading
-                            )
-                          ) {
-                            this.checkoutDeliveryService.setDeliveryMode(
-                              deliveryMode
-                            );
-                          }
+                      tap(([deliveryMode, deliveryModeLoadingStatus]: any) => {
+                        if (
+                          deliveryMode &&
+                          !(
+                            deliveryModeLoadingStatus.success ||
+                            deliveryModeLoadingStatus.error ||
+                            deliveryModeLoadingStatus.loading
+                          )
+                        ) {
+                          this.checkoutDeliveryService.setDeliveryMode(
+                            deliveryMode
+                          );
                         }
-                      ),
+                      }),
                       filter(
                         ([, deliveryModeLoadingStatus]: [
                           string,
                           StateUtils.LoaderState<void>
                         ]) => {
                           return (
-                            (deliveryModeLoadingStatus.success ||
+                            ((deliveryModeLoadingStatus.success ||
                               deliveryModeLoadingStatus.error) &&
-                            !deliveryModeLoadingStatus.loading
+                              !deliveryModeLoadingStatus.loading) ??
+                            false
                           );
                         }
                       ),
@@ -286,7 +296,8 @@ export class ExpressCheckoutService {
             return of(false);
           }
         }
-      )
+      ),
+      distinctUntilChanged()
     );
   }
 
@@ -306,10 +317,8 @@ export class ExpressCheckoutService {
     } else {
       this.resetCheckoutProcesses();
     }
-    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      map(([deliveryModeSet, paymentMethodSet]) =>
-        Boolean(deliveryModeSet && paymentMethodSet)
-      )
+    return this.paymentMethodSet$.pipe(
+      map((paymentMethodSet) => Boolean(paymentMethodSet))
     );
   }
 }

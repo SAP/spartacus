@@ -8,7 +8,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -32,15 +32,19 @@ export class CheckoutDetailsService {
     protected checkoutPaymentService: CheckoutPaymentService,
     protected activeCartService: ActiveCartService
   ) {
-    this.cartId$ = this.activeCartService.getActive().pipe(
-      map((cartData) => {
+    this.cartId$ = combineLatest([
+      this.activeCartService.getActive(),
+      this.activeCartService.isStable(),
+    ]).pipe(
+      filter(([, isStable]) => isStable),
+      map(([cartData]) => {
         if (
           (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
           this.activeCartService.isGuestCart()
         ) {
-          return cartData.guid;
+          return cartData.guid as string;
         }
-        return cartData.code;
+        return cartData.code as string;
       }),
       filter((cartId) => !!cartId)
     );
