@@ -85,5 +85,6 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    yarn e2e:run:ci"${SUITE}"
+    #yarn e2e:run:ci"${SUITE}"
+    yarn e2e:run:ci:core"${SUITE}"
 fi
