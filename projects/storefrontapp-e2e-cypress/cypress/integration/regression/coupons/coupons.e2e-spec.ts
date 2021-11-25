@@ -8,18 +8,6 @@ describe('Cart Coupon', () => {
       cy.requireLoggedIn();
     });
 
-    it('should apply cart coupon', () => {
-      const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-      cartCoupon.visitProductPage(cartCoupon.productCode1);
-
-      //TODO products can be added to cart asynchronously
-      cartCoupon.addProductToCart(cartCoupon.productCode1);
-      cartCoupon.applyCoupon(cartCoupon.couponForCart);
-      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
-      });
-    });
-
     it('should show error message when applied a wrong coupon', () => {
       cartCoupon.visitProductPage(cartCoupon.productCode1);
       cartCoupon.addProductToCart(cartCoupon.productCode1);
