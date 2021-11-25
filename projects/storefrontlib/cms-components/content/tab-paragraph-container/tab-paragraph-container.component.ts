@@ -12,6 +12,7 @@ import { Tab } from '../tab/Tab';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent {
+  // TODO: Comes from CMS. Need to figure out how to configure aria
   tabConfig = {
     label: 'Product Information',
     openTabs: [0],
