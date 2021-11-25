@@ -14,6 +14,7 @@ export function fillRegistrationForm(
   hiddenConsent?
 ) {
   cy.log(`🛒 Registering user ${email} from the registration page`);
+  cy.get('cx-register form').should('be.visible');
   cy.get('cx-register form').within(() => {
     cy.get('[formcontrolname="titleCode"]').select('mr');
     cy.get('[formcontrolname="firstName"]').type(firstName);

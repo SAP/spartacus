@@ -8,6 +8,7 @@ import {
   OnInit,
   Renderer2,
   ViewChild,
+  EventEmitter,
 } from '@angular/core';
 import { ImageGroup, isNotNullable, Product } from '@spartacus/core';
 import { ThumbnailsGroup } from '@spartacus/product/image-zoom/root';
@@ -58,6 +59,8 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
   protected defaultImageReady$: Observable<boolean> =
     this.defaultImageReady.asObservable();
   protected zoomReady$: Observable<boolean> = this.zoomReady.asObservable();
+
+  activeThumb: EventEmitter<ImageGroup> = new EventEmitter<ImageGroup>();
 
   defaultImageClickHandler$: Observable<any[]> = this.defaultImageReady$.pipe(
     filter(Boolean),
@@ -156,6 +159,7 @@ export class ProductImageZoomViewComponent implements OnInit, OnDestroy {
 
   openImage(item: ImageGroup): void {
     this.mainMediaContainer.next(item);
+    this.activeThumb.emit(item);
   }
 
   /** find the index of the main media in the list of media */
