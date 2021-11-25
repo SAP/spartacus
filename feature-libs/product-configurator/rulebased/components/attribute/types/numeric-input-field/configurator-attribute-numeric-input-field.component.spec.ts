@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -13,20 +7,14 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 @Directive({
   selector: '[cxFocus]',
@@ -41,6 +29,7 @@ const userInput = '345.00';
 
 const attribute: Configurator.Attribute = {
   name: 'attributeName',
+  label: 'attributeName',
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
   numDecimalPlaces: 2,
@@ -87,10 +76,9 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
-          MockTranslateUrlPipe,
           MockFocusDirective,
         ],
-        imports: [ReactiveFormsModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
@@ -280,4 +268,38 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).not.toHaveBeenCalled();
   }));
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-control' without any set value and 'aria-label' attribute that overwrites input content for the screen reader", fakeAsync(() => {
+      component.attribute.userInput = '';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeBlank attribute:attributeName'
+      );
+    }));
+
+    it("should contain input element with class name 'form-control' with a set value and 'aria-label' attribute that overwrites input content for the screen reader", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:123'
+      );
+    }));
+  });
 });

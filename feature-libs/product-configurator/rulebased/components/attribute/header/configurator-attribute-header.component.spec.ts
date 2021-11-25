@@ -426,4 +426,46 @@ describe('ConfigAttributeHeaderComponent', () => {
       ).toEqual('configurator.conflict.viewConfigurationDetails');
     });
   });
+
+  describe('Accessibility', () => {
+    it("should contain label element with 'aria-label' attribute that overwrites label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.attribute attribute:label of attribute'
+      );
+    });
+
+    it("should contain label element with 'aria-label' attribute for required attribute type that overwrites label content for the screen reader", () => {
+      classUnderTest.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.requiredAttribute param:label of attribute'
+      );
+    });
+
+    it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+      classUnderTest.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+  });
 });

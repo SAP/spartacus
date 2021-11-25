@@ -19,6 +19,7 @@ import { ConfiguratorAttributeRadioButtonComponent } from './configurator-attrib
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
     valueCode: code,
+    valueDisplay: name,
     name: name,
     selected: isSelected,
   };
@@ -55,7 +56,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
   let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeRadioButtonComponent>;
   const ownerKey = 'theOwnerKey';
-  const name = 'theName';
+  const name = 'attributeName';
   const groupId = 'theGroupId';
   const initialSelectedValue = 'initialSelectedValue';
 
@@ -102,6 +103,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
 
     component.attribute = {
       name: name,
+      label: name,
       attrCode: 444,
       uiType: Configurator.UiType.RADIOBUTTON,
       selectedSingleValue: initialSelectedValue,
@@ -207,6 +209,33 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+      );
+    });
+
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        1,
+        'aria-hidden',
+        'true',
+        'val2'
       );
     });
   });

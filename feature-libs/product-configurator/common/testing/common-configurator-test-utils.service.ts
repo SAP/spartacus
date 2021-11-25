@@ -95,7 +95,11 @@ export class CommonConfiguratorTestUtilsService {
     let foundElement: Element[] = [];
     const elements = htmlElements.getElementsByTagName(tag);
     if (!tagClass) {
-      return elements[0];
+      if (!tagIndex) {
+        return elements[0];
+      } else {
+        return elements[tagIndex];
+      }
     } else {
       for (let i = 0; i < elements.length; i++) {
         const classList = elements[i].classList;

@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -30,6 +31,7 @@ export class MockFocusDirective {
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
+
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
   let component: ConfiguratorAttributeMultiSelectionImageComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeMultiSelectionImageComponent>;
@@ -77,6 +79,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
+      valueDisplay: name,
       name: name,
       selected: isSelected,
       images: images,
@@ -101,6 +104,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     htmlElem = fixture.nativeElement;
 
     component.attribute = {
+      label: 'attributeName',
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
@@ -148,5 +152,31 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
     expect(valueToSelect.checked).toBe(false);
     expect(component.attributeCheckBoxForms[0].value).toEqual(false);
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input elements with class name 'form-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val3'
+      );
+    });
+
+    it("should contain label elements with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        2,
+        'aria-hidden',
+        'true'
+      );
+    });
   });
 });

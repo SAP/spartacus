@@ -82,6 +82,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
       valueCode: code,
+      valueDisplay: name,
       name: name,
       selected: isSelected,
     };
@@ -105,6 +106,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     component.attribute = {
       dataType: Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL,
       name: 'attributeName',
+      label: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
       values: values,
@@ -302,6 +304,33 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+      );
+    });
+
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        1,
+        'aria-hidden',
+        'true',
+        'val2'
       );
     });
   });

@@ -11,6 +11,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeCheckBoxComponent } from './configurator-attribute-checkbox.component';
@@ -43,9 +44,11 @@ export class MockFocusDirective {
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
+
 describe('ConfigAttributeCheckBoxComponent', () => {
   let component: ConfiguratorAttributeCheckBoxComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -69,6 +72,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
+      valueDisplay: name,
       valueCode: code,
       name: name,
       selected: isSelected,
@@ -81,8 +85,10 @@ describe('ConfigAttributeCheckBoxComponent', () => {
 
     fixture = TestBed.createComponent(ConfiguratorAttributeCheckBoxComponent);
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
 
     component.attribute = {
+      label: 'attributeName',
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOX,
@@ -117,5 +123,32 @@ describe('ConfigAttributeCheckBoxComponent', () => {
     valueToSelect.click();
     fixture.detectChanges();
     expect(valueToSelect.checked).toBeFalsy();
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val1'
+      );
+    });
+
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        0,
+        'aria-hidden',
+        'true',
+        'val1'
+      );
+    });
   });
 });

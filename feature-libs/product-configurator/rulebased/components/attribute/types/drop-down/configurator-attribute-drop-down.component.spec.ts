@@ -19,6 +19,7 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
     valueCode: code,
+    valueDisplay: name,
     name: name,
     selected: isSelected,
   };
@@ -55,7 +56,7 @@ describe('ConfigAttributeDropDownComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'theName';
+  const name = 'attributeName';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
@@ -91,6 +92,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
+      label: name,
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       uiType: Configurator.UiType.DROPDOWN,
@@ -209,6 +211,34 @@ describe('ConfigAttributeDropDownComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain label element with class name 'cx-visually-hidden' attribute that hides label content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listbox count:3'
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.selectedValueOfAttributeFull attribute:attributeName value:val1',
+        'val1'
       );
     });
   });
