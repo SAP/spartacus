@@ -158,7 +158,6 @@ context('Product Configuration', () => {
       configurationCartVc.verifyNotificationBannerInCart(0);
     });
   });
-
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
