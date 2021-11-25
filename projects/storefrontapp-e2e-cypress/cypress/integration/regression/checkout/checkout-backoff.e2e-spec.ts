@@ -31,7 +31,7 @@ context('Checkout backoff test', () => {
         (req) => {
           if (retry <= 3) {
             retry++;
-            cy.log('retry fail', retry);
+            console.log('retry fail', retry);
             req.reply({
               statusCode: 400,
               body: {
@@ -44,15 +44,13 @@ context('Checkout backoff test', () => {
               },
             });
           } else {
-            cy.log('retry success', retry);
+            console.log('retry success', retry);
             req.reply({
               statusCode: 200,
             });
           }
         }
       ).as('testBackoff');
-
-      cy.wait(3000);
 
       cy.get('cx-delivery-mode input#deliveryMode-premium-gross')
         .first()
