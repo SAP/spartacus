@@ -72,13 +72,18 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-order.scss",
                 "bundleName": "order"
+              },
+              {
+                "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
+                "bundleName": "epd-visualization"
               }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects",
                 "./projects/storefrontstyles/scss",
-                "./feature-libs"
+                "./feature-libs",
+                "./integration-libs"
               ]
             },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",

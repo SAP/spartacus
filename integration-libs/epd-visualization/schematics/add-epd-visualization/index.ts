@@ -19,12 +19,17 @@ import {
 import { parse, stringify } from 'comment-json';
 import { peerDependencies } from '../../package.json';
 import {
+  EPD_VISUALIZATION_FEATURE_NAME_CONSTANT,
   EPD_VISUALIZATION_FOLDER_NAME,
   EPD_VISUALIZATION_MODULE,
   EPD_VISUALIZATION_MODULE_NAME,
+  EPD_VISUALIZATION_ROOT_MODULE,
   EPD_VISUALIZATION_TRANSLATIONS,
   EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
   EPD_VISUALIZATION_UI5_VERSION,
+  SCSS_FILE_NAME,
+  SPARTACUS_EPD_VISUALIZATION_ROOT,
+  SPARTACUS_EPD_VISUALIZATION_ASSETS,
 } from '../constants';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
@@ -52,7 +57,7 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
     {
       import: [
         {
-          moduleSpecifier: SPARTACUS_EPD_VISUALIZATION,
+          moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
           namedImports: [EPD_VISUALIZATION_CONFIG],
         },
       ],
@@ -89,27 +94,36 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
     },
   ];
 
-  return addLibraryFeature(
-    { ...options, lazy: false },
-    {
-      folderName: EPD_VISUALIZATION_FOLDER_NAME,
-      moduleName: EPD_VISUALIZATION_MODULE_NAME,
-      featureModule: {
-        importPath: SPARTACUS_EPD_VISUALIZATION,
-        name: EPD_VISUALIZATION_MODULE,
-      },
-      i18n: {
-        resources: EPD_VISUALIZATION_TRANSLATIONS,
-        chunks: EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
-        importPath: SPARTACUS_EPD_VISUALIZATION,
-      },
-      customConfig,
-      dependencyManagement: {
-        featureName: CLI_EPD_VISUALIZATION_FEATURE,
-        featureDependencies: {},
-      },
-    }
-  );
+  return addLibraryFeature(options, {
+    folderName: EPD_VISUALIZATION_FOLDER_NAME,
+    moduleName: EPD_VISUALIZATION_MODULE_NAME,
+    featureModule: {
+      name: EPD_VISUALIZATION_MODULE,
+      importPath: SPARTACUS_EPD_VISUALIZATION,
+    },
+    rootModule: {
+      name: EPD_VISUALIZATION_ROOT_MODULE,
+      importPath: SPARTACUS_EPD_VISUALIZATION_ROOT,
+    },
+    lazyLoadingChunk: {
+      moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
+      namedImports: [EPD_VISUALIZATION_FEATURE_NAME_CONSTANT],
+    },
+    i18n: {
+      resources: EPD_VISUALIZATION_TRANSLATIONS,
+      chunks: EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_EPD_VISUALIZATION_ASSETS,
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: SPARTACUS_EPD_VISUALIZATION,
+    },
+    customConfig,
+    dependencyManagement: {
+      featureName: CLI_EPD_VISUALIZATION_FEATURE,
+      featureDependencies: {},
+    },
+  });
 }
 
 function updateTsConfig(): Rule {
