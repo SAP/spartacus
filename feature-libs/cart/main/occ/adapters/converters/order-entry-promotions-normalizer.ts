@@ -7,7 +7,11 @@ import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
 export class OrderEntryPromotionsNormalizer
-  implements Converter<any, PromotionResult[]>
+  implements
+    Converter<
+      { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
+      PromotionResult[]
+    >
 {
   convert(
     source: { item?: Occ.OrderEntry; promotions?: PromotionResult[] },

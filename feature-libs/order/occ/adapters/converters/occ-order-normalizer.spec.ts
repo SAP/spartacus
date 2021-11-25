@@ -1,8 +1,14 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
-import { PromotionResult } from '@spartacus/cart/main/root';
-import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import {
+  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+  PromotionResult,
+} from '@spartacus/cart/main/root';
+import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccOrderNormalizer } from './occ-order-normalizer';
+
+class MockConverterService {
+  convert() {}
+}
 
 const mockPromotions: PromotionResult[] = [
   {
@@ -11,11 +17,6 @@ const mockPromotions: PromotionResult[] = [
     },
   },
 ];
-class MockOrderEntryPromotionsService {
-  getProductPromotion() {
-    return mockPromotions;
-  }
-}
 
 describe('OccOrderNormalizer', () => {
   let service: OccOrderNormalizer;
@@ -24,22 +25,13 @@ describe('OccOrderNormalizer', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { provide: OccOrderNormalizer, useClass: OccOrderNormalizer },
-        {
-          provide: OrderEntryPromotionsService,
-          useClass: MockOrderEntryPromotionsService,
-        },
+        OccOrderNormalizer,
+        { provide: ConverterService, useClass: MockConverterService },
       ],
     });
     service = TestBed.inject(OccOrderNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(
-      (product) =>
-        ({
-          ...product,
-          code: (product as Product).code + 'converted',
-        } as any)
-    );
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   it('should be created', () => {
@@ -60,36 +52,44 @@ describe('OccOrderNormalizer', () => {
     const product = { code: 'test1' };
     const order = {
       entries: [{ product }],
+      appliedProductPromotions: mockPromotions,
     };
-    const result = service.convert(order);
-    expect(result.entries[0].product.code).toBe('test1converted');
-    expect(result.entries[0].promotions).toEqual(mockPromotions);
+    service.convert(order);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      { item: order.entries[0], promotions: mockPromotions },
+      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 
   it('should convert order consignments', () => {
     const product = { code: 'test2' };
     const order = {
       consignments: [{ entries: [{ orderEntry: { product } }] }],
+      appliedProductPromotions: mockPromotions,
     };
-    const result = service.convert(order);
-    expect(result.consignments[0].entries[0].orderEntry.product.code).toEqual(
-      'test2converted'
-    );
-    expect(result.consignments[0].entries[0].orderEntry.promotions).toEqual(
-      mockPromotions
-    );
+    service.convert(order);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      {
+        item: order.consignments[0].entries[0].orderEntry,
+        promotions: mockPromotions,
+      },
+      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 
   it('should convert order unconsignedEntries', () => {
     const product = { code: 'test3' };
     const order = {
       unconsignedEntries: [{ product }],
+      appliedProductPromotions: mockPromotions,
     };
-    const result = service.convert(order);
-    expect(result.unconsignedEntries[0].product.code).toEqual('test3converted');
-    expect(result.unconsignedEntries[0].promotions).toEqual(mockPromotions);
+    service.convert(order);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      { item: order.unconsignedEntries[0], promotions: mockPromotions },
+      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 });

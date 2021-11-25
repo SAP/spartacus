@@ -21,13 +21,12 @@ class MockConverterService {
   convert() {}
 }
 
-describe('OrderEntryPromotionsService', () => {
+describe('OrderEntryPromotionsNormalizer', () => {
   let normalizer: OrderEntryPromotionsNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ,
         OrderEntryPromotionsNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
       ],
