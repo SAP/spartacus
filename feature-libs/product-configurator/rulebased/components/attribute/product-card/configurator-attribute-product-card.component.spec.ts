@@ -4,7 +4,7 @@ import {
   Directive,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,7 +14,7 @@ import { I18nTestingModule, Product, ProductService } from '@spartacus/core';
 import {
   ItemCounterComponent,
   KeyboardFocusService,
-  MediaModule
+  MediaModule,
 } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
@@ -702,91 +702,78 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
 
   describe('getAriaLabelSingleSelectedNoButton', () => {
     it("should return 'configurator.a11y.itemOfAttributeSelected' if there is a price", () => {
-      expect(
-        component
-          .getAriaLabelSingleSelectedNoButton(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.itemOfAttributeSelected' if there is no price", () => {
-      expect(
-        component
-          .getAriaLabelSingleSelectedNoButton(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
   });
 
   describe('getAriaLabelSingleSelected', () => {
     it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is a price", () => {
-      expect(
-        component
-          .getAriaLabelSingleSelected(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is no price", () => {
-      expect(
-        component
-          .getAriaLabelSingleSelected(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
   });
 
   describe('getAriaLabelMultiSelected', () => {
     it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is a price", () => {
-      expect(
-        component
-          .getAriaLabelMultiSelected(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelMultiSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is no price", () => {
-      expect(
-        component
-          .getAriaLabelMultiSelected(product)
-      ).toBe('configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelMultiSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
   });
 
   describe('getAriaLabelMultiUnselected', () => {
     it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is a price", () => {
-      expect(
-        component
-          .getAriaLabelMultiUnselected(product)
-      ).toBe('configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelMultiUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is no price", () => {
-      expect(
-        component
-          .getAriaLabelMultiUnselected(product)
-      ).toBe('configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelMultiUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
   });
 
   describe('getAriaLabelSingleUnselected', () => {
     it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is a price", () => {
-      expect(
-        component
-          .getAriaLabelSingleUnselected(product)
-      ).toBe('configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is no price", () => {
-      expect(
-        component
-          .getAriaLabelSingleUnselected(product)
-      ).toBe('configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2');
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+      );
     });
 
     it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=0 for the productBoundValue", () => {
-      component.productCardOptions.productBoundValue.valueCode = "0";
-      expect(
-        component
-          .getAriaLabelSingleUnselected(product)
-      ).toBe('configurator.a11y.selectNoItemOfAttribute attribute:Attribute Label itemCount:3 itemIndex:2');
+      component.productCardOptions.productBoundValue.valueCode = '0';
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.selectNoItemOfAttribute attribute:Attribute Label itemCount:3 itemIndex:2'
+      );
     });
-
   });
-
 });

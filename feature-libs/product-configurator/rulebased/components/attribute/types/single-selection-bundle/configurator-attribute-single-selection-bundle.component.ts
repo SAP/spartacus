@@ -18,7 +18,8 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    value: Configurator.Value, index: number
+    value: Configurator.Value,
+    index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
@@ -27,7 +28,9 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
       attributeLabel: this.attribute.label,
-      itemCount: this.attribute.values?.length ? this.attribute.values?.length : 0,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
       itemIndex: index,
     };
   }
