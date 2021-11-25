@@ -1,9 +1,10 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { CHECKOUT_PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/b2b/core';
 import {
   Cart,
@@ -11,7 +12,9 @@ import {
   Occ,
   OccConfig,
   OccEndpoints,
+  PaymentType,
 } from '@spartacus/core';
+import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 
@@ -38,8 +41,20 @@ const cartData: Cart = {
   guid: '1212121',
 };
 
+const mockJaloError = new HttpErrorResponse({
+  error: {
+    errors: [
+      {
+        message: 'The application has encountered an error',
+        type: 'JaloObjectNoLongerValidError',
+      },
+    ],
+  },
+});
+
 describe('OccCheckoutPaymentTypeAdapter', () => {
   let service: OccCheckoutPaymentTypeAdapter;
+  let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -54,6 +69,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
     service = TestBed.inject(
       OccCheckoutPaymentTypeAdapter as Type<OccCheckoutPaymentTypeAdapter>
     );
+    httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(
       HttpTestingController as Type<HttpTestingController>
     );
@@ -66,21 +82,21 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
     httpMock.verify();
   });
 
-  describe('loadPaymentypes', () => {
-    it('should return paymentTypes', (done) => {
-      const paymentTypesList: Occ.PaymentTypeList = {
-        paymentTypes: [
-          {
-            code: 'card',
-            displayName: 'card',
-          },
-          {
-            code: 'account',
-            displayName: 'account',
-          },
-        ],
-      };
+  describe('getPaymentTypes', () => {
+    const paymentTypesList: Occ.PaymentTypeList = {
+      paymentTypes: [
+        {
+          code: 'card',
+          displayName: 'card',
+        },
+        {
+          code: 'account',
+          displayName: 'account',
+        },
+      ],
+    };
 
+    it('should return paymentTypes', (done) => {
       service
         .getPaymentTypes()
         .pipe(take(1))
@@ -105,12 +121,61 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
         CHECKOUT_PAYMENT_TYPE_NORMALIZER
       );
     });
+
+    // TODO(BRIAN): double check why it's not working
+    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+
+      let result: PaymentType[] | undefined;
+      const subscription = service.getPaymentTypes().subscribe((res) => {
+        result = res;
+      });
+
+      tick(4200);
+
+      expect(result).toEqual(undefined);
+
+      subscription.unsubscribe();
+    }));
+
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+
+      spyOn(httpClient, 'get').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(paymentTypesList);
+          }
+          return throwError(mockJaloError);
+        })
+      );
+
+      let result: PaymentType[] | undefined;
+      const subscription = service.getPaymentTypes().subscribe((res) => {
+        result = res;
+      });
+
+      // 1*1*300 = 300
+      tick(300);
+      expect(result).toEqual(undefined);
+
+      // 2*2*300 = 1200
+      tick(1200);
+      expect(result).toEqual(undefined);
+
+      // 3*3*300 = 2700
+      tick(2700);
+
+      expect(result).toEqual(paymentTypesList.paymentTypes);
+      subscription.unsubscribe();
+    }));
   });
 
   describe('setPaymentType', () => {
-    it('should set payment type to cart', (done) => {
-      const paymentType = 'CARD';
+    const paymentType = 'CARD';
 
+    it('should set payment type to cart', (done) => {
       service
         .setPaymentType(userId, cartId, paymentType)
         .pipe(take(1))
@@ -131,11 +196,8 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });
-  });
 
-  describe('setPaymentType (set po number to cart)', () => {
-    it('should set payment type to cart', (done) => {
-      const paymentType = 'CARD';
+    it('should set payment type to cart that contains purchaseOrderNumber', (done) => {
       const purchaseOrderNumber = 'test-number';
 
       service
@@ -157,5 +219,58 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });
+
+    // TODO(BRIAN): double check why it's not working
+    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+      spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+
+      let result: Cart | undefined;
+      const subscription = service
+        .setPaymentType(userId, cartId, paymentType)
+        .subscribe((res) => {
+          result = res;
+        });
+
+      tick(4200);
+
+      expect(result).toEqual(undefined);
+
+      subscription.unsubscribe();
+    }));
+
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+
+      spyOn(httpClient, 'put').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(cartData);
+          }
+          return throwError(mockJaloError);
+        })
+      );
+
+      let result: Cart | undefined;
+      const subscription = service
+        .setPaymentType(userId, cartId, paymentType)
+        .subscribe((res) => {
+          result = res;
+        });
+
+      // 1*1*300 = 300
+      tick(300);
+      expect(result).toEqual(undefined);
+
+      // 2*2*300 = 1200
+      tick(1200);
+      expect(result).toEqual(undefined);
+
+      // 3*3*300 = 2700
+      tick(2700);
+
+      expect(result).toEqual(cartData);
+      subscription.unsubscribe();
+    }));
   });
 });

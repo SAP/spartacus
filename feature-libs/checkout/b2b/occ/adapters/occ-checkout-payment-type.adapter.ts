@@ -5,9 +5,11 @@ import {
   CHECKOUT_PAYMENT_TYPE_NORMALIZER,
 } from '@spartacus/checkout/b2b/core';
 import {
+  backOff,
   Cart,
   CART_NORMALIZER,
   ConverterService,
+  isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -31,6 +33,7 @@ export class OccCheckoutPaymentTypeAdapter
       .get<Occ.PaymentTypeList>(this.getPaymentTypesEndpoint())
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({ shouldRetry: isJaloError }),
         map((paymentTypeList) => paymentTypeList.paymentTypes ?? []),
         this.converter.pipeableMany(CHECKOUT_PAYMENT_TYPE_NORMALIZER)
       );
@@ -55,6 +58,7 @@ export class OccCheckoutPaymentTypeAdapter
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );
   }

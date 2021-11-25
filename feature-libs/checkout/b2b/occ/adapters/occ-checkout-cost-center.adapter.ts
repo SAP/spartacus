@@ -2,9 +2,11 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { CheckoutCostCenterAdapter } from '@spartacus/checkout/b2b/core';
 import {
+  backOff,
   Cart,
   CART_NORMALIZER,
   ConverterService,
+  isJaloError,
   normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
@@ -28,6 +30,7 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
       .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );
   }
