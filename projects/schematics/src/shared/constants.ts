@@ -1064,6 +1064,8 @@ export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
+export const CSS_V5_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/
@@ -1074,6 +1076,8 @@ export const SPARTACUS_FEATURES_NG_MODULE = 'SpartacusFeaturesModule';
 export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 
 export const CLI_ASM_FEATURE = 'ASM';
+
+export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
 
 export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 
