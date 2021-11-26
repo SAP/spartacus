@@ -1,6 +1,6 @@
-import * as cart from '../../helpers/cart';
-import * as configuration from '../../helpers/product-configurator';
-import * as textfieldConfiguration from '../../helpers/textfield-configuration';
+import * as cart from '../../../helpers/cart';
+import * as configuration from '../../../helpers/product-configurator';
+import * as textfieldConfiguration from '../../../helpers/textfield-configuration';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = '1934793';

@@ -1,5 +1,5 @@
 import { RoutingConfig } from '@spartacus/core';
-import * as login from '../../helpers/login';
+import * as login from '../../../helpers/login';
 
 const FAQ_HEADING = 'Frequently Asked Questions';
 

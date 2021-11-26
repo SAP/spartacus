@@ -1,7 +1,7 @@
-import { verifyTabbingOrder } from '../../helpers/accessibility/tabbing-order';
-import { tabbingOrderConfig as config } from '../../helpers/accessibility/tabbing-order.config';
-import * as orderCancellationReturn from '../../helpers/order-cancellations-returns';
-import * as sampleData from '../../sample-data/order-cancellations-returns';
+import { verifyTabbingOrder } from '../../../helpers/accessibility/tabbing-order';
+import { tabbingOrderConfig as config } from '../../../helpers/accessibility/tabbing-order.config';
+import * as orderCancellationReturn from '../../../helpers/order-cancellations-returns';
+import * as sampleData from '../../../sample-data/order-cancellations-returns';
 
 describe('Order Cancellations and Returns', () => {
   before(() => {

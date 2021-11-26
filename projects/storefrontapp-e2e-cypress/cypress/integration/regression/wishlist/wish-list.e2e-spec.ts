@@ -1,5 +1,5 @@
-import * as cart from '../../helpers/cart';
-import * as wishList from '../../helpers/wish-list';
+import * as cart from '../../../helpers/cart';
+import * as wishList from '../../../helpers/wish-list';
 
 describe('Wish list', () => {
   before(() => {
