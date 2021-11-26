@@ -9,43 +9,31 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutAuthGuard } from './checkout-auth.guard';
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn(): Observable<boolean> {
-    return of();
-  }
+  isUserLoggedIn = createSpy().and.returnValue(of());
 }
 
 class ActiveCartServiceStub implements Partial<ActiveCartService> {
-  getAssignedUser(): Observable<User> {
-    return of();
-  }
-  isGuestCart(): boolean {
-    return true;
-  }
-  isStable(): Observable<boolean> {
-    return of(true);
-  }
+  getAssignedUser = createSpy().and.returnValue(of());
+  isGuestCart = createSpy().and.returnValue(true);
+  isStable = createSpy().and.returnValue(of(true));
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get(a: string) {
-    return `/${a}`;
-  }
+  get = createSpy();
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
-  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+  saveCurrentNavigationUrl = createSpy();
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  isGuestCheckout() {
-    return false;
-  }
+  isGuestCheckout = createSpy().and.returnValue(false);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -58,6 +46,7 @@ describe('CheckoutAuthGuard', () => {
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -95,21 +84,25 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe(', when user is NOT authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
-        spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+        activeCartService.getAssignedUser = createSpy().and.returnValue(of({}));
+        activeCartService.isGuestCart = createSpy().and.returnValue(false);
       });
 
       it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-        spyOn(checkoutConfigService, 'isGuestCheckout').and.returnValue(true);
+        semanticPathService.get = createSpy().and.returnValue(`/login`);
+        checkoutConfigService.isGuestCheckout =
+          createSpy().and.returnValue(true);
+
         let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
@@ -119,6 +112,8 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return url to login without forced flag when guestCheckout feature disabled', () => {
+        semanticPathService.get = createSpy().and.returnValue(`/login`);
+
         let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
@@ -135,8 +130,8 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
-          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
+        activeCartService.getAssignedUser = createSpy().and.returnValue(
+          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
         );
       });
 
@@ -153,9 +148,9 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is in checkout pages,', () => {
     it('should NOT redirect route when cart is unstable', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(activeCartService, 'isStable').and.returnValue(of(false));
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+      activeCartService.isStable = createSpy().and.returnValue(of(false));
+      activeCartService.isGuestCart = createSpy().and.returnValue(false);
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
@@ -166,12 +161,12 @@ describe('CheckoutAuthGuard', () => {
 
   describe(', when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
     });
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
+        activeCartService.getAssignedUser = createSpy().and.returnValue(of({}));
       });
 
       it('should return true', () => {
@@ -186,8 +181,8 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
-          of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
+        activeCartService.getAssignedUser = createSpy().and.returnValue(
+          of(of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User))
         );
       });
 

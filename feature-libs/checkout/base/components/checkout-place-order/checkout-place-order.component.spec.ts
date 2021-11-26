@@ -1,45 +1,27 @@
-import {
-  ComponentRef,
-  Pipe,
-  PipeTransform,
-  ViewContainerRef,
-} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import {
-  I18nTestingModule,
-  Order,
-  RoutingService,
-  UrlCommands,
-} from '@spartacus/core';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutPlaceOrderComponent } from './checkout-place-order.component';
+import createSpy = jasmine.createSpy;
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  placeOrder(_termsChecked: boolean): Observable<Order> {
-    return of({});
-  }
+  placeOrder = createSpy().and.returnValue(of({}));
 
-  clearOrder(): void {}
+  clearOrder = createSpy();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(_commands: UrlCommands, _extras?: NavigationExtras): Promise<boolean> {
-    return of(true).toPromise();
-  }
+  go = createSpy().and.returnValue(of(true).toPromise());
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch(
-    _caller: LAUNCH_CALLER | string,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): void | Observable<ComponentRef<any> | undefined> {}
-  clear(_caller: LAUNCH_CALLER | string): void {}
+  launch = createSpy();
+  clear = createSpy();
 }
 
 @Pipe({
@@ -79,8 +61,6 @@ describe('CheckoutPlaceOrderComponent', () => {
     checkoutService = TestBed.inject(CheckoutFacade);
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-
-    spyOn(checkoutService, 'placeOrder').and.callThrough();
   });
 
   it('should be created', () => {
@@ -94,7 +74,6 @@ describe('CheckoutPlaceOrderComponent', () => {
   });
 
   it('should place order when checkbox checked', () => {
-    spyOn(launchDialogService, 'launch').and.stub();
     controls.termsAndConditions.setValue(true);
 
     submitForm(true);
@@ -107,8 +86,6 @@ describe('CheckoutPlaceOrderComponent', () => {
   });
 
   it('should change page and reset form data on a successful place order', () => {
-    spyOn(routingService, 'go').and.stub();
-
     component.onSuccess();
 
     expect(routingService.go).toHaveBeenCalledWith({

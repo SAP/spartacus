@@ -7,6 +7,7 @@ import { ActiveCartService, Cart, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
+import createSpy = jasmine.createSpy;
 
 const mockCheckoutSteps: Array<CheckoutStep> = [
   {
@@ -44,9 +45,7 @@ const mockActiveCart: Partial<Cart> = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActive(): Observable<Cart> {
-    return of(mockActiveCart);
-  }
+  getActive = createSpy().and.returnValue(of(mockActiveCart));
 }
 
 @Pipe({

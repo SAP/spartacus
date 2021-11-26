@@ -19,13 +19,13 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-  QueryState,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
+import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   guid: 'test',
@@ -49,17 +49,10 @@ const mockAddress: Address = {
   country: mockCountry,
 };
 
-const addressBS = new BehaviorSubject<Country>(mockCountry);
-
 const mockDeliveryMode: DeliveryMode = {
   name: 'standard-gross',
   description: 'Delivery mode test description',
 };
-const deliveryModeBS = new BehaviorSubject<QueryState<DeliveryMode>>({
-  loading: false,
-  error: false,
-  data: mockDeliveryMode,
-});
 
 const mockPaymentDetails: PaymentDetails = {
   accountHolderName: 'Name',
@@ -94,38 +87,35 @@ class MockCardComponent {
 class MockCheckoutDeliveryAddressService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState(): Observable<QueryState<Address>> {
-    return of({ loading: false, error: false, data: mockAddress });
-  }
+  getDeliveryAddressState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: mockAddress })
+  );
 }
 
 class MockCheckoutDeliveryModesService
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
-    return of({ loading: false, error: false, data: [] });
-  }
-  getSelectedDeliveryModeState(): Observable<
-    QueryState<DeliveryMode | undefined>
-  > {
-    return deliveryModeBS.asObservable();
-  }
+  getSupportedDeliveryModesState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: [] })
+  );
+  getSelectedDeliveryModeState = createSpy().and.returnValue(
+    of({
+      loading: false,
+      error: false,
+      data: mockDeliveryMode,
+    })
+  );
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return of({ loading: false, error: false, data: mockPaymentDetails });
-  }
-  paymentProcessSuccess(): void {}
+  getPaymentDetailsState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: mockPaymentDetails })
+  );
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActive(): Observable<Cart> {
-    return of(mockCart);
-  }
-  getEntries(): Observable<OrderEntry[]> {
-    return of(mockEntries);
-  }
+  getActive = createSpy().and.returnValue(of(mockCart));
+  getEntries = createSpy().and.returnValue(of(mockEntries));
 }
 
 const mockCheckoutStep: CheckoutStep = {
@@ -150,9 +140,7 @@ class MockCheckoutStepService {
       type: [CheckoutStepType.REVIEW_ORDER],
     },
   ]);
-  getCheckoutStep(): CheckoutStep {
-    return mockCheckoutStep;
-  }
+  getCheckoutStep = createSpy().and.returnValue(mockCheckoutStep);
 }
 
 @Pipe({
@@ -207,13 +195,6 @@ describe('CheckoutReviewSubmitComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutReviewSubmitComponent);
     component = fixture.componentInstance;
-
-    addressBS.next(mockCountry);
-    deliveryModeBS.next({
-      loading: false,
-      error: false,
-      data: mockDeliveryMode,
-    });
   });
 
   it('should be created', () => {

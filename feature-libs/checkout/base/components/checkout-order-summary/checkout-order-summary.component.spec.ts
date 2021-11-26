@@ -11,16 +11,17 @@ import {
   PromotionsComponent,
 } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
+import createSpy = jasmine.createSpy;
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActive(): Observable<Cart> {
-    return of(<Partial<Cart>>{
+  getActive = createSpy().and.returnValue(
+    of(<Partial<Cart>>{
       totalItems: 5141,
       subTotal: { formattedValue: '11119' },
-    });
-  }
+    })
+  );
 }
 
 describe('CheckoutOrderSummaryComponent', () => {

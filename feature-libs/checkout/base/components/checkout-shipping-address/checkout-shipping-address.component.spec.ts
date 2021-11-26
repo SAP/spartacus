@@ -7,29 +7,22 @@ import {
   ActiveCartService,
   Address,
   I18nTestingModule,
-  QueryState,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutShippingAddressComponent } from './checkout-shipping-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses(): Observable<Address[]> {
-    return of(mockAddresses);
-  }
-  getAddressesLoading(): Observable<boolean> {
-    return of(false);
-  }
-  loadAddresses(): void {}
+  getAddresses = createSpy().and.returnValue(of(mockAddresses));
+  getAddressesLoading = createSpy().and.returnValue(of(false));
+  loadAddresses = createSpy();
 }
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return false;
-  }
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockCheckoutDeliveryAddressFacade
@@ -37,17 +30,15 @@ class MockCheckoutDeliveryAddressFacade
 {
   createAndSetAddress = createSpy();
   setDeliveryAddress = createSpy();
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getDeliveryAddressState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
-  getBackBntText(): string {
-    return 'common.back';
-  }
+  getBackBntText = createSpy().and.returnValue('common.back');
 }
 
 const mockAddress1: Address = {
@@ -176,8 +167,7 @@ describe('CheckoutShippingAddressComponent', () => {
 
   describe('should call ngOnInit', () => {
     it('for guest user, should not load user addresses', () => {
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
-      spyOn(userAddressService, 'loadAddresses').and.stub();
+      activeCartService.isGuestCart = createSpy().and.returnValue(true);
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -307,16 +297,16 @@ describe('CheckoutShippingAddressComponent', () => {
     });
 
     it('should not display if there are no existng addresses', () => {
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existng addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(true)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
@@ -333,10 +323,10 @@ describe('CheckoutShippingAddressComponent', () => {
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 
@@ -349,20 +339,20 @@ describe('CheckoutShippingAddressComponent', () => {
     });
 
     it('should render on init if there are no existing addresses', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeTruthy();
     });
 
     it('should not render on init if there are some existing addresses', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 
@@ -371,10 +361,10 @@ describe('CheckoutShippingAddressComponent', () => {
     });
 
     it('should not render when existing addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(true)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -385,20 +375,20 @@ describe('CheckoutShippingAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(true)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
     });
 
     it('should NOT render when existing addresses are NOT loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 

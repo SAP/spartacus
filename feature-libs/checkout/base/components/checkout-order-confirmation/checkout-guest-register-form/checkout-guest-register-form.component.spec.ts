@@ -7,14 +7,12 @@ import {
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { UserRegisterFacade } from '@spartacus/user/profile/root';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutGuestRegisterFormComponent } from './checkout-guest-register-form.component';
 import createSpy = jasmine.createSpy;
 
 class MockAuthService implements Partial<AuthService> {
-  isUserLoggedIn(): Observable<boolean> {
-    return of(true);
-  }
+  isUserLoggedIn = createSpy().and.returnValue(of(true));
 }
 
 class MockUserRegisterFacade implements Partial<UserRegisterFacade> {

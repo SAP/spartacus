@@ -7,36 +7,30 @@ import {
   RoutesConfig,
   RoutingConfigService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { defaultCheckoutRoutingConfig } from '../../root/config/default-checkout-routing-config';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { ExpressCheckoutService } from '../services/express-checkout.service';
 import { CheckoutGuard } from './checkout.guard';
+import createSpy = jasmine.createSpy;
 
-const setDefaultCheckoutDetailsSuccess = new BehaviorSubject(false);
 const MockRoutesConfig: RoutesConfig =
   defaultCheckoutRoutingConfig.routing?.routes ?? {};
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  isExpressCheckout(): boolean {
-    return true;
-  }
+  isExpressCheckout = createSpy().and.returnValue(true);
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
-  getFirstCheckoutStepRoute(): string {
-    return 'checkoutShippingAddress';
-  }
-  getCheckoutStepRoute(): string {
-    return 'checkoutReviewOrder';
-  }
+  getFirstCheckoutStepRoute = createSpy().and.returnValue(
+    'checkoutShippingAddress'
+  );
+  getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
 }
 
 class MockExpressCheckoutService implements Partial<ExpressCheckoutService> {
-  trySetDefaultCheckoutDetails(): Observable<boolean> {
-    return setDefaultCheckoutDetailsSuccess;
-  }
+  trySetDefaultCheckoutDetails = createSpy().and.returnValue(of(false));
 }
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
@@ -46,9 +40,7 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 }
 
 class MockCartService implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return false;
-  }
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 describe(`CheckoutGuard`, () => {
@@ -57,6 +49,7 @@ describe(`CheckoutGuard`, () => {
   let mockCheckoutStepService: CheckoutStepService;
   let cartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
+  let expressCheckoutService: ExpressCheckoutService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -79,10 +72,13 @@ describe(`CheckoutGuard`, () => {
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
     cartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
+    expressCheckoutService = TestBed.inject(ExpressCheckoutService);
   });
 
   it(`should redirect to first checkout step if express checkout is turned off`, (done) => {
-    spyOn(checkoutConfigService, 'isExpressCheckout').and.returnValue(false);
+    checkoutConfigService.isExpressCheckout =
+      createSpy().and.returnValue(false);
+
     guard
       .canActivate()
       .subscribe((result) => {
@@ -99,7 +95,7 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if is guest checkout`, (done) => {
-    spyOn(cartService, 'isGuestCart').and.returnValue(true);
+    cartService.isGuestCart = createSpy().and.returnValue(true);
 
     guard
       .canActivate()
@@ -117,7 +113,6 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if express checkout is not possible`, (done) => {
-    setDefaultCheckoutDetailsSuccess.next(false);
     guard
       .canActivate()
       .subscribe((result) => {
@@ -134,7 +129,9 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to review order`, (done) => {
-    setDefaultCheckoutDetailsSuccess.next(true);
+    expressCheckoutService.trySetDefaultCheckoutDetails =
+      createSpy().and.returnValue(of(true));
+
     guard
       .canActivate()
       .subscribe((result) => {

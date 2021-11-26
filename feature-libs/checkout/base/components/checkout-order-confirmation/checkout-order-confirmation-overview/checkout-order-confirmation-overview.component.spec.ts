@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { I18nTestingModule, Order } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutOrderConfirmationOverviewComponent } from './checkout-order-confirmation-overview.component';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: 'test-code-412',
@@ -18,9 +19,7 @@ const mockOrder: Order = {
 };
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order> {
-    return of(mockOrder);
-  }
+  getOrder = createSpy().and.returnValue(of(mockOrder));
 }
 
 describe('CheckoutOrderConfirmationOverviewComponent', () => {

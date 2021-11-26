@@ -23,6 +23,7 @@ import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -66,9 +67,7 @@ class MockEventService implements Partial<EventService> {
 class MockCheckoutPaymentConnector
   implements Partial<CheckoutPaymentConnector>
 {
-  getCardTypes(): Observable<CardType[]> {
-    return of(mockCardTypes);
-  }
+  getCardTypes = createSpy().and.returnValue(of(mockCardTypes));
   createPaymentDetails(
     _userId: string,
     _cartId: string,
@@ -132,17 +131,16 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`getCardTypesState`, () => {
     it(`should call the checkoutPaymentConnector.getCardTypes()`, (done) => {
-      spyOn(connector, 'getCardTypes').and.callThrough();
       service
         .getCardTypesState()
         .pipe(take(1))
         .subscribe((state) => {
+          expect(connector.getCardTypes).toHaveBeenCalled();
           expect(state).toEqual({
             loading: false,
             error: false,
             data: mockCardTypes,
           });
-          expect(connector.getCardTypes).toHaveBeenCalled();
           done();
         });
     });

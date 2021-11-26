@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { Cart, I18nTestingModule, Order } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Cart, I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CheckoutOrderConfirmationTotalsComponent } from './checkout-order-confirmation-totals.component';
+import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-order-summary', template: '' })
 class MockOrderSummaryComponent {
@@ -13,11 +14,11 @@ class MockOrderSummaryComponent {
 }
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order> {
-    return of({
+  getOrder = createSpy().and.returnValue(
+    of({
       code: 'test-code-412',
-    });
-  }
+    })
+  );
 }
 
 describe('CheckoutOrderConfirmationTotalsComponent', () => {
