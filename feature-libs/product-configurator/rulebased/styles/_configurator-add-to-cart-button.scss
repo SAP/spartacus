@@ -1,8 +1,17 @@
 %cx-configurator-add-to-cart-button {
+  .sticky-button {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: white;
+  }
+  .sticky {
+    position: sticky;
+  }
   .cx-add-to-cart-btn-container,
   .cx-display-only-btn-container {
     max-width: 1140px;
-
+    margin-top: 0px;
     @include cx-configurator-footer-container();
 
     button.cx-add-to-cart-btn,

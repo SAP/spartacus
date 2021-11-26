@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,8 +13,8 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -25,7 +25,7 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAddToCartButtonComponent {
+export class ConfiguratorAddToCartButtonComponent implements OnInit {
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
@@ -51,6 +51,8 @@ export class ConfiguratorAddToCartButtonComponent {
     )
   );
 
+  sticky$: Observable<boolean> = of(false);
+
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -61,6 +63,26 @@ export class ConfiguratorAddToCartButtonComponent {
     protected userOrderService: OrderFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
+  ngOnInit(): void {
+    this.container$.pipe(take(1), delay(0)).subscribe(() => {
+      const options = {};
+      let observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            this.sticky$ = of(true);
+          } else {
+            this.sticky$ = of(false);
+          }
+        });
+      }, options);
+      const priceSummary = document.querySelector(
+        '.cx-price-summary-container'
+      );
+      if (priceSummary) {
+        observer.observe(priceSummary);
+      }
+    });
+  }
 
   protected navigateToCart(): void {
     this.routingService.go('cart');
