@@ -98,9 +98,16 @@ export function i18nextGetHttpClient(
   httpClient: HttpClient
 ): (url: string, options: object, callback: Function, data: object) => void {
   return (url: string, _options: object, callback: Function, _data: object) => {
+    console.warn('JSON i18n call:', url, _options, callback, _data);
     httpClient.get(url, { responseType: 'text' }).subscribe(
-      (data) => callback(data, { status: 200 }),
-      (error) => callback(null, { status: error.status })
+      (data) => {
+        console.warn(data);
+        return callback(data, { status: 200 });
+      },
+      (error) => {
+        console.error(error);
+        callback(null, { status: error.status });
+      }
     );
   };
 }
