@@ -57,3 +57,8 @@ export enum TAB_MODE {
   TAB = 'TAB',
   ACCORDIAN = 'ACCORDIAN',
 }
+
+export enum TAB_PANEL_CONTENT_TYPE {
+  TEMPLATE_REF = 'TemplateRef',
+  CONTENT_SLOT_COMPONENT_DATA = 'ContentSlotComponentData',
+}

@@ -23,23 +23,9 @@
       Here we'd like to introduce configurable facet components, 
       either by using specific configuration or generic sproutlets 
   -->
-  <ng-container *cxFeatureLevel="'!4.2'">
-    <cx-facet
-      *ngFor="let facet of facets"
-      #facetRef
-      [facet]="facet"
-      [cxFocus]="{ lock: true, trap: true, autofocus: 'a' }"
-      (unlock)="expandFacetGroup(facet, facetRef)"
-      [class.expanded]="isExpanded(facet) | async"
-      [class.collapsed]="isCollapsed(facet) | async"
-    ></cx-facet>
-  </ng-container>
+  <cx-tab [tabs$]="tabs$" [config]="tabConfig"></cx-tab>
 
-  <ng-container *cxFeatureLevel="'4.2'">
-    <cx-tab [tabs$]="tabs$" [config]="tabConfig"></cx-tab>
-
-    <ng-template #facetsRef *ngFor="let facet of facets">
-      <cx-facet [facet]="facet"></cx-facet>
-    </ng-template>
-  </ng-container>
-</div>
+  <ng-template #facetsRef *ngFor="let facet of facets">
+    <cx-facet [facet]="facet"></cx-facet>
+  </ng-template>
+</section>

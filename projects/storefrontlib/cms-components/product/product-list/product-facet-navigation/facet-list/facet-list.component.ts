@@ -5,7 +5,6 @@ import {
   Component,
   ElementRef,
   EventEmitter,
-  HostListener,
   Input,
   Output,
   QueryList,
@@ -13,14 +12,11 @@ import {
   TemplateRef,
   ViewChildren,
 } from '@angular/core';
-import { Facet } from '@spartacus/core';
 import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/Tab';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
-import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
+import { take } from 'rxjs/operators';
+import { FacetList } from '../facet.model';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
-import { FacetGroupCollapsedState, FacetList } from '../facet.model';
-import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
 @Component({
@@ -55,24 +51,13 @@ export class FacetListComponent implements AfterViewInit {
 
   iconTypes = ICON_TYPE;
 
-  dialogFocusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    focusOnEscape: true,
-    autofocus: 'cx-facet',
-  };
-
   tabConfig: TabConfig = {
     label: 'Product Facets',
     mode: TAB_MODE.ACCORDIAN,
     openTabs: [0],
   };
-  
-  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
-  @HostListener('click') handleClick() {
-    this.close();
-  }
+  tabs$: BehaviorSubject<Tab[]> = new BehaviorSubject<Tab[]>([]);
 
   constructor(
     protected facetService: FacetService,
@@ -101,37 +86,6 @@ export class FacetListComponent implements AfterViewInit {
         this.tabs$.next(tabs);
         this.changeDetectorRef.detectChanges();
       });
-  }
-
-  /**
-   * Toggles the facet group in case it is not expanded.
-   */
-  expandFacetGroup(facet: Facet, ref: FacetComponent) {
-    if (!ref.isExpanded) {
-      this.facetService.toggle(facet, ref.isExpanded);
-    }
-  }
-
-  /**
-   * Indicates that the facet group has been expanded.
-   */
-  isExpanded(facet: Facet): Observable<boolean> {
-    return this.facetService
-      .getState(facet)
-      .pipe(
-        map((value) => value.toggled === FacetGroupCollapsedState.EXPANDED)
-      );
-  }
-
-  /**
-   * Indicates that the facet group has been collapsed.
-   */
-  isCollapsed(facet: Facet): Observable<boolean> {
-    return this.facetService
-      .getState(facet)
-      .pipe(
-        map((value) => value.toggled === FacetGroupCollapsedState.COLLAPSED)
-      );
   }
 
   close(event?: boolean): void {
