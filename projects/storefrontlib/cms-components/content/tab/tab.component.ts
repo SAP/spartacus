@@ -21,6 +21,8 @@ export class TabComponent implements OnInit {
   @Input() tabs$: Observable<Tab[]>;
   @Input() config: TabConfig;
 
+  TAB_MODE = TAB_MODE
+
   openTabs$: BehaviorSubject<number[]>;
   mode$: Observable<TAB_MODE>;
 

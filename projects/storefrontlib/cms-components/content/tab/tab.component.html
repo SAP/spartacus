@@ -20,7 +20,7 @@
 
         <!-- Show tab panels under selected button in Accordian mode -->
         <ng-container
-          *ngIf="mode === 'ACCORDIAN' && isOpen(i)"
+          *ngIf="mode === TAB_MODE.ACCORDIAN && isOpen(i)"
           [ngTemplateOutlet]="tabPanel"
           [ngTemplateOutletContext]="{ tabNum: i }"
         ></ng-container>
@@ -28,7 +28,7 @@
     </div>
 
     <!-- Show selected tab panel under all buttons in Tab mode -->
-    <ng-container *ngIf="mode === 'TAB'">
+    <ng-container *ngIf="mode === TAB_MODE.TAB">
       <ng-container
         *ngFor="let tab of tabs; let i = index"
         [ngTemplateOutlet]="tabPanel"

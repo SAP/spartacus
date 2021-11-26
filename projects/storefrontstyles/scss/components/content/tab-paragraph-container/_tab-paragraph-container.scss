@@ -190,13 +190,7 @@ $useTabsOnPDP: false !default;
 }
 
 %cx-tab-paragraph-container {
-  @if $useTabsComponent == true {
-    @extend %cx-tab !optional;
-  } @else if $useTabsOnPDP == true {
-    @extend %pdpTabs !optional;
-  } @else {
-    @extend %pdpFlat !optional;
-  }
+  @extend %cx-tab !optional;
 
   .active {
     background-color: var(--cx-color-inverse);
