@@ -207,12 +207,14 @@ describe('DeliveryModeComponent', () => {
     const getRadioInput = () =>
       fixture.debugElement.query(By.css('.form-check .form-check-input'));
 
-    it('should be enabled by default', () => {
+    it('should be enabled after Supported Delivery Modes are loaded', () => {
       spyOn(
         mockCheckoutDeliveryService,
         'getSupportedDeliveryModes'
       ).and.returnValue(of(mockSupportedDeliveryModes));
+
       component.ngOnInit();
+      component.deliveryModeLoaded$ = of(true);
 
       fixture.detectChanges();
 
@@ -224,9 +226,10 @@ describe('DeliveryModeComponent', () => {
         mockCheckoutDeliveryService,
         'getSupportedDeliveryModes'
       ).and.returnValue(of(mockSupportedDeliveryModes));
-      component.ngOnInit();
 
+      component.ngOnInit();
       component.deliveryModeLoaded$ = of(false);
+
       fixture.detectChanges();
 
       expect(getRadioInput().nativeElement.disabled).toBeTruthy();
@@ -240,26 +243,44 @@ describe('DeliveryModeComponent', () => {
       component.mode.controls['deliveryModeId'].setValue(value);
     };
 
-    it('should be disabled when delivery mode is not selected', () => {
+    it('should not be displayed in the screen when delivery mode is not selected', () => {
       setDeliveryModeId(null);
+
       fixture.detectChanges();
 
-      expect(getContinueBtn().nativeElement.disabled).toBe(true);
+      expect(getContinueBtn()).toBeFalsy();
     });
 
     it('should be enabled when delivery mode is selected', () => {
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getSupportedDeliveryModes'
+      ).and.returnValue(of(mockSupportedDeliveryModes));
+
+      component.ngOnInit();
+      component.deliveryModeLoaded$ = of(true);
       setDeliveryModeId(mockDeliveryMode1.code);
+
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
     });
 
     it('should call "next" function after being clicked', () => {
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getSupportedDeliveryModes'
+      ).and.returnValue(of(mockSupportedDeliveryModes));
       spyOn(component, 'next');
 
+      component.ngOnInit();
+      component.deliveryModeLoaded$ = of(true);
       setDeliveryModeId(mockDeliveryMode1.code);
+
       fixture.detectChanges();
+
       getContinueBtn().nativeElement.click();
+
       fixture.detectChanges();
 
       expect(component.next).toHaveBeenCalled();
@@ -272,8 +293,16 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
+      spyOn(
+        mockCheckoutDeliveryService,
+        'getSupportedDeliveryModes'
+      ).and.returnValue(of(mockSupportedDeliveryModes));
+
+      component.ngOnInit();
+      component.deliveryModeLoaded$ = of(true);
 
       fixture.detectChanges();
+
       getBackBtn().nativeElement.click();
 
       expect(component.back).toHaveBeenCalled();
