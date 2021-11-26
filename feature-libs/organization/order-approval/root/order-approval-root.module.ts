@@ -7,9 +7,10 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import { ORDER_FEATURE } from '@spartacus/order/root';
+import { ORDER_DETAILS_CONTEXT, ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
+import { OrderApprovalOrderDetailsContextToken } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
@@ -40,7 +41,12 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'orderApprovalDetails' },
+        data: {
+          cxRoute: 'orderApprovalDetails',
+          cxContext: {
+            [ORDER_DETAILS_CONTEXT]: OrderApprovalOrderDetailsContextToken,
+          },
+        },
       },
     ]),
   ],

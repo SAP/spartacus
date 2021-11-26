@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
-  CheckoutFacade,
+  OrderConfirmationOrderDetailsContextToken,
   OrderConfirmationOrderEntriesContextToken,
 } from '@spartacus/checkout/root';
 import {
@@ -11,10 +11,7 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import {
-  OrderDetailShippingComponent,
-  OrderDetailsService,
-} from '@spartacus/order/components';
+import { OrderDetailShippingComponent } from '@spartacus/order/components';
 import {
   CardModule,
   FormErrorsModule,
@@ -28,7 +25,8 @@ import { OrderConfirmationItemsComponent } from './components/order-confirmation
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
-import { OrderConfirmationOrderEntriesContext } from './order-entries-context/order-confirmation-order-entries-context';
+import { OrderConfirmationOrderDetailsContext } from './page-context/order-confirmation-order-details-context';
+import { OrderConfirmationOrderEntriesContext } from './page-context/order-confirmation-order-entries-context';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,
@@ -66,19 +64,16 @@ const orderConfirmationComponents = [
         },
         OrderConfirmationOverviewComponent: {
           component: OrderDetailShippingComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: CheckoutFacade,
-            },
-          ],
-          guards: [OrderConfirmationGuard],
         },
       },
     }),
     {
       provide: OrderConfirmationOrderEntriesContextToken,
       useExisting: OrderConfirmationOrderEntriesContext,
+    },
+    {
+      provide: OrderConfirmationOrderDetailsContextToken,
+      useExisting: OrderConfirmationOrderDetailsContext,
     },
   ],
   declarations: [...orderConfirmationComponents],

@@ -8,8 +8,8 @@ import {
   ProductImportStatus,
 } from '@spartacus/cart/main/root';
 import { Observable, of, Subject } from 'rxjs';
+import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
 import { AddOrderEntriesContext } from './add-order-entries.context';
-import { CartOrderEntriesContext } from './cart-order-entries.context';
 
 const mockActionsSubject = new Subject<Action>();
 

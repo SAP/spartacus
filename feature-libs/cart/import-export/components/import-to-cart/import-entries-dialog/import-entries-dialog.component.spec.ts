@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AddOrderEntriesContext } from '@spartacus/cart/main/components';
 import {
+  AddOrderEntriesContext,
   OrderEntriesSource,
   ProductData,
   ProductImportInfo,

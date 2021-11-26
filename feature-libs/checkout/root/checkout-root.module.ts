@@ -5,12 +5,16 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { ORDER_DETAILS_CONTEXT } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationOrderEntriesContextToken } from './tokens/context';
+import {
+  OrderConfirmationOrderDetailsContextToken,
+  OrderConfirmationOrderEntriesContextToken,
+} from './tokens/context';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {
@@ -60,6 +64,7 @@ export function defaultCheckoutComponentsConfig() {
           cxRoute: 'orderConfirmation',
           cxContext: {
             [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
+            [ORDER_DETAILS_CONTEXT]: OrderConfirmationOrderDetailsContextToken,
           },
         },
       },

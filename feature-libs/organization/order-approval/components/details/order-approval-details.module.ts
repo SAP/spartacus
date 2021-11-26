@@ -57,13 +57,6 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
         },
         OrderApprovalDetailShippingComponent: {
           component: OrderDetailShippingComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderApprovalDetailService,
-            },
-          ],
-          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailItemsComponent: {
           component: OrderDetailItemsComponent,

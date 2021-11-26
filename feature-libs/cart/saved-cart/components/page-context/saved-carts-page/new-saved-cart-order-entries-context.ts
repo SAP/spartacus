@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
   AddOrderEntriesContext,
-  CartOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-import {
   Cart,
+  CartOrderEntriesContext,
   MultiCartFacade,
   OrderEntriesSource,
   ProductData,

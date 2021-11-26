@@ -4,8 +4,10 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { OrderEntriesContext } from '@spartacus/cart/main/components';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import {
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/main/root';
 import {
   ContextService,
   LaunchDialogService,
