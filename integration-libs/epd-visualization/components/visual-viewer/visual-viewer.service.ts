@@ -6,7 +6,7 @@ import {
   Output,
   Injectable,
 } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   EpdVisualizationConfig,
   Ui5Config,
@@ -199,7 +199,7 @@ export class VisualViewerService {
     this._viewportAdded$ = value;
   }
 
-  private _selectedNodeIds$ = new Subject<string[]>();
+  private _selectedNodeIds$ = new BehaviorSubject<string[]>([]);
   private get selectedNodeIds$() {
     return this._selectedNodeIds$;
   }
@@ -712,7 +712,7 @@ export class VisualViewerService {
     }
 
     if (this.selectedProductCodes === undefined) {
-      this.selectedProductCodes = [];
+      this.selectedProductCodes = this.selectedNodeIds$.getValue();
     }
   }
 
