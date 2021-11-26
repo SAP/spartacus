@@ -1,7 +1,7 @@
 import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
-import * as configuration from '../../helpers/product-configurator';
-import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
-import * as configurationVc from '../../helpers/product-configurator-vc';
+import * as configuration from '../../../helpers/product-configurator';
+import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
