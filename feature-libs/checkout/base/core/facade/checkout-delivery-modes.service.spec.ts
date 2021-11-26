@@ -1,4 +1,3 @@
-import { AbstractType, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
@@ -9,7 +8,6 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
-  Cart,
   CartActions,
   DeliveryMode,
   EventService,
@@ -17,10 +15,11 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryModesConnector } from '../connectors/checkout-delivery-modes/checkout-delivery-modes.connector';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -36,55 +35,35 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
 ];
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(of());
+  dispatch = createSpy();
 }
 
 class MockCheckoutDeliveryModesConnector
   implements Partial<CheckoutDeliveryModesConnector>
 {
-  getSupportedModes(
-    _userId: string,
-    _cartId: string
-  ): Observable<DeliveryMode[]> {
-    return of(mockSupportedDeliveryModes);
-  }
-  setMode(
-    _userId: string,
-    _cartId: string,
-    _deliveryModeId: string
-  ): Observable<unknown> {
-    return of('setMode');
-  }
-  clearCheckoutDeliveryMode(
-    _userId: string,
-    _cartId: string
-  ): Observable<unknown> {
-    return of('clearCheckoutDeliveryMode');
-  }
+  getSupportedModes = createSpy().and.returnValue(
+    of(mockSupportedDeliveryModes)
+  );
+  setMode = createSpy().and.returnValue(of('setMode'));
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(
+    of('clearCheckoutDeliveryMode')
+  );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getCheckoutDetailsState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 describe(`CheckoutDeliveryModesService`, () => {
@@ -126,8 +105,6 @@ describe(`CheckoutDeliveryModesService`, () => {
 
   describe(`getSupportedDeliveryModesState`, () => {
     it(`should call the checkoutDeliveryModesConnector.getSupportedModes()`, (done) => {
-      spyOn(connector, 'getSupportedModes').and.callThrough();
-
       service
         .getSupportedDeliveryModesState()
         .pipe(take(1))
@@ -186,7 +163,7 @@ describe(`CheckoutDeliveryModesService`, () => {
 
   describe(`getSelectedDeliveryModeState`, () => {
     it(`should return the delivery modes`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -212,8 +189,6 @@ describe(`CheckoutDeliveryModesService`, () => {
 
   describe(`setDeliveryMode`, () => {
     it(`should call checkoutDeliveryModesConnector.setMode`, () => {
-      spyOn(connector, 'setMode').and.stub();
-
       service.setDeliveryMode(mockDeliveryModeCode);
 
       expect(connector.setMode).toHaveBeenCalledWith(
@@ -224,8 +199,6 @@ describe(`CheckoutDeliveryModesService`, () => {
     });
 
     it(`should dispatch DeliveryModeSetEvent event`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.setDeliveryMode(mockDeliveryModeCode);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -252,8 +225,6 @@ describe(`CheckoutDeliveryModesService`, () => {
 
   describe(`clearCheckoutDeliveryMode`, () => {
     it(`should call checkoutDeliveryModesConnector.clearCheckoutDeliveryMode`, () => {
-      spyOn(connector, 'clearCheckoutDeliveryMode').and.stub();
-
       service.clearCheckoutDeliveryMode();
 
       expect(connector.clearCheckoutDeliveryMode).toHaveBeenCalledWith(
@@ -263,8 +234,6 @@ describe(`CheckoutDeliveryModesService`, () => {
     });
 
     it(`should dispatch DeliveryModeClearedEvent event`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.clearCheckoutDeliveryMode();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -289,7 +258,7 @@ describe(`CheckoutDeliveryModesService`, () => {
 
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should reload cart on error`, () => {
-      spyOn(connector, 'clearCheckoutDeliveryMode').and.returnValue(
+      connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
         throwError('err')
       );
       spyOn(store, 'dispatch').and.stub();

@@ -3,14 +3,14 @@ import {
   ActiveCartService,
   BasePageMetaResolver,
   Cart,
-  CmsService,
   I18nTestingModule,
   PageMetaResolver,
   PageMetaService,
   PageRobotsMeta,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';
+import createSpy = jasmine.createSpy;
 
 const mockCart: Cart = {
   code: '1234',
@@ -18,20 +18,12 @@ const mockCart: Cart = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  getActive(): Observable<Cart> {
-    return of(mockCart);
-  }
+  getActive = createSpy().and.returnValue(of(mockCart));
 }
 
-class MockCmsService implements Partial<CmsService> {}
-
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
-  resolveDescription(): Observable<string> {
-    return of();
-  }
-  resolveRobots(): Observable<PageRobotsMeta[]> {
-    return of();
-  }
+  resolveDescription = createSpy().and.returnValue(of());
+  resolveRobots = createSpy().and.returnValue(of());
 }
 
 describe('CheckoutPageMetaResolver', () => {
@@ -49,7 +41,6 @@ describe('CheckoutPageMetaResolver', () => {
           useExisting: CheckoutPageMetaResolver,
           multi: true,
         },
-        { provide: CmsService, useClass: MockCmsService },
         {
           provide: BasePageMetaResolver,
           useClass: MockBasePageMetaResolver,
@@ -81,7 +72,7 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
-    spyOn(basePageMetaResolver, 'resolveDescription').and.returnValue(
+    basePageMetaResolver.resolveDescription = createSpy().and.returnValue(
       of('Page description')
     );
 
@@ -97,8 +88,7 @@ describe('CheckoutPageMetaResolver', () => {
 
   it(`should resolve robots for page data`, () => {
     let result: PageRobotsMeta[] | undefined;
-
-    spyOn(basePageMetaResolver, 'resolveRobots').and.returnValue(
+    basePageMetaResolver.resolveRobots = createSpy().and.returnValue(
       of([PageRobotsMeta.NOFOLLOW, PageRobotsMeta.NOINDEX] as PageRobotsMeta[])
     );
 

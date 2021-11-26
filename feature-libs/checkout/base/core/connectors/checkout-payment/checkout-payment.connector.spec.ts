@@ -35,12 +35,12 @@ describe('CheckoutPaymentConnector', () => {
   });
 
   it('create should call adapter', () => {
-    service.createPaymentDetails('1', '2', {}).subscribe();
+    service.createPaymentDetails('1', '2', {}).pipe(take(1)).subscribe();
     expect(adapter.createPaymentDetails).toHaveBeenCalledWith('1', '2', {});
   });
 
   it('set should call adapter', () => {
-    service.setPaymentDetails('1', '2', '3').subscribe();
+    service.setPaymentDetails('1', '2', '3').pipe(take(1)).subscribe();
     expect(adapter.setPaymentDetails).toHaveBeenCalledWith('1', '2', '3');
   });
 

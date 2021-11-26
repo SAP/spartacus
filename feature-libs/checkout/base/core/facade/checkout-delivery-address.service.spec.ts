@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
@@ -10,7 +9,6 @@ import {
 import {
   ActiveCartService,
   Address,
-  Cart,
   EventService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
@@ -18,10 +16,11 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutDeliveryAddressConnector } from '../connectors/checkout-delivery-address/checkout-delivery-address.connector';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -30,55 +29,32 @@ const mockAddress: Partial<Address> = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  dispatch = createSpy();
 }
 
 class MockCheckoutDeliveryAddressConnector
   implements Partial<CheckoutDeliveryAddressConnector>
 {
-  createAddress(
-    _userId: string,
-    _cartId: string,
-    _address: Address
-  ): Observable<Address> {
-    return of(mockAddress);
-  }
-
-  setAddress(
-    _userId: string,
-    _cartId: string,
-    _addressId: string
-  ): Observable<unknown> {
-    return of('setAddress');
-  }
-
-  clearCheckoutDeliveryAddress(
-    _userId: string,
-    _cartId: string
-  ): Observable<unknown> {
-    return of('clearCheckoutDeliveryAddress');
-  }
+  createAddress = createSpy().and.returnValue(of(mockAddress));
+  setAddress = createSpy().and.returnValue(of('setAddress'));
+  clearCheckoutDeliveryAddress = createSpy().and.returnValue(
+    of('clearCheckoutDeliveryAddress')
+  );
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getCheckoutDetailsState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 describe(`CheckoutDeliveryAddressService`, () => {
@@ -122,7 +98,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
   describe(`getDeliveryAddress`, () => {
     it(`should return the address`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -148,8 +124,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
   describe(`createAndSetAddress`, () => {
     it(`should call checkoutDeliveryConnector.createAddress`, () => {
-      spyOn(connector, 'createAddress').and.stub();
-
       service.createAndSetAddress(mockAddress);
 
       expect(connector.createAddress).toHaveBeenCalledWith(
@@ -161,7 +135,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
     it(`should call facade's setDeliveryAddress()`, () => {
       spyOn(service, 'setDeliveryAddress').and.stub();
-
       service.createAndSetAddress(mockAddress);
 
       expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
@@ -170,7 +143,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should dispatch UserActions.LoadUserAddresses`, () => {
       spyOn(store, 'dispatch').and.stub();
-
       service.createAndSetAddress(mockAddress);
 
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -180,7 +152,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should NOT dispatch UserActions.LoadUserAddresses when the use is anonymous`, () => {
-      spyOn(userIdService, 'takeUserId').and.returnValue(
+      userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
       spyOn(store, 'dispatch').and.stub();
@@ -205,8 +177,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     });
 
     it(`should call checkoutDeliveryConnector.setAddress`, () => {
-      spyOn(connector, 'setAddress').and.stub();
-
       service.setDeliveryAddress(mockAddress);
 
       expect(connector.setAddress).toHaveBeenCalledWith(
@@ -217,7 +187,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
     });
 
     it(`should dispatch DeliveryAddressSetEvent`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
+      spyOn(store, 'dispatch').and.stub();
 
       service.setDeliveryAddress(mockAddress);
 
@@ -230,8 +200,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
   describe(`clearCheckoutDeliveryAddress`, () => {
     it(`should call checkoutDeliveryConnector.clearCheckoutDeliveryAddress`, () => {
-      spyOn(connector, 'clearCheckoutDeliveryAddress').and.stub();
-
       service.clearCheckoutDeliveryAddress();
 
       expect(connector.clearCheckoutDeliveryAddress).toHaveBeenCalledWith(
@@ -241,8 +209,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     });
 
     it(`should dispatch DeliveryAddressClearedEvent`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.clearCheckoutDeliveryAddress();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(

@@ -2,15 +2,15 @@ import { inject, TestBed } from '@angular/core/testing';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
-  Cart,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 import { CheckoutQueryService } from './checkout-query.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -21,27 +21,16 @@ const mockCheckoutState: CheckoutState = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockCheckoutConnector implements Partial<CheckoutConnector> {
-  getCheckoutDetails(
-    _userId: string,
-    _cartId: string
-  ): Observable<CheckoutState> {
-    return of(mockCheckoutState);
-  }
+  getCheckoutDetails = createSpy().and.returnValue(of(mockCheckoutState));
 }
 
 describe(`CheckoutQueryService`, () => {
@@ -74,8 +63,6 @@ describe(`CheckoutQueryService`, () => {
 
   describe(`getCheckoutDetailsState`, () => {
     it(`should checkoutConnector.getCheckoutDetails`, (done) => {
-      spyOn(connector, 'getCheckoutDetails').and.callThrough();
-
       service
         .getCheckoutDetailsState()
         .pipe(take(1))

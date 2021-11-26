@@ -5,16 +5,11 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { NavigationExtras } from '@angular/router';
-import {
-  MultiCartService,
-  RouterState,
-  RoutingService,
-  UrlCommands,
-} from '@spartacus/core';
-import { EMPTY, Observable, of, throwError } from 'rxjs';
+import { MultiCartService, RoutingService } from '@spartacus/core';
+import { EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
+import createSpy = jasmine.createSpy;
 
 const cartNotFoundStatus = { status: 400, statusText: 'Error' };
 const cartNotFoundError = {
@@ -29,17 +24,13 @@ const cartNotFoundError = {
 };
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(_commands: UrlCommands, _extras?: NavigationExtras): Promise<boolean> {
-    return EMPTY.toPromise();
-  }
+  go = createSpy().and.returnValue(EMPTY.toPromise());
 
-  getRouterState(): Observable<RouterState> {
-    return of();
-  }
+  getRouterState = createSpy().and.returnValue(of());
 }
 
 class MultiCartServiceStub implements Partial<MultiCartService> {
-  reloadCart(_cartId: string, _extraData?: { active: boolean }): void {}
+  reloadCart = createSpy();
 }
 
 describe('CheckoutCartInterceptor', () => {
@@ -66,14 +57,11 @@ describe('CheckoutCartInterceptor', () => {
     http = TestBed.inject(HttpClient);
     routingService = TestBed.inject(RoutingService);
     multiCartService = TestBed.inject(MultiCartService);
-
-    spyOn(routingService, 'go');
-    spyOn(multiCartService, 'reloadCart');
   });
 
   describe('intercept', () => {
     it('should redirect to cart page if the cart is not found', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
+      routingService.getRouterState = createSpy().and.returnValue(
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 
@@ -86,7 +74,7 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the route is not part of checkout', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
+      routingService.getRouterState = createSpy().and.returnValue(
         of({ state: { semanticRoute: 'orderConfirmation' } } as any)
       );
 
@@ -99,7 +87,7 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT reload cart if there is no subject', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
+      routingService.getRouterState = createSpy().and.returnValue(
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 
@@ -123,7 +111,7 @@ describe('CheckoutCartInterceptor', () => {
     });
 
     it('should NOT do anything if the error is not 400', () => {
-      spyOn(routingService, 'getRouterState').and.returnValue(
+      routingService.getRouterState = createSpy().and.returnValue(
         of({ state: { semanticRoute: 'checkoutDelivery' } } as any)
       );
 

@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CxEvent,
@@ -6,7 +5,7 @@ import {
   EventService,
   UpdateUserAddressEvent,
 } from '@spartacus/core';
-import { Observable, of, Subject } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';
 import {
@@ -16,22 +15,19 @@ import {
   ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
 } from './checkout.events';
+import createSpy = jasmine.createSpy;
 
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  clearCheckoutDeliveryAddress(): Observable<unknown> {
-    return of();
-  }
+  clearCheckoutDeliveryAddress = createSpy().and.returnValue(of());
 }
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  dispatch = createSpy();
 }
 
 describe(`CheckoutDeliveryAddressEventListener`, () => {
@@ -62,9 +58,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
   describe(`onUserAddressChange`, () => {
     it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
-      spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new UpdateUserAddressEvent());
 
       expect(
@@ -77,9 +70,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
 
     it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
-      spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new DeleteUserAddressEvent());
 
       expect(
@@ -94,8 +84,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
   describe(`onDeliveryAddressChange`, () => {
     it(`DeliveryAddressSetEvent should dispatch ResetDeliveryModesEvent and ResetCheckoutQueryEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new DeliveryAddressSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -109,8 +97,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
 
     it(`DeliveryAddressClearedEvent should dispatch ResetCheckoutQueryEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new DeliveryAddressClearedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -120,9 +106,6 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
 
     it(`ClearCheckoutDeliveryAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
-      spyOn(checkoutDeliveryAddressFacade, 'clearCheckoutDeliveryAddress');
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new ClearCheckoutDeliveryAddressEvent());
 
       expect(

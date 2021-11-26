@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+  CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -10,7 +11,7 @@ import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 
 export function defaultCheckoutComponentsConfig() {
-  const config = {
+  const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_FEATURE]: {
         cmsComponents: [

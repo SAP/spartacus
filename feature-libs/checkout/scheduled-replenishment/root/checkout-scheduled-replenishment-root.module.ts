@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
+  CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
@@ -11,7 +12,7 @@ import {
 } from './feature-name';
 
 export function defaultCheckoutComponentsConfig() {
-  const config = {
+  const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
         cmsComponents: [
