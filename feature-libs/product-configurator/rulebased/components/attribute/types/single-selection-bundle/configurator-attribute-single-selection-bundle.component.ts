@@ -20,7 +20,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      hideRemoveButton: this.attribute?.required,
+      hideRemoveButton: this.attribute.required,
       fallbackFocusId: this.getFocusIdOfNearestValue(value),
       productBoundValue: value,
       loading$: this.loading$,
@@ -32,16 +32,16 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
     if (!this.attribute.values) {
       return 'n/a';
     }
-    let prevIdx = this.attribute?.values.findIndex(
+    let prevIdx = this.attribute.values.findIndex(
       (value) => value?.valueCode === currentValue?.valueCode
     );
     prevIdx--;
     if (prevIdx < 0) {
-      prevIdx = this.attribute?.values?.length > 1 ? 1 : 0;
+      prevIdx = this.attribute.values?.length > 1 ? 1 : 0;
     }
     return this.createFocusId(
       this.getAttributeCode(this.attribute).toString(),
-      this.attribute?.values[prevIdx]?.valueCode
+      this.attribute.values[prevIdx]?.valueCode
     );
   }
 }
