@@ -17,7 +17,6 @@ export interface StateWithMultiCart {
 
 export interface MultiCartState {
   carts: StateUtils.EntityProcessesLoaderState<Cart | undefined>;
-  active: string | null;
   index: {
     [cartType: string]: string;
   };

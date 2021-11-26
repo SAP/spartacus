@@ -224,15 +224,14 @@ describe('Cart effect', () => {
         tempCartId,
         cartId: testCart.code,
       });
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId: tempCartId,
+      const removeCart = new CartActions.RemoveCart({
+        cartId: tempCartId,
       });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bc)', {
         b: createCartSuccessCompletion,
-        c: setTempCartCompletion,
+        c: removeCart,
       });
 
       expect(cartEffects.createCart$).toBeObservable(expected);
@@ -252,9 +251,8 @@ describe('Cart effect', () => {
         cartId: testCart.code,
         oldCartId: 'testOldCartId',
       });
-      const setTempCartCompletion = new CartActions.SetTempCart({
-        cart: testCart,
-        tempCartId,
+      const removeCompletion = new CartActions.RemoveCart({
+        cartId: tempCartId,
       });
       const mergeCartCompletion = new CartActions.MergeCartSuccess({
         userId,
@@ -267,7 +265,7 @@ describe('Cart effect', () => {
       actions$ = hot('-a', { a: action });
       const expected = cold('-(bcd)', {
         b: createCartCompletion,
-        c: setTempCartCompletion,
+        c: removeCompletion,
         d: mergeCartCompletion,
       });
 

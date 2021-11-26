@@ -114,13 +114,9 @@ const cart: Cart = {
   user: { uid: OCC_USER_ID_ANONYMOUS },
 };
 
-const cartState: any = {
-  value: cart,
-};
-
 class MockActiveCartService {
   requireLoadedCart(): any {
-    return of(cartState);
+    return of(cart);
   }
 }
 
