@@ -92,13 +92,17 @@
   </div>
 </form>
 
-<span id="quickOrderFormInitialDescription" class="cx-visually-hidden">
-  {{ 'quickOrderForm.initialDescription' | cxTranslate }}
-</span>
-
-<div *ngIf="results.length" aria-live="assertive" class="cx-visually-hidden">
+<label
+  aria-live="polite"
+  id="quickOrderFormInitialDescription"
+  aria-atomic="true"
+  class="cx-visually-hidden"
+>
   {{
-    'quickOrderForm.productsResults' | cxTranslate: { count: results.length }
+    results.length
+      ? ('quickOrderForm.productsResults'
+        | cxTranslate: { count: results.length })
+      : ''
   }}
   {{ 'quickOrderForm.initialDescription' | cxTranslate }}
-</div>
+</label>
