@@ -11,8 +11,15 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import {
+  filter,
+  pluck,
+  shareReplay,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -21,6 +28,7 @@ import {
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { CheckoutService } from './checkout.service';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
@@ -28,7 +36,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartFacade: ActiveCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -220,25 +229,27 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartFacade.getActiveCartId());
 
-      let cartId;
-      this.activeCartFacade
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
       if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetDeliveryMode({
-            userId,
-            cartId,
-            selectedModeId: mode,
-          })
-        );
+        combineLatest([
+          this.activeCartFacade.isStable(),
+          this.checkoutService.isLoading(),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) => isStable && !isLoading),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetDeliveryMode({
+                userId,
+                cartId,
+                selectedModeId: mode,
+              })
+            );
+          });
       }
     }
   }
