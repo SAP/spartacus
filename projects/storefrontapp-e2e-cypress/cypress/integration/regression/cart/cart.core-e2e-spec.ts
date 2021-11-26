@@ -1,9 +1,9 @@
-import * as cart from '../../helpers/cart';
-import { visitHomePage } from '../../helpers/checkout-flow';
-import * as alerts from '../../helpers/global-message';
-import { clickHamburger } from '../../helpers/homepage';
-import { viewportContext } from '../../helpers/viewport-context';
-import { login } from '../../support/utils/login';
+import * as cart from '../../../helpers/cart';
+import { visitHomePage } from '../../../helpers/checkout-flow';
+import * as alerts from '../../../helpers/global-message';
+import { clickHamburger } from '../../../helpers/homepage';
+import { viewportContext } from '../../../helpers/viewport-context';
+import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
