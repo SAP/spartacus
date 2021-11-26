@@ -8,7 +8,7 @@
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
-      aria-describedby="initialDescription"
+      aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"
       placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
@@ -92,7 +92,7 @@
   </div>
 </form>
 
-<span id="initialDescription" class="cx-visually-hidden">
+<span id="quickOrderFormInitialDescription" class="cx-visually-hidden">
   {{ 'quickOrderForm.initialDescription' | cxTranslate }}
 </span>
 
