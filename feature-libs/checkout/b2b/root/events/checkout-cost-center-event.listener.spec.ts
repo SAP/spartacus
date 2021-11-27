@@ -1,4 +1,3 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ClearCheckoutDeliveryAddressEvent,
@@ -6,18 +5,18 @@ import {
   ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
+import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  dispatch = createSpy();
 }
+
 const mockCartId = 'mockCartId';
 const mockUserId = 'mockUserId';
 const mockCode = 'mockCode';
@@ -42,8 +41,6 @@ describe(`CheckoutCostCenterEventListener`, () => {
 
   describe(`onCostCenterChange`, () => {
     it(`should dispatch ResetDeliveryModesEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new CostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -53,8 +50,6 @@ describe(`CheckoutCostCenterEventListener`, () => {
     });
 
     it(`should dispatch ClearCheckoutDeliveryAddressEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       const event = createFrom(CostCenterSetEvent, {
         code: mockCode,
         cartId: mockCartId,
@@ -69,8 +64,6 @@ describe(`CheckoutCostCenterEventListener`, () => {
     });
 
     it(`should dispatch ResetCheckoutQueryEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new CostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(

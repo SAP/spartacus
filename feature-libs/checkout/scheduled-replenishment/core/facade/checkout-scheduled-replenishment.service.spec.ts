@@ -1,24 +1,22 @@
-import { AbstractType, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { ReplenishmentOrderScheduledEvent } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   ActiveCartService,
-  Cart,
   CartActions,
   EventService,
   OCC_USER_ID_CURRENT,
-  Order,
   ORDER_TYPE,
   ReplenishmentOrder,
   ScheduleReplenishmentForm,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -31,42 +29,29 @@ const mockScheduleReplenishmentForm: ScheduleReplenishmentForm = {
 const termsChecked = true;
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of({} as T);
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(of());
+  dispatch = createSpy();
 }
 
 class MockCheckoutReplenishmentOrderConnector
   implements Partial<CheckoutReplenishmentOrderConnector>
 {
-  scheduleReplenishmentOrder(
-    _cartId: string,
-    _scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    _termsChecked: boolean,
-    _userId: string
-  ): Observable<ReplenishmentOrder> {
-    return of(mockReplenishmentOrder);
-  }
+  scheduleReplenishmentOrder = createSpy().and.returnValue(
+    of(mockReplenishmentOrder)
+  );
 }
 
 class MockCheckoutFacade implements Partial<CheckoutFacade> {
-  setOrder(_order: Order): void {}
+  setOrder = createSpy();
 }
 
 describe(`CheckoutScheduledReplenishmentService`, () => {
@@ -113,8 +98,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
 
   describe(`scheduleReplenishmentOrder`, () => {
     it(`should call checkoutDeliveryConnector.createAddress`, () => {
-      spyOn(connector, 'scheduleReplenishmentOrder').and.stub();
-
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
         termsChecked
@@ -129,8 +112,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
     });
 
     it(`should call checkoutFacade`, () => {
-      spyOn(checkoutFacade, 'setOrder').and.stub();
-
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
         termsChecked
@@ -157,8 +138,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
 
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
         termsChecked

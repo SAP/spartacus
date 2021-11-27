@@ -1,6 +1,7 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutCostCenterAdapter } from './checkout-cost-center.adapter';
 import { CheckoutCostCenterConnector } from './checkout-cost-center.connector';
 import createSpy = jasmine.createSpy;
@@ -41,7 +42,10 @@ describe('CheckoutCostCenterConnector', () => {
   });
 
   it('setCostCenter should call adapter', () => {
-    service.setCostCenter('userId', 'cartId', 'testCostCenter').subscribe();
+    service
+      .setCostCenter('userId', 'cartId', 'testCostCenter')
+      .pipe(take(1))
+      .subscribe();
     expect(adapter.setCostCenter).toHaveBeenCalledWith(
       'userId',
       'cartId',

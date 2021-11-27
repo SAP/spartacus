@@ -1,8 +1,10 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { ReplenishmentOrder, ScheduleReplenishmentForm } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderAdapter } from './checkout-replenishment-order.adapter';
 import { CheckoutReplenishmentOrderConnector } from './checkout-replenishment-order.connector';
+import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -18,14 +20,7 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 class MockCheckoutReplenishmentOrderAdapter
   implements CheckoutReplenishmentOrderAdapter
 {
-  scheduleReplenishmentOrder(
-    _cartId: string,
-    _scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    _termsChecked: boolean,
-    _userId: string
-  ): Observable<ReplenishmentOrder> {
-    return of({});
-  }
+  scheduleReplenishmentOrder = createSpy().and.returnValue(of({}));
 }
 
 describe('Checkout Replenishment Order Connector', () => {
@@ -55,11 +50,10 @@ describe('Checkout Replenishment Order Connector', () => {
     expect(connector).toBeTruthy();
   });
 
-  it('scheduleReplenishmentOrder should call adapter', () => {
-    spyOn(adapter, 'scheduleReplenishmentOrder').and.returnValue(
+  it('scheduleReplenishmentOrder should call adapter', (done) => {
+    adapter.scheduleReplenishmentOrder = createSpy().and.returnValue(
       of(mockReplenishmentOrder)
     );
-    let result;
 
     connector
       .scheduleReplenishmentOrder(
@@ -68,15 +62,16 @@ describe('Checkout Replenishment Order Connector', () => {
         true,
         'userId'
       )
-      .subscribe((data) => (result = data))
-      .unsubscribe();
-
-    expect(result).toEqual(mockReplenishmentOrder);
-    expect(adapter.scheduleReplenishmentOrder).toHaveBeenCalledWith(
-      'cartId',
-      mockReplenishmentOrderFormData,
-      true,
-      'userId'
-    );
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(adapter.scheduleReplenishmentOrder).toHaveBeenCalledWith(
+          'cartId',
+          mockReplenishmentOrderFormData,
+          true,
+          'userId'
+        );
+        expect(result).toEqual(mockReplenishmentOrder);
+        done();
+      });
   });
 });
