@@ -355,15 +355,13 @@ describe('OccCheckoutPaymentAdapter', () => {
         .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
-      console.log('res', result);
-      console.log('mock', mockNormalizedJaloError);
+
       expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): fix crazy test
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'get').and.returnValue(
@@ -384,7 +382,6 @@ describe('OccCheckoutPaymentAdapter', () => {
       const subscription = service
         .createPaymentDetails(userId, cartId, mockPaymentDetails)
         .subscribe((res) => {
-          console.log('res', res);
           result = res;
         });
 
@@ -443,8 +440,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): fix crazy test
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'get').and.returnValue(
@@ -481,7 +477,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('createSubWithProvider using single param', () => {
+  describe('createSubWithProvider with single param', () => {
     const params = {
       param: 'mockParam',
     };
@@ -527,8 +523,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): fix crazy test
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'post').and.returnValue(
@@ -612,8 +607,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'post').and.returnValue(
@@ -650,7 +644,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('createDetailsWithParameter', () => {
+  describe('createDetailsWithParameter with single param', () => {
     const params = {
       param: 'mockParam',
     };
@@ -735,7 +729,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('createDetailsWithParameter', () => {
+  describe('createDetailsWithParameter with multiple param', () => {
     const params = {
       param1: 'mockParam1',
       param2: 'mockParam2',
@@ -784,8 +778,7 @@ describe('OccCheckoutPaymentAdapter', () => {
       subscription.unsubscribe();
     }));
 
-    // TODO(BRIAN): fix crazy test
-    xit(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
       let calledTimes = -1;
 
       spyOn(httpClient, 'post').and.returnValue(
