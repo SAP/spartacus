@@ -187,8 +187,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     });
 
     it(`should dispatch DeliveryAddressSetEvent`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
       service.setDeliveryAddress(mockAddress);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
