@@ -7,6 +7,8 @@ import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   Cart,
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
@@ -46,6 +48,7 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe('OccCheckoutCostCenterAdapter', () => {
   let service: OccCheckoutCostCenterAdapter;
@@ -98,20 +101,17 @@ describe('OccCheckoutCostCenterAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: Cart | undefined;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .setCostCenter(userId, cartId, costCenterId)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));

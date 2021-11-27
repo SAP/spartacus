@@ -9,6 +9,8 @@ import { CHECKOUT_PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/b2b/core';
 import {
   Cart,
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   Occ,
   OccConfig,
   OccEndpoints,
@@ -51,6 +53,7 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe('OccCheckoutPaymentTypeAdapter', () => {
   let service: OccCheckoutPaymentTypeAdapter;
@@ -122,18 +125,17 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       );
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: PaymentType[] | undefined;
-      const subscription = service.getPaymentTypes().subscribe((res) => {
-        result = res;
-      });
+      let result: HttpErrorModel | undefined;
+      const subscription = service
+        .getPaymentTypes()
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -220,20 +222,17 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: Cart | undefined;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .setPaymentType(userId, cartId, paymentType)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));

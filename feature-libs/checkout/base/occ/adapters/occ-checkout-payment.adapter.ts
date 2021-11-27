@@ -155,9 +155,14 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
     userId: string,
     cartId: string
   ): Observable<any> {
-    return this.http.get(
-      this.getPaymentProviderSubInfoEndpoint(userId, cartId)
-    );
+    return this.http
+      .get(this.getPaymentProviderSubInfoEndpoint(userId, cartId))
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   protected createSubWithProvider(
@@ -173,10 +178,17 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       httpParams = httpParams.append(key, parameters[key]);
     });
 
-    return this.http.post(postUrl, httpParams, {
-      headers,
-      responseType: 'text',
-    });
+    return this.http
+      .post(postUrl, httpParams, {
+        headers,
+        responseType: 'text',
+      })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   protected createDetailsWithParameters(

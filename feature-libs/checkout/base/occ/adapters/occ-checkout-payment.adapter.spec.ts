@@ -12,6 +12,8 @@ import {
   CardType,
   Cart,
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   Occ,
   OccConfig,
   OccEndpoints,
@@ -192,6 +194,7 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe('OccCheckoutPaymentAdapter', () => {
   let service: OccCheckoutPaymentAdapter;
@@ -246,20 +249,17 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .setPaymentDetails(userId, cartId, paymentDetailsId)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -346,20 +346,18 @@ describe('OccCheckoutPaymentAdapter', () => {
       );
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: PaymentDetails | undefined;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .createPaymentDetails(userId, cartId, mockPaymentDetails)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
-
-      expect(result).toEqual(undefined);
+      console.log('res', result);
+      console.log('mock', mockNormalizedJaloError);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -429,21 +427,18 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service['getProviderSubInfo'](
         userId,
         cartId
-      ).subscribe((res) => {
-        result = res;
-      });
+      ).subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -486,7 +481,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('createSubWithProvider', () => {
+  describe('createSubWithProvider using single param', () => {
     const params = {
       param: 'mockParam',
     };
@@ -516,21 +511,18 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(mockPaymentProvider);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service['createSubWithProvider'](
         mockUrl,
         params
-      ).subscribe((res) => {
-        result = res;
-      });
+      ).subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -573,7 +565,7 @@ describe('OccCheckoutPaymentAdapter', () => {
     }));
   });
 
-  describe('createSubWithProvider', () => {
+  describe('createSubWithProvider with multiple param', () => {
     const params = {
       param1: 'mockParam1',
       param2: 'mockParam2',
@@ -604,21 +596,18 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(mockPaymentProvider);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service['createSubWithProvider'](
         mockUrl,
         params
-      ).subscribe((res) => {
-        result = res;
-      });
+      ).subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -691,22 +680,19 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(mockPaymentDetails);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service['createDetailsWithParameters'](
         userId,
         cartId,
         params
-      ).subscribe((res) => {
-        result = res;
-      });
+      ).subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -781,22 +767,19 @@ describe('OccCheckoutPaymentAdapter', () => {
       mockReq.flush(mockPaymentDetails);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service['createDetailsWithParameters'](
         userId,
         cartId,
         params
-      ).subscribe((res) => {
-        result = res;
-      });
+      ).subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -883,18 +866,17 @@ describe('OccCheckoutPaymentAdapter', () => {
       expect(converter.pipeableMany).toHaveBeenCalledWith(CARD_TYPE_NORMALIZER);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: CardType[] | undefined;
-      const subscription = service.getCardTypes().subscribe((res) => {
-        result = res;
-      });
+      let result: HttpErrorModel | undefined;
+      const subscription = service
+        .getCardTypes()
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));

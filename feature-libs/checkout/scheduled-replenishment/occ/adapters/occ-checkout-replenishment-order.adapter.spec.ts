@@ -6,6 +6,8 @@ import {
 import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
 import {
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   OccConfig,
   OccEndpoints,
   ReplenishmentOrder,
@@ -56,6 +58,7 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe('OccCheckoutReplenishmentOrderAdapter', () => {
   let occAdapter: OccCheckoutReplenishmentOrderAdapter;
@@ -119,11 +122,10 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     });
   });
 
-  // TODO(BRIAN): double check why it's not working
-  xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+  it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
     spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-    let result: ReplenishmentOrder | undefined;
+    let result: HttpErrorModel | undefined;
     const subscription = occAdapter
       .scheduleReplenishmentOrder(
         cartId,
@@ -131,13 +133,11 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
         termsChecked,
         userId
       )
-      .subscribe((res) => {
-        result = res;
-      });
+      .subscribe({ error: (err) => (result = err) });
 
     tick(4200);
 
-    expect(result).toEqual(undefined);
+    expect(result).toEqual(mockNormalizedJaloError);
 
     subscription.unsubscribe();
   }));

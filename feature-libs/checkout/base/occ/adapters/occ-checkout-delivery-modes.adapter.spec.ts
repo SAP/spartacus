@@ -10,6 +10,8 @@ import {
   Cart,
   ConverterService,
   DeliveryMode,
+  HttpErrorModel,
+  normalizeHttpError,
   Occ,
   OccConfig,
   OccEndpoints,
@@ -59,6 +61,7 @@ const mockJaloError = new HttpErrorResponse({
     ],
   },
 });
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
 describe('OccCheckoutDeliveryModesAdapter', () => {
   let service: OccCheckoutDeliveryModesAdapter;
@@ -117,20 +120,17 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       );
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: DeliveryMode[] | undefined;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .getSupportedModes(userId, cartId)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -196,20 +196,17 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .setMode(userId, cartId, deliveryModeId)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
@@ -272,20 +269,17 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       mockReq.flush(checkoutData);
     });
 
-    // TODO(BRIAN): double check why it's not working
-    xit(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
       spyOn(httpClient, 'delete').and.returnValue(throwError(mockJaloError));
 
-      let result: unknown;
+      let result: HttpErrorModel | undefined;
       const subscription = service
         .clearCheckoutDeliveryMode(userId, cartId)
-        .subscribe((res) => {
-          result = res;
-        });
+        .subscribe({ error: (err) => (result = err) });
 
       tick(4200);
 
-      expect(result).toEqual(undefined);
+      expect(result).toEqual(mockNormalizedJaloError);
 
       subscription.unsubscribe();
     }));
