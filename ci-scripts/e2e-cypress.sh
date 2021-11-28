@@ -87,5 +87,5 @@ else
 
     #yarn e2e:run:ci"${SUITE}"
     yarn e2e:run:ci:core"${SUITE}"
-    yarn e2e:run:ci:b2b"${SUITE}"
+    #yarn e2e:run:ci:b2b"${SUITE}"
 fi
