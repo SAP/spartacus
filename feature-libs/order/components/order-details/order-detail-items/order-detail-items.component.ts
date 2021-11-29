@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
-import { Consignment, Order } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { OrderDetailsService } from '../order-details.service';
+import {
+  Consignment,
+  Order,
+  OrderDetailsContext,
+  ORDER_DETAILS_CONTEXT,
+} from '@spartacus/order/root';
+import { ContextService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
 import {
   cancelledValues,
   completedValues,
@@ -14,12 +19,20 @@ import {
   templateUrl: './order-detail-items.component.html',
 })
 export class OrderDetailItemsComponent implements OnInit {
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  constructor(protected contextService: ContextService) {}
+
+  protected orderDetailsContext$: Observable<OrderDetailsContext | undefined> =
+    this.contextService.get<OrderDetailsContext>(ORDER_DETAILS_CONTEXT);
 
   readonly CartOutlets = CartOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  order$: Observable<Order | undefined> = this.orderDetailsContext$.pipe(
+    switchMap(
+      (orderDetailsContext) =>
+        orderDetailsContext?.getOrderDetails?.() ?? of(undefined)
+    )
+  );
   others$: Observable<Consignment[] | undefined>;
   completed$: Observable<Consignment[] | undefined>;
   cancel$: Observable<Consignment[] | undefined>;
@@ -35,8 +48,8 @@ export class OrderDetailItemsComponent implements OnInit {
   ): Observable<Consignment[] | undefined> {
     return this.order$.pipe(
       map((order) => {
-        if (Boolean(order.consignments)) {
-          return order.consignments?.filter(
+        if (Boolean(order?.consignments)) {
+          return order?.consignments?.filter(
             (consignment) =>
               consignment.status &&
               consignmentStatus.includes(consignment.status)
@@ -51,8 +64,8 @@ export class OrderDetailItemsComponent implements OnInit {
   ): Observable<Consignment[] | undefined> {
     return this.order$.pipe(
       map((order) => {
-        if (Boolean(order.consignments)) {
-          return order.consignments?.filter(
+        if (Boolean(order?.consignments)) {
+          return order?.consignments?.filter(
             (consignment) =>
               consignment.status &&
               !consignmentStatus.includes(consignment.status)

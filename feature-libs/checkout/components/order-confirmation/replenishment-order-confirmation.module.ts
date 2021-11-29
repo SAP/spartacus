@@ -11,7 +11,6 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { OrderDetailShippingComponent } from '@spartacus/order/components';
 import {
   CardModule,
   FormErrorsModule,
@@ -42,9 +41,6 @@ import { OrderConfirmationOrderEntriesContext } from './page-context/order-confi
         ReplenishmentConfirmationMessageComponent: {
           component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
-        },
-        ReplenishmentConfirmationOverviewComponent: {
-          component: OrderDetailShippingComponent,
         },
         ReplenishmentConfirmationItemsComponent: {
           component: OrderConfirmationItemsComponent,

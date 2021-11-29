@@ -68,6 +68,18 @@ export function defaultCheckoutComponentsConfig() {
           },
         },
       },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'replenishmentConfirmation',
+          cxContext: {
+            [ORDER_DETAILS_CONTEXT]: OrderConfirmationOrderDetailsContextToken,
+          },
+        },
+      },
     ]),
   ],
   providers: [

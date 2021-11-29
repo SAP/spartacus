@@ -11,7 +11,6 @@ import {
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { OrderDetailShippingComponent } from '@spartacus/order/components';
 import {
   CardModule,
   FormErrorsModule,
@@ -61,9 +60,6 @@ const orderConfirmationComponents = [
         OrderConfirmationTotalsComponent: {
           component: OrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
-        },
-        OrderConfirmationOverviewComponent: {
-          component: OrderDetailShippingComponent,
         },
       },
     }),

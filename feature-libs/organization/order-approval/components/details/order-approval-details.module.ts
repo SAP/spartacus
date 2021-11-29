@@ -9,16 +9,9 @@ import {
   I18nModule,
   UrlModule,
 } from '@spartacus/core';
-import {
-  OrderDetailItemsComponent,
-  OrderDetailShippingComponent,
-  OrderDetailsService,
-  OrderDetailTotalsComponent,
-} from '@spartacus/order/components';
 import { FormErrorsModule, SpinnerModule } from '@spartacus/storefront';
 import { ApproverGuard } from '../../core/guards/approver.guard';
 import { OrderApprovalDetailFormComponent } from './order-approval-detail-form/order-approval-detail-form.component';
-import { OrderApprovalDetailService } from './order-approval-detail.service';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results/order-detail-permission-results.component';
 
 @NgModule({
@@ -32,41 +25,12 @@ import { OrderDetailPermissionResultsComponent } from './order-detail-permission
     RouterModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
-        OrderApprovalDetailTotalsComponent: {
-          component: OrderDetailTotalsComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderApprovalDetailService,
-            },
-          ],
-          guards: [AuthGuard, ApproverGuard],
-        },
         OrderApprovalDetailApprovalDetailsComponent: {
           component: OrderDetailPermissionResultsComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderApprovalDetailService,
-            },
-          ],
           guards: [AuthGuard, ApproverGuard],
         },
         AccountOrderDetailsApprovalDetailsComponent: {
           component: OrderDetailPermissionResultsComponent,
-        },
-        OrderApprovalDetailShippingComponent: {
-          component: OrderDetailShippingComponent,
-        },
-        OrderApprovalDetailItemsComponent: {
-          component: OrderDetailItemsComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: OrderApprovalDetailService,
-            },
-          ],
-          guards: [AuthGuard, ApproverGuard],
         },
         OrderApprovalDetailFormComponent: {
           component: OrderApprovalDetailFormComponent,

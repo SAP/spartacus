@@ -1,7 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderDetailsService } from '@spartacus/order/components';
-import { Order } from '@spartacus/order/root';
-import { Observable } from 'rxjs';
+import {
+  Order,
+  OrderDetailsContext,
+  ORDER_DETAILS_CONTEXT,
+} from '@spartacus/order/root';
+import { ContextService } from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-detail-permission-results',
@@ -9,7 +14,15 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderDetailPermissionResultsComponent {
-  order$: Observable<Order> = this.orderDetailsService.getOrderDetails();
+  constructor(protected contextService: ContextService) {}
 
-  constructor(protected orderDetailsService: OrderDetailsService) {}
+  protected orderDetailsContext$: Observable<OrderDetailsContext | undefined> =
+    this.contextService.get<OrderDetailsContext>(ORDER_DETAILS_CONTEXT);
+
+  order$: Observable<Order | undefined> = this.orderDetailsContext$.pipe(
+    switchMap(
+      (orderDetailsContext) =>
+        orderDetailsContext?.getOrderDetails?.() ?? of(undefined)
+    )
+  );
 }
