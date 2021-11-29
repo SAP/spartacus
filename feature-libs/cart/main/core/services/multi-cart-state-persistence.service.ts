@@ -1,7 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { CartPersistentStorageChangeEvent } from '@spartacus/cart/main/root';
 import {
   BASE_SITE_CONTEXT_ID,
+  EventService,
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
@@ -19,7 +21,8 @@ export class MultiCartStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithMultiCart>,
-    protected siteContextParamsService: SiteContextParamsService
+    protected siteContextParamsService: SiteContextParamsService,
+    protected eventService: EventService
   ) {}
 
   public initSync() {
@@ -31,6 +34,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
           BASE_SITE_CONTEXT_ID,
         ]),
         onRead: (state) => this.onRead(state),
+        onPersist: (state) => this.onPersist(state),
       })
     );
   }
@@ -58,6 +62,12 @@ export class MultiCartStatePersistenceService implements OnDestroy {
     } else {
       this.store.dispatch(new CartActions.SetActiveCartId(''));
     }
+  }
+
+  protected onPersist(state: { active: string } | undefined) {
+    const event = new CartPersistentStorageChangeEvent();
+    event.state = state;
+    this.eventService.dispatch(event);
   }
 
   ngOnDestroy(): void {

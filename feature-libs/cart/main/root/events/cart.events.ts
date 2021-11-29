@@ -76,3 +76,7 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   quantity: number;
   entry: OrderEntry;
 }
+
+export class CartPersistentStorageChangeEvent extends CxEvent {
+  state: { active: string } | undefined;
+}
