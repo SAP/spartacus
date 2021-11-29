@@ -6,6 +6,7 @@ import {
   Order,
   RouterState,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -49,6 +50,10 @@ const mockRouterData: ConfiguratorRouter.Data = {
 const mockOrder: Order = {
   code: '1',
 };
+
+const mockPriceSummary: HTMLElement = document.querySelector(
+  '.cx-price-summary-container'
+) as HTMLElement;
 
 let component: ConfiguratorAddToCartButtonComponent;
 let fixture: ComponentFixture<ConfiguratorAddToCartButtonComponent>;
@@ -221,6 +226,8 @@ describe('ConfigAddToCartButtonComponent', () => {
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
+  let windowRef: WindowRef;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -284,6 +291,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
+    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
@@ -446,6 +454,29 @@ describe('ConfigAddToCartButtonComponent', () => {
         cxRoute: 'orderDetails',
         params: mockOrder,
       });
+    });
+  });
+  describe('Floating button', () => {
+    const observerMock = {
+      observe: () => null,
+      isIntersecting: true,
+    };
+    beforeEach(
+      waitForAsync(() => {
+        (<any>window).IntersectionObserver = () => observerMock;
+        spyOn(observerMock, 'observe').and.callThrough();
+      })
+    );
+    it('should make button sticky', () => {
+      const mockAddToCartButton = document.querySelector(
+        'cx-configurator-add-to-cart-button'
+      ) as HTMLElement;
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(mockAddToCartButton);
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      expect(observerMock.observe).toHaveBeenCalledWith(mockPriceSummary);
+      expect(mockAddToCartButton.style.position).toBe('sticky');
     });
   });
 });

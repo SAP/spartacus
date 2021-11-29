@@ -4,6 +4,7 @@ import {
   GlobalMessageType,
   Order,
   RoutingService,
+  WindowRef,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
@@ -59,34 +60,38 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
     protected userOrderService: OrderFacade,
-    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
+    protected windowRef: WindowRef
   ) {}
   ngOnInit(): void {
     this.container$.pipe(take(1), delay(0)).subscribe(() => {
       const options = { rootMargin: '0px 0px -100px 0px' };
-      const addToCartButton: HTMLElement = document.querySelector(
-        'cx-configurator-add-to-cart-button'
-      ) as HTMLElement;
+      if (this.windowRef.isBrowser()) {
+        const addToCartButton: HTMLElement =
+          this.windowRef.document?.querySelector(
+            'cx-configurator-add-to-cart-button'
+          ) as HTMLElement;
 
-      if (!addToCartButton) {
-        return;
-      }
+        if (!addToCartButton) {
+          return;
+        }
 
-      let observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            addToCartButton.style.position = 'sticky';
-          } else {
-            addToCartButton.style.position = 'fixed';
-          }
-        });
-      }, options);
+        let observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              addToCartButton.style.position = 'sticky';
+            } else {
+              addToCartButton.style.position = 'fixed';
+            }
+          });
+        }, options);
 
-      const priceSummary = document.querySelector(
-        '.cx-price-summary-container'
-      );
-      if (priceSummary) {
-        observer.observe(priceSummary);
+        const priceSummary = this.windowRef.document?.querySelector(
+          '.cx-price-summary-container'
+        );
+        if (priceSummary) {
+          observer.observe(priceSummary);
+        }
       }
     });
   }
