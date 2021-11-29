@@ -45,7 +45,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     // We want to wait the initialization of cartId until the userId is initialized
     // We have take(1) to not trigger this stream, when userId changes.
     take(1),
-    switchMapTo(this.multiCartService.getCartIdByType(CartType.ACTIVE)),
+    switchMapTo(this.multiCartFacade.getCartIdByType(CartType.ACTIVE)),
     // We also wait until we initialize cart from localStorage
     filter((cartId) => cartId !== undefined),
     // fallback to current when we don't have particular cart id
@@ -136,7 +136,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
-    return this.multiCartService.getCartIdByType(CartType.ACTIVE);
+    return this.multiCartFacade.getCartIdByType(CartType.ACTIVE);
   }
 
   /**
