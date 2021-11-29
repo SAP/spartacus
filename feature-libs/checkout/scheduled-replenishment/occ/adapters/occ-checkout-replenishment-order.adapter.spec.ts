@@ -15,6 +15,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
 
 const cartId = 'testCart';
@@ -60,7 +61,7 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe('OccCheckoutReplenishmentOrderAdapter', () => {
+describe(`OccCheckoutReplenishmentOrderAdapter`, () => {
   let occAdapter: OccCheckoutReplenishmentOrderAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
@@ -91,8 +92,8 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     httpMock.verify();
   });
 
-  describe('Schedule a replenishment order', () => {
-    it('should schedule a replenishment order', () => {
+  describe(`Schedule a replenishment order`, () => {
+    it(`should schedule a replenishment order`, () => {
       occAdapter
         .scheduleReplenishmentOrder(
           cartId,
@@ -122,63 +123,67 @@ describe('OccCheckoutReplenishmentOrderAdapter', () => {
     });
   });
 
-  it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-    spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+  describe(`back-off`, () => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+      spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
 
-    let result: HttpErrorModel | undefined;
-    const subscription = occAdapter
-      .scheduleReplenishmentOrder(
-        cartId,
-        mockReplenishmentOrderFormData,
-        termsChecked,
-        userId
-      )
-      .subscribe({ error: (err) => (result = err) });
+      let result: HttpErrorModel | undefined;
+      const subscription = occAdapter
+        .scheduleReplenishmentOrder(
+          cartId,
+          mockReplenishmentOrderFormData,
+          termsChecked,
+          userId
+        )
+        .pipe(take(1))
+        .subscribe({ error: (err) => (result = err) });
 
-    tick(4200);
+      tick(4200);
 
-    expect(result).toEqual(mockNormalizedJaloError);
+      expect(result).toEqual(mockNormalizedJaloError);
 
-    subscription.unsubscribe();
-  }));
+      subscription.unsubscribe();
+    }));
 
-  it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-    let calledTimes = -1;
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
 
-    spyOn(httpClient, 'post').and.returnValue(
-      defer(() => {
-        calledTimes++;
-        if (calledTimes === 3) {
-          return of(mockReplenishmentOrder);
-        }
-        return throwError(mockJaloError);
-      })
-    );
+      spyOn(httpClient, 'post').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(mockReplenishmentOrder);
+          }
+          return throwError(mockJaloError);
+        })
+      );
 
-    let result: ReplenishmentOrder | undefined;
-    const subscription = occAdapter
-      .scheduleReplenishmentOrder(
-        cartId,
-        mockReplenishmentOrderFormData,
-        termsChecked,
-        userId
-      )
-      .subscribe((res) => {
-        result = res;
-      });
+      let result: ReplenishmentOrder | undefined;
+      const subscription = occAdapter
+        .scheduleReplenishmentOrder(
+          cartId,
+          mockReplenishmentOrderFormData,
+          termsChecked,
+          userId
+        )
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+        });
 
-    // 1*1*300 = 300
-    tick(300);
-    expect(result).toEqual(undefined);
+      // 1*1*300 = 300
+      tick(300);
+      expect(result).toEqual(undefined);
 
-    // 2*2*300 = 1200
-    tick(1200);
-    expect(result).toEqual(undefined);
+      // 2*2*300 = 1200
+      tick(1200);
+      expect(result).toEqual(undefined);
 
-    // 3*3*300 = 2700
-    tick(2700);
+      // 3*3*300 = 2700
+      tick(2700);
 
-    expect(result).toEqual(mockReplenishmentOrder);
-    subscription.unsubscribe();
-  }));
+      expect(result).toEqual(mockReplenishmentOrder);
+      subscription.unsubscribe();
+    }));
+  });
 });

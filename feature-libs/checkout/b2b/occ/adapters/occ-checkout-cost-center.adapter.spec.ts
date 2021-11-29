@@ -50,7 +50,7 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe('OccCheckoutCostCenterAdapter', () => {
+describe(`OccCheckoutCostCenterAdapter`, () => {
   let service: OccCheckoutCostCenterAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
@@ -76,10 +76,10 @@ describe('OccCheckoutCostCenterAdapter', () => {
     httpMock.verify();
   });
 
-  describe('setCostCenter', () => {
+  describe(`setCostCenter`, () => {
     const costCenterId = 'testCostCenterId';
 
-    it('should set cost center cart', (done) => {
+    it(`should set cost center cart`, (done) => {
       service
         .setCostCenter(userId, cartId, costCenterId)
         .pipe(take(1))
@@ -101,54 +101,58 @@ describe('OccCheckoutCostCenterAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .setCostCenter(userId, cartId, costCenterId)
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .setCostCenter(userId, cartId, costCenterId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'put').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(cartData);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'put').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: Cart | undefined;
-      const subscription = service
-        .setCostCenter(userId, cartId, costCenterId)
-        .subscribe((res) => {
-          result = res;
-        });
+        let result: Cart | undefined;
+        const subscription = service
+          .setCostCenter(userId, cartId, costCenterId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(cartData);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
+    });
   });
 });

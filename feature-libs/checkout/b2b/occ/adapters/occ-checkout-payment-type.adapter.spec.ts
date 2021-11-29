@@ -55,7 +55,7 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe('OccCheckoutPaymentTypeAdapter', () => {
+describe(`OccCheckoutPaymentTypeAdapter`, () => {
   let service: OccCheckoutPaymentTypeAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
@@ -85,7 +85,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
     httpMock.verify();
   });
 
-  describe('getPaymentTypes', () => {
+  describe(`getPaymentTypes`, () => {
     const paymentTypesList: Occ.PaymentTypeList = {
       paymentTypes: [
         {
@@ -99,7 +99,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       ],
     };
 
-    it('should return paymentTypes', (done) => {
+    it(`should return paymentTypes`, (done) => {
       service
         .getPaymentTypes()
         .pipe(take(1))
@@ -117,7 +117,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       mockReq.flush(paymentTypesList);
     });
 
-    it('should use converter', () => {
+    it(`should use converter`, () => {
       service.getPaymentTypes().subscribe();
       httpMock.expectOne('paymenttypes').flush({});
       expect(converter.pipeableMany).toHaveBeenCalledWith(
@@ -125,59 +125,65 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       );
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .getPaymentTypes()
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .getPaymentTypes()
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'get').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(paymentTypesList);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'get').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(paymentTypesList);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: PaymentType[] | undefined;
-      const subscription = service.getPaymentTypes().subscribe((res) => {
-        result = res;
-      });
+        let result: PaymentType[] | undefined;
+        const subscription = service
+          .getPaymentTypes()
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(paymentTypesList.paymentTypes);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(paymentTypesList.paymentTypes);
+        subscription.unsubscribe();
+      }));
+    });
   });
 
-  describe('setPaymentType', () => {
+  describe(`setPaymentType`, () => {
     const paymentType = 'CARD';
 
-    it('should set payment type to cart', (done) => {
+    it(`should set payment type to cart`, (done) => {
       service
         .setPaymentType(userId, cartId, paymentType)
         .pipe(take(1))
@@ -199,7 +205,7 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    it('should set payment type to cart that contains purchaseOrderNumber', (done) => {
+    it(`should set payment type to cart that contains purchaseOrderNumber`, (done) => {
       const purchaseOrderNumber = 'test-number';
 
       service
@@ -222,54 +228,58 @@ describe('OccCheckoutPaymentTypeAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .setPaymentType(userId, cartId, paymentType)
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .setPaymentType(userId, cartId, paymentType)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'put').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(cartData);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'put').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: Cart | undefined;
-      const subscription = service
-        .setPaymentType(userId, cartId, paymentType)
-        .subscribe((res) => {
-          result = res;
-        });
+        let result: Cart | undefined;
+        const subscription = service
+          .setPaymentType(userId, cartId, paymentType)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(cartData);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
+    });
   });
 });

@@ -63,7 +63,7 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe('OccCheckoutDeliveryModesAdapter', () => {
+describe(`OccCheckoutDeliveryModesAdapter`, () => {
   let service: OccCheckoutDeliveryModesAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
@@ -91,12 +91,12 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
     httpMock.verify();
   });
 
-  describe('getSupportedModes', () => {
+  describe(`getSupportedModes`, () => {
     const mockDeliveryModes: Occ.DeliveryModeList = {
       deliveryModes: [{ name: 'mockDeliveryMode' }],
     };
 
-    it('should get all supported delivery modes for cart for given user id and cart id', (done) => {
+    it(`should get all supported delivery modes for cart for given user id and cart id`, (done) => {
       service
         .getSupportedModes(userId, cartId)
         .pipe(take(1))
@@ -120,61 +120,64 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       );
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'get').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .getSupportedModes(userId, cartId)
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .getSupportedModes(userId, cartId)
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'get').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(mockDeliveryModes);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'get').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(mockDeliveryModes);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: DeliveryMode[] | undefined;
-      const subscription = service
-        .getSupportedModes(userId, cartId)
-        .subscribe((res) => {
-          result = res;
-        });
+        let result: DeliveryMode[] | undefined;
+        const subscription = service
+          .getSupportedModes(userId, cartId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(mockDeliveryModes.deliveryModes);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(mockDeliveryModes.deliveryModes);
+        subscription.unsubscribe();
+      }));
+    });
   });
 
-  describe('set delivery mode for cart', () => {
+  describe(`set delivery mode for cart`, () => {
     const deliveryModeId = 'deliveryModeId';
 
-    it('should set modes for cart for given user id, cart id and delivery mode id', (done) => {
+    it(`should set modes for cart for given user id, cart id and delivery mode id`, (done) => {
       service
         .setMode(userId, cartId, deliveryModeId)
         .pipe(take(1))
@@ -196,59 +199,63 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       mockReq.flush(cartData);
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .setMode(userId, cartId, deliveryModeId)
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .setMode(userId, cartId, deliveryModeId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'put').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(cartData);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'put').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: unknown;
-      const subscription = service
-        .setMode(userId, cartId, deliveryModeId)
-        .subscribe((res) => {
-          result = res;
-        });
+        let result: unknown;
+        const subscription = service
+          .setMode(userId, cartId, deliveryModeId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(cartData);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
+    });
   });
 
-  describe('clear checkout delivery mode', () => {
-    it('should clear checkout delivery mode for given userId, cartId', (done) => {
+  describe(`clear checkout delivery mode`, () => {
+    it(`should clear checkout delivery mode for given userId, cartId`, (done) => {
       service
         .clearCheckoutDeliveryMode(userId, cartId)
         .pipe(take(1))
@@ -269,54 +276,58 @@ describe('OccCheckoutDeliveryModesAdapter', () => {
       mockReq.flush(checkoutData);
     });
 
-    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
-      spyOn(httpClient, 'delete').and.returnValue(throwError(mockJaloError));
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'delete').and.returnValue(throwError(mockJaloError));
 
-      let result: HttpErrorModel | undefined;
-      const subscription = service
-        .clearCheckoutDeliveryMode(userId, cartId)
-        .subscribe({ error: (err) => (result = err) });
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .clearCheckoutDeliveryMode(userId, cartId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
 
-      tick(4200);
+        tick(4200);
 
-      expect(result).toEqual(mockNormalizedJaloError);
+        expect(result).toEqual(mockNormalizedJaloError);
 
-      subscription.unsubscribe();
-    }));
+        subscription.unsubscribe();
+      }));
 
-    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
-      let calledTimes = -1;
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
 
-      spyOn(httpClient, 'delete').and.returnValue(
-        defer(() => {
-          calledTimes++;
-          if (calledTimes === 3) {
-            return of(checkoutData);
-          }
-          return throwError(mockJaloError);
-        })
-      );
+        spyOn(httpClient, 'delete').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(checkoutData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
 
-      let result: unknown;
-      const subscription = service
-        .clearCheckoutDeliveryMode(userId, cartId)
-        .subscribe((res) => {
-          result = res;
-        });
+        let result: unknown;
+        const subscription = service
+          .clearCheckoutDeliveryMode(userId, cartId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
 
-      // 1*1*300 = 300
-      tick(300);
-      expect(result).toEqual(undefined);
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
 
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(result).toEqual(undefined);
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
 
-      // 3*3*300 = 2700
-      tick(2700);
+        // 3*3*300 = 2700
+        tick(2700);
 
-      expect(result).toEqual(checkoutData);
-      subscription.unsubscribe();
-    }));
+        expect(result).toEqual(checkoutData);
+        subscription.unsubscribe();
+      }));
+    });
   });
 });
