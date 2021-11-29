@@ -67,6 +67,7 @@ export const configurator = {
       button: 'Add to Cart',
       buttonAfterAddToCart: 'Continue to Cart',
       buttonUpdateCart: 'Done',
+      buttonDisplayOnly: 'Done',
       confirmation: 'Configuration has been added to the cart',
       confirmationUpdate: 'Cart has been updated with configuration',
     },
@@ -85,6 +86,27 @@ export const configurator = {
       suggestionText: 'Change value for "{{ attribute }}"',
       viewConflictDetails: 'Conflict Detected',
       viewConfigurationDetails: '',
+    },
+    a11y: {
+      configureProduct: 'Configure product',
+      cartEntryBundleInfo: 'There is an item ',
+      cartEntryBundleInfo_plural: 'There are {{items}} items ',
+      cartEntryBundleName: 'Item {{ name }}',
+      cartEntryBundleNameWithQuantity:
+        'Item {{ name }} item quantity {{quantity}}',
+      cartEntryBundleNameWithPrice: 'Item {{ name }} item price {{price}}',
+      cartEntryBundle:
+        'Item {{ name }} item price {{price}} item quantity {{quantity}}',
+      cartEntryInfoIntro:
+        'Product has the following attributes and selected values',
+      cartEntryInfo: 'Attribute {{ attribute }} has selected value {{value}}',
+      nameOfAttribute: 'Name of Attribute',
+      valueOfAttribute: 'Value of attribute {{ attribute }}',
+      valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      value: 'Value {{ value }}',
+      attribute: 'Attribute {{ attribute }}',
+      listOfAttributesAndValues: 'List of attributes and their values:',
+      editAttributesAndValues: 'Edit values of attributes:',
     },
   },
 };
