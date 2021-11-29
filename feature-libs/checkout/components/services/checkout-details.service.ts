@@ -12,7 +12,7 @@ import {
   OCC_USER_ID_GUEST,
   PaymentDetails,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
   map,
@@ -35,8 +35,12 @@ export class CheckoutDetailsService {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected activeCartFacade: ActiveCartFacade
   ) {
-    this.cartId$ = this.activeCartFacade.getActive().pipe(
-      map((cartData) => {
+    this.cartId$ = combineLatest([
+      this.activeCartFacade.getActive(),
+      this.activeCartFacade.isStable(),
+    ]).pipe(
+      filter(([, isStable]) => isStable),
+      map(([cartData]) => {
         const cartUser = cartData.user;
         if (
           cartUser &&
@@ -52,11 +56,7 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      tap((cartId) => {
-        if (cartId) {
-          this.checkoutFacade.loadCheckoutDetails(cartId);
-        }
-      }),
+      tap((cartId) => this.checkoutFacade.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutFacade.getCheckoutDetailsLoaded()),
       skipWhile((loaded) => !loaded)

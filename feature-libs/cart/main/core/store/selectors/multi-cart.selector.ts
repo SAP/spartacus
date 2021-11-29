@@ -84,11 +84,6 @@ export const getCartEntrySelectorFactory = (
   );
 };
 
-export const getActiveCartId: MemoizedSelector<
-  StateWithMultiCart,
-  string | null
-> = createSelector(getMultiCartState, (state: MultiCartState) => state.active);
-
 export const getCartsSelectorFactory: MemoizedSelector<
   StateWithMultiCart,
   Cart[]

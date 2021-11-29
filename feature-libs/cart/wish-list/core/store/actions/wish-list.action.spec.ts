@@ -1,12 +1,10 @@
-import { getCartIdByUserId, MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
 import { Cart } from '@spartacus/cart/main/root';
 import { StateUtils } from '@spartacus/core';
-import { getWishlistName } from '../../utils/utils';
 import { WishListActions } from './index';
 
 const userId = 'userId';
-const cartId = 'xxx';
-const customerId = '1234-5678-abcdef';
+const cartId = 'testWishListId';
 
 const testCart: Cart = {
   code: cartId,
@@ -21,14 +19,13 @@ describe('WishList Actions', () => {
       it('should create the action', () => {
         const payload = {
           userId,
-          customerId,
-          tempCartId: getWishlistName(customerId),
+          cartId,
         };
         const action = new WishListActions.LoadWishList(payload);
         expect({ ...action }).toEqual({
           type: WishListActions.LOAD_WISH_LIST,
           payload,
-          meta: StateUtils.entityLoadMeta(MULTI_CART_DATA, payload.tempCartId),
+          meta: StateUtils.entityLoadMeta(MULTI_CART_DATA, 'testWishListId'),
         });
       });
     });
@@ -37,14 +34,13 @@ describe('WishList Actions', () => {
       it('should create the action', () => {
         const payload = {
           cart: testCart,
-          userId,
-          cartId: getCartIdByUserId(testCart, userId),
+          cartId,
         };
         const action = new WishListActions.LoadWishListSuccess(payload);
         expect({ ...action }).toEqual({
           type: WishListActions.LOAD_WISH_LIST_SUCCESS,
           payload,
-          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, 'testWishListId'),
         });
       });
     });
@@ -53,18 +49,14 @@ describe('WishList Actions', () => {
       it('should create the action', () => {
         const payload = {
           userId,
-          cartId: getCartIdByUserId(testCart, userId),
+          cartId,
           error: 'anyError',
         };
         const action = new WishListActions.LoadWishListFail(payload);
         expect({ ...action }).toEqual({
           type: WishListActions.LOAD_WISH_LIST_FAIL,
           payload,
-          meta: StateUtils.entityFailMeta(
-            MULTI_CART_DATA,
-            testCart.code,
-            'anyError'
-          ),
+          meta: StateUtils.entityFailMeta(MULTI_CART_DATA, cartId, 'anyError'),
         });
       });
     });
@@ -86,13 +78,13 @@ describe('WishList Actions', () => {
       it('should create the action', () => {
         const payload = {
           cart: testCart,
-          userId,
+          cartId,
         };
         const action = new WishListActions.CreateWishListSuccess(payload);
         expect({ ...action }).toEqual({
           type: WishListActions.CREATE_WISH_LIST_SUCCESS,
           payload,
-          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, testCart.code),
+          meta: StateUtils.entitySuccessMeta(MULTI_CART_DATA, cartId),
         });
       });
     });

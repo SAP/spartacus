@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { isEmpty } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -6,7 +7,7 @@ import {
 } from '@spartacus/cart/main/root';
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { CartConfigService } from '../services/cart-config.service';
 
 @Injectable({
@@ -29,14 +30,14 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
         slots$,
         this.activeCartService.getActive(),
         this.cartConfig.isSelectiveCartEnabled()
-          ? this.selectiveCartService.getCart()
+          ? this.selectiveCartService.getCart().pipe(startWith(null))
           : of({} as Cart),
         this.activeCartService.getLoading(),
       ]).pipe(
         map(([slots, cart, selectiveCart, loadingCart]) => {
           const exclude = (arr: string[], args: string[]) =>
             arr.filter((item) => args.every((arg) => arg !== item));
-          return Object.keys(cart).length === 0 && loadingCart
+          return isEmpty(cart) && loadingCart
             ? exclude(slots, [
                 'TopContent',
                 'CenterRightContentSlot',
@@ -44,7 +45,7 @@ export class CartPageLayoutHandler implements PageLayoutHandler {
               ])
             : cart.totalItems
             ? exclude(slots, ['EmptyCartMiddleContent'])
-            : selectiveCart.totalItems
+            : selectiveCart?.totalItems
             ? exclude(slots, [
                 'EmptyCartMiddleContent',
                 'CenterRightContentSlot',
