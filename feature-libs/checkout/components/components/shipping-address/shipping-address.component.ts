@@ -13,6 +13,8 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -50,7 +52,8 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade
+    protected checkoutCostCenterService?: CheckoutCostCenterFacade,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -204,6 +207,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.forceLoader = true;
     if (Boolean(address)) {
       this.checkoutDeliveryService.createAndSetAddress(address);
+      this.globalMessageService?.add(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     } else {
       this.forceLoader = false;
       this.next();

@@ -24,6 +24,7 @@ export const payment = {
     expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
+    paymentAddedSuccessfully: 'New payment was sucessfully added!',
     changePayment: 'Change Payment',
   },
   paymentMethods: {

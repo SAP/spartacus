@@ -103,7 +103,7 @@ export class PaymentFormComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected modalService: ModalService,
-    protected userAddressService: UserAddressService
+    protected userAddressService: UserAddressService,
   ) {}
 
   ngOnInit() {
@@ -272,12 +272,14 @@ export class PaymentFormComponent implements OnInit {
           paymentDetails: this.paymentForm.value,
           billingAddress: null,
         });
+        this.paymentAddedSuccessfullyMessage();
       } else {
         if (this.billingAddressForm.valid) {
           this.setPaymentDetails.emit({
             paymentDetails: this.paymentForm.value,
             billingAddress: this.billingAddressForm.value,
           });
+          this.paymentAddedSuccessfullyMessage();
         } else {
           this.billingAddressForm.markAllAsTouched();
         }
@@ -289,5 +291,12 @@ export class PaymentFormComponent implements OnInit {
         this.billingAddressForm.markAllAsTouched();
       }
     }
+  }
+
+  paymentAddedSuccessfullyMessage() {
+    this.globalMessageService?.add(
+      { key: 'paymentForm.paymentAddedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 }
