@@ -111,16 +111,9 @@ export function i18nextGetHttpClient(
     _payload: object | string,
     callback: RequestCallback
   ) => {
-    console.log('JSON i18n call:', url);
     httpClient.get(url, { responseType: 'text' }).subscribe(
-      (data) => {
-        console.log('JSON i18n call done for', url);
-        return callback(null, { status: 200, data });
-      },
-      (error) => {
-        console.log('JSON i18n call ERROR for', url, error);
-        callback(error, { data: error, status: error.status });
-      }
+      (data) => callback(null, { status: 200, data }),
+      (error) => callback(error, { data: error, status: error.status })
     );
   };
 }

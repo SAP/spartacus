@@ -11,9 +11,10 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig } from '@spartacus/assets';
+import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
   FeaturesConfig,
+  I18nConfig,
   OccConfig,
   provideConfig,
   RoutingConfig,
@@ -48,12 +49,6 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
-    provideConfig({
-      context: {
-        currency: ['USD'],
-        language: ['en'],
-      },
-    }),
     provideConfig(<OccConfig>{
       backend: {
         occ: {
@@ -73,9 +68,10 @@ if (!environment.production) {
         },
       },
     }),
-    provideConfig({
+    provideConfig(<I18nConfig>{
+      // we bring in static translations to be up and running soon right away
       i18n: {
-        backend: { loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json' },
+        resources: translations,
         chunks: translationChunksConfig,
         fallbackLang: 'en',
       },

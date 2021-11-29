@@ -1,4 +1,3 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine as engine } from '@nguniversal/express-engine';
 import {
@@ -17,9 +16,8 @@ const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
   concurrency: 20,
-  timeout: 10000,
-  reuseCurrentRendering: false,
-  debug: true,
+  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
+  reuseCurrentRendering: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
