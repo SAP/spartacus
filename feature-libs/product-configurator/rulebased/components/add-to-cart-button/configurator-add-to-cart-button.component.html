@@ -1,41 +1,35 @@
-<ng-container *ngIf="sticky$ | async as sticky">
-  <div class="sticky-button" [class.sticky]="sticky">
-    <ng-container *ngIf="container$ | async as container">
-      <ng-container *ngIf="!container.routerData.displayOnly; else displayOnly">
-        <div class="cx-add-to-cart-btn-container">
-          <button
-            class="
-              cx-btn
-              btn btn-block btn-primary
-              cx-add-to-cart-btn
-              floating-button
-            "
-            (click)="onAddToCart(container.configuration, container.routerData)"
-          >
-            {{
-              getButtonResourceKey(
-                container.routerData,
-                container.configuration
-              ) | cxTranslate
-            }}
-          </button>
-        </div>
-      </ng-container>
-      <ng-template #displayOnly>
-        <div class="cx-display-only-btn-container">
-          <button
-            class="
-              cx-btn
-              btn btn-block btn-primary
-              cx-display-only-btn
-              floating-button
-            "
-            (click)="leaveConfigurationOverview()"
-          >
-            {{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}
-          </button>
-        </div>
-      </ng-template>
-    </ng-container>
-  </div>
+<ng-container *ngIf="container$ | async as container">
+  <ng-container *ngIf="!container.routerData.displayOnly; else displayOnly">
+    <div class="cx-add-to-cart-btn-container">
+      <button
+        class="
+          cx-btn
+          btn btn-block btn-primary
+          cx-add-to-cart-btn
+          floating-button
+        "
+        (click)="onAddToCart(container.configuration, container.routerData)"
+      >
+        {{
+          getButtonResourceKey(container.routerData, container.configuration)
+            | cxTranslate
+        }}
+      </button>
+    </div>
+  </ng-container>
+  <ng-template #displayOnly>
+    <div class="cx-display-only-btn-container">
+      <button
+        class="
+          cx-btn
+          btn btn-block btn-primary
+          cx-display-only-btn
+          floating-button
+        "
+        (click)="leaveConfigurationOverview()"
+      >
+        {{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}
+      </button>
+    </div>
+  </ng-template>
 </ng-container>

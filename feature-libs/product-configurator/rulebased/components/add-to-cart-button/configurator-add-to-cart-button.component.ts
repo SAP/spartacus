@@ -13,7 +13,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -51,8 +51,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
     )
   );
 
-  sticky$: Observable<boolean> = of(false);
-
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
@@ -65,16 +63,25 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.container$.pipe(take(1), delay(0)).subscribe(() => {
-      const options = {};
+      const options = { rootMargin: '0px 0px -100px 0px' };
+      const addToCartButton: HTMLElement = document.querySelector(
+        'cx-configurator-add-to-cart-button'
+      ) as HTMLElement;
+
+      if (!addToCartButton) {
+        return;
+      }
+
       let observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            this.sticky$ = of(true);
+            addToCartButton.style.position = 'sticky';
           } else {
-            this.sticky$ = of(false);
+            addToCartButton.style.position = 'fixed';
           }
         });
       }, options);
+
       const priceSummary = document.querySelector(
         '.cx-price-summary-container'
       );
