@@ -104,8 +104,12 @@ export const configurator = {
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       forAttribute: '{{ value }} for attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      valueOfAttributeFullWithPrice:
+        'Value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       selectedValueOfAttributeFull:
         'Selected value {{ value }} of attribute {{ attribute }}',
+      selectedValueOfAttributeFullWithPrice:
+        'Selected value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -126,6 +130,7 @@ export const configurator = {
       itemOfAttribute: 'Item of attribute {{ attribute }}',
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
+      valueSurcharge: 'Value surcharge',
     },
   },
 };

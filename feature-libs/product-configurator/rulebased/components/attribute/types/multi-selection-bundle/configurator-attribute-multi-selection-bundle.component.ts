@@ -20,7 +20,8 @@ interface SelectionValue {
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
 
@@ -182,7 +183,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     disableAllButtons: boolean | null,
     hideRemoveButton: boolean | null,
     value: Configurator.Value,
-    index: number,
+    index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       disableAllButtons: disableAllButtons ? disableAllButtons : false,
@@ -193,7 +194,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
       attributeLabel: this.attribute.label,
-      itemCount: this.attribute.values?.length ? this.attribute.values?.length : 0,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
       itemIndex: index ? index : 0,
     };
   }

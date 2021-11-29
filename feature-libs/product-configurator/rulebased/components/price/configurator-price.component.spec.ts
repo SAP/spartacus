@@ -1,5 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorPriceComponent } from './configurator-price.component';
 
@@ -41,6 +42,7 @@ describe('ConfiguratorPriceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorPriceComponent, MockNumericPipe],
+        imports: [I18nTestingModule],
       }).compileComponents();
     })
   );

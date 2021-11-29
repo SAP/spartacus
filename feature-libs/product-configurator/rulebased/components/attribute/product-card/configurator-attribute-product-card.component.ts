@@ -4,14 +4,14 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
   ICON_TYPE,
-  KeyboardFocusService
+  KeyboardFocusService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, take, tap } from 'rxjs/operators';
@@ -51,7 +51,8 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
 })
 export class ConfiguratorAttributeProductCardComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   product$: Observable<Product>;
   loading$ = new BehaviorSubject<boolean>(true);
   showDeselectionNotPossible = false;
@@ -66,7 +67,7 @@ export class ConfiguratorAttributeProductCardComponent
   constructor(
     protected productService: ProductService,
     protected keyBoardFocus: KeyboardFocusService,
-    protected translation: TranslationService,
+    protected translation: TranslationService
   ) {
     super();
   }
@@ -87,8 +88,8 @@ export class ConfiguratorAttributeProductCardComponent
           return respProduct
             ? respProduct
             : this.transformToProductType(
-              this.productCardOptions.productBoundValue
-            );
+                this.productCardOptions.productBoundValue
+              );
         }),
         tap(() => this.loading$.next(false))
       );
@@ -207,10 +208,10 @@ export class ConfiguratorAttributeProductCardComponent
 
     const mergedLoading = this.productCardOptions.loading$
       ? combineLatest([this.loading$, this.productCardOptions.loading$]).pipe(
-        map((values) => {
-          return values[0] || values[1];
-        })
-      )
+          map((values) => {
+            return values[0] || values[1];
+          })
+        )
       : this.loading$;
 
     return {
@@ -257,7 +258,11 @@ export class ConfiguratorAttributeProductCardComponent
   getAriaLabelSingleUnselected(product: Product): string {
     let translatedText = '';
     let index = this.productCardOptions.itemIndex + 1;
-    if (this.isValueCodeDefined(this.productCardOptions?.productBoundValue?.valueCode)) {
+    if (
+      this.isValueCodeDefined(
+        this.productCardOptions?.productBoundValue?.valueCode
+      )
+    ) {
       if (this.hasPriceDisplay()) {
         // Gets different text as soon as price is implemented
         this.translation
@@ -269,8 +274,7 @@ export class ConfiguratorAttributeProductCardComponent
           })
           .pipe(take(1))
           .subscribe((text) => (translatedText = text));
-      }
-      else {
+      } else {
         this.translation
           .translate('configurator.a11y.itemOfAttributeUnselected', {
             item: product.code,
@@ -308,8 +312,7 @@ export class ConfiguratorAttributeProductCardComponent
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
-    }
-    else {
+    } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
           item: product.code,
@@ -338,8 +341,7 @@ export class ConfiguratorAttributeProductCardComponent
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
-    }
-    else {
+    } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelected', {
           item: product.code,
@@ -368,8 +370,7 @@ export class ConfiguratorAttributeProductCardComponent
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
-    }
-    else {
+    } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
           item: product.code,
@@ -398,8 +399,7 @@ export class ConfiguratorAttributeProductCardComponent
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
-    }
-    else {
+    } else {
       this.translation
         .translate('configurator.a11y.itemOfAttributeUnselected', {
           item: product.code,
@@ -413,5 +413,4 @@ export class ConfiguratorAttributeProductCardComponent
 
     return translatedText;
   }
-
 }

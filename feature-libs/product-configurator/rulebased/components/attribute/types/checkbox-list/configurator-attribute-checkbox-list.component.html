@@ -30,9 +30,17 @@
             [formControl]="attributeCheckBoxForms[i]"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
             [attr.aria-label]="
-              'configurator.a11y.valueOfAttributeFull'
-                | cxTranslate
-                  : { value: value.valueDisplay, attribute: attribute.label }
+              value.valuePrice && value.valuePrice?.value !== 0
+                ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+                  | cxTranslate
+                    : {
+                        value: value.valueDisplay,
+                        attribute: attribute.label,
+                        price: value.valuePrice.formattedValue
+                      })
+                : ('configurator.a11y.valueOfAttributeFull'
+                  | cxTranslate
+                    : { value: value.valueDisplay, attribute: attribute.label })
             "
           />
           <label
