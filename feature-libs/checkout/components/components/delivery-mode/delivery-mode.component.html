@@ -11,9 +11,10 @@
           else loading
         "
       >
-        <div
+        <fieldset
           class="form-check"
           *ngFor="let mode of supportedDeliveryModes$ | async"
+          [disabled]="!(deliveryModeLoaded$ | async)"
         >
           <input
             class="form-check-input"
@@ -23,7 +24,6 @@
             aria-checked="true"
             (change)="changeMode(mode.code)"
             [value]="mode.code"
-            [attr.disabled]="!(deliveryModeLoaded$ | async) ? '' : null"
             formControlName="deliveryModeId"
           />
           <label
@@ -36,7 +36,7 @@
             </div>
             <div class="cx-delivery-details">{{ mode.description }}</div>
           </label>
-        </div>
+        </fieldset>
         <div class="row cx-checkout-btns">
           <div class="col-md-12 col-lg-6">
             <button class="btn btn-block btn-action" (click)="back()">
