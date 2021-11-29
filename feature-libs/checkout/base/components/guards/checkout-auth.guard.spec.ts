@@ -24,8 +24,8 @@ class ActiveCartServiceStub implements Partial<ActiveCartService> {
   isStable = createSpy().and.returnValue(of(true));
 }
 
-class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get = createSpy();
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = createSpy().and.returnValue(`/login`);
 }
 
 class MockAuthRedirectService implements Partial<AuthRedirectService> {
@@ -46,7 +46,6 @@ describe('CheckoutAuthGuard', () => {
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartService;
   let checkoutConfigService: CheckoutConfigService;
-  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -54,7 +53,7 @@ describe('CheckoutAuthGuard', () => {
         CheckoutAuthGuard,
         {
           provide: SemanticPathService,
-          useClass: SemanticPathServiceStub,
+          useClass: MockSemanticPathService,
         },
         {
           provide: AuthRedirectService,
@@ -84,7 +83,6 @@ describe('CheckoutAuthGuard', () => {
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartService);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
-    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe(', when user is NOT authorized,', () => {
@@ -99,7 +97,6 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return url to login with forced flag when guestCheckout feature enabled', () => {
-        semanticPathService.get = createSpy().and.returnValue(`/login`);
         checkoutConfigService.isGuestCheckout =
           createSpy().and.returnValue(true);
 
@@ -112,8 +109,6 @@ describe('CheckoutAuthGuard', () => {
       });
 
       it('should return url to login without forced flag when guestCheckout feature disabled', () => {
-        semanticPathService.get = createSpy().and.returnValue(`/login`);
-
         let result: boolean | UrlTree | undefined;
         checkoutGuard
           .canActivate()
