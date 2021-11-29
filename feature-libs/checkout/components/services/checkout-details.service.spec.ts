@@ -56,6 +56,9 @@ class MockActiveCartService {
   isGuestCart(): Boolean {
     return false;
   }
+  isStable() {
+    return of(true);
+  }
 }
 
 describe('CheckoutDetailsService', () => {
@@ -63,7 +66,7 @@ describe('CheckoutDetailsService', () => {
   let checkoutService: CheckoutFacade;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
   let checkoutPaymentService: CheckoutPaymentFacade;
-  let activeCartService;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

@@ -1,12 +1,15 @@
 <form (ngSubmit)="onSubmit()" [formGroup]="customerSelectionForm">
   <label>
     <input
+      aria-required="true"
       #searchTerm
       type="text"
       formControlName="searchTerm"
       placeholder="{{ 'asm.customerSearch.searchTerm.label' | cxTranslate }}"
     />
     <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
       [control]="customerSelectionForm.get('searchTerm')"
     ></cx-form-errors>
   </label>

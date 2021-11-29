@@ -7,12 +7,13 @@ import {
 import {
   ActiveCartService,
   Address,
+  EMAIL_PATTERN,
   OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_GUEST,
   PaymentDetails,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -34,11 +35,18 @@ export class CheckoutDetailsService {
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected activeCartService: ActiveCartService
   ) {
-    this.cartId$ = this.activeCartService.getActive().pipe(
-      map((cartData) => {
+    this.cartId$ = combineLatest([
+      this.activeCartService.getActive(),
+      this.activeCartService.isStable(),
+    ]).pipe(
+      filter(([, isStable]) => isStable),
+      map(([cartData]) => {
+        const cartUser = cartData.user;
         if (
-          (cartData.user && cartData.user.uid === OCC_USER_ID_ANONYMOUS) ||
-          this.activeCartService.isGuestCart()
+          cartUser &&
+          (cartUser.uid === OCC_USER_ID_ANONYMOUS ||
+            cartUser.uid === OCC_USER_ID_GUEST ||
+            !!cartUser.uid?.split('|').slice(1).join('|').match(EMAIL_PATTERN))
         ) {
           return cartData.guid as string;
         }
@@ -48,7 +56,6 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      distinctUntilChanged(),
       tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
