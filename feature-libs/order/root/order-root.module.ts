@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
@@ -44,6 +44,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'OrderReturnRequestListComponent',
           'CheckoutPlaceOrder',
         ],
+        dependencies: [CART_FEATURE],
       },
       // by default core is bundled together with components
       [ORDER_CORE_FEATURE]: ORDER_FEATURE,

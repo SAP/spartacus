@@ -1,19 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+} from '@spartacus/cart/main/root';
 import {
   Converter,
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
-  constructor(
-    private converter: ConverterService,
-    private entryPromotionService?: OrderEntryPromotionsService
-  ) {}
+  constructor(private converter: ConverterService) {}
 
   convert(source: Occ.Cart, target?: Cart): Cart {
     if (target === undefined) {
@@ -26,12 +25,10 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
       target.entries = source.entries.map((entry) => ({
         ...entry,
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
-        promotions: this.entryPromotionService
-          ? this.entryPromotionService.getProductPromotion(
-              entry,
-              target?.appliedProductPromotions
-            )
-          : [],
+        promotions: this.converter.convert(
+          { item: entry, promotions: target?.appliedProductPromotions },
+          ORDER_ENTRY_PROMOTIONS_NORMALIZER
+        ),
       }));
     }
 

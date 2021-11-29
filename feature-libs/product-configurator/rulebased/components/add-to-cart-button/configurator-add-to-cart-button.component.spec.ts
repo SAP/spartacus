@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  Order,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
