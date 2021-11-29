@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
-import { OrderDetailsService } from '../order-details.service';
+import { Order } from '@spartacus/order/root';
+import { ContextService } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { OrderDetailShippingComponent } from './order-detail-shipping.component';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: 'test-code-412',
@@ -18,45 +19,28 @@ const mockOrder: Order = {
   },
 };
 
-const mockReplenishmentOrder: ReplenishmentOrder = {
-  active: true,
-  purchaseOrderNumber: 'test-po',
-  replenishmentOrderCode: 'test-repl-order',
-  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
-  firstDate: '1994-01-11T00:00Z',
-  trigger: {
-    activationTime: '1994-01-11T00:00Z',
-    displayTimeTable: 'every-test-date',
-  },
-  paymentType: {
-    code: 'test-type',
-    displayName: 'test-type-name',
-  },
-  costCenter: {
-    name: 'Rustic Global',
-    unit: {
-      name: 'Rustic',
-    },
-  },
-};
+class MockImportExportContext {
+  getOrderDetails = createSpy('getOrderDetails').and.returnValue(of(mockOrder));
+}
+const contextService = new MockImportExportContext();
 
-class MockOrderDetailsService {
-  getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
-  }
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
 }
 
 describe('OrderDetailShippingComponent', () => {
   let component: OrderDetailShippingComponent;
   let fixture: ComponentFixture<OrderDetailShippingComponent>;
-  let orderDetailsService: OrderDetailsService;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         providers: [
-          { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+          {
+            provide: ContextService,
+            useClass: MockContextService,
+          },
         ],
         declarations: [OrderDetailShippingComponent],
       }).compileComponents();
@@ -65,34 +49,18 @@ describe('OrderDetailShippingComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailShippingComponent);
-    orderDetailsService = TestBed.inject(OrderDetailsService);
     component = fixture.componentInstance;
   });
 
   it('should create', () => {
-    component.ngOnInit();
     expect(component).toBeTruthy();
   });
 
   it('should be able to get order details', () => {
     let result: any;
 
-    orderDetailsService
-      .getOrderDetails()
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+    component.order$.subscribe((data) => (result = data)).unsubscribe();
 
     expect(result).toEqual(mockOrder);
-
-    spyOn(orderDetailsService, 'getOrderDetails').and.returnValue(
-      of(mockReplenishmentOrder)
-    );
-
-    orderDetailsService
-      .getOrderDetails()
-      .subscribe((data) => (result = data))
-      .unsubscribe();
-
-    expect(result).toEqual(mockReplenishmentOrder);
   });
 });

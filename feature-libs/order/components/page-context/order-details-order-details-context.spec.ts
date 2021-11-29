@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../order-details/order-details.service';
-import { ReplenishmentOrderDetailsService } from '../replenishment-order-details/replenishment-order-details.service';
 import { OrderDetailsOrderDetailsContext } from './order-details-order-details-context';
 import createSpy = jasmine.createSpy;
 
@@ -20,8 +19,8 @@ describe('OrderDetailsOrderDetailsContext', () => {
     TestBed.configureTestingModule({
       providers: [
         {
+          provide: OrderDetailsService,
           useClass: MocOrderDetailsService,
-          provide: ReplenishmentOrderDetailsService,
         },
       ],
     });

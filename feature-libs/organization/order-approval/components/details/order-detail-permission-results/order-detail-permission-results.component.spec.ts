@@ -2,10 +2,11 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { OrderDetailsService } from '@spartacus/order/components';
 import { Order } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
+import { ContextService } from '@spartacus/storefront';
+import { of } from 'rxjs';
 import { OrderDetailPermissionResultsComponent } from './order-detail-permission-results.component';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   permissionResults: [
@@ -38,10 +39,13 @@ const mockOrder: Order = {
   ],
 } as Order;
 
-class MockOrderDetailsService {
-  getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
-  }
+class MockImportExportContext {
+  getOrderDetails = createSpy('getOrderDetails').and.returnValue(of(mockOrder));
+}
+const contextService = new MockImportExportContext();
+
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
 }
 
 describe('OrderDetailPermissionResultsComponent', () => {
@@ -54,7 +58,10 @@ describe('OrderDetailPermissionResultsComponent', () => {
       imports: [I18nTestingModule],
       declarations: [OrderDetailPermissionResultsComponent],
       providers: [
-        { provide: OrderDetailsService, useClass: MockOrderDetailsService },
+        {
+          provide: ContextService,
+          useClass: MockContextService,
+        },
       ],
     }).compileComponents();
   });

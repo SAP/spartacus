@@ -1,8 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Order } from '@spartacus/order/root';
+import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { OrderDetailsService } from '../order-details.service';
 import { OrderDetailTotalsComponent } from './order-detail-totals.component';
+import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = {
   code: '1',
@@ -47,22 +48,27 @@ const mockOrder: Order = {
   created: new Date('2019-02-11T13:02:58+0000'),
 };
 
+class MockImportExportContext {
+  getOrderDetails = createSpy('getOrderDetails').and.returnValue(of(mockOrder));
+}
+const contextService = new MockImportExportContext();
+
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
+}
+
 describe('OrderDetailTotalsComponent', () => {
   let component: OrderDetailTotalsComponent;
   let fixture: ComponentFixture<OrderDetailTotalsComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
 
   beforeEach(
     waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
-
       TestBed.configureTestingModule({
         providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+          {
+            provide: ContextService,
+            useClass: MockContextService,
+          },
         ],
         declarations: [OrderDetailTotalsComponent],
       }).compileComponents();
@@ -71,9 +77,7 @@ describe('OrderDetailTotalsComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailTotalsComponent);
-
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {

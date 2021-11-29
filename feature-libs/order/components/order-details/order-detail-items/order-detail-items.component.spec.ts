@@ -7,12 +7,16 @@ import {
   FeaturesConfigModule,
   I18nTestingModule,
 } from '@spartacus/core';
-import { Consignment, Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { CardModule, PromotionsModule } from '@spartacus/storefront';
+import { Consignment, Order } from '@spartacus/order/root';
+import {
+  CardModule,
+  ContextService,
+  PromotionsModule,
+} from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { OrderDetailsService } from '../order-details.service';
 import { OrderConsignedEntriesComponent } from './order-consigned-entries/order-consigned-entries.component';
 import { OrderDetailItemsComponent } from './order-detail-items.component';
+import createSpy = jasmine.createSpy;
 
 const mockProduct = { product: { code: 'test' } };
 
@@ -91,24 +95,6 @@ const mockOrder: Order = {
   ],
 };
 
-const mockReplenishmentOrder: ReplenishmentOrder = {
-  active: true,
-  purchaseOrderNumber: 'test-po',
-  replenishmentOrderCode: 'test-repl-order',
-  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
-  appliedOrderPromotions: [
-    {
-      consumedEntries: [],
-      description: 'test-promotion',
-      promotion: {
-        code: 'test_promotion',
-        description: 'A test promotion',
-        promotionType: 'Rule Based Promotion',
-      },
-    },
-  ],
-};
-
 @Component({
   selector: 'cx-consignment-tracking',
   template: '',
@@ -120,20 +106,22 @@ class MockConsignmentTrackingComponent {
   orderCode: string;
 }
 
+class MockImportExportContext {
+  getOrderDetails = createSpy('getOrderDetails').and.returnValue(of(mockOrder));
+}
+const contextService = new MockImportExportContext();
+
+class MockContextService implements Partial<ContextService> {
+  get = createSpy().and.returnValue(of(contextService));
+}
+
 describe('OrderDetailItemsComponent', () => {
   let component: OrderDetailItemsComponent;
   let fixture: ComponentFixture<OrderDetailItemsComponent>;
-  let mockOrderDetailsService: OrderDetailsService;
   let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
-      mockOrderDetailsService = <OrderDetailsService>{
-        getOrderDetails() {
-          return of(mockOrder);
-        },
-      };
-
       TestBed.configureTestingModule({
         imports: [
           CardModule,
@@ -143,7 +131,10 @@ describe('OrderDetailItemsComponent', () => {
           RouterTestingModule,
         ],
         providers: [
-          { provide: OrderDetailsService, useValue: mockOrderDetailsService },
+          {
+            provide: ContextService,
+            useClass: MockContextService,
+          },
           {
             provide: FeaturesConfig,
             useValue: {
@@ -163,9 +154,7 @@ describe('OrderDetailItemsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(OrderDetailItemsComponent);
     el = fixture.debugElement;
-
     component = fixture.componentInstance;
-    component.ngOnInit();
   });
 
   it('should create', () => {
@@ -237,19 +226,5 @@ describe('OrderDetailItemsComponent', () => {
   it('should order details item be rendered', () => {
     fixture.detectChanges();
     expect(el.query(By.css('.cx-list'))).toBeTruthy();
-  });
-
-  it('should show promotions on replenishment details', () => {
-    spyOn(mockOrderDetailsService, 'getOrderDetails').and.returnValue(
-      of(mockReplenishmentOrder)
-    );
-    fixture.detectChanges();
-    let order: ReplenishmentOrder;
-    mockOrderDetailsService
-      .getOrderDetails()
-      .subscribe((value) => (order = value))
-      .unsubscribe();
-    expect(order).toEqual(mockReplenishmentOrder);
-    expect(el.query(By.css('.cx-promotions'))).toBeTruthy();
   });
 });
