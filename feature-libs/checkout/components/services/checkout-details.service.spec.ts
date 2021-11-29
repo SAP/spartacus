@@ -52,6 +52,9 @@ class MockActiveCartService {
   isGuestCart(): Observable<Boolean> {
     return of(false);
   }
+  isStable() {
+    return of(true);
+  }
 }
 
 describe('CheckoutDetailsService', () => {

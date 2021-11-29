@@ -7,6 +7,7 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
@@ -33,12 +34,22 @@ describe('CheckoutPaymentService', () => {
     getActive() {
       return of(cart);
     }
+
+    isStable() {
+      return of(true);
+    }
   }
 
   class UserIdServiceStub {
     userId;
     getUserId() {
       return of(userId);
+    }
+  }
+
+  class mockCheckoutService {
+    isLoading() {
+      return of(false);
     }
   }
 
@@ -52,6 +63,7 @@ describe('CheckoutPaymentService', () => {
         CheckoutPaymentService,
         { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        { provide: CheckoutService, useClass: mockCheckoutService },
       ],
     });
 
