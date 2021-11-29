@@ -7,10 +7,8 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from '../../../global-message/index';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
