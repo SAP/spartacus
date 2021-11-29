@@ -6,8 +6,10 @@ import {
 } from '@spartacus/checkout/base/core';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
+  backOff,
   ConverterService,
   InterceptorUtil,
+  isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -48,6 +50,9 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
         this.converter.pipeable(ORDER_NORMALIZER)
       );
   }
@@ -71,6 +76,9 @@ export class OccCheckoutAdapter implements CheckoutAdapter {
       .get<CheckoutState>(this.getGetCheckoutDetailsEndpoint(userId, cartId))
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        }),
         this.converter.pipeable(CHECKOUT_NORMALIZER)
       );
   }

@@ -6,31 +6,27 @@ import {
   AuthService,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
+import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
-  isUserLoggedIn(): Observable<boolean> {
-    return of();
-  }
+  isUserLoggedIn = createSpy().and.returnValue(of());
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get(a: string) {
-    return `/${a}`;
-  }
+  get = createSpy().and.returnValue('');
 }
 
 class CartServiceStub implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return true;
-  }
+  isGuestCart = createSpy().and.returnValue(true);
 }
 
 describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
-  let authService: AuthServiceStub;
+  let authService: AuthService;
   let activeCartService: ActiveCartService;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,11 +44,13 @@ describe('NotCheckoutAuthGuard', () => {
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
     activeCartService = TestBed.inject(ActiveCartService);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe('when user is authorized,', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(true));
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
+      semanticPathService.get = createSpy().and.returnValue('/home');
     });
 
     it('should return homepage url', () => {
@@ -68,7 +66,8 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized, but user is guest', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
+      semanticPathService.get = createSpy().and.returnValue('/cart');
     });
 
     it('should return cart page url', () => {
@@ -84,8 +83,8 @@ describe('NotCheckoutAuthGuard', () => {
 
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+      authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
+      activeCartService.isGuestCart = createSpy().and.returnValue(false);
     });
 
     it('should return true', () => {

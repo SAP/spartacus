@@ -1,21 +1,19 @@
-import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { PaymentTypeSetEvent } from './checkout-b2b.events';
 import { CheckoutPaymentTypeEventListener } from './checkout-payment-type-event.listener';
+import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(mockEventStream$.asObservable());
+  dispatch = createSpy();
 }
 
 describe(`CheckoutPaymentTypeEventListener`, () => {
@@ -38,8 +36,6 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
 
   describe(`onPaymentTypeChange`, () => {
     it(`should dispatch ResetDeliveryModesEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new PaymentTypeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -49,8 +45,6 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
     });
 
     it(`should dispatch ResetCheckoutQueryEvent`, () => {
-      spyOn(eventService, 'dispatch');
-
       mockEventStream$.next(new PaymentTypeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(

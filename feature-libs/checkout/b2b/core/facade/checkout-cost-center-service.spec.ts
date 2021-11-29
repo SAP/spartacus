@@ -1,4 +1,3 @@
-import { AbstractType, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { CostCenterSetEvent } from '@spartacus/checkout/b2b/root';
 import {
@@ -14,10 +13,11 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutCostCenterConnector } from '../connectors/checkout-cost-center/checkout-cost-center.connector';
 import { CheckoutCostCenterService } from './checkout-cost-center.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -27,43 +27,29 @@ const mockCart: Cart = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(of());
+  dispatch = createSpy();
 }
 
 class MockCheckoutCostCenterConnector
   implements Partial<CheckoutCostCenterConnector>
 {
-  setCostCenter(
-    _userId: string,
-    _cartId: string,
-    _costCenterId: string
-  ): Observable<Cart> {
-    return of(mockCart);
-  }
+  setCostCenter = createSpy().and.returnValue(of(mockCart));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getCheckoutDetailsState = createSpy().and.returnValue(
+    of(of({ loading: false, error: false, data: undefined }))
+  );
 }
 
 describe(`CheckoutCostCenterService`, () => {
@@ -102,7 +88,7 @@ describe(`CheckoutCostCenterService`, () => {
 
   describe(`getCostCenterState`, () => {
     it(`should return the cost center`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -128,8 +114,6 @@ describe(`CheckoutCostCenterService`, () => {
 
   describe(`setCostCenter`, () => {
     it(`should call checkoutCostCenterConnector.setCostCenter`, (done) => {
-      spyOn(connector, 'setCostCenter').and.callThrough();
-
       service
         .setCostCenter(mockCostCenter.code ?? '')
         .pipe(take(1))
@@ -145,9 +129,6 @@ describe(`CheckoutCostCenterService`, () => {
     });
 
     it(`should call dispatch CostCenterSetEvent`, (done) => {
-      spyOn(connector, 'setCostCenter').and.callThrough();
-      spyOn(eventService, 'dispatch').and.stub();
-
       service
         .setCostCenter(mockCostCenter.code ?? '')
         .pipe(take(1))

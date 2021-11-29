@@ -1,7 +1,6 @@
 import { Injectable, OnDestroy, Type } from '@angular/core';
 import {
   BehaviorSubject,
-  defer,
   EMPTY,
   iif,
   isObservable,
@@ -22,7 +21,6 @@ import {
 } from 'rxjs/operators';
 import { CxEvent } from '../../event/cx-event';
 import { EventService } from '../../event/event.service';
-import { backOff, BackOffOptions } from '../rxjs/back-off';
 
 export type QueryNotifier = Observable<unknown> | Type<CxEvent>;
 
@@ -52,8 +50,6 @@ export class QueryService implements OnDestroy {
       reloadOn?: QueryNotifier[];
       /** Resets the query to the initial state */
       resetOn?: QueryNotifier[];
-      /** Exponentially retries a failing load */
-      retryOn?: BackOffOptions;
     }
   ): Query<T> {
     const initialState: QueryState<T> = {
@@ -77,19 +73,13 @@ export class QueryService implements OnDestroy {
     const resetTrigger$ = this.getTriggersStream(options?.resetOn ?? []);
     const reloadTrigger$ = this.getTriggersStream(options?.reloadOn ?? []);
 
-    const loaderFactory$ = defer(() =>
-      options?.retryOn
-        ? loaderFactory().pipe(backOff(options.retryOn))
-        : loaderFactory()
-    ).pipe(takeUntil(resetTrigger$));
-
     const load$ = loadTrigger$.pipe(
       tap(() => {
         if (!state$.value.loading) {
           state$.next({ ...state$.value, loading: true });
         }
       }),
-      switchMapTo(loaderFactory$),
+      switchMapTo(loaderFactory().pipe(takeUntil(resetTrigger$))),
       tap((data) => {
         state$.next({ loading: false, error: false, data });
       }),

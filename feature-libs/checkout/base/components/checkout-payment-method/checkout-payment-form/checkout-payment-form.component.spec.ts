@@ -14,8 +14,6 @@ import {
   Country,
   GlobalMessageService,
   I18nTestingModule,
-  QueryState,
-  Region,
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -24,7 +22,7 @@ import {
   ICON_TYPE,
   ModalService,
 } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { CheckoutPaymentFormComponent } from './checkout-payment-form.component';
 import createSpy = jasmine.createSpy;
 
@@ -119,35 +117,28 @@ class MockCxIconComponent {
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   loadSupportedCardTypes = createSpy();
-  getCardTypes(): Observable<CardType[]> {
-    return of();
-  }
-
-  getSetPaymentDetailsResultProcess() {
-    return of({ loading: false });
-  }
+  getCardTypes = createSpy().and.returnValue(of());
+  getSetPaymentDetailsResultProcess = createSpy().and.returnValue(
+    of({ loading: false })
+  );
 }
 
 class MockCheckoutDeliveryService
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
-  getAddressVerificationResults(): Observable<AddressValidation> {
-    return of();
-  }
-
-  verifyAddress(_address: Address): void {}
-
-  clearAddressVerificationResults(): void {}
+  getDeliveryAddressState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
+  getAddressVerificationResults = createSpy().and.returnValue(of());
+  verifyAddress = createSpy();
+  clearAddressVerificationResults = createSpy();
 }
 
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadBillingCountries = createSpy();
-  getAllBillingCountries(): Observable<Country[]> {
-    return new BehaviorSubject(mockBillingCountries);
-  }
+  getAllBillingCountries = createSpy().and.returnValue(
+    of(mockBillingCountries)
+  );
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -165,18 +156,12 @@ const mockSuggestedAddressModalRef: any = {
 };
 
 class MockModalService implements Partial<ModalService> {
-  open(): any {
-    return mockSuggestedAddressModalRef;
-  }
+  open = createSpy().and.returnValue(mockSuggestedAddressModalRef);
 }
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getRegions(): Observable<Region[]> {
-    return of([]);
-  }
-  verifyAddress(): Observable<AddressValidation> {
-    return of({});
-  }
+  getRegions = createSpy().and.returnValue(of([]));
+  verifyAddress = createSpy().and.returnValue(of({}));
 }
 
 describe('CheckoutPaymentFormComponent', () => {
@@ -253,9 +238,10 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get billing countries', () => {
-    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
+    mockUserPaymentService.getAllBillingCountries = createSpy().and.returnValue(
       of(mockBillingCountries)
     );
+
     component.ngOnInit();
     component.countries$.subscribe((countries: Country[]) => {
       expect(countries).toBe(mockBillingCountries);
@@ -263,9 +249,10 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get supported card types if they exist', () => {
-    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
+    mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
       of(mockCardTypes)
     );
+
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
       expect(cardTypes).toBe(mockCardTypes);
@@ -273,13 +260,14 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to get shipping address set in cart', () => {
-    spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
+    mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
       of(mockCardTypes)
     );
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getDeliveryAddressState'
-    ).and.returnValue(of({ loading: false, error: false, data: mockAddress }));
+    mockCheckoutDeliveryService.getDeliveryAddressState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: mockAddress })
+      );
+
     component.ngOnInit();
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
       expect(cardTypes).toBe(mockCardTypes);
@@ -290,9 +278,10 @@ describe('CheckoutPaymentFormComponent', () => {
   });
 
   it('should call ngOnInit to load billing countries', () => {
-    spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
+    mockUserPaymentService.getAllBillingCountries = createSpy().and.returnValue(
       of(mockBillingCountriesEmpty)
     );
+
     component.ngOnInit();
     component.countries$.subscribe((countries: Country[]) => {
       expect(countries).toBe(mockBillingCountriesEmpty);
@@ -383,7 +372,7 @@ describe('CheckoutPaymentFormComponent', () => {
 
   it('should call verifyAddress() when billing address not same as shipping', () => {
     spyOn(component, 'next');
-    spyOn(userAddressService, 'verifyAddress').and.returnValue(
+    userAddressService.verifyAddress = createSpy().and.returnValue(
       of({
         decision: 'ACCEPT',
       })
@@ -405,18 +394,15 @@ describe('CheckoutPaymentFormComponent', () => {
       fixture.debugElement.query(By.css('.btn-primary'));
 
     it('should call "next" function when being clicked and when form is valid - with billing address', () => {
-      spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
+      mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getDeliveryAddressState'
-      ).and.returnValue(
-        of({ loading: false, error: false, data: mockAddress })
-      );
-      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
-        of(mockBillingCountries)
-      );
+      mockCheckoutDeliveryService.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockAddress })
+        );
+      mockUserPaymentService.getAllBillingCountries =
+        createSpy().and.returnValue(of(mockBillingCountries));
       spyOn(component, 'next');
 
       component.showSameAsShippingAddressCheckbox$ = of(false);
@@ -460,18 +446,15 @@ describe('CheckoutPaymentFormComponent', () => {
     });
 
     it('should call "next" function when being clicked and when form is valid - without billing address', () => {
-      spyOn(mockCheckoutPaymentService, 'getCardTypes').and.returnValue(
+      mockCheckoutPaymentService.getCardTypes = createSpy().and.returnValue(
         of(mockCardTypes)
       );
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getDeliveryAddressState'
-      ).and.returnValue(
-        of({ loading: false, error: false, data: mockAddress })
-      );
-      spyOn(mockUserPaymentService, 'getAllBillingCountries').and.returnValue(
-        of(mockBillingCountries)
-      );
+      mockCheckoutDeliveryService.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockAddress })
+        );
+      mockUserPaymentService.getAllBillingCountries =
+        createSpy().and.returnValue(of(mockBillingCountries));
       spyOn(component, 'next');
 
       // hide billing address

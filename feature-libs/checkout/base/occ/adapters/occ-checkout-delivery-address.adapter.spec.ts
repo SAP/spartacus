@@ -1,8 +1,9 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -10,9 +11,12 @@ import {
   ADDRESS_SERIALIZER,
   Cart,
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutDeliveryAddressAdapter } from './occ-checkout-delivery-address.adapter';
 
@@ -49,8 +53,21 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
-describe('OccCheckoutDeliveryAddressAdapter', () => {
+const mockJaloError = new HttpErrorResponse({
+  error: {
+    errors: [
+      {
+        message: 'The application has encountered an error',
+        type: 'JaloObjectNoLongerValidError',
+      },
+    ],
+  },
+});
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+describe(`OccCheckoutDeliveryAddressAdapter`, () => {
   let service: OccCheckoutDeliveryAddressAdapter;
+  let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -63,6 +80,7 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
       ],
     });
     service = TestBed.inject(OccCheckoutDeliveryAddressAdapter);
+    httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
@@ -75,13 +93,13 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
     httpMock.verify();
   });
 
-  describe('create an address for cart', () => {
-    it('should create address for cart for given user id, cart id and address', (done) => {
-      const mockAddress: Address = {
-        firstName: 'Mock',
-        lastName: 'Address',
-      };
+  describe(`createAddress`, () => {
+    const mockAddress: Address = {
+      firstName: 'Mock',
+      lastName: 'Address',
+    };
 
+    it(`should create address for cart for given user id, cart id and address`, (done) => {
       service
         .createAddress(userId, cartId, mockAddress)
         .pipe(take(1))
@@ -106,12 +124,64 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
         ADDRESS_SERIALIZER
       );
     });
+
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'post').and.returnValue(throwError(mockJaloError));
+
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .createAddress(userId, cartId, mockAddress)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
+
+        tick(4200);
+
+        expect(result).toEqual(mockNormalizedJaloError);
+
+        subscription.unsubscribe();
+      }));
+
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
+
+        spyOn(httpClient, 'post').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(mockAddress);
+            }
+            return throwError(mockJaloError);
+          })
+        );
+
+        let result: Address | undefined;
+        const subscription = service
+          .createAddress(userId, cartId, mockAddress)
+          .pipe(take(1))
+          .subscribe((res) => (result = res));
+
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
+
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
+
+        // 3*3*300 = 2700
+        tick(2700);
+
+        expect(result).toEqual(mockAddress);
+        subscription.unsubscribe();
+      }));
+    });
   });
 
-  describe('set an address for cart', () => {
-    it('should set address for cart for given user id, cart id and address id', (done) => {
-      const addressId = 'addressId';
+  describe(`setAddress`, () => {
+    const addressId = 'addressId';
 
+    it(`should set address for cart for given user id, cart id and address id`, (done) => {
       service
         .setAddress(userId, cartId, addressId)
         .pipe(take(1))
@@ -132,10 +202,64 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
     });
+
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .setAddress(userId, cartId, addressId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
+
+        tick(4200);
+
+        expect(result).toEqual(mockNormalizedJaloError);
+
+        subscription.unsubscribe();
+      }));
+
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
+
+        spyOn(httpClient, 'put').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
+
+        let result: unknown;
+        const subscription = service
+          .setAddress(userId, cartId, addressId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
+
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
+
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
+
+        // 3*3*300 = 2700
+        tick(2700);
+
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
+    });
   });
 
-  describe('clear checkout delivery address', () => {
-    it('should clear checkout delivery address for given userId, cartId', (done) => {
+  describe(`clearCheckoutDeliveryAddress`, () => {
+    it(`should clear checkout delivery address for given userId, cartId`, (done) => {
       service
         .clearCheckoutDeliveryAddress(userId, cartId)
         .pipe(take(1))
@@ -155,5 +279,59 @@ describe('OccCheckoutDeliveryAddressAdapter', () => {
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(checkoutData);
     });
+  });
+
+  describe(`back-off`, () => {
+    it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+      spyOn(httpClient, 'delete').and.returnValue(throwError(mockJaloError));
+
+      let result: HttpErrorModel | undefined;
+      const subscription = service
+        .clearCheckoutDeliveryAddress(userId, cartId)
+        .pipe(take(1))
+        .subscribe({ error: (err) => (result = err) });
+
+      tick(4200);
+
+      expect(result).toEqual(mockNormalizedJaloError);
+
+      subscription.unsubscribe();
+    }));
+
+    it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+      let calledTimes = -1;
+
+      spyOn(httpClient, 'delete').and.returnValue(
+        defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(checkoutData);
+          }
+          return throwError(mockJaloError);
+        })
+      );
+
+      let result: unknown;
+      const subscription = service
+        .clearCheckoutDeliveryAddress(userId, cartId)
+        .pipe(take(1))
+        .subscribe((res) => {
+          result = res;
+        });
+
+      // 1*1*300 = 300
+      tick(300);
+      expect(result).toEqual(undefined);
+
+      // 2*2*300 = 1200
+      tick(1200);
+      expect(result).toEqual(undefined);
+
+      // 3*3*300 = 2700
+      tick(2700);
+
+      expect(result).toEqual(checkoutData);
+      subscription.unsubscribe();
+    }));
   });
 });

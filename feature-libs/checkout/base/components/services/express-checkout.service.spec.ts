@@ -12,10 +12,11 @@ import {
   UserAddressService,
   UserPaymentService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { ExpressCheckoutService } from './express-checkout.service';
+import createSpy = jasmine.createSpy;
 
 const mockCheckoutDeliveryAddress: Address = {
   firstName: 'firstName',
@@ -34,13 +35,11 @@ const mockAddresses = new BehaviorSubject<Address[]>([
 const mockGetAddressesLoadedSuccess = new BehaviorSubject<boolean>(true);
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses(): Observable<Address[]> {
-    return mockAddresses.asObservable();
-  }
-  loadAddresses() {}
-  getAddressesLoadedSuccess(): Observable<boolean> {
-    return mockGetAddressesLoadedSuccess.asObservable();
-  }
+  getAddresses = createSpy().and.returnValue(mockAddresses.asObservable());
+  loadAddresses = createSpy();
+  getAddressesLoadedSuccess = createSpy().and.returnValue(
+    mockGetAddressesLoadedSuccess.asObservable()
+  );
 }
 
 const mockGetPaymentMethods = new BehaviorSubject<PaymentDetails[]>([
@@ -48,13 +47,13 @@ const mockGetPaymentMethods = new BehaviorSubject<PaymentDetails[]>([
 ]);
 const mockGetPaymentMethodsLoadedSuccess = new BehaviorSubject<boolean>(true);
 class MockUserPaymentService implements Partial<UserPaymentService> {
-  getPaymentMethods(): Observable<PaymentDetails[]> {
-    return mockGetPaymentMethods.asObservable();
-  }
-  getPaymentMethodsLoadedSuccess(): Observable<boolean> {
-    return mockGetPaymentMethodsLoadedSuccess.asObservable();
-  }
-  loadPaymentMethods() {}
+  getPaymentMethods = createSpy().and.returnValue(
+    mockGetPaymentMethods.asObservable()
+  );
+  getPaymentMethodsLoadedSuccess = createSpy().and.returnValue(
+    mockGetPaymentMethodsLoadedSuccess.asObservable()
+  );
+  loadPaymentMethods = createSpy();
 }
 
 const mockGetDeliveryAddressState = new BehaviorSubject<
@@ -67,47 +66,46 @@ const mockGetDeliveryAddressState = new BehaviorSubject<
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  setDeliveryAddress(_address: Address): Observable<unknown> {
-    return of(undefined);
-  }
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return mockGetDeliveryAddressState.asObservable();
-  }
+  setDeliveryAddress = createSpy().and.returnValue(of(undefined));
+  getDeliveryAddressState = createSpy().and.returnValue(
+    mockGetDeliveryAddressState.asObservable()
+  );
 }
-
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSelectedDeliveryModeState(): Observable<
-    QueryState<DeliveryMode | undefined>
-  > {
-    return of({ loading: false, error: false, data: mockCheckoutDeliveryMode });
-  }
-  getSupportedDeliveryModesState(): Observable<QueryState<DeliveryMode[]>> {
-    return of({
+  getSelectedDeliveryModeState = createSpy().and.returnValue(
+    of({
+      loading: false,
+      error: false,
+      data: mockCheckoutDeliveryMode,
+    })
+  );
+  getSupportedDeliveryModesState = createSpy().and.returnValue(
+    of({
       loading: false,
       error: false,
       data: [mockCheckoutDeliveryMode],
-    });
-  }
-  setDeliveryMode(_mode: string): Observable<unknown> {
-    return of('setDeliveryMode');
-  }
+    })
+  );
+  setDeliveryMode = createSpy().and.returnValue(of('setDeliveryMode'));
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState(): Observable<QueryState<PaymentDetails | undefined>> {
-    return of({ loading: false, error: false, data: mockCheckoutPaymentInfo });
-  }
-  setPaymentDetails(): Observable<unknown> {
-    return of('setPaymentDetails');
-  }
+  getPaymentDetailsState = createSpy().and.returnValue(
+    of({
+      loading: false,
+      error: false,
+      data: mockCheckoutPaymentInfo,
+    })
+  );
+  setPaymentDetails = createSpy().and.returnValue(of('setPaymentDetails'));
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  getPreferredDeliveryMode(): string | undefined {
-    return mockCheckoutDeliveryMode?.code;
-  }
+  getPreferredDeliveryMode = createSpy().and.returnValue(
+    mockCheckoutDeliveryMode?.code
+  );
 }
 
 describe('ExpressCheckoutService', () => {
@@ -186,7 +184,8 @@ describe('ExpressCheckoutService', () => {
     describe('shippingAddressSet$', () => {
       it('should load addresses if they are not loaded', (done) => {
         mockGetAddressesLoadedSuccess.next(false);
-        spyOn(userAddressService, 'loadAddresses').and.callFake(() =>
+
+        userAddressService.loadAddresses = createSpy().and.callFake(() =>
           mockGetAddressesLoadedSuccess.next(true)
         );
 
@@ -201,11 +200,6 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should set delivery address if it has been not loaded yet', (done) => {
-        spyOn(
-          checkoutDeliveryAddressFacade,
-          'setDeliveryAddress'
-        ).and.callThrough();
-
         service
           .trySetDefaultCheckoutDetails()
           .pipe(take(1))
@@ -219,10 +213,8 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should return false if set delivery address error', (done) => {
-        spyOn(
-          checkoutDeliveryAddressFacade,
-          'setDeliveryAddress'
-        ).and.returnValue(throwError('err'));
+        checkoutDeliveryAddressFacade.setDeliveryAddress =
+          createSpy().and.returnValue(throwError('err'));
 
         service
           .trySetDefaultCheckoutDetails()
@@ -249,7 +241,7 @@ describe('ExpressCheckoutService', () => {
     describe('paymentMethodSet$', () => {
       it('should load payment methods if they are not loaded', (done) => {
         mockGetPaymentMethodsLoadedSuccess.next(false);
-        spyOn(userPaymentService, 'loadPaymentMethods').and.callFake(() =>
+        userPaymentService.loadPaymentMethods = createSpy().and.callFake(() =>
           mockGetPaymentMethodsLoadedSuccess.next(true)
         );
 
@@ -264,8 +256,6 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should set payment method if it has been not loaded yet', (done) => {
-        spyOn(checkoutPaymentService, 'setPaymentDetails').and.callThrough();
-
         service
           .trySetDefaultCheckoutDetails()
           .pipe(take(1))
@@ -279,7 +269,7 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should return false if set payment method error', (done) => {
-        spyOn(checkoutPaymentService, 'setPaymentDetails').and.returnValue(
+        checkoutPaymentService.setPaymentDetails = createSpy().and.returnValue(
           throwError('err')
         );
 
@@ -307,8 +297,6 @@ describe('ExpressCheckoutService', () => {
 
     describe('deliveryModeSet$', () => {
       it('should set delivery mode if it has been not loaded yet', (done) => {
-        spyOn(checkoutDeliveryModesFacade, 'setDeliveryMode').and.callThrough();
-
         service
           .trySetDefaultCheckoutDetails()
           .pipe(take(1))
@@ -322,9 +310,8 @@ describe('ExpressCheckoutService', () => {
       });
 
       it('should return false if set delivery mode error', (done) => {
-        spyOn(checkoutDeliveryModesFacade, 'setDeliveryMode').and.returnValue(
-          throwError('err')
-        );
+        checkoutDeliveryModesFacade.setDeliveryMode =
+          createSpy().and.returnValue(throwError('err'));
 
         service
           .trySetDefaultCheckoutDetails()

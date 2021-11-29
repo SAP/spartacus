@@ -10,6 +10,9 @@ import {
 import { map, mergeMap, retryWhen } from 'rxjs/operators';
 import { HttpErrorModel } from '../../model/misc.model';
 
+/**
+ * Options for the back-off operator.
+ */
 export interface BackOffOptions {
   /**
    * Function which evaluates if the given error should be handled exponentially.
@@ -17,7 +20,7 @@ export interface BackOffOptions {
    * If it returns false, the error is re-thrown.
    * Otherwise, the operation is retried.
    */
-  shouldRetry: (err: HttpErrorModel | Error) => boolean;
+  shouldRetry?: (err: HttpErrorModel | Error) => boolean;
 
   /** how many times to perform the back-off. Default value is 3 times. */
   maxTries?: number;
@@ -36,31 +39,31 @@ export interface BackOffOptions {
  * @param options such as defining `maxTries`, or `delay`
  * @returns either the original error (if the given `errFn` return `false`), or the
  */
-export function backOff<T>(options: BackOffOptions): OperatorFunction<T, T> {
-  const maxTries = options.maxTries ?? 3;
-  const delay = options.delay ?? 300;
+export function backOff<T>(options?: BackOffOptions): OperatorFunction<T, T> {
+  const shouldRetry = options?.shouldRetry ?? (() => true);
+  const maxTries = options?.maxTries ?? 3;
+  const delay = options?.delay ?? 300;
 
   // creates a range of maximum retries - starting from 1, up until the given `maxTries`
-  const maxRetryRange$ = range(1, maxTries + 1);
-
+  const retry$ = range(1, maxTries + 1);
   return (source$) =>
     source$.pipe(
       // retries the source stream in case of an error.
-      retryWhen<T>((sourceError$: Observable<HttpErrorModel | Error>) =>
-        // emits only when both emit at the same time. In practice, this means emit when retried and the error happens again
-        zip(maxRetryRange$, sourceError$).pipe(
-          mergeMap(([currentRetry, sourceError]) => {
+      retryWhen<T>((attempts$: Observable<HttpErrorModel | Error>) =>
+        // emits only when both emit at the same time. In practice, this means: emit when error happens again and retried
+        zip(attempts$, retry$).pipe(
+          mergeMap(([attemptError, currentRetry]) => {
             // if we've re-tried more than the maxTries, OR
             // if the source error is not the one we want to exponentially retry
-            if (currentRetry > maxTries || !options.shouldRetry(sourceError)) {
-              return throwError(sourceError);
+            if (currentRetry > maxTries || !shouldRetry(attemptError)) {
+              return throwError(attemptError);
             }
 
             return of(currentRetry);
           }),
-          // exponential retries
+          // exponential
           map((currentRetry) => currentRetry * currentRetry),
-          // exponential back-off
+          // back-off
           mergeMap((exponent) => timer(exponent * delay))
         )
       )

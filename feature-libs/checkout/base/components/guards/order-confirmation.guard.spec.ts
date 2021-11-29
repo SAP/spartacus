@@ -1,28 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { Order, RoutingService, SemanticPathService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { RoutingService, SemanticPathService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
+import createSpy = jasmine.createSpy;
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order | undefined> {
-    return of(undefined);
-  }
+  getOrder = createSpy().and.returnValue(of(undefined));
 }
 
-class MockSemanticPageService implements Partial<SemanticPathService> {
-  get(route: string): string {
-    if (route === 'orders') {
-      return '/my-account/orders';
-    }
-    return '';
-  }
+class MockSemanticPathService implements Partial<SemanticPathService> {
+  get = createSpy().and.returnValue('');
 }
 
 describe(`OrderConfirmationGuard`, () => {
   let guard: OrderConfirmationGuard;
-  let mockCheckoutService: MockCheckoutService;
+  let mockCheckoutFacade: CheckoutFacade;
+  let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -32,18 +27,21 @@ describe(`OrderConfirmationGuard`, () => {
           useValue: { go: jasmine.createSpy() },
         },
         { provide: CheckoutFacade, useClass: MockCheckoutService },
-        { provide: SemanticPathService, useClass: MockSemanticPageService },
+        { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(OrderConfirmationGuard);
-    mockCheckoutService = TestBed.inject(CheckoutFacade);
+    mockCheckoutFacade = TestBed.inject(CheckoutFacade);
+    semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      spyOn(mockCheckoutService, 'getOrder').and.returnValue(of({}));
+      mockCheckoutFacade.getOrder = createSpy().and.returnValue(of({}));
+      semanticPathService.get =
+        createSpy().and.returnValue('/my-account/orders');
 
       guard.canActivate().subscribe((result) => {
         expect(result.toString()).toEqual('/my-account/orders');
@@ -54,7 +52,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      spyOn(mockCheckoutService, 'getOrder').and.returnValue(
+      mockCheckoutFacade.getOrder = createSpy().and.returnValue(
         of({ code: 'test order' })
       );
 

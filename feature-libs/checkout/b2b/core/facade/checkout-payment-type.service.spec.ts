@@ -1,4 +1,3 @@
-import { AbstractType, Type } from '@angular/core';
 import { inject, TestBed } from '@angular/core/testing';
 import { PaymentTypeSetEvent } from '@spartacus/checkout/b2b/root';
 import {
@@ -8,17 +7,17 @@ import {
 import {
   ActiveCartService,
   B2BPaymentTypeEnum,
-  Cart,
   EventService,
   OCC_USER_ID_CURRENT,
   PaymentType,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeConnector } from '../connectors/checkout-payment-type/checkout-payment-type.connector';
 import { CheckoutPaymentTypeService } from './checkout-payment-type.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
@@ -29,47 +28,30 @@ const mockPaymentType: PaymentType = {
 const mockPurchaseOrderNumber = 'purchaseOrderNumber';
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(of());
+  dispatch = createSpy();
 }
 
 class MockCheckoutPaymentTypeConnector
   implements Partial<CheckoutPaymentTypeConnector>
 {
-  getPaymentTypes(): Observable<PaymentType[]> {
-    return of([mockPaymentType]);
-  }
-  setPaymentType(
-    _userId: string,
-    _cartId: string,
-    _typeCode: string,
-    _purchaseOrderNumber?: string
-  ): Observable<unknown> {
-    return of('setPaymentType');
-  }
+  getPaymentTypes = createSpy().and.returnValue(of([mockPaymentType]));
+  setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getCheckoutDetailsState = createSpy().and.returnValue(
+    of(of({ loading: false, error: false, data: undefined }))
+  );
 }
 
 describe(`CheckoutPaymentTypeService`, () => {
@@ -106,15 +88,57 @@ describe(`CheckoutPaymentTypeService`, () => {
     }
   ));
 
-  describe(`getPaymentTypes`, () => {
+  describe(`getPaymentTypesState`, () => {
     it(`should call paymentTypeConnector.getPaymentTypes`, (done) => {
-      spyOn(connector, 'getPaymentTypes').and.callThrough();
+      service
+        .getPaymentTypesState()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(connector.getPaymentTypes).toHaveBeenCalled();
+          expect(result).toEqual({
+            loading: false,
+            error: false,
+            data: [mockPaymentType],
+          });
+          done();
+        });
+    });
+  });
+
+  describe(`getPaymentTypes`, () => {
+    it(`should call facade's getPaymentTypesState()`, (done) => {
+      spyOn(service, 'getPaymentTypesState').and.returnValue(
+        of({
+          loading: false,
+          error: false,
+          data: [mockPaymentType],
+        })
+      );
 
       service
         .getPaymentTypes()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual([mockPaymentType]);
+          expect(service.getPaymentTypesState).toHaveBeenCalled();
+          done();
+        });
+    });
+
+    it(`should return an empty array if query's data is falsy`, (done) => {
+      spyOn(service, 'getPaymentTypesState').and.returnValue(
+        of({
+          loading: false,
+          error: false,
+          data: undefined,
+        })
+      );
+
+      service
+        .getPaymentTypes()
+        .pipe(take(1))
+        .subscribe((result) => {
+          expect(result).toEqual([]);
           done();
         });
     });
@@ -122,8 +146,6 @@ describe(`CheckoutPaymentTypeService`, () => {
 
   describe(`setPaymentType`, () => {
     it(`should call paymentTypeConnector.setPaymentType`, (done) => {
-      spyOn(connector, 'setPaymentType').and.callThrough();
-
       service
         .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
         .pipe(take(1))
@@ -139,9 +161,6 @@ describe(`CheckoutPaymentTypeService`, () => {
     });
 
     it(`should call dispatch PaymentTypeSetEvent`, (done) => {
-      spyOn(connector, 'setPaymentType').and.callThrough();
-      spyOn(eventService, 'dispatch').and.stub();
-
       service
         .setPaymentType(mockB2bPaymentType, mockPurchaseOrderNumber)
         .pipe(take(1))
@@ -162,7 +181,7 @@ describe(`CheckoutPaymentTypeService`, () => {
 
   describe(`getSelectedPaymentTypeState`, () => {
     it(`should return the payment type`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -226,7 +245,7 @@ describe(`CheckoutPaymentTypeService`, () => {
 
   describe(`getPurchaseOrderNumberState`, () => {
     it(`should return PO number`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,

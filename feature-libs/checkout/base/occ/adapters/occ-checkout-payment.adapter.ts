@@ -6,9 +6,11 @@ import {
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
 import {
+  backOff,
   CardType,
   ConverterService,
   HttpParamsURIEncoder,
+  isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
@@ -31,45 +33,6 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
   }
 
   private domparser: DOMParser;
-
-  protected getSetPaymentDetailsEndpoint(
-    userId: string,
-    cartId: string,
-    paymentDetailsId: string
-  ): string {
-    return this.occEndpoints.buildUrl('setCartPaymentDetails', {
-      urlParams: { userId, cartId },
-      queryParams: { paymentDetailsId },
-    });
-  }
-
-  protected getPaymentProviderSubInfoEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getCreatePaymentDetailsEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('createPaymentDetails', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getCardTypesEndpoint(): string {
-    return this.occEndpoints.buildUrl('cardTypes');
-  }
 
   public createPaymentDetails(
     userId: string,
@@ -109,6 +72,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               fromPaymentProvider
             ).pipe(
               catchError((error) => throwError(normalizeHttpError(error))),
+              backOff({
+                shouldRetry: isJaloError,
+              }),
               this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER)
             );
           })
@@ -127,24 +93,64 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         this.getSetPaymentDetailsEndpoint(userId, cartId, paymentDetailsId),
         {}
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
+  }
+
+  protected getSetPaymentDetailsEndpoint(
+    userId: string,
+    cartId: string,
+    paymentDetailsId: string
+  ): string {
+    return this.occEndpoints.buildUrl('setCartPaymentDetails', {
+      urlParams: { userId, cartId },
+      queryParams: { paymentDetailsId },
+    });
   }
 
   getCardTypes(): Observable<CardType[]> {
     return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
+      backOff({
+        shouldRetry: isJaloError,
+      }),
       map((cardTypeList) => cardTypeList.cardTypes ?? []),
       this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
     );
+  }
+
+  protected getCardTypesEndpoint(): string {
+    return this.occEndpoints.buildUrl('cardTypes');
   }
 
   protected getProviderSubInfo(
     userId: string,
     cartId: string
   ): Observable<any> {
-    return this.http.get(
-      this.getPaymentProviderSubInfoEndpoint(userId, cartId)
-    );
+    return this.http
+      .get(this.getPaymentProviderSubInfoEndpoint(userId, cartId))
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
+  }
+
+  protected getPaymentProviderSubInfoEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   protected createSubWithProvider(
@@ -160,10 +166,17 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       httpParams = httpParams.append(key, parameters[key]);
     });
 
-    return this.http.post(postUrl, httpParams, {
-      headers,
-      responseType: 'text',
-    });
+    return this.http
+      .post(postUrl, httpParams, {
+        headers,
+        responseType: 'text',
+      })
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
   }
 
   protected createDetailsWithParameters(
@@ -186,7 +199,24 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
         httpParams,
         { headers }
       )
-      .pipe(catchError((error) => throwError(normalizeHttpError(error))));
+      .pipe(
+        catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({
+          shouldRetry: isJaloError,
+        })
+      );
+  }
+
+  protected getCreatePaymentDetailsEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('createPaymentDetails', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   private getParamsForPaymentProvider(

@@ -11,6 +11,7 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
       feature: CHECKOUT_B2B_CORE_FEATURE,
       methods: [
         'getPaymentTypes',
+        'getPaymentTypesState',
         'setPaymentType',
         'getSelectedPaymentTypeState',
         'isAccountPayment',
@@ -20,14 +21,19 @@ import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
 })
 export abstract class CheckoutPaymentTypeFacade {
   /**
-   * Get payment types
+   * Get payment types state.
+   */
+  abstract getPaymentTypesState(): Observable<
+    QueryState<PaymentType[] | undefined>
+  >;
+
+  /**
+   * Get payment types.
    */
   abstract getPaymentTypes(): Observable<PaymentType[]>;
 
   /**
    * Set payment type to cart
-   * @param paymentTypeCode
-   * @param purchaseOrderNumber
    */
   abstract setPaymentType(
     paymentTypeCode: string,

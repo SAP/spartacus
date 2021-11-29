@@ -1,31 +1,26 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService, Cart, SemanticPathService } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { ActiveCartService, SemanticPathService } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
+import createSpy = jasmine.createSpy;
 
 const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
 class ActiveCartServiceStub implements Partial<ActiveCartService> {
-  getActive(): Observable<Cart> {
-    return of();
-  }
-  isStable(): Observable<boolean> {
-    return of();
-  }
+  getActive = createSpy().and.returnValue(of());
+  isStable = createSpy().and.returnValue(of());
 }
 
 class SemanticPathServiceStub implements Partial<SemanticPathService> {
-  get(a: string) {
-    return `/${a}`;
-  }
+  get = createSpy().and.returnValue('/home');
 }
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let activeCartService: ActiveCartServiceStub;
+  let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -50,10 +45,10 @@ describe('CartNotEmptyGuard', () => {
     describe('when cart is loaded', () => {
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          spyOn(activeCartService, 'getActive').and.returnValue(
+          activeCartService.getActive = createSpy().and.returnValue(
             of(CART_NOT_CREATED)
           );
-          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
+          activeCartService.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then router should return main page url', () => {
@@ -68,8 +63,10 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          spyOn(activeCartService, 'getActive').and.returnValue(of(CART_EMPTY));
-          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
+          activeCartService.getActive = createSpy().and.returnValue(
+            of(CART_EMPTY)
+          );
+          activeCartService.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then router should return main page url', () => {
@@ -84,10 +81,10 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          spyOn(activeCartService, 'getActive').and.returnValue(
+          activeCartService.getActive = createSpy().and.returnValue(
             of(CART_NOT_EMPTY)
           );
-          spyOn(activeCartService, 'isStable').and.returnValue(of(true));
+          activeCartService.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then returned observable should emit true', () => {
@@ -103,10 +100,10 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is not loaded', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getActive').and.returnValue(
+        activeCartService.getActive = createSpy().and.returnValue(
           of(CART_NOT_CREATED)
         );
-        spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+        activeCartService.isStable = createSpy().and.returnValue(of(false));
       });
 
       it('then returned observable should not emit', () => {

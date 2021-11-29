@@ -14,7 +14,6 @@ import {
   CommandStrategy,
   CurrencySetEvent,
   EventService,
-  isJaloError,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
@@ -39,13 +38,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     return [LanguageSetEvent, CurrencySetEvent];
   }
 
-  protected cardTypesQuery: Query<CardType[]> = this.queryService.create(
-    () => this.checkoutPaymentConnector.getCardTypes(),
-    {
-      reloadOn: this.getCardTypesReloadTriggers(),
-      retryOn: { shouldRetry: isJaloError },
-    }
-  );
+  protected cardTypesQuery: Query<CardType[]> = this.queryService.create<
+    CardType[]
+  >(() => this.checkoutPaymentConnector.getCardTypes(), {
+    reloadOn: this.getCardTypesReloadTriggers(),
+  });
 
   protected createPaymentMethodCommand: Command<PaymentDetails, unknown> =
     this.commandService.create<PaymentDetails>(

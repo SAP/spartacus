@@ -4,9 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { DeliveryMode, I18nTestingModule, QueryState } from '@spartacus/core';
-import { LoaderState } from 'projects/core/src/state/utils/loader';
-import { Observable, of } from 'rxjs';
+import { DeliveryMode, I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -24,29 +23,19 @@ class MockCheckoutDeliveryModeService
 {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
-  getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return of();
-  }
-  getSelectedDeliveryModeState(): Observable<QueryState<DeliveryMode>> {
-    return of();
-  }
-  getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
-    return of();
-  }
+  getSupportedDeliveryModes = createSpy().and.returnValue(of());
+  getSelectedDeliveryModeState = createSpy().and.returnValue(of());
+  getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());
 }
 
 class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
-  getPreferredDeliveryMode(): string {
-    return '';
-  }
+  getPreferredDeliveryMode = createSpy().and.returnValue('');
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
-  getBackBntText(): string {
-    return 'common.back';
-  }
+  getBackBntText = createSpy().and.returnValue('common.back');
 }
 
 const mockActivatedRoute = {
@@ -116,10 +105,8 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should get supported delivery modes', () => {
-    spyOn(
-      checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
+    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
     component.supportedDeliveryModes$.subscribe((modes) => {
@@ -128,17 +115,14 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should pre-select preferred delivery mode if not chosen before', () => {
-    spyOn(
-      checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
-    spyOn(
-      checkoutDeliveryModesFacade,
-      'getSelectedDeliveryModeState'
-    ).and.returnValue(of({ loading: false, error: false, data: undefined }));
-    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.returnValue(
-      mockDeliveryMode1.code
-    );
+    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: undefined })
+      );
+    checkoutConfigService.getPreferredDeliveryMode =
+      createSpy().and.returnValue(mockDeliveryMode1.code);
 
     component.ngOnInit();
 
@@ -151,19 +135,14 @@ describe('CheckoutDeliveryModeComponent', () => {
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
-    spyOn(
-      checkoutDeliveryModesFacade,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
-    spyOn(
-      checkoutDeliveryModesFacade,
-      'getSelectedDeliveryModeState'
-    ).and.returnValue(
-      of({ loading: false, error: false, data: mockDeliveryMode2 })
-    );
-    spyOn(checkoutConfigService, 'getPreferredDeliveryMode').and.returnValue(
-      mockDeliveryMode1.code
-    );
+    checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+      createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+    checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: mockDeliveryMode2 })
+      );
+    checkoutConfigService.getPreferredDeliveryMode =
+      createSpy().and.returnValue(mockDeliveryMode1.code);
 
     component.ngOnInit();
 

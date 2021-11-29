@@ -5,7 +5,9 @@ import {
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/scheduled-replenishment/core';
 import {
+  backOff,
   ConverterService,
+  isJaloError,
   normalizeHttpError,
   OccEndpointsService,
   ReplenishmentOrder,
@@ -24,19 +26,6 @@ export class OccCheckoutReplenishmentOrderAdapter
     protected occEndpoints: OccEndpointsService,
     protected converter: ConverterService
   ) {}
-
-  protected getScheduleReplenishmentOrderEndpoint(
-    userId: string,
-    cartId: string,
-    termsChecked: string
-  ): string {
-    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
-      urlParams: {
-        userId,
-      },
-      queryParams: { cartId, termsChecked },
-    });
-  }
 
   scheduleReplenishmentOrder(
     cartId: string,
@@ -63,7 +52,21 @@ export class OccCheckoutReplenishmentOrderAdapter
       )
       .pipe(
         catchError((error) => throwError(normalizeHttpError(error))),
+        backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
       );
+  }
+
+  protected getScheduleReplenishmentOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ): string {
+    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
+      urlParams: {
+        userId,
+      },
+      queryParams: { cartId, termsChecked },
+    });
   }
 }

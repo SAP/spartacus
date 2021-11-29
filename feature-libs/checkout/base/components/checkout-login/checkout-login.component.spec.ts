@@ -13,12 +13,8 @@ import createSpy = jasmine.createSpy;
 
 class MockActiveCartService {
   addEmail = createSpy('MockCartService.addEmail');
-  getAssignedUser() {
-    return of();
-  }
-  isGuestCart(): Boolean {
-    return false;
-  }
+  getAssignedUser = createSpy().and.returnValue(of());
+  isGuestCart = createSpy().and.returnValue(false);
 }
 class MockRedirectAfterAuthService {
   redirect = createSpy('AuthRedirectService.redirect');
@@ -75,10 +71,10 @@ describe('CheckoutLoginComponent', () => {
 
   describe('submitting form', () => {
     beforeEach(() => {
-      spyOn(activeCartService, 'getAssignedUser').and.returnValue(
+      activeCartService.getAssignedUser = createSpy().and.returnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
+      activeCartService.isGuestCart = createSpy().and.returnValue(true);
     });
 
     it('should work, when form is valid', () => {

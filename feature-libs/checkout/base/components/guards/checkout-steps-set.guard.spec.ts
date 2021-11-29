@@ -7,15 +7,8 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  Address,
-  DeliveryMode,
-  PaymentDetails,
-  QueryState,
-  RouteConfig,
-  RoutingConfigService,
-} from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { RouteConfig, RoutingConfigService } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutStepsSetGuard } from './checkout-steps-set.guard';
 import createSpy = jasmine.createSpy;
@@ -76,25 +69,23 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getDeliveryAddressState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
 {
-  getSelectedDeliveryModeState(): Observable<
-    QueryState<DeliveryMode | undefined>
-  > {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getSelectedDeliveryModeState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
-  getPaymentDetailsState(): Observable<QueryState<PaymentDetails>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getPaymentDetailsState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 describe(`CheckoutStepsSetGuard`, () => {
@@ -173,12 +164,10 @@ describe(`CheckoutStepsSetGuard`, () => {
 
   describe('step1 (shipping address) data set', () => {
     beforeEach(() => {
-      spyOn(
-        checkoutDeliveryAddressFacade,
-        'getDeliveryAddressState'
-      ).and.returnValue(
-        of({ loading: false, error: false, data: { id: 'test-address' } })
-      );
+      checkoutDeliveryAddressFacade.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: { id: 'test-address' } })
+        );
     });
 
     it('go to step2 (delivery mode), should return true', (done) => {
@@ -211,16 +200,14 @@ describe(`CheckoutStepsSetGuard`, () => {
 
   describe('step2 (delivery mode) data set', () => {
     beforeEach(() => {
-      spyOn(
-        checkoutDeliveryModesFacade,
-        'getSelectedDeliveryModeState'
-      ).and.returnValue(
-        of({
-          loading: false,
-          error: false,
-          data: { code: 'test-delivery-mode' },
-        })
-      );
+      checkoutDeliveryModesFacade.getSelectedDeliveryModeState =
+        createSpy().and.returnValue(
+          of({
+            loading: false,
+            error: false,
+            data: { code: 'test-delivery-mode' },
+          })
+        );
     });
 
     it('go to step3 (payment details), should return true', (done) => {
@@ -244,9 +231,10 @@ describe(`CheckoutStepsSetGuard`, () => {
 
   describe('step3 (payment details) data set', () => {
     beforeEach(() => {
-      spyOn(checkoutPaymentFacade, 'getPaymentDetailsState').and.returnValue(
-        of({ loading: false, error: false, data: { id: 'test-details' } })
-      );
+      checkoutPaymentFacade.getPaymentDetailsState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: { id: 'test-details' } })
+        );
     });
 
     it('go to step4 (review details), should return true', (done) => {

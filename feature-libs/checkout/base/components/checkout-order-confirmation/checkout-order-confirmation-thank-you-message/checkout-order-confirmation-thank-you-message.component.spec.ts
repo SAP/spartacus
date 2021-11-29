@@ -2,9 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, Order } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { I18nTestingModule } from '@spartacus/core';
+import { of } from 'rxjs';
 import { CheckoutOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
+import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
@@ -16,15 +17,15 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order> {
-    return of({
+  getOrder = createSpy().and.returnValue(
+    of({
       code: 'test-code-412',
       guid: 'guid',
       guestCustomer: true,
       paymentInfo: { billingAddress: { email: 'test@test.com' } },
       replenishmentOrderCode: 'test-repl-code',
-    });
-  }
+    })
+  );
 }
 
 describe('CheckoutOrderConfirmationThankYouMessageComponent', () => {
@@ -79,9 +80,10 @@ describe('CheckoutOrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    spyOn(checkoutService, 'getOrder').and.returnValue(
+    checkoutService.getOrder = createSpy().and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
+
     component.ngOnInit();
     fixture.detectChanges();
 

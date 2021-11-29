@@ -97,6 +97,7 @@ Deprecation strategy:
 13. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
 14. fix b2b mechanism if not done already for importing config (old vs new) - done but double check 
 15. update schematic test for @spartacus/checkout assertions https://app.travis-ci.com/github/SAP/spartacus/jobs/549205902
+16. go over the components on epic and compare with develop. ex: https://github.com/SAP/spartacus/commit/b23c1ef0cd82e4f9787fe2278c694db2fb1160e7
 
 
 
@@ -139,5 +140,6 @@ Usages of CART:
 
 ### Test
 
-- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 and  https://github.com/SAP/spartacus/issues/14386
+- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 - https://github.com/SAP/spartacus/issues/14386
 
+- express checkout update - might not need to update 'new' checkout - https://github.com/SAP/spartacus/pull/14418/files

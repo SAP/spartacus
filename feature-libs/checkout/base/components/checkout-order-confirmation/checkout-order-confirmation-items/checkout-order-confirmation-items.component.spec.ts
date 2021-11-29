@@ -5,13 +5,13 @@ import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   FeaturesConfig,
   I18nTestingModule,
-  Order,
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutOrderConfirmationItemsComponent } from './checkout-order-confirmation-items.component';
+import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-cart-item-list', template: '' })
 class MockReviewSubmitComponent {
@@ -21,16 +21,16 @@ class MockReviewSubmitComponent {
 }
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order> {
-    return of({
+  getOrder = createSpy().and.returnValue(
+    of({
       entries: [
         {
           entryNumber: 1,
           quantity: 1,
         },
       ],
-    });
-  }
+    })
+  );
 }
 
 describe('CheckoutOrderConfirmationItemsComponent', () => {

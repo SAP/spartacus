@@ -10,7 +10,7 @@ import {
   RoutingConfigService,
   RoutingService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutStepService } from './checkout-step.service';
 import createSpy = jasmine.createSpy;
 
@@ -54,15 +54,15 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
 
 class MockRoutingService implements Partial<RoutingService> {
   go = createSpy();
-  getRouterState(): Observable<any> {
-    return of({
+  getRouterState = createSpy().and.returnValue(
+    of({
       state: {
         context: {
           id: '/checkout/route0',
         },
       },
-    });
-  }
+    })
+  );
 }
 
 describe('CheckoutStepService', () => {

@@ -1,14 +1,18 @@
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import {
   Cart,
   ConverterService,
+  HttpErrorModel,
+  normalizeHttpError,
   OccConfig,
   OccEndpoints,
 } from '@spartacus/core';
+import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 
@@ -34,8 +38,21 @@ const cartData: Cart = {
   guid: '1212121',
 };
 
-describe('OccCheckoutCostCenterAdapter', () => {
+const mockJaloError = new HttpErrorResponse({
+  error: {
+    errors: [
+      {
+        message: 'The application has encountered an error',
+        type: 'JaloObjectNoLongerValidError',
+      },
+    ],
+  },
+});
+const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
+
+describe(`OccCheckoutCostCenterAdapter`, () => {
   let service: OccCheckoutCostCenterAdapter;
+  let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
 
@@ -48,6 +65,7 @@ describe('OccCheckoutCostCenterAdapter', () => {
       ],
     });
     service = TestBed.inject(OccCheckoutCostCenterAdapter);
+    httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
 
@@ -58,10 +76,10 @@ describe('OccCheckoutCostCenterAdapter', () => {
     httpMock.verify();
   });
 
-  describe('setCostCenter', () => {
-    it('should set cost center cart', (done) => {
-      const costCenterId = 'testCostCenterId';
+  describe(`setCostCenter`, () => {
+    const costCenterId = 'testCostCenterId';
 
+    it(`should set cost center cart`, (done) => {
       service
         .setCostCenter(userId, cartId, costCenterId)
         .pipe(take(1))
@@ -81,6 +99,60 @@ describe('OccCheckoutCostCenterAdapter', () => {
       expect(mockReq.cancelled).toBeFalsy();
       expect(mockReq.request.responseType).toEqual('json');
       mockReq.flush(cartData);
+    });
+
+    describe(`back-off`, () => {
+      it(`should unsuccessfully backOff on Jalo error`, fakeAsync(() => {
+        spyOn(httpClient, 'put').and.returnValue(throwError(mockJaloError));
+
+        let result: HttpErrorModel | undefined;
+        const subscription = service
+          .setCostCenter(userId, cartId, costCenterId)
+          .pipe(take(1))
+          .subscribe({ error: (err) => (result = err) });
+
+        tick(4200);
+
+        expect(result).toEqual(mockNormalizedJaloError);
+
+        subscription.unsubscribe();
+      }));
+
+      it(`should successfully backOff on Jalo error and recover after the 2nd retry`, fakeAsync(() => {
+        let calledTimes = -1;
+
+        spyOn(httpClient, 'put').and.returnValue(
+          defer(() => {
+            calledTimes++;
+            if (calledTimes === 3) {
+              return of(cartData);
+            }
+            return throwError(mockJaloError);
+          })
+        );
+
+        let result: Cart | undefined;
+        const subscription = service
+          .setCostCenter(userId, cartId, costCenterId)
+          .pipe(take(1))
+          .subscribe((res) => {
+            result = res;
+          });
+
+        // 1*1*300 = 300
+        tick(300);
+        expect(result).toEqual(undefined);
+
+        // 2*2*300 = 1200
+        tick(1200);
+        expect(result).toEqual(undefined);
+
+        // 3*3*300 = 2700
+        tick(2700);
+
+        expect(result).toEqual(cartData);
+        subscription.unsubscribe();
+      }));
     });
   });
 });

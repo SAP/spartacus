@@ -1,13 +1,59 @@
 import { fakeAsync, tick } from '@angular/core/testing';
 import { backOff } from '@spartacus/core';
-import { BehaviorSubject, of, throwError } from 'rxjs';
+import { BehaviorSubject, defer, of, throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
 const doBackOff = () => true;
 
-describe('backOff', () => {
-  describe('when the source does not throw an error', () => {
-    it('should not kick in', (done) => {
+describe(`backOff`, () => {
+  describe(`when the 'shouldRetry' is not provided`, () => {
+    describe(`operator will always retry, no matter what the error is`, () => {
+      it(`should be able to successfully recover`, fakeAsync(() => {
+        const error = 'random error';
+        const recoveredValue = 'xxx';
+
+        let calledTimes = -1;
+        const source$ = defer(() => {
+          calledTimes++;
+          if (calledTimes === 3) {
+            return of(recoveredValue);
+          }
+          return throwError(error);
+        });
+        const test$ = source$.pipe(backOff());
+
+        let result: string | undefined;
+        const subscription = test$.subscribe((value) => (result = value));
+
+        // when using default options: 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
+        tick(4200);
+
+        expect(result).toEqual(recoveredValue);
+        subscription.unsubscribe();
+      }));
+
+      it(`should NOT be able to recover`, fakeAsync(() => {
+        const initialError = 'error';
+
+        const source$ = throwError(initialError);
+        const test$ = source$.pipe(backOff());
+
+        let result: string | undefined;
+        const subscription = test$.subscribe({
+          error: (err) => (result = err),
+        });
+        // when using default options: 1*1*300 + 2*2*300 + 3*3*300 = 4200ms
+        tick(4200);
+
+        expect(result).toEqual(initialError);
+
+        subscription.unsubscribe();
+      }));
+    });
+  });
+
+  describe(`when the source does not throw an error`, () => {
+    it(`should not kick in`, (done) => {
       const initialValue = 'xxx';
 
       const source$ = of(initialValue);
@@ -20,10 +66,10 @@ describe('backOff', () => {
     });
   });
 
-  describe('when the source throws an error', () => {
-    describe('errFn', () => {
-      describe('evaluates to false', () => {
-        it('should not retry and just re-throw the error', (done) => {
+  describe(`when the source throws an error`, () => {
+    describe(`errFn`, () => {
+      describe(`evaluates to false`, () => {
+        it(`should not retry and just re-throw the error`, (done) => {
           const source$ = throwError('error');
           const test$ = source$.pipe(backOff({ shouldRetry: () => false }));
 
@@ -36,9 +82,9 @@ describe('backOff', () => {
         });
       });
 
-      describe('evaluates to true', () => {
-        describe('and the retry is unsuccessful', () => {
-          it('should re-throw the initial error', fakeAsync(() => {
+      describe(`evaluates to true`, () => {
+        describe(`and the retry is unsuccessful`, () => {
+          it(`should re-throw the initial error`, fakeAsync(() => {
             const initialError = 'error';
 
             const source$ = throwError(initialError);
@@ -57,13 +103,13 @@ describe('backOff', () => {
           }));
         });
 
-        describe('and retry is successful', () => {
-          it('should recover', fakeAsync(() => {
+        describe(`and retry is successful`, () => {
+          it(`should recover`, fakeAsync(() => {
             const initialError = 'error';
             const recoveredValue = 'xxx';
 
             const error$ = throwError(initialError);
-            // at first, we throw an error
+            // at first, we throw an error by returning the false
             const recovery$ = new BehaviorSubject<boolean>(false);
             const source$ = recovery$.pipe(
               switchMap((recovered) =>
@@ -95,8 +141,8 @@ describe('backOff', () => {
         });
       });
 
-      describe('when it should retry for a specific error, but another error occurs', () => {
-        it('should stop retrying and re-throw', fakeAsync(() => {
+      describe(`when it should retry for a specific error, but another error occurs`, () => {
+        it(`should stop retrying and re-throw`, fakeAsync(() => {
           const initialError = 'jalo error';
           const differentError = '500 internal server error';
 
@@ -131,8 +177,8 @@ describe('backOff', () => {
       });
     });
 
-    describe('when options are provided', () => {
-      it('should use the provided maxTries option', fakeAsync(() => {
+    describe(`when options are provided`, () => {
+      it(`should use the provided maxTries option`, fakeAsync(() => {
         const initialError = 'error';
 
         const source$ = throwError(initialError);
@@ -152,7 +198,7 @@ describe('backOff', () => {
         subscription.unsubscribe();
       }));
 
-      it('should use the provided delay option', fakeAsync(() => {
+      it(`should use the provided delay option`, fakeAsync(() => {
         const initialError = 'error';
 
         const source$ = throwError(initialError);
@@ -172,7 +218,7 @@ describe('backOff', () => {
         subscription.unsubscribe();
       }));
 
-      it('should use both the provided maxTries and delay options', fakeAsync(() => {
+      it(`should use both the provided maxTries and delay options`, fakeAsync(() => {
         const initialError = 'error';
 
         const source$ = throwError(initialError);

@@ -1,5 +1,4 @@
-import { AbstractType, Type } from '@angular/core';
-import { fakeAsync, inject, TestBed, tick } from '@angular/core/testing';
+import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   CheckoutQueryFacade,
@@ -10,9 +9,7 @@ import {
 import {
   ActiveCartService,
   CardType,
-  Cart,
   EventService,
-  HttpErrorModel,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   PaymentDetails,
@@ -20,16 +17,15 @@ import {
   UserActions,
   UserIdService,
 } from '@spartacus/core';
-import { Observable, of, throwError } from 'rxjs';
+import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutPaymentConnector } from '../connectors/checkout-payment/checkout-payment.connector';
 import { CheckoutPaymentService } from './checkout-payment.service';
+import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockCartId = 'cartID';
-const mockJaloError: Partial<HttpErrorModel> = {
-  details: [{ type: 'JaloObjectNoLongerValidError' }],
-};
+
 const mockCardTypes: CardType[] = [
   {
     code: 'VISA',
@@ -45,53 +41,31 @@ const mockPaymentInfo: PaymentDetails = {
 };
 
 class MockActiveCartService implements Partial<ActiveCartService> {
-  takeActiveCartId(): Observable<string> {
-    return of(mockCartId);
-  }
-  isGuestCart(_cart?: Cart): boolean {
-    return false;
-  }
+  takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
+  isGuestCart = createSpy().and.returnValue(false);
 }
 
 class MockUserIdService implements Partial<UserIdService> {
-  takeUserId(_loggedIn = false): Observable<string> {
-    return of(mockUserId);
-  }
+  takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
 class MockEventService implements Partial<EventService> {
-  get<T>(_eventType: AbstractType<T>): Observable<T> {
-    return of();
-  }
-  dispatch<T extends object>(_event: T, _eventType?: Type<T>): void {}
+  get = createSpy().and.returnValue(of());
+  dispatch = createSpy();
 }
 
 class MockCheckoutPaymentConnector
   implements Partial<CheckoutPaymentConnector>
 {
-  getCardTypes(): Observable<CardType[]> {
-    return of(mockCardTypes);
-  }
-  createPaymentDetails(
-    _userId: string,
-    _cartId: string,
-    _paymentDetails: PaymentDetails
-  ): Observable<PaymentDetails> {
-    return of(mockPaymentInfo);
-  }
-  setPaymentDetails(
-    _userId: string,
-    _cartId: string,
-    _paymentDetailsId: string
-  ): Observable<unknown> {
-    return of('set');
-  }
+  getCardTypes = createSpy().and.returnValue(of(mockCardTypes));
+  createPaymentDetails = createSpy().and.returnValue(of(mockPaymentInfo));
+  setPaymentDetails = createSpy().and.returnValue(of('set'));
 }
 
 class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
-  getCheckoutDetailsState(): Observable<QueryState<CheckoutState>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getCheckoutDetailsState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 describe(`CheckoutPaymentService`, () => {
@@ -135,74 +109,19 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`getCardTypesState`, () => {
     it(`should call the checkoutPaymentConnector.getCardTypes()`, (done) => {
-      spyOn(connector, 'getCardTypes').and.callThrough();
-
       service
         .getCardTypesState()
         .pipe(take(1))
         .subscribe((state) => {
+          expect(connector.getCardTypes).toHaveBeenCalled();
           expect(state).toEqual({
             loading: false,
             error: false,
             data: mockCardTypes,
           });
-          expect(connector.getCardTypes).toHaveBeenCalled();
           done();
         });
     });
-
-    it(`should unsuccessfully backOff on Jalo error and put the error in the state`, fakeAsync(() => {
-      spyOn(connector, 'getCardTypes').and.returnValue(
-        throwError(mockJaloError)
-      );
-
-      let resultState: QueryState<CardType[] | undefined> | undefined;
-      const subscription = service
-        .getCardTypesState()
-        .subscribe((result) => (resultState = result));
-
-      tick(4200);
-
-      expect(resultState).toEqual({
-        loading: false,
-        error: <Error>mockJaloError,
-        data: undefined,
-      });
-      subscription.unsubscribe();
-    }));
-
-    xit(`should successfully backOff on Jalo error and recover after the 2nd attempt`, fakeAsync(() => {
-      spyOn(connector, 'getCardTypes').and.returnValues(
-        // first attempt
-        throwError(mockJaloError),
-        // second attempt
-        throwError(mockJaloError),
-        // third time the charm
-        of(mockCardTypes)
-      );
-
-      let resultState: QueryState<CardType[] | undefined> | undefined;
-      const subscription = service.getCardTypesState().subscribe((result) => {
-        return (resultState = result);
-      });
-
-      // 1*1*300 = 300
-      tick(300);
-      expect(resultState).toEqual({
-        loading: true,
-        error: false,
-        data: undefined,
-      });
-
-      // 2*2*300 = 1200
-      tick(1200);
-      expect(resultState).toEqual({
-        loading: false,
-        error: false,
-        data: mockCardTypes,
-      });
-      subscription.unsubscribe();
-    }));
   });
 
   describe(`getCardTypes`, () => {
@@ -220,6 +139,7 @@ describe(`CheckoutPaymentService`, () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockCardTypes);
+          expect(service.getCardTypesState).toHaveBeenCalled();
           done();
         });
     });
@@ -245,7 +165,7 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`getPaymentDetailsState`, () => {
     it(`should return the delivery modes`, (done) => {
-      spyOn(checkoutQuery, 'getCheckoutDetailsState').and.returnValue(
+      checkoutQuery.getCheckoutDetailsState = createSpy().and.returnValue(
         of(<QueryState<CheckoutState>>{
           loading: false,
           error: false,
@@ -271,8 +191,6 @@ describe(`CheckoutPaymentService`, () => {
 
   describe(`createPaymentDetails`, () => {
     it(`should call checkoutPaymentConnector.create`, () => {
-      spyOn(connector, 'createPaymentDetails').and.stub();
-
       service.createPaymentDetails(mockPaymentInfo);
 
       expect(connector.createPaymentDetails).toHaveBeenCalledWith(
@@ -283,8 +201,6 @@ describe(`CheckoutPaymentService`, () => {
     });
 
     it(`should dispatch PaymentDetailsCreatedEvent event`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.createPaymentDetails(mockPaymentInfo);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -310,7 +226,7 @@ describe(`CheckoutPaymentService`, () => {
 
     // TODO: Replace with event testing once we remove ngrx store.
     it(`should NOT dispatch UserActions.LoadUserPaymentMethods when the use is anonymous`, () => {
-      spyOn(userIdService, 'takeUserId').and.returnValue(
+      userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
       spyOn(store, 'dispatch').and.stub();
@@ -335,8 +251,6 @@ describe(`CheckoutPaymentService`, () => {
     });
 
     it(`should call checkoutPaymentConnector.set`, () => {
-      spyOn(connector, 'setPaymentDetails').and.stub();
-
       service.setPaymentDetails(mockPaymentInfo);
 
       expect(connector.setPaymentDetails).toHaveBeenCalledWith(
@@ -347,8 +261,6 @@ describe(`CheckoutPaymentService`, () => {
     });
 
     it(`should dispatch PaymentDetailsSetEvent event`, () => {
-      spyOn(eventService, 'dispatch').and.stub();
-
       service.setPaymentDetails(mockPaymentInfo);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
