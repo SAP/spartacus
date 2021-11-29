@@ -1,7 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { OrderEntryPromotionsService } from '@spartacus/cart/main/occ';
-import { PromotionResult } from '@spartacus/cart/main/root';
-import { ConverterService, Product, PRODUCT_NORMALIZER } from '@spartacus/core';
+import {
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+  PromotionResult,
+} from '@spartacus/cart/main/root';
+import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 
 class MockConverterService {
@@ -15,11 +17,6 @@ const mockPromotions: PromotionResult[] = [
     },
   },
 ];
-class MockOrderEntryPromotionsService {
-  getProductPromotion() {
-    return mockPromotions;
-  }
-}
 
 describe('OccReplenishmentOrderNormalizer', () => {
   let normalizer: OccReplenishmentOrderNormalizer;
@@ -34,10 +31,6 @@ describe('OccReplenishmentOrderNormalizer', () => {
             provide: ConverterService,
             useClass: MockConverterService,
           },
-          {
-            provide: OrderEntryPromotionsService,
-            useClass: MockOrderEntryPromotionsService,
-          },
         ],
       });
     })
@@ -47,13 +40,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
     normalizer = TestBed.inject(OccReplenishmentOrderNormalizer);
     converter = TestBed.inject(ConverterService);
 
-    spyOn(converter, 'convert').and.callFake(
-      (product) =>
-        ({
-          ...product,
-          code: (product as Product).code + 'converted',
-        } as any)
-    );
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   it('should create', () => {
@@ -64,10 +51,13 @@ describe('OccReplenishmentOrderNormalizer', () => {
     const product = { code: 'test1' };
     const order = {
       entries: [{ product }],
+      appliedProductPromotions: mockPromotions,
     };
-    const result = normalizer.convert(order);
-    expect(result.entries[0].product.code).toBe('test1converted');
-    expect(result.entries[0].promotions).toEqual(mockPromotions);
+    normalizer.convert(order);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      { item: order.entries[0], promotions: mockPromotions },
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 });

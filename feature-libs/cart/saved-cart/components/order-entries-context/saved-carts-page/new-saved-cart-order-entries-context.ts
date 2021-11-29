@@ -12,7 +12,7 @@ import {
   ProductImportInfo,
 } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { StateUtils, UserIdService } from '@spartacus/core';
+import { UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
   delayWhen,
@@ -64,14 +64,7 @@ export class NewSavedCartOrderEntriesContext
             extraData: { active: false },
           })
           .pipe(
-            filter(
-              (cartData: StateUtils.ProcessesLoaderState<Cart | undefined>) =>
-                Boolean(cartData.value?.code)
-            ),
-            map(
-              (cartData: StateUtils.ProcessesLoaderState<Cart | undefined>) =>
-                cartData.value?.code as string
-            ),
+            map((cart: Cart) => cart.code as string),
             tap((cartId: string) => {
               this.savedCartService.saveCart({
                 cartId,

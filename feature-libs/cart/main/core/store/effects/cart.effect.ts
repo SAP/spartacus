@@ -130,7 +130,7 @@ export class CartEffects {
     | CartActions.MergeCartSuccess
     | CartActions.CreateCartSuccess
     | CartActions.CreateCartFail
-    | CartActions.SetTempCart
+    | CartActions.RemoveCart
   > = this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map((action: CartActions.CreateCart) => action.payload),
@@ -157,10 +157,7 @@ export class CartEffects {
                 cart,
                 cartId: getCartIdByUserId(cart, payload.userId),
               }),
-              new CartActions.SetTempCart({
-                cart,
-                tempCartId: payload.tempCartId,
-              }),
+              new CartActions.RemoveCart({ cartId: payload.tempCartId }),
               ...conditionalActions,
             ];
           }),

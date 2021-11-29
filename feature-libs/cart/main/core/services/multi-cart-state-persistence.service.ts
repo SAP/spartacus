@@ -1,6 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CartPersistentStorageChangeEvent } from '@spartacus/cart/main/root';
+import {
+  CartPersistentStorageChangeEvent,
+  CartType,
+} from '@spartacus/cart/main/root';
 import {
   BASE_SITE_CONTEXT_ID,
   EventService,
@@ -46,10 +49,11 @@ export class MultiCartStatePersistenceService implements OnDestroy {
       filter((store) => !!store.cart),
       select(MultiCartSelectors.getMultiCartState),
       filter((state) => !!state),
-      distinctUntilKeyChanged('active'),
-      map((state) => {
+      map((state) => state.index),
+      distinctUntilKeyChanged('Active'),
+      map((indexState) => {
         return {
-          active: state.active ?? '',
+          active: indexState[CartType.ACTIVE] ?? '',
         };
       })
     );

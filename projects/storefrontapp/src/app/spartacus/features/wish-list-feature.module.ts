@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   wishListTranslationChunksConfig,
   wishListTranslations,
@@ -18,7 +17,6 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         [CART_WISH_LIST_FEATURE]: {
           module: () =>
             import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
-          dependencies: [CART_FEATURE],
         },
       },
     }),
