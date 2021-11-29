@@ -51,19 +51,19 @@ describe('i18nextGetHttpClient should return a http client that', () => {
     const error = 'test error message';
     const statusText = 'Not Found';
     const status = 404;
-
-    const expectedHttpError = new HttpErrorResponse({
+    const expectedHttpErrorResponse = new HttpErrorResponse({
       status,
       error,
       statusText,
       url: testUrl,
     });
+
     req.flush(error, {
       status,
       statusText,
     });
-    expect(testCallback).toHaveBeenCalledWith(expectedHttpError, {
-      status: 404,
+    expect(testCallback).toHaveBeenCalledWith(expectedHttpErrorResponse, {
+      status,
       // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
       data: null as any,
     });
