@@ -2,5 +2,5 @@ import { purchaseLimitConfigs } from '../../../../helpers/b2b/my-company/config/
 import { testMyCompanyFeatureFromConfig } from '../../../../helpers/b2b/my-company/my-company.utils';
 
 purchaseLimitConfigs.forEach((config) => {
-  testMyCompanyFeatureFromConfig(config);
+  testMyCompanyFeatureFromConfig(config, true);
 });

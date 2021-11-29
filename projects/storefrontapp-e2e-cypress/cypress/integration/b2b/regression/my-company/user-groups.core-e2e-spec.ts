@@ -2,5 +2,5 @@ import { userGroupConfig } from '../../../../helpers/b2b/my-company/config/user-
 import { testMyCompanyFeatureFromConfig } from '../../../../helpers/b2b/my-company/my-company.utils';
 
 describe(`My Company - User Groups`, () => {
-  testMyCompanyFeatureFromConfig(userGroupConfig);
+  testMyCompanyFeatureFromConfig(userGroupConfig, true);
 });
