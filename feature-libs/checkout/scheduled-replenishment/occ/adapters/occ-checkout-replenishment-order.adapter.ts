@@ -27,19 +27,6 @@ export class OccCheckoutReplenishmentOrderAdapter
     protected converter: ConverterService
   ) {}
 
-  protected getScheduleReplenishmentOrderEndpoint(
-    userId: string,
-    cartId: string,
-    termsChecked: string
-  ): string {
-    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
-      urlParams: {
-        userId,
-      },
-      queryParams: { cartId, termsChecked },
-    });
-  }
-
   scheduleReplenishmentOrder(
     cartId: string,
     scheduleReplenishmentForm: ScheduleReplenishmentForm,
@@ -68,5 +55,18 @@ export class OccCheckoutReplenishmentOrderAdapter
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER)
       );
+  }
+
+  protected getScheduleReplenishmentOrderEndpoint(
+    userId: string,
+    cartId: string,
+    termsChecked: string
+  ): string {
+    return this.occEndpoints.buildUrl('scheduleReplenishmentOrder', {
+      urlParams: {
+        userId,
+      },
+      queryParams: { cartId, termsChecked },
+    });
   }
 }

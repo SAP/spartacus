@@ -39,7 +39,10 @@ export class OccCheckoutPaymentTypeAdapter
       );
   }
 
-  // TODO: Should it return cart?
+  protected getPaymentTypesEndpoint(): string {
+    return this.occEndpoints.buildUrl('paymentTypes');
+  }
+
   setPaymentType(
     userId: string,
     cartId: string,
@@ -61,10 +64,6 @@ export class OccCheckoutPaymentTypeAdapter
         backOff({ shouldRetry: isJaloError }),
         this.converter.pipeable(CART_NORMALIZER)
       );
-  }
-
-  protected getPaymentTypesEndpoint(): string {
-    return this.occEndpoints.buildUrl('paymentTypes');
   }
 
   protected getSetCartPaymentTypeEndpoint(

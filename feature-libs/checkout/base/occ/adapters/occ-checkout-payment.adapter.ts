@@ -34,45 +34,6 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
 
   private domparser: DOMParser;
 
-  protected getSetPaymentDetailsEndpoint(
-    userId: string,
-    cartId: string,
-    paymentDetailsId: string
-  ): string {
-    return this.occEndpoints.buildUrl('setCartPaymentDetails', {
-      urlParams: { userId, cartId },
-      queryParams: { paymentDetailsId },
-    });
-  }
-
-  protected getPaymentProviderSubInfoEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getCreatePaymentDetailsEndpoint(
-    userId: string,
-    cartId: string
-  ): string {
-    return this.occEndpoints.buildUrl('createPaymentDetails', {
-      urlParams: {
-        userId,
-        cartId,
-      },
-    });
-  }
-
-  protected getCardTypesEndpoint(): string {
-    return this.occEndpoints.buildUrl('cardTypes');
-  }
-
   public createPaymentDetails(
     userId: string,
     cartId: string,
@@ -140,6 +101,17 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       );
   }
 
+  protected getSetPaymentDetailsEndpoint(
+    userId: string,
+    cartId: string,
+    paymentDetailsId: string
+  ): string {
+    return this.occEndpoints.buildUrl('setCartPaymentDetails', {
+      urlParams: { userId, cartId },
+      queryParams: { paymentDetailsId },
+    });
+  }
+
   getCardTypes(): Observable<CardType[]> {
     return this.http.get<Occ.CardTypeList>(this.getCardTypesEndpoint()).pipe(
       catchError((error) => throwError(normalizeHttpError(error))),
@@ -149,6 +121,10 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
       map((cardTypeList) => cardTypeList.cardTypes ?? []),
       this.converter.pipeableMany(CARD_TYPE_NORMALIZER)
     );
+  }
+
+  protected getCardTypesEndpoint(): string {
+    return this.occEndpoints.buildUrl('cardTypes');
   }
 
   protected getProviderSubInfo(
@@ -163,6 +139,18 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           shouldRetry: isJaloError,
         })
       );
+  }
+
+  protected getPaymentProviderSubInfoEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('paymentProviderSubInfo', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   protected createSubWithProvider(
@@ -217,6 +205,18 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           shouldRetry: isJaloError,
         })
       );
+  }
+
+  protected getCreatePaymentDetailsEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl('createPaymentDetails', {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
   }
 
   private getParamsForPaymentProvider(
