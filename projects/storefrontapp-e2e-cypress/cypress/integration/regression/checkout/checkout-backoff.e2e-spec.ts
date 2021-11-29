@@ -7,7 +7,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import * as sampleData from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
-context('Checkout backoff test', () => {
+context('Checkout back-off test', () => {
   viewportContext(['desktop'], () => {
     before(() => {
       clearAllStorage();
@@ -22,7 +22,7 @@ context('Checkout backoff test', () => {
       checkoutBackoff.visitCheckoutDeliveryModePage();
     });
 
-    it('should verify backoff mechanism in checkout', () => {
+    it('should verify back-off mechanism in checkout', () => {
       let retry = 1;
       cy.intercept(
         `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -31,7 +31,6 @@ context('Checkout backoff test', () => {
         (req) => {
           if (retry <= 3) {
             retry++;
-            console.log('retry fail', retry);
             req.reply({
               statusCode: 400,
               body: {
@@ -44,7 +43,6 @@ context('Checkout backoff test', () => {
               },
             });
           } else {
-            console.log('retry success', retry);
             req.reply({
               statusCode: 200,
             });
@@ -61,9 +59,6 @@ context('Checkout backoff test', () => {
       cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
       cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
       cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
-
-      // if you add this one, it will fail because the next one is expected to be 200
-      // cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 400);
 
       cy.wait(`@testBackoff`).its('response.statusCode').should('eq', 200);
     });
