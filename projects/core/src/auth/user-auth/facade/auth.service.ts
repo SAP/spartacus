@@ -38,7 +38,7 @@ export class AuthService {
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
     protected routingService: RoutingService,
-    protected globalMessageService?: GlobalMessageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   /**
@@ -97,7 +97,7 @@ export class AuthService {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
         if (showGlobalMsg) {
-          this.globalMessageService?.add(
+          this.globalMessageService.add(
             { key: 'authMessages.signedOutSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
