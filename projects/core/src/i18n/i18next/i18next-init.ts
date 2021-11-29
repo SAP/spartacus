@@ -113,7 +113,12 @@ export function i18nextGetHttpClient(
   ) => {
     httpClient.get(url, { responseType: 'text' }).subscribe(
       (data) => callback(null, { status: 200, data }),
-      (error) => callback(error, { data: error, status: error.status })
+      (error) =>
+        callback(error, {
+          // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
+          data: null as any,
+          status: error.status,
+        })
     );
   };
 }
