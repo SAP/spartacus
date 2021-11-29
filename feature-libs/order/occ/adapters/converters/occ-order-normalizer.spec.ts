@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
 } from '@spartacus/cart/main/root';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
@@ -58,7 +58,7 @@ describe('OccOrderNormalizer', () => {
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       { item: order.entries[0], promotions: mockPromotions },
-      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
   });
 
@@ -75,7 +75,7 @@ describe('OccOrderNormalizer', () => {
         item: order.consignments[0].entries[0].orderEntry,
         promotions: mockPromotions,
       },
-      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
   });
 
@@ -89,7 +89,7 @@ describe('OccOrderNormalizer', () => {
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       { item: order.unconsignedEntries[0], promotions: mockPromotions },
-      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
   });
 });

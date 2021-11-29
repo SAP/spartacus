@@ -6,7 +6,7 @@ import {
   Occ,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { ORDRE_ENTRY_PROMOTIONS_NORMALIZER } from 'feature-libs/cart/main/root';
+import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from 'feature-libs/cart/main/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
@@ -25,7 +25,7 @@ export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
         product: this.converter.convert(entry.product, PRODUCT_NORMALIZER),
         promotions: this.converter.convert(
           { item: entry, promotions: target?.appliedProductPromotions },
-          ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+          ORDER_ENTRY_PROMOTIONS_NORMALIZER
         ),
       }));
     }

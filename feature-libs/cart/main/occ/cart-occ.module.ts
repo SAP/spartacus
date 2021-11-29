@@ -9,7 +9,7 @@ import {
 } from '@spartacus/cart/main/core';
 import {
   CART_NORMALIZER,
-  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
 } from '@spartacus/cart/main/root';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';
@@ -35,7 +35,7 @@ import { OccSaveCartAdapter } from './adapters/occ-save-cart.adapter';
       multi: true,
     },
     {
-      provide: ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+      provide: ORDER_ENTRY_PROMOTIONS_NORMALIZER,
       useExisting: OrderEntryPromotionsNormalizer,
       multi: true,
     },

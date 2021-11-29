@@ -1,6 +1,6 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ORDRE_ENTRY_PROMOTIONS_NORMALIZER,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
 } from '@spartacus/cart/main/root';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
@@ -57,7 +57,7 @@ describe('OccReplenishmentOrderNormalizer', () => {
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
     expect(converter.convert).toHaveBeenCalledWith(
       { item: order.entries[0], promotions: mockPromotions },
-      ORDRE_ENTRY_PROMOTIONS_NORMALIZER
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
     );
   });
 });
