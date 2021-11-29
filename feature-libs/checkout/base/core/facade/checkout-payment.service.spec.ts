@@ -139,6 +139,7 @@ describe(`CheckoutPaymentService`, () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockCardTypes);
+          expect(service.getCardTypesState).toHaveBeenCalled();
           done();
         });
     });

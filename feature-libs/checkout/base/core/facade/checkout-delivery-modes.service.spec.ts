@@ -138,6 +138,7 @@ describe(`CheckoutDeliveryModesService`, () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockSupportedDeliveryModes);
+          expect(service.getSupportedDeliveryModesState).toHaveBeenCalled();
           done();
         });
     });

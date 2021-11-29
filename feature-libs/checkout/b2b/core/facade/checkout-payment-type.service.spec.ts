@@ -120,6 +120,7 @@ describe(`CheckoutPaymentTypeService`, () => {
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual([mockPaymentType]);
+          expect(service.getPaymentTypesState).toHaveBeenCalled();
           done();
         });
     });
