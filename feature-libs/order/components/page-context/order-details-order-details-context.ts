@@ -3,9 +3,9 @@ import {
   GetOrderDetailsContext,
   Order,
   OrderDetailsSource,
-  OrderFacade,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
+import { OrderDetailsService } from '../order-details/order-details.service';
 
 /**
  * Get order details in Order Details Page
@@ -16,9 +16,9 @@ import { Observable } from 'rxjs';
 export class OrderDetailsOrderDetailsContext implements GetOrderDetailsContext {
   readonly type = OrderDetailsSource.ORDER_DETAILS;
 
-  constructor(protected orderFacade: OrderFacade) {}
+  constructor(protected orderDetailsService: OrderDetailsService) {}
 
   getOrderDetails(): Observable<Order> {
-    return this.orderFacade.getOrderDetails();
+    return this.orderDetailsService.getOrderDetails();
   }
 }

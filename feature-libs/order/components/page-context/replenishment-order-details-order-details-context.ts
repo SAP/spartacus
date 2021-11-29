@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
   GetOrderDetailsContext,
-  Order,
   OrderDetailsSource,
+  ReplenishmentOrder,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from '../replenishment-order-details/replenishment-order-details.service';
@@ -22,7 +22,7 @@ export class ReplenishmentOrderDetailsOrderDetailsContext
     protected replenishmentOrderDetailsService: ReplenishmentOrderDetailsService
   ) {}
 
-  getOrderDetails(): Observable<Order> {
+  getOrderDetails(): Observable<ReplenishmentOrder> {
     return this.replenishmentOrderDetailsService.getOrderDetails();
   }
 }

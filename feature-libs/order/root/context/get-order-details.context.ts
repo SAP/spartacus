@@ -1,4 +1,8 @@
-import { Order, OrderDetailsSource } from '@spartacus/order/root';
+import {
+  Order,
+  OrderDetailsSource,
+  ReplenishmentOrder,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 /**
@@ -14,5 +18,5 @@ export interface GetOrderDetailsContext {
   /**
    * get order details
    */
-  getOrderDetails(): Observable<Order>;
+  getOrderDetails(): Observable<Order | ReplenishmentOrder>;
 }
