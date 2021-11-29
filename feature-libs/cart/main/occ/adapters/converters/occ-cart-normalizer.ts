@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { Cart } from '@spartacus/cart/main/root';
+import {
+  Cart,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+} from '@spartacus/cart/main/root';
 import {
   Converter,
   ConverterService,
   Occ,
   PRODUCT_NORMALIZER,
 } from '@spartacus/core';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from 'feature-libs/cart/main/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccCartNormalizer implements Converter<Occ.Cart, Cart> {
