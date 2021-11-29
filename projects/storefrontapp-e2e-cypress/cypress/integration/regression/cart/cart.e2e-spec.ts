@@ -6,7 +6,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {
         cart.checkBasicCart();
@@ -232,7 +232,61 @@ describe('Cart', () => {
         cart.removeCartItem(cart.products[0]);
         cart.validateEmptyCart();
       });
-      
+
+      it('should use existing cart when adding new entries', () => {
+        cy.visit(`/product/${cart.products[0].code}`);
+        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+        cart.clickAddToCart();
+        cart.checkAddedToCartDialog();
+        cy.visit(`/product/${cart.products[1].code}`);
+        cy.get('cx-breadcrumb h1').contains(cart.products[1].name);
+        cart.clickAddToCart();
+        cart.checkAddedToCartDialog(2);
+
+        cy.visit('/cart');
+        cart.checkProductInCart(cart.products[0]);
+        cart.checkProductInCart(cart.products[1]);
+
+        // cleanup
+        cart.registerCartRefreshRoute();
+        cart.removeCartItem(cart.products[0]);
+        cy.wait('@refresh_cart');
+
+        cart.removeCartItem(cart.products[1]);
+        cy.wait('@refresh_cart');
+
+        cart.validateEmptyCart();
+      });
+
+      // will fail right now, as this is not fixed yet
+      it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
+        cy.visit(`/product/${cart.products[0].code}`);
+        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
+        cy.intercept(
+          {
+            method: 'POST',
+            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+              'BASE_SITE'
+            )}/users/anonymous/carts/*/entries`,
+          },
+          {
+            body: {
+              error: {},
+            },
+            statusCode: 400,
+          }
+        ).as('addEntry');
+        cart.clickAddToCart();
+        cy.wait('@addEntry').its('response.statusCode').should('eq', 400);
+        cy.get('cx-added-to-cart-dialog .modal-header').should(
+          'not.contain',
+          'Item(s) added to your cart'
+        );
+        cart.checkAddedToCartDialog();
+        cy.visit('/cart');
+        cart.validateEmptyCart();
+      });
+
       it('should have different cart on different base sites', () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cart.clickAddToCart();
