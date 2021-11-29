@@ -2,7 +2,10 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
   ActiveCartFacade,
-  Cart, CartType, MultiCartFacade, OrderEntry
+  Cart,
+  CartType,
+  MultiCartFacade,
+  OrderEntry,
 } from '@spartacus/cart/main/root';
 import {
   getLastValueSync,
@@ -11,7 +14,7 @@ import {
   OCC_USER_ID_GUEST,
   StateUtils,
   User,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
@@ -24,7 +27,7 @@ import {
   switchMapTo,
   take,
   tap,
-  withLatestFrom
+  withLatestFrom,
 } from 'rxjs/operators';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import {
@@ -32,7 +35,7 @@ import {
   isEmail,
   isEmpty,
   isJustLoggedIn,
-  isTempCartId
+  isTempCartId,
 } from '../utils/utils';
 
 @Injectable()
