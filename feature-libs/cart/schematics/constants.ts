@@ -3,6 +3,17 @@ import { SPARTACUS_CART } from '@spartacus/schematics';
 export const CART_FOLDER_NAME = 'cart';
 export const SCSS_FILE_NAME = 'cart.scss';
 
+export const CART_MAIN_FEATURE_MODULE_NAME = 'Cart';
+export const CART_MAIN_FEATURE_NAME_CONSTANT = 'CART_FEATURE';
+export const CART_MAIN_MODULE = 'CartModule';
+export const CART_MAIN_ROOT_MODULE = 'CartRootModule';
+export const SPARTACUS_CART_MAIN = `${SPARTACUS_CART}/main`;
+export const SPARTACUS_CART_MAIN_ROOT = `${SPARTACUS_CART_MAIN}/root`;
+export const SPARTACUS_CART_MAIN_ASSETS = `${SPARTACUS_CART_MAIN}/assets`;
+export const CART_MAIN_TRANSLATIONS = 'cartTranslations';
+export const CART_MAIN_TRANSLATION_CHUNKS_CONFIG =
+  'cartTranslationChunksConfig';
+
 export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
 export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';
 export const SAVED_CART_MODULE = 'SavedCartModule';

@@ -205,50 +205,12 @@ function configureSpartacusModules(
         });
       });
 
-      [
-        `// Cart Core,
-        CartModule.forRoot(),`,
-        'CartOccModule,',
-        `// Cart UI,
-        CartComponentModule,`,
-        'WishListModule,',
-      ].forEach((content) => {
-        addModuleImport(sourceFile, {
-          import: [
-            {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: ['CartModule', 'CartOccModule'],
-            },
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: ['CartComponentModule', 'WishListModule'],
-            },
-          ],
-          content,
-        });
-      });
-
       ['CostCenterOccModule,'].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: ['CostCenterOccModule'],
-            },
-          ],
-          content,
-        });
-      });
-
-      [
-        `// Order,
-        OrderOccModule`,
-      ].forEach((content) => {
-        addModuleImport(sourceFile, {
-          import: [
-            {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: ['OrderOccModule'],
             },
           ],
           content,
