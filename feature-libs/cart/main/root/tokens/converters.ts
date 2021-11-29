@@ -3,6 +3,7 @@ import { Converter } from '@spartacus/core';
 import {
   Cart,
   CartModification,
+  PromotionResult,
   SaveCartResult,
   Voucher,
 } from '../models/cart.model';
@@ -10,6 +11,10 @@ import {
 export const CART_NORMALIZER = new InjectionToken<Converter<any, Cart>>(
   'CartNormalizer'
 );
+
+export const ORDER_ENTRY_PROMOTIONS_NORMALIZER = new InjectionToken<
+  Converter<any, PromotionResult[]>
+>('OrderEntryPromotionsNormalizer');
 
 export const CART_MODIFICATION_NORMALIZER = new InjectionToken<
   Converter<any, CartModification>

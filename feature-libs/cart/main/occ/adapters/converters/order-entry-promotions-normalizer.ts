@@ -3,10 +3,24 @@ import {
   PromotionOrderEntryConsumed,
   PromotionResult,
 } from '@spartacus/cart/main/root';
-import { Occ } from '@spartacus/core';
+import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class OrderEntryPromotionsService {
+export class OrderEntryPromotionsNormalizer
+  implements
+    Converter<
+      { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
+      PromotionResult[]
+    >
+{
+  convert(
+    source: { item?: Occ.OrderEntry; promotions?: PromotionResult[] },
+    target?: PromotionResult[]
+  ) {
+    target = this.getProductPromotion(source.item, source.promotions);
+    return target;
+  }
+
   /**
    * Get consumed promotions for the given order entry
    *

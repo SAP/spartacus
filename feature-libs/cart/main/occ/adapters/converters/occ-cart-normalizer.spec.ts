@@ -1,8 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { PromotionResult } from '@spartacus/cart/main/root';
+import {
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+  PromotionResult,
+} from '@spartacus/cart/main/root';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccCartNormalizer } from './occ-cart-normalizer';
-import { OrderEntryPromotionsService } from './order-entry-promotions-service';
+
 class MockConverterService {
   convert() {}
 }
@@ -14,11 +17,6 @@ const mockPromotions: PromotionResult[] = [
     },
   },
 ];
-class MockOrderEntryPromotionsService {
-  getProductPromotion() {
-    return mockPromotions;
-  }
-}
 
 describe('OccCartNormalizer', () => {
   let occCartNormalizer: OccCartNormalizer;
@@ -29,19 +27,12 @@ describe('OccCartNormalizer', () => {
       providers: [
         OccCartNormalizer,
         { provide: ConverterService, useClass: MockConverterService },
-        {
-          provide: OrderEntryPromotionsService,
-          useClass: MockOrderEntryPromotionsService,
-        },
       ],
     });
 
     occCartNormalizer = TestBed.inject(OccCartNormalizer);
     converter = TestBed.inject(ConverterService);
-    spyOn(converter, 'convert').and.callFake(((product) => ({
-      ...product,
-      code: product.code + 'converted',
-    })) as any);
+    spyOn(converter, 'convert').and.callThrough();
   });
 
   it('should be created', () => {
@@ -52,11 +43,14 @@ describe('OccCartNormalizer', () => {
     const product = { code: 'test1' };
     const cart = {
       entries: [{ product }],
+      appliedProductPromotions: mockPromotions,
     };
-    const result = occCartNormalizer.convert(cart);
-    expect(result.entries[0].product.code).toBe('test1converted');
-    expect(result.entries[0].promotions).toEqual(mockPromotions);
+    occCartNormalizer.convert(cart);
     expect(converter.convert).toHaveBeenCalledWith(product, PRODUCT_NORMALIZER);
+    expect(converter.convert).toHaveBeenCalledWith(
+      { item: cart.entries[0], promotions: mockPromotions },
+      ORDER_ENTRY_PROMOTIONS_NORMALIZER
+    );
   });
 
   it('should not contain duplicated pomotions', () => {
