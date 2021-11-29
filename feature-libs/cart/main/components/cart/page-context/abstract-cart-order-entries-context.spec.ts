@@ -3,12 +3,12 @@ import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
 import {
+  AddOrderEntriesContext,
   OrderEntriesSource,
   ProductData,
   ProductImportStatus,
 } from '@spartacus/cart/main/root';
 import { Observable, of, Subject } from 'rxjs';
-import { AddOrderEntriesContext } from '../../../root/context/add-order-entries.context';
 import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
 
 const mockActionsSubject = new Subject<Action>();
