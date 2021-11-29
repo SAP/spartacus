@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   Cart,
   CartType,
+  MultiCartFacade,
   OrderEntry,
   SelectiveCartFacade,
 } from '@spartacus/cart/main/root';
@@ -21,7 +22,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { MultiCartService } from './multi-cart.service';
 
 @Injectable()
 export class SelectiveCartService implements SelectiveCartFacade {
@@ -29,7 +29,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   constructor(
     protected userService: UserService,
-    protected multiCartService: MultiCartService,
+    protected multiCartFacade: MultiCartFacade,
     protected baseSiteService: BaseSiteService,
     protected userIdService: UserIdService
   ) {}
@@ -52,16 +52,14 @@ export class SelectiveCartService implements SelectiveCartFacade {
             userId !== OCC_USER_ID_ANONYMOUS &&
             user?.customerId
           ) {
-            this.multiCartService.loadCart({
+            this.multiCartFacade.loadCart({
               userId: userId,
               cartId: `selectivecart${activeBaseSite}${user.customerId}`,
             });
           }
         }),
         filter(([selectiveId]) => Boolean(selectiveId)),
-        switchMap(([selectiveId]) =>
-          this.multiCartService.getCart(selectiveId)
-        ),
+        switchMap(([selectiveId]) => this.multiCartFacade.getCart(selectiveId)),
         shareReplay({ bufferSize: 1, refCount: true })
       );
     }
@@ -70,30 +68,25 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   getEntries(): Observable<OrderEntry[]> {
     return this.getSelectiveCartId().pipe(
-      switchMap((selectiveId) => this.multiCartService.getEntries(selectiveId))
+      switchMap((selectiveId) => this.multiCartFacade.getEntries(selectiveId))
     );
   }
 
   isStable(): Observable<boolean> {
     return this.getSelectiveCartId().pipe(
-      switchMap((selectiveId) => this.multiCartService.isStable(selectiveId))
+      switchMap((selectiveId) => this.multiCartFacade.isStable(selectiveId))
     );
   }
 
   addEntry(productCode: string, quantity: number): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartService.addEntry(
-        userId,
-        selectiveId,
-        productCode,
-        quantity
-      );
+      this.multiCartFacade.addEntry(userId, selectiveId, productCode, quantity);
     });
   }
 
   removeEntry(entry: OrderEntry): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartService.removeEntry(
+      this.multiCartFacade.removeEntry(
         userId,
         selectiveId,
         entry.entryNumber as number
@@ -103,7 +96,7 @@ export class SelectiveCartService implements SelectiveCartFacade {
 
   updateEntry(entryNumber: number, quantity: number): void {
     this.getSelectiveIdWithUserId().subscribe(([selectiveId, userId]) => {
-      this.multiCartService.updateEntry(
+      this.multiCartFacade.updateEntry(
         userId,
         selectiveId,
         entryNumber,
@@ -115,13 +108,13 @@ export class SelectiveCartService implements SelectiveCartFacade {
   getEntry(productCode: string): Observable<OrderEntry | undefined> {
     return this.getSelectiveCartId().pipe(
       switchMap((selectiveId) =>
-        this.multiCartService.getEntry(selectiveId, productCode)
+        this.multiCartFacade.getEntry(selectiveId, productCode)
       )
     );
   }
 
   protected getSelectiveCartId(): Observable<string> {
-    return this.multiCartService.getCartIdByType(CartType.SELECTIVE);
+    return this.multiCartFacade.getCartIdByType(CartType.SELECTIVE);
   }
 
   private getSelectiveIdWithUserId(): Observable<string[]> {

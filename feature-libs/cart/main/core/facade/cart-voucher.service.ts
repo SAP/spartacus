@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CartVoucherFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
 import {
   ProcessSelectors,
   StateWithProcess,
@@ -10,13 +10,12 @@ import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CartActions } from '../store/actions/index';
 import { ADD_VOUCHER_PROCESS_ID } from '../store/multi-cart-state';
-import { ActiveCartService } from './active-cart.service';
 
 @Injectable()
 export class CartVoucherService implements CartVoucherFacade {
   constructor(
     protected store: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService
   ) {}
 
@@ -95,7 +94,7 @@ export class CartVoucherService implements CartVoucherFacade {
     } else {
       return combineLatest([
         this.userIdService.getUserId(),
-        this.activeCartService.getActiveCartId(),
+        this.activeCartFacade.getActiveCartId(),
       ]).pipe(take(1));
     }
   }
