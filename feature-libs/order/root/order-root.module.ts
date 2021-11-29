@@ -14,6 +14,7 @@ import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 import {
   OrderDetailsOrderDetailsContextToken,
   OrderDetailsOrderEntriesContextToken,
+  ReplenishmentOrderDetailsOrderDetailsContextToken,
 } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -114,7 +115,13 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'replenishmentDetails' },
+        data: {
+          cxRoute: 'replenishmentDetails',
+          cxContext: {
+            [ORDER_DETAILS_CONTEXT]:
+              ReplenishmentOrderDetailsOrderDetailsContextToken,
+          },
+        },
       },
       {
         // @ts-ignore

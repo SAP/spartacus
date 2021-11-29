@@ -7,3 +7,6 @@ export const OrderDetailsOrderEntriesContextToken = new InjectionToken(
 export const OrderDetailsOrderDetailsContextToken = new InjectionToken(
   'OrderDetailsOrderDetailsContext'
 );
+
+export const ReplenishmentOrderDetailsOrderDetailsContextToken =
+  new InjectionToken('ReplenishmentOrderDetailsOrderDetailsContext');

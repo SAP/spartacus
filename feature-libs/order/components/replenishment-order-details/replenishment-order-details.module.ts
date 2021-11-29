@@ -62,12 +62,6 @@ const moduleComponents = [ReplenishmentOrderCancellationComponent];
         },
         ReplenishmentDetailShippingComponent: {
           component: OrderDetailShippingComponent,
-          providers: [
-            {
-              provide: OrderDetailsService,
-              useExisting: ReplenishmentOrderDetailsService,
-            },
-          ],
         },
         ReplenishmentDetailActionsComponent: {
           component: ReplenishmentOrderCancellationComponent,

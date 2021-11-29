@@ -3,13 +3,13 @@ import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
   AddOrderEntriesContext,
-  CartOrderEntriesContext,
   GetOrderEntriesContext,
   OrderEntriesSource,
   OrderEntry,
   ProductData,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
+import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
 
 @Injectable({
   providedIn: 'root',

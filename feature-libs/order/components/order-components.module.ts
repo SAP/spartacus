@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   OrderDetailsOrderDetailsContextToken,
   OrderDetailsOrderEntriesContextToken,
+  ReplenishmentOrderDetailsOrderDetailsContextToken,
 } from '@spartacus/order/root';
 import {
   OrderCancellationModule,
@@ -11,6 +12,7 @@ import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
 import { OrderDetailsOrderDetailsContext } from './page-context/order-details-order-details-context';
 import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries-context';
+import { ReplenishmentOrderDetailsOrderDetailsContext } from './page-context/replenishment-order-details-order-details-context';
 import { ReplenishmentOrderDetailsModule } from './replenishment-order-details/replenishment-order-details.module';
 import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/replenishment-order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
@@ -35,6 +37,10 @@ import { ReturnRequestListModule } from './return-request-list/order-return-requ
     {
       provide: OrderDetailsOrderDetailsContextToken,
       useExisting: OrderDetailsOrderDetailsContext,
+    },
+    {
+      provide: ReplenishmentOrderDetailsOrderDetailsContextToken,
+      useExisting: ReplenishmentOrderDetailsOrderDetailsContext,
     },
   ],
 })
