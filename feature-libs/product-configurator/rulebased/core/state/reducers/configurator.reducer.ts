@@ -3,6 +3,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
+import { ConfiguratorAction } from '../actions/configurator.action';
 import { ConfiguratorActions } from '../actions/index';
 import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
@@ -18,6 +19,20 @@ export const initialState: Configurator.Configuration = {
   owner: ConfiguratorModelUtils.createInitialOwner(),
 };
 export const initialStatePendingChanges = 0;
+
+export const initialActiveConfigurationState: Configurator.ActiveConfiguration =
+  {};
+export function configuratorActiveReducer(
+  state = initialActiveConfigurationState,
+  action: ConfiguratorAction
+): Configurator.ActiveConfiguration {
+  switch (action.type) {
+    case ConfiguratorActions.SET_ACTIVE_CONFIGURATION: {
+      return action.payload;
+    }
+  }
+  return state;
+}
 
 export function configuratorReducer(
   state = initialState,

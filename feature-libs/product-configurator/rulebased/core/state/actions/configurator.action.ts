@@ -1,3 +1,4 @@
+import { Action } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Configurator } from '../../model/configurator.model';
@@ -48,6 +49,8 @@ export const SET_MENU_PARENT_GROUP =
   '[Configurator] Set current parent group for menu to State';
 
 export const SET_GROUPS_VISITED = '[Configurator] Set groups to visited';
+export const SET_ACTIVE_CONFIGURATION =
+  '[Configurator] Set active configuration';
 
 export class CreateConfiguration extends StateUtils.EntityLoadAction {
   readonly type = CREATE_CONFIGURATION;
@@ -263,6 +266,11 @@ export class SetGroupsVisited extends StateUtils.EntitySuccessAction {
   }
 }
 
+export class SetActiveConfiguration implements Action {
+  readonly type = SET_ACTIVE_CONFIGURATION;
+  constructor(public payload: Configurator.ActiveConfiguration) {}
+}
+
 export type ConfiguratorAction =
   | CreateConfiguration
   | CreateConfigurationFail
@@ -287,4 +295,5 @@ export type ConfiguratorAction =
   | SetInteractionState
   | SetMenuParentGroup
   | SetCurrentGroup
-  | SetGroupsVisited;
+  | SetGroupsVisited
+  | SetActiveConfiguration;
