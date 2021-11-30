@@ -52,7 +52,8 @@ context('Apparel - checkout flow', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_CURRENCY
+        APPAREL_CURRENCY,
+        true
       );
       checkout.verifyOrderConfirmationPageWithCheapProduct(
         variantUser,

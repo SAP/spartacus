@@ -91,7 +91,7 @@ context('Checkout as guest', () => {
       login(user.email, user.password);
       cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('cx-mini-cart .count').contains('1');
+      cy.get('cx-mini-cart .count').should('not.have.value', '0');
 
       const cartPage = waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
@@ -100,7 +100,7 @@ context('Checkout as guest', () => {
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', cheapProduct.code)
         .within(() => {
-          cy.get('cx-item-counter input').should('have.value', '1');
+          cy.get('cx-item-counter input').should('not.have.value', '0');
         });
       loginHelper.signOutUser();
     });

@@ -67,7 +67,8 @@ context('Apparel - checkout as guest', () => {
       checkout.placeOrderWithCheapProduct(
         variantUser,
         cartWithTotalVariantProduct,
-        APPAREL_CURRENCY
+        APPAREL_CURRENCY,
+        true
       );
 
       checkout.verifyOrderConfirmationPageWithCheapProduct(
@@ -142,7 +143,7 @@ context('Apparel - checkout as guest', () => {
       login(variantUser.email, variantUser.password);
       cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
-      cy.get('cx-mini-cart .count').contains('1');
+      cy.get('cx-mini-cart .count').should('not.contain', '0');
 
       const cartPage = checkout.waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
@@ -151,7 +152,7 @@ context('Apparel - checkout as guest', () => {
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', variantProduct.code)
         .within(() => {
-          cy.get('cx-item-counter input').should('have.value', '1');
+          cy.get('cx-item-counter input').should('not.contain', '1');
         });
       loginHelper.signOutUser();
     });

@@ -25,7 +25,8 @@ const randomQuantity = randomNumber(9);
 const randomQuantityInDialog = randomNumber(9);
 function getCartTotalWithRandomNumber(cartTotal: string, randomNumber: number) {
   return (
-    Math.round(Number(cartTotal.replace('$', '')) * randomNumber * 100) / 100
+    Math.round(Number(cartTotal.replace(/[$£]/g, '')) * randomNumber * 100) /
+    100
   );
 }
 
@@ -326,7 +327,11 @@ export function addCheapProductToCartAndProceedToCheckout(
 ) {
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
-  cy.get('cx-item-counter input').eq(1).should('contain', randomQuantity);
+  cy.get('cx-item-counter input').eq(1).should('have.value', randomQuantity);
+  cy.get('cx-item-counter input')
+    .eq(1)
+    .type(`{selectall}${randomQuantityInDialog}`)
+    .blur();
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 }
@@ -347,10 +352,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
 export function addCheapProductToCart(
   sampleProduct: SampleProduct = cheapProduct
 ) {
-  cy.get('cx-item-counter input')
-    // .eq(1)
-    .type(`{selectall}${randomQuantity}`)
-    .blur();
+  cy.get('cx-item-counter input').type(`{selectall}${randomQuantity}`).blur();
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
@@ -365,13 +367,6 @@ export function fillAddressFormWithCheapProduct(
 ) {
   cy.log('🛒 Filling shipping address form');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
-    .find('.cx-summary-amount')
-    .should(
-      'contain',
-      getCartTotalWithRandomNumber(cartData.total, randomQuantityInDialog)
-    );
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -399,7 +394,8 @@ export function fillPaymentFormWithCheapProduct(
 export function placeOrderWithCheapProduct(
   sampleUser: SampleUser = user,
   cartData: SampleCartProduct = cartWithCheapProduct,
-  currency: string = 'USD'
+  currency: string = 'USD',
+  isApparel: boolean = false
 ) {
   cy.log('🛒 Placing order');
   verifyReviewOrderPage();
@@ -417,12 +413,14 @@ export function placeOrderWithCheapProduct(
     .within(() => {
       cy.findByText('Standard Delivery');
     });
-  cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
-    .eq(0)
-    .should(
-      'contain',
-      getCartTotalWithRandomNumber(cartData.total, randomQuantityInDialog)
-    );
+  if (!isApparel) {
+    cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
+      .eq(0)
+      .should(
+        'contain',
+        getCartTotalWithRandomNumber(cartData.total, randomQuantityInDialog)
+      );
+  }
   cy.get('cx-order-summary .cx-summary-row .cx-summary-amount')
     .eq(1)
     .should('contain', cartData.estimatedShipping);
