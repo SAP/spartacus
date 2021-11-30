@@ -5,22 +5,14 @@ import {
   ActiveCartService,
   Address,
   DeliveryMode,
-  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import {
-  filter,
-  pluck,
-  shareReplay,
-  take,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -29,7 +21,6 @@ import {
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
-import { CheckoutService } from './checkout.service';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
@@ -37,8 +28,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService,
-    protected checkoutService: CheckoutService
+    protected userIdService: UserIdService
   ) {}
 
   /**
@@ -230,27 +220,25 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      const userId = getLastValueSync(this.userIdService.getUserId());
-      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
+      let userId;
+      this.userIdService
+        .getUserId()
+        .subscribe((occUserId) => (userId = occUserId))
+        .unsubscribe();
 
+      let cartId;
+      this.activeCartService
+        .getActiveCartId()
+        .subscribe((activeCartId) => (cartId = activeCartId))
+        .unsubscribe();
       if (userId && cartId) {
-        combineLatest([
-          this.activeCartService.isStable(),
-          this.checkoutService.isLoading(),
-        ])
-          .pipe(
-            filter(([isStable, isLoading]) => isStable && !isLoading),
-            take(1)
-          )
-          .subscribe(() => {
-            this.checkoutStore.dispatch(
-              new CheckoutActions.SetDeliveryMode({
-                userId,
-                cartId,
-                selectedModeId: mode,
-              })
-            );
-          });
+        this.checkoutStore.dispatch(
+          new CheckoutActions.SetDeliveryMode({
+            userId,
+            cartId,
+            selectedModeId: mode,
+          })
+        );
       }
     }
   }

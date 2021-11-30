@@ -13,14 +13,7 @@ import {
   UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { debounceTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutDetailsService } from './checkout-details.service';
 
@@ -117,22 +110,19 @@ export class ExpressCheckoutService {
           }
           return of(false);
         }
-      ),
-      distinctUntilChanged()
+      )
     );
   }
 
   protected setPaymentMethod() {
     this.paymentMethodSet$ = combineLatest([
-      this.deliveryModeSet$,
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
       this.checkoutPaymentService.getSetPaymentDetailsResultProcess(),
     ]).pipe(
       debounceTime(0),
       tap(
-        ([, , paymentMethodsLoadedSuccess]: [
-          boolean,
+        ([, paymentMethodsLoadedSuccess]: [
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
@@ -143,24 +133,18 @@ export class ExpressCheckoutService {
         }
       ),
       filter(
-        ([, , success]: [
-          boolean,
+        ([, success]: [
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => success
       ),
       switchMap(
-        ([deliveryModeSet, payments, , setPaymentDetailsProcess]: [
-          boolean,
+        ([payments, , setPaymentDetailsProcess]: [
           PaymentDetails[],
           boolean,
           StateUtils.LoaderState<void>
         ]) => {
-          if (!deliveryModeSet) {
-            return of(false);
-          }
-
           const defaultPayment =
             payments.find((address) => address.defaultPayment) || payments[0];
           if (defaultPayment && Object.keys(defaultPayment).length) {
@@ -299,16 +283,17 @@ export class ExpressCheckoutService {
             return of(false);
           }
         }
-      ),
-      distinctUntilChanged()
+      )
     );
   }
 
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
     this.clearCheckoutService.resetCheckoutProcesses();
 
-    return this.paymentMethodSet$.pipe(
-      map((paymentMethodSet) => Boolean(paymentMethodSet))
+    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
+      map(([deliveryModeSet, paymentMethodSet]) =>
+        Boolean(deliveryModeSet && paymentMethodSet)
+      )
     );
   }
 }
