@@ -1,8 +1,8 @@
 import {
-  RenamedSymbol,
   SPARTACUS_CHECKOUT_B2B_ROOT,
   SPARTACUS_SETUP,
-} from '@spartacus/schematics';
+} from '../../../shared/constants';
+import { RenamedSymbol } from '../../../shared/utils/file-utils';
 
 export const CHECKOUT_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts
