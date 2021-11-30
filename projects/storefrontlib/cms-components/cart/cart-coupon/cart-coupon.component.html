@@ -1,11 +1,13 @@
 <ng-container *ngIf="cart$ | async as cart">
-  <div class="cx-cart-coupon-title">
-    {{ 'voucher.coupon' | cxTranslate }}
-  </div>
   <div class="form-group">
     <form (ngSubmit)="applyVoucher()" [formGroup]="couponForm">
+      <label class="cx-cart-coupon-title">
+        {{ 'voucher.coupon' | cxTranslate }}
+      </label>
+
       <div class="cx-cart-coupon-container">
         <input
+          [attr.aria-label]="'voucher.couponLabel' | cxTranslate"
           aria-required="true"
           type="text"
           class="form-control input-coupon-code"
