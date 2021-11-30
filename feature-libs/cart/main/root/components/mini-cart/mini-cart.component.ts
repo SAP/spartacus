@@ -1,11 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   BASE_SITE_CONTEXT_ID,
   EventService,
   SiteContextParamsService,
   StatePersistenceService,
-  StorageSyncType,
 } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -18,7 +16,9 @@ import {
   takeWhile,
   tap,
 } from 'rxjs/operators';
+import { CartConfig } from '../../config/cart-config';
 import { CartPersistentStorageChangeEvent } from '../../events/cart.events';
+import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
   selector: 'cx-mini-cart',
@@ -70,7 +70,8 @@ export class MiniCartComponent {
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService
+    protected siteContextParamsService: SiteContextParamsService,
+    protected config: CartConfig
   ) {}
 
   browserHasCartInStorage(): Observable<boolean> {
@@ -96,7 +97,7 @@ export class MiniCartComponent {
     const state = this.statePersistenceService.readStateFromStorage({
       key: 'cart',
       context: this.siteContextParamsService.getValue(BASE_SITE_CONTEXT_ID),
-      storageType: StorageSyncType.LOCAL_STORAGE,
+      storageType: this.config?.cart?.storageType,
     });
     return state as { active: string };
   }

@@ -6,6 +6,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { MiniCartModule } from './components/mini-cart/mini-cart.module';
+import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './constants/order-entires.context';
 import { CART_CORE_FEATURE, CART_FEATURE } from './feature-name';
@@ -49,6 +50,7 @@ export function defaultCartComponentsConfig() {
   exports: [MiniCartModule],
   providers: [
     provideDefaultConfigFactory(defaultCartComponentsConfig),
+    provideDefaultConfig(defaultCartConfig),
     provideDefaultConfig(defaultCartRoutingConfig),
   ],
 })
