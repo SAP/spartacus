@@ -15,7 +15,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'setDeliveryAddress',
         'clearCheckoutDeliveryAddress',
       ],
-      // TODO:#checkout - remove once we remove ngrx
+      // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })

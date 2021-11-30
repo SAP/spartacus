@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { UserIdService } from '../../auth/index';
 import * as fromReducers from '../../cart/store/reducers/index';
@@ -170,6 +170,49 @@ describe('ActiveCartService', () => {
         .subscribe((val) => (result = val))
         .unsubscribe();
       expect(result).toBe('code');
+    });
+  });
+
+  describe('takeActiveCartId', () => {
+    it('should NOT emit if the cart is NOT stable', (done) => {
+      const isStableMock = new Subject<boolean>();
+      service.isStable = jasmine
+        .createSpy('isStable')
+        .and.returnValue(isStableMock);
+
+      let emissions = 0;
+      service
+        .takeActiveCartId()
+        .pipe(take(1))
+        .subscribe(() => emissions++);
+
+      isStableMock.next(false);
+
+      expect(emissions).toBe(0);
+      done();
+    });
+
+    it('should emit only when the cart is stable', (done) => {
+      const mockCartId = 'xxx';
+      const isStableMock = new Subject<boolean>();
+
+      service.isStable = jasmine
+        .createSpy('isStable')
+        .and.returnValue(isStableMock);
+      service.getActiveCartId = jasmine
+        .createSpy('getActiveCartId')
+        .and.returnValue(of(mockCartId));
+
+      let result: string | undefined;
+      service
+        .takeActiveCartId()
+        .pipe(take(1))
+        .subscribe((cartId) => (result = cartId));
+
+      isStableMock.next(true);
+
+      expect(result).toEqual(mockCartId);
+      done();
     });
   });
 

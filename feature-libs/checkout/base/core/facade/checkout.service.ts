@@ -33,7 +33,7 @@ export class CheckoutService implements CheckoutFacade {
               tap((order) => {
                 this.order$.next(order);
                 /**
-                 * TODO: We have to keep this here, since the cart feature is still ngrx-based.
+                 * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
                  * Remove once it is switched from ngrx to c&q.
                  * We should dispatch an event, which will load the cart$ query.
                  */
@@ -56,7 +56,7 @@ export class CheckoutService implements CheckoutFacade {
     );
 
   constructor(
-    // TODO: remove once all the occurrences are replaced with events
+    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,

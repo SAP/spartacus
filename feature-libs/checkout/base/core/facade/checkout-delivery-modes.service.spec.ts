@@ -212,7 +212,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch CartActions.LoadCart`, () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -246,7 +246,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch CartActions.LoadCart`, () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -257,7 +257,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#checkout Replace with event testing once we remove ngrx store.
     it(`should reload cart on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
         throwError('err')

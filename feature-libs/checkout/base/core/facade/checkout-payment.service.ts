@@ -64,7 +64,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.store.dispatch(
                       /**
-                       * TODO: We have to keep this here, since the user payment feature is still ngrx-based.
+                       * TODO:#deprecation-checkout We have to keep this here, since the user payment feature is still ngrx-based.
                        * Remove once it is switched from ngrx to c&q.
                        * We should dispatch an event, which will load the userPayment$ query.
                        */
@@ -112,7 +112,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   constructor(
-    // TODO: remove once all the occurrences are replaced with events
+    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
     protected store: Store<StateWithMultiCart>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,

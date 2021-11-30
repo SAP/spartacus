@@ -176,8 +176,6 @@ export class ActiveCartService implements OnDestroy {
 
   /**
    * Waits for the cart to be stable before returning the active cart's ID.
-   *
-   * @returns an observable with the active cart ID.
    */
   takeActiveCartId(): Observable<string> {
     return this.isStable().pipe(
