@@ -1,15 +1,19 @@
 ## TODO:
 
 1. search for "// TODO:#checkout"
-2. make a dependency on the cart lib
+2. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
+3. make a dependency on the cart lib
    1. should we do it in the feature-libs/checkout/base/root/checkout-root.module.ts _or_ in the projects/storefrontapp/src/app/spartacus/features/checkout-feature.module.ts?
    2. the latter will require schematics to be updated
-3. Styles - create styles per entry point
-4. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
+4. Styles - create styles per entry point
+5. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
    1. Is the cart validation properly applied in the new checkout?
-   2. Express checkout fix: https://github.com/SAP/spartacus/pull/14418/files
-   3. TODO: finish
-5. Is the checkout properly using the new cart lib?
+   2. https://github.com/SAP/spartacus/issues/14386
+   3. Do we need to apply this express checkout fix to the base checkout? https://github.com/SAP/spartacus/pull/14418/files
+   4. https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2
+   5. https://github.com/SAP/spartacus/commit/b23c1ef0cd82e4f9787fe2278c694db2fb1160e7
+   6. ...
+6. Is the checkout properly using the new cart lib?
    1. CORE
       - ActiveCartService - we added a method. Move it to the cart lib.
       - Cart - just a model, not important.
@@ -20,7 +24,7 @@
    2. Storefrontlib
       - CartSharedModule - seems important how to import it without breaking LL?
       - CartValidationGuard - seems important. How to import it without breaking LL?
-6. Check other features which are using the old checkout:
+7. Check other features which are using the old checkout:
    1. Digital Payments
    2. CDS
    3. Anything else? Some internal features?
@@ -42,15 +46,16 @@
    3. Check and add js doc comments
    4. Write installation schematics
 2. Migration schematics
-   1. schematics - Facades / services - import paths; some classes have been renamed
-   2. schematics - adapters / connectors - import paths; some classes have been renamed
-   3. schematics - components - import paths; some classes have been renamed
-   4. schematics - modules? import paths; some classes have been renamed
+   1. Facades / services - import paths; some classes have been renamed
+   2. adapters / connectors - import paths; some classes have been renamed
+   3. components - import paths; some classes have been renamed
+   4. modules? import paths; some classes have been renamed
 3. Installation schematics
    1. Update the current installation schematics for the new lib
-   2. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
-4. schematics - move everything from `docs/migration/5_0-checkout.md` to the main 5_0.md
-5. schematics - maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+   2. create a prompt for each of the checkout entry points? (base, b2b, repl)
+   3. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
+4. move everything from `docs/migration/5_0-checkout.md` to the main 5_0.md
+5. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
 6. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    2. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
@@ -70,29 +75,16 @@
 
 # Checkout TO DO list
 
-5. Checkout base:
-   1. feature-libs/checkout/base/public_api.ts - populate
-   2. types in:
-      1. feature-libs/checkout/base/core/connectors/delivery-modes/converters.ts
-      2. feature-libs/checkout/base/core/connectors/payment/converters.ts
-      3. create a converter for the delivery-address
 11. move event listeners to /root? this means the feature will be ll if an event occurs before it is actually loaded. and this is what we want actually. consider the following scenario:
     1.  a user started the checkout, entered their delivery address, and set the delivery mode. This is set on the back-end for the active cart.
     2.  the user changes their mind, and navigates away from the checkout page to homepage, and refresh the browser.
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the lister was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
-12. adjust b2b's file structure (components/components)   https://github.com/SAP/spartacus/pull/14174/#discussion_r752874030
-13. update schematics
-    1. install from the new entry-points
-    2. offer options for b2b and repl checkouts?
-14. feature-libs/checkout/b2b/root/config/default-b2b-occ-config.ts - move to feature module?
 15. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
 16. order$ from checkoutService should stay and not todo from Marcin. Maybe you're mentioning about part 17 (38:00 - 44:00)
-17. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
 18. fix b2b mechanism if not done already for importing config (old vs new) - done but double check 
-19. update schematic test for @spartacus/checkout assertions https://app.travis-ci.com/github/SAP/spartacus/jobs/549205902
-20. go over the components on epic and compare with develop. ex: https://github.com/SAP/spartacus/commit/b23c1ef0cd82e4f9787fe2278c694db2fb1160e7
+
 
 
 
@@ -106,10 +98,3 @@ Feature matrix
 - add cart
 
 
-Usages of CART:
-
-### Test
-
-- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 and  https://github.com/SAP/spartacus/issues/14386
-
-- express checkout update - might not need to update 'new' checkout - https://github.com/SAP/spartacus/pull/14418/files
