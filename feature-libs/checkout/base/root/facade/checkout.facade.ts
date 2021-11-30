@@ -10,7 +10,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutFacade,
       feature: CHECKOUT_CORE_FEATURE,
       methods: ['getOrder', 'clearOrder', 'setOrder', 'placeOrder'],
-      // TODO:#checkout - remove once we remove ngrx
+      // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })

@@ -71,6 +71,7 @@
 ### Future
 
 1. coordinate with UX and A11Y teams about the new checkout and announce a work on the components
+2. search for `TODO:#deprecation-checkout`
 
 
 # Checkout TO DO list

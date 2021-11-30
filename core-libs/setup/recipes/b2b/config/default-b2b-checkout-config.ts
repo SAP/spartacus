@@ -4,7 +4,6 @@ import {
   DeliveryModePreferences,
 } from '@spartacus/checkout/root';
 
-// TODO:#checkout - add schematics
 /**
  * Use 'defaultB2bCheckoutConfig' from '@spartacus/checkout/b2b/root' instead.
  * @deprecated since version 5.0
