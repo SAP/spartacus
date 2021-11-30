@@ -4,6 +4,7 @@ import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
   ActiveCartService,
   CardType,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   ProcessSelectors,
@@ -11,7 +12,8 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
@@ -107,25 +109,27 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId: string | undefined;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
 
-      let cartId: string | undefined;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
       if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId,
-            paymentDetails: paymentDetails,
-          })
-        );
+        combineLatest([
+          this.activeCartService.isStable(),
+          this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading)),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) => isStable && !isLoading),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetPaymentDetails({
+                userId,
+                cartId,
+                paymentDetails: paymentDetails,
+              })
+            );
+          });
       }
     }
   }
