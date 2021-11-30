@@ -8,6 +8,7 @@ import {
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
 import { StateWithConfigurator } from '../state/configurator-state';
+import { ConfiguratorSelectors } from '../state/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -36,12 +37,12 @@ export class ConfiguratorStatePersistenceService implements OnDestroy {
 
   protected getCartState(): Observable<{ active: string }> {
     return this.store.pipe(
-      select(MultiCartSelectors.getMultiCartState),
+      select(ConfiguratorSelectors.getConfigurationState),
       filter((state) => !!state),
-      distinctUntilKeyChanged('active'),
+      distinctUntilKeyChanged('entities'),
       map((state) => {
         return {
-          active: state.active,
+          active: state.entities,
         };
       })
     );
