@@ -1,8 +1,14 @@
+import { ChangeDetectionStrategy, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 
 import { ConfiguratorTextfieldInputFieldReadonlyComponent } from './configurator-textfield-input-field-readonly.component';
+
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslateUrlPipe implements PipeTransform {
+  transform(): any {}
+}
 
 describe('TextfieldInputFieldReadonlyComponent', () => {
   let component: ConfiguratorTextfieldInputFieldReadonlyComponent;
@@ -12,9 +18,17 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [I18nTestingModule],
-        declarations: [ConfiguratorTextfieldInputFieldReadonlyComponent],
-      });
+        declarations: [
+          ConfiguratorTextfieldInputFieldReadonlyComponent,
+          MockTranslateUrlPipe,
+        ],
+      })
+        .overrideComponent(ConfiguratorTextfieldInputFieldReadonlyComponent, {
+          set: {
+            changeDetection: ChangeDetectionStrategy.Default,
+          },
+        })
+        .compileComponents();
     })
   );
 
@@ -23,12 +37,12 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
       ConfiguratorTextfieldInputFieldReadonlyComponent
     );
     component = fixture.componentInstance;
-    htmlElem = fixture.nativeElement;
     component.attribute = {
       configurationLabel: 'attributeName',
       configurationValue: 'input123',
     };
     fixture.detectChanges();
+    htmlElem = fixture.nativeElement;
   });
 
   it('should create', () => {
@@ -58,56 +72,5 @@ describe('TextfieldInputFieldReadonlyComponent', () => {
     expect(elementDiv.innerHTML).toContain(
       component.attribute.configurationValue
     );
-  });
-
-  describe('Accessibility', () => {
-    it("should contain span element with class name 'cx-visually-hidden' and its corresponding introduction text", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        'cx-visually-hidden',
-        undefined,
-        undefined,
-        undefined,
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:input123'
-      );
-    });
-
-    it("should contain label element with 'aria-hidden' attribute and its 'true' value", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        undefined,
-        undefined,
-        'aria-hidden',
-        'true'
-      );
-    });
-
-    it("should contain label element with 'aria-describedby' attribute and its reference to corresponding value", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        undefined,
-        undefined,
-        'aria-describedby',
-        'cx-configurator-textfieldlabelattributeName'
-      );
-    });
-
-    it("should contain div element with 'aria-hidden' attribute and its 'true' value", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        undefined,
-        undefined,
-        'aria-hidden',
-        'true'
-      );
-    });
   });
 });

@@ -12,11 +12,9 @@ export const payment = {
     securityCode: 'Security code (CVV)',
     securityCodeTitle: 'Card Verification Value',
     saveAsDefault: 'Save as default',
-    setAsDefault: 'Set as default payment method',
+    setAsDefault: 'Set as default',
     billingAddress: 'Billing address',
     sameAsShippingAddress: 'Same as shipping address',
-    billingAddressSameAsShipping:
-      'Billing address is the same as shipping address',
     selectOne: 'Select One...',
     monthMask: 'MM',
     yearMask: 'YYYY',

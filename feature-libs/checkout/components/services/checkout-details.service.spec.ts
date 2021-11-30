@@ -56,9 +56,6 @@ class MockActiveCartService {
   isGuestCart(): Boolean {
     return false;
   }
-  isStable() {
-    return of(true);
-  }
 }
 
 describe('CheckoutDetailsService', () => {
