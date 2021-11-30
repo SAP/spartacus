@@ -25,6 +25,8 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   protected static templateName = 'CpqConfigurationTemplate';
   protected static sectionHeaderDisplayOnly = 'headerDisplayOnly';
   protected static sectionNavigationDisplayOnly = 'navigationDisplayOnly';
+  protected static sectionHeader = 'header';
+  protected static sectionNavigation = 'navigation';
   constructor(
     protected configuratorRouterExtractorService: ConfiguratorRouterExtractorService,
     protected breakpointService: BreakpointService,
@@ -39,7 +41,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
   ) {
     if (
       pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
-      section === 'header'
+      section === CpqConfiguratorPageLayoutHandler.sectionHeader
     ) {
       this.compileRouterAndResolution().subscribe((cont) => {
         slots$ = slots$.pipe(
@@ -50,7 +52,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
       });
     } else if (
       pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
-      section === 'navigation'
+      section === CpqConfiguratorPageLayoutHandler.sectionNavigation
     ) {
       this.compileRouterAndResolution().subscribe((cont) => {
         slots$ = slots$.pipe(

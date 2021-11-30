@@ -86,8 +86,7 @@ const mockLayoutConfig: LayoutConfig = {
 };
 const pageTemplateCpq = CpqConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
-const sectionHeader = 'header';
-const sectionNavigation = 'navigation';
+
 const sectionContent = 'content';
 
 describe('CpqConfiguratorPageLayoutHandler', () => {
@@ -146,7 +145,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -166,7 +165,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -182,7 +181,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateOther,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -200,7 +199,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -222,7 +221,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -244,7 +243,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionNavigation
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -266,7 +265,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionNavigation
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -288,7 +287,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionNavigation
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a|', {
