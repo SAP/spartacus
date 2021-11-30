@@ -43,24 +43,28 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
       pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
       section === CpqConfiguratorPageLayoutHandler.sectionHeader
     ) {
-      this.compileRouterAndResolution().subscribe((cont) => {
-        slots$ = slots$.pipe(
-          map((slots) => {
-            return this.getHeaderSlots(slots, cont);
-          })
-        );
-      });
+      this.compileRouterAndResolution()
+        .pipe(take(1))
+        .subscribe((cont) => {
+          slots$ = slots$.pipe(
+            map((slots) => {
+              return this.getHeaderSlots(slots, cont);
+            })
+          );
+        });
     } else if (
       pageTemplate === CpqConfiguratorPageLayoutHandler.templateName &&
       section === CpqConfiguratorPageLayoutHandler.sectionNavigation
     ) {
-      this.compileRouterAndResolution().subscribe((cont) => {
-        slots$ = slots$.pipe(
-          map((slots) => {
-            return this.getNavigationSlots(slots, cont);
-          })
-        );
-      });
+      this.compileRouterAndResolution()
+        .pipe(take(1))
+        .subscribe((cont) => {
+          slots$ = slots$.pipe(
+            map((slots) => {
+              return this.getNavigationSlots(slots, cont);
+            })
+          );
+        });
     }
     return slots$;
   }
@@ -74,8 +78,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
             routerData,
           }))
         )
-      ),
-      take(1)
+      )
     );
   }
 
