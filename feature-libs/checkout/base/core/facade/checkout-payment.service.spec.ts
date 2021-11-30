@@ -213,7 +213,7 @@ describe(`CheckoutPaymentService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch UserActions.LoadUserPaymentMethods`, () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -224,7 +224,7 @@ describe(`CheckoutPaymentService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should NOT dispatch UserActions.LoadUserPaymentMethods when the use is anonymous`, () => {
       userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)

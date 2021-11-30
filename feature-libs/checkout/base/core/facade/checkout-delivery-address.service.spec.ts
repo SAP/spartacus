@@ -140,7 +140,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch UserActions.LoadUserAddresses`, () => {
       spyOn(store, 'dispatch').and.stub();
       service.createAndSetAddress(mockAddress);
@@ -150,7 +150,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    // TODO: Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should NOT dispatch UserActions.LoadUserAddresses when the use is anonymous`, () => {
       userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
