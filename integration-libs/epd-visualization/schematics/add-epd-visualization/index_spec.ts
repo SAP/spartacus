@@ -25,6 +25,7 @@ const TSConfigFileName = 'tsconfig.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
+const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -117,6 +118,23 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', visualizationFeatureOptions, appTree)
           .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          expect(content).toMatchSnapshot();
+        });
       });
 
       it('should install necessary Spartacus libraries', () => {
