@@ -47,9 +47,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         .pipe(take(1))
         .subscribe((cont) => {
           slots$ = slots$.pipe(
-            map((slots) => {
-              return this.getHeaderSlots(slots, cont);
-            })
+            map((slots) => this.getHeaderSlots(slots, cont))
           );
         });
     } else if (
@@ -60,9 +58,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
         .pipe(take(1))
         .subscribe((cont) => {
           slots$ = slots$.pipe(
-            map((slots) => {
-              return this.getNavigationSlots(slots, cont);
-            })
+            map((slots) => this.getNavigationSlots(slots, cont))
           );
         });
     }
