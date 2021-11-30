@@ -1,46 +1,57 @@
-## b2b
+## TODO:
 
-- feature-libs/checkout/base/components/components/shipping-address/shipping-address.component.spec.ts contained some b2b-related tests
-- feature-libs/checkout/base/components/components/review-submit/review-submit.component.spec.ts
-- do we have a b2b express checkout?
-- LL broken for b2b? in feature-libs/checkout/b2b/root/config/default-b2b-occ-config.ts:
-  - there's an import from the user/account and user/profile
-  - does this mean we are bundling both user/account and user/profile with the b2b checkout?
+1. search for "// TODO:#checkout"
+2. make a dependency on the cart lib
+   1. should we do it in the feature-libs/checkout/base/root/checkout-root.module.ts _or_ in the projects/storefrontapp/src/app/spartacus/features/checkout-feature.module.ts?
+   2. the latter will require schematics to be updated
+3. Styles - create styles per entry point
+4. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
+   1. Is the cart validation properly applied in the new checkout?
+   2. Express checkout fix: https://github.com/SAP/spartacus/pull/14418/files
+   3. 
+5. Is the checkout properly using the new cart lib?
+6. Check other features which are using the old checkout:
+   1. Digital Payments
+   2. CDS
+   3. Anything else? Some internal features?
 
-## scheduled replenishment
+## Questions / investigation
 
-- feature-libs/checkout/base/components/components/place-order/place-order.component.spec.ts
+1. do we have a b2b express checkout? I guess not.
+
+## Schematics 
+
+1. move everything from `docs/migration/5_0-checkout.md` to the main 5_0.md
+2. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+
+### migrations
+
+1. Facades / services - import paths; some classes have been renamed
+2. adapters / connectors - import paths; some classes have been renamed
+3. components - import paths; some classes have been renamed
+4. modules? import paths; some classes have been renamed
+
+### installation
+
+1. Update the current installation schematics for the new lib
+2. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
+
+## Docs
+
+1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
+2. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
+3. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
+4. if using old components:
+   1. you can consider using our new components. 
+   2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
+5. go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
 
 ## other-to-merge-with-later
 
-1. Handle Jalo error everywhere? When can it happen? Is there a doc for it?
-2. go through all the queries, and add a back-off operator? we did this in the feature-libs/checkout/base/core/facade/checkout-delivery-modes.service.ts
-3. append "state" to all facade methods that do return the state
-4. fix xit
-   1. in
-      1. projects/core/src/util/command-query/query.service.spec.ts
-      2. feature-libs/checkout/base/core/facade/checkout-payment.service.spec.ts
-      3. feature-libs/checkout/base/core/facade/checkout-query.service.spec.ts
-   2. To double check:     
-      1. If we start with an error in plain Subject.error, and then try Subject.next -> it doesn't work?
-      2. Wrapping an observable$ which errors and providing it as such to the query service - it works. See `supportedDeliveryModesQuery` and its test - it is wrapped `checkoutPreconditions()`, and in the test we emit an error two times from the connector, and then a success. Is it because the preconditions are retried by the back-off operator? 
-   3. feature-libs/checkout/base/components/services/express-checkout.service.spec.ts
-5. search for "// TODO:#checkout"
-6. some b2b-related tests were removed from b2c components / classes. Re-add them in /b2b entry point.
-   1. feature-libs/checkout/base/components/guards/checkout-auth.guard.spec.ts - should return to /home when user roles does not have b2bcustomergroup
-7. Docs
-   1. go by example -> create the docs around the delivery address, or delivery mode, or payment step (one of them). Maybe choose the mostly customized one (payment step)?
-   2. If using an old facade -> use the new facade
-   3. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
-   4. if using old components -> you can consider using our new components. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
-   5. go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
-8. Styles.
-9. add checkout-old-feature module which can be enabled by an env flag.
-   1.  the new one is the default one, but if the flag is true, then import the oldcheckoutmodule
-10. check the cart validation feature - is it using something from the checkout?
+4.  check the cart validation feature - is it using something from the checkout?
     1.  maybe the checkout needs to switch to using it?
-11. query debounce?
-12. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+5.  query debounce?
+6.  converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
 
 Deprecation strategy:
@@ -140,6 +151,6 @@ Usages of CART:
 
 ### Test
 
-- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 - https://github.com/SAP/spartacus/issues/14386
+- https://sap.service-now.com/now/workspace/agent/record/sn_customerservice_case/1117004f1bf7345c5b1fdcef9b4bcbb2 and  https://github.com/SAP/spartacus/issues/14386
 
 - express checkout update - might not need to update 'new' checkout - https://github.com/SAP/spartacus/pull/14418/files
