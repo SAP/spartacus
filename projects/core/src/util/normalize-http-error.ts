@@ -13,6 +13,10 @@ import { HttpErrorModel } from '../model/misc.model';
 export function normalizeHttpError(
   error: HttpErrorResponse | any
 ): HttpErrorModel | undefined {
+  if (error instanceof HttpErrorModel) {
+    return error;
+  }
+
   if (error instanceof HttpErrorResponse) {
     const normalizedError = new HttpErrorModel();
     normalizedError.message = error.message;
