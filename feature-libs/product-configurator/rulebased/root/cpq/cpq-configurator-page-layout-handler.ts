@@ -12,6 +12,12 @@ import {
 } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
+
+interface RouterResolution {
+  isLargeResolution: boolean;
+  routerData: ConfiguratorRouter.Data;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -38,30 +44,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
       this.compileRouterAndResolution().subscribe((cont) => {
         slots$ = slots$.pipe(
           map((slots) => {
-            if (
-              cont.routerData.pageType ===
-              ConfiguratorRouter.PageType.CONFIGURATION
-            ) {
-              const extendedSlots = ['PreHeader'];
-              extendedSlots.push(...slots);
-              return extendedSlots;
-            } else if (cont.routerData.displayOnly) {
-              if (cont.isLargeResolution) {
-                return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
-                  this.layoutConfig,
-                  CpqConfiguratorPageLayoutHandler.templateName,
-                  CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
-                  BREAKPOINT.lg
-                );
-              } else {
-                return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
-                  this.layoutConfig,
-                  CpqConfiguratorPageLayoutHandler.templateName,
-                  CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
-                  BREAKPOINT.xs
-                );
-              }
-            } else return slots;
+            return this.getHeaderSlots(slots, cont);
           })
         );
       });
@@ -72,27 +55,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
       this.compileRouterAndResolution().subscribe((cont) => {
         slots$ = slots$.pipe(
           map((slots) => {
-            if (
-              cont.routerData.pageType ===
-                ConfiguratorRouter.PageType.OVERVIEW &&
-              cont.routerData.displayOnly
-            ) {
-              if (cont.isLargeResolution) {
-                return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
-                  this.layoutConfig,
-                  CpqConfiguratorPageLayoutHandler.templateName,
-                  CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
-                  BREAKPOINT.lg
-                );
-              } else {
-                return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
-                  this.layoutConfig,
-                  CpqConfiguratorPageLayoutHandler.templateName,
-                  CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
-                  BREAKPOINT.xs
-                );
-              }
-            } else return slots;
+            return this.getNavigationSlots(slots, cont);
           })
         );
       });
@@ -100,10 +63,7 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
     return slots$;
   }
 
-  protected compileRouterAndResolution(): Observable<{
-    isLargeResolution: boolean;
-    routerData: ConfiguratorRouter.Data;
-  }> {
+  protected compileRouterAndResolution(): Observable<RouterResolution> {
     return this.configuratorRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
         this.breakpointService.isUp(BREAKPOINT.lg).pipe(
@@ -115,5 +75,57 @@ export class CpqConfiguratorPageLayoutHandler implements PageLayoutHandler {
       ),
       take(1)
     );
+  }
+
+  protected getHeaderSlots(slots: string[], cont: RouterResolution): string[] {
+    if (
+      cont.routerData.pageType === ConfiguratorRouter.PageType.CONFIGURATION
+    ) {
+      const extendedSlots = ['PreHeader'];
+      extendedSlots.push(...slots);
+      return extendedSlots;
+    } else if (cont.routerData.displayOnly) {
+      if (cont.isLargeResolution) {
+        return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
+          this.layoutConfig,
+          CpqConfiguratorPageLayoutHandler.templateName,
+          CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
+          BREAKPOINT.lg
+        );
+      } else {
+        return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
+          this.layoutConfig,
+          CpqConfiguratorPageLayoutHandler.templateName,
+          CpqConfiguratorPageLayoutHandler.sectionHeaderDisplayOnly,
+          BREAKPOINT.xs
+        );
+      }
+    } else return slots;
+  }
+
+  protected getNavigationSlots(
+    slots: string[],
+    cont: RouterResolution
+  ): string[] {
+    if (
+      cont.routerData.pageType === ConfiguratorRouter.PageType.OVERVIEW &&
+      cont.routerData.displayOnly
+    ) {
+      if (cont.isLargeResolution) {
+        return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
+          this.layoutConfig,
+          CpqConfiguratorPageLayoutHandler.templateName,
+          CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
+          BREAKPOINT.lg
+        );
+      } else {
+        return this.commonConfiguratorUtilsService.getSlotsFromLayoutConfiguration(
+          this.layoutConfig,
+          CpqConfiguratorPageLayoutHandler.templateName,
+          CpqConfiguratorPageLayoutHandler.sectionNavigationDisplayOnly,
+          BREAKPOINT.xs
+        );
+      }
+    } else return slots;
   }
 }
