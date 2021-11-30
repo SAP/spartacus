@@ -10,9 +10,9 @@ import {
 } from './amend-order/index';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
-import { OrderDetailsOrderDetailsContext } from './page-context/order-details-order-details-context';
-import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries-context';
-import { ReplenishmentOrderDetailsOrderDetailsContext } from './page-context/replenishment-order-details-order-details-context';
+import { OrderDetailsOrderDetailsContext } from './page-context/order-details-order-details.context';
+import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries.context';
+import { ReplenishmentOrderDetailsOrderDetailsContext } from './page-context/replenishment-order-details-order-details.context';
 import { ReplenishmentOrderDetailsModule } from './replenishment-order-details/replenishment-order-details.module';
 import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/replenishment-order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';

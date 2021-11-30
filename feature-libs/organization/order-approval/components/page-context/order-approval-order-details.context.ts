@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { OrderApprovalDetailService } from '../details/order-approval-detail.service';
 
 /**
- * Get order details in Order Details Page
+ * Get order details in Order Approval Page
  */
 @Injectable({
   providedIn: 'root',

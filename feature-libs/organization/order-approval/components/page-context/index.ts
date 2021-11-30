@@ -1,1 +1,1 @@
-export * from './order-approval-order-details-context';
+export * from './order-approval-order-details.context';

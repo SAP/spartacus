@@ -8,7 +8,7 @@ import {
 import { Observable } from 'rxjs';
 
 /**
- * Get order details in Order Details Page
+ * Get order details in Order Confirmation Page
  */
 @Injectable({
   providedIn: 'root',

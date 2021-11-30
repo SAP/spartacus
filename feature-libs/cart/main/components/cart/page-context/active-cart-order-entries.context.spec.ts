@@ -6,7 +6,7 @@ import {
   ProductData,
 } from '@spartacus/cart/main/root';
 import { of, Subject } from 'rxjs';
-import { ActiveCartOrderEntriesContext } from './active-cart-order-entries-context';
+import { ActiveCartOrderEntriesContext } from './active-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

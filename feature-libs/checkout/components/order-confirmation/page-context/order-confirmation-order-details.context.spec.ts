@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { OrderConfirmationOrderDetailsContext } from './order-confirmation-order-details-context';
+import { OrderConfirmationOrderDetailsContext } from './order-confirmation-order-details.context';
 import createSpy = jasmine.createSpy;
 
 const mockOrder: Order = { code: 'testOrder' };

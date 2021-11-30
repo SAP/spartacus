@@ -9,7 +9,7 @@ import { CartPageLayoutHandler } from './cart/cart-page-layout-handler';
 import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart/cart-totals/cart-totals.module';
 import { MiniCartModule } from './cart/mini-cart/mini-cart.module';
-import { ActiveCartOrderEntriesContext } from './cart/page-context/active-cart-order-entries-context';
+import { ActiveCartOrderEntriesContext } from './cart/page-context/active-cart-order-entries.context';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
 
 @NgModule({

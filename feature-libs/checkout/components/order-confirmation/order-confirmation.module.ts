@@ -24,8 +24,8 @@ import { OrderConfirmationItemsComponent } from './components/order-confirmation
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
-import { OrderConfirmationOrderDetailsContext } from './page-context/order-confirmation-order-details-context';
-import { OrderConfirmationOrderEntriesContext } from './page-context/order-confirmation-order-entries-context';
+import { OrderConfirmationOrderDetailsContext } from './page-context/order-confirmation-order-details.context';
+import { OrderConfirmationOrderEntriesContext } from './page-context/order-confirmation-order-entries.context';
 
 const orderConfirmationComponents = [
   OrderConfirmationItemsComponent,

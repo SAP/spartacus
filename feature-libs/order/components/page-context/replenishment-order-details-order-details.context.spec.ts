@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from '../replenishment-order-details/replenishment-order-details.service';
-import { ReplenishmentOrderDetailsOrderDetailsContext } from './replenishment-order-details-order-details-context';
+import { ReplenishmentOrderDetailsOrderDetailsContext } from './replenishment-order-details-order-details.context';
 import createSpy = jasmine.createSpy;
 
 const mockOrder = { code: 'testReplenishmentOrder' };

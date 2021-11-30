@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { ReplenishmentOrderDetailsService } from '../replenishment-order-details/replenishment-order-details.service';
 
 /**
- * Get order details in Order Details Page
+ * Get order details in Replenishment Order Details Page
  */
 @Injectable({
   providedIn: 'root',
