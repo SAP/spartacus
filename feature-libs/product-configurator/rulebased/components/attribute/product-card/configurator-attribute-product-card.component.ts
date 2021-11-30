@@ -263,14 +263,19 @@ export class ConfiguratorAttributeProductCardComponent
         this.productCardOptions?.productBoundValue?.valueCode
       )
     ) {
-      if (this.hasPriceDisplay()) {
-        // Gets different text as soon as price is implemented
+      if (
+        this.hasPriceDisplay() &&
+        this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+      ) {
         this.translation
-          .translate('configurator.a11y.itemOfAttributeUnselected', {
+          .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
             item: product.code,
             attribute: this.productCardOptions?.attributeLabel,
             itemIndex: index,
             itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
           })
           .pipe(take(1))
           .subscribe((text) => (translatedText = text));
@@ -301,15 +306,23 @@ export class ConfiguratorAttributeProductCardComponent
   getAriaLabelSingleSelected(product: Product): string {
     let translatedText = '';
     let index = this.productCardOptions.itemIndex + 1;
-    if (this.hasPriceDisplay()) {
-      // Gets different text as soon as price is implemented
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
       this.translation
-        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
-          itemIndex: index,
-          itemCount: this.productCardOptions.itemCount,
-        })
+        .translate(
+          'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
+          {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
+          }
+        )
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
     } else {
@@ -330,14 +343,19 @@ export class ConfiguratorAttributeProductCardComponent
   getAriaLabelSingleSelectedNoButton(product: Product): string {
     let translatedText = '';
     let index = this.productCardOptions.itemIndex + 1;
-    if (this.hasPriceDisplay()) {
-      // Gets different text as soon as price is implemented
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
       this.translation
-        .translate('configurator.a11y.itemOfAttributeSelected', {
+        .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
           item: product.code,
           attribute: this.productCardOptions?.attributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
+          price:
+            this.productCardOptions.productBoundValue.valuePriceTotal
+              ?.formattedValue,
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
@@ -359,15 +377,23 @@ export class ConfiguratorAttributeProductCardComponent
   getAriaLabelMultiSelected(product: Product): string {
     let translatedText = '';
     let index = this.productCardOptions.itemIndex + 1;
-    if (this.hasPriceDisplay()) {
-      // Gets different text as soon as price is implemented
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
       this.translation
-        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
-          item: product.code,
-          attribute: this.productCardOptions?.attributeLabel,
-          itemIndex: index,
-          itemCount: this.productCardOptions.itemCount,
-        })
+        .translate(
+          'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
+          {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
+          }
+        )
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));
     } else {
@@ -388,14 +414,19 @@ export class ConfiguratorAttributeProductCardComponent
   getAriaLabelMultiUnselected(product: Product): string {
     let translatedText = '';
     let index = this.productCardOptions.itemIndex + 1;
-    if (this.hasPriceDisplay()) {
-      // Gets different text as soon as price is implemented
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
       this.translation
-        .translate('configurator.a11y.itemOfAttributeUnselected', {
+        .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
           item: product.code,
           attribute: this.productCardOptions?.attributeLabel,
           itemIndex: index,
           itemCount: this.productCardOptions.itemCount,
+          price:
+            this.productCardOptions.productBoundValue.valuePriceTotal
+              ?.formattedValue,
         })
         .pipe(take(1))
         .subscribe((text) => (translatedText = text));

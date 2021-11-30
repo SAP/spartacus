@@ -121,10 +121,16 @@ export const configurator = {
       group: '{{ group }} group of attributes',
       itemOfAttributeSelected:
         'Item {{ item }} of attribute {{ attribute }} is selected. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeSelectedWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is selected, Surcharge {{ price }}. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeSelectedPressToUnselect:
         'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeSelectedPressToUnselectWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is selected, Surcharge {{ price }} Press button to unselect. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeUnselected:
         'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeUnselectedWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is unselected, Surcharge {{ price }}. Press button to select. {{ itemIndex }} of {{ itemCount }}',
       selectNoItemOfAttribute:
         'To select no item for attribute {{ attribute }} press button. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
