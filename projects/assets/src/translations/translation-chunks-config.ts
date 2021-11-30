@@ -27,7 +27,13 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'validation',
   ],
   address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
-  payment: ['paymentForm', 'paymentMethods', 'paymentCard', 'paymentTypes', 'messages'],
+  payment: [
+    'paymentForm',
+    'paymentMethods',
+    'paymentCard',
+    'paymentTypes',
+    'messages',
+  ],
   myAccount: [
     'orderDetails',
     'orderHistory',
