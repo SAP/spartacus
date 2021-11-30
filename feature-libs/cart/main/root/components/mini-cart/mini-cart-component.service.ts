@@ -1,27 +1,58 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { Injectable } from '@angular/core';
+import {
+  BASE_SITE_CONTEXT_ID,
+  EventService,
+  SiteContextParamsService,
+  StatePersistenceService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { filter, map, startWith, switchMap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  startWith,
+  switchMap,
+  takeWhile,
+  tap,
+} from 'rxjs/operators';
+import { CartConfig } from '../../config/cart-config';
+import { CartPersistentStorageChangeEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
-import { MiniCartComponentService } from './mini-cart-component.service';
 
-@Component({
-  selector: 'cx-mini-cart',
-  templateUrl: './mini-cart.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+@Injectable({
+  providedIn: 'root',
 })
-export class MiniCartComponent {
-  iconTypes = ICON_TYPE;
+export class MiniCartComponentService {
+  quantity$: Observable<number>;
+  totalPrice$: Observable<string>;
 
-  quantity$: Observable<number> = this.miniCartComponentService
-    .browserHasCartInStorage()
-    .pipe(
+  constructor(
+    protected activeCartFacade: ActiveCartFacade,
+    protected config: CartConfig,
+    protected eventService: EventService,
+    protected statePersistenceService: StatePersistenceService,
+    protected siteContextParamsService: SiteContextParamsService
+  ) {
+    this.init();
+  }
+
+  protected init() {
+    // About quantity$ and totalPrice$:
+    //
+    // To support lazy loading of the cart code, we only call
+    // the activeCartFacade if we know there is actually a cart.
+    // When there is a cart, it is saved to the browser storage.
+    //
+    // Without a cart, we can return a default value and
+    // avoid loading the cart library code.
+
+    this.quantity$ = this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
           console.log(
             'quantity$ browserHasCartInStorage == true, using cart facade'
           );
-          return this.activeCartService.getActive().pipe(
+          return this.activeCartFacade.getActive().pipe(
             startWith({ deliveryItemsQuantity: 0 }),
             map((cart) => cart.deliveryItemsQuantity || 0)
           );
@@ -34,15 +65,13 @@ export class MiniCartComponent {
       })
     );
 
-  total$: Observable<string> = this.miniCartComponentService
-    .browserHasCartInStorage()
-    .pipe(
+    this.totalPrice$ = this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
           console.log(
             'total$: - browserHasCartInStorage == true, using cart facade'
           );
-          return this.activeCartService.getActive().pipe(
+          return this.activeCartFacade.getActive().pipe(
             filter((cart) => !!cart.totalPrice),
             map((cart) => cart.totalPrice?.formattedValue ?? '')
           );
@@ -54,13 +83,8 @@ export class MiniCartComponent {
         }
       })
     );
+  }
 
-  constructor(
-    protected activeCartService: ActiveCartFacade,
-    protected miniCartComponentService: MiniCartComponentService
-  ) {}
-
-  /*
   browserHasCartInStorage(): Observable<boolean> {
     return this.eventService.get(CartPersistentStorageChangeEvent).pipe(
       startWith(this.createEventFromStorage()),
@@ -88,5 +112,4 @@ export class MiniCartComponent {
     });
     return state as { active: string };
   }
-  */
 }

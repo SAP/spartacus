@@ -15,7 +15,9 @@ export abstract class CartConfig {
     validation?: {
       enabled?: boolean;
     };
-    storageType?: StorageSyncType;
+    storageType?:
+      | StorageSyncType.LOCAL_STORAGE
+      | StorageSyncType.SESSION_STORAGE;
   };
 }
 
