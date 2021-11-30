@@ -11,6 +11,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
+  filter,
   map,
   startWith,
   switchMap,
@@ -30,36 +31,47 @@ export class MiniCartComponent {
   quantity$: Observable<number> = this.browserHasCartInStorage().pipe(
     switchMap((hasCart) => {
       if (hasCart) {
-        console.log('browserHasCartInStorage == true, using cart facade');
+        console.log(
+          'quantity$ browserHasCartInStorage == true, using cart facade'
+        );
         return this.activeCartService.getActive().pipe(
           startWith({ deliveryItemsQuantity: 0 }),
           map((cart) => cart.deliveryItemsQuantity || 0)
         );
       } else {
-        console.log('browserHasCartInStorage == false, using default 0 count');
+        console.log(
+          'quantity$ browserHasCartInStorage == false, using default 0 count'
+        );
         return of(0);
       }
     })
   );
 
-  // total$: Observable<string> = this.activeCartService.getActive().pipe(
-  //   filter((cart) => !!cart.totalPrice),
-  //   map((cart) => cart.totalPrice?.formattedValue ?? '')
-  // );
+  total$: Observable<string> = this.browserHasCartInStorage().pipe(
+    switchMap((hasCart) => {
+      if (hasCart) {
+        console.log(
+          'total$: - browserHasCartInStorage == true, using cart facade'
+        );
+        return this.activeCartService.getActive().pipe(
+          filter((cart) => !!cart.totalPrice),
+          map((cart) => cart.totalPrice?.formattedValue ?? '')
+        );
+      } else {
+        console.log(
+          'total$: - browserHasCartInStorage == false, using default 0 count'
+        );
+        return of('');
+      }
+    })
+  );
 
   constructor(
     protected activeCartService: ActiveCartFacade,
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService
-  ) {
-    // this.eventService
-    //   .get(CartPersistentStorageChangeEvent)
-    //   .pipe(startWith(this.getCartStateFromBrowserStorage()))
-    //   .subscribe((event) => {
-    //     console.log(`CartPersistentStorageChangeEvent caught`, event);
-    //   });
-  }
+  ) {}
 
   browserHasCartInStorage(): Observable<boolean> {
     return this.eventService.get(CartPersistentStorageChangeEvent).pipe(
@@ -86,7 +98,6 @@ export class MiniCartComponent {
       context: this.siteContextParamsService.getValue(BASE_SITE_CONTEXT_ID),
       storageType: StorageSyncType.LOCAL_STORAGE,
     });
-    //state['active'] = state['active'] + '-fromstorage';
     return state as { active: string };
   }
 }
