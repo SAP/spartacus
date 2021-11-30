@@ -21,7 +21,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@spartacus
   }),
   provideConfig(<EpdVisualizationConfig>{
     ui5: {
-      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/1.96.0/resources/sap-ui-core.js\\"
+      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/resources/sap-ui-core.js\\"
     },
 
     usageIds: {
@@ -76,7 +76,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@spartacus
   }),
   provideConfig(<EpdVisualizationConfig>{
     ui5: {
-      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/1.96.0/resources/sap-ui-core.js\\"
+      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/resources/sap-ui-core.js\\"
     },
 
     usageIds: {
@@ -137,7 +137,7 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule, EPD_VISUALIZATION_F
   }),
   provideConfig(<EpdVisualizationConfig>{
     ui5: {
-      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/1.96.0/resources/sap-ui-core.js\\"
+      bootstrapUrl: \\"https://sapui5.hana.ondemand.com/resources/sap-ui-core.js\\"
     },
 
     usageIds: {

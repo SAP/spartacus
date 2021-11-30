@@ -26,7 +26,6 @@ import {
   EPD_VISUALIZATION_ROOT_MODULE,
   EPD_VISUALIZATION_TRANSLATIONS,
   EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
-  EPD_VISUALIZATION_UI5_VERSION,
   SCSS_FILE_NAME,
   SPARTACUS_EPD_VISUALIZATION_ROOT,
   SPARTACUS_EPD_VISUALIZATION_ASSETS,
@@ -63,7 +62,7 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
       ],
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         ui5: {
-          bootstrapUrl: "https://sapui5.hana.ondemand.com/${EPD_VISUALIZATION_UI5_VERSION}/resources/sap-ui-core.js"
+          bootstrapUrl: "https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
         },
 
         usageIds: {
