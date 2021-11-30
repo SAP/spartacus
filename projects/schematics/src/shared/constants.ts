@@ -225,6 +225,7 @@ export const SMART_EDIT_CONFIG = 'SmartEditConfig';
 export const ADDRESS_BOOK_COMPONENT_SERVICE = 'AddressBookComponentService';
 export const CHECKOUT_GUARD = 'CheckoutGuard';
 export const LOGOUT_GUARD = 'LogoutGuard';
+export const LOGIN_GUARD = 'LoginGuard';
 export const EXPRESS_CHECKOUT_SERVICE = 'ExpressCheckoutService';
 export const CONSENT_MANAGEMENT_FORM_COMPONENT =
   'ConsentManagementFormComponent';
@@ -521,6 +522,8 @@ export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
+
+export const CMS_PAGE_GUARD = 'CmsPageGuard';
 
 /***** Classes end *****/
 
@@ -1048,6 +1051,10 @@ export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
+
+export const REPORT_AUTH_GUARD = 'reportAuthGuard';
+export const SAVE_CURRENT_NAVIGATION_URL = 'saveCurrentNavigationUrl';
+export const REPORT_NOT_AUTH_GUARD = 'reportNotAuthGuard';
 
 /***** APIs end *****/
 
