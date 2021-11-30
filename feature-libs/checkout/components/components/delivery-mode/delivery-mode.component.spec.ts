@@ -4,12 +4,17 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import { DeliveryMode, I18nTestingModule } from '@spartacus/core';
+import {
+  DeliveryMode,
+  I18nTestingModule,
+  FeaturesConfigModule,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
+import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 import createSpy = jasmine.createSpy;
 
@@ -84,8 +89,12 @@ describe('DeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule],
-        declarations: [DeliveryModeComponent, MockSpinnerComponent],
+        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        declarations: [
+          DeliveryModeComponent,
+          MockSpinnerComponent,
+          MockFeatureLevelDirective,
+        ],
         providers: [
           {
             provide: CheckoutDeliveryFacade,
@@ -203,11 +212,11 @@ describe('DeliveryModeComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  describe('Shipping method radio input', () => {
-    const getRadioInput = () =>
-      fixture.debugElement.query(By.css('.form-check .form-check-input'));
+  describe('Shipping method fieldset', () => {
+    const getShippingMethodFieldSet = () =>
+      fixture.debugElement.query(By.css('fieldset'));
 
-    it('should be enabled after Supported Delivery Modes are loaded', () => {
+    it('should be enabled after supported delivery modes are loaded', () => {
       spyOn(
         mockCheckoutDeliveryService,
         'getSupportedDeliveryModes'
@@ -218,7 +227,7 @@ describe('DeliveryModeComponent', () => {
 
       fixture.detectChanges();
 
-      expect(getRadioInput().nativeElement.disabled).toBeFalsy();
+      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeFalsy();
     });
 
     it('should be disabled when there is another ongoing request', () => {
@@ -232,7 +241,7 @@ describe('DeliveryModeComponent', () => {
 
       fixture.detectChanges();
 
-      expect(getRadioInput().nativeElement.disabled).toBeTruthy();
+      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeTruthy();
     });
   });
 
@@ -243,12 +252,12 @@ describe('DeliveryModeComponent', () => {
       component.mode.controls['deliveryModeId'].setValue(value);
     };
 
-    it('should not be displayed in the screen when delivery mode is not selected', () => {
+    it('should be disabled when delivery mode is not selected', () => {
       setDeliveryModeId(null);
 
       fixture.detectChanges();
 
-      expect(getContinueBtn()).toBeFalsy();
+      expect(getContinueBtn().nativeElement.disabled).toBe(true);
     });
 
     it('should be enabled when delivery mode is selected', () => {
