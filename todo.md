@@ -2,11 +2,12 @@
 
 1. search for "// TODO:#checkout"
 2. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to)
-3. make a dependency on the cart lib
+3. handle error in checkout step to avoid infinite spinner
+4. make a dependency on the cart lib
    1. should we do it in the feature-libs/checkout/base/root/checkout-root.module.ts _or_ in the projects/storefrontapp/src/app/spartacus/features/checkout-feature.module.ts?
    2. the latter will require schematics to be updated
-4. Styles - create styles per entry point
-5. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
+5. Styles - create styles per entry point
+6. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
    1. Is the cart validation properly applied in the new checkout?
    2. https://github.com/SAP/spartacus/issues/14386
    3. Do we need to apply this express checkout fix to the base checkout? https://github.com/SAP/spartacus/pull/14418/files
@@ -17,7 +18,7 @@
    8. Benjamin's global messages: https://github.com/SAP/spartacus/pull/14060
    9. Monitor develop using Patrick's script: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638291772009300. 
    10. ...
-6. Is the checkout properly using the new cart lib?
+7. Is the checkout properly using the new cart lib?
    1. CORE
       - ActiveCartService - we added a method. Move it to the cart lib.
       - Cart - just a model, not important.
@@ -28,22 +29,22 @@
    2. Storefrontlib
       - CartSharedModule - seems important how to import it without breaking LL?
       - CartValidationGuard - seems important. How to import it without breaking LL?
-7.  check the event listeners for the following scenario:
+8.  check the event listeners for the following scenario:
     1.  a user started the checkout, entered their delivery address, and set the delivery mode, and the data is sent on the back-end for the active cart
     2.  the user changes their mind, and navigates away from the checkout page to homepage, and refreshes the browser.
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the listener was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
-8. Check other features which are using the old checkout:
+9. Check other features which are using the old checkout:
    1. Digital Payments
    2. CDS
    3. Anything else? Some internal features?
-9. align the event names - prefix them with Checkout?
-10. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
-11. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+10. align the event names - prefix them with Checkout?
+11. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
+12. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    1. Rename the checkout components' selectors to have the checkout prefix?
-12. query debounce - `feature/query-debounce`
-13. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+13. query debounce - `feature/query-debounce`
+14. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
 ## Questions / investigation
 
