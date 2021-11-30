@@ -22,6 +22,9 @@ export const quickOrderForm = {
   id: 'ID {{ id }}',
   noResults: 'We could not find any results',
   addProduct: 'Add product {{ product }}',
+  initialDescription:
+    'When autocomplete results are available use up and down arrows to review and enter to select.',
+  productsResults: '{{ count }} products are available.',
 };
 
 export const quickOrderList = {
