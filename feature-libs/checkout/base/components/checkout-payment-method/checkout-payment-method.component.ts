@@ -177,6 +177,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
+        error: () => this.paymentSavingInProgress$.next(false),
       })
     );
   }
@@ -202,6 +203,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
+        error: () => this.paymentSavingInProgress$.next(false),
       })
     );
     this.shouldRedirect = true;
