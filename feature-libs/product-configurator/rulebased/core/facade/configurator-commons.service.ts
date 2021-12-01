@@ -6,7 +6,15 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilKeyChanged,
+  filter,
+  map,
+  switchMap,
+  switchMapTo,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -240,30 +248,56 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      tap((configurationState) => {
+      switchMap((configurationState) =>
+        this.store
+          .pipe(select(ConfiguratorSelectors.getActiveConfiguration))
+          .pipe(
+            distinctUntilKeyChanged('configurationId'),
+            map((activeConfiguration) => ({
+              activeConfiguration: activeConfiguration,
+              configurationState: configurationState,
+            }))
+          )
+      ),
+
+      tap((ct) => {
         if (
-          (configurationState.value === undefined ||
+          (ct.configurationState.value === undefined ||
             !this.configuratorUtils.isConfigurationCreated(
-              configurationState.value
+              ct.configurationState.value
             )) &&
-          configurationState.loading !== true &&
-          configurationState.error !== true
+          ct.configurationState.loading !== true &&
+          ct.configurationState.error !== true
         ) {
-          this.store.dispatch(
-            new ConfiguratorActions.CreateConfiguration(owner)
-          );
+          if (ct.activeConfiguration?.productCode !== owner.id) {
+            console.log('CHHI initiate new configuration');
+            this.store.dispatch(
+              new ConfiguratorActions.CreateConfiguration(owner)
+            );
+          } else {
+            console.log('CHHI set configuration from persisted one');
+          }
         }
       }),
       filter(
-        (configurationState) =>
-          configurationState.value !== undefined &&
+        (ct) =>
+          ct.configurationState.value !== undefined &&
           this.configuratorUtils.isConfigurationCreated(
-            configurationState.value
+            ct.configurationState.value
           )
       ),
+      tap((ct) => {
+        console.log('CHHI set active config id');
+        this.store.dispatch(
+          new ConfiguratorActions.SetActiveConfiguration({
+            productCode: owner.id,
+            configurationId: ct.configurationState.value?.configId,
+          })
+        );
+      }),
       //save to assume configuration is defined after previous filter
-      map((configurationState) =>
-        this.configuratorUtils.getConfigurationFromState(configurationState)
+      map((ct) =>
+        this.configuratorUtils.getConfigurationFromState(ct.configurationState)
       )
     );
   }

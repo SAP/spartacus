@@ -24,6 +24,13 @@ export const getConfigurationState: MemoizedSelector<
   (state: ConfiguratorState) => state.configurations
 );
 
+export const getActiveConfiguration: MemoizedSelector<
+  StateWithConfigurator,
+  Configurator.ActiveConfiguration
+> = createSelector(getConfigurationsState, (state: ConfiguratorState) =>
+  state ? state.activeConfiguration : {}
+);
+
 export const getConfigurationProcessLoaderStateFactory = (
   code: string
 ): MemoizedSelector<

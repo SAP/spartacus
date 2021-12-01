@@ -10,5 +10,5 @@ export interface StateWithConfigurator {
 
 export interface ConfiguratorState {
   configurations: StateUtils.EntityProcessesLoaderState<Configurator.Configuration>;
-  activeConfiguration?: Configurator.ActiveConfiguration;
+  activeConfiguration: Configurator.ActiveConfiguration;
 }

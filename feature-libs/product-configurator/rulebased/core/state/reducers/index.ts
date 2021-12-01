@@ -3,7 +3,10 @@ import { ActionReducerMap } from '@ngrx/store';
 import { StateUtils } from '@spartacus/core';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorState, CONFIGURATOR_DATA } from '../configurator-state';
-import { configuratorReducer } from './configurator.reducer';
+import {
+  configuratorActiveReducer,
+  configuratorReducer,
+} from './configurator.reducer';
 
 export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
   return {
@@ -14,6 +17,8 @@ export function getConfiguratorReducers(): ActionReducerMap<ConfiguratorState> {
         // @ts-ignore TODO (#12620)
         configuratorReducer
       ),
+    // @ts-ignore TODO (#12620)
+    activeConfiguration: configuratorActiveReducer,
   };
 }
 

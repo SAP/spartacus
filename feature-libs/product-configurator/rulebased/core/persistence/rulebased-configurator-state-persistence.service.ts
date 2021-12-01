@@ -1,15 +1,16 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { Observable, of, Subscription } from 'rxjs';
-
-interface ActiveConfiguration {
-  productCode: string;
-  configurationId: string;
-}
+import { Observable, Subscription } from 'rxjs';
+import { distinctUntilKeyChanged } from 'rxjs/operators';
+import { Configurator } from '../model/configurator.model';
+import { ConfiguratorActions } from '../state/actions';
+import { StateWithConfigurator } from '../state/configurator-state';
+import { ConfiguratorSelectors } from '../state/selectors';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,7 @@ export class RulebasedConfiguratorStatePersistenceService implements OnDestroy {
 
   constructor(
     protected statePersistenceService: StatePersistenceService,
-
+    protected store: Store<StateWithConfigurator>,
     protected siteContextParamsService: SiteContextParamsService
   ) {}
 
@@ -27,7 +28,7 @@ export class RulebasedConfiguratorStatePersistenceService implements OnDestroy {
     this.subscription.add(
       this.statePersistenceService.syncWithStorage({
         key: 'configuratorRulebased',
-        state$: this.getConfiguratorState(),
+        state$: this.getActiveConfiguration(),
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
@@ -36,16 +37,21 @@ export class RulebasedConfiguratorStatePersistenceService implements OnDestroy {
     );
   }
 
-  protected getConfiguratorState(): Observable<ActiveConfiguration> {
+  protected getActiveConfiguration(): Observable<Configurator.ActiveConfiguration> {
     console.log('CHHI get state ');
-    return of({
-      configurationId: 'edf13facf4a12',
-      productCode: 'CONF_HOME_THEATER',
-    });
+    return this.store.pipe(
+      select(ConfiguratorSelectors.getActiveConfiguration),
+      distinctUntilKeyChanged('configurationId')
+    );
   }
 
-  protected onRead(state: ActiveConfiguration | undefined) {
+  protected onRead(state: Configurator.ActiveConfiguration | undefined) {
     console.log('CHHI onRead ' + JSON.stringify(state));
+    if (state) {
+      this.store.dispatch(
+        new ConfiguratorActions.SetActiveConfiguration(state)
+      );
+    }
   }
 
   ngOnDestroy(): void {
