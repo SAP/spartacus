@@ -4,13 +4,13 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
+  CheckoutFacade,
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/checkout/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';

@@ -1,11 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
   ConfigurationInfoSpecialFields,
 } from '../../core/model/common-configurator.model';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
 
 /**
  * Service for mapping of the CPQ line items from order entry

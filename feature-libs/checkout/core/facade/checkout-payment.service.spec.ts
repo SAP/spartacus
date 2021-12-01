@@ -1,12 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  CardType,
-  Cart,
-  PaymentDetails,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { CardType, PaymentDetails, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -17,7 +12,7 @@ import { CheckoutService } from './checkout.service';
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
   let userIdService: UserIdService;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -29,7 +24,7 @@ describe('CheckoutPaymentService', () => {
   class ActiveCartServiceStub {
     cart;
     isGuestCart() {
-      return true;
+      return of(true);
     }
 
     getActiveCartId() {
@@ -66,7 +61,7 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: CheckoutService, useClass: mockCheckoutService },
       ],
@@ -74,11 +69,11 @@ describe('CheckoutPaymentService', () => {
 
     service = TestBed.inject(CheckoutPaymentService);
     userIdService = TestBed.inject(UserIdService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });

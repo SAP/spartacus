@@ -6,8 +6,8 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import { DeliveryMode } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,

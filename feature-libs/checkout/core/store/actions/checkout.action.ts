@@ -1,13 +1,13 @@
 import { Action } from '@ngrx/store';
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   Address,
-  DeliveryMode,
-  MULTI_CART_DATA,
-  Order,
   PaymentDetails,
   PROCESS_FEATURE,
   StateUtils,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { CheckoutDetails } from '../../models/checkout.model';
 import {
   CHECKOUT_DETAILS,

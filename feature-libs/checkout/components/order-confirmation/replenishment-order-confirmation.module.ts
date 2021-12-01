@@ -2,28 +2,34 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
+  CheckoutFacade,
+  OrderConfirmationOrderEntriesContextToken,
+} from '@spartacus/checkout/root';
+import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
 import {
+  OrderDetailShippingComponent,
+  OrderDetailsService,
+} from '@spartacus/order/components';
+import {
   CardModule,
-  CartSharedModule,
   FormErrorsModule,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationItemsComponent } from './components/order-confirmation-items/order-confirmation-items.component';
-import { OrderConfirmationOverviewComponent } from './components/order-confirmation-overview/order-confirmation-overview.component';
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
+import { OrderConfirmationOrderEntriesContext } from './order-entries-context/order-confirmation-order-entries-context';
 
 @NgModule({
   imports: [
     CommonModule,
-    CartSharedModule,
     CardModule,
     PwaModule,
     PromotionsModule,
@@ -40,7 +46,13 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationOverviewComponent: {
-          component: OrderConfirmationOverviewComponent,
+          component: OrderDetailShippingComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: CheckoutFacade,
+            },
+          ],
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationItemsComponent: {
@@ -53,6 +65,10 @@ import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
         },
       },
     }),
+    {
+      provide: OrderConfirmationOrderEntriesContextToken,
+      useExisting: OrderConfirmationOrderEntriesContext,
+    },
   ],
 })
 export class ReplenishmentOrderConfirmationModule {}

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
-import { CartConfig, provideConfig, SiteContextConfig } from '@spartacus/core';
+import { CartConfig } from '@spartacus/cart/main/root';
+import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultCmsContentProviders,
   layoutConfig,

@@ -1,4 +1,5 @@
-import { ReplenishmentOrderList, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { REPLENISHMENT_ORDERS } from '../order-state';
 import { OrderActions } from './index';
 

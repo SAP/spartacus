@@ -5,14 +5,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   PaymentDetails,
@@ -45,13 +46,13 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutFacade: CheckoutFacade,
+    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {}
 
@@ -59,13 +60,13 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
-    if (!this.activeCartService.isGuestCart()) {
+    if (!Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))) {
       this.userPaymentService.loadPaymentMethods();
     } else {
       this.isGuestCheckout = true;
     }
 
-    this.checkoutDeliveryService
+    this.checkoutDeliveryFacade
       .getDeliveryAddress()
       .pipe(take(1))
       .subscribe((address: Address) => {
@@ -74,7 +75,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
 
     this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
 
-    this.selectedMethod$ = this.checkoutPaymentService.getPaymentDetails().pipe(
+    this.selectedMethod$ = this.checkoutPaymentFacade.getPaymentDetails().pipe(
       tap((paymentInfo: any) => {
         if (paymentInfo && !!Object.keys(paymentInfo).length) {
           if (paymentInfo['hasError']) {
@@ -83,7 +84,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
                 this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
               }
             });
-            this.checkoutService.clearCheckoutStep(3);
+            this.checkoutFacade.clearCheckoutStep(3);
           } else if (this.shouldRedirect) {
             this.next();
           }
@@ -136,7 +137,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
             );
             if (defaultPaymentMethod) {
               selectedMethod = defaultPaymentMethod.payment;
-              this.checkoutPaymentService.setPaymentDetails(selectedMethod);
+              this.checkoutPaymentFacade.setPaymentDetails(selectedMethod);
             }
           }
           return paymentMethods.map((payment) => ({
@@ -158,7 +159,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
-    this.checkoutPaymentService.setPaymentDetails(paymentDetails);
+    this.checkoutPaymentFacade.setPaymentDetails(paymentDetails);
   }
 
   showNewPaymentForm(): void {
@@ -178,12 +179,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress || this.deliveryAddress;
-    this.checkoutPaymentService.createPaymentDetails(details);
+    this.checkoutPaymentFacade.createPaymentDetails(details);
     this.shouldRedirect = true;
   }
 
   ngOnDestroy(): void {
-    this.checkoutPaymentService.paymentProcessSuccess();
+    this.checkoutPaymentFacade.paymentProcessSuccess();
   }
 
   protected getCardIcon(code: string): string {

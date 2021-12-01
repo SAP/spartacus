@@ -1,5 +1,13 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  ActiveCartFacade,
+  Cart,
+  CartOutlets,
+  DeliveryMode,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
@@ -10,15 +18,10 @@ import {
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
-  Cart,
   CostCenter,
   Country,
-  DeliveryMode,
-  OrderEntry,
   PaymentDetails,
-  PromotionLocation,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -37,12 +40,13 @@ export class ReviewSubmitComponent {
   iconTypes = ICON_TYPE;
   checkoutStepType = CheckoutStepType;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
+  readonly CartOutlets = CartOutlets;
 
   constructor(
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected checkoutPaymentService: CheckoutPaymentFacade,
     protected userAddressService: UserAddressService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected translation: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected paymentTypeService: PaymentTypeFacade,

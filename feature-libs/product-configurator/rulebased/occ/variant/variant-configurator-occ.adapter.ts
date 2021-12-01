@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '@spartacus/cart/main/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,

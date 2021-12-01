@@ -7,12 +7,11 @@ import {
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfigModule,
-  I18nTestingModule,
+  CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+} from '@spartacus/cart/main/root';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';

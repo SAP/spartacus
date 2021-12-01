@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
   EMAIL_PATTERN,
   OCC_USER_ID_ANONYMOUS,
@@ -30,14 +30,14 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable<boolean>;
 
   constructor(
-    protected checkoutService: CheckoutFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartService
+    protected checkoutFacade: CheckoutFacade,
+    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected activeCartFacade: ActiveCartFacade
   ) {
     this.cartId$ = combineLatest([
-      this.activeCartService.getActive(),
-      this.activeCartService.isStable(),
+      this.activeCartFacade.getActive(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
       filter(([, isStable]) => isStable),
       map(([cartData]) => {
@@ -56,30 +56,28 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ = this.cartId$.pipe(
-      tap((cartId) => this.checkoutService.loadCheckoutDetails(cartId)),
+      tap((cartId) => this.checkoutFacade.loadCheckoutDetails(cartId)),
       shareReplay(1),
-      switchMap(() => this.checkoutService.getCheckoutDetailsLoaded()),
+      switchMap(() => this.checkoutFacade.getCheckoutDetailsLoaded()),
       skipWhile((loaded) => !loaded)
     );
   }
 
   getDeliveryAddress(): Observable<Address> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutDeliveryService.getDeliveryAddress())
+      switchMap(() => this.checkoutDeliveryFacade.getDeliveryAddress())
     );
   }
 
   getSelectedDeliveryModeCode(): Observable<string> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() =>
-        this.checkoutDeliveryService.getSelectedDeliveryModeCode()
-      )
+      switchMap(() => this.checkoutDeliveryFacade.getSelectedDeliveryModeCode())
     );
   }
 
   getPaymentDetails(): Observable<PaymentDetails> {
     return this.getCheckoutDetailsLoaded$.pipe(
-      switchMap(() => this.checkoutPaymentService.getPaymentDetails())
+      switchMap(() => this.checkoutPaymentFacade.getPaymentDetails())
     );
   }
 }

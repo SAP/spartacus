@@ -1,16 +1,18 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  ActiveCartFacade,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
+import {
   defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
   EventService,
   HttpErrorModel,
-  OrderEntry,
   Product,
   ProductAdapter,
   ProductSearchConnector,
@@ -43,17 +45,18 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
 
   /**
    * @deprecated since version 4.2
-   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
+   * Use constructor(activeCartService: ActiveCartFacade, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
    */
   // TODO(#14059): Remove deprecated constructor
+  /*
   constructor(
     activeCartService: ActiveCartService,
     productAdapter: ProductAdapter,
     eventService: EventService
   );
-
+  */
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
     protected eventService: EventService,
     protected productSearchConnector?: ProductSearchConnector //TODO(#14059): Make it required

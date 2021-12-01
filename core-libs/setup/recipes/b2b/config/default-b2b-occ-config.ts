@@ -1,6 +1,8 @@
 // We need this import for augmentation of OccEndpoints to pick up
+import { CartOccEndpoints } from '@spartacus/cart/main/occ';
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
+import { OrderOccEndpoints } from '@spartacus/order/occ';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
 
@@ -22,7 +24,23 @@ const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
   userCloseAccount: 'users/${userId}',
 };
 
-// TODO:#checkout - add schematics
+const defaultB2bCartOccEndpoints: CartOccEndpoints = {
+  addEntries: 'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
+};
+
+const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
+  scheduleReplenishmentOrder:
+    'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+  replenishmentOrderDetails:
+    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+  replenishmentOrderDetailsHistory:
+    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
+  cancelReplenishmentOrder:
+    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+  replenishmentOrderHistory:
+    'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+};
+
 /**
  * Use 'defaultB2bOccConfig' from '@spartacus/checkout/b2b/root' instead.
  * @deprecated since version 5.0
@@ -34,21 +52,11 @@ export const defaultB2bOccConfig: OccConfig = {
         ...defaultB2bCheckoutOccEndpoints,
         ...defaultB2bUserAccountOccEndpoints,
         ...defaultB2bUserProfileOccEndpoints,
+        ...defaultB2bCartOccEndpoints,
+        ...defaultB2bOrderOccEndpoints,
         user: 'orgUsers/${userId}',
         userUpdateProfile: 'users/${userId}',
         userCloseAccount: 'users/${userId}',
-        addEntries:
-          'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
-        scheduleReplenishmentOrder:
-          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
-        replenishmentOrderDetails:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-        replenishmentOrderDetailsHistory:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
-        cancelReplenishmentOrder:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-        replenishmentOrderHistory:
-          'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       },
     },
   },

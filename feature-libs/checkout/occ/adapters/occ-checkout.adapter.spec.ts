@@ -4,13 +4,8 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CheckoutDetails } from '@spartacus/checkout/core';
-import {
-  ConverterService,
-  OccConfig,
-  OccEndpoints,
-  Order,
-  ORDER_NORMALIZER,
-} from '@spartacus/core';
+import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
+import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';
 
 const MockOccModuleConfig: OccConfig = {

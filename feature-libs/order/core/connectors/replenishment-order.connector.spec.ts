@@ -3,7 +3,7 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
 import { ReplenishmentOrderConnector } from './replenishment-order.connector';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   CardType,
   getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
@@ -27,7 +27,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected checkoutService: CheckoutService
   ) {}
@@ -88,7 +88,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -112,11 +112,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
       const userId = getLastValueSync(this.userIdService.getUserId());
-      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
+      const cartId = getLastValueSync(this.activeCartFacade.getActiveCartId());
 
       if (userId && cartId) {
         combineLatest([
-          this.activeCartService.isStable(),
+          this.activeCartFacade.isStable(),
           this.checkoutService.isLoading(),
         ])
           .pipe(
@@ -144,14 +144,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   }
 
   protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
+    const userId = getLastValueSync(this.userIdService.getUserId());
+
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
+      Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     );
   }
 }

@@ -2,13 +2,12 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  Cart,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
@@ -70,15 +69,12 @@ const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_CART_ENTRY),
 };
 
-const cartState: StateUtils.ProcessesLoaderState<Cart> = {
-  value: cart,
-};
-let cartStateObs: Observable<StateUtils.ProcessesLoaderState<Cart>>;
+let cartObs: Observable<Cart>;
 let isStableObs: Observable<boolean>;
 let checkoutLoadingObs: Observable<QueryState<CheckoutState>>;
 class MockActiveCartService {
-  requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
-    return cartStateObs;
+  requireLoadedCart(): Observable<Cart> {
+    return cartObs;
   }
   isStable(): Observable<boolean> {
     return isStableObs;
@@ -104,7 +100,7 @@ describe('ConfiguratorCartService', () => {
 
   beforeEach(
     waitForAsync(() => {
-      cartStateObs = of(cartState);
+      cartObs = of(cart);
       isStableObs = of(true);
       checkoutLoadingObs = of({ loading: true, error: false, data: undefined });
       TestBed.configureTestingModule({
@@ -116,7 +112,7 @@ describe('ConfiguratorCartService', () => {
           ConfiguratorCartService,
 
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
@@ -367,8 +363,8 @@ describe('ConfiguratorCartService', () => {
 
   describe('activeCartHasIssues', () => {
     it('should tell that cart has no issues in case status summary contain no errors for all cart entries', () => {
-      cartStateObs = cold('xx', {
-        x: cartState,
+      cartObs = cold('xx', {
+        x: cart,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
@@ -386,12 +382,9 @@ describe('ConfiguratorCartService', () => {
           },
         ],
       };
-      const cartStateIssues: StateUtils.ProcessesLoaderState<Cart> = {
-        value: cartIssues,
-      };
-      cartStateObs = cold('xy', {
-        x: cartState,
-        y: cartStateIssues,
+      cartObs = cold('xy', {
+        x: cart,
+        y: cartIssues,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('ab', { a: false, b: true })
@@ -402,12 +395,9 @@ describe('ConfiguratorCartService', () => {
         ...cart,
         entries: undefined,
       };
-      const cartStateEmpty: StateUtils.ProcessesLoaderState<Cart> = {
-        value: cartEmpty,
-      };
-      cartStateObs = cold('xy', {
-        x: cartState,
-        y: cartStateEmpty,
+      cartObs = cold('xy', {
+        x: cart,
+        y: cartEmpty,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })

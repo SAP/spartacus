@@ -3,10 +3,9 @@ import {
   OrderHistoryList,
   ReplenishmentOrder,
   ReplenishmentOrderList,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
-
 @Injectable()
 export class ReplenishmentOrderConnector {
   constructor(protected adapter: ReplenishmentOrderAdapter) {}

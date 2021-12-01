@@ -11,9 +11,7 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
-  CartSharedModule,
-  OrderDetailsServiceTransitionalToken,
-  OrderOverviewModule,
+  OutletModule,
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -24,7 +22,7 @@ import { OrderConsignedEntriesComponent } from './order-detail-items/order-consi
 import { OrderDetailItemsComponent } from './order-detail-items/order-detail-items.component';
 import { OrderDetailShippingComponent } from './order-detail-shipping/order-detail-shipping.component';
 import { OrderDetailTotalsComponent } from './order-detail-totals/order-detail-totals.component';
-import { OrderDetailsService } from './order-details.service';
+import { OrderOverviewModule } from './order-overview/order-overview.module';
 
 const moduleComponents = [
   OrderDetailActionsComponent,
@@ -38,7 +36,6 @@ const moduleComponents = [
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CardModule,
     CommonModule,
     I18nModule,
@@ -48,6 +45,7 @@ const moduleComponents = [
     UrlModule,
     SpinnerModule,
     RouterModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig | FeaturesConfig>{
@@ -69,10 +67,6 @@ const moduleComponents = [
         consignmentTracking: '1.2',
       },
     }),
-    {
-      provide: OrderDetailsServiceTransitionalToken,
-      useExisting: OrderDetailsService,
-    },
   ],
   declarations: [...moduleComponents],
   exports: [...moduleComponents],

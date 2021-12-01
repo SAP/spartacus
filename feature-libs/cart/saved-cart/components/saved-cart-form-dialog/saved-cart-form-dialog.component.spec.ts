@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  LaunchDialogService,
   IconTestingModule,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {

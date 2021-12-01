@@ -17,10 +17,14 @@
     </cx-consignment-tracking>
   </div>
   <div class="cx-list-item col-12">
-    <cx-cart-item-list
-      [items]="consignment.entries"
-      [readonly]="true"
-      [promotionLocation]="promotionLocation"
-    ></cx-cart-item-list>
+    <ng-template
+      [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+      [cxOutletContext]="{
+        items: consignment.entries,
+        readonly: true,
+        promotionLocation: promotionLocation
+      }"
+    >
+    </ng-template>
   </div>
 </div>
