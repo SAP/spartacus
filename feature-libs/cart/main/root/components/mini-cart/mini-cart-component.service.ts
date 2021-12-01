@@ -23,30 +23,23 @@ import { ActiveCartFacade } from '../../facade/active-cart.facade';
   providedIn: 'root',
 })
 export class MiniCartComponentService {
-  quantity$: Observable<number>;
-  totalPrice$: Observable<string>;
-
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected config: CartConfig,
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService
-  ) {
-    this.init();
-  }
+  ) {}
 
-  protected init() {
-    // About quantity$ and totalPrice$:
-    //
-    // To support lazy loading of the cart code, we only call
-    // the activeCartFacade if we know there is actually a cart.
-    // When there is a cart, it is saved to the browser storage.
-    //
+  getQuantity(): Observable<number> {
+    // This function supports lazy loading of the cart code. We only call
+    // the activeCartFacade if we know there is actually a cart by reading
+    // the browser storage for an active cart.
+
     // Without a cart, we can return a default value and
     // avoid loading the cart library code.
 
-    this.quantity$ = this.browserHasCartInStorage().pipe(
+    return this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
           console.log(
@@ -64,8 +57,17 @@ export class MiniCartComponentService {
         }
       })
     );
+  }
 
-    this.totalPrice$ = this.browserHasCartInStorage().pipe(
+  getTotalPrice(): Observable<string> {
+    // This function supports lazy loading of the cart code. We only call
+    // the activeCartFacade if we know there is actually a cart by reading
+    // the browser storage for an active cart.
+
+    // Without a cart, we can return a default value and
+    // avoid loading the cart library code.
+
+    return this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
           console.log(

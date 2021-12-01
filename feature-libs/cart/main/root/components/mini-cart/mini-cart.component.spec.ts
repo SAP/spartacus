@@ -2,15 +2,9 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
-import {
-  CmsComponent,
-  CmsMiniCartComponent,
-  I18nTestingModule,
-  UrlCommandRoute,
-} from '@spartacus/core';
-import { CmsComponentData } from '@spartacus/storefront';
-import { Observable, of, ReplaySubject } from 'rxjs';
+import { I18nTestingModule, UrlCommandRoute } from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
 
 @Pipe({
@@ -30,45 +24,16 @@ class MockCxIconComponent {
   @Input() type;
 }
 
-const testCart: Cart = {
-  code: 'xxx',
-  guid: 'xxx',
-  totalItems: 0,
-  deliveryItemsQuantity: 1,
-  totalPrice: {
-    currencyIso: 'USD',
-    value: 10.0,
+const mockMiniCartComponentService: Partial<MiniCartComponentService> = {
+  getQuantity(): Observable<number> {
+    return of(7);
   },
-  totalPriceWithTax: {
-    currencyIso: 'USD',
-    value: 10.0,
+  getTotalPrice(): Observable<string> {
+    return of('122$');
   },
 };
 
-const mockComponentData: CmsMiniCartComponent = {
-  uid: '001',
-  typeCode: 'MiniCartComponent',
-  modifiedTime: new Date('2017-12-21T18:15:15+0000'),
-  shownProductCount: '3',
-  lightboxBannerComponent: {
-    uid: 'banner',
-    typeCode: 'SimpleBannerComponent',
-  },
-};
-
-const activeCart = new ReplaySubject<Cart>();
-
-class MockActiveCartService {
-  getActive(): Observable<Cart> {
-    return activeCart.asObservable();
-  }
-}
-
-const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
-  data$: of(mockComponentData),
-};
-
-describe('MiniCartComponent', () => {
+fdescribe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
@@ -78,8 +43,10 @@ describe('MiniCartComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule],
         declarations: [MiniCartComponent, MockUrlPipe, MockCxIconComponent],
         providers: [
-          { provide: CmsComponentData, useValue: MockCmsComponentData },
-          { provide: ActiveCartFacade, useClass: MockActiveCartService },
+          {
+            provide: MiniCartComponentService,
+            useValue: mockMiniCartComponentService,
+          },
         ],
       }).compileComponents();
     })
@@ -105,18 +72,15 @@ describe('MiniCartComponent', () => {
       expect(linkHref).toBe('/cart');
     });
 
-    it('should show 0 items when cart is not loaded', () => {
-      const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
-        .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.count count:0');
-    });
-
     it('should contain number of items in cart', () => {
-      activeCart.next(testCart);
-      fixture.detectChanges();
       const cartItemsNumber = fixture.debugElement.query(By.css('.count'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.count count:1');
+      expect(cartItemsNumber).toEqual('miniCart.count count:7');
+    });
+    it('should contain total priie of the cart', () => {
+      const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
+        .nativeElement.innerText;
+      expect(cartItemsNumber).toEqual('miniCart.total total:122$');
     });
   });
 });
