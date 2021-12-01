@@ -302,7 +302,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
 
   it('should be able to add address', () => {
     component.addAddress({});
-    expect(component.forceLoader).toBeTruthy();
+    expect(component.shouldRedirect).toBeTruthy();
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
   });
 
@@ -380,20 +380,25 @@ describe('B2BCheckoutShippingAddressComponent', () => {
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
 
     it('should be disabled when no address is selected', () => {
-      component.selectedAddress = undefined;
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(true);
     });
 
     it('should be enabled when address is selected', () => {
-      component.selectedAddress = mockAddress1;
+      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
+        of({ loading: false, error: false, data: mockAddress1 })
+      );
+
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
     it('should call "next" function after being clicked', () => {
+      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
+        of({ loading: false, error: false, data: mockAddress1 })
+      );
       spyOn(component, 'next');
-      component.selectedAddress = mockAddress1;
+
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
       expect(component.next).toHaveBeenCalled();
