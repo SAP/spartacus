@@ -76,7 +76,7 @@
           <fieldset
             class="form-check"
             *ngFor="let mode of supportedDeliveryModes$ | async"
-            [disabled]="!(deliveryModeLoaded$ | async)"
+            [disabled]="deliveryModeSetInProcess$ | async"
           >
             <input
               class="form-check-input"
@@ -109,7 +109,7 @@
               <button
                 class="btn btn-block btn-primary"
                 [disabled]="
-                  deliveryModeInvalid || !(deliveryModeLoaded$ | async)
+                  deliveryModeInvalid || (deliveryModeSetInProcess$ | async)
                 "
                 (click)="next()"
               >

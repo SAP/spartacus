@@ -31,9 +31,9 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  deliveryModeLoaded$ = this.checkoutDeliveryService
+  deliveryModeSetInProcess$ = this.checkoutDeliveryService
     .getSetDeliveryModeProcess()
-    .pipe(map((state) => !state.loading));
+    .pipe(map((state) => state.loading));
 
   deliveryModeSub: Subscription;
 
@@ -121,6 +121,10 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   get deliveryModeInvalid(): boolean {
+    console.log(
+      'Jerry invalid falg: ',
+      this.mode.controls['deliveryModeId'].invalid
+    );
     return this.mode.controls['deliveryModeId'].invalid;
   }
 

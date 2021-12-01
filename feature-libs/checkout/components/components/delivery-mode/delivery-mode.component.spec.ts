@@ -223,7 +223,7 @@ describe('DeliveryModeComponent', () => {
       ).and.returnValue(of(mockSupportedDeliveryModes));
 
       component.ngOnInit();
-      component.deliveryModeLoaded$ = of(true);
+      component.deliveryModeSetInProcess$ = of(false);
 
       fixture.detectChanges();
 
@@ -237,7 +237,7 @@ describe('DeliveryModeComponent', () => {
       ).and.returnValue(of(mockSupportedDeliveryModes));
 
       component.ngOnInit();
-      component.deliveryModeLoaded$ = of(false);
+      component.deliveryModeSetInProcess$ = of(true);
 
       fixture.detectChanges();
 
@@ -267,7 +267,7 @@ describe('DeliveryModeComponent', () => {
       ).and.returnValue(of(mockSupportedDeliveryModes));
 
       component.ngOnInit();
-      component.deliveryModeLoaded$ = of(true);
+      component.deliveryModeSetInProcess$ = of(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -283,7 +283,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'next');
 
       component.ngOnInit();
-      component.deliveryModeLoaded$ = of(true);
+      component.deliveryModeSetInProcess$ = of(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -308,7 +308,7 @@ describe('DeliveryModeComponent', () => {
       ).and.returnValue(of(mockSupportedDeliveryModes));
 
       component.ngOnInit();
-      component.deliveryModeLoaded$ = of(true);
+      component.deliveryModeSetInProcess$ = of(false);
 
       fixture.detectChanges();
 
