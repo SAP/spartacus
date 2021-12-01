@@ -81,6 +81,7 @@ const productConfigurationChanged: Configurator.Configuration = {
 
 const configurationState: ConfiguratorState = {
   configurations: { entities: {} },
+  activeConfiguration: {},
 };
 
 let configCartObservable: Observable<Configurator.Configuration>;
