@@ -1,7 +1,7 @@
 ## TODO:
 
 1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-2. make a dependency on the cart lib
+2. make a dependency on the cart lib (whenever cart is merged)
    1. should we do it in the feature-libs/checkout/base/root/checkout-root.module.ts _or_ in the projects/storefrontapp/src/app/spartacus/features/checkout-feature.module.ts?
    2. the latter will require schematics to be updated
 3. Styles - create styles per entry point
