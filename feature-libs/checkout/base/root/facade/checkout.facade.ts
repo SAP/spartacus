@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, Order } from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 

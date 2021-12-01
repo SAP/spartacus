@@ -3,6 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+  OrderEntry,
+  PaymentType,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
@@ -15,17 +23,11 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
-  Cart,
   CostCenter,
   Country,
-  DeliveryMode,
   I18nTestingModule,
-  OrderEntry,
   PaymentDetails,
-  PaymentType,
-  PromotionLocation,
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
@@ -137,7 +139,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   paymentProcessSuccess(): void {}
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return of(mockCart);
   }
@@ -250,7 +252,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,

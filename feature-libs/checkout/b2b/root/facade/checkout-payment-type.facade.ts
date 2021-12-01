@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { facadeFactory, PaymentType, QueryState } from '@spartacus/core';
+import { PaymentType } from '@spartacus/cart/main/root';
+import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
 

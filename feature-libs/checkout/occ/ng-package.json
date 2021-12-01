@@ -3,7 +3,9 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
-      "@spartacus/core": "core"
+      "@spartacus/core": "core",
+      "@spartacus/cart/main/root": "cartRoot",
+      "@spartacus/order/root": "orderRoot"
     }
   }
 }

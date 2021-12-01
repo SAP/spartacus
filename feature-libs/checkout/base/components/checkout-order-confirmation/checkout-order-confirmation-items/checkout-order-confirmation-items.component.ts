@@ -4,8 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { PromotionLocation } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { Order, PromotionLocation } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

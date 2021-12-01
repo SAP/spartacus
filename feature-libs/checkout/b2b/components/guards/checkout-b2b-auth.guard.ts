@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutAuthGuard,
   CheckoutConfigService,
 } from '@spartacus/checkout/base/components';
 import {
-  ActiveCartService,
   AuthRedirectService,
   AuthService,
   B2BUser,
@@ -29,7 +29,7 @@ export class CheckoutB2BAuthGuard
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected userAccountFacade: UserAccountFacade,
@@ -39,7 +39,7 @@ export class CheckoutB2BAuthGuard
       authService,
       authRedirectService,
       checkoutConfigService,
-      activeCartService,
+      activeCartFacade,
       semanticPathService,
       router
     );
@@ -48,9 +48,9 @@ export class CheckoutB2BAuthGuard
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
-      this.activeCartService.getAssignedUser(),
+      this.activeCartFacade.getAssignedUser(),
       this.userAccountFacade.get(),
-      this.activeCartService.isStable(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
       filter(([_isLoggedIn, _cartUser, _user, isStable]) => isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous

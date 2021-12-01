@@ -1,10 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/main/root';
 import { CheckoutCostCenterAdapter } from '@spartacus/checkout/b2b/core';
 import {
   backOff,
-  Cart,
-  CART_NORMALIZER,
   ConverterService,
   isJaloError,
   normalizeHttpError,

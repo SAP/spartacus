@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
+import { ORDER_TYPE } from '@spartacus/checkout/base/root';
 import {
+  CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
-  I18nTestingModule,
-  ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/checkout/scheduled-replenishment/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { Observable, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';

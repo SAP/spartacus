@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   AuthRedirectService,
   AuthService,
+  getLastValueSync,
   SemanticPathService,
 } from '@spartacus/core';
 import { User } from '@spartacus/user/account/root';
@@ -19,7 +20,7 @@ export class CheckoutAuthGuard implements CanActivate {
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router
   ) {}
@@ -27,8 +28,8 @@ export class CheckoutAuthGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
-      this.activeCartService.getAssignedUser(),
-      this.activeCartService.isStable(),
+      this.activeCartFacade.getAssignedUser(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
       filter(([, , isStable]) => isStable),
       map(([isLoggedIn, cartUser]) => {
@@ -41,7 +42,7 @@ export class CheckoutAuthGuard implements CanActivate {
   }
 
   protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
-    if (this.activeCartService.isGuestCart()) {
+    if (getLastValueSync(this.activeCartFacade.isGuestCart())) {
       return !!cartUser;
     }
     this.authRedirectService.saveCurrentNavigationUrl();

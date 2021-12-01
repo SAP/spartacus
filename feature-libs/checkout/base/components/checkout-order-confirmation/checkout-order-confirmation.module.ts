@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartSharedModule } from '@spartacus/cart/main/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { OrderOverviewModule } from '@spartacus/order/components';
 import {
   CardModule,
-  CartSharedModule,
   FormErrorsModule,
-  OrderOverviewModule,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';

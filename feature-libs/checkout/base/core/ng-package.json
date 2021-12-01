@@ -6,7 +6,9 @@
       "@spartacus/cart": "cart",
       "@spartacus/core": "core",
       "@ngrx/store": "store",
-      "@spartacus/cart/saved-cart/root": "savedCartRoot"
+      "@spartacus/cart/saved-cart/root": "savedCartRoot",
+      "@spartacus/cart/main/root": "cartRoot",
+      "@spartacus/cart/main/core": "cartCore"
     }
   }
 }

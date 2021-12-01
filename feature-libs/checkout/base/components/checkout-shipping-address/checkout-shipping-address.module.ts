@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CartValidationGuard } from '@spartacus/cart/main/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
-  CartValidationGuard,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';

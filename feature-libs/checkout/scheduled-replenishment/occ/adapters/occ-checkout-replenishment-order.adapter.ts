@@ -4,16 +4,18 @@ import {
   CheckoutReplenishmentOrderAdapter,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
 } from '@spartacus/checkout/scheduled-replenishment/core';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   backOff,
   ConverterService,
   isJaloError,
   normalizeHttpError,
   OccEndpointsService,
+} from '@spartacus/core';
+import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 

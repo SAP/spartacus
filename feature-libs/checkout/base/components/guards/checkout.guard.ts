@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { ActiveCartService, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -19,7 +20,7 @@ export class CheckoutGuard implements CanActivate {
     protected routingConfigService: RoutingConfigService,
     protected checkoutConfigService: CheckoutConfigService,
     protected expressCheckoutService: ExpressCheckoutService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {
     this.firstStep$ = of(
@@ -32,12 +33,10 @@ export class CheckoutGuard implements CanActivate {
   }
 
   canActivate(): Observable<boolean | UrlTree> {
-    if (
-      this.checkoutConfigService.isExpressCheckout() &&
-      !this.activeCartService.isGuestCart()
-    ) {
-      return this.expressCheckoutService.trySetDefaultCheckoutDetails().pipe(
-        switchMap((expressCheckoutPossible: boolean) => {
+    const expressCheckout$ = this.expressCheckoutService
+      .trySetDefaultCheckoutDetails()
+      .pipe(
+        switchMap((expressCheckoutPossible) => {
           const reviewOrderRoute =
             this.checkoutStepService.getCheckoutStepRoute(
               CheckoutStepType.REVIEW_ORDER
@@ -52,7 +51,15 @@ export class CheckoutGuard implements CanActivate {
             : this.firstStep$;
         })
       );
-    }
-    return this.firstStep$;
+
+    return this.activeCartFacade
+      .isGuestCart()
+      .pipe(
+        switchMap((isGuestCart) =>
+          this.checkoutConfigService.isExpressCheckout() && !isGuestCart
+            ? expressCheckout$
+            : this.firstStep$
+        )
+      );
   }
 }

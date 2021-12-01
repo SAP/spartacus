@@ -3,6 +3,13 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
@@ -10,15 +17,10 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
-  Cart,
   Country,
-  DeliveryMode,
   I18nTestingModule,
-  OrderEntry,
   PaymentDetails,
-  PromotionLocation,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
@@ -113,7 +115,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   );
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockCart));
   getEntries = createSpy().and.returnValue(of(mockEntries));
 }
@@ -182,7 +184,7 @@ describe('CheckoutReviewSubmitComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,

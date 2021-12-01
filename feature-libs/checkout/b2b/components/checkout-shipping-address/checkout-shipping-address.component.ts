@@ -5,6 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -15,7 +16,6 @@ import {
 } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
   TranslationService,
   UserAddressService,
@@ -46,7 +46,7 @@ export class B2BCheckoutShippingAddressComponent
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
@@ -57,7 +57,7 @@ export class B2BCheckoutShippingAddressComponent
       checkoutDeliveryAddressFacade,
       activatedRoute,
       translationService,
-      activeCartService,
+      activeCartFacade,
       checkoutStepService
     );
   }

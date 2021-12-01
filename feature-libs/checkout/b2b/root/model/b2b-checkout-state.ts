@@ -1,4 +1,5 @@
-import { CostCenter, PaymentType } from '@spartacus/core';
+import { PaymentType } from '@spartacus/cart/main/root';
+import { CostCenter } from '@spartacus/core';
 
 declare module '@spartacus/checkout/base/root' {
   interface CheckoutState {

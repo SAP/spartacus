@@ -1,10 +1,11 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentType } from '@spartacus/cart/main/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, PaymentType, QueryState } from '@spartacus/core';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;

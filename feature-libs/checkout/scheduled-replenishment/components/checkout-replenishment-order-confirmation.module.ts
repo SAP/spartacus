@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CheckoutOrderConfirmationItemsComponent,
   CheckoutOrderConfirmationModule,
@@ -16,7 +17,6 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
-  CartSharedModule,
   FormErrorsModule,
   PromotionsModule,
   PwaModule,

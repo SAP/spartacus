@@ -1,14 +1,14 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CartActions,
   EventService,
   OCC_USER_ID_CURRENT,
-  Order,
   UserIdService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -20,9 +20,9 @@ const mockCartId = 'cartID';
 const termsChecked = true;
 const mockOrder: Order = { code: 'mockOrderCode' };
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(false);
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -49,7 +49,7 @@ describe(`CheckoutService`, () => {
       providers: [
         CheckoutService,
         provideMockStore(),
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         {
           provide: CheckoutConnector,

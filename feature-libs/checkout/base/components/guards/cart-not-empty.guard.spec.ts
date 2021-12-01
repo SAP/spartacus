@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService, SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { SemanticPathService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 import createSpy = jasmine.createSpy;
@@ -9,7 +10,7 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of());
   isStable = createSpy().and.returnValue(of());
 }
@@ -20,7 +21,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,7 @@ describe('CartNotEmptyGuard', () => {
           useClass: SemanticPathServiceStub,
         },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: ActiveCartServiceStub,
         },
       ],
@@ -38,7 +39,7 @@ describe('CartNotEmptyGuard', () => {
     });
 
     cartNotEmptyGuard = TestBed.inject(CartNotEmptyGuard);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   describe('canActivate:', () => {

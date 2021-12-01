@@ -4,16 +4,18 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick, waitForAsync } from '@angular/core/testing';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   ConverterService,
   HttpErrorModel,
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
+} from '@spartacus/core';
+import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_NORMALIZER,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';

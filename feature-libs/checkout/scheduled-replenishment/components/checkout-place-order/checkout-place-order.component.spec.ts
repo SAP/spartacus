@@ -3,19 +3,19 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
+import { CheckoutFacade, ORDER_TYPE } from '@spartacus/checkout/base/root';
 import {
+  CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
-  I18nTestingModule,
-  Order,
-  ORDER_TYPE,
   recurrencePeriod,
-  ReplenishmentOrder,
-  RoutingService,
   ScheduleReplenishmentForm,
+} from '@spartacus/checkout/scheduled-replenishment/root';
+import {
+  I18nTestingModule,
+  RoutingService,
   UrlCommands,
 } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';

@@ -1,13 +1,9 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { OrderEntry, PromotionLocation } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import {
-  FeaturesConfig,
-  I18nTestingModule,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/core';
+import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutOrderConfirmationItemsComponent } from './checkout-order-confirmation-items.component';

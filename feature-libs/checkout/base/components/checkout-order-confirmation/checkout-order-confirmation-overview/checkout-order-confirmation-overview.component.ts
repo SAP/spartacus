@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({

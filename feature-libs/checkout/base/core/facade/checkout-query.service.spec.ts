@@ -1,7 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   OCC_USER_ID_CURRENT,
   QueryState,
   UserIdService,
@@ -20,9 +20,9 @@ const mockCheckoutState: CheckoutState = {
   paymentInfo: { id: 'mockPaymentId' },
 };
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(false);
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -41,7 +41,7 @@ describe(`CheckoutQueryService`, () => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutQueryService,
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         {
           provide: CheckoutConnector,

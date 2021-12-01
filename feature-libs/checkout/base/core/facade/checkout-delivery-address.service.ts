@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutQueryFacade,
@@ -7,7 +8,6 @@ import {
   DeliveryAddressSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
   Command,
   CommandService,
@@ -15,7 +15,6 @@ import {
   EventService,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
-  StateWithMultiCart,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
@@ -123,8 +122,8 @@ export class CheckoutDeliveryAddressService
 
   constructor(
     // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<StateWithMultiCart>,
-    protected activeCartService: ActiveCartService,
+    protected store: Store<unknown>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected eventService: EventService,
     protected commandService: CommandService,
@@ -138,15 +137,15 @@ export class CheckoutDeliveryAddressService
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGustCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGustCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

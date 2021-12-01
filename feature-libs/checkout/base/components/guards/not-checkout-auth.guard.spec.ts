@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActiveCartService,
-  AuthService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthService, SemanticPathService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 import createSpy = jasmine.createSpy;
@@ -18,14 +15,14 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
   get = createSpy().and.returnValue('');
 }
 
-class CartServiceStub implements Partial<ActiveCartService> {
-  isGuestCart = createSpy().and.returnValue(true);
+class CartServiceStub implements Partial<ActiveCartFacade> {
+  isGuestCart = createSpy().and.returnValue(of(true));
 }
 
 describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
   let authService: AuthService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
@@ -35,7 +32,7 @@ describe('NotCheckoutAuthGuard', () => {
         { provide: SemanticPathService, useClass: SemanticPathServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: CartServiceStub,
         },
       ],
@@ -43,7 +40,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     semanticPathService = TestBed.inject(SemanticPathService);
   });
 
@@ -84,7 +81,7 @@ describe('NotCheckoutAuthGuard', () => {
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
       authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
-      activeCartService.isGuestCart = createSpy().and.returnValue(false);
+      activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
     });
 
     it('should return true', () => {

@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
-  Cart,
   CostCenter,
   I18nTestingModule,
   QueryState,

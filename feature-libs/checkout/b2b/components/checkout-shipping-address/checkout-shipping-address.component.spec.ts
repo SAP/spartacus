@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -9,7 +10,6 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
   CostCenter,
   I18nTestingModule,
@@ -32,9 +32,9 @@ class MockUserAddressService implements Partial<UserAddressService> {
   loadAddresses(): void {}
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return false;
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  isGuestCart(_cart?: Cart): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -148,7 +148,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
   let fixture: ComponentFixture<B2BCheckoutShippingAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
@@ -165,7 +165,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
         ],
         providers: [
           { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryFacade,
@@ -192,7 +192,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
         .compileComponents();
 
       checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
-      activeCartService = TestBed.inject(ActiveCartService);
+      activeCartService = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -251,7 +251,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('for guest user, should not load user addresses', () => {
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(true);
+      spyOn(activeCartService, 'isGuestCart').and.returnValue(of(true));
       spyOn(userAddressService, 'loadAddresses').and.stub();
       spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
         of(false)

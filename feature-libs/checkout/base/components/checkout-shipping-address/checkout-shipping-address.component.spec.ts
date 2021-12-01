@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
   I18nTestingModule,
   UserAddressService,
@@ -21,8 +21,8 @@ class MockUserAddressService implements Partial<UserAddressService> {
   loadAddresses = createSpy();
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
-  isGuestCart = createSpy().and.returnValue(false);
+class MockActiveCartService implements Partial<ActiveCartFacade> {
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockCheckoutDeliveryAddressFacade
@@ -109,7 +109,7 @@ describe('CheckoutShippingAddressComponent', () => {
   let fixture: ComponentFixture<CheckoutShippingAddressComponent>;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -124,7 +124,7 @@ describe('CheckoutShippingAddressComponent', () => {
         ],
         providers: [
           { provide: UserAddressService, useClass: MockUserAddressService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryAddressFacade,
             useClass: MockCheckoutDeliveryAddressFacade,
@@ -141,7 +141,7 @@ describe('CheckoutShippingAddressComponent', () => {
       checkoutDeliveryAddressFacade = TestBed.inject(
         CheckoutDeliveryAddressFacade
       );
-      activeCartService = TestBed.inject(ActiveCartService);
+      activeCartService = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -167,7 +167,7 @@ describe('CheckoutShippingAddressComponent', () => {
 
   describe('should call ngOnInit', () => {
     it('for guest user, should not load user addresses', () => {
-      activeCartService.isGuestCart = createSpy().and.returnValue(true);
+      activeCartService.isGuestCart = createSpy().and.returnValue(of(true));
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();

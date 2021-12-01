@@ -1,11 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
-import {
-  ActiveCartService,
-  AuthRedirectService,
-  I18nTestingModule,
-  User,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthRedirectService, I18nTestingModule, User } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutLoginComponent } from './checkout-login.component';
@@ -25,7 +21,7 @@ const testEmail = 'john@acme.com';
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let authRedirectService: AuthRedirectService;
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
@@ -37,7 +33,7 @@ describe('CheckoutLoginComponent', () => {
         imports: [ReactiveFormsModule, I18nTestingModule, FormErrorsModule],
         declarations: [CheckoutLoginComponent],
         providers: [
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: AuthRedirectService,
             useClass: MockRedirectAfterAuthService,
@@ -50,7 +46,7 @@ describe('CheckoutLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
@@ -74,7 +70,7 @@ describe('CheckoutLoginComponent', () => {
       activeCartService.getAssignedUser = createSpy().and.returnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
-      activeCartService.isGuestCart = createSpy().and.returnValue(true);
+      activeCartService.isGuestCart = createSpy().and.returnValue(of(true));
     });
 
     it('should work, when form is valid', () => {

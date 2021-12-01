@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { CartValidationGuard } from '@spartacus/cart/main/components';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
 } from '@spartacus/checkout/base/components';
 import { CmsConfig, ConfigModule, I18nModule } from '@spartacus/core';
-import { CartValidationGuard } from '@spartacus/storefront';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
 
 @NgModule({

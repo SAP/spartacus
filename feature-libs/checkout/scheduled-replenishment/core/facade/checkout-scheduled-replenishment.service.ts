@@ -1,5 +1,10 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
+import {
+  ActiveCartFacade,
+  MergeCartSuccessEvent,
+} from '@spartacus/cart/main/root';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
@@ -11,30 +16,26 @@ import {
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
   OrderPlacedEvent,
+  ORDER_TYPE,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
   ReplenishmentOrderScheduledEvent,
+  ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
-  ActiveCartService,
-  CartActions,
   Command,
   CommandService,
   CommandStrategy,
   EventService,
   LoginEvent,
   LogoutEvent,
-  MergeCartSuccessEvent,
   OCC_USER_ID_ANONYMOUS,
-  ORDER_TYPE,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import {
   BehaviorSubject,
   combineLatest,
@@ -97,8 +98,8 @@ export class CheckoutScheduledReplenishmentService
 
   constructor(
     // TODO:#checkout remove once all the occurrences are replaced with events
-    protected store: Store<StateWithMultiCart>,
-    protected activeCartService: ActiveCartService,
+    protected store: Store<unknown>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected checkoutReplenishmentOrderConnector: CheckoutReplenishmentOrderConnector,
@@ -133,15 +134,15 @@ export class CheckoutScheduledReplenishmentService
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

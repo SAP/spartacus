@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
@@ -9,13 +11,10 @@ import {
   ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CartActions,
   Command,
   CommandService,
   CommandStrategy,
   CurrencySetEvent,
-  DeliveryMode,
   EventService,
   LanguageSetEvent,
   LoginEvent,
@@ -25,7 +24,6 @@ import {
   QueryNotifier,
   QueryService,
   QueryState,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable, throwError } from 'rxjs';
@@ -138,7 +136,7 @@ export class CheckoutDeliveryModesService
                     DeliveryModeClearedEvent
                   );
                   /**
-                   * TODO:#checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
                    * Remove once it is switched from ngrx to c&q.
                    * We should dispatch an event, which will reload the cart$ query.
                    */
@@ -151,7 +149,7 @@ export class CheckoutDeliveryModesService
                 }),
                 catchError((error) => {
                   /**
-                   * TODO:#checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
                    * Remove once it is switched from ngrx to c&q.
                    * We should dispatch an event, which will reload the cart$ query.
                    */
@@ -173,8 +171,8 @@ export class CheckoutDeliveryModesService
 
   constructor(
     // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<StateWithMultiCart>,
-    protected activeCartService: ActiveCartService,
+    protected store: Store<unknown>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected eventService: EventService,
     protected queryService: QueryService,
@@ -189,15 +187,15 @@ export class CheckoutDeliveryModesService
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

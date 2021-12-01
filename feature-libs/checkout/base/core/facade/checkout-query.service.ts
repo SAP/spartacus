@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
 import {
+  ActiveCartFacade,
+  MergeCartSuccessEvent,
+} from '@spartacus/cart/main/root';
+import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
@@ -11,12 +15,10 @@ import {
   ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   CurrencySetEvent,
   LanguageSetEvent,
   LoginEvent,
   LogoutEvent,
-  MergeCartSuccessEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
@@ -97,7 +99,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
     );
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,
     protected checkoutConnector: CheckoutConnector
@@ -109,15 +111,15 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

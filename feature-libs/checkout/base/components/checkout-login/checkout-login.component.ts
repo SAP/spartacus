@@ -1,8 +1,10 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActiveCartService, AuthRedirectService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
+import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -26,20 +28,23 @@ export class CheckoutLoginComponent implements OnDestroy {
   constructor(
     protected formBuilder: FormBuilder,
     protected authRedirectService: AuthRedirectService,
-    protected activeCartService: ActiveCartService
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   onSubmit() {
     if (this.checkoutLoginForm.valid) {
       const email = this.checkoutLoginForm.get('email')?.value;
-      this.activeCartService.addEmail(email);
+      this.activeCartFacade.addEmail(email);
 
       if (!this.sub) {
-        this.sub = this.activeCartService.getAssignedUser().subscribe(() => {
-          if (this.activeCartService.isGuestCart()) {
-            this.authRedirectService.redirect();
-          }
-        });
+        this.sub = this.activeCartFacade
+          .getAssignedUser()
+          .pipe(withLatestFrom(this.activeCartFacade.isGuestCart()))
+          .subscribe(([_user, isGuestCart]) => {
+            if (isGuestCart) {
+              this.authRedirectService.redirect();
+            }
+          });
       }
     } else {
       this.checkoutLoginForm.markAllAsTouched();

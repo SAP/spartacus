@@ -13,6 +13,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
       methods: [
         'getActive',
         'getActiveCartId',
+        'takeActiveCartId',
         'getEntries',
         'getLastEntry',
         'getLoading',
@@ -41,6 +42,11 @@ export abstract class ActiveCartFacade {
    * Returns active cart id
    */
   abstract getActiveCartId(): Observable<string>;
+
+  /**
+   * Waits for the cart to be stable before returning the active cart's ID.
+   */
+  abstract takeActiveCartId(): Observable<string>;
 
   /**
    * Returns cart entries

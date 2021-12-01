@@ -2,8 +2,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { CheckoutStep, CheckoutStepType } from '@spartacus/checkout/base/root';
-import { ActiveCartService, Cart, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { CheckoutProgressMobileTopComponent } from './checkout-progress-mobile-top.component';
@@ -44,7 +45,7 @@ const mockActiveCart: Partial<Cart> = {
   },
 };
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockActiveCart));
 }
 
@@ -69,7 +70,7 @@ describe('CheckoutProgressMobileTopComponent', () => {
         ],
         providers: [
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
         ],
       }).compileComponents();
     })

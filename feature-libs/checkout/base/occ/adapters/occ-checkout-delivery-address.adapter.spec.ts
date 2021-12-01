@@ -4,12 +4,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-  Cart,
   ConverterService,
   HttpErrorModel,
   normalizeHttpError,

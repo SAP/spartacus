@@ -1,5 +1,7 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
@@ -7,9 +9,6 @@ import {
   DeliveryModeSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CartActions,
-  DeliveryMode,
   EventService,
   OCC_USER_ID_CURRENT,
   QueryState,
@@ -34,9 +33,9 @@ const mockSupportedDeliveryModes: DeliveryMode[] = [
   },
 ];
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(false);
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -78,7 +77,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       providers: [
         CheckoutDeliveryModesService,
         provideMockStore(),
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
         {

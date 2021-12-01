@@ -1,21 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import {
-  ActiveCartService,
-  Address,
-  Cart,
-  DeliveryMode,
-  OrderEntry,
-  PaymentDetails,
-  PromotionLocation,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -37,18 +35,18 @@ export class CheckoutReviewSubmitComponent {
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected translationService: TranslationService,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get cart$(): Observable<Cart> {
-    return this.activeCartService.getActive();
+    return this.activeCartFacade.getActive();
   }
 
   get entries$(): Observable<OrderEntry[]> {
-    return this.activeCartService.getEntries();
+    return this.activeCartFacade.getEntries();
   }
 
   protected getCheckoutShippingSteps(): Array<CheckoutStepType | string> {

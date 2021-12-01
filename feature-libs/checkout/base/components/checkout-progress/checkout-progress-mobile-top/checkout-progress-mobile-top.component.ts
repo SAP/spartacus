@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { CheckoutStep } from '@spartacus/checkout/base/root';
-import { ActiveCartService, Cart } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -15,7 +15,7 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
     this.checkoutStepService.steps$;
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {}
 
@@ -32,6 +32,6 @@ export class CheckoutProgressMobileTopComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
+    this.cart$ = this.activeCartFacade.getActive();
   }
 }
