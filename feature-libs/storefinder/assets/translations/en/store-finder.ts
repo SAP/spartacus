@@ -19,10 +19,11 @@ export const storeFinder = {
     useMyLocation: 'Use my location',
     viewAllStores: 'View all stores',
     contactUs: 'Contact us',
-    searchBox: 'Enter postal code, town or address',
+    searchBox: 'Postal code, town or address',
     backToList: 'Back to list',
     noStoresMessage: 'No stores found in database...',
     geolocationNotEnabled:
       'Cannot locate nearby stores. Geolocation consent has not been enabled',
+    searchNearestStores: 'Search nearest stores',
   },
 };
