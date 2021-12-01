@@ -522,6 +522,9 @@ export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
 
+export const REFRESH_IN_PROGRESS = 'refreshInProgress';
+export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
