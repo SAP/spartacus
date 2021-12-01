@@ -53,6 +53,17 @@ const displayOnlyHeaderSlotsSmallResolution = [
   'MiniCart',
 ];
 
+const displayOnlyNavigationSlotsLargeResolution: string[] = [];
+
+const displayOnlyNavigationSlotsSmallResolution = [
+  'SiteLogin',
+  'NavigationBar',
+  'SiteContext',
+  'SiteLinks',
+];
+
+const standardNavigationSlots = ['CpqConfigMenu'];
+
 const mockLayoutConfig: LayoutConfig = {
   layoutSlots: {
     CpqConfigurationTemplate: {
@@ -64,12 +75,18 @@ const mockLayoutConfig: LayoutConfig = {
           slots: displayOnlyHeaderSlotsSmallResolution,
         },
       },
+      navigationDisplayOnly: {
+        lg: { slots: displayOnlyNavigationSlotsLargeResolution },
+        xs: {
+          slots: displayOnlyNavigationSlotsSmallResolution,
+        },
+      },
     },
   },
 };
 const pageTemplateCpq = CpqConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
-const sectionHeader = 'header';
+
 const sectionContent = 'content';
 
 describe('CpqConfiguratorPageLayoutHandler', () => {
@@ -128,7 +145,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -148,7 +165,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -164,7 +181,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateOther,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(slots$);
   });
@@ -182,7 +199,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
@@ -190,6 +207,7 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
       })
     );
   });
+
   it('should return SPA reduced resolution header slots in case we call overview in read-only mode, and a small resolution is active', () => {
     isLargeResolution = false;
     routerData = {
@@ -203,11 +221,77 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
     const handledSlots$ = classUnderTest.handle(
       slots$,
       pageTemplateCpq,
-      sectionHeader
+      CpqConfiguratorPageLayoutHandler['sectionHeader']
     );
     expect(handledSlots$).toBeObservable(
       cold('-a-a', {
         a: displayOnlyHeaderSlotsSmallResolution,
+      })
+    );
+  });
+
+  it('should return SPA large resolution navigation slots in case we call overview in read-only mode, and lg resolution is active', () => {
+    isLargeResolution = true;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a-a', {
+      a: [],
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a-a', {
+        a: displayOnlyNavigationSlotsLargeResolution,
+      })
+    );
+  });
+
+  it('should return SPA small resolution navigation slots in case we call overview in read-only mode, and xs resolution is active', () => {
+    isLargeResolution = false;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a-a', {
+      a: [],
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a-a', {
+        a: displayOnlyNavigationSlotsSmallResolution,
+      })
+    );
+  });
+
+  it('should not change navigation slots in case we are on configuration page', () => {
+    isLargeResolution = false;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.CONFIGURATION,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a|', {
+      a: standardNavigationSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      CpqConfiguratorPageLayoutHandler['sectionNavigation']
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a|', {
+        a: standardNavigationSlots,
       })
     );
   });
