@@ -10,49 +10,11 @@ context('Cart Import/Export', () => {
       cy.visit('/');
     });
 
-    describe('Single product', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
-
-      it('should export cart', () => {
-        importExport.addProductToCart(cart.products[1].code);
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Single Product Cart',
-          description: 'A test description for Single Product Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 1,
-          total: '$114.12',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
-
-    describe('Single product with larger quantity', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-
-      it('should export cart', () => {
-        importExport.addProductToCart();
-        importExport.addProductToCart();
-        importExport.addProductToCart();
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Single Product (Lg Qty) Cart',
-          description: 'A test description for Single Product (Lg Qty) Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 3,
-          total: '$322.36',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
+    // Core test. Repeat in mobile viewport. 
+    importExport.testImportExportSingleProduct();
+    
+    // Core test. Repeat in mobile viewport. 
+    importExport.testImportExportLargerQuantity();
 
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;

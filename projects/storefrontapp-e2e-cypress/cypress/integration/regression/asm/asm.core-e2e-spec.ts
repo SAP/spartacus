@@ -1,16 +1,11 @@
 import * as addressBook from '../../../helpers/address-book';
+import * as asm from '../../../helpers/asm';
 import * as checkout from '../../../helpers/checkout-flow';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import * as consent from '../../../helpers/consent-management';
-import * as loginHelper from '../../../helpers/login';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import {
-  interceptDelete,
-  interceptGet,
-  interceptPost,
-} from '../../../support/utils/intercept';
 
 let customer: any;
 
@@ -35,10 +30,10 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      agentLogin();
+      asm.agentLogin();
 
       cy.log('--> Starting customer emulation');
-      startCustomerEmulation();
+      asm.startCustomerEmulation(customer);
 
       cy.log('--> Update personal details');
       cy.visit('/my-account/update-profile');
@@ -69,7 +64,7 @@ context('Assisted Service Module', () => {
       cy.wait(1000);
 
       cy.log('--> Start another emulation session');
-      startCustomerEmulation();
+      asm.startCustomerEmulation(customer);
 
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
@@ -79,7 +74,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-customer-selection').should('exist');
 
       cy.log('--> sign out and close ASM UI');
-      agentSignOut();
+      asm.agentSignOut();
 
       cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
@@ -89,83 +84,3 @@ context('Assisted Service Module', () => {
 
 });
 
-function listenForAuthenticationRequest(): string {
-  return interceptPost(
-    'csAgentAuthentication',
-    '/authorizationserver/oauth/token',
-    false
-  );
-}
-
-export function listenForCustomerSearchRequest(): string {
-  return interceptGet(
-    'customerSearch',
-    '/assistedservicewebservices/customers/search?*',
-    false
-  );
-}
-
-function listenForUserDetailsRequest(): string {
-  return interceptGet('userDetails', '/users/*');
-}
-
-export function agentLogin(): void {
-  const authRequest = listenForAuthenticationRequest();
-
-  cy.get('cx-storefront').within(() => {
-    cy.get('cx-csagent-login-form').should('exist');
-    cy.get('cx-customer-selection').should('not.exist');
-    cy.get('cx-csagent-login-form form').within(() => {
-      cy.get('[formcontrolname="userId"]').type('asagent');
-      cy.get('[formcontrolname="password"]').type('pw4all');
-      cy.get('button[type="submit"]').click();
-    });
-  });
-
-  cy.wait(authRequest);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-}
-
-function startCustomerEmulation(): void {
-  const customerSearchRequestAlias = listenForCustomerSearchRequest();
-  const userDetailsRequestAlias = listenForUserDetailsRequest();
-
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('exist');
-  cy.get('cx-customer-selection form').within(() => {
-    cy.get('[formcontrolname="searchTerm"]').type(customer.email);
-  });
-  cy.wait(customerSearchRequestAlias);
-
-  cy.get('cx-customer-selection div.asm-results button').click();
-  cy.get('button[type="submit"]').click();
-
-  cy.wait(userDetailsRequestAlias);
-  cy.get('cx-customer-emulation input')
-    .invoke('attr', 'placeholder')
-    .should('contain', customer.fullName);
-  cy.get('cx-csagent-login-form').should('not.exist');
-  cy.get('cx-customer-selection').should('not.exist');
-  cy.get('cx-customer-emulation').should('exist');
-}
-
-
-function agentSignOut() {
-  const tokenRevocationAlias = loginHelper.listenForTokenRevocationRequest();
-  cy.get('button[title="Sign Out"]').click();
-  cy.wait(tokenRevocationAlias);
-  cy.get('cx-csagent-login-form').should('exist');
-  cy.get('cx-customer-selection').should('not.exist');
-}
-
-export function deleteFirstAddress() {
-  interceptDelete('deleteAddresses', '/users/*/addresses/*?lang=en&curr=USD');
-  interceptGet('fetchAddresses', '/users/*/addresses/*?lang=en&curr=USD');
-
-  const firstCard = cy.get('cx-card').first();
-  firstCard.contains('Delete').click();
-  cy.get('.cx-card-delete button.btn-primary').click();
-  cy.wait('@deleteAddress');
-  cy.wait('@fetchAddresses');
-}

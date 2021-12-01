@@ -5,16 +5,9 @@ import * as checkout from '../../../helpers/checkout-flow';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import * as consent from '../../../helpers/consent-management';
 import { getErrorAlert } from '../../../helpers/global-message';
-//import * as loginHelper from '../../../helpers/login';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-
-//import {
-//  interceptDelete,
-//  interceptGet,
-//  interceptPost,
-//} from '../../../support/utils/intercept';
 
 let customer: any;
 

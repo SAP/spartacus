@@ -1,20 +1,10 @@
-//import * as addressBook from './address-book';
 import { login } from './auth-forms';
-//import * as checkout from './checkout-flow';
-//import { fillShippingAddress } from './checkout-forms';
-//import * as consent from './consent-management';
-//import { getErrorAlert } from './global-message';
 import * as loginHelper from './login';
-//import * as profile from './update-profile';
-//import { getSampleUser } from '../sample-data/checkout-flow';
-//import { clearAllStorage } from '../support/utils/clear-all-storage';
 import {
   interceptDelete,
   interceptGet,
   interceptPost,
 } from '../support/utils/intercept';
-
-//export let customer: any;
 
 export function listenForAuthenticationRequest(): string {
   return interceptPost(
