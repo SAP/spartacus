@@ -33,7 +33,7 @@ const mockMiniCartComponentService: Partial<MiniCartComponentService> = {
   },
 };
 
-fdescribe('MiniCartComponent', () => {
+describe('MiniCartComponent', () => {
   let miniCartComponent: MiniCartComponent;
   let fixture: ComponentFixture<MiniCartComponent>;
 
@@ -77,7 +77,7 @@ fdescribe('MiniCartComponent', () => {
         .nativeElement.innerText;
       expect(cartItemsNumber).toEqual('miniCart.count count:7');
     });
-    it('should contain total priie of the cart', () => {
+    it('should contain total price of the cart', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
         .nativeElement.innerText;
       expect(cartItemsNumber).toEqual('miniCart.total total:122$');

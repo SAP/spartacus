@@ -3,16 +3,18 @@ import {
   EventService,
   SiteContextParamsService,
   StatePersistenceService,
+  StorageSyncType,
 } from '@spartacus/core';
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfig } from '../../config/cart-config';
+import { defaultCartConfig } from '../../config/default-cart-config';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart } from '../../models/cart.model';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
 const activeCart = new ReplaySubject<Cart>();
 
-class MockActiveCartService {
+class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return activeCart.asObservable();
   }
@@ -24,34 +26,77 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-const mockStatePersistenceService: Partial<StatePersistenceService> = {};
-const mockSiteContextParamsService: Partial<SiteContextParamsService> = {};
-const mockCartConfig: CartConfig = {};
+class MockStatePersistenceService implements Partial<StatePersistenceService> {
+  readStateFromStorage<T>({}: {
+    key: string;
+    context?: string | Array<string>;
+    storageType?: StorageSyncType;
+  }): T | undefined {
+    return {} as T | undefined;
+  }
+}
+class MockSiteContextParamsService
+  implements Partial<SiteContextParamsService>
+{
+  getValue(_param: string): string {
+    return 'SiteContextParamsService.value';
+  }
+}
+
+const mockBrowserCartState = {
+  active: 'mockCartId',
+};
+
+const mockBaseSite = 'mockBaseSite';
 
 fdescribe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
+  // let activeCartFacade: ActiveCartFacade;
+  // let eventService: EventService;
+  let statePersistenceService: StatePersistenceService;
+  let siteContextParamsService: SiteContextParamsService;
+  // let config: CartConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [],
       providers: [
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         { provide: EventService, useClass: MockEventService },
         {
           provide: StatePersistenceService,
-          useValue: mockStatePersistenceService,
+          useClass: MockStatePersistenceService,
         },
         {
           provide: SiteContextParamsService,
-          useValue: mockSiteContextParamsService,
+          useClass: MockSiteContextParamsService,
         },
-        { provide: CartConfig, useValue: mockCartConfig },
+        {
+          provide: CartConfig,
+          useValue: JSON.parse(JSON.stringify(defaultCartConfig)),
+        },
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
+    // activeCartFacade = TestBed.inject(ActiveCartFacade);
+    // eventService = TestBed.inject(EventService);
+    statePersistenceService = TestBed.inject(StatePersistenceService);
+    siteContextParamsService = TestBed.inject(SiteContextParamsService);
+    // config = TestBed.inject(CartConfig);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
+  });
+
+  describe('getCartStateFromBrowserStorage', () => {
+    it('should return the state from the browser storage', () => {
+      spyOn(siteContextParamsService, 'getValue').and.returnValue(mockBaseSite);
+      spyOn(statePersistenceService, 'readStateFromStorage').and.returnValue(
+        mockBrowserCartState
+      );
+      const result = service.getCartStateFromBrowserStorage();
+      expect(result).toBe(mockBrowserCartState);
+    });
   });
 });
