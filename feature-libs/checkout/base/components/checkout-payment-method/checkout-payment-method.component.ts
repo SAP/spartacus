@@ -43,10 +43,10 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
+  shouldRedirect: boolean;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  protected shouldRedirect: boolean;
   protected deliveryAddress: Address | undefined;
 
   constructor(
