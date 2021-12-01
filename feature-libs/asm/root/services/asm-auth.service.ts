@@ -39,7 +39,8 @@ export class AsmAuthService extends AuthService {
       oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
-      routingService
+      routingService,
+      globalMessageService
     );
   }
 
