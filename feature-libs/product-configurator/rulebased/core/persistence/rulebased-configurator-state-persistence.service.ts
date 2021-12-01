@@ -38,7 +38,6 @@ export class RulebasedConfiguratorStatePersistenceService implements OnDestroy {
   }
 
   protected getActiveConfiguration(): Observable<Configurator.ActiveConfiguration> {
-    console.log('CHHI get state ');
     return this.store.pipe(
       select(ConfiguratorSelectors.getActiveConfiguration),
       distinctUntilKeyChanged('configurationId')
@@ -46,7 +45,7 @@ export class RulebasedConfiguratorStatePersistenceService implements OnDestroy {
   }
 
   protected onRead(state: Configurator.ActiveConfiguration | undefined) {
-    console.log('CHHI onRead ' + JSON.stringify(state));
+    console.log('TODO CHHI onRead ' + JSON.stringify(state));
     if (state) {
       this.store.dispatch(
         new ConfiguratorActions.SetActiveConfiguration(state)

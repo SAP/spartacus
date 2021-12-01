@@ -270,12 +270,28 @@ export class ConfiguratorCommonsService {
           ct.configurationState.error !== true
         ) {
           if (ct.activeConfiguration?.productCode !== owner.id) {
-            console.log('CHHI initiate new configuration');
             this.store.dispatch(
               new ConfiguratorActions.CreateConfiguration(owner)
             );
           } else {
-            console.log('CHHI set configuration from persisted one');
+            //TODO CHHI error handling: no configuration at this point
+            const configurationFromPersistence: Configurator.Configuration = {
+              owner: owner,
+              configId: ct.activeConfiguration.configurationId
+                ? ct.activeConfiguration.configurationId
+                : '',
+              groups: [],
+              flatGroups: [],
+              interactionState: {},
+            };
+            //TODO CHHI check on group id
+            this.store.dispatch(
+              new ConfiguratorActions.ReadConfiguration({
+                configuration: configurationFromPersistence,
+                groupId: '',
+              })
+            );
+            console.log('TODO CHHI set configuration from persisted one');
           }
         }
       }),
@@ -287,7 +303,6 @@ export class ConfiguratorCommonsService {
           )
       ),
       tap((ct) => {
-        console.log('CHHI set active config id');
         this.store.dispatch(
           new ConfiguratorActions.SetActiveConfiguration({
             productCode: owner.id,
