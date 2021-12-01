@@ -3,7 +3,8 @@ import {
   Directive,
   Input,
   Pipe,
-  PipeTransform, Component,
+  PipeTransform,
+  Component,
 } from '@angular/core';
 import {
   ComponentFixture,
