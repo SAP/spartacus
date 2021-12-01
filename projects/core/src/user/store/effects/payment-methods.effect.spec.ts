@@ -2,10 +2,8 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-} from '../../../global-message/index';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { PaymentDetails } from '../../../model/cart.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserPaymentAdapter } from '../../connectors/payment/user-payment.adapter';
