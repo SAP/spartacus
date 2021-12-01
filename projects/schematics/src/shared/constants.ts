@@ -835,6 +835,7 @@ export const ROUTE_GO_ACTION = 'RouteGoAction';
 export const ROUTE_GO_BY_URL_ACTION = 'RouteGoByUrlAction';
 export const ROUTE_FORWARD_ACTION = 'RouteForwardAction';
 export const ROUTE_BACK_ACTION = 'RouteBackAction';
+export const PAYMENT_METHODS_COMPONENT = 'PaymentMethodsComponent';
 
 export const BUDGET_ROUTING_CONFIG = 'budgetRoutingConfig';
 export const COST_CENTER_ROUTING_CONFIG = 'costCenterRoutingConfig';

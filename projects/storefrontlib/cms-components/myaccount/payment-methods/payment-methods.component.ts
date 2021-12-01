@@ -24,7 +24,7 @@ export class PaymentMethodsComponent implements OnInit {
   constructor(
     private userPaymentService: UserPaymentService,
     private translation: TranslationService,
-    protected globalMessageService?: GlobalMessageService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -106,7 +106,7 @@ export class PaymentMethodsComponent implements OnInit {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
-    this.globalMessageService?.add(
+    this.globalMessageService.add(
       { key: 'messages.setAsDefaultSucessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
