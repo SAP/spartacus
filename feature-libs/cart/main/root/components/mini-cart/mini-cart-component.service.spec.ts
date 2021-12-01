@@ -8,6 +8,7 @@ import {
 import { Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfig } from '../../config/cart-config';
 import { defaultCartConfig } from '../../config/default-cart-config';
+import { CartPersistentStorageChangeEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart } from '../../models/cart.model';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -48,6 +49,14 @@ const mockBrowserCartState = {
 };
 
 const mockBaseSite = 'mockBaseSite';
+
+// const mockCartPersistentStorageChangeEvent = {
+//   state: mockBrowserCartState,
+// } as Partial<CartPersistentStorageChangeEvent>;
+
+const mockCartPersistentStorageChangeEvent =
+  new CartPersistentStorageChangeEvent();
+mockCartPersistentStorageChangeEvent.state = mockBrowserCartState;
 
 fdescribe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
@@ -97,6 +106,16 @@ fdescribe('MiniCartComponentService', () => {
       );
       const result = service.getCartStateFromBrowserStorage();
       expect(result).toBe(mockBrowserCartState);
+    });
+  });
+
+  describe('createEventFromStorage', () => {
+    it('should create an event from the browser storage state.', () => {
+      spyOn(service, 'getCartStateFromBrowserStorage').and.returnValue(
+        mockBrowserCartState
+      );
+      const result = service.createEventFromStorage();
+      expect(result).toEqual(mockCartPersistentStorageChangeEvent);
     });
   });
 });
