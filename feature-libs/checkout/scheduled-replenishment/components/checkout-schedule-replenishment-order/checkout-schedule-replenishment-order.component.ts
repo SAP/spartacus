@@ -23,7 +23,7 @@ import { CheckoutReplenishmentFormService } from '../services/checkout-replenish
 export class CheckoutScheduleReplenishmentOrderComponent
   implements OnInit, OnDestroy
 {
-  private subscription: Subscription = new Subscription();
+  protected subscription = new Subscription();
 
   iconTypes = ICON_TYPE;
   orderTypes = ORDER_TYPE;
