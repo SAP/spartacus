@@ -35,6 +35,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
+  protected subscriptions = new Subscription();
+
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
@@ -43,7 +45,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
-  subscriptions: Subscription = new Subscription();
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
