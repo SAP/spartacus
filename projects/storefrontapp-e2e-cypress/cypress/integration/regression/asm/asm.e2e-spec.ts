@@ -1,18 +1,20 @@
 import * as addressBook from '../../../helpers/address-book';
+import * as asm from '../../../helpers/asm';
 import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 import * as consent from '../../../helpers/consent-management';
 import { getErrorAlert } from '../../../helpers/global-message';
-import * as loginHelper from '../../../helpers/login';
+//import * as loginHelper from '../../../helpers/login';
 import * as profile from '../../../helpers/update-profile';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
-import {
-  interceptDelete,
-  interceptGet,
-  interceptPost,
-} from '../../../support/utils/intercept';
+
+//import {
+//  interceptDelete,
+//  interceptGet,
+//  interceptPost,
+//} from '../../../support/utils/intercept';
 
 let customer: any;
 
@@ -37,10 +39,10 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('exist');
       cy.get('cx-asm-main-ui').should('be.visible');
 
-      agentLogin();
+      asm.agentLogin();
 
       cy.log('--> Starting customer emulation');
-      startCustomerEmulation();
+      asm.startCustomerEmulation(customer);
 
       cy.log('--> Update personal details');
       cy.visit('/my-account/update-profile');
@@ -72,7 +74,7 @@ context('Assisted Service Module', () => {
       cy.wait(1000);
 
       cy.log('--> Start another emulation session');
-      startCustomerEmulation();
+      asm.startCustomerEmulation(customer);
 
       cy.log(
         '--> Stop customer emulation using the end session button in the ASM UI'
@@ -82,7 +84,7 @@ context('Assisted Service Module', () => {
       cy.get('cx-customer-selection').should('exist');
 
       cy.log('--> sign out and close ASM UI');
-      agentSignOut();
+      asm.agentSignOut();
 
       cy.get('button[title="Close ASM"]').click();
       cy.get('cx-asm-main-ui').should('exist');
@@ -94,8 +96,8 @@ context('Assisted Service Module', () => {
     it('checks data changes made by the agent', () => {
       cy.log('--> customer sign in');
       cy.visit('/login');
-      loginCustomerInStorefront();
-      assertCustomerIsSignedIn();
+      asm.loginCustomerInStorefront(customer);
+      asm.assertCustomerIsSignedIn();
 
       cy.log('Check personal details updated by the agent');
       cy.selectUserMenuOption({
@@ -126,7 +128,7 @@ context('Assisted Service Module', () => {
       cy.visit('/login?asm=true');
       cy.wait(`@${loginPage}`);
 
-      agentLogin();
+      asm.agentLogin();
       login(customer.email, customer.password);
       getErrorAlert().should(
         'contain',
@@ -142,6 +144,8 @@ context('Assisted Service Module', () => {
   });
 });
 
+
+/*
 function listenForAuthenticationRequest(): string {
   return interceptPost(
     'csAgentAuthentication',
@@ -223,8 +227,9 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  interceptDelete('deleteAddresses', '/users/*/addresses/*?lang=en&curr=USD');
-  interceptGet('fetchAddresses', '/users/*/addresses/*?lang=en&curr=USD');
+  
+  //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
+  //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 
   const firstCard = cy.get('cx-card').first();
   firstCard.contains('Delete').click();
@@ -232,3 +237,4 @@ export function deleteFirstAddress() {
   cy.wait('@deleteAddress');
   cy.wait('@fetchAddresses');
 }
+*/
