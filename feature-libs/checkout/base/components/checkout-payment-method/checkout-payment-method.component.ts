@@ -42,8 +42,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   selectedMethod$: Observable<PaymentDetails>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
-  paymentSavingInProgress$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
+  paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
   subscriptions: Subscription = new Subscription();
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -98,7 +97,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
                   this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
                 }
               });
-              // TODO: this.checkoutService.clearCheckoutStep(3);
+              // TODO:#checkout this.checkoutService.clearCheckoutStep(3);
             } else if (this.shouldRedirect) {
               this.next();
             }
