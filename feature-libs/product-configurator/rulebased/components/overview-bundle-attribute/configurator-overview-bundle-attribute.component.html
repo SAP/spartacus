@@ -4,9 +4,13 @@
       <cx-media
         [container]="getProductPrimaryImage(product)"
         format="product"
+        aria-hidden="true"
       ></cx-media>
     </div>
-    <div class="cx-value-info">
+    <span class="cx-visually-hidden">
+      {{ getAriaLabel() }}
+    </span>
+    <div class="cx-value-info" aria-hidden="true">
       <div>
         {{ attributeOverview.value }}
       </div>
@@ -33,7 +37,7 @@
     </div>
   </div>
 
-  <div class="cx-attribute-price-container">
+  <div class="cx-attribute-price-container" aria-hidden="true">
     <span class="cx-attribute-label">{{ attributeOverview.attribute }}</span>
     <cx-configurator-price
       [formula]="extractPriceFormulaParameters()"
