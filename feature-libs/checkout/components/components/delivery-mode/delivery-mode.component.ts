@@ -121,10 +121,6 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   get deliveryModeInvalid(): boolean {
-    console.log(
-      'Jerry invalid falg: ',
-      this.mode.controls['deliveryModeId'].invalid
-    );
     return this.mode.controls['deliveryModeId'].invalid;
   }
 
