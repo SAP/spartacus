@@ -56,7 +56,7 @@ mockPersistEventWithCart.state = mockBrowserCartState;
 
 fdescribe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
-  // let activeCartFacade: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let eventService: EventService;
   let statePersistenceService: StatePersistenceService;
   let siteContextParamsService: SiteContextParamsService;
@@ -83,7 +83,7 @@ fdescribe('MiniCartComponentService', () => {
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
-    // activeCartFacade = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     eventService = TestBed.inject(EventService);
     statePersistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
@@ -157,5 +157,50 @@ fdescribe('MiniCartComponentService', () => {
         cold('a----(b|)', { a: false, b: true })
       );
     });
+  });
+
+  describe('getTotalPrice', () => {
+    it('should return defaul value when no cart is in storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f', { f: false })
+      );
+      spyOn(activeCartFacade, 'getActive').and.stub();
+      expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '' }));
+      expect(activeCartFacade.getActive).not.toHaveBeenCalled();
+    });
+  });
+
+  it('should return value from activeCartFacade when a cart is in storage', () => {
+    spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      cold('(t|)', { t: true, f: false })
+    );
+    const mockActiveCart = {
+      totalPrice: {
+        formattedValue: '122$',
+      },
+    } as Partial<Cart>;
+
+    spyOn(activeCartFacade, 'getActive').and.returnValue(
+      cold('c', { c: mockActiveCart })
+    );
+    expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
+  });
+
+  it('should return value from activeCartFacade when a cart is eventually in storage', () => {
+    spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      cold('f--(t|)', { t: true, f: false })
+    );
+    const mockActiveCart = {
+      totalPrice: {
+        formattedValue: '122$',
+      },
+    } as Partial<Cart>;
+
+    spyOn(activeCartFacade, 'getActive').and.returnValue(
+      cold('c', { c: mockActiveCart })
+    );
+    expect(service.getTotalPrice()).toBeObservable(
+      cold('a--b', { a: '', b: '122$' })
+    );
   });
 });
