@@ -1,8 +1,6 @@
 on:
   push:
     branches:
-      - 'feature/GH-13889'
-      - 'release/3.**'
       - 'release/4.**'
       - 'develop'
 name: Installation
