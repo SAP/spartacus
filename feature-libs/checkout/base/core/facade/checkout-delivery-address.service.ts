@@ -159,7 +159,7 @@ export class CheckoutDeliveryAddressService
     return this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
       map((state) => ({
         ...state,
-        data: state.data?.deliveryAddress,
+        data: state.data?.deliveryAddress ?? {},
       }))
     );
   }
