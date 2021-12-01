@@ -104,8 +104,12 @@ export const configurator = {
       valueOfAttribute: 'Value of attribute {{ attribute }}',
       forAttribute: '{{ value }} for attribute {{ attribute }}',
       valueOfAttributeFull: 'Value {{ value }} of attribute {{ attribute }}',
+      valueOfAttributeFullWithPrice:
+        'Value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       selectedValueOfAttributeFull:
         'Selected value {{ value }} of attribute {{ attribute }}',
+      selectedValueOfAttributeFullWithPrice:
+        'Selected value {{ value }} of attribute {{ attribute }}, Surcharge {{ price }}',
       readOnlyValueOfAttributeFull:
         'Read-only value {{ value }} of attribute {{ attribute }}',
       valueOfAttributeBlank: 'Value of attribute {{ attribute }} is blank',
@@ -117,15 +121,22 @@ export const configurator = {
       group: '{{ group }} group of attributes',
       itemOfAttributeSelected:
         'Item {{ item }} of attribute {{ attribute }} is selected. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeSelectedWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is selected, Surcharge {{ price }}. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeSelectedPressToUnselect:
         'Item {{ item }} of attribute {{ attribute }} is selected. Press button to unselect. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeSelectedPressToUnselectWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is selected, Surcharge {{ price }} Press button to unselect. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttributeUnselected:
         'Item {{ item }} of attribute {{ attribute }} is unselected. Press button to select. {{ itemIndex }} of {{ itemCount }}',
+      itemOfAttributeUnselectedWithPrice:
+        'Item {{ item }} of attribute {{ attribute }} is unselected, Surcharge {{ price }}. Press button to select. {{ itemIndex }} of {{ itemCount }}',
       selectNoItemOfAttribute:
         'To select no item for attribute {{ attribute }} press button. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
+      valueSurcharge: 'Value surcharge',
     },
   },
 };
