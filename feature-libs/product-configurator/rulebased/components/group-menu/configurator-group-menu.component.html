@@ -1,5 +1,8 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-group-menu" role="tablist">
+    <span id="listOfGroups" class="cx-visually-hidden">
+      {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
+    </span>
     <ng-container *ngIf="displayedGroups$ | async as groups">
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups; let groupIndex = index">
@@ -10,6 +13,7 @@
               class="cx-menu-back"
               role="tab"
               [attr.aria-selected]="false"
+              aria-describedby="listOfGroups"
               [cxFocus]="{ key: 'cx-menu-back' }"
               (click)="navigateUp()"
               (keydown)="
@@ -29,6 +33,7 @@
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
             [class.active]="isGroupSelected(group.id, currentGroup.id)"
             [class.disable]="!group.configurable"
+            aria-describedby="listOfGroups"
             [attr.aria-selected]="isGroupSelected(group.id, currentGroup.id)"
             [attr.aria-controls]="createAriaControls(group.id)"
             [cxFocus]="{
