@@ -58,9 +58,9 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
           mappingLabels: labelsMap,
         };
       }),
-      mergeMap((sub) => {
+      mergeMap((sub) =>
         // create a subscription directly with payment provider
-        return this.createSubWithProvider(sub.url, sub.parameters).pipe(
+        this.createSubWithProvider(sub.url, sub.parameters).pipe(
           map((response) => this.extractPaymentDetailsFromHtml(response)),
           mergeMap((fromPaymentProvider) => {
             fromPaymentProvider['defaultPayment'] =
@@ -78,8 +78,8 @@ export class OccCheckoutPaymentAdapter implements CheckoutPaymentAdapter {
               this.converter.pipeable(PAYMENT_DETAILS_NORMALIZER)
             );
           })
-        );
-      })
+        )
+      )
     );
   }
 
