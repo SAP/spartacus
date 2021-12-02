@@ -8,6 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -31,6 +32,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 {
   numericFormatPattern: string;
   locale: string;
+  iconType = ICON_TYPE;
 
   @Input() language: string;
 
