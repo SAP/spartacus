@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { CartPageEvent } from '@spartacus/cart/main/root';
 import { createFrom, EventService } from '@spartacus/core';
+import { NavigationEvent } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { NavigationEvent } from '../navigation/navigation.event';
-import { CartPageEvent } from './cart-page.events';
 
 @Injectable({
   providedIn: 'root',
