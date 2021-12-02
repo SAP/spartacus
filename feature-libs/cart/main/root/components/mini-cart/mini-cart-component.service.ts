@@ -13,7 +13,6 @@ import {
   startWith,
   switchMap,
   takeWhile,
-  tap,
 } from 'rxjs/operators';
 import { CartConfig } from '../../config/cart-config';
 import { ActiveCartBrowserStorageChangeEvent } from '../../events/cart.events';
