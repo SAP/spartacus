@@ -1,8 +1,8 @@
 ## Checkout
 
-Checkout refactoring + code splitting was done as part of the initiative of removing `NGRX` dependencies from Spartacus by replacing it with [command and queries](https://sap.github.io/spartacus-docs/commands-and-queries/#page-title).
+Checkout refactoring + code splitting was done as part of the initiative of removing `NGRX` dependencies from Spartacus by replacing it with [commands and queries](https://sap.github.io/spartacus-docs/commands-and-queries/#page-title).
 
-As we want to reduce the bundle size in Spartacus, the checkout refactoring also consisted of decoupling the checkout logic into three different libraries: base, b2b, scheduled-replenishment. 
+As we want to reduce the bundle size in Spartacus, the checkout refactoring also consisted of decoupling the checkout logic into three different entry points: base, b2b, scheduled-replenishment. 
 
 - @spartacus/checkout/base - offers a basic checkout functionality, such as b2c.
 - @spartacus/checkout/b2b - offers a b2b checkout flow.
@@ -11,9 +11,11 @@ As we want to reduce the bundle size in Spartacus, the checkout refactoring also
 Note: Although the checkout libraries might still have some reference to some ngrx actions within the library, it is not possible to fully separate ngrx from checkout until the other libraries from Spartacus get refactored, such as Cart or User libraries.
 
 Benefits of converting to `command and queries`:
-  - easier to extend as everything is in classes, and it is easy to `extends` and override a method, as opposed to ngrx where you can not really extend a reducer or an effect.
-  - instead of using three actions in ngrx, you can subscribe to the command and get the result in the same method call
-  - similarly to command, you can subscribe to a query, and get the current state in the same call (loading, error, or the data itself).
+  - easier to extend as everything is in classes, and it is simple as overriding a method, as opposed to ngrx where you can not really extend a reducer or an effect.
+  -  commands are built in a more reactive way, and return the execution result in the same method call.
+  - similarly to the commands, listening to loading, error, and data state changes are as simple as calling one method and getting all the results in one call.
+
+For more about commands and queries, please see [this](https://sap.github.io/spartacus-docs/commands-and-queries/#page-title)
 
 ### Setup library
 
