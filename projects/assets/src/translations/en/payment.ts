@@ -42,6 +42,7 @@ export const payment = {
     defaultPaymentLabel: 'Default payment method',
     additionalPaymentLabel: 'Additional payment method {{ number }}',
     selected: 'Selected',
+    deletePaymentSuccess: 'Payment method deleted successfully',
   },
   paymentTypes: {
     title: 'Payment method',
