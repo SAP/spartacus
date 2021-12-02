@@ -42,17 +42,11 @@ export class MiniCartComponentService {
     return this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
-          console.log(
-            'quantity$ browserHasCartInStorage == true, using cart facade'
-          );
           return this.activeCartFacade.getActive().pipe(
             startWith({ deliveryItemsQuantity: 0 }),
             map((cart) => cart.deliveryItemsQuantity || 0)
           );
         } else {
-          console.log(
-            'quantity$ browserHasCartInStorage == false, using default 0 count'
-          );
           return of(0);
         }
       })
@@ -70,17 +64,11 @@ export class MiniCartComponentService {
     return this.browserHasCartInStorage().pipe(
       switchMap((hasCart) => {
         if (hasCart) {
-          console.log(
-            'total$: - browserHasCartInStorage == true, using cart facade'
-          );
           return this.activeCartFacade.getActive().pipe(
             filter((cart) => !!cart.totalPrice),
             map((cart) => cart.totalPrice?.formattedValue ?? '')
           );
         } else {
-          console.log(
-            'total$: - browserHasCartInStorage == false, using default 0 count'
-          );
           return of('');
         }
       })
@@ -90,12 +78,8 @@ export class MiniCartComponentService {
   browserHasCartInStorage(): Observable<boolean> {
     return this.eventService.get(ActiveCartBrowserStorageChangeEvent).pipe(
       startWith(this.createEventFromStorage()),
-      tap((event) =>
-        console.log('browser storage active value: ', event?.state?.active)
-      ),
       map((event) => Boolean(event?.state?.active)),
       distinctUntilChanged(),
-      tap((active) => console.log('browser storage actiive boolean: ', active)),
       takeWhile((hasCart) => !hasCart, true)
     );
   }
