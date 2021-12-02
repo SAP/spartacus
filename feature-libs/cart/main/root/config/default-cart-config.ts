@@ -1,4 +1,4 @@
-import { StorageSyncType } from 'projects/core/src/state';
+import { StorageSyncType } from '@spartacus/core';
 import { CartConfig } from './cart-config';
 
 export const defaultCartConfig: CartConfig = {
