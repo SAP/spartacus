@@ -53,10 +53,9 @@ export class CheckoutShippingAddressComponent implements OnInit {
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
-        if (address && !!Object.keys(address).length) {
-          if (this.shouldRedirect) {
-            this.next();
-          }
+        if (address && this.shouldRedirect) {
+          console.log('who');
+          this.next();
         }
       })
     );
