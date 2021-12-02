@@ -53,21 +53,21 @@
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the listener was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
-10. Check other features which are using the old checkout:
+10. Check how do various checkouts work:
+    1.  base only (without b2b and repl)
+    2.  b2b (without repl)
+11. Check other features which are using the old checkout:
    3. Digital Payments
    4. CDS
    5. Anything else? Some internal features?
-11. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
-12. align the event names - prefix them with Checkout?
-13. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
-14. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+12. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
+13. align the event names - prefix them with Checkout?
+14. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
+15. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    6. Rename the checkout components' selectors to have the checkout prefix?
-15. query debounce - `feature/query-debounce`
-16. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+16. query debounce - `feature/query-debounce`
+17. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
-## Questions / investigation
-
-1. do we have a b2b express checkout? I guess not.
 
 ## Near the end
 
