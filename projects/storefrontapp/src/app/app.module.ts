@@ -11,7 +11,7 @@ import {
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { translationChunksConfig, translations } from '@spartacus/assets';
+import { translationChunksConfig } from '@spartacus/assets';
 import {
   FeaturesConfig,
   I18nConfig,
@@ -71,9 +71,12 @@ if (!environment.production) {
     provideConfig(<I18nConfig>{
       // we bring in static translations to be up and running soon right away
       i18n: {
-        resources: translations,
+        backend: {
+          loadPath: 'assets/i18n-assets/{{lng}}/{{ns}}.json',
+        },
         chunks: translationChunksConfig,
         fallbackLang: 'en',
+        debug: true,
       },
     }),
     provideConfig(<FeaturesConfig>{

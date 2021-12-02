@@ -130,6 +130,7 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/universal/issues/858
  */
 export function getLoadPath(path: string, serverRequestOrigin: string): string {
+  console.log({ serverRequestOrigin }); // SPIKE TODO REMOVE
   if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
     if (path.startsWith('/')) {
       path = path.slice(1);
@@ -138,6 +139,8 @@ export function getLoadPath(path: string, serverRequestOrigin: string): string {
       path = path.slice(2);
     }
     const result = `${serverRequestOrigin}/${path}`;
+    console.log({ loadPath: result }); // SPIKE TODO REMOVE
+
     return result;
   }
   return path;

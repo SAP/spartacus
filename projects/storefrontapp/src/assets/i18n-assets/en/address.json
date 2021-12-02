@@ -1,0 +1,66 @@
+{
+  "addressForm": {
+    "title": "Title",
+    "defaultTitle": "Title",
+    "firstName": {
+      "label": "First name",
+      "placeholder": "First Name"
+    },
+    "lastName": {
+      "label": "Last name",
+      "placeholder": "Last Name"
+    },
+    "address1": "Address 1",
+    "address2": "Address 2 (optional)",
+    "country": "Country/Region",
+    "city": {
+      "label": "City",
+      "placeholder": "City"
+    },
+    "state": "State",
+    "zipCode": {
+      "label": "Zip code",
+      "placeholder": "Postal Code/Zip"
+    },
+    "phoneNumber": {
+      "label": "Phone number (optional)",
+      "placeholder": "(555) 555 - 0123"
+    },
+    "saveAsDefault": "Save as default",
+    "chooseAddress": "Choose address",
+    "streetAddress": "Street Address",
+    "aptSuite": "Apt, Suite",
+    "selectOne": "Select One...",
+    "setAsDefault": "Set as default",
+    "titleRequired": "Title is required.",
+    "userAddressAddSuccess": "New address was added successfully!",
+    "userAddressUpdateSuccess": "Address updated successfully!",
+    "userAddressDeleteSuccess": "Address deleted successfully!",
+    "invalidAddress": "Invalid Address"
+  },
+  "addressBook": {
+    "addNewShippingAddress": "Add a new shipping address",
+    "editShippingAddress": "Edit shipping address",
+    "areYouSureToDeleteAddress": "Are you sure you want to delete this address?",
+    "addNewAddress": "Add new address",
+    "addAddress": "Add address",
+    "updateAddress": "Update address",
+    "backToAddressList": "Back to address list"
+  },
+  "addressCard": {
+    "default": "DEFAULT",
+    "selected": "Selected",
+    "setAsDefault": "Set as default",
+    "shipTo": "Ship To",
+    "billTo": "Bill To"
+  },
+  "addressSuggestion": {
+    "verifyYourAddress": "Verify your address",
+    "ensureAccuracySuggestChange": "To ensure delivery accuracy, we suggest the change selected below.",
+    "chooseAddressToUse": "Please choose which address you would like to use:",
+    "suggestedAddress": "Suggested address",
+    "enteredAddress": "Entered address",
+    "editAddress": "Edit address",
+    "saveAddress": "Save address"
+  }
+}
