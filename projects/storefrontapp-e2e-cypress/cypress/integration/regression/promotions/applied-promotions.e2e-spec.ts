@@ -1,10 +1,9 @@
 import * as appliedPromotions from '../../../helpers/applied-promotions';
-import { waitForProductPage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
 context('Applied promotions', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -13,33 +12,7 @@ context('Applied promotions', () => {
       cy.requireLoggedIn(standardUser);
     });
 
-    describe('As a logged in user', () => {
-      before(() => {
-        const eosCameraProductCode = '1382080';
-        const productPage = waitForProductPage(
-          eosCameraProductCode,
-          'getProductPage'
-        );
-        cy.visit(`/product/${eosCameraProductCode}`);
-        cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
-        appliedPromotions.addProductToCart();
-        appliedPromotions.checkForAppliedPromotionsInCartModal(
-          appliedPromotions.eosCameraProductName
-        );
-        appliedPromotions.closeCartDialog();
-      });
-
-      beforeEach(() => {
-        cy.restoreLocalStorage();
-      });
-
-      appliedPromotions.checkAppliedPromotions();
-
-      appliedPromotions.checkAppliedPromotionsFordifferentCartTotals();
-
-      afterEach(() => {
-        cy.saveLocalStorage();
-      });
-    });
+    // Core test. Repeat in mobile as well. 
+    appliedPromotions.testPromotionsForLoggedInUser();
   });
 });

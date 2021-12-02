@@ -2,6 +2,7 @@ import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
 import { waitForPage } from './checkout-flow';
+import { waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -159,5 +160,34 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
 
     decreaseQuantityOfCartEntry();
     cy.get('.cx-promotions').should('not.contain', '200');
+  });
+}
+
+export function testPromotionsForLoggedInUser() {
+  describe('As a logged in user', () => {
+    before(() => {
+      const eosCameraProductCode = '1382080';
+      const productPage = waitForProductPage(
+        eosCameraProductCode,
+        'getProductPage'
+      );
+      cy.visit(`/product/${eosCameraProductCode}`);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      addProductToCart();
+      checkForAppliedPromotionsInCartModal(eosCameraProductName);
+      closeCartDialog();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    checkAppliedPromotions();
+
+    checkAppliedPromotionsFordifferentCartTotals();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
   });
 }
