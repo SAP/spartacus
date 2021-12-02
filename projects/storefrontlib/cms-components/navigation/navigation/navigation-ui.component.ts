@@ -119,7 +119,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       event.preventDefault();
     }
     this.openNodes.forEach((node) =>
-      this.renderer.setAttribute(node.children[0], 'aria-expanded', 'false')
+      this.renderer.setAttribute(node, 'aria-expanded', 'false')
     );
     const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
@@ -131,7 +131,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       }
     } else {
       this.openNodes.push(node);
-      this.renderer.setAttribute(node.children[0], 'aria-expanded', 'true');
+      this.renderer.setAttribute(node, 'aria-expanded', 'true');
     }
 
     this.updateClasses();
