@@ -176,7 +176,11 @@ export class CmsFeaturesService {
     for (const componentType of featureConfig.cmsComponents ?? []) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 
-      // update same cms component mapping's configuration if configuration exist
+      /**
+       * update same cms component mapping's configuration found
+       * across all feature instance if the configuration exist
+       * in order to use the latest configuration
+       **/
       if (resolvedConfiguration.cmsComponents?.[componentType]) {
         this.componentExistingConfigurationMap.set(
           componentType,
