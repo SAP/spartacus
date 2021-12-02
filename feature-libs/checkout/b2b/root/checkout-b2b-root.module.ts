@@ -20,6 +20,8 @@ export function defaultCheckoutComponentsConfig() {
           'CheckoutPaymentType',
           'CheckoutReviewOrder',
           'CheckoutShippingAddress',
+          'CheckoutPaymentDetails',
+          'CheckoutDeliveryMode',
         ],
       },
       // by default core is bundled together with components
