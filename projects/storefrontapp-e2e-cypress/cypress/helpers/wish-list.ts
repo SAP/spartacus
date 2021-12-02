@@ -108,7 +108,7 @@ export function addToWishList(product: TestProduct) {
 
   waitForGetWishList();
 
-  cy.get('cx-add-to-wishlist .button-add').click();
+  cy.get('cx-add-to-wishlist .button-add').should('not.be.disabled').click();
 
   cy.wait('@get_wish_list');
 }
