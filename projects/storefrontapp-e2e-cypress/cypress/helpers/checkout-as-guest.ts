@@ -1,5 +1,7 @@
 import { SampleUser, user } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
+import { assertAddressForm } from './address-book';
+import { validateUpdateProfileForm } from './update-profile';
 
 export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
@@ -29,5 +31,53 @@ export function createAccountFromGuest(password: string) {
     cy.get('[formcontrolname="password"]').clear().type(password);
     cy.get('[formcontrolname="passwordconf"]').clear().type(password);
     cy.get('button[type=submit]').click();
+  });
+}
+
+export function testCheckoutAsGuest(){
+  it('should perform checkout as guest and create a user account', () => {
+    checkout.goToCheapProductDetailsPage();
+    checkout.addCheapProductToCartAndProceedToCheckout();
+
+    cy.get('.register').findByText(/Guest Checkout/i);
+
+    loginAsGuest(user);
+
+    checkout.fillAddressFormWithCheapProduct();
+    checkout.verifyDeliveryMethod();
+    checkout.fillPaymentFormWithCheapProduct();
+    checkout.placeOrderWithCheapProduct();
+    checkout.verifyOrderConfirmationPageWithCheapProduct();
+
+    createAccountFromGuest(user.password);
+
+    cy.selectUserMenuOption({
+      option: 'Address Book',
+    });
+
+    assertAddressForm(
+      {
+        firstName: user.firstName,
+        lastName: user.lastName,
+        phone: '',
+        address: user.address,
+      },
+      'US-CA'
+    );
+
+    cy.selectUserMenuOption({
+      option: 'Payment Details',
+    });
+
+    cy.get('.cx-payment .cx-body').then(() => {
+      cy.get('cx-card').should('exist');
+    });
+
+    cy.selectUserMenuOption({
+      option: 'Personal Details',
+    });
+
+    validateUpdateProfileForm('mr', user.firstName, user.lastName);
+    checkout.signOut();
   });
 }
