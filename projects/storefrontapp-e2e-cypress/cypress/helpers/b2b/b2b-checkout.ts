@@ -126,7 +126,7 @@ export function selectAccountShippingAddress() {
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
+    cy.get('.cx-card-actions .link').click({ force: true });
   });
 
   cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);

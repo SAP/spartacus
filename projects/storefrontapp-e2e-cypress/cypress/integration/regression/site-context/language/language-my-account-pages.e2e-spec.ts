@@ -79,7 +79,7 @@ describe('Language switch - my-account pages', () => {
         siteContextSelector.LANGUAGE_DE,
         siteContextSelector.LANGUAGE_LABEL
       );
-      cy.get('cx-address-book a').contains('Edit').click({ force: true });
+      cy.get('cx-address-book button').contains('Edit').click({ force: true });
 
       cy.get(
         'cx-address-form .ng-select[formcontrolname="titleCode"]'
