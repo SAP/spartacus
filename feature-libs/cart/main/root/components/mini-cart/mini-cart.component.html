@@ -7,7 +7,7 @@
   <cx-icon [type]="iconTypes.CART"></cx-icon>
 
   <span class="total">
-    total:[{{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}]
+    {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
   </span>
 
   <span class="count">
