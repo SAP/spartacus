@@ -3,18 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  Order,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
   ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
-import { OrderFacade } from 'feature-libs/order/root';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -23,9 +19,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
-const CART_ENTRY_KEY = '001+1';
-const ORDER_ENTRY_KEY = '001+1';
-
+const CART_ENTRY_KEY = '1';
 const configuratorType = ConfiguratorType.VARIANT;
 
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
@@ -38,16 +32,11 @@ const navParamsOverview: any = {
 };
 
 const mockOwner = mockProductConfiguration.owner;
-const parts: string[] = mockOwner.id.split('+');
 
 const mockRouterData: ConfiguratorRouter.Data = {
   pageType: ConfiguratorRouter.PageType.CONFIGURATION,
   isOwnerCartEntry: false,
   owner: mockOwner,
-};
-
-const mockOrder: Order = {
-  code: '1',
 };
 
 let component: ConfiguratorAddToCartButtonComponent;
@@ -90,25 +79,6 @@ class MockConfiguratorGroupsService {
   setGroupStatusVisited() {}
 }
 
-class MockCommonConfiguratorUtilsService {
-  decomposeOwnerId(): any {
-    return { documentId: parts[0], entryNumber: parts[1] };
-  }
-}
-
-class MockUserOrderService {
-  loadOrderDetails() {}
-  getOrderDetails(): Observable<Order> {
-    return of(mockOrder);
-  }
-}
-
-class MockConfiguratorRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(mockRouterData);
-  }
-}
-
 function setRouterTestDataCartBoundAndConfigPage() {
   mockRouterState.state.params = {
     entityKey: CART_ENTRY_KEY,
@@ -131,30 +101,6 @@ function setRouterTestDataProductBoundAndConfigPage() {
   mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = ConfigurationTestData.PRODUCT_CODE;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
-}
-
-function setRouterTestDataReadOnlyCart() {
-  mockRouterState.state.params = {
-    entityKey: CART_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = true;
-  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
-  mockRouterData.owner.id = CART_ENTRY_KEY;
-  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
-}
-
-function setRouterTestDataReadOnlyOrder() {
-  mockRouterState.state.params = {
-    entityKey: ORDER_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.ORDER_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = false;
-  mockRouterData.owner.type = CommonConfigurator.OwnerType.ORDER_ENTRY;
-  mockRouterData.owner.id = ORDER_ENTRY_KEY;
-  mockRouterData.pageType = ConfiguratorRouter.PageType.OVERVIEW;
 }
 
 function performAddToCartOnOverview() {
@@ -212,15 +158,13 @@ class MockRoutingService {
   }
   go() {}
 }
-class MockConfiguratorAddToCartButtonComponent {
-  goToOrderDetails() {}
-}
 
 describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
+
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -244,22 +188,6 @@ describe('ConfigAddToCartButtonComponent', () => {
             useClass: MockConfiguratorGroupsService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
-          {
-            provide: OrderFacade,
-            useClass: MockUserOrderService,
-          },
-          {
-            provide: CommonConfiguratorUtilsService,
-            useClass: MockCommonConfiguratorUtilsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockConfiguratorRouterExtractorService,
-          },
-          {
-            provide: ConfiguratorAddToCartButtonComponent,
-            useClass: MockConfiguratorAddToCartButtonComponent,
-          },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -426,26 +354,6 @@ describe('ConfigAddToCartButtonComponent', () => {
         false
       );
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
-    });
-  });
-  describe('displayOnlyButton', () => {
-    it('should navigate to review order', () => {
-      setRouterTestDataReadOnlyCart();
-      initialize();
-      component.leaveConfigurationOverview();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'checkoutReviewOrder',
-      });
-    });
-
-    it('should navigate to order details', () => {
-      setRouterTestDataReadOnlyOrder();
-      initialize();
-      component.leaveConfigurationOverview();
-      expect(routingService.go).toHaveBeenCalledWith({
-        cxRoute: 'orderDetails',
-        params: mockOrder,
-      });
     });
   });
 });

@@ -1,20 +1,17 @@
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { RequestCallback } from 'i18next-http-backend';
 import { getLoadPath, i18nextGetHttpClient } from './i18next-init';
-
-const testUrl = 'testUrl';
 
 describe('i18nextGetHttpClient should return a http client that', () => {
   let httpMock: HttpTestingController;
   let httpClient: HttpClient;
   let req: TestRequest;
-  let testCallback: RequestCallback;
+  let testCallback: Function;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,8 +23,8 @@ describe('i18nextGetHttpClient should return a http client that', () => {
 
     const func = i18nextGetHttpClient(httpClient);
     testCallback = jasmine.createSpy('testCallback');
-    func({}, testUrl, {}, testCallback);
-    req = httpMock.expectOne({ url: testUrl, method: 'GET' });
+    func('testUrl', null, testCallback, null);
+    req = httpMock.expectOne({ url: 'testUrl', method: 'GET' });
   });
 
   afterEach(() => {
@@ -40,39 +37,18 @@ describe('i18nextGetHttpClient should return a http client that', () => {
 
   it('forwards success response to i18next callback', () => {
     req.flush('testResponse');
-
-    expect(testCallback).toHaveBeenCalledWith(null, {
-      status: 200,
-      data: 'testResponse',
-    });
+    expect(testCallback).toHaveBeenCalledWith('testResponse', { status: 200 });
   });
 
   it('forwards failure response to i18next callback', () => {
-    const error = 'test error message';
-    const statusText = 'Not Found';
-    const status = 404;
-    const expectedHttpErrorResponse = new HttpErrorResponse({
-      status,
-      error,
-      statusText,
-      url: testUrl,
-    });
-
-    req.flush(error, {
-      status,
-      statusText,
-    });
-    expect(testCallback).toHaveBeenCalledWith(expectedHttpErrorResponse, {
-      status,
-      // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
-      data: null as any,
-    });
+    req.flush('test error message', { status: 404, statusText: 'Not Found' });
+    expect(testCallback).toHaveBeenCalledWith(null, { status: 404 });
   });
 });
 
 describe('getLoadPath', () => {
   describe('in non-server platform', () => {
-    const serverRequestOrigin = '';
+    const serverRequestOrigin = null;
 
     describe('with relative path starting with "./"', () => {
       const path = './path';
