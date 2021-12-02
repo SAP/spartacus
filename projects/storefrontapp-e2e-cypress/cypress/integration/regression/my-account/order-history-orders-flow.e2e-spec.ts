@@ -29,18 +29,9 @@ describe('Order details page', () => {
     beforeEach(() => {
       cy.requireLoggedIn();
     });
-    it('should display order details page with unconsigned entries', () => {
-      doPlaceOrder().then((orderData: any) => {
-        cy.visit(`/my-account/order/${orderData.body.code}`);
-        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
-        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
-        cy.get('.cx-summary-total > .cx-summary-amount').should(
-          'contain',
-          orderData.body.totalPrice.formattedValue
-        );
-      });
-    });
-
+    
+    orderHistoryTest.checkOrderDetailsUnconsignedEntries();
+    
     it('should display order details page with consigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.waitForOrderToBePlacedRequest(

@@ -11,16 +11,7 @@ viewportContext(['mobile', 'desktop'], () => {
       cy.requireLoggedIn();
     });
 
-    describe('Claim customer coupon', () => {
-      it('should claim customer coupon successfully', () => {
-        myCoupons.verifyClaimCouponSuccess(myCoupons.validCouponCode);
-        cy.saveLocalStorage();
-      });
+    myCoupons.testClaimCustomerCoupon();
 
-      it('should not claim invalid customer coupon', () => {
-        cy.restoreLocalStorage();
-        myCoupons.verifyClaimCouponFail(myCoupons.invalidCouponCode);
-      });
-    });
   });
 });

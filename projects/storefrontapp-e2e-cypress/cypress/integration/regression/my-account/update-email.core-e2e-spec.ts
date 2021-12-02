@@ -1,11 +1,6 @@
-import { login } from '../../../helpers/auth-forms';
-import * as alerts from '../../../helpers/global-message';
-import { registerAndLogin } from '../../../helpers/update-email';
-import { generateMail, randomString } from '../../../helpers/user';
+import * as updateEmail from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-const UPDATE_EMAIL_URL = '/my-account/update-email';
-const password = 'Password123.';
 
 describe('My Account - Update Email', () => {
   viewportContext(['desktop'], () => {
@@ -15,14 +10,14 @@ describe('My Account - Update Email', () => {
 
     describe('Anonymous user', () => {
       it('should redirect to login page', () => {
-        cy.visit(UPDATE_EMAIL_URL);
+        cy.visit(updateEmail.UPDATE_EMAIL_URL);
         cy.location('pathname').should('contain', '/login');
       });
     });
 
     describe('Logged in user', () => {
       before(() => {
-        registerAndLogin();
+        updateEmail.registerAndLogin();
         cy.visit('/');
       });
 
@@ -33,26 +28,8 @@ describe('My Account - Update Email', () => {
         });
       });
 
-      it('should update his email address and login', () => {
-        const newUid = generateMail(randomString(), true);
-        cy.get('cx-update-email').within(() => {
-          cy.get('[formcontrolname="email"]').type(newUid);
-          cy.get('[formcontrolname="confirmEmail"]').type(newUid);
-          cy.get('[formcontrolname="password"]').type(password);
-
-          cy.get('button').click();
-        });
-        cy.get('cx-login-form').should('exist');
-
-        alerts
-          .getSuccessAlert()
-          .should('contain', `Success. Please sign in with ${newUid}`);
-
-        login(newUid, password);
-
-        cy.get('cx-login .cx-login-greet').should('exist');
-      });
-
+      updateEmail.testUpdateEmailAndLogin();
+      
       afterEach(() => {
         cy.saveLocalStorage();
       });

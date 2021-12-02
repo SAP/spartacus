@@ -8,6 +8,7 @@ describe('Cart Coupon', () => {
       cy.requireLoggedIn();
     });
 
+     // TODO. Core test. Move to helper after GH-14500
     it('should apply cart coupon', () => {
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode1);
@@ -16,10 +17,6 @@ describe('Cart Coupon', () => {
       cartCoupon.addProductToCart(cartCoupon.productCode1);
       cartCoupon.applyCoupon(cartCoupon.couponForCart);
       cartCoupon.placeOrder(stateAuth.token);
-      // Pend verification in order confirmation page, not order details. $$$ 
-      //cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-      //  cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
-      //});
     });
   });
 });

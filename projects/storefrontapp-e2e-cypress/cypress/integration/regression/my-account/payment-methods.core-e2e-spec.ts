@@ -1,12 +1,6 @@
-import { addProductFromPdp, loginRegisteredUser } from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
-import {
-  addPaymentMethod,
-  testPaymentDetail,
-  verifyPaymentCard,
-  visitPaymentDetailsPage,
-} from '../../../helpers/payment-methods';
+import * as paymentMethods from '../../../helpers/payment-methods'
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Payment Methods', () => {
@@ -32,25 +26,10 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      it('should render empty payment details page', () => {
-        loginRegisteredUser();
-        visitPaymentDetailsPage();
-        cy.get('cx-payment-methods').within(() => {
-          cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
-          cy.get('.cx-payment .cx-body').should(
-            'contain',
-            'New payment methods are added during checkout.'
-          );
-        });
-      });
+      paymentMethods.testRenderEmptyPaymentDetailsPage();
 
-      it('should render page with only one payment methods', () => {
-        addProductFromPdp();
-        addPaymentMethod(testPaymentDetail[0]);
-        visitPaymentDetailsPage();
-        verifyPaymentCard(1);
-      });
-      
+      paymentMethods.testRenderOnePaymentMethod();
+
       afterEach(() => {
         cy.saveLocalStorage();
       });
