@@ -22,7 +22,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -40,6 +40,7 @@ export class B2BCheckoutShippingAddressComponent
   implements OnInit, OnDestroy
 {
   isAccountPayment = false;
+  protected subscriptions = new Subscription();
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -113,5 +114,9 @@ export class B2BCheckoutShippingAddressComponent
     if (!this.isAccountPayment) {
       super.ngOnInit();
     }
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.unsubscribe();
   }
 }

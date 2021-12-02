@@ -27,7 +27,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   extends CheckoutPlaceOrderComponent
   implements OnInit, OnDestroy
 {
-  private subscriptions = new Subscription();
+  protected subscriptions = new Subscription();
 
   currentOrderType: ORDER_TYPE;
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;

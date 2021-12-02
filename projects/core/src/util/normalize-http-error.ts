@@ -11,8 +11,12 @@ import { HttpErrorModel } from '../model/misc.model';
  * (which usually happens when logic in NgRx Effect is not sealed correctly)
  */
 export function normalizeHttpError(
-  error: HttpErrorResponse | any
+  error: HttpErrorResponse | HttpErrorModel | any
 ): HttpErrorModel | undefined {
+  if (error instanceof HttpErrorModel) {
+    return error;
+  }
+
   if (error instanceof HttpErrorResponse) {
     const normalizedError = new HttpErrorModel();
     normalizedError.message = error.message;

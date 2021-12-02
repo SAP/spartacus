@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
@@ -14,7 +9,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -28,13 +23,11 @@ export interface CardWithAddress {
   templateUrl: './checkout-shipping-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutShippingAddressComponent implements OnInit, OnDestroy {
+export class CheckoutShippingAddressComponent implements OnInit {
   addressFormOpened = false;
   forceLoader = false; // this helps with smoother steps transition
   selectedAddress: Address | undefined;
   doneAutoSelect = false;
-
-  protected subscriptions = new Subscription();
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -187,9 +180,5 @@ export class CheckoutShippingAddressComponent implements OnInit, OnDestroy {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.unsubscribe();
   }
 }

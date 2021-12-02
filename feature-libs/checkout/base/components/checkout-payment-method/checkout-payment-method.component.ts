@@ -36,6 +36,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
+  protected subscriptions = new Subscription();
+
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
@@ -43,9 +45,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   selectedMethod$: Observable<PaymentDetails>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
-  paymentSavingInProgress$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-  subscriptions: Subscription = new Subscription();
+  paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -99,7 +99,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
                   this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
                 }
               });
-              // TODO: this.checkoutService.clearCheckoutStep(3);
+              // TODO:#checkout this.checkoutService.clearCheckoutStep(3);
             } else if (this.shouldRedirect) {
               this.next();
             }
@@ -178,6 +178,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
+        error: () => this.paymentSavingInProgress$.next(false),
       })
     );
   }
@@ -203,6 +204,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
         complete: () => this.paymentSavingInProgress$.next(false),
+        error: () => this.paymentSavingInProgress$.next(false),
       })
     );
     this.shouldRedirect = true;

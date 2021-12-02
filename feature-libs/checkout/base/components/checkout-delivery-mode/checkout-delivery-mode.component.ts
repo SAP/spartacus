@@ -24,13 +24,13 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
+  protected subscriptions = new Subscription();
+
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
   selectedDeliveryMode$: Observable<DeliveryMode>;
   continueButtonPressed = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
-
-  deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
@@ -54,31 +54,37 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
         })
       );
 
-    this.deliveryModeSub = this.supportedDeliveryModes$
-      .pipe(
-        withLatestFrom(
-          this.checkoutDeliveryModesFacade.getSelectedDeliveryModeState().pipe(
-            filter((state) => !state.loading),
-            map((state) => state.data),
-            map((deliveryMode) => deliveryMode?.code)
+    this.subscriptions.add(
+      this.supportedDeliveryModes$
+        .pipe(
+          withLatestFrom(
+            this.checkoutDeliveryModesFacade
+              .getSelectedDeliveryModeState()
+              .pipe(
+                filter((state) => !state.loading),
+                map((state) => state.data),
+                map((deliveryMode) => deliveryMode?.code)
+              )
           )
         )
-      )
-      .subscribe(([deliveryModes, code]) => {
-        if (
-          !(
-            code &&
-            !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
-          )
-        ) {
-          code =
-            this.checkoutConfigService.getPreferredDeliveryMode(deliveryModes);
-        }
-        if (code) {
-          this.mode.controls['deliveryModeId'].setValue(code);
-          this.changeMode(code);
-        }
-      });
+        .subscribe(([deliveryModes, code]) => {
+          if (
+            !(
+              code &&
+              !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
+            )
+          ) {
+            code =
+              this.checkoutConfigService.getPreferredDeliveryMode(
+                deliveryModes
+              );
+          }
+          if (code) {
+            this.mode.controls['deliveryModeId'].setValue(code);
+            this.changeMode(code);
+          }
+        })
+    );
   }
 
   changeMode(code: string): void {
@@ -101,8 +107,6 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    if (this.deliveryModeSub) {
-      this.deliveryModeSub.unsubscribe();
-    }
+    this.subscriptions.unsubscribe();
   }
 }
