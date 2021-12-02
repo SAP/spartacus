@@ -41,89 +41,11 @@ describe('Order Cancellations and Returns', () => {
     });
   });
 
-  describe('should cancel order', () => {
-    it('should cancel', () => {
-      orderCancellationReturn.getStubbedCancellableOrderDetails();
-      orderCancellationReturn.visitCancelOrderPage();
+  // Core test. 
+  orderCancellationReturn.testCancelOrder();
 
-      assertButtons();
-      assertOrderItems(sampleData.orderDetails);
-
-      // accessibility
-      verifyTabbingOrder(
-        'cx-page-layout.AccountPageTemplate',
-        config.cancelOrReturnOrder
-      );
-
-      // validate input
-      validateInput();
-
-      // cancel one item
-      cancelItem();
-    });
-
-    it('should confirm cancel', () => {
-      assertButtons(true);
-      assertOrderItems(sampleData.orderDetails, true);
-
-      // accessibility
-      verifyTabbingOrder(
-        'cx-page-layout.AccountPageTemplate',
-        config.confirmCancelOrReturnOrder
-      );
-
-      // confirm cancel
-      orderCancellationReturn.confirmCancelOrder();
-      cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
-      cy.get('cx-global-message').should(
-        'contain',
-        `Your cancellation request was submitted (original order ${sampleData.ORDER_CODE} will be updated)`
-      );
-      cy.get('cx-breadcrumb').should('contain', 'Order History');
-    });
-  });
-
-  describe('should return order', () => {
-    it('should return', () => {
-      orderCancellationReturn.getStubbedReturnableOrderDetails();
-      orderCancellationReturn.visitReturnOrderPage();
-
-      assertButtons();
-      assertOrderItems(sampleData.orderDetails);
-
-      // accessibility
-      verifyTabbingOrder(
-        'cx-page-layout.AccountPageTemplate',
-        config.cancelOrReturnOrder
-      );
-
-      // validate input
-      validateInput();
-
-      // return one item
-      returnItem();
-    });
-
-    it('should confirm return', () => {
-      assertButtons(true);
-      assertOrderItems(sampleData.orderDetails, true);
-
-      // accessibility
-      verifyTabbingOrder(
-        'cx-page-layout.AccountPageTemplate',
-        config.confirmCancelOrReturnOrder
-      );
-
-      // confirm return
-      orderCancellationReturn.confirmReturnOrder();
-      cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
-      cy.get('cx-global-message').should(
-        'contain',
-        `Your return request (${sampleData.RMA}) was submitted`
-      );
-      cy.get('cx-breadcrumb').should('contain', 'Return Request Details');
-    });
-  });
+  // Core test. 
+  orderCancellationReturn.testReturnOrder();
 
   describe('Return request list and details', () => {
     it('should display return request list', () => {
@@ -244,72 +166,6 @@ describe('Order Cancellations and Returns', () => {
 
   function assertActionButtons(btnText: string) {
     cy.get('cx-order-details-actions a.btn').should('contain', btnText);
-  }
-
-  function assertButtons(isConfirm = false) {
-    cy.get('cx-amend-order-actions a.btn').should('contain', 'Back');
-    if (isConfirm) {
-      cy.get('cx-amend-order-actions .btn-primary').should(
-        'contain',
-        'Submit Request'
-      );
-    } else {
-      cy.get('cx-amend-order-actions .btn-primary').should(
-        'contain',
-        'Continue'
-      );
-    }
-  }
-
-  function assertOrderItems(order: any, isConfirm = false) {
-    if (!isConfirm) {
-      cy.get('cx-amend-order-items button.cx-action-link').should(
-        'contain',
-        'Set all quantities to maximum '
-      );
-    }
-
-    cy.get('cx-amend-order-items').within(() => {
-      cy.get('.cx-item-list-row').should('have.length', order.entries.length);
-    });
-
-    order.entries.forEach((entry, index) => {
-      cy.get('cx-amend-order-items .cx-item-list-row')
-        .eq(index)
-        .within(() => {
-          cy.get('.cx-list-item-desc').should('contain', entry.product.name);
-          cy.get('.cx-list-item-desc').should('contain', entry.product.code);
-          cy.get('.cx-price').should('contain', entry.basePrice.formattedValue);
-          if (isConfirm) {
-            cy.get('.cx-quantity').should('contain', 1);
-            cy.get('.cx-total').should(
-              'contain',
-              entry.basePrice.formattedValue
-            );
-          } else {
-            cy.get('.cx-request-qty').should('contain', 1);
-            cy.get('cx-item-counter').should('exist');
-          }
-        });
-    });
-  }
-
-  function validateInput() {
-    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
-    cy.get('cx-form-errors').should('contain', 'Select at least one item');
-
-    cy.get('cx-item-counter button').eq(1).click();
-    cy.get('cx-form-errors').should('not.contain', 'Select at least one item');
-  }
-
-  function cancelItem() {
-    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
-    cy.get('cx-breadcrumb').should('contain', 'Cancel Order Confirmation');
-  }
-
-  function returnItem() {
-    cy.get('cx-amend-order-actions .btn-primary').eq(0).click();
-    cy.get('cx-breadcrumb').should('contain', 'Return Order Confirmation');
   }
 
   function assertReturnRequestOverview(

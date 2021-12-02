@@ -23,10 +23,12 @@ describe('My interests', () => {
         notification.enableNotificationChannel();
       });
 
+      // Core test. Retest in mobile view.
       it('should show/remove interest', () => {
         notification.verifyCustomerInterests();
       });
 
+      // Core test. Retest in mobile view.
       it('should remove the subscrption in PDP', () => {
         notification.verifyRemovingCustomerInterestInPDP();
       });

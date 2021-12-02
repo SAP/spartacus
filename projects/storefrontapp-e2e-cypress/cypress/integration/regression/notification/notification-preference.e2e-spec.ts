@@ -1,8 +1,7 @@
 import {
-  disableNotificationChannel,
-  enableNotificationChannel,
   updateEmail,
   verifyEmailChannel,
+  testEnableDisableNotification,
 } from '../../../helpers/notification';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
@@ -28,13 +27,8 @@ describe('Notification preference', () => {
         cy.visit('/');
       });
 
-      it('should enable/disable notification preference', () => {
-        enableNotificationChannel();
-        cy.get('[type="checkbox"]').first().should('be.checked');
-
-        disableNotificationChannel();
-        cy.get('[type="checkbox"]').first().should('not.be.checked');
-      });
+      // Core test. Run in mobile view as well. 
+      testEnableDisableNotification();
 
       it('should show correct email channel after update email address', () => {
         verifyEmailChannel(standardUser.registrationData.email);

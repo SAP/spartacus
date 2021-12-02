@@ -4,6 +4,7 @@ import { checkBanner } from './homepage';
 export const newTitle = 'dr';
 export const newFirstName = 'N';
 export const newLastName = 'Z';
+export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile() {
   cy.get('cx-update-profile').within(() => {
@@ -48,5 +49,28 @@ export function verifyUpdatedProfile() {
       .should('have.value', newTitle);
     cy.get('[formcontrolname="firstName"]').should('have.value', newFirstName);
     cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
+  });
+}
+
+export function testUpdateProfileDetails(){
+  it('should be able to update profile details', () => {
+    cy.get('cx-update-profile').within(() => {
+      cy.get('[formcontrolname="titleCode"]').select(newTitle);
+      cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
+      cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
+      cy.get('button').click();
+    });
+
+    // check for the global message and home screen
+    alerts
+      .getSuccessAlert()
+      .should('contain', 'Personal details successfully updated');
+    checkBanner();
+
+    // check is the new name displayed in the upper right corner
+    cy.get('.cx-login-greet').should(
+      'contain',
+      `Hi, ${newFirstName} ${newLastName}`
+    );
   });
 }

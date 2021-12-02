@@ -1,7 +1,4 @@
-import {
-    disableNotificationChannel,
-    enableNotificationChannel,
-  } from '../../../helpers/notification';
+import {testEnableDisableNotification} from '../../../helpers/notification';
   import { registerAndLogin } from '../../../helpers/update-email';
   import { viewportContext } from '../../../helpers/viewport-context';
 
@@ -15,13 +12,8 @@ import {
           cy.visit('/');
         });
   
-        it('should enable/disable notification preference', () => {
-          enableNotificationChannel();
-          cy.get('[type="checkbox"]').first().should('be.checked');
-  
-          disableNotificationChannel();
-          cy.get('[type="checkbox"]').first().should('not.be.checked');
-        });
+        testEnableDisableNotification();
+        
       });
     });
   });
