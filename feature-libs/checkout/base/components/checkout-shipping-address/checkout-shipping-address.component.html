@@ -2,7 +2,7 @@
   <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
     {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
   </h2>
-  <ng-container *ngIf="!forceLoader && !(isLoading$ | async); else loading">
+  <ng-container *ngIf="!shouldRedirect && !(isLoading$ | async); else loading">
     <ng-container
       *ngIf="cards?.length && !addressFormOpened; else newAddressForm"
     >
@@ -48,7 +48,7 @@
         <div class="col-md-12 col-lg-6">
           <button
             class="cx-btn btn btn-block btn-primary"
-            [disabled]="!selectedAddress?.id"
+            [disabled]="!(selectedAddress$ | async)?.id"
             (click)="next()"
           >
             {{ 'common.continue' | cxTranslate }}
@@ -68,7 +68,6 @@
         <cx-address-form
           [showTitleCode]="true"
           [setAsDefaultField]="!isGuestCheckout"
-          [addressData]="selectedAddress"
           cancelBtnLabel="{{ backBtnText | cxTranslate }}"
           (backToAddress)="hideNewAddressForm(true)"
           (submitAddress)="addAddress($event)"

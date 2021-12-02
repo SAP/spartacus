@@ -12,8 +12,6 @@ import {
 import {
   ActiveCartService,
   Address,
-  GlobalMessageService,
-  GlobalMessageType,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -41,21 +39,20 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   existingPaymentMethods$: Observable<PaymentDetails[]>;
   isLoading$: Observable<boolean>;
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
-  selectedMethod$: Observable<PaymentDetails>;
+  selectedMethod$: Observable<PaymentDetails | undefined>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
+  shouldRedirect: boolean;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  protected shouldRedirect: boolean;
   protected deliveryAddress: Address | undefined;
 
   constructor(
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -90,16 +87,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       .pipe(
         filter((state) => !state.loading),
         map((state) => state.data),
-        tap((paymentInfo: any) => {
+        tap((paymentInfo) => {
           if (paymentInfo && !!Object.keys(paymentInfo).length) {
-            if (paymentInfo['hasError']) {
-              Object.keys(paymentInfo).forEach((key) => {
-                if (key.startsWith('InvalidField')) {
-                  this.sendPaymentMethodFailGlobalMessage(paymentInfo[key]);
-                }
-              });
-              // TODO:#checkout this.checkoutService.clearCheckoutStep(3);
-            } else if (this.shouldRedirect) {
+            if (this.shouldRedirect) {
               this.next();
             }
           }
@@ -202,11 +192,16 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.paymentSavingInProgress$.next(true);
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
-        complete: () => this.paymentSavingInProgress$.next(false),
-        error: () => this.paymentSavingInProgress$.next(false),
+        complete: () => {
+          this.paymentSavingInProgress$.next(false);
+          this.shouldRedirect = true;
+        },
+        error: () => {
+          this.paymentSavingInProgress$.next(false);
+          this.shouldRedirect = false;
+        },
       })
     );
-    this.shouldRedirect = true;
   }
 
   protected getCardIcon(code: string): string {
@@ -226,16 +221,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     return ccIcon;
   }
 
-  protected sendPaymentMethodFailGlobalMessage(field: string) {
-    this.globalMessageService.add(
-      {
-        key: 'paymentMethods.invalidField',
-        params: { field },
-      },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  }
-
   protected createCard(
     paymentDetails: PaymentDetails,
     cardLabels: {
@@ -244,7 +229,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       textUseThisPayment: string;
       textSelected: string;
     },
-    selected: PaymentDetails
+    selected: PaymentDetails | undefined
   ): Card {
     return {
       title: paymentDetails.defaultPayment

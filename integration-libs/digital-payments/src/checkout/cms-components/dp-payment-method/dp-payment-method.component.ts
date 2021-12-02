@@ -10,7 +10,6 @@ import {
 } from '@spartacus/checkout/base/core';
 import {
   ActiveCartService,
-  GlobalMessageService,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -53,7 +52,6 @@ export class DpPaymentMethodComponent
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
     protected checkoutPaymentFacade: CheckoutPaymentService,
-    protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
@@ -63,7 +61,6 @@ export class DpPaymentMethodComponent
       userPaymentService,
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
-      globalMessageService,
       activatedRoute,
       translationService,
       activeCartService,
