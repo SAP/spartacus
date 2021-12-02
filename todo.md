@@ -14,8 +14,9 @@
    6. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200)
    7. sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
    8. Benjamin's global messages: https://github.com/SAP/spartacus/pull/14060
-   9. Monitor develop using Patrick's script: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638291772009300. 
-   10. ...
+   9. Jerry's https://github.com/SAP/spartacus/pull/14401/files
+   10. Monitor develop using Patrick's script: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638291772009300. 
+   11. ...
 5. Is the checkout properly using the new cart lib?
    1. CORE
       - ActiveCartService - we added a method. Move it to the cart lib.
@@ -37,12 +38,13 @@
    1. Digital Payments
    2. CDS
    3. Anything else? Some internal features?
-8. align the event names - prefix them with Checkout?
-9. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
-10. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+8. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
+9. align the event names - prefix them with Checkout?
+10. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
+11. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    1. Rename the checkout components' selectors to have the checkout prefix?
-11. query debounce - `feature/query-debounce`
-12. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+12. query debounce - `feature/query-debounce`
+13. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
 ## Questions / investigation
 
