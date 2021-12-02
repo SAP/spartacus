@@ -203,4 +203,47 @@ fdescribe('MiniCartComponentService', () => {
       cold('a--b', { a: '', b: '122$' })
     );
   });
+
+  describe('getQuantity', () => {
+    it('should return defaul value when no cart is in storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f', { f: false })
+      );
+      spyOn(activeCartFacade, 'getActive').and.stub();
+      expect(service.getQuantity()).toBeObservable(cold('a', { a: 0 }));
+      expect(activeCartFacade.getActive).not.toHaveBeenCalled();
+    });
+
+    it('should return value from activeCartFacade when a cart is in storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('(t|)', { t: true })
+      );
+      const mockActiveCart = {
+        deliveryItemsQuantity: 7,
+      } as Partial<Cart>;
+
+      spyOn(activeCartFacade, 'getActive').and.returnValue(
+        cold('c', { c: mockActiveCart })
+      );
+      expect(service.getQuantity()).toBeObservable(
+        cold('(ab)', { a: 0, b: 7 })
+      );
+    });
+
+    it('should return value from activeCartFacade when a cart is eventually in storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f--(t|)', { t: true, f: false })
+      );
+      const mockActiveCart = {
+        deliveryItemsQuantity: 7,
+      } as Partial<Cart>;
+
+      spyOn(activeCartFacade, 'getActive').and.returnValue(
+        cold('c', { c: mockActiveCart })
+      );
+      expect(service.getQuantity()).toBeObservable(
+        cold('a--(ab)', { a: 0, b: 7 })
+      );
+    });
+  });
 });
