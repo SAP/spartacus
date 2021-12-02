@@ -68,12 +68,21 @@
 5. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
 6. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
-   2. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
-   3. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
-   4.  if using old components:
+   2. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
+   3. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
+      ```ts
+         service.getDataState().pipe(
+            filter(state => !state.loading && !state.error),
+            map(state => state.data),
+            ...
+         )
+      ```
+   4. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
+   5. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
+   6.  if using old components:
       1. you can consider using our new components. 
       2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
-   5.  go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
+   7.  go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
 7. check LL:
    1. check the chunks: base, b2b, replenishment
    2. check if and when those are loaded
