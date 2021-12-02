@@ -144,6 +144,15 @@ export const configurator = {
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
       valueSurcharge: 'Value surcharge',
+      conflictDetected:
+        'Conflict detected! Check the conflicts at top of group list.',
+      conflictsInConfiguration:
+        'There are conflicts in your configuration. Number of conflicts: {{ numberOfConflicts }}, Select for more details.',
+      listOfGroups: 'List of groups',
+      groupName: 'Group {{ group }}',
+      groupBack: 'You are in a sub-group. Select to go back.',
+      conflictBack:
+        'You are in the conflict solver. Select to go back or select next tabs to solve conflicts.',
     },
   },
 };

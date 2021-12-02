@@ -156,7 +156,10 @@ export class ConfiguratorGroupMenuComponent {
    * @return {string} - number of conflicts
    */
   getConflictNumber(group: Configurator.Group): string {
-    if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
+    if (
+      group &&
+      group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    ) {
       return '(' + group.subGroups.length + ')';
     }
     return '';
@@ -255,6 +258,18 @@ export class ConfiguratorGroupMenuComponent {
    */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
+  }
+
+  /**
+   * Returns true if group is conflict header group.
+   *
+   * @param {Configurator.Group} group - Current group
+   *  @return {boolean} - Returns 'true' if the current group is conflict header group, otherwise 'false'.
+   */
+  isConflictHeader(group: Configurator.Group): boolean {
+    return (
+      group && group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    );
   }
 
   /**

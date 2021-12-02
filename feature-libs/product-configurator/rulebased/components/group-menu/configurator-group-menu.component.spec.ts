@@ -732,6 +732,8 @@ describe('ConfigurationGroupMenuComponent', () => {
     it("should contain 'WARNING' class because the group has been visited and has some conflicts", () => {
       simpleConfig.consistent = false;
       simpleConfig.groups[0].consistent = false;
+      simpleConfig.groups[0].description = 'Group Name';
+
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
@@ -741,6 +743,40 @@ describe('ConfigurationGroupMenuComponent', () => {
         expect,
         htmlElem,
         '.cx-menu-item.WARNING'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-label',
+        'configurator.a11y.groupName group:Group Name'
+      );
+    });
+
+    it('should add correct aria-attributes to conflict group', () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      simpleConfig.groups[0].description = 'Resolve Conlflicts';
+      simpleConfig.groups[0].groupType =
+        Configurator.GroupType.CONFLICT_HEADER_GROUP;
+      simpleConfig.groups[0].subGroups = [{ id: 'subgroup1', subGroups: [] }];
+
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-conflict',
+        0,
+        'aria-label',
+        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
       );
     });
 

@@ -343,7 +343,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Conflict text at the attribute level', () => {
-    it('should render conflict icon with corresponding message if attribute has conflicts.', () => {
+    it('should render conflict icon with corresponding message and corresponding aria-attributes if attribute has conflicts.', () => {
       classUnderTest.attribute.hasConflicts = true;
       classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
@@ -358,6 +358,36 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'cx-icon'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-label',
+        'configurator.a11y.conflictDetected'
       );
     });
 
@@ -376,6 +406,36 @@ describe('ConfigAttributeHeaderComponent', () => {
         expect,
         htmlElem,
         'cx-icon'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-live',
+        'off'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-atomic',
+        'false'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-label',
+        'configurator.a11y.conflictDetected'
       );
     });
 

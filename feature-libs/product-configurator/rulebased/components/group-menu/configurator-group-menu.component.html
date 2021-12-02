@@ -13,6 +13,11 @@
               class="cx-menu-back"
               role="tab"
               [attr.aria-selected]="false"
+              [attr.aria-label]="
+                isConflictGroupType(parentGroup.groupType)
+                  ? ('configurator.a11y.conflictBack' | cxTranslate)
+                  : ('configurator.a11y.groupBack' | cxTranslate)
+              "
               aria-describedby="listOfGroups"
               [cxFocus]="{ key: 'cx-menu-back' }"
               (click)="navigateUp()"
@@ -36,6 +41,14 @@
             aria-describedby="listOfGroups"
             [attr.aria-selected]="isGroupSelected(group.id, currentGroup.id)"
             [attr.aria-controls]="createAriaControls(group.id)"
+            [attr.aria-label]="
+              isConflictHeader(group)
+                ? ('configurator.a11y.conflictsInConfiguration'
+                  | cxTranslate
+                    : { numberOfConflicts: getConflictNumber(group) })
+                : ('configurator.a11y.groupName'
+                  | cxTranslate: { group: group.description })
+            "
             [cxFocus]="{
               key: group.id
             }"

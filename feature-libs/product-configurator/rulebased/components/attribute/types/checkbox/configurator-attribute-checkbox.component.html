@@ -23,6 +23,9 @@
                   attribute: attribute.label
                 }
         "
+        [attr.aria-describedby]="
+          createAttributeUiKey('attribute-msg', attribute.name)
+        "
       />
       <label
         id="{{
@@ -84,6 +87,9 @@
                         value: attribute?.values[0].valueDisplay,
                         attribute: attribute.label
                       })
+            "
+            [attr.aria-describedby]="
+              createAttributeUiKey('attribute-msg', attribute.name)
             "
           />
           <label

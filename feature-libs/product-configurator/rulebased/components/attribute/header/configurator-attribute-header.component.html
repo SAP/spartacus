@@ -12,18 +12,26 @@
     attribute.label
   }}</span></label
 >
-<div *ngIf="attribute.hasConflicts" class="cx-conflict-msg">
+<div
+  *ngIf="attribute.hasConflicts"
+  class="cx-conflict-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-live]="isAttributeGroup(groupType) ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isAttributeGroup(groupType) ? true : false"
+  [attr.aria-label]="'configurator.a11y.conflictDetected' | cxTranslate"
+>
   <cx-icon
     *ngIf="isAttributeGroup(groupType)"
     [type]="iconTypes.WARNING"
   ></cx-icon>
-  <div class="cx-conflict-msg">
+  <div class="cx-conflict-msg" aria-hidden="true">
     {{ getConflictMessageKey(groupType) | cxTranslate }}
   </div>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
   class="cx-required-error-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
