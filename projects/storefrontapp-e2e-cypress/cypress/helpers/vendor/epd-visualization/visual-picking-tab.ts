@@ -1,11 +1,5 @@
 export function configureDefaultProduct() {
   cy.window().then((win) => win.sessionStorage.clear());
-  cy.cxConfig({
-    context: {
-      baseSite: ['powertools-spa'],
-      currency: ['USD'],
-    },
-  });
 
   // We need to ensure we use control the screen width, since the animation controls are removed at lower breakpoints.
   cy.viewport(1200, 800); // Bootstrap 4 XL breakpoint
