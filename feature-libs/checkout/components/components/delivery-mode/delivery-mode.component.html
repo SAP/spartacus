@@ -73,31 +73,32 @@
             else loading
           "
         >
-          <fieldset
-            class="form-check"
-            *ngFor="let mode of supportedDeliveryModes$ | async"
-            [disabled]="deliveryModeSetInProcess$ | async"
-          >
-            <input
-              class="form-check-input"
-              role="radio"
-              type="radio"
-              id="deliveryMode-{{ mode.code }}"
-              aria-checked="true"
-              (change)="changeMode(mode.code)"
-              [value]="mode.code"
-              formControlName="deliveryModeId"
-            />
-            <label
-              class="cx-delivery-label form-check-label form-radio-label"
-              for="deliveryMode-{{ mode.code }}"
+          <fieldset [disabled]="deliveryModeSetInProcess$ | async">
+            <div
+              class="form-check"
+              *ngFor="let mode of supportedDeliveryModes$ | async"
             >
-              <div class="cx-delivery-mode">{{ mode.name }}</div>
-              <div class="cx-delivery-price">
-                {{ mode.deliveryCost.formattedValue }}
-              </div>
-              <div class="cx-delivery-details">{{ mode.description }}</div>
-            </label>
+              <input
+                class="form-check-input"
+                role="radio"
+                type="radio"
+                id="deliveryMode-{{ mode.code }}"
+                aria-checked="true"
+                (change)="changeMode(mode.code)"
+                [value]="mode.code"
+                formControlName="deliveryModeId"
+              />
+              <label
+                class="cx-delivery-label form-check-label form-radio-label"
+                for="deliveryMode-{{ mode.code }}"
+              >
+                <div class="cx-delivery-mode">{{ mode.name }}</div>
+                <div class="cx-delivery-price">
+                  {{ mode.deliveryCost.formattedValue }}
+                </div>
+                <div class="cx-delivery-details">{{ mode.description }}</div>
+              </label>
+            </div>
           </fieldset>
           <div class="row cx-checkout-btns">
             <div class="col-md-12 col-lg-6">
