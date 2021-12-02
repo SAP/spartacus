@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { of } from 'rxjs';
 import { Component, Input, Type } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { BreakpointService } from '@spartacus/storefront';
-import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
+import { of } from 'rxjs';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
+import { ConfiguratorOverviewAttributeComponent } from './configurator-overview-attribute.component';
 
 @Component({
   selector: 'cx-configurator-price',
@@ -24,7 +25,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         declarations: [
           ConfiguratorOverviewAttributeComponent,
           MockConfiguratorPriceComponent,

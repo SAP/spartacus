@@ -21,13 +21,25 @@
 </ng-template>
 
 <ng-template #groups let-overviewGroups="overviewGroups" let-level="level">
+  <span class="cx-visually-hidden">
+    {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
+  </span>
   <ng-container *ngFor="let group of overviewGroups">
     <div
       class="cx-group"
       [class.topLevel]="level === 1"
       [class.subgroupTopLevel]="level === 1 && group.subGroups?.length > 0"
     >
-      <h2>
+      <span class="cx-visually-hidden">
+        {{
+          'configurator.a11y.group'
+            | cxTranslate
+              : {
+                  group: group.groupDescription
+                }
+        }}
+      </span>
+      <h2 aria-hidden="true">
         <span>{{ group.groupDescription }}</span>
       </h2>
 

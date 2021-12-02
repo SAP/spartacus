@@ -134,6 +134,13 @@ export const configurator = {
       selectNoItemOfAttribute:
         'To select no item for attribute {{ attribute }} press button. {{ itemIndex }} of {{ itemCount }}',
       itemOfAttribute: 'Item of attribute {{ attribute }}',
+      itemOfAttributeFull: 'Item {{ item }} of attribute {{ attribute }}',
+      itemOfAttributeFullWithPrice:
+        'Item {{ item }} of attribute {{ attribute }}, Surcharge {{ price }}',
+      itemOfAttributeFullWithQuantity:
+        'Item {{ item }} of attribute {{ attribute }}, Quantity {{ quantity }}',
+      itemOfAttributeFullWithPriceAndQuantity:
+        'Item {{ item }} of attribute {{ attribute }}, Quantity {{ quantity }}, Surcharge {{ price }}',
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
       valueSurcharge: 'Value surcharge',
