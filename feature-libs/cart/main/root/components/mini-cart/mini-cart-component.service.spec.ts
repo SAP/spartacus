@@ -9,7 +9,7 @@ import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, ReplaySubject } from 'rxjs';
 import { CartConfig } from '../../config/cart-config';
 import { defaultCartConfig } from '../../config/default-cart-config';
-import { CartPersistentStorageChangeEvent } from '../../events/cart.events';
+import { ActiveCartBrowserStorageChangeEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart } from '../../models/cart.model';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -51,7 +51,7 @@ const mockBrowserCartState = {
 
 const mockBaseSite = 'mockBaseSite';
 
-const mockPersistEventWithCart = new CartPersistentStorageChangeEvent();
+const mockPersistEventWithCart = new ActiveCartBrowserStorageChangeEvent();
 mockPersistEventWithCart.state = mockBrowserCartState;
 
 describe('MiniCartComponentService', () => {

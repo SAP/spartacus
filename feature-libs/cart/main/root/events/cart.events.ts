@@ -77,6 +77,10 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   entry: OrderEntry;
 }
 
-export class CartPersistentStorageChangeEvent extends CxEvent {
+export class ActiveCartBrowserStorageChangeEvent extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'ActiveCartBrowserStorageChangeEvent';
   state: { active: string } | undefined;
 }

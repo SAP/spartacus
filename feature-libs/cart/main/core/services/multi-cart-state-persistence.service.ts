@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import {
+  ActiveCartBrowserStorageChangeEvent,
   CartConfig,
-  CartPersistentStorageChangeEvent,
   CartType,
 } from '@spartacus/cart/main/root';
 import {
@@ -69,10 +69,17 @@ export class MultiCartStatePersistenceService implements OnDestroy {
     } else {
       this.store.dispatch(new CartActions.SetActiveCartId(''));
     }
+    this.dispatchActiveCartBrowserStorageChangeEvent(state);
   }
 
   protected onPersist(state: { active: string } | undefined) {
-    const event = new CartPersistentStorageChangeEvent();
+    this.dispatchActiveCartBrowserStorageChangeEvent(state);
+  }
+
+  protected dispatchActiveCartBrowserStorageChangeEvent(
+    state: { active: string } | undefined
+  ) {
+    const event = new ActiveCartBrowserStorageChangeEvent();
     event.state = state;
     this.eventService.dispatch(event);
   }

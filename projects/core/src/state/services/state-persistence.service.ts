@@ -48,7 +48,7 @@ export class StatePersistenceService {
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T | undefined) => void;
-    onPersist?: (stateFromStorage: T | undefined) => void;
+    onPersist?: (state: T | undefined) => void;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -70,18 +70,14 @@ export class StatePersistenceService {
     );
 
     subscriptions.add(
-      state$
-        .pipe(
-          withLatestFrom(context$),
-          tap(([state]) => onPersist(state))
-        )
-        .subscribe(([state, context]) => {
-          persistToStorage(
-            this.generateKeyWithContext(context, key),
-            state,
-            storage
-          );
-        })
+      state$.pipe(withLatestFrom(context$)).subscribe(([state, context]) => {
+        persistToStorage(
+          this.generateKeyWithContext(context, key),
+          state,
+          storage
+        );
+        onPersist(state);
+      })
     );
 
     return subscriptions;

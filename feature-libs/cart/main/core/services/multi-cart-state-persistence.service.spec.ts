@@ -2,11 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
   BASE_SITE_CONTEXT_ID,
+  EventService,
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { ActiveCartBrowserStorageChangeEvent } from '../../root/events/cart.events';
 import { CartActions, MULTI_CART_FEATURE, StateWithMultiCart } from '../store';
 import * as fromCartReducers from '../store/reducers/index';
 import { MultiCartStatePersistenceService } from './multi-cart-state-persistence.service';
@@ -16,12 +18,18 @@ class MockSiteContextParamsService {
     return of(['context']);
   }
 }
+class MockEventService implements Partial<EventService> {
+  dispatch(): void {}
+}
+
+const mockCartState = { active: 'cartId' };
 
 describe('MultiCartStatePersistenceService', () => {
   let service: MultiCartStatePersistenceService;
   let persistenceService: StatePersistenceService;
   let siteContextParamsService: SiteContextParamsService;
   let store: Store<StateWithMultiCart>;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,6 +47,10 @@ describe('MultiCartStatePersistenceService', () => {
           useClass: MockSiteContextParamsService,
         },
         StatePersistenceService,
+        {
+          provide: EventService,
+          useClass: MockEventService,
+        },
       ],
     });
 
@@ -46,6 +58,7 @@ describe('MultiCartStatePersistenceService', () => {
     persistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     store = TestBed.inject(Store);
+    eventService = TestBed.inject(EventService);
     spyOn(store, 'dispatch').and.stub();
     spyOn(persistenceService, 'syncWithStorage').and.stub();
   });
@@ -65,14 +78,38 @@ describe('MultiCartStatePersistenceService', () => {
     );
   });
 
-  it('active cart should be updated on context change', () => {
-    service['onRead']({ active: 'cartId' });
-    expect(store.dispatch).toHaveBeenCalledTimes(2);
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.ClearCartState()
+  it('active cart should be dispatched in an event on context change', () => {
+    spyOn<any>(
+      service,
+      'dispatchActiveCartBrowserStorageChangeEvent'
+    ).and.stub();
+    service['onRead'](mockCartState);
+    expect(
+      service['dispatchActiveCartBrowserStorageChangeEvent']
+    ).toHaveBeenCalledWith(mockCartState);
+  });
+
+  it('active cart should be dispatched in an event on state persist', () => {
+    spyOn<any>(
+      service,
+      'dispatchActiveCartBrowserStorageChangeEvent'
+    ).and.stub();
+    service['onPersist'](mockCartState);
+    expect(
+      service['dispatchActiveCartBrowserStorageChangeEvent']
+    ).toHaveBeenCalledWith(mockCartState);
+  });
+
+  it('dispatchActiveCartBrowserStorageChangeEvent should do exactly that', () => {
+    spyOn(eventService, 'dispatch');
+    service['dispatchActiveCartBrowserStorageChangeEvent'](mockCartState);
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      jasmine.any(ActiveCartBrowserStorageChangeEvent)
     );
-    expect(store.dispatch).toHaveBeenCalledWith(
-      new CartActions.SetActiveCartId('cartId')
+    expect(eventService.dispatch).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        state: mockCartState,
+      })
     );
   });
 

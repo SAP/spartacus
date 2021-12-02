@@ -16,7 +16,7 @@ import {
   tap,
 } from 'rxjs/operators';
 import { CartConfig } from '../../config/cart-config';
-import { CartPersistentStorageChangeEvent } from '../../events/cart.events';
+import { ActiveCartBrowserStorageChangeEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Injectable({
@@ -88,7 +88,7 @@ export class MiniCartComponentService {
   }
 
   browserHasCartInStorage(): Observable<boolean> {
-    return this.eventService.get(CartPersistentStorageChangeEvent).pipe(
+    return this.eventService.get(ActiveCartBrowserStorageChangeEvent).pipe(
       startWith(this.createEventFromStorage()),
       tap((event) =>
         console.log('browser storage active value: ', event?.state?.active)
@@ -101,7 +101,7 @@ export class MiniCartComponentService {
   }
 
   createEventFromStorage() {
-    const event = new CartPersistentStorageChangeEvent();
+    const event = new ActiveCartBrowserStorageChangeEvent();
     event.state = this.getCartStateFromBrowserStorage();
     return event;
   }

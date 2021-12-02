@@ -80,7 +80,7 @@ describe('MiniCartComponent', () => {
     it('should contain total price of the cart', () => {
       const cartItemsNumber = fixture.debugElement.query(By.css('.total'))
         .nativeElement.innerText;
-      expect(cartItemsNumber).toEqual('miniCart.total total:122$');
+      expect(cartItemsNumber).toEqual('miniCart.total total:122$ ');
     });
   });
 });
