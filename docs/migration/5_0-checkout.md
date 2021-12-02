@@ -2,7 +2,7 @@
 
 Checkout refactoring + code splitting was done as part of the initiative of removing `NGRX` dependencies from Spartacus by replacing it with [commands and queries](https://sap.github.io/spartacus-docs/commands-and-queries/#page-title).
 
-As we want to reduce the bundle size in Spartacus, the checkout refactoring also consisted of decoupling the checkout logic into three different entry points: base, b2b, scheduled-replenishment. 
+As we want to reduce the bundle size in Spartacus, the checkout refactoring also consisted of decoupling the checkout logic into three different entry points. 
 
 - @spartacus/checkout/base - offers a basic checkout functionality, such as b2c.
 - @spartacus/checkout/b2b - offers a b2b checkout flow.
