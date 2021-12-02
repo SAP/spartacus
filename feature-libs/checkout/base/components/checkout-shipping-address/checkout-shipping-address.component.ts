@@ -54,7 +54,6 @@ export class CheckoutShippingAddressComponent implements OnInit {
       map((state) => state.data),
       tap((address) => {
         if (address && this.shouldRedirect) {
-          console.log('who');
           this.next();
         }
       })
