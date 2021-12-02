@@ -192,11 +192,16 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.paymentSavingInProgress$.next(true);
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
-        complete: () => this.paymentSavingInProgress$.next(false),
-        error: () => this.paymentSavingInProgress$.next(false),
+        complete: () => {
+          this.paymentSavingInProgress$.next(false);
+          this.shouldRedirect = true;
+        },
+        error: () => {
+          this.paymentSavingInProgress$.next(false);
+          this.shouldRedirect = false;
+        },
       })
     );
-    this.shouldRedirect = true;
   }
 
   protected getCardIcon(code: string): string {
