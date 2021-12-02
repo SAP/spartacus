@@ -491,6 +491,10 @@ export const CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT =
   'ConfiguratorOverviewAttributeComponent';
 export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT =
   'ConfiguratorAddToCartButtonComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
+  'ConfiguratorCartEntryBundleInfoComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
+  'ConfiguratorCartEntryBundleInfoService';
 export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
