@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { APP_INITIALIZER, Optional, Provider } from '@angular/core';
+import { APP_INITIALIZER, NgZone, Optional, Provider } from '@angular/core';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { SERVER_REQUEST_ORIGIN } from '../../util/ssr.tokens';
@@ -17,6 +17,7 @@ export const i18nextProviders: Provider[] = [
       HttpClient,
       [new Optional(), SERVER_REQUEST_ORIGIN],
       SiteContextI18nextSynchronizer,
+      NgZone,
     ],
     multi: true,
   },

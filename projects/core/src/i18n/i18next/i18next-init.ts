@@ -1,12 +1,12 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
 import { i18n, InitOptions } from 'i18next';
 import i18nextHttpBackend, {
   BackendOptions,
   RequestCallback,
 } from 'i18next-http-backend';
 import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { switchMap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
 import { LanguageService } from '../../site-context/facade/language.service';
 import { TranslationResources } from '../translation-resources';
@@ -17,13 +17,15 @@ export function i18nextInit(
   languageService: LanguageService,
   httpClient: HttpClient,
   serverRequestOrigin: string,
-  siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
+  siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer,
+  ngZone: NgZone
 ): () => Promise<any> {
   return () =>
     configInit
       .getStable('i18n')
       .pipe(
-        tap((config) => {
+        // SPIKE 1. changed tap() to switchMap()
+        switchMap((config) => {
           let i18nextConfig: InitOptions = {
             ns: [], // don't preload any namespaces
             fallbackLng: config.i18n?.fallbackLang,
@@ -34,7 +36,9 @@ export function i18nextInit(
           };
 
           if (config.i18n?.backend?.loadPath) {
-            i18next = i18next.use(i18nextHttpBackend);
+            // SPIKE 2. removed assignment
+            i18next.use(i18nextHttpBackend);
+
             const loadPath = getLoadPath(
               config.i18n.backend.loadPath,
               serverRequestOrigin
@@ -46,12 +50,21 @@ export function i18nextInit(
             i18nextConfig = { ...i18nextConfig, backend };
           }
 
-          return i18next.init(i18nextConfig, () => {
-            // Don't use i18next's 'resources' config key for adding static translations,
-            // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-            i18nextAddTranslations(i18next, config.i18n?.resources);
-            siteContextI18nextSynchronizer.init(i18next, languageService);
-          });
+          // SPIKE 3. run i18next.init outside angular zone
+          const promise = ngZone.runOutsideAngular(() =>
+            i18next.init(i18nextConfig, () => {
+              // Don't use i18next's 'resources' config key for adding static translations,
+              // because it will disable loading chunks from backend. We add resources here, in the init's callback.
+              //
+              //
+              // SPIKE 4. DO NOT USE ANY static TS translations - line bellow is commented out
+              // i18nextAddTranslations(i18next, config.i18n?.resources);
+
+              siteContextI18nextSynchronizer.init(i18next, languageService);
+            })
+          );
+
+          return promise;
         })
       )
       .toPromise();
@@ -111,14 +124,21 @@ export function i18nextGetHttpClient(
     _payload: object | string,
     callback: RequestCallback
   ) => {
+    // SPIKE 5. console.log i18n json requests and responses
+    console.log(`[i18next JSON]`, url);
     httpClient.get(url, { responseType: 'text' }).subscribe(
-      (data) => callback(null, { status: 200, data }),
-      (error) =>
-        callback(error, {
+      (data) => {
+        console.warn(`[i18next JSON response]`, url);
+        return callback(null, { status: 200, data });
+      },
+      (error) => {
+        console.error(`[i18next JSON response]`, url);
+        return callback(error, {
           // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
           data: null as any,
           status: error.status,
-        })
+        });
+      }
     );
   };
 }

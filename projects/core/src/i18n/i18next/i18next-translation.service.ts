@@ -36,10 +36,21 @@ export class I18nextTranslationService implements TranslationService {
     return new Observable<string>((subscriber) => {
       const translate = () => {
         if (!this.i18next.isInitialized) {
+          // SPIKE TODO REMOVE:
+          console.warn(
+            'SPARTACUS: i18next is not initialized! but we are trying to translate'
+          );
           return;
         }
-        if (this.i18next.exists(namespacedKey, options)) {
-          subscriber.next(this.i18next.t(namespacedKey, options));
+
+        // SPIKE 6. checking if namespace is loaded before checking if translation exists
+        if (this.i18next.hasResourceBundle(this.i18next.language, chunkName)) {
+          if (this.i18next.exists(namespacedKey, options)) {
+            subscriber.next(this.i18next.t(namespacedKey, options));
+          } else {
+            this.reportMissingKey(key, chunkName);
+            subscriber.next(this.getFallbackValue(namespacedKey));
+          }
         } else {
           if (whitespaceUntilLoaded) {
             subscriber.next(this.NON_BREAKING_SPACE);
@@ -53,6 +64,23 @@ export class I18nextTranslationService implements TranslationService {
             }
           });
         }
+
+        // SPIKE VERSION:
+        // if (this.i18next.exists(namespacedKey, options)) {
+        //   subscriber.next(this.i18next.t(namespacedKey, options));
+        // } else {
+        //   if (whitespaceUntilLoaded) {
+        //     subscriber.next(this.NON_BREAKING_SPACE);
+        //   }
+        //   this.i18next.loadNamespaces(chunkName, () => {
+        //     if (!this.i18next.exists(namespacedKey, options)) {
+        //       this.reportMissingKey(key, chunkName);
+        //       subscriber.next(this.getFallbackValue(namespacedKey));
+        //     } else {
+        //       subscriber.next(this.i18next.t(namespacedKey, options));
+        //     }
+        //   });
+        // }
       };
 
       translate();
@@ -62,6 +90,8 @@ export class I18nextTranslationService implements TranslationService {
   }
 
   loadChunks(chunkNames: string | string[]): Promise<any> {
+    console.log('spike-loadChunks()');
+    return Promise.resolve(); // SPIKE TODO REMOVE
     return this.i18next.loadNamespaces(chunkNames);
   }
 
