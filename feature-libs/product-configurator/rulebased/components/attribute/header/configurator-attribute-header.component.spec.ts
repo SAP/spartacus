@@ -435,7 +435,7 @@ describe('ConfigAttributeHeaderComponent', () => {
         'cx-conflict-msg',
         0,
         'aria-label',
-        'configurator.a11y.conflictDetected'
+        ''
       );
     });
 

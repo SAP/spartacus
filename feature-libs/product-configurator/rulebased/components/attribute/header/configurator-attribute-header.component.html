@@ -18,7 +18,11 @@
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
   [attr.aria-live]="isAttributeGroup(groupType) ? 'assertive' : 'off'"
   [attr.aria-atomic]="isAttributeGroup(groupType) ? true : false"
-  [attr.aria-label]="'configurator.a11y.conflictDetected' | cxTranslate"
+  [attr.aria-label]="
+    isAttributeGroup(groupType)
+      ? ('configurator.a11y.conflictDetected' | cxTranslate)
+      : ''
+  "
 >
   <cx-icon
     *ngIf="isAttributeGroup(groupType)"

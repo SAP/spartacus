@@ -34,4 +34,8 @@ export class ConfiguratorConflictSuggestionComponent {
       ? group.attributes?.length > 1
       : false;
   }
+
+  createSuggestionUiKey(): string {
+    return 'suggestion--' + this.suggestionNumber;
+  }
 }

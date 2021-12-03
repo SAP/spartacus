@@ -149,10 +149,14 @@ export const configurator = {
       conflictsInConfiguration:
         'There are conflicts in your configuration. Number of conflicts: {{ numberOfConflicts }}, Select for more details.',
       listOfGroups: 'List of groups',
+      inListOfGroups: 'You are in the group list',
       groupName: 'Group {{ group }}',
       groupBack: 'You are in a sub-group. Select to go back.',
       conflictBack:
         'You are in the conflict solver. Select to go back or select next tabs to solve conflicts.',
+      iconConflict: 'Group has conflicts.',
+      iconIncomplete: 'Group has required attributes without selected values.',
+      iconComplete: 'Group is complete.',
     },
   },
 };
