@@ -1,3 +1,4 @@
+import * as anonymousConsents from '../../../../helpers/anonymous-consents';
 import * as loginHelper from '../../../../helpers/login';
 import { navigation } from '../../../../helpers/navigation';
 import {
@@ -20,6 +21,7 @@ describe('login notification', () => {
       },
     });
     profileTagHelper.waitForCMSComponents();
+    anonymousConsents.clickAllowAllFromBanner();
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
   });
