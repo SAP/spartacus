@@ -21,7 +21,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-review-submit',
@@ -70,22 +70,10 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
     return this.checkoutPaymentTypeFacade.isAccountPayment();
   }
 
-  /**
-   *  TODO:#checkout - since the `getCostCenterState` returns the actual cost center,
-   * there's no need to use userCostCenterService.getActiveCostCenters()?
-   */
   get costCenter$(): Observable<CostCenter | undefined> {
-    return this.userCostCenterService.getActiveCostCenters().pipe(
-      filter((costCenters) => !!costCenters),
-      switchMap((costCenters) =>
-        this.checkoutCostCenterFacade
-          .getCostCenterState()
-          .pipe(
-            map((state) =>
-              costCenters.find((cc) => cc.code === state?.data?.code)
-            )
-          )
-      )
+    return this.checkoutCostCenterFacade.getCostCenterState().pipe(
+      filter((state) => !state.loading && !state.error),
+      map((state) => state.data)
     );
   }
 

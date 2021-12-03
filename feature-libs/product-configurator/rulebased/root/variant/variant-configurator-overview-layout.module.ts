@@ -43,7 +43,7 @@ import { VariantConfiguratorPageLayoutHandler } from './variant-configurator-pag
               ],
             },
             xs: {
-              slots: ['SiteLogo', 'SearchBox', 'MiniCart'],
+              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
           slots: [

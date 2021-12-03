@@ -25,8 +25,7 @@ export interface CardWithAddress {
 })
 export class CheckoutShippingAddressComponent implements OnInit {
   addressFormOpened = false;
-  forceLoader = false; // this helps with smoother steps transition
-  selectedAddress: Address | undefined;
+  shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
   constructor(
@@ -55,15 +54,8 @@ export class CheckoutShippingAddressComponent implements OnInit {
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
-        if (
-          address &&
-          (this.selectedAddress === undefined ||
-            this.selectedAddress.id !== address.id)
-        ) {
-          this.selectedAddress = address;
-          if (this.forceLoader) {
-            this.next();
-          }
+        if (address && this.shouldRedirect) {
+          this.next();
         }
       })
     );
@@ -154,11 +146,11 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   addAddress(address: Address | undefined): void {
-    this.forceLoader = true;
     if (address) {
       this.checkoutDeliveryAddressFacade.createAndSetAddress(address);
+      this.shouldRedirect = true;
     } else {
-      this.forceLoader = false;
+      this.shouldRedirect = false;
       this.next();
     }
   }
