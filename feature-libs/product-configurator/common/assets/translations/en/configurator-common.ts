@@ -159,6 +159,17 @@ export const configurator = {
       iconComplete: 'Group is complete.',
       next: 'Navigate to next group.',
       previous: 'Navigate to previous group.',
+      showMoreProductInfo:
+        'Show more information for product {{ product }} or continue to configuration.',
+      showLessProductInfo:
+        'Show less information for product {{ product }} or continue to configuration.',
+      productName: 'Product Name',
+      productCode: 'Product Code',
+      productDescription: 'Product description',
+      configurationPage: 'You are on the configuration page.',
+      configurationPageLink: 'Navigate to configuration  page.',
+      overviewPage: 'You are on the overview page.',
+      overviewPageLink: 'Navigate to configuration overview page.',
     },
   },
 };
