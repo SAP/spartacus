@@ -22,7 +22,9 @@ export function visitProduct(productCode) {
 }
 
 export function addItemToCart(quantity) {
-  cy.get('cx-add-to-cart form div cx-item-counter input').type('{selectall}').type(quantity);
+  cy.get('cx-add-to-cart form div cx-item-counter input')
+    .type('{selectall}')
+    .type(quantity);
   cy.get('cx-add-to-cart form button').last().click();
 }
 
@@ -31,7 +33,10 @@ export function addOneToCart() {
 }
 
 export function updateQuantity(newQuantity) {
-  cy.get('cx-added-to-cart-dialog cx-item-counter input').type('{selectall}').type(newQuantity).blur();
+  cy.get('cx-added-to-cart-dialog cx-item-counter input')
+    .type('{selectall}')
+    .type(newQuantity)
+    .blur();
 }
 
 export function verifyExpectedTotal() {
@@ -45,28 +50,29 @@ export function verifyExpectedTotal() {
   ).as(expectedTotalAlias);
 
   let totalPrice: string;
-      cy.wait('@totalAlias').then((xhr) => {
-        totalPrice = xhr.response.body.entry.totalPrice.value;
-        cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(totalPrice);
-
+  cy.wait('@totalAlias').then((xhr) => {
+    totalPrice = xhr.response.body.entry.totalPrice.value;
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(totalPrice);
   });
 }
 
 export function verifyUpdatedTotal() {
   const newTotalAlias = 'newTotalAlias';
 
-    cy.intercept(
-      'PATCH',
-      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-        'BASE_SITE'
-      )}/users/*/carts/*/entries/0?lang=en&curr=USD`
-    ).as(newTotalAlias);
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/entries/0?lang=en&curr=USD`
+  ).as(newTotalAlias);
 
-    let newTotalPrice: string;
-        cy.wait('@newTotalAlias').then((xhr) => {
-          newTotalPrice = xhr.response.body.entry.totalPrice.value;
-          cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(newTotalPrice);
-    });
+  let newTotalPrice: string;
+  cy.wait('@newTotalAlias').then((xhr) => {
+    newTotalPrice = xhr.response.body.entry.totalPrice.value;
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(
+      newTotalPrice
+    );
+  });
 }
 
 export function loginB2bUser() {
@@ -74,7 +80,8 @@ export function loginB2bUser() {
 }
 
 export function placeOrder() {
-  const checkoutSelector = 'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary';
+  const checkoutSelector =
+    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary';
   cy.get(checkoutSelector).click();
   cy.get('cx-payment-type').contains(' Account ');
   cy.get('cx-payment-type').within(() => {
@@ -95,4 +102,3 @@ export function placeOrder() {
   cy.get('input[formcontrolname="termsAndConditions"]').check();
   cy.get('cx-place-order button.btn-primary').click();
 }
-

@@ -46,7 +46,6 @@ describe('B2B - Bulk Pricing', () => {
 
         b2bBulkPricing.updateQuantity(sampleData.QUANTITY_FOR_NO_DISCOUNT);
         b2bBulkPricing.verifyUpdatedTotal();
-
       });
 
       it('should verify increasing the quantity also increases the discount', () => {
