@@ -46,17 +46,7 @@
         }
       }
 
-      cx-schedule-replenishment-order {
-        @include media-breakpoint-down(md) {
-          width: 50%;
-        }
-        @include media-breakpoint-down(sm) {
-          width: 100%;
-        }
-      }
-
-      cx-place-order,
-      cx-schedule-replenishment-order {
+      cx-place-order {
         flex: unset;
         padding-top: 1rem;
         padding-inline-start: 2.5rem;
