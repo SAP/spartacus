@@ -174,8 +174,6 @@ export class CmsFeaturesService {
 
     // extract cms components configuration from feature config
     for (const componentType of featureConfig.cmsComponents ?? []) {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-
       /**
        * update same cms component mapping's configuration found
        * across all feature instance if the configuration exist
@@ -188,6 +186,7 @@ export class CmsFeaturesService {
         );
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       featureInstance.componentsMappings![componentType] =
         this.componentExistingConfigurationMap.get(componentType);
     }
