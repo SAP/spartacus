@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {
+  GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -21,7 +23,8 @@ export class PaymentMethodsComponent implements OnInit {
 
   constructor(
     private userPaymentService: UserPaymentService,
-    private translation: TranslationService
+    private translation: TranslationService,
+    protected globalMessageService?: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -103,6 +106,10 @@ export class PaymentMethodsComponent implements OnInit {
 
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
+    this.globalMessageService?.add(
+      { key: 'messages.setAsDefaultSucessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   getCardIcon(code: string): string {
