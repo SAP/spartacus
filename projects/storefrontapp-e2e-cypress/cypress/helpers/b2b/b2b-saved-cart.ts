@@ -193,11 +193,13 @@ export function waitForCartPageData(product: SampleProduct) {
     });
 }
 
-export function waitForSavedCartListingPageData(product: SampleProduct) {
+export function waitForSavedCartListingPageData(products: SampleProduct[]) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
     .then(({ token }) => {
-      cy.requireSavedCart(token, product);
+      products.forEach((product) => {
+        cy.requireSavedCart(token, product);
+      });
     });
 }
 
@@ -211,7 +213,7 @@ export function waitForSavedCartDetailsPageData(product: SampleProduct) {
     });
 }
 
-export function saveActiveCart() {
+export function saveActiveCart(manually: boolean = false) {
   clickSavedCartButtonsFromCartPage(1);
 
   cy.window()
@@ -246,7 +248,9 @@ export function saveActiveCart() {
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 
       // assert the cart was saved in the listing page
-      verifyActiveCartWasSaved(active);
+      if (!manually) {
+        verifyActiveCartWasSaved(active);
+      }
     });
 }
 
@@ -294,12 +298,50 @@ export function verifyMiniCartQuantity(quantity: number) {
   cy.get('cx-mini-cart .count').should('contain', quantity);
 }
 
+export function verifySavedCartListQuantity(quantity: number) {
+  cy.get('cx-saved-cart-list')
+    .find('.cx-saved-cart-list-table tr')
+    .should('have.length', quantity);
+}
+
+export function openFirstElementOnTheList() {
+  cy.get('cx-saved-cart-list .cx-saved-cart-list-table tr')
+    .first()
+    .find('.cx-saved-cart-list-cart-id')
+    .click();
+}
+
+export function removeFirstProductFromSavedCart() {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .first()
+    .find('cx-cart-item .cx-remove-btn button')
+    .click();
+}
+
+export function reduceFirstProductQuantityFromSaveCart() {
+  cy.get('cx-cart-item-list .cx-item-list-row')
+    .first()
+    .find('cx-cart-item cx-item-counter input')
+    .type('{selectall}{backspace}')
+    .type(`2`)
+    .blur();
+}
+
 export function verifyCartDetails(cart: any) {
   cy.get('cx-cart-item-list')
     .contains('cx-cart-item', cart.entries[0].product.code)
     .within(() => {
       cy.get('.cx-name').should('contain', cart.entries[0].product.name);
     });
+}
+
+export function manuallyRestoryCartFromDetailsPage() {
+  cy.get('cx-saved-cart-details-action .restore-button').click();
+  cy.get(
+    'cx-saved-cart-form-dialog .cx-saved-cart-form-footer .btn-primary'
+  ).click();
+
+  verifyMiniCartQuantity(1);
 }
 
 export function restoreCart(
