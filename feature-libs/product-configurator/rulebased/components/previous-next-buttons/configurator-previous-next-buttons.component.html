@@ -4,6 +4,7 @@
       class="cx-btn btn btn-action"
       [disabled]="isFirstGroup(configuration.owner) | async"
       (click)="onPrevious(configuration)"
+      [attr.aria-label]="'configurator.a11y.previous' | cxTranslate"
     >
       {{ 'configurator.button.previous' | cxTranslate }}
     </button>
@@ -11,6 +12,7 @@
       class="cx-btn btn btn-secondary"
       [disabled]="isLastGroup(configuration.owner) | async"
       (click)="onNext(configuration)"
+      [attr.aria-label]="'configurator.a11y.next' | cxTranslate"
     >
       {{ 'configurator.button.next' | cxTranslate }}
     </button>
