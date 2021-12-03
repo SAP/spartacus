@@ -69,23 +69,6 @@ export function verifyUpdatedTotal() {
     });
 }
 
-export function verifyTotal() {
-  const totalAlias = 'totalAlias';
-
-  cy.intercept(
-    'POST',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/orgUsers/*/orders?*`
-  ).as(totalAlias);
-  
-  let total: string;
-  cy.wait('@totalAlias').then((xhr) => {
-      total = xhr.response.body.totalPrice.formattedValue; 
-      cy.get('cx-summary-total .cx-summary-amount').contains(total);
-  });
-}
-
 export function loginB2bUser() {
   login();
 }
