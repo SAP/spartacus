@@ -1,4 +1,4 @@
-import { PageEvent } from '../page/page.events';
+import { PageEvent } from '@spartacus/storefront';
 
 /**
  * Indicates that a user visited a cart page.

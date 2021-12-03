@@ -7,12 +7,18 @@ import { SaveCartConnector } from './connectors/save-cart/save-cart.connecter';
 import { CartValidationConnector } from './connectors/validation/cart-validation.connector';
 import { CartVoucherConnector } from './connectors/voucher/cart-voucher.connector';
 import { CartEventModule } from './event/cart-event.module';
+import { CartPageEventModule } from './event/cart-page-event.module';
 import { facadeProviders } from './facade/facade-providers';
 import { BadCartRequestHandler } from './http-interceptors/handlers/bad-cart-request.handler';
 import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
 @NgModule({
-  imports: [MultiCartStoreModule, CartEventModule, CartPersistenceModule],
+  imports: [
+    MultiCartStoreModule,
+    CartEventModule,
+    CartPersistenceModule,
+    CartPageEventModule,
+  ],
   providers: [
     CartConnector,
     CartEntryConnector,
