@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import {
+  AuthService,
   BASE_SITE_CONTEXT_ID,
   EventService,
   SiteContextParamsService,
   StatePersistenceService,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { combineLatest, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -24,6 +25,7 @@ import { ActiveCartFacade } from '../../facade/active-cart.facade';
 export class MiniCartComponentService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
+    protected authService: AuthService,
     protected config: CartConfig,
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
@@ -37,10 +39,12 @@ export class MiniCartComponentService {
 
     // Without a cart, we can return a default value and
     // avoid loading the cart library code.
-
-    return this.browserHasCartInStorage().pipe(
-      switchMap((hasCart) => {
-        if (hasCart) {
+    return combineLatest([
+      this.browserHasCartInStorage(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      switchMap(([hasCart, isUserLoggedIn]) => {
+        if (hasCart || isUserLoggedIn) {
           return this.activeCartFacade.getActive().pipe(
             startWith({ deliveryItemsQuantity: 0 }),
             map((cart) => cart.deliveryItemsQuantity || 0)
@@ -60,9 +64,12 @@ export class MiniCartComponentService {
     // Without a cart, we can return a default value and
     // avoid loading the cart library code.
 
-    return this.browserHasCartInStorage().pipe(
-      switchMap((hasCart) => {
-        if (hasCart) {
+    return combineLatest([
+      this.browserHasCartInStorage(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      switchMap(([hasCart, isUserLoggedIn]) => {
+        if (hasCart || isUserLoggedIn) {
           return this.activeCartFacade.getActive().pipe(
             filter((cart) => !!cart.totalPrice),
             map((cart) => cart.totalPrice?.formattedValue ?? '')
