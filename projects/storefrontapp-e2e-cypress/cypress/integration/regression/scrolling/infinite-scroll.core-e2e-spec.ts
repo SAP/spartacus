@@ -1,72 +1,21 @@
-import {
-    backtoTopIsNotVisible,
-    backToTopIsVisible,
-    configScroll,
-    isPaginationNotVisible,
-    scrollToFooter,
-    verifyFilterResetsList,
-    verifyGridResetsList,
-    verifySortingResetsList,
-  } from '../../../helpers/infinite-scroll';
-  import { searchUrlPrefix } from '../../../helpers/product-search';
-  
-  describe('Infinite scroll', () => {
-    const testUrl = '/Open-Catalogue/Components/Power-Supplies/c/816';
-    const defaultQuery = `query_relevance`;
-    const defaultQueryAlias = `@${defaultQuery}`;
-  
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-    });
-  
-    beforeEach(() => {
-      cy.intercept({
-        method: 'GET',
-        query: {
-          fields: '*',
-          query: ':relevance:allCategories:816',
-        },
-        pathname: searchUrlPrefix,
-      }).as(defaultQuery);
-    });
-  
-    it("should enable Infinite scroll and NOT display 'Show more' button", () => {
-      configScroll(true, 0, false);
-      cy.visit(testUrl);
-  
-      cy.intercept({
-        method: 'GET',
-        pathname: searchUrlPrefix,
-        query: {
-          fields: '*',
-          query: ':topRated:allCategories:816:brand:brand_5',
-        },
-      }).as('gridQuery');
-  
-      cy.intercept({
-        method: 'GET',
-        pathname: searchUrlPrefix,
-        query: {
-          query: ':relevance:allCategories:816',
-          sort: 'topRated',
-          fields: '*',
-        },
-      }).as('sortQuery');
-  
-      cy.wait(defaultQueryAlias).then((waitXHR) => {
-        const totalResults = waitXHR.response.body.pagination.totalResults;
-        isPaginationNotVisible();
-  
-        backtoTopIsNotVisible();
-        scrollToFooter(totalResults);
-        backToTopIsVisible();
-  
-        verifySortingResetsList();
-  
-        verifyFilterResetsList();
-  
-        verifyGridResetsList();
-      });
-    });
+import { searchUrlPrefix } from '../../../helpers/product-search';
+import * as infiniteScroll from '../../../helpers/infinite-scroll';
+
+describe('Infinite scroll', () => {
+  before(() => {
+    cy.window().then((win) => win.sessionStorage.clear());
   });
-  
+
+  beforeEach(() => {
+    cy.intercept({
+      method: 'GET',
+      query: {
+        fields: '*',
+        query: ':relevance:allCategories:816',
+      },
+      pathname: searchUrlPrefix,
+    }).as(infiniteScroll.defaultQuery);
+  });
+
+  infiniteScroll.testInfiniteScrollAvoidDisplayShowMoreButton();
+});

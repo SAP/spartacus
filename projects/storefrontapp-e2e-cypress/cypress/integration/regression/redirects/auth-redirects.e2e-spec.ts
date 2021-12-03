@@ -30,6 +30,7 @@ context('Redirect after auth', () => {
     cy.visit(`/my-account/address-book`);
 
     cy.location('pathname').should('contain', '/login');
+    cy.log(user);
     authForms.login(
       user.registrationData.email,
       user.registrationData.password
