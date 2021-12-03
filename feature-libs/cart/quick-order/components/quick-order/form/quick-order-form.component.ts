@@ -35,9 +35,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
 
   constructor(
     protected quickOrderService: QuickOrderFacade,
-    public config?: Config, // TODO(#14058): Make it required
-    protected cd?: ChangeDetectorRef, // TODO(#14058): Make it required
-    protected winRef?: WindowRef // TODO(#14058): Make it required
+    public config: Config,
+    protected cd: ChangeDetectorRef,
+    protected winRef: WindowRef
   ) {}
 
   ngOnInit(): void {
