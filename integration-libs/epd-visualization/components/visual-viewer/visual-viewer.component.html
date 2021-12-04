@@ -94,11 +94,12 @@
           ></cx-visual-viewer-toolbar-button>
         </div>
 
-        <cx-visual-viewer-animation-slider
-          [hidden]="is2D || animationTotalDuration <= 0"
-          [disabled]="isolateModeEnabled"
-          [(value)]="animationPosition"
-        ></cx-visual-viewer-animation-slider>
+        <div [hidden]="is2D || animationTotalDuration <= 0">
+          <cx-visual-viewer-animation-slider
+            [disabled]="isolateModeEnabled"
+            [(value)]="animationPosition"
+          ></cx-visual-viewer-animation-slider>
+        </div>
       </div>
     </div>
   </div>
