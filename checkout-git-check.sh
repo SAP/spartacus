@@ -11,8 +11,6 @@
 
 # feature-libs/checkout/components/components/checkout-login/checkout-login.component.html
 # feature-libs/checkout/components/order-confirmation/components/guest-register-form/guest-register-form.component.html
-# feature-libs/checkout/components/components/checkout-login/checkout-login.component.html
-# feature-libs/checkout/components/order-confirmation/components/guest-register-form/guest-register-form.component.html
 # feature-libs/checkout/components/services/checkout-details.service.spec.ts
 # feature-libs/checkout/components/services/checkout-details.service.ts
 # feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.component.ts
