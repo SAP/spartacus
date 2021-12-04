@@ -13,11 +13,23 @@
     "allowUmdGlobalAccess": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "allowJs": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/epd-visualization/components": [
+        "integration-libs/epd-visualization/components/public_api"
+      ],
+      "@spartacus/epd-visualization/assets": [
+        "integration-libs/epd-visualization/assets/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "integration-libs/epd-visualization/root/public_api"
+      ],
+      "@spartacus/epd-visualization": [
+        "integration-libs/epd-visualization/public_api"
+      ],
+      "@spartacus/schematics": ["projects/schematics/index"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
