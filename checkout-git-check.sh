@@ -8,19 +8,6 @@
 # 4. switch back to the working branch, and carry over the changes from the listed files
 # =========================================================
 
-
-# feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.component.ts
-# feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.component.ts
-# feature-libs/checkout/components/components/checkout-progress/checkout-progress.component.ts
-# feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.ts
-# feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.ts
-# feature-libs/checkout/components/components/payment-type/payment-type.component.ts
-# feature-libs/checkout/components/components/place-order/place-order.component.spec.ts
-# feature-libs/checkout/components/components/schedule-replenishment-order/schedule-replenishment-order.component.ts
-# feature-libs/checkout/components/guards/checkout.guard.ts
-# feature-libs/checkout/components/order-confirmation/components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component.ts
-# feature-libs/checkout/components/services/checkout-replenishment-form-service.ts
-# feature-libs/checkout/components/services/express-checkout.service.ts
 # feature-libs/checkout/components/components/place-order/place-order.component.ts
 # feature-libs/checkout/core/store/effects/checkout.effect.spec.ts
 # feature-libs/checkout/core/store/effects/checkout.effect.ts
