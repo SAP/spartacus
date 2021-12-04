@@ -3,7 +3,6 @@ import { Observable, of } from 'rxjs';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
 import { getTestConfig } from '../../config/epd-visualization-test-config';
 import {
-  NodeContentType,
   MetadatumValueType,
   NodesResponse,
   StorageApiService,
@@ -36,7 +35,6 @@ const nodesResponseOneProductCodePerSceneNode: NodesResponse = {
   nodes: [
     {
       sid: 'sceneNode1',
-      contentType: NodeContentType.GEOMETRY,
       metadata: [
         {
           source: 'CommerceCloud',
@@ -49,7 +47,6 @@ const nodesResponseOneProductCodePerSceneNode: NodesResponse = {
     },
     {
       sid: 'sceneNode2',
-      contentType: NodeContentType.UNKNOWN,
       metadata: [
         {
           source: 'CommerceCloud',
@@ -62,7 +59,6 @@ const nodesResponseOneProductCodePerSceneNode: NodesResponse = {
     },
     {
       sid: 'sceneNode3',
-      contentType: NodeContentType.UNKNOWN,
       metadata: [
         {
           source: 'CommerceCloud',
@@ -80,7 +76,6 @@ const nodesResponseMultipleProductCodesPerSceneNode: NodesResponse = {
   nodes: [
     {
       sid: 'sceneNode1',
-      contentType: NodeContentType.GEOMETRY,
       metadata: [
         {
           source: 'CommerceCloud',
@@ -93,7 +88,6 @@ const nodesResponseMultipleProductCodesPerSceneNode: NodesResponse = {
     },
     {
       sid: 'sceneNode2',
-      contentType: NodeContentType.UNKNOWN,
       metadata: [
         {
           source: 'CommerceCloud',
@@ -106,7 +100,6 @@ const nodesResponseMultipleProductCodesPerSceneNode: NodesResponse = {
     },
     {
       sid: 'sceneNode3',
-      contentType: NodeContentType.UNKNOWN,
       metadata: [
         {
           source: 'CommerceCloud',
