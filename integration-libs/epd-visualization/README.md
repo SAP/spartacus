@@ -3,14 +3,17 @@
 This library provides capabilities for viewing 2D and 3D content served from the SAP Enterprise Product Development Visualization services:
 <https://www.sap.com/sea/products/enterprise-product-development.html>.
 
-It can be added to the existing Spartacus application by running `ng add @spartacus/schematics` and including the `EPD Visualization Integration` module. For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://sap.github.io/spartacus-docs/schematics/).
+To add sample data for this integration library, please update your SAP Commerce Cloud installation to include the `epdvisualizationspartacussampledata` extension which can be found here:
+<https://github.tools.sap/cx-commerce/epdvisualizationspartacussampledata>
 
-To run a local storefront containing the components provided by this integration library, run the following in
-the root directory of the repository (in OSX, linux or WSL):
+This integration library can be added to the existing Spartacus application by running `ng add @spartacus/schematics@latest` and including the `EPD Visualization Integration` module.
 
-`SPA_ENV=b2b,epd-visualization yarn start`
+Use the following to use the sample data created the `epdvisualizationspartacussampledata` extension:
+`ng add @spartacus/schematics@latest --baseSite=powertools-epdvisualization-spa`
 
-A product with configured spare part product references and corresponding 3D visualization data can be found by opening
-the following URL in a web browser:
+For more information about Spartacus schematics, visit the [official Spartacus schematics documentation page](https://sap.github.io/spartacus-docs/schematics/).
 
-<http://localhost:4200/powertools-spa/en/USD/product/EVO-3-MIXER-DEMO/EvoMixer>
+The `epdvisualizationspartacussampledata` extension creates the following products in the `powertools-epdvisualization-spa` site which have spare part product references that can be linked to corresponding visualization data:
+
+- VSS_CX704
+- VSS_CX704_2D

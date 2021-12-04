@@ -7,6 +7,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:open:b2b": "cypress open --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
+    "cy:open:epd-visualization": "cypress open --env BASE_SITE=powertools-epdvisualization-spa",
     "cy:run": "cypress run",
     "cy:run:b2b": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b|ssr)/**/*.e2e-spec.ts\"",

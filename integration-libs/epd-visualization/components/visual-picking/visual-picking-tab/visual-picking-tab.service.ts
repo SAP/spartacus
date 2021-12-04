@@ -68,6 +68,9 @@ export class VisualPickingTabService {
   }
   private setProductReferences(value: ProductReference[]) {
     this._productReferences = value;
+
+    // hideNoProductReferencesText, hideProductList, hideViewport values may have changed
+    this.changeDetectorRef.markForCheck();
   }
 
   private get visualizationLoadStatus(): VisualizationLoadStatus {

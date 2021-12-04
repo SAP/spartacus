@@ -2,12 +2,6 @@ describe('in Spare Parts Tab', () => {
   context('visualization lookup scenarios', () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.cxConfig({
-        context: {
-          baseSite: ['powertools-spa'],
-          currency: ['USD'],
-        },
-      });
     });
 
     beforeEach(() => {
