@@ -58,6 +58,7 @@ export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
 export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
 export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 export const SPARTACUS_ORDER = '@spartacus/order';
+export const SPARTACUS_ORDER_ROOT = '@spartacus/order/root';
 
 export const NGRX_STORE = '@ngrx/store';
 export const NGRX_EFFECTS = '@ngrx/effects';
@@ -490,6 +491,12 @@ export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
 export const CONFIGURATOR_FORM_COMPONENT = 'ConfiguratorFormComponent';
 export const CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT =
   'ConfiguratorOverviewAttributeComponent';
+export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT =
+  'ConfiguratorAddToCartButtonComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
+  'ConfiguratorCartEntryBundleInfoComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
+  'ConfiguratorCartEntryBundleInfoService';
 export const DIRECTION_SERVICE = 'DirectionService';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
@@ -520,6 +527,9 @@ export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
+
+export const REFRESH_IN_PROGRESS = 'refreshInProgress';
+export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
 
 /***** Classes end *****/
 
@@ -720,6 +730,7 @@ export const ON_SUCCESS = 'onSuccess';
 
 export const CHECKOUT_ACTIONS = 'CheckoutActions';
 export const PLACE_ORDER_CLASS = 'PlaceOrder';
+export const ORDER_FACADE = 'OrderFacade';
 export const CHECKOUT_STEP_SERVICE = 'CheckoutStepService';
 export const USER_COST_CENTER_SERVICE = 'UserCostCenterService';
 export const CHECKOUT_COST_CENTER_SERVICE = 'CheckoutCostCenterService';
@@ -1066,6 +1077,8 @@ export const CSS_V3_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-3/';
 export const CSS_V4_DOCS_URL =
   'https://sap.github.io/spartacus-docs/css-changes-in-version-4/';
+export const CSS_V5_DOCS_URL =
+  'https://sap.github.io/spartacus-docs/css-changes-in-version-5/';
 /***** Storefinder end *****/
 
 /******* CLI start *******/
