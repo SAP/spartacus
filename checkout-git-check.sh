@@ -8,13 +8,6 @@
 # 4. switch back to the working branch, and carry over the changes from the listed files
 # =========================================================
 
-# feature-libs/checkout/root/checkout-root.module.ts
-# feature-libs/checkout/root/index.ts
-# feature-libs/checkout/root/pages/index.ts
-# feature-libs/checkout/root/pages/order-confirmation-order-entries-context.spec.ts
-# feature-libs/checkout/root/pages/order-confirmation-order-entries-context.ts
-
-
 # =========================================================
 # Display branch to be sure we're in the right place
 # =========================================================
