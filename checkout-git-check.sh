@@ -11,8 +11,6 @@
 
 
 
-# feature-libs/checkout/components/services/checkout-details.service.spec.ts
-# feature-libs/checkout/components/services/checkout-details.service.ts
 # feature-libs/checkout/components/services/express-checkout.service.ts
 # feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.html
 # feature-libs/checkout/components/components/index.ts
