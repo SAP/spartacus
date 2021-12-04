@@ -11,7 +11,6 @@
 
 
 
-# feature-libs/checkout/components/order-confirmation/components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component.html
 # feature-libs/checkout/components/services/checkout-details.service.spec.ts
 # feature-libs/checkout/components/services/checkout-details.service.ts
 # feature-libs/checkout/components/services/express-checkout.service.ts
@@ -37,6 +36,7 @@
 # feature-libs/checkout/components/components/place-order/place-order.component.spec.ts
 # feature-libs/checkout/components/components/schedule-replenishment-order/schedule-replenishment-order.component.ts
 # feature-libs/checkout/components/guards/checkout.guard.ts
+# feature-libs/checkout/components/order-confirmation/components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component.ts
 # feature-libs/checkout/components/services/checkout-replenishment-form-service.ts
 # feature-libs/checkout/components/services/express-checkout.service.ts
 # feature-libs/checkout/components/components/place-order/place-order.component.ts
