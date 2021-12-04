@@ -13,11 +13,10 @@
     "allowUmdGlobalAccess": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "allowJs": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
