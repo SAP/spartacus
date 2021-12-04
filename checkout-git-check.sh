@@ -9,9 +9,6 @@
 # =========================================================
 
 
-
-
-# feature-libs/checkout/components/services/express-checkout.service.ts
 # feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.html
 # feature-libs/checkout/components/components/index.ts
 # feature-libs/checkout/components/components/cost-center/cost-center.module.ts
@@ -41,9 +38,7 @@
 # feature-libs/checkout/core/store/effects/checkout.effect.spec.ts
 # feature-libs/checkout/core/store/effects/checkout.effect.ts
 # feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
-# feature-libs/checkout/core/facade/checkout-delivery.service.ts
 # feature-libs/checkout/core/facade/checkout-payment.service.spec.ts
-# feature-libs/checkout/core/facade/checkout-payment.service.ts
 # feature-libs/checkout/core/connectors/checkout/checkout.connector.spec.ts
 # feature-libs/checkout/core/connectors/replenishment-order/checkout-replenishment-order.connector.spec.ts
 # feature-libs/checkout/core/services/checkout-page-meta.resolver.ts
