@@ -9,16 +9,13 @@
 # =========================================================
 
 
-# feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.html
 # feature-libs/checkout/components/components/index.ts
 # feature-libs/checkout/components/components/cost-center/cost-center.module.ts
 # feature-libs/checkout/components/components/payment-type/payment-type.module.ts
 # feature-libs/checkout/components/components/shipping-address/shipping-address.module.ts
 # feature-libs/checkout/components/components/checkout-login/checkout-login.component.html
-# feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.html
 # feature-libs/checkout/components/order-confirmation/components/guest-register-form/guest-register-form.component.html
 # feature-libs/checkout/components/components/checkout-login/checkout-login.component.html
-# feature-libs/checkout/components/components/payment-method/payment-form/payment-form.component.html
 # feature-libs/checkout/components/order-confirmation/components/guest-register-form/guest-register-form.component.html
 # feature-libs/checkout/components/services/checkout-details.service.spec.ts
 # feature-libs/checkout/components/services/checkout-details.service.ts
