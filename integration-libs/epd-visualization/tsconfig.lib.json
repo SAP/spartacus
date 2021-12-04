@@ -13,7 +13,6 @@
     "allowUmdGlobalAccess": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "allowJs": true,
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
