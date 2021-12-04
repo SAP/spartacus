@@ -27,13 +27,9 @@
 7. Styles - create styles per entry point
 8. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
    1. Is the cart validation properly applied in the new checkout?
-   2. https://github.com/SAP/spartacus/issues/14386
-   3. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200)
+   2. Jerry's https://github.com/SAP/spartacus/issues/14386
+   3. cart lib - order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200)
    4. sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
-   5. Benjamin's global messages: https://github.com/SAP/spartacus/pull/14060
-   6. Jerry's https://github.com/SAP/spartacus/pull/14401/files
-   7.  Monitor develop using Patrick's script: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638291772009300. 
-   8.  ...
 9.  Carry over changes from develop
     1.  session management bug https://github.com/SAP/spartacus/pull/14052/files (take a look at the ticket).
         1.  Test this on the current epic. If the issue is present, carry over the changes (somehow)
@@ -46,6 +42,7 @@
             1.  feature-libs/checkout/components/services/express-checkout.service.ts
             2.  feature-libs/checkout/core/facade/checkout-delivery.service.ts (now feature-libs/checkout/base/core/facade/checkout-delivery-modes.service.ts)
             3.  feature-libs/checkout/core/facade/checkout-payment.service.ts
+    3.  import / export - test it
 10. Is the checkout properly using the new cart lib?
     1. CORE
       - ActiveCartService - we added a method. Move it to the cart lib.
@@ -67,14 +64,14 @@
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
 13. Check other features which are using the old checkout:
-   9.  Digital Payments
-   10. CDS
-   11. Anything else? Some internal features?
+   5.  Digital Payments
+   6.  CDS
+   7.  Anything else? Some internal features?
 14. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
 15. align the event names - prefix them with Checkout?
 16. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
 17. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
-   12. Rename the checkout components' selectors to have the checkout prefix?
+   8.  Rename the checkout components' selectors to have the checkout prefix?
 18. query debounce - `feature/query-debounce`
 19. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 
