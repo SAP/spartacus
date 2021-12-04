@@ -1,7 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, OnDestroy } from '@angular/core';
 import { i18n, InitOptions } from 'i18next';
-import i18nextHttpBackend from 'i18next-http-backend';
+import i18nextHttpBackend, {
+  BackendOptions,
+  RequestCallback,
+} from 'i18next-http-backend';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../../config/config-initializer/config-initializer.service';
@@ -23,22 +26,22 @@ export function i18nextInit(
         tap((config) => {
           let i18nextConfig: InitOptions = {
             ns: [], // don't preload any namespaces
-            fallbackLng: config.i18n.fallbackLang,
-            debug: config.i18n.debug,
+            fallbackLng: config.i18n?.fallbackLang,
+            debug: config.i18n?.debug,
             interpolation: {
               escapeValue: false,
             },
           };
 
-          if (config.i18n.backend) {
-            i18next.use(i18nextHttpBackend);
+          if (config.i18n?.backend?.loadPath) {
+            i18next = i18next.use(i18nextHttpBackend);
             const loadPath = getLoadPath(
               config.i18n.backend.loadPath,
               serverRequestOrigin
             );
-            const backend = {
+            const backend: BackendOptions = {
               loadPath,
-              ajax: i18nextGetHttpClient(httpClient),
+              request: i18nextGetHttpClient(httpClient),
             };
             i18nextConfig = { ...i18nextConfig, backend };
           }
@@ -46,7 +49,7 @@ export function i18nextInit(
           return i18next.init(i18nextConfig, () => {
             // Don't use i18next's 'resources' config key for adding static translations,
             // because it will disable loading chunks from backend. We add resources here, in the init's callback.
-            i18nextAddTranslations(i18next, config.i18n.resources);
+            i18nextAddTranslations(i18next, config.i18n?.resources);
             siteContextI18nextSynchronizer.init(i18next, languageService);
           });
         })
@@ -57,7 +60,7 @@ export function i18nextInit(
 export function i18nextAddTranslations(
   i18next: i18n,
   resources: TranslationResources = {}
-) {
+): void {
   Object.keys(resources).forEach((lang) => {
     Object.keys(resources[lang]).forEach((chunkName) => {
       i18next.addResourceBundle(
@@ -96,11 +99,26 @@ export class SiteContextI18nextSynchronizer implements OnDestroy {
  */
 export function i18nextGetHttpClient(
   httpClient: HttpClient
-): (url: string, options: object, callback: Function, data: object) => void {
-  return (url: string, _options: object, callback: Function, _data: object) => {
+): (
+  options: BackendOptions,
+  url: string,
+  payload: object | string,
+  callback: RequestCallback
+) => void {
+  return (
+    _options: BackendOptions,
+    url: string,
+    _payload: object | string,
+    callback: RequestCallback
+  ) => {
     httpClient.get(url, { responseType: 'text' }).subscribe(
-      (data) => callback(data, { status: 200 }),
-      (error) => callback(null, { status: error.status })
+      (data) => callback(null, { status: 200, data }),
+      (error) =>
+        callback(error, {
+          // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
+          data: null as any,
+          status: error.status,
+        })
     );
   };
 }
@@ -112,9 +130,6 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/universal/issues/858
  */
 export function getLoadPath(path: string, serverRequestOrigin: string): string {
-  if (!path) {
-    return undefined;
-  }
   if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
     if (path.startsWith('/')) {
       path = path.slice(1);
