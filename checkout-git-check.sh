@@ -13,8 +13,6 @@
 # feature-libs/checkout/root/pages/index.ts
 # feature-libs/checkout/root/pages/order-confirmation-order-entries-context.spec.ts
 # feature-libs/checkout/root/pages/order-confirmation-order-entries-context.ts
-# feature-libs/checkout/styles/components/_promotions.scss
-# feature-libs/checkout/styles/components/steps/review/_review-submit.scss
 
 
 # =========================================================
