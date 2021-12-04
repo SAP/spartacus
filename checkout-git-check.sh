@@ -9,7 +9,6 @@
 # =========================================================
 
 
-# feature-libs/checkout/components/components/index.ts
 # feature-libs/checkout/components/components/cost-center/cost-center.module.ts
 # feature-libs/checkout/components/components/payment-type/payment-type.module.ts
 # feature-libs/checkout/components/components/shipping-address/shipping-address.module.ts
