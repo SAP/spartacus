@@ -8,18 +8,6 @@
 # 4. switch back to the working branch, and carry over the changes from the listed files
 # =========================================================
 
-# feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
-# feature-libs/checkout/core/facade/checkout-payment.service.spec.ts
-# feature-libs/checkout/core/connectors/checkout/checkout.connector.spec.ts
-# feature-libs/checkout/core/connectors/replenishment-order/checkout-replenishment-order.connector.spec.ts
-# feature-libs/checkout/core/services/checkout-page-meta.resolver.ts
-# feature-libs/checkout/core/store/reducers/checkout.reducer.spec.ts
-# feature-libs/checkout/core/store/reducers/index.ts
-# feature-libs/checkout/core/store/selectors/card-types.selectors.ts
-# feature-libs/checkout/core/store/selectors/checkout.selectors.ts
-# feature-libs/checkout/occ/adapters/converters/occ-replenishment-order-form-serializer.ts
-# feature-libs/checkout/occ/adapters/occ-checkout-payment.adapter.ts
-# feature-libs/checkout/occ/adapters/occ-checkout-replenishment-order.adapter.ts
 # feature-libs/checkout/root/checkout-root.module.ts
 # feature-libs/checkout/root/index.ts
 # feature-libs/checkout/root/pages/index.ts
