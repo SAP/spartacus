@@ -8,7 +8,6 @@
 # 4. switch back to the working branch, and carry over the changes from the listed files
 # =========================================================
 
-# feature-libs/checkout/components/components/place-order/place-order.component.ts
 # feature-libs/checkout/core/store/effects/checkout.effect.spec.ts
 # feature-libs/checkout/core/store/effects/checkout.effect.ts
 # feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
