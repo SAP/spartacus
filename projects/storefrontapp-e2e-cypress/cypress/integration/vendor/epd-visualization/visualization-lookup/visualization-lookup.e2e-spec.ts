@@ -22,7 +22,7 @@ describe('in Spare Parts Tab', () => {
           },
         }).as('lookupVisualization');
 
-        cy.visit('/product/visual1-contenttype-navigation/visual1-nav');
+        cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
         cy.wait(`@productPage`);
         cy.get('cx-tab-paragraph-container > button')
           .contains('Spare Parts')
@@ -46,7 +46,7 @@ describe('in Spare Parts Tab', () => {
           },
         }).as('lookupVisualization');
 
-        cy.visit('/product/skateboard-model-A/skateboard-a');
+        cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
         cy.wait(`@productPage`);
         cy.get('cx-tab-paragraph-container > button')
           .contains('Spare Parts')
@@ -73,7 +73,7 @@ describe('in Spare Parts Tab', () => {
           }
         ).as('getProductReferences');
 
-        cy.visit('/product/skateboard-model-A/skateboard-a');
+        cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
         cy.wait(`@productPage`);
         cy.wait(`@getProductReferences`);
         cy.get('cx-tab-paragraph-container > button')

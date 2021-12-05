@@ -11,11 +11,12 @@ export function configureDefaultProduct() {
     )}/cms/pages?pageType=ProductPage**`
   ).as('productPage');
 
-  cy.visit('/product/EVO-3-MIXER-DEMO/EvoMixer');
+  cy.visit('/product/CX704/7%E2%80%9Dx12%E2%80%9D-mini-metal-lathe');
   cy.wait(`@productPage`);
 
   cy.get('cx-breadcrumb').should('contain', 'Home');
-  cy.get('cx-breadcrumb').should('contain', 'Industrial Equipment');
+  cy.get('cx-breadcrumb').should('contain', 'Lathes');
+  cy.get('cx-breadcrumb').should('contain', 'Craftex');
 
   cy.get('cx-visual-picking-tab');
 }
@@ -113,6 +114,18 @@ export function verifyTabbingOrder() {
           }
         });
     });
+
+  cy.pressTab();
+  cy.focused()
+    .should('have.class', 'slide-indicator')
+    .find('cx-icon')
+    .should('have.class', 'cx-icon fas fa-circle');
+
+  cy.pressTab();
+  cy.focused()
+    .should('have.class', 'slide-indicator')
+    .find('cx-icon')
+    .should('have.class', 'cx-icon fas fa-circle');
 
   cy.pressTab();
   cy.focused()
