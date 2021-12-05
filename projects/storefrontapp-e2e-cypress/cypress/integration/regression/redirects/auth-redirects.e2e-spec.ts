@@ -1,9 +1,9 @@
 import * as authForms from '../../../helpers/auth-forms';
-import { 
-  createUser, 
+import {
+  createUser,
   testRedirectAfterTokenExpiryAndHttpCall,
   testRedirectAfterTokenExpiryAndPageRefresh,
- } from '../../../helpers/auth-redirects';
+} from '../../../helpers/auth-redirects';
 import { AccountData } from '../../../support/require-logged-in.commands';
 
 context('Redirect after auth', () => {
@@ -39,10 +39,10 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
 
-  // Core test. Repeat test in mobile. 
+  // Core test. Repeat test in mobile.
   testRedirectAfterTokenExpiryAndHttpCall(user);
 
-  // Core test. Repeat test in mobile. 
+  // Core test. Repeat test in mobile.
   testRedirectAfterTokenExpiryAndPageRefresh(user);
 
   it('should not redirect after the login to: /login, /register nor /forgot-password', () => {

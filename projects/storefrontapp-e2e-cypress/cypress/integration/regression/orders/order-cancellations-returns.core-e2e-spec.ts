@@ -9,9 +9,8 @@ describe('Order Cancellations and Returns', () => {
   beforeEach(() => {
     cy.restoreLocalStorage();
   });
-  
+
   orderCancellationReturn.testCancelOrder();
 
   orderCancellationReturn.testReturnOrder();
-
 });

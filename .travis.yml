@@ -22,19 +22,17 @@ jobs:
     name: "Unit tests for libs"
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
-  #- script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
-  #  name: "E2E regression tests for B2B"
   - script:
     name: "E2E tests for B2B, 1st job"
     <<: *defaults_b2b
   - script:
-    name: "E2E tests for B2B, 2st job"
+    name: "E2E tests for B2B, 2nd job"
     <<: *defaults_b2b  
   - script:
     name: "E2E tests for B2C, 1st job"
     <<: *defaults
   - script:
-    name: "E2E tests for B2C, 2st job"
+    name: "E2E tests for B2C, 2nd job"
     <<: *defaults
   - script:
     name: "E2E tests for B2C, 3rd job"

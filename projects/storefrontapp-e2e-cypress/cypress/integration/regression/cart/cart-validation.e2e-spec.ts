@@ -38,7 +38,7 @@ context('Cart validation', () => {
         cy.saveLocalStorage();
       });
 
-      // Core test. Check with mobile as well. 
+      // Core test. Check with mobile as well.
       cartValidation.testReducedProductStockValidation();
 
       it('should display information about removed product from cart due to out of stock', () => {

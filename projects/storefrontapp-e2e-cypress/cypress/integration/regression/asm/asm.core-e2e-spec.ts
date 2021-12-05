@@ -81,6 +81,4 @@ context('Assisted Service Module', () => {
       cy.get('cx-asm-main-ui').should('not.be.visible');
     });
   });
-
 });
-

@@ -1,9 +1,9 @@
 import { AccountData } from '../../../support/require-logged-in.commands';
-import { 
-  createUser, 
+import {
+  createUser,
   testRedirectAfterTokenExpiryAndHttpCall,
   testRedirectAfterTokenExpiryAndPageRefresh,
- } from '../../../helpers/auth-redirects';
+} from '../../../helpers/auth-redirects';
 
 context('Redirect after auth', () => {
   let user: AccountData;
@@ -15,5 +15,4 @@ context('Redirect after auth', () => {
   testRedirectAfterTokenExpiryAndHttpCall(user);
 
   testRedirectAfterTokenExpiryAndPageRefresh(user);
- 
 });

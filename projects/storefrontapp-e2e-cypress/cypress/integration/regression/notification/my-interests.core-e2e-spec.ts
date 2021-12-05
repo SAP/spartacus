@@ -3,7 +3,6 @@ import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('My interests', () => {
   viewportContext(['desktop'], () => {
-    
     describe('Customer', () => {
       beforeEach(() => {
         cy.window().then((win) => win.sessionStorage.clear());

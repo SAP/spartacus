@@ -15,6 +15,5 @@ context('Checkout as guest', () => {
     });
 
     guestCheckout.testCheckoutAsGuest();
-
   });
 });

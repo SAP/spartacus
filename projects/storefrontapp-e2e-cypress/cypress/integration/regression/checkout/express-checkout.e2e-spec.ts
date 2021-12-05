@@ -30,6 +30,7 @@ context('Express checkout', () => {
       cy.saveLocalStorage();
     });
 
+    // Core e2e test. Run in mobile as well.
     expressCheckout.testExpressCheckout(user);
 
     it('should redirect to first step if payment method is not set', () => {

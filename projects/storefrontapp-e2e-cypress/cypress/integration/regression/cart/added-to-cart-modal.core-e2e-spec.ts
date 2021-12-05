@@ -40,7 +40,7 @@ describe('Added to cart modal - Anonymous user', () => {
           });
 
         cy.get('[aria-label="Close Modal"]').click();
-        // Removed non-core validation. Longer test in added-to-cart-modal spec file. 
+        // Removed non-core validation. Longer test in added-to-cart-modal spec file.
       });
     });
   });

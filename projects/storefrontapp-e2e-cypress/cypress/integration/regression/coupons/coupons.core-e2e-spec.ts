@@ -8,7 +8,7 @@ describe('Cart Coupon', () => {
       cy.requireLoggedIn();
     });
 
-     // TODO. Core test. Move to helper after GH-14500
+    // TODO. Core test. Move to helper after GH-14500
     it('should apply cart coupon', () => {
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
       cartCoupon.visitProductPage(cartCoupon.productCode1);

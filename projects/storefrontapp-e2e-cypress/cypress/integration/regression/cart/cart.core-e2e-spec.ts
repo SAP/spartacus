@@ -232,7 +232,7 @@ describe('Cart', () => {
         cart.removeCartItem(cart.products[0]);
         cart.validateEmptyCart();
       });
-      
+
       it('should have different cart on different base sites', () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cart.clickAddToCart();

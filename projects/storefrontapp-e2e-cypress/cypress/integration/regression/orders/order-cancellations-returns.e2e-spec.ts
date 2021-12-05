@@ -41,10 +41,10 @@ describe('Order Cancellations and Returns', () => {
     });
   });
 
-  // Core test. 
+  // Core test.
   orderCancellationReturn.testCancelOrder();
 
-  // Core test. 
+  // Core test.
   orderCancellationReturn.testReturnOrder();
 
   describe('Return request list and details', () => {

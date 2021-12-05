@@ -7,9 +7,9 @@ context('Cart Import/Export', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });
-    
+
     importExport.testImportExportSingleProduct();
-    
+
     importExport.testImportExportLargerQuantity();
   });
 });

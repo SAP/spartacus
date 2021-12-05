@@ -12,7 +12,7 @@ context('Applied promotions', () => {
       cy.requireLoggedIn(standardUser);
     });
 
-    // Core test. Repeat in mobile as well. 
+    // Core test. Repeat in mobile as well.
     appliedPromotions.testPromotionsForLoggedInUser();
   });
 });

@@ -46,8 +46,12 @@ describe('My Account - Update Password', () => {
       it('should display server error if old password is wrong', () => {
         alerts.getErrorAlert().should('not.exist');
         cy.get('[formcontrolname="oldPassword"]').type('wrongpassword');
-        cy.get('[formcontrolname="newPassword"]').type(updatePassword.newPassword);
-        cy.get('[formcontrolname="newPasswordConfirm"]').type(updatePassword.newPassword);
+        cy.get('[formcontrolname="newPassword"]').type(
+          updatePassword.newPassword
+        );
+        cy.get('[formcontrolname="newPasswordConfirm"]').type(
+          updatePassword.newPassword
+        );
         cy.get('cx-update-password button').click();
         cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
         alerts.getErrorAlert().should('exist');

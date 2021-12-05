@@ -29,9 +29,9 @@ describe('Order details page', () => {
     beforeEach(() => {
       cy.requireLoggedIn();
     });
-    
+
     orderHistoryTest.checkOrderDetailsUnconsignedEntries();
-    
+
     it('should display order details page with consigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.waitForOrderToBePlacedRequest(

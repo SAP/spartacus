@@ -1,7 +1,6 @@
 import * as updateEmail from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-
 describe('My Account - Update Email', () => {
   viewportContext(['desktop'], () => {
     before(() => {
@@ -29,7 +28,7 @@ describe('My Account - Update Email', () => {
       });
 
       updateEmail.testUpdateEmailAndLogin();
-      
+
       afterEach(() => {
         cy.saveLocalStorage();
       });

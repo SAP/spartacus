@@ -2,7 +2,6 @@ import * as myCoupons from '../../../helpers/coupons/my-coupons';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 viewportContext(['mobile', 'desktop'], () => {
-  
   describe('My coupons - Authenticated user', () => {
     beforeEach(() => {
       cy.window().then((win) => {
@@ -12,6 +11,5 @@ viewportContext(['mobile', 'desktop'], () => {
     });
 
     myCoupons.testClaimCustomerCoupon();
-
   });
 });

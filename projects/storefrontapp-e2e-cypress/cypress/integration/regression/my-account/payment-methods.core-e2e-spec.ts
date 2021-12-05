@@ -1,6 +1,6 @@
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as login from '../../../helpers/login';
-import * as paymentMethods from '../../../helpers/payment-methods'
+import * as paymentMethods from '../../../helpers/payment-methods';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Payment Methods', () => {

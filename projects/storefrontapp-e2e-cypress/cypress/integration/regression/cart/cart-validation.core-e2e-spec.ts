@@ -29,7 +29,6 @@ context('Cart validation', () => {
       });
 
       cartValidation.testReducedProductStockValidation();
-
     });
   });
 });

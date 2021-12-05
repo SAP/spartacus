@@ -27,7 +27,7 @@ describe('Notification preference', () => {
         cy.visit('/');
       });
 
-      // Core test. Run in mobile view as well. 
+      // Core test. Run in mobile view as well.
       testEnableDisableNotification();
 
       it('should show correct email channel after update email address', () => {
