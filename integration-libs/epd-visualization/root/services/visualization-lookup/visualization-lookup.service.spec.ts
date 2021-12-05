@@ -8,7 +8,7 @@ import { VisualizationInfo } from '../../models/visualizations/visualization-inf
 import {
   LookupVisualizationsResponse,
   VisualizationApiService,
-} from '../visualization-api';
+} from '../visualization-api/visualization-api.service';
 import { VisualizationLookupService } from './visualization-lookup.service';
 
 class FakeVisualizationApiService {
