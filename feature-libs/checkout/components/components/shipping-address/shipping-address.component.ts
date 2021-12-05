@@ -50,10 +50,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService,
     protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade,
-    protected globalMessageService?: GlobalMessageService
+    protected checkoutCostCenterService?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -207,7 +207,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.forceLoader = true;
     if (Boolean(address)) {
       this.checkoutDeliveryService.createAndSetAddress(address);
-      this.globalMessageService?.add(
+      this.globalMessageService.add(
         { key: 'addressForm.userAddressAddSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );

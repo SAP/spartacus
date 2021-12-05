@@ -103,7 +103,7 @@ export class PaymentFormComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected fb: FormBuilder,
     protected modalService: ModalService,
-    protected userAddressService: UserAddressService,
+    protected userAddressService: UserAddressService
   ) {}
 
   ngOnInit() {
@@ -294,7 +294,7 @@ export class PaymentFormComponent implements OnInit {
   }
 
   paymentAddedSuccessfullyMessage() {
-    this.globalMessageService?.add(
+    this.globalMessageService.add(
       { key: 'paymentForm.paymentAddedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
