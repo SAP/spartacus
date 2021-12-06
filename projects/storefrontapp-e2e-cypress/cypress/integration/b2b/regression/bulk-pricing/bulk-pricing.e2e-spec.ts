@@ -23,9 +23,7 @@ describe('B2B - Bulk Pricing', () => {
       it('should checkout using the proper bulk price based on quantity', () => {
         b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
-        b2bBulkPricing.addItemToCart(sampleData.TEST_QUANTITY);
-
-        b2bBulkPricing.verifyExpectedTotal();
+        b2bBulkPricing.addAndverifyTotal(sampleData.TEST_QUANTITY);
       });
 
       it('should NOT render pricing table for products that DO NOT contain bulk prices', () => {
@@ -37,34 +35,29 @@ describe('B2B - Bulk Pricing', () => {
       it('should verify lowering the quantity also lowers the discount', () => {
         b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
-        b2bBulkPricing.addItemToCart(sampleData.QUANTITY_FOR_25_DISCOUNT);
+        b2bBulkPricing.addAndverifyTotal(sampleData.QUANTITY_FOR_25_DISCOUNT);
 
-        b2bBulkPricing.verifyExpectedTotal();
+        b2bBulkPricing.updateAndverifyTotal(
+          sampleData.QUANTITY_FOR_13_DISCOUNT
+        );
 
-        b2bBulkPricing.updateQuantity(sampleData.QUANTITY_FOR_13_DISCOUNT);
-        b2bBulkPricing.verifyUpdatedTotal();
-
-        b2bBulkPricing.updateQuantity(sampleData.QUANTITY_FOR_NO_DISCOUNT);
-        b2bBulkPricing.verifyUpdatedTotal();
+        b2bBulkPricing.updateAndverifyTotal(
+          sampleData.QUANTITY_FOR_NO_DISCOUNT
+        );
       });
 
       it('should verify increasing the quantity also increases the discount', () => {
         b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
-        b2bBulkPricing.addItemToCart(sampleData.QUANTITY_FOR_8_DISCOUNT);
-
-        b2bBulkPricing.verifyExpectedTotal();
-        b2bBulkPricing.updateQuantity(sampleData.QUANTITY_PLUS_ONE);
-        b2bBulkPricing.verifyUpdatedTotal();
+        b2bBulkPricing.addAndverifyTotal(sampleData.QUANTITY_FOR_8_DISCOUNT);
+        b2bBulkPricing.updateAndverifyTotal(sampleData.QUANTITY_PLUS_ONE);
       });
 
       it('should verify checking out a bulk priced item and a regular product', () => {
         b2bBulkPricing.loginB2bUser();
         b2bBulkPricing.visitProduct(sampleData.PRODUCT);
 
-        b2bBulkPricing.addItemToCart(sampleData.QUANTITY_FOR_3_DISCOUNT);
-
-        b2bBulkPricing.verifyExpectedTotal();
+        b2bBulkPricing.addAndverifyTotal(sampleData.QUANTITY_FOR_3_DISCOUNT);
 
         b2bBulkPricing.visitProduct(sampleData.PRODUCT_NO_PRICING);
         b2bBulkPricing.addOneToCart();

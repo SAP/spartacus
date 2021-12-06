@@ -21,33 +21,22 @@ export function visitProduct(productCode) {
   cy.wait(`@${bulkPricingAlias}`).its('response.statusCode').should('eq', 200);
 }
 
-export function addItemToCart(quantity) {
-  cy.get('cx-add-to-cart form div cx-item-counter input')
-    .type('{selectall}')
-    .type(quantity);
-  cy.get('cx-add-to-cart form button').last().click();
-}
-
 export function addOneToCart() {
   cy.get('cx-add-to-cart form button').last().click();
 }
 
-export function updateQuantity(newQuantity) {
-  cy.get('cx-added-to-cart-dialog cx-item-counter input')
-    .type('{selectall}')
-    .type(newQuantity)
-    .blur();
-}
-
-export function verifyExpectedTotal() {
-  const expectedTotalAlias = 'totalAlias';
-
+export function addAndverifyTotal(quantity) {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/orgUsers/*/carts/*/entries?*`
-  ).as(expectedTotalAlias);
+  ).as('totalAlias');
+
+  cy.get('cx-add-to-cart form div cx-item-counter input')
+    .type('{selectall}')
+    .type(quantity);
+  cy.get('cx-add-to-cart form button').last().click();
 
   let totalPrice: string;
   cy.wait('@totalAlias').then((xhr) => {
@@ -59,13 +48,18 @@ export function verifyExpectedTotal() {
   });
 }
 
-export function verifyUpdatedTotal() {
+export function updateAndverifyTotal(newQuantity) {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/*/carts/*/entries/0?lang=en&curr=USD`
   ).as('newTotalAlias');
+
+  cy.get('cx-added-to-cart-dialog cx-item-counter input')
+    .type('{selectall}')
+    .type(newQuantity)
+    .blur();
 
   let newTotalPrice: string;
   cy.wait('@newTotalAlias').then((xhr) => {
