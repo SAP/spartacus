@@ -99,15 +99,22 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.hamburgerMenuService?.isExpanded
         .pipe(distinctUntilChanged(), filter(Boolean))
         .subscribe(() => {
-          this.reinitalizeMenu();
+          this.reinitializeMenu();
         })
     );
   }
 
   /**
-   * This method performs the actions required to reset the state of the menu and reset any visual components.
+   * @deprecated since 5.0, use reinitializeMenu method instead
    */
   reinitalizeMenu(): void {
+    this.reinitializeMenu();
+  }
+
+  /**
+   * This method performs the actions required to reset the state of the menu and reset any visual components.
+   */
+  reinitializeMenu(): void {
     if (this.openNodes?.length > 0) {
       this.clear();
       this.renderer.removeClass(this.elemRef.nativeElement, 'is-open');
@@ -152,7 +159,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   clear(): void {
-    console.log('clear');
     this.openNodes = [];
     this.updateClasses();
   }

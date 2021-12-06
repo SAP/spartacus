@@ -253,15 +253,15 @@ describe('Navigation UI Component', () => {
 
     it('should reinitialize menu, when menu is expanded', () => {
       navigationComponent['resetMenuOnClose'] = true;
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
       fixture.detectChanges();
-      expect(navigationComponent.reinitalizeMenu).toHaveBeenCalled();
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalled();
     });
 
     it('should NOT reinitialize menu, when menu is expanded if config is false', () => {
-      spyOn(navigationComponent, 'reinitalizeMenu').and.stub();
+      spyOn(navigationComponent, 'reinitializeMenu').and.stub();
       fixture.detectChanges();
-      expect(navigationComponent.reinitalizeMenu).not.toHaveBeenCalled();
+      expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
     });
   });
 });
