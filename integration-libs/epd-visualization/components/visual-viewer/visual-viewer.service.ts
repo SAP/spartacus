@@ -218,7 +218,7 @@ export class VisualViewerService {
 
   protected readonly DEFAULT_BACKGROUND_TOP_COLOR = '--cx-color-inverse';
   protected readonly DEFAULT_BACKGROUND_BOTTOM_COLOR = '--cx-color-inverse';
-  protected readonly DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR = 'red';
+  protected readonly DEFAULT_HOTSPOT_SELECTION_HIGHLIGHT_COLOR = 'rgba(255, 0, 0, 0.6)';
   protected readonly DEFAULT_SHOW_ALL_HOTSPOTS_COLOR = 'rgba(255, 255, 0, 0.3)';
   protected readonly DEFAULT_OUTLINE_COLOR = 'red';
   protected readonly DEFAULT_OUTLINE_WIDTH = 5;
