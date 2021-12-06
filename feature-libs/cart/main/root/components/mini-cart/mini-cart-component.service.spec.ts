@@ -68,7 +68,6 @@ describe('MiniCartComponentService', () => {
   let statePersistenceService: StatePersistenceService;
   let siteContextParamsService: SiteContextParamsService;
   let authService: AuthService;
-  // let config: CartConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -97,7 +96,6 @@ describe('MiniCartComponentService', () => {
     statePersistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     authService = TestBed.inject(AuthService);
-    // config = TestBed.inject(CartConfig);
   });
 
   it('should be created', () => {
@@ -126,18 +124,18 @@ describe('MiniCartComponentService', () => {
   });
 
   describe('browserHasCartInStorage', () => {
-    it('should return true and complete when the browser storage has a cart.', () => {
+    it('should return true when the browser storage has a cart.', () => {
       spyOn(service, 'createEventFromStorage').and.returnValue(
         mockPersistEventWithCart
       );
       spyOn(eventService, 'get').and.returnValue(cold('-'));
 
       expect(service.browserHasCartInStorage()).toBeObservable(
-        cold('(a|)', { a: true })
+        cold('(a)', { a: true })
       );
     });
 
-    it('should return false and stay open when no cart id is in storage', () => {
+    it('should return false when no cart id is in storage', () => {
       spyOn(service, 'createEventFromStorage').and.returnValue({
         ...mockPersistEventWithCart,
         state: { active: '' },
@@ -149,7 +147,7 @@ describe('MiniCartComponentService', () => {
       );
     });
 
-    it('should eventually emit true and close when a cart id is persisted in the browseer storage', () => {
+    it('should eventually emit true when a cart id is persisted in the browseer storage', () => {
       const mockPersistEventNoCart = {
         state: { active: '' },
       };
@@ -164,90 +162,115 @@ describe('MiniCartComponentService', () => {
       );
 
       expect(service.browserHasCartInStorage()).toBeObservable(
-        cold('a----(b|)', { a: false, b: true })
+        cold('a----(b)', { a: false, b: true })
+      );
+    });
+  });
+
+  describe('watchUntilUserHasCart', () => {
+    it('should return false if no user is logged in and no cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f', { f: false })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f', { f: false })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('f', { f: false })
+      );
+    });
+
+    it('should return true if no user is logged in but there is a cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('t', { t: true })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f', { f: false })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('(t|)', { t: true })
+      );
+    });
+
+    it('should eventually return true if no user is logged in but there eventually a cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f--f--t', { t: true, f: false })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f', { f: false })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('f-----(t|)', { t: true, f: false })
+      );
+    });
+
+    it('should return true if a user is logged in even if there is no cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f', { f: false })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('t', { t: true })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('(t|)', { t: true })
+      );
+    });
+
+    it('should eventually return true if a user eventually logs in even if there is no cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('f', { f: false })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f--f--t', { t: true, f: false })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('f-----(t|)', { t: true, f: false })
+      );
+    });
+
+    it('should return true if a user is logged in and there is cart in browser storage', () => {
+      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+        cold('t', { t: true })
+      );
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('t', { t: true })
+      );
+      expect(service.watchUntilUserHasCart()).toBeObservable(
+        cold('(t|)', { t: true })
       );
     });
   });
 
   describe('getTotalPrice', () => {
-    it('should return defaul value when no cart is in storage and no user logged ins', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
-        cold('f', { f: false })
-      );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+    it('should return defaul value when user has no cart', () => {
+      spyOn(service, 'watchUntilUserHasCart').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(activeCartFacade, 'getActive').and.stub();
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '' }));
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
-  });
 
-  it('should return value from activeCartFacade when a cart is in storage', () => {
-    spyOn(service, 'browserHasCartInStorage').and.returnValue(
-      cold('(t|)', { t: true, f: false })
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(
-      cold('f', { f: false })
-    );
-    const mockActiveCart = {
-      totalPrice: {
-        formattedValue: '122$',
-      },
-    } as Partial<Cart>;
+    it('should return value from activeCartFacade when user has a cart', () => {
+      spyOn(service, 'watchUntilUserHasCart').and.returnValue(
+        cold('(t|)', { t: true })
+      );
+      const mockActiveCart = {
+        totalPrice: {
+          formattedValue: '122$',
+        },
+      } as Partial<Cart>;
 
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
-      cold('c', { c: mockActiveCart })
-    );
-    expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
-  });
-
-  it('should return value from activeCartFacade when a user is logged in', () => {
-    spyOn(service, 'browserHasCartInStorage').and.returnValue(
-      cold('(f|)', { f: false })
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(
-      cold('t', { t: true })
-    );
-    const mockActiveCart = {
-      totalPrice: {
-        formattedValue: '122$',
-      },
-    } as Partial<Cart>;
-
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
-      cold('c', { c: mockActiveCart })
-    );
-    expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
-  });
-
-  it('should return value from activeCartFacade when a cart is eventually in storage', () => {
-    spyOn(service, 'browserHasCartInStorage').and.returnValue(
-      cold('f--(t|)', { t: true, f: false })
-    );
-    spyOn(authService, 'isUserLoggedIn').and.returnValue(
-      cold('f', { f: false })
-    );
-    const mockActiveCart = {
-      totalPrice: {
-        formattedValue: '122$',
-      },
-    } as Partial<Cart>;
-
-    spyOn(activeCartFacade, 'getActive').and.returnValue(
-      cold('c', { c: mockActiveCart })
-    );
-    expect(service.getTotalPrice()).toBeObservable(
-      cold('a--b', { a: '', b: '122$' })
-    );
+      spyOn(activeCartFacade, 'getActive').and.returnValue(
+        cold('c', { c: mockActiveCart })
+      );
+      expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '122$' }));
+    });
   });
 
   describe('getQuantity', () => {
-    it('should return defaul value when no cart is in storage and no user logged in', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
-        cold('f', { f: false })
-      );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+    it('should return defaul value when user has no cart', () => {
+      spyOn(service, 'watchUntilUserHasCart').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(activeCartFacade, 'getActive').and.stub();
@@ -255,13 +278,10 @@ describe('MiniCartComponentService', () => {
       expect(activeCartFacade.getActive).not.toHaveBeenCalled();
     });
 
-    it('should return value from activeCartFacade when a cart is in storage and no user logged in', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+    it('should return value from activeCartFacade when user has a cart', () => {
+      spyOn(service, 'watchUntilUserHasCart').and.returnValue(
         cold('(t|)', { t: true })
       );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
-      );
       const mockActiveCart = {
         deliveryItemsQuantity: 7,
       } as Partial<Cart>;
@@ -271,45 +291,6 @@ describe('MiniCartComponentService', () => {
       );
       expect(service.getQuantity()).toBeObservable(
         cold('(ab)', { a: 0, b: 7 })
-      );
-    });
-
-    it('should return value from activeCartFacade when a user is logged in', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
-        cold('(f|)', { f: false })
-      );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('t', { t: true })
-      );
-      const mockActiveCart = {
-        deliveryItemsQuantity: 7,
-      } as Partial<Cart>;
-
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
-        cold('c', { c: mockActiveCart })
-      );
-      expect(service.getQuantity()).toBeObservable(
-        cold('(ab)', { a: 0, b: 7 })
-      );
-    });
-
-    it('should return value from activeCartFacade when a cart is eventually in storage', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
-        cold('f--(t|)', { t: true, f: false })
-      );
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
-      );
-
-      const mockActiveCart = {
-        deliveryItemsQuantity: 7,
-      } as Partial<Cart>;
-
-      spyOn(activeCartFacade, 'getActive').and.returnValue(
-        cold('c', { c: mockActiveCart })
-      );
-      expect(service.getQuantity()).toBeObservable(
-        cold('a--(ab)', { a: 0, b: 7 })
       );
     });
   });

@@ -32,19 +32,16 @@ export class MiniCartComponentService {
     protected siteContextParamsService: SiteContextParamsService
   ) {}
 
+  /**
+   * This function supports lazy loading of the cart functoinality's code. We only call
+   * the activeCartFacade if we know there is actually a cart.
+   * Without a cart, we can return a default value and
+   * avoid loading the cart library code.
+   */
   getQuantity(): Observable<number> {
-    // This function supports lazy loading of the cart code. We only call
-    // the activeCartFacade if we know there is actually a cart by reading
-    // the browser storage for an active cart.
-
-    // Without a cart, we can return a default value and
-    // avoid loading the cart library code.
-    return combineLatest([
-      this.browserHasCartInStorage(),
-      this.authService.isUserLoggedIn(),
-    ]).pipe(
-      switchMap(([hasCart, isUserLoggedIn]) => {
-        if (hasCart || isUserLoggedIn) {
+    return this.watchUntilUserHasCart().pipe(
+      switchMap((userHasCart) => {
+        if (userHasCart) {
           return this.activeCartFacade.getActive().pipe(
             startWith({ deliveryItemsQuantity: 0 }),
             map((cart) => cart.deliveryItemsQuantity || 0)
@@ -56,20 +53,16 @@ export class MiniCartComponentService {
     );
   }
 
+  /**
+   * This function supports lazy loading of the cart functoinality's code. We only call
+   * the activeCartFacade if we know there is actually a cart.
+   * Without a cart, we can return a default value and
+   * avoid loading the cart library code.
+   */
   getTotalPrice(): Observable<string> {
-    // This function supports lazy loading of the cart code. We only call
-    // the activeCartFacade if we know there is actually a cart by reading
-    // the browser storage for an active cart.
-
-    // Without a cart, we can return a default value and
-    // avoid loading the cart library code.
-
-    return combineLatest([
-      this.browserHasCartInStorage(),
-      this.authService.isUserLoggedIn(),
-    ]).pipe(
-      switchMap(([hasCart, isUserLoggedIn]) => {
-        if (hasCart || isUserLoggedIn) {
+    return this.watchUntilUserHasCart().pipe(
+      switchMap((userHasCart) => {
+        if (userHasCart) {
           return this.activeCartFacade.getActive().pipe(
             filter((cart) => !!cart.totalPrice),
             map((cart) => cart.totalPrice?.formattedValue ?? '')
@@ -81,12 +74,25 @@ export class MiniCartComponentService {
     );
   }
 
+  watchUntilUserHasCart() {
+    return combineLatest([
+      this.browserHasCartInStorage(),
+      this.authService.isUserLoggedIn(),
+    ]).pipe(
+      map(
+        ([hasCartInStorage, isUserLoggedIn]) =>
+          hasCartInStorage || isUserLoggedIn
+      ),
+      distinctUntilChanged(),
+      takeWhile((hasCart) => !hasCart, true)
+    );
+  }
+
   browserHasCartInStorage(): Observable<boolean> {
     return this.eventService.get(ActiveCartBrowserStorageChangeEvent).pipe(
       startWith(this.createEventFromStorage()),
       map((event) => Boolean(event?.state?.active)),
-      distinctUntilChanged(),
-      takeWhile((hasCart) => !hasCart, true)
+      distinctUntilChanged()
     );
   }
 
