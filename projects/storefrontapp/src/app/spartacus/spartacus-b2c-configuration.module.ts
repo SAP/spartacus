@@ -35,12 +35,8 @@ import {
         selectiveCart: {
           enabled: true,
         },
-      checkout:{
-        guest: true,
-        express: true,
-      },
       },
     }),
   ],
 })
-export class SpartacusB2cConfigurationModule {}
+export class SpartacusB2cConfigurationModule { }
