@@ -40,19 +40,20 @@ export function updateQuantity(newQuantity) {
 }
 
 export function verifyExpectedTotal() {
-  const expectedTotalAlias = 'totalAlias';
-
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/orgUsers/*/carts/*/entries?*`
-  ).as(expectedTotalAlias);
+  ).as('totalAlias');
 
   let totalPrice: string;
   cy.wait('@totalAlias').then((xhr) => {
     totalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(totalPrice);
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
+      'contain',
+      totalPrice
+    );
   });
 }
 
@@ -67,7 +68,10 @@ export function verifyUpdatedTotal() {
   let newTotalPrice: string;
   cy.wait('@newTotalAlias').then((xhr) => {
     newTotalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', newTotalPrice);
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
+      'contain',
+      newTotalPrice
+    );
   });
 }
 
