@@ -63,7 +63,7 @@ export function verifyUpdatedTotal() {
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/carts/*/entries/0?lang=en&curr=USD`
+    )}/users/anonymous/carts/*/entries/*`
   ).as(newTotalAlias);
 
   let newTotalPrice: string;
