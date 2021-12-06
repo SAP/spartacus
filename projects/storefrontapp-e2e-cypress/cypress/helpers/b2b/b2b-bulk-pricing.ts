@@ -57,21 +57,17 @@ export function verifyExpectedTotal() {
 }
 
 export function verifyUpdatedTotal() {
-  const newTotalAlias = 'newTotalAlias';
-
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/anonymous/carts/*/entries/*`
-  ).as(newTotalAlias);
+    )}/users/*/carts/*/entries/0?lang=en&curr=USD`
+  ).as('newTotalAlias');
 
   let newTotalPrice: string;
   cy.wait('@newTotalAlias').then((xhr) => {
     newTotalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').contains(
-      newTotalPrice
-    );
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', newTotalPrice);
   });
 }
 
