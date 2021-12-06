@@ -19,6 +19,6 @@ context('Apparel - checkout flow', () => {
       configureProductWithVariants();
     });
 
-    checkoutVariants.testCheckoutRegisteredUser(variantUser);
+    checkoutVariants.testCheckoutRegisteredUser();
   });
 });

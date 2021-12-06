@@ -33,7 +33,8 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
-    checkoutVariants.testCheckoutVariantAsGuest(variantUser);
+    // Core e2e test. Run in mobile if necessary
+    checkoutVariants.testCheckoutVariantAsGuest();
 
     it('should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();

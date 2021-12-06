@@ -16,6 +16,7 @@ context('Redirect after auth', () => {
 
   // Core e2e tests. Run in mobile if necessary
   testRedirectBackfterLogin();
+
   testRedirectAfterForcedLogin();
 
   it('should redirect back after the forced login when access token expired and page was refreshed', () => {
