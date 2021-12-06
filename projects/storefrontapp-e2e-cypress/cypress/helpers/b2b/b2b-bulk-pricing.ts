@@ -40,38 +40,36 @@ export function updateQuantity(newQuantity) {
 }
 
 export function verifyExpectedTotal() {
+  const expectedTotalAlias = 'totalAlias';
+
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/orgUsers/*/carts/*/entries?*`
-  ).as('totalAlias');
+  ).as(expectedTotalAlias);
 
   let totalPrice: string;
   cy.wait('@totalAlias').then((xhr) => {
     totalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
-      'contain',
-      totalPrice
-    );
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', totalPrice);
   });
 }
 
 export function verifyUpdatedTotal() {
+  const newTotal = 'newTotalAlias';
+
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/*/carts/*/entries/0?lang=en&curr=USD`
-  ).as('newTotalAlias');
+  ).as(newTotal);
 
   let newTotalPrice: string;
   cy.wait('@newTotalAlias').then((xhr) => {
     newTotalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
-      'contain',
-      newTotalPrice
-    );
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', newTotalPrice);
   });
 }
 
