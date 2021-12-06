@@ -46,7 +46,6 @@
             1.  feature-libs/checkout/components/services/express-checkout.service.ts
             2.  feature-libs/checkout/core/facade/checkout-delivery.service.ts (now feature-libs/checkout/base/core/facade/checkout-delivery-modes.service.ts)
             3.  feature-libs/checkout/core/facade/checkout-payment.service.ts
-    3.  import / export - test it
 11. Is the checkout properly using the new cart lib?
     1. CORE
       - ActiveCartService - we added a method. Move it to the cart lib.
