@@ -20,6 +20,7 @@ import {
   take,
   tap,
   withLatestFrom,
+  map,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -126,6 +127,22 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  /**
+   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * True means at least one quest is still in process,false means all three requests are done
+   */
+  getSetDeliveryModeInProcess(): Observable<boolean> {
+    return combineLatest([
+      this.activeCartService.isStable(),
+      this.checkoutService.isLoading(),
+      this.getSetDeliveryModeProcess(),
+    ]).pipe(
+      map(
+        ([isStable, isLoading, setDeliveryProcess]) =>
+          !isStable || isLoading || setDeliveryProcess?.loading
+      )
+    );
+  }
   /**
    * Clear info about process of setting Delivery Mode
    */
@@ -239,10 +256,19 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           this.checkoutService.isLoading(),
         ])
           .pipe(
+            tap(([isStable, isLoading]) =>
+              console.log(
+                'Jerry in setDeliveryMode, isStable:',
+                isStable,
+                ' isLoading: ',
+                isLoading
+              )
+            ),
             filter(([isStable, isLoading]) => isStable && !isLoading),
             take(1)
           )
           .subscribe(() => {
+            console.log('jerry really fire HTTP put request');
             this.checkoutStore.dispatch(
               new CheckoutActions.SetDeliveryMode({
                 userId,
