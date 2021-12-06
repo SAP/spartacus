@@ -50,7 +50,7 @@ context('Store finder', () => {
     cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name a').click();
+        cy.get('.cx-store-name').click();
       });
 
     cy.get(storeAddressDescription).should('not.to.be.empty');
