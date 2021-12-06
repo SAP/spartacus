@@ -52,24 +52,28 @@ export function verifyExpectedTotal() {
   let totalPrice: string;
   cy.wait('@totalAlias').then((xhr) => {
     totalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', totalPrice);
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
+      'contain',
+      totalPrice
+    );
   });
 }
 
 export function verifyUpdatedTotal() {
-  const newTotal = 'newTotalAlias';
-
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/*/carts/*/entries/0?lang=en&curr=USD`
-  ).as(newTotal);
+  ).as('newTotalAlias');
 
   let newTotalPrice: string;
   cy.wait('@newTotalAlias').then((xhr) => {
     newTotalPrice = xhr.response.body.entry.totalPrice.value;
-    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should('contain', newTotalPrice);
+    cy.get('cx-added-to-cart-dialog .cx-total .cx-value').should(
+      'contain',
+      newTotalPrice
+    );
   });
 }
 
