@@ -18,7 +18,11 @@ import { VisualPickingProductListService } from './visual-picking-product-list.s
 export class VisualPickingProductListComponent implements OnInit {
   constructor(
     protected visualPickingProductListService: VisualPickingProductListService
-  ) {}
+  ) {
+    this.filteredItems$.subscribe(() => {
+      this.activeSlideStartIndex = 0;
+    });
+  }
 
   @Input() title: string;
   @Input() singleSelection = true;
