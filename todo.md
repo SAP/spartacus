@@ -71,7 +71,9 @@
    8.  Digital Payments
    9.  CDS
    10. Anything else? Some internal features?
-15. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
+15. Check if we can leverage the mechanism used in `feature-libs/checkout/base/root/pages/order-confirmation-order-entries-context.ts`:
+    1.  remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
+    2.  remove the repl's thank-you message component
 16. align the event names - prefix them with Checkout?
 17. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
 18. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.

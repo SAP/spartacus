@@ -51,8 +51,8 @@ export class CheckoutScheduledReplenishmentService
 {
   protected subscriptions = new Subscription();
 
-  // TODO: In order confirmation could be distinguished based on order detail object containing replenishmentOrderCode
-  // TODO: Then it is only needed to communicate between 2 components on the same page (look recording)
+  // TODO:#checkout In order confirmation could be distinguished based on order detail object containing replenishmentOrderCode
+  // TODO:#checkout Then it is only needed to communicate between 2 components on the same page (re-watch ep17, from ~30:00 - ~45:00)
   protected orderType$ = new BehaviorSubject<ORDER_TYPE>(
     ORDER_TYPE.PLACE_ORDER
   );
