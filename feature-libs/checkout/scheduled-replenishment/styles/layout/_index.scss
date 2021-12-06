@@ -2,7 +2,9 @@
 
 // The blocklist can be used to prevent template CSS
 // being generated.
-$page-template-blocklist-multistep-checkout-scheduled-replenishment: () !default;
+$page-template-blocklist-multistep-checkout-scheduled-replenishment: (
+
+) !default;
 
 // allowlisted page template selectors are processed
 // unless (some) they are blocklisted
