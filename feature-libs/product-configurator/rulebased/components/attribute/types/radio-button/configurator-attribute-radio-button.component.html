@@ -47,6 +47,9 @@
               ? 'checked'
               : null
           "
+          [attr.aria-describedby]="
+            createAttributeUiKey('attribute-msg', attribute.name)
+          "
           (change)="onSelect(value.valueCode)"
         />
         <label

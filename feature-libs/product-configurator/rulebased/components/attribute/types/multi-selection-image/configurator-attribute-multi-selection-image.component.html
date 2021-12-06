@@ -28,6 +28,9 @@
             | cxTranslate
               : { value: value.valueDisplay, attribute: attribute.label })
       "
+      [attr.aria-describedby]="
+        createAttributeUiKey('attribute-msg', attribute.name)
+      "
       [attr.aria-checked]="attributeCheckBoxForms[i].value"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />

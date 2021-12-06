@@ -144,6 +144,32 @@ export const configurator = {
       itemDescription: 'Description for item {{ item }}',
       listbox: 'Listbox with {{ count }} values.',
       valueSurcharge: 'Value surcharge',
+      conflictDetected:
+        'Conflict detected! Check the conflicts at top of group list.',
+      conflictsInConfiguration:
+        'There are conflicts in your configuration. Number of conflicts: {{ numberOfConflicts }}, Select for more details.',
+      listOfGroups: 'List of groups',
+      inListOfGroups: 'You are in the group list',
+      groupName: 'Group {{ group }}',
+      groupBack: 'You are in a sub-group. Select to go back.',
+      conflictBack:
+        'You are in the conflict solver. Select to go back or select next tabs to solve conflicts.',
+      iconConflict: 'Group has conflicts.',
+      iconIncomplete: 'Group has required attributes without selected values.',
+      iconComplete: 'Group is complete.',
+      next: 'Navigate to next group.',
+      previous: 'Navigate to previous group.',
+      showMoreProductInfo:
+        'Show more information for product {{ product }} or continue to configuration.',
+      showLessProductInfo:
+        'Show less information for product {{ product }} or continue to configuration.',
+      productName: 'Product Name',
+      productCode: 'Product Code',
+      productDescription: 'Product description',
+      configurationPage: 'You are on the configuration page.',
+      configurationPageLink: 'Navigate to configuration  page.',
+      overviewPage: 'You are on the overview page.',
+      overviewPageLink: 'Navigate to configuration overview page.',
     },
   },
 };

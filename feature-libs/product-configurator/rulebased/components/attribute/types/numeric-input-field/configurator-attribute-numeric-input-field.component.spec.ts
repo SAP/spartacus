@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Directive,
+  Input,
+  Component,
+} from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -21,6 +26,14 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
 }
 
 let DEBOUNCE_TIME: number;
@@ -77,6 +90,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
           MockFocusDirective,
+          MockCxIconComponent,
         ],
         imports: [ReactiveFormsModule, I18nTestingModule],
         providers: [

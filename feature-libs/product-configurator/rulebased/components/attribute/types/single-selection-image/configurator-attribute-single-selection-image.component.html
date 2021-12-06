@@ -38,6 +38,9 @@
             | cxTranslate
               : { value: value.valueDisplay, attribute: attribute.label })
       "
+      [attr.aria-describedby]="
+        createAttributeUiKey('attribute-msg', attribute.name)
+      "
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "

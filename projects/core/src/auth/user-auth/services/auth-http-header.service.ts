@@ -215,7 +215,7 @@ export class AuthHttpHeaderService implements OnDestroy {
 
     // Logout user
     // TODO(#9638): Use logout route when it will support passing redirect url
-    this.authService.coreLogout().finally(() => {
+    this.authService.coreLogout(false).finally(() => {
       this.routingService.go({ cxRoute: 'login' });
 
       this.globalMessageService.add(

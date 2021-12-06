@@ -40,6 +40,7 @@ export const payment = {
     expires: 'Expires: {{ month }}/{{ year }}',
     defaultPaymentMethod: '✓ DEFAULT',
     selected: 'Selected',
+    deletePaymentSuccess: 'Payment method deleted successfully',
   },
   paymentTypes: {
     title: 'Payment method',
