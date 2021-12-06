@@ -182,6 +182,9 @@
                     class="form-check-input"
                     [checked]="sameAsShippingAddress"
                     (change)="toggleSameAsShippingAddress()"
+                    [attr.aria-label]="
+                      'paymentForm.billingAddressSameAsShipping' | cxTranslate
+                    "
                   />
                   <span class="form-check-label">{{
                     'paymentForm.sameAsShippingAddress' | cxTranslate

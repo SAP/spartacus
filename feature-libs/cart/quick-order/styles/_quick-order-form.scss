@@ -10,7 +10,7 @@ cx-quick-order-form {
     width: 330px;
 
     .form-control {
-      padding: 0 36px 0 12px;
+      padding: 0 46px 0 12px;
     }
 
     // @deprecated since 4.2, use quick-order-form-search-icon class
@@ -24,12 +24,14 @@ cx-quick-order-form {
 
     .quick-order-form-search-icon,
     .quick-order-form-reset-icon {
+      background: transparent;
+      border: none;
       color: var(--cx-color-light);
       display: block;
       font-size: 24px;
       position: absolute;
-      right: 12px;
-      top: 12px;
+      right: 6px;
+      top: 4px;
     }
 
     .quick-order-form-reset-icon {
@@ -55,7 +57,7 @@ cx-quick-order-form {
     font-size: 13px;
     position: absolute;
     top: 47px;
-    width: 300px;
+    width: 330px;
     z-index: 20;
 
     .quick-order-results-products {
@@ -63,33 +65,41 @@ cx-quick-order-form {
       margin: 0px;
       padding: 0px;
 
-      .quick-order-results-product {
+      .quick-order-results-product-container {
         border-top: 1px solid var(--cx-color-light);
-        cursor: pointer;
-        display: grid;
-        grid-column-gap: 16px;
-        padding: 10px;
-
-        &.has-media {
-          // create a grid layout in case we show an image
-          grid-template-columns: 50px 1fr;
-        }
 
         &:first-of-type {
           border-top: none;
         }
 
-        &:hover,
-        &.active {
-          background-color: var(--cx-color-light);
-        }
+        .quick-order-results-product {
+          background-color: var(--cx-color-white);
+          border: none;
+          cursor: pointer;
+          display: grid;
+          grid-column-gap: 16px;
+          padding: 10px;
+          text-align: start;
+          width: 100%;
 
-        .media {
-          grid-row: 1/4;
-        }
+          &.has-media {
+            // create a grid layout in case we show an image
+            grid-template-columns: 50px 1fr;
+          }
 
-        .name {
-          font-weight: bold;
+          &:hover,
+          &:focus,
+          &.active {
+            background-color: var(--cx-color-light);
+          }
+
+          .media {
+            grid-row: 1/4;
+          }
+
+          .name {
+            font-weight: bold;
+          }
         }
       }
     }

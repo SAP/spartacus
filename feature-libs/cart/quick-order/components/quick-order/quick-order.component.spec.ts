@@ -130,7 +130,6 @@ const MockCmsComponentData = <CmsComponentData<any>>{
   selector: 'cx-quick-order-form',
 })
 class MockQuickOrderFormComponent {
-  @Input() isDisabled: boolean;
   @Input() isLoading: boolean;
 }
 

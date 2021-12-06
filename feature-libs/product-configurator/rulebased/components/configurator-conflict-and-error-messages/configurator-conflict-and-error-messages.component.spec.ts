@@ -274,4 +274,59 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       '.cx-warning-message.open'
     );
   });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      configuration = configWithMessages;
+      fixture.detectChanges();
+    });
+
+    it("should contain div element with class name 'alert-message-invalid-warning' and 'aria-live' attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-invalid-warning',
+        undefined,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-invalid-warning' and 'aria-atomic' attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-invalid-warning',
+        undefined,
+        'aria-atomic',
+        'true'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-error' and 'aria-live' attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-error',
+        undefined,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-error' and 'aria-atomic' attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-error',
+        undefined,
+        'aria-atomic',
+        'true'
+      );
+    });
+  });
 });
