@@ -11,6 +11,8 @@
     align-items: flex-start;
     display: flex;
     justify-content: center;
+    font-size: var(--cx-font-size, 1.188rem);
+    font-weight: var(--cx-font-weight-bold);
 
     .loader-container {
       position: relative;
