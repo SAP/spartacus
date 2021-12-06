@@ -1058,15 +1058,19 @@ export class VisualViewerService {
 
       this.viewport.attachNodesPicked(this.onNodesPicked, this);
 
-			if (content.loaders) {
+      if (content.loaders) {
         content.loaders.forEach((contentLoader: any) => {
           if (
             contentLoader &&
-            contentLoader.attachLoadingFinished !== undefined) {
-						contentLoader.attachLoadingFinished(this.onContentLoadingFinished, this);
+            contentLoader.attachLoadingFinished !== undefined
+          ) {
+            contentLoader.attachLoadingFinished(
+              this.onContentLoadingFinished,
+              this
+            );
           }
         });
-			}
+      }
     }
     this.contentChangesFinished.emit({
       content: content,
@@ -1400,7 +1404,7 @@ export class VisualViewerService {
 
         this.contentChangesFinished.subscribe((visualContentLoadFinished) => {
           const succeeded = !!visualContentLoadFinished.content;
-          const sceneLoadInfo: SceneLoadInfo = (succeeded
+          const sceneLoadInfo: SceneLoadInfo = succeeded
             ? {
                 sceneLoadState: SceneLoadState.Loaded,
                 loadedSceneInfo: {
@@ -1411,8 +1415,7 @@ export class VisualViewerService {
             : {
                 sceneLoadState: SceneLoadState.Failed,
                 errorMessage: visualContentLoadFinished.failureReason,
-              }
-            );
+              };
 
           this.sceneLoadInfo$.next(sceneLoadInfo);
           subscriber.next(sceneLoadInfo);
