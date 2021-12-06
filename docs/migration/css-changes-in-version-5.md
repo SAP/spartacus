@@ -20,3 +20,7 @@ title: Changes to Styles in 5.0
 ## Change in Configurator Required Error Message Mixin
 
 - `cx-configurator-error-msg` mixin has been defined on `%cx-configurator-required-error-msg` mixin to achieve a consistent styling for rendering an error and validation messages.
+
+## Change in Breadcrumb component style structure 
+
+- Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup. 
