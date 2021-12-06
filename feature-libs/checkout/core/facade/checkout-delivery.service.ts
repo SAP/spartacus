@@ -256,19 +256,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
           this.checkoutService.isLoading(),
         ])
           .pipe(
-            tap(([isStable, isLoading]) =>
-              console.log(
-                'Jerry in setDeliveryMode, isStable:',
-                isStable,
-                ' isLoading: ',
-                isLoading
-              )
-            ),
             filter(([isStable, isLoading]) => isStable && !isLoading),
             take(1)
           )
           .subscribe(() => {
-            console.log('jerry really fire HTTP put request');
             this.checkoutStore.dispatch(
               new CheckoutActions.SetDeliveryMode({
                 userId,
