@@ -4,7 +4,7 @@ import { viewportContext } from '../../helpers/viewport-context';
 import { standardUser } from '../../sample-data/shared-users';
 
 context('Applied promotions', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
@@ -22,6 +22,11 @@ context('Applied promotions', () => {
         );
         cy.visit(`/product/${eosCameraProductCode}`);
         cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+        appliedPromotions.addProductToCart();
+        appliedPromotions.checkForAppliedPromotionsInCartModal(
+          appliedPromotions.eosCameraProductName
+        );
+        appliedPromotions.closeCartDialog();
       });
 
       beforeEach(() => {

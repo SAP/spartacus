@@ -54,16 +54,21 @@ describe('Profile-tag events', () => {
 
     it('should send a CartModified event on modifying the cart', () => {
       goToProductPage();
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item cx-item-counter').getByText('+').click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
+      cy.get('cx-add-to-cart button.btn-primary').click();
+      cy.get('cx-added-to-cart-dialog .btn-primary').click();
+      cy.wait(500);
+      cy.get('cx-cart-item cx-item-counter')
+        .get(`[aria-label="Add one more"]`)
+        .first()
+        .click();
       cy.wait('@getRefreshedCart');
+      cy.wait(1500);
       cy.window().then((win) => {
         expect(
           profileTagHelper.eventCount(
@@ -89,9 +94,7 @@ describe('Profile-tag events', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-add-to-cart button.btn-primary').click();
-      cy.get('cx-added-to-cart-dialog .btn-primary').click();
-      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').click();
+      cy.get('cx-cart-item-list').get('.cx-remove-btn > .link').first().click();
       cy.intercept({
         method: 'GET',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -151,8 +154,8 @@ describe('Profile-tag events', () => {
   });
 
   it('should send a search page view event when viewing a search page', () => {
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-searchbox input').type('camera{enter}');
-    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 10);
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
     profileTagHelper.waitForCMSComponents();
     cy.window().then((win) => {
@@ -254,7 +257,7 @@ describe('Profile-tag events', () => {
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
       'lastRequest'
     );
-
+    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 12);
     cy.get('cx-category-navigation cx-generic-link a')
       .contains('Cameras')
       .click({ force: true });
@@ -269,7 +272,6 @@ describe('Profile-tag events', () => {
       ).to.equal(1);
     });
     cy.get('cx-searchbox input').type('camera{enter}');
-    createProductQuery(QUERY_ALIAS.CAMERA, 'camera', 10);
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
 
     cy.intercept({ method: 'GET', path: `**/products/search**` }).as(
@@ -320,11 +322,18 @@ describe('Profile-tag events', () => {
     });
   });
 
-  it('should send a Navigated event when a navigation occurs', () => {
-    const categoryPage = checkoutFlow.waitForPage(
-      'CategoryPage',
-      'getCategory'
-    );
+  it('should send a Navigated event when a navigation to product page occurs', () => {
+    goToProductPage();
+    cy.get('cx-add-to-cart button.btn-primary').click();
+    cy.window().then((win) => {
+      expect(
+        profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
+      ).to.equal(1);
+    });
+  });
+
+  it('should not send a Navigated event when merchandising banner is clicked', () => {
+    const categoryPage = checkoutFlow.waitForCategoryPage('578', 'getCategory');
     cy.get(
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
@@ -332,7 +341,7 @@ describe('Profile-tag events', () => {
     cy.window().then((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
-      ).to.equal(1);
+      ).to.equal(0);
     });
   });
 });
@@ -411,10 +420,65 @@ describe('Consent Changed', () => {
   });
 });
 
+describe('verifying X-Consent-Reference header addition to occ calls', () => {
+  const X_CONSENT_REFERENCE_HEADER = 'x-consent-reference';
+  let productPage;
+
+  beforeEach(() => {
+    cdsHelper.setUpMocks(strategyRequestAlias);
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    profileTagHelper.waitForCMSComponents();
+    productPage = checkoutFlow.waitForProductPage('280916', 'getProductPage');
+  });
+
+  it('should not send CR header when consent is not granted initially', () => {
+    cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+    cy.wait(`@${productPage}`)
+      .its('request.headers')
+      .should('not.have.deep.property', X_CONSENT_REFERENCE_HEADER);
+  });
+
+  it('should send CR header when consent is granted and skip it once its revoked', () => {
+    // grant consent
+    anonymousConsents.clickAllowAllFromBanner();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
+    cy.window().then((win) => {
+      const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      );
+      expect(consentAccepted.length).to.equal(2);
+      expect(consentAccepted[1].data.granted).to.eq(true);
+    });
+    cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+    cy.wait(`@${productPage}`)
+      .its('request.headers')
+      .should('have.deep.property', X_CONSENT_REFERENCE_HEADER);
+    // withdraw consent
+    cy.get('button.btn.btn-link').contains('Consent Preferences').click();
+    cy.get('input.form-check-input').uncheck();
+    cy.get('button.close').click();
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
+    cy.wait(`@${productPage}`)
+      .its('request.headers')
+      .should('not.have.deep.property', X_CONSENT_REFERENCE_HEADER);
+  });
+});
+
 function goToProductPage(): Cypress.Chainable<number> {
-  const productPagePath = 'ProductPage';
+  const productCode = '280916';
   const productPage = checkoutFlow.waitForProductPage(
-    productPagePath,
+    productCode,
     'getProductPage'
   );
   cy.get('.Section4 cx-banner').first().find('img').click({ force: true });
