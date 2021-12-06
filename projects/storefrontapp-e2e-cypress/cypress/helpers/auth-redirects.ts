@@ -76,53 +76,33 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectAfterTokenExpiryAndPageRefresh(user: AccountData){
-  it('should redirect back after the forced login when access token expired and page was refreshed', () => {
-    cy.log(user);
-    cy.requireLoggedIn(user);
-    cy.visit('/my-account/update-profile');
-    cy.location('pathname').should('contain', '/my-account/update-profile');
+export function testRedirectBackfterLogin() {
+  it('should redirect back after the login', () => {
+    const user = createUser();
+    cy.visit(`/contact`);
 
-    revokeAccessToken();
-    cy.reload();
-
-    cy.location('pathname').should('contain', `/login`);
-    cy.get('cx-global-message div').should(
-      'contain',
-      'Your session has expired. Please login again.'
-    );
-
+    cy.get('cx-login').click();
+    cy.location('pathname').should('contain', '/login');
     authForms.login(
       user.registrationData.email,
       user.registrationData.password
     );
 
-    cy.location('pathname').should('contain', '/my-account/update-profile');
+    cy.location('pathname').should('contain', '/contact');
   });
+
 }
 
-export function testRedirectAfterTokenExpiryAndHttpCall(user: AccountData){
-  it('should redirect back after the forced login when access token expired and http call was made', () => {
-    cy.log(user);
-    cy.requireLoggedIn(user);
-    cy.visit('/my-account/consents');
-    cy.location('pathname').should('contain', '/my-account/consents');
-
-    cy.get('cx-consent-management-form .form-check').first().click();
-    revokeAccessToken();
-    cy.get('cx-consent-management-form .form-check').first().click();
-
-    cy.location('pathname').should('contain', `/login`);
-    cy.get('cx-global-message div').should(
-      'contain',
-      'Your session has expired. Please login again.'
-    );
-
+export function testRedirectAfterForcedLogin() {
+  it('should redirect back after the forced login', () => {
+    const user = createUser();
+    cy.visit(`/my-account/address-book`);
+    cy.location('pathname').should('contain', '/login');
     authForms.login(
       user.registrationData.email,
       user.registrationData.password
     );
 
-    cy.location('pathname').should('contain', '/my-account/consents');
+    cy.location('pathname').should('contain', '/my-account/address-book');
   });
 }

@@ -1,18 +1,18 @@
 import { AccountData } from '../../../support/require-logged-in.commands';
 import {
   createUser,
-  testRedirectAfterTokenExpiryAndHttpCall,
-  testRedirectAfterTokenExpiryAndPageRefresh,
+  testRedirectAfterForcedLogin,
+  testRedirectBackfterLogin
 } from '../../../helpers/auth-redirects';
 
 context('Redirect after auth', () => {
+  /*
   let user: AccountData;
 
   before(() => {
     user = createUser();
-  });
+  });*/
 
-  testRedirectAfterTokenExpiryAndHttpCall(user);
-
-  testRedirectAfterTokenExpiryAndPageRefresh(user);
+  testRedirectBackfterLogin();
+  testRedirectAfterForcedLogin();
 });
