@@ -25,6 +25,7 @@ export const quickOrderForm = {
   initialDescription:
     'When autocomplete results are available use up and down arrows to review and enter to select.',
   productsResults: '{{ count }} products are available.',
+  quickOrderSearch: 'Quick Order search',
 };
 
 export const quickOrderList = {

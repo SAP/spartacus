@@ -50,7 +50,8 @@ export const common = {
     shopAll: 'Shop all {{ navNode}} >',
   },
   searchBox: {
-    placeholder: 'Search here...',
+    productSearch: 'Product search',
+    placeholder: 'Enter product name or SKU',
     ariaLabelInput: 'Search here...',
     ariaLabelSuggestions: 'typing suggestions',
     ariaLabelProducts: 'product results',
