@@ -20,3 +20,7 @@ title: Changes to Styles in 5.0
 ## Change in Configurator Required Error Message Mixin
 
 - `cx-configurator-error-msg` mixin has been defined on `%cx-configurator-required-error-msg` mixin to achieve a consistent styling for rendering an error and validation messages.
+
+## Change in store-finder-list-item.scss
+
+- obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name-link > h2.cx-store-name` for screen reader improvements. 
