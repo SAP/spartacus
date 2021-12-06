@@ -48,10 +48,12 @@ import {
 } from './models/visualization-load-info';
 import { ZoomTo } from './models/zoom-to';
 
-interface VisualContentLoadFinishedEvent {
+interface VisualContentChangesFinishedEvent {
   content: any;
   failureReason: any;
 }
+
+interface VisualContentLoadFinishedEvent {}
 
 @Injectable({
   providedIn: 'any',
@@ -663,6 +665,9 @@ export class VisualViewerService {
     this.animationPlaying = false;
   }
 
+  private contentChangesFinished =
+    new EventEmitter<VisualContentChangesFinishedEvent>();
+
   private contentLoadFinished =
     new EventEmitter<VisualContentLoadFinishedEvent>();
 
@@ -1047,17 +1052,30 @@ export class VisualViewerService {
   private onContentChangesFinished(event: any): void {
     const content = event.getParameter('content');
     const failureReason = event.getParameter('failureReason');
-    if (!failureReason) {
+    if (!!content && !failureReason) {
       this.scene = content;
       this.nodeHierarchy = this.scene.getDefaultNodeHierarchy();
 
       this.viewport.attachNodesPicked(this.onNodesPicked, this);
-    }
 
-    this.contentLoadFinished.emit({
+			if (content.loaders) {
+        content.loaders.forEach((contentLoader: any) => {
+          if (
+            contentLoader &&
+            contentLoader.attachLoadingFinished !== undefined) {
+						contentLoader.attachLoadingFinished(this.onContentLoadingFinished, this);
+          }
+        });
+			}
+    }
+    this.contentChangesFinished.emit({
       content: content,
       failureReason: failureReason,
     });
+  }
+
+  private onContentLoadingFinished(_event: any): void {
+    this.contentLoadFinished.emit({});
   }
 
   private onNodesPicked(event: any): void {
@@ -1163,6 +1181,10 @@ export class VisualViewerService {
           );
           this.contentConnector.attachContentChangesFinished(
             this.onContentChangesFinished,
+            this
+          );
+          this.contentConnector.attachContentLoadingFinished(
+            this.onContentLoadingFinished,
             this
           );
 
@@ -1376,32 +1398,36 @@ export class VisualViewerService {
           veid: sceneId,
         });
 
-        this.contentLoadFinished.subscribe((visualContentLoadFinished) => {
+        this.contentChangesFinished.subscribe((visualContentLoadFinished) => {
           const succeeded = !!visualContentLoadFinished.content;
-          let sceneLoadInfo: SceneLoadInfo;
-          if (succeeded) {
+          const sceneLoadInfo: SceneLoadInfo = (succeeded
+            ? {
+                sceneLoadState: SceneLoadState.Loaded,
+                loadedSceneInfo: {
+                  sceneId: sceneId,
+                  contentType: contentType,
+                },
+              }
+            : {
+                sceneLoadState: SceneLoadState.Failed,
+                errorMessage: visualContentLoadFinished.failureReason,
+              }
+            );
+
+          this.sceneLoadInfo$.next(sceneLoadInfo);
+          subscriber.next(sceneLoadInfo);
+          subscriber.complete();
+        });
+
+        this.contentLoadFinished.subscribe(() => {
+          const sceneLoadInfo = this.sceneLoadInfo$.value;
+          if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
             this.setViewportReady(true);
             // Ensure that the spinner is hidden before the viewport becomes visible.
             // Otherwise the position of the spinner changes
             this.changeDetectorRef.detectChanges();
             this.viewport.setVisible(true);
-
-            sceneLoadInfo = <SceneLoadInfo>{
-              sceneLoadState: SceneLoadState.Loaded,
-              loadedSceneInfo: {
-                sceneId: sceneId,
-                contentType: contentType,
-              },
-            };
-          } else {
-            sceneLoadInfo = <SceneLoadInfo>{
-              sceneLoadState: SceneLoadState.Failed,
-              errorMessage: visualContentLoadFinished.failureReason,
-            };
           }
-          this.sceneLoadInfo$.next(sceneLoadInfo);
-          subscriber.next(sceneLoadInfo);
-          subscriber.complete();
         });
 
         this.contentConnector.addContentResource(contentResource);
