@@ -33,6 +33,8 @@ export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
 export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
 export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
+export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
+export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
@@ -536,6 +538,8 @@ export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
 
 export const SEARCH = 'search';
 export const REMOVE_ENTRY = 'removeEntry';
+export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
+export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
 /***** Classes end *****/
 
