@@ -62,7 +62,7 @@ class MockUserService implements Partial<UserService> {
   }
 }
 
-class MockMultiCartService implements Partial<MultiCartFacade> {
+class MockMultiCartFacade implements Partial<MultiCartFacade> {
   getCart = createSpy().and.returnValue(of(testCart));
   addEntry = createSpy();
   removeEntry = createSpy();
@@ -75,7 +75,7 @@ class MockMultiCartService implements Partial<MultiCartFacade> {
 describe('WishListService', () => {
   let service: WishListService;
   let store: Store<StateWithMultiCart>;
-  let multiCartService: MultiCartFacade;
+  let multiCartFacade: MultiCartFacade;
   let userIdService: UserIdService;
   let userService: UserService;
 
@@ -88,14 +88,14 @@ describe('WishListService', () => {
       providers: [
         WishListService,
         { provide: UserIdService, useClass: MockUserIdService },
-        { provide: MultiCartFacade, useClass: MockMultiCartService },
+        { provide: MultiCartFacade, useClass: MockMultiCartFacade },
         { provide: UserService, useClass: MockUserService },
       ],
     });
 
     store = TestBed.inject(Store);
     service = TestBed.inject(WishListService);
-    multiCartService = TestBed.inject(MultiCartFacade);
+    multiCartFacade = TestBed.inject(MultiCartFacade);
     userIdService = TestBed.inject(UserIdService);
     userService = TestBed.inject(UserService);
 
@@ -130,7 +130,7 @@ describe('WishListService', () => {
 
   describe('getWishList', () => {
     it('should create wish list if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -203,7 +203,7 @@ describe('WishListService', () => {
       );
       service.addEntry(productCode);
 
-      expect(multiCartService.addEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.addEntry).toHaveBeenCalledWith(
         userId,
         cartCode,
         productCode,
@@ -211,8 +211,8 @@ describe('WishListService', () => {
       );
     });
 
-    it('should call load wishlist if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+    it('should call load wish list if not loaded', () => {
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         cartId: getWishlistName(customerId),
@@ -234,7 +234,7 @@ describe('WishListService', () => {
         })
       );
       service.removeEntry(mockCartEntry);
-      expect(multiCartService.removeEntry).toHaveBeenCalledWith(
+      expect(multiCartFacade.removeEntry).toHaveBeenCalledWith(
         userId,
         cartCode,
         mockCartEntry.entryNumber
@@ -242,7 +242,7 @@ describe('WishListService', () => {
     });
 
     it('should call load wish list if not loaded', () => {
-      spyOn(multiCartService, 'getCartIdByType').and.returnValue(of(undefined));
+      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of(undefined));
       const payload = {
         userId,
         cartId: getWishlistName(customerId),

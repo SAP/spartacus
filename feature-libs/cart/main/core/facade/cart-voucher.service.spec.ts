@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   PROCESS_FEATURE,
   StateWithProcess,
@@ -9,7 +9,6 @@ import {
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { CartActions } from '../store/actions/index';
-import { ActiveCartService } from './active-cart.service';
 import { CartVoucherService } from './cart-voucher.service';
 
 const userId = 'testUserId';
@@ -20,7 +19,7 @@ class UserIdServiceStub implements Partial<UserIdService> {
   }
 }
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
+class ActiveCartFacadeStub implements Partial<ActiveCartFacade> {
   getActiveCartId(): Observable<string> {
     return of('testCartId');
   }
@@ -45,7 +44,7 @@ describe('CartVoucherService', () => {
       providers: [
         CartVoucherService,
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartFacadeStub },
       ],
     });
 
