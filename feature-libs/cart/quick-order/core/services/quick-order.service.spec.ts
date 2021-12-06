@@ -1,16 +1,11 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
   ActiveCartService,
   CartAddEntrySuccessEvent,
   EventService,
   OrderEntry,
   Product,
-  ProductAdapter,
-  ProductSearchConnector,
-  ProductSearchPage,
-  SearchConfig,
 } from '@spartacus/core';
 import { Observable, of, queueScheduler } from 'rxjs';
 import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';
@@ -62,31 +57,6 @@ const mockEntry1AfterUpdate: OrderEntry = {
   },
 };
 const mockEntries: OrderEntry[] = [mockEntry1, mockEntry2];
-const mockMaxProducts: number = 10;
-const mockSearchConfig: SearchConfig = {
-  pageSize: mockMaxProducts,
-};
-const mockDefaultSearchConfig: SearchConfig = {
-  pageSize: defaultQuickOrderConfig.quickOrder?.searchForm?.maxProducts,
-};
-const mockProductSearchPage: ProductSearchPage = {
-  products: [mockProduct1, mockProduct2],
-};
-
-class MockProductAdapter implements Partial<ProductAdapter> {
-  load(_productCode: any, _scope?: string): Observable<Product> {
-    return of(mockProduct1);
-  }
-}
-
-class MockProductSearchConnector implements Partial<ProductSearchConnector> {
-  search(
-    _query: string,
-    _searchConfig?: SearchConfig
-  ): Observable<ProductSearchPage> {
-    return of(mockProductSearchPage);
-  }
-}
 
 class MockActiveCartService implements Partial<ActiveCartService> {
   isStable(): Observable<boolean> {
@@ -106,15 +76,12 @@ class MockEventService implements Partial<EventService> {
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
-  let productAdapter: ProductAdapter;
-  let productSearchConnector: ProductSearchConnector;
   let activeCartService: ActiveCartService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
-        ProductAdapter,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -123,17 +90,10 @@ describe('QuickOrderService', () => {
           provide: EventService,
           useClass: MockEventService,
         },
-        { provide: ProductAdapter, useClass: MockProductAdapter },
-        {
-          provide: ProductSearchConnector,
-          useClass: MockProductSearchConnector,
-        },
       ],
     });
 
     service = TestBed.inject(QuickOrderService);
-    productAdapter = TestBed.inject(ProductAdapter);
-    productSearchConnector = TestBed.inject(ProductSearchConnector);
     activeCartService = TestBed.inject(ActiveCartService);
   });
 
@@ -184,47 +144,6 @@ describe('QuickOrderService', () => {
         expect(entries).toEqual([]);
         done();
       });
-  });
-
-  it('should trigger search', () => {
-    spyOn(productAdapter, 'load');
-
-    service.search(mockProduct1Code);
-    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
-  });
-
-  describe('should trigger search products', () => {
-    beforeEach(() => {
-      spyOn(productSearchConnector, 'search').and.returnValue(
-        of(mockProductSearchPage)
-      );
-    });
-
-    it('with provided maxProducts', (done) => {
-      service
-        .searchProducts(mockProduct1Code, mockMaxProducts)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(productSearchConnector.search).toHaveBeenCalledWith(
-            mockProduct1Code,
-            mockSearchConfig
-          );
-          done();
-        });
-    });
-
-    it('with default config maxProducts value', (done) => {
-      service
-        .searchProducts(mockProduct1Code)
-        .pipe(take(1))
-        .subscribe(() => {
-          expect(productSearchConnector.search).toHaveBeenCalledWith(
-            mockProduct1Code,
-            mockDefaultSearchConfig
-          );
-          done();
-        });
-    });
   });
 
   it('should update entry quantity', (done) => {
@@ -449,13 +368,6 @@ describe('QuickOrderService', () => {
         expect(result).toBe(false);
       });
     });
-  });
-
-  it('should trigger soft deletion entry on removeEntry method', () => {
-    spyOn(service, 'softDeleteEntry').and.callThrough();
-    service.loadEntries([mockEntry1]);
-    service.removeEntry(1);
-    expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
 
   describe('Non purchasable product', () => {
