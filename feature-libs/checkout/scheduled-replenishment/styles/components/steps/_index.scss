@@ -1,10 +1,10 @@
 @import './review/index';
 
-$checkout-components-allowlist: cx-schedule-replenishment-order !default;
+$checkout-scheduled-replenishment-components-allowlist: cx-schedule-replenishment-order !default;
 
 $skipComponentStyles: () !default;
 
-@each $selector in $checkout-components-allowlist {
+@each $selector in $checkout-scheduled-replenishment-components-allowlist {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
     @if (index($skipComponentStyles, $selector) == null) {
@@ -15,7 +15,7 @@ $skipComponentStyles: () !default;
 
 // add body specific selectors
 body {
-  @each $selector in $checkout-components-allowlist {
+  @each $selector in $checkout-scheduled-replenishment-components-allowlist {
     @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector}__body !optional;
     }
