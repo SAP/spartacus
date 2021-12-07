@@ -1,34 +1,36 @@
 <ng-container *ngIf="routerData$ | async as routerData">
   <ng-container *ngIf="!routerData.displayOnly">
-    <a
-      tabindex="0"
-      [class.active]="!(isOverviewPage$ | async)"
-      [routerLink]="
-        {
-          cxRoute: 'configure' + routerData.owner.configuratorType,
-          params: {
-            entityKey: routerData.owner.id,
-            ownerType: routerData.owner.type
-          }
-        } | cxUrl
-      "
-      role="link"
-      >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
-    >
-    <a
-      tabindex="0"
-      [class.active]="isOverviewPage$ | async"
-      [routerLink]="
-        {
-          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-          params: {
-            entityKey: routerData.owner.id,
-            ownerType: routerData.owner.type
-          }
-        } | cxUrl
-      "
-      role="link"
-      >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
-    >
+    <div class="cx-configurator-tab-bar-component">
+      <a
+        tabindex="0"
+        [class.active]="!(isOverviewPage$ | async)"
+        [routerLink]="
+          {
+            cxRoute: 'configure' + routerData.owner.configuratorType,
+            params: {
+              entityKey: routerData.owner.id,
+              ownerType: routerData.owner.type
+            }
+          } | cxUrl
+        "
+        role="link"
+        >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+      >
+      <a
+        tabindex="0"
+        [class.active]="isOverviewPage$ | async"
+        [routerLink]="
+          {
+            cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+            params: {
+              entityKey: routerData.owner.id,
+              ownerType: routerData.owner.type
+            }
+          } | cxUrl
+        "
+        role="link"
+        >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+      >
+    </div>
   </ng-container>
 </ng-container>
