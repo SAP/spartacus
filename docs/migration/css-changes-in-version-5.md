@@ -20,3 +20,7 @@ title: Changes to Styles in 5.0
 ## Change in Configurator Required Error Message Mixin
 
 - `cx-configurator-error-msg` mixin has been defined on `%cx-configurator-required-error-msg` mixin to achieve a consistent styling for rendering an error and validation messages.
+
+## Change in _order-summary.scss
+
+- `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes 
