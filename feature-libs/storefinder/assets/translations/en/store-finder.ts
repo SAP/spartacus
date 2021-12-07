@@ -25,5 +25,6 @@ export const storeFinder = {
     geolocationNotEnabled:
       'Cannot locate nearby stores. Geolocation consent has not been enabled',
     searchNearestStores: 'Search nearest stores',
+    searchBoxLabel: 'Enter postal code, town or address',
   },
 };
