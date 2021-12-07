@@ -21,6 +21,7 @@ describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
   let activeCartService: ActiveCartService;
   let userIdService: UserIdService;
+  let checkoutService: CheckoutService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -88,6 +89,7 @@ describe('CheckoutDeliveryService', () => {
     service = TestBed.inject(CheckoutDeliveryService);
     activeCartService = TestBed.inject(ActiveCartService);
     userIdService = TestBed.inject(UserIdService);
+    checkoutService = TestBed.inject(CheckoutService);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
@@ -256,6 +258,60 @@ describe('CheckoutDeliveryService', () => {
       success: false,
       value: undefined,
     });
+  });
+
+  it('should return set delivery mode in process flag as true during loading state', () => {
+    const modeId = 'testId';
+    service.setDeliveryMode(modeId);
+
+    let setDeliveryModeInProcess = false;
+    service
+      .getSetDeliveryModeInProcess()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return set delivery mode in process flag as true when cart is not stable', () => {
+    spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+
+    let setDeliveryModeInProcess = false;
+    service
+      .getSetDeliveryModeInProcess()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return set delivery mode in process flag as true when checkout is loading', () => {
+    spyOn(checkoutService, 'isLoading').and.returnValue(of(true));
+
+    let setDeliveryModeInProcess = false;
+    service
+      .getSetDeliveryModeInProcess()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return set delivery mode in process flag as false when set delivery mode request has finished', () => {
+    const modeId = 'testId';
+    let setDeliveryModeInProcess = true;
+
+    store.dispatch(new CheckoutActions.SetDeliveryModeSuccess(modeId));
+    service
+      .getSetDeliveryModeInProcess()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(false);
   });
 
   it('should be able to reset set delivery mode process', () => {
