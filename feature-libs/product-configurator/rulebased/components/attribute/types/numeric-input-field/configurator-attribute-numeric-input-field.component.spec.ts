@@ -4,6 +4,7 @@ import {
   Input,
   Pipe,
   PipeTransform,
+  Component,
 } from '@angular/core';
 import {
   ComponentFixture,
@@ -33,6 +34,14 @@ class MockTranslateUrlPipe implements PipeTransform {
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
 }
 
 let DEBOUNCE_TIME: number;
@@ -89,6 +98,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
           ConfiguratorAttributeNumericInputFieldComponent,
           MockTranslateUrlPipe,
           MockFocusDirective,
+          MockCxIconComponent,
         ],
         imports: [ReactiveFormsModule],
         providers: [

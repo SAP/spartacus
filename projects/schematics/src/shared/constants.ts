@@ -32,6 +32,9 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
 export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
+export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
+export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
+export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
@@ -491,7 +494,15 @@ export const CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT =
   'ConfiguratorOverviewAttributeComponent';
 export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT =
   'ConfiguratorAddToCartButtonComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
+  'ConfiguratorCartEntryBundleInfoComponent';
+export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
+  'ConfiguratorCartEntryBundleInfoService';
 export const DIRECTION_SERVICE = 'DirectionService';
+export const QUICK_ORDER_SERVICE = 'QuickOrderService';
+
+export const PRODUCT_ADAPTER = 'ProductAdapter';
+export const PRODUCT_SEARCH_CONNECTOR = 'ProductSearchConnector';
 
 export const CART_PAGE_EVENT_BUILDER = 'CartPageEventBuilder';
 export const HOME_PAGE_EVENT_BUILDER = 'HomePageEventBuilder';
@@ -521,6 +532,14 @@ export const CHECKOUT_DELIVERY_FACADE = 'CheckoutDeliveryFacade';
 export const CHECKOUT_PAYMENT_FACADE = 'CheckoutPaymentFacade';
 export const ON_NAVIGATE_FOCUS_SERVICE = 'OnNavigateFocusService';
 export const KEYBOARD_FOCUS_CONFIG = 'KeyboardFocusConfig';
+
+export const REFRESH_IN_PROGRESS = 'refreshInProgress';
+export const HANDLE_EXPIRED_TOKEN = 'handleExpiredToken';
+
+export const SEARCH = 'search';
+export const REMOVE_ENTRY = 'removeEntry';
+export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
+export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
 /***** Classes end *****/
 
