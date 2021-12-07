@@ -6,10 +6,10 @@ import {
   CartConnector,
   getCartIdByUserId,
   MultiCartSelectors,
-  SaveCartConnector,
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
-import { Cart, CartType } from '@spartacus/cart/main/root';
+import { CartType } from '@spartacus/cart/main/root';
+import { SavedCartConnector } from '@spartacus/cart/saved-cart/core';
 import {
   isNotUndefined,
   normalizeHttpError,
@@ -32,16 +32,14 @@ import { WishListActions } from '../actions';
 export class WishListEffects {
   @Effect()
   createWishList$: Observable<
-    | WishListActions.CreateWishListSuccess
-    | WishListActions.CreateWishListFail
-    | CartActions.LoadCartSuccess
+    WishListActions.CreateWishListSuccess | WishListActions.CreateWishListFail
   > = this.actions$.pipe(
     ofType(WishListActions.CREATE_WISH_LIST),
     map((action: WishListActions.CreateWishList) => action.payload),
     switchMap((payload) => {
       return this.cartConnector.create(payload.userId).pipe(
         switchMap((cart) => {
-          return this.saveCartConnector
+          return this.savedCartConnector
             .saveCart(
               payload.userId,
               cart.code ?? '',
@@ -49,13 +47,10 @@ export class WishListEffects {
               payload.description
             )
             .pipe(
-              switchMap((saveCartResult) => [
+              switchMap((savedCart) => [
                 new WishListActions.CreateWishListSuccess({
-                  cart: saveCartResult.savedCartData as Cart,
-                  cartId: getCartIdByUserId(
-                    saveCartResult.savedCartData as Cart,
-                    payload.userId
-                  ),
+                  cart: savedCart,
+                  cartId: getCartIdByUserId(savedCart, payload.userId),
                 }),
               ]),
               catchError((error) =>
@@ -197,7 +192,7 @@ export class WishListEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private saveCartConnector: SaveCartConnector,
+    private savedCartConnector: SavedCartConnector,
     private userIdService: UserIdService,
     private store: Store<StateWithMultiCart>
   ) {}
