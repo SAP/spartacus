@@ -2322,8 +2322,8 @@
 
 "@sapui5/ts-types-esm@1.97.0":
   version "1.97.0"
-  resolved "https://int.repositories.cloud.sap/artifactory/api/npm/build-milestones-npm/@sapui5/ts-types-esm/-/ts-types-esm-1.97.0.tgz#4d9df38342f635d8ff3525d9ab9f5e21dce28934"
-  integrity sha1-TZ3zg0L2Ndj/NSXZq59eIdziiTQ=
+  resolved "https://registry.yarnpkg.com/@sapui5/ts-types-esm/-/ts-types-esm-1.97.0.tgz#4d9df38342f635d8ff3525d9ab9f5e21dce28934"
+  integrity sha512-say59lDQKgm2h0cAwIap3mEK2sCHPGJd6WAfo1oI1m0ns/PWhd7vpHoT8+W8iPys/Wg2HP3lO8CyQH1fm80Q6Q==
 
 "@scarf/scarf@0.1.5":
   version "0.1.5"
