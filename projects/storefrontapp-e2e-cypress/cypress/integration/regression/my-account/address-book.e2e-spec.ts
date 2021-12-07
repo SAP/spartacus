@@ -86,7 +86,11 @@ describe('My Account - Address Book', () => {
         cy.get('a').contains('Set as default').click();
 
         cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
-        alerts.getSuccessAlert().contains(`Address ${newAddress.address.line1} was sucessfully set as default`);
+        alerts
+          .getSuccessAlert()
+          .contains(
+            `Address ${newAddress.address.line1} was sucessfully set as default`
+          );
         const firstCard = cy.get('cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', 'N Z');
