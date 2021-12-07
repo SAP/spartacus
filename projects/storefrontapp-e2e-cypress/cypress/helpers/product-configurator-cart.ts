@@ -60,7 +60,7 @@ export function navigateToOrderDetails(): void {
 export function defineOrderNumberAlias(): void {
   const orderConfirmationText = 'Confirmation of Order:';
 
-  cy.get('cx-order-confirmation-thank-you-message h1.cx-page-title')
+  cy.get('cx-order-confirmation-thank-you-message .cx-page-title')
     .first()
     .invoke('text')
     .then((text) => {
