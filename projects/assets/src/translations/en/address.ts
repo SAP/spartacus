@@ -31,7 +31,7 @@ export const address = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
-    setAsDefault: 'Set as default',
+    setAsDefault: 'Set as default shipping address',
     titleRequired: 'Title is required.',
     userAddressAddSuccess: 'New address was added successfully!',
     userAddressUpdateSuccess: 'Address updated successfully!',

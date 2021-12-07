@@ -60,6 +60,7 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'productDetails',
     'productList',
     'productFacetNavigation',
+    'productCarousel',
     'productSummary',
     'productReview',
     'addToCart',
