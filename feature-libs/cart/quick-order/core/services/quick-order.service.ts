@@ -12,7 +12,6 @@ import {
   HttpErrorModel,
   OrderEntry,
   Product,
-  ProductAdapter,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
@@ -41,22 +40,10 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
 
-  /**
-   * @deprecated since version 4.2
-   * Use constructor(activeCartService: ActiveCartService, productAdapter: ProductAdapter, eventService: EventService, productSearchConnector: ProductSearchConnector); instead
-   */
-  // TODO(#14059): Remove deprecated constructor
-  constructor(
-    activeCartService: ActiveCartService,
-    productAdapter: ProductAdapter,
-    eventService: EventService
-  );
-
   constructor(
     protected activeCartService: ActiveCartService,
-    protected productAdapter: ProductAdapter, // TODO(#14059): Remove this service
     protected eventService: EventService,
-    protected productSearchConnector?: ProductSearchConnector //TODO(#14059): Make it required
+    protected productSearchConnector: ProductSearchConnector //TODO(#14059): Make it required
   ) {}
 
   ngOnDestroy(): void {
@@ -68,14 +55,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
    */
   getEntries(): BehaviorSubject<OrderEntry[]> {
     return this.entries$;
-  }
-
-  /**
-   * @deprecated since 4.2 - use searchProducts instead
-   * Search product using SKU
-   */
-  search(productCode: string): Observable<Product> {
-    return this.productAdapter.load(productCode);
   }
 
   /**
@@ -151,13 +130,6 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
       entriesList.splice(index, 1);
       this.entries$.next(entriesList);
     });
-  }
-
-  /**
-   * @deprecated since 4.2 - use softDeleteEntry instead
-   */
-  removeEntry(index: number): void {
-    this.softDeleteEntry(index);
   }
 
   /**
