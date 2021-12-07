@@ -377,7 +377,10 @@ export function verifySavedCartDetailsItemsQuantity(quantity: number) {
     .should('have.length', quantity);
 }
 
-export function reduceFirstProductQuantityFromSaveCart(cartCode: string) {
+export function modifyFirstProductQuantityFromSaveCart(
+  quantity: number,
+  cartCode: string
+) {
   const getModifyCartItemQuantityAlias =
     interceptModifyCartItemQuantityEndpoint(0, cartCode);
 
@@ -385,7 +388,7 @@ export function reduceFirstProductQuantityFromSaveCart(cartCode: string) {
     .first()
     .find('cx-cart-item cx-item-counter input[type=number]:not([disabled])')
     .type('{selectall}{backspace}')
-    .type(`2`)
+    .type(`${quantity}`)
     .blur();
 
   cy.wait(`@${getModifyCartItemQuantityAlias}`)
@@ -412,22 +415,23 @@ export function manuallyRestoryCartFromDetailsPage(cartCode: string) {
   cy.wait(`@${restoreSavedCartAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
-
-  verifyMiniCartQuantity(1);
 }
 
 export function manuallyRestoryCartFromListingPage(cartCode: string) {
   const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cartCode);
 
+  // Restore cart button click
   cy.get('cx-saved-cart-list .cx-saved-cart-list-table tr')
     .first()
     .find('.cx-saved-cart-list-make-cart-active > .cx-saved-cart-make-active')
     .click();
 
+  // Clone cart checkbox select
   cy.get(
     'cx-saved-cart-form-dialog .cx-copy-saved-cart-row .cx-copy-saved-cart-label'
   ).click();
 
+  // Restore dialog submit button
   cy.get(
     'cx-saved-cart-form-dialog .cx-saved-cart-form-footer .btn-primary'
   ).click();

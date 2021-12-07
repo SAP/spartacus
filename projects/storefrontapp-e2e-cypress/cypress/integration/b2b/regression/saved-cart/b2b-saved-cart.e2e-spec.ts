@@ -4,7 +4,7 @@ import * as sampleData from '../../../../sample-data/b2b-saved-cart';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Saved Cart', () => {
-  viewportContext(['desktop', 'mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       clearAllStorage();
     });
@@ -222,6 +222,7 @@ context('B2B - Saved Cart', () => {
 
             savedCart.openFirstElementOnTheList(cartCode);
             savedCart.manuallyRestoryCartFromDetailsPage(cartCode);
+            savedCart.verifyMiniCartQuantity(1);
             savedCart.visitSavedCartListingPage();
             savedCart.verifySavedCartListQuantity(2);
           });
@@ -245,7 +246,7 @@ context('B2B - Saved Cart', () => {
             savedCart.removeFirstProductFromSavedCart(cartCode);
             savedCart.verifySavedCartDetailsItemsQuantity(1);
 
-            savedCart.reduceFirstProductQuantityFromSaveCart(cartCode);
+            savedCart.modifyFirstProductQuantityFromSaveCart(2, cartCode);
           });
       });
     });
