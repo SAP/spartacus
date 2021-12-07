@@ -38,7 +38,7 @@ jobs:
     name: "E2E tests for SSR B2C"
   - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
     name: "E2E tests for CDC"
-  - script: "export CYPRESS_CONFIG=cypress.ci.digital-payments.json && export SPA_ENV='digitalPayments' && ./ci-scripts/e2e-cypress.sh -s digitalPayments || exit 0"
+  - script: "export CYPRESS_CONFIG=cypress.ci.digital-payments.json && export SPA_ENV='digitalPayments' && ./ci-scripts/e2e-cypress.sh -s digital-payments || exit 0"
     name: "E2E tests for Digital Payment"
   - script: "./ci-scripts/lhci.sh"
     name: "Lighthouse score validation"
