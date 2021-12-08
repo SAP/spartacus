@@ -30,12 +30,21 @@ const feature1CmsConfig: CmsConfig = {
   },
 };
 
+const feature2CmsConfig: CmsConfig = {
+  cmsComponents: {
+    component2: {
+      component: 'component2Class',
+    },
+  },
+};
+
 const TEST_TOKEN = new InjectionToken('testTokan');
 const TEST_DEP_TOKEN = new InjectionToken('testDepTokan');
 
 @NgModule({
   providers: [
     provideDefaultConfig(feature1CmsConfig),
+    provideDefaultConfig(feature2CmsConfig),
     {
       provide: TEST_TOKEN,
       useValue: 'test-value',
