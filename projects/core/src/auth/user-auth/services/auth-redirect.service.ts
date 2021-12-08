@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationEnd, Router } from '@angular/router';
+import { Event, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
@@ -40,8 +40,8 @@ export class AuthRedirectService implements OnDestroy {
 
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
-        this.setRedirectUrl(event.urlAfterRedirects);
+      if (event instanceof NavigationStart) {
+        this.setRedirectUrl(event.url);
       }
     });
   }
