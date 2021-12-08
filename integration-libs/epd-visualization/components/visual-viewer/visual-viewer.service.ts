@@ -745,7 +745,10 @@ export class VisualViewerService {
     this.sceneNodeToProductLookupService
       .lookupNodeIds(productCodes)
       .subscribe((sceneNodeIds: string[]) => {
-        const nodeRefsToInclude = this.persistentIdToNodeRef(sceneNodeIds);
+        const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
+          sceneNodeIds,
+          true
+        );
         if (this.is2D) {
           const hotspotNodeRefs: NodeRef[] =
             this.nodeHierarchy.getHotspotNodeIds();
@@ -828,8 +831,9 @@ export class VisualViewerService {
 
     const currentVisibleSids: string[] =
       this.viewPriorToIsolateViewInfo.visibility.visible || [];
-    const currentVisibleNodeRefs = currentVisibleSids.map(
-      this.persistentIdToNodeRef.bind(this)
+    const currentVisibleNodeRefs: NodeRef[] = this.persistentIdToNodeRef(
+      currentVisibleSids,
+      true
     );
     this.viewStateManager.setVisibilityState(
       currentVisibleNodeRefs,
@@ -1092,14 +1096,9 @@ export class VisualViewerService {
   }
 
   private isNodeIncluded(nodeRef: NodeRef): boolean {
-    const sid = this.nodeRefToPersistentId(nodeRef);
-    if (!sid) {
-      return false;
-    }
+    const sids: string[] = this.nodeRefToPersistentId([nodeRef], true);
     const productCodes =
-      this.sceneNodeToProductLookupService.syncLookupProductCodes([
-        sid as string,
-      ]);
+      this.sceneNodeToProductLookupService.syncLookupProductCodes(sids);
     return (
       !!productCodes &&
       productCodes.some((productCode: string) =>
@@ -1295,15 +1294,23 @@ export class VisualViewerService {
   }
 
   private persistentIdToNodeRef(
-    nodeIds: string | string[]
-  ): NodeRef | NodeRef[] {
-    return (this.scene as any).persistentIdToNodeRef(nodeIds);
+    nodeIds: string[],
+    filterUnresolvedValues: boolean
+  ): NodeRef[] {
+    const nodeRefs: NodeRef[] = (this.scene as any).persistentIdToNodeRef(
+      nodeIds
+    );
+    return filterUnresolvedValues
+      ? nodeRefs.filter((nodeRef) => !!nodeRef)
+      : nodeRefs;
   }
 
   private nodeRefToPersistentId(
-    nodeRefs: object | object[]
-  ): string | string[] {
-    return (this.scene as any).nodeRefToPersistentId(nodeRefs);
+    nodeRefs: object[],
+    filterUnresolvedValues: boolean
+  ): string[] {
+    const sids: string[] = (this.scene as any).nodeRefToPersistentId(nodeRefs);
+    return filterUnresolvedValues ? sids.filter((sid) => !!sid) : sids;
   }
 
   private getViewStateManagerImplementation(): any {
@@ -1315,7 +1322,7 @@ export class VisualViewerService {
   }
 
   private handleSelectedNodeIds(nodeIds: string[]): void {
-    const nodeRefs = this.persistentIdToNodeRef(nodeIds);
+    const nodeRefs = this.persistentIdToNodeRef(nodeIds, true);
 
     if (this.is2D) {
       this.handleSelectedNodes2D(nodeRefs);
@@ -1445,7 +1452,7 @@ export class VisualViewerService {
       nodeRefs.push(nodeRef)
     );
 
-    const nodeIds = this.nodeRefToPersistentId(nodeRefs) as string[];
+    const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);
     this.sceneNodeToProductLookupService
       .lookupProductCodes(nodeIds)
       .subscribe((productCodes: string[]) =>
@@ -1459,7 +1466,7 @@ export class VisualViewerService {
       nodeRefs.push(nodeRef)
     );
 
-    const nodeIds = this.nodeRefToPersistentId(nodeRefs) as string[];
+    const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);
     this.sceneNodeToProductLookupService
       .lookupProductCodes(nodeIds)
       .subscribe((productCodes: string[]) =>
