@@ -24,7 +24,7 @@ export class PaymentMethodsComponent implements OnInit {
   constructor(
     private userPaymentService: UserPaymentService,
     private translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
