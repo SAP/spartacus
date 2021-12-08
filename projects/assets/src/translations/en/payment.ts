@@ -28,8 +28,7 @@ export const payment = {
   },
   paymentMethods: {
     paymentMethods: 'Payment methods',
-    paymentMethodSelectedSucess:
-      'Payment method ending in {{ digits }} selected successfully',
+    paymentMethodSelectedSuccess: 'Payment method selected successfully',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
@@ -48,6 +47,6 @@ export const payment = {
     paymentType_ACCOUNT: 'Account',
   },
   messages: {
-    setAsDefaultSucessfully: 'New payment was sucessfully set as default',
+    setAsDefaultSuccessfully: 'New payment was successfully set as default',
   },
 };

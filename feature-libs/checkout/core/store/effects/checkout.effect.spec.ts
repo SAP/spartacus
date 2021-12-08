@@ -7,12 +7,12 @@ import {
   AuthActions,
   CartActions,
   DeliveryMode,
+  GlobalMessageService,
+  GlobalMessageType,
   Order,
   PaymentDetails,
   SiteContextActions,
   UserActions,
-  GlobalMessageService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -387,13 +387,8 @@ describe('Checkout effect', () => {
 
       expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
 
-      let digits = paymentDetails.cardNumber;
-      digits = digits?.substring(digits.length - 4, digits.length);
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'paymentMethods.paymentMethodSelectedSucess',
-          params: { digits: digits },
-        },
+        { key: 'paymentMethods.paymentMethodSelectedSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });
