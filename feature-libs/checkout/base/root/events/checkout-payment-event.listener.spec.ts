@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import {
   CxEvent,
   EventService,
@@ -7,6 +6,7 @@ import {
   GlobalMessageType,
 } from '@spartacus/core';
 import { Subject } from 'rxjs';
+import { CheckoutConfig } from '../config/checkout-config';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
   PaymentDetailsCreatedEvent,

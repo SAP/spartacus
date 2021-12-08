@@ -1,11 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { CheckoutConfig } from '@spartacus/checkout/base/root';
 import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
+import { CheckoutConfig } from '../config/checkout-config';
 import {
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
