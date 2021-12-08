@@ -53,13 +53,46 @@
    7. CDS
    8. Anything else? Some internal features?
 13. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
-14. align the event names - prefix them with Checkout?
-15. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
-16. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+14. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+    - ```ts
+      const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
+        user: 'orgUsers/${userId}',
+      };
+      ```
+
+    - ```ts
+      const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
+        userUpdateProfile: 'users/${userId}',
+        userCloseAccount: 'users/${userId}',
+      };
+      ```
+
+    - ```ts
+      const defaultB2bCartOccEndpoints: CartOccEndpoints = {
+        addEntries: 'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
+      };
+      ```
+
+    - ```ts
+      const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
+        scheduleReplenishmentOrder:
+          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+        replenishmentOrderDetails:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderDetailsHistory:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
+        cancelReplenishmentOrder:
+          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
+        replenishmentOrderHistory:
+          'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+      };
+15. align the event names - prefix them with Checkout?
+16. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
+17. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    9.  Rename the checkout components' selectors to have the checkout prefix?
-17. query debounce - `feature/query-debounce`
-18. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-19. Look into `TODO(#8880):`
+18. query debounce - `feature/query-debounce`
+19. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+20. Look into `TODO(#8880):`
 
 
 ## Near the end
