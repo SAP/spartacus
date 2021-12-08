@@ -28,6 +28,7 @@ export const payment = {
   },
   paymentMethods: {
     paymentMethods: 'Payment methods',
+    paymentMethodSelectedSuccess: 'Payment method selected',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
