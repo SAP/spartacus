@@ -10,6 +10,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
@@ -175,6 +176,7 @@ describe('ShippingAddressComponent', () => {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(ShippingAddressComponent, {
