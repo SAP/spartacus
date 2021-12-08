@@ -3,10 +3,23 @@
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
-    <a [routerLink]="[location.name]" class="cx-store-name-link">
-      <h2 class="cx-store-name">
-        {{ location.displayName || location.name }}
-      </h2>
+    <a
+      *ngIf="useClickEvent"
+      class="cx-store-name"
+      (click)="handleStoreItemClick()"
+      (keyup)="onKey($event)"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
+    </a>
+    <a
+      *ngIf="!useClickEvent"
+      [routerLink]="[location.name]"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
     </a>
     <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">
