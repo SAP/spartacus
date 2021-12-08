@@ -1,11 +1,9 @@
 import {
   testRedirectAfterForcedLogin,
-  testRedirectBackfterLogin
+  testRedirectBackfterLogin,
 } from '../../../helpers/auth-redirects';
 
 context('Redirect after auth', () => {
-
-
   testRedirectBackfterLogin();
   testRedirectAfterForcedLogin();
 });

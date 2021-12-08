@@ -90,7 +90,6 @@ export function testRedirectBackfterLogin() {
 
     cy.location('pathname').should('contain', '/contact');
   });
-
 }
 
 export function testRedirectAfterForcedLogin() {

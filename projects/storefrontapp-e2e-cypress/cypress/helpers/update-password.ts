@@ -1,4 +1,3 @@
-
 import { login } from './auth-forms';
 import * as alerts from './global-message';
 import * as helper from './login';
@@ -9,8 +8,8 @@ export const PAGE_TITLE_HOME = 'Homepage';
 export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
 export const newPassword = 'newPassword123!';
 
-export function testUpdatePassword(){
-it('should update the password with success', () => {
+export function testUpdatePassword() {
+  it('should update the password with success', () => {
     alerts.getSuccessAlert().should('not.exist');
     cy.get('[formcontrolname="oldPassword"]').type(
       standardUser.registrationData.password

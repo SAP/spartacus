@@ -170,7 +170,6 @@ export function getStubbedReturnRequestDetailsAfterCancel() {
   ).as('return_request_details_after_cancel');
 }
 
-
 export function testCancelOrder() {
   describe('should cancel order', () => {
     it('should cancel', () => {
@@ -267,10 +266,7 @@ function assertButtons(isConfirm = false) {
       'Submit Request'
     );
   } else {
-    cy.get('cx-amend-order-actions .btn-primary').should(
-      'contain',
-      'Continue'
-    );
+    cy.get('cx-amend-order-actions .btn-primary').should('contain', 'Continue');
   }
 }
 
@@ -295,10 +291,7 @@ function assertOrderItems(order: any, isConfirm = false) {
         cy.get('.cx-price').should('contain', entry.basePrice.formattedValue);
         if (isConfirm) {
           cy.get('.cx-quantity').should('contain', 1);
-          cy.get('.cx-total').should(
-            'contain',
-            entry.basePrice.formattedValue
-          );
+          cy.get('.cx-total').should('contain', entry.basePrice.formattedValue);
         } else {
           cy.get('.cx-request-qty').should('contain', 1);
           cy.get('cx-item-counter').should('exist');

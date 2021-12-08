@@ -41,7 +41,6 @@ context('Redirect after auth', () => {
     cy.location('pathname').should('contain', '/my-account/update-profile');
   });
 
-
   it('should redirect back after the forced login when access token expired and http call was made', () => {
     cy.requireLoggedIn(user);
     cy.visit('/my-account/consents');
@@ -64,7 +63,6 @@ context('Redirect after auth', () => {
 
     cy.location('pathname').should('contain', '/my-account/consents');
   });
-
 
   it('should not redirect after the login to: /login, /register nor /forgot-password', () => {
     cy.visit(`/my-account/update-profile`);

@@ -103,7 +103,7 @@ export function addPaymentMethod(paymentDetail: PaymentDetail) {
     });
 }
 
-export function testRenderEmptyPaymentDetailsPage(){
+export function testRenderEmptyPaymentDetailsPage() {
   it('should render empty payment details page', () => {
     loginRegisteredUser();
     visitPaymentDetailsPage();
@@ -115,9 +115,8 @@ export function testRenderEmptyPaymentDetailsPage(){
       );
     });
   });
-  
 }
-export function testRenderOnePaymentMethod(){
+export function testRenderOnePaymentMethod() {
   it('should render page with only one payment methods', () => {
     addProductFromPdp();
     addPaymentMethod(testPaymentDetail[0]);

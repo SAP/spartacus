@@ -34,7 +34,7 @@ export function createAccountFromGuest(password: string) {
   });
 }
 
-export function testCheckoutAsGuest(){
+export function testCheckoutAsGuest() {
   it('should perform checkout as guest and create a user account', () => {
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndProceedToCheckout();

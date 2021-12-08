@@ -154,7 +154,7 @@ export function addProductToCart(product) {
   validateProduct(product, 1, ItemList.Cart);
 }
 
-export function testAnonymousUserSaveForLater(){
+export function testAnonymousUserSaveForLater() {
   context('Guest', () => {
     it('should register and login first for anonymous user', () => {
       addProductToCart(products[0]);
@@ -165,7 +165,7 @@ export function testAnonymousUserSaveForLater(){
   });
 }
 
-export function testLoggedInUserSaveForLater(){
+export function testLoggedInUserSaveForLater() {
   context('Re-login customer', () => {
     it('Should save items in saved for later list when logout', () => {
       const alias = waitForPage('/cart', 'cartPage');

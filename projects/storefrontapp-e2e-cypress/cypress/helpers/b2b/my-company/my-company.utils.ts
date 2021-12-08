@@ -4,7 +4,10 @@ import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { testFeaturesFromConfig } from './my-company-features';
 import { testCoreFeaturesFromConfig } from './my-company-features';
 
-export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig, core: boolean = false) {
+export function testMyCompanyFeatureFromConfig(
+  config: MyCompanyConfig,
+  core: boolean = false
+) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -22,10 +25,9 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig, core: bo
       cy.saveLocalStorage();
     });
 
-    if (core){
+    if (core) {
       testCoreFeaturesFromConfig(config);
-    }
-    else{
+    } else {
       testFeaturesFromConfig(config);
     }
   });

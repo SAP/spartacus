@@ -156,7 +156,7 @@ export const orderHistoryTest = {
       switchLanguage('en'); // switch language back
     });
   },
-  checkOrderDetailsUnconsignedEntries(){
+  checkOrderDetailsUnconsignedEntries() {
     it('should display order details page with unconsigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.visit(`/my-account/order/${orderData.body.code}`);

@@ -1,5 +1,9 @@
 import { removeCartItem } from './cart';
-import { PRODUCT_1, PRODUCT_2, lowStockResponse, } from '../sample-data/cart-validation';
+import {
+  PRODUCT_1,
+  PRODUCT_2,
+  lowStockResponse,
+} from '../sample-data/cart-validation';
 import * as cart from './cart';
 
 export function validateStock(mockResponse = {}, alias = 'validate') {
@@ -50,9 +54,7 @@ export function removeItemAndCheckCartEntriesNumber(
   );
 }
 
-
-export function testReducedProductStockValidation(){
-
+export function testReducedProductStockValidation() {
   it('should display information about reduced stock for product in cart', () => {
     addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
@@ -74,5 +76,4 @@ export function testReducedProductStockValidation(){
     removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
     removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
   });
-
 }
