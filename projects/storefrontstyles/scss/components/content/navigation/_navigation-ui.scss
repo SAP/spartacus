@@ -315,7 +315,7 @@
       }
       // Show dropdowns via hover when no nav is focused
       > nav {
-        > .wrapper {
+        > button + .wrapper {
           position: absolute;
           margin-inline-start: -10px;
           border: 1px solid #ccc;
@@ -323,22 +323,16 @@
         }
 
         // We only treat the first wrapper as a collapsible container
-        &:hover {
-          > .wrapper {
-            @include showWrapperDesktop();
-          }
+        //&:hover {
+        > button:hover + .wrapper {
+          @include showWrapperDesktop();
         }
-      }
 
-      // Show dropdowns via focus only once a nav is clicked
-      &:focus-within {
-        > nav {
-          &:focus,
-          &.is-open:focus-within {
-            > .wrapper {
-              @include showWrapperDesktop();
-            }
-          }
+        // Show dropdowns via focus only once a nav is clicked
+        //&:focus-within {
+        > button:focus + .wrapper,
+        > button.is-open:focus-within + .wrapper {
+          @include showWrapperDesktop();
         }
       }
 

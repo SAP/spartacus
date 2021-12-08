@@ -1,26 +1,27 @@
-<nav>
-  <ul>
-    <li *ngIf="flyout && node?.children.length > 1" class="back is-open">
-      <button>
-        <cx-icon [type]="iconType.CARET_LEFT" (click)="back()"></cx-icon>
+<!--<nav>-->
+<!--  <ul>-->
+    <div *ngIf="flyout && node?.children.length > 1" class="back is-open" >
+<!--      <button class="is-open">-->
+      <button (click)="back()">
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
         {{ 'common.back' | cxTranslate }}
       </button>
-    </li>
+    </div>
 
     <ng-container *ngFor="let child of node?.children">
-      <li>
+<!--      <li>-->
         <ng-container
           *ngTemplateOutlet="nav; context: { node: child, depth: 0 }"
         >
         </ng-container>
-      </li>
+<!--      </li>-->
     </ng-container>
-  </ul>
-</nav>
+<!--  </ul>-->
+<!--</nav>-->
 <!-- we generate links in a recursive manner -->
 
 <ng-template #nav let-node="node" let-depth="depth">
-  <!--  <nav>-->
+    <nav>
   <cx-generic-link
     *ngIf="
       node.url && (!node.children || node.children?.length === 0);
@@ -73,21 +74,21 @@
 
   <!-- we add a wrapper to allow for better layout handling in CSS -->
   <div class="wrapper" *ngIf="node.children?.length > 0">
-    <ul
+    <div
       class="childs"
       [attr.depth]="getTotalDepth(node)"
       [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
       [attr.columns]="getColumnCount(node.children?.length)"
     >
       <ng-container *ngFor="let child of node.children">
-        <li>
+<!--        <li>-->
           <ng-container
             *ngTemplateOutlet="nav; context: { node: child, depth: depth + 1 }"
           >
           </ng-container>
-        </li>
+<!--        </li>-->
       </ng-container>
-    </ul>
+    </div>
   </div>
-  <!--  </nav>-->
+    </nav>
 </ng-template>
