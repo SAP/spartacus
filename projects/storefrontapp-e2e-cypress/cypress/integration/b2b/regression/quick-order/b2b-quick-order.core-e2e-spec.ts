@@ -29,7 +29,6 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been added to the cart`);
       });
 
-
       it('should fill the form with random string and get empty results information', () => {
         quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
         quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();

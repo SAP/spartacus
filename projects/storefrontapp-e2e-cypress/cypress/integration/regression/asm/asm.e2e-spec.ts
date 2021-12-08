@@ -137,7 +137,6 @@ context('Assisted Service Module', () => {
   });
 });
 
-
 /*
 function listenForAuthenticationRequest(): string {
   return interceptPost(

@@ -11,7 +11,7 @@ export function registerAndLogin() {
   cy.requireLoggedIn(standardUser);
 }
 
-export function testUpdateEmailAndLogin(){
+export function testUpdateEmailAndLogin() {
   it('should update his email address and login', () => {
     const newUid = generateMail(randomString(), true);
     cy.get('cx-update-email').within(() => {

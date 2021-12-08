@@ -20,10 +20,10 @@ context('Save for later', () => {
       cy.visit('/');
     });
 
-    // Core test. Repeat in mobile. 
+    // Core test. Repeat in mobile.
     saveForLater.testAnonymousUserSaveForLater();
 
-    // Core test. Repeat in mobile. 
+    // Core test. Repeat in mobile.
     saveForLater.testLoggedInUserSaveForLater();
 
     describe('Customer', () => {

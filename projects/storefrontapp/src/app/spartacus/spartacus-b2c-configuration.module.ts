@@ -45,4 +45,4 @@ import {
     }),
   ],
 })
-export class SpartacusB2cConfigurationModule { }
+export class SpartacusB2cConfigurationModule {}

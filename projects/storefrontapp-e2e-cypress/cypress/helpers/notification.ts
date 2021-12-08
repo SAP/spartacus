@@ -214,8 +214,8 @@ export function navigateToMyInterestsPage() {
   });
 }
 
-export function testEnableDisableNotification(){
-it('should enable/disable notification preference', () => {
+export function testEnableDisableNotification() {
+  it('should enable/disable notification preference', () => {
     enableNotificationChannel();
     cy.get('[type="checkbox"]').first().should('be.checked');
 

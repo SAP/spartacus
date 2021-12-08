@@ -66,10 +66,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.LIST,
       ,
     ],
-    coreFeatures: [
-      MY_COMPANY_FEATURE.CREATE,
-      MY_COMPANY_FEATURE.DISABLE,
-    ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
   {
     name: 'Purchase Limit',
@@ -149,10 +146,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.DISABLE,
       MY_COMPANY_FEATURE.UPDATE,
     ],
-    coreFeatures: [
-      MY_COMPANY_FEATURE.CREATE,
-      MY_COMPANY_FEATURE.DISABLE,
-    ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
   {
     name: 'Purchase Limit',
@@ -242,9 +236,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.DISABLE,
       MY_COMPANY_FEATURE.UPDATE,
     ],
-    coreFeatures: [
-      MY_COMPANY_FEATURE.CREATE,
-      MY_COMPANY_FEATURE.DISABLE,
-    ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
 ];

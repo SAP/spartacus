@@ -208,8 +208,7 @@ export function waitForGetCoupons(): string {
   return `${aliasName}`;
 }
 
-export function testClaimCustomerCoupon()
-{
+export function testClaimCustomerCoupon() {
   describe('Claim customer coupon', () => {
     it('should claim customer coupon successfully', () => {
       verifyClaimCouponSuccess(validCouponCode);

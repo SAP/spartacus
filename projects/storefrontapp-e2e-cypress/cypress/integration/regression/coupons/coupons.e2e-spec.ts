@@ -17,7 +17,7 @@ describe('Cart Coupon', () => {
       cartCoupon.addProductToCart(cartCoupon.productCode1);
       cartCoupon.applyCoupon(cartCoupon.couponForCart);
       cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-       cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
+        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
       });
     });
 

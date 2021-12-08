@@ -3,7 +3,6 @@ import { checkBanner } from '../../../helpers/homepage';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-
 describe('My Account - Update Profile', () => {
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
@@ -37,7 +36,7 @@ describe('My Account - Update Profile', () => {
         cy.location('pathname').should('contain', '/');
       });
 
-      // Core e2e test. Repeat in mobile view. 
+      // Core e2e test. Repeat in mobile view.
       updateProfile.testUpdateProfileDetails();
 
       it('should be able to see the new profile info', () => {

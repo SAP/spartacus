@@ -17,7 +17,6 @@ import {
 } from '../sample-data/apparel-checkout-flow';
 
 export function testCheckoutVariantAsGuest() {
-
   it('should perform checkout as guest, create an account and verify guest data', () => {
     const variantUser = getApparelCheckoutUser();
     checkout.goToCheapProductDetailsPage(products[0]);
@@ -98,9 +97,7 @@ export function testCheckoutVariantAsGuest() {
 }
 
 export function testCheckoutRegisteredUser() {
-
   it('should perform checkout with a registered user', () => {
-    
     const variantUser = getApparelCheckoutUser();
     checkout.visitHomePage();
 

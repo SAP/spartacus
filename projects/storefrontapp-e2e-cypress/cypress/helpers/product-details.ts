@@ -133,7 +133,6 @@ export function selectProductSizeVariantWithoutStock() {
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
 }
 
-
 export function productDetailsTest() {
   it('should contain correct product details', () => {
     verifyProductDetails();

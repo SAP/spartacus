@@ -1,7 +1,7 @@
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
-import * as paymentMethods from '../../../helpers/payment-methods'
+import * as paymentMethods from '../../../helpers/payment-methods';
 import {
   addPaymentMethod,
   testPaymentDetail,
@@ -33,10 +33,10 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      // Core test. Repeat in different view port. 
+      // Core test. Repeat in different view port.
       paymentMethods.testRenderEmptyPaymentDetailsPage();
-      
-      // Core test. Repeat in different view port. 
+
+      // Core test. Repeat in different view port.
       paymentMethods.testRenderOnePaymentMethod();
 
       it('should render page with two payment methods', () => {

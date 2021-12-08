@@ -52,7 +52,7 @@ export function verifyUpdatedProfile() {
   });
 }
 
-export function testUpdateProfileDetails(){
+export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
     cy.get('cx-update-profile').within(() => {
       cy.get('[formcontrolname="titleCode"]').select(newTitle);

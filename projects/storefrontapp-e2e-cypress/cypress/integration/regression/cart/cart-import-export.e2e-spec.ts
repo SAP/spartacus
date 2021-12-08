@@ -10,10 +10,10 @@ context('Cart Import/Export', () => {
       cy.visit('/');
     });
 
-    // Core test. Repeat in mobile viewport. 
+    // Core test. Repeat in mobile viewport.
     importExport.testImportExportSingleProduct();
-    
-    // Core test. Repeat in mobile viewport. 
+
+    // Core test. Repeat in mobile viewport.
     importExport.testImportExportLargerQuantity();
 
     describe('Multiple products', () => {
