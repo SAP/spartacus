@@ -9,7 +9,6 @@ import {
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
 import { CartType } from '@spartacus/cart/main/root';
-import { SavedCartConnector } from '@spartacus/cart/saved-cart/core';
 import {
   isNotUndefined,
   normalizeHttpError,
@@ -39,8 +38,8 @@ export class WishListEffects {
     switchMap((payload) => {
       return this.cartConnector.create(payload.userId).pipe(
         switchMap((cart) => {
-          return this.savedCartConnector
-            .saveCart(
+          return this.cartConnector
+            .save(
               payload.userId,
               cart.code ?? '',
               payload.name,
@@ -192,7 +191,6 @@ export class WishListEffects {
   constructor(
     private actions$: Actions,
     private cartConnector: CartConnector,
-    private savedCartConnector: SavedCartConnector,
     private userIdService: UserIdService,
     private store: Store<StateWithMultiCart>
   ) {}

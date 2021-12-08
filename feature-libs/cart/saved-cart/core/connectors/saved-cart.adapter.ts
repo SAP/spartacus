@@ -19,17 +19,6 @@ export abstract class SavedCartAdapter {
   abstract restoreSavedCart(userId: string, cartId: string): Observable<Cart>;
   /**
    *
-   * Abstract method used to save a cart or update a saved cart
-   */
-  abstract saveCart(
-    userId: string,
-    cartId: string,
-    saveCartName?: string,
-    saveCartDescription?: string
-  ): Observable<Cart>;
-
-  /**
-   *
    * Abstract method used to clone a saved cart
    */
   abstract cloneSavedCart(

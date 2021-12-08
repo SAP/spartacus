@@ -9,7 +9,6 @@ import {
   StateWithMultiCart,
 } from '@spartacus/cart/main/core';
 import { Cart, CartType } from '@spartacus/cart/main/root';
-import { SavedCartConnector } from '@spartacus/cart/saved-cart/core';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
 import { getMultiCartReducers } from 'feature-libs/cart/main/core/store';
 import { cold, hot } from 'jasmine-marbles';
@@ -59,10 +58,7 @@ class MockCartConnector {
   loadAll(): Observable<Cart[]> {
     return of();
   }
-}
-
-class MockSaveCartConnector {
-  saveCart = createSpy().and.returnValue(of(savedCart));
+  save = createSpy().and.returnValue(of(savedCart));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -83,7 +79,6 @@ describe('Wish List Effect', () => {
       ],
       providers: [
         { provide: CartConnector, useClass: MockCartConnector },
-        { provide: SavedCartConnector, useClass: MockSaveCartConnector },
         { provide: UserIdService, useClass: MockUserIdService },
         fromEffects.WishListEffects,
         provideMockActions(() => actions$),
