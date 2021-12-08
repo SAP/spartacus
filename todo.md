@@ -38,16 +38,7 @@
    10. Monitor develop using Patrick's script: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638291772009300. 
    11. ...
 9. Is the checkout properly using the new cart lib?
-   1. CORE
-      - ActiveCartService - we added a method. Move it to the cart lib.
-      - Cart - just a model, not important.
-      - StateWithMultiCart - not important, used just for the Store's type safety. We can use anything here really. 
-      - CartActions - we can use a facades method for one case. For other case create a method.
-      - MergeCartSuccessEvent - I created it. Move it to the cart lib.
-      - CART_NORMALIZER - how to import without breaking LL?
-   2. Storefrontlib
-      - CartSharedModule - seems important how to import it without breaking LL?
-      - CartValidationGuard - seems important. How to import it without breaking LL?
+   1. `CartSharedModule` - Ask Wei and Patrick to confirm the import of this module. They mentioned this is being used with outlets?
 10.  check the event listeners for the following scenario:
     1.  a user started the checkout, entered their delivery address, and set the delivery mode, and the data is sent on the back-end for the active cart
     2.  the user changes their mind, and navigates away from the checkout page to homepage, and refreshes the browser.
@@ -58,16 +49,17 @@
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
 12. Check other features which are using the old checkout:
-   3. Digital Payments
-   4. CDS
-   5. Anything else? Some internal features?
+   6. Digital Payments
+   7. CDS
+   8. Anything else? Some internal features?
 13. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
 14. align the event names - prefix them with Checkout?
 15. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
 16. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
-   6. Rename the checkout components' selectors to have the checkout prefix?
+   9.  Rename the checkout components' selectors to have the checkout prefix?
 17. query debounce - `feature/query-debounce`
 18. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+19. Look into `TODO(#8880):`
 
 
 ## Near the end
