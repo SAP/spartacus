@@ -11,6 +11,10 @@ title: Changes to Styles in 5.0
 - `.cx-display-only-btn-container` and `button.cx-display-only-btn` were added to `_configurator-add-to-cart-button.scss`.
   Both classes use the same styling as the `add-to-cart-button`
 
+## Changes in Configurator Tab Bar Component
+
+- All styling is now applied to `.cx-configurator-tab-bar-component`
+
 ## Changes in Configurator Attribute Numeric Input Field Component
 
 - `flex-direction` set to `column` on `%cx-configurator-attribute-numeric-input-field`.
