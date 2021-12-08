@@ -46,9 +46,6 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-echo "--> Travis PR: ${TRAVIS_PULL_REQUEST}"
-exit 1;
-
 echo '-----'
 echo "Building Spartacus libraries"
 
