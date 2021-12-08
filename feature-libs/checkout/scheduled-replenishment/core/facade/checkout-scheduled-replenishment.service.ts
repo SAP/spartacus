@@ -52,8 +52,8 @@ export class CheckoutScheduledReplenishmentService
 {
   protected subscriptions = new Subscription();
 
-  // TODO: In order confirmation could be distinguished based on order detail object containing replenishmentOrderCode
-  // TODO: Then it is only needed to communicate between 2 components on the same page (look recording)
+  // TODO:#checkout In order confirmation could be distinguished based on order detail object containing replenishmentOrderCode
+  // TODO:#checkout Then it is only needed to communicate between 2 components on the same page (look recording)
   protected orderType$ = new BehaviorSubject<ORDER_TYPE>(
     ORDER_TYPE.PLACE_ORDER
   );
@@ -74,7 +74,7 @@ export class CheckoutScheduledReplenishmentService
               tap((replenishmentOrder) => {
                 this.checkoutFacade.setOrder(replenishmentOrder);
                 /**
-                 * TODO:#checkout We have to keep this here, since the cart feature is still ngrx-based.
+                 * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
                  * Remove once it is switched from ngrx to c&q.
                  * We should dispatch an event, which will remove the cart
                  */
@@ -97,7 +97,7 @@ export class CheckoutScheduledReplenishmentService
   );
 
   constructor(
-    // TODO:#checkout remove once all the occurrences are replaced with events
+    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
     protected store: Store<unknown>,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,

@@ -100,7 +100,7 @@ export class CheckoutDeliveryModesService
                     DeliveryModeSetEvent
                   );
                   /**
-                   * TODO:#checkout We have to keep this here, since the cart feature is still ngrx-based.
+                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
                    * Remove once it is switched from ngrx to c&q.
                    * We should dispatch an event, which will load the cart$ query.
                    */

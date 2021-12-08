@@ -123,7 +123,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       );
     });
 
-    // TODO:#checkout Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch CartActions.RemoveCart`, () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -137,7 +137,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       );
     });
 
-    // TODO:#checkout Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,

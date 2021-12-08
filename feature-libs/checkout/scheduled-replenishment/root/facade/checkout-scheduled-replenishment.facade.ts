@@ -13,7 +13,7 @@ import { ScheduleReplenishmentForm } from '../models/form-model';
       facade: CheckoutScheduledReplenishmentFacade,
       feature: CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder', 'setOrderType', 'getOrderType'],
-      // TODO:#checkout - remove once we remove ngrx
+      // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })
