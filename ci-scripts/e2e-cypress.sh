@@ -88,7 +88,7 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${TRAVIS_PULL_REQUEST}" = "true" ]; then
+    if [ -n "${TRAVIS_PULL_REQUEST}" ]; then
         echo "--> This is a PR. Running core tests"
         yarn e2e:run:ci:core"${SUITE}"
     else
