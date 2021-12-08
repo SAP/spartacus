@@ -24,12 +24,35 @@ import createSpy = jasmine.createSpy;
 })
 class MockSpinnerComponent {}
 
+const mockDeliveryMode1: DeliveryMode = {
+  code: 'standard-gross',
+  name: 'Standard Delivery',
+  deliveryCost: { formattedValue: '$10.00' },
+};
+
+const mockDeliveryMode2: DeliveryMode = {
+  code: 'premium-gross',
+  name: 'Premium Delivery',
+  deliveryCost: { formattedValue: '$20.00' },
+};
+
+const mockSupportedDeliveryModes: DeliveryMode[] = [
+  mockDeliveryMode1,
+  mockDeliveryMode2,
+];
+
+const mockActivatedRoute = {
+  snapshot: {
+    url: ['checkout', 'delivery-mode'],
+  },
+};
+
 class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
 
   getSupportedDeliveryModes(): Observable<DeliveryMode[]> {
-    return of();
+    return of(mockSupportedDeliveryModes);
   }
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
     return of();
@@ -58,29 +81,6 @@ class MockCheckoutStepService {
     return 'common.back';
   }
 }
-
-const mockActivatedRoute = {
-  snapshot: {
-    url: ['checkout', 'delivery-mode'],
-  },
-};
-
-const mockDeliveryMode1: DeliveryMode = {
-  code: 'standard-gross',
-  name: 'Standard Delivery',
-  deliveryCost: { formattedValue: '$10.00' },
-};
-
-const mockDeliveryMode2: DeliveryMode = {
-  code: 'premium-gross',
-  name: 'Premium Delivery',
-  deliveryCost: { formattedValue: '$20.00' },
-};
-
-const mockSupportedDeliveryModes: DeliveryMode[] = [
-  mockDeliveryMode1,
-  mockDeliveryMode2,
-];
 
 describe('DeliveryModeComponent', () => {
   let component: DeliveryModeComponent;
@@ -130,10 +130,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should get supported delivery modes', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
     component.ngOnInit();
 
     component.supportedDeliveryModes$.subscribe((modes) => {
@@ -142,10 +138,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should pre-select preferred delivery mode if not chosen before', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
     spyOn(
       mockCheckoutDeliveryService,
       'getSelectedDeliveryMode'
@@ -166,10 +158,6 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSupportedDeliveryModes'
-    ).and.returnValue(of(mockSupportedDeliveryModes));
     spyOn(
       mockCheckoutDeliveryService,
       'getSelectedDeliveryMode'
@@ -220,11 +208,6 @@ describe('DeliveryModeComponent', () => {
       fixture.debugElement.query(By.css('fieldset'));
 
     it('should be enabled after supported delivery modes are loaded', () => {
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getSupportedDeliveryModes'
-      ).and.returnValue(of(mockSupportedDeliveryModes));
-
       component.ngOnInit();
       component.deliveryModeSetInProcess$ = of(false);
 
@@ -234,11 +217,6 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be disabled when there is another ongoing request', () => {
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getSupportedDeliveryModes'
-      ).and.returnValue(of(mockSupportedDeliveryModes));
-
       component.ngOnInit();
       component.deliveryModeSetInProcess$ = of(true);
 
@@ -264,11 +242,6 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getSupportedDeliveryModes'
-      ).and.returnValue(of(mockSupportedDeliveryModes));
-
       component.ngOnInit();
       component.deliveryModeSetInProcess$ = of(false);
       setDeliveryModeId(mockDeliveryMode1.code);
@@ -279,10 +252,6 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should call "next" function after being clicked', () => {
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getSupportedDeliveryModes'
-      ).and.returnValue(of(mockSupportedDeliveryModes));
       spyOn(component, 'next');
 
       component.ngOnInit();
