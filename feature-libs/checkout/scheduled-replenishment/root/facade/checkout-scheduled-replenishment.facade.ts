@@ -4,7 +4,7 @@ import { facadeFactory } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE } from '../feature-name';
-import { ScheduleReplenishmentForm } from '../models/form-model';
+import { ScheduleReplenishmentForm } from '../models/schedule-replenishment-form.model';
 
 @Injectable({
   providedIn: 'root',
