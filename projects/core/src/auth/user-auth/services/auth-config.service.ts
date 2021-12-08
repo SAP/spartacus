@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { OccConfig } from '../../../occ/config/occ-config';
-import { AuthConfig, AuthLibConfig } from '../config/auth-config';
+import { AuthConfig, AuthLibConfig, SET_REDIRECT_URL_MODE } from '../config/auth-config';
 import { OAuthFlow } from '../models/oauth-flow';
 
 /**
@@ -97,6 +97,13 @@ export class AuthConfigService {
    */
   public getOAuthLibConfig(): AuthLibConfig {
     return this.config.OAuthLibConfig ?? {};
+  }
+
+  /**
+   *
+   */
+  public getSetRedirectUrlMode(): SET_REDIRECT_URL_MODE |  undefined {
+    return this.config?.setRedirectUrlOn;
   }
 
   protected prefixEndpoint(endpoint: string): string {

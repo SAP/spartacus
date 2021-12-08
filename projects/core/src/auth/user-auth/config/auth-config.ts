@@ -23,6 +23,11 @@ export type AuthLibConfig = Omit<
   | 'userinfoEndpoint'
 >;
 
+export enum SET_REDIRECT_URL_MODE {
+  NAVIGATION_START = 'NavigationStart',
+  NAVIGATION_END = 'NavigationEnd',
+}
+
 @Injectable({
   providedIn: 'root',
   useExisting: Config,
@@ -65,6 +70,10 @@ export abstract class AuthConfig {
      * Config for angular-oauth-oidc library.
      */
     OAuthLibConfig?: AuthLibConfig;
+    /**
+     *
+     */
+    setRedirectUrlOn?: SET_REDIRECT_URL_MODE;
   };
 }
 

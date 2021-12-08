@@ -1,8 +1,10 @@
-import { Injectable, OnDestroy } from '@angular/core';
-import { Event, NavigationStart, Router } from '@angular/router';
+import { Injectable, OnDestroy, Type } from '@angular/core';
+import { Event, NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { SET_REDIRECT_URL_MODE } from '../config/auth-config';
+import { AuthConfigService } from './auth-config.service';
 import { AuthFlowRoutesService } from './auth-flow-routes.service';
 import { AuthRedirectStorageService } from './auth-redirect-storage.service';
 
@@ -31,7 +33,8 @@ export class AuthRedirectService implements OnDestroy {
     protected routing: RoutingService,
     protected router: Router,
     protected authRedirectStorageService: AuthRedirectStorageService,
-    protected authFlowRoutesService: AuthFlowRoutesService
+    protected authFlowRoutesService: AuthFlowRoutesService,
+    protected authConfigService?: AuthConfigService
   ) {
     this.init();
   }
@@ -40,10 +43,23 @@ export class AuthRedirectService implements OnDestroy {
 
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationStart) {
+      if (event instanceof this.getNavigationEventType()) {
         this.setRedirectUrl(event.url);
       }
     });
+  }
+
+  protected getNavigationEventType():
+    | Type<NavigationStart>
+    | Type<NavigationEnd> {
+    switch (this.authConfigService?.getSetRedirectUrlMode()) {
+      case SET_REDIRECT_URL_MODE.NAVIGATION_START:
+        return NavigationStart;
+      case SET_REDIRECT_URL_MODE.NAVIGATION_END:
+        return NavigationEnd;
+      default:
+        return NavigationEnd;
+    }
   }
 
   ngOnDestroy() {
