@@ -4,7 +4,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
 import { BREAKPOINT } from '../../../layout/config/layout-config';
-import { Tab } from '../tab/Tab';
+import { Tab, TabConfig } from '../tab/Tab';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -12,9 +12,7 @@ import { Tab } from '../tab/Tab';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabParagraphContainerComponent {
-  // TODO: Comes from CMS. Need to figure out how to configure aria
-  tabConfig = {
-    label: 'Product Information',
+  tabConfig: TabConfig = {
     openTabs: [0],
     breakpoint: BREAKPOINT.md,
   };
@@ -32,6 +30,8 @@ export class TabParagraphContainerComponent {
           this.cmsService.getComponentData<any>(component).pipe(
             distinctUntilChanged(),
             map((tab) => {
+              console.log(data);
+
               if (!tab) {
                 return undefined;
               }
@@ -42,6 +42,12 @@ export class TabParagraphContainerComponent {
                   flexType: tab.typeCode,
                 };
               }
+
+              this.tabConfig = {
+                label: <string>data.name,
+                openTabs: [0],
+                breakpoint: BREAKPOINT.md,
+              };
 
               return {
                 ...tab,
