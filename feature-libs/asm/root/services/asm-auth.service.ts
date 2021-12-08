@@ -39,7 +39,8 @@ export class AsmAuthService extends AuthService {
       oAuthLibWrapperService,
       authStorageService,
       authRedirectService,
-      routingService
+      routingService,
+      globalMessageService
     );
   }
 
@@ -98,8 +99,9 @@ export class AsmAuthService extends AuthService {
   /**
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
+   *  * @param showGlobalMsg show a successful global message upon sign out.
    */
-  coreLogout(): Promise<any> {
+  coreLogout(showGlobalMsg = true): Promise<any> {
     return this.userIdService
       .isEmulated()
       .pipe(
@@ -111,7 +113,7 @@ export class AsmAuthService extends AuthService {
             this.store.dispatch(new AuthActions.Logout());
             return of(true);
           } else {
-            return from(super.coreLogout());
+            return from(super.coreLogout(showGlobalMsg));
           }
         })
       )
