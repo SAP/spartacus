@@ -348,7 +348,7 @@ describe('Profile-tag events', () => {
 
 // For some reason these two events interfere with eachother. Only 1 needs to click the allow all banner
 // and the next will then have consent granted
-describe('Consent Changed', () => {
+describe('Consent Changed for anonymous user', () => {
   beforeEach(() => {
     cdsHelper.setUpMocks(strategyRequestAlias);
     navigation.visitHomePage({
@@ -416,6 +416,31 @@ describe('Consent Changed', () => {
           )
         ).to.equal(1);
       });
+    });
+  });
+});
+
+describe('Consent Changed for registered user', () => {
+  beforeEach(() => {
+    cdsHelper.setUpMocks(strategyRequestAlias);
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    profileTagHelper.waitForCMSComponents();
+    anonymousConsents.clickAllowAllFromBanner();
+    loginHelper.loginAsDefaultUser();
+  });
+  it('should not send a consentgranted = false event on a page refresh', () => {
+    cy.reload();
+    cy.window().then((win) => {
+        const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      );
+      expect(consentAccepted.length).to.equal(1);
+      expect(consentAccepted[0].data.granted).to.eq(true);
     });
   });
 });
