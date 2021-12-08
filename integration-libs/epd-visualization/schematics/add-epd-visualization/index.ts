@@ -62,7 +62,7 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
       ],
       content: `<${EPD_VISUALIZATION_CONFIG}>{
         ui5: {
-          bootstrapUrl: "https://sapui5.hana.ondemand.com/resources/sap-ui-core.js"
+          bootstrapUrl: "https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js"
         },
 
         usageIds: {
