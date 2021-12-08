@@ -52,6 +52,10 @@ class MockCheckoutStepService {
   }
 }
 
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
+}
+
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 class MockPaymentTypeService {
   isAccountPayment(): Observable<boolean> {
