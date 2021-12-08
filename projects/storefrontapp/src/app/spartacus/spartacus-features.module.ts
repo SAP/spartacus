@@ -16,7 +16,6 @@ import {
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
-  CartPageEventModule,
   CategoryNavigationModule,
   CmsParagraphModule,
   ConsentManagementModule,
@@ -177,7 +176,6 @@ if (environment.digitalPayments) {
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
-    CartPageEventModule,
     ProductPageEventModule,
 
     /************************* Opt-in features *************************/

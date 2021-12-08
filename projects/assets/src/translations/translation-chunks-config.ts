@@ -55,5 +55,5 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'itemCounter',
     'productView',
   ],
-  user: ['anonymousConsents', 'loginRegister', 'checkoutLogin'],
+  user: ['anonymousConsents', 'loginRegister', 'checkoutLogin', 'authMessages'],
 };
