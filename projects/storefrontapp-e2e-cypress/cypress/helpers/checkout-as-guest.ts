@@ -1,4 +1,4 @@
-import { SampleUser, user } from '../sample-data/checkout-flow';
+import { SampleUser, user, getSampleUser } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
 import { assertAddressForm } from './address-book';
 import { validateUpdateProfileForm } from './update-profile';
@@ -34,8 +34,10 @@ export function createAccountFromGuest(password: string) {
   });
 }
 
-export function testCheckoutAsGuest(){
+export function testCheckoutAsGuest() {
   it('should perform checkout as guest and create a user account', () => {
+    let user = getSampleUser();
+    
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndProceedToCheckout();
 

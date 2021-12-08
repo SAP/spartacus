@@ -13,7 +13,7 @@ context('Checkout as guest', () => {
   let user;
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      user = getSampleUser();
+      //user = getSampleUser();
       cy.window().then((win) => win.sessionStorage.clear());
     });
 
@@ -21,9 +21,10 @@ context('Checkout as guest', () => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    guestCheckout.testCheckoutAsGuest();
+    //guestCheckout.testCheckoutAsGuest();
 
     it('should keep products in guest cart and restart checkout', () => {
+      user = getSampleUser();
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
@@ -42,7 +43,8 @@ context('Checkout as guest', () => {
       cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-      login(user.email, user.password);
+      //login(user.email, user.password);
+      guestCheckout.loginAsGuest(user);
       cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
