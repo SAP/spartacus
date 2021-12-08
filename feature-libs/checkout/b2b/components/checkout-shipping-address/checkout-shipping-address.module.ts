@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CartValidationGuard } from '@spartacus/cart/main/components';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
@@ -27,7 +28,7 @@ import { B2BCheckoutShippingAddressComponent } from './checkout-shipping-address
       cmsComponents: {
         CheckoutShippingAddress: {
           component: B2BCheckoutShippingAddressComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),
