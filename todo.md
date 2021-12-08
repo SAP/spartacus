@@ -24,8 +24,7 @@
    1. repeat the steps above
    2. go to the first step (payment method)
    3. notice the infinite spinner
-7. Styles - create styles per entry point
-8. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
+7. Check if the new checkout is aligned with the current state of components / guards / services / features / etc. For example, check:
    1. Is the cart validation properly applied in the new checkout?
    2. https://github.com/SAP/spartacus/issues/14386
    3. Do we need to apply this express checkout fix to the base checkout? https://github.com/SAP/spartacus/pull/14418/files
@@ -45,7 +44,7 @@
     3.  after it, they decide to change their address in the profile menu. 
     4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
     5.  if the listener was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
-11. Check how do various checkouts work:
+10. Check how do various checkouts work:
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
 12. Check other features which are using the old checkout:
