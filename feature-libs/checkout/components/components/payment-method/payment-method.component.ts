@@ -162,7 +162,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
       {
         key: 'paymentMethods.paymentMethodSelectedSuccess',
       },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
+      GlobalMessageType.MSG_TYPE_INFO
     );
     this.checkoutPaymentService.setPaymentDetails(paymentDetails);
   }
