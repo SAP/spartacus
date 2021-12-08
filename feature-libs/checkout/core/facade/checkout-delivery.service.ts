@@ -139,7 +139,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     ]).pipe(
       map(
         ([isStable, isLoading, setDeliveryProcess]) =>
-          !isStable || isLoading || setDeliveryProcess?.loading
+          !isStable || isLoading || (setDeliveryProcess.loading ?? false)
       )
     );
   }

@@ -40,6 +40,9 @@ class MockCheckoutDeliveryService {
   getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of({});
   }
+  getSetDeliveryModeInProcess(): Observable<boolean> {
+    return of(false);
+  }
 }
 
 class MockCheckoutConfigService {
