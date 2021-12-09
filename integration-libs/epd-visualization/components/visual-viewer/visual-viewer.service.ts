@@ -2,8 +2,6 @@ import {
   ChangeDetectorRef,
   ElementRef,
   EventEmitter,
-  Input,
-  Output,
   Injectable,
   OnDestroy,
 } from '@angular/core';
@@ -260,7 +258,6 @@ export class VisualViewerService implements OnDestroy {
    * The top colour of the background gradient.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
-  @Input()
   public set backgroundTopColor(backgroundTopColor: string) {
     if (this._backgroundTopColor === backgroundTopColor) {
       return;
@@ -279,7 +276,6 @@ export class VisualViewerService implements OnDestroy {
    * The bottom colour of the background gradient.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
-  @Input()
   public set backgroundBottomColor(backgroundBottomColor: string) {
     if (this._backgroundBottomColor === backgroundBottomColor) {
       return;
@@ -300,7 +296,6 @@ export class VisualViewerService implements OnDestroy {
    * The colour applied to selected 2D hotspots in 2D content.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
-  @Input()
   public set hotspotSelectionColor(hotspotSelectionColor: string) {
     if (this._hotspotSelectionColor === hotspotSelectionColor) {
       return;
@@ -320,7 +315,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * Highlights all hotspots in 2D content that are included in the includedProductCodes property using the colour specified by the showAllHotspotsColor property.
    */
-  @Input()
   public set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
     if (this._showAllHotspotsEnabled === showAllHotspotsEnabled) {
       return;
@@ -339,7 +333,6 @@ export class VisualViewerService implements OnDestroy {
    * The colour used to highlight hotspots in 2D content when the showAllHotspotsEnabled property has a value of true.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
-  @Input()
   public set showAllHotspotsColor(showAllHotspotsColor: string) {
     if (this._showAllHotspotsColor === showAllHotspotsColor) {
       return;
@@ -359,7 +352,6 @@ export class VisualViewerService implements OnDestroy {
    * The outline colour used to indicate selected objects in 3D content.
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
-  @Input()
   public set outlineColor(outlineColor: string) {
     if (this._outlineColor === outlineColor) {
       return;
@@ -377,7 +369,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * The width of the outline used to indicate selected objects in 3D content.
    */
-  @Input()
   public set outlineWidth(outlineWidth: number) {
     if (this._outlineWidth === outlineWidth) {
       return;
@@ -398,7 +389,6 @@ export class VisualViewerService implements OnDestroy {
    * Exclusive - When selecting objects in the viewport, at most one object can be selected at a time. Clicking/tapping to select a new object will deselect any previously selected objects.
    * Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.
    */
-  @Input()
   public set selectionMode(selectionMode: SelectionMode) {
     if (this._selectionMode === selectionMode) {
       return;
@@ -418,7 +408,6 @@ export class VisualViewerService implements OnDestroy {
    * Gets the set of product codes applied to the selected scene nodes.
    * Sets the selection set based on the set of supplied product codes.
    */
-  @Input()
   public set selectedProductCodes(selectedProductCodes: string[]) {
     this._selectedProductCodes = selectedProductCodes;
     this.sceneNodeToProductLookupService
@@ -432,7 +421,7 @@ export class VisualViewerService implements OnDestroy {
     return this._selectedProductCodes;
   }
   private _selectedProductCodes: string[];
-  @Output() selectedProductCodesChange = new EventEmitter<string[]>();
+  selectedProductCodesChange = new EventEmitter<string[]>();
 
   /**
    * Gets/sets which objects should be selectable (in terms of product codes).
@@ -444,7 +433,6 @@ export class VisualViewerService implements OnDestroy {
    * - hotspots that are included will be selectable and can be made visible
    * - hotspots that are not included will not be selectable or visible
    */
-  @Input()
   public set includedProductCodes(includedProductCodes: string[]) {
     this._includedProductCodes = includedProductCodes;
     this.executeWhenSceneLoaded(() => {
@@ -459,7 +447,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property.
    */
-  @Input()
   public set excludedOpacity(excludedOpacity: number) {
     this._excludedOpacity = excludedOpacity;
   }
@@ -471,7 +458,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * The current time position in seconds in the animation (if there is one).
    */
-  @Input()
   public set animationTime(animationTime: number) {
     this._animationTime = animationTime;
   }
@@ -479,7 +465,7 @@ export class VisualViewerService implements OnDestroy {
     return this._animationTime;
   }
   private _animationTime: number;
-  @Output() animationTimeChange = new EventEmitter<number>();
+  animationTimeChange = new EventEmitter<number>();
 
   /**
    * The total duration of the animation in seconds.
@@ -495,7 +481,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * The animation playback position as a fractional value between 0 (start) and 1 (end).
    */
-  @Input()
   public set animationPosition(position: number) {
     if (this._animationPosition === position) {
       return;
@@ -510,12 +495,11 @@ export class VisualViewerService implements OnDestroy {
     return this._animationPosition;
   }
   private _animationPosition: number = 0;
-  @Output() animationPositionChange = new EventEmitter<number>();
+  animationPositionChange = new EventEmitter<number>();
 
   /**
    * Gets/sets whether the animation (if there is one) is currently playing.
    */
-  @Input()
   public set animationPlaying(animationPlaying: boolean) {
     if (this._animationPlaying === animationPlaying) {
       return;
@@ -537,7 +521,7 @@ export class VisualViewerService implements OnDestroy {
     return this._animationPlaying;
   }
   private _animationPlaying: boolean = false;
-  @Output() animationPlayingChange = new EventEmitter<boolean>();
+  animationPlayingChange = new EventEmitter<boolean>();
 
   /**
    * Controls the behaviour when a left mouse button drag is initiated in the viewport.
@@ -545,7 +529,6 @@ export class VisualViewerService implements OnDestroy {
    * Pan: A left mouse drag pans the camera in the viewport.
    * Zoom: A left mouse drag zooms the camera in the viewport in or out
    */
-  @Input()
   public set navigationMode(navigationMode: NavigationMode) {
     if (this._navigationMode === navigationMode) {
       return;
@@ -570,7 +553,6 @@ export class VisualViewerService implements OnDestroy {
   /**
    * Isolate mode allows a single object to be viewed in isolation.
    */
-  @Input()
   public set isolateModeEnabled(isolateModeEnabled: boolean) {
     if (this._isolateModeEnabled === isolateModeEnabled) {
       return;
@@ -610,7 +592,7 @@ export class VisualViewerService implements OnDestroy {
     return this._isolateModeEnabled;
   }
   private _isolateModeEnabled = false;
-  @Output() isolateModeEnabledChange = new EventEmitter<boolean>();
+  isolateModeEnabledChange = new EventEmitter<boolean>();
 
   /**
    * Gets whether the viewport is displaying 2D content.
@@ -637,7 +619,7 @@ export class VisualViewerService implements OnDestroy {
     this.viewportReadyChange.emit(viewportReady);
   }
   private _viewportReady = false;
-  @Output() viewportReadyChange = new EventEmitter<boolean>();
+  viewportReadyChange = new EventEmitter<boolean>();
 
   /**
    * Returns the user to the initial camera position used when a scene was first loaded.
