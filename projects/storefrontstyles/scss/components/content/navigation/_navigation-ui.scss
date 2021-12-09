@@ -32,7 +32,7 @@
         // we cannot make the z-index too high as it would conflict with the searchbox flyout.
         z-index: 20;
       }
-      > nav > .wrapper {
+      > ul > li > .wrapper {
         padding: 15px 20px;
         background: #fff;
       }
@@ -111,7 +111,7 @@
 
     @include media-breakpoint-down(md) {
       // make all first level hedings uppercase in mobile view
-      > nav {
+      > nav > ul > li {
         > span,
         > button,
         > cx-generic-link {
@@ -138,7 +138,7 @@
     }
 
     @include media-breakpoint-up(lg) {
-      > nav {
+      > nav > ul > li {
         cursor: pointer;
         // top level headings
         > span,
@@ -149,8 +149,8 @@
           padding-inline-start: 0;
         }
         // first level headings will be bold in desktop
-        nav > span,
-        nav > button {
+        ul > li > span,
+        ul > li > button {
           @include type('5');
           cursor: default;
 
@@ -167,16 +167,16 @@
 }
 
 @include media-breakpoint-up(lg) {
-  cx-navigation-ui > nav > cx-generic-link > a {
+  cx-navigation-ui > nav > ul > li > cx-generic-link > a {
     padding-top: 20px;
     padding-inline-end: 15px;
     padding-bottom: 22px;
     padding-inline-start: 0;
   }
-  nav > div > cx-generic-link {
+  li > div > cx-generic-link {
     padding: 10px 0;
   }
-  div.childs > nav > cx-generic-link > a {
+  ul.childs > li > cx-generic-link > a {
     padding: 5px 0;
   }
 }
@@ -255,6 +255,10 @@
   nav {
     outline: none;
 
+    ul {
+      list-style: none;
+    }
+
     button {
       border: none;
       padding: 0;
@@ -270,13 +274,13 @@
 
     @include media-breakpoint-down(md) {
       &.is-open {
-        > nav {
+        > nav > ul > li {
           display: none;
           cx-generic-link.all {
             display: none;
           }
         }
-        nav.is-open {
+        li.is-open {
           display: initial;
           cx-generic-link.all {
             display: initial;
@@ -286,9 +290,9 @@
           }
         }
 
-        nav.is-opened {
+        li.is-opened {
           display: initial;
-          > .wrapper > .childs > nav {
+          > .wrapper > .childs > ul > li {
             display: none;
             &.is-open {
               display: initial;
@@ -307,14 +311,14 @@
 
     @include media-breakpoint-up(lg) {
       .childs[depth='2'] {
-        > nav {
+        > ul > li {
           &:not(:only-child):not(:last-child) {
             padding-inline-end: 20px;
           }
         }
       }
       // Show dropdowns via hover when no nav is focused
-      > nav {
+      > nav > ul > li {
         > button + .wrapper {
           position: absolute;
           margin-inline-start: -10px;
@@ -323,16 +327,20 @@
         }
 
         // We only treat the first wrapper as a collapsible container
-        //&:hover {
-        > button:hover + .wrapper {
-          @include showWrapperDesktop();
+        &:hover {
+          > button + .wrapper {
+            @include showWrapperDesktop();
+          }
         }
-
         // Show dropdowns via focus only once a nav is clicked
         //&:focus-within {
-        > button:focus + .wrapper,
-        > button.is-open:focus-within + .wrapper {
-          @include showWrapperDesktop();
+        &:focus-within {
+          &:focus,
+          &.is-open:focus-within {
+            > button + .wrapper {
+              @include showWrapperDesktop();
+            }
+          }
         }
       }
 
@@ -344,7 +352,7 @@
         display: none;
       }
 
-      > nav {
+      > nav > ul > li {
         > .wrapper {
           transition: opacity 0.4s;
         }

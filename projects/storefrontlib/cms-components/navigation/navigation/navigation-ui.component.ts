@@ -121,23 +121,32 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     }
   }
 
+  protected ariaCollapseNodes() {
+    this.openNodes.forEach((parentNode) => {
+      Array.from(parentNode.children)
+        .filter((childNode) => childNode?.tagName === 'BUTTON')
+        .forEach((childNode) => {
+          this.renderer.setAttribute(childNode, 'aria-expanded', 'false');
+        });
+    });
+  }
+
   toggleOpen(event: UIEvent): void {
     if (event.type === 'keydown') {
       event.preventDefault();
     }
-    this.openNodes.forEach((node) =>
-      this.renderer.setAttribute(node, 'aria-expanded', 'false')
-    );
+    this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
-    if (this.openNodes.includes(node)) {
+    const parentNode = <HTMLElement>node.parentNode;
+    if (this.openNodes.includes(parentNode)) {
       if (event.type === 'keydown') {
         this.back();
       } else {
-        this.openNodes = this.openNodes.filter((n) => n !== node);
-        this.renderer.removeClass(node, 'is-open');
+        this.openNodes = this.openNodes.filter((n) => n !== parentNode);
+        this.renderer.removeClass(parentNode, 'is-open');
       }
     } else {
-      this.openNodes.push(node);
+      this.openNodes.push(parentNode);
       this.renderer.setAttribute(node, 'aria-expanded', 'true');
     }
 
@@ -222,7 +231,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   private alignWrappersToRightIfStickOut() {
     const navs = <HTMLCollection>this.elemRef.nativeElement.childNodes;
     Array.from(navs)
-      .filter((node) => node.tagName === 'NAV')
+      .filter((node) => node.tagName === 'LI')
       .forEach((nav) => this.alignWrapperToRightIfStickOut(<HTMLElement>nav));
   }
 
