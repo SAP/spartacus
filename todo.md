@@ -86,6 +86,7 @@
 18. query debounce - `feature/query-debounce`
 19. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
 20. Look into `TODO(#8880):`
+21. revert the variable names from *facade to *service _in old checkout only_
 
 
 ## Near the end
