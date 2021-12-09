@@ -3,6 +3,9 @@
     [formControl]="attributeInputForm"
     [required]="attribute.required"
     class="form-control"
+    [attr.aria-describedby]="
+      createAttributeUiKey('attribute-msg', attribute.name)
+    "
     attr.role="{{ attribute.dataType }}"
     attr.aria-required="{{ attribute.required }}"
     (change)="onChange()"
@@ -26,7 +29,11 @@
     }"
   />
 </div>
-<div class="cx-validation-msg" *ngIf="mustDisplayValidationMessage()">
+<div
+  class="cx-validation-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  *ngIf="mustDisplayValidationMessage()"
+>
   <cx-icon [type]="iconType.WARNING"></cx-icon>
   {{
     'configurator.attribute.wrongNumericFormat'
