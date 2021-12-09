@@ -9,6 +9,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
   QueryState,
@@ -18,7 +19,6 @@ import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -96,6 +96,10 @@ class MockActiveCartService implements Partial<ActiveCartService> {
   }
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 const mockAddress: Address = {
   id: 'mock address id',
   firstName: 'John',
@@ -161,6 +165,7 @@ describe('CheckoutPaymentMethodComponent', () => {
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
 

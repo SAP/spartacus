@@ -10,6 +10,7 @@ import {
 } from '@spartacus/checkout/base/core';
 import {
   ActiveCartService,
+  GlobalMessageService,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -43,7 +44,7 @@ export class DpPaymentMethodComponent
   }
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
-    this.selectPaymentMethod(paymentDetails);
+    this.savePaymentMethod(paymentDetails);
     this.next();
   }
 
@@ -55,7 +56,8 @@ export class DpPaymentMethodComponent
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
   ) {
     super(
       userPaymentService,
@@ -64,7 +66,8 @@ export class DpPaymentMethodComponent
       activatedRoute,
       translationService,
       activeCartService,
-      checkoutStepService
+      checkoutStepService,
+      globalMessageService
     );
 
     this.showCallbackScreen = this.isDpCallback();
