@@ -1,5 +1,5 @@
 %cx-configurator-tab-bar {
-  .cx-configurator-tab-bar-component {
+  &:not(:empty) {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;

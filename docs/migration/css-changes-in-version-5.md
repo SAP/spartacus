@@ -13,7 +13,7 @@ title: Changes to Styles in 5.0
 
 ## Changes in Configurator Tab Bar Component
 
-- All styling is now applied to `.cx-configurator-tab-bar-component`
+- Styling is now applied only if content is not empty. Therefore, the styling is wrapped with an `&:not(:empty) {` expression.
 
 ## Changes in Configurator Attribute Numeric Input Field Component
 
