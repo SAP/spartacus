@@ -1,20 +1,20 @@
 <div
-  class="cx-visual-viewer-animation-slider"
+  class="cx-epd-visualization-animation-slider"
   [class.disabled]="disabled ? true : undefined"
 >
-  <div class="cx-visual-viewer-animation-slider-wrapper">
+  <div class="cx-epd-visualization-animation-slider-wrapper">
     <span
       cxVisualViewerAnimationSliderElement
       #bar
       class="
-        cx-visual-viewer-animation-slider-span
-        cx-visual-viewer-animation-slider-bar-wrapper
+        cx-epd-visualization-animation-slider-span
+        cx-epd-visualization-animation-slider-bar-wrapper
       "
     >
       <span
         class="
-          cx-visual-viewer-animation-slider-span
-          cx-visual-viewer-animation-slider-bar
+          cx-epd-visualization-animation-slider-span
+          cx-epd-visualization-animation-slider-bar
         "
       ></span>
     </span>
@@ -23,8 +23,8 @@
       cxVisualViewerAnimationSliderHandle
       #handle
       class="
-        cx-visual-viewer-animation-slider-span
-        cx-visual-viewer-animation-slider-pointer
+        cx-epd-visualization-animation-slider-span
+        cx-epd-visualization-animation-slider-pointer
       "
       [style.left]="(position | cxNumeric: '1.0-0') + 'px'"
       [attr.role]="

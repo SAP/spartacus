@@ -1,4 +1,4 @@
-<cx-paged-list
+<cx-epd-visualization-paged-list
   [items]="filteredItems$ | async"
   [title]="title"
   [headerTemplate]="headerTemplate"
@@ -6,7 +6,7 @@
   [itemsPerSlide]="itemsPerSlide"
   [(activeSlideStartIndex)]="activeSlideStartIndex"
 >
-</cx-paged-list>
+</cx-epd-visualization-paged-list>
 
 <ng-template #headerTemplate>
   <div class="cx-item-list-header row">
@@ -87,11 +87,11 @@
         "
       >
         <div (click)="addToCartComponent.addToCart(); $event.preventDefault()">
-          <cx-compact-add-to-cart
+          <cx-epd-visualization-compact-add-to-cart
             #addToCartComponent
             [showQuantity]="false"
             [product]="item.product"
-          ></cx-compact-add-to-cart>
+          ></cx-epd-visualization-compact-add-to-cart>
         </div>
       </ng-container>
 

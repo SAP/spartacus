@@ -18,15 +18,15 @@ export function configureDefaultProduct() {
   cy.get('cx-breadcrumb').should('contain', 'Lathes');
   cy.get('cx-breadcrumb').should('contain', 'Craftex');
 
-  cy.get('cx-visual-picking-tab');
+  cy.get('cx-epd-visualization-visual-picking-tab');
 }
 
 export function verifyTabbingOrder() {
   // Ensure the spare parts tab is active
   cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
 
-  cy.get('cx-visual-viewer', { timeout: 30000 }).should('be.visible');
-  cy.get('cx-visual-viewer-toolbar-button', { timeout: 30000 }).should(
+  cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should('be.visible');
+  cy.get('cx-epd-visualization-viewer-toolbar-button', { timeout: 50000 }).should(
     'be.visible'
   );
 
@@ -88,7 +88,7 @@ export function verifyTabbingOrder() {
   cy.pressTab();
   cy.focused().should('have.class', 'cx-icon fas fa-times-circle');
 
-  cy.get('cx-visual-picking-product-list')
+  cy.get('cx-epd-visualization-product-list')
     .find('.row.no-gutters.list-item')
     .should('have.length', 7)
     .each((_) => {
@@ -101,7 +101,7 @@ export function verifyTabbingOrder() {
             .should('have.class', 'cx-link')
             .should('have.attr', 'href');
 
-          if ($ii.find('.cx-add-to-cart cx-compact-add-to-cart').length > 0) {
+          if ($ii.find('.cx-add-to-cart cx-epd-visualization-compact-add-to-cart').length > 0) {
             cy.pressTab();
             cy.focused().find('cx-icon').should('have.class', 'fa-cart-plus');
           }

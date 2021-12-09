@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { AddToCartComponent } from '@spartacus/storefront';
 
 @Component({
-  selector: 'cx-compact-add-to-cart',
+  selector: 'cx-epd-visualization-compact-add-to-cart',
   templateUrl: './compact-add-to-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

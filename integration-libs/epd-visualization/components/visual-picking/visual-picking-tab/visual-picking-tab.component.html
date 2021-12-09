@@ -9,22 +9,22 @@
     }}</span>
   </div>
 
-  <cx-visual-viewer
+  <cx-epd-visualization-viewer
     [(selectedProductCodes)]="selectedProductCodes"
     [hidden]="hideViewport"
   >
-  </cx-visual-viewer>
+  </cx-epd-visualization-viewer>
 
   <div
     class="visual-picking-product-list-container"
     [hidden]="hideProductList"
     [class.viewportHidden]="hideViewport"
   >
-    <cx-visual-picking-product-filter></cx-visual-picking-product-filter>
+    <cx-epd-visualization-product-filter></cx-epd-visualization-product-filter>
 
-    <cx-visual-picking-product-list
+    <cx-epd-visualization-product-list
       [(selectedProductCodes)]="selectedProductCodes"
     >
-    </cx-visual-picking-product-list>
+    </cx-epd-visualization-product-list>
   </div>
 </div>

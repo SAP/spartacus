@@ -83,7 +83,7 @@ describe('PagedList Component', () => {
       component.template = template;
       component.ngOnInit();
       expect(console.error).toHaveBeenCalledWith(
-        'No template reference provided to render the header for the `cx-paged-list`'
+        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
     });
 
@@ -92,7 +92,7 @@ describe('PagedList Component', () => {
       component.headerTemplate = headerTemplate;
       component.ngOnInit();
       expect(console.error).toHaveBeenCalledWith(
-        'No template reference provided to render the items for the `cx-paged-list`'
+        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
     });
 
