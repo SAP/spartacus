@@ -49,13 +49,13 @@ export class VisualPickingProductListService implements OnDestroy {
       });
 
     this.filteredItems$Subscription = this.filteredItems$.subscribe((items) => {
-      const firstHighlightedItemIndex = items.findIndex(
-        (item) => item.highlighted
+      const firstSelectedItemIndex = items.findIndex(
+        (item) => item.selected
       );
-      if (firstHighlightedItemIndex !== -1) {
+      if (firstSelectedItemIndex !== -1) {
         this.activeSlideStartIndex =
-          firstHighlightedItemIndex -
-          (firstHighlightedItemIndex % this.itemsPerSlide);
+          firstSelectedItemIndex -
+          (firstSelectedItemIndex % this.itemsPerSlide);
       }
     });
 
@@ -147,7 +147,7 @@ export class VisualPickingProductListService implements OnDestroy {
    * Returns an observable containing an array of VisualPickingProductListItem objects created by combining the latest values from
    * an Observable producing an array of product references and
    * an Observable producing an array of selected product codes.
-   * The VisualPickingProductListItem model object combines a ProductReference for a spare part and the selected/highlighted state of the list item.
+   * The VisualPickingProductListItem model object combines a ProductReference for a spare part and the selected state of the list item.
    * @param productReferences$ An Observable producing the array of ProductReference values to map.
    * @param selectedProductCodes$ An Observable producing the array of selected product codes.
    * @returns An Observable producing an array of VisualPickingProductListItem values.
@@ -160,7 +160,7 @@ export class VisualPickingProductListService implements OnDestroy {
       filter((valuePair) => !!valuePair[0] && !!valuePair[1]),
       map((valuePair: [ProductReference[], string[]]) => {
         const productReferences = valuePair[0];
-        const highlightedProductCodes = valuePair[1];
+        const selectedProductCodes = valuePair[1];
 
         return productReferences
           .filter(
@@ -170,11 +170,11 @@ export class VisualPickingProductListService implements OnDestroy {
           .map((productReference) => {
             const product = productReference.target as Product;
             const productCode = product.code as string;
-            const highlighted =
-              highlightedProductCodes.indexOf(productCode) !== -1;
+            const selected =
+              selectedProductCodes.indexOf(productCode) !== -1;
             return {
               product,
-              highlighted,
+              selected,
             };
           });
       })

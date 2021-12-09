@@ -255,7 +255,7 @@ describe('VisualPickingProductListService', () => {
   });
 
   describe('getVisualPickingProductListItems$', () => {
-    it('should create VisualPickingProductListItem from provided product references and list of highlighted product codes', () => {
+    it('should create VisualPickingProductListItem from provided product references and list of selected product codes', () => {
       visualPickingProductListService
         .getVisualPickingProductListItems$(
           of([sparePart1, sparePart2, sparePart3]),
@@ -268,15 +268,15 @@ describe('VisualPickingProductListService', () => {
           (visualPickingProductListItems: VisualPickingProductListItem[]) => {
             expect(visualPickingProductListItems).toBeTruthy();
             expect(visualPickingProductListItems.length).toBe(3);
-            expect(visualPickingProductListItems[0].highlighted).toBe(true);
+            expect(visualPickingProductListItems[0].selected).toBe(true);
             expect(visualPickingProductListItems[0].product?.code).toBe(
               sparePart1.target?.code
             );
-            expect(visualPickingProductListItems[1].highlighted).toBe(false);
+            expect(visualPickingProductListItems[1].selected).toBe(false);
             expect(visualPickingProductListItems[1].product?.code).toBe(
               sparePart2.target?.code
             );
-            expect(visualPickingProductListItems[2].highlighted).toBe(true);
+            expect(visualPickingProductListItems[2].selected).toBe(true);
             expect(visualPickingProductListItems[2].product?.code).toBe(
               sparePart3.target?.code
             );
@@ -301,12 +301,12 @@ describe('VisualPickingProductListService', () => {
           expect(filteredItems[0].product.code).toEqual(
             sparePart2.target?.code
           );
-          expect(filteredItems[0].highlighted).toEqual(false);
+          expect(filteredItems[0].selected).toEqual(false);
 
           expect(filteredItems[1].product.code).toEqual(
             sparePart3.target?.code
           );
-          expect(filteredItems[1].highlighted).toEqual(true);
+          expect(filteredItems[1].selected).toEqual(true);
 
           setTimeout(() => {
             expect(visualPickingProductListService.activeSlideStartIndex).toBe(
