@@ -44,7 +44,9 @@ export class AuthRedirectService implements OnDestroy {
   protected init() {
     this.subscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof this.getNavigationEventType()) {
-        this.setRedirectUrl(event.url);
+        this.setRedirectUrl(
+          'urlAfterRedirects' in event ? event.urlAfterRedirects : event.url
+        );
       }
     });
   }
@@ -52,7 +54,7 @@ export class AuthRedirectService implements OnDestroy {
   /**
    * Returns the navigation event type to be caught by the router events subscription.
    * Navigation event type captured can be configured in the AuthConfig.
-   * 
+   *
    * Defaults to NavigationEnd if not set in the AuthConfig.
    */
   protected getNavigationEventType():
