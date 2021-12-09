@@ -1,4 +1,4 @@
-<cx-paged-list
+<cx-epd-visualization-paged-list
   [items]="filteredItems$ | async"
   [title]="title"
   [headerTemplate]="headerTemplate"
@@ -6,15 +6,21 @@
   [itemsPerSlide]="itemsPerSlide"
   [(activeSlideStartIndex)]="activeSlideStartIndex"
 >
-</cx-paged-list>
+</cx-epd-visualization-paged-list>
 
 <ng-template #headerTemplate>
   <div class="cx-item-list-header row">
     <div class="cx-item-list-desc col-6">
-      {{ 'visualPicking.visualPickingProductList.description' | cxTranslate }}
+      {{
+        'epdVisualization.visualPicking.visualPickingProductList.description'
+          | cxTranslate
+      }}
     </div>
     <div class="cx-item-list-price col-4">
-      {{ 'visualPicking.visualPickingProductList.itemPrice' | cxTranslate }}
+      {{
+        'epdVisualization.visualPicking.visualPickingProductList.itemPrice'
+          | cxTranslate
+      }}
     </div>
     <!-- Add to cart -->
     <div class="cx-item-list-total col-2"></div>
@@ -55,7 +61,10 @@
 
         <!-- ID -->
         <div *ngIf="item.product.code" class="cx-code">
-          {{ 'visualPicking.visualPickingProductList.id' | cxTranslate }}
+          {{
+            'epdVisualization.visualPicking.visualPickingProductList.id'
+              | cxTranslate
+          }}
           {{ item.product.code }}
         </div>
       </div>
@@ -78,11 +87,11 @@
         "
       >
         <div (click)="addToCartComponent.addToCart(); $event.preventDefault()">
-          <cx-compact-add-to-cart
+          <cx-epd-visualization-compact-add-to-cart
             #addToCartComponent
             [showQuantity]="false"
             [product]="item.product"
-          ></cx-compact-add-to-cart>
+          ></cx-epd-visualization-compact-add-to-cart>
         </div>
       </ng-container>
 
@@ -98,7 +107,8 @@
       >
         <div class="cx-out-of-stock">
           {{
-            'visualPicking.visualPickingProductList.outOfStock' | cxTranslate
+            'epdVisualization.visualPicking.visualPickingProductList.outOfStock'
+              | cxTranslate
           }}
         </div>
       </ng-container>

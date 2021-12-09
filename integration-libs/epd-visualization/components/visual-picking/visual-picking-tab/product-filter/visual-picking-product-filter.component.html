@@ -4,14 +4,15 @@
     [(ngModel)]="filter"
     class="form-control"
     placeholder="{{
-      'visualPicking.visualPickingProductFilter.input.placeholder' | cxTranslate
+      'epdVisualization.visualPicking.visualPickingProductFilter.input.placeholder'
+        | cxTranslate
     }}"
   />
 
   <cx-icon
     [type]="iconTypes.SEARCH"
     [attr.aria-label]="
-      'visualPicking.visualPickingProductFilter.searchButton.label'
+      'epdVisualization.visualPicking.visualPickingProductFilter.searchButton.label'
         | cxTranslate
     "
     class="search"
@@ -21,7 +22,8 @@
   <cx-icon
     [type]="iconTypes.RESET"
     [attr.aria-label]="
-      'visualPicking.visualPickingProductFilter.resetButton.label' | cxTranslate
+      'epdVisualization.visualPicking.visualPickingProductFilter.resetButton.label'
+        | cxTranslate
     "
     (mousedown)="filter = ''"
     (keydown.enter)="filter = ''"

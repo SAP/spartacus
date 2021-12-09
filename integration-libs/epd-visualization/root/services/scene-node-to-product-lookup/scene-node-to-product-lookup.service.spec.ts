@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { getTestConfig } from '../../config/epd-visualization-test-config';
+import { getTestConfig } from '../../testing/epd-visualization-test-config';
 import {
   MetadatumValueType,
   NodesResponse,

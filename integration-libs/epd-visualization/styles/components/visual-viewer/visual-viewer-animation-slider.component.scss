@@ -1,23 +1,23 @@
-%cx-visual-viewer-animation-slider {
+%cx-epd-visualization-animation-slider {
   $handleDiameter: 20px !default;
   $barHeight: 7px !default;
 
   .disabled {
     opacity: $btn-disabled-opacity;
 
-    .cx-visual-viewer-animation-slider-bar,
-    .cx-visual-viewer-animation-slider-pointer {
+    .cx-epd-visualization-animation-slider-bar,
+    .cx-epd-visualization-animation-slider-pointer {
       cursor: default;
       color: $btn-link-disabled-color;
       border-color: $btn-link-disabled-color;
     }
   }
 
-  .cx-visual-viewer-animation-slider {
+  .cx-epd-visualization-animation-slider {
     width: 8em;
     margin: auto 0 auto 0;
 
-    .cx-visual-viewer-animation-slider-wrapper {
+    .cx-epd-visualization-animation-slider-wrapper {
       margin: 0;
       display: inline-block;
       position: relative;
@@ -27,13 +27,13 @@
       user-select: none;
       touch-action: pan-y;
 
-      .cx-visual-viewer-animation-slider-span {
+      .cx-epd-visualization-animation-slider-span {
         white-space: nowrap;
         position: absolute;
         display: inline-block;
       }
 
-      .cx-visual-viewer-animation-slider-bar-wrapper {
+      .cx-epd-visualization-animation-slider-bar-wrapper {
         left: 0;
         box-sizing: border-box;
         margin-top: -($handleDiameter - $barHeight) / 2;
@@ -43,7 +43,7 @@
         z-index: 1;
       }
 
-      .cx-visual-viewer-animation-slider-bar {
+      .cx-epd-visualization-animation-slider-bar {
         left: 0;
         width: 100%;
         z-index: 1;
@@ -55,7 +55,7 @@
         border-radius: $barHeight / 2;
       }
 
-      .cx-visual-viewer-animation-slider-pointer {
+      .cx-epd-visualization-animation-slider-pointer {
         cursor: pointer;
         width: $handleDiameter;
         height: $handleDiameter;

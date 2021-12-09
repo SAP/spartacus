@@ -8,7 +8,7 @@ import { VisualizationLookupService } from '@spartacus/epd-visualization/root';
 import { from, Observable, of, Subscription } from 'rxjs';
 import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';
-import { getTestConfig } from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { VisualViewerService } from './visual-viewer.service';
 import { NavigationMode } from './models/navigation-mode';
 import VisibilityMode from 'sap/ui/vk/VisibilityMode';
@@ -1972,7 +1972,7 @@ describe('VisualViewerService', () => {
         'get'
       ).and.returnValue(mockNodeHierarchy);
 
-      const leafNodeRefs = [];
+      const leafNodeRefs: FakeNodeRef[] = [];
       const descendentLeafNodesRefs = visualViewerService['getLeafDescendants'](
         mockNodeRef,
         leafNodeRefs

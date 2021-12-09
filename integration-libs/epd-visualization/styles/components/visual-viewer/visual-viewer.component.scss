@@ -1,4 +1,4 @@
-%cx-visual-viewer {
+%cx-epd-visualization-viewer {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   grid-template-rows: repeat(1, 1fr);
@@ -101,14 +101,14 @@
     margin: 0 0 0 0.5em;
   }
 
-  cx-visual-viewer-animation-slider {
+  cx-epd-visualization-animation-slider {
     display: none;
 
     @include media-breakpoint-up(md) {
       display: block;
     }
 
-    .cx-visual-viewer-animation-slider {
+    .cx-epd-visualization-animation-slider {
       width: 5em;
       margin: 0 0.5em;
 

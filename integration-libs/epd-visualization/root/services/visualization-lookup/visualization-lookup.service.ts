@@ -4,6 +4,7 @@ import { map } from 'rxjs/operators';
 import { ContentType } from '../../models/visualizations/content-type';
 import {
   EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   UsageIdConfig,
 } from '../../config/epd-visualization-config';
 import { UsageId } from '../../models/usage-ids/usage-id';
@@ -31,7 +32,9 @@ export class VisualizationLookupService {
   public findMatchingVisualizations(
     productCode: String
   ): Observable<VisualizationInfo[]> {
-    const usageIdConfig = this.epdVisualizationConfig.usageIds as UsageIdConfig;
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;
     const productUsageId = usageIdConfig.productUsageId;
     const folderUsageId = usageIdConfig.folderUsageId;
 

@@ -16,7 +16,7 @@ import {
 } from '../../visual-viewer/models/visualization-load-info';
 import { CurrentProductService } from '@spartacus/storefront';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
-import { getTestConfig } from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
@@ -533,7 +533,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when unexpected error occurs during load', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.unexpectedLoadError',
+        key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -565,7 +565,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when multiple matches found', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.multipleMatchingVisualsFound',
+        key: 'epdVisualization.errors.visualLoad.multipleMatchingVisualsFound',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -576,7 +576,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when unexpected error occurs during lookup', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.unexpectedLoadError',
+        key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({

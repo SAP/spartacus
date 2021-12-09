@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
 import {
   EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   UsageIdConfig,
 } from '../../config/epd-visualization-config';
 import {
@@ -25,7 +26,9 @@ export class SceneNodeToProductLookupService {
     protected epdVisualizationConfig: EpdVisualizationConfig,
     protected storageService: StorageApiService
   ) {
-    const usageIdConfig = this.epdVisualizationConfig.usageIds as UsageIdConfig;
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;
     this.usageId = usageIdConfig.productUsageId;
 
     this.nodeIdsByProductCodeMap$.subscribe(() => {});
