@@ -16,7 +16,7 @@ import {
 } from '../../visual-viewer/models/visualization-load-info';
 import { CurrentProductService } from '@spartacus/storefront';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
-import { getTestConfig } from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';

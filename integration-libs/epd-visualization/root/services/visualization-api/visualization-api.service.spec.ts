@@ -9,7 +9,7 @@ import {
   VisualizationApiService,
 } from './visualization-api.service';
 import { UsageId } from '../../models/usage-ids/usage-id';
-import { getTestConfig } from '../../config/epd-visualization-test-config';
+import { getTestConfig } from '../../testing/epd-visualization-test-config';
 
 let visualizationService: VisualizationApiService;
 let httpMock: HttpTestingController;

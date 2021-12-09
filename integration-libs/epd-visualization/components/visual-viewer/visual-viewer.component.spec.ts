@@ -8,7 +8,7 @@ import { VisualViewerComponent } from './visual-viewer.component';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
 import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.module';
-import { getTestConfig } from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 import { NavigationMode } from './models/navigation-mode';
 import {

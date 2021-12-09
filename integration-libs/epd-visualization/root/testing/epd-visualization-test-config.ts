@@ -1,8 +1,5 @@
-import { EpdVisualizationConfig } from './epd-visualization-config';
+import { EpdVisualizationConfig } from '../config/epd-visualization-config';
 
-/**
- * Just used for tests.
- */
 export function getTestConfig(): EpdVisualizationConfig {
   return {
     epdVisualization: {
