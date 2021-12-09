@@ -32,7 +32,7 @@
         // we cannot make the z-index too high as it would conflict with the searchbox flyout.
         z-index: 20;
       }
-      > nav> ul > li > .wrapper {
+      > nav > ul > li > .wrapper {
         padding: 15px 20px;
         background: #fff;
       }
@@ -334,10 +334,9 @@
           }
         }
         // Show dropdowns via focus only once a nav is clicked
-        //&:focus-within {
         &:focus-within {
           &:focus,
-          &.is-open:focus-within {
+          &.is-open {
             > button + .wrapper {
               @include showWrapperDesktop();
             }
