@@ -799,7 +799,10 @@ export class VisualViewerService {
   }
 
   private isReferenceNode(nodeRef: NodeRef): boolean {
-    return this.nodeHierarchy.getNodeContentType(nodeRef) === NodeContentType.Reference;
+    return (
+      this.nodeHierarchy.getNodeContentType(nodeRef) ===
+      NodeContentType.Reference
+    );
   }
 
   private getLeafDescendants(
@@ -807,8 +810,9 @@ export class VisualViewerService {
     leafNodeRefs: NodeRef[]
   ): NodeRef[] {
     if (!this.isReferenceNode(nodeRef)) {
-      const children = this.nodeHierarchy.getChildren(nodeRef, false)
-        .filter(childNodeRef => !this.isReferenceNode(childNodeRef));
+      const children = this.nodeHierarchy
+        .getChildren(nodeRef, false)
+        .filter((childNodeRef) => !this.isReferenceNode(childNodeRef));
 
       if (children.length === 0) {
         leafNodeRefs.push(nodeRef);
