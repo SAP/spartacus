@@ -3,6 +3,7 @@ import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
   EventService,
+  FacadeFactoryService,
   SiteContextParamsService,
   StatePersistenceService,
   UnifiedInjector,
@@ -31,7 +32,8 @@ export class MiniCartComponentService {
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService,
-    protected injector: UnifiedInjector
+    protected injector: UnifiedInjector,
+    protected facadeFactoryService: FacadeFactoryService
   ) {}
 
   /**
@@ -105,15 +107,10 @@ export class MiniCartComponentService {
 
   isCartFacadeLoaded(): Observable<boolean> {
     return this.injector.get(ActiveCartFacade).pipe(
-      tap((activeCartFacade) =>
-        console.log(
-          'activeCartFacade instanceof ActiveCartFacade',
-          activeCartFacade instanceof ActiveCartFacade,
-          activeCartFacade
-        )
-      ),
       map(
-        (activeCartFacade) => !(activeCartFacade instanceof ActiveCartFacade)
+        (activeCartFacade) =>
+          activeCartFacade !== undefined &&
+          !this.facadeFactoryService.isProxyFacadeInstance(activeCartFacade)
       ),
       distinctUntilChanged()
     );

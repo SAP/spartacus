@@ -2,6 +2,7 @@ import { AbstractType, InjectionToken, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
+  FacadeFactoryService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
@@ -32,6 +33,11 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 class MockUnifiedInjector implements Partial<UnifiedInjector> {
   get<T>(_token: Type<T> | InjectionToken<T> | AbstractType<T>): Observable<T> {
     return of({} as T);
+  }
+}
+class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
+  isProxyFacadeInstance(_facade: any): boolean {
+    return true;
   }
 }
 
@@ -69,6 +75,7 @@ describe('MiniCartComponentService', () => {
   let siteContextParamsService: SiteContextParamsService;
   let authService: AuthService;
   let injector: UnifiedInjector;
+  let facadeFactoryService: FacadeFactoryService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -89,6 +96,7 @@ describe('MiniCartComponentService', () => {
           useValue: JSON.parse(JSON.stringify(defaultCartConfig)),
         },
         { provide: UnifiedInjector, useClass: MockUnifiedInjector },
+        { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
@@ -97,6 +105,7 @@ describe('MiniCartComponentService', () => {
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     authService = TestBed.inject(AuthService);
     injector = TestBed.inject(UnifiedInjector);
+    facadeFactoryService = TestBed.inject(FacadeFactoryService);
   });
 
   it('should be created', () => {
@@ -316,16 +325,27 @@ describe('MiniCartComponentService', () => {
   });
 
   describe('isCartFacadeLoaded', () => {
-    xit('should return default value when user has no cart', () => {
-      console.log(
-        `MockActiveCartFacade instanceof ActiveCartFacade`,
-        new MockActiveCartFacade() instanceof ActiveCartFacade
-      );
+    it('should return false when the facade is not yet loaded', () => {
       spyOn(injector, 'get').and.returnValue(
         cold('a', { a: new MockActiveCartFacade() })
       );
+      spyOn(facadeFactoryService, 'isProxyFacadeInstance').and.returnValue(
+        true
+      );
       expect(service.isCartFacadeLoaded()).toBeObservable(
         cold('f', { f: false })
+      );
+    });
+
+    it('should return true when the facade is loaded', () => {
+      spyOn(injector, 'get').and.returnValue(
+        cold('a', { a: new MockActiveCartFacade() })
+      );
+      spyOn(facadeFactoryService, 'isProxyFacadeInstance').and.returnValue(
+        false
+      );
+      expect(service.isCartFacadeLoaded()).toBeObservable(
+        cold('t', { t: true })
       );
     });
   });
