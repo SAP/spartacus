@@ -1,8 +1,6 @@
 import {
-  Input,
   ElementRef,
   EventEmitter,
-  Output,
   Injectable,
   Renderer2,
   ChangeDetectorRef,
@@ -44,7 +42,6 @@ export class VisualViewerAnimationSliderService {
   /**
    * Slider value. Value is in the range [0-1].
    */
-  @Input()
   set value(value: number) {
     value = this.clampToRange(value);
     if (this._value === value) {
@@ -57,10 +54,8 @@ export class VisualViewerAnimationSliderService {
     return this._value;
   }
   private _value: number = 0;
-  @Output()
   valueChange: EventEmitter<number> = new EventEmitter();
 
-  @Input()
   set disabled(disabled: boolean) {
     if (this._disabled === disabled) {
       return;
@@ -73,7 +68,6 @@ export class VisualViewerAnimationSliderService {
   }
   private _disabled: boolean = false;
 
-  @Input()
   set hidden(hidden: boolean) {
     if (this._hidden === hidden) {
       return;
