@@ -10,6 +10,7 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
   UserCostCenterService,
@@ -50,6 +51,10 @@ class MockCheckoutStepService {
   getBackBntText(): string {
     return 'common.back';
   }
+}
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
 }
 
 const isAccount: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
@@ -171,6 +176,7 @@ describe('ShippingAddressComponent', () => {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(ShippingAddressComponent, {
