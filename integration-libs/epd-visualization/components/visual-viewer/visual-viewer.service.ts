@@ -795,11 +795,7 @@ export class VisualViewerService implements OnDestroy {
           const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
             (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
           );
-          const leafNodeRefsToIncludeSet = new Set();
-          leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-            leafNodeRefsToIncludeSet.add(nodeRef)
-          );
-
+          const leafNodeRefsToIncludeSet = new Set(leafNodeRefsToInclude);
           const leafNodeRefsToExclude = this.leafNodeRefs.filter(
             (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
           );
