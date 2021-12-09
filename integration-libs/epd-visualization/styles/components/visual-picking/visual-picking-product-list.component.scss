@@ -76,12 +76,11 @@
 
     margin: 0 0.5em 0 0; // rtl equivalent in in html[dir='rtl'] section at end
 
-    &.highlighted {
+    &.selected {
       border-color: var(--cx-highlight-border-color);
     }
 
     cx-media {
-      // Can insert an image when the thumbnail is missing
       &.is-missing {
         width: var(--cx-thumbnail-width);
         height: var(--cx-thumbnail-height);
