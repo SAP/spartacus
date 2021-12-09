@@ -9,6 +9,7 @@ import {
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   Ui5Config,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
@@ -968,6 +969,10 @@ export class VisualViewerService {
   }
 
   private bootstrapUi5(scriptElementId: string): Observable<void> {
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const ui5Config = epdVisualization.ui5 as Ui5Config;
+
     return new Observable((subscriber) => {
       if (this.isUi5BootStrapped()) {
         subscriber.next();
@@ -989,7 +994,7 @@ export class VisualViewerService {
       script.id = 'sap-ui-bootstrap';
       script.type = 'text/javascript';
       script.setAttribute('data-sap-ui-compatVersion', 'edge');
-      script.src = (this.epdVisualizationConfig.ui5 as Ui5Config).bootstrapUrl;
+      script.src = ui5Config.bootstrapUrl;
     });
   }
 
@@ -1383,6 +1388,11 @@ export class VisualViewerService {
     sceneId: string,
     contentType: ContentType
   ): Observable<SceneLoadInfo> {
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const visualizationApiConfig =
+      epdVisualization.apis as VisualizationApiConfig;
+
     if (this.viewportReady) {
       this.setViewportReady(false);
     }
@@ -1399,9 +1409,7 @@ export class VisualViewerService {
           this.is2D ? 'Highlight' : 'Outline'
         );
 
-        const baseUrl: string = (
-          this.epdVisualizationConfig.apis as VisualizationApiConfig
-        ).baseUrl;
+        const baseUrl: string = visualizationApiConfig.baseUrl;
 
         const contentResource: ContentResource = new ContentResource({
           useSecureConnection: false,

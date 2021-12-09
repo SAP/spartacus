@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   VisualizationApiConfig,
 } from '../../config/epd-visualization-config';
 import { VisualizationInfo } from '../../models';
@@ -18,8 +19,12 @@ export class VisualizationApiService {
     protected http: HttpClient,
     protected epdVisualizationConfig: EpdVisualizationConfig
   ) {
-    const baseUrl = (epdVisualizationConfig.apis as VisualizationApiConfig)
-      .baseUrl as string;
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const visualizationApiConfig =
+      epdVisualization.apis as VisualizationApiConfig;
+
+    const baseUrl = visualizationApiConfig.baseUrl as string;
     this.visualizationApiBaseUrl = `${baseUrl}/vis/public/visualization`;
   }
 
