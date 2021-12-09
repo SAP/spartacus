@@ -13,8 +13,8 @@ import {
   SemanticPathService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
-import { CartConfigService } from '../../../services/cart-config.service';
-import { CartValidationStateService } from '../cart-validation-state.service';
+import { CartConfigService } from '../services/cart-config.service';
+import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationGuard } from './cart-validation.guard';
 
 import createSpy = jasmine.createSpy;

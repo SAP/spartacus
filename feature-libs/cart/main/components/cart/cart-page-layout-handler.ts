@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { isEmpty } from '@spartacus/cart/main/core';
+import { CartConfigService, isEmpty } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -8,7 +8,6 @@ import {
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { CartConfigService } from '../services/cart-config.service';
 
 @Injectable({
   providedIn: 'root',

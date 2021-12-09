@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActiveCartFacade,
+  CartModification,
   CartModificationList,
   CartValidationFacade,
 } from '@spartacus/cart/main/root';
@@ -13,6 +14,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
+import { CartValidationStateService } from '../services/cart-validation-state.service';
 
 @Injectable()
 export class CartValidationService implements CartValidationFacade {
@@ -39,16 +41,21 @@ export class CartValidationService implements CartValidationFacade {
     protected cartValidationConnector: CartValidationConnector,
     protected command: CommandService,
     protected userIdService: UserIdService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected cartValidationStateService: CartValidationStateService
   ) {}
 
   /**
-   * Returns cart modification list.
-   *
-   * @param cartId
-   * @param userId
+   * Validate cart and returns cart modification list.
    */
   validateCart(): Observable<CartModificationList> {
     return this.validateCartCommand.execute();
+  }
+
+  /**
+   * Returns cart modification results
+   */
+  getValidationResults(): Observable<CartModification[]> {
+    return this.cartValidationStateService.cartValidationResult$;
   }
 }
