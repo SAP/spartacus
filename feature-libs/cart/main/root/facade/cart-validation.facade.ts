@@ -15,7 +15,7 @@ import { CartModification, CartModificationList } from '../models/cart.model';
 })
 export abstract class CartValidationFacade {
   /**
-   * Validate cart, and returns cart modification list.
+   * Validates cart, and returns cart modification list.
    */
   abstract validateCart(): Observable<CartModificationList>;
 

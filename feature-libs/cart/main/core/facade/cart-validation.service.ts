@@ -46,7 +46,7 @@ export class CartValidationService implements CartValidationFacade {
   ) {}
 
   /**
-   * Validate cart and returns cart modification list.
+   * Validates cart and returns cart modification list.
    */
   validateCart(): Observable<CartModificationList> {
     return this.validateCartCommand.execute();

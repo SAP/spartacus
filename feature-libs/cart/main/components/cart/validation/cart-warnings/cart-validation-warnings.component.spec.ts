@@ -10,11 +10,11 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartModification,
+  CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/main/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
-import { CartValidationStateService } from '../cart-validation-state.service';
 import { CartValidationWarningsComponent } from './cart-validation-warnings.component';
 
 const mockData = [
@@ -46,10 +46,10 @@ const mockData = [
 
 const dataReplaySubject = new ReplaySubject<CartModification[]>();
 
-class MockCartValidationStateService
-  implements Partial<CartValidationStateService>
-{
-  cartValidationResult$ = dataReplaySubject;
+class MockCartValidationFacade {
+  getValidationResults() {
+    return dataReplaySubject;
+  }
 }
 
 @Component({
@@ -77,7 +77,7 @@ class MockUrlPipe implements PipeTransform {
 describe('CartValidationWarningsComponent', () => {
   let component: CartValidationWarningsComponent;
   let fixture: ComponentFixture<CartValidationWarningsComponent>;
-  let mockCartValidationStateService: CartValidationStateService;
+  let cartValidationFacade: CartValidationFacade;
   let el: DebugElement;
 
   beforeEach(() => {
@@ -91,8 +91,8 @@ describe('CartValidationWarningsComponent', () => {
       ],
       providers: [
         {
-          provide: CartValidationStateService,
-          useClass: MockCartValidationStateService,
+          provide: CartValidationFacade,
+          useClass: MockCartValidationFacade,
         },
       ],
     }).compileComponents();
@@ -100,10 +100,10 @@ describe('CartValidationWarningsComponent', () => {
     fixture = TestBed.createComponent(CartValidationWarningsComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    mockCartValidationStateService = TestBed.inject(CartValidationStateService);
+    cartValidationFacade = TestBed.inject(CartValidationFacade);
 
     (
-      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+      cartValidationFacade.getValidationResults() as ReplaySubject<
         CartModification[]
       >
     ).next(mockData);
@@ -117,7 +117,7 @@ describe('CartValidationWarningsComponent', () => {
 
   it('should find proper cart modification object', () => {
     (
-      mockCartValidationStateService.cartValidationResult$ as ReplaySubject<
+      cartValidationFacade.getValidationResults() as ReplaySubject<
         CartModification[]
       >
     ).next(mockData);
