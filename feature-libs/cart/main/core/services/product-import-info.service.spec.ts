@@ -1,62 +1,35 @@
-import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
-import {
-  AddOrderEntriesContext,
-  OrderEntriesSource,
-  ProductData,
-  ProductImportStatus,
-} from '@spartacus/cart/main/root';
-import { Observable, of, Subject } from 'rxjs';
-import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
+import { ProductImportStatus } from '@spartacus/cart/main/root';
+import { Subject } from 'rxjs';
+import { ProductImportInfoService } from './product-import-info.service';
 
 const mockActionsSubject = new Subject<Action>();
-
-const mockProductsData: ProductData[] = [
-  { productCode: '693923', quantity: 1 },
-  { productCode: '232133', quantity: 2 },
-];
-
 const mockCartId = '00004546';
 const mockUserId = 'current';
 
-@Injectable({
-  providedIn: 'root',
-})
-class TestCartOrderEntriesContext
-  extends CartOrderEntriesContext
-  implements AddOrderEntriesContext
-{
-  constructor(protected actionsSubject: ActionsSubject) {
-    super(actionsSubject);
-  }
-
-  readonly type = 'TEST_CART' as OrderEntriesSource;
-
-  protected add(_products: ProductData[]): Observable<string> {
-    return of(mockCartId);
-  }
-}
-
-describe('CartOrderEntriesContext', () => {
-  let service: TestCartOrderEntriesContext;
+describe('ProductImportInfoService', () => {
+  let service: ProductImportInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ useValue: mockActionsSubject, provide: ActionsSubject }],
+      providers: [
+        ProductImportInfoService,
+        { useValue: mockActionsSubject, provide: ActionsSubject },
+      ],
     });
-    service = TestBed.inject(TestCartOrderEntriesContext);
+    service = TestBed.inject(ProductImportInfoService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('addEntries', () => {
-    it('should return success action', () => {
-      let action;
-      service.addEntries(mockProductsData).subscribe((data) => (action = data));
+  describe('getResults', () => {
+    it('should return success', () => {
+      let result;
+      service.getResults(mockCartId).subscribe((data) => (result = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -70,16 +43,16 @@ describe('CartOrderEntriesContext', () => {
         })
       );
 
-      expect(action).toEqual({
+      expect(result).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.SUCCESS,
         productName: 'mockProduct1',
       });
     });
 
-    it('should return low stock action', () => {
-      let action;
-      service.addEntries(mockProductsData).subscribe((data) => (action = data));
+    it('should return low stock', () => {
+      let result;
+      service.getResults(mockCartId).subscribe((data) => (result = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -93,7 +66,7 @@ describe('CartOrderEntriesContext', () => {
         })
       );
 
-      expect(action).toEqual({
+      expect(result).toEqual({
         productName: 'mockProduct1',
         quantity: 4,
         quantityAdded: 1,
@@ -102,9 +75,9 @@ describe('CartOrderEntriesContext', () => {
       });
     });
 
-    it('should return no stock action', () => {
-      let action;
-      service.addEntries(mockProductsData).subscribe((data) => (action = data));
+    it('should return no stock', () => {
+      let result;
+      service.getResults(mockCartId).subscribe((data) => (result = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -118,16 +91,16 @@ describe('CartOrderEntriesContext', () => {
         })
       );
 
-      expect(action).toEqual({
+      expect(result).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.NO_STOCK,
         productName: 'mockProduct1',
       });
     });
 
-    it('should return Unknown Identifier Error action', () => {
-      let action;
-      service.addEntries(mockProductsData).subscribe((data) => (action = data));
+    it('should return Unknown Identifier Error', () => {
+      let result;
+      service.getResults(mockCartId).subscribe((data) => (result = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntryFail({
@@ -139,15 +112,15 @@ describe('CartOrderEntriesContext', () => {
         })
       );
 
-      expect(action).toEqual({
+      expect(result).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_IDENTIFIER,
       });
     });
 
-    it('should return unknown error action', () => {
-      let action;
-      service.addEntries(mockProductsData).subscribe((data) => (action = data));
+    it('should return unknown error', () => {
+      let result;
+      service.getResults(mockCartId).subscribe((data) => (result = data));
 
       mockActionsSubject.next(
         new CartActions.CartAddEntrySuccess({
@@ -161,7 +134,7 @@ describe('CartOrderEntriesContext', () => {
         })
       );
 
-      expect(action).toEqual({
+      expect(result).toEqual({
         productCode: '693923',
         statusCode: ProductImportStatus.UNKNOWN_ERROR,
       });

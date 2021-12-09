@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Action, ActionsSubject } from '@ngrx/store';
 import {} from '@spartacus/cart/import-export/core';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import {
   Cart,
   MultiCartFacade,
@@ -9,11 +9,9 @@ import {
 } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
-import { BehaviorSubject, of, Subject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { SavedCartOrderEntriesContext } from './saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
-
-const mockActionsSubject = new Subject<Action>();
 
 const mockUserId = 'test-user';
 const mockCartId = '00004546';
@@ -66,17 +64,29 @@ class MockRoutingService implements Partial<RoutingService> {
   );
 }
 
+const mockProductImportInfo = {
+  productCode: 'testProductCode',
+  statusCode: 'testStatusCode',
+};
+class MockProductImportInfoService {
+  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+}
+
 describe('SavedCartOrderEntriesContext', () => {
   let service: SavedCartOrderEntriesContext;
   let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
   let routingService: RoutingService;
+  let productImportInfoService: ProductImportInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { useValue: mockActionsSubject, provide: ActionsSubject },
+        {
+          useClass: MockProductImportInfoService,
+          provide: ProductImportInfoService,
+        },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
         { useClass: MockMultiCartService, provide: MultiCartFacade },
         { useClass: MockUserIdService, provide: UserIdService },
@@ -88,6 +98,7 @@ describe('SavedCartOrderEntriesContext', () => {
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
+    productImportInfoService = TestBed.inject(ProductImportInfoService);
   });
 
   it('should be created', () => {
@@ -120,6 +131,9 @@ describe('SavedCartOrderEntriesContext', () => {
         mockUserId,
         mockCartId,
         mockProductData
+      );
+      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+        mockCartId
       );
     });
   });

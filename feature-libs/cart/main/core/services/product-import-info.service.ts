@@ -1,35 +1,19 @@
-import { isDevMode } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
 import {
-  ProductData,
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
+import { CartActions } from '../store/actions';
 
-/**
- * An abstract class for contexts based on cart (active cart, saved cart) which share part of logic - mainly handle cart actions and map results.
- */
-export abstract class CartOrderEntriesContext {
+@Injectable({
+  providedIn: 'root',
+})
+export class ProductImportInfoService {
   protected constructor(protected actionsSubject: ActionsSubject) {}
-
-  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
-    return this.add(products).pipe(
-      switchMap((cartId: string) => this.getResults(cartId)),
-      take(products.length)
-    );
-  }
-
-  /**
-   * Add products and returns cartId of context cart
-   *
-   * @param { ProductData[] } products
-   * @returns {string} cartId - necessary to get results
-   */
-  protected abstract add(products: ProductData[]): Observable<string>;
 
   /**
    * Get emission of add entry results from actions subject
@@ -37,7 +21,7 @@ export abstract class CartOrderEntriesContext {
    * @param {string} cartId
    * @returns {Observable<ProductImportInfo>}
    */
-  protected getResults(cartId: string): Observable<ProductImportInfo> {
+  getResults(cartId: string): Observable<ProductImportInfo> {
     return this.actionsSubject.pipe(
       ofType(
         CartActions.CART_ADD_ENTRY_SUCCESS,
