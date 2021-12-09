@@ -612,7 +612,7 @@
       "projectType": "library",
       "root": "integration-libs/epd-visualization",
       "sourceRoot": "integration-libs/epd-visualization",
-      "prefix": "cx",
+      "prefix": "cx-epd-visualization",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",
