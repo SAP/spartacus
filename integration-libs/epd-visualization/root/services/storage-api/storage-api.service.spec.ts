@@ -4,7 +4,7 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { getTestConfig } from '../../config/epd-visualization-test-config';
+import { getTestConfig } from '../../testing/epd-visualization-test-config';
 import { NodesResponse, StorageApiService } from './storage-api.service';
 
 let storageService: StorageApiService;
