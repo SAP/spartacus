@@ -6,7 +6,7 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
-import { ORDER_ENTRIES_CONTEXT } from './constants/order-entires.context';
+import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';
 import { CART_CORE_FEATURE, CART_FEATURE } from './feature-name';
 import { ActiveCartOrderEntriesContextToken } from './tokens/context';
 

@@ -4,7 +4,7 @@ import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries-context';
+import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ActionsSubject } from '@ngrx/store';
 import {
   ActiveCartFacade,
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
   OrderEntriesSource,
   OrderEntry,
   ProductData,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { AddOrderEntriesContext } from '../add-order-entries.context';
-import { CartOrderEntriesContext } from '../cart-order-entries.context';
-import { GetOrderEntriesContext } from '../get-order-entries.context';
+import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
 
 @Injectable({
   providedIn: 'root',

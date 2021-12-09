@@ -3,8 +3,6 @@ import { Injectable, isDevMode } from '@angular/core';
 import {
   AddOrderEntriesContext,
   GetOrderEntriesContext,
-} from '@spartacus/cart/main/components';
-import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,

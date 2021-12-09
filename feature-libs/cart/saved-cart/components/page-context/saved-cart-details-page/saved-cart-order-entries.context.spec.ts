@@ -10,7 +10,7 @@ import {
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { SavedCartOrderEntriesContext } from './saved-cart-order-entries-context';
+import { SavedCartOrderEntriesContext } from './saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
 
 const mockActionsSubject = new Subject<Action>();

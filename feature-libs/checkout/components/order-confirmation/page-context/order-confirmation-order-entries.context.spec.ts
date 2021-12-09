@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/main/root';
-import { OrderFacade } from '@spartacus/order/root';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import { of } from 'rxjs';
-import { OrderDetailsOrderEntriesContext } from './order-details-order-entries-context';
+import { OrderConfirmationOrderEntriesContext } from './order-confirmation-order-entries.context';
 import createSpy = jasmine.createSpy;
 
 const mockEntries: OrderEntry[] = [
@@ -12,20 +12,20 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-class MockUserOrderService implements Partial<OrderFacade> {
+class MockUserOrderService implements Partial<CheckoutFacade> {
   getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
-describe('OrderDetailsOrderEntriesContext', () => {
-  let service: OrderDetailsOrderEntriesContext;
-  let userOrderService: OrderFacade;
+describe('OrderConfirmationOrderEntriesContext', () => {
+  let service: OrderConfirmationOrderEntriesContext;
+  let userOrderService: CheckoutFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ useClass: MockUserOrderService, provide: OrderFacade }],
+      providers: [{ useClass: MockUserOrderService, provide: CheckoutFacade }],
     });
-    service = TestBed.inject(OrderDetailsOrderEntriesContext);
-    userOrderService = TestBed.inject(OrderFacade);
+    service = TestBed.inject(OrderConfirmationOrderEntriesContext);
+    userOrderService = TestBed.inject(CheckoutFacade);
   });
 
   it('should be created', () => {

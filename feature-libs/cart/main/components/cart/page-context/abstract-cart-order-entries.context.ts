@@ -2,13 +2,13 @@ import { isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
-import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
 import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
 } from '@spartacus/cart/main/root';
+import { Observable } from 'rxjs';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 
 /**
  * An abstract class for contexts based on cart (active cart, saved cart) which share part of logic - mainly handle cart actions and map results.
