@@ -160,7 +160,7 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
     this.globalMessageService.add(
       {
-        key: 'paymentMethods.paymentMethodSelectedSuccess',
+        key: 'paymentMethods.paymentMethodSelected',
       },
       GlobalMessageType.MSG_TYPE_INFO
     );
