@@ -11,8 +11,6 @@ import {
   PaymentDetails,
   SiteContextActions,
   UserActions,
-  GlobalMessageService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -52,7 +50,6 @@ const details: CheckoutDetails = {
 
 const paymentDetails: PaymentDetails = {
   accountHolderName: 'test',
-  cardNumber: '1111222211112222',
   defaultPayment: false,
   billingAddress: {
     line1: '123 Montreal',
@@ -82,15 +79,10 @@ class MockCheckoutConnector {
   clearCheckoutDeliveryMode = () => of({});
 }
 
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-}
-
 describe('Checkout effect', () => {
   let checkoutConnector: CheckoutConnector;
   let entryEffects: fromEffects.CheckoutEffects;
   let actions$: Observable<Action>;
-  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -109,10 +101,6 @@ describe('Checkout effect', () => {
           provide: CheckoutCostCenterConnector,
           useClass: MockCheckoutCostCenterConnector,
         },
-        {
-          provide: GlobalMessageService,
-          useClass: MockGlobalMessageService,
-        },
         { provide: CheckoutConnector, useClass: MockCheckoutConnector },
         fromEffects.CheckoutEffects,
         provideMockActions(() => actions$),
@@ -121,7 +109,6 @@ describe('Checkout effect', () => {
 
     entryEffects = TestBed.inject(fromEffects.CheckoutEffects);
     checkoutConnector = TestBed.inject(CheckoutConnector);
-    globalMessageService = TestBed.inject(GlobalMessageService);
 
     spyOn(checkoutConnector, 'placeOrder').and.returnValue(of(orderDetails));
   });
@@ -386,16 +373,6 @@ describe('Checkout effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
-
-      let digits = paymentDetails.cardNumber;
-      digits = digits?.substring(digits.length - 4, digits.length);
-      expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'paymentMethods.paymentMethodSelectedSucess',
-          params: { digits: digits },
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
     });
   });
 
