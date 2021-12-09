@@ -16,7 +16,6 @@ import {
   startWith,
   switchMap,
   takeWhile,
-  tap,
 } from 'rxjs/operators';
 import { CartConfig } from '../../config/cart-config';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
@@ -84,17 +83,11 @@ export class MiniCartComponentService {
       this.authService.isUserLoggedIn(),
       this.isCartFacadeLoaded(),
     ]).pipe(
-      tap(([hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded]) =>
-        console.log(
-          `[hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded] = [${hasCartInStorage}, ${isUserLoggedIn}, ${isCartFacadeLoaded}]`
-        )
-      ),
       map(
         ([hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded]) =>
           hasCartInStorage || isUserLoggedIn || isCartFacadeLoaded
       ),
       distinctUntilChanged(),
-      tap((userhascart) => console.log('userhascart', userhascart)),
       takeWhile((hasCart) => !hasCart, true)
     );
   }
