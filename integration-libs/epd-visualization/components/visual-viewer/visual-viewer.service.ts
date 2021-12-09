@@ -798,17 +798,25 @@ export class VisualViewerService {
       });
   }
 
+  private isReferenceNode(nodeRef: NodeRef): boolean {
+    return this.nodeHierarchy.getNodeContentType(nodeRef) === NodeContentType.Reference;
+  }
+
   private getLeafDescendants(
     nodeRef: NodeRef,
     leafNodeRefs: NodeRef[]
   ): NodeRef[] {
-    const children = this.nodeHierarchy.getChildren(nodeRef, false);
-    if (children.length === 0) {
-      leafNodeRefs.push(nodeRef);
-    } else {
-      children.forEach((childNodeRef) =>
-        this.getLeafDescendants(childNodeRef, leafNodeRefs)
-      );
+    if (!this.isReferenceNode(nodeRef)) {
+      const children = this.nodeHierarchy.getChildren(nodeRef, false)
+        .filter(childNodeRef => !this.isReferenceNode(childNodeRef));
+
+      if (children.length === 0) {
+        leafNodeRefs.push(nodeRef);
+      } else {
+        children.forEach((childNodeRef) =>
+          this.getLeafDescendants(childNodeRef, leafNodeRefs)
+        );
+      }
     }
     return leafNodeRefs;
   }
