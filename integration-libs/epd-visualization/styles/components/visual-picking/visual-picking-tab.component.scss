@@ -1,4 +1,4 @@
-%cx-visual-picking-tab {
+%cx-epd-visualization-visual-picking-tab {
   .container-fluid {
     padding: 0;
 
@@ -18,7 +18,7 @@
       flex-direction: row;
     }
 
-    cx-visual-viewer {
+    cx-epd-visualization-viewer {
       width: 100%;
       height: 20em;
 
@@ -49,7 +49,7 @@
       width: 100%;
     }
 
-    cx-visual-picking-product-filter {
+    cx-epd-visualization-product-filter {
       margin: 0.25rem 0 1rem 0;
 
       @include media-breakpoint-up(md) {

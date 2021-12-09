@@ -12,7 +12,7 @@
     <div [hidden]="!viewportReady" class="toolbar">
       <div class="toolbarHBox">
         <div class="toolbarButtonsHBox">
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="homeButton"
             iconLibraryClass="fas"
             iconClass="fa-home"
@@ -21,9 +21,9 @@
                 | cxTranslate
             }}"
             (click)="activateHomeView()"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="turntableButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-sync-alt"
@@ -34,9 +34,9 @@
             [hidden]="is2D"
             (click)="navigationMode = NavigationMode.Turntable"
             [checked]="navigationMode === NavigationMode.Turntable"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="panButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-arrows-alt"
@@ -46,9 +46,9 @@
             }}"
             (click)="navigationMode = NavigationMode.Pan"
             [checked]="navigationMode === NavigationMode.Pan"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="zoomButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-search"
@@ -58,9 +58,9 @@
             }}"
             (click)="navigationMode = NavigationMode.Zoom"
             [checked]="navigationMode === NavigationMode.Zoom"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="isolateButton toolbarItem"
             iconLibraryClass="fas"
             [hidden]="is2D"
@@ -74,9 +74,9 @@
             }}"
             (click)="isolateModeEnabled = !isolateModeEnabled"
             [checked]="isolateModeEnabled"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="playPauseButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="{{ animationPlaying ? 'fa-pause' : 'fa-play' }}"
@@ -89,9 +89,9 @@
             [hidden]="is2D || animationTotalDuration <= 0"
             [disabled]="isolateModeEnabled"
             (click)="animationPlaying ? pauseAnimation() : playAnimation()"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
 
-          <cx-visual-viewer-toolbar-button
+          <cx-epd-visualization-viewer-toolbar-button
             class="showAllHotpotsButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-highlighter"
@@ -104,14 +104,14 @@
             [checked]="showAllHotspotsEnabled"
             [hidden]="!is2D"
             (click)="showAllHotspotsEnabled = !showAllHotspotsEnabled"
-          ></cx-visual-viewer-toolbar-button>
+          ></cx-epd-visualization-viewer-toolbar-button>
         </div>
 
         <div [hidden]="is2D || animationTotalDuration <= 0">
-          <cx-visual-viewer-animation-slider
+          <cx-epd-visualization-animation-slider
             [disabled]="isolateModeEnabled"
             [(value)]="animationPosition"
-          ></cx-visual-viewer-animation-slider>
+          ></cx-epd-visualization-animation-slider>
         </div>
       </div>
     </div>

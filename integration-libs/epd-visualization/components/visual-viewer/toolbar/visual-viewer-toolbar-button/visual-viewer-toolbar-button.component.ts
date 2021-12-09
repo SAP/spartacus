@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'cx-visual-viewer-toolbar-button',
+  selector: 'cx-epd-visualization-viewer-toolbar-button',
   templateUrl: './visual-viewer-toolbar-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

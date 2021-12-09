@@ -11,7 +11,7 @@ import { VisualPickingProductListService } from './product-list/visual-picking-p
 import { VisualPickingTabService } from './visual-picking-tab.service';
 
 @Component({
-  selector: 'cx-visual-picking-tab',
+  selector: 'cx-epd-visualization-visual-picking-tab',
   templateUrl: './visual-picking-tab.component.html',
   providers: [VisualPickingTabService],
   changeDetection: ChangeDetectionStrategy.OnPush,

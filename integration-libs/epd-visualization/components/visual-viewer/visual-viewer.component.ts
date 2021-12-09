@@ -12,7 +12,7 @@ import { VisualizationLoadInfo } from './models/visualization-load-info';
 import { VisualViewerService } from './visual-viewer.service';
 
 @Component({
-  selector: 'cx-visual-viewer',
+  selector: 'cx-epd-visualization-viewer',
   templateUrl: './visual-viewer.component.html',
   providers: [VisualViewerService],
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -12,7 +12,7 @@ import {
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 @Component({
-  selector: 'cx-visual-viewer-animation-slider',
+  selector: 'cx-epd-visualization-animation-slider',
   templateUrl: './visual-viewer-animation-slider.component.html',
   providers: [VisualViewerAnimationSliderService],
   changeDetection: ChangeDetectionStrategy.OnPush,
