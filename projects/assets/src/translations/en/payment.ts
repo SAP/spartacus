@@ -29,8 +29,7 @@ export const payment = {
   },
   paymentMethods: {
     paymentMethods: 'Payment methods',
-    paymentMethodSelectedSucess:
-      'Payment method ending in {{ digits }} selected successfully',
+    paymentMethodSelected: 'Payment method selected',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
