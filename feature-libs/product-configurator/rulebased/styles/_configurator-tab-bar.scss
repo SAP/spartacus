@@ -1,80 +1,82 @@
 %cx-configurator-tab-bar {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding-inline-start: 0px;
-  padding-inline-end: 0px;
-  justify-content: flex-end;
+  &:not(:empty) {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding-inline-start: 0px;
+    padding-inline-end: 0px;
+    justify-content: flex-end;
 
-  @include media-breakpoint-up(lg) {
-    border-width: 0 0 1px 0;
-    border-style: solid;
-    border-color: var(--cx-color-light);
-    margin-block-end: 2rem;
-  }
-
-  @include media-breakpoint-up(xl) {
-    max-width: 1140px;
-  }
-
-  @include media-breakpoint-down(xl) {
-    width: 100%;
-  }
-
-  a {
-    color: black;
-    cursor: pointer;
-    padding: 0.5rem 0 0 0;
-    text-align: center;
-
-    @include media-breakpoint-up(md) {
-      flex-basis: 200px;
+    @include media-breakpoint-up(lg) {
+      border-width: 0 0 1px 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+      margin-block-end: 2rem;
     }
 
-    @include media-breakpoint-down(sm) {
-      inline-size: 50%;
+    @include media-breakpoint-up(xl) {
+      max-width: 1140px;
     }
 
-    @include media-breakpoint-down(sm) {
-      inline-size: 50%;
+    @include media-breakpoint-down(xl) {
+      width: 100%;
     }
 
-    // border effect
-    &:after {
-      content: '';
-      display: block;
-      block-size: 5px;
-      background: var(--cx-color-primary);
-      margin-inline-start: auto;
-      margin-inline-end: auto;
-      margin-block-start: 7px;
-      margin-block-end: auto;
+    a {
+      color: black;
+      cursor: pointer;
+      padding: 0.5rem 0 0 0;
+      text-align: center;
 
-      // the tab hover effect uses a border in the :after pseudo
-      // that is animated from 0% to 100% width
-      inline-size: 0;
-      opacity: 0;
-      transition: all 0.6s;
-    }
+      @include media-breakpoint-up(md) {
+        flex-basis: 200px;
+      }
 
-    &.active,
-    &:hover {
-      color: var(--cx-color-primary);
-      text-decoration: none;
-    }
+      @include media-breakpoint-down(sm) {
+        inline-size: 50%;
+      }
 
-    &.active:after,
-    &:hover:after {
-      inline-size: 100%;
-    }
+      @include media-breakpoint-down(sm) {
+        inline-size: 50%;
+      }
 
-    &.active:after,
-    &.active:hover:after {
-      opacity: 1;
-    }
+      // border effect
+      &:after {
+        content: '';
+        display: block;
+        block-size: 5px;
+        background: var(--cx-color-primary);
+        margin-inline-start: auto;
+        margin-inline-end: auto;
+        margin-block-start: 7px;
+        margin-block-end: auto;
 
-    &:not(.active):hover:after {
-      opacity: 0.5;
+        // the tab hover effect uses a border in the :after pseudo
+        // that is animated from 0% to 100% width
+        inline-size: 0;
+        opacity: 0;
+        transition: all 0.6s;
+      }
+
+      &.active,
+      &:hover {
+        color: var(--cx-color-primary);
+        text-decoration: none;
+      }
+
+      &.active:after,
+      &:hover:after {
+        inline-size: 100%;
+      }
+
+      &.active:after,
+      &.active:hover:after {
+        opacity: 1;
+      }
+
+      &:not(.active):hover:after {
+        opacity: 0.5;
+      }
     }
   }
 }
