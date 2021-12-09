@@ -100,7 +100,7 @@ export class AuthConfigService {
   }
 
   /**
-   *
+   *  Returns the set redirect url mode from the configuration.
    */
   public getSetRedirectUrlMode(): SET_REDIRECT_URL_MODE |  undefined {
     return this.config?.setRedirectUrlOn;

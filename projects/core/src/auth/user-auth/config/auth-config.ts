@@ -71,7 +71,14 @@ export abstract class AuthConfig {
      */
     OAuthLibConfig?: AuthLibConfig;
     /**
-     *
+     * Set the redirectUrl on NavigationEnd or NavigationStart events.
+     * 
+     * In some cases when using third-party authentication, the NavigationEnd event can get 
+     * cancelled and the redirectUrl is not set correctly causing redirection to the wrong page.
+     * The setRedirectUrlOn can be set to NavigationStart in these cases to set the redirectUrl
+     * before the navigation event can be cancelled.
+     * 
+     * Defaults to NavigationEnd if not set.
      */
     setRedirectUrlOn?: SET_REDIRECT_URL_MODE;
   };
