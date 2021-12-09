@@ -13,6 +13,16 @@
     list-style: none;
   }
 
+  cx-navigation-ui > nav > ul {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 0;
+    > li {
+      list-style: none;
+      display: flex;
+    }
+  }
+
   // we hide the categories in flyout mode on mobile
   cx-navigation-ui.flyout {
     @include media-breakpoint-down(md) {
