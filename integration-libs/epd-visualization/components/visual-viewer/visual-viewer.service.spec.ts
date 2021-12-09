@@ -15,6 +15,7 @@ import VisibilityMode from 'sap/ui/vk/VisibilityMode';
 import { ZoomTo } from './models/zoom-to';
 import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
 import { SceneLoadState } from './models/scene-load-state';
+import { NodeContentType } from './models/node-content-type';
 
 type NodeRef = any;
 
@@ -22,6 +23,7 @@ interface FakeNodeRef {
   id: string;
   children: FakeNodeRef[];
   closed: boolean;
+  contentType: NodeContentType;
 }
 
 class MockSceneNodeToProductLookupService {
@@ -1927,33 +1929,39 @@ describe('VisualViewerService', () => {
       const mockNodeRef: FakeNodeRef = {
         id: 'a',
         closed: false,
+        contentType: NodeContentType.Regular,
         children: [
           {
             id: 'b',
             closed: false,
+            contentType: NodeContentType.Regular,
             children: [
               {
                 id: 'c',
                 closed: true,
+                contentType: NodeContentType.Regular,
                 children: [
                   {
                     id: 'f',
                     closed: false,
+                    contentType: NodeContentType.Regular,
                     children: [],
                   },
                 ],
               },
               {
                 id: 'd',
-                children: [],
                 closed: false,
+                contentType: NodeContentType.Regular,
+                children: [],
               },
             ],
           },
           {
             id: 'e',
-            children: [],
+            contentType: NodeContentType.Regular,
             closed: false,
+            children: [],
           },
         ],
       };
@@ -1964,6 +1972,7 @@ describe('VisualViewerService', () => {
             ? nodeRef.children.slice()
             : [];
         },
+        getNodeContentType: (nodeRef: FakeNodeRef) => nodeRef.contentType,
       };
 
       spyOnProperty<any>(
@@ -1984,6 +1993,75 @@ describe('VisualViewerService', () => {
       expect(descendentLeafNodesRefs[1].id).toEqual('d');
       expect(descendentLeafNodesRefs[2].id).toEqual('e');
     });
+
+    it('should exclude reference nodes', () => {
+      const mockNodeRef: FakeNodeRef = {
+        id: 'a',
+        closed: false,
+        contentType: NodeContentType.Regular,
+        children: [
+          {
+            id: 'b',
+            closed: false,
+            contentType: NodeContentType.Regular,
+            children: [
+              {
+                id: 'c',
+                closed: true,
+                contentType: NodeContentType.Regular,
+                children: [
+                  {
+                    id: 'f',
+                    closed: false,
+                    contentType: NodeContentType.Reference,
+                    children: [],
+                  },
+                ],
+              },
+              {
+                id: 'd',
+                closed: false,
+                contentType: NodeContentType.Reference,
+                children: [],
+              },
+            ],
+          },
+          {
+            id: 'e',
+            contentType: NodeContentType.Regular,
+            closed: false,
+            children: [],
+          },
+        ],
+      };
+
+      const mockNodeHierarchy = {
+        getChildren: (nodeRef: FakeNodeRef, stepIntoClosedNodes: boolean) => {
+          return stepIntoClosedNodes || !nodeRef.closed
+            ? nodeRef.children.slice()
+            : [];
+        },
+        getNodeContentType: (nodeRef: FakeNodeRef) => nodeRef.contentType,
+      };
+
+      spyOnProperty<any>(
+        visualViewerService,
+        'nodeHierarchy',
+        'get'
+      ).and.returnValue(mockNodeHierarchy);
+
+      const leafNodeRefs: FakeNodeRef[] = [];
+      const descendentLeafNodesRefs = visualViewerService['getLeafDescendants'](
+        mockNodeRef,
+        leafNodeRefs
+      );
+
+      expect(descendentLeafNodesRefs).toEqual(leafNodeRefs);
+      expect(descendentLeafNodesRefs.length).toEqual(2);
+      expect(descendentLeafNodesRefs[0].id).toEqual('c');
+      expect(descendentLeafNodesRefs[1].id).toEqual('e');
+    });
+
   });
 
   describe('getAllLeafNodeRefs', () => {
@@ -1991,33 +2069,39 @@ describe('VisualViewerService', () => {
       const mockNodeRef: FakeNodeRef = {
         id: 'a',
         closed: false,
+        contentType: NodeContentType.Regular,
         children: [
           {
             id: 'b',
             closed: false,
+            contentType: NodeContentType.Regular,
             children: [
               {
                 id: 'c',
                 closed: true,
+                contentType: NodeContentType.Regular,
                 children: [
                   {
                     id: 'f',
                     closed: false,
+                    contentType: NodeContentType.Regular,
                     children: [],
                   },
                 ],
               },
               {
                 id: 'd',
-                children: [],
                 closed: false,
+                contentType: NodeContentType.Regular,
+                children: [],
               },
             ],
           },
           {
             id: 'e',
-            children: [],
             closed: false,
+            contentType: NodeContentType.Regular,
+            children: [],
           },
         ],
       };
@@ -2035,6 +2119,7 @@ describe('VisualViewerService', () => {
             ? nodeRef.children.slice()
             : [];
         },
+        getNodeContentType: (nodeRef: FakeNodeRef) => nodeRef.contentType,
       };
 
       spyOnProperty<any>(
