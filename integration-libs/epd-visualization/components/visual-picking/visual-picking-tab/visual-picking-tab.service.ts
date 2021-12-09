@@ -136,7 +136,7 @@ export class VisualPickingTabService {
 
           case VisualizationLoadStatus.UnexpectedError:
             this.showErrorMessage({
-              key: 'errors.visualLoad.unexpectedLoadError',
+              key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
             });
             break;
         }
@@ -147,12 +147,14 @@ export class VisualPickingTabService {
 
       case VisualizationLookupResult.MultipleMatchesFound:
         this.showErrorMessage({
-          key: 'errors.visualLoad.multipleMatchingVisualsFound',
+          key: 'epdVisualization.errors.visualLoad.multipleMatchingVisualsFound',
         });
         break;
 
       case VisualizationLookupResult.UnexpectedError:
-        this.showErrorMessage({ key: 'errors.visualLoad.unexpectedLoadError' });
+        this.showErrorMessage({
+          key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
+        });
         break;
     }
     this.changeDetectorRef.detectChanges();

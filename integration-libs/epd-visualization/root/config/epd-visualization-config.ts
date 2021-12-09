@@ -8,27 +8,31 @@ import { UsageIdDefinition } from '../models/usage-ids/usage-id-definition';
   useExisting: Config,
 })
 export abstract class EpdVisualizationConfig implements Config {
-  public ui5?: Ui5Config;
-  public apis?: VisualizationApiConfig;
-  public usageIds?: UsageIdConfig;
-  public visualPicking?: VisualPickingConfig;
+  public epdVisualization?: EpdVisualizationInnerConfig;
 }
 
-export abstract class Ui5Config {
-  public bootstrapUrl: string;
+export interface EpdVisualizationInnerConfig {
+  ui5?: Ui5Config;
+  apis?: VisualizationApiConfig;
+  usageIds?: UsageIdConfig;
+  visualPicking?: VisualPickingConfig;
 }
 
-export abstract class VisualizationApiConfig {
-  public baseUrl: string;
+export interface Ui5Config {
+  bootstrapUrl: string;
 }
 
-export abstract class UsageIdConfig {
-  public folderUsageId: UsageId;
-  public productUsageId: UsageIdDefinition;
+export interface VisualizationApiConfig {
+  baseUrl: string;
 }
 
-export abstract class VisualPickingConfig {
-  public productReferenceType: string;
+export interface UsageIdConfig {
+  folderUsageId: UsageId;
+  productUsageId: UsageIdDefinition;
+}
+
+export interface VisualPickingConfig {
+  productReferenceType: string;
 }
 
 declare module '@spartacus/core' {

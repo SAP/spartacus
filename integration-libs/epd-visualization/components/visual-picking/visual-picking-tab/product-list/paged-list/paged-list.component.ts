@@ -19,7 +19,7 @@ import { Observable } from 'rxjs';
  * given `template` and `headerTemplate`.
  */
 @Component({
-  selector: 'cx-paged-list',
+  selector: 'cx-epd-visualization-paged-list',
   templateUrl: './paged-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -72,14 +72,14 @@ export class PagedListComponent implements OnInit {
   ngOnInit() {
     if (!this.headerTemplate) {
       console.error(
-        'No template reference provided to render the header for the `cx-paged-list`'
+        'No template reference provided to render the header for the `cx-epd-visualization-paged-list`'
       );
       return;
     }
 
     if (!this.template) {
       console.error(
-        'No template reference provided to render the items for the `cx-paged-list`'
+        'No template reference provided to render the items for the `cx-epd-visualization-paged-list`'
       );
       return;
     }
