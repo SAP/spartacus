@@ -76,34 +76,6 @@ describe('StatePersistenceService', () => {
       );
     });
 
-    it('should call the onPersist callback function on state change', () => {
-      const state = new Subject<number>();
-      //const context = new Subject<string>();
-      const onPersistCallback = jasmine.createSpy('onPersistCallback');
-      service.syncWithStorage({
-        key: 'test',
-        state$: state.asObservable(),
-        onPersist: onPersistCallback,
-      });
-
-      state.next(5);
-      expect(onPersistCallback).toHaveBeenCalled();
-    });
-
-    it('should call the onRead callback function on context change', () => {
-      const state = new Subject<number>();
-      const context = new Subject<string>();
-      const onReadCallback = jasmine.createSpy('onReadCallback');
-      service.syncWithStorage({
-        key: 'test',
-        state$: state.asObservable(),
-        onRead: onReadCallback,
-      });
-
-      context.next('dummy');
-      expect(onReadCallback).toHaveBeenCalled();
-    });
-
     it('should update specific state on each state update', () => {
       const state = new Subject<number>();
 

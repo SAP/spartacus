@@ -41,14 +41,12 @@ export class StatePersistenceService {
     context$ = of(''),
     storageType = StorageSyncType.LOCAL_STORAGE,
     onRead = () => {},
-    onPersist = () => {},
   }: {
     key: string;
     state$: Observable<T>;
     context$?: Observable<string | Array<string>>;
     storageType?: StorageSyncType;
     onRead?: (stateFromStorage: T | undefined) => void;
-    onPersist?: (state: T | undefined) => void;
   }): Subscription {
     const storage = getStorage(storageType, this.winRef);
 
@@ -76,7 +74,6 @@ export class StatePersistenceService {
           state,
           storage
         );
-        onPersist(state);
       })
     );
 
