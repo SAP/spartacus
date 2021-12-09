@@ -36,6 +36,7 @@
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
   class="cx-required-error-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}
