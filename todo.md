@@ -29,7 +29,7 @@
    2. Switch to credit card
    3. if we're quick enough, and click "continue" button before the two API calls are resolved, we'll see _4_ steps instead of _5_.
 9. Is the checkout properly using the new cart lib?
-   1. `CartSharedModule` - Ask Wei and Patrick to confirm the import of this module. They mentioned this is being used with outlets?
+   1. `CartSharedModule` - Ask Wei and Patrick to confirm the import of this module. They mentioned this is being used with outlets? https://sap-cx.slack.com/archives/C02L8BUATM5/p1637252372013100
    2. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200)
    3. sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
 10.  check the event listeners for the following scenario:
