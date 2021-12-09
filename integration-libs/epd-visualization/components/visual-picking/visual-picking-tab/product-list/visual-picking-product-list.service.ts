@@ -39,6 +39,10 @@ export class VisualPickingProductListService {
    * Initializes the service.
    */
   public initialize(): void {
+    this.getFilteredProductReferences$().subscribe(() => {
+      this.activeSlideStartIndex = 0;
+    });
+
     this.filteredItems$.subscribe((items) => {
       const firstHighlightedItemIndex = items.findIndex(
         (item) => item.highlighted
