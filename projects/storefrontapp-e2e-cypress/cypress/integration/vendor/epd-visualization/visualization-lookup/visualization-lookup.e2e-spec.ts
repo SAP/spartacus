@@ -28,12 +28,14 @@ describe('in Spare Parts Tab', () => {
           .contains('Spare Parts')
           .click();
         cy.wait(`@lookupVisualization`);
-        cy.get('cx-epd-visualization-visual-picking-tab .no-product-references').should(
-          'be.hidden'
-        );
+        cy.get(
+          'cx-epd-visualization-visual-picking-tab .no-product-references'
+        ).should('be.hidden');
         cy.get('cx-epd-visualization-product-list').should('be.visible');
         cy.get('cx-epd-visualization-product-filter').should('be.visible');
-        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should('be.hidden');
+        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
+          'be.hidden'
+        );
       });
     });
 
@@ -52,11 +54,13 @@ describe('in Spare Parts Tab', () => {
           .contains('Spare Parts')
           .click();
         cy.wait(`@lookupVisualization`);
-        cy.get('cx-epd-visualization-visual-picking-tab .no-product-references').should(
+        cy.get(
+          'cx-epd-visualization-visual-picking-tab .no-product-references'
+        ).should('be.hidden');
+        cy.get('cx-epd-visualization-product-filter').should('be.visible');
+        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
           'be.hidden'
         );
-        cy.get('cx-epd-visualization-product-filter').should('be.visible');
-        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should('be.hidden');
       });
     });
 
@@ -79,12 +83,14 @@ describe('in Spare Parts Tab', () => {
         cy.get('cx-tab-paragraph-container > button')
           .contains('Spare Parts')
           .click();
-        cy.get('cx-epd-visualization-visual-picking-tab .no-product-references').should(
-          'be.visible'
-        );
+        cy.get(
+          'cx-epd-visualization-visual-picking-tab .no-product-references'
+        ).should('be.visible');
         cy.get('cx-epd-visualization-product-list').should('be.hidden');
         cy.get('cx-epd-visualization-product-filter').should('be.hidden');
-        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should('be.hidden');
+        cy.get('cx-epd-visualization-viewer', { timeout: 30000 }).should(
+          'be.hidden'
+        );
       });
     });
   });

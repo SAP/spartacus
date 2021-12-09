@@ -25,10 +25,12 @@ export function verifyTabbingOrder() {
   // Ensure the spare parts tab is active
   cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
 
-  cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should('be.visible');
-  cy.get('cx-epd-visualization-viewer-toolbar-button', { timeout: 50000 }).should(
+  cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should(
     'be.visible'
   );
+  cy.get('cx-epd-visualization-viewer-toolbar-button', {
+    timeout: 50000,
+  }).should('be.visible');
 
   cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
 
@@ -101,7 +103,10 @@ export function verifyTabbingOrder() {
             .should('have.class', 'cx-link')
             .should('have.attr', 'href');
 
-          if ($ii.find('.cx-add-to-cart cx-epd-visualization-compact-add-to-cart').length > 0) {
+          if (
+            $ii.find('.cx-add-to-cart cx-epd-visualization-compact-add-to-cart')
+              .length > 0
+          ) {
             cy.pressTab();
             cy.focused().find('cx-icon').should('have.class', 'fa-cart-plus');
           }

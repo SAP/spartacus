@@ -39,8 +39,7 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
     },
 
     ui5: {
-      bootstrapUrl:
-        'https://sapui5.hana.ondemand.com/resources/sap-ui-core.js',
+      bootstrapUrl: 'https://sapui5.hana.ondemand.com/resources/sap-ui-core.js',
     },
 
     visualPicking: {
