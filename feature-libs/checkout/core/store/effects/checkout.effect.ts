@@ -4,8 +4,6 @@ import { CartActions } from '@spartacus/cart/main/core';
 import {
   AuthActions,
   GlobalMessageActions,
-  GlobalMessageService,
-  GlobalMessageType,
   normalizeHttpError,
   OCC_USER_ID_ANONYMOUS,
   SiteContextActions,
@@ -273,15 +271,12 @@ export class CheckoutEffects {
       return this.checkoutPaymentConnector
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
-          map(() => {
-            this.globalMessageService.add(
-              { key: 'paymentMethods.paymentMethodSelectedSuccess' },
-              GlobalMessageType.MSG_TYPE_CONFIRMATION
-            );
-            return new CheckoutActions.SetPaymentDetailsSuccess(
-              payload.paymentDetails
-            );
-          }),
+          map(
+            () =>
+              new CheckoutActions.SetPaymentDetailsSuccess(
+                payload.paymentDetails
+              )
+          ),
           catchError((error) =>
             of(
               new CheckoutActions.SetPaymentDetailsFail(
@@ -461,7 +456,6 @@ export class CheckoutEffects {
     private checkoutDeliveryConnector: CheckoutDeliveryConnector,
     private checkoutPaymentConnector: CheckoutPaymentConnector,
     private checkoutCostCenterConnector: CheckoutCostCenterConnector,
-    private checkoutConnector: CheckoutConnector,
-    private globalMessageService: GlobalMessageService
+    private checkoutConnector: CheckoutConnector
   ) {}
 }
