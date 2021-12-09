@@ -9,7 +9,7 @@ import {
   I18nTestingModule,
   FeaturesConfigModule,
 } from '@spartacus/core';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
@@ -47,6 +47,10 @@ const mockActivatedRoute = {
   },
 };
 
+const setDeliveryModeInProcess$ = new BehaviorSubject<boolean>(false);
+
+const selectedDeliveryMode$ = new BehaviorSubject<DeliveryMode>({});
+
 class MockCheckoutDeliveryService {
   loadSupportedDeliveryModes = createSpy();
   setDeliveryMode = createSpy();
@@ -55,7 +59,7 @@ class MockCheckoutDeliveryService {
     return of(mockSupportedDeliveryModes);
   }
   getSelectedDeliveryMode(): Observable<DeliveryMode> {
-    return of();
+    return selectedDeliveryMode$.asObservable();
   }
   getLoadSupportedDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of();
@@ -64,7 +68,7 @@ class MockCheckoutDeliveryService {
     return of({});
   }
   getSetDeliveryModeInProcess(): Observable<boolean> {
-    return of(false);
+    return setDeliveryModeInProcess$.asObservable();
   }
 }
 
@@ -139,10 +143,6 @@ describe('DeliveryModeComponent', () => {
 
   it('should pre-select preferred delivery mode if not chosen before', () => {
     spyOn(
-      mockCheckoutDeliveryService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(null));
-    spyOn(
       mockCheckoutConfigService,
       'getPreferredDeliveryMode'
     ).and.returnValue(mockDeliveryMode1.code);
@@ -158,10 +158,7 @@ describe('DeliveryModeComponent', () => {
   });
 
   it('should select the delivery mode, which has been chosen before', () => {
-    spyOn(
-      mockCheckoutDeliveryService,
-      'getSelectedDeliveryMode'
-    ).and.returnValue(of(mockDeliveryMode2));
+    selectedDeliveryMode$.next(mockDeliveryMode2);
     spyOn(
       mockCheckoutConfigService,
       'getPreferredDeliveryMode'
@@ -209,7 +206,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be enabled after supported delivery modes are loaded', () => {
       component.ngOnInit();
-      component.deliveryModeSetInProcess$ = of(false);
+      setDeliveryModeInProcess$.next(false);
 
       fixture.detectChanges();
 
@@ -218,7 +215,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be disabled when there is another ongoing request', () => {
       component.ngOnInit();
-      component.deliveryModeSetInProcess$ = of(true);
+      setDeliveryModeInProcess$.next(true);
 
       fixture.detectChanges();
 
@@ -234,6 +231,7 @@ describe('DeliveryModeComponent', () => {
     };
 
     it('should be disabled when delivery mode is not selected', () => {
+      selectedDeliveryMode$.next({});
       setDeliveryModeId(null);
 
       fixture.detectChanges();
@@ -243,7 +241,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be enabled when delivery mode is selected', () => {
       component.ngOnInit();
-      component.deliveryModeSetInProcess$ = of(false);
+      setDeliveryModeInProcess$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -255,7 +253,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'next');
 
       component.ngOnInit();
-      component.deliveryModeSetInProcess$ = of(false);
+      setDeliveryModeInProcess$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -274,13 +272,9 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "back" function after being clicked', () => {
       spyOn(component, 'back');
-      spyOn(
-        mockCheckoutDeliveryService,
-        'getSupportedDeliveryModes'
-      ).and.returnValue(of(mockSupportedDeliveryModes));
 
       component.ngOnInit();
-      component.deliveryModeSetInProcess$ = of(false);
+      setDeliveryModeInProcess$.next(false);
 
       fixture.detectChanges();
 
