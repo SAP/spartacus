@@ -5,6 +5,7 @@ import {
   EventService,
   SiteContextParamsService,
   StatePersistenceService,
+  UnifiedInjector,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
@@ -14,9 +15,9 @@ import {
   startWith,
   switchMap,
   takeWhile,
+  tap,
 } from 'rxjs/operators';
 import { CartConfig } from '../../config/cart-config';
-import { ActiveCartBrowserStorageChangeEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Injectable({
@@ -29,7 +30,8 @@ export class MiniCartComponentService {
     protected config: CartConfig,
     protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
-    protected siteContextParamsService: SiteContextParamsService
+    protected siteContextParamsService: SiteContextParamsService,
+    protected injector: UnifiedInjector
   ) {}
 
   /**
@@ -39,7 +41,7 @@ export class MiniCartComponentService {
    * avoid loading the cart library code.
    */
   getQuantity(): Observable<number> {
-    return this.watchUntilUserHasCart().pipe(
+    return this.watchUntilCartFacadeRequired().pipe(
       switchMap((userHasCart) => {
         if (userHasCart) {
           return this.activeCartFacade.getActive().pipe(
@@ -60,7 +62,7 @@ export class MiniCartComponentService {
    * avoid loading the cart library code.
    */
   getTotalPrice(): Observable<string> {
-    return this.watchUntilUserHasCart().pipe(
+    return this.watchUntilCartFacadeRequired().pipe(
       switchMap((userHasCart) => {
         if (userHasCart) {
           return this.activeCartFacade.getActive().pipe(
@@ -74,40 +76,58 @@ export class MiniCartComponentService {
     );
   }
 
-  watchUntilUserHasCart() {
+  watchUntilCartFacadeRequired() {
     return combineLatest([
       this.browserHasCartInStorage(),
       this.authService.isUserLoggedIn(),
+      this.isCartFacadeLoaded(),
     ]).pipe(
+      tap(([hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded]) =>
+        console.log(
+          `[hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded] = [${hasCartInStorage}, ${isUserLoggedIn}, ${isCartFacadeLoaded}]`
+        )
+      ),
       map(
-        ([hasCartInStorage, isUserLoggedIn]) =>
-          hasCartInStorage || isUserLoggedIn
+        ([hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded]) =>
+          hasCartInStorage || isUserLoggedIn || isCartFacadeLoaded
       ),
       distinctUntilChanged(),
+      tap((userhascart) => console.log('userhascart', userhascart)),
       takeWhile((hasCart) => !hasCart, true)
     );
   }
 
   browserHasCartInStorage(): Observable<boolean> {
-    return this.eventService.get(ActiveCartBrowserStorageChangeEvent).pipe(
-      startWith(this.createEventFromStorage()),
-      map((event) => Boolean(event?.state?.active)),
+    return this.getCartStateFromBrowserStorage().pipe(
+      map((state) => Boolean(state?.active))
+    );
+  }
+
+  isCartFacadeLoaded(): Observable<boolean> {
+    return this.injector.get(ActiveCartFacade).pipe(
+      tap((activeCartFacade) =>
+        console.log(
+          'activeCartFacade instanceof ActiveCartFacade',
+          activeCartFacade instanceof ActiveCartFacade,
+          activeCartFacade
+        )
+      ),
+      map(
+        (activeCartFacade) => !(activeCartFacade instanceof ActiveCartFacade)
+      ),
       distinctUntilChanged()
     );
   }
 
-  createEventFromStorage() {
-    const event = new ActiveCartBrowserStorageChangeEvent();
-    event.state = this.getCartStateFromBrowserStorage();
-    return event;
-  }
-
-  getCartStateFromBrowserStorage(): { active: string } {
-    const state = this.statePersistenceService.readStateFromStorage({
-      key: 'cart',
-      context: this.siteContextParamsService.getValue(BASE_SITE_CONTEXT_ID),
-      storageType: this.config?.cart?.storageType,
-    });
-    return state as { active: string };
+  getCartStateFromBrowserStorage(): Observable<{ active: string } | undefined> {
+    return this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]).pipe(
+      map((context) => {
+        return this.statePersistenceService.readStateFromStorage({
+          key: 'cart',
+          context: context,
+          storageType: this.config?.cart?.storageType,
+        });
+      })
+    );
   }
 }
