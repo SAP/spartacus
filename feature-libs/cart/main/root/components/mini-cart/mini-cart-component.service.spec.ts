@@ -66,7 +66,7 @@ const mockBaseSite = 'mockBaseSite';
 const mockPersistEventWithCart = new ActiveCartBrowserStorageChangeEvent();
 mockPersistEventWithCart.state = mockBrowserCartStateWithCart;
 
-fdescribe('MiniCartComponentService', () => {
+describe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
   let activeCartFacade: ActiveCartFacade;
   let statePersistenceService: StatePersistenceService;
