@@ -195,7 +195,7 @@ export class CmsFeaturesService {
     for (const componentType of featureConfig.cmsComponents ?? []) {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       featureInstance.componentsMappings![componentType] =
-        resolvedConfiguration.cmsComponents?.[componentType] ?? {};
+        resolvedConfiguration.cmsComponents?.[componentType] ?? undefined;
     }
     return featureInstance;
   }
