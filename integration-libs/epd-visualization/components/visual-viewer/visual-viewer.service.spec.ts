@@ -2061,7 +2061,6 @@ describe('VisualViewerService', () => {
       expect(descendentLeafNodesRefs[0].id).toEqual('c');
       expect(descendentLeafNodesRefs[1].id).toEqual('e');
     });
-
   });
 
   describe('getAllLeafNodeRefs', () => {
