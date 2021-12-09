@@ -20,6 +20,9 @@
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
+    [attr.aria-describedby]="
+      createAttributeUiKey('attribute-msg', attribute.name)
+    "
   >
     <option
       *ngFor="let item of attribute.values"
