@@ -18,6 +18,7 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
 import { VisualPickingProductFilterService } from '../product-filter/visual-picking-product-filter.service';
 import {
   EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   VisualPickingConfig,
 } from '@spartacus/epd-visualization/root';
 
@@ -52,9 +53,13 @@ export class VisualPickingProductListService {
     this.selectedProductCodes = [];
   }
 
-  private productReferenceType = (
-    this.epdVisualizationConfig.visualPicking as VisualPickingConfig
-  ).productReferenceType as string;
+  private get productReferenceType() {
+    const epdVisualization = this.epdVisualizationConfig
+      .epdVisualization as EpdVisualizationInnerConfig;
+    const visualPickingConfig =
+      epdVisualization.visualPicking as VisualPickingConfig;
+    return visualPickingConfig.productReferenceType;
+  }
 
   public currentProduct$: Observable<Product> = this.currentProductService
     .getProduct()

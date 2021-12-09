@@ -61,33 +61,35 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
         },
       ],
       content: `<${EPD_VISUALIZATION_CONFIG}>{
-        ui5: {
-          bootstrapUrl: "https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js"
-        },
-
-        usageIds: {
-          folderUsageId: {
-            name: "CommerceCloud-Folder",
-            keys: [{
-              name: "Function",
-              value: "Online"
-            }]
+        epdVisualization: {
+          ui5: {
+            bootstrapUrl: "https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js"
           },
 
-          productUsageId: {
-            name: "CommerceCloud-SparePart",
-            source: "CommerceCloud",
-            category: "SpareParts",
-            keyName: "ProductCode"
+          usageIds: {
+            folderUsageId: {
+              name: "CommerceCloud-Folder",
+              keys: [{
+                name: "Function",
+                value: "Online"
+              }]
+            },
+
+            productUsageId: {
+              name: "CommerceCloud-SparePart",
+              source: "CommerceCloud",
+              category: "SpareParts",
+              keyName: "ProductCode"
+            }
+          },
+
+          apis: {
+            baseUrl: "${options.baseUrl}"
+          },
+
+          visualPicking: {
+            productReferenceType: "SPAREPART"
           }
-        },
-
-        apis: {
-          baseUrl: "${options.baseUrl}"
-        },
-
-        visualPicking: {
-          productReferenceType: "SPAREPART"
         }
       }`,
     },
