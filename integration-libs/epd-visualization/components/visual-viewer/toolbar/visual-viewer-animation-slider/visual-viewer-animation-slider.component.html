@@ -28,10 +28,12 @@
       "
       [style.left]="(position | cxNumeric: '1.0-0') + 'px'"
       [attr.role]="
-        'visualViewer.toolbar.visualViewerAnimationSlider.role' | cxTranslate
+        'epdVisualization.visualViewer.toolbar.visualViewerAnimationSlider.role'
+          | cxTranslate
       "
       [attr.aria-label]="
-        'visualViewer.toolbar.visualViewerAnimationSlider.label' | cxTranslate
+        'epdVisualization.visualViewer.toolbar.visualViewerAnimationSlider.label'
+          | cxTranslate
       "
       [attr.aria-valuenow]="value * 100 | cxNumeric: '1.0-0'"
       [attr.aria-valuemin]="'0'"

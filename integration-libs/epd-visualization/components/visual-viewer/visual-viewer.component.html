@@ -2,8 +2,8 @@
   <div class="content-type-symbol" [hidden]="!viewportReady">
     <span class="content-type-text">{{
       (is2D
-        ? 'visualViewer.contentType.drawing2D'
-        : 'visualViewer.contentType.model3D'
+        ? 'epdVisualization.visualViewer.contentType.drawing2D'
+        : 'epdVisualization.visualViewer.contentType.model3D'
       ) | cxTranslate
     }}</span>
   </div>
@@ -16,7 +16,10 @@
             class="homeButton"
             iconLibraryClass="fas"
             iconClass="fa-home"
-            text="{{ 'visualViewer.toolbar.homeButton.label' | cxTranslate }}"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.homeButton.label'
+                | cxTranslate
+            }}"
             (click)="activateHomeView()"
           ></cx-visual-viewer-toolbar-button>
 
@@ -24,7 +27,10 @@
             class="turntableButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-sync-alt"
-            text="{{ 'visualViewer.toolbar.rotateButton.label' | cxTranslate }}"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.rotateButton.label'
+                | cxTranslate
+            }}"
             [hidden]="is2D"
             (click)="navigationMode = NavigationMode.Turntable"
             [checked]="navigationMode === NavigationMode.Turntable"
@@ -34,7 +40,10 @@
             class="panButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-arrows-alt"
-            text="{{ 'visualViewer.toolbar.panButton.label' | cxTranslate }}"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.panButton.label'
+                | cxTranslate
+            }}"
             (click)="navigationMode = NavigationMode.Pan"
             [checked]="navigationMode === NavigationMode.Pan"
           ></cx-visual-viewer-toolbar-button>
@@ -43,7 +52,10 @@
             class="zoomButton toolbarItem"
             iconLibraryClass="fas"
             iconClass="fa-search"
-            text="{{ 'visualViewer.toolbar.zoomButton.label' | cxTranslate }}"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.zoomButton.label'
+                | cxTranslate
+            }}"
             (click)="navigationMode = NavigationMode.Zoom"
             [checked]="navigationMode === NavigationMode.Zoom"
           ></cx-visual-viewer-toolbar-button>
@@ -57,7 +69,8 @@
             "
             iconClass="fa-compress"
             text="{{
-              'visualViewer.toolbar.isolateButton.label' | cxTranslate
+              'epdVisualization.visualViewer.toolbar.isolateButton.label'
+                | cxTranslate
             }}"
             (click)="isolateModeEnabled = !isolateModeEnabled"
             [checked]="isolateModeEnabled"
@@ -69,8 +82,8 @@
             iconClass="{{ animationPlaying ? 'fa-pause' : 'fa-play' }}"
             text="{{
               (animationPlaying
-                ? 'visualViewer.toolbar.pauseButton.label'
-                : 'visualViewer.toolbar.playButton.label'
+                ? 'epdVisualization.visualViewer.toolbar.pauseButton.label'
+                : 'epdVisualization.visualViewer.toolbar.playButton.label'
               ) | cxTranslate
             }}"
             [hidden]="is2D || animationTotalDuration <= 0"
@@ -84,8 +97,8 @@
             iconClass="fa-highlighter"
             text="{{
               (showAllHotspotsEnabled
-                ? 'visualViewer.toolbar.hotspotsButton.hide'
-                : 'visualViewer.toolbar.hotspotsButton.show'
+                ? 'epdVisualization.visualViewer.toolbar.hotspotsButton.hide'
+                : 'epdVisualization.visualViewer.toolbar.hotspotsButton.show'
               ) | cxTranslate
             }}"
             [checked]="showAllHotspotsEnabled"

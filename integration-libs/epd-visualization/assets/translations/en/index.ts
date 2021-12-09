@@ -1,9 +1,5 @@
-import { visualPicking } from './visual-picking';
-import { visualViewer } from './viewer';
-import { errors } from './errors';
+import { epdVisualization } from './epdVisualization.i18n';
 
 export const en = {
-  visualPicking,
-  visualViewer,
-  errors,
+  epdVisualization,
 };

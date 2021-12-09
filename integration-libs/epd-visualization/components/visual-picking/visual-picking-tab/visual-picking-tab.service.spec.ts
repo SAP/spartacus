@@ -533,7 +533,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when unexpected error occurs during load', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.unexpectedLoadError',
+        key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -565,7 +565,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when multiple matches found', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.multipleMatchingVisualsFound',
+        key: 'epdVisualization.errors.visualLoad.multipleMatchingVisualsFound',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({
@@ -576,7 +576,7 @@ describe('VisualPickingTabService', () => {
 
     it('should show error message when unexpected error occurs during lookup', () => {
       mockGlobalMessageService.expectedText = {
-        key: 'errors.visualLoad.unexpectedLoadError',
+        key: 'epdVisualization.errors.visualLoad.unexpectedLoadError',
       };
       mockGlobalMessageService.expectedType = GlobalMessageType.MSG_TYPE_ERROR;
       visualPickingTabService['handleLoadVisualizationInfoChange']({
