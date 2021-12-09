@@ -10,6 +10,7 @@ import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
+  CartValidationGuard,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { B2BCheckoutShippingAddressComponent } from './checkout-shipping-address.component';

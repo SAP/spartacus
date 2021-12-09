@@ -7,11 +7,11 @@ import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   Address,
   AuthActions,
+  GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   SiteContextActions,
   UserActions,
-  GlobalMessageService,
-  GlobalMessageType,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
@@ -387,13 +387,8 @@ describe('Checkout effect', () => {
 
       expect(entryEffects.setPaymentDetails$).toBeObservable(expected);
 
-      let digits = paymentDetails.cardNumber;
-      digits = digits?.substring(digits.length - 4, digits.length);
       expect(globalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'paymentMethods.paymentMethodSelectedSucess',
-          params: { digits: digits },
-        },
+        { key: 'paymentMethods.paymentMethodSelectedSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     });

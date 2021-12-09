@@ -78,7 +78,7 @@ describe('Payment Methods', () => {
         cy.wait('@paymentDetails').its('response.statusCode').should('eq', 200);
         alerts
           .getSuccessAlert()
-          .contains('New payment was sucessfully set as default');
+          .contains('New payment was successfully set as default');
         const firstCard = cy.get('.cx-payment-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', '1234');

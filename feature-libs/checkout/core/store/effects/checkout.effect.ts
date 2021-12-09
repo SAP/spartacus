@@ -4,8 +4,8 @@ import { CartActions } from '@spartacus/cart/main/core';
 import {
   AuthActions,
   GlobalMessageActions,
-  GlobalMessageType,
   GlobalMessageService,
+  GlobalMessageType,
   normalizeHttpError,
   OCC_USER_ID_ANONYMOUS,
   SiteContextActions,
@@ -274,13 +274,8 @@ export class CheckoutEffects {
         .set(payload.userId, payload.cartId, payload.paymentDetails.id)
         .pipe(
           map(() => {
-            let digits = payload.paymentDetails.cardNumber;
-            digits = digits.substring(digits.length - 4, digits.length);
-            this.globalMessageService?.add(
-              {
-                key: 'paymentMethods.paymentMethodSelectedSucess',
-                params: { digits: digits },
-              },
+            this.globalMessageService.add(
+              { key: 'paymentMethods.paymentMethodSelectedSuccess' },
               GlobalMessageType.MSG_TYPE_CONFIRMATION
             );
             return new CheckoutActions.SetPaymentDetailsSuccess(
