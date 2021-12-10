@@ -10,8 +10,6 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { CartConfig } from '../../config/cart-config';
-import { defaultCartConfig } from '../../config/default-cart-config';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart } from '../../models/cart.model';
 import { MiniCartComponentService } from './mini-cart-component.service';
@@ -90,10 +88,6 @@ describe('MiniCartComponentService', () => {
         {
           provide: SiteContextParamsService,
           useClass: MockSiteContextParamsService,
-        },
-        {
-          provide: CartConfig,
-          useValue: JSON.parse(JSON.stringify(defaultCartConfig)),
         },
         { provide: UnifiedInjector, useClass: MockUnifiedInjector },
         { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
