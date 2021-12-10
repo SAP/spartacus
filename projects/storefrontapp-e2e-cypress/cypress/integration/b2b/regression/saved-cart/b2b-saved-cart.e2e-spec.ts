@@ -126,10 +126,6 @@ context('B2B - Saved Cart', () => {
                   savedCart.verifySavedCartListQuantity(2);
                   savedCart.verifySavedCartsHaveDifferentIds();
                   savedCart.visitCartPage();
-
-                  // Checkout flow
-                  savedCart.proceedToCheckout();
-                  savedCart.executeCheckout();
                 });
             });
         });
@@ -226,7 +222,6 @@ context('B2B - Saved Cart', () => {
             savedCart.openFirstElementOnTheList(cartCode);
             savedCart.manuallyRestoreCartFromDetailsPage(cartCode);
             savedCart.verifyMiniCartQuantity(1);
-            savedCart.verifySavedCartListQuantity(2);
           });
       });
 
@@ -250,6 +245,14 @@ context('B2B - Saved Cart', () => {
             savedCart.manuallyRestoreCartFromDetailsPage(cartCode);
             savedCart.verifyMiniCartQuantity(2);
           });
+      });
+
+      it('should perform full checkout from saved cart details', () => {
+        savedCart.waitForSavedCartDetailsPageData(sampleData.products[0]);
+
+        // Checkout flow
+        savedCart.proceedToCheckout();
+        savedCart.executeCheckout();
       });
     });
   });
