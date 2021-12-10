@@ -1,11 +1,11 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import {
   Product,
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -25,7 +25,7 @@ import {
 @Injectable({
   providedIn: 'any',
 })
-export class VisualPickingProductListService {
+export class VisualPickingProductListService implements OnDestroy {
   constructor(
     protected currentProductService: CurrentProductService,
     protected productReferenceService: ProductReferenceService,
@@ -35,15 +35,19 @@ export class VisualPickingProductListService {
 
   protected readonly DEFAULT_ITEMS_PER_SLIDE = 7;
 
+  private getFilteredProductReferences$Subscription: Subscription;
+  private filteredItems$Subscription: Subscription;
+
   /**
    * Initializes the service.
    */
   public initialize(): void {
-    this.getFilteredProductReferences$().subscribe(() => {
-      this.activeSlideStartIndex = 0;
-    });
+    this.getFilteredProductReferences$Subscription =
+      this.getFilteredProductReferences$().subscribe(() => {
+        this.activeSlideStartIndex = 0;
+      });
 
-    this.filteredItems$.subscribe((items) => {
+    this.filteredItems$Subscription = this.filteredItems$.subscribe((items) => {
       const firstHighlightedItemIndex = items.findIndex(
         (item) => item.highlighted
       );
@@ -55,6 +59,11 @@ export class VisualPickingProductListService {
     });
 
     this.selectedProductCodes = [];
+  }
+
+  ngOnDestroy(): void {
+    this.getFilteredProductReferences$Subscription.unsubscribe();
+    this.filteredItems$Subscription.unsubscribe();
   }
 
   private get productReferenceType() {
