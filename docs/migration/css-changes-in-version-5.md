@@ -27,4 +27,4 @@ title: Changes to Styles in 5.0
 
 ## Change in store-finder-list-item.scss
 
-- obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name-link > h2.cx-store-name` for screen reader improvements. 
+- obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name` for screen reader improvements. 

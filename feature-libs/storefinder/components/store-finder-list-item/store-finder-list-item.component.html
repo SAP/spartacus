@@ -7,7 +7,7 @@
       *ngIf="useClickEvent"
       (click)="handleStoreItemClick()"
       (keyup)="onKey($event)"
-      class="cx-store-name-link"
+      class="cx-store-name"
       tabindex="0"
     >
       {{ location.displayName || location.name }}
@@ -15,7 +15,7 @@
     <a
       *ngIf="!useClickEvent"
       [routerLink]="[location.name]"
-      class="cx-store-name-link"
+      class="cx-store-name"
       tabindex="0"
     >
       {{ location.displayName || location.name }}
