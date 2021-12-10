@@ -22,7 +22,7 @@ class CartServiceStub implements Partial<ActiveCartFacade> {
 describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
   let authService: AuthService;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
@@ -40,7 +40,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     semanticPathService = TestBed.inject(SemanticPathService);
   });
 
@@ -81,7 +81,7 @@ describe('NotCheckoutAuthGuard', () => {
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
       authService.isUserLoggedIn = createSpy().and.returnValue(of(false));
-      activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
+      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(false));
     });
 
     it('should return true', () => {

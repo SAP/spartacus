@@ -65,7 +65,7 @@ describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutB2BAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
   let userService: UserAccountFacade;
   let globalMessageService: GlobalMessageService;
@@ -108,7 +108,7 @@ describe('CheckoutAuthGuard', () => {
     checkoutGuard = TestBed.inject(CheckoutB2BAuthGuard);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     userService = TestBed.inject(UserAccountFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -121,8 +121,8 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
-        spyOn(activeCartService, 'isGuestCart').and.returnValue(of(false));
+        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(false));
       });
 
       it('should return url to login with forced flag when guestCheckout feature enabled', () => {
@@ -152,7 +152,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
+        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -171,8 +171,8 @@ describe('CheckoutAuthGuard', () => {
   describe(', when user is in checkout pages,', () => {
     it('should NOT redirect route when cart is unstable', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(activeCartService, 'isStable').and.returnValue(of(false));
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(of(false));
+      spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
+      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(false));
 
       checkoutGuard.canActivate().subscribe().unsubscribe();
       expect(
@@ -188,7 +188,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
       });
 
       it('should return true', () => {
@@ -203,7 +203,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and cart has a user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(
+        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(
           of({ uid: '1234|xxx@xxx.com', name: 'guest' } as User)
         );
       });
@@ -229,7 +229,7 @@ describe('CheckoutAuthGuard', () => {
 
     describe('and user is b2b user, ', () => {
       beforeEach(() => {
-        spyOn(activeCartService, 'getAssignedUser').and.returnValue(of({}));
+        spyOn(activeCartFacade, 'getAssignedUser').and.returnValue(of({}));
       });
 
       it('should return true when user roles has b2bcustomergroup', () => {

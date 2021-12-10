@@ -147,7 +147,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
   let fixture: ComponentFixture<B2BCheckoutShippingAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
@@ -191,7 +191,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
         .compileComponents();
 
       checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
-      activeCartService = TestBed.inject(ActiveCartFacade);
+      activeCartFacade = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -250,7 +250,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('for guest user, should not load user addresses', () => {
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(of(true));
+      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(true));
       spyOn(userAddressService, 'loadAddresses').and.stub();
       spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
         of(false)

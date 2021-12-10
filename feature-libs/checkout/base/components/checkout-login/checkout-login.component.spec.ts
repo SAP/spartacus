@@ -21,7 +21,7 @@ const testEmail = 'john@acme.com';
 describe('CheckoutLoginComponent', () => {
   let component: CheckoutLoginComponent;
   let fixture: ComponentFixture<CheckoutLoginComponent>;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let authRedirectService: AuthRedirectService;
   let controls: { [key: string]: AbstractControl };
   let email: AbstractControl;
@@ -46,7 +46,7 @@ describe('CheckoutLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutLoginComponent);
     component = fixture.componentInstance;
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
@@ -67,10 +67,10 @@ describe('CheckoutLoginComponent', () => {
 
   describe('submitting form', () => {
     beforeEach(() => {
-      activeCartService.getAssignedUser = createSpy().and.returnValue(
+      activeCartFacade.getAssignedUser = createSpy().and.returnValue(
         of({ name: 'guest', uid: 'john@acme.com' } as User)
       );
-      activeCartService.isGuestCart = createSpy().and.returnValue(of(true));
+      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(true));
     });
 
     it('should work, when form is valid', () => {
@@ -79,7 +79,7 @@ describe('CheckoutLoginComponent', () => {
       fixture.detectChanges();
 
       component.onSubmit();
-      expect(activeCartService.addEmail).toHaveBeenCalledWith(testEmail);
+      expect(activeCartFacade.addEmail).toHaveBeenCalledWith(testEmail);
       expect(authRedirectService.redirect).toHaveBeenCalled();
     });
 
@@ -88,7 +88,7 @@ describe('CheckoutLoginComponent', () => {
       fixture.detectChanges();
 
       component.onSubmit();
-      expect(activeCartService.addEmail).not.toHaveBeenCalled();
+      expect(activeCartFacade.addEmail).not.toHaveBeenCalled();
       expect(authRedirectService.redirect).not.toHaveBeenCalled();
     });
   });
