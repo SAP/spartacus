@@ -41,40 +41,54 @@ export class SceneNodeToProductLookupService {
    */
   public populateMapsForScene(sceneId: string): void {
     this.getNodeIdProductCodesForScene(sceneId)
-    .pipe(first())
-    .subscribe((nodeIdProductCodes: NodeIdProductCodes[]) => {
-      this.productCodesByNodeIdMap$.next(this.getProductCodesByNodeIdMap(nodeIdProductCodes));
-      this.nodeIdsByProductCodeMap$.next(this.getNodeIdsByProductCodeMap(nodeIdProductCodes));
-    });
+      .pipe(first())
+      .subscribe((nodeIdProductCodes: NodeIdProductCodes[]) => {
+        this.productCodesByNodeIdMap$.next(
+          this.getProductCodesByNodeIdMap(nodeIdProductCodes)
+        );
+        this.nodeIdsByProductCodeMap$.next(
+          this.getNodeIdsByProductCodeMap(nodeIdProductCodes)
+        );
+      });
   }
 
-  private productCodesByNodeIdMap$ = new BehaviorSubject<Map<string, string[]>>(new Map());
-  private nodeIdsByProductCodeMap$ = new BehaviorSubject<Map<string, string[]>>(new Map());
+  private productCodesByNodeIdMap$ = new BehaviorSubject<Map<string, string[]>>(
+    new Map()
+  );
+  private nodeIdsByProductCodeMap$ = new BehaviorSubject<Map<string, string[]>>(
+    new Map()
+  );
 
-  private getNodeIdProductCodesForScene(sceneId: string): Observable<NodeIdProductCodes[]> {
-    return this.storageService.getNodes(
-      sceneId,
-      undefined,
-      ['hotspot', `meta.${this.usageId.category}.${this.usageId.keyName}`],
-      [`metadata.${this.usageId.category}.${this.usageId.keyName}`],
-      '*'
-    ).pipe(
-      map((data: NodesResponse) => {
-        return (data.nodes as TreeNode[])
-        .filter((node: TreeNode) => node.metadata && node.metadata.length)
-        .map((node: TreeNode) => {
-          return <NodeIdProductCodes>{
-            nodeId: node.sid,
-            productCodes: (node.metadata as Metadatum[]).map(
-              (metadata: any) => metadata.value
-            ),
-          };
-        });
-      })
-    );
+  private getNodeIdProductCodesForScene(
+    sceneId: string
+  ): Observable<NodeIdProductCodes[]> {
+    return this.storageService
+      .getNodes(
+        sceneId,
+        undefined,
+        ['hotspot', `meta.${this.usageId.category}.${this.usageId.keyName}`],
+        [`metadata.${this.usageId.category}.${this.usageId.keyName}`],
+        '*'
+      )
+      .pipe(
+        map((data: NodesResponse) => {
+          return (data.nodes as TreeNode[])
+            .filter((node: TreeNode) => node.metadata && node.metadata.length)
+            .map((node: TreeNode) => {
+              return <NodeIdProductCodes>{
+                nodeId: node.sid,
+                productCodes: (node.metadata as Metadatum[]).map(
+                  (metadata: any) => metadata.value
+                ),
+              };
+            });
+        })
+      );
   }
 
-  private getProductCodesByNodeIdMap(nodeIdProductCodes: NodeIdProductCodes[]): Map<string, string[]> {
+  private getProductCodesByNodeIdMap(
+    nodeIdProductCodes: NodeIdProductCodes[]
+  ): Map<string, string[]> {
     return nodeIdProductCodes.reduce(
       (
         productCodeByNodeIdMap: Map<string, string[]>,
@@ -90,7 +104,9 @@ export class SceneNodeToProductLookupService {
     );
   }
 
-  private getNodeIdsByProductCodeMap(nodeIdProductCodes: NodeIdProductCodes[]): Map<string, string[]> {
+  private getNodeIdsByProductCodeMap(
+    nodeIdProductCodes: NodeIdProductCodes[]
+  ): Map<string, string[]> {
     return nodeIdProductCodes.reduce(
       (
         nodeIdByProductCodeMap: Map<string, string[]>,
@@ -158,7 +174,10 @@ export class SceneNodeToProductLookupService {
    * @returns An array of product codes corresponding to the specified scene node ids in the currently loaded scene.
    */
   public syncLookupProductCodes(nodeIds: string[]): string[] {
-    return this._lookupProductCodes(this.productCodesByNodeIdMap$.getValue(), nodeIds);
+    return this._lookupProductCodes(
+      this.productCodesByNodeIdMap$.getValue(),
+      nodeIds
+    );
   }
 
   private _lookupNodeIds(
@@ -193,6 +212,9 @@ export class SceneNodeToProductLookupService {
    * @returns An array of scene node ids corresponding to the specified product codes in the currently loaded scene.
    */
   public syncLookupNodeIds(productCodes: string[]): string[] {
-    return this._lookupNodeIds(this.nodeIdsByProductCodeMap$.getValue(), productCodes);
+    return this._lookupNodeIds(
+      this.nodeIdsByProductCodeMap$.getValue(),
+      productCodes
+    );
   }
 }

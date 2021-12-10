@@ -60,7 +60,8 @@ export class VisualPickingProductListService implements OnDestroy {
     });
 
     this.selectedProductCodes = [];
-    this.productReferencesSubscription = this._getProductReferences$().subscribe(this.productReferences$);
+    this.productReferencesSubscription =
+      this._getProductReferences$().subscribe(this.productReferences$);
   }
 
   ngOnDestroy(): void {
@@ -82,7 +83,7 @@ export class VisualPickingProductListService implements OnDestroy {
     .pipe(
       filter((product) => !!product && !!product.code),
       map((product) => product as Product),
-      distinctUntilChanged((p1, p2) => p1.code === p2.code),
+      distinctUntilChanged((p1, p2) => p1.code === p2.code)
     );
 
   private productReferences$ = new Subject<ProductReference[]>();
@@ -113,7 +114,7 @@ export class VisualPickingProductListService implements OnDestroy {
         (productReferences: ProductReference[]) =>
           productReferences !== undefined
       ),
-      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
+      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y))
     );
   }
 

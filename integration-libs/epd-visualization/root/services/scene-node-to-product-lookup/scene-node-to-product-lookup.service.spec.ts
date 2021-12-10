@@ -218,7 +218,7 @@ describe('SceneNodeToProductLookupService', () => {
 
           done();
         });
-     });
+    });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
       mockStorageApiService.getNodesFunc =
