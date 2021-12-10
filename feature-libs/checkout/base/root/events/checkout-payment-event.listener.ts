@@ -1,11 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  EventService,
-  GlobalMessageService,
-  GlobalMessageType,
-} from '@spartacus/core';
+import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { CheckoutConfig } from '../config/checkout-config';
 import {
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
@@ -21,11 +16,7 @@ import {
 export class CheckoutPaymentEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(
-    protected eventService: EventService,
-    protected globalMessageService: GlobalMessageService,
-    protected checkoutConfig: CheckoutConfig
-  ) {
+  constructor(protected eventService: EventService) {
     this.onPaymentChange();
   }
 
@@ -40,14 +31,6 @@ export class CheckoutPaymentEventListener implements OnDestroy {
     );
     this.subscriptions.add(
       this.eventService.get(PaymentDetailsSetEvent).subscribe(() => {
-        // we don't want to show this during the express checkout
-        if (!this.checkoutConfig.checkout?.express) {
-          this.globalMessageService.add(
-            { key: 'paymentMethods.paymentMethodSelectedSuccess' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        }
-
         this.eventService.dispatch({}, ResetCheckoutQueryEvent);
       })
     );

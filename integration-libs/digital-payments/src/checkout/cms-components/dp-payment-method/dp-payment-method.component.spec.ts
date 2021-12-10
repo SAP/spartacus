@@ -136,10 +136,10 @@ describe('DpPaymentMethodComponent', () => {
     expect(result).toEqual(true);
   });
   it('should call paymentDetailsAdded', () => {
-    spyOn(component, 'selectPaymentMethod').and.callThrough();
+    spyOn<any>(component, 'savePaymentMethod').and.callThrough();
     spyOn(component, 'next').and.callThrough();
     component.paymentDetailsAdded(mockPaymentDetails);
-    expect(component.selectPaymentMethod).toHaveBeenCalledWith(
+    expect(component['savePaymentMethod']).toHaveBeenCalledWith(
       mockPaymentDetails
     );
     expect(component.next).toHaveBeenCalled();
