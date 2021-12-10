@@ -13,6 +13,7 @@ assignees: ''
 - [ ] If there is no maintenance branch yet:
   - [ ] Create new maintenance branch (`release/major.minor.x`)
   - [ ] Announce new maintenance branch (Set topic in tribe channel)
+  - [ ] Bump the maintenance branch for Travis CI configuration (.travis.yml)
   - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
 - [ ] Create new release branch `release/major.minor.patch.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
