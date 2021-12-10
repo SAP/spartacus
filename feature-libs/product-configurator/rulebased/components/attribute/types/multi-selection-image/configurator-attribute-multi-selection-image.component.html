@@ -29,6 +29,8 @@
               : { value: value.valueDisplay, attribute: attribute.label })
       "
       [attr.aria-describedby]="
+        createAttributeUiKey('label', attribute.name) +
+        ' ' +
         createAttributeUiKey('attribute-msg', attribute.name)
       "
       [attr.aria-checked]="attributeCheckBoxForms[i].value"

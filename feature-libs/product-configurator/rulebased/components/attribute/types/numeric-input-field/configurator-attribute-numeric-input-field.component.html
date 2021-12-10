@@ -4,6 +4,8 @@
     [required]="attribute.required"
     class="form-control"
     [attr.aria-describedby]="
+      createAttributeUiKey('label', attribute.name) +
+      ' ' +
       createAttributeUiKey('attribute-msg', attribute.name)
     "
     attr.role="{{ attribute.dataType }}"
