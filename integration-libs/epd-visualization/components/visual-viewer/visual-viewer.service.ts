@@ -5,8 +5,9 @@ import {
   Input,
   Output,
   Injectable,
+  OnDestroy,
 } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
@@ -40,7 +41,13 @@ import { SceneLoadState } from './models/scene-load-state';
 import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
 import { ContentType } from '@spartacus/epd-visualization/root';
 import NodeHierarchy from 'sap/ui/vk/NodeHierarchy';
-import { catchError, filter, mergeMap, shareReplay } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  first,
+  mergeMap,
+  shareReplay,
+} from 'rxjs/operators';
 import { VisualizationInfo } from '@spartacus/epd-visualization/root';
 import {
   VisualizationLoadInfo,
@@ -59,7 +66,7 @@ interface VisualContentLoadFinishedEvent {}
 @Injectable({
   providedIn: 'any',
 })
-export class VisualViewerService {
+export class VisualViewerService implements OnDestroy {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
     protected _sceneNodeToProductLookupService: SceneNodeToProductLookupService,
@@ -77,6 +84,10 @@ export class VisualViewerService {
       shareReplay()
     );
     this.executeWhenSceneLoaded(this.setInitialPropertyValues.bind(this));
+  }
+
+  ngOnDestroy(): void {
+    this.unsubscribeSelectedSceneNodeIds();
   }
 
   protected _ui5: ui5;
@@ -412,9 +423,10 @@ export class VisualViewerService {
     this._selectedProductCodes = selectedProductCodes;
     this.sceneNodeToProductLookupService
       .lookupNodeIds(selectedProductCodes)
-      .subscribe((selectedNodeIds) =>
-        this.selectedNodeIds$.next(selectedNodeIds)
-      );
+      .pipe(first())
+      .subscribe((selectedNodeIds) => {
+        this.selectedNodeIds$.next(selectedNodeIds);
+      });
   }
   public get selectedProductCodes(): string[] {
     return this._selectedProductCodes;
@@ -730,11 +742,15 @@ export class VisualViewerService {
       .pipe(
         filter(
           (sceneLoadInfo) =>
-            sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded
-        )
+            sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded ||
+            sceneLoadInfo.sceneLoadState === SceneLoadState.Failed
+        ),
+        first()
       )
       .subscribe((sceneLoadInfo: SceneLoadInfo) => {
-        callback(sceneLoadInfo.loadedSceneInfo as LoadedSceneInfo);
+        if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
+          callback(sceneLoadInfo.loadedSceneInfo as LoadedSceneInfo);
+        }
       });
   }
 
@@ -745,6 +761,7 @@ export class VisualViewerService {
 
     this.sceneNodeToProductLookupService
       .lookupNodeIds(productCodes)
+      .pipe(first())
       .subscribe((sceneNodeIds: string[]) => {
         const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
           sceneNodeIds,
@@ -926,6 +943,7 @@ export class VisualViewerService {
   public loadVisualization(
     productCode: string
   ): Observable<VisualizationLoadInfo> {
+    this.unsubscribeSelectedSceneNodeIds();
     return this.viewportAdded$.pipe(
       mergeMap(() =>
         this.resolveVisualization(productCode).pipe(
@@ -1335,8 +1353,18 @@ export class VisualViewerService {
   }
 
   private subscribeSelectedSceneNodeIds(): void {
-    this.selectedNodeIds$.subscribe(this.handleSelectedNodeIds.bind(this));
+    this.selectedNodeIds$Subscription = this.selectedNodeIds$.subscribe(
+      this.handleSelectedNodeIds.bind(this)
+    );
   }
+
+  private unsubscribeSelectedSceneNodeIds() {
+    if (this.selectedNodeIds$Subscription) {
+      this.selectedNodeIds$Subscription.unsubscribe();
+    }
+  }
+
+  private selectedNodeIds$Subscription?: Subscription;
 
   private handleSelectedNodeIds(nodeIds: string[]): void {
     const nodeRefs = this.persistentIdToNodeRef(nodeIds, true);
@@ -1430,27 +1458,29 @@ export class VisualViewerService {
           veid: sceneId,
         });
 
-        this.contentChangesFinished.subscribe((visualContentLoadFinished) => {
-          const succeeded = !!visualContentLoadFinished.content;
-          const sceneLoadInfo: SceneLoadInfo = succeeded
-            ? {
-                sceneLoadState: SceneLoadState.Loaded,
-                loadedSceneInfo: {
-                  sceneId: sceneId,
-                  contentType: contentType,
-                },
-              }
-            : {
-                sceneLoadState: SceneLoadState.Failed,
-                errorMessage: visualContentLoadFinished.failureReason,
-              };
+        this.contentChangesFinished
+          .pipe(first())
+          .subscribe((visualContentLoadFinished) => {
+            const succeeded = !!visualContentLoadFinished.content;
+            const sceneLoadInfo: SceneLoadInfo = succeeded
+              ? {
+                  sceneLoadState: SceneLoadState.Loaded,
+                  loadedSceneInfo: {
+                    sceneId: sceneId,
+                    contentType: contentType,
+                  },
+                }
+              : {
+                  sceneLoadState: SceneLoadState.Failed,
+                  errorMessage: visualContentLoadFinished.failureReason,
+                };
 
-          this.sceneLoadInfo$.next(sceneLoadInfo);
-          subscriber.next(sceneLoadInfo);
-          subscriber.complete();
-        });
+            this.sceneLoadInfo$.next(sceneLoadInfo);
+            subscriber.next(sceneLoadInfo);
+            subscriber.complete();
+          });
 
-        this.contentLoadFinished.subscribe(() => {
+        this.contentLoadFinished.pipe(first()).subscribe(() => {
           const sceneLoadInfo = this.sceneLoadInfo$.value;
           if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
             this.setViewportReady(true);
@@ -1475,9 +1505,10 @@ export class VisualViewerService {
     const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);
     this.sceneNodeToProductLookupService
       .lookupProductCodes(nodeIds)
-      .subscribe((productCodes: string[]) =>
-        this.selectedProductCodesChange.emit(productCodes)
-      );
+      .pipe(first())
+      .subscribe((productCodes: string[]) => {
+        this.selectedProductCodesChange.emit(productCodes);
+      });
   }
 
   private onOutliningChanged(): void {
@@ -1489,8 +1520,9 @@ export class VisualViewerService {
     const nodeIds: string[] = this.nodeRefToPersistentId(nodeRefs, true);
     this.sceneNodeToProductLookupService
       .lookupProductCodes(nodeIds)
-      .subscribe((productCodes: string[]) =>
-        this.selectedProductCodesChange.emit(productCodes)
-      );
+      .pipe(first())
+      .subscribe((productCodes: string[]) => {
+        this.selectedProductCodesChange.emit(productCodes);
+      });
   }
 }

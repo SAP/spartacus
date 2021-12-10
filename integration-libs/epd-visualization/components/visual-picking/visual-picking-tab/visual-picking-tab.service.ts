@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable } from '@angular/core';
+import { ChangeDetectorRef, Injectable, OnDestroy } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -7,6 +7,8 @@ import {
 } from '@spartacus/core';
 import { ProductReference } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
+import { Subscription } from 'rxjs';
+import { first } from 'rxjs/operators';
 import {
   VisualizationLoadInfo,
   VisualizationLoadStatus,
@@ -18,7 +20,7 @@ import { VisualPickingProductListService } from './product-list/visual-picking-p
 @Injectable({
   providedIn: 'any',
 })
-export class VisualPickingTabService {
+export class VisualPickingTabService implements OnDestroy {
   constructor(
     protected currentProductService: CurrentProductService,
     protected globalMessageService: GlobalMessageService,
@@ -37,25 +39,41 @@ export class VisualPickingTabService {
     this.visualViewerService = visualViewerService;
     this.visualPickingProductListService = visualPickingProductListService;
 
-    this.visualViewerService.visualizationLoadInfoChange.subscribe(
-      this.handleLoadVisualizationInfoChange.bind(this)
-    );
+    this.visualizationLoadInfoChangeSubscription =
+      this.visualViewerService.visualizationLoadInfoChange.subscribe(
+        this.handleLoadVisualizationInfoChange.bind(this)
+      );
 
-    this.visualPickingProductListService
-      .getProductReferences$()
-      .subscribe((productReferences: ProductReference[]) => {
-        this.setProductReferences(productReferences);
-        if (productReferences.length > 0) {
-          this.visualPickingProductListService.currentProduct$.subscribe(
-            (currentProduct: Product) => {
-              this.visualViewerService
-                .loadVisualization(currentProduct.code as string)
-                .subscribe();
-            }
-          );
-        }
-      });
+    this.getProductReferences$Subscription =
+      this.visualPickingProductListService
+        .getProductReferences$()
+        .subscribe((productReferences: ProductReference[]) => {
+          this.setProductReferences(productReferences);
+          if (productReferences.length > 0) {
+            this.visualPickingProductListService.currentProduct$
+              .pipe(first())
+              .subscribe((currentProduct: Product) => {
+                this.visualViewerService
+                  .loadVisualization(currentProduct.code as string)
+                  .pipe(first())
+                  .subscribe();
+              });
+          }
+        });
   }
+
+  ngOnDestroy(): void {
+    this.visualizationLoadInfoChangeSubscription.unsubscribe();
+    this.getProductReferences$Subscription.unsubscribe();
+
+    if (this.getFilteredProductReferences$Subscription) {
+      this.getFilteredProductReferences$Subscription.unsubscribe();
+    }
+  }
+
+  private visualizationLoadInfoChangeSubscription: Subscription;
+  private getProductReferences$Subscription: Subscription;
+  private getFilteredProductReferences$Subscription?: Subscription;
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.
@@ -106,16 +124,21 @@ export class VisualPickingTabService {
   }
 
   private setupVisualFilteringSubscription(): void {
-    this.visualPickingProductListService
-      .getFilteredProductReferences$()
-      .subscribe((productReferences: ProductReference[]) => {
-        const productCodes: string[] = productReferences.map(
-          (productReference) =>
-            (productReference.target as Product).code as string
-        );
+    if (this.getFilteredProductReferences$Subscription) {
+      this.getFilteredProductReferences$Subscription.unsubscribe();
+    }
 
-        this.visualViewerService.includedProductCodes = productCodes;
-      });
+    this.getFilteredProductReferences$Subscription =
+      this.visualPickingProductListService
+        .getFilteredProductReferences$()
+        .subscribe((productReferences: ProductReference[]) => {
+          const productCodes: string[] = productReferences.map(
+            (productReference) =>
+              (productReference.target as Product).code as string
+          );
+
+          this.visualViewerService.includedProductCodes = productCodes;
+        });
   }
 
   private showErrorMessage(message: string | Translatable) {

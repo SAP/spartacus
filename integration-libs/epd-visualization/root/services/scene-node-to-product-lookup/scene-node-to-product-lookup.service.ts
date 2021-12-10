@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { first, map, mergeMap, shareReplay, tap } from 'rxjs/operators';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
@@ -31,9 +31,10 @@ export class SceneNodeToProductLookupService {
     const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;
     this.usageId = usageIdConfig.productUsageId;
 
-    this.nodeIdsByProductCodeMap$.subscribe(() => {});
-    this.productCodesByNodeIdMap$.subscribe(() => {});
-    this.nodeIdProductCodeTuples$.subscribe(() => {});
+    // Populate maps eagerly
+    this.nodeIdsByProductCodeMap$.pipe(first()).subscribe(() => {});
+    this.productCodesByNodeIdMap$.pipe(first()).subscribe(() => {});
+    this.nodeIdProductCodeTuples$.pipe(first()).subscribe(() => {});
   }
 
   private resolvedSceneId$ = new EventEmitter<string>();
