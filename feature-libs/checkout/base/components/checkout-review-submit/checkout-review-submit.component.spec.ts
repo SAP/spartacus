@@ -7,7 +7,6 @@ import {
   Cart,
   DeliveryMode,
   OrderEntry,
-  PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
@@ -66,16 +65,6 @@ const mockPaymentDetails: PaymentDetails = {
 };
 
 const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
-
-@Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-}
 
 @Component({
   selector: 'cx-card',
@@ -167,7 +156,6 @@ describe('CheckoutReviewSubmitComponent', () => {
         ],
         declarations: [
           CheckoutReviewSubmitComponent,
-          MockCartItemListComponent,
           MockCardComponent,
           MockUrlPipe,
         ],
@@ -328,20 +316,6 @@ describe('CheckoutReviewSubmitComponent', () => {
     it('should contain total price', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
-    });
-  });
-
-  describe('child cx-cart-item-list component', () => {
-    const getCartItemList = () =>
-      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
-
-    it('should receive items attribute with cart entires', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().items).toEqual([
-        { entryNumber: 123 },
-        { entryNumber: 456 },
-      ]);
-      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

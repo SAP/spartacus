@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule, Type } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CheckoutOrderConfirmationItemsComponent,
   CheckoutOrderConfirmationModule,
@@ -18,6 +17,7 @@ import {
 import {
   CardModule,
   FormErrorsModule,
+  OutletModule,
   PromotionsModule,
   PwaModule,
 } from '@spartacus/storefront';
@@ -30,7 +30,6 @@ const orderConfirmationComponents: Type<any>[] = [
 @NgModule({
   imports: [
     CommonModule,
-    CartSharedModule,
     CardModule,
     PwaModule,
     PromotionsModule,
@@ -39,6 +38,7 @@ const orderConfirmationComponents: Type<any>[] = [
     FeaturesConfigModule,
     FormErrorsModule,
     CheckoutOrderConfirmationModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
@@ -57,6 +57,7 @@ const orderConfirmationComponents: Type<any>[] = [
           component: CheckoutOrderConfirmationOverviewComponent,
           guards: [OrderConfirmationGuard],
         },
+        // TODO:#checkout - do we need to duplicate these components?
         ReplenishmentConfirmationItemsComponent: {
           component: CheckoutOrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],

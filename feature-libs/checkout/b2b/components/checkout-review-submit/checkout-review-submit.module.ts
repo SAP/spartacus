@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CartSharedModule } from '@spartacus/cart/main/components';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,
@@ -15,6 +14,7 @@ import {
 import {
   CardModule,
   IconModule,
+  OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
@@ -23,12 +23,12 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
   imports: [
     CommonModule,
     CardModule,
-    CartSharedModule,
     I18nModule,
     UrlModule,
     RouterModule,
     PromotionsModule,
     IconModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

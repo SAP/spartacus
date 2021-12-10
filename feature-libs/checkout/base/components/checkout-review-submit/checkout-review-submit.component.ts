@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   ActiveCartFacade,
   Cart,
+  CartOutlets,
   DeliveryMode,
   OrderEntry,
   PromotionLocation,
@@ -25,7 +26,9 @@ import { CheckoutStepService } from '../services/checkout-step.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutReviewSubmitComponent {
+  readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
+
   checkoutStepTypeShippingAddress = CheckoutStepType.SHIPPING_ADDRESS;
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;

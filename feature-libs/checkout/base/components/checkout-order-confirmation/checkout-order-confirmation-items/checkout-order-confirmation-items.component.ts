@@ -1,10 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
-} from '@angular/core';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -14,17 +9,12 @@ import { Observable } from 'rxjs';
   templateUrl: './checkout-order-confirmation-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutOrderConfirmationItemsComponent
-  implements OnInit, OnDestroy
-{
+export class CheckoutOrderConfirmationItemsComponent implements OnDestroy {
+  readonly cartOutlets = CartOutlets;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-  order$: Observable<Order | undefined>;
+  order$: Observable<Order | undefined> = this.checkoutFacade.getOrder();
 
   constructor(protected checkoutFacade: CheckoutFacade) {}
-
-  ngOnInit() {
-    this.order$ = this.checkoutFacade.getOrder();
-  }
 
   ngOnDestroy() {
     this.checkoutFacade.clearOrder();

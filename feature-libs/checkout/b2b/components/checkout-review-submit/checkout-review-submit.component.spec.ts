@@ -8,7 +8,6 @@ import {
   DeliveryMode,
   OrderEntry,
   PaymentType,
-  PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
@@ -89,16 +88,6 @@ const mockPaymentTypes: PaymentType[] = [
   { code: 'test-account' },
   { code: 'test-card' },
 ];
-
-@Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-}
 
 @Component({
   selector: 'cx-card',
@@ -235,7 +224,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
         ],
         declarations: [
           B2BCheckoutReviewSubmitComponent,
-          MockCartItemListComponent,
           MockCardComponent,
           MockUrlPipe,
         ],
@@ -464,20 +452,6 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
     it('should contain total price', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
-    });
-  });
-
-  describe('child cx-cart-item-list component', () => {
-    const getCartItemList = () =>
-      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
-
-    it('should receive items attribute with cart entires', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().items).toEqual([
-        { entryNumber: 123 },
-        { entryNumber: 456 },
-      ]);
-      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });
