@@ -11,12 +11,9 @@ import { MiniCartComponentService } from './mini-cart-component.service';
 export class MiniCartComponent {
   iconTypes = ICON_TYPE;
 
-  quantity$: Observable<number>;
+  quantity$: Observable<number> = this.miniCartComponentService.getQuantity();
 
-  total$: Observable<string>;
+  total$: Observable<string> = this.miniCartComponentService.getTotalPrice();
 
-  constructor(protected miniCartComponentService: MiniCartComponentService) {
-    this.quantity$ = this.miniCartComponentService.getQuantity();
-    this.total$ = this.miniCartComponentService.getTotalPrice();
-  }
+  constructor(protected miniCartComponentService: MiniCartComponentService) {}
 }

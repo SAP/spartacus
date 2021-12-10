@@ -8,7 +8,6 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { MiniCartComponentService } from './mini-cart-component.service';
 import { MiniCartComponent } from './mini-cart.component';
 
 @NgModule({
@@ -18,7 +17,6 @@ import { MiniCartComponent } from './mini-cart.component';
       cmsComponents: {
         MiniCartComponent: {
           component: MiniCartComponent,
-          providers: [{ provide: MiniCartComponentService }],
         },
       },
     }),
