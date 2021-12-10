@@ -16,12 +16,12 @@ import {
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
   OrderPlacedEvent,
-  ORDER_TYPE,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
+  ORDER_TYPE,
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';

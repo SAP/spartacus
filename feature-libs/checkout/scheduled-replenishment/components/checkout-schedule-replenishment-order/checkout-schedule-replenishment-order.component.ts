@@ -4,10 +4,10 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ORDER_TYPE } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
+  ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';

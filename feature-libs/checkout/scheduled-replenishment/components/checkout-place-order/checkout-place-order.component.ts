@@ -7,9 +7,10 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { CheckoutFacade, ORDER_TYPE } from '@spartacus/checkout/base/root';
+import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
+  ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
