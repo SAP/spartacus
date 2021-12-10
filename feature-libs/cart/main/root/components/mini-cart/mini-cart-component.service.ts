@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
-  EventService,
   FacadeFactoryService,
   SiteContextParamsService,
   StatePersistenceService,
+  StorageSyncType,
   UnifiedInjector,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
@@ -17,7 +17,6 @@ import {
   switchMap,
   takeWhile,
 } from 'rxjs/operators';
-import { CartConfig } from '../../config/cart-config';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Injectable({
@@ -27,8 +26,6 @@ export class MiniCartComponentService {
   constructor(
     protected activeCartFacade: ActiveCartFacade,
     protected authService: AuthService,
-    protected config: CartConfig,
-    protected eventService: EventService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService,
     protected injector: UnifiedInjector,
@@ -115,7 +112,7 @@ export class MiniCartComponentService {
         return this.statePersistenceService.readStateFromStorage({
           key: 'cart',
           context: context,
-          storageType: this.config?.cart?.storageType,
+          storageType: StorageSyncType.LOCAL_STORAGE,
         });
       })
     );
