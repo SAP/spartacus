@@ -5,7 +5,7 @@ import {
   ProductReferenceService,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Subject, combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -36,6 +36,7 @@ export class VisualPickingProductListService implements OnDestroy {
   protected readonly DEFAULT_ITEMS_PER_SLIDE = 7;
 
   private getFilteredProductReferences$Subscription: Subscription;
+  private productReferencesSubscription: Subscription;
   private filteredItems$Subscription: Subscription;
 
   /**
@@ -59,11 +60,14 @@ export class VisualPickingProductListService implements OnDestroy {
     });
 
     this.selectedProductCodes = [];
+    this.productReferencesSubscription =
+      this._getProductReferences$().subscribe(this.productReferences$);
   }
 
   ngOnDestroy(): void {
     this.getFilteredProductReferences$Subscription.unsubscribe();
     this.filteredItems$Subscription.unsubscribe();
+    this.productReferencesSubscription.unsubscribe();
   }
 
   private get productReferenceType() {
@@ -79,14 +83,20 @@ export class VisualPickingProductListService implements OnDestroy {
     .pipe(
       filter((product) => !!product && !!product.code),
       map((product) => product as Product),
-      shareReplay()
+      distinctUntilChanged((p1, p2) => p1.code === p2.code)
     );
+
+  private productReferences$ = new Subject<ProductReference[]>();
 
   /**
    * Returns an Observable that produces the spare part product references for the current product.
    * @returns An Observable that produces the spare part product references for the current product.
    */
   public getProductReferences$(): Observable<ProductReference[]> {
+    return this.productReferences$;
+  }
+
+  private _getProductReferences$(): Observable<ProductReference[]> {
     return this.currentProduct$.pipe(
       tap((product: Product) =>
         this.productReferenceService.loadProductReferences(
@@ -104,8 +114,7 @@ export class VisualPickingProductListService implements OnDestroy {
         (productReferences: ProductReference[]) =>
           productReferences !== undefined
       ),
-      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y)),
-      shareReplay()
+      distinctUntilChanged((x, y) => JSON.stringify(x) === JSON.stringify(y))
     );
   }
 

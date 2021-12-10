@@ -162,6 +162,8 @@ describe('VisualPickingProductListService', () => {
           expect(productRefs).toEqual(productReferences);
           done();
         });
+
+      visualPickingProductListService.initialize();
     });
 
     it('should produce one value for each distinct set of product references', (done) => {
@@ -200,6 +202,8 @@ describe('VisualPickingProductListService', () => {
           }
           count++;
         });
+
+      visualPickingProductListService.initialize();
     });
   });
 
@@ -224,6 +228,8 @@ describe('VisualPickingProductListService', () => {
           );
           done();
         });
+
+      visualPickingProductListService.initialize();
     });
   });
 

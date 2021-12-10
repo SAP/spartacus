@@ -1,6 +1,6 @@
-import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { first, map, mergeMap, shareReplay, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
@@ -30,14 +30,8 @@ export class SceneNodeToProductLookupService {
       .epdVisualization as EpdVisualizationInnerConfig;
     const usageIdConfig = epdVisualization.usageIds as UsageIdConfig;
     this.usageId = usageIdConfig.productUsageId;
-
-    // Populate maps eagerly
-    this.nodeIdsByProductCodeMap$.pipe(first()).subscribe(() => {});
-    this.productCodesByNodeIdMap$.pipe(first()).subscribe(() => {});
-    this.nodeIdProductCodeTuples$.pipe(first()).subscribe(() => {});
   }
 
-  private resolvedSceneId$ = new EventEmitter<string>();
   private usageId;
 
   /**
@@ -46,90 +40,93 @@ export class SceneNodeToProductLookupService {
    * @param sceneId The scene id of the loaded scene.
    */
   public populateMapsForScene(sceneId: string): void {
-    this.resolvedSceneId$.emit(sceneId);
+    this.getNodeIdProductCodesForScene(sceneId)
+      .pipe(first())
+      .subscribe((nodeIdProductCodes: NodeIdProductCodes[]) => {
+        this.productCodesByNodeIdMap$.next(
+          this.getProductCodesByNodeIdMap(nodeIdProductCodes)
+        );
+        this.nodeIdsByProductCodeMap$.next(
+          this.getNodeIdsByProductCodeMap(nodeIdProductCodes)
+        );
+      });
   }
 
-  protected nodeIdProductCodeTuples$: Observable<NodeIdProductCodes[]> =
-    this.resolvedSceneId$.pipe(
-      mergeMap((sceneId: string) =>
-        this.storageService.getNodes(
-          sceneId,
-          undefined,
-          ['hotspot', `meta.${this.usageId.category}.${this.usageId.keyName}`],
-          [`metadata.${this.usageId.category}.${this.usageId.keyName}`],
-          '*'
-        )
-      ),
-      map((data: NodesResponse) => {
-        return (data.nodes as TreeNode[])
-          .filter((node: TreeNode) => node.metadata && node.metadata.length)
-          .map((node: TreeNode) => {
-            return <NodeIdProductCodes>{
-              nodeId: node.sid,
-              productCodes: (node.metadata as Metadatum[]).map(
-                (metadata: any) => metadata.value
-              ),
-            };
-          });
-      }),
-      shareReplay()
-    );
+  private productCodesByNodeIdMap$ = new BehaviorSubject<Map<string, string[]>>(
+    new Map()
+  );
+  private nodeIdsByProductCodeMap$ = new BehaviorSubject<Map<string, string[]>>(
+    new Map()
+  );
 
-  private productCodesByNodeIdMap$: Observable<Map<string, string[]>> =
-    this.nodeIdProductCodeTuples$.pipe(
-      map((nodeIdProductCodeTuples) =>
-        nodeIdProductCodeTuples.reduce(
-          (
-            productCodeByNodeIdMap: Map<string, string[]>,
-            nodeIdProductCodeTuple: NodeIdProductCodes
-          ) => {
-            productCodeByNodeIdMap.set(
-              nodeIdProductCodeTuple.nodeId,
-              nodeIdProductCodeTuple.productCodes
-            );
-            return productCodeByNodeIdMap;
-          },
-          new Map<string, string[]>()
-        )
-      ),
-      tap((productCodesByNodeIdMap: Map<string, string[]>) => {
-        this._productCodesByNodeIdMap = productCodesByNodeIdMap;
-      }),
-      shareReplay()
-    );
-
-  private _productCodesByNodeIdMap: Map<string, string[]>;
-
-  private nodeIdsByProductCodeMap$: Observable<Map<string, string[]>> =
-    this.nodeIdProductCodeTuples$.pipe(
-      map((nodeIdProductCodeTuples) =>
-        nodeIdProductCodeTuples.reduce(
-          (
-            nodeIdByProductCodeMap: Map<string, string[]>,
-            nodeIdProductCodeTuple: NodeIdProductCodes
-          ) => {
-            nodeIdProductCodeTuple.productCodes.forEach((productCode) => {
-              const nodeIds = nodeIdByProductCodeMap.get(productCode);
-              if (nodeIds !== undefined) {
-                nodeIds.push(nodeIdProductCodeTuple.nodeId);
-              } else {
-                nodeIdByProductCodeMap.set(productCode, [
-                  nodeIdProductCodeTuple.nodeId,
-                ]);
-              }
+  private getNodeIdProductCodesForScene(
+    sceneId: string
+  ): Observable<NodeIdProductCodes[]> {
+    return this.storageService
+      .getNodes(
+        sceneId,
+        undefined,
+        ['hotspot', `meta.${this.usageId.category}.${this.usageId.keyName}`],
+        [`metadata.${this.usageId.category}.${this.usageId.keyName}`],
+        '*'
+      )
+      .pipe(
+        map((data: NodesResponse) => {
+          return (data.nodes as TreeNode[])
+            .filter((node: TreeNode) => node.metadata && node.metadata.length)
+            .map((node: TreeNode) => {
+              return <NodeIdProductCodes>{
+                nodeId: node.sid,
+                productCodes: (node.metadata as Metadatum[]).map(
+                  (metadata: any) => metadata.value
+                ),
+              };
             });
-            return nodeIdByProductCodeMap;
-          },
-          new Map<string, string[]>()
-        )
-      ),
-      tap((nodeIdsByProductCodeMap: Map<string, string[]>) => {
-        this._nodeIdsByProductCodeMap = nodeIdsByProductCodeMap;
-      }),
-      shareReplay()
-    );
+        })
+      );
+  }
 
-  private _nodeIdsByProductCodeMap: Map<string, string[]>;
+  private getProductCodesByNodeIdMap(
+    nodeIdProductCodes: NodeIdProductCodes[]
+  ): Map<string, string[]> {
+    return nodeIdProductCodes.reduce(
+      (
+        productCodeByNodeIdMap: Map<string, string[]>,
+        nodeIdProductCodeTuple: NodeIdProductCodes
+      ) => {
+        productCodeByNodeIdMap.set(
+          nodeIdProductCodeTuple.nodeId,
+          nodeIdProductCodeTuple.productCodes
+        );
+        return productCodeByNodeIdMap;
+      },
+      new Map<string, string[]>()
+    );
+  }
+
+  private getNodeIdsByProductCodeMap(
+    nodeIdProductCodes: NodeIdProductCodes[]
+  ): Map<string, string[]> {
+    return nodeIdProductCodes.reduce(
+      (
+        nodeIdByProductCodeMap: Map<string, string[]>,
+        nodeIdProductCodeTuple: NodeIdProductCodes
+      ) => {
+        nodeIdProductCodeTuple.productCodes.forEach((productCode) => {
+          const nodeIds = nodeIdByProductCodeMap.get(productCode);
+          if (nodeIds !== undefined) {
+            nodeIds.push(nodeIdProductCodeTuple.nodeId);
+          } else {
+            nodeIdByProductCodeMap.set(productCode, [
+              nodeIdProductCodeTuple.nodeId,
+            ]);
+          }
+        });
+        return nodeIdByProductCodeMap;
+      },
+      new Map<string, string[]>()
+    );
+  }
 
   /**
    * Get distinct values while retaining ordering.
@@ -162,6 +159,7 @@ export class SceneNodeToProductLookupService {
    */
   public lookupProductCodes(nodeIds: string[]): Observable<string[]> {
     return this.productCodesByNodeIdMap$.pipe(
+      first(),
       map((productCodesByNodeIdMap) =>
         this._lookupProductCodes(productCodesByNodeIdMap, nodeIds)
       )
@@ -176,10 +174,10 @@ export class SceneNodeToProductLookupService {
    * @returns An array of product codes corresponding to the specified scene node ids in the currently loaded scene.
    */
   public syncLookupProductCodes(nodeIds: string[]): string[] {
-    if (!this._productCodesByNodeIdMap) {
-      return [];
-    }
-    return this._lookupProductCodes(this._productCodesByNodeIdMap, nodeIds);
+    return this._lookupProductCodes(
+      this.productCodesByNodeIdMap$.getValue(),
+      nodeIds
+    );
   }
 
   private _lookupNodeIds(
@@ -214,9 +212,9 @@ export class SceneNodeToProductLookupService {
    * @returns An array of scene node ids corresponding to the specified product codes in the currently loaded scene.
    */
   public syncLookupNodeIds(productCodes: string[]): string[] {
-    if (!this._nodeIdsByProductCodeMap) {
-      return [];
-    }
-    return this._lookupNodeIds(this._nodeIdsByProductCodeMap, productCodes);
+    return this._lookupNodeIds(
+      this.nodeIdsByProductCodeMap$.getValue(),
+      productCodes
+    );
   }
 }

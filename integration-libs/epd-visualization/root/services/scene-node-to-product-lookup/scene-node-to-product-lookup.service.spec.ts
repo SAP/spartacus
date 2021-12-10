@@ -194,6 +194,8 @@ describe('SceneNodeToProductLookupService', () => {
       expect(sceneNodeIdsBeforeMapPopulated).toBeTruthy();
       expect(sceneNodeIdsBeforeMapPopulated.length).toBe(0);
 
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
+
       sceneNodeToProductLookupService
         .lookupNodeIds(['productCode2', 'productCode3', 'notPresent'])
         .subscribe((sceneNodeIds: string[]) => {
@@ -216,8 +218,6 @@ describe('SceneNodeToProductLookupService', () => {
 
           done();
         });
-
-      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
@@ -232,6 +232,8 @@ describe('SceneNodeToProductLookupService', () => {
         ]);
       expect(sceneNodeIdsBeforeMapPopulated).toBeTruthy();
       expect(sceneNodeIdsBeforeMapPopulated.length).toBe(0);
+
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
 
       sceneNodeToProductLookupService
         .lookupNodeIds(['productCodeA'])
@@ -251,8 +253,6 @@ describe('SceneNodeToProductLookupService', () => {
 
           done();
         });
-
-      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
   });
 
@@ -271,6 +271,8 @@ describe('SceneNodeToProductLookupService', () => {
         ]);
       expect(productCodesBeforeMapPopulated).toBeTruthy();
       expect(productCodesBeforeMapPopulated.length).toBe(0);
+
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
 
       sceneNodeToProductLookupService
         .lookupProductCodes(['sceneNode2', 'sceneNode3', 'notPresent'])
@@ -294,8 +296,6 @@ describe('SceneNodeToProductLookupService', () => {
 
           done();
         });
-
-      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
@@ -314,6 +314,8 @@ describe('SceneNodeToProductLookupService', () => {
         ]);
       expect(productCodesBeforeMapPopulated).toBeTruthy();
       expect(productCodesBeforeMapPopulated.length).toBe(0);
+
+      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
 
       sceneNodeToProductLookupService
         .lookupProductCodes([
@@ -343,8 +345,6 @@ describe('SceneNodeToProductLookupService', () => {
 
           done();
         });
-
-      sceneNodeToProductLookupService.populateMapsForScene('some scene id');
     });
   });
 });
