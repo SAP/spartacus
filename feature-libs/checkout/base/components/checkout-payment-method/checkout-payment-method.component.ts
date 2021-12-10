@@ -12,6 +12,8 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
+  GlobalMessageType,
   PaymentDetails,
   TranslationService,
   UserPaymentService,
@@ -56,7 +58,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -141,7 +144,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
             );
             if (defaultPaymentMethod) {
               selectedMethod = defaultPaymentMethod.payment;
-              this.selectPaymentMethod(selectedMethod);
+              this.savePaymentMethod(selectedMethod);
             }
           }
           return paymentMethods.map((payment) => ({
@@ -163,6 +166,17 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.globalMessageService.add(
+      {
+        key: 'paymentMethods.paymentMethodSelected',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+
+    this.savePaymentMethod(paymentDetails);
+  }
+
+  protected savePaymentMethod(paymentDetails: PaymentDetails): void {
     this.paymentSavingInProgress$.next(true);
     this.subscriptions.add(
       this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
