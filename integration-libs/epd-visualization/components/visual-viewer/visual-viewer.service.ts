@@ -742,12 +742,15 @@ export class VisualViewerService implements OnDestroy {
       .pipe(
         filter(
           (sceneLoadInfo) =>
-            sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded
+            sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded ||
+            sceneLoadInfo.sceneLoadState === SceneLoadState.Failed
         ),
         first()
       )
       .subscribe((sceneLoadInfo: SceneLoadInfo) => {
-        callback(sceneLoadInfo.loadedSceneInfo as LoadedSceneInfo);
+        if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
+          callback(sceneLoadInfo.loadedSceneInfo as LoadedSceneInfo);
+        }
       });
   }
 
