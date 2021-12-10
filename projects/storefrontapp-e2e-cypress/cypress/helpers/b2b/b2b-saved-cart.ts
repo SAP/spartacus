@@ -1,10 +1,18 @@
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import * as alerts from '../../helpers/global-message';
 import * as sampleData from '../../sample-data/b2b-saved-cart';
-import { SampleProduct } from '../../sample-data/checkout-flow';
+import {
+  SampleCartProduct,
+  SampleProduct,
+} from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
+import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
+import {
+  b2bAccountShipToUser,
+  order_type,
+} from '../../sample-data/b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -193,6 +201,38 @@ export function loginB2bUser() {
   login();
 }
 
+export function proceedToCheckout() {
+  const checkoutPageAlias = waitForPage(
+    `/checkout/payment-type`,
+    'checkoutPage'
+  );
+
+  cy.get('cx-cart-totals').find('cx-progress-button button').click();
+
+  cy.wait(`@${checkoutPageAlias}`).its('response.statusCode').should('eq', 200);
+}
+
+export function executeCheckout() {
+  const cartProduct: SampleCartProduct = {
+    estimatedShipping: '$9.99',
+    total: '$4.50',
+    totalAndShipping: '$14.49',
+  };
+
+  b2bCheckout.enterPONumber();
+  b2bCheckout.selectAccountPayment();
+  b2bCheckout.selectAccountShippingAddress();
+  b2bCheckout.selectAccountDeliveryMode();
+  b2bCheckout.reviewB2bReviewOrderPage(
+    b2bAccountShipToUser,
+    cartProduct,
+    true,
+    order_type.PLACE_ORDER,
+    false
+  );
+  b2bCheckout.placeOrder('/order-confirmation');
+}
+
 export function addProductToCart(product: SampleProduct, quantity: number) {
   const alias = waitForProductPage(product.code, 'getProductPage');
 
@@ -245,8 +285,9 @@ export function waitForSavedCartDetailsPageData(product: SampleProduct) {
 }
 
 export function saveActiveCart(
-  manually: boolean = false,
-  checkAlert: boolean = true
+  expectedSavedCarts: number = 1,
+  expectedQuantity?: number,
+  expectedPrice?: string
 ) {
   clickSavedCartButtonsFromCartPage(1);
 
@@ -272,25 +313,32 @@ export function saveActiveCart(
 
       cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
-      if (checkAlert) {
-        alerts
-          .getSuccessAlert()
-          .should(
-            'contain',
-            `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
-          );
-      }
+      alerts
+        .getSuccessAlert()
+        .should(
+          'contain',
+          `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
+        );
 
       cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
 
       // assert the cart was saved in the listing page
-      if (!manually) {
-        verifyActiveCartWasSaved(active);
-      }
+
+      verifyActiveCartWasSaved(
+        active,
+        expectedSavedCarts,
+        expectedQuantity,
+        expectedPrice
+      );
     });
 }
 
-export function verifyActiveCartWasSaved(cartCode: string) {
+export function verifyActiveCartWasSaved(
+  cartCode: string,
+  expectedSavedCarts: number,
+  expectedQuantity?: number,
+  expectedPrice?: string
+) {
   const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
   cy.selectUserMenuOption({
@@ -301,11 +349,13 @@ export function verifyActiveCartWasSaved(cartCode: string) {
     .its('response.statusCode')
     .should('eq', 200);
 
+  // TODO
+  cy.wait(1000);
+
   cy.get(`@${getAllSavedCartAlias}`).should((xhr) => {
     const body = xhr.response.body;
 
-    expect(body.carts).to.have.length(1);
-
+    expect(body.carts).to.have.length(expectedSavedCarts);
     expect(body.carts[0].code).to.equal(cartCode);
     expect(body.carts[0].name).to.equal(sampleData.savedActiveCartForm[0].name);
     expect(body.carts[0].description).to.equal(
@@ -323,11 +373,21 @@ export function verifyActiveCartWasSaved(cartCode: string) {
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-quantity > .cx-saved-cart-list-value'
-  ).should('contain', sampleData.savedCarts.carts[0].totalUnitCount);
+  ).should(
+    'contain',
+    expectedQuantity
+      ? expectedQuantity
+      : sampleData.savedCarts.carts[0].totalUnitCount
+  );
 
   cy.get(
     'cx-saved-cart-list .cx-saved-cart-list-total > .cx-saved-cart-list-value'
-  ).should('contain', sampleData.savedCarts.carts[0].totalPrice.formattedValue);
+  ).should(
+    'contain',
+    expectedPrice
+      ? expectedPrice
+      : sampleData.savedCarts.carts[0].totalPrice.formattedValue
+  );
 }
 
 export function verifyMiniCartQuantity(quantity: number) {
@@ -404,7 +464,7 @@ export function verifyCartDetails(cart: any) {
     });
 }
 
-export function manuallyRestoryCartFromDetailsPage(cartCode: string) {
+export function manuallyRestoreCartFromDetailsPage(cartCode: string) {
   const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cartCode);
 
   cy.get('cx-saved-cart-details-action .restore-button').click();
@@ -417,7 +477,7 @@ export function manuallyRestoryCartFromDetailsPage(cartCode: string) {
     .should('eq', 200);
 }
 
-export function manuallyRestoryCartFromListingPage(cartCode: string) {
+export function manuallyRestoreCartFromListingPage(cartCode: string) {
   const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cartCode);
 
   // Restore cart button click

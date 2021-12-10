@@ -1,7 +1,7 @@
-import * as savedCart from '../../../../helpers/b2b/b2b-saved-cart';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-saved-cart';
-import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
+import * as savedCart from '../../../../helpers/b2b/b2b-saved-cart';
 
 context('B2B - Saved Cart', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -110,7 +110,7 @@ context('B2B - Saved Cart', () => {
             .then((cartId) => {
               const cartCode = cartId.text();
 
-              savedCart.manuallyRestoryCartFromListingPage(cartCode);
+              savedCart.manuallyRestoreCartFromListingPage(cartCode);
               savedCart.visitCartPage();
 
               cy.window()
@@ -120,10 +120,16 @@ context('B2B - Saved Cart', () => {
                   )
                 )
                 .then(({ activeCartCode }) => {
-                  savedCart.saveActiveCart(true, false);
+                  savedCart.saveActiveCart(2);
                   savedCart.visitSavedCartListingPage();
-                  savedCart.manuallyRestoryCartFromListingPage(activeCartCode);
+                  savedCart.manuallyRestoreCartFromListingPage(activeCartCode);
+                  savedCart.verifySavedCartListQuantity(2);
                   savedCart.verifySavedCartsHaveDifferentIds();
+                  savedCart.visitCartPage();
+
+                  // Checkout flow
+                  savedCart.proceedToCheckout();
+                  savedCart.executeCheckout();
                 });
             });
         });
@@ -181,6 +187,7 @@ context('B2B - Saved Cart', () => {
 
     describe('Saved Cart Details Page', () => {
       beforeEach(() => {
+        clearAllStorage();
         savedCart.loginB2bUser();
       });
 
@@ -207,11 +214,7 @@ context('B2B - Saved Cart', () => {
       });
 
       it('should make saved cart active from details page', () => {
-        savedCart.waitForSavedCartListingPageData([
-          sampleData.products[0],
-          sampleData.products[1],
-          sampleData.products[2],
-        ]);
+        savedCart.waitForSavedCartListingPageData(sampleData.products);
         savedCart.visitSavedCartListingPage();
 
         cy.get('cx-saved-cart-list .cx-saved-cart-list-table tr')
@@ -221,9 +224,8 @@ context('B2B - Saved Cart', () => {
             const cartCode = cartId.text();
 
             savedCart.openFirstElementOnTheList(cartCode);
-            savedCart.manuallyRestoryCartFromDetailsPage(cartCode);
+            savedCart.manuallyRestoreCartFromDetailsPage(cartCode);
             savedCart.verifyMiniCartQuantity(1);
-            savedCart.visitSavedCartListingPage();
             savedCart.verifySavedCartListQuantity(2);
           });
       });
@@ -231,7 +233,7 @@ context('B2B - Saved Cart', () => {
       it('should update saved cart product quantity, remove another product and make cart active', () => {
         savedCart.addProductToCart(sampleData.products[0], 3);
         savedCart.addProductToCart(sampleData.products[1], 3);
-        savedCart.saveActiveCart(true);
+        savedCart.saveActiveCart(1, 6, '$118.50');
         savedCart.visitSavedCartListingPage();
 
         cy.get('cx-saved-cart-list .cx-saved-cart-list-table tr')
@@ -242,11 +244,11 @@ context('B2B - Saved Cart', () => {
 
             savedCart.openFirstElementOnTheList(cartCode);
             savedCart.verifySavedCartDetailsItemsQuantity(2);
-
             savedCart.removeFirstProductFromSavedCart(cartCode);
             savedCart.verifySavedCartDetailsItemsQuantity(1);
-
             savedCart.modifyFirstProductQuantityFromSaveCart(2, cartCode);
+            savedCart.manuallyRestoreCartFromDetailsPage(cartCode);
+            savedCart.verifyMiniCartQuantity(2);
           });
       });
     });

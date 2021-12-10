@@ -177,7 +177,8 @@ export function reviewB2bReviewOrderPage(
   sampleUser: SampleUser = b2bAccountShipToUser,
   cartData: SampleCartProduct,
   isAccount: boolean,
-  orderType: string
+  orderType: string,
+  checkAccessibility: boolean = true
 ) {
   cy.get('.cx-review-title').should('contain', 'Review');
 
@@ -248,16 +249,20 @@ export function reviewB2bReviewOrderPage(
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 
   // Accessibility
-  if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.replenishmentOrderAccountCheckoutReviewOrder
-    );
-  } else {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
-    );
+  if (checkAccessibility) {
+    if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        config.replenishmentOrderAccountCheckoutReviewOrder
+      );
+    } else {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        isAccount
+          ? config.checkoutReviewOrderAccount
+          : config.checkoutReviewOrder
+      );
+    }
   }
 }
 
