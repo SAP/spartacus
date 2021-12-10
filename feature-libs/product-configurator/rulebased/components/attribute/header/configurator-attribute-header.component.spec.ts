@@ -160,9 +160,6 @@ describe('ConfigAttributeHeaderComponent', () => {
         'configurator.a11y.attribute attribute:' +
           classUnderTest.attribute.label
       );
-      expect(
-        htmlElem.querySelector('span')?.getAttribute('aria-hidden')
-      ).toEqual('true');
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
