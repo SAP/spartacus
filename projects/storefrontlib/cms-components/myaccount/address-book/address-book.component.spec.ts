@@ -8,7 +8,12 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Address, GlobalMessageService, I18nTestingModule, User } from '@spartacus/core';
+import {
+  Address,
+  GlobalMessageService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
