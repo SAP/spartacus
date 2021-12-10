@@ -79,7 +79,7 @@ export class MiniCartComponentService {
    * It is required to call the ActiveCartFacade if one of these criteria is met:
    * - There is an active cart id in the browser local storage
    * - A user is authenticated
-   * - The cart library code chunk with the ActiveCartFacade is already loaded.
+   * - The cart library code chunk with the ActiveCartFacade implementation is already loaded.
    *
    * Once the observable returned by activeCartRequired emits true, it completes.
    * activeCartRequired helps to make the mini cart compatible with some level of lazy loading.
@@ -88,11 +88,11 @@ export class MiniCartComponentService {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
-      this.isCartFacadeLoaded(),
+      this.isActiveCartFacadeImplProvided(),
     ]).pipe(
       map(
-        ([hasCartInStorage, isUserLoggedIn, isCartFacadeLoaded]) =>
-          hasCartInStorage || isUserLoggedIn || isCartFacadeLoaded
+        ([hasCartInStorage, isUserLoggedIn, isActiveCartFacadeImplProvided]) =>
+          hasCartInStorage || isUserLoggedIn || isActiveCartFacadeImplProvided
       ),
       distinctUntilChanged(),
       takeWhile((hasCart) => !hasCart, true)
@@ -105,7 +105,15 @@ export class MiniCartComponentService {
     );
   }
 
-  protected isCartFacadeLoaded(): Observable<boolean> {
+  /**
+   * When lazy loading is used, the ActiveCartFacade is imiplemented
+   * with a proxy class.  When the code chunk with the ActiveCartFacade
+   * is lazy loaded, the ActiveCartFacade proxy is replaced with the actual
+   * ActiveCartFacade implementation.  This is why we can use this to evaluate
+   * if the library chunk that contains the ActiveCartFacade imiplementation has be
+   * loaded already or not.
+   */
+  protected isActiveCartFacadeImplProvided(): Observable<boolean> {
     return this.injector.get(ActiveCartFacade).pipe(
       map(
         (activeCartFacade) =>
@@ -116,7 +124,9 @@ export class MiniCartComponentService {
     );
   }
 
-  protected getCartStateFromBrowserStorage(): Observable<{ active: string } | undefined> {
+  protected getCartStateFromBrowserStorage(): Observable<
+    { active: string } | undefined
+  > {
     return this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]).pipe(
       map((context) => {
         return this.statePersistenceService.readStateFromStorage({
