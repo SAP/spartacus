@@ -33,6 +33,9 @@
   class="cx-validation-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
   *ngIf="mustDisplayValidationMessage()"
+  aria-live="assertive"
+  aria-atomic="true"
+  role="alert"
 >
   <cx-icon [type]="iconType.WARNING"></cx-icon>
   {{
