@@ -84,7 +84,7 @@ export class MiniCartComponentService {
    * Once the observable returned by activeCartRequired emits true, it completes.
    * activeCartRequired helps to make the mini cart compatible with some level of lazy loading.
    */
-  activeCartRequired() {
+  protected activeCartRequired() {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
@@ -99,13 +99,13 @@ export class MiniCartComponentService {
     );
   }
 
-  hasActiveCartInStorage(): Observable<boolean> {
+  protected hasActiveCartInStorage(): Observable<boolean> {
     return this.getCartStateFromBrowserStorage().pipe(
       map((state) => Boolean(state?.active))
     );
   }
 
-  isCartFacadeLoaded(): Observable<boolean> {
+  protected isCartFacadeLoaded(): Observable<boolean> {
     return this.injector.get(ActiveCartFacade).pipe(
       map(
         (activeCartFacade) =>
@@ -116,7 +116,7 @@ export class MiniCartComponentService {
     );
   }
 
-  getCartStateFromBrowserStorage(): Observable<{ active: string } | undefined> {
+  protected getCartStateFromBrowserStorage(): Observable<{ active: string } | undefined> {
     return this.siteContextParamsService.getValues([BASE_SITE_CONTEXT_ID]).pipe(
       map((context) => {
         return this.statePersistenceService.readStateFromStorage({
