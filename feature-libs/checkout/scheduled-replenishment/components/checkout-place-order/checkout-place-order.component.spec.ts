@@ -3,10 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutFacade, ORDER_TYPE } from '@spartacus/checkout/base/root';
+import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
+  ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';

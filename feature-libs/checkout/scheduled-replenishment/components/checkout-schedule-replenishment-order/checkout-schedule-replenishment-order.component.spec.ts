@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ORDER_TYPE } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
+  ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';

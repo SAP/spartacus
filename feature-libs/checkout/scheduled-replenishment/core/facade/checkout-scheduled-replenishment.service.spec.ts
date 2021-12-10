@@ -2,8 +2,9 @@ import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { CheckoutFacade, ORDER_TYPE } from '@spartacus/checkout/base/root';
+import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
+  ORDER_TYPE,
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
