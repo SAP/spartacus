@@ -39,9 +39,9 @@ export class MiniCartComponentService {
    * avoid loading the cart library code.
    */
   getQuantity(): Observable<number> {
-    return this.watchUntilCartFacadeRequired().pipe(
-      switchMap((userHasCart) => {
-        if (userHasCart) {
+    return this.activeCartRequired().pipe(
+      switchMap((activeCartRequired) => {
+        if (activeCartRequired) {
           return this.activeCartFacade.getActive().pipe(
             startWith({ deliveryItemsQuantity: 0 }),
             map((cart) => cart.deliveryItemsQuantity || 0)
@@ -60,9 +60,9 @@ export class MiniCartComponentService {
    * avoid loading the cart library code.
    */
   getTotalPrice(): Observable<string> {
-    return this.watchUntilCartFacadeRequired().pipe(
-      switchMap((userHasCart) => {
-        if (userHasCart) {
+    return this.activeCartRequired().pipe(
+      switchMap((activeCartRequired) => {
+        if (activeCartRequired) {
           return this.activeCartFacade.getActive().pipe(
             filter((cart) => !!cart.totalPrice),
             map((cart) => cart.totalPrice?.formattedValue ?? '')
@@ -74,7 +74,7 @@ export class MiniCartComponentService {
     );
   }
 
-  watchUntilCartFacadeRequired() {
+  activeCartRequired() {
     return combineLatest([
       this.browserHasCartInStorage(),
       this.authService.isUserLoggedIn(),
