@@ -4,7 +4,6 @@ import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { AuthRedirectService } from '@spartacus/core';
 import { CustomFormValidators } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-checkout-login',
@@ -37,14 +36,11 @@ export class CheckoutLoginComponent implements OnDestroy {
       this.activeCartFacade.addEmail(email);
 
       if (!this.sub) {
-        this.sub = this.activeCartFacade
-          .getAssignedUser()
-          .pipe(withLatestFrom(this.activeCartFacade.isGuestCart()))
-          .subscribe(([_user, isGuestCart]) => {
-            if (isGuestCart) {
-              this.authRedirectService.redirect();
-            }
-          });
+        this.sub = this.activeCartFacade.isGuestCart().subscribe((isGuest) => {
+          if (isGuest) {
+            this.authRedirectService.redirect();
+          }
+        });
       }
     } else {
       this.checkoutLoginForm.markAllAsTouched();
