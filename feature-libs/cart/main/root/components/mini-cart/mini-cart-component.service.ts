@@ -74,6 +74,16 @@ export class MiniCartComponentService {
     );
   }
 
+  /**
+   * This function determines if it is required to get active cart data from ActiveCartFacade.
+   * It is required to call the ActiveCartFacade if one of these criteria is met:
+   * - There is an active cart id in the browser local storage
+   * - A user is authenticated
+   * - The cart library code chunk with the ActiveCartFacade is already loaded.
+   *
+   * Once the observable returned by activeCartRequired emits true, it completes.
+   * activeCartRequired helps to make the mini cart compatible with some level of lazy loading.
+   */
   activeCartRequired() {
     return combineLatest([
       this.browserHasCartInStorage(),
