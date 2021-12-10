@@ -127,6 +127,8 @@ describe('DeliveryModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
+    setDeliveryModeInProcess$.next(false);
+    selectedDeliveryMode$.next({});
   });
 
   it('should be created', () => {
