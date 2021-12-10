@@ -4,10 +4,8 @@ import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   AuthRedirectService,
   AuthService,
-  getLastValueSync,
   SemanticPathService,
 } from '@spartacus/core';
-import { User } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -28,23 +26,25 @@ export class CheckoutAuthGuard implements CanActivate {
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
-      this.activeCartFacade.getAssignedUser(),
+      this.activeCartFacade.isGuestCart(),
       this.activeCartFacade.isStable(),
     ]).pipe(
-      filter(([, , isStable]) => isStable),
-      map(([isLoggedIn, cartUser]) => {
-        if (!isLoggedIn) {
-          return this.handleAnonymousUser(cartUser);
+      map(([isLoggedIn, isGuestCart, isStable]) => ({
+        isLoggedIn,
+        isGuestCart,
+        isStable,
+      })),
+      filter((data) => data.isStable),
+      map((data) => {
+        if (!data.isLoggedIn) {
+          return data.isGuestCart ? true : this.handleAnonymousUser();
         }
-        return isLoggedIn;
+        return data.isLoggedIn;
       })
     );
   }
 
-  protected handleAnonymousUser(cartUser?: User): boolean | UrlTree {
-    if (getLastValueSync(this.activeCartFacade.isGuestCart())) {
-      return !!cartUser;
-    }
+  protected handleAnonymousUser(): boolean | UrlTree {
     this.authRedirectService.saveCurrentNavigationUrl();
     if (this.checkoutConfigService.isGuestCheckout()) {
       return this.router.createUrlTree(
