@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Config, StorageSyncType } from '@spartacus/core';
+import { Config } from '@spartacus/core';
 // Imported for side effects (module augmentation)
 import '@spartacus/storefront';
 
@@ -15,9 +15,6 @@ export abstract class CartConfig {
     validation?: {
       enabled?: boolean;
     };
-    storageType?:
-      | StorageSyncType.LOCAL_STORAGE
-      | StorageSyncType.SESSION_STORAGE;
   };
 }
 

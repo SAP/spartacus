@@ -1,10 +1,11 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CartConfig, CartType } from '@spartacus/cart/main/root';
+import { CartType } from '@spartacus/cart/main/root';
 import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
+  StorageSyncType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
@@ -20,8 +21,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
   constructor(
     protected statePersistenceService: StatePersistenceService,
     protected store: Store<StateWithMultiCart>,
-    protected siteContextParamsService: SiteContextParamsService,
-    protected config: CartConfig
+    protected siteContextParamsService: SiteContextParamsService
   ) {}
 
   public initSync() {
@@ -32,7 +32,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
-        storageType: this.config?.cart?.storageType,
+        storageType: StorageSyncType.LOCAL_STORAGE,
         onRead: (state) => this.onRead(state),
       })
     );
