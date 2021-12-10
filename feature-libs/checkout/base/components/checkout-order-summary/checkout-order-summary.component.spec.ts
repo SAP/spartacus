@@ -3,7 +3,6 @@ import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
 } from '@spartacus/cart/main/components';
-import { CartVoucherService } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
@@ -38,7 +37,6 @@ describe('CheckoutOrderSummaryComponent', () => {
         ],
         providers: [
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
-          { provide: CartVoucherService, useValue: {} },
         ],
       }).compileComponents();
     })
