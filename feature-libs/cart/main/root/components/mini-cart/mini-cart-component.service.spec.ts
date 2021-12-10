@@ -127,14 +127,14 @@ describe('MiniCartComponentService', () => {
     });
   });
 
-  describe('browserHasCartInStorage', () => {
+  describe('hasActiveCartInStorage', () => {
     it('should return true when the browser storage has an active cart.', () => {
       spyOn(service, 'getCartStateFromBrowserStorage').and.returnValue(
         cold('a', {
           a: mockBrowserCartStateWithCart,
         })
       );
-      expect(service.browserHasCartInStorage()).toBeObservable(
+      expect(service.hasActiveCartInStorage()).toBeObservable(
         cold('t', { t: true })
       );
     });
@@ -145,7 +145,7 @@ describe('MiniCartComponentService', () => {
           a: mockBrowserCartStateNoCart,
         })
       );
-      expect(service.browserHasCartInStorage()).toBeObservable(
+      expect(service.hasActiveCartInStorage()).toBeObservable(
         cold('f', { f: false })
       );
     });
@@ -157,7 +157,7 @@ describe('MiniCartComponentService', () => {
           b: mockBrowserCartStateWithCart,
         })
       );
-      expect(service.browserHasCartInStorage()).toBeObservable(
+      expect(service.hasActiveCartInStorage()).toBeObservable(
         cold('f---t', { f: false, t: true })
       );
     });
@@ -165,7 +165,7 @@ describe('MiniCartComponentService', () => {
 
   describe('activeCartRequired', () => {
     it('should return false if no user is logged in and no cart in browser storage and cart facade chunk is not yet loaded', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -180,7 +180,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if there is a cart in browser storage', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('t', { t: true })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -195,7 +195,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if a user is logged in.', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -210,7 +210,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should return true if the cart facade is already loaded', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('t', { t: true })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -225,7 +225,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if ther is a cart in browser storage', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('f--t', { t: true, f: false })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -240,7 +240,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if a user eventually logs in.', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
@@ -255,7 +255,7 @@ describe('MiniCartComponentService', () => {
     });
 
     it('should eventually return true if the cart facade chunk is loaded.', () => {
-      spyOn(service, 'browserHasCartInStorage').and.returnValue(
+      spyOn(service, 'hasActiveCartInStorage').and.returnValue(
         cold('f', { f: false })
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(

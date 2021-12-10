@@ -86,7 +86,7 @@ export class MiniCartComponentService {
    */
   activeCartRequired() {
     return combineLatest([
-      this.browserHasCartInStorage(),
+      this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
       this.isCartFacadeLoaded(),
     ]).pipe(
@@ -99,7 +99,7 @@ export class MiniCartComponentService {
     );
   }
 
-  browserHasCartInStorage(): Observable<boolean> {
+  hasActiveCartInStorage(): Observable<boolean> {
     return this.getCartStateFromBrowserStorage().pipe(
       map((state) => Boolean(state?.active))
     );
