@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
+import { CHECKOUT_B2B_FEATURE } from '@spartacus/checkout/b2b/root';
 import { checkoutTranslationChunksConfig } from '@spartacus/checkout/base/assets';
-import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { checkoutScheduledReplenishmentTranslations } from '@spartacus/checkout/scheduled-replenishment/assets';
 import {
   CheckoutScheduledReplenishmentRootModule,
@@ -18,7 +18,7 @@ import { provideConfig } from '@spartacus/core';
             import('@spartacus/checkout/scheduled-replenishment').then(
               (m) => m.CheckoutScheduledReplenishmentModule
             ),
-          dependencies: [CHECKOUT_FEATURE],
+          dependencies: [CHECKOUT_B2B_FEATURE],
         },
       },
       i18n: {
