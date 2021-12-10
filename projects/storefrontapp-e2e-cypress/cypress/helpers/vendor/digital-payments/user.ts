@@ -11,7 +11,7 @@ export const my_user = {
     country: 'AD',
   },
   payment: {
-    number: '************5100',
+    number: '5105105105105100',
     expires: {
       month: '08',
       year: '2030',
