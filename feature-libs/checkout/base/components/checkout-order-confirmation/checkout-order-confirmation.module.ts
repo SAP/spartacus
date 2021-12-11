@@ -1,6 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import {
+  OrderConfirmationOrderDetailsContext,
+  OrderConfirmationOrderDetailsContextToken,
+  OrderConfirmationOrderEntriesContext,
+  OrderConfirmationOrderEntriesContextToken,
+} from '@spartacus/checkout/base/root';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { OrderOverviewModule } from '@spartacus/order/components';
 import {
@@ -58,6 +64,14 @@ const orderConfirmationComponents = [
         },
       },
     }),
+    {
+      provide: OrderConfirmationOrderEntriesContextToken,
+      useExisting: OrderConfirmationOrderEntriesContext,
+    },
+    {
+      provide: OrderConfirmationOrderDetailsContextToken,
+      useExisting: OrderConfirmationOrderDetailsContext,
+    },
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],

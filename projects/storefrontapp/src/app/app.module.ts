@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  EventService,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -21,6 +22,7 @@ import {
   TestConfigModule,
 } from '@spartacus/core';
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
+import { OrderPlacedEvent } from 'feature-libs/checkout/base/root';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
@@ -84,4 +86,10 @@ if (!environment.production) {
   ],
   bootstrap: [StorefrontComponent],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(protected eventService: EventService) {
+    this.eventService
+      .get(OrderPlacedEvent)
+      .subscribe((hello) => console.log('hello', hello));
+  }
+}

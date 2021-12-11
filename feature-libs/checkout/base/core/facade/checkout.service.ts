@@ -1,7 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  OrderDetailsContext,
+  ORDER_DETAILS_CONTEXT,
+} from '@spartacus/cart/main/root';
 import {
   CheckoutFacade,
   OrderPlacedEvent,
@@ -15,6 +19,7 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
+import { ContextService } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -22,6 +27,8 @@ import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
 @Injectable()
 export class CheckoutService implements CheckoutFacade {
   protected order$ = new BehaviorSubject<Order | undefined>(undefined);
+  protected orderDetailsContext$: Observable<OrderDetailsContext | undefined> =
+    this.contextService.get<OrderDetailsContext>(ORDER_DETAILS_CONTEXT);
 
   protected placeOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
@@ -61,7 +68,8 @@ export class CheckoutService implements CheckoutFacade {
     protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected checkoutConnector: CheckoutConnector,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected contextService: ContextService
   ) {}
 
   /**
@@ -90,6 +98,16 @@ export class CheckoutService implements CheckoutFacade {
   placeOrder(termsChecked: boolean): Observable<Order> {
     return this.placeOrderCommand.execute(termsChecked);
   }
+
+  // getOrder(): Observable<Order | undefined> {
+  //   console.log('surprise');
+  //   return this.orderDetailsContext$.pipe(
+  //     switchMap(
+  //       (orderDetailsContext) =>
+  //         orderDetailsContext?.getOrder?.() ?? of(undefined)
+  //     )
+  //   );
+  // }
 
   getOrder(): Observable<Order | undefined> {
     return this.order$.asObservable();

@@ -1,6 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import {
+  CART_FEATURE,
+  ORDER_DETAILS_CONTEXT,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/main/root';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -12,7 +16,10 @@ import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context';
+import {
+  OrderConfirmationOrderDetailsContextToken,
+  OrderConfirmationOrderEntriesContextToken,
+} from './tokens/context';
 
 export function defaultCheckoutComponentsConfig() {
   const config: CmsConfig = {
@@ -56,7 +63,8 @@ export function defaultCheckoutComponentsConfig() {
         data: {
           cxRoute: 'orderConfirmation',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
+            [ORDER_DETAILS_CONTEXT]: OrderConfirmationOrderDetailsContextToken,
           },
         },
       },

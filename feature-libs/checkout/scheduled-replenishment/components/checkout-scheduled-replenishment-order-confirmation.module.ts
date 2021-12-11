@@ -9,6 +9,10 @@ import {
   OrderConfirmationGuard,
 } from '@spartacus/checkout/base/components';
 import {
+  OrderConfirmationOrderEntriesContext,
+  OrderConfirmationOrderEntriesContextToken,
+} from '@spartacus/checkout/base/root';
+import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
@@ -68,6 +72,10 @@ const orderConfirmationComponents: Type<any>[] = [
         },
       },
     }),
+    {
+      provide: OrderConfirmationOrderEntriesContextToken,
+      useExisting: OrderConfirmationOrderEntriesContext,
+    },
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
