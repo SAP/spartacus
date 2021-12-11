@@ -46,6 +46,10 @@
                 "bundleName": "product-configurator"
               },
               {
+                "input": "projects/storefrontapp/src/styles/lib-chatbot.scss",
+                "bundleName": "chatbot"
+              },
+              {
                 "input": "projects/storefrontapp/src/styles/lib-storefinder.scss",
                 "bundleName": "storefinder"
               },
@@ -635,6 +639,43 @@
             "lintFilePatterns": [
               "core-libs/setup/**/*.ts",
               "core-libs/setup/**/*.html"
+            ]
+          }
+        }
+      }
+    },
+    "chatbot": {
+      "projectType": "library",
+      "root": "feature-libs/chatbot",
+      "sourceRoot": "feature-libs/chatbot",
+      "prefix": "cx",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:ng-packagr",
+          "options": {
+            "tsConfig": "feature-libs/chatbot/tsconfig.lib.json",
+            "project": "feature-libs/chatbot/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "feature-libs/chatbot/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "feature-libs/chatbot/test.ts",
+            "tsConfig": "feature-libs/chatbot/tsconfig.spec.json",
+            "karmaConfig": "feature-libs/chatbot/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "feature-libs/chatbot/**/*.ts",
+              "feature-libs/chatbot/**/*.html"
             ]
           }
         }

@@ -21,6 +21,13 @@
     <router-outlet></router-outlet>
   </main>
 
+  <ng-container
+    [cxComponentWrapper]="{
+      flexType: 'ChatBotComponent',
+      typeCode: 'CMSFlexComponent',
+      uid: 'ChatBotComponent'
+    }"
+  ></ng-container>
   <ng-template cxOutlet="cx-footer">
     <footer cxSkipLink="cx-footer" [cxFocus]="{ disableMouseFocus: true }">
       <cx-page-layout section="footer"></cx-page-layout>

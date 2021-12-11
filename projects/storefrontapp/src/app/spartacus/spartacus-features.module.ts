@@ -62,6 +62,7 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
+import { ChatBotFeatureModule } from './features/chatbot-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
 import { OrderFeatureModule } from './features/order-feature.module';
@@ -185,6 +186,7 @@ if (environment.digitalPayments) {
 
     /************************* Feature libraries *************************/
     UserFeatureModule,
+    ChatBotFeatureModule,
     CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,

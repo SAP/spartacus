@@ -65,6 +65,15 @@
       "@spartacus/cart/import-export/root": [
         "../../feature-libs/cart/import-export/root/public_api"
       ],
+      "@spartacus/chatbot/assets": [
+        "../../feature-libs/chatbot/assets/public_api"
+      ],
+      "@spartacus/chatbot/components": [
+        "../../feature-libs/chatbot/components/public_api"
+      ],
+      "@spartacus/chatbot/core": ["../../feature-libs/chatbot/core/public_api"],
+      "@spartacus/chatbot": ["../../feature-libs/chatbot/public_api"],
+      "@spartacus/chatbot/root": ["../../feature-libs/chatbot/root/public_api"],
       "@spartacus/checkout/assets": [
         "../../feature-libs/checkout/assets/public_api"
       ],

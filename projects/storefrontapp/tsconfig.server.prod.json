@@ -44,6 +44,14 @@
       "@spartacus/cart/saved-cart": ["../../dist/cart/saved-cart"],
       "@spartacus/cart/saved-cart/occ": ["../../dist/cart/saved-cart/occ"],
       "@spartacus/cart/saved-cart/root": ["../../dist/cart/saved-cart/root"],
+      "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
+      "@spartacus/storefinder/components": [
+        "../../dist/storefinder/components"
+      ],
+      "@spartacus/storefinder/core": ["../../dist/storefinder/core"],
+      "@spartacus/storefinder": ["../../dist/storefinder"],
+      "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
+      "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
       "@spartacus/checkout/assets": ["../../dist/checkout/assets"],
       "@spartacus/checkout/components": ["../../dist/checkout/components"],
       "@spartacus/checkout/core": ["../../dist/checkout/core"],
@@ -148,14 +156,11 @@
       "@spartacus/smartedit/core": ["../../dist/smartedit/core"],
       "@spartacus/smartedit": ["../../dist/smartedit"],
       "@spartacus/smartedit/root": ["../../dist/smartedit/root"],
-      "@spartacus/storefinder/assets": ["../../dist/storefinder/assets"],
-      "@spartacus/storefinder/components": [
-        "../../dist/storefinder/components"
-      ],
-      "@spartacus/storefinder/core": ["../../dist/storefinder/core"],
-      "@spartacus/storefinder": ["../../dist/storefinder"],
-      "@spartacus/storefinder/occ": ["../../dist/storefinder/occ"],
-      "@spartacus/storefinder/root": ["../../dist/storefinder/root"],
+      "@spartacus/chatbot/assets": ["../../dist/chatbot/assets"],
+      "@spartacus/chatbot/components": ["../../dist/chatbot/components"],
+      "@spartacus/chatbot/core": ["../../dist/chatbot/core"],
+      "@spartacus/chatbot": ["../../dist/chatbot"],
+      "@spartacus/chatbot/root": ["../../dist/chatbot/root"],
       "@spartacus/tracking": ["../../dist/tracking"],
       "@spartacus/tracking/personalization/core": [
         "../../dist/tracking/personalization/core"

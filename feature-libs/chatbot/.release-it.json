@@ -1,0 +1,35 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "chatbot-${version}",
+    "commitMessage": "Bumping chatbot version to ${version}",
+    "tagAnnotation": "Bumping chatbot version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/chatbot"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:chatbot"
+  },
+  "github": {
+    "release": true,
+    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "releaseName": "@spartacus/chatbot@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib chatbot --to chatbot-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}

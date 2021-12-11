@@ -35,6 +35,7 @@ export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root
 export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
 export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
 export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
+export const SPARTACUS_CHATBOT = '@spartacus/chatbot';
 export const SPARTACUS_PRODUCT = '@spartacus/product';
 export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
@@ -721,6 +722,7 @@ export const STORE_FINDER_SEARCH_PAGE = 'StoreFinderSearchPage';
 
 export const ABSTRACT_STORE_ITEM_COMPONENT = 'AbstractStoreItemComponent';
 export const SCHEDULE_COMPONENT = 'ScheduleComponent';
+export const CHAT_BOT_SCSS_FILE_NAME = 'chatbot.scss';
 export const STORE_FINDER_MAP_COMPONENT = 'StoreFinderMapComponent';
 export const STORE_FINDER_LIST_COMPONENT = 'StoreFinderListComponent';
 export const STORE_FINDER_SEARCH_COMPONENT = 'StoreFinderSearchComponent';
@@ -1044,6 +1046,7 @@ export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const CHATBOT_MODULE = 'ChatBotModule';
 
 export const GO = 'go';
 
@@ -1128,6 +1131,7 @@ export const CLI_QUALTRICS_FEATURE = 'Qualtrics';
 export const CLI_SMARTEDIT_FEATURE = 'SmartEdit';
 
 export const CLI_STOREFINDER_FEATURE = 'Store-Finder';
+export const CLI_CHATBOT_FEATURE = 'ChatBot';
 
 export const CLI_TRACKING_PERSONALIZATION_FEATURE = 'Personalization';
 export const CLI_TRACKING_TMS_GTM_FEATURE = 'TMS-GTM';
