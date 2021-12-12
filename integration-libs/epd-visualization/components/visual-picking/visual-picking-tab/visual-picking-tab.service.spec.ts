@@ -41,6 +41,8 @@ const productReferences: ProductReference[] = [
   },
 ];
 
+const filteredProductReferences: ProductReference[] = [productReferences[1]];
+
 class MockGlobalMessageService {
   expectedText?: Translatable;
   expectedType?: GlobalMessageType;
@@ -215,6 +217,10 @@ describe('VisualPickingTabService', () => {
           return of(productReferences);
         },
 
+        getFilteredProductReferences$: () => {
+          return of(filteredProductReferences);
+        },
+
         currentProduct$: of(currentProduct),
       };
 
@@ -223,6 +229,8 @@ describe('VisualPickingTabService', () => {
         'visualPickingProductListService',
         'get'
       ).and.returnValue(mockVisualPickingProductListService);
+
+      mockVisualViewerService.expectedIncludedProductCodes = filteredProductReferences.map(productReference => productReference.target?.code as string);
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,
@@ -272,6 +280,10 @@ describe('VisualPickingTabService', () => {
 
       const mockVisualPickingProductListService = {
         getProductReferences$: () => {
+          return of([]);
+        },
+
+        getFilteredProductReferences$: () => {
           return of([]);
         },
 
@@ -463,40 +475,8 @@ describe('VisualPickingTabService', () => {
     });
   });
 
-  describe('setupVisualFilteringSubscription', () => {
-    it('should set visualViewerService.includedProductCodes with product codes from product references produced by getFilteredProductReferences$()', () => {
-      visualPickingTabService.visualPickingProductListService =
-        visualPickingProductListService;
-      visualPickingTabService.visualViewerService = visualViewerService;
-
-      spyOn(
-        visualPickingProductListService,
-        'getFilteredProductReferences$'
-      ).and.returnValue(of(productReferences));
-
-      const setIncludedProductCodesProperty = spyOnProperty(
-        visualViewerService,
-        'includedProductCodes',
-        'set'
-      ).and.callThrough();
-
-      visualPickingTabService['setupVisualFilteringSubscription']();
-
-      expect(setIncludedProductCodesProperty).toHaveBeenCalledTimes(1);
-      expect(setIncludedProductCodesProperty).toHaveBeenCalledWith([
-        'sparePart1',
-        'sparePart2',
-      ]);
-    });
-  });
-
   describe('handleLoadVisualizationInfoChange', () => {
-    it('should setup visual filtering when scene loading started', () => {
-      const setupVisualFilteringSubscriptionSpy = spyOn<any>(
-        visualPickingTabService,
-        'setupVisualFilteringSubscription'
-      );
-
+    it('should not produce an error when scene loading started', () => {
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
         'add'
@@ -507,16 +487,10 @@ describe('VisualPickingTabService', () => {
         loadStatus: VisualizationLoadStatus.Loading,
       });
 
-      expect(setupVisualFilteringSubscriptionSpy).toHaveBeenCalledTimes(1);
       expect(mockGlobalMessageServiceAddSpy).toHaveBeenCalledTimes(0);
     });
 
-    it('should not do anything (except change ref detection) when scene loaded', () => {
-      const setupVisualFilteringSubscriptionSpy = spyOn<any>(
-        visualPickingTabService,
-        'setupVisualFilteringSubscription'
-      );
-
+    it('should not produce an error when when scene loaded successfully', () => {
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
         'add'
@@ -527,7 +501,6 @@ describe('VisualPickingTabService', () => {
         loadStatus: VisualizationLoadStatus.Loaded,
       });
 
-      expect(setupVisualFilteringSubscriptionSpy).toHaveBeenCalledTimes(0);
       expect(mockGlobalMessageServiceAddSpy).toHaveBeenCalledTimes(0);
     });
 
@@ -544,11 +517,6 @@ describe('VisualPickingTabService', () => {
 
     it('should not do anything (except change ref detection) when no match found', () => {
       // This is a common expected scenario that should not produce an error message.
-      const setupVisualFilteringSubscriptionSpy = spyOn<any>(
-        visualPickingTabService,
-        'setupVisualFilteringSubscription'
-      );
-
       const mockGlobalMessageServiceAddSpy = spyOn(
         mockGlobalMessageService,
         'add'
@@ -559,7 +527,6 @@ describe('VisualPickingTabService', () => {
         loadStatus: VisualizationLoadStatus.NotStarted,
       });
 
-      expect(setupVisualFilteringSubscriptionSpy).toHaveBeenCalledTimes(0);
       expect(mockGlobalMessageServiceAddSpy).toHaveBeenCalledTimes(0);
     });
 
