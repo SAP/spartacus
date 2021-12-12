@@ -88,9 +88,13 @@
       >
         <div
           (click)="addToCartComponent.addToCart(); $event.preventDefault()"
-          (keydown.enter)="addToCartComponent.addToCart(); $event.preventDefault()"
-          (keydown.space)="addToCartComponent.addToCart(); $event.preventDefault()"
-          >
+          (keydown.enter)="
+            addToCartComponent.addToCart(); $event.preventDefault()
+          "
+          (keydown.space)="
+            addToCartComponent.addToCart(); $event.preventDefault()
+          "
+        >
           <cx-epd-visualization-compact-add-to-cart
             #addToCartComponent
             [showQuantity]="false"

@@ -49,9 +49,7 @@ export class VisualPickingProductListService implements OnDestroy {
       });
 
     this.filteredItems$Subscription = this.filteredItems$.subscribe((items) => {
-      const firstSelectedItemIndex = items.findIndex(
-        (item) => item.selected
-      );
+      const firstSelectedItemIndex = items.findIndex((item) => item.selected);
       if (firstSelectedItemIndex !== -1) {
         this.activeSlideStartIndex =
           firstSelectedItemIndex -
@@ -170,8 +168,7 @@ export class VisualPickingProductListService implements OnDestroy {
           .map((productReference) => {
             const product = productReference.target as Product;
             const productCode = product.code as string;
-            const selected =
-              selectedProductCodes.indexOf(productCode) !== -1;
+            const selected = selectedProductCodes.indexOf(productCode) !== -1;
             return {
               product,
               selected,
