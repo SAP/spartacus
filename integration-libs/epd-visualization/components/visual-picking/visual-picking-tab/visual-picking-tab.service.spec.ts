@@ -230,7 +230,10 @@ describe('VisualPickingTabService', () => {
         'get'
       ).and.returnValue(mockVisualPickingProductListService);
 
-      mockVisualViewerService.expectedIncludedProductCodes = filteredProductReferences.map(productReference => productReference.target?.code as string);
+      mockVisualViewerService.expectedIncludedProductCodes =
+        filteredProductReferences.map(
+          (productReference) => productReference.target?.code as string
+        );
 
       const loadVisualizationSpy = spyOn(
         visualViewerService,
