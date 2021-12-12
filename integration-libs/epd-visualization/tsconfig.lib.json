@@ -10,9 +10,8 @@
     "inlineSources": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
-    "allowUmdGlobalAccess": true,
     "importHelpers": true,
-    "skipLibCheck": true,
+    "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
