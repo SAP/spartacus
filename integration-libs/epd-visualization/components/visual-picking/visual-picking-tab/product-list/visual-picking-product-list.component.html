@@ -55,6 +55,7 @@
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+            (keydown.enter)="$event.currentTarget.click()"
             >{{ item.product.name }}</a
           >
         </div>
@@ -80,13 +81,16 @@
     <!-- Add to Cart -->
     <div class="cx-add-to-cart col-2 flex-column">
       <ng-container
-        #canAddToCart
         *ngIf="
           item.product.price !== undefined &&
           item.product.stock.stockLevelStatus !== 'outOfStock'
         "
       >
-        <div (click)="addToCartComponent.addToCart(); $event.preventDefault()">
+        <div
+          (click)="addToCartComponent.addToCart(); $event.preventDefault()"
+          (keydown.enter)="addToCartComponent.addToCart(); $event.preventDefault()"
+          (keydown.space)="addToCartComponent.addToCart(); $event.preventDefault()"
+          >
           <cx-epd-visualization-compact-add-to-cart
             #addToCartComponent
             [showQuantity]="false"
@@ -99,7 +103,6 @@
       </ng-container>
 
       <ng-container
-        #outOfStock
         *ngIf="
           item.product.price !== undefined &&
           item.product.stock.stockLevelStatus === 'outOfStock'
