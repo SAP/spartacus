@@ -1,6 +1,6 @@
+import { getTestConfig } from '../testing/epd-visualization-test-config';
 import { EpdVisualizationConfig } from './epd-visualization-config';
 import { epdVisualizationConfigValidator } from './epd-visualization-config-validator';
-import { getTestConfig } from '../testing/epd-visualization-test-config';
 
 describe('epdVisualizationConfigValidator', () => {
   it('should return undefined for valid config', () => {

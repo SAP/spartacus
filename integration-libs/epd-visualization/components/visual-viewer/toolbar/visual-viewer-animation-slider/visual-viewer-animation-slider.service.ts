@@ -1,12 +1,11 @@
 import {
+  ChangeDetectorRef,
   ElementRef,
   EventEmitter,
   Injectable,
   Renderer2,
-  ChangeDetectorRef,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
 
 @Injectable({

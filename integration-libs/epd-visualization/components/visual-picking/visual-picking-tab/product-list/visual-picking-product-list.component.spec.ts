@@ -1,23 +1,31 @@
-import { StoreModule } from '@ngrx/store';
 import { CommonModule } from '@angular/common';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Product, ProductReference, UrlModule } from '@spartacus/core';
-import { CarouselModule, IconModule } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
-import { I18nTestingModule } from '@spartacus/core';
-import { MediaModule, AddToCartModule } from '@spartacus/storefront';
-import { VisualPickingProductListService } from './visual-picking-product-list.service';
-import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
-import { Component, EventEmitter } from '@angular/core';
-import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
 import { Actions } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
+import {
+  I18nTestingModule,
+  Product,
+  ProductReference,
+  UrlModule,
+} from '@spartacus/core';
+import {
+  AddToCartModule,
+  CarouselModule,
+  IconModule,
+  MediaModule,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
+import { CompactAddToCartModule } from './compact-add-to-cart/compact-add-to-cart.module';
+import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { PagedListModule } from './paged-list/paged-list.module';
+import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
+import { VisualPickingProductListService } from './visual-picking-product-list.service';
 
 const productReferences: ProductReference[] = [
   {

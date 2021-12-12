@@ -1,6 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { Product, ProductReference } from '@spartacus/core';
-import { combineLatest, Observable, of, concat } from 'rxjs';
+import { combineLatest, concat, Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Injectable({

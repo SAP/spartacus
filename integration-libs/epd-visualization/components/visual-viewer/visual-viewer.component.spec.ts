@@ -2,26 +2,26 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { VisualViewerComponent } from './visual-viewer.component';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
-import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
-import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.module';
-import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { SpinnerModule } from '@spartacus/storefront';
+import { Observable, of, Subject } from 'rxjs';
+import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { NavigationMode } from './models/navigation-mode';
+import { SceneLoadInfo } from './models/scene-load-info';
 import {
   VisualizationLoadInfo,
   VisualizationLoadStatus,
   VisualizationLookupResult,
 } from './models/visualization-load-info';
 import { VisualViewerAnimationSliderComponent } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.component';
-import { Observable, of, Subject } from 'rxjs';
+import { VisualViewerAnimationSliderModule } from './toolbar/visual-viewer-animation-slider/visual-viewer-animation-slider.module';
+import { VisualViewerToolbarButtonModule } from './toolbar/visual-viewer-toolbar-button/visual-viewer-toolbar-button.module';
+import { VisualViewerComponent } from './visual-viewer.component';
 import { VisualViewerService } from './visual-viewer.service';
-import { Component, ElementRef, EventEmitter } from '@angular/core';
-import { SceneLoadInfo } from './models/scene-load-info';
-import { SpinnerModule } from '@spartacus/storefront';
 
 class MockVisualViewerService {
   set backgroundTopColor(backgroundTopColor: string) {
