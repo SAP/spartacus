@@ -155,11 +155,11 @@ export class VisualPickingProductListService implements OnDestroy {
     selectedProductCodes$: Observable<string[]>
   ): Observable<VisualPickingProductListItem[]> {
     return combineLatest([productReferences$, selectedProductCodes$]).pipe(
-      filter((valuePair) => !!valuePair[0] && !!valuePair[1]),
-      map((valuePair: [ProductReference[], string[]]) => {
-        const productReferences = valuePair[0];
-        const selectedProductCodes = valuePair[1];
-
+      filter(
+        ([productReferences, selectedProductCodes]) =>
+          !!productReferences && !!selectedProductCodes
+      ),
+      map(([productReferences, selectedProductCodes]) => {
         return productReferences
           .filter(
             (productReference) =>

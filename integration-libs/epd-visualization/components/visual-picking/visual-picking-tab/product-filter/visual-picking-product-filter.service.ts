@@ -44,13 +44,10 @@ export class VisualPickingProductFilterService {
       unfilteredProductReferences$,
     ]).pipe(
       filter(
-        (valuePair: [string, ProductReference[]]) =>
-          valuePair[0] !== undefined && valuePair[1] !== undefined
+        ([filter, productReferences]) =>
+          filter !== undefined && productReferences !== undefined
       ),
-      map((valuePair: [string, ProductReference[]]) => {
-        const filter = valuePair[0].toLowerCase();
-        const productReferences: ProductReference[] = valuePair[1];
-
+      map(([filter, productReferences]) => {
         return productReferences.filter((productReference) => {
           const product = productReference.target as Product;
           return this.fieldsToMatch.some((field) => {
