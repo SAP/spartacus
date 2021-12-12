@@ -82,10 +82,12 @@ export class VisualViewerService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.unsubscribeSelectedSceneNodeIds();
+    this.selectedNodeIds$Subscription?.unsubscribe();
   }
 
   protected _ui5: ui5;
+
+  private selectedNodeIds$Subscription?: Subscription;
 
   private get sceneNodeToProductLookupService(): SceneNodeToProductLookupService {
     return this._sceneNodeToProductLookupService;
@@ -922,7 +924,8 @@ export class VisualViewerService implements OnDestroy {
   public loadVisualization(
     productCode: string
   ): Observable<VisualizationLoadInfo> {
-    this.unsubscribeSelectedSceneNodeIds();
+    this.selectedNodeIds$Subscription?.unsubscribe();
+
     return this.viewportAdded$.pipe(
       mergeMap(() =>
         this.resolveVisualization(productCode).pipe(
@@ -950,7 +953,11 @@ export class VisualViewerService implements OnDestroy {
                       errorMessage: sceneLoadInfo.errorMessage,
                     };
                   } else {
-                    this.subscribeSelectedSceneNodeIds();
+                    this.selectedNodeIds$Subscription =
+                      this.selectedNodeIds$.subscribe(
+                        this.handleSelectedNodeIds.bind(this)
+                      );
+
                     mergedVisualizationLoadInfo = {
                       ...visualizationLoadInfo,
                       loadStatus: VisualizationLoadStatus.Loaded,
@@ -1330,20 +1337,6 @@ export class VisualViewerService implements OnDestroy {
   private getViewStateManagerImplementation(): any {
     return (this.viewStateManager as any).getImplementation();
   }
-
-  private subscribeSelectedSceneNodeIds(): void {
-    this.selectedNodeIds$Subscription = this.selectedNodeIds$.subscribe(
-      this.handleSelectedNodeIds.bind(this)
-    );
-  }
-
-  private unsubscribeSelectedSceneNodeIds() {
-    if (this.selectedNodeIds$Subscription) {
-      this.selectedNodeIds$Subscription.unsubscribe();
-    }
-  }
-
-  private selectedNodeIds$Subscription?: Subscription;
 
   private handleSelectedNodeIds(nodeIds: string[]): void {
     const nodeRefs = this.persistentIdToNodeRef(nodeIds, true);
