@@ -56,11 +56,11 @@ const productReferences: ProductReference[] = [
 const emptySelection: VisualPickingProductListItem[] = [
   {
     product: productReferences[0].target as Product,
-    highlighted: false,
+    selected: false,
   },
   {
     product: productReferences[1].target as Product,
-    highlighted: false,
+    selected: false,
   },
 ];
 
