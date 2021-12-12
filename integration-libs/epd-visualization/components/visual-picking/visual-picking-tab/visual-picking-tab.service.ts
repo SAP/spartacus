@@ -44,6 +44,18 @@ export class VisualPickingTabService implements OnDestroy {
         this.handleLoadVisualizationInfoChange.bind(this)
       );
 
+    this.getFilteredProductReferences$Subscription =
+      this.visualPickingProductListService
+        .getFilteredProductReferences$()
+        .subscribe((productReferences: ProductReference[]) => {
+          const productCodes: string[] = productReferences.map(
+            (productReference) =>
+              (productReference.target as Product).code as string
+          );
+
+          this.visualViewerService.includedProductCodes = productCodes;
+        });
+
     this.getProductReferences$Subscription =
       this.visualPickingProductListService
         .getProductReferences$()
@@ -123,24 +135,6 @@ export class VisualPickingTabService implements OnDestroy {
     );
   }
 
-  private setupVisualFilteringSubscription(): void {
-    if (this.getFilteredProductReferences$Subscription) {
-      this.getFilteredProductReferences$Subscription.unsubscribe();
-    }
-
-    this.getFilteredProductReferences$Subscription =
-      this.visualPickingProductListService
-        .getFilteredProductReferences$()
-        .subscribe((productReferences: ProductReference[]) => {
-          const productCodes: string[] = productReferences.map(
-            (productReference) =>
-              (productReference.target as Product).code as string
-          );
-
-          this.visualViewerService.includedProductCodes = productCodes;
-        });
-  }
-
   private showErrorMessage(message: string | Translatable) {
     if (this.showErrorMessages) {
       this.globalMessageService.add(message, GlobalMessageType.MSG_TYPE_ERROR);
@@ -154,7 +148,6 @@ export class VisualPickingTabService implements OnDestroy {
       case VisualizationLookupResult.UniqueMatchFound:
         switch (visualizationLoadInfo.loadStatus) {
           case VisualizationLoadStatus.Loading:
-            this.setupVisualFilteringSubscription();
             break;
 
           case VisualizationLoadStatus.UnexpectedError:
