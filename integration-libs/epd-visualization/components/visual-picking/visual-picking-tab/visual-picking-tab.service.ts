@@ -77,10 +77,7 @@ export class VisualPickingTabService implements OnDestroy {
   ngOnDestroy(): void {
     this.visualizationLoadInfoChangeSubscription.unsubscribe();
     this.getProductReferences$Subscription.unsubscribe();
-
-    if (this.getFilteredProductReferences$Subscription) {
-      this.getFilteredProductReferences$Subscription.unsubscribe();
-    }
+    this.getFilteredProductReferences$Subscription?.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;
