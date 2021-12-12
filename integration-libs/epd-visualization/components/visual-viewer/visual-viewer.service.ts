@@ -5,40 +5,19 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
-import {
-  EpdVisualizationConfig,
-  EpdVisualizationInnerConfig,
-  Ui5Config,
-  VisualizationApiConfig,
-} from '@spartacus/epd-visualization/root';
-import { SceneNodeToProductLookupService } from '@spartacus/epd-visualization/root';
-import { VisualizationLookupService } from '@spartacus/epd-visualization/root';
-
 // @ts-ignore
 import * as ui5 from '@sapui5/ts-types-esm';
-
-import type Core from 'sap/ui/core/Core';
-import type { CSSColor } from 'sap/ui/core/library';
-
-import type Scene from 'sap/ui/vk/Scene';
-import type Viewport from 'sap/ui/vk/Viewport';
-import type ContentConnector from 'sap/ui/vk/ContentConnector';
-import type AnimationPlayer from 'sap/ui/vk/AnimationPlayer';
-import type DrawerToolbar from 'sap/ui/vk/DrawerToolbar';
-import type ViewStateManager from 'sap/ui/vk/ViewStateManager';
-type ViewManager = any;
-type NodeRef = any;
-import type UIArea from 'sap/ui/core/UIArea';
-import type ContentResource from 'sap/ui/vk/ContentResource';
-
-import { NavigationMode } from './models/navigation-mode';
-import { SelectionMode } from './models/selection-mode';
-import { NodeContentType } from './models/node-content-type';
-import { SceneLoadState } from './models/scene-load-state';
-import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
-import { ContentType } from '@spartacus/epd-visualization/root';
-import NodeHierarchy from 'sap/ui/vk/NodeHierarchy';
+import {
+  ContentType,
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+  SceneNodeToProductLookupService,
+  Ui5Config,
+  VisualizationApiConfig,
+  VisualizationInfo,
+  VisualizationLookupService,
+} from '@spartacus/epd-visualization/root';
+import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,
   filter,
@@ -46,13 +25,31 @@ import {
   mergeMap,
   shareReplay,
 } from 'rxjs/operators';
-import { VisualizationInfo } from '@spartacus/epd-visualization/root';
+import type Core from 'sap/ui/core/Core';
+import type { CSSColor } from 'sap/ui/core/library';
+import type UIArea from 'sap/ui/core/UIArea';
+import type AnimationPlayer from 'sap/ui/vk/AnimationPlayer';
+import type ContentConnector from 'sap/ui/vk/ContentConnector';
+import type ContentResource from 'sap/ui/vk/ContentResource';
+import type DrawerToolbar from 'sap/ui/vk/DrawerToolbar';
+import NodeHierarchy from 'sap/ui/vk/NodeHierarchy';
+import type Scene from 'sap/ui/vk/Scene';
+import type Viewport from 'sap/ui/vk/Viewport';
+import type ViewStateManager from 'sap/ui/vk/ViewStateManager';
+import { NavigationMode } from './models/navigation-mode';
+import { NodeContentType } from './models/node-content-type';
+import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
+import { SceneLoadState } from './models/scene-load-state';
+import { SelectionMode } from './models/selection-mode';
 import {
   VisualizationLoadInfo,
   VisualizationLoadStatus,
   VisualizationLookupResult,
 } from './models/visualization-load-info';
 import { ZoomTo } from './models/zoom-to';
+
+type ViewManager = any;
+type NodeRef = any;
 
 interface VisualContentChangesFinishedEvent {
   content: any;

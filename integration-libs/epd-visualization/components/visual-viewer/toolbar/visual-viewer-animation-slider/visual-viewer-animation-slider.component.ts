@@ -1,14 +1,13 @@
 import {
-  Component,
-  Input,
-  Output,
   AfterViewInit,
-  ViewChild,
+  ChangeDetectionStrategy,
+  Component,
   ElementRef,
   EventEmitter,
-  ChangeDetectionStrategy,
+  Input,
+  Output,
+  ViewChild,
 } from '@angular/core';
-
 import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 @Component({

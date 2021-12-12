@@ -11,11 +11,13 @@ import {
   OrderEntry,
   Product,
 } from '@spartacus/core';
+import {
+  CurrentProductService,
+  IconModule,
+  ModalService,
+  SpinnerModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ModalService } from '@spartacus/storefront';
-import { SpinnerModule } from '@spartacus/storefront';
-import { CurrentProductService } from '@spartacus/storefront';
-import { IconModule } from '@spartacus/storefront';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 const productCode = '1234';

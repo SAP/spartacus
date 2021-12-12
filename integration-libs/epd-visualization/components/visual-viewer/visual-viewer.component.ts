@@ -5,7 +5,6 @@ import {
   Output,
 } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { NavigationMode } from './models/navigation-mode';
 import { SelectionMode } from './models/selection-mode';
 import { VisualizationLoadInfo } from './models/visualization-load-info';

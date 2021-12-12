@@ -3,9 +3,9 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   Product,
+  ProductReference,
   Translatable,
 } from '@spartacus/core';
-import { ProductReference } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { first } from 'rxjs/operators';
