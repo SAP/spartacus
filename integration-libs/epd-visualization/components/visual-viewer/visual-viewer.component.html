@@ -111,6 +111,14 @@
           <cx-epd-visualization-animation-slider
             [disabled]="isolateModeEnabled"
             [(value)]="animationPosition"
+            (keydown.enter)="
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            "
+            (keydown.space)="
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            "
           ></cx-epd-visualization-animation-slider>
         </div>
       </div>

@@ -6,7 +6,6 @@
     "types": ["node"],
     "esModuleInterop": true,
     "types": ["@sapui5/ts-types-esm"],
-    "allowUmdGlobalAccess": true,
     "skipLibCheck": true,
     "paths": {
       "@spartacus/setup": ["../../core-libs/setup/public_api"],

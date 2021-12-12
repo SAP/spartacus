@@ -9,7 +9,7 @@ export interface VisualPickingProductListItem {
    */
   product: Product;
   /**
-   * Whether the item is highlighted/selected.
+   * Whether the item is selected.
    */
-  highlighted: boolean;
+  selected: boolean;
 }
