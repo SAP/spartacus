@@ -8,11 +8,9 @@ import {
   UsageIdConfig,
 } from '../../config/epd-visualization-config';
 import { UsageId } from '../../models/usage-ids/usage-id';
-import {
-  LookupVisualizationsResponse,
-  VisualizationApiService,
-} from '../visualization-api/visualization-api.service';
 import { VisualizationInfo } from '../../models/visualizations/visualization-info';
+import { VisualizationAdapter } from '../../connectors/visualization/visualization.adapter';
+import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +18,7 @@ import { VisualizationInfo } from '../../models/visualizations/visualization-inf
 export class VisualizationLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected visualizationService: VisualizationApiService
+    protected visualizationAdapter: VisualizationAdapter
   ) {}
 
   /**
@@ -48,7 +46,7 @@ export class VisualizationLookupService {
       ],
     };
 
-    return this.visualizationService
+    return this.visualizationAdapter
       .lookupVisualization(usage, folderUsageId)
       .pipe(
         map((data: LookupVisualizationsResponse) =>

@@ -5,14 +5,14 @@ import { EpdVisualizationConfig } from '../../config';
 import { getTestConfig } from '../../testing/epd-visualization-test-config';
 import { UsageId } from '../../models/usage-ids/usage-id';
 import { VisualizationInfo } from '../../models/visualizations/visualization-info';
-import {
-  LookupVisualizationsResponse,
-  VisualizationApiService,
-} from '../visualization-api/visualization-api.service';
 import { VisualizationLookupService } from './visualization-lookup.service';
+import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
+import { VisualizationAdapter } from '../../connectors/visualization/visualization.adapter';
 
-class FakeVisualizationApiService {
-  constructor(protected visualizationInfos: VisualizationInfo[]) {}
+class MockVisualizationAdapter extends VisualizationAdapter  {
+  constructor(protected visualizationInfos: VisualizationInfo[]) {
+    super();
+  }
 
   lookupVisualization(
     _visualizationUsageId: UsageId,
@@ -67,7 +67,7 @@ describe('VisualizationLookupService', () => {
         category: 'irrelevant value',
       };
 
-      const visualizationApiService = new FakeVisualizationApiService([
+      const visualizationAdapter = new MockVisualizationAdapter([
         vis2DImage,
         vis2DDrawing,
         vis3DModel,
@@ -81,8 +81,8 @@ describe('VisualizationLookupService', () => {
             useValue: epdVisualizationConfig,
           },
           {
-            provide: VisualizationApiService,
-            useValue: visualizationApiService,
+            provide: VisualizationAdapter,
+            useValue: visualizationAdapter,
           },
         ],
       });
