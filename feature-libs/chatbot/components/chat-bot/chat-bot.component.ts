@@ -14,4 +14,8 @@ export class ChatBotComponent {
   ngOnInit() {
     console.log(this.config.chatBot);
   }
+
+  conversation$ = this.service.conversation$;
+
+  options$ = this.service.options$;
 }

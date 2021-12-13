@@ -1,1 +1,6 @@
-<div>{{ 'chatBot.hello' | cxTranslate: { name: 'Andrzej' } }}</div>
+<div *ngFor="let message of conversation$ | async">
+  <b>{{ message.text | cxTranslate }}</b>
+</div>
+<div *ngFor="let option of options$ | async">
+  <button (click)="option.callback(option )">{{option.text | cxTranslate}}</button>
+</div>
