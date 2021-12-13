@@ -111,7 +111,7 @@ export const orderHistoryTest = {
   },
   checkCorrectDateFormat() {
     it('should show correct date format', () => {
-      cy.intercept('GET', '/users/current/orders').as('getOrderHistoryPage');
+      cy.intercept('GET', /users\/current\/orders/).as('getOrderHistoryPage');
 
       cy.visit('/my-account/orders');
 

@@ -25,6 +25,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
+  setLogoutProgress(_progress: boolean): void {}
   coreLogout() {
     return Promise.resolve();
   }
@@ -147,11 +148,12 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should work the same as in AuthHeaderService when there is normally logged user', () => {
+    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.handleExpiredRefreshToken();
+      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
@@ -165,9 +167,11 @@ describe('AsmAuthHttpHeaderService', () => {
       ).and.returnValue(of(true));
       spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(authService, 'setLogoutProgress').and.stub();
 
       service.handleExpiredRefreshToken();
 
+      expect(authService.setLogoutProgress).toHaveBeenCalledWith(true);
       expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -13,7 +13,7 @@ import { LogoutGuard } from './logout.guard';
     RouterModule.forChild([
       {
         path: null,
-        canActivate: [CmsPageGuard, LogoutGuard],
+        canActivate: [LogoutGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'logout' },
       },
