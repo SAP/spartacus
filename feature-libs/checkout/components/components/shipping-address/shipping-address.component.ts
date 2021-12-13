@@ -14,6 +14,8 @@ import {
 import {
   Address,
   getLastValueSync,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -49,6 +51,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService,
     protected paymentTypeFacade?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
     protected checkoutCostCenterFacade?: CheckoutCostCenterFacade
@@ -205,6 +208,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.forceLoader = true;
     if (Boolean(address)) {
       this.checkoutDeliveryFacade.createAndSetAddress(address);
+      this.globalMessageService.add(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     } else {
       this.forceLoader = false;
       this.next();
