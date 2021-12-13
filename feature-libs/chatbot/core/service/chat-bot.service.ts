@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
+import { map, take, tap } from 'rxjs/operators';
+import { ChatBotCategoryService } from './chat-bot-category.service';
+import { ChatBotFacetService } from './chat-bot-facet.service';
 import { BehaviorSubject } from 'rxjs';
 import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
+import { Translatable } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatBotService {
-  constructor() {
+  constructor(
+    protected chatBotCategoryService: ChatBotCategoryService,
+    protected chatBotFacetService: ChatBotFacetService
+  ) {
     this.sayHello();
     this.showCategories();
   }
 
   conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
+  chosenCategory: string;
 
   protected addMessage(message: ChatBotMessage) {
     this.conversation$.next([...this.conversation$.getValue(), message]);
@@ -39,21 +47,38 @@ export class ChatBotService {
       },
     });
 
-    const options = [...this.availableCategories];
-    if (this.chosenCategory) {
-      options.push({
-        text: { key: 'chatBot.cancel' },
-        callback: (param) => this.showFacets(param),
+    this.chatBotCategoryService.categories$
+      .pipe(
+        take(1),
+        map((categories) =>
+          categories.map((category) => ({
+            text: { raw: category.title },
+            callback: (category) => this.chooseCategory(category),
+          }))
+        ),
+        tap(console.log)
+      )
+      .subscribe((categories) => {
+        const options = [...categories];
+        if (this.chosenCategory) {
+          options.push({
+            text: { key: 'chatBot.cancel' },
+            callback: (param) => this.showFacets(param),
+          });
+        }
+        this.showOptions(options);
       });
-    }
-    this.showOptions(options);
   }
 
-  protected chooseCategory(category: string) {
-    console.log('category', category);
+  protected chooseCategory(category: Translatable) {
+    console.log('chosenCategory', category);
+    this.chosenCategory = category.raw;
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chosenCategory', params: { category } },
+      text: {
+        key: 'chatBot.chosenCategory',
+        params: { category: category.raw },
+      },
     });
     this.showFacets();
   }
@@ -78,14 +103,23 @@ export class ChatBotService {
         callback: (param) => this.showAppliedFacets(param),
       },
       {
-        text: { key: 'chatBot.backToCategories' },
-        callback: (param) => this.showCategories(param),
+        text: { key: 'chatBot.changeCategory' },
+        callback: (param) => this.changeCategory(param),
       },
       {
         text: { key: 'chatBot.displayResults' },
         callback: (param) => this.displayResults(param),
       },
     ]);
+  }
+
+  protected changeCategory(param) {
+    console.log('changeCategory');
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.changeCategory' },
+    });
+    this.showCategories(param);
   }
 
   protected showFacetOptions(param?) {
@@ -110,25 +144,6 @@ export class ChatBotService {
       text: { key: 'chatBot.chosenFacet', params: { facet } },
     });
     this.showFacetOptions();
-  }
-
-  protected get availableCategories() {
-    // TODO: get categories from API
-    return [
-      {
-        text: { key: 'chatBot.category.1' },
-        callback: (param) => this.chooseCategory(param),
-      },
-      {
-        text: { key: 'chatBot.category.2' },
-        callback: (param) => this.chooseCategory(param),
-      },
-    ];
-  }
-
-  protected get chosenCategory() {
-    // TODO: return chosen category
-    return undefined;
   }
 
   protected get appliedFacets() {

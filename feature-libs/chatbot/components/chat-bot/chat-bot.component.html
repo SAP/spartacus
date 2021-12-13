@@ -4,3 +4,4 @@
 <div *ngFor="let option of options$ | async">
   <button (click)="option.callback(option.text )">{{option.text | cxTranslate}}</button>
 </div>
+
