@@ -9,6 +9,10 @@ import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 import { SpinnerModule } from '@spartacus/storefront';
 import { Observable, of, Subject } from 'rxjs';
+import { SceneAdapter } from '../../root/connectors/scene/scene.adapter';
+import { StorageV1Adapter } from '../../root/connectors/scene/storage-v1.adapter';
+import { VisualizationV1Adapter } from '../../root/connectors/visualization/visualization-v1.adapter';
+import { VisualizationAdapter } from '../../root/connectors/visualization/visualization.adapter';
 import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { NavigationMode } from './models/navigation-mode';
 import { SceneLoadInfo } from './models/scene-load-info';
@@ -265,6 +269,14 @@ describe('VisualViewerComponent', () => {
           {
             provide: LanguageService,
             useValue: mockLanguageService,
+          },
+          {
+            provide: VisualizationAdapter,
+            useClass: VisualizationV1Adapter,
+          },
+          {
+            provide: SceneAdapter,
+            useClass: StorageV1Adapter,
           },
         ],
       }).compileComponents();

@@ -9,9 +9,9 @@ import {
 import {
   Metadatum,
   NodesResponse,
-  StorageApiService,
   TreeNode,
-} from '../storage-api/storage-api.service';
+} from '../../connectors/scene/nodes-response';
+import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 
 export interface NodeIdProductCodes {
   nodeId: string;
@@ -24,7 +24,7 @@ export interface NodeIdProductCodes {
 export class SceneNodeToProductLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected storageService: StorageApiService
+    protected sceneAdapter: SceneAdapter
   ) {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -62,7 +62,7 @@ export class SceneNodeToProductLookupService {
   private getNodeIdProductCodesForScene(
     sceneId: string
   ): Observable<NodeIdProductCodes[]> {
-    return this.storageService
+    return this.sceneAdapter
       .getNodes(
         sceneId,
         undefined,

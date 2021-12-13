@@ -4,14 +4,13 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import {
-  LookupVisualizationsResponse,
-  VisualizationApiService,
-} from './visualization-api.service';
 import { UsageId } from '../../models/usage-ids/usage-id';
 import { getTestConfig } from '../../testing/epd-visualization-test-config';
+import { LookupVisualizationsResponse } from './lookup-visualizations-response';
+import { VisualizationV1Adapter } from './visualization-v1.adapter';
+import { VisualizationAdapter } from './visualization.adapter';
 
-let visualizationService: VisualizationApiService;
+let visualizationAdapter: VisualizationAdapter;
 let httpMock: HttpTestingController;
 
 const fakeResponse: LookupVisualizationsResponse = { visualizations: [] };
@@ -26,13 +25,17 @@ describe('VisualizationApiService', () => {
           provide: EpdVisualizationConfig,
           useValue: mockEpdVisualizationConfig,
         },
+        {
+          provide: VisualizationAdapter,
+          useClass: VisualizationV1Adapter,
+        },
       ],
     });
 
     httpMock = TestBed.inject(HttpTestingController);
-    visualizationService = TestBed.inject(VisualizationApiService);
+    visualizationAdapter = TestBed.inject(VisualizationAdapter);
 
-    spyOn(visualizationService, 'lookupVisualization').and.callThrough();
+    spyOn(visualizationAdapter, 'lookupVisualization').and.callThrough();
   });
 
   afterEach(() => {
@@ -61,7 +64,7 @@ describe('VisualizationApiService', () => {
         ],
       };
 
-      visualizationService
+      visualizationAdapter
         .lookupVisualization(visualizationUsageId, folderUsageId)
         .subscribe((result) => {
           expect(result).toEqual(fakeResponse);

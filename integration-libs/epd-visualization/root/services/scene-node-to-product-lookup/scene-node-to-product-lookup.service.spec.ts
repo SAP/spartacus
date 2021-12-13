@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
+import { MetadatumValueType, NodesResponse } from '../../connectors/scene/nodes-response';
+import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 import { getTestConfig } from '../../testing/epd-visualization-test-config';
-import {
-  MetadatumValueType,
-  NodesResponse,
-  StorageApiService,
-} from '../storage-api/storage-api.service';
+
 import { SceneNodeToProductLookupService } from './scene-node-to-product-lookup.service';
 
-class MockStorageApiService {
+class MockSceneAdapter extends SceneAdapter {
   getNodesFunc: (
     _sceneId: string,
     _nodeIds?: string[],
@@ -158,7 +156,7 @@ const getNodesMultipleProductCodesPerSceneNode = (
 };
 
 describe('SceneNodeToProductLookupService', () => {
-  const mockStorageApiService = new MockStorageApiService();
+  const mockStorageApiService = new MockSceneAdapter();
 
   let sceneNodeToProductLookupService: SceneNodeToProductLookupService;
 
@@ -170,7 +168,7 @@ describe('SceneNodeToProductLookupService', () => {
           useValue: epdVisualizationConfig,
         },
         {
-          provide: StorageApiService,
+          provide: SceneAdapter,
           useValue: mockStorageApiService,
         },
       ],
