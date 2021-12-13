@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
+import { VisualViewerAnimationSliderComponent } from './visual-viewer-animation-slider.component';
 
 @Pipe({
   name: 'cxNumeric',

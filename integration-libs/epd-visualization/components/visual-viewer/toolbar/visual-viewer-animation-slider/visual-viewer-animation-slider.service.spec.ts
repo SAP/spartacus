@@ -5,12 +5,12 @@ import {
   Renderer2,
 } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
-import { TranslationService, LanguageService } from '@spartacus/core';
-import { DirectionService } from '../../../../../../projects/storefrontlib/layout/direction/direction.service';
-import { DirectionMode } from '../../../../../../projects/storefrontlib/layout/direction/config/direction.model';
-import { Observable, of } from 'rxjs';
+import { LanguageService, TranslationService } from '@spartacus/core';
 import { EventListenerUtils } from '@spartacus/epd-visualization/root';
+import { Observable, of } from 'rxjs';
+import { DirectionMode } from '../../../../../../projects/storefrontlib/layout/direction/config/direction.model';
+import { DirectionService } from '../../../../../../projects/storefrontlib/layout/direction/direction.service';
+import { VisualViewerAnimationSliderService } from './visual-viewer-animation-slider.service';
 
 class MockRenderer2 {}
 

@@ -4,8 +4,13 @@ import {
   ProductReference,
   ProductReferenceService,
 } from '@spartacus/core';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+  VisualPickingConfig,
+} from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
-import { Subject, combineLatest, Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subject, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -14,13 +19,8 @@ import {
   switchMap,
   tap,
 } from 'rxjs/operators';
-import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 import { VisualPickingProductFilterService } from '../product-filter/visual-picking-product-filter.service';
-import {
-  EpdVisualizationConfig,
-  EpdVisualizationInnerConfig,
-  VisualPickingConfig,
-} from '@spartacus/epd-visualization/root';
+import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
 
 @Injectable({
   providedIn: 'any',

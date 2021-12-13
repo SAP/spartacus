@@ -5,15 +5,14 @@ import {
   ProductReferenceService,
   ProductScope,
 } from '@spartacus/core';
-import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
-import { CurrentProductService } from '@spartacus/storefront';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
-import { getTestConfig } from '../../../../root/testing/epd-visualization-test-config';
-
+import { CurrentProductService } from '@spartacus/storefront';
 import { from, Observable, of } from 'rxjs';
-import { VisualPickingProductFilterService } from '../product-filter/visual-picking-product-filter.service';
-import { VisualPickingProductListService } from './visual-picking-product-list.service';
 import { skip } from 'rxjs/operators';
+import { getTestConfig } from '../../../../root/testing/epd-visualization-test-config';
+import { VisualPickingProductFilterService } from '../product-filter/visual-picking-product-filter.service';
+import { VisualPickingProductListItem } from './model/visual-picking-product-list-item.model';
+import { VisualPickingProductListService } from './visual-picking-product-list.service';
 
 const SPAREPART = 'SPAREPART';
 
