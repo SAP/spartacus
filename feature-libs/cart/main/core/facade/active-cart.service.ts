@@ -436,11 +436,13 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns observable of true for guest cart
    */
   isGuestCart(cart?: Cart): Observable<boolean> {
-    return cart
+    const isGuestCart$ = cart
       ? of(this.isCartUserGuest(cart))
       : this.activeCart$.pipe(
           map((activeCart) => this.isCartUserGuest(activeCart))
         );
+
+    return isGuestCart$.pipe(distinctUntilChanged());
   }
 
   protected isCartUserGuest(cart: Cart): boolean {

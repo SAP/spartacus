@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { getLastValueSync, RoutingConfigService } from '@spartacus/core';
+import { RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
@@ -52,9 +52,14 @@ export class CheckoutGuard implements CanActivate {
         })
       );
 
-    return this.checkoutConfigService.isExpressCheckout() &&
-      !getLastValueSync(this.activeCartFacade.isGuestCart())
-      ? expressCheckout$
-      : this.firstStep$;
+    return this.activeCartFacade
+      .isGuestCart()
+      .pipe(
+        switchMap((isGuestCart) =>
+          this.checkoutConfigService.isExpressCheckout() && !isGuestCart
+            ? expressCheckout$
+            : this.firstStep$
+        )
+      );
   }
 }
