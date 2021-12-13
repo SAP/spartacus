@@ -3,12 +3,14 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { UsageId } from '../../models/usage-ids/usage-id';
-import { getTestConfig } from '../../testing/epd-visualization-test-config';
-import { LookupVisualizationsResponse } from './lookup-visualizations-response';
+import {
+  EpdVisualizationConfig,
+  LookupVisualizationsResponse,
+  UsageId,
+  VisualizationAdapter,
+} from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { VisualizationV1Adapter } from './visualization-v1.adapter';
-import { VisualizationAdapter } from './visualization.adapter';
 
 let visualizationAdapter: VisualizationAdapter;
 let httpMock: HttpTestingController;
