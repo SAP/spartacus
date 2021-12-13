@@ -1,8 +1,6 @@
-1. missing translation key for order confirmation?  
-2. pdp page, cx-item-counter weird style?
 ``` 
 ============================================
-3. context style `on hold` until patrick/wei merges their 'new' way (most files are moved out or removed) and normalized to injection tokens under /tokens/context.ts
+1. context style `on hold` until patrick/wei merges their 'new' way (most files are moved out or removed) and normalized to injection tokens under /tokens/context.ts
 feature-libs/checkout/components/order-confirmation/components/index.ts
 feature-libs/checkout/components/order-confirmation/components/order-confirmation-overview/order-confirmation-overview.component.html
 feature-libs/checkout/components/order-confirmation/components/order-confirmation-overview/order-confirmation-overview.component.spec.ts
