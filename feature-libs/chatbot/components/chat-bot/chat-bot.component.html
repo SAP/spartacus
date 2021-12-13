@@ -1,6 +1,6 @@
 <div *ngFor="let message of conversation$ | async">
-  <b>{{ message.text | cxTranslate }}</b>
+  <b>{{message.author}}:</b>{{ message.text | cxTranslate }}
 </div>
 <div *ngFor="let option of options$ | async">
-  <button (click)="option.callback(option )">{{option.text | cxTranslate}}</button>
+  <button (click)="option.callback(option.text )">{{option.text | cxTranslate}}</button>
 </div>

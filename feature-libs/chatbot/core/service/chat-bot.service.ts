@@ -91,13 +91,28 @@ export class ChatBotService implements OnInit {
     ]);
   }
 
+  protected showFacetOptions(param?) {
+    console.log('showFacetOptions', param);
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.chooseFacets' },
+    });
+    this.showOptions([
+      ...this.availableFacetOptions,
+      {
+        text: { key: 'chatBot.cancel' },
+        callback: (param) => this.showFacets(param),
+      },
+    ]);
+  }
+
   protected chooseFacet(facet: string) {
     console.log('facet', facet);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.chosenFacet', params: { facet } },
     });
-    this.showFacets();
+    this.showFacetOptions();
   }
 
   protected get availableCategories() {
@@ -133,12 +148,24 @@ export class ChatBotService implements OnInit {
   protected get availableFacets() {
     return [
       {
-        text: { key: 'chatBot.facet.1' },
+        text: { key: 'chatBot.facet.price' },
         callback: (param) => this.chooseFacet(param),
       },
       {
-        text: { key: 'chatBot.facet.2' },
+        text: { key: 'chatBot.facet.size' },
         callback: (param) => this.chooseFacet(param),
+      },
+    ];
+  }
+  protected get availableFacetOptions() {
+    return [
+      {
+        text: { key: 'chatBot.facet.price.1' },
+        callback: (param) => this.chooseFacetOption(param),
+      },
+      {
+        text: { key: 'chatBot.facet.price.1' },
+        callback: (param) => this.chooseFacetOption(param),
       },
     ];
   }
@@ -150,7 +177,7 @@ export class ChatBotService implements OnInit {
       text: { key: 'chatBot.removeFacets' },
     });
     this.showOptions([
-      ...this.availableFacets,
+      ...this.appliedFacets,
       {
         text: { key: 'chatBot.cancel' },
         callback: (param) => this.showFacets(param),
@@ -158,11 +185,27 @@ export class ChatBotService implements OnInit {
     ]);
   }
 
+  protected chooseFacetOption(param?) {
+    console.log('chooseFacetOption', param);
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.chooseFacetOption' },
+    });
+    this.showFacets();
+  }
+
   protected removeFacet(param?) {
     console.log('removeFacet', param);
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.removeFacet', params: {} },
+    });
+    // TOD: remove facet
+    this.showFacets();
   }
 
   protected displayResults(param?) {
     console.log('displayResults', param);
+    // TOD: display results
   }
 }
