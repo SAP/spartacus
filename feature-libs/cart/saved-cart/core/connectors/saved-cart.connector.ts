@@ -19,20 +19,6 @@ export class SavedCartConnector {
     return this.adapter.restoreSavedCart(userId, cartId);
   }
 
-  saveCart(
-    userId: string,
-    cartId: string,
-    saveCartName?: string,
-    saveCartDescription?: string
-  ): Observable<Cart> {
-    return this.adapter.saveCart(
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription
-    );
-  }
-
   cloneSavedCart(
     userId: string,
     cartId: string,

@@ -90,6 +90,28 @@ export class OccCartAdapter implements CartAdapter {
     );
   }
 
+  save(
+    userId: string,
+    cartId: string,
+    saveCartName: string,
+    saveCartDescription: string
+  ): Observable<Cart> {
+    const endpoint = this.occEndpointsService.buildUrl('saveCart', {
+      urlParams: {
+        userId,
+        cartId,
+        saveCartName,
+        saveCartDescription,
+      },
+    });
+    return this.http
+      .patch<Occ.Cart>(endpoint, cartId)
+      .pipe(
+        pluck('savedCartData'),
+        this.converterService.pipeable(CART_NORMALIZER)
+      );
+  }
+
   addEmail(userId: string, cartId: string, email: string): Observable<{}> {
     let headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded',

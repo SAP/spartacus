@@ -5,6 +5,7 @@ import {
   BASE_SITE_CONTEXT_ID,
   SiteContextParamsService,
   StatePersistenceService,
+  StorageSyncType,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilKeyChanged, filter, map } from 'rxjs/operators';
@@ -31,6 +32,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
         context$: this.siteContextParamsService.getValues([
           BASE_SITE_CONTEXT_ID,
         ]),
+        storageType: StorageSyncType.LOCAL_STORAGE,
         onRead: (state) => this.onRead(state),
       })
     );
