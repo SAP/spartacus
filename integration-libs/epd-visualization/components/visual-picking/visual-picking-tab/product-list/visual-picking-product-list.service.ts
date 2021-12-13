@@ -35,20 +35,20 @@ export class VisualPickingProductListService implements OnDestroy {
 
   protected readonly DEFAULT_ITEMS_PER_SLIDE = 7;
 
-  private getFilteredProductReferences$Subscription: Subscription;
+  private getFilteredProductReferencesSubscription: Subscription;
   private productReferencesSubscription: Subscription;
-  private filteredItems$Subscription: Subscription;
+  private filteredItemsSubscription: Subscription;
 
   /**
    * Initializes the service.
    */
   public initialize(): void {
-    this.getFilteredProductReferences$Subscription =
+    this.getFilteredProductReferencesSubscription =
       this.getFilteredProductReferences$().subscribe(() => {
         this.activeSlideStartIndex = 0;
       });
 
-    this.filteredItems$Subscription = this.filteredItems$.subscribe((items) => {
+    this.filteredItemsSubscription = this.filteredItems$.subscribe((items) => {
       const firstSelectedItemIndex = items.findIndex((item) => item.selected);
       if (firstSelectedItemIndex !== -1) {
         this.activeSlideStartIndex =
@@ -63,8 +63,8 @@ export class VisualPickingProductListService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.getFilteredProductReferences$Subscription.unsubscribe();
-    this.filteredItems$Subscription.unsubscribe();
+    this.getFilteredProductReferencesSubscription.unsubscribe();
+    this.filteredItemsSubscription.unsubscribe();
     this.productReferencesSubscription.unsubscribe();
   }
 
