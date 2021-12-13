@@ -1,20 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { ComponentFactoryResolver, NgModule } from '@angular/core';
+import { I18nModule } from '@spartacus/core';
+import { OutletPosition, OutletService } from '@spartacus/storefront';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, I18nModule],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        ChatBotComponent: {
-          component: ChatBotComponent,
-        },
-      },
-    }),
-  ],
+  imports: [CommonModule, I18nModule],
   declarations: [ChatBotComponent],
   exports: [ChatBotComponent],
 })
 export class ChatBotComponentsModule {}
+
+export function chatbotFactory(
+  componentFactoryResolver: ComponentFactoryResolver,
+  outletService: OutletService
+) {
+  const result = () => {
+    const factory =
+      componentFactoryResolver.resolveComponentFactory(ChatBotComponent);
+    outletService.add('main', <any>factory, OutletPosition.AFTER);
+  };
+  return result;
+}
