@@ -157,6 +157,7 @@ export const configurator = {
       iconConflict: 'Group has conflicts.',
       iconIncomplete: 'Group has required attributes without selected values.',
       iconComplete: 'Group is complete.',
+      iconSubGroup: 'Group has a sub-group.',
       next: 'Navigate to next group.',
       previous: 'Navigate to previous group.',
       showMoreProductInfo:

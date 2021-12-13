@@ -573,6 +573,12 @@ export class ConfiguratorGroupMenuComponent {
             ' ' +
             this.createIconId(ICON_TYPE.ERROR, group.id);
         }
+        if (this.hasSubGroups(group)) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.CARET_RIGHT, group.id);
+        }
         ariaDescribedby = ariaDescribedby + ' inListOfGroups';
         return ariaDescribedby;
       })

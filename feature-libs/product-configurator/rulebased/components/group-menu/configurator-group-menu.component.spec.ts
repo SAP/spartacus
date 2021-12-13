@@ -1343,5 +1343,53 @@ describe('ConfigurationGroupMenuComponent', () => {
           expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
         );
     });
+
+    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.groups[0].subGroups = [
+        { id: 'subgroup1', subGroups: [] },
+      ];
+
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(
+            ' ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          )
+        );
+    });
+
+    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.groups[0].subGroups = [
+        { id: 'subgroup1', subGroups: [] },
+      ];
+
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(
+            ' ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          )
+        );
+    });
   });
 });
