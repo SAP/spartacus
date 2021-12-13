@@ -75,11 +75,11 @@ export class ChatBotService {
     this.showOptions([
       ...this.availableFacets,
       {
-        text: { key: 'chatBot.removeFacets' },
-        callback: (param) => this.removeFacets(param),
+        text: { key: 'chatBot.removeFacet' },
+        callback: (param) => this.showAppliedFacets(param),
       },
       {
-        text: { key: 'chatBot.backToCategory' },
+        text: { key: 'chatBot.backToCategories' },
         callback: (param) => this.showCategories(param),
       },
       {
@@ -93,7 +93,7 @@ export class ChatBotService {
     console.log('showFacetOptions', param);
     this.addMessage({
       author: AuthorType.BOT,
-      text: { key: 'chatBot.chooseFacetOptions' },
+      text: { key: 'chatBot.chooseFacetOption' },
     });
     this.showOptions([
       ...this.availableFacetOptions,
@@ -171,11 +171,11 @@ export class ChatBotService {
     ];
   }
 
-  protected removeFacets(param?) {
-    console.log('removeFacets', param);
+  protected showAppliedFacets(param?) {
+    console.log('showAppliedFacets', param);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.removeFacets' },
+      text: { key: 'chatBot.removeFacet', params: {} },
     });
     this.showOptions([
       ...this.appliedFacets,
@@ -190,7 +190,7 @@ export class ChatBotService {
     console.log('chooseFacetOption', param);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chooseFacetOption' },
+      text: { key: 'chatBot.chosenFacetOption', params: { option: '' } },
     });
     this.showFacets();
   }
@@ -199,7 +199,7 @@ export class ChatBotService {
     console.log('removeFacet', param);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.removeFacet', params: {} },
+      text: { key: 'chatBot.removedFacet', params: {} },
     });
     // TOD: remove facet
     this.showFacets();
