@@ -1,11 +1,11 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChatBotService implements OnInit {
+export class ChatBotService {
   constructor() {
     this.sayHello();
     this.showCategories();
@@ -13,8 +13,6 @@ export class ChatBotService implements OnInit {
 
   conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
-
-  ngOnInit() {}
 
   protected addMessage(message: ChatBotMessage) {
     this.conversation$.next([...this.conversation$.getValue(), message]);
@@ -94,8 +92,8 @@ export class ChatBotService implements OnInit {
   protected showFacetOptions(param?) {
     console.log('showFacetOptions', param);
     this.addMessage({
-      author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chooseFacets' },
+      author: AuthorType.BOT,
+      text: { key: 'chatBot.chooseFacetOptions' },
     });
     this.showOptions([
       ...this.availableFacetOptions,
@@ -133,6 +131,7 @@ export class ChatBotService implements OnInit {
   }
 
   protected get appliedFacets() {
+    // TODO: get applied facets from backend
     return [
       {
         text: { key: 'chatBot.facet.1' },
@@ -146,6 +145,7 @@ export class ChatBotService implements OnInit {
   }
 
   protected get availableFacets() {
+    // TODO: get available facets from backend
     return [
       {
         text: { key: 'chatBot.facet.price' },
@@ -158,6 +158,7 @@ export class ChatBotService implements OnInit {
     ];
   }
   protected get availableFacetOptions() {
+    // TODO: get available facet options from backend
     return [
       {
         text: { key: 'chatBot.facet.price.1' },
