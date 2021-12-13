@@ -1,39 +1,39 @@
+import { CommonModule } from '@angular/common';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
+import { Component, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   MockTranslatePipe,
   Product,
+  ProductReference,
   TranslationService,
   UrlModule,
 } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
-import { ProductReference } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
-import { VisualPickingTabComponent } from './visual-picking-tab.component';
-import { VisualPickingProductFilterModule } from './product-filter/visual-picking-product-filter.module';
 import {
   VisualizationLoadInfo,
   VisualViewerComponent,
   VisualViewerModule,
 } from '../../visual-viewer';
+import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
-import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
-import { VisualPickingTabService } from './visual-picking-tab.service';
-import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
+import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
+import { VisualPickingProductFilterModule } from './product-filter/visual-picking-product-filter.module';
+import { VisualPickingProductFilterService } from './product-filter/visual-picking-product-filter.service';
 import {
   VisualPickingProductListItem,
   VisualPickingProductListModule,
 } from './product-list';
-import { VisualPickingProductFilterService } from './product-filter/visual-picking-product-filter.service';
-import { VisualPickingProductFilterComponent } from './product-filter/visual-picking-product-filter.component';
-import { Component, EventEmitter } from '@angular/core';
-import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
+import { VisualPickingProductListComponent } from './product-list/visual-picking-product-list.component';
+import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
+import { VisualPickingTabComponent } from './visual-picking-tab.component';
+import { VisualPickingTabService } from './visual-picking-tab.service';
 
 const currentProduct: Product = {
   code: 'currentProduct',

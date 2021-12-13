@@ -9,15 +9,15 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
 import {
+  AddToCartModule,
+  CartSharedModule,
+  IconModule,
   ItemCounterModule,
   ModalModule,
+  PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { PromotionsModule } from '@spartacus/storefront';
-import { CartSharedModule } from '@spartacus/storefront';
-import { AddToCartModule } from '@spartacus/storefront';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
 
 @NgModule({
