@@ -1,7 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
+import { normalizeHttpError } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import { CLIENT_AUTH_FEATURE } from '../../../auth/client-auth/store/client-auth-state';
@@ -17,8 +19,6 @@ import * as fromCartReducers from '../../store/reducers/index';
 import { CartActions } from '../actions/index';
 import { MULTI_CART_FEATURE } from '../multi-cart-state';
 import * as fromEffects from './cart.effect';
-import { HttpErrorResponse } from '@angular/common/http';
-import { normalizeHttpError } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const testCart: Cart = {
@@ -292,6 +292,21 @@ describe('Cart effect', () => {
       const expected = cold('-b', { b: completion });
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
+    });
+
+    it('should do nothing if merged old cart is the same as session cart', () => {
+      const action = new CartActions.MergeCart({
+        userId: userId,
+        cartId: 'xxx',
+        tempCartId: 'temp-uuid',
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      cartEffects.mergeCart$.subscribe((emitted) => fail(emitted));
+      // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+      // The actual test is done in the subscribe part
+      expect(true).toBeTruthy();
     });
   });
 
