@@ -229,7 +229,60 @@ describe('ConfigAttributeDropDownComponent', () => {
       );
     });
 
-    it("should contain option elements with 'aria-label' attribute that overwrites input content for the screen reader", () => {
+    it("should contain option elements with 'aria-selected' attribute that is set to 'true' to notify the screen reader that a value is selected", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-selected',
+        'true',
+        'val1'
+      );
+    });
+
+    it("should contain option elements with 'aria-selected' attribute that is set to 'false' to notify the screen reader that a value is not selected", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        1,
+        'aria-selected',
+        'false',
+        'val2'
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value without price that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        1,
+        'aria-label',
+        'configurator.a11y.selectedValueOfAttributeFull attribute:attributeName value:val2',
+        'val2'
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with price that overwrites input content for the screen reader", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -237,7 +290,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.selectedValueOfAttributeFull attribute:attributeName value:val1',
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:attributeName price:$100.00 value:val1',
         'val1'
       );
     });

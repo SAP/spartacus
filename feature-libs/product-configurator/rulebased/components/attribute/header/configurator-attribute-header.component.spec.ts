@@ -497,6 +497,21 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    it("should contain span element with 'aria-describedby' attribute for required attribute type that describes span content for the screen reader", () => {
+      classUnderTest.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-required-icon',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--123',
+        'label of attribute'
+      );
+    });
+
     it("should contain label element with 'aria-label' attribute for required attribute type that overwrites label content for the screen reader", () => {
       classUnderTest.attribute.required = true;
       fixture.detectChanges();
@@ -511,17 +526,84 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
-    it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
-      classUnderTest.attribute.required = true;
+    describe('Conflict message', () => {
+      beforeEach(() => {
+        classUnderTest.attribute.hasConflicts = true;
+        fixture.detectChanges();
+      });
+
+      it("should contain div element with 'role' attribute that is set to 'alert'  as soon as a conflict message occurs", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'role',
+          'alert'
+        );
+      });
+
+      it("should contain div element with 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-live',
+          'assertive'
+        );
+      });
+
+      it("should contain div element with 'aria-atomic' attribute that is set to 'true' to indicates whether a screen reader will present a changed region based on the change notifications ", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-atomic',
+          'true'
+        );
+      });
+
+      it("should contain div element with 'aria-label' attribute for a conflicted attribute type that overwrites label content for the screen reader", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-label',
+          'configurator.a11y.conflictDetected'
+        );
+      });
+
+      it("should contain cx-icon element with 'aria-hidden' attribute that hides cx-icon content for the screen reader", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'cx-icon',
+          undefined,
+          0,
+          'aria-hidden',
+          'true'
+        );
+      });
+    });
+
+    it("should contain div element with 'aria-label' attribute for required error message that overwrites div content for the screen reader", () => {
+      classUnderTest.showRequiredMessageForDomainAttribute$ = of(true);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
-        'span',
+        'div',
+        'cx-required-error-msg',
         undefined,
-        0,
-        'aria-hidden',
-        'true'
+        'aria-label',
+        'configurator.attribute.singleSelectRequiredMessage'
       );
     });
   });
