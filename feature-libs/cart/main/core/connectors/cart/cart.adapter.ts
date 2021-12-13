@@ -39,6 +39,17 @@ export abstract class CartAdapter {
   abstract delete(userId: string, cartId: string): Observable<{}>;
 
   /**
+   *
+   * Abstract method used to save a cart or update a saved cart
+   */
+  abstract save(
+    userId: string,
+    cartId: string,
+    saveCartName?: string,
+    saveCartDescription?: string
+  ): Observable<Cart>;
+
+  /**
    * Abstract method to assign an email to the cart. This step is required to make a guest checkout
    * @param userId
    * @param cartId

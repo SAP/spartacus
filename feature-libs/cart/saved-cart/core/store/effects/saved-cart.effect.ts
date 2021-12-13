@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/cart/main/core';
+import { CartActions, CartConnector } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
@@ -159,8 +159,8 @@ export class SavedCartEffects {
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
-      return this.savedCartConnector
-        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+      return this.cartConnector
+        .save(userId, cartId, saveCartName, saveCartDescription)
         .pipe(
           switchMap((savedCart: Cart) => {
             return [
@@ -203,8 +203,8 @@ export class SavedCartEffects {
     ofType(SavedCartActions.EDIT_SAVED_CART),
     map((action: SavedCartActions.EditSavedCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
-      return this.savedCartConnector
-        .saveCart(userId, cartId, saveCartName, saveCartDescription)
+      return this.cartConnector
+        .save(userId, cartId, saveCartName, saveCartDescription)
         .pipe(
           switchMap((savedCart: Cart) => {
             return [
@@ -282,6 +282,7 @@ export class SavedCartEffects {
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,
     private activeCartService: ActiveCartFacade,
-    private globalMessageService: GlobalMessageService
+    private globalMessageService: GlobalMessageService,
+    private cartConnector: CartConnector
   ) {}
 }

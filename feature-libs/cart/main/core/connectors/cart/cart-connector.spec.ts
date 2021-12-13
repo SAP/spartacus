@@ -1,9 +1,20 @@
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/main/root';
 import { of } from 'rxjs';
 import { CartAdapter } from './cart.adapter';
 import { CartConnector } from './cart.connector';
 import createSpy = jasmine.createSpy;
 
+const mockCartId = 'test-cart';
+const mockUserId = 'test-user';
+const mockCartName = 'test-cart-name';
+const mockCartDescription = 'test-cart-description';
+
+const mockSavedCart: Cart = {
+  name: 'test-cart-name',
+  entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+  description: 'test-cart-description',
+};
 class MockCartAdapter implements CartAdapter {
   create = createSpy().and.callFake((id) => of('create' + id));
   load = createSpy().and.callFake((user, cart) => of('load' + user + cart));
@@ -14,6 +25,7 @@ class MockCartAdapter implements CartAdapter {
   delete = createSpy().and.callFake((userId: string, cartId: string) =>
     of('delete' + userId + cartId)
   );
+  save = createSpy().and.returnValue(of(mockSavedCart));
 }
 
 describe('CartConnector', () => {
@@ -80,5 +92,17 @@ describe('CartConnector', () => {
     service.delete('userId', 'cartId').subscribe((res) => (result = res));
     expect(result).toBe('delete' + 'userId' + 'cartId');
     expect(adapter.delete).toHaveBeenCalledWith('userId', 'cartId');
+  });
+
+  it('should save or update a cart', () => {
+    const adapter = TestBed.inject(CartAdapter);
+
+    service.save(mockUserId, mockCartId, mockCartName, mockCartDescription);
+    expect(adapter.save).toHaveBeenCalledWith(
+      mockUserId,
+      mockCartId,
+      mockCartName,
+      mockCartDescription
+    );
   });
 });

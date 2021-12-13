@@ -29,6 +29,15 @@ export class CartConnector {
     return this.adapter.delete(userId, cartId);
   }
 
+  public save(
+    userId: string,
+    cartId: string,
+    saveCartName?: string,
+    saveCartDescription?: string
+  ): Observable<Cart> {
+    return this.adapter.save(userId, cartId, saveCartName, saveCartDescription);
+  }
+
   public addEmail(
     userId: string,
     cartId: string,
