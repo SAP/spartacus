@@ -293,6 +293,21 @@ describe('Cart effect', () => {
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
     });
+
+    it('should do nothing if merged old cart is the same as session cart', () => {
+      const action = new CartActions.MergeCart({
+        userId: userId,
+        cartId: 'xxx',
+        tempCartId: 'temp-uuid',
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      cartEffects.mergeCart$.subscribe((emitted) => fail(emitted));
+      // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
+      // The actual test is done in the subscribe part
+      expect(true).toBeTruthy();
+    });
   });
 
   describe('refresh$', () => {
