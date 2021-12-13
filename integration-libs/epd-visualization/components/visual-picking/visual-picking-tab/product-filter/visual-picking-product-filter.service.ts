@@ -36,7 +36,7 @@ export class VisualPickingProductFilterService {
    * @param unfilteredProductReferences$ An Observable that returns the unfiltered ProductReference[] to apply filtering to.
    * @returns An Observable that produces a ProductReference[] each time the filter is updated or the set of product references to filter changes.
    */
-  public getFilteredProducts$(
+  public getFilteredProducts(
     unfilteredProductReferences$: Observable<ProductReference[]>
   ): Observable<ProductReference[]> {
     return combineLatest([
