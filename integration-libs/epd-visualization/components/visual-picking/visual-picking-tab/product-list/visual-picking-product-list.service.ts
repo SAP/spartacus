@@ -44,7 +44,7 @@ export class VisualPickingProductListService implements OnDestroy {
    */
   public initialize(): void {
     this.getFilteredProductReferencesSubscription =
-      this.getFilteredProductReferences$().subscribe(() => {
+      this.getFilteredProductReferences().subscribe(() => {
         this.activeSlideStartIndex = 0;
       });
 
@@ -58,8 +58,9 @@ export class VisualPickingProductListService implements OnDestroy {
     });
 
     this.selectedProductCodes = [];
-    this.productReferencesSubscription =
-      this._getProductReferences$().subscribe(this.productReferences$);
+    this.productReferencesSubscription = this._getProductReferences().subscribe(
+      this.productReferences$
+    );
   }
 
   ngOnDestroy(): void {
@@ -90,11 +91,11 @@ export class VisualPickingProductListService implements OnDestroy {
    * Returns an Observable that produces the spare part product references for the current product.
    * @returns An Observable that produces the spare part product references for the current product.
    */
-  public getProductReferences$(): Observable<ProductReference[]> {
+  public getProductReferences(): Observable<ProductReference[]> {
     return this.productReferences$;
   }
 
-  private _getProductReferences$(): Observable<ProductReference[]> {
+  private _getProductReferences(): Observable<ProductReference[]> {
     return this.currentProduct$.pipe(
       tap((product: Product) =>
         this.productReferenceService.loadProductReferences(
@@ -121,9 +122,9 @@ export class VisualPickingProductListService implements OnDestroy {
    * Filtering is performed by the VisualPickingProductFilterService.
    * @returns An Observable that produces a filtered array of spare part product references for the current product.
    */
-  public getFilteredProductReferences$(): Observable<ProductReference[]> {
+  public getFilteredProductReferences(): Observable<ProductReference[]> {
     return this.visualPickingProductFilterService
-      .getFilteredProducts$(this.getProductReferences$())
+      .getFilteredProducts(this.getProductReferences())
       .pipe(shareReplay());
   }
 
@@ -150,7 +151,7 @@ export class VisualPickingProductListService implements OnDestroy {
    * @param selectedProductCodes$ An Observable producing the array of selected product codes.
    * @returns An Observable producing an array of VisualPickingProductListItem values.
    */
-  public getVisualPickingProductListItems$(
+  public getVisualPickingProductListItems(
     productReferences$: Observable<ProductReference[]>,
     selectedProductCodes$: Observable<string[]>
   ): Observable<VisualPickingProductListItem[]> {
@@ -179,8 +180,8 @@ export class VisualPickingProductListService implements OnDestroy {
   }
 
   public filteredItems$: Observable<VisualPickingProductListItem[]> =
-    this.getVisualPickingProductListItems$(
-      this.getFilteredProductReferences$(),
+    this.getVisualPickingProductListItems(
+      this.getFilteredProductReferences(),
       this.selectedProductCodesChange
     ).pipe(shareReplay());
 }

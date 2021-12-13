@@ -46,7 +46,7 @@ export class VisualPickingTabService implements OnDestroy {
 
     this.getFilteredProductReferencesSubscription =
       this.visualPickingProductListService
-        .getFilteredProductReferences$()
+        .getFilteredProductReferences()
         .subscribe((productReferences: ProductReference[]) => {
           const productCodes: string[] = productReferences.map(
             (productReference) =>
@@ -57,7 +57,7 @@ export class VisualPickingTabService implements OnDestroy {
         });
 
     this.getProductReferencesSubscription = this.visualPickingProductListService
-      .getProductReferences$()
+      .getProductReferences()
       .subscribe((productReferences: ProductReference[]) => {
         this.setProductReferences(productReferences);
         if (productReferences.length > 0) {

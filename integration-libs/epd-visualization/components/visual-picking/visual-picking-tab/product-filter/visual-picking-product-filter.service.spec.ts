@@ -1,8 +1,8 @@
-import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
+import { EventEmitter } from '@angular/core';
 import { ProductReference } from '@spartacus/core';
 import { of } from 'rxjs';
 import { skip } from 'rxjs/operators';
-import { EventEmitter } from '@angular/core';
+import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 describe('VisualPickingProductFilterService', () => {
   it('should match on product code', (done) => {
@@ -28,7 +28,7 @@ describe('VisualPickingProductFilterService', () => {
     ];
 
     visualPickingProductFilterService
-      .getFilteredProducts$(of(productReferences))
+      .getFilteredProducts(of(productReferences))
       .pipe(skip(1))
       .subscribe((filteredProductReferences: ProductReference[]) => {
         expect(filteredProductReferences).toBeTruthy();
@@ -69,7 +69,7 @@ describe('VisualPickingProductFilterService', () => {
     });
   });
 
-  describe('getFilteredProducts$', () => {
+  describe('getFilteredProducts', () => {
     it('should match on product description', (done) => {
       const visualPickingProductFilterService =
         new VisualPickingProductFilterService();
@@ -96,7 +96,7 @@ describe('VisualPickingProductFilterService', () => {
       ];
 
       visualPickingProductFilterService
-        .getFilteredProducts$(of(productReferences))
+        .getFilteredProducts(of(productReferences))
         .pipe(skip(1))
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
@@ -136,7 +136,7 @@ describe('VisualPickingProductFilterService', () => {
       ];
 
       visualPickingProductFilterService
-        .getFilteredProducts$(of(productReferences))
+        .getFilteredProducts(of(productReferences))
         .pipe(skip(1))
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
@@ -182,7 +182,7 @@ describe('VisualPickingProductFilterService', () => {
       ];
 
       visualPickingProductFilterService
-        .getFilteredProducts$(of(productReferences))
+        .getFilteredProducts(of(productReferences))
         .pipe(skip(2))
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();

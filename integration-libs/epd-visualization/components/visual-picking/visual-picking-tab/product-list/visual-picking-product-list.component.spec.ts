@@ -79,10 +79,10 @@ const currentProduct: Product = {
 class MockVisualPickingProductListService {
   initialize() {}
 
-  public getCurrentProductReferences$(): Observable<ProductReference[]> {
+  public getCurrentProductReferences(): Observable<ProductReference[]> {
     return of(productReferences);
   }
-  public getFilteredProductReferences$(): Observable<ProductReference[]> {
+  public getFilteredProductReferences(): Observable<ProductReference[]> {
     return of(productReferences);
   }
 
