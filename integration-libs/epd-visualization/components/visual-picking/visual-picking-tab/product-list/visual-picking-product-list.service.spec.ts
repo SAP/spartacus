@@ -94,7 +94,7 @@ class MockVisualPickingProductFilterService {
   }
   _filter = '';
 
-  getFilteredProducts$(
+  getFilteredProducts(
     _unfilteredProductReferences$: Observable<ProductReference[]>
   ): Observable<ProductReference[]> {
     return of([sparePart2, sparePart3]);
@@ -136,7 +136,7 @@ describe('VisualPickingProductListService', () => {
     );
   });
 
-  describe('getProductReferences$()', () => {
+  describe('getProductReferences()', () => {
     it('should filter out undefined values returned by ProductReferenceService', (done) => {
       visualPickingProductListService['currentProduct$'] = of(currentProduct);
 
@@ -156,7 +156,7 @@ describe('VisualPickingProductListService', () => {
       ).and.returnValue(from(fromValues));
 
       visualPickingProductListService
-        .getProductReferences$()
+        .getProductReferences()
         .subscribe((productRefs: ProductReference[]) => {
           expect(productRefs).toEqual(productReferences);
           done();
@@ -189,7 +189,7 @@ describe('VisualPickingProductListService', () => {
 
       let count = 0;
       visualPickingProductListService
-        .getProductReferences$()
+        .getProductReferences()
         .subscribe((productRefs: ProductReference[]) => {
           if (count === 0) {
             expect(productRefs).toEqual([]);
@@ -206,10 +206,10 @@ describe('VisualPickingProductListService', () => {
     });
   });
 
-  describe('getCurrentProductReferences$', () => {
+  describe('getCurrentProductReferences', () => {
     it('should produce product references for the current product', (done) => {
       visualPickingProductListService
-        .getProductReferences$()
+        .getProductReferences()
         .subscribe((productReferences: ProductReference[]) => {
           expect(productReferences).toBeTruthy();
           expect(productReferences.length).toBe(3);
@@ -232,11 +232,11 @@ describe('VisualPickingProductListService', () => {
     });
   });
 
-  describe('getFilteredProductReferences$', () => {
+  describe('getFilteredProductReferences', () => {
     it('should produce product references for the current product that have been filtered by the VisualPickingProductFilterService', (done) => {
       visualPickingProductFilterService.filter = '2';
       visualPickingProductListService
-        .getFilteredProductReferences$()
+        .getFilteredProductReferences()
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(2);
@@ -253,10 +253,10 @@ describe('VisualPickingProductListService', () => {
     });
   });
 
-  describe('getVisualPickingProductListItems$', () => {
+  describe('getVisualPickingProductListItems', () => {
     it('should create VisualPickingProductListItem from provided product references and list of selected product codes', () => {
       visualPickingProductListService
-        .getVisualPickingProductListItems$(
+        .getVisualPickingProductListItems(
           of([sparePart1, sparePart2, sparePart3]),
           of([
             sparePart1.target?.code as string,

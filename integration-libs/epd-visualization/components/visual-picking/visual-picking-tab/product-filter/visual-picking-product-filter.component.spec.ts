@@ -1,16 +1,20 @@
+import { CommonModule } from '@angular/common';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { VisualPickingProductFilterComponent } from './visual-picking-product-filter.component';
-import { I18nModule, ProductReference } from '@spartacus/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UrlModule, MockTranslatePipe } from '@spartacus/core';
+import { RouterTestingModule } from '@angular/router/testing';
+import {
+  I18nModule,
+  MockTranslatePipe,
+  ProductReference,
+  UrlModule,
+} from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
+import { VisualPickingProductFilterComponent } from './visual-picking-product-filter.component';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 class MockVisualPickingProductFilterService {
@@ -23,7 +27,7 @@ class MockVisualPickingProductFilterService {
   }
   _filter = '';
 
-  getFilteredProducts$(
+  getFilteredProducts(
     _unfilteredProductReferences$: Observable<ProductReference[]>
   ): Observable<ProductReference[]> {
     return of([]);

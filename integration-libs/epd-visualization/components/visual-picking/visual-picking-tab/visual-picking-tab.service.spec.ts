@@ -1,28 +1,27 @@
+import { ChangeDetectorRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  MockTranslatePipe,
   Product,
   ProductReference,
   ProductScope,
   Translatable,
-  MockTranslatePipe,
 } from '@spartacus/core';
-
+import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { CurrentProductService } from '@spartacus/storefront';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
+import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
 import {
   VisualizationLoadInfo,
   VisualizationLoadStatus,
   VisualizationLookupResult,
 } from '../../visual-viewer/models/visualization-load-info';
-import { CurrentProductService } from '@spartacus/storefront';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
-import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
-import { Observable, of, Subject, Subscription } from 'rxjs';
 import { VisualViewerService } from '../../visual-viewer/visual-viewer.service';
 import { VisualPickingProductListService } from './product-list/visual-picking-product-list.service';
 import { VisualPickingTabService } from './visual-picking-tab.service';
-import { ChangeDetectorRef, EventEmitter } from '@angular/core';
-import { SceneLoadInfo } from '../../visual-viewer/models/scene-load-info';
 
 const SPAREPART = 'SPAREPART';
 
@@ -116,10 +115,10 @@ class MockVisualPickingProductListService {
   getProductReferencesResponse: Observable<ProductReference[]>;
   getFilteredProductReferencesResponse: Observable<ProductReference[]>;
 
-  getProductReferences$(): Observable<ProductReference[]> {
+  getProductReferences(): Observable<ProductReference[]> {
     return this.getProductReferencesResponse;
   }
-  getFilteredProductReferences$(): Observable<ProductReference[]> {
+  getFilteredProductReferences(): Observable<ProductReference[]> {
     return this.getFilteredProductReferencesResponse;
   }
 
@@ -213,11 +212,11 @@ describe('VisualPickingTabService', () => {
       );
 
       const mockVisualPickingProductListService = {
-        getProductReferences$: () => {
+        getProductReferences: () => {
           return of(productReferences);
         },
 
-        getFilteredProductReferences$: () => {
+        getFilteredProductReferences: () => {
           return of(filteredProductReferences);
         },
 
@@ -282,11 +281,11 @@ describe('VisualPickingTabService', () => {
       );
 
       const mockVisualPickingProductListService = {
-        getProductReferences$: () => {
+        getProductReferences: () => {
           return of([]);
         },
 
-        getFilteredProductReferences$: () => {
+        getFilteredProductReferences: () => {
           return of([]);
         },
 

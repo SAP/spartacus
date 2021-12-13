@@ -44,9 +44,9 @@ export class VisualPickingTabService implements OnDestroy {
         this.handleLoadVisualizationInfoChange.bind(this)
       );
 
-    this.getFilteredProductReferences$Subscription =
+    this.getFilteredProductReferencesSubscription =
       this.visualPickingProductListService
-        .getFilteredProductReferences$()
+        .getFilteredProductReferences()
         .subscribe((productReferences: ProductReference[]) => {
           const productCodes: string[] = productReferences.map(
             (productReference) =>
@@ -56,36 +56,32 @@ export class VisualPickingTabService implements OnDestroy {
           this.visualViewerService.includedProductCodes = productCodes;
         });
 
-    this.getProductReferences$Subscription =
-      this.visualPickingProductListService
-        .getProductReferences$()
-        .subscribe((productReferences: ProductReference[]) => {
-          this.setProductReferences(productReferences);
-          if (productReferences.length > 0) {
-            this.visualPickingProductListService.currentProduct$
-              .pipe(first())
-              .subscribe((currentProduct: Product) => {
-                this.visualViewerService
-                  .loadVisualization(currentProduct.code as string)
-                  .pipe(first())
-                  .subscribe();
-              });
-          }
-        });
+    this.getProductReferencesSubscription = this.visualPickingProductListService
+      .getProductReferences()
+      .subscribe((productReferences: ProductReference[]) => {
+        this.setProductReferences(productReferences);
+        if (productReferences.length > 0) {
+          this.visualPickingProductListService.currentProduct$
+            .pipe(first())
+            .subscribe((currentProduct: Product) => {
+              this.visualViewerService
+                .loadVisualization(currentProduct.code as string)
+                .pipe(first())
+                .subscribe();
+            });
+        }
+      });
   }
 
   ngOnDestroy(): void {
     this.visualizationLoadInfoChangeSubscription.unsubscribe();
-    this.getProductReferences$Subscription.unsubscribe();
-
-    if (this.getFilteredProductReferences$Subscription) {
-      this.getFilteredProductReferences$Subscription.unsubscribe();
-    }
+    this.getProductReferencesSubscription.unsubscribe();
+    this.getFilteredProductReferencesSubscription?.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;
-  private getProductReferences$Subscription: Subscription;
-  private getFilteredProductReferences$Subscription?: Subscription;
+  private getProductReferencesSubscription: Subscription;
+  private getFilteredProductReferencesSubscription?: Subscription;
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.

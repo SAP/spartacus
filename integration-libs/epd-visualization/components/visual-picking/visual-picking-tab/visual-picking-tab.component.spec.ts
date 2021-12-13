@@ -52,7 +52,7 @@ class MockVisualPickingTabService {
 class MockVisualPickingProductFilterService {
   filter = '';
 
-  getFilteredProducts$(
+  getFilteredProducts(
     _unfilteredProductReferences$: Observable<ProductReference[]>
   ): Observable<ProductReference[]> {
     return of([]);
@@ -62,11 +62,11 @@ class MockVisualPickingProductFilterService {
 class MockVisualPickingProductListService {
   public initialize() {}
 
-  public getCurrentProductReferences$(): Observable<ProductReference[]> {
+  public getCurrentProductReferences(): Observable<ProductReference[]> {
     return of([]);
   }
 
-  public getFilteredProductReferences$(): Observable<ProductReference[]> {
+  public getFilteredProductReferences(): Observable<ProductReference[]> {
     return of([]);
   }
 
