@@ -18,7 +18,7 @@ export function chatbotFactory(
   const result = () => {
     const factory =
       componentFactoryResolver.resolveComponentFactory(ChatBotComponent);
-    outletService.add('main', <any>factory, OutletPosition.AFTER);
+    outletService.add('cx-storefront', <any>factory, OutletPosition.AFTER);
   };
   return result;
 }
