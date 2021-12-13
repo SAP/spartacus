@@ -82,12 +82,12 @@ export class VisualViewerService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.selectedNodeIds$Subscription?.unsubscribe();
+    this.selectedNodeIdsSubscription?.unsubscribe();
   }
 
   protected _ui5: ui5;
 
-  private selectedNodeIds$Subscription?: Subscription;
+  private selectedNodeIdsSubscription?: Subscription;
 
   private get sceneNodeToProductLookupService(): SceneNodeToProductLookupService {
     return this._sceneNodeToProductLookupService;
@@ -924,7 +924,7 @@ export class VisualViewerService implements OnDestroy {
   public loadVisualization(
     productCode: string
   ): Observable<VisualizationLoadInfo> {
-    this.selectedNodeIds$Subscription?.unsubscribe();
+    this.selectedNodeIdsSubscription?.unsubscribe();
 
     return this.viewportAdded$.pipe(
       mergeMap(() =>
@@ -953,7 +953,7 @@ export class VisualViewerService implements OnDestroy {
                       errorMessage: sceneLoadInfo.errorMessage,
                     };
                   } else {
-                    this.selectedNodeIds$Subscription =
+                    this.selectedNodeIdsSubscription =
                       this.selectedNodeIds$.subscribe(
                         this.handleSelectedNodeIds.bind(this)
                       );
