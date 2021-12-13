@@ -24,6 +24,8 @@
                 }
         "
         [attr.aria-describedby]="
+          createAttributeUiKey('label', attribute.name) +
+          ' ' +
           createAttributeUiKey('attribute-msg', attribute.name)
         "
       />

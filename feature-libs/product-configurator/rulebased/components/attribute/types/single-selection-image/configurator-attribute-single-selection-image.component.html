@@ -39,6 +39,8 @@
               : { value: value.valueDisplay, attribute: attribute.label })
       "
       [attr.aria-describedby]="
+        createAttributeUiKey('label', attribute.name) +
+        ' ' +
         createAttributeUiKey('attribute-msg', attribute.name)
       "
       [attr.checked]="
