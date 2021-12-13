@@ -63,7 +63,15 @@ export class ChatBotService {
         if (this.chosenCategory) {
           options.push({
             text: { key: 'chatBot.cancel' },
-            callback: (param) => this.showFacets(param),
+            callback: (param) => {
+              this.addMessage({
+                author: AuthorType.CUSTOMER,
+                text: {
+                  key: 'chatBot.cancel',
+                },
+              });
+              this.showFacets(param);
+            },
           });
         }
         this.showOptions(options);
@@ -132,16 +140,26 @@ export class ChatBotService {
       ...this.availableFacetOptions,
       {
         text: { key: 'chatBot.cancel' },
-        callback: (param) => this.showFacets(param),
+        callback: (param) => this.cancelChoosingFacetOptions(param),
       },
     ]);
   }
 
-  protected chooseFacet(facet: string) {
-    console.log('facet', facet);
+  protected cancelChoosingFacetOptions(param?) {
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chosenFacet', params: { facet } },
+      text: {
+        key: 'chatBot.cancel',
+      },
+    });
+    this.showFacets(param);
+  }
+
+  protected chooseFacet(facet: Translatable) {
+    console.log('chooseFacet', facet);
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.chosenFacet', params: { facet: facet.key } },
     });
     this.showFacetOptions();
   }
@@ -197,25 +215,28 @@ export class ChatBotService {
       ...this.appliedFacets,
       {
         text: { key: 'chatBot.cancel' },
-        callback: (param) => this.showFacets(param),
+        callback: (param) => this.cancelChoosingFacetOptions(param),
       },
     ]);
   }
 
-  protected chooseFacetOption(param?) {
-    console.log('chooseFacetOption', param);
+  protected chooseFacetOption(facetOption?: Translatable) {
+    console.log('chooseFacetOption', facetOption);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chosenFacetOption', params: { option: '' } },
+      text: {
+        key: 'chatBot.chosenFacetOption',
+        params: { option: facetOption.key },
+      },
     });
     this.showFacets();
   }
 
-  protected removeFacet(param?) {
-    console.log('removeFacet', param);
+  protected removeFacet(facet?: Translatable) {
+    console.log('removeFacet', facet);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.removedFacet', params: {} },
+      text: { key: 'chatBot.removedFacet', params: { facet: facet.key } },
     });
     // TOD: remove facet
     this.showFacets();
