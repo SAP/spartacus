@@ -7,9 +7,7 @@ import { SceneAdapter } from './scene.adapter';
   providedIn: 'root',
 })
 export class StorageConnector {
-  constructor(
-    protected sceneAdapter: SceneAdapter,
-  ) {}
+  constructor(protected sceneAdapter: SceneAdapter) {}
 
   /**
    * Used for invoking the EPD Visualization Storage service GET /v1/scenes/{sceneId}/nodes endpoint.
@@ -28,6 +26,12 @@ export class StorageConnector {
     $filter?: string[],
     contentType?: string
   ): Observable<NodesResponse> {
-    return this.sceneAdapter.getNodes(sceneId, nodeIds, $expand, $filter, contentType);
+    return this.sceneAdapter.getNodes(
+      sceneId,
+      nodeIds,
+      $expand,
+      $filter,
+      contentType
+    );
   }
 }

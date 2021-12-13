@@ -9,7 +9,7 @@ import { VisualizationLookupService } from './visualization-lookup.service';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
 import { VisualizationAdapter } from '../../connectors/visualization/visualization.adapter';
 
-class MockVisualizationAdapter extends VisualizationAdapter  {
+class MockVisualizationAdapter extends VisualizationAdapter {
   constructor(protected visualizationInfos: VisualizationInfo[]) {
     super();
   }

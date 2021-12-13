@@ -1,7 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { MetadatumValueType, NodesResponse } from '../../connectors/scene/nodes-response';
+import {
+  MetadatumValueType,
+  NodesResponse,
+} from '../../connectors/scene/nodes-response';
 import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 import { getTestConfig } from '../../testing/epd-visualization-test-config';
 
