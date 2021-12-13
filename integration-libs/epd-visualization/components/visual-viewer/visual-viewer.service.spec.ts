@@ -167,13 +167,16 @@ describe('VisualViewerService', () => {
         setBackgroundColorTop: (_color: string) => {},
       };
 
-      const getCSSColorSpy = spyOn<any>(visualViewerService, 'getCSSColor');
+      const getCSSColorSpy = spyOn<any>(
+        visualViewerService,
+        'getCSSColor'
+      ).and.returnValue('#ffffff');
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
         'get'
       ).and.returnValue(mockViewport);
-      const viewportSetBackgroundColorSpy = spyOn(
+      const viewportSetBackgroundColorTopSpy = spyOn(
         mockViewport,
         'setBackgroundColorTop'
       );
@@ -186,7 +189,8 @@ describe('VisualViewerService', () => {
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
       expect(getViewportPropertySpy).toHaveBeenCalledTimes(1);
-      expect(viewportSetBackgroundColorSpy).toHaveBeenCalledTimes(1);
+      expect(viewportSetBackgroundColorTopSpy).toHaveBeenCalledWith('#ffffff');
+      expect(viewportSetBackgroundColorTopSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -219,13 +223,16 @@ describe('VisualViewerService', () => {
         setBackgroundColorBottom: (_color: string) => {},
       };
 
-      const getCSSColorSpy = spyOn<any>(visualViewerService, 'getCSSColor');
+      const getCSSColorSpy = spyOn<any>(
+        visualViewerService,
+        'getCSSColor'
+      ).and.returnValue('#ffffff');
       const getViewportPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'viewport',
         'get'
       ).and.returnValue(mockViewport);
-      const viewportSetBackgroundColorSpy = spyOn(
+      const viewportSetBackgroundColorBottomSpy = spyOn(
         mockViewport,
         'setBackgroundColorBottom'
       );
@@ -236,9 +243,13 @@ describe('VisualViewerService', () => {
         '--cx-color-inverse'
       );
       expect(getCSSColorSpy).toHaveBeenCalledTimes(1);
+      expect(getCSSColorSpy).toHaveBeenCalledWith('--cx-color-inverse');
       expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
       expect(getViewportPropertySpy).toHaveBeenCalledTimes(1);
-      expect(viewportSetBackgroundColorSpy).toHaveBeenCalledTimes(1);
+      expect(viewportSetBackgroundColorBottomSpy).toHaveBeenCalledTimes(1);
+      expect(viewportSetBackgroundColorBottomSpy).toHaveBeenCalledWith(
+        '#ffffff'
+      );
     });
   });
 
