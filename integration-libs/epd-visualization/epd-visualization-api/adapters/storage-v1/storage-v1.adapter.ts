@@ -4,13 +4,13 @@ import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
+  NodesResponse,
+  NODES_RESPONSE_NORMALIZER,
+  SceneAdapter,
   VisualizationApiConfig,
-} from '../../config/epd-visualization-config';
+} from '@spartacus/epd-visualization/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { NODES_RESPONSE_NORMALIZER } from './converters';
-import { NodesResponse } from './nodes-response';
-import { SceneAdapter } from './scene.adapter';
 
 /**
  * This adapter references an API that is expected to be deprecated and relocated

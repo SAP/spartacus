@@ -1,17 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, normalizeHttpError } from '@spartacus/core';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
+  LookupVisualizationsResponse,
+  LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
+  UsageId,
+  VisualizationAdapter,
   VisualizationApiConfig,
-} from '../../config/epd-visualization-config';
-import { UsageId } from '../../models/usage-ids/usage-id';
-import { LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER } from './converters';
-import { LookupVisualizationsResponse } from './lookup-visualizations-response';
-import { VisualizationAdapter } from './visualization.adapter';
+} from '@spartacus/epd-visualization/root';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 /**
  * This adapter references an API that is expected to be deprecated and relocated
