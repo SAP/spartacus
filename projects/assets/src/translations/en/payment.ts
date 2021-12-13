@@ -24,12 +24,12 @@ export const payment = {
     expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
+    paymentAddedSuccessfully: 'New payment was added successfully!',
     changePayment: 'Change Payment',
   },
   paymentMethods: {
     paymentMethods: 'Payment methods',
-    paymentMethodSelectedSucess:
-      'Payment method ending in {{ digits }} selected successfully',
+    paymentMethodSelected: 'Payment method selected',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
