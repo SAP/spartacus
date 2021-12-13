@@ -24,7 +24,6 @@ export class ChatBotService {
 
   protected sayHello() {
     console.log('hello');
-
     this.addMessage({
       author: AuthorType.BOT,
       text: { key: 'chatBot.hello', params: { name: 'Andrzej' } },
@@ -114,6 +113,7 @@ export class ChatBotService {
   }
 
   protected get availableCategories() {
+    // TODO: get categories from API
     return [
       {
         text: { key: 'chatBot.category.1' },
@@ -127,6 +127,7 @@ export class ChatBotService {
   }
 
   protected get chosenCategory() {
+    // TODO: return chosen category
     return undefined;
   }
 
