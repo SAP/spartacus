@@ -114,11 +114,17 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     }
   }
 
-  toggleOpen(event: UIEvent): void {
+  toggleOpen(event: UIEvent, nodec: any): void {
+    //console.log(nodec);
+
+    const node = <HTMLElement>event.currentTarget;
+    if (window.location.href.includes(nodec.url) && !nodec.children) {
+      this.hamburgerMenuService.toggle();
+    }
+
     if (event.type === 'keydown') {
       event.preventDefault();
     }
-    const node = <HTMLElement>event.currentTarget;
     if (this.openNodes.includes(node)) {
       if (event.type === 'keydown') {
         this.back();

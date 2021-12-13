@@ -17,7 +17,7 @@
 <!-- we generate links in a recursive manner -->
 <ng-template #nav let-node="node" let-depth="depth">
   <nav
-    (click)="toggleOpen($event)"
+    (click)="toggleOpen($event, node)"
     (mouseenter)="onMouseEnter($event)"
     (keydown.space)="toggleOpen($event)"
     (keydown.esc)="back()"
