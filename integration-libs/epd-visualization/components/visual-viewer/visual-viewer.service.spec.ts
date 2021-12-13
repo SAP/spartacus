@@ -1,21 +1,18 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ContentType } from '@spartacus/epd-visualization/root';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
-import { SceneNodeToProductLookupService } from '@spartacus/epd-visualization/root';
-import { SelectionMode } from './models/selection-mode';
-import { VisualizationLookupService } from '@spartacus/epd-visualization/root';
-import { from, Observable, of, Subscription } from 'rxjs';
+import { ContentType, EpdVisualizationConfig, SceneNodeToProductLookupService, VisualizationLookupService } from '@spartacus/epd-visualization/root';
+import { from, Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';
 import ViewStateManager from 'sap/ui/vk/ViewStateManager';
-import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
-import { VisualViewerService } from './visual-viewer.service';
-import { NavigationMode } from './models/navigation-mode';
 import VisibilityMode from 'sap/ui/vk/VisibilityMode';
-import { ZoomTo } from './models/zoom-to';
+import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
+import { NavigationMode } from './models/navigation-mode';
+import { NodeContentType } from './models/node-content-type';
 import { LoadedSceneInfo, SceneLoadInfo } from './models/scene-load-info';
 import { SceneLoadState } from './models/scene-load-state';
-import { NodeContentType } from './models/node-content-type';
+import { SelectionMode } from './models/selection-mode';
+import { ZoomTo } from './models/zoom-to';
+import { VisualViewerService } from './visual-viewer.service';
 
 type NodeRef = any;
 
@@ -2238,38 +2235,6 @@ describe('VisualViewerService', () => {
 
       expect(getViewStateManagerPropertySpy).toHaveBeenCalledTimes(1);
       expect(viewStateManagerGetImplementationSpy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('subscribeSelectedSceneNodeIds', () => {
-    it('should subscribe to selectedNodeIds$', () => {
-      const mockObservable = {
-        subscribe: (
-          _next?: (value: string[]) => void,
-          _error?: (error: any) => void,
-          _complete?: () => void
-        ) => Subscription,
-      };
-
-      const getVisualViewerServiceSelectedNodeIds$PropertySpy =
-        spyOnProperty<any>(
-          visualViewerService,
-          'selectedNodeIds$',
-          'get'
-        ).and.returnValue(mockObservable);
-
-      const subscribeSpy = spyOn(mockObservable, 'subscribe');
-
-      const subscribeSelectedSceneNodeIds = visualViewerService[
-        'subscribeSelectedSceneNodeIds'
-      ].bind(visualViewerService) as () => void;
-
-      subscribeSelectedSceneNodeIds();
-
-      expect(
-        getVisualViewerServiceSelectedNodeIds$PropertySpy
-      ).toHaveBeenCalledTimes(1);
-      expect(subscribeSpy).toHaveBeenCalledTimes(1);
     });
   });
 

@@ -31,6 +31,26 @@ export class VisualPickingProductFilterService {
    */
   protected fieldsToMatch = ['code', 'name'];
 
+  protected applyFilter(
+    filter: string,
+    unfilteredProductReferences: ProductReference[]
+  ): ProductReference[] {
+    filter = filter.toLowerCase();
+    const filteredProductReferences = unfilteredProductReferences.filter(
+      (productReference) => {
+        const product = productReference.target as Product;
+        return this.fieldsToMatch.some((field) => {
+          const fieldValue = (product as any)[field];
+          return (
+            fieldValue !== undefined &&
+            fieldValue.toLowerCase().indexOf(filter) !== -1
+          );
+        });
+      }
+    );
+    return filteredProductReferences;
+  }
+
   /**
    * Returns an Observable that produces a ProductReference[] each time the filter is updated or the set of product references to filter changes.
    * @param unfilteredProductReferences$ An Observable that returns the unfiltered ProductReference[] to apply filtering to.
@@ -47,18 +67,9 @@ export class VisualPickingProductFilterService {
         ([filter, productReferences]) =>
           filter !== undefined && productReferences !== undefined
       ),
-      map(([filter, productReferences]) => {
-        return productReferences.filter((productReference) => {
-          const product = productReference.target as Product;
-          return this.fieldsToMatch.some((field) => {
-            const fieldValue = (product as any)[field];
-            return (
-              fieldValue !== undefined &&
-              fieldValue.toLowerCase().indexOf(filter) !== -1
-            );
-          });
-        });
-      })
+      map(([filter, productReferences]) =>
+        this.applyFilter(filter, productReferences)
+      )
     );
   }
 }
