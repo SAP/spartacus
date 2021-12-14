@@ -17,6 +17,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
+import { ghostConfigurationId } from '../../core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -98,6 +99,8 @@ export class ConfiguratorGroupMenuComponent {
   ERROR = ' ERROR';
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
+
+  GHOST_ID = ghostConfigurationId;
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
