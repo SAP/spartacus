@@ -1,7 +1,61 @@
-<div *ngFor="let message of conversation$ | async">
-  <b>{{message.author}}:</b>{{ message.text | cxTranslate }}
-</div>
-<div *ngFor="let option of options$ | async">
-  <button (click)="option.callback(option.text )">{{option.text | cxTranslate}}</button>
+<div class="chat-window" *ngIf="isOpen">
+  <div class="chat-container">
+    <section class="chat-header">
+      <div></div>
+      <h2 class="title">{{ TEMP_CONFIG.chatBot?.botName }} Chatbot</h2>
+      <div><cx-icon (click)="toggle()" [type]="closeIcon"></cx-icon></div>
+    </section>
+
+    <div class="chat-messages-container">
+      <ul class="chat-messages">
+        <li
+          class="chat-messages-message"
+          *ngFor="let message of conversation$ | async"
+          [ngClass]="{
+            bot: message.author === 'BOT',
+            customer: message.author === 'CUSTOMER'
+          }"
+        >
+          <div class="avatar">
+            <img [src]="TEMP_CONFIG.chatBot?.botAvatar" class="avatar-img" />
+            <div class="avatar-message">
+              <div>
+                <div class="text-message">
+                  <svg
+                    viewBox="0 0 9 16"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill-rule="evenodd"
+                    clip-rule="evenodd"
+                    stroke-linejoin="round"
+                    stroke-miterlimit="1.414"
+                    class="icon-chat-arrow"
+                  >
+                    <path fill="none" d="M0 0h9v15.75H0z"></path>
+                    <path d="M9 1.5v14.25L0 0l9 1.5z"></path>
+                  </svg>
+                  <div class="content">{{ message.text | cxTranslate }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+
+        <div class="chat-options">
+          <button
+            *ngFor="let option of options$ | async"
+            class="btn btn-primary btn-block"
+            (click)="option.callback(option.text)"
+          >
+            {{ option.text | cxTranslate }}
+          </button>
+        </div>
+      </ul>
+    </div>
+  </div>
 </div>
 
+<div class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
+  <div class="circle">
+    <img [src]="TEMP_CONFIG.chatBot?.botAvatar" class="avatar-img" />
+  </div>
+</div>
