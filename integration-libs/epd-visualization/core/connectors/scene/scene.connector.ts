@@ -18,7 +18,7 @@ export class SceneConnector {
    * @param contentType The contentType query parameter.
    * @returns An Observable producing a NodesResponse which contains an array of objects describing scene nodes.
    */
-   getNodes(
+  getNodes(
     sceneId: string,
     nodeIds?: string[],
     $expand?: string[],
