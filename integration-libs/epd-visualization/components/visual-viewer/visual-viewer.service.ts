@@ -8,6 +8,10 @@ import {
 // @ts-ignore
 import * as ui5 from '@sapui5/ts-types-esm';
 import {
+  SceneNodeToProductLookupService,
+  VisualizationLookupService,
+} from '@spartacus/epd-visualization/core';
+import {
   ContentType,
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
@@ -15,10 +19,6 @@ import {
   VisualizationApiConfig,
   VisualizationInfo,
 } from '@spartacus/epd-visualization/root';
-import {
-  SceneNodeToProductLookupService,
-  VisualizationLookupService,
-} from '@spartacus/epd-visualization/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,
@@ -1183,12 +1183,12 @@ export class VisualViewerService implements OnDestroy {
           'sap/ui/vk/DrawerToolbar',
         ],
         (
-          ViewManager: ViewManager,
-          Viewport: any,
-          ViewStateManager: any,
-          AnimationPlayer: any,
-          ContentConnector: any,
-          DrawerToolbar: any
+          sap_ui_vk_ViewManager: any,
+          sap_ui_vk_Viewport: any,
+          sap_ui_vk_ViewStateManager: any,
+          sap_ui_vk_AnimationPlayer: any,
+          sap_ui_vk_ContentConnector: any,
+          sap_ui_vk_DrawerToolbar: any
         ) => {
           const core: Core = this.getCore();
           const uiArea: UIArea = core.getUIArea(this.elementRef.nativeElement);
@@ -1198,10 +1198,10 @@ export class VisualViewerService implements OnDestroy {
             uiArea.destroyContent();
           }
 
-          this.viewport = new Viewport({ visible: false });
+          this.viewport = new sap_ui_vk_Viewport({ visible: false });
           this.viewport.placeAt(this.elementRef.nativeElement);
 
-          this.contentConnector = new ContentConnector();
+          this.contentConnector = new sap_ui_vk_ContentConnector();
           this.contentConnector.attachContentChangesStarted(
             this.onContentChangesStarted,
             this
@@ -1215,20 +1215,20 @@ export class VisualViewerService implements OnDestroy {
             this
           );
 
-          this.viewStateManager = new ViewStateManager({
+          this.viewStateManager = new sap_ui_vk_ViewStateManager({
             contentConnector: this.contentConnector,
           });
 
           this.viewport.setContentConnector(this.contentConnector);
           this.viewport.setViewStateManager(this.viewStateManager);
 
-          this.animationPlayer = new AnimationPlayer();
+          this.animationPlayer = new sap_ui_vk_AnimationPlayer();
           this.animationPlayer.setViewStateManager(this.viewStateManager);
 
           this.animationPlayer.attachViewActivated(this.onViewActivated, this);
           this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
 
-          this.viewManager = new ViewManager({
+          this.viewManager = new sap_ui_vk_ViewManager({
             contentConnector: this.contentConnector,
             animationPlayer: this.animationPlayer,
           });
@@ -1243,7 +1243,7 @@ export class VisualViewerService implements OnDestroy {
             this
           );
 
-          this.drawerToolbar = new DrawerToolbar({
+          this.drawerToolbar = new sap_ui_vk_DrawerToolbar({
             viewport: this.viewport,
             visible: false,
           });
