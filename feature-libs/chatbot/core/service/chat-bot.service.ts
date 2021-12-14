@@ -168,7 +168,7 @@ export class ChatBotService {
       text: { key: 'chatBot.chooseFacetOption' },
     });
     this.showOptions([
-      ...facet.values?.map((value) => {
+      ...this.chatBotFacetService.getFacetOptions(facet)?.map((value) => {
         return {
           text: { raw: value.name },
           callback: () => {
