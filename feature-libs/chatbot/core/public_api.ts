@@ -1,4 +1,5 @@
 export * from './config/chat-bot-config';
+export * from './config/default-chat-bot-config';
 export * from './facade/index';
 export * from './model/index';
 export * from './service/index';
