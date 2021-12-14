@@ -195,6 +195,12 @@
         aria-live="assertive"
         aria-atomic="true"
         role="alert"
+        id="{{
+          createAttributeUiKey(
+            'attribute-msg',
+            productCardOptions?.attributeName
+          )
+        }}"
       >
         <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
         {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
