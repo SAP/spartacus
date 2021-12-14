@@ -1,5 +1,11 @@
 import { ComponentFactoryResolver, NgModule } from '@angular/core';
-import { CmsConfig, I18nConfig, MODULE_INITIALIZER, provideConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  I18nConfig,
+  MODULE_INITIALIZER,
+  provideConfig,
+  provideDefaultConfig,
+} from '@spartacus/core';
 import {
   chatBotTranslationChunksConfig,
   chatBotTranslations,
@@ -7,6 +13,7 @@ import {
 import { ChatBotRootModule, CHAT_BOT_FEATURE } from '@spartacus/chatbot/root';
 import { chatbotFactory } from '@spartacus/chatbot/components';
 import { OutletService } from '@spartacus/storefront';
+import { defaultChatBotConfig } from '@spartacus/chatbot/core';
 
 @NgModule({
   imports: [ChatBotRootModule],
@@ -31,6 +38,7 @@ import { OutletService } from '@spartacus/storefront';
       deps: [ComponentFactoryResolver, OutletService],
       multi: true,
     },
+    provideDefaultConfig(defaultChatBotConfig),
   ],
 })
 export class ChatBotFeatureModule {}
