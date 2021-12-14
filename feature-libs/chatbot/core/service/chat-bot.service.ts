@@ -137,14 +137,14 @@ export class ChatBotService {
     this.showCategories(param);
   }
 
-  protected showFacetOptions(param?) {
-    console.log('showFacetOptions', param);
+  protected showFacetOptions(facet) {
+    console.log('showFacetOptions', facet);
     this.addMessage({
       author: AuthorType.BOT,
       text: { key: 'chatBot.chooseFacetOption' },
     });
     this.showOptions([
-      ...this.chatBotFacetService.getFacetOptions(param).map((value) => {
+      ...facet.values?.map((value) => {
         return {
           text: { raw: value.name },
           callback: () => {
@@ -183,6 +183,7 @@ export class ChatBotService {
     return this.chatBotFacetService.selected$.pipe(
       take(1),
       map((facets) => {
+        console.log('appliedFacets', facets);
         return facets?.map((facet) => {
           return {
             text: { raw: facet.name },
