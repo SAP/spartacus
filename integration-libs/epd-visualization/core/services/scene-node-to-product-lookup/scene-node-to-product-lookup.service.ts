@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { first, map } from 'rxjs/operators';
 import {
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
   UsageIdConfig,
-} from '../../config/epd-visualization-config';
+} from '@spartacus/epd-visualization/root';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import {
   Metadatum,
   NodesResponse,
-  StorageApiService,
   TreeNode,
-} from '../storage-api/storage-api.service';
+} from '../../connectors/scene/nodes-response';
+import { SceneConnector } from '../../connectors/scene/scene.connector';
 
 export interface NodeIdProductCodes {
   nodeId: string;
@@ -24,7 +24,7 @@ export interface NodeIdProductCodes {
 export class SceneNodeToProductLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected storageService: StorageApiService
+    protected sceneConnector: SceneConnector
   ) {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -62,7 +62,7 @@ export class SceneNodeToProductLookupService {
   private getNodeIdProductCodesForScene(
     sceneId: string
   ): Observable<NodeIdProductCodes[]> {
-    return this.storageService
+    return this.sceneConnector
       .getNodes(
         sceneId,
         undefined,

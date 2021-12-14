@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { Observable, of } from 'rxjs';
-import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { getTestConfig } from '../../testing/epd-visualization-test-config';
 import {
   MetadatumValueType,
   NodesResponse,
-  StorageApiService,
-} from '../storage-api/storage-api.service';
+} from '../../connectors/scene/nodes-response';
+import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 import { SceneNodeToProductLookupService } from './scene-node-to-product-lookup.service';
+import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 
-class MockStorageApiService {
+class MockSceneAdapter extends SceneAdapter {
   getNodesFunc: (
     _sceneId: string,
     _nodeIds?: string[],
@@ -158,7 +158,7 @@ const getNodesMultipleProductCodesPerSceneNode = (
 };
 
 describe('SceneNodeToProductLookupService', () => {
-  const mockStorageApiService = new MockStorageApiService();
+  const mockSceneAdapter = new MockSceneAdapter();
 
   let sceneNodeToProductLookupService: SceneNodeToProductLookupService;
 
@@ -170,8 +170,8 @@ describe('SceneNodeToProductLookupService', () => {
           useValue: epdVisualizationConfig,
         },
         {
-          provide: StorageApiService,
-          useValue: mockStorageApiService,
+          provide: SceneAdapter,
+          useValue: mockSceneAdapter,
         },
       ],
     });
@@ -183,7 +183,7 @@ describe('SceneNodeToProductLookupService', () => {
 
   describe('lookupNodeIds', () => {
     it('should lookup node ids for given product codes', (done) => {
-      mockStorageApiService.getNodesFunc = getNodesOneProductCodePerSceneNode;
+      mockSceneAdapter.getNodesFunc = getNodesOneProductCodePerSceneNode;
 
       const sceneNodeIdsBeforeMapPopulated =
         sceneNodeToProductLookupService.syncLookupNodeIds([
@@ -221,8 +221,7 @@ describe('SceneNodeToProductLookupService', () => {
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
-      mockStorageApiService.getNodesFunc =
-        getNodesMultipleProductCodesPerSceneNode;
+      mockSceneAdapter.getNodesFunc = getNodesMultipleProductCodesPerSceneNode;
 
       const sceneNodeIdsBeforeMapPopulated =
         sceneNodeToProductLookupService.syncLookupProductCodes([
@@ -258,7 +257,7 @@ describe('SceneNodeToProductLookupService', () => {
 
   describe('lookupProductCodes', () => {
     it('should lookup product codes for given scene node ids', (done) => {
-      mockStorageApiService.getNodesFunc = getNodesOneProductCodePerSceneNode;
+      mockSceneAdapter.getNodesFunc = getNodesOneProductCodePerSceneNode;
 
       const sceneNodeToProductLookupService: SceneNodeToProductLookupService =
         TestBed.inject(SceneNodeToProductLookupService);
@@ -299,8 +298,7 @@ describe('SceneNodeToProductLookupService', () => {
     });
 
     it('should allow for multiple scene nodes with same product code', (done) => {
-      mockStorageApiService.getNodesFunc =
-        getNodesMultipleProductCodesPerSceneNode;
+      mockSceneAdapter.getNodesFunc = getNodesMultipleProductCodesPerSceneNode;
 
       const sceneNodeToProductLookupService: SceneNodeToProductLookupService =
         TestBed.inject(SceneNodeToProductLookupService);

@@ -3,16 +3,17 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { EpdVisualizationConfig } from '../../config/epd-visualization-config';
-import { getTestConfig } from '../../testing/epd-visualization-test-config';
-import { NodesResponse, StorageApiService } from './storage-api.service';
+import { NodesResponse, SceneAdapter } from '@spartacus/epd-visualization/core';
+import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
+import { StorageV1Adapter } from './storage-v1.adapter';
 
-let storageService: StorageApiService;
+let sceneAdapter: SceneAdapter;
 let httpMock: HttpTestingController;
 
 const fakeResponse: NodesResponse = {};
 
-describe('StorageApiService', () => {
+describe('StorageV1Adapter', () => {
   describe('getNodes', () => {
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -22,13 +23,17 @@ describe('StorageApiService', () => {
             provide: EpdVisualizationConfig,
             useValue: getTestConfig(),
           },
+          {
+            provide: SceneAdapter,
+            useClass: StorageV1Adapter,
+          },
         ],
       });
 
       httpMock = TestBed.inject(HttpTestingController);
-      storageService = TestBed.inject(StorageApiService);
+      sceneAdapter = TestBed.inject(SceneAdapter);
 
-      spyOn(storageService, 'getNodes').and.callThrough();
+      spyOn(sceneAdapter, 'getNodes').and.callThrough();
     });
 
     afterEach(() => {
@@ -36,7 +41,7 @@ describe('StorageApiService', () => {
     });
 
     it('should allow request with no query params', () => {
-      storageService.getNodes('123').subscribe((result) => {
+      sceneAdapter.getNodes('123').subscribe((result) => {
         expect(result).toEqual(fakeResponse);
       });
 
@@ -53,7 +58,7 @@ describe('StorageApiService', () => {
     });
 
     it('should construct multiple id query params', () => {
-      storageService.getNodes('123', ['4', '5']).subscribe((result) => {
+      sceneAdapter.getNodes('123', ['4', '5']).subscribe((result) => {
         expect(result).toEqual(fakeResponse);
       });
 
@@ -70,7 +75,7 @@ describe('StorageApiService', () => {
     });
 
     it('should construct $expand query param', () => {
-      storageService
+      sceneAdapter
         .getNodes('123', undefined, ['metadata', 'mesh'])
         .subscribe((result) => {
           expect(result).toEqual(fakeResponse);
@@ -89,7 +94,7 @@ describe('StorageApiService', () => {
     });
 
     it('should construct $filter query param', () => {
-      storageService
+      sceneAdapter
         .getNodes('123', undefined, undefined, [
           'meta.categoryNameValue.keyNameValue',
           'name.nameValue',
@@ -111,7 +116,7 @@ describe('StorageApiService', () => {
     });
 
     it('should construct content type query param', () => {
-      storageService
+      sceneAdapter
         .getNodes('123', undefined, undefined, undefined, 'Hotspot')
         .subscribe((result) => {
           expect(result).toEqual(fakeResponse);

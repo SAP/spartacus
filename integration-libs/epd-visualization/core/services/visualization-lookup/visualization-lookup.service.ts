@@ -1,18 +1,16 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { ContentType } from '../../models/visualizations/content-type';
 import {
+  ContentType,
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
+  UsageId,
   UsageIdConfig,
-} from '../../config/epd-visualization-config';
-import { UsageId } from '../../models/usage-ids/usage-id';
-import {
-  LookupVisualizationsResponse,
-  VisualizationApiService,
-} from '../visualization-api/visualization-api.service';
-import { VisualizationInfo } from '../../models/visualizations/visualization-info';
+  VisualizationInfo,
+} from '@spartacus/epd-visualization/root';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
+import { VisualizationConnector } from '../../connectors/visualization/visualization.connector';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +18,7 @@ import { VisualizationInfo } from '../../models/visualizations/visualization-inf
 export class VisualizationLookupService {
   constructor(
     protected epdVisualizationConfig: EpdVisualizationConfig,
-    protected visualizationService: VisualizationApiService
+    protected visualizationConnector: VisualizationConnector
   ) {}
 
   /**
@@ -48,7 +46,7 @@ export class VisualizationLookupService {
       ],
     };
 
-    return this.visualizationService
+    return this.visualizationConnector
       .lookupVisualization(usage, folderUsageId)
       .pipe(
         map((data: LookupVisualizationsResponse) =>
