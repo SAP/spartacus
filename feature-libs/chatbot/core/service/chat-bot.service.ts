@@ -137,7 +137,15 @@ export class ChatBotService {
       text: { key: 'chatBot.chooseFacetOption' },
     });
     this.showOptions([
-      ...this.availableFacetOptions,
+      ...this.chatBotFacetService.getFacetOptions(param).map((value) => {
+        return {
+          text: { raw: value.name },
+          callback: (() => {
+            this.chatBotFacetService.addFacet(value)
+            this.chooseFacetOption(value.name)
+          })
+        };
+      }),
       {
         text: { key: 'chatBot.cancel' },
         callback: (param) => this.cancelChoosingFacetOptions(param),
@@ -155,13 +163,13 @@ export class ChatBotService {
     this.showFacets(param);
   }
 
-  protected chooseFacet(facet: Translatable) {
-    console.log('chooseFacet', facet);
+  protected chooseFacet(text: Translatable, facet: any) {
+    console.log('chooseFacet', text);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chosenFacet', params: { facet: facet.key } },
+      text: { key: 'chatBot.chosenFacet', params: { text: text.key } },
     });
-    this.showFacetOptions();
+    this.showFacetOptions(facet);
   }
 
   protected get appliedFacets() {
@@ -180,17 +188,34 @@ export class ChatBotService {
 
   protected get availableFacets() {
     // TODO: get available facets from backend
-    return [
-      {
-        text: { key: 'chatBot.facet.price' },
-        callback: (param) => this.chooseFacet(param),
-      },
-      {
-        text: { key: 'chatBot.facet.size' },
-        callback: (param) => this.chooseFacet(param),
-      },
-    ];
+    this.chatBotFacetService.facets$.subscribe((facets) => console.log(facets));
+
+    let options = [];
+    this.chatBotFacetService.facets$
+      .pipe(
+        take(1),
+        map((results) => {
+          return results.facets?.map((facet) => {
+            return {
+              text: { raw: facet.name },
+              callback: () =>
+                this.chooseFacet(
+                  {
+                    raw: facet?.name,
+                  },
+                  facet
+                ),
+            };
+          });
+        })
+      )
+      .subscribe((chats) => {
+        options = chats;
+      });
+
+    return options;
   }
+
   protected get availableFacetOptions() {
     // TODO: get available facet options from backend
     return [

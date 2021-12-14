@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFactoryResolver, NgModule } from '@angular/core';
-import { I18nModule } from '@spartacus/core';
+import { I18nModule, ProductModule } from '@spartacus/core';
 import {
   OutletPosition,
   OutletService,
@@ -9,7 +9,7 @@ import {
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule],
+  imports: [CommonModule, I18nModule, IconModule, ProductModule],
   declarations: [ChatBotComponent],
   exports: [ChatBotComponent],
 })
