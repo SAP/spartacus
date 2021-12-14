@@ -275,6 +275,15 @@ export class ChatBotService {
 
   protected displayResults(param?) {
     console.log('displayResults', param);
-    // TOD: display results
+    this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: { key: 'chatBot.displayResults' },
+    });
+    this.buildQuery();
+  }
+
+  protected buildQuery() {
+    const url = this.chosenCategory;
+    console.log('buildQuery', url);
   }
 }
