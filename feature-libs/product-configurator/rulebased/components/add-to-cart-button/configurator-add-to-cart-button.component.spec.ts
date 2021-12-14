@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -18,6 +17,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { OrderFacade } from 'feature-libs/order/root';
 import { Observable, of } from 'rxjs';
+import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
@@ -58,6 +58,7 @@ let htmlElem: HTMLElement;
 let routerStateObservable: Observable<any>;
 let productConfigurationObservable: Observable<any>;
 let pendingChangesObservable: Observable<any>;
+let elementMock: { style: any };
 
 function initialize() {
   routerStateObservable = of(mockRouterState);
@@ -225,6 +226,20 @@ class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
+class MockOberserver extends IntersectionObserver {
+  fCallbackFunction: any;
+  constructor(fCallback: any) {
+    super(fCallback);
+    this.fCallbackFunction = fCallback;
+  }
+  observe(): void {}
+  callCallbackFunction(isIntersecting: Boolean): void {
+    const entries = [{ isIntersecting: isIntersecting }];
+
+    this.fCallbackFunction(entries);
+  }
+}
+
 describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -286,6 +301,11 @@ describe('ConfigAddToCartButtonComponent', () => {
   );
 
   beforeEach(() => {
+    elementMock = {
+      style: {
+        position: '',
+      },
+    };
     pendingChangesObservable = of(false);
     initialize();
     routingService = TestBed.inject(RoutingService as Type<RoutingService>);
@@ -303,9 +323,9 @@ describe('ConfigAddToCartButtonComponent', () => {
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    spyOn(windowRef.document, 'querySelector').and.returnValue({
-      'cx-configurator-add-to-cart-button': Element,
-    } as unknown as Element);
+    spyOn(windowRef.document, 'querySelector').and.returnValue(
+      elementMock as unknown as Element
+    );
   });
 
   it('should create', () => {
@@ -467,27 +487,31 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
   describe('Floating button', () => {
-    const mockOberserver = {
-      observe: () => null,
-      isIntersecting: Boolean,
-    };
     beforeEach(
       waitForAsync(() => {
-        (<any>window).IntersectionObserver = () => mockOberserver;
-        spyOn(mockOberserver, 'observe').and.callThrough();
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        (<any>window).IntersectionObserver = MockOberserver;
       })
     );
-    it('should make button sticky', () => {
-      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+
+    it('should make button sticky', (done) => {
       component.ngOnInit();
-      spyOn(mockOberserver, 'isIntersecting').and.returnValue(true);
-      fixture.detectChanges();
-      const addToCart = fixture.debugElement.query(
-        By.css('cx-configurator-add-to-cart-button')
-      ).nativeElement;
-      expect(
-        getComputedStyle(addToCart.getDOMNode()).getPropertyValue('position')
-      ).toBe('sticky');
+      component.container$.pipe(take(1), delay(0)).subscribe(() => {
+        const observer = component.intersectionObserver as MockOberserver;
+        observer.callCallbackFunction(true);
+        expect(elementMock.style.position).toBe('sticky');
+        done();
+      });
+    });
+
+    it('should make button fixed when not intersecting', (done) => {
+      component.ngOnInit();
+      component.container$.pipe(take(1), delay(0)).subscribe(() => {
+        const observer = component.intersectionObserver as MockOberserver;
+        observer.callCallbackFunction(false);
+        expect(elementMock.style.position).toBe('fixed');
+        done();
+      });
     });
   });
 });

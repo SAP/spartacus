@@ -51,6 +51,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
         )
     )
   );
+  intersectionObserver: IntersectionObserver;
 
   constructor(
     protected routingService: RoutingService,
@@ -78,7 +79,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
         return;
       }
 
-      let observer = new IntersectionObserver((entries) => {
+      this.intersectionObserver = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             addToCartButton.style.position = 'sticky';
@@ -92,7 +93,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
         '.cx-price-summary-container'
       );
       if (priceSummary) {
-        observer.observe(priceSummary);
+        this.intersectionObserver.observe(priceSummary);
       }
     });
   }
