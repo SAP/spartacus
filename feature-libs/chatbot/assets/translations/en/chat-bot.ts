@@ -1,6 +1,6 @@
 export const chatBot = {
   chatBot: {
-    hello: 'Hello {{name}}',
+    hello: 'Hello {{name}}!',
     chooseCategory: 'Please choose a category',
     chosenCategory: 'Chosen category {{category}}',
     whatNext: 'Well, what next will you do?',

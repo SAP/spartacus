@@ -52,6 +52,11 @@
       </ul>
     </div>
   </div>
+  <cx-chat-bot-recommendations
+    *ngIf="areRecommendationsOpen"
+    [products$]="recommendations$"
+    (closeEvent)="hideRecommendations()"
+  ></cx-chat-bot-recommendations>
 </div>
 
 <div class="chat-icon" (click)="toggle()" *ngIf="!isOpen">

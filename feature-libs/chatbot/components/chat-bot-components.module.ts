@@ -1,17 +1,27 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFactoryResolver, NgModule } from '@angular/core';
-import { I18nModule, ProductModule } from '@spartacus/core';
+import { I18nModule, UrlModule, ProductModule } from '@spartacus/core';
 import {
   OutletPosition,
   OutletService,
   IconModule,
+  CarouselModule,
+  MediaModule,
 } from '@spartacus/storefront';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
-
+import { ChatBotRecommendationsComponent } from './chat-bot-recommendations/chat-bot-recommendations.component';
 @NgModule({
-  imports: [CommonModule, I18nModule, IconModule, ProductModule],
-  declarations: [ChatBotComponent],
-  exports: [ChatBotComponent],
+  imports: [
+    CommonModule,
+    I18nModule,
+    IconModule,
+    CarouselModule,
+    UrlModule,
+    MediaModule,
+    ProductModule
+  ],
+  declarations: [ChatBotComponent, ChatBotRecommendationsComponent],
+  exports: [ChatBotComponent, ChatBotRecommendationsComponent],
 })
 export class ChatBotComponentsModule {}
 

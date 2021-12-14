@@ -1,0 +1,24 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ICON_TYPE } from '@spartacus/storefront';
+@Component({
+  selector: 'cx-chat-bot-recommendations',
+  templateUrl: './chat-bot-recommendations.component.html',
+})
+export class ChatBotRecommendationsComponent implements OnInit {
+  /**
+   * Products array.
+   */
+  @Input() products$: any;
+
+  @Output() closeEvent: EventEmitter<any> = new EventEmitter();
+
+  closeWindow() {
+    this.closeEvent.emit(null);
+  }
+
+  closeIcon = ICON_TYPE.CLOSE;
+
+  ngOnInit() {
+    console.log('inited');
+  }
+}

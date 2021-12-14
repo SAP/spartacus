@@ -1,0 +1,25 @@
+%cx-chat-bot-recommendations {
+  z-index: 99999;
+  .chat-window-recommendations {
+    position: relative;
+    top: 0;
+    right: 500px;
+    z-index: 12;
+    width: 942px;
+    max-height: 100vh;
+    overflow-y: hidden;
+    main {
+      border: 1px solid #ccc;
+      border-right: none;
+      padding: 10px;
+      width: 100%;
+      max-height: calc(100vh - 71px);
+      overflow-x: hidden;
+      overflow-y: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      background-color: #fff;
+    }
+  }
+}
