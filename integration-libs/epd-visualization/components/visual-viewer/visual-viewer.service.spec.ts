@@ -1,10 +1,9 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { SceneNodeToProductLookupService, VisualizationLookupService } from '@spartacus/epd-visualization/core';
 import {
   ContentType,
-  EpdVisualizationConfig,
-  SceneNodeToProductLookupService,
-  VisualizationLookupService,
+  EpdVisualizationConfig
 } from '@spartacus/epd-visualization/root';
 import { from, Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';

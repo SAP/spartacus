@@ -1,8 +1,13 @@
 import { NgModule } from '@angular/core';
 import { EpdVisualizationComponentsModule } from '@spartacus/epd-visualization/components';
-import { EpdVisualizationApiModule } from './epd-visualization-api/epd-visualization-api.module';
+import { EpdVisualizationCoreModule } from '@spartacus/epd-visualization/core';
+import { EpdVisualizationApiModule } from '@spartacus/epd-visualization/epd-visualization-api';
 
 @NgModule({
-  imports: [EpdVisualizationComponentsModule, EpdVisualizationApiModule],
+  imports: [
+    EpdVisualizationComponentsModule,
+    EpdVisualizationCoreModule,
+    EpdVisualizationApiModule,
+  ],
 })
 export class EpdVisualizationModule {}

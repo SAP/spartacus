@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { UsageId } from '@spartacus/epd-visualization/root';
 import { Observable } from 'rxjs';
-import { UsageId } from '../../models/usage-ids';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 import { VisualizationAdapter } from './visualization.adapter';
 
@@ -17,7 +17,7 @@ export class VisualizationConnector {
    * Only visualizations that have the specified usage ID value will be returned.
    * @param folderUsageId The SAP EPD Visualization usage ID identifying folders to search for visualizations.
    * Only folders that are tagged with the specified usage ID value that have anonymous access enabled will be searched.
-   * @returns An Observable<LookupVisualizationsResponse> returning objects describing matched visualizations.
+   * @returns An Observable producing a LookupVisualizationsResponse which contains an array of objects describing matched visualizations.
    */
   lookupVisualization(
     visualizationUsageId: UsageId,

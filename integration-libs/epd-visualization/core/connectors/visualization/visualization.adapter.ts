@@ -1,5 +1,5 @@
+import { UsageId } from '@spartacus/epd-visualization/root';
 import { Observable } from 'rxjs';
-import { UsageId } from '../../models/usage-ids/usage-id';
 import { LookupVisualizationsResponse } from './lookup-visualizations-response';
 
 export abstract class VisualizationAdapter {
@@ -10,7 +10,7 @@ export abstract class VisualizationAdapter {
    * Only visualizations that have the specified usage ID value will be returned.
    * @param folderUsageId The SAP EPD Visualization usage ID identifying folders to search for visualizations.
    * Only folders that are tagged with the specified usage ID value that have anonymous access enabled will be searched.
-   * @returns An Observable<LookupVisualizationsResponse> returning objects describing matched visualizations.
+   * @returns An Observable producing a LookupVisualizationsResponse which contains an array of objects describing matched visualizations.
    */
   abstract lookupVisualization(
     visualizationUsageId: UsageId,

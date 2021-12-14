@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
-  EpdVisualizationConfig,
-  EpdVisualizationInnerConfig,
   NodesResponse,
   NODES_RESPONSE_NORMALIZER,
   SceneAdapter,
+} from '@spartacus/epd-visualization/core';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
 import { Observable, throwError } from 'rxjs';

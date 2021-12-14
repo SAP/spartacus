@@ -3,11 +3,8 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  EpdVisualizationConfig,
-  NodesResponse,
-  SceneAdapter,
-} from '@spartacus/epd-visualization/root';
+import { NodesResponse, SceneAdapter } from '@spartacus/epd-visualization/core';
+import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { StorageV1Adapter } from './storage-v1.adapter';
 
