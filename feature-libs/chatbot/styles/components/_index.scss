@@ -1,6 +1,7 @@
 @import './chat-bot';
+@import './chat-bot-recommendations';
 
-$chat-bot-components-allowlist: cx-chat-bot !default;
+$chat-bot-components-allowlist: cx-chat-bot cx-chat-bot-recommendations !default;
 
 $skipComponentStyles: () !default;
 
