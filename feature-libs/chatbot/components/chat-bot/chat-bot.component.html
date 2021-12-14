@@ -55,7 +55,8 @@
   <cx-chat-bot-recommendations
     *ngIf="areRecommendationsOpen"
     [products$]="recommendations$"
-    (closeEvent)="hideRecommendations()"
+    (closeRecommendations)="hideRecommendations()"
+    (openProductPage)="toggle()"
   ></cx-chat-bot-recommendations>
 </div>
 

@@ -10,6 +10,7 @@ import {
 } from '@spartacus/storefront';
 import { ChatBotComponent } from './chat-bot/chat-bot.component';
 import { ChatBotRecommendationsComponent } from './chat-bot-recommendations/chat-bot-recommendations.component';
+import { RouterModule } from '@angular/router';
 @NgModule({
   imports: [
     CommonModule,
@@ -18,7 +19,8 @@ import { ChatBotRecommendationsComponent } from './chat-bot-recommendations/chat
     CarouselModule,
     UrlModule,
     MediaModule,
-    ProductModule
+    ProductModule,
+    RouterModule,
   ],
   declarations: [ChatBotComponent, ChatBotRecommendationsComponent],
   exports: [ChatBotComponent, ChatBotRecommendationsComponent],
