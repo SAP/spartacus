@@ -1,15 +1,27 @@
 import { getTestConfig } from '../testing/epd-visualization-test-config';
 import { EpdVisualizationConfig } from './epd-visualization-config';
 import { epdVisualizationConfigValidator } from './epd-visualization-config-validator';
+import { getEpdVisualizationDefaultConfig } from './epd-visualization-default-config';
 
 describe('epdVisualizationConfigValidator', () => {
+  let validConfig = () => {
+    const testConfig = getTestConfig();
+    const defaultConfig = getEpdVisualizationDefaultConfig();
+    const validConfig: EpdVisualizationConfig = {
+      epdVisualization: {
+        ...testConfig.epdVisualization,
+        ...defaultConfig.epdVisualization,
+      },
+    };
+    return validConfig;
+  };
+
   it('should return undefined for valid config', () => {
-    const validConfig = getTestConfig();
-    expect(epdVisualizationConfigValidator(validConfig)).toBeUndefined();
+    expect(epdVisualizationConfigValidator(validConfig())).toBeUndefined();
   });
 
   let negativeTest = (modifier: (config: EpdVisualizationConfig) => void) => {
-    const config = getTestConfig();
+    const config = validConfig();
     modifier(config);
     expect(epdVisualizationConfigValidator(config)).toBeTruthy();
   };

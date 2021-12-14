@@ -4,11 +4,15 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import {
   LookupVisualizationsResponse,
   VisualizationAdapter,
 } from '@spartacus/epd-visualization/core';
 import {
-  EpdVisualizationConfig,
+  getEpdVisualizationDefaultConfig,
   UsageId,
 } from '@spartacus/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
@@ -18,17 +22,14 @@ let visualizationAdapter: VisualizationAdapter;
 let httpMock: HttpTestingController;
 
 const fakeResponse: LookupVisualizationsResponse = { visualizations: [] };
-const mockEpdVisualizationConfig: EpdVisualizationConfig = getTestConfig();
 
 describe('VisualizationApiService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        {
-          provide: EpdVisualizationConfig,
-          useValue: mockEpdVisualizationConfig,
-        },
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
           provide: VisualizationAdapter,
           useClass: VisualizationV1Adapter,

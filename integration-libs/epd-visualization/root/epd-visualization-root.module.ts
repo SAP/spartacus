@@ -5,6 +5,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { epdVisualizationConfigValidator } from './config';
+import { getEpdVisualizationDefaultConfig } from './config/epd-visualization-default-config';
 import { EPD_VISUALIZATION_FEATURE } from './feature-name';
 
 export function defaultEpdVisualizationComponentsConfig(): CmsConfig {
@@ -21,6 +22,7 @@ export function defaultEpdVisualizationComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfigFactory(defaultEpdVisualizationComponentsConfig),
+    provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
     provideConfigValidator(epdVisualizationConfigValidator),
   ],
 })

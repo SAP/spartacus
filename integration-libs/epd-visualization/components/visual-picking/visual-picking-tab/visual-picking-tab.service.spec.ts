@@ -7,9 +7,11 @@ import {
   Product,
   ProductReference,
   ProductScope,
+  provideConfigFactory,
+  provideDefaultConfigFactory,
   Translatable,
 } from '@spartacus/core';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Observable, of, Subject, Subscription } from 'rxjs';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
@@ -155,10 +157,8 @@ describe('VisualPickingTabService', () => {
     TestBed.configureTestingModule({
       declarations: [MockTranslatePipe],
       providers: [
-        {
-          provide: EpdVisualizationConfig,
-          useValue: getTestConfig(),
-        },
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
           provide: CurrentProductService,
           useValue: mockCurrentProductService,
