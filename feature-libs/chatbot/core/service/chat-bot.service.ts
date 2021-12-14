@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
-import { BehaviorSubject, combineLatest, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
 import { AuthService, Translatable } from '@spartacus/core';
 import { UserAccountFacade, User } from '@spartacus/user/account/root';
@@ -114,33 +114,44 @@ export class ChatBotService {
 
   protected showFacets(param?) {
     console.log('show facets', param);
-    combineLatest([this.appliedFacets, this.availableFacets]).subscribe(
-      ([appliedFacets, availableFacets]) => {
-        if (appliedFacets.length === 0) {
-          this.addMessage({
-            author: AuthorType.BOT,
-            text: { key: 'chatBot.chooseFacet' },
-          });
-        } else {
-          this.addMessage({
-            author: AuthorType.BOT,
-            text: { key: 'chatBot.whatNext' },
-          });
-        }
-        const options: ChatBotOption[] = [...availableFacets];
-        if (appliedFacets.length !== 0) {
-          options.push({
-            text: { key: 'chatBot.removeFacet' },
-            callback: (param) => this.showAppliedFacets(param),
-          });
-        }
-        options.push({
-          text: { key: 'chatBot.displayResults' },
-          callback: (param) => this.displayResults(param),
-        });
-        this.showOptions(options);
-      }
-    );
+    this.appliedFacets
+      .pipe(
+        // take(1),
+        switchMap((appliedFacets) => {
+          if (appliedFacets.length === 0) {
+            this.addMessage({
+              author: AuthorType.BOT,
+              text: { key: 'chatBot.chooseFacet' },
+            });
+          } else {
+            this.addMessage({
+              author: AuthorType.BOT,
+              text: { key: 'chatBot.whatNext' },
+            });
+          }
+          return this.availableFacets.pipe(
+            tap((availableFacets) => {
+              const options: ChatBotOption[] = [];
+              console.log('availableFacets', availableFacets);
+              if (availableFacets?.length > 0) {
+                options.push(...availableFacets);
+              }
+              if (appliedFacets.length > 0) {
+                options.push({
+                  text: { key: 'chatBot.removeFacet' },
+                  callback: (param) => this.showAppliedFacets(param),
+                });
+              }
+              options.push({
+                text: { key: 'chatBot.displayResults' },
+                callback: (param) => this.displayResults(param),
+              });
+              this.showOptions(options);
+            })
+          );
+        })
+      )
+      .subscribe();
   }
 
   protected changeCategory(param) {
