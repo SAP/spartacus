@@ -65,7 +65,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   }
 
   handleEvents() {
-    this.events$.subscribe((event: ChatBotEvent) => {
+    this.eventSubscription = this.events$.subscribe((event: ChatBotEvent) => {
       if (event === ChatBotEvent.DISPLAY_RECOMMENDATIONS) {
         this.displayRecommendations();
       }
