@@ -25,7 +25,7 @@ import { OrderConfirmationItemsComponent } from './components/order-confirmation
 import { OrderConfirmationThankYouMessageComponent } from './components/order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
 import { OrderConfirmationTotalsComponent } from './components/order-confirmation-totals/order-confirmation-totals.component';
 import { OrderConfirmationGuard } from './guards/order-confirmation.guard';
-import { OrderConfirmationOrderEntriesContext } from './order-entries-context/order-confirmation-order-entries-context';
+import { OrderConfirmationOrderEntriesContext } from './page-context/order-confirmation-order-entries.context';
 
 @NgModule({
   imports: [

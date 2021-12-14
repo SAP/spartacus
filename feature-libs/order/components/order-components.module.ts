@@ -5,8 +5,8 @@ import {
   OrderReturnModule,
 } from './amend-order/index';
 import { OrderDetailsModule } from './order-details/order-details.module';
-import { OrderDetailsOrderEntriesContext } from './order-entries-context/order-details-order-entries-context';
 import { OrderHistoryModule } from './order-history/order-history.module';
+import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries.context';
 import { ReplenishmentOrderDetailsModule } from './replenishment-order-details/replenishment-order-details.module';
 import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/replenishment-order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
