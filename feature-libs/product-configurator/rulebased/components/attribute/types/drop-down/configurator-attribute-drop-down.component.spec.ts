@@ -229,6 +229,18 @@ describe('ConfigAttributeDropDownComponent', () => {
       );
     });
 
+    it("should contain select element with class name 'form-control' attribute that describes select element content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'select',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
     it("should contain option elements with 'aria-selected' attribute that is set to 'true' to notify the screen reader that a value is selected", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

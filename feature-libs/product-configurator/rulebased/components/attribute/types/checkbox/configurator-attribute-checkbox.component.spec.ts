@@ -138,6 +138,18 @@ describe('ConfigAttributeCheckBoxComponent', () => {
       );
     });
 
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
     it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,

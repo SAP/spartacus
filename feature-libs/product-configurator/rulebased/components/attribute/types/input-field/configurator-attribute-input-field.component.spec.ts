@@ -185,6 +185,18 @@ describe('ConfigAttributeInputFieldComponent', () => {
       );
     });
 
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
     it("should contain input element with class name 'form-control' with a set value and 'aria-label' attribute that overwrites input content for the screen reader", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();

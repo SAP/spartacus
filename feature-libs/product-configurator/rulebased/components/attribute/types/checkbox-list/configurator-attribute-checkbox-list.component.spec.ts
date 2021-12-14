@@ -309,7 +309,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that overwrites input content for the screen reader", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -318,6 +318,44 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         1,
         'aria-label',
         'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with price that overwrites input content for the screen reader", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:attributeName price:$100.00 value:val1'
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
       );
     });
 

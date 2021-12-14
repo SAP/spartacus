@@ -497,6 +497,20 @@ describe('ConfigAttributeHeaderComponent', () => {
       );
     });
 
+    it("should contain label element with 'aria-label' attribute for required attribute type that overwrites label content for the screen reader", () => {
+      classUnderTest.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.requiredAttribute param:label of attribute'
+      );
+    });
+
     it("should contain span element with 'aria-describedby' attribute for required attribute type that describes span content for the screen reader", () => {
       classUnderTest.attribute.required = true;
       fixture.detectChanges();
@@ -509,20 +523,6 @@ describe('ConfigAttributeHeaderComponent', () => {
         'aria-describedby',
         'cx-configurator--label--123',
         'label of attribute'
-      );
-    });
-
-    it("should contain label element with 'aria-label' attribute for required attribute type that overwrites label content for the screen reader", () => {
-      classUnderTest.attribute.required = true;
-      fixture.detectChanges();
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'label',
-        undefined,
-        0,
-        'aria-label',
-        'configurator.a11y.requiredAttribute param:label of attribute'
       );
     });
 

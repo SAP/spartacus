@@ -315,5 +315,61 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'configurator.a11y.valueOfAttributeFull attribute:attributeName value:123'
       );
     }));
+
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute that describes input content for the screen reader", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that is set to 'true' to indicates whether a screen reader will present a changed region based on the change notifications", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    }));
   });
 });

@@ -26,6 +26,7 @@ import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorProductTitleComponent } from './configurator-product-title.component';
 
+const PRODUCT_DESCRIPTION = 'Here is a product description';
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT_NAME = 'productName';
 const CONFIG_ID = '12342';
@@ -85,6 +86,7 @@ const altText = 'some text';
 const product: Product = {
   name: PRODUCT_NAME,
   code: PRODUCT_CODE,
+  description: PRODUCT_DESCRIPTION,
   images: {
     PRIMARY: {
       thumbnail: {
@@ -298,5 +300,114 @@ describe('ConfigProductTitleComponent', () => {
       '.cx-title',
       PRODUCT_NAME
     );
+  });
+
+  describe('Accessibility', () => {
+    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that overwrites span content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-toggle-details-link-text',
+        undefined,
+        'aria-label',
+        'configurator.a11y.showMoreProductInfo product:productName'
+      );
+    });
+
+    it("should contain span element with 'aria-hidden' attribute that hides a content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        1,
+        'aria-hidden',
+        'true',
+        'configurator.header.showMore'
+      );
+    });
+
+    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that overwrites span content for the screen reader", () => {
+      component.triggerDetails();
+      changeDetectorRef.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-toggle-details-link-text',
+        undefined,
+        'aria-label',
+        'configurator.a11y.showLessProductInfo product:productName',
+        'configurator.header.showLess'
+      );
+    });
+
+    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-details-content',
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that does not hide div content for the screen reader", () => {
+      component.triggerDetails();
+      changeDetectorRef.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-details-content',
+        0,
+        'aria-hidden',
+        'false'
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute  for product name that overwrites div content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        2,
+        'aria-label',
+        'configurator.a11y.productName',
+        PRODUCT_NAME
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for product code that overwrites div content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        3,
+        'aria-label',
+        'configurator.a11y.productCode',
+        PRODUCT_CODE
+      );
+    });
+
+    it("should contain span element with 'aria-label' attribute for product description that overwrites div content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        4,
+        'aria-label',
+        'configurator.a11y.productDescription',
+        PRODUCT_DESCRIPTION
+      );
+    });
   });
 });

@@ -167,6 +167,30 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
       );
     });
 
+    it("should contain input elements with class name 'form-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
+    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that exposes the check-box's state", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-checked',
+        'true'
+      );
+    });
+
     it("should contain label elements with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
