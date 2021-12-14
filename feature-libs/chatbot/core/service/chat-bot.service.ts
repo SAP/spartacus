@@ -3,7 +3,12 @@ import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
 import { BehaviorSubject, of } from 'rxjs';
-import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
+import {
+  AuthorType,
+  ChatBotEvent,
+  ChatBotMessage,
+  ChatBotOption,
+} from '../model';
 import { AuthService, Translatable } from '@spartacus/core';
 import { UserAccountFacade, User } from '@spartacus/user/account/root';
 
@@ -22,6 +27,8 @@ export class ChatBotService {
 
   conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
+  events$ = new BehaviorSubject<ChatBotEvent>(ChatBotEvent.INIT);
+
   chosenCategory: string;
   protected user$ = this.auth.isUserLoggedIn().pipe(
     switchMap((isUserLoggedIn) => {
@@ -326,6 +333,8 @@ export class ChatBotService {
     });
 
     this.buildQuery();
+
+    this.events$.next(ChatBotEvent.DISPLAY_RECOMMENDATIONS);
   }
 
   protected buildQuery() {

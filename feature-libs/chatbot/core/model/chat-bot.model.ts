@@ -14,3 +14,8 @@ export interface ChatBotMessage {
   author: AuthorType;
   text?: Translatable;
 }
+
+export const enum ChatBotEvent {
+  INIT = 'INIT',
+  DISPLAY_RECOMMENDATIONS = 'DISPLAY_RECOMMENDATIONS',
+}

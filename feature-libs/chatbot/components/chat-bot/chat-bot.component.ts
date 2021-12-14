@@ -1,14 +1,18 @@
-import { Component } from '@angular/core';
-import { ChatBotConfig, ChatBotService } from '@spartacus/chatbot/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  ChatBotConfig,
+  ChatBotEvent,
+  ChatBotService,
+} from '@spartacus/chatbot/core';
 import { ProductService, ProductScope } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { of } from 'rxjs';
+import { of, Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-chat-bot',
   templateUrl: './chat-bot.component.html',
 })
-export class ChatBotComponent {
+export class ChatBotComponent implements OnInit, OnDestroy {
   constructor(
     protected chatBotConfig: ChatBotConfig,
     protected service: ChatBotService,
@@ -18,7 +22,9 @@ export class ChatBotComponent {
   config = this.chatBotConfig.chatBot;
   conversation$ = this.service.conversation$;
   options$ = this.service.options$;
+  events$ = this.service.events$;
 
+  eventSubscription: Subscription;
 
   closeIcon = ICON_TYPE.CLOSE;
 
@@ -30,7 +36,7 @@ export class ChatBotComponent {
   /**
    * Detemines if chatbot product recommendations component is in open state.
    */
-  areRecommendationsOpen = true;
+  areRecommendationsOpen = false;
 
   /**
    * Observable with recommendations.
@@ -58,6 +64,14 @@ export class ChatBotComponent {
     this.areRecommendationsOpen = false;
   }
 
+  handleEvents() {
+    this.events$.subscribe((event: ChatBotEvent) => {
+      if (event === ChatBotEvent.DISPLAY_RECOMMENDATIONS) {
+        this.displayRecommendations();
+      }
+    });
+  }
+
   ngOnInit() {
     // TODO: Update recomendations based on choices
     this.recommendations$ = of([
@@ -74,5 +88,13 @@ export class ChatBotComponent {
       this.productService.get('300938', ProductScope.LIST),
       this.productService.get('358639', ProductScope.LIST),
     ]);
+
+    this.handleEvents();
+  }
+
+  ngOnDestroy(): void {
+    if (this.eventSubscription) {
+      this.eventSubscription.unsubscribe();
+    }
   }
 }
