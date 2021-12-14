@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CmsService } from '@spartacus/core';
+import { CmsService, ProductSearchService } from '@spartacus/core';
 import { NavigationService } from 'projects/storefrontlib/cms-components';
 import { pluck, switchMap } from 'rxjs/operators';
 
@@ -9,7 +9,8 @@ import { pluck, switchMap } from 'rxjs/operators';
 export class ChatBotCategoryService {
   constructor(
     protected cmsService: CmsService,
-    protected navigationService: NavigationService
+    protected navigationService: NavigationService,
+    protected productSearchService: ProductSearchService
   ) {}
 
   categories$ = this.cmsService.getContentSlot('NavigationBar').pipe(
@@ -20,4 +21,14 @@ export class ChatBotCategoryService {
     ),
     pluck('children')
   );
+
+  selectCategory(category) {
+    this.productSearchService.search(
+      `:relevance:allCategories:${this.getCategoryCode(category)}`
+    );
+  }
+
+  getCategoryCode(category) {
+    return category?.url?.split('/c/')?.[1];
+  }
 }

@@ -81,7 +81,7 @@ export class ChatBotService {
 
   protected chooseCategory(category) {
     console.log('chosenCategory', category);
-    this.chosenCategory = this.getCategoryCode(category);
+    this.chosenCategory = this.chatBotCategoryService.getCategoryCode(category);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: {
@@ -90,11 +90,9 @@ export class ChatBotService {
       },
     });
 
-    this.showFacets();
-  }
+    this.chatBotCategoryService.selectCategory(category);
 
-  protected getCategoryCode(category) {
-    return category?.url?.split('/c/')?.[1];
+    this.showFacets();
   }
 
   protected showFacets(param?) {
