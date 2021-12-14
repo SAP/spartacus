@@ -40,7 +40,7 @@ export class ChatBotFacetService {
 
   removeFacet(value) {
     this.selected$.next(
-      this.selected$.value.filter((facet) => facet === value)
+      this.selected$.value.filter((facet) => facet.name !== value.name)
     );
     this.searchFacets();
   }
