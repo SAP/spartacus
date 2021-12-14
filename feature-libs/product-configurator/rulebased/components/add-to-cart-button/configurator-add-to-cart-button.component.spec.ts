@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   GlobalMessageService,
   I18nTestingModule,
@@ -50,10 +51,6 @@ const mockRouterData: ConfiguratorRouter.Data = {
 const mockOrder: Order = {
   code: '1',
 };
-
-const mockPriceSummary: HTMLElement = document.querySelector(
-  '.cx-price-summary-container'
-) as HTMLElement;
 
 let component: ConfiguratorAddToCartButtonComponent;
 let fixture: ComponentFixture<ConfiguratorAddToCartButtonComponent>;
@@ -112,6 +109,13 @@ class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return of(mockRouterData);
   }
+}
+
+class MockWindowRef {
+  isBrowser() {}
+  document = {
+    querySelector() {},
+  };
 }
 
 function setRouterTestDataCartBoundAndConfigPage() {
@@ -227,7 +231,6 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let windowRef: WindowRef;
-
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -267,6 +270,10 @@ describe('ConfigAddToCartButtonComponent', () => {
             provide: ConfiguratorAddToCartButtonComponent,
             useClass: MockConfiguratorAddToCartButtonComponent,
           },
+          {
+            provide: WindowRef,
+            useClass: MockWindowRef,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -291,11 +298,14 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
+    windowRef = TestBed.inject(WindowRef);
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
+    spyOn(windowRef.document, 'querySelector').and.returnValue({
+      'cx-configurator-add-to-cart-button': Element,
+    } as unknown as Element);
   });
 
   it('should create', () => {
@@ -457,26 +467,27 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
   describe('Floating button', () => {
-    const observerMock = {
+    const mockOberserver = {
       observe: () => null,
-      isIntersecting: true,
+      isIntersecting: Boolean,
     };
     beforeEach(
       waitForAsync(() => {
-        (<any>window).IntersectionObserver = () => observerMock;
-        spyOn(observerMock, 'observe').and.callThrough();
+        (<any>window).IntersectionObserver = () => mockOberserver;
+        spyOn(mockOberserver, 'observe').and.callThrough();
       })
     );
     it('should make button sticky', () => {
-      const mockAddToCartButton = document.querySelector(
-        'cx-configurator-add-to-cart-button'
-      ) as HTMLElement;
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(mockAddToCartButton);
       spyOn(windowRef, 'isBrowser').and.returnValue(true);
-      expect(observerMock.observe).toHaveBeenCalledWith(mockPriceSummary);
-      expect(mockAddToCartButton.style.position).toBe('sticky');
+      component.ngOnInit();
+      spyOn(mockOberserver, 'isIntersecting').and.returnValue(true);
+      fixture.detectChanges();
+      const addToCart = fixture.debugElement.query(
+        By.css('cx-configurator-add-to-cart-button')
+      ).nativeElement;
+      expect(
+        getComputedStyle(addToCart.getDOMNode()).getPropertyValue('position')
+      ).toBe('sticky');
     });
   });
 });

@@ -2,12 +2,7 @@
   <ng-container *ngIf="!container.routerData.displayOnly; else displayOnly">
     <div class="cx-add-to-cart-btn-container">
       <button
-        class="
-          cx-btn
-          btn btn-block btn-primary
-          cx-add-to-cart-btn
-          floating-button
-        "
+        class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
         (click)="onAddToCart(container.configuration, container.routerData)"
       >
         {{
@@ -20,12 +15,7 @@
   <ng-template #displayOnly>
     <div class="cx-display-only-btn-container">
       <button
-        class="
-          cx-btn
-          btn btn-block btn-primary
-          cx-display-only-btn
-          floating-button
-        "
+        class="cx-btn btn btn-block btn-primary cx-display-only-btn"
         (click)="leaveConfigurationOverview()"
       >
         {{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}
