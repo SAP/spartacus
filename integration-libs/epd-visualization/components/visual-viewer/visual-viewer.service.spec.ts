@@ -1,12 +1,16 @@
 import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  provideConfigFactory,
+  provideDefaultConfigFactory
+} from '@spartacus/core';
+import {
   SceneNodeToProductLookupService,
-  VisualizationLookupService,
+  VisualizationLookupService
 } from '@spartacus/epd-visualization/core';
 import {
   ContentType,
-  EpdVisualizationConfig,
+  getEpdVisualizationDefaultConfig
 } from '@spartacus/epd-visualization/root';
 import { from, Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';
@@ -84,10 +88,8 @@ describe('VisualViewerService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: EpdVisualizationConfig,
-          useValue: getTestConfig(),
-        },
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
           provide: SceneNodeToProductLookupService,
           useValue: mockSceneNodeToProductLookupService,

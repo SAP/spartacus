@@ -4,8 +4,10 @@ import {
   ProductReference,
   ProductReferenceService,
   ProductScope,
+  provideConfigFactory,
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
 import { from, Observable, of } from 'rxjs';
 import { skip } from 'rxjs/operators';
@@ -108,10 +110,8 @@ describe('VisualPickingProductListService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: EpdVisualizationConfig,
-          useValue: getTestConfig(),
-        },
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
           provide: CurrentProductService,
           useClass: MockCurrentProductService,

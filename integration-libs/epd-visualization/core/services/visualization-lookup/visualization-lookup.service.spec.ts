@@ -1,7 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import {
   ContentType,
-  EpdVisualizationConfig,
+  getEpdVisualizationDefaultConfig,
   UsageId,
   VisualizationInfo,
 } from '@spartacus/epd-visualization/root';
@@ -28,11 +32,7 @@ class MockVisualizationAdapter extends VisualizationAdapter {
 
 describe('VisualizationLookupService', () => {
   describe('findMatchingVisualizations', () => {
-    let epdVisualizationConfig: EpdVisualizationConfig;
-
     it('should filter content types', (done) => {
-      epdVisualizationConfig = getTestConfig();
-
       const vis2DDrawing = {
         visualizationId: '2DDrawingVis',
         contentType: ContentType.Drawing2D,
@@ -78,10 +78,8 @@ describe('VisualizationLookupService', () => {
 
       TestBed.configureTestingModule({
         providers: [
-          {
-            provide: EpdVisualizationConfig,
-            useValue: epdVisualizationConfig,
-          },
+          provideConfigFactory(getTestConfig),
+          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
           {
             provide: VisualizationAdapter,
             useValue: visualizationAdapter,
