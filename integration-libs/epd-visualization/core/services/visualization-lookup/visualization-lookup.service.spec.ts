@@ -1,18 +1,20 @@
 import { TestBed } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
-import { ContentType } from '../../models/visualizations/content-type';
-import { EpdVisualizationConfig } from '../../config';
-import { getTestConfig } from '../../testing/epd-visualization-test-config';
-import { UsageId } from '../../models/usage-ids/usage-id';
-import { VisualizationInfo } from '../../models/visualizations/visualization-info';
 import {
-  LookupVisualizationsResponse,
-  VisualizationApiService,
-} from '../visualization-api/visualization-api.service';
+  ContentType,
+  EpdVisualizationConfig,
+  UsageId,
+  VisualizationInfo,
+} from '@spartacus/epd-visualization/root';
+import { Observable, of } from 'rxjs';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
+import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
+import { VisualizationAdapter } from '../../connectors/visualization/visualization.adapter';
 import { VisualizationLookupService } from './visualization-lookup.service';
 
-class FakeVisualizationApiService {
-  constructor(protected visualizationInfos: VisualizationInfo[]) {}
+class MockVisualizationAdapter extends VisualizationAdapter {
+  constructor(protected visualizationInfos: VisualizationInfo[]) {
+    super();
+  }
 
   lookupVisualization(
     _visualizationUsageId: UsageId,
@@ -67,7 +69,7 @@ describe('VisualizationLookupService', () => {
         category: 'irrelevant value',
       };
 
-      const visualizationApiService = new FakeVisualizationApiService([
+      const visualizationAdapter = new MockVisualizationAdapter([
         vis2DImage,
         vis2DDrawing,
         vis3DModel,
@@ -81,8 +83,8 @@ describe('VisualizationLookupService', () => {
             useValue: epdVisualizationConfig,
           },
           {
-            provide: VisualizationApiService,
-            useValue: visualizationApiService,
+            provide: VisualizationAdapter,
+            useValue: visualizationAdapter,
           },
         ],
       });

@@ -6,9 +6,15 @@ import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  SceneAdapter,
+  VisualizationAdapter,
+} from '@spartacus/epd-visualization/core';
 import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 import { SpinnerModule } from '@spartacus/storefront';
 import { Observable, of, Subject } from 'rxjs';
+import { StorageV1Adapter } from '../../epd-visualization-api/adapters/storage-v1/storage-v1.adapter';
+import { VisualizationV1Adapter } from '../../epd-visualization-api/adapters/visualization-v1/visualization-v1.adapter';
 import { getTestConfig } from '../../root/testing/epd-visualization-test-config';
 import { NavigationMode } from './models/navigation-mode';
 import { SceneLoadInfo } from './models/scene-load-info';
@@ -265,6 +271,14 @@ describe('VisualViewerComponent', () => {
           {
             provide: LanguageService,
             useValue: mockLanguageService,
+          },
+          {
+            provide: VisualizationAdapter,
+            useClass: VisualizationV1Adapter,
+          },
+          {
+            provide: SceneAdapter,
+            useClass: StorageV1Adapter,
           },
         ],
       }).compileComponents();

@@ -289,6 +289,12 @@
       "@spartacus/epd-visualization/root": [
         "../../integration-libs/epd-visualization/root/public_api"
       ],
+      "@spartacus/epd-visualization/core": [
+        "../../integration-libs/epd-visualization/core/public_api"
+      ],
+      "@spartacus/epd-visualization/epd-visualization-api": [
+        "../../integration-libs/epd-visualization/epd-visualization-api/public_api"
+      ],
       "@spartacus/epd-visualization": [
         "../../integration-libs/epd-visualization/public_api"
       ],
