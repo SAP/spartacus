@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/main/root';
-import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, isNotNullable, Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
+import { WishListFacade } from '../../facade/wish-list.facade';
 
 @Component({
   selector: 'cx-add-to-wishlist',
@@ -17,15 +17,15 @@ export class AddToWishListComponent {
     tap((product) => this.setStockInfo(product))
   );
 
-  wishListEntries$: Observable<OrderEntry[]> = this.wishListFacade
-    .getWishList()
-    .pipe(
-      filter((wishlist) => Boolean(wishlist)),
-      map((wishList) => wishList.entries ?? [])
-    );
+  // wishListEntries$: Observable<OrderEntry[]> = this.wishListFacade
+  //   .getWishList()
+  //   .pipe(
+  //     filter((wishlist) => Boolean(wishlist)),
+  //     map((wishList) => wishList.entries ?? [])
+  //   );
 
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
-  loading$: Observable<boolean> = this.wishListFacade.getWishListLoading();
+  // loading$: Observable<boolean> = this.wishListFacade.getWishListLoading();
 
   hasStock = false;
   iconTypes = ICON_TYPE;
