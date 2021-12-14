@@ -10,10 +10,10 @@ export class ChatBotRecommendationsComponent implements OnInit {
    */
   @Input() products$: any;
 
-  @Output() close: EventEmitter<any> = new EventEmitter();
+  @Output() closeEvent: EventEmitter<any> = new EventEmitter();
 
   closeWindow() {
-    this.close.emit(null);
+    this.closeEvent.emit(null);
   }
 
   closeIcon = ICON_TYPE.CLOSE;

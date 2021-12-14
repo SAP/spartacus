@@ -2,7 +2,7 @@
   <div class="chat-container">
     <section class="chat-header">
       <div></div>
-      <h2 class="title">{{ TEMP_CONFIG.chatBot?.botName }} Chatbot</h2>
+      <h2 class="title">{{ config.chatBot?.botName }} Chatbot</h2>
       <div><cx-icon (click)="toggle()" [type]="closeIcon"></cx-icon></div>
     </section>
 
@@ -17,7 +17,7 @@
           }"
         >
           <div class="avatar">
-            <img [src]="TEMP_CONFIG.chatBot?.botAvatar" class="avatar-img" />
+            <img [src]="config.chatBot?.botAvatar" class="avatar-img" />
             <div class="avatar-message">
               <div>
                 <div class="text-message">
@@ -55,12 +55,12 @@
   <cx-chat-bot-recommendations
     *ngIf="areRecommendationsOpen"
     [products$]="recommendations$"
-    (close)="hideRecommendations()"
+    (closeEvent)="hideRecommendations()"
   ></cx-chat-bot-recommendations>
 </div>
 
 <div class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
   <div class="circle">
-    <img [src]="TEMP_CONFIG.chatBot?.botAvatar" class="avatar-img" />
+    <img [src]="config.chatBot?.botAvatar" class="avatar-img" />
   </div>
 </div>

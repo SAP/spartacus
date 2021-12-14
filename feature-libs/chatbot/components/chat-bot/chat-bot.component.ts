@@ -3,7 +3,6 @@ import { ChatBotConfig, ChatBotService } from '@spartacus/chatbot/core';
 import { ProductService, ProductScope } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { defaultChatBotConfig } from '../../core/config/default-chat-bot-config';
 @Component({
   selector: 'cx-chat-bot',
   templateUrl: './chat-bot.component.html',
@@ -18,8 +17,6 @@ export class ChatBotComponent implements OnInit {
   conversation$ = this.service.conversation$;
 
   options$ = this.service.options$;
-
-  TEMP_CONFIG = defaultChatBotConfig; // TODO: Remove and inject proper config
 
   closeIcon = ICON_TYPE.CLOSE;
 
