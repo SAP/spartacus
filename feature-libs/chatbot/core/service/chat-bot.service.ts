@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, take, tap } from 'rxjs/operators';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
 import { BehaviorSubject, combineLatest } from 'rxjs';
@@ -97,8 +97,14 @@ export class ChatBotService {
 
   protected showFacets(param?) {
     console.log('show facets', param);
-    combineLatest([this.appliedFacets, this.availableFacets]).subscribe(
-      ([appliedFacets, availableFacets]) => {
+    combineLatest([this.appliedFacets, this.availableFacets])
+      .pipe(
+        filter(
+          ([appliedFacets, availableFacets]) =>
+            !!appliedFacets && !!availableFacets
+        )
+      )
+      .subscribe(([appliedFacets, availableFacets]) => {
         if (appliedFacets.length === 0) {
           this.addMessage({
             author: AuthorType.BOT,
@@ -122,8 +128,7 @@ export class ChatBotService {
           callback: (param) => this.displayResults(param),
         });
         this.showOptions(options);
-      }
-    );
+      });
   }
 
   protected changeCategory(param) {
@@ -194,7 +199,6 @@ export class ChatBotService {
 
   protected get availableFacets() {
     return this.chatBotFacetService.facets$.pipe(
-      take(1),
       map((results) => {
         return results.facets?.map((facet) => {
           return {
