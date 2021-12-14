@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { map, take, tap } from 'rxjs/operators';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
 import { Translatable } from '@spartacus/core';
 
@@ -86,7 +86,7 @@ export class ChatBotService {
       author: AuthorType.CUSTOMER,
       text: {
         key: 'chatBot.chosenCategory',
-        params: { category: category.raw },
+        params: { category: category.title },
       },
     });
 
@@ -99,32 +99,33 @@ export class ChatBotService {
 
   protected showFacets(param?) {
     console.log('show facets', param);
-    if (this.appliedFacets.length === 0) {
-      this.addMessage({
-        author: AuthorType.BOT,
-        text: { key: 'chatBot.chooseFacets' },
-      });
-    } else {
-      this.addMessage({
-        author: AuthorType.BOT,
-        text: { key: 'chatBot.whatNext' },
-      });
-    }
-    this.showOptions([
-      ...this.availableFacets,
-      {
-        text: { key: 'chatBot.removeFacet' },
-        callback: (param) => this.showAppliedFacets(param),
-      },
-      {
-        text: { key: 'chatBot.changeCategory' },
-        callback: (param) => this.changeCategory(param),
-      },
-      {
-        text: { key: 'chatBot.displayResults' },
-        callback: (param) => this.displayResults(param),
-      },
-    ]);
+    combineLatest([this.appliedFacets, this.availableFacets]).subscribe(
+      ([appliedFacets, availableFacets]) => {
+        if (appliedFacets.length === 0) {
+          this.addMessage({
+            author: AuthorType.BOT,
+            text: { key: 'chatBot.chooseFacet' },
+          });
+        } else {
+          this.addMessage({
+            author: AuthorType.BOT,
+            text: { key: 'chatBot.whatNext' },
+          });
+        }
+        const options: ChatBotOption[] = [...availableFacets];
+        if (appliedFacets.length !== 0) {
+          options.push({
+            text: { key: 'chatBot.removeFacet' },
+            callback: (param) => this.showAppliedFacets(param),
+          });
+        }
+        options.push({
+          text: { key: 'chatBot.displayResults' },
+          callback: (param) => this.displayResults(param),
+        });
+        this.showOptions(options);
+      }
+    );
   }
 
   protected changeCategory(param) {
@@ -148,7 +149,7 @@ export class ChatBotService {
           text: { raw: value.name },
           callback: () => {
             this.chatBotFacetService.addFacet(value);
-            this.chooseFacetOption(value.name);
+            this.chooseFacetOption(value);
           },
         };
       }),
@@ -173,75 +174,43 @@ export class ChatBotService {
     console.log('chooseFacet', text);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.chosenFacet', params: { text: text.key } },
+      text: { key: 'chatBot.chosenFacet', params: { facet: text.raw } },
     });
     this.showFacetOptions(facet);
   }
 
   protected get appliedFacets() {
-    // TODO: get applied facets from backend
-    let options = [];
-    this.chatBotFacetService.selected$
-      .pipe(
-        take(1),
-        map((facets) => {
-          return facets?.map((facet) => {
-            return {
-              text: { raw: facet.name },
-              callback: () => this.removeFacet(facet),
-            };
-          });
-        })
-      )
-      .subscribe((chats) => {
-        options = chats;
-      });
-
-    return options;
+    return this.chatBotFacetService.selected$.pipe(
+      take(1),
+      map((facets) => {
+        return facets?.map((facet) => {
+          return {
+            text: { raw: facet.name },
+            callback: () => this.removeFacet(facet),
+          };
+        });
+      })
+    );
   }
 
   protected get availableFacets() {
-    // TODO: get available facets from backend
-    this.chatBotFacetService.facets$.subscribe((facets) => console.log(facets));
-
-    let options = [];
-    this.chatBotFacetService.facets$
-      .pipe(
-        take(1),
-        map((results) => {
-          return results.facets?.map((facet) => {
-            return {
-              text: { raw: facet.name },
-              callback: () =>
-                this.chooseFacet(
-                  {
-                    raw: facet?.name,
-                  },
-                  facet
-                ),
-            };
-          });
-        })
-      )
-      .subscribe((chats) => {
-        options = chats;
-      });
-
-    return options;
-  }
-
-  protected get availableFacetOptions() {
-    // TODO: get available facet options from backend
-    return [
-      {
-        text: { key: 'chatBot.facet.price.1' },
-        callback: (param) => this.chooseFacetOption(param),
-      },
-      {
-        text: { key: 'chatBot.facet.price.1' },
-        callback: (param) => this.chooseFacetOption(param),
-      },
-    ];
+    return this.chatBotFacetService.facets$.pipe(
+      take(1),
+      map((results) => {
+        return results.facets?.map((facet) => {
+          return {
+            text: { raw: facet.name },
+            callback: () =>
+              this.chooseFacet(
+                {
+                  raw: facet?.name,
+                },
+                facet
+              ),
+          };
+        });
+      })
+    );
   }
 
   protected showAppliedFacets(param?) {
@@ -250,22 +219,24 @@ export class ChatBotService {
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.removeFacet', params: {} },
     });
-    this.showOptions([
-      ...this.appliedFacets,
-      {
-        text: { key: 'chatBot.cancel' },
-        callback: (param) => this.cancelChoosingFacetOptions(param),
-      },
-    ]);
+    this.appliedFacets.subscribe((appliedFacets) => {
+      this.showOptions([
+        ...appliedFacets,
+        {
+          text: { key: 'chatBot.cancel' },
+          callback: (param) => this.cancelChoosingFacetOptions(param),
+        },
+      ]);
+    });
   }
 
-  protected chooseFacetOption(facetOption?: Translatable) {
+  protected chooseFacetOption(facetOption?) {
     console.log('chooseFacetOption', facetOption);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: {
         key: 'chatBot.chosenFacetOption',
-        params: { option: facetOption.key },
+        params: { option: facetOption.name },
       },
     });
     this.showFacets();
@@ -275,7 +246,7 @@ export class ChatBotService {
     console.log('removeFacet', facet);
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.removedFacet', params: { facet: facet.key } },
+      text: { key: 'chatBot.removedFacet', params: { facet: facet.name } },
     });
     this.chatBotFacetService.removeFacet(facet);
     this.showFacets();
