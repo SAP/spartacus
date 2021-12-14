@@ -19,7 +19,6 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -163,22 +162,21 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * Provides required data and opens AddedToCartDialogComponent modal
    */
   protected openModal() {
-    let modalInstance: any;
-    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-
-    modalInstance = this.modalRef.componentInstance;
-    // Display last entry for new product code. This always corresponds to
-    // our new item, independently of whether merging occured or not
-    modalInstance.entry$ = this.activeCartService.getLastEntry(
-      this.productCode
-    );
-    modalInstance.cart$ = this.activeCartService.getActive();
-    modalInstance.loaded$ = this.activeCartService.isStable();
-    modalInstance.quantity = this.quantity;
-    modalInstance.numberOfEntriesBeforeAdd = this.numberOfEntriesBeforeAdd;
+    // let modalInstance: any;
+    // this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
+    //   centered: true,
+    //   size: 'lg',
+    // });
+    // modalInstance = this.modalRef.componentInstance;
+    // // Display last entry for new product code. This always corresponds to
+    // // our new item, independently of whether merging occured or not
+    // modalInstance.entry$ = this.activeCartService.getLastEntry(
+    //   this.productCode
+    // );
+    // modalInstance.cart$ = this.activeCartService.getActive();
+    // modalInstance.loaded$ = this.activeCartService.isStable();
+    // modalInstance.quantity = this.quantity;
+    // modalInstance.numberOfEntriesBeforeAdd = this.numberOfEntriesBeforeAdd;
   }
 
   ngOnDestroy() {

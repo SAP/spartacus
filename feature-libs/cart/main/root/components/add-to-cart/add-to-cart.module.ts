@@ -2,7 +2,13 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
+import {
+  CmsConfig,
+  FeaturesConfigModule,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import {
   IconModule,
   ItemCounterModule,
@@ -11,14 +17,12 @@ import {
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { CartSharedModule } from './../cart-shared/cart-shared.module';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { AddToCartComponent } from './add-to-cart.component';
 
 @NgModule({
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    CartSharedModule,
     RouterModule,
     SpinnerModule,
     PromotionsModule,
@@ -30,8 +34,19 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart
     KeyboardFocusModule,
     ModalModule,
   ],
-  providers: [],
-  declarations: [AddedToCartDialogComponent],
-  exports: [AddedToCartDialogComponent],
+  providers: [
+    provideDefaultConfig(<CmsConfig>{
+      cmsComponents: {
+        ProductAddToCartComponent: {
+          component: AddToCartComponent,
+          data: {
+            inventoryDisplay: false,
+          },
+        },
+      },
+    }),
+  ],
+  declarations: [AddToCartComponent],
+  exports: [AddToCartComponent],
 })
 export class AddToCartModule {}

@@ -5,6 +5,7 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
+import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
 import { MiniCartModule } from './components/mini-cart/mini-cart.module';
 import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
@@ -17,7 +18,6 @@ export function defaultCartComponentsConfig() {
     featureModules: {
       [CART_FEATURE]: {
         cmsComponents: [
-          'ProductAddToCartComponent',
           'CartApplyCouponComponent',
           'CartComponent',
           'CartTotalsComponent',
@@ -48,7 +48,7 @@ export function defaultCartComponentsConfig() {
       },
     ]),
   ],
-  exports: [MiniCartModule],
+  exports: [MiniCartModule, AddToCartModule],
   providers: [
     provideDefaultConfigFactory(defaultCartComponentsConfig),
     provideDefaultConfig(defaultCartConfig),
