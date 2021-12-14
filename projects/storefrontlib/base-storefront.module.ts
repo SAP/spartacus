@@ -10,6 +10,7 @@ import { PageSlotModule } from './cms-structure/page/slot/page-slot.module';
 import { PwaModule } from './cms-structure/pwa/pwa.module';
 import { RoutingModule } from './cms-structure/routing/routing.module';
 import { SeoModule } from './cms-structure/seo/seo.module';
+import { PreFetchModule } from './cms-structure/utils/pre-fetch/pre-fetch.module';
 import { KeyboardFocusModule } from './layout/a11y/keyboard-focus/keyboard-focus.module';
 import { SkipLinkModule } from './layout/a11y/skip-link/skip-link.module';
 import { LayoutModule } from './layout/layout.module';
@@ -20,6 +21,7 @@ import { MediaModule } from './shared/components/media/media.module';
   imports: [
     BaseCoreModule.forRoot(),
     RouterModule,
+    PreFetchModule,
     GlobalMessageComponentModule,
     OutletModule,
     OutletRefModule,
