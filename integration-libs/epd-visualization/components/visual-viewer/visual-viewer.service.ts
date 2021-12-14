@@ -11,12 +11,11 @@ import {
   ContentType,
   EpdVisualizationConfig,
   EpdVisualizationInnerConfig,
-  SceneNodeToProductLookupService,
   Ui5Config,
   VisualizationApiConfig,
   VisualizationInfo,
-  VisualizationLookupService,
 } from '@spartacus/epd-visualization/root';
+import { SceneNodeToProductLookupService, VisualizationLookupService } from '@spartacus/epd-visualization/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,

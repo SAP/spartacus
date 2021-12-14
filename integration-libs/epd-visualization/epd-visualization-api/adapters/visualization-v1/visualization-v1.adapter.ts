@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, normalizeHttpError } from '@spartacus/core';
 import {
-  EpdVisualizationConfig,
-  EpdVisualizationInnerConfig,
   LookupVisualizationsResponse,
   LOOKUP_VISUALIZATIONS_RESPONSE_NORMALIZER,
-  UsageId,
   VisualizationAdapter,
+} from '@spartacus/epd-visualization/core';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+  UsageId,
   VisualizationApiConfig,
 } from '@spartacus/epd-visualization/root';
 import { Observable, throwError } from 'rxjs';

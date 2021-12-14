@@ -175,6 +175,9 @@
       ],
       "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
       "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
+      "@spartacus/epd-visualization/core": [
+        "dist/epd-visualization/core"
+      ],
       "@spartacus/epd-visualization/epd-visualization-api": [
         "dist/epd-visualization/epd-visualization-api"
       ],

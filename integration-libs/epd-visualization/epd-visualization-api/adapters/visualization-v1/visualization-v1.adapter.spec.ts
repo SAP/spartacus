@@ -4,10 +4,12 @@ import {
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
-  EpdVisualizationConfig,
   LookupVisualizationsResponse,
-  UsageId,
   VisualizationAdapter,
+} from '@spartacus/epd-visualization/core';
+import {
+  EpdVisualizationConfig,
+  UsageId,
 } from '@spartacus/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { VisualizationV1Adapter } from './visualization-v1.adapter';

@@ -1,4 +1,4 @@
-import { VisualizationInfo } from '../../models/visualizations/visualization-info';
+import { VisualizationInfo } from '@spartacus/epd-visualization/root';
 
 export interface LookupVisualizationsResponse {
   visualizations?: VisualizationInfo[];

@@ -1,13 +1,15 @@
 import { TestBed } from '@angular/core/testing';
+import {
+  ContentType,
+  EpdVisualizationConfig,
+  UsageId,
+  VisualizationInfo,
+} from '@spartacus/epd-visualization/root';
 import { Observable, of } from 'rxjs';
-import { ContentType } from '../../models/visualizations/content-type';
-import { EpdVisualizationConfig } from '../../config';
-import { getTestConfig } from '../../testing/epd-visualization-test-config';
-import { UsageId } from '../../models/usage-ids/usage-id';
-import { VisualizationInfo } from '../../models/visualizations/visualization-info';
-import { VisualizationLookupService } from './visualization-lookup.service';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { LookupVisualizationsResponse } from '../../connectors/visualization/lookup-visualizations-response';
 import { VisualizationAdapter } from '../../connectors/visualization/visualization.adapter';
+import { VisualizationLookupService } from './visualization-lookup.service';
 
 class MockVisualizationAdapter extends VisualizationAdapter {
   constructor(protected visualizationInfos: VisualizationInfo[]) {
