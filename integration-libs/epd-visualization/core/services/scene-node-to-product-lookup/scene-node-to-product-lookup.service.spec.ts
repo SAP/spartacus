@@ -1,13 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
+import {
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
+import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { Observable, of } from 'rxjs';
+import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import {
   MetadatumValueType,
   NodesResponse,
 } from '../../connectors/scene/nodes-response';
 import { SceneAdapter } from '../../connectors/scene/scene.adapter';
 import { SceneNodeToProductLookupService } from './scene-node-to-product-lookup.service';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
 
 class MockSceneAdapter extends SceneAdapter {
   getNodesFunc: (
@@ -28,8 +32,6 @@ class MockSceneAdapter extends SceneAdapter {
     return this.getNodesFunc(sceneId, nodeIds, expand, filter, contentType);
   }
 }
-
-const epdVisualizationConfig = getTestConfig();
 
 const nodesResponseOneProductCodePerSceneNode: NodesResponse = {
   nodes: [
@@ -165,10 +167,8 @@ describe('SceneNodeToProductLookupService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        {
-          provide: EpdVisualizationConfig,
-          useValue: epdVisualizationConfig,
-        },
+        provideConfigFactory(getTestConfig),
+        provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
         {
           provide: SceneAdapter,
           useValue: mockSceneAdapter,

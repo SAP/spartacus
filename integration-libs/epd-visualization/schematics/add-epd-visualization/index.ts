@@ -27,8 +27,8 @@ import {
   EPD_VISUALIZATION_TRANSLATIONS,
   EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,
-  SPARTACUS_EPD_VISUALIZATION_ROOT,
   SPARTACUS_EPD_VISUALIZATION_ASSETS,
+  SPARTACUS_EPD_VISUALIZATION_ROOT,
 } from '../constants';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
@@ -66,29 +66,8 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
             bootstrapUrl: "https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js"
           },
 
-          usageIds: {
-            folderUsageId: {
-              name: "CommerceCloud-Folder",
-              keys: [{
-                name: "Function",
-                value: "Online"
-              }]
-            },
-
-            productUsageId: {
-              name: "CommerceCloud-SparePart",
-              source: "CommerceCloud",
-              category: "SpareParts",
-              keyName: "ProductCode"
-            }
-          },
-
           apis: {
             baseUrl: "${options.baseUrl}"
-          },
-
-          visualPicking: {
-            productReferenceType: "SPAREPART"
           }
         }
       }`,

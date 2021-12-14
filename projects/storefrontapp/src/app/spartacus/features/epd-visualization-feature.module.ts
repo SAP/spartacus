@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
-
-import {
-  EPD_VISUALIZATION_FEATURE,
-  EpdVisualizationConfig,
-  EpdVisualizationRootModule,
-} from '@spartacus/epd-visualization/root';
-
 import {
   epdVisualizationTranslationChunksConfig,
   epdVisualizationTranslations,
 } from '@spartacus/epd-visualization/assets';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationRootModule,
+  EPD_VISUALIZATION_FEATURE,
+} from '@spartacus/epd-visualization/root';
 
 const epdVisualizationConfig: EpdVisualizationConfig = {
   epdVisualization: {
@@ -19,31 +17,9 @@ const epdVisualizationConfig: EpdVisualizationConfig = {
         'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com',
     },
 
-    usageIds: {
-      folderUsageId: {
-        name: 'CommerceCloud-Folder',
-        keys: [
-          {
-            name: 'Function',
-            value: 'Online',
-          },
-        ],
-      },
-
-      productUsageId: {
-        name: 'CommerceCloud-SparePart',
-        source: 'CommerceCloud',
-        category: 'SpareParts',
-        keyName: 'ProductCode',
-      },
-    },
-
     ui5: {
-      bootstrapUrl: 'https://sapui5.hana.ondemand.com/resources/sap-ui-core.js',
-    },
-
-    visualPicking: {
-      productReferenceType: 'SPAREPART',
+      bootstrapUrl:
+        'https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js',
     },
   },
 };

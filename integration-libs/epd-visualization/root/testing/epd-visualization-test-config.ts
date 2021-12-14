@@ -9,27 +9,7 @@ export function getTestConfig(): EpdVisualizationConfig {
       },
       ui5: {
         bootstrapUrl:
-          'https://sapui5.hana.ondemand.com/resources/sap-ui-core.js',
-      },
-      usageIds: {
-        folderUsageId: {
-          name: 'CommerceCloud-Folder',
-          keys: [
-            {
-              name: 'Function',
-              value: 'Online',
-            },
-          ],
-        },
-        productUsageId: {
-          name: 'CommerceCloud-SparePart',
-          source: 'CommerceCloud',
-          category: 'SpareParts',
-          keyName: 'ProductCode',
-        },
-      },
-      visualPicking: {
-        productReferenceType: 'SPAREPART',
+          'https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js',
       },
     },
   };
