@@ -2,15 +2,15 @@ import { ChangeDetectorRef, ElementRef, EventEmitter } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
-  provideDefaultConfigFactory
+  provideDefaultConfigFactory,
 } from '@spartacus/core';
 import {
   SceneNodeToProductLookupService,
-  VisualizationLookupService
+  VisualizationLookupService,
 } from '@spartacus/epd-visualization/core';
 import {
   ContentType,
-  getEpdVisualizationDefaultConfig
+  getEpdVisualizationDefaultConfig,
 } from '@spartacus/epd-visualization/root';
 import { from, Observable, of } from 'rxjs';
 import Core from 'sap/ui/core/Core';
