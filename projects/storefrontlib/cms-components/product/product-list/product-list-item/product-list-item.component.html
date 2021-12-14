@@ -1,7 +1,8 @@
 <div class="row">
   <div class="col-12 col-md-4">
     <a
-      [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      [cxRouterLink]="{ cxRoute: 'product', params: product } | cxUrl"
+      [cxRouterLinkData]="{ type: 'product', id: product.code }"
       class="cx-product-image-container"
       tabindex="-1"
     >

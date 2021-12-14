@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { PreFetchModule } from '../../../cms-structure/utils/pre-fetch/pre-fetch.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import {
   ItemCounterModule,
@@ -31,6 +32,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
   imports: [
     CommonModule,
     RouterModule,
+    PreFetchModule,
     MediaModule,
     AddToCartModule,
     ItemCounterModule,

@@ -5,6 +5,7 @@ import {
   OnChanges,
   SimpleChanges,
 } from '@angular/core';
+import { Product } from '@spartacus/core';
 import { ProductListOutlets } from '../../product-outlets.model';
 import { ProductListItemContextSource } from '../model/product-list-item-context-source.model';
 import { ProductListItemContext } from '../model/product-list-item-context.model';
@@ -23,7 +24,7 @@ import { ProductListItemContext } from '../model/product-list-item-context.model
 })
 export class ProductListItemComponent implements OnChanges {
   readonly ProductListOutlets = ProductListOutlets;
-  @Input() product: any;
+  @Input() product: Product;
 
   constructor(
     protected productListItemContextSource: ProductListItemContextSource
