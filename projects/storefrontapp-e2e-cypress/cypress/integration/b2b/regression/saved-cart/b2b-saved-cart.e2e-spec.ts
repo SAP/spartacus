@@ -248,7 +248,10 @@ context('B2B - Saved Cart', () => {
       });
 
       it('should perform full checkout from saved cart details', () => {
-        savedCart.waitForSavedCartDetailsPageData(sampleData.products[0]);
+        savedCart.updateSavedCartAndRestore(
+          sampleData.products[0],
+          sampleData.savedActiveCartForm[0]
+        );
 
         // Checkout flow
         savedCart.proceedToCheckout();

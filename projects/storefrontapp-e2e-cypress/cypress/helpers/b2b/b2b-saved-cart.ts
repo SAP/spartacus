@@ -1,18 +1,11 @@
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import * as alerts from '../../helpers/global-message';
 import * as sampleData from '../../sample-data/b2b-saved-cart';
-import {
-  SampleCartProduct,
-  SampleProduct,
-} from '../../sample-data/checkout-flow';
+import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
 import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
-import {
-  b2bAccountShipToUser,
-  order_type,
-} from '../../sample-data/b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -213,23 +206,10 @@ export function proceedToCheckout() {
 }
 
 export function executeCheckout() {
-  const cartProduct: SampleCartProduct = {
-    estimatedShipping: '$9.99',
-    total: '$4.50',
-    totalAndShipping: '$14.49',
-  };
-
   b2bCheckout.enterPONumber();
   b2bCheckout.selectAccountPayment();
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
-  b2bCheckout.reviewB2bReviewOrderPage(
-    b2bAccountShipToUser,
-    cartProduct,
-    true,
-    order_type.PLACE_ORDER,
-    false
-  );
   b2bCheckout.placeOrder('/order-confirmation');
 }
 
