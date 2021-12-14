@@ -50,12 +50,14 @@ export class ChatBotService {
     this.chatBotCategoryService.categories$
       .pipe(
         take(1),
-        map((categories) =>
-          categories.map((category) => ({
-            text: { raw: category.title },
-            callback: (category) => this.chooseCategory(category),
-          }))
-        ),
+        map((categories) => {
+          console.log(categories);
+          return categories
+            .map((category) => ({
+              text: { raw: category.title },
+              callback: () => this.chooseCategory(category),
+            }));
+        }),
         tap(console.log)
       )
       .subscribe((categories) => {
@@ -78,9 +80,9 @@ export class ChatBotService {
       });
   }
 
-  protected chooseCategory(category: Translatable) {
+  protected chooseCategory(category) {
     console.log('chosenCategory', category);
-    this.chosenCategory = category.raw;
+    this.chosenCategory = this.getCategoryCode(category);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: {
@@ -88,7 +90,12 @@ export class ChatBotService {
         params: { category: category.raw },
       },
     });
+
     this.showFacets();
+  }
+
+  protected getCategoryCode(category) {
+    return category?.url?.split('/c/')?.[1];
   }
 
   protected showFacets(param?) {
@@ -140,10 +147,10 @@ export class ChatBotService {
       ...this.chatBotFacetService.getFacetOptions(param).map((value) => {
         return {
           text: { raw: value.name },
-          callback: (() => {
-            this.chatBotFacetService.addFacet(value)
-            this.chooseFacetOption(value.name)
-          })
+          callback: () => {
+            this.chatBotFacetService.addFacet(value);
+            this.chooseFacetOption(value.name);
+          },
         };
       }),
       {
