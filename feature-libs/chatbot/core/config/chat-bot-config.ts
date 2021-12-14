@@ -9,7 +9,7 @@ export abstract class ChatBotConfig {
   chatBot?: {
     botName: string;
     botAvatar: string;
-    autOpen: boolean;
+    autoOpen: boolean;
   };
 }
 
