@@ -1,12 +1,15 @@
 import { Injectable } from '@angular/core';
 import { CmsService, ProductSearchService } from '@spartacus/core';
 import { NavigationService } from 'projects/storefrontlib/cms-components';
+import { BehaviorSubject } from 'rxjs';
 import { pluck, switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ChatBotCategoryService {
+  selected$ = new BehaviorSubject('');
+
   constructor(
     protected cmsService: CmsService,
     protected navigationService: NavigationService,
@@ -23,8 +26,13 @@ export class ChatBotCategoryService {
   );
 
   selectCategory(category) {
+    this.selected$.next(category);
+    this.search();
+  }
+
+  search() {
     this.productSearchService.search(
-      `:relevance:allCategories:${this.getCategoryCode(category)}`
+      `:relevance:allCategories:${this.getCategoryCode(this.selected$.value)}`
     );
   }
 

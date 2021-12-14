@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ProductSearchService } from '@spartacus/core';
 import { BehaviorSubject } from 'rxjs';
+import { ChatBotCategoryService } from './chat-bot-category.service';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,10 @@ export class ChatBotFacetService {
   facets$ = this.productSearchService.getResults();
   selected$ = new BehaviorSubject([]);
 
-  constructor(protected productSearchService: ProductSearchService) {}
+  constructor(
+    protected productSearchService: ProductSearchService,
+    protected chatbotCategoryService: ChatBotCategoryService
+  ) {}
 
   getFacetOptions(facet) {
     return facet?.values;
@@ -46,9 +50,12 @@ export class ChatBotFacetService {
   }
 
   searchFacets() {
-    console.log(this.selected$.value, this.buildQueryFromSelectedFacets());
-    this.productSearchService.search(
-      decodeURIComponent(this.buildQueryFromSelectedFacets())
-    );
+    if (this.selected$.value.length)
+      this.productSearchService.search(
+        decodeURIComponent(this.buildQueryFromSelectedFacets())
+      );
+    else {
+      this.chatbotCategoryService.search();
+    }
   }
 }
