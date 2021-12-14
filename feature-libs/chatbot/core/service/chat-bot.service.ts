@@ -52,11 +52,10 @@ export class ChatBotService {
         take(1),
         map((categories) => {
           console.log(categories);
-          return categories
-            .map((category) => ({
-              text: { raw: category.title },
-              callback: () => this.chooseCategory(category),
-            }));
+          return categories.map((category) => ({
+            text: { raw: category.title },
+            callback: () => this.chooseCategory(category),
+          }));
         }),
         tap(console.log)
       )
