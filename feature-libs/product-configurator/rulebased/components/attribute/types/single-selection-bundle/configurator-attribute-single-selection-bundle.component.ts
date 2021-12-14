@@ -28,6 +28,7 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
       attributeLabel: this.attribute.label,
+      attributeName: this.attribute.name,
       itemCount: this.attribute.values?.length
         ? this.attribute.values?.length
         : 0,

@@ -98,7 +98,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
     let translatedText = '';
     if (this.displayQuantity()) {
       if (
-        this.displayPrice() &&
+        this.attributeOverview.valuePrice?.value !== undefined &&
         this.attributeOverview.valuePrice?.value !== 0
       ) {
         this.translation
@@ -125,7 +125,7 @@ export class ConfiguratorOverviewBundleAttributeComponent implements OnInit {
       }
     } else {
       if (
-        this.displayPrice() &&
+        this.attributeOverview.valuePrice?.value !== undefined &&
         this.attributeOverview.valuePrice?.value !== 0
       ) {
         this.translation

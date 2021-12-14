@@ -93,6 +93,10 @@
                 <cx-icon
                   *ngIf="hasSubGroups(group)"
                   [type]="iconTypes.CARET_RIGHT"
+                  id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
+                  [attr.aria-label]="
+                    'configurator.a11y.iconSubGroup' | cxTranslate
+                  "
                 ></cx-icon>
               </div>
             </div>
