@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
-import { map, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { BehaviorSubject, combineLatest, of } from 'rxjs';
 import { AuthorType, ChatBotMessage, ChatBotOption } from '../model';
-import { Translatable } from '@spartacus/core';
+import { AuthService, Translatable } from '@spartacus/core';
+import { UserAccountFacade, User } from '@spartacus/user/account/root';
 
 @Injectable({
   providedIn: 'root',
@@ -12,15 +13,26 @@ import { Translatable } from '@spartacus/core';
 export class ChatBotService {
   constructor(
     protected chatBotCategoryService: ChatBotCategoryService,
-    protected chatBotFacetService: ChatBotFacetService
+    protected chatBotFacetService: ChatBotFacetService,
+    protected userAccount: UserAccountFacade,
+    protected auth: AuthService
   ) {
     this.sayHello();
-    this.showCategories();
   }
 
   conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
   chosenCategory: string;
+  protected user$ = this.auth.isUserLoggedIn().pipe(
+    switchMap((isUserLoggedIn) => {
+      if (isUserLoggedIn) {
+        return this.userAccount.get().pipe(filter((user) => !!user));
+      } else {
+        return of(undefined);
+      }
+    }),
+    take(1)
+  );
 
   protected addMessage(message: ChatBotMessage) {
     this.conversation$.next([...this.conversation$.getValue(), message]);
@@ -31,10 +43,13 @@ export class ChatBotService {
   }
 
   protected sayHello() {
-    console.log('hello');
-    this.addMessage({
-      author: AuthorType.BOT,
-      text: { key: 'chatBot.hello', params: { name: 'Andrzej' } },
+    this.user$.subscribe((user: User) => {
+      console.log('hello', user);
+      this.addMessage({
+        author: AuthorType.BOT,
+        text: { key: 'chatBot.hello', params: { name: user?.firstName } },
+      });
+      this.showCategories();
     });
   }
 
