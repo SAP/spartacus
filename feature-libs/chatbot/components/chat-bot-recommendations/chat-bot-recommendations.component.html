@@ -5,7 +5,10 @@
       <span>Recommendations</span>
     </h2>
     <div>
-      <cx-icon (click)="closeWindow()" [type]="closeIcon"></cx-icon>
+      <cx-icon
+        (click)="closeRecommendationsWindow()"
+        [type]="closeIcon"
+      ></cx-icon>
     </div>
   </section>
   <main>
@@ -18,6 +21,7 @@
 
     <ng-template #carouselItem let-item="item">
       <a
+        (click)="displayProduct()"
         tabindex="0"
         [routerLink]="{ cxRoute: 'product', params: item } | cxUrl"
       >
