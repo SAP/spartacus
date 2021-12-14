@@ -56,6 +56,12 @@ export class ChatBotService {
   protected showCategories(param?) {
     console.log('showCategories', param);
     this.addMessage({
+      author: AuthorType.CUSTOMER,
+      text: {
+        key: 'chatBot.changeCategory',
+      },
+    });
+    this.addMessage({
       author: AuthorType.BOT,
       text: {
         key: 'chatBot.chooseCategory',
@@ -132,6 +138,10 @@ export class ChatBotService {
               if (availableFacets?.length > 0) {
                 options.push(...availableFacets);
               }
+              options.push({
+                text: { key: 'chatBot.changeCategory' },
+                callback: (param) => this.showCategories(param),
+              });
               if (appliedFacets.length > 0) {
                 options.push({
                   text: { key: 'chatBot.removeFacet' },
