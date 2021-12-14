@@ -5,12 +5,17 @@ import {
 import { Component, ElementRef, EventEmitter } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, LanguageService } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  LanguageService,
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import {
   SceneAdapter,
   VisualizationAdapter,
 } from '@spartacus/epd-visualization/core';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { SpinnerModule } from '@spartacus/storefront';
 import { Observable, of, Subject } from 'rxjs';
 import { StorageV1Adapter } from '../../epd-visualization-api/adapters/storage-v1/storage-v1.adapter';
@@ -264,10 +269,8 @@ describe('VisualViewerComponent', () => {
         ],
         declarations: [VisualViewerComponent],
         providers: [
-          {
-            provide: EpdVisualizationConfig,
-            useValue: getTestConfig(),
-          },
+          provideConfigFactory(getTestConfig),
+          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
           {
             provide: LanguageService,
             useValue: mockLanguageService,
@@ -307,10 +310,8 @@ describe('VisualViewerComponent', () => {
           VisualViewerAnimationSliderModule,
         ],
         providers: [
-          {
-            provide: EpdVisualizationConfig,
-            useValue: getTestConfig(),
-          },
+          provideConfigFactory(getTestConfig),
+          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
           {
             provide: LanguageService,
             useValue: mockLanguageService,
@@ -326,10 +327,6 @@ describe('VisualViewerComponent', () => {
             {
               provide: VisualViewerService,
               useClass: MockVisualViewerService,
-            },
-            {
-              provide: EpdVisualizationConfig,
-              useValue: getTestConfig(),
             },
             {
               provide: LanguageService,

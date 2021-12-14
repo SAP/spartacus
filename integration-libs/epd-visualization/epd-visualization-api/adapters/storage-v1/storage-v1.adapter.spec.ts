@@ -3,8 +3,12 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  provideConfigFactory,
+  provideDefaultConfigFactory,
+} from '@spartacus/core';
 import { NodesResponse, SceneAdapter } from '@spartacus/epd-visualization/core';
-import { EpdVisualizationConfig } from '@spartacus/epd-visualization/root';
+import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { getTestConfig } from '../../../root/testing/epd-visualization-test-config';
 import { StorageV1Adapter } from './storage-v1.adapter';
 
@@ -19,10 +23,8 @@ describe('StorageV1Adapter', () => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
         providers: [
-          {
-            provide: EpdVisualizationConfig,
-            useValue: getTestConfig(),
-          },
+          provideConfigFactory(getTestConfig),
+          provideDefaultConfigFactory(getEpdVisualizationDefaultConfig),
           {
             provide: SceneAdapter,
             useClass: StorageV1Adapter,
