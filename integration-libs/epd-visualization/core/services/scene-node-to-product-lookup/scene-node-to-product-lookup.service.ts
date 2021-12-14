@@ -1,5 +1,9 @@
 import { Injectable } from '@angular/core';
-import { EpdVisualizationConfig, EpdVisualizationInnerConfig, UsageIdConfig } from '@spartacus/epd-visualization/root';
+import {
+  EpdVisualizationConfig,
+  EpdVisualizationInnerConfig,
+  UsageIdConfig,
+} from '@spartacus/epd-visualization/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import {

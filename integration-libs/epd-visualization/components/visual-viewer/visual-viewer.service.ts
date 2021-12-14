@@ -15,7 +15,10 @@ import {
   VisualizationApiConfig,
   VisualizationInfo,
 } from '@spartacus/epd-visualization/root';
-import { SceneNodeToProductLookupService, VisualizationLookupService } from '@spartacus/epd-visualization/core';
+import {
+  SceneNodeToProductLookupService,
+  VisualizationLookupService,
+} from '@spartacus/epd-visualization/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
   catchError,
