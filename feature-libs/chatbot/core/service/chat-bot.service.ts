@@ -180,16 +180,24 @@ export class ChatBotService {
 
   protected get appliedFacets() {
     // TODO: get applied facets from backend
-    return [
-      {
-        text: { key: 'chatBot.facet.1' },
-        callback: (param) => this.removeFacet(param),
-      },
-      {
-        text: { key: 'chatBot.facet.2' },
-        callback: (param) => this.removeFacet(param),
-      },
-    ];
+    let options = [];
+    this.chatBotFacetService.selected$
+      .pipe(
+        take(1),
+        map((facets) => {
+          return facets?.map((facet) => {
+            return {
+              text: { raw: facet.name },
+              callback: () => this.removeFacet(facet),
+            };
+          });
+        })
+      )
+      .subscribe((chats) => {
+        options = chats;
+      });
+
+    return options;
   }
 
   protected get availableFacets() {
@@ -263,13 +271,13 @@ export class ChatBotService {
     this.showFacets();
   }
 
-  protected removeFacet(facet?: Translatable) {
+  protected removeFacet(facet) {
     console.log('removeFacet', facet);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.removedFacet', params: { facet: facet.key } },
     });
-    // TOD: remove facet
+    this.chatBotFacetService.removeFacet(facet);
     this.showFacets();
   }
 
