@@ -1,7 +1,7 @@
 export const chatBot = {
   chatBot: {
-    hello: 'Hello {{name}}!',
-    bye: 'Have a nice shopping {{name}}!',
+    hello: 'Hello {{firstName}}!',
+    bye: 'Have a nice shopping {{firstName}}!',
     chooseCategory: 'Please choose a category',
     chosenCategory: 'Chosen category {{category}}',
     whatNext: 'Well, what next will you do?',

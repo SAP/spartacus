@@ -47,7 +47,7 @@ export class ChatBotService {
       console.log('hello', user);
       this.addMessage({
         author: AuthorType.BOT,
-        text: { key: 'chatBot.hello', params: { name: user?.firstName } },
+        text: { key: 'chatBot.hello', params: user },
       });
       this.showCategories();
     });
@@ -318,10 +318,13 @@ export class ChatBotService {
       author: AuthorType.BOT,
       text: { key: 'chatBot.ok' },
     });
-    this.addMessage({
-      author: AuthorType.BOT,
-      text: { key: 'chatBot.bye' },
+    this.user$.subscribe((user: User) => {
+      this.addMessage({
+        author: AuthorType.BOT,
+        text: { key: 'chatBot.bye', params: user },
+      });
     });
+
     this.buildQuery();
   }
 
