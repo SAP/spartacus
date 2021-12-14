@@ -4,9 +4,10 @@ import {
   ChatBotEvent,
   ChatBotService,
 } from '@spartacus/chatbot/core';
-import { ProductService, ProductScope } from '@spartacus/core';
+import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-chat-bot',
@@ -16,7 +17,8 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   constructor(
     protected chatBotConfig: ChatBotConfig,
     protected service: ChatBotService,
-    protected productService: ProductService
+    protected productService: ProductService,
+    protected productSearchService: ProductSearchService
   ) {}
 
   config = this.chatBotConfig.chatBot;
@@ -67,28 +69,26 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   handleEvents() {
     this.eventSubscription = this.events$.subscribe((event: ChatBotEvent) => {
       if (event === ChatBotEvent.DISPLAY_RECOMMENDATIONS) {
+        this.productSearchService
+          .getResults()
+          .pipe(
+            map((searchResults) =>
+              searchResults.products ? searchResults.products : []
+            )
+          )
+          .subscribe(
+            (data) =>
+              (this.recommendations$ = of(
+                data.map((product) => this.productService.get(product.code))
+              ))
+          );
+
         this.displayRecommendations();
       }
     });
   }
 
   ngOnInit() {
-    // TODO: Update recomendations based on choices
-    this.recommendations$ = of([
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-      this.productService.get('300938', ProductScope.LIST),
-      this.productService.get('358639', ProductScope.LIST),
-    ]);
-
     this.handleEvents();
   }
 
