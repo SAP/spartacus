@@ -1,13 +1,22 @@
 <span class="cx-visually-hidden">
   {{
     attributeOverview.valuePrice && attributeOverview.valuePrice?.value !== 0
-      ? ('configurator.a11y.valueOfAttributeFullWithPrice'
-        | cxTranslate
-          : {
-              value: attributeOverview.value,
-              attribute: attributeOverview.attribute,
-              price: attributeOverview.valuePrice.formattedValue
-            })
+      ? attributeOverview.valuePriceTotal &&
+        attributeOverview.valuePriceTotal?.value !== 0
+        ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+          | cxTranslate
+            : {
+                value: attributeOverview.value,
+                attribute: attributeOverview.attribute,
+                price: attributeOverview.valuePriceTotal.formattedValue
+              })
+        : ('configurator.a11y.valueOfAttributeFullWithPrice'
+          | cxTranslate
+            : {
+                value: attributeOverview.value,
+                attribute: attributeOverview.attribute,
+                price: attributeOverview.valuePrice.formattedValue
+              })
       : ('configurator.a11y.valueOfAttributeFull'
         | cxTranslate
           : {
