@@ -303,10 +303,7 @@ describe('Cart effect', () => {
 
       actions$ = hot('-a', { a: action });
 
-      cartEffects.mergeCart$.subscribe((emitted) => fail(emitted));
-      // just to get rid of the SPEC_HAS_NO_EXPECTATIONS message.
-      // The actual test is done in the subscribe part
-      expect(true).toBeTruthy();
+      expect(cartEffects.mergeCart$).toBeObservable(cold('--'));
     });
   });
 
