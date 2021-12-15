@@ -65,7 +65,7 @@
         <div class="chat-options">
           <button
             *ngFor="let option of options$ | async"
-            class="btn btn-primary btn-block"
+            class="btn btn-action btn-block"
             (click)="option.callback(option.text)"
           >
             {{ option.text | cxTranslate }}
