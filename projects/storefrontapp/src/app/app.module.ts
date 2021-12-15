@@ -17,6 +17,7 @@ import {
   I18nConfig,
   OccConfig,
   provideConfig,
+  RouteLoadStrategy,
   RoutingConfig,
   TestConfigModule,
 } from '@spartacus/core';
@@ -81,6 +82,7 @@ if (!environment.production) {
         level: '4.2',
       },
     }),
+    provideConfig({ routing: { loadStrategy: RouteLoadStrategy.ONCE } }),
   ],
   bootstrap: [StorefrontComponent],
 })
