@@ -3,7 +3,7 @@
   "baseUrl": "http://localhost:4200",
   "requestTimeout": 15000,
   "retries": {
-    "runMode": 1
+    "runMode": 2
   },
   "videoUploadOnPasses": false,
   "env": {
