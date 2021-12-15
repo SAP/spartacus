@@ -20,13 +20,13 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
+  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
   Country,
   I18nTestingModule,
-  PaymentDetails,
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';

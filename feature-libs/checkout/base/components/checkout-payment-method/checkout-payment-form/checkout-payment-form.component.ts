@@ -8,13 +8,13 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
+  CardType,
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   AddressValidation,
-  CardType,
   Country,
   GlobalMessageService,
   GlobalMessageType,

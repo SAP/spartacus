@@ -1,5 +1,6 @@
 import { DeliveryMode } from '@spartacus/cart/main/root';
-import { Address, PaymentDetails } from '@spartacus/core';
+import { Address } from '@spartacus/core';
+import { PaymentDetails } from './checkout-payment.model';
 
 export interface CheckoutState {
   deliveryAddress?: Address;

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Converter, Occ, PaymentDetails } from '@spartacus/core';
+import { PaymentDetails } from '@spartacus/checkout/base/root';
+import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

@@ -9,13 +9,13 @@ import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
-  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';

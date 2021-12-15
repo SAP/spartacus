@@ -12,11 +12,11 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
+  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
-  PaymentDetails,
   QueryState,
   RouteConfig,
   RoutingConfigService,

@@ -9,15 +9,14 @@ import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
+import { CardType, PaymentDetails } from '@spartacus/checkout/base/root';
 import {
-  CardType,
   ConverterService,
   HttpErrorModel,
   normalizeHttpError,
   Occ,
   OccConfig,
   OccEndpoints,
-  PaymentDetails,
   PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
 import { defer, of, throwError } from 'rxjs';

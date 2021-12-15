@@ -1,8 +1,8 @@
+import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
   Currency,
-  PaymentDetails,
   PointOfService,
   Price,
   Principal,

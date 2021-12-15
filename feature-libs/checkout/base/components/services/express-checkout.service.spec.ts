@@ -4,10 +4,10 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
+  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
-  PaymentDetails,
   QueryState,
   UserAddressService,
   UserPaymentService,

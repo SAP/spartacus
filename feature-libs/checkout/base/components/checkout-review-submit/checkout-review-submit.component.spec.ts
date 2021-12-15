@@ -14,13 +14,9 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-} from '@spartacus/checkout/base/root';
-import {
-  Address,
-  Country,
-  I18nTestingModule,
   PaymentDetails,
-} from '@spartacus/core';
+} from '@spartacus/checkout/base/root';
+import { Address, Country, I18nTestingModule } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';

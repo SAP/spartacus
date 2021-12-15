@@ -2,17 +2,17 @@ import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  CardType,
   CheckoutQueryFacade,
   CheckoutState,
+  PaymentDetails,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  CardType,
   EventService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  PaymentDetails,
   QueryState,
   UserActions,
   UserIdService,

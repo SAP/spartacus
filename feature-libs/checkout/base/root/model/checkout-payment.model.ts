@@ -1,17 +1,10 @@
-import { Address } from './address.model';
+import { Address } from '@spartacus/core';
 
-/**
- * Use 'CardType' from '@spartacus/checkout/base/root' instead.
- * @deprecated since version 5.0
- */
 export interface CardType {
   code?: string;
   name?: string;
 }
-/**
- * Use 'CardType' from '@spartacus/checkout/base/root' instead.
- * @deprecated since version 5.0
- */
+
 export interface PaymentDetails {
   accountHolderName?: string;
   billingAddress?: Address;

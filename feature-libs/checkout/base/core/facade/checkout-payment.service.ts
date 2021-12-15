@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  CardType,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
+  PaymentDetails,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  CardType,
   Command,
   CommandService,
   CommandStrategy,
@@ -16,7 +17,6 @@ import {
   EventService,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
-  PaymentDetails,
   Query,
   QueryNotifier,
   QueryService,

@@ -5,16 +5,15 @@ import {
   CheckoutPaymentAdapter,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/base/core';
+import { CardType, PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   backOff,
-  CardType,
   ConverterService,
   HttpParamsURIEncoder,
   isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
-  PaymentDetails,
   PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';

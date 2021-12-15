@@ -6,12 +6,12 @@ import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
+  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   GlobalMessageService,
   I18nTestingModule,
-  PaymentDetails,
   QueryState,
   UserPaymentService,
 } from '@spartacus/core';

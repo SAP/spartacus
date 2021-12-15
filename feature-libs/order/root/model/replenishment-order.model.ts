@@ -7,11 +7,11 @@ import {
   PromotionResult,
   Voucher,
 } from '@spartacus/cart/main/root';
+import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
   PaginationModel,
-  PaymentDetails,
   Price,
   Principal,
   SortModel,
