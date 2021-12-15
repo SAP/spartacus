@@ -31,6 +31,11 @@ export class CheckoutPaymentTypeComponent {
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
 
+  selectedPaymentTypeIsLoading$: Observable<boolean> =
+    this.checkoutPaymentTypeFacade
+      .getSelectedPaymentTypeState()
+      .pipe(map((state) => state.loading));
+
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
     .pipe(
