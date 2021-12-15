@@ -36,7 +36,10 @@
                     <path d="M9 1.5v14.25L0 0l9 1.5z"></path>
                   </svg>
                   <div class="content">
-                    <ng-container #indicator>
+                    <ng-conatiner *ngIf="!isWriting(message); else indicator">
+                      {{ message.text | cxTranslate }}
+                    </ng-conatiner>
+                    <ng-template #indicator>
                       <div class="typing-indicator-dots">
                         <span
                           class="typing-indicator-dot typing-indicator-dot-1"
@@ -51,10 +54,7 @@
                           data-dot
                         ></span>
                       </div>
-                    </ng-container>
-                    <ng-conatiner #content>
-                      {{ message.text | cxTranslate }}
-                    </ng-conatiner>
+                    </ng-template>
                   </div>
                 </div>
               </div>
@@ -62,7 +62,7 @@
           </div>
         </li>
 
-        <div class="chat-options">
+        <div class="chat-options" *ngIf="!(isBotWriting$ | async)">
           <button
             *ngFor="let option of options$ | async"
             class="btn btn-primary btn-block"

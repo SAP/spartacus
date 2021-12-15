@@ -10,6 +10,7 @@ export abstract class ChatBotConfig {
     botName: string;
     botAvatar: string;
     autoOpen: boolean;
+    messagesDelay: number;
   };
 }
 

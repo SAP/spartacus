@@ -1,16 +1,17 @@
 import { Injectable } from '@angular/core';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { ChatBotCategoryService } from './chat-bot-category.service';
-import { ChatBotFacetService } from './chat-bot-facet.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { AuthService, Translatable } from '@spartacus/core';
+import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { BehaviorSubject, of, timer } from 'rxjs';
+import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   AuthorType,
   ChatBotEvent,
   ChatBotMessage,
   ChatBotOption,
+  MessageStatus,
 } from '../model';
-import { AuthService, Translatable } from '@spartacus/core';
-import { UserAccountFacade, User } from '@spartacus/user/account/root';
+import { ChatBotCategoryService } from './chat-bot-category.service';
+import { ChatBotFacetService } from './chat-bot-facet.service';
 
 @Injectable({
   providedIn: 'root',
@@ -41,8 +42,66 @@ export class ChatBotService {
     take(1)
   );
 
-  protected addMessage(message: ChatBotMessage) {
-    this.conversation$.next([...this.conversation$.getValue(), message]);
+  protected addMessage(message: Partial<ChatBotMessage>) {
+    const currentMessages = this.conversation$.getValue();
+
+    if (message.author === AuthorType.CUSTOMER) {
+      this.conversation$.next([
+        ...currentMessages,
+        { ...message, status: MessageStatus.SENT } as ChatBotMessage,
+      ]);
+    } else {
+      const newMessage = {
+        ...message,
+        status: MessageStatus.WRITING,
+      } as ChatBotMessage;
+      const isLastMessageWriting = currentMessages.find(
+        (message) => message.status === MessageStatus.WRITING
+      );
+      console.log('timer0', currentMessages, newMessage, isLastMessageWriting);
+
+      if (!isLastMessageWriting) {
+        this.conversation$.next([...this.conversation$.getValue(), newMessage]);
+        timer(3000)
+          .pipe(
+            take(1),
+            tap(() => {
+              console.log('timer sync', isLastMessageWriting);
+              this.updateMessageStatus(newMessage);
+            })
+          )
+          .subscribe();
+      } else {
+        timer(3000)
+          .pipe(
+            take(1),
+            tap(() => {
+              this.conversation$.next([
+                ...this.conversation$.getValue(),
+                newMessage,
+              ]);
+            }),
+            delay(3000),
+            tap(() => {
+              console.log('timer2', isLastMessageWriting);
+              this.updateMessageStatus(newMessage);
+            })
+          )
+          .subscribe();
+      }
+    }
+  }
+
+  updateMessageStatus(newMessage: ChatBotMessage) {
+    const currentMessages = this.conversation$.getValue();
+    this.conversation$.next([
+      ...currentMessages.map((message) => {
+        if (message === newMessage) {
+          message.status = MessageStatus.SENT;
+        }
+        return message;
+      }),
+    ]);
   }
 
   protected showOptions(options: ChatBotOption[]) {

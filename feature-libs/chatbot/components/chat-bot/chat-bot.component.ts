@@ -3,6 +3,7 @@ import {
   ChatBotConfig,
   ChatBotEvent,
   ChatBotService,
+  MessageStatus,
 } from '@spartacus/chatbot/core';
 import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
@@ -25,11 +26,13 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   conversation$ = this.service.conversation$;
   options$ = this.service.options$;
   events$ = this.service.events$;
+  isBotWriting$ = this.service.conversation$.pipe(
+    map((messages) => messages.find((message) => this.isWriting(message)))
+  );
 
   eventSubscription: Subscription;
 
   closeIcon = ICON_TYPE.CLOSE;
-
   /**
    * Detemines if chatbot is in open state.
    */
@@ -45,6 +48,9 @@ export class ChatBotComponent implements OnInit, OnDestroy {
    */
   recommendations$: any;
 
+  isWriting(message: any) {
+    return message.status === MessageStatus.WRITING;
+  }
   /**
    * Toggle chatbot component to be open or displayed as bot icon.
    */
