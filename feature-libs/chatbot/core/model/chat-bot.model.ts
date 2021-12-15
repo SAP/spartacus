@@ -19,6 +19,8 @@ export interface ChatBotMessage {
 export const enum ChatBotEvent {
   INIT = 'INIT',
   DISPLAY_RECOMMENDATIONS = 'DISPLAY_RECOMMENDATIONS',
+  NEW_MESSAGE = 'NEW_MESSAGE',
+  UPDATE_MESSAGE_STATUS = 'UPDATE_MESSAGE_STATUS',
 }
 
 export const enum MessageStatus {

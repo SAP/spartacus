@@ -90,6 +90,8 @@ export class ChatBotService {
           .subscribe();
       }
     }
+
+    this.events$.next(ChatBotEvent.NEW_MESSAGE);
   }
 
   updateMessageStatus(newMessage: ChatBotMessage) {
@@ -102,6 +104,8 @@ export class ChatBotService {
         return message;
       }),
     ]);
+
+    this.events$.next(ChatBotEvent.UPDATE_MESSAGE_STATUS);
   }
 
   protected showOptions(options: ChatBotOption[]) {
