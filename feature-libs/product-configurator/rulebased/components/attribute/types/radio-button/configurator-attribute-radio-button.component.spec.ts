@@ -222,7 +222,22 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         'form-check-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that overwrites input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
       );
     });
 
@@ -235,7 +250,7 @@ describe('ConfigAttributeRadioButtonComponent', () => {
         1,
         'aria-hidden',
         'true',
-        'val2'
+        component.attribute.values[1].valueDisplay
       );
     });
   });

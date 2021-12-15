@@ -163,7 +163,10 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         'form-input',
         2,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val3'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[2].valueDisplay
       );
     });
 

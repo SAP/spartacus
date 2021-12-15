@@ -10,6 +10,7 @@ import {
 import { MediaModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../price/configurator-price.component';
 import { ConfiguratorOverviewBundleAttributeComponent } from './configurator-overview-bundle-attribute.component';
@@ -62,6 +63,7 @@ class MockConfiguratorPriceComponent {
 describe('ConfiguratorOverviewBundleAttributeComponent', () => {
   let component: ConfiguratorOverviewBundleAttributeComponent;
   let fixture: ComponentFixture<ConfiguratorOverviewBundleAttributeComponent>;
+  let htmlElem: HTMLElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -82,6 +84,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       ConfiguratorOverviewBundleAttributeComponent
     );
     component = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
   });
 
   beforeEach(() => {
@@ -220,6 +223,75 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       attrOverview.quantity = undefined;
       expect(component.getAriaLabel()).toBe(
         'configurator.a11y.itemOfAttributeFull attribute:testAttribute item:testValue'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      product$.next(mockProduct);
+      const attrOverview = component.attributeOverview;
+      attrOverview.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.quantity = undefined;
+
+      fixture.detectChanges();
+    });
+
+    it("should contain action cx-media element with 'aria-hidden' attribute that is set to 'true'", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-media',
+        undefined,
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain action span element with class name 'cx-visually-hidden' that makes element not visible on the UI'", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.itemOfAttributeFullWithPrice attribute:testAttribute item:testValue price:$20'
+      );
+    });
+
+    it("should contain action div element with class name 'cx-value-info' and 'aria-hidden' attribute that is set to 'true''", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-value-info',
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain action div element with class name 'cx-attribute-price-container' and 'aria-hidden' attribute that is set to 'true''", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-attribute-price-container',
+        0,
+        'aria-hidden',
+        'true'
       );
     });
   });

@@ -296,7 +296,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'form-control',
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeBlank attribute:attributeName'
+        'configurator.a11y.valueOfAttributeBlank attribute:' +
+          component.attribute.label
       );
     }));
 
@@ -312,7 +313,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'form-control',
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:123'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.userInput
       );
     }));
 

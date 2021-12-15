@@ -1392,4 +1392,121 @@ describe('ConfigurationGroupMenuComponent', () => {
         );
     });
   });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.groups[0].subGroups = [
+        {
+          id: 'subgroup1',
+          description: 'Description for subgroup1',
+          subGroups: [],
+        },
+      ];
+      initialize();
+    });
+
+    it("should contain action span element with ID 'listOfGroups' and class name 'cx-visually-hidden' that hides element on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listOfGroups'
+      );
+    });
+
+    it("should contain action span element with ID 'inListOfGroups' and class name 'cx-visually-hidden' that hides element on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        1,
+        undefined,
+        undefined,
+        'configurator.a11y.inListOfGroups'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-describedby' attribute that describes a button", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-describedby',
+        ' ICONERRORsubgroup1 inListOfGroups'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-selected' attribute that confirms whether button is selected or not", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-selected',
+        'false'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-label' attribute that overwrites button content", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-label',
+        'configurator.a11y.groupName group:' +
+          mockProductConfiguration.groups[0].subGroups[0].description
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'WARNING' and 'aria-label' attribute that overwrites button content", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'WARNING',
+        0,
+        'aria-label',
+        'configurator.a11y.iconConflict'
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'ERROR' and 'aria-label' attribute that overwrites button content", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'ERROR',
+        0,
+        'aria-label',
+        'configurator.a11y.iconIncomplete'
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'COMPLETE' and 'aria-label' attribute that overwrites button content", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'COMPLETE',
+        0,
+        'aria-label',
+        'configurator.a11y.iconComplete'
+      );
+    });
+  });
 });

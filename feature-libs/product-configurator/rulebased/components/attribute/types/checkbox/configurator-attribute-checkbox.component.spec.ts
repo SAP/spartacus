@@ -134,7 +134,10 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         'form-check-input',
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val1'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[0].valueDisplay
       );
     });
 
@@ -159,7 +162,7 @@ describe('ConfigAttributeCheckBoxComponent', () => {
         0,
         'aria-hidden',
         'true',
-        'val1'
+        component.attribute.values[0].valueDisplay
       );
     });
   });

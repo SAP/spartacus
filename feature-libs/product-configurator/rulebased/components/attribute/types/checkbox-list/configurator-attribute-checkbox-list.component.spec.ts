@@ -343,7 +343,12 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'form-check-input',
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFullWithPrice attribute:attributeName price:$100.00 value:val1'
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay
       );
     });
 
@@ -368,7 +373,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         1,
         'aria-hidden',
         'true',
-        'val2'
+        component.attribute.values[1].valueDisplay
       );
     });
   });

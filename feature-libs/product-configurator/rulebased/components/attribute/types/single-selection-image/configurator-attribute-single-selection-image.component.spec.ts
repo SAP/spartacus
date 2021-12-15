@@ -170,7 +170,34 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         'form-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        1,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
+    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that exposes the check-box's state", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-checked',
+        'true'
       );
     });
 

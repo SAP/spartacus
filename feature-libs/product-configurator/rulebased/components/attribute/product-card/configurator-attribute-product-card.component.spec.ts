@@ -211,6 +211,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       withQuantity: true,
       attributeId: 123,
       attributeLabel: 'Attribute Label',
+      attributeName: 'Attribute Name',
       itemCount: 3,
       itemIndex: 1,
     };
@@ -718,8 +719,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: '$20',
         value: 20,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2 price:$20'
+        'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue.valuePriceTotal
+            .formattedValue
       );
     });
 
@@ -734,8 +747,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: undefined,
         value: 0,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+        'configurator.a11y.itemOfAttributeSelected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
       );
     });
   });
@@ -758,8 +780,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: '$30',
         value: 30,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleSelected(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2 price:$30'
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
       );
     });
 
@@ -774,8 +808,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: undefined,
         value: 0,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleSelected(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
       );
     });
   });
@@ -798,8 +841,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: '$20',
         value: 20,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelMultiSelected(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2 price:$20'
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
       );
     });
 
@@ -814,8 +869,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: undefined,
         value: 0,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelMultiSelected(product)).toBe(
-        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
       );
     });
   });
@@ -838,8 +902,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: '$20',
         value: 20,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelMultiUnselected(product)).toBe(
-        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2 price:$20'
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
       );
     });
 
@@ -854,8 +930,17 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: undefined,
         value: 0,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelMultiUnselected(product)).toBe(
-        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
       );
     });
   });
@@ -878,8 +963,20 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: '$20',
         value: 20,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
-        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2 price:$20'
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
       );
     });
 
@@ -894,15 +991,108 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         formattedValue: undefined,
         value: 0,
       };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
-        'configurator.a11y.itemOfAttributeUnselected attribute:Attribute Label item:PRODUCT_CODE itemCount:3 itemIndex:2'
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
       );
     });
 
     it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=0 for the productBoundValue", () => {
       component.productCardOptions.productBoundValue.valueCode = '0';
+      const itemIndex = component.productCardOptions.itemIndex + 1;
       expect(component.getAriaLabelSingleUnselected(product)).toBe(
-        'configurator.a11y.selectNoItemOfAttribute attribute:Attribute Label itemCount:3 itemIndex:2'
+        'configurator.a11y.selectNoItemOfAttribute attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that describes div content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-product-card',
+        0,
+        'aria-label',
+        'configurator.a11y.itemOfAttribute attribute:' +
+          component.productCardOptions.attributeLabel
+      );
+    });
+
+    it("should contain cx-media element with 'aria-hidden' attribute that hides cx-media content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-media',
+        undefined,
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-selected' attribute that confirms whether button is selected or not", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-selected',
+        'false'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that confirms whether button is selected or not", () => {
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-label',
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePrice,
+        'configurator.button.select'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-describedby' attribute that describes button content for the screen reader", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--' +
+          component.productCardOptions.attributeName +
+          ' cx-configurator--attribute-msg--' +
+          component.productCardOptions.attributeName,
+        'configurator.button.select'
       );
     });
   });

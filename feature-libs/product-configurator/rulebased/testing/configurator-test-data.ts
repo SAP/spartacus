@@ -61,6 +61,7 @@ const groupsWithoutIssues: Configurator.Group = {
 export const subGroupWith2Attributes: Configurator.Group = {
   id: GROUP_ID_4,
   configurable: true,
+  description: 'Description for ' + GROUP_ID_4,
   subGroups: [],
   groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
   attributes: [
@@ -176,6 +177,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_1,
       configurable: true,
+      description: 'Description for ' + GROUP_ID_1,
       groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
       attributes: [attributeCheckbox],
       subGroups: [],
@@ -183,12 +185,14 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_2,
       configurable: true,
+      description: 'Description for ' + GROUP_ID_2,
       attributes: [attributeRadioButton],
       subGroups: [],
     },
     {
       id: GROUP_ID_3,
       configurable: true,
+      description: 'Description for ' + GROUP_ID_3,
       attributes: [
         {
           name: 'ATTRIBUTE_3_SINGLESELECTIONIMAGE',
@@ -202,6 +206,7 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_5,
       configurable: true,
+      description: 'Description for ' + GROUP_ID_5,
       attributes: [
         {
           name: 'ATTRIBUTE_5_STRING',
@@ -220,6 +225,7 @@ export const productConfiguration: Configurator.Configuration = {
         {
           id: GROUP_ID_6,
           configurable: true,
+          description: 'Description for ' + GROUP_ID_6,
           groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
           subGroups: [],
           attributes: [
@@ -233,10 +239,12 @@ export const productConfiguration: Configurator.Configuration = {
         },
         {
           id: GROUP_ID_7,
+          description: 'Description for ' + GROUP_ID_7,
           subGroups: [
             {
               id: GROUP_ID_8,
               configurable: false,
+              description: 'Description for ' + GROUP_ID_8,
               subGroups: [],
               attributes: [],
             },
@@ -248,10 +256,12 @@ export const productConfiguration: Configurator.Configuration = {
     {
       id: GROUP_ID_9,
       configurable: true,
+      description: 'Description for ' + GROUP_ID_9,
       subGroups: [
         {
           id: GROUP_ID_10,
           configurable: true,
+          description: 'Description for ' + GROUP_ID_10,
           attributes: [
             {
               name: 'ATTRIBUTE_10_DROPDOWN',

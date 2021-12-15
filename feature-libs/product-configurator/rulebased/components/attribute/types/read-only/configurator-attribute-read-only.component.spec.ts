@@ -101,42 +101,157 @@ describe('ConfigAttributeReadOnlyComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain span element with class name 'cx-visually-hidden' and corresponding span content", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        'cx-visually-hidden',
-        0,
-        undefined,
-        undefined,
-        'configurator.a11y.readOnlyValueOfAttributeFull attribute:attributeName value:selectedValue '
-      );
+    describe('Static domain', () => {
+      it("should contain span element with class name 'cx-visually-hidden' and corresponding span content", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-visually-hidden',
+          0,
+          undefined,
+          undefined,
+          'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.selectedSingleValue
+        );
+      });
+
+      it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-read-only-label',
+          0,
+          'aria-hidden',
+          'true'
+        );
+      });
+
+      it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          undefined,
+          1,
+          'aria-hidden',
+          'true',
+          component.attribute.selectedSingleValue
+        );
+      });
     });
 
-    it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'div',
-        'cx-read-only-label',
-        0,
-        'aria-hidden',
-        'true'
-      );
-    });
+    describe('No Static domain', () => {
+      describe('Selected single value', () => {
+        beforeEach(() => {
+          fixture = TestBed.createComponent(
+            ConfiguratorAttributeReadOnlyComponent
+          );
+          component = fixture.componentInstance;
+          htmlElem = fixture.nativeElement;
+          component.attribute = {
+            name: 'attributeName',
+            label: 'attributeName',
+            attrCode: 444,
+            uiType: Configurator.UiType.READ_ONLY,
+            selectedSingleValue: myValues[1].valueCode,
+            quantity: 1,
+          };
+          fixture.detectChanges();
+        });
 
-    it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'span',
-        undefined,
-        1,
-        'aria-hidden',
-        'true',
-        component.attribute.selectedSingleValue
-      );
+        it("should contain span element with class name 'cx-visually-hidden' that hides span content for the screen reader", () => {
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'span',
+            'cx-visually-hidden',
+            0,
+            undefined,
+            undefined,
+            ' configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
+              component.attribute.label +
+              ' value:' +
+              component.attribute.selectedSingleValue
+          );
+        });
+
+        it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'div',
+            'cx-read-only-label',
+            0,
+            'aria-hidden',
+            'true'
+          );
+        });
+
+        it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'span',
+            undefined,
+            1,
+            'aria-hidden',
+            'true',
+            component.attribute.selectedSingleValue
+          );
+        });
+      });
+
+      describe('User input', () => {
+        beforeEach(() => {
+          fixture = TestBed.createComponent(
+            ConfiguratorAttributeReadOnlyComponent
+          );
+          component = fixture.componentInstance;
+          htmlElem = fixture.nativeElement;
+          component.attribute = {
+            name: 'attributeName',
+            label: 'attributeName',
+            attrCode: 444,
+            uiType: Configurator.UiType.READ_ONLY,
+            userInput: myValues[1].valueCode,
+            quantity: 1,
+          };
+          fixture.detectChanges();
+        });
+
+        it("should contain span element with class name 'cx-visually-hidden' that hides span content for the screen reader", () => {
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'span',
+            'cx-visually-hidden',
+            1,
+            undefined,
+            undefined,
+            'configurator.a11y.readOnlyValueOfAttributeFull attribute:' +
+              component.attribute.label +
+              ' value:' +
+              component.attribute.userInput
+          );
+        });
+
+        it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+          CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+            expect,
+            htmlElem,
+            'span',
+            undefined,
+            1,
+            'aria-hidden',
+            'true',
+            component.attribute.userInput
+          );
+        });
+      });
     });
   });
 });
