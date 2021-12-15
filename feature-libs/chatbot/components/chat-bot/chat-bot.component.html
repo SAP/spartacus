@@ -36,7 +36,7 @@
                     <path d="M9 1.5v14.25L0 0l9 1.5z"></path>
                   </svg>
                   <div class="content">
-                    <ng-conatiner *ngIf="!isWriting(message); else indicator">
+                    <ng-conatiner *ngIf="isSent(message); else indicator">
                       {{ message.text | cxTranslate }}
                     </ng-conatiner>
                     <ng-template #indicator>

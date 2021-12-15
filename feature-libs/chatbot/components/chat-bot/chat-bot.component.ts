@@ -8,7 +8,7 @@ import {
 import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-chat-bot',
@@ -23,11 +23,26 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   ) {}
 
   config = this.chatBotConfig.chatBot;
-  conversation$ = this.service.conversation$;
+  conversation$ = this.service.conversation$.pipe(
+    tap((messages) => {
+      console.log('messages', messages, this.areMessagesAwaiting(messages));
+      if (this.areMessagesAwaiting(messages)) {
+        setTimeout(() => {
+          this.service.updateMessageStatuses();
+        }, this.config.messagesDelay);
+      }
+    }),
+    map((messages) => {
+      return messages.filter(
+        (message) => message.status !== MessageStatus.QUEUED
+      );
+    })
+  );
+
   options$ = this.service.options$;
   events$ = this.service.events$;
   isBotWriting$ = this.service.conversation$.pipe(
-    map((messages) => messages.find((message) => this.isWriting(message)))
+    map((messages) => this.areMessagesAwaiting(messages))
   );
 
   eventSubscription: Subscription;
@@ -48,8 +63,22 @@ export class ChatBotComponent implements OnInit, OnDestroy {
    */
   recommendations$: any;
 
+  areMessagesAwaiting(messages) {
+    return messages.find(
+      (message) => this.isQueued(message) || this.isWriting(message)
+    );
+  }
+
+  isQueued(message: any) {
+    return message.status === MessageStatus.QUEUED;
+  }
+
   isWriting(message: any) {
     return message.status === MessageStatus.WRITING;
+  }
+
+  isSent(message: any) {
+    return message.status === MessageStatus.SENT;
   }
   /**
    * Toggle chatbot component to be open or displayed as bot icon.

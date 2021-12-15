@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AuthService, Translatable } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
-import { BehaviorSubject, of, timer } from 'rxjs';
-import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, of } from 'rxjs';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import {
   AuthorType,
   ChatBotEvent,
@@ -53,55 +53,34 @@ export class ChatBotService {
     } else {
       const newMessage = {
         ...message,
-        status: MessageStatus.WRITING,
+        status: MessageStatus.QUEUED,
       } as ChatBotMessage;
-      const isLastMessageWriting = currentMessages.find(
-        (message) => message.status === MessageStatus.WRITING
-      );
-      console.log('timer0', currentMessages, newMessage, isLastMessageWriting);
-
-      if (!isLastMessageWriting) {
-        this.conversation$.next([...this.conversation$.getValue(), newMessage]);
-        timer(3000)
-          .pipe(
-            take(1),
-            tap(() => {
-              console.log('timer sync', isLastMessageWriting);
-              this.updateMessageStatus(newMessage);
-            })
-          )
-          .subscribe();
-      } else {
-        timer(3000)
-          .pipe(
-            take(1),
-            tap(() => {
-              this.conversation$.next([
-                ...this.conversation$.getValue(),
-                newMessage,
-              ]);
-            }),
-            delay(3000),
-            tap(() => {
-              console.log('timer2', isLastMessageWriting);
-              this.updateMessageStatus(newMessage);
-            })
-          )
-          .subscribe();
-      }
+      this.conversation$.next([...currentMessages, newMessage]);
     }
   }
 
-  updateMessageStatus(newMessage: ChatBotMessage) {
-    const currentMessages = this.conversation$.getValue();
-    this.conversation$.next([
-      ...currentMessages.map((message) => {
-        if (message === newMessage) {
-          message.status = MessageStatus.SENT;
-        }
-        return message;
-      }),
-    ]);
+  updateMessageStatuses() {
+    const messages = this.conversation$.getValue();
+    const foundWritingMessage = messages.find(
+      (message) => message.status === MessageStatus.WRITING
+    );
+    const foundQueuedMessage = messages.find(
+      (message) => message.status === MessageStatus.QUEUED
+    );
+
+    if (foundWritingMessage || foundQueuedMessage) {
+      this.conversation$.next([
+        ...messages.map((message) => {
+          if (message === foundWritingMessage) {
+            message.status = MessageStatus.SENT;
+          }
+          if (message === foundQueuedMessage) {
+            message.status = MessageStatus.WRITING;
+          }
+          return message;
+        }),
+      ]);
+    }
   }
 
   protected showOptions(options: ChatBotOption[]) {

@@ -24,4 +24,5 @@ export const enum ChatBotEvent {
 export const enum MessageStatus {
   SENT = 'SENT',
   WRITING = 'WRITING',
+  QUEUED = 'QUEUED',
 }
