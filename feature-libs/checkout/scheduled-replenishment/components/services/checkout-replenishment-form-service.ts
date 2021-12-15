@@ -54,7 +54,7 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
 
   protected registerOrderTypeEventListers(): void {
     this.subscriptions.add(
-      merge([
+      merge(
         this.eventService.get(DeliveryAddressSetEvent),
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent),
@@ -67,8 +67,8 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
         this.eventService.get(PaymentDetailsSetEvent),
         this.eventService.get(OrderPlacedEvent),
         this.eventService.get(ReplenishmentOrderScheduledEvent),
-        this.eventService.get(MergeCartSuccessEvent),
-      ]).subscribe(() => {
+        this.eventService.get(MergeCartSuccessEvent)
+      ).subscribe(() => {
         this.orderType$.next(ORDER_TYPE.PLACE_ORDER);
       })
     );
