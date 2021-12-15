@@ -1017,21 +1017,23 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private initializeUi5(): Observable<void> {
-    return new Observable((subscriber) => {
-      const core: Core = this.getCore();
-      core.attachInit(() => {
-        const loadLibraryOptions = { async: true };
-        Promise.all([
-          core.loadLibrary('sap.m', loadLibraryOptions),
-          core.loadLibrary('sap.ui.layout', loadLibraryOptions),
-          core.loadLibrary('sap.ui.vk', loadLibraryOptions),
-          core.loadLibrary('sap.ui.richtexteditor', loadLibraryOptions),
-        ]).then(() => {
-          subscriber.next();
-          subscriber.complete();
+    return new Observable(
+      (subscriber: { next: () => void; complete: () => void }) => {
+        const core: Core = this.getCore();
+        core.attachInit(() => {
+          const loadLibraryOptions = { async: true };
+          Promise.all([
+            core.loadLibrary('sap.m', loadLibraryOptions),
+            core.loadLibrary('sap.ui.layout', loadLibraryOptions),
+            core.loadLibrary('sap.ui.vk', loadLibraryOptions),
+            core.loadLibrary('sap.ui.richtexteditor', loadLibraryOptions),
+          ]).then(() => {
+            subscriber.next();
+            subscriber.complete();
+          });
         });
-      });
-    });
+      }
+    );
   }
 
   private destroyViewportAssociations(viewport: Viewport): void {
