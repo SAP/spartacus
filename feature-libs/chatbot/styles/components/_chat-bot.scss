@@ -10,6 +10,11 @@
     bottom: 0;
     right: 20px;
     background-color: rgba(0, 0, 0, 0);
+
+    @media (max-width: 575px) {
+      right: 0;
+    }
+
     .chat-container {
       background-color: #f0f3f6;
       display: flex;
@@ -26,6 +31,10 @@
       transition: all 0.8s cubic-bezier(0.08, 0.95, 0.4, 0.95);
       padding: 0;
       margin: 0;
+
+      @media (max-width: 575px) {
+        width: 100vw;
+      }
     }
     .chat-header {
       flex: 0 0 71px;
