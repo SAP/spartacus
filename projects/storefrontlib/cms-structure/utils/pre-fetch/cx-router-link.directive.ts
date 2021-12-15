@@ -1,5 +1,11 @@
 import { LocationStrategy } from '@angular/common';
-import { Directive, HostListener, Input, OnDestroy } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  HostListener,
+  Input,
+  OnDestroy,
+} from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -15,6 +21,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CxLinkBuilder } from './cx-link.builder';
 
 @Directive({
   selector: '[cxRouterLink]',
@@ -35,6 +42,9 @@ export class CxRouterLinkDirective
     router: Router,
     route: ActivatedRoute,
     locationStrategy: LocationStrategy,
+
+    protected elementRef: ElementRef<HTMLAnchorElement>,
+    protected cxLinkBuilder: CxLinkBuilder,
 
     // products
     protected productService: ProductService,
@@ -72,17 +82,29 @@ export class CxRouterLinkDirective
 
   @HostListener('mouseenter') onHover() {
     if (this.cxRouterLinkData?.type === 'product') {
-      const id = this.cxRouterLinkData.id;
-      console.log(this.cxRouterLinkData);
-      this.subscriptions.add(
-        this.productService.get(id).pipe(take(2)).subscribe()
-      );
-
-      const predictedContext: PageContext = { id, type: PageType.PRODUCT_PAGE };
-      this.subscriptions.add(
-        this.cmsService.getPage(predictedContext).subscribe()
-      );
+      this.preFetchProductData(this.cxRouterLinkData.id);
+    } else {
+      this.injectPreFetch();
     }
+  }
+
+  protected preFetchProductData(id: string): void {
+    this.subscriptions.add(
+      this.productService.get(id).pipe(take(2)).subscribe()
+    );
+
+    const predictedContext: PageContext = { id, type: PageType.PRODUCT_PAGE };
+    this.subscriptions.add(
+      this.cmsService.getPage(predictedContext).subscribe()
+    );
+  }
+
+  protected injectPreFetch(): void {
+    const url = this.elementRef.nativeElement.href.replace(
+      'http://localhost:4200',
+      'https://api.spartacus.rocks'
+    );
+    this.cxLinkBuilder.injectPreFetch(url);
   }
 
   ngOnDestroy(): void {
