@@ -56,6 +56,10 @@ export class ChatBotService {
         author: AuthorType.BOT,
         text: { key: 'chatBot.hello', params: user },
       });
+      this.addMessage({
+        author: AuthorType.BOT,
+        text: { key: 'chatBot.introduction'},
+      });
       this.showCategories();
     });
   }
