@@ -128,7 +128,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
               ))
           );
 
-        this.displayRecommendations(this.config?.messagesDelay * 5);
+        this.displayRecommendations(this.config?.messagesDelay * 2);
       }
       if (
         event === ChatBotEvent.NEW_MESSAGE ||
