@@ -82,8 +82,8 @@
   ></cx-chat-bot-recommendations>
 </div>
 
-<div class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
+<button class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
   <div class="circle">
     <img [src]="config?.botAvatar" class="avatar-img" />
   </div>
-</div>
+</button>

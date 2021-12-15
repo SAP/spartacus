@@ -158,20 +158,22 @@
   .chat-icon {
     position: fixed;
     z-index: 900;
-    left: 100%;
+    right: 40px;
     bottom: 11%;
-    margin-left: -90px;
-    height: 70px;
-    width: 90px;
+    height: 98px;
+    width: 98px;
     border-left-color: transparent;
     cursor: pointer;
+    border-radius: 50%;
+    border: 0;
+    background: none;
   }
   .circle {
     height: 100px;
     width: 100px;
     border-radius: 50%;
     background-color: var(--cx-color-primary);
-
+    margin-left: 44px;
     position: fixed;
     transform: translate(-50%, -50%);
 
@@ -179,7 +181,7 @@
       width: 94px;
       height: 94px;
       border-radius: 50%;
-      margin-left: 3px;
+      margin-left: 0;
       margin-top: 3px;
     }
   }
