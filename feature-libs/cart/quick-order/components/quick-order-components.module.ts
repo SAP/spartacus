@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { QuickOrderOrderEntriesContextToken } from '@spartacus/cart/quick-order/root';
 import { CartQuickOrderFormModule } from './cart-quick-order-form/cart-quick-order-form.module';
-import { QuickOrderOrderEntriesContext } from './page-context/quick-order-order-entries-context';
+import { QuickOrderOrderEntriesContext } from './page-context/quick-order-order-entries.context';
 import { QuickOrderListModule } from './quick-order/quick-order-list.module';
 
 @NgModule({

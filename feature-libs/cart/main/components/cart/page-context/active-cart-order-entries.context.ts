@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   AddOrderEntriesContext,
@@ -7,24 +7,29 @@ import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,
+  ProductImportInfo,
 } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
-import { CartOrderEntriesContext } from './abstract-cart-order-entries.context';
+import { switchMap, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ActiveCartOrderEntriesContext
-  extends CartOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.ACTIVE_CART;
 
   constructor(
-    protected actionsSubject: ActionsSubject,
+    protected importInfoService: ProductImportInfoService,
     protected activeCartFacade: ActiveCartFacade
-  ) {
-    super(actionsSubject);
+  ) {}
+
+  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+    return this.add(products).pipe(
+      switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
+      take(products.length)
+    );
   }
 
   getEntries(): Observable<OrderEntry[]> {

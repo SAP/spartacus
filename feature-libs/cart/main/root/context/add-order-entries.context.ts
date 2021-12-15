@@ -1,9 +1,6 @@
-import {
-  OrderEntriesSource,
-  ProductData,
-  ProductImportInfo,
-} from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
+import { OrderEntriesSource } from '../models/import-export.model';
+import { ProductData, ProductImportInfo } from '../models/import-to-cart.model';
 
 /**
  * An interface for context which determinate import products destination

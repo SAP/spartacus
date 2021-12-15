@@ -1,6 +1,8 @@
-<nav>
-  <span *ngFor="let crumb of crumbs$ | async">
-    <a [routerLink]="crumb.link" [innerHTML]="crumb.label"></a>
-  </span>
+<nav [attr.aria-label]="'common.breadcrumbs' | cxTranslate" tabindex="-1">
+  <ol [attr.aria-label]="'common.breadcrumbs' | cxTranslate">
+    <li *ngFor="let crumb of crumbs$ | async">
+      <a [routerLink]="crumb.link" [innerHTML]="crumb.label"></a>
+    </li>
+  </ol>
 </nav>
 <h1>{{ title$ | async }}</h1>

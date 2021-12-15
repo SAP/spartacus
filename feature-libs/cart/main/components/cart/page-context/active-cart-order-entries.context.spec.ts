@@ -1,15 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { Action, ActionsSubject } from '@ngrx/store';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   OrderEntry,
   ProductData,
 } from '@spartacus/cart/main/root';
-import { of, Subject } from 'rxjs';
+import { of } from 'rxjs';
 import { ActiveCartOrderEntriesContext } from './active-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
-
-const mockActionsSubject = new Subject<Action>();
 
 const mockCartId = '00004546';
 
@@ -31,19 +29,32 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getActiveCartId = createSpy().and.returnValue(of(mockCartId));
 }
 
+const mockProductImportInfo = {
+  productCode: 'testProductCode',
+  statusCode: 'testStatusCode',
+};
+class MockProductImportInfoService {
+  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+}
+
 describe('ActiveCartOrderEntriesContext', () => {
   let service: ActiveCartOrderEntriesContext;
   let activeCartFacade: ActiveCartFacade;
+  let productImportInfoService: ProductImportInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { useValue: mockActionsSubject, provide: ActionsSubject },
+        {
+          useClass: MockProductImportInfoService,
+          provide: ProductImportInfoService,
+        },
         { useClass: MockActiveCartFacade, provide: ActiveCartFacade },
       ],
     });
     service = TestBed.inject(ActiveCartOrderEntriesContext);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
+    productImportInfoService = TestBed.inject(ProductImportInfoService);
   });
 
   it('should be created', () => {
@@ -52,13 +63,16 @@ describe('ActiveCartOrderEntriesContext', () => {
 
   describe('addEntries', () => {
     it('addEntries for active cart', () => {
-      service.addEntries(mockProductData).subscribe().unsubscribe();
+      service.addEntries(mockProductData).subscribe();
 
       expect(activeCartFacade.addEntries).toHaveBeenCalledWith([
         { product: { code: '693923' }, quantity: 1 },
         { product: { code: '232133' }, quantity: 2 },
       ]);
       expect(activeCartFacade.getActiveCartId).toHaveBeenCalledWith();
+      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+        mockCartId
+      );
     });
   });
 

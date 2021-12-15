@@ -12,8 +12,8 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { map, withLatestFrom } from 'rxjs/operators';
-import { CartConfigService } from '../../../services/cart-config.service';
-import { CartValidationStateService } from '../cart-validation-state.service';
+import { CartConfigService } from '../services/cart-config.service';
+import { CartValidationStateService } from '../services/cart-validation-state.service';
 
 @Injectable({
   providedIn: 'root',
@@ -38,29 +38,26 @@ export class CartValidationGuard implements CanActivate {
           withLatestFrom(this.activeCartService.getEntries()),
           map(([cartModificationList, cartEntries]) => {
             this.cartValidationStateService.updateValidationResultAndRoutingId(
-              cartModificationList?.cartModifications ?? []
+              cartModificationList.cartModifications ?? []
             );
 
             if (
-              cartModificationList !== undefined &&
               cartModificationList.cartModifications !== undefined &&
               cartModificationList.cartModifications.length !== 0
             ) {
               let validationResultMessage;
+              const modification = cartModificationList.cartModifications[0];
 
               if (
                 cartEntries.length === 1 &&
                 cartEntries[0].product?.code ===
-                  cartModificationList?.cartModifications[0].entry?.product
-                    ?.code &&
-                cartModificationList?.cartModifications[0].statusCode ===
-                  CartValidationStatusCode.NO_STOCK
+                  modification.entry?.product?.code &&
+                modification.statusCode === CartValidationStatusCode.NO_STOCK
               ) {
                 validationResultMessage = {
                   key: 'validation.cartEntryRemoved',
                   params: {
-                    name: cartModificationList.cartModifications[0].entry
-                      ?.product?.name,
+                    name: modification.entry?.product?.name,
                   },
                 };
               } else {

@@ -1,13 +1,11 @@
 import { TestBed } from '@angular/core/testing';
-import { Action, ActionsSubject } from '@ngrx/store';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
-import { of, Subject } from 'rxjs';
-import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries-context';
+import { of } from 'rxjs';
+import { NewSavedCartOrderEntriesContext } from './new-saved-cart-order-entries.context';
 import createSpy = jasmine.createSpy;
-
-const mockActionsSubject = new Subject<Action>();
 
 const mockUserId = 'test-user';
 const mockCartId = '00004546';
@@ -38,16 +36,28 @@ class MockSavedCartService implements Partial<SavedCartFacade> {
   getSaveCartProcessLoading = createSpy().and.returnValue(of(false));
 }
 
+const mockProductImportInfo = {
+  productCode: 'testProductCode',
+  statusCode: 'testStatusCode',
+};
+class MockProductImportInfoService {
+  getResults = createSpy().and.returnValue(of(mockProductImportInfo));
+}
+
 describe('NewSavedCartOrderEntriesContext', () => {
   let service: NewSavedCartOrderEntriesContext;
   let multiCartService: MultiCartFacade;
   let savedCartService: SavedCartFacade;
   let userIdService: UserIdService;
+  let productImportInfoService: ProductImportInfoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { useValue: mockActionsSubject, provide: ActionsSubject },
+        {
+          useClass: MockProductImportInfoService,
+          provide: ProductImportInfoService,
+        },
         { useClass: MockSavedCartService, provide: SavedCartFacade },
         { useClass: MockMultiCartFacade, provide: MultiCartFacade },
         { useClass: MockUserIdService, provide: UserIdService },
@@ -57,6 +67,7 @@ describe('NewSavedCartOrderEntriesContext', () => {
     multiCartService = TestBed.inject(MultiCartFacade);
     savedCartService = TestBed.inject(SavedCartFacade);
     userIdService = TestBed.inject(UserIdService);
+    productImportInfoService = TestBed.inject(ProductImportInfoService);
   });
 
   it('should be created', () => {
@@ -82,6 +93,9 @@ describe('NewSavedCartOrderEntriesContext', () => {
         mockUserId,
         mockCartId,
         mockProductData
+      );
+      expect(productImportInfoService.getResults).toHaveBeenCalledWith(
+        mockCartId
       );
     });
   });

@@ -221,7 +221,6 @@ function configureSpartacusModules(
         `// Page Events,
         NavigationEventModule,`,
         'HomePageEventModule,',
-        'CartPageEventModule,',
         'ProductPageEventModule,',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
@@ -231,7 +230,6 @@ function configureSpartacusModules(
               namedImports: [
                 'NavigationEventModule',
                 'HomePageEventModule',
-                'CartPageEventModule',
                 'ProductPageEventModule',
               ],
             },

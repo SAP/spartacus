@@ -1,1 +1,1 @@
-export * from './quick-order-order-entries-context';
+export * from './quick-order-order-entries.context';

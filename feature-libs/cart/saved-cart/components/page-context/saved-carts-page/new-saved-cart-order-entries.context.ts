@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
-import { CartOrderEntriesContext } from '@spartacus/cart/main/components';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -25,27 +24,22 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class NewSavedCartOrderEntriesContext
-  extends CartOrderEntriesContext
-  implements AddOrderEntriesContext
-{
+export class NewSavedCartOrderEntriesContext implements AddOrderEntriesContext {
   readonly type = OrderEntriesSource.NEW_SAVED_CART;
 
   constructor(
-    protected actionsSubject: ActionsSubject,
+    protected importInfoService: ProductImportInfoService,
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade
-  ) {
-    super(actionsSubject);
-  }
+  ) {}
 
   addEntries(
     products: ProductData[],
     savedCartInfo?: { name: string; description: string }
   ): Observable<ProductImportInfo> {
     return this.add(products, savedCartInfo).pipe(
-      switchMap((cartId: string) => this.getResults(cartId)),
+      switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
       take(products.length)
     );
   }

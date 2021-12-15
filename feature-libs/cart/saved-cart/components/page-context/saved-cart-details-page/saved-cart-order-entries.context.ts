@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActionsSubject } from '@ngrx/store';
-import { CartOrderEntriesContext } from '@spartacus/cart/main/components';
+import { ProductImportInfoService } from '@spartacus/cart/main/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -9,35 +8,46 @@ import {
   OrderEntriesSource,
   OrderEntry,
   ProductData,
+  ProductImportInfo,
 } from '@spartacus/cart/main/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SavedCartOrderEntriesContext
-  extends CartOrderEntriesContext
   implements AddOrderEntriesContext, GetOrderEntriesContext
 {
   readonly type = OrderEntriesSource.SAVED_CART;
 
   constructor(
-    protected actionsSubject: ActionsSubject,
+    protected importInfoService: ProductImportInfoService,
     protected userIdService: UserIdService,
     protected multiCartService: MultiCartFacade,
     protected savedCartService: SavedCartFacade,
     protected routingService: RoutingService
-  ) {
-    super(actionsSubject);
-  }
+  ) {}
 
   protected savedCartId$ = this.routingService.getRouterState().pipe(
     map((routingData) => routingData.state.params.savedCartId),
     distinctUntilChanged()
   );
+
+  addEntries(products: ProductData[]): Observable<ProductImportInfo> {
+    return this.add(products).pipe(
+      switchMap((cartId: string) => this.importInfoService.getResults(cartId)),
+      take(products.length)
+    );
+  }
 
   getEntries(): Observable<OrderEntry[]> {
     return this.savedCartId$.pipe(
