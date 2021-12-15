@@ -9,6 +9,7 @@
     max-height: 100vh;
     overflow-y: hidden;
     main {
+      min-height: 430px;
       border: 1px solid #ccc;
       border-right: none;
       padding: 10px;
@@ -24,6 +25,12 @@
         font-size: 18px;
         margin-top: 10px;
         font-weight: 500;
+      }
+      cx-media.is-missing {
+        height: 270px;
+      }
+      cx-carousel .item.active {
+        padding: 10px;
       }
     }
   }
