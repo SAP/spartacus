@@ -1,3 +1,5 @@
+// '@sapui5/ts-types-esm' package contains types for sap modules, e.g. 'sap/ui/core/Core'
+/// <reference types="@sapui5/ts-types-esm" />
 import {
   ChangeDetectorRef,
   ElementRef,
@@ -5,8 +7,6 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
-// @ts-ignore
-import * as ui5 from '@sapui5/ts-types-esm';
 import {
   SceneNodeToProductLookupService,
   VisualizationLookupService,
@@ -86,8 +86,6 @@ export class VisualViewerService implements OnDestroy {
   ngOnDestroy(): void {
     this.selectedNodeIdsSubscription?.unsubscribe();
   }
-
-  protected _ui5: ui5;
 
   private selectedNodeIdsSubscription?: Subscription;
 

@@ -16,7 +16,6 @@ import {
   SPARTACUS_EPD_VISUALIZATION,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
-import { parse, stringify } from 'comment-json';
 import { peerDependencies } from '../../package.json';
 import {
   EPD_VISUALIZATION_FEATURE_NAME_CONSTANT,
@@ -32,8 +31,6 @@ import {
 } from '../constants';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
-const TSConfigFileName = 'tsconfig.json';
-
 export function addEpdVisualizationFeature(
   options: SpartacusEpdVisualizationOptions
 ): Rule {
@@ -45,7 +42,7 @@ export function addEpdVisualizationFeature(
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_EPD_VISUALIZATION_FEATURE, options.features)
-        ? chain([addEpdVisualization(options), updateTsConfig()])
+        ? chain([addEpdVisualization(options)])
         : noop(),
     ]);
   };
@@ -104,19 +101,4 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
       featureDependencies: {},
     },
   });
-}
-
-function updateTsConfig(): Rule {
-  return (tree: Tree, _context: SchematicContext) => {
-    const tsconfigString = (tree.read(TSConfigFileName) as Buffer).toString();
-    const tsconfig: any = parse(tsconfigString as string);
-
-    if (!tsconfig.compilerOptions) {
-      tsconfig.compilerOptions = {};
-    }
-    tsconfig.compilerOptions.skipLibCheck = true;
-    const updatedTsConfigString = stringify(tsconfig, null, 2);
-
-    tree.overwrite(TSConfigFileName, updatedTsConfigString);
-  };
 }
