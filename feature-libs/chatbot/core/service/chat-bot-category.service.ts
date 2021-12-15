@@ -8,6 +8,9 @@ import { pluck, switchMap } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class ChatBotCategoryService {
+  /**
+   * Selected category.
+   */
   selected$ = new BehaviorSubject('');
 
   constructor(
@@ -16,6 +19,9 @@ export class ChatBotCategoryService {
     protected productSearchService: ProductSearchService
   ) {}
 
+  /**
+   * Gets categoried from CMS Navigation.
+   */
   categories$ = this.cmsService.getContentSlot('NavigationBar').pipe(
     switchMap((page) =>
       this.navigationService.getNavigationNode(
@@ -25,17 +31,26 @@ export class ChatBotCategoryService {
     pluck('children')
   );
 
+  /**
+   * Select given category and perform product search.
+   */
   selectCategory(category) {
     this.selected$.next(category);
     this.search();
   }
 
+  /**
+   * Perform product search using selected category.
+   */
   search() {
     this.productSearchService.search(
       `:relevance:allCategories:${this.getCategoryCode(this.selected$.value)}`
     );
   }
 
+  /**
+   * Gets the code for a given category.
+   */
   getCategoryCode(category) {
     return category?.url?.split('/c/')?.[1];
   }
