@@ -18,12 +18,14 @@ import {
   PageContext,
   PageType,
   Product,
+  ProductReferenceService,
+  ProductReviewService,
   ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { take, tap } from 'rxjs/operators';
+import { switchMap, take, tap } from 'rxjs/operators';
 import { CxLinkBuilder } from './cx-link.builder';
 
 @Directive({
@@ -51,6 +53,8 @@ export class CxRouterLinkDirective
 
     // products
     protected productService: ProductService,
+    protected productReviewService: ProductReviewService,
+    protected productReferenceService: ProductReferenceService,
 
     // cms
     protected routingService: RoutingService,
@@ -98,15 +102,20 @@ export class CxRouterLinkDirective
       ProductScope.ATTRIBUTES,
       ProductScope.VARIANTS,
     ];
-    this.subscriptions.add(
-      this.productService
-        .get(id, scopes)
-        .pipe(
-          take(2),
-          tap((product) => this.preFetchImages(product))
-        )
-        .subscribe()
+    const reviews$ = this.productReviewService.getByProductCode(id);
+
+    const product$ = this.productService.get(id, scopes).pipe(
+      take(2),
+      // images
+      tap((product) => this.preFetchImages(product)),
+      // references
+      tap(() => this.productReferenceService.loadProductReferences(id)),
+      // reviews
+      switchMap(() => reviews$)
     );
+    this.productReferenceService.loadProductReferences(id);
+
+    this.subscriptions.add(product$.subscribe());
   }
 
   protected preFetchCmsData(id: string): void {
