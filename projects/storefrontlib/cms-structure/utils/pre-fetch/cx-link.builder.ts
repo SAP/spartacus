@@ -11,17 +11,17 @@ export class CxLinkBuilder {
   ) {}
 
   injectPreFetch(
-    url: string,
-    type: 'document' | 'script' | 'style' | 'font' | 'image'
+    attributes: Partial<{ [key in keyof HTMLLinkElement]: string }>
   ): void {
-    if (!this.winRef.isBrowser() || this.hasElement(url)) {
+    const href = attributes.href ?? '';
+    if (!this.winRef.isBrowser() || this.hasElement(href)) {
       return;
     }
 
     const link: HTMLLinkElement = this.document.createElement('link');
-    link.rel = 'prefetch';
-    link.href = url;
-    link.as = type;
+    link.rel = attributes.rel ?? 'prefetch';
+    link.href = href;
+    link.as = attributes.as ?? 'image';
 
     this.renderer.appendChild(this.document.body, link);
   }

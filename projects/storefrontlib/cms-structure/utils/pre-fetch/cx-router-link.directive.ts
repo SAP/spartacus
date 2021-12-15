@@ -148,9 +148,13 @@ export class CxRouterLinkDirective
 
     imageGroups.forEach((group) => {
       Object.keys(group).forEach((type) => {
-        const url = group[type].url;
-        if (url) {
-          this.cxLinkBuilder.injectPreFetch(url, 'image');
+        const href = group[type].url;
+        if (href) {
+          this.cxLinkBuilder.injectPreFetch({
+            href,
+            rel: 'prefetch',
+            as: 'image',
+          });
         }
       });
     });
