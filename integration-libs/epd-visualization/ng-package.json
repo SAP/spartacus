@@ -20,6 +20,5 @@
       "sap/ui/vk/ZoomTo": "ZoomTo"
     }
   },
-  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"],
-  "allowedNonPeerDependencies": ["comment-json"]
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
 }

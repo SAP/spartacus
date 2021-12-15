@@ -16,12 +16,10 @@ import {
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
-import { parse, stringify } from 'comment-json';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
-const TSConfigFileName = 'tsconfig.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
@@ -163,16 +161,6 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
           );
         expect(tasks.length).toEqual(0);
       });
-
-      it('should update the tsconfig.json', () => {
-        const tsConfigString = appTree.readContent(TSConfigFileName);
-        expect(tsConfigString).toBeTruthy();
-
-        const tsConfig: any = parse(tsConfigString);
-        expect(tsConfig).toBeTruthy();
-        expect(tsConfig.compilerOptions).toBeTruthy();
-        expect(tsConfig.compilerOptions?.skipLibCheck).toEqual(true);
-      });
     });
 
     describe('eager loading', () => {
@@ -196,11 +184,6 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
   describe('SAP EPD Visualization feature - No compilerOptions in tsconfig', () => {
     describe('general setup', () => {
       beforeEach(async () => {
-        const tsConfigString = appTree.readContent(TSConfigFileName);
-        const tsConfig: any = parse(tsConfigString);
-        delete tsConfig.compilerOptions;
-        appTree.overwrite(TSConfigFileName, stringify(tsConfig));
-
         appTree = await schematicRunner
           .runSchematicAsync('ng-add', visualizationFeatureOptions, appTree)
           .toPromise();
@@ -231,16 +214,6 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
             (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
           );
         expect(tasks.length).toEqual(0);
-      });
-
-      it('should update the tsconfig.json', () => {
-        const tsConfigString = appTree.readContent(TSConfigFileName);
-        expect(tsConfigString).toBeTruthy();
-
-        const tsConfig: any = parse(tsConfigString);
-        expect(tsConfig).toBeTruthy();
-        expect(tsConfig.compilerOptions).toBeTruthy();
-        expect(tsConfig.compilerOptions?.skipLibCheck).toEqual(true);
       });
     });
 
