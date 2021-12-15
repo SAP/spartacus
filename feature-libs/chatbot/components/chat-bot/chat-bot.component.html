@@ -8,6 +8,8 @@
 
     <div class="chat-messages-container">
       <ul class="chat-messages">
+        <!-- Template for typing indicator -->
+
         <li
           class="chat-messages-message"
           *ngFor="let message of conversation$ | async"
@@ -33,7 +35,27 @@
                     <path fill="none" d="M0 0h9v15.75H0z"></path>
                     <path d="M9 1.5v14.25L0 0l9 1.5z"></path>
                   </svg>
-                  <div class="content">{{ message.text | cxTranslate }}</div>
+                  <div class="content">
+                    <ng-container #indicator>
+                      <div class="typing-indicator-dots">
+                        <span
+                          class="typing-indicator-dot typing-indicator-dot-1"
+                          data-dot
+                        ></span>
+                        <span
+                          class="typing-indicator-dot typing-indicator-dot-2"
+                          data-dot
+                        ></span>
+                        <span
+                          class="typing-indicator-dot typing-indicator-dot-3"
+                          data-dot
+                        ></span>
+                      </div>
+                    </ng-container>
+                    <ng-conatiner #content>
+                      {{ message.text | cxTranslate }}
+                    </ng-conatiner>
+                  </div>
                 </div>
               </div>
             </div>
