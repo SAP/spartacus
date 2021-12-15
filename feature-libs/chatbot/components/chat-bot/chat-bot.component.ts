@@ -98,8 +98,10 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   /**
    * Displays results component.
    */
-  displayRecommendations() {
-    this.areRecommendationsOpen = true;
+  displayRecommendations(delay = 0) {
+    setTimeout(() => {
+      this.areRecommendationsOpen = true;
+    }, delay);
   }
 
   /**
@@ -126,7 +128,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
               ))
           );
 
-        this.displayRecommendations();
+        this.displayRecommendations(this.config?.messagesDelay * 5);
       }
       if (
         event === ChatBotEvent.NEW_MESSAGE ||
@@ -139,8 +141,10 @@ export class ChatBotComponent implements OnInit, OnDestroy {
 
   scrollToBottom() {
     setTimeout(() => {
-      this.messagesContainer.nativeElement.scrollTop =
-        this.messagesContainer.nativeElement.scrollHeight;
+      if (this.messagesContainer && this.messagesContainer.nativeElement) {
+        this.messagesContainer.nativeElement.scrollTop =
+          this.messagesContainer.nativeElement.scrollHeight;
+      }
     });
   }
 
