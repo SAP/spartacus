@@ -110,6 +110,7 @@ export class ChatBotService {
       },
     });
 
+    this.chatBotFacetService.clearFacets();
     this.chatBotCategoryService.selectCategory(category);
 
     this.showFacets();

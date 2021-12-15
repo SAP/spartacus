@@ -62,4 +62,8 @@ export class ChatBotFacetService {
       this.chatbotCategoryService.search();
     }
   }
+
+  clearFacets() {
+    this.selected$.next([]);
+  }
 }
