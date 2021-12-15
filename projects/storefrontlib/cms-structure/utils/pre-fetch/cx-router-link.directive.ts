@@ -137,11 +137,7 @@ export class CxRouterLinkDirective
     this.subscriptions.add(componentData$.subscribe());
   }
 
-  protected preFetchImages(product: Product | undefined): void {
-    if (!product) {
-      return;
-    }
-
+  protected preFetchImages(product: Product): void {
     const imageGroups = ([] as ImageGroup[])
       .concat(product.images?.PRIMARY ?? [])
       .concat(product.images?.GALLERY ?? []);
