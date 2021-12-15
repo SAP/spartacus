@@ -56,6 +56,7 @@ export class ChatBotService {
         status: MessageStatus.QUEUED,
       } as ChatBotMessage;
       this.conversation$.next([...currentMessages, newMessage]);
+      console.log('add by bot', currentMessages, newMessage);
     }
     this.events$.next(ChatBotEvent.NEW_MESSAGE);
   }
@@ -69,6 +70,12 @@ export class ChatBotService {
       (message) => message.status === MessageStatus.QUEUED
     );
 
+    console.log(
+      'updateMessageStatuses',
+      foundWritingMessage,
+      foundQueuedMessage,
+      messages
+    );
     if (foundWritingMessage || foundQueuedMessage) {
       this.conversation$.next([
         ...messages.map((message) => {
@@ -91,7 +98,6 @@ export class ChatBotService {
 
   protected sayHello() {
     this.user$.subscribe((user: User) => {
-      console.log('hello', user);
       this.addMessage({
         author: AuthorType.BOT,
         text: { key: 'chatBot.hello', params: user },
@@ -104,8 +110,7 @@ export class ChatBotService {
     });
   }
 
-  protected showCategories(param?) {
-    console.log('showCategories', param);
+  protected showCategories() {
     this.addMessage({
       author: AuthorType.BOT,
       text: {
@@ -117,20 +122,18 @@ export class ChatBotService {
       .pipe(
         take(1),
         map((categories) => {
-          console.log(categories);
           return categories.map((category) => ({
             text: { raw: category.title },
             callback: () => this.chooseCategory(category),
           }));
-        }),
-        tap(console.log)
+        })
       )
       .subscribe((categories) => {
-        const options = [...categories];
+        const options: ChatBotOption[] = [...categories];
         if (this.chosenCategory) {
           options.push({
             text: { key: 'chatBot.cancel' },
-            callback: (param) => this.cancel(param),
+            callback: () => this.cancel(),
           });
         }
         this.showOptions(options);
@@ -138,7 +141,6 @@ export class ChatBotService {
   }
 
   protected chooseCategory(category) {
-    console.log('chosenCategory', category);
     this.chosenCategory = this.chatBotCategoryService.getCategoryCode(category);
     this.addMessage({
       author: AuthorType.CUSTOMER,
@@ -160,11 +162,9 @@ export class ChatBotService {
     this.showFacets();
   }
 
-  protected showFacets(param?) {
-    console.log('show facets', param);
+  protected showFacets() {
     this.appliedFacets
       .pipe(
-        // take(1),
         switchMap((appliedFacets) => {
           if (appliedFacets.length === 0) {
             this.addMessage({
@@ -180,23 +180,22 @@ export class ChatBotService {
           return this.availableFacets.pipe(
             tap((availableFacets) => {
               const options: ChatBotOption[] = [];
-              console.log('availableFacets', availableFacets);
               if (availableFacets?.length > 0) {
                 options.push(...availableFacets);
               }
               options.push({
                 text: { key: 'chatBot.changeCategory' },
-                callback: (param) => this.changeCategory(param),
+                callback: () => this.changeCategory(),
               });
               if (appliedFacets.length > 0) {
                 options.push({
                   text: { key: 'chatBot.removeFacet' },
-                  callback: (param) => this.showAppliedFacets(param),
+                  callback: () => this.showAppliedFacets(),
                 });
               }
               options.push({
                 text: { key: 'chatBot.displayResults' },
-                callback: (param) => this.displayResults(param),
+                callback: () => this.displayResults(),
               });
               this.showOptions(options);
             })
@@ -206,21 +205,15 @@ export class ChatBotService {
       .subscribe();
   }
 
-  protected changeCategory(param) {
-    console.log('changeCategory');
+  protected changeCategory() {
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.changeCategory' },
     });
-    this.showCategories(param);
+    this.showCategories();
   }
 
   protected showFacetOptions(facet) {
-    console.log('showFacetOptions', facet);
-    // this.addMessage({
-    //   author: AuthorType.BOT,
-    //   text: { key: 'chatBot.chooseFacetOption' },
-    // });
     this.showOptions([
       ...this.chatBotFacetService.getFacetOptions(facet)?.map((value) => {
         return {
@@ -233,12 +226,12 @@ export class ChatBotService {
       }),
       {
         text: { key: 'chatBot.cancel' },
-        callback: (param) => this.cancel(param),
+        callback: () => this.cancel(),
       },
     ]);
   }
 
-  protected cancel(param?) {
+  protected cancel() {
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: {
@@ -251,11 +244,10 @@ export class ChatBotService {
         key: 'chatBot.okNoProblem',
       },
     });
-    this.showFacets(param);
+    this.showFacets();
   }
 
   protected chooseFacet(text: Translatable, facet: any) {
-    console.log('chooseFacet', text);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text,
@@ -271,7 +263,6 @@ export class ChatBotService {
     return this.chatBotFacetService.selected$.pipe(
       take(1),
       map((facets) => {
-        console.log('appliedFacets', facets);
         return facets?.map((facet) => {
           return {
             text: { raw: facet.name },
@@ -301,8 +292,7 @@ export class ChatBotService {
     );
   }
 
-  protected showAppliedFacets(param?) {
-    console.log('showAppliedFacets', param);
+  protected showAppliedFacets() {
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.removeFacet', params: {} },
@@ -316,14 +306,13 @@ export class ChatBotService {
         ...appliedFacets,
         {
           text: { key: 'chatBot.cancel' },
-          callback: (param) => this.cancel(param),
+          callback: () => this.cancel(),
         },
       ]);
     });
   }
 
   protected chooseFacetOption(facetOption?) {
-    console.log('chooseFacetOption', facetOption);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: {
@@ -341,7 +330,6 @@ export class ChatBotService {
   }
 
   protected removeFacet(facet) {
-    console.log('removeFacet', facet);
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { raw: facet.name },
@@ -354,8 +342,7 @@ export class ChatBotService {
     this.showFacets();
   }
 
-  protected displayResults(param?) {
-    console.log('displayResults', param);
+  protected displayResults() {
     this.addMessage({
       author: AuthorType.CUSTOMER,
       text: { key: 'chatBot.displayResults' },
@@ -371,13 +358,13 @@ export class ChatBotService {
       });
     });
 
-    this.buildQuery();
+    // this.buildQuery();
 
     this.events$.next(ChatBotEvent.DISPLAY_RECOMMENDATIONS);
   }
 
-  protected buildQuery() {
-    const url = this.chosenCategory;
-    console.log('buildQuery', url);
-  }
+  // protected buildQuery() {
+  //   const url = this.chosenCategory;
+  //   console.log('buildQuery', url);
+  // }
 }
