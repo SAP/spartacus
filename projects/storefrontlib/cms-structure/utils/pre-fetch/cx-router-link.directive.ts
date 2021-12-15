@@ -25,7 +25,7 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { switchMap, take, tap } from 'rxjs/operators';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
 import { CxLinkBuilder } from './cx-link.builder';
 
 @Directive({
@@ -36,6 +36,8 @@ export class CxRouterLinkDirective
   extends RouterLinkWithHref
   implements OnDestroy
 {
+  protected fetched: Map<string, boolean> = new Map();
+
   @Input() cxRouterLinkData?: { type: 'product' | 'cms'; id: string };
 
   protected cxCommands: any[] | null = null;
@@ -87,9 +89,14 @@ export class CxRouterLinkDirective
     });
   }
 
-  @HostListener('mouseenter') onHover() {
+  @HostListener('mouseenter') onHover(): void {
     if (this.cxRouterLinkData?.type === 'product') {
       const id = this.cxRouterLinkData.id;
+      if (this.fetched.has(id)) {
+        return;
+      }
+
+      this.fetched.set(id, true);
       this.preFetchProductData(id);
       this.preFetchCmsData(id);
     }
@@ -105,7 +112,8 @@ export class CxRouterLinkDirective
     const reviews$ = this.productReviewService.getByProductCode(id);
 
     const product$ = this.productService.get(id, scopes).pipe(
-      take(2),
+      filter((product) => !!product),
+      take(1),
       // images
       tap((product) => this.preFetchImages(product)),
       // references
