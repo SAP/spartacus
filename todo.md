@@ -63,9 +63,10 @@
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
 11. Move models from _core_ to _checkout root_: 
-    1.  projects/core/src/model/payment.model.ts to base-root
-    2.  cost center from projects/core/src/model/org-unit.model.ts to b2b-root
+    2.  cost center from projects/core/src/model/org-unit.model.ts to b2b-root 
+    ^ in progress - deciding as it is being reused in organization lib as well
     3.  projects/core/src/model/address.model.ts to user lib? add a todo, since the user address is still in core
+    ^ I think this one will be moved once we create an @spartacus/user/address as we have a `UserAddressService` in core and it was not moved yet
 12. align the event names - prefix them with Checkout?
 13. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
 14. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
