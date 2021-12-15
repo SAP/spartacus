@@ -1,11 +1,15 @@
 import { tabbingOrderConfig as config } from '../../helpers/accessibility/b2b/tabbing-order.config';
 import * as alerts from '../../helpers/global-message';
 import * as sampleData from '../../sample-data/b2b-saved-cart';
-import { SampleProduct } from '../../sample-data/checkout-flow';
+import {
+  SampleCartProduct,
+  SampleProduct,
+} from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
 import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
+import { b2bAccountShipToUser } from '../../sample-data/b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -206,11 +210,24 @@ export function proceedToCheckout() {
 }
 
 export function executeCheckout() {
+  const cart: SampleCartProduct = {
+    estimatedShipping: '$9.99',
+    total: '$35.00',
+    totalAndShipping: '$44.99',
+  };
+
   b2bCheckout.enterPONumber();
   b2bCheckout.selectAccountPayment();
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
   b2bCheckout.placeOrder('/order-confirmation');
+  b2bCheckout.reviewB2bOrderConfirmation(
+    b2bAccountShipToUser,
+    sampleData.products[0],
+    cart,
+    true,
+    null
+  );
 }
 
 export function addProductToCart(product: SampleProduct, quantity: number) {
