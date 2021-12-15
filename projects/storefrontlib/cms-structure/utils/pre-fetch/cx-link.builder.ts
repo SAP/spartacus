@@ -10,7 +10,10 @@ export class CxLinkBuilder {
     protected winRef: WindowRef
   ) {}
 
-  injectPreFetch(url: string): void {
+  injectPreFetch(
+    url: string,
+    type: 'document' | 'script' | 'style' | 'font' | 'image'
+  ): void {
     if (!this.winRef.isBrowser() || this.hasElement(url)) {
       return;
     }
@@ -18,6 +21,7 @@ export class CxLinkBuilder {
     const link: HTMLLinkElement = this.document.createElement('link');
     link.rel = 'prefetch';
     link.href = url;
+    link.as = type;
 
     this.renderer.appendChild(this.document.body, link);
   }

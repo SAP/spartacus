@@ -14,13 +14,16 @@ import {
 } from '@angular/router';
 import {
   CmsService,
+  ImageGroup,
   PageContext,
   PageType,
+  Product,
+  ProductScope,
   ProductService,
   RoutingService,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { CxLinkBuilder } from './cx-link.builder';
 
 @Directive({
@@ -83,14 +86,24 @@ export class CxRouterLinkDirective
   @HostListener('mouseenter') onHover() {
     if (this.cxRouterLinkData?.type === 'product') {
       this.preFetchProductData(this.cxRouterLinkData.id);
-    } else {
-      this.injectPreFetch();
     }
   }
 
   protected preFetchProductData(id: string): void {
+    const scopes: ProductScope[] = [
+      ProductScope.LIST,
+      ProductScope.DETAILS,
+      ProductScope.ATTRIBUTES,
+      ProductScope.VARIANTS,
+    ];
     this.subscriptions.add(
-      this.productService.get(id).pipe(take(2)).subscribe()
+      this.productService
+        .get(id, scopes)
+        .pipe(
+          take(2),
+          tap((product) => this.preFetchImages(product))
+        )
+        .subscribe()
     );
 
     const predictedContext: PageContext = { id, type: PageType.PRODUCT_PAGE };
@@ -99,12 +112,23 @@ export class CxRouterLinkDirective
     );
   }
 
-  protected injectPreFetch(): void {
-    const url = this.elementRef.nativeElement.href.replace(
-      'http://localhost:4200',
-      'https://api.spartacus.rocks'
-    );
-    this.cxLinkBuilder.injectPreFetch(url);
+  protected preFetchImages(product: Product | undefined): void {
+    if (!product) {
+      return;
+    }
+
+    const imageGroups = ([] as ImageGroup[])
+      .concat(product.images?.PRIMARY ?? [])
+      .concat(product.images?.GALLERY ?? []);
+
+    imageGroups.forEach((group) => {
+      Object.keys(group).forEach((type) => {
+        const url = group[type].url;
+        if (url) {
+          this.cxLinkBuilder.injectPreFetch(url, 'image');
+        }
+      });
+    });
   }
 
   ngOnDestroy(): void {
