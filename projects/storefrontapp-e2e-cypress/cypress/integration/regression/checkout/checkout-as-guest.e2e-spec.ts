@@ -1,5 +1,4 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/checkout-flow';
@@ -20,8 +19,6 @@ context('Checkout as guest', () => {
     beforeEach(() => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
-
-    //guestCheckout.testCheckoutAsGuest();
 
     it('should keep products in guest cart and restart checkout', () => {
       user = getSampleUser();
@@ -60,5 +57,9 @@ context('Checkout as guest', () => {
         });
       loginHelper.signOutUser();
     });
+
+    // Core e2e test. 
+    guestCheckout.testCheckoutAsGuest();
+
   });
 });

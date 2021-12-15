@@ -30,9 +30,6 @@ context('Express checkout', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test. Run in mobile as well.
-    expressCheckout.testExpressCheckout(user);
-
     it('should redirect to first step if payment method is not set', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',
@@ -44,5 +41,8 @@ context('Express checkout', () => {
       cy.findByText(/proceed to checkout/i).click();
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
     });
+
+    // Core e2e test. Run in mobile as well.
+    expressCheckout.testExpressCheckout(user);
   });
 });

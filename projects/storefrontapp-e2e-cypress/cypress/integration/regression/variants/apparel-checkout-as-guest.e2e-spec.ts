@@ -33,9 +33,6 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test. Run in mobile if necessary
-    checkoutVariants.testCheckoutVariantAsGuest();
-
     it('should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
@@ -75,5 +72,9 @@ context('Apparel - checkout as guest', () => {
         });
       loginHelper.signOutUser();
     });
+
+    // Core e2e test. Run in mobile if necessary
+    checkoutVariants.testCheckoutVariantAsGuest();
+
   });
 });
