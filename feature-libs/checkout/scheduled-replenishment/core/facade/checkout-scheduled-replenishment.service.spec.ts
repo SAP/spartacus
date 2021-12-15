@@ -4,7 +4,6 @@ import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
-  ORDER_TYPE,
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
@@ -15,7 +14,6 @@ import {
 } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
 import createSpy = jasmine.createSpy;
@@ -153,20 +151,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
         },
         ReplenishmentOrderScheduledEvent
       );
-    });
-
-    describe(`getOrderType and setOrderType`, () => {
-      it(`should set an order type return an order type`, (done) => {
-        service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-
-        service
-          .getOrderType()
-          .pipe(take(1))
-          .subscribe((result) => {
-            expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-            done();
-          });
-      });
     });
   });
 });

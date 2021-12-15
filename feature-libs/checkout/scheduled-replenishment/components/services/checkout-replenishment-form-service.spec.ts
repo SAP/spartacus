@@ -1,5 +1,9 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { ScheduleReplenishmentForm } from '@spartacus/checkout/scheduled-replenishment/root';
+import {
+  ORDER_TYPE,
+  ScheduleReplenishmentForm,
+} from '@spartacus/checkout/scheduled-replenishment/root';
+import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form-service';
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {
@@ -68,5 +72,17 @@ describe('Checkout Replenishment Form Service', () => {
     service.resetScheduleReplenishmentFormData();
 
     expect(result).toEqual(service.defaultFormData);
+  });
+
+  it(`should set an order type return an order type`, (done) => {
+    service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+
+    service
+      .getOrderType()
+      .pipe(take(1))
+      .subscribe((result) => {
+        expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+        done();
+      });
   });
 });

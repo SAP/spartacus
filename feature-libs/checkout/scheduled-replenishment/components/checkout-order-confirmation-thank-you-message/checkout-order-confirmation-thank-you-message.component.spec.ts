@@ -2,14 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import {
-  CheckoutScheduledReplenishmentFacade,
-  ORDER_TYPE,
-} from '@spartacus/checkout/scheduled-replenishment/root';
+import { ORDER_TYPE } from '@spartacus/checkout/scheduled-replenishment/root';
 import { I18nTestingModule } from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
 import { CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
+import createSpy = jasmine.createSpy;
 
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
@@ -21,31 +19,29 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder(): Observable<Order | ReplenishmentOrder> {
-    return of({
+  getOrder = createSpy().and.returnValue(
+    of({
       code: 'test-code-412',
       guid: 'guid',
       guestCustomer: true,
       paymentInfo: { billingAddress: { email: 'test@test.com' } },
       replenishmentOrderCode: 'test-repl-code',
-    });
-  }
+    })
+  );
 }
 
-class MockCheckoutScheduledReplenishmentService
-  implements Partial<CheckoutScheduledReplenishmentFacade>
+class MockCheckoutReplenishmentFormService
+  implements Partial<CheckoutReplenishmentFormService>
 {
-  getOrderType(): Observable<ORDER_TYPE> {
-    return of(ORDER_TYPE.PLACE_ORDER);
-  }
+  getOrderType = createSpy().and.returnValue(of(ORDER_TYPE.PLACE_ORDER));
 }
 
 describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent', () => {
   let component: CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent;
   let fixture: ComponentFixture<CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent>;
 
-  let checkoutService: CheckoutFacade;
-  let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
+  let checkoutFacade: CheckoutFacade;
+  let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
   beforeEach(
     waitForAsync(() => {
@@ -59,8 +55,8 @@ describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponen
         providers: [
           { provide: CheckoutFacade, useClass: MockCheckoutService },
           {
-            provide: CheckoutScheduledReplenishmentFacade,
-            useClass: MockCheckoutScheduledReplenishmentService,
+            provide: CheckoutReplenishmentFormService,
+            useClass: MockCheckoutReplenishmentFormService,
           },
         ],
       }).compileComponents();
@@ -72,9 +68,9 @@ describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponen
       CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
-    checkoutService = TestBed.inject(CheckoutFacade);
-    checkoutScheduledReplenishmentFacade = TestBed.inject(
-      CheckoutScheduledReplenishmentFacade
+    checkoutFacade = TestBed.inject(CheckoutFacade);
+    checkoutReplenishmentFormService = TestBed.inject(
+      CheckoutReplenishmentFormService
     );
   });
 
@@ -93,7 +89,7 @@ describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponen
   });
 
   it('should display replenishment order code', () => {
-    spyOn(checkoutScheduledReplenishmentFacade, 'getOrderType').and.returnValue(
+    checkoutReplenishmentFormService.getOrderType = createSpy().and.returnValue(
       of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
     );
 
@@ -116,9 +112,10 @@ describe('CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponen
   });
 
   it('should not display guest register form for login user', () => {
-    spyOn(checkoutService, 'getOrder').and.returnValue(
+    checkoutFacade.getOrder = createSpy().and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
+
     component.ngOnInit();
     fixture.detectChanges();
 

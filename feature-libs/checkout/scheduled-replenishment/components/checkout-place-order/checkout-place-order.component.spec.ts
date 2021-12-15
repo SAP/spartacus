@@ -1,7 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { NavigationExtras } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
@@ -11,16 +10,12 @@ import {
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
-import {
-  I18nTestingModule,
-  RoutingService,
-  UrlCommands,
-} from '@spartacus/core';
-import { Order, ReplenishmentOrder } from '@spartacus/order/root';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
+import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: 'test-number-days',
@@ -37,57 +32,43 @@ const mockReplenishmentOrderFormData$ =
   );
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  placeOrder(_termsChecked: boolean): Observable<Order> {
-    return of();
-  }
-
-  clearOrder(): void {}
+  placeOrder = createSpy().and.returnValue(of());
+  clearOrder = createSpy();
 }
 
 class MockCheckoutScheduledReplenishmentService
   implements Partial<CheckoutScheduledReplenishmentFacade>
 {
-  getOrderType(): Observable<ORDER_TYPE> {
-    return of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-  }
-  scheduleReplenishmentOrder(
-    _scheduleReplenishmentForm: ScheduleReplenishmentForm,
-    _termsChecked: boolean
-  ): Observable<ReplenishmentOrder> {
-    return of();
-  }
+  scheduleReplenishmentOrder = createSpy().and.returnValue(of());
 }
 
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
-    return mockReplenishmentOrderFormData$.asObservable();
-  }
-
-  setScheduleReplenishmentFormData(
-    _formData: ScheduleReplenishmentForm
-  ): void {}
-
-  resetScheduleReplenishmentFormData(): void {}
+  getOrderType = createSpy().and.returnValue(
+    of(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER)
+  );
+  getScheduleReplenishmentFormData = createSpy().and.returnValue(
+    mockReplenishmentOrderFormData$.asObservable()
+  );
+  setScheduleReplenishmentFormData = createSpy();
+  resetScheduleReplenishmentFormData = createSpy();
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(_commands: UrlCommands, _extras?: NavigationExtras): Promise<boolean> {
-    return of(true).toPromise();
-  }
+  go = createSpy().and.returnValue(of(true).toPromise());
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  launch() {}
-  clear() {}
+  launch = createSpy();
+  clear = createSpy();
 }
 
 @Pipe({
   name: 'cxUrl',
 })
 class MockUrlPipe implements PipeTransform {
-  transform(): any {}
+  transform = createSpy();
 }
 
 describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
@@ -143,20 +124,6 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     );
     routingService = TestBed.inject(RoutingService);
     launchDialogService = TestBed.inject(LaunchDialogService);
-
-    spyOn(checkoutService, 'placeOrder').and.callThrough();
-    spyOn(
-      checkoutScheduledReplenishmentService,
-      'scheduleReplenishmentOrder'
-    ).and.callThrough();
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-    spyOn(
-      checkoutReplenishmentFormService,
-      'resetScheduleReplenishmentFormData'
-    ).and.callThrough();
   });
 
   it('should be created', () => {
@@ -183,8 +150,6 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     });
 
     it('should change page and reset form data on a successful place order', () => {
-      spyOn(routingService, 'go').and.stub();
-
       component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
       component.onSuccess();
 
@@ -214,8 +179,6 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     });
 
     it('should change page and reset form data on a successful replenishment order', () => {
-      spyOn(routingService, 'go').and.stub();
-
       component.currentOrderType = ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER;
       component.onSuccess();
 
@@ -233,7 +196,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
       spyOnProperty(component.checkoutSubmitForm, 'valid').and.returnValue(
         true
       );
-      spyOn(launchDialogService, 'launch').and.stub();
+
       component.currentOrderType = ORDER_TYPE.PLACE_ORDER;
 
       component.submitForm();

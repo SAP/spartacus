@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,
@@ -9,9 +8,10 @@ import {
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
+import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   numberOfDays: '14',
@@ -22,32 +22,19 @@ const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
   daysOfWeek: [],
 };
 
-class MockCheckoutScheduledReplenishmentFacade
-  implements Partial<CheckoutScheduledReplenishmentFacade>
-{
-  getOrderType(): Observable<ORDER_TYPE> {
-    return of(ORDER_TYPE.PLACE_ORDER);
-  }
-  setOrderType(_orderType: ORDER_TYPE): void {}
-}
-
 class MockCheckoutReplenishmentFormService
   implements Partial<CheckoutReplenishmentFormService>
 {
-  getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
-    return of({});
-  }
-
-  setScheduleReplenishmentFormData(
-    _formData: ScheduleReplenishmentForm
-  ): void {}
+  getOrderType = createSpy().and.returnValue(of(ORDER_TYPE.PLACE_ORDER));
+  setOrderType = createSpy();
+  getScheduleReplenishmentFormData = createSpy().and.returnValue(of({}));
+  setScheduleReplenishmentFormData = createSpy();
 }
 
 describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   let component: CheckoutScheduleReplenishmentOrderComponent;
   let fixture: ComponentFixture<CheckoutScheduleReplenishmentOrderComponent>;
 
-  let checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
 
   beforeEach(
@@ -56,10 +43,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
         imports: [RouterTestingModule, I18nTestingModule, IconTestingModule],
         declarations: [CheckoutScheduleReplenishmentOrderComponent],
         providers: [
-          {
-            provide: CheckoutScheduledReplenishmentFacade,
-            useClass: MockCheckoutScheduledReplenishmentFacade,
-          },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -75,9 +58,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
     );
     component = fixture.componentInstance;
 
-    checkoutScheduledReplenishmentFacade = TestBed.inject(
-      CheckoutScheduledReplenishmentFacade
-    );
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
     );
@@ -93,24 +73,14 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change order type', () => {
-    spyOn(
-      checkoutScheduledReplenishmentFacade,
-      'setOrderType'
-    ).and.callThrough();
-
     component.changeOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
 
-    expect(
-      checkoutScheduledReplenishmentFacade.setOrderType
-    ).toHaveBeenCalledWith(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
+    expect(checkoutReplenishmentFormService.setOrderType).toHaveBeenCalledWith(
+      ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER
+    );
   });
 
   it('should change number of days of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockNumberOfDays = '20';
 
     component.changeNumberOfDays(mockNumberOfDays);
@@ -124,11 +94,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change number of weeks of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockNumberOfWeeks = '5';
 
     component.changeNumberOfWeeks(mockNumberOfWeeks);
@@ -142,11 +107,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change recurrence period type of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockPeriodType = recurrencePeriod.MONTHLY;
 
     component.changeRecurrencePeriodType(mockPeriodType);
@@ -160,11 +120,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change day of month of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockDayOfMonth = '31';
 
     component.changeDayOfTheMonth(mockDayOfMonth);
@@ -178,11 +133,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change replenishment start date of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockStartDate = '2021-10-31';
 
     component.changeReplenishmentStartDate(mockStartDate);
@@ -196,11 +146,6 @@ describe('CheckoutScheduleReplenishmentOrderComponent', () => {
   });
 
   it('should change repeat days when reoccurence is weekly of replenishment form data', () => {
-    spyOn(
-      checkoutReplenishmentFormService,
-      'setScheduleReplenishmentFormData'
-    ).and.callThrough();
-
     const mockRepeatDays = DaysOfWeek.MONDAY;
 
     component.changeRepeatDays(mockRepeatDays, true);

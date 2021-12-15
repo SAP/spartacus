@@ -86,7 +86,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutScheduledReplenishmentFacade
+      this.checkoutReplenishmentFormService
         .getOrderType()
         .subscribe((orderType) => (this.currentOrderType = orderType))
     );
