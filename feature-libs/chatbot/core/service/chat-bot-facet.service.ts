@@ -16,7 +16,11 @@ export class ChatBotFacetService {
   ) {}
 
   getFacetOptions(facet) {
-    return facet?.values;
+    // Return facets as options that have not yet been selected
+    return facet?.values.filter(
+      (facet) =>
+        !this.selected$.value.map((value) => value.name).includes(facet.name)
+    );
   }
 
   addFacet(facet) {
