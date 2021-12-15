@@ -115,6 +115,10 @@ export class ChatBotService {
         author: AuthorType.BOT,
         text: { key: 'chatBot.hello', params: user },
       });
+      this.addMessage({
+        author: AuthorType.BOT,
+        text: { key: 'chatBot.introduction'},
+      });
       this.showCategories();
     });
   }
@@ -169,6 +173,7 @@ export class ChatBotService {
       },
     });
 
+    this.chatBotFacetService.clearFacets();
     this.chatBotCategoryService.selectCategory(category);
 
     this.showFacets();

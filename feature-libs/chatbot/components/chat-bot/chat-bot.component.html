@@ -65,7 +65,7 @@
         <div class="chat-options" *ngIf="!(isBotWriting$ | async)">
           <button
             *ngFor="let option of options$ | async"
-            class="btn btn-primary btn-block"
+            class="btn btn-action btn-block"
             (click)="option.callback(option.text)"
           >
             {{ option.text | cxTranslate }}
@@ -82,8 +82,8 @@
   ></cx-chat-bot-recommendations>
 </div>
 
-<div class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
+<button class="chat-icon" (click)="toggle()" *ngIf="!isOpen">
   <div class="circle">
     <img [src]="config?.botAvatar" class="avatar-img" />
   </div>
-</div>
+</button>
