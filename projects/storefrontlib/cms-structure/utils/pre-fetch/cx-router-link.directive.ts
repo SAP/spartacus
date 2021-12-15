@@ -85,7 +85,9 @@ export class CxRouterLinkDirective
 
   @HostListener('mouseenter') onHover() {
     if (this.cxRouterLinkData?.type === 'product') {
-      this.preFetchProductData(this.cxRouterLinkData.id);
+      const id = this.cxRouterLinkData.id;
+      this.preFetchProductData(id);
+      this.preFetchCmsData(id);
     }
   }
 
@@ -105,11 +107,17 @@ export class CxRouterLinkDirective
         )
         .subscribe()
     );
+  }
 
+  protected preFetchCmsData(id: string): void {
     const predictedContext: PageContext = { id, type: PageType.PRODUCT_PAGE };
-    this.subscriptions.add(
-      this.cmsService.getPage(predictedContext).subscribe()
-    );
+
+    const page$ = this.cmsService.getPage(predictedContext);
+    const componentData$ =
+      this.cmsService.getComponentData('TabPanelContainer');
+
+    this.subscriptions.add(page$.subscribe());
+    this.subscriptions.add(componentData$.subscribe());
   }
 
   protected preFetchImages(product: Product | undefined): void {
