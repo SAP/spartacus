@@ -57,6 +57,7 @@ export class ChatBotService {
       } as ChatBotMessage;
       this.conversation$.next([...currentMessages, newMessage]);
     }
+    this.events$.next(ChatBotEvent.NEW_MESSAGE);
   }
 
   updateMessageStatuses() {
@@ -81,6 +82,7 @@ export class ChatBotService {
         }),
       ]);
     }
+    this.events$.next(ChatBotEvent.UPDATE_MESSAGE_STATUS);
   }
 
   protected showOptions(options: ChatBotOption[]) {

@@ -1,4 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import {
   ChatBotConfig,
   ChatBotEvent,
@@ -21,6 +27,8 @@ export class ChatBotComponent implements OnInit, OnDestroy {
     protected productService: ProductService,
     protected productSearchService: ProductSearchService
   ) {}
+
+  @ViewChild('messages') private messagesContainer: ElementRef;
 
   config = this.chatBotConfig.chatBot;
   conversation$ = this.service.conversation$.pipe(
@@ -120,6 +128,19 @@ export class ChatBotComponent implements OnInit, OnDestroy {
 
         this.displayRecommendations();
       }
+      if (
+        event === ChatBotEvent.NEW_MESSAGE ||
+        event === ChatBotEvent.UPDATE_MESSAGE_STATUS
+      ) {
+        this.scrollToBottom();
+      }
+    });
+  }
+
+  scrollToBottom() {
+    setTimeout(() => {
+      this.messagesContainer.nativeElement.scrollTop =
+        this.messagesContainer.nativeElement.scrollHeight;
     });
   }
 
