@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 @Component({
   selector: 'cx-chat-bot-recommendations',
   templateUrl: './chat-bot-recommendations.component.html',
 })
-export class ChatBotRecommendationsComponent implements OnInit {
+export class ChatBotRecommendationsComponent {
   /**
    * Products array.
    */
@@ -23,8 +23,4 @@ export class ChatBotRecommendationsComponent implements OnInit {
   }
 
   closeIcon = ICON_TYPE.CLOSE;
-
-  ngOnInit() {
-    console.log('inited');
-  }
 }
