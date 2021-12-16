@@ -19,7 +19,7 @@
   <nav
     (click)="toggleOpen($event, node)"
     (mouseenter)="onMouseEnter($event)"
-    (keydown.space)="toggleOpen($event)"
+    (keydown.space)="toggleOpen($event, node)"
     (keydown.esc)="back()"
   >
     <cx-generic-link
