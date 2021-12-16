@@ -18,6 +18,7 @@ import { OCC_CART_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { SiteContextActions } from '../../../site-context/store/actions/index';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { withdrawOn } from '../../../util/rxjs/withdraw-on';
+import { isNotUndefined } from '../../../util/type-guards';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';
 import { CartActions } from '../actions/index';
@@ -179,19 +180,20 @@ export class CartEffects {
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
-    mergeMap((payload) => {
+    switchMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        mergeMap((currentCart) => {
-          return [
-            new CartActions.CreateCart({
+        map((currentCart) => {
+          if (currentCart?.code !== payload.cartId) {
+            return new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
               tempCartId: payload.tempCartId,
-            }),
-          ];
-        })
+            });
+          }
+        }),
+        filter(isNotUndefined)
       );
     }),
     withdrawOn(this.contextChange$)
