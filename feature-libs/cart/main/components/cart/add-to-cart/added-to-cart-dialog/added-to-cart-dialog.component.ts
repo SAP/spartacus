@@ -14,7 +14,6 @@ import {
   shareReplay,
   startWith,
   switchMap,
-  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -83,11 +82,11 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addedEntryWasMerged$ = this.loaded$.pipe(
-      filter((loaded) => loaded),
-      switchMapTo(this.cartService.getEntries()),
-      map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
-    );
+    // this.addedEntryWasMerged$ = this.loaded$.pipe(
+    //   filter((loaded) => loaded),
+    //   switchMapTo(this.cartService.getEntries()),
+    //   map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
+    // );
   }
 
   /**

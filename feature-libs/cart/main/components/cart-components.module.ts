@@ -12,6 +12,7 @@ import { AddOrderEntriesContext } from './cart/order-entries-context/add-order-e
 import { ActiveCartOrderEntriesContext } from './cart/order-entries-context/cart-page/active-cart-order-entries-context';
 import { GetOrderEntriesContext } from './cart/order-entries-context/get-order-entries.context';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
+import { CartComponentEventModule } from './events/cart-event.module';
 
 export type OrderEntriesContext = Partial<
   AddOrderEntriesContext & GetOrderEntriesContext
@@ -26,6 +27,7 @@ export type OrderEntriesContext = Partial<
     CartSharedModule,
     SaveForLaterModule,
     OutletModule.forChild(),
+    CartComponentEventModule,
   ],
   exports: [
     CartDetailsModule,
