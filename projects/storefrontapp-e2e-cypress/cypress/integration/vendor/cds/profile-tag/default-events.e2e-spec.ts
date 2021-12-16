@@ -458,6 +458,44 @@ describe('Consent Changed for newly registered user', () => {
   });
 });
 
+// this test is failing, but should not
+describe.skip('Consent Changed for existing user', () => {
+  const loginAlias = 'loginNotification';
+  beforeEach(() => {
+    cdsHelper.setUpMocks(strategyRequestAlias);
+    cy.intercept({
+      method: 'POST',
+      path: '**/users/current/loginnotification**',
+    }).as(loginAlias);
+    navigation.visitHomePage({
+      options: {
+        onBeforeLoad: profileTagHelper.interceptProfileTagJs,
+      },
+    });
+    profileTagHelper.waitForCMSComponents();
+  });
+  it('should not send a consentgranted = false event on a page refresh', () => {
+    anonymousConsents.clickAllowAllFromBanner();
+    loginHelper.loginAsDefaultUser();
+    cy.wait(`@${loginAlias}`);
+
+    // reload and wait for all components to be loaded
+    cy.reload();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
+
+    cy.window().then((win) => {
+        const consentAccepted = profileTagHelper.getEvent(
+        win,
+        profileTagHelper.EventNames.CONSENT_CHANGED
+      );
+      expect(consentAccepted.length).to.equal(1);
+      expect(consentAccepted[0].data.granted).to.eq(true);
+    });
+  });
+});
+
 describe('verifying X-Consent-Reference header addition to occ calls', () => {
   const X_CONSENT_REFERENCE_HEADER = 'x-consent-reference';
   let productPage;
