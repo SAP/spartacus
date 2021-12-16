@@ -6,7 +6,6 @@ import {
   Order,
   RouterState,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -23,6 +22,7 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { ConfiguratorStorefrontUtilsService } from '../service';
 import { ConfiguratorAddToCartButtonComponent } from './configurator-add-to-cart-button.component';
 
 const CART_ENTRY_KEY = '001+1';
@@ -110,13 +110,6 @@ class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return of(mockRouterData);
   }
-}
-
-class MockWindowRef {
-  isBrowser() {}
-  document = {
-    querySelector() {},
-  };
 }
 
 function setRouterTestDataCartBoundAndConfigPage() {
@@ -245,7 +238,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let globalMessageService: GlobalMessageService;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
-  let windowRef: WindowRef;
+  let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -286,8 +279,7 @@ describe('ConfigAddToCartButtonComponent', () => {
             useClass: MockConfiguratorAddToCartButtonComponent,
           },
           {
-            provide: WindowRef,
-            useClass: MockWindowRef,
+            provide: ConfiguratorStorefrontUtilsService,
           },
         ],
       })
@@ -318,14 +310,17 @@ describe('ConfigAddToCartButtonComponent', () => {
     configuratorGroupsService = TestBed.inject(
       ConfiguratorGroupsService as Type<ConfiguratorGroupsService>
     );
-    windowRef = TestBed.inject(WindowRef);
+    configuratorStorefrontUtilsService = TestBed.inject(
+      ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
     spyOn(globalMessageService, 'add').and.callThrough();
     spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    spyOn(windowRef.document, 'querySelector').and.returnValue(
-      elementMock as unknown as Element
+    spyOn(configuratorStorefrontUtilsService, 'getElement').and.returnValue(
+      elementMock as unknown as HTMLElement
     );
+    spyOn(configuratorStorefrontUtilsService, 'changeStyling').and.stub();
   });
 
   it('should create', () => {
@@ -489,7 +484,6 @@ describe('ConfigAddToCartButtonComponent', () => {
   describe('Floating button', () => {
     beforeEach(
       waitForAsync(() => {
-        spyOn(windowRef, 'isBrowser').and.returnValue(true);
         (<any>window).IntersectionObserver = MockOberserver;
       })
     );
@@ -499,7 +493,13 @@ describe('ConfigAddToCartButtonComponent', () => {
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
         const observer = component.intersectionObserver as MockOberserver;
         observer.callCallbackFunction(true);
-        expect(elementMock.style.position).toBe('sticky');
+        expect(
+          configuratorStorefrontUtilsService.changeStyling
+        ).toHaveBeenCalledWith(
+          'cx-configurator-add-to-cart-button',
+          'position',
+          'sticky'
+        );
         done();
       });
     });
@@ -509,7 +509,13 @@ describe('ConfigAddToCartButtonComponent', () => {
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
         const observer = component.intersectionObserver as MockOberserver;
         observer.callCallbackFunction(false);
-        expect(elementMock.style.position).toBe('fixed');
+        expect(
+          configuratorStorefrontUtilsService.changeStyling
+        ).toHaveBeenCalledWith(
+          'cx-configurator-add-to-cart-button',
+          'position',
+          'fixed'
+        );
         done();
       });
     });

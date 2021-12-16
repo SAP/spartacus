@@ -4,7 +4,6 @@ import {
   GlobalMessageType,
   Order,
   RoutingService,
-  WindowRef,
 } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import {
@@ -14,6 +13,7 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import { Observable } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -62,39 +62,11 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
     protected globalMessageService: GlobalMessageService,
     protected userOrderService: OrderFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    protected windowRef: WindowRef
+    protected configUtils: ConfiguratorStorefrontUtilsService
   ) {}
   ngOnInit(): void {
     this.container$.pipe(take(1), delay(0)).subscribe(() => {
-      const options = { rootMargin: '0px 0px -100px 0px' };
-      if (!this.windowRef.isBrowser()) {
-        return;
-      }
-      const addToCartButton: HTMLElement =
-        this.windowRef.document?.querySelector(
-          'cx-configurator-add-to-cart-button'
-        ) as HTMLElement;
-
-      if (!addToCartButton) {
-        return;
-      }
-
-      this.intersectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            addToCartButton.style.position = 'sticky';
-          } else {
-            addToCartButton.style.position = 'fixed';
-          }
-        });
-      }, options);
-
-      const priceSummary = this.windowRef.document?.querySelector(
-        '.cx-price-summary-container'
-      );
-      if (priceSummary) {
-        this.intersectionObserver.observe(priceSummary);
-      }
+      this.makeAddToCartButtonSticky();
     });
   }
 
@@ -290,5 +262,32 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
       .subscribe((order: Order) =>
         this.routingService.go({ cxRoute: 'orderDetails', params: order })
       );
+  }
+
+  protected makeAddToCartButtonSticky(): void {
+    const options = { rootMargin: '0px 0px -100px 0px' };
+    this.intersectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          this.configUtils.changeStyling(
+            'cx-configurator-add-to-cart-button',
+            'position',
+            'sticky'
+          );
+        } else {
+          this.configUtils.changeStyling(
+            'cx-configurator-add-to-cart-button',
+            'position',
+            'fixed'
+          );
+        }
+      });
+    }, options);
+    const priceSummary = this.configUtils.getElement(
+      '.cx-price-summary-container'
+    );
+    if (priceSummary) {
+      this.intersectionObserver.observe(priceSummary);
+    }
   }
 }
