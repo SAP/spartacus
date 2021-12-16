@@ -114,7 +114,9 @@ export class CxRouterLinkDirective
       ProductScope.ATTRIBUTES,
       ProductScope.VARIANTS,
     ];
-    const reviews$ = this.productReviewService.getByProductCode(id);
+    const reviews$ = this.productReviewService
+      .getByProductCode(id)
+      .pipe(take(1));
 
     const product$ = this.productService.get(id, scopes).pipe(
       filter((product) => !!product),
@@ -143,7 +145,6 @@ export class CxRouterLinkDirective
   }
 
   protected preFetchImages(product: Product): void {
-    console.log('xxx', product.images);
     const imageGroups = ([] as ImageGroup[])
       .concat(product.images?.PRIMARY ?? [])
       .concat(product.images?.GALLERY ?? []);
