@@ -96,7 +96,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
         this.messagesContainer.nativeElement.scrollTop =
           this.messagesContainer.nativeElement.scrollHeight;
       }
-    });
+    }, 10);
   }
 
   ngOnInit() {
