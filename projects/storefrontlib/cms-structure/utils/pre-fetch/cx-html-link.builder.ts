@@ -3,16 +3,14 @@ import { Inject, Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })
-export class CxLinkBuilder {
+export class CxHtmlLinkBuilder {
   constructor(
     protected rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) protected document: Document,
     protected winRef: WindowRef
   ) {}
 
-  injectPreFetch(
-    attributes: Partial<{ [key in keyof HTMLLinkElement]: string }>
-  ): void {
+  build(attributes: Partial<{ [key in keyof HTMLLinkElement]: string }>): void {
     const href = attributes.href ?? '';
     if (!this.winRef.isBrowser() || this.hasElement(href)) {
       return;

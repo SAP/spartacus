@@ -26,7 +26,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { CxLinkBuilder } from './cx-link.builder';
+import { CxHtmlLinkBuilder } from './cx-html-link.builder';
 
 @Directive({
   selector: '[cxRouterLink]',
@@ -51,7 +51,7 @@ export class CxRouterLinkDirective
     locationStrategy: LocationStrategy,
 
     protected elementRef: ElementRef<HTMLAnchorElement>,
-    protected cxLinkBuilder: CxLinkBuilder,
+    protected cxHtmlLinkBuilder: CxHtmlLinkBuilder,
 
     // products
     protected productService: ProductService,
@@ -149,7 +149,7 @@ export class CxRouterLinkDirective
       Object.keys(group).forEach((type) => {
         const href = group[type].url;
         if (href) {
-          this.cxLinkBuilder.injectPreFetch({
+          this.cxHtmlLinkBuilder.build({
             href,
             rel: 'prefetch',
             as: 'image',
@@ -160,7 +160,7 @@ export class CxRouterLinkDirective
   }
 
   protected preFetchFont(href: string): void {
-    this.cxLinkBuilder.injectPreFetch({
+    this.cxHtmlLinkBuilder.build({
       href,
       rel: 'prefetch',
       as: 'font',
