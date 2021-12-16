@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -16,12 +17,29 @@ export function defaultCheckoutComponentsConfig() {
     featureModules: {
       [CHECKOUT_B2B_FEATURE]: {
         cmsComponents: [
+          // b2b cms components
           'CheckoutCostCenterComponent',
           'CheckoutPaymentType',
+
+          // base cms components
           'CheckoutReviewOrder',
           'CheckoutShippingAddress',
+          'CheckoutOrchestrator',
+          'CheckoutOrderSummary',
+          'CheckoutProgress',
+          'CheckoutProgressMobileBottom',
+          'CheckoutProgressMobileTop',
+          'CheckoutDeliveryMode',
+          'CheckoutPaymentDetails',
+          'CheckoutPlaceOrder',
+          'GuestCheckoutLoginComponent',
+          'OrderConfirmationThankMessageComponent',
+          'OrderConfirmationItemsComponent',
+          'OrderConfirmationTotalsComponent',
+          'OrderConfirmationOverviewComponent',
         ],
       },
+      [CHECKOUT_FEATURE]: CHECKOUT_B2B_FEATURE,
       // by default core is bundled together with components
       [CHECKOUT_B2B_CORE_FEATURE]: CHECKOUT_B2B_FEATURE,
     },

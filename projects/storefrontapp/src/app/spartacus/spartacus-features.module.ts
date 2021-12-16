@@ -56,7 +56,6 @@ import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module
 import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { CheckoutB2BFeatureModule } from './features/checkout-b2b-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CheckoutOldFeatureModule } from './features/checkout-old-feature.module';
 import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
@@ -93,10 +92,7 @@ if (environment.oldCheckout) {
   CheckoutFeature = CheckoutOldFeatureModule;
 }
 if (environment.b2b && !environment.oldCheckout) {
-  featureModules.push(
-    CheckoutB2BFeatureModule,
-    CheckoutScheduledReplenishmentFeatureModule
-  );
+  CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
 }
 
 if (environment.cdc) {
@@ -186,7 +182,6 @@ if (environment.digitalPayments) {
     /************************* Feature libraries *************************/
     UserFeatureModule,
     CartFeatureModule,
-    CheckoutFeature,
     WishListFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
@@ -200,6 +195,7 @@ if (environment.digitalPayments) {
     ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+    CheckoutFeature,
     ...featureModules,
   ],
 })

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CHECKOUT_B2B_FEATURE } from '@spartacus/checkout/b2b/root';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -16,15 +17,36 @@ export function defaultCheckoutComponentsConfig() {
     featureModules: {
       [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
         cmsComponents: [
-          'CheckoutPlaceOrder',
+          // scheduled replenishment cms components
           'CheckoutScheduleReplenishmentOrder',
-          'OrderConfirmationThankMessageComponent',
           'ReplenishmentConfirmationMessageComponent',
           'ReplenishmentConfirmationOverviewComponent',
           'ReplenishmentConfirmationItemsComponent',
           'ReplenishmentConfirmationTotalsComponent',
+
+          // b2b cms components
+          'CheckoutCostCenterComponent',
+          'CheckoutPaymentType',
+
+          // base cms components
+          'CheckoutReviewOrder',
+          'CheckoutShippingAddress',
+          'CheckoutOrchestrator',
+          'CheckoutOrderSummary',
+          'CheckoutProgress',
+          'CheckoutProgressMobileBottom',
+          'CheckoutProgressMobileTop',
+          'CheckoutDeliveryMode',
+          'CheckoutPaymentDetails',
+          'CheckoutPlaceOrder',
+          'GuestCheckoutLoginComponent',
+          'OrderConfirmationThankMessageComponent',
+          'OrderConfirmationItemsComponent',
+          'OrderConfirmationTotalsComponent',
+          'OrderConfirmationOverviewComponent',
         ],
       },
+      [CHECKOUT_B2B_FEATURE]: CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
       // by default core is bundled together with components
       [CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE]:
         CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
