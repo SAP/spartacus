@@ -1,11 +1,5 @@
 import { LocationStrategy } from '@angular/common';
-import {
-  Directive,
-  ElementRef,
-  HostListener,
-  Input,
-  OnDestroy,
-} from '@angular/core';
+import { Directive, ElementRef, Input, OnDestroy } from '@angular/core';
 import {
   ActivatedRoute,
   Router,
@@ -26,6 +20,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { IntersectionService } from '../../../layout/loading/intersection.service';
 import { MediaService } from '../../../shared/components/media/media.service';
 import { CxHtmlLinkBuilder } from './cx-html-link.builder';
 
@@ -52,6 +47,7 @@ export class CxRouterLinkDirective
     locationStrategy: LocationStrategy,
 
     protected elementRef: ElementRef<HTMLAnchorElement>,
+    protected intersectionService: IntersectionService,
     protected cxHtmlLinkBuilder: CxHtmlLinkBuilder,
 
     // products
@@ -67,6 +63,11 @@ export class CxRouterLinkDirective
     super(router, route, locationStrategy);
     this.cxRouter = router;
     this.cxRoute = route;
+
+    const intersection$ = this.intersectionService
+      .isIntersected(this.elementRef.nativeElement, {})
+      .pipe(tap(() => this.onIntersection()));
+    this.subscriptions.add(intersection$.subscribe());
   }
 
   // @override
@@ -91,7 +92,7 @@ export class CxRouterLinkDirective
     });
   }
 
-  @HostListener('mouseenter') onHover(): void {
+  onIntersection(): void {
     if (this.cxRouterLinkData?.type === 'product') {
       const id = this.cxRouterLinkData.id;
       if (this.fetched.has(id)) {
