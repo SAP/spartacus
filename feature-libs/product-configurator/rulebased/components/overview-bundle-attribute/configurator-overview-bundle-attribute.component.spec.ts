@@ -159,4 +159,68 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       });
     });
   });
+
+  describe('getAriaLabel', () => {
+    it("should return 'configurator.a11y.itemOfAttributeFullWithPriceAndQuantity' if there is a price and a quantity", () => {
+      const attrOverview = component.attributeOverview;
+      attrOverview.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.quantity = 2;
+      expect(component.getAriaLabel()).toBe(
+        'configurator.a11y.itemOfAttributeFullWithPriceAndQuantity attribute:testAttribute item:testValue price:$20 quantity:2'
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeFullWithQuantity' if there is no price but a quantity", () => {
+      const attrOverview = component.attributeOverview;
+      attrOverview.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      attrOverview.quantity = 2;
+      expect(component.getAriaLabel()).toBe(
+        'configurator.a11y.itemOfAttributeFullWithQuantity attribute:testAttribute item:testValue quantity:2'
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeFullWithPrice' if there is a price but no quantity", () => {
+      const attrOverview = component.attributeOverview;
+      attrOverview.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      attrOverview.quantity = undefined;
+      expect(component.getAriaLabel()).toBe(
+        'configurator.a11y.itemOfAttributeFullWithPrice attribute:testAttribute item:testValue price:$20'
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeFull' if there is no price and no quantity", () => {
+      const attrOverview = component.attributeOverview;
+      attrOverview.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      attrOverview.quantity = undefined;
+      expect(component.getAriaLabel()).toBe(
+        'configurator.a11y.itemOfAttributeFull attribute:testAttribute item:testValue'
+      );
+    });
+  });
 });
