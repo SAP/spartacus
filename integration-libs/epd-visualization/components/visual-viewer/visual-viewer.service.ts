@@ -811,12 +811,12 @@ export class VisualViewerService implements OnDestroy {
     if (!this.isReferenceNode(nodeRef)) {
       const children = this.nodeHierarchy
         .getChildren(nodeRef, false)
-        .filter((childNodeRef) => !this.isReferenceNode(childNodeRef));
+        .filter((childNodeRef: NodeRef) => !this.isReferenceNode(childNodeRef));
 
       if (children.length === 0) {
         leafNodeRefs.push(nodeRef);
       } else {
-        children.forEach((childNodeRef) =>
+        children.forEach((childNodeRef: NodeRef) =>
           this.getLeafDescendants(childNodeRef, leafNodeRefs)
         );
       }
@@ -827,7 +827,7 @@ export class VisualViewerService implements OnDestroy {
   private getAllLeafNodeRefs(): NodeRef[] {
     return this.nodeHierarchy
       .getChildren(undefined)
-      .flatMap((nodeRef) => this.getLeafDescendants(nodeRef, []));
+      .flatMap((nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, []));
   }
 
   private isolateNodes(nodeRefsToIsolate: object[]): void {
