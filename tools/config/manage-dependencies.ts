@@ -21,9 +21,10 @@ import semver from 'semver';
 import ts from 'typescript';
 import {
   PACKAGE_JSON,
+  SAPUI5_TYPES,
+  SAP_SCOPE,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
-  SAP_SCOPE,
 } from './const';
 import {
   error,
@@ -787,6 +788,7 @@ function removeNotUsedDependenciesFromPackageJson(
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
+        dep !== SAPUI5_TYPES &&
         dep !== `tslib` &&
         ((lib.name === SPARTACUS_SCHEMATICS &&
           !externalSchematics.includes(dep)) ||
