@@ -13,7 +13,8 @@ import {
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/root';
-import { RoutingService } from '@spartacus/core';
+import { FeatureModulesService, RoutingService } from '@spartacus/core';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
@@ -46,10 +47,15 @@ export class PlaceOrderComponent implements OnInit, OnDestroy {
     protected fb: FormBuilder,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
     protected launchDialogService: LaunchDialogService,
-    protected vcr: ViewContainerRef
+    protected vcr: ViewContainerRef,
+    protected featureModules: FeatureModulesService
   ) {}
 
   submitForm(): void {
+    if (this.featureModules.isConfigured(ORDER_FEATURE)) {
+      this.featureModules.resolveFeature(ORDER_FEATURE).subscribe();
+    }
+
     if (this.checkoutSubmitForm.valid && Boolean(this.currentOrderType)) {
       switch (this.currentOrderType) {
         case ORDER_TYPE.PLACE_ORDER: {
