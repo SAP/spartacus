@@ -1,4 +1,5 @@
 import { Translatable } from '@spartacus/core';
+import { TemplateRef } from '@angular/core';
 
 export const enum AuthorType {
   CUSTOMER = 'CUSTOMER',
@@ -8,6 +9,8 @@ export const enum AuthorType {
 export interface ChatBotOption {
   text: Translatable;
   callback: Function;
+  template?: TemplateRef<any>;
+  customClass?: string;
 }
 
 export interface ChatBotMessage {

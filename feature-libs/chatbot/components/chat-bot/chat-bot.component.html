@@ -65,7 +65,11 @@
         <div class="chat-options" *ngIf="!(isBotWriting$ | async)">
           <button
             *ngFor="let option of options$ | async"
-            class="btn btn-action btn-block"
+            class="btn btn-block"
+            [ngClass]="{
+              'btn-action': !option.customClass,
+              'btn-primary': option.customClass === 'btn-primary'
+            }"
             (click)="option.callback(option.text)"
           >
             {{ option.text | cxTranslate }}

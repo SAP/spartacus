@@ -230,8 +230,11 @@ export class ChatBotService {
                 options.push({
                   text: {
                     key: 'chatBot.displayResults',
-                    params: { count: recommendations.length },
+                    params: {
+                      count: recommendations.length,
+                    },
                   },
+                  customClass: 'btn-primary',
                   callback: () => this.displayResults(),
                 });
               }
