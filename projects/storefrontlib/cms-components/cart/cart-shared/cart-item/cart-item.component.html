@@ -1,5 +1,10 @@
 <!-- Item Start Outlet -->
 <ng-template [cxOutlet]="CartOutlets.ITEM">
+  <ng-container *cxFeatureLevel="'4.2'">
+    <cx-cart-item-validation-warning
+      [code]="item.product.code"
+    ></cx-cart-item-validation-warning>
+  </ng-container>
   <div [ngClass]="compact ? 'cx-compact row' : 'row'">
     <!-- Item Image -->
     <div class="col-2 cx-image-container">
@@ -26,7 +31,7 @@
                 { cxRoute: 'product', params: item.product } | cxUrl
               "
               cxModal="dismiss"
-              ><h2>{{ item.product.name }}</h2></a
+              ><h3>{{ item.product.name }}</h3></a
             >
           </div>
           <div *ngIf="item.product.code" class="cx-code">
@@ -83,7 +88,7 @@
               [readonly]="
                 !item.updateable || readonly || options.isSaveForLater
               "
-              [max]="item.product.stock?.stockLevel || 1000"
+              [max]="item.product.stock?.stockLevel"
               [allowZero]="true"
             >
             </cx-item-counter>

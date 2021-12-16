@@ -14,6 +14,7 @@ const cmsComponents: string[] = [
   'ConfiguratorPriceSummary',
   'ConfiguratorProductTitle',
   'ConfiguratorTabBar',
+  'ConfiguratorExitButton',
   'CpqConfiguratorConflictAndErrorMessagesComponent',
 ];
 

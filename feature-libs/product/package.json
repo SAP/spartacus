@@ -27,6 +27,7 @@
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
+    "@spartacus/styles": "4.1.0-next.0",
     "bootstrap": "^4.3.1",
     "rxjs": "^6.6.0"
   },

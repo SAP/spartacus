@@ -1,7 +1,7 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="hasIssues(orderEntry) && !(readonly$ | async)">
     <cx-icon [type]="iconTypes.ERROR"></cx-icon>
-    <div class="cx-error-msg">
+    <div id="cx-error-msg">
       {{
         'configurator.notificationBanner.numberOfIssues'
           | cxTranslate: { count: getNumberOfIssues(orderEntry) }

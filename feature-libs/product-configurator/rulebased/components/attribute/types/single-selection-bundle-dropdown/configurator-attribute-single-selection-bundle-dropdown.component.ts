@@ -25,7 +25,7 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
   @Input() group: string;
 
   ngOnInit() {
-    this.attributeDropDownForm.setValue(this.attribute?.selectedSingleValue);
+    this.attributeDropDownForm.setValue(this.attribute.selectedSingleValue);
 
     const values = this.attribute.values;
     if (values && values.length > 0) {
@@ -49,6 +49,9 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       withQuantity: false,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeName: this.attribute.name,
+      itemCount: 0,
+      itemIndex: 0,
     };
   }
 }

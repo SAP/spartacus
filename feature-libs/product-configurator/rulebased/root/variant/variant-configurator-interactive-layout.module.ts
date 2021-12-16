@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-
 import { provideDefaultConfig } from '@spartacus/core';
 import { LayoutConfig } from '@spartacus/storefront';
 
@@ -15,11 +14,21 @@ import { LayoutConfig } from '@spartacus/storefront';
       layoutSlots: {
         VariantConfigurationTemplate: {
           header: {
-            md: {
-              slots: ['PreHeader', 'SiteLogo', 'MiniCart'],
+            lg: {
+              slots: [
+                'PreHeader',
+                'SiteLogo',
+                'VariantConfigExitButton',
+                'MiniCart',
+              ],
             },
             xs: {
-              slots: ['PreHeader', 'SiteLogo', 'MiniCart'],
+              slots: [
+                'PreHeader',
+                'SiteLogo',
+                'VariantConfigExitButton',
+                'MiniCart',
+              ],
             },
           },
 

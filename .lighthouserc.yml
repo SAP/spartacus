@@ -69,3 +69,4 @@ ci:
       uses-webp-images: 'warn'
       valid-source-maps: 'warn'
       uses-text-compression: 'warn'
+      inspector-issues: 'warn'

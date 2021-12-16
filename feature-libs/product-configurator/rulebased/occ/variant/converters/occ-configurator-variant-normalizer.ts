@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Converter, OccConfig, TranslationService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { take } from 'rxjs/operators';
+import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 
@@ -10,9 +11,12 @@ export class OccConfiguratorVariantNormalizer
   implements
     Converter<OccConfigurator.Configuration, Configurator.Configuration>
 {
+  static readonly RETRACT_VALUE_CODE = '###RETRACT_VALUE_CODE###';
+
   constructor(
     protected config: OccConfig,
-    protected translation: TranslationService
+    protected translation: TranslationService,
+    protected uiSettingsConfig: ConfiguratorUISettingsConfig
   ) {}
 
   convert(
@@ -103,6 +107,8 @@ export class OccConfiguratorVariantNormalizer
       );
     }
 
+    this.addRetractValue(sourceAttribute, attributeValues);
+
     if (sourceAttribute.domainValues) {
       sourceAttribute.domainValues.forEach((value) =>
         this.convertValue(value, attributeValues)
@@ -144,6 +150,63 @@ export class OccConfiguratorVariantNormalizer
         .filter((entry) => entry.selected);
       if (selectedValues && selectedValues.length === 1) {
         attribute.selectedSingleValue = selectedValues[0].valueCode;
+      }
+    }
+  }
+
+  protected isRetractValueSelected(
+    sourceAttribute: OccConfigurator.Attribute
+  ): boolean {
+    return sourceAttribute.domainValues &&
+      sourceAttribute.domainValues.filter((value) => value.selected).length
+      ? false
+      : true;
+  }
+
+  protected setRetractValueDisplay(
+    attributeType: Configurator.UiType,
+    value: Configurator.Value
+  ) {
+    if (
+      attributeType === Configurator.UiType.DROPDOWN ||
+      attributeType === Configurator.UiType.RADIOBUTTON
+    ) {
+      if (attributeType === Configurator.UiType.DROPDOWN && value.selected) {
+        this.translation
+          .translate('configurator.attribute.dropDownSelectMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text));
+      } else {
+        this.translation
+          .translate('configurator.attribute.noOptionSelectedMsg')
+          .pipe(take(1))
+          .subscribe((text) => (value.valueDisplay = text));
+      }
+    }
+  }
+
+  protected addRetractValue(
+    sourceAttribute: OccConfigurator.Attribute,
+    values: Configurator.Value[]
+  ) {
+    if (this.uiSettingsConfig?.productConfigurator?.addRetractOption) {
+      const attributeType = this.convertAttributeType(
+        sourceAttribute.type ?? OccConfigurator.UiType.NOT_IMPLEMENTED
+      );
+
+      if (
+        attributeType === Configurator.UiType.RADIOBUTTON ||
+        attributeType === Configurator.UiType.DROPDOWN
+      ) {
+        const value: Configurator.Value = {
+          valueCode: OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE,
+          valueDisplay: '',
+          selected: this.isRetractValueSelected(sourceAttribute),
+        };
+
+        this.setRetractValueDisplay(attributeType, value);
+
+        values.push(value);
       }
     }
   }
@@ -316,7 +379,16 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN: {
+        if (
+          !attribute.selectedSingleValue ||
+          attribute.selectedSingleValue ===
+            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+        ) {
+          attribute.incomplete = true;
+        }
+        break;
+      }
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         if (!attribute.selectedSingleValue) {
           attribute.incomplete = true;

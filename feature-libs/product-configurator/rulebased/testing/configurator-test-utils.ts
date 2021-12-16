@@ -24,10 +24,8 @@ export class ConfiguratorTestUtils {
 
     this.freezeOverview(productConfiguration.overview);
     this.freezePriceSummary(productConfiguration.priceSummary);
-    productConfiguration.flatGroups?.forEach((group) =>
-      this.freezeGroup(group)
-    );
-    productConfiguration.groups?.forEach((group) => this.freezeGroup(group));
+    productConfiguration.flatGroups.forEach((group) => this.freezeGroup(group));
+    productConfiguration.groups.forEach((group) => this.freezeGroup(group));
   }
 
   protected static freezeGroup(group: Configurator.Group) {

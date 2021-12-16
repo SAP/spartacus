@@ -1,5 +1,8 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="isEditable$ | async as isEditable; else readonly">
+    <span class="cx-visually-hidden">
+      {{ 'configurator.a11y.editAttributesAndValues' | cxTranslate }}
+    </span>
     <div
       class="cx-attribute"
       *ngFor="let attribute of configuration.configurationInfos"
@@ -15,6 +18,9 @@
     ></cx-configurator-textfield-add-to-cart-button>
   </ng-container>
   <ng-template #readonly>
+    <span class="cx-visually-hidden">
+      {{ 'configurator.a11y.listOfAttributesAndValues' | cxTranslate }}
+    </span>
     <div
       class="cx-attribute"
       *ngFor="let attribute of configuration.configurationInfos"

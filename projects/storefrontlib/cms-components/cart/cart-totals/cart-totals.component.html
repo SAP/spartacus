@@ -1,13 +1,31 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <cx-order-summary [cart]="cart"></cx-order-summary>
-    <button
-      [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
-      *ngIf="entries.length"
-      class="btn btn-primary btn-block"
-      type="button"
-    >
-      {{ 'cartDetails.proceedToCheckout' | cxTranslate }}
-    </button>
+    <ng-container *cxFeatureLevel="'!4.2'">
+      <button
+        [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+        *ngIf="entries.length"
+        class="btn btn-primary btn-block"
+        type="button"
+      >
+        {{ 'cartDetails.proceedToCheckout' | cxTranslate }}
+      </button>
+    </ng-container>
+
+    <ng-container *cxFeatureLevel="'4.2'">
+      <cx-progress-button
+        *ngIf="entries.length"
+        [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+        [loading]="cartValidationInProgress"
+        [disabled]="cartValidationInProgress"
+        [class]="'btn btn-primary btn-block'"
+        (clikEvent)="disableButtonWhileNavigation()"
+      >
+        {{
+          (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
+            | cxTranslate
+        }}
+      </cx-progress-button>
+    </ng-container>
   </ng-container>
 </ng-container>

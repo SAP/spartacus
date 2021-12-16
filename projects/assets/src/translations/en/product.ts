@@ -23,11 +23,13 @@ export const product = {
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
+    productListResults: 'Product Results List',
   },
   productFacetNavigation: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
+      facet: 'Filter results by Facets',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
@@ -53,6 +55,9 @@ export const product = {
     less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
+  },
+  productCarousel: {
+    carouselLabel: 'Carousel, {{title}}',
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',

@@ -4,11 +4,12 @@
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">
-            <label aria-required="true">
+            <label>
               <span class="label-content required">{{
                 'addressForm.country' | cxTranslate
               }}</span>
               <ng-select
+                aria-required="true"
                 class="country-select"
                 formControlName="isocode"
                 [searchable]="true"
@@ -21,6 +22,8 @@
               >
               </ng-select>
               <cx-form-errors
+                aria-live="assertive"
+                aria-atomic="true"
                 [control]="addressForm.get('country.isocode')"
               ></cx-form-errors>
             </label>
@@ -30,7 +33,7 @@
       <div class="form-group" *ngIf="showTitleCode">
         <ng-container *ngIf="titles$ | async as titles">
           <div *ngIf="titles.length !== 0">
-            <label aria-required="true">
+            <label>
               <span class="label-content required">{{
                 'addressForm.title' | cxTranslate
               }}</span>
@@ -54,6 +57,7 @@
             'addressForm.firstName.label' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             class="form-control"
             type="text"
             placeholder="{{
@@ -62,6 +66,8 @@
             formControlName="firstName"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="addressForm.get('firstName')"
           ></cx-form-errors>
         </label>
@@ -72,12 +78,15 @@
             'addressForm.lastName.label' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             type="text"
             class="form-control"
             placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
             formControlName="lastName"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="addressForm.get('lastName')"
           ></cx-form-errors>
         </label>
@@ -88,12 +97,17 @@
             'addressForm.address1' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             type="text"
             class="form-control"
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
             formControlName="line1"
           />
-          <cx-form-errors [control]="addressForm.get('line1')"></cx-form-errors>
+          <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
+            [control]="addressForm.get('line1')"
+          ></cx-form-errors>
         </label>
       </div>
       <div class="form-group">
@@ -116,12 +130,15 @@
               'addressForm.city.label' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               type="text"
               class="form-control"
               placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
               formControlName="town"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="addressForm.get('town')"
             ></cx-form-errors>
           </label>
@@ -132,6 +149,7 @@
               'addressForm.zipCode.label' | cxTranslate
             }}</span>
             <input
+              aria-required="true"
               type="text"
               class="form-control"
               placeholder="{{
@@ -140,6 +158,8 @@
               formControlName="postalCode"
             />
             <cx-form-errors
+              aria-live="assertive"
+              aria-atomic="true"
               [control]="addressForm.get('postalCode')"
             ></cx-form-errors>
           </label>
@@ -150,11 +170,12 @@
         >
           <ng-container *ngIf="regions.length !== 0">
             <div class="form-group col-md-6">
-              <label aria-required="true">
+              <label>
                 <span class="label-content required">{{
                   'addressForm.state' | cxTranslate
                 }}</span>
                 <ng-select
+                  aria-required="true"
                   class="region-select"
                   formControlName="isocode"
                   [searchable]="true"
@@ -166,6 +187,8 @@
                 >
                 </ng-select>
                 <cx-form-errors
+                  aria-live="assertive"
+                  aria-atomic="true"
                   [control]="addressForm.get('region.isocode')"
                 ></cx-form-errors>
               </label>

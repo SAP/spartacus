@@ -20,7 +20,7 @@ export class ConfiguratorCartEntryBundleInfoService {
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] = [];
-    if (entry?.configurationInfos) {
+    if (entry.configurationInfos) {
       const configurationInfos: ConfigurationInfo[] =
         entry.configurationInfos.filter(
           (configurationInfo) =>

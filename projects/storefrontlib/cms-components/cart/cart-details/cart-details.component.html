@@ -1,9 +1,13 @@
 <ng-container *ngIf="cart$ | async as cart">
   <ng-container *ngIf="entries$ | async as entries">
     <div *ngIf="cart.totalItems > 0" class="cart-details-wrapper">
-      <h4 class="cx-total">
+      <ng-container *cxFeatureLevel="'4.2'">
+        <cx-cart-validation-warnings></cx-cart-validation-warnings>
+      </ng-container>
+
+      <h2 class="cx-total">
         {{ 'cartDetails.cartName' | cxTranslate: { code: cart.code } }}
-      </h4>
+      </h2>
 
       <cx-promotions
         [promotions]="

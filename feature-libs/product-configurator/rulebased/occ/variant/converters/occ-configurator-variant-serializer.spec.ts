@@ -6,6 +6,17 @@ import { OccConfigurator } from '../variant-configurator-occ.models';
 import { Configurator } from './../../../core/model/configurator.model';
 import { OccConfiguratorVariantSerializer } from './occ-configurator-variant-serializer';
 
+function createValue(
+  valueCode: string,
+  isSelected: boolean
+): Configurator.Value {
+  return {
+    valueCode: valueCode,
+    valueDisplay: '',
+    selected: isSelected,
+  };
+}
+
 describe('OccConfiguratorVariantSerializer', () => {
   let occConfiguratorVariantSerializer: OccConfiguratorVariantSerializer;
   const GROUP_ID = '1-CPQ_LAPTOP.1';
@@ -281,6 +292,151 @@ describe('OccConfiguratorVariantSerializer', () => {
       occAttributes
     );
     expect(occAttributes[0].retractTriggered).toBe(true);
+  });
+
+  it('should consider that an attribute was retracted (II)', () => {
+    const attributeWithRetraction: Configurator.Attribute = {
+      name: 'attr',
+      uiType: Configurator.UiType.DROPDOWN,
+      selectedSingleValue: OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+    };
+    const occAttributes: OccConfigurator.Attribute[] = [];
+    occConfiguratorVariantSerializer.convertAttribute(
+      attributeWithRetraction,
+      occAttributes
+    );
+    expect(occAttributes[0].retractTriggered).toBe(true);
+  });
+
+  describe('isRetractValue', () => {
+    it("should return 'false' because there is no retract value", () => {
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue: 'any value',
+      };
+
+      expect(
+        occConfiguratorVariantSerializer['isRetractValue'](attribute)
+      ).toBe(false);
+    });
+
+    it("should return 'true' because there is retract value", () => {
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue:
+          OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+      };
+
+      expect(
+        occConfiguratorVariantSerializer['isRetractValue'](attribute)
+      ).toBe(true);
+    });
+  });
+
+  describe('getRetractedValue', () => {
+    it("should return 'undefined' because the value list is empty", function () {
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue: 'any value',
+        values: [],
+      };
+
+      expect(
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+      ).toBeUndefined();
+    });
+
+    it("should return 'undefined' because no value is selected", function () {
+      const value1 = createValue('value1', false);
+      const value2 = createValue('value2', false);
+      const value3 = createValue('value3', false);
+      const value4 = createValue('value4', false);
+
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue: 'any value',
+        values: [value1, value2, value3, value4],
+      };
+
+      expect(
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+      ).toBeUndefined();
+    });
+
+    it('should return a selected value code', function () {
+      const value1 = createValue('value1', false);
+      const value2 = createValue('value2', false);
+      const value3 = createValue('value3', false);
+      const value4 = createValue('value4', true);
+
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue: 'any value',
+        values: [value1, value2, value3, value4],
+      };
+
+      expect(
+        occConfiguratorVariantSerializer['getRetractedValue'](attribute)
+      ).toEqual(value4.valueCode);
+    });
+  });
+
+  describe('retractValue', () => {
+    it('should return no retract value', () => {
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.CHECKBOXLIST,
+        selectedSingleValue: 'value2',
+      };
+
+      const targetAttribute: OccConfigurator.Attribute = {
+        key: attribute.name,
+        name: attribute.name,
+        retractTriggered: attribute.retractTriggered,
+        type: OccConfigurator.UiType.CHECK_BOX_LIST,
+      };
+
+      occConfiguratorVariantSerializer['retractValue'](
+        attribute,
+        targetAttribute
+      );
+      expect(targetAttribute.value).toEqual(attribute.selectedSingleValue);
+      expect(targetAttribute.retractTriggered).toBeUndefined();
+    });
+
+    it('should return a retract value', () => {
+      const value1 = createValue('value1', false);
+      const value2 = createValue('value2', false);
+      const value3 = createValue('value3', false);
+      const value4 = createValue('value4', true);
+
+      const attribute: Configurator.Attribute = {
+        name: 'attr',
+        uiType: Configurator.UiType.DROPDOWN,
+        selectedSingleValue:
+          OccConfiguratorVariantSerializer.RETRACT_VALUE_CODE,
+        values: [value1, value2, value3, value4],
+      };
+
+      const targetAttribute: OccConfigurator.Attribute = {
+        key: attribute.name,
+        name: attribute.name,
+        retractTriggered: attribute.retractTriggered,
+        type: OccConfigurator.UiType.DROPDOWN,
+      };
+
+      occConfiguratorVariantSerializer['retractValue'](
+        attribute,
+        targetAttribute
+      );
+      expect(targetAttribute.value).toEqual(value4.valueCode);
+      expect(targetAttribute.retractTriggered).toBe(true);
+    });
   });
 
   it('should map ui types properly', () => {

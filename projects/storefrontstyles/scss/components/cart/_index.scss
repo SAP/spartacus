@@ -11,8 +11,11 @@
 @import './item-counter';
 @import './add-to-wishlist';
 @import './save-for-later';
+@import './cart-validation-warnings';
+@import './cart-item-validation-warning';
 
 $cart-components-allowlist: cx-mini-cart, cx-add-to-cart, cx-item-counter,
   cx-added-to-cart-dialog, cx-cart-details, cx-cart-item, cx-cart-item-list,
   cx-cart-totals, cx-cart-coupon, cx-applied-coupons, cx-add-to-wishlist,
-  cx-save-for-later !default;
+  cx-save-for-later, cx-cart-validation-warnings,
+  cx-cart-item-validation-warning !default;

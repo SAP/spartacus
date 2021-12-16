@@ -31,7 +31,7 @@ export class ConfiguratorUpdateMessageComponent {
           isLoading
             ? of(isLoading).pipe(
                 delay(
-                  this.config?.productConfigurator?.updateConfigurationMessage
+                  this.config.productConfigurator?.updateConfigurationMessage
                     ?.waitingTime || 1000
                 )
               ) // delay information if its loading
