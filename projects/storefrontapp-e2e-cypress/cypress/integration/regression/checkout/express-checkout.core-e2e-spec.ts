@@ -7,18 +7,9 @@ import * as expressCheckout from '../../../helpers/express-checkout';
 
 context('Express checkout', () => {
   viewportContext(['desktop'], () => {
-    let user;
-
     before(() => {
       clearAllStorage();
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
-      user = getSampleUser();
-      Cypress.log({
-        name: 'expressCheckoutLog',
-        displayName: 'expressCheckoutLog',
-        message: [`Creating/setting test user: ${user.email}`],
-      });
-
       checkout.visitHomePage();
     });
 
@@ -29,7 +20,6 @@ context('Express checkout', () => {
     afterEach(() => {
       cy.saveLocalStorage();
     });
-
-    expressCheckout.testExpressCheckout(user);
+    expressCheckout.testExpressCheckout();
   });
 });

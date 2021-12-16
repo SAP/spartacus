@@ -1,8 +1,16 @@
 import { CheckoutConfig } from '@spartacus/storefront';
 import * as checkout from './checkout-flow';
+import { getSampleUser } from '../sample-data/checkout-flow';
 
-export function testExpressCheckout(user) {
+export function testExpressCheckout() {
   it('should go to first step of checkout when there is no default address/payment', () => {
+    let user = getSampleUser();
+    Cypress.log({
+      name: 'expressCheckoutLog',
+      displayName: 'expressCheckoutLog',
+      message: [`Creating/setting test user: ${user.email}`],
+    });
+
     checkout.clickHamburger();
 
     checkout.registerUser(false, user);
