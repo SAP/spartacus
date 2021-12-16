@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   B2BUser,
   EntitiesModel,
@@ -21,10 +21,10 @@ import {
 
 @Injectable()
 export class UserGroupEffects {
-  @Effect()
+  
   loadUserGroup$: Observable<
     UserGroupActions.LoadUserGroupSuccess | UserGroupActions.LoadUserGroupFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP),
     map((action: UserGroupActions.LoadUserGroup) => action.payload),
     switchMap(({ userId, userGroupId }) => {
@@ -42,14 +42,14 @@ export class UserGroupEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadUserGroups$: Observable<
     | UserGroupActions.LoadUserGroupsSuccess
     | UserGroupActions.LoadUserGroupSuccess
     | UserGroupActions.LoadUserGroupsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUPS),
     map((action: UserGroupActions.LoadUserGroups) => action.payload),
     switchMap((payload) =>
@@ -77,14 +77,14 @@ export class UserGroupEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadAvailableOrderApprovalPermissions$: Observable<
     | UserGroupActions.LoadPermissionsSuccess
     | PermissionActions.LoadPermissionSuccess
     | UserGroupActions.LoadPermissionsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_PERMISSIONS),
     map((action: UserGroupActions.LoadPermissions) => action.payload),
     groupBy(({ userGroupId, params }) =>
@@ -127,14 +127,14 @@ export class UserGroupEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadAvailableOrgCustomers$: Observable<
     | UserGroupActions.LoadAvailableOrgCustomersSuccess
     | B2BUserActions.LoadB2BUserSuccess
     | UserGroupActions.LoadAvailableOrgCustomersFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.LOAD_USER_GROUP_AVAILABLE_CUSTOMERS),
     map((action: UserGroupActions.LoadAvailableOrgCustomers) => action.payload),
     groupBy(({ userGroupId, params }) =>
@@ -177,14 +177,14 @@ export class UserGroupEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   createUserGroup$: Observable<
     | UserGroupActions.CreateUserGroupSuccess
     | UserGroupActions.CreateUserGroupFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.CREATE_USER_GROUP),
     map((action: UserGroupActions.CreateUserGroup) => action.payload),
     switchMap((payload) =>
@@ -204,14 +204,14 @@ export class UserGroupEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateUserGroup$: Observable<
     | UserGroupActions.UpdateUserGroupSuccess
     | UserGroupActions.UpdateUserGroupFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.UPDATE_USER_GROUP),
     map((action: UserGroupActions.UpdateUserGroup) => action.payload),
     switchMap((payload) =>
@@ -234,14 +234,14 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   deleteUserGroup$: Observable<
     | UserGroupActions.DeleteUserGroupSuccess
     | UserGroupActions.DeleteUserGroupFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.DELETE_USER_GROUP),
     map((action: UserGroupActions.DeleteUserGroup) => action.payload),
     switchMap((payload) =>
@@ -261,14 +261,14 @@ export class UserGroupEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignPermissionToUserGroup$: Observable<
     | UserGroupActions.AssignPermissionSuccess
     | UserGroupActions.AssignPermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_PERMISSION),
     map((action: UserGroupActions.AssignPermission) => action.payload),
     mergeMap((payload) =>
@@ -298,14 +298,14 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignMemberUnitUserGroup$: Observable<
     | UserGroupActions.AssignMemberSuccess
     | UserGroupActions.AssignMemberFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_ASSIGN_MEMBER),
     map((action: UserGroupActions.AssignMember) => action.payload),
     mergeMap((payload) =>
@@ -331,14 +331,14 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignMemberFromUserGroup$: Observable<
     | UserGroupActions.UnassignMemberSuccess
     | UserGroupActions.UnassignMemberFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_MEMBER),
     map((action: UserGroupActions.UnassignMember) => action.payload),
     mergeMap((payload) =>
@@ -364,14 +364,14 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignPermissionFromUserGroup$: Observable<
     | UserGroupActions.UnassignPermissionSuccess
     | UserGroupActions.UnassignPermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_PERMISSION),
     map((action: UserGroupActions.UnassignPermission) => action.payload),
     mergeMap((payload) =>
@@ -401,14 +401,14 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignAllMembersFromUserGroup$: Observable<
     | UserGroupActions.UnassignAllMembersSuccess
     | UserGroupActions.UnassignAllMembersFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(UserGroupActions.USER_GROUP_UNASSIGN_ALL_MEMBERS),
     map((action: UserGroupActions.UnassignAllMembers) => action.payload),
     switchMap((payload) =>
@@ -432,7 +432,7 @@ export class UserGroupEffects {
           )
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

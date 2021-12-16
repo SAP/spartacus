@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import { ErrorModel } from '../../../model/misc.model';
@@ -12,11 +12,11 @@ import {
 
 @Injectable()
 export class ProductReviewsEffects {
-  @Effect()
+  
   loadProductReviews$: Observable<
     | ProductActions.LoadProductReviewsSuccess
     | ProductActions.LoadProductReviewsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
     map((action: ProductActions.LoadProductReviews) => action.payload),
     mergeMap((productCode) => {
@@ -36,13 +36,13 @@ export class ProductReviewsEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   postProductReview: Observable<
     | ProductActions.PostProductReviewSuccess
     | ProductActions.PostProductReviewFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ProductActions.POST_PRODUCT_REVIEW),
     map((action: ProductActions.PostProductReview) => action.payload),
     mergeMap((payload) => {
@@ -57,10 +57,10 @@ export class ProductReviewsEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect({ dispatch: false })
-  showGlobalMessageOnPostProductReviewSuccess$ = this.actions$.pipe(
+  
+  showGlobalMessageOnPostProductReviewSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
     tap(() => {
       this.globalMessageService.add(
@@ -68,7 +68,7 @@ export class ProductReviewsEffects {
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     })
-  );
+  ), { dispatch: false });
 
   constructor(
     private actions$: Actions,

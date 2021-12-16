@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { from, Observable, of } from 'rxjs';
 import {
@@ -32,12 +32,12 @@ export class CartEffects {
     )
   );
 
-  @Effect()
+  
   loadCart$: Observable<
     | CartActions.LoadCartFail
     | CartActions.LoadCartSuccess
     | CartActions.RemoveCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.LOAD_CART),
     map((action: CartActions.LoadCart) => action.payload),
     groupBy((payload) => payload.cartId),
@@ -120,15 +120,15 @@ export class CartEffects {
       )
     ),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   createCart$: Observable<
     | CartActions.MergeCartSuccess
     | CartActions.CreateCartSuccess
     | CartActions.CreateCartFail
     | CartActions.SetTempCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CREATE_CART),
     map((action: CartActions.CreateCart) => action.payload),
     mergeMap((payload) => {
@@ -172,10 +172,10 @@ export class CartEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
-  mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
+  
+  mergeCart$: Observable<CartActions.CreateCart> = createEffect(() => this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
     mergeMap((payload) => {
@@ -194,13 +194,13 @@ export class CartEffects {
       );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
   // TODO(#7241): Remove when AddVoucherSuccess actions will extend processes actions
-  @Effect()
+  
   refresh$: Observable<
     CartActions.LoadCart | CartActions.CartProcessesDecrement
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER_SUCCESS),
     map((action: CartActions.CartAddVoucherSuccess) => action.payload),
     concatMap((payload) =>
@@ -212,11 +212,11 @@ export class CartEffects {
         }),
       ])
     )
-  );
+  ));
 
   // TODO: Switch to automatic cart reload on processes count reaching 0 for cart entity
-  @Effect()
-  refreshWithoutProcesses$: Observable<CartActions.LoadCart> = this.actions$.pipe(
+  
+  refreshWithoutProcesses$: Observable<CartActions.LoadCart> = createEffect(() => this.actions$.pipe(
     ofType(
       CartActions.CART_ADD_ENTRY_SUCCESS,
       CartActions.CART_REMOVE_ENTRY_SUCCESS,
@@ -239,10 +239,10 @@ export class CartEffects {
           cartId: payload.cartId,
         })
     )
-  );
+  ));
 
-  @Effect()
-  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> =
+  
+  resetCartDetailsOnSiteContextChange$: Observable<CartActions.ResetCartDetails> = createEffect(() =>
     this.actions$.pipe(
       ofType(
         SiteContextActions.LANGUAGE_CHANGE,
@@ -251,14 +251,14 @@ export class CartEffects {
       mergeMap(() => {
         return [new CartActions.ResetCartDetails()];
       })
-    );
+    ));
 
-  @Effect()
+  
   addEmail$: Observable<
     | CartActions.AddEmailToCartSuccess
     | CartActions.AddEmailToCartFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.ADD_EMAIL_TO_CART),
     map((action: CartActions.AddEmailToCart) => action.payload),
     mergeMap((payload) =>
@@ -291,14 +291,14 @@ export class CartEffects {
         )
     ),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   deleteCart$: Observable<
     | CartActions.DeleteCartSuccess
     | CartActions.DeleteCartFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.DELETE_CART),
     map((action: CartActions.DeleteCart) => action.payload),
     mergeMap((payload) =>
@@ -321,7 +321,7 @@ export class CartEffects {
         )
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

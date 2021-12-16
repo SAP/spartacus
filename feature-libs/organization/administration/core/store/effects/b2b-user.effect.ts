@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   B2BUser,
@@ -37,10 +37,10 @@ import {
 
 @Injectable()
 export class B2BUserEffects {
-  @Effect()
+  
   loadB2BUser$: Observable<
     B2BUserActions.LoadB2BUserSuccess | B2BUserActions.LoadB2BUserFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER),
     map((action: B2BUserActions.LoadB2BUser) => action.payload),
     switchMap(({ userId, orgCustomerId }) => {
@@ -58,15 +58,15 @@ export class B2BUserEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   createB2BUser$: Observable<
     | B2BUserActions.CreateB2BUserSuccess
     | B2BUserActions.CreateB2BUserFail
     | OrgUnitActions.AssignApprover
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.CREATE_B2B_USER),
     map((action: B2BUserActions.CreateB2BUser) => action.payload),
     switchMap(({ userId, orgCustomer }) =>
@@ -110,15 +110,15 @@ export class B2BUserEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateB2BUser$: Observable<
     | B2BUserActions.UpdateB2BUserSuccess
     | B2BUserActions.UpdateB2BUserFail
     | OrgUnitActions.AssignApprover
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER),
     map((action: B2BUserActions.UpdateB2BUser) => action.payload),
     switchMap(({ userId, orgCustomerId, orgCustomer }) => {
@@ -154,14 +154,14 @@ export class B2BUserEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   checkSelfEmailUpdate$: Observable<
     | AuthActions.Logout
     | B2BUserActions.LoadB2BUser
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.UPDATE_B2B_USER_SUCCESS),
     map((action: B2BUserActions.UpdateB2BUserSuccess) => action.payload),
     withLatestFrom(this.userService.get(), this.userIdService.getUserId()),
@@ -177,14 +177,14 @@ export class B2BUserEffects {
         ? [new AuthActions.Logout()]
         : [new OrganizationActions.OrganizationClearData()];
     })
-  );
+  ));
 
-  @Effect()
+  
   loadB2BUsers$: Observable<
     | B2BUserActions.LoadB2BUsersSuccess
     | B2BUserActions.LoadB2BUserSuccess
     | B2BUserActions.LoadB2BUsersFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USERS),
     map((action: B2BUserActions.LoadB2BUsers) => action.payload),
     switchMap((payload) =>
@@ -212,14 +212,14 @@ export class B2BUserEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadB2BUserApprovers$: Observable<
     | B2BUserActions.LoadB2BUserApproversSuccess
     | B2BUserActions.LoadB2BUserApproversFail
     | B2BUserActions.LoadB2BUserSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_APPROVERS),
     map((action: B2BUserActions.LoadB2BUserApprovers) => action.payload),
     groupBy(({ orgCustomerId, params }) =>
@@ -258,14 +258,14 @@ export class B2BUserEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadB2BUserPermissions$: Observable<
     | B2BUserActions.LoadB2BUserPermissionsSuccess
     | B2BUserActions.LoadB2BUserPermissionsFail
     | PermissionActions.LoadPermissionSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_PERMISSIONS),
     map((action: B2BUserActions.LoadB2BUserPermissions) => action.payload),
     groupBy(({ orgCustomerId, params }) =>
@@ -308,14 +308,14 @@ export class B2BUserEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadB2BUserUserGroups$: Observable<
     | B2BUserActions.LoadB2BUserUserGroupsSuccess
     | B2BUserActions.LoadB2BUserUserGroupsFail
     | UserGroupActions.LoadUserGroupSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.LOAD_B2B_USER_USER_GROUPS),
     map((action: B2BUserActions.LoadB2BUserUserGroups) => action.payload),
     groupBy(({ orgCustomerId, params }) =>
@@ -358,14 +358,14 @@ export class B2BUserEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignApproverToB2BUser$: Observable<
     | B2BUserActions.AssignB2BUserApproverSuccess
     | B2BUserActions.AssignB2BUserApproverFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.ASSIGN_B2B_USER_APPROVER),
     map((action: B2BUserActions.AssignB2BUserApprover) => action.payload),
     mergeMap((payload) =>
@@ -397,14 +397,14 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignApproverFromB2BUser$: Observable<
     | B2BUserActions.UnassignB2BUserApproverSuccess
     | B2BUserActions.UnassignB2BUserApproverFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.UNASSIGN_B2B_USER_APPROVER),
     map((action: B2BUserActions.UnassignB2BUserApprover) => action.payload),
     mergeMap((payload) =>
@@ -436,14 +436,14 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignPermissionToB2BUser$: Observable<
     | B2BUserActions.AssignB2BUserPermissionSuccess
     | B2BUserActions.AssignB2BUserPermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.ASSIGN_B2B_USER_PERMISSION),
     map((action: B2BUserActions.AssignB2BUserPermission) => action.payload),
     mergeMap((payload) =>
@@ -473,14 +473,14 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignPermissionFromB2BUser$: Observable<
     | B2BUserActions.UnassignB2BUserPermissionSuccess
     | B2BUserActions.UnassignB2BUserPermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.UNASSIGN_B2B_USER_PERMISSION),
     map((action: B2BUserActions.UnassignB2BUserPermission) => action.payload),
     mergeMap((payload) =>
@@ -510,14 +510,14 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignUserGroupToB2BUser$: Observable<
     | B2BUserActions.AssignB2BUserUserGroupSuccess
     | B2BUserActions.AssignB2BUserUserGroupFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.ASSIGN_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.AssignB2BUserUserGroup) => action.payload),
     mergeMap((payload) =>
@@ -547,14 +547,14 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignUserGroupFromB2BUser$: Observable<
     | B2BUserActions.UnassignB2BUserUserGroupSuccess
     | B2BUserActions.UnassignB2BUserUserGroupFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(B2BUserActions.UNASSIGN_B2B_USER_USER_GROUP),
     map((action: B2BUserActions.UnassignB2BUserUserGroup) => action.payload),
     mergeMap((payload) =>
@@ -592,7 +592,7 @@ export class B2BUserEffects {
           )
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

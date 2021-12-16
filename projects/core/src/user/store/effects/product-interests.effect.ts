@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Effect, Actions, ofType } from '@ngrx/effects';
+import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { map, switchMap, catchError } from 'rxjs/operators';
@@ -16,8 +16,8 @@ export class ProductInterestsEffect {
     private userInterestsConnector: UserInterestsConnector
   ) {}
 
-  @Effect()
-  loadProductInteres$: Observable<UserActions.ProductInterestsAction> = this.actions$.pipe(
+  
+  loadProductInteres$: Observable<UserActions.ProductInterestsAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_PRODUCT_INTERESTS),
     map((action: UserActions.LoadProductInterests) => action.payload),
     switchMap((payload) => {
@@ -43,10 +43,10 @@ export class ProductInterestsEffect {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  removeProductInterest$: Observable<Action> = this.actions$.pipe(
+  
+  removeProductInterest$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.REMOVE_PRODUCT_INTEREST),
     map((action: UserActions.RemoveProductInterest) => action.payload),
     switchMap((payload) =>
@@ -75,10 +75,10 @@ export class ProductInterestsEffect {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
-  addProductInterest$: Observable<Action> = this.actions$.pipe(
+  
+  addProductInterest$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ADD_PRODUCT_INTEREST),
     map((action: UserActions.AddProductInterest) => action.payload),
     switchMap((payload) =>
@@ -104,5 +104,5 @@ export class ProductInterestsEffect {
           )
         )
     )
-  );
+  ));
 }

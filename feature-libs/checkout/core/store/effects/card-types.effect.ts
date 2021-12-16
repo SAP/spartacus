@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -8,10 +8,10 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class CardTypesEffects {
-  @Effect()
+  
   loadCardTypes$: Observable<
     CheckoutActions.LoadCardTypesSuccess | CheckoutActions.LoadCardTypesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.LOAD_CARD_TYPES),
     switchMap(() => {
       return this.checkoutPaymentConnector.getCardTypes().pipe(
@@ -21,7 +21,7 @@ export class CardTypesEffects {
         )
       );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

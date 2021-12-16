@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,8 +13,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
-  @Effect()
-  loadReplenishmentOrderDetails$: Observable<OrderActions.ReplenishmentOrderDetailsAction> =
+  
+  loadReplenishmentOrderDetails$: Observable<OrderActions.ReplenishmentOrderDetailsAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
       map(
@@ -38,10 +38,10 @@ export class ReplenishmentOrderDetailsEffect {
             )
           );
       })
-    );
+    ));
 
-  @Effect()
-  cancelReplenishmentOrder$: Observable<OrderActions.ReplenishmentOrderDetailsAction> =
+  
+  cancelReplenishmentOrder$: Observable<OrderActions.ReplenishmentOrderDetailsAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(OrderActions.CANCEL_REPLENISHMENT_ORDER),
       map((action: OrderActions.CancelReplenishmentOrder) => action.payload),
@@ -74,7 +74,7 @@ export class ReplenishmentOrderDetailsEffect {
             })
           );
       })
-    );
+    ));
 
   constructor(
     private actions$: Actions,

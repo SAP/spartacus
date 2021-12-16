@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, tap } from 'rxjs/operators';
 import {
@@ -14,8 +14,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserAddressesEffects {
-  @Effect()
-  loadUserAddresses$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
+  
+  loadUserAddresses$: Observable<UserActions.UserAddressesAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_USER_ADDRESSES),
     map((action: UserActions.LoadUserAddresses) => action.payload),
     mergeMap((payload) => {
@@ -28,10 +28,10 @@ export class UserAddressesEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  addUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
+  
+  addUserAddress$: Observable<UserActions.UserAddressesAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS),
     map((action: UserActions.AddUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -46,10 +46,10 @@ export class UserAddressesEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  updateUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
+  
+  updateUserAddress$: Observable<UserActions.UserAddressesAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS),
     map((action: UserActions.UpdateUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -73,10 +73,10 @@ export class UserAddressesEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  deleteUserAddress$: Observable<UserActions.UserAddressesAction> = this.actions$.pipe(
+  
+  deleteUserAddress$: Observable<UserActions.UserAddressesAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS),
     map((action: UserActions.DeleteUserAddress) => action.payload),
     mergeMap((payload) => {
@@ -91,43 +91,43 @@ export class UserAddressesEffects {
           )
         );
     })
-  );
+  ));
 
   /**
    *  Reload addresses and notify about add success
    */
-  @Effect({ dispatch: false })
-  showGlobalMessageOnAddSuccess$ = this.actions$.pipe(
+  
+  showGlobalMessageOnAddSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.ADD_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressAddSuccess');
     })
-  );
+  ), { dispatch: false });
 
   /**
    *  Reload addresses and notify about update success
    */
-  @Effect({ dispatch: false })
-  showGlobalMessageOnUpdateSuccess$ = this.actions$.pipe(
+  
+  showGlobalMessageOnUpdateSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.UPDATE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressUpdateSuccess');
     })
-  );
+  ), { dispatch: false });
 
   /**
    *  Reload addresses and notify about delete success
    */
-  @Effect({ dispatch: false })
-  showGlobalMessageOnDeleteSuccess$ = this.actions$.pipe(
+  
+  showGlobalMessageOnDeleteSuccess$ = createEffect(() => this.actions$.pipe(
     ofType(UserActions.DELETE_USER_ADDRESS_SUCCESS),
     tap(() => {
       this.loadAddresses();
       this.showGlobalMessage('addressForm.userAddressDeleteSuccess');
     })
-  );
+  ), { dispatch: false });
 
   constructor(
     private actions$: Actions,

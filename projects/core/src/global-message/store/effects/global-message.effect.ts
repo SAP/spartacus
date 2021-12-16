@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
@@ -26,8 +26,8 @@ import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
-  @Effect()
-  removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> = this.actions$.pipe(
+  
+  removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload'),
     switchMap((message: GlobalMessage) =>
@@ -54,10 +54,10 @@ export class GlobalMessageEffect {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
-  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> = isPlatformBrowser(
+  
+  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => isPlatformBrowser(
     this.platformId
   ) // we don't want to run this logic when doing SSR
     ? this.actions$.pipe(
@@ -88,7 +88,7 @@ export class GlobalMessageEffect {
           );
         })
       )
-    : EMPTY;
+    : EMPTY);
 
   constructor(
     private actions$: Actions,

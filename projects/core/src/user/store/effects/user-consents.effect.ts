@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
@@ -11,14 +11,14 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
-  @Effect()
-  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = this.actions$.pipe(
+  
+  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = createEffect(() => this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => new UserActions.ResetLoadUserConsents())
-  );
+  ));
 
-  @Effect()
-  getConsents$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
+  
+  getConsents$: Observable<UserActions.UserConsentsAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_USER_CONSENTS),
     map((action: UserActions.LoadUserConsents) => action.payload),
     concatMap((userId) =>
@@ -29,12 +29,12 @@ export class UserConsentsEffect {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   giveConsent$: Observable<
     UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType<UserActions.GiveUserConsent | UserActions.TransferAnonymousConsent>(
       UserActions.GIVE_USER_CONSENT,
       UserActions.TRANSFER_ANONYMOUS_CONSENT
@@ -69,10 +69,10 @@ export class UserConsentsEffect {
           })
         )
     )
-  );
+  ));
 
-  @Effect()
-  withdrawConsent$: Observable<UserActions.UserConsentsAction> = this.actions$.pipe(
+  
+  withdrawConsent$: Observable<UserActions.UserConsentsAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.WITHDRAW_USER_CONSENT),
     map((action: UserActions.WithdrawUserConsent) => action.payload),
     concatMap(({ userId, consentCode }) =>
@@ -83,7 +83,7 @@ export class UserConsentsEffect {
         )
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
@@ -17,11 +17,11 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
-  @Effect()
+  
   loadLanguages$: Observable<
     | SiteContextActions.LoadLanguagesSuccess
     | SiteContextActions.LoadLanguagesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SiteContextActions.LOAD_LANGUAGES),
     exhaustMap(() => {
       return this.siteConnector.getLanguages().pipe(
@@ -35,10 +35,10 @@ export class LanguagesEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  activateLanguage$: Observable<SiteContextActions.LanguageChange> = this.state
+  
+  activateLanguage$: Observable<SiteContextActions.LanguageChange> = createEffect(() => this.state
     .select(getActiveLanguage)
     .pipe(
       bufferCount(2, 1),
@@ -49,7 +49,7 @@ export class LanguagesEffects {
         ([previous, current]) =>
           new SiteContextActions.LanguageChange({ previous, current })
       )
-    );
+    ));
 
   constructor(
     private actions$: Actions,

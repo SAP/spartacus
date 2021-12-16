@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
@@ -16,8 +16,8 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class OrderDetailsEffect {
-  @Effect()
-  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = this.actions$.pipe(
+  
+  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_ORDER_DETAILS),
     map((action: UserActions.LoadOrderDetails) => action.payload),
     switchMap((payload) => {
@@ -30,10 +30,10 @@ export class OrderDetailsEffect {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  cancelOrder$: Observable<UserActions.OrderDetailsAction> = this.actions$.pipe(
+  
+  cancelOrder$: Observable<UserActions.OrderDetailsAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.CANCEL_ORDER),
     map((action: UserActions.CancelOrder) => action.payload),
     switchMap((payload) => {
@@ -55,7 +55,7 @@ export class OrderDetailsEffect {
           })
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

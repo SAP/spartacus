@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap, groupBy, mergeMap } from 'rxjs/operators';
 import {
@@ -19,11 +19,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class CostCenterEffects {
-  @Effect()
+  
   loadCostCenter$: Observable<
     | CostCenterActions.LoadCostCenterSuccess
     | CostCenterActions.LoadCostCenterFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTER),
     map((action: CostCenterActions.LoadCostCenter) => action.payload),
     switchMap(({ userId, costCenterCode }) => {
@@ -41,14 +41,14 @@ export class CostCenterEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadCostCenters$: Observable<
     | CostCenterActions.LoadCostCentersSuccess
     | CostCenterActions.LoadCostCenterSuccess
     | CostCenterActions.LoadCostCentersFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.LOAD_COST_CENTERS),
     map((action: CostCenterActions.LoadCostCenters) => action.payload),
     switchMap((payload) =>
@@ -76,14 +76,14 @@ export class CostCenterEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   createCostCenter$: Observable<
     | CostCenterActions.CreateCostCenterSuccess
     | CostCenterActions.CreateCostCenterFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.CREATE_COST_CENTER),
     map((action: CostCenterActions.CreateCostCenter) => action.payload),
     switchMap((payload) =>
@@ -103,14 +103,14 @@ export class CostCenterEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateCostCenter$: Observable<
     | CostCenterActions.UpdateCostCenterSuccess
     | CostCenterActions.UpdateCostCenterFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.UPDATE_COST_CENTER),
     map((action: CostCenterActions.UpdateCostCenter) => action.payload),
     switchMap((payload) =>
@@ -132,14 +132,14 @@ export class CostCenterEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadAssignedBudgets$: Observable<
     | CostCenterActions.LoadAssignedBudgetsSuccess
     | BudgetActions.LoadBudgetSuccess
     | CostCenterActions.LoadAssignedBudgetsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.LOAD_ASSIGNED_BUDGETS),
     map((action: CostCenterActions.LoadAssignedBudgets) => action.payload),
     groupBy(({ costCenterCode, params }) =>
@@ -178,14 +178,14 @@ export class CostCenterEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignBudgetToCostCenter$: Observable<
     | CostCenterActions.AssignBudgetSuccess
     | CostCenterActions.AssignBudgetFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.ASSIGN_BUDGET),
     map((action: CostCenterActions.AssignBudget) => action.payload),
     mergeMap(({ userId, costCenterCode, budgetCode }) =>
@@ -210,14 +210,14 @@ export class CostCenterEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignBudgetToCostCenter$: Observable<
     | CostCenterActions.UnassignBudgetSuccess
     | CostCenterActions.UnassignBudgetFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CostCenterActions.UNASSIGN_BUDGET),
     map((action: CostCenterActions.UnassignBudget) => action.payload),
     mergeMap(({ userId, costCenterCode, budgetCode }) =>
@@ -242,7 +242,7 @@ export class CostCenterEffects {
           )
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

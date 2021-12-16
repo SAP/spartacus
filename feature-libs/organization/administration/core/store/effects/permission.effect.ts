@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   EntitiesModel,
   normalizeHttpError,
@@ -15,11 +15,11 @@ import { OrganizationActions, PermissionActions } from '../actions';
 
 @Injectable()
 export class PermissionEffects {
-  @Effect()
+  
   loadPermission$: Observable<
     | PermissionActions.LoadPermissionSuccess
     | PermissionActions.LoadPermissionFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSION),
     map((action: PermissionActions.LoadPermission) => action.payload),
     switchMap(({ userId, permissionCode }) => {
@@ -37,14 +37,14 @@ export class PermissionEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadPermissions$: Observable<
     | PermissionActions.LoadPermissionsSuccess
     | PermissionActions.LoadPermissionSuccess
     | PermissionActions.LoadPermissionsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSIONS),
     map((action: PermissionActions.LoadPermissions) => action.payload),
     switchMap((payload) =>
@@ -72,14 +72,14 @@ export class PermissionEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   createPermission$: Observable<
     | PermissionActions.CreatePermissionSuccess
     | PermissionActions.CreatePermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(PermissionActions.CREATE_PERMISSION),
     map((action: PermissionActions.CreatePermission) => action.payload),
     switchMap((payload) =>
@@ -99,14 +99,14 @@ export class PermissionEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updatePermission$: Observable<
     | PermissionActions.UpdatePermissionSuccess
     | PermissionActions.UpdatePermissionFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(PermissionActions.UPDATE_PERMISSION),
     map((action: PermissionActions.UpdatePermission) => action.payload),
     switchMap((payload) =>
@@ -128,13 +128,13 @@ export class PermissionEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadPermissionTypes$: Observable<
     | PermissionActions.LoadPermissionTypesSuccess
     | PermissionActions.LoadPermissionTypesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(PermissionActions.LOAD_PERMISSION_TYPES),
     switchMap(() =>
       this.permissionConnector.getTypes().pipe(
@@ -151,7 +151,7 @@ export class PermissionEffects {
         )
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

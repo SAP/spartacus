@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   AuthActions,
   CartActions,
@@ -35,12 +35,12 @@ export class CheckoutEffects {
     )
   );
 
-  @Effect()
+  
   addDeliveryAddress$: Observable<
     | UserActions.LoadUserAddresses
     | CheckoutActions.SetDeliveryAddress
     | CheckoutActions.AddDeliveryAddressFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.ADD_DELIVERY_ADDRESS),
     map((action: CheckoutActions.AddDeliveryAddress) => action.payload),
     mergeMap((payload) =>
@@ -83,9 +83,9 @@ export class CheckoutEffects {
         )
     ),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   setDeliveryAddress$: Observable<
     | CheckoutActions.SetDeliveryAddressSuccess
     | CheckoutActions.ClearSupportedDeliveryModes
@@ -93,7 +93,7 @@ export class CheckoutEffects {
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.LoadSupportedDeliveryModes
     | CheckoutActions.SetDeliveryAddressFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_ADDRESS),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -123,13 +123,13 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   loadSupportedDeliveryModes$: Observable<
     | CheckoutActions.LoadSupportedDeliveryModesSuccess
     | CheckoutActions.LoadSupportedDeliveryModesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.LOAD_SUPPORTED_DELIVERY_MODES),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -149,55 +149,55 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   clearCheckoutMiscsDataOnLanguageChange$: Observable<
     | CheckoutActions.CheckoutClearMiscsData
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.ResetLoadPaymentTypesProcess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     mergeMap(() => [
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
       new CheckoutActions.ResetLoadPaymentTypesProcess(),
       new CheckoutActions.CheckoutClearMiscsData(),
     ])
-  );
+  ));
 
-  @Effect()
-  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> =
+  
+  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> = createEffect(() =>
     this.actions$.pipe(
       ofType(SiteContextActions.CURRENCY_CHANGE),
       map(() => new CheckoutActions.ClearSupportedDeliveryModes())
-    );
+    ));
 
-  @Effect()
+  
   clearCheckoutDataOnLogout$: Observable<
     | CheckoutActions.ClearCheckoutData
     | CheckoutActions.ResetLoadSupportedDeliveryModesProcess
     | CheckoutActions.ResetLoadPaymentTypesProcess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.LOGOUT),
     mergeMap(() => [
       new CheckoutActions.ClearCheckoutData(),
       new CheckoutActions.ResetLoadSupportedDeliveryModesProcess(),
       new CheckoutActions.ResetLoadPaymentTypesProcess(),
     ])
-  );
+  ));
 
-  @Effect()
-  clearCheckoutDataOnLogin$: Observable<CheckoutActions.ClearCheckoutData> = this.actions$.pipe(
+  
+  clearCheckoutDataOnLogin$: Observable<CheckoutActions.ClearCheckoutData> = createEffect(() => this.actions$.pipe(
     ofType(AuthActions.LOGIN),
     map(() => new CheckoutActions.ClearCheckoutData())
-  );
+  ));
 
-  @Effect()
+  
   setDeliveryMode$: Observable<
     | CheckoutActions.SetDeliveryModeSuccess
     | CheckoutActions.SetDeliveryModeFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.SET_DELIVERY_MODE),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -223,14 +223,14 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   createPaymentDetails$: Observable<
     | UserActions.LoadUserPaymentMethods
     | CheckoutActions.CreatePaymentDetailsSuccess
     | CheckoutActions.CreatePaymentDetailsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.CREATE_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -258,13 +258,13 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   setPaymentDetails$: Observable<
     | CheckoutActions.SetPaymentDetailsSuccess
     | CheckoutActions.SetPaymentDetailsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_DETAILS),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -287,15 +287,15 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   placeOrder$: Observable<
     | CheckoutActions.PlaceOrderSuccess
     | GlobalMessageActions.AddMessage
     | CheckoutActions.PlaceOrderFail
     | CartActions.RemoveCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.PLACE_ORDER),
     map((action: any) => action.payload),
     mergeMap((payload) => {
@@ -312,13 +312,13 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   loadCheckoutDetails$: Observable<
     | CheckoutActions.LoadCheckoutDetailsSuccess
     | CheckoutActions.LoadCheckoutDetailsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.LOAD_CHECKOUT_DETAILS),
     map((action: CheckoutActions.LoadCheckoutDetails) => action.payload),
     mergeMap((payload) => {
@@ -339,10 +339,10 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
-  reloadDetailsOnMergeCart$: Observable<CheckoutActions.LoadCheckoutDetails> = this.actions$.pipe(
+  
+  reloadDetailsOnMergeCart$: Observable<CheckoutActions.LoadCheckoutDetails> = createEffect(() => this.actions$.pipe(
     ofType(CartActions.MERGE_CART_SUCCESS),
     map((action: CartActions.MergeCartSuccess) => action.payload),
     map((payload) => {
@@ -351,13 +351,13 @@ export class CheckoutEffects {
         cartId: payload.cartId,
       });
     })
-  );
+  ));
 
-  @Effect()
+  
   clearCheckoutDeliveryAddress$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryAddressFail
     | CheckoutActions.ClearCheckoutDeliveryAddressSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_ADDRESS),
     map(
       (action: CheckoutActions.ClearCheckoutDeliveryAddress) => action.payload
@@ -378,14 +378,14 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   clearCheckoutDeliveryMode$: Observable<
     | CheckoutActions.ClearCheckoutDeliveryModeFail
     | CheckoutActions.ClearCheckoutDeliveryModeSuccess
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.CLEAR_CHECKOUT_DELIVERY_MODE),
     map((action: CheckoutActions.ClearCheckoutDeliveryMode) => action.payload),
     filter((payload) => Boolean(payload.cartId)),
@@ -417,15 +417,15 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   setCostCenter$: Observable<
     | CheckoutActions.SetCostCenterSuccess
     | CheckoutActions.SetCostCenterFail
     | CheckoutActions.ClearCheckoutDeliveryAddress
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.SET_COST_CENTER),
     map((action: CheckoutActions.SetCostCenter) => action.payload),
     switchMap((payload) => {
@@ -449,7 +449,7 @@ export class CheckoutEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
   constructor(
     private actions$: Actions,

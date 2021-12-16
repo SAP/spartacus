@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
@@ -16,12 +16,12 @@ export class CartVoucherEffects {
     private messageService: GlobalMessageService
   ) {}
 
-  @Effect()
+  
   addCartVoucher$: Observable<
     | CartActions.CartVoucherAction
     | CartActions.LoadCart
     | CartActions.CartProcessesDecrement
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_ADD_VOUCHER),
     map((action: CartActions.CartAddVoucher) => action.payload),
     mergeMap((payload) => {
@@ -53,12 +53,12 @@ export class CartVoucherEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   removeCartVoucher$: Observable<
     CartActions.CartVoucherAction | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_VOUCHER),
     map((action: CartActions.CartRemoveVoucher) => action.payload),
     mergeMap((payload) => {
@@ -93,7 +93,7 @@ export class CartVoucherEffects {
           )
         );
     })
-  );
+  ));
 
   private showGlobalMessage(
     text: string,

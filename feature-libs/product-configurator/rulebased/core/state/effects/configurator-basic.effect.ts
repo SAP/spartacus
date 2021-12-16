@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { normalizeHttpError } from '@spartacus/core';
 import { CommonConfiguratorUtilsService } from '@spartacus/product-configurator/common';
@@ -27,11 +27,11 @@ import { ConfiguratorSelectors } from '../selectors/index';
  * and CPQ
  */
 export class ConfiguratorBasicEffects {
-  @Effect()
+  
   createConfiguration$: Observable<
     | ConfiguratorActions.CreateConfigurationSuccess
     | ConfiguratorActions.CreateConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.CREATE_CONFIGURATION),
     mergeMap((action: ConfiguratorActions.CreateConfiguration) => {
       return this.configuratorCommonsConnector
@@ -59,13 +59,13 @@ export class ConfiguratorBasicEffects {
           ])
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   readConfiguration$: Observable<
     | ConfiguratorActions.ReadConfigurationSuccess
     | ConfiguratorActions.ReadConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.READ_CONFIGURATION),
 
     mergeMap((action: ConfiguratorActions.ReadConfiguration) => {
@@ -89,13 +89,13 @@ export class ConfiguratorBasicEffects {
           ])
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   updateConfiguration$: Observable<
     | ConfiguratorActions.UpdateConfigurationSuccess
     | ConfiguratorActions.UpdateConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION),
     map((action: ConfiguratorActions.UpdateConfiguration) => action.payload),
     //mergeMap here as we need to process each update
@@ -121,13 +121,13 @@ export class ConfiguratorBasicEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   updatePriceSummary$: Observable<
     | ConfiguratorActions.UpdatePriceSummarySuccess
     | ConfiguratorActions.UpdatePriceSummaryFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
     map(
       (action: { type: string; payload: Configurator.Configuration }) =>
@@ -151,13 +151,13 @@ export class ConfiguratorBasicEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   getOverview$: Observable<
     | ConfiguratorActions.GetConfigurationOverviewSuccess
     | ConfiguratorActions.GetConfigurationOverviewFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.GET_CONFIGURATION_OVERVIEW),
     map(
       (action: ConfiguratorActions.GetConfigurationOverview) => action.payload
@@ -183,14 +183,14 @@ export class ConfiguratorBasicEffects {
           })
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   updateConfigurationSuccess$: Observable<
     | ConfiguratorActions.UpdateConfigurationFinalizeSuccess
     | ConfiguratorActions.UpdatePriceSummary
     | ConfiguratorActions.ChangeGroup
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_SUCCESS),
     map(
       (action: ConfiguratorActions.UpdateConfigurationSuccess) => action.payload
@@ -252,10 +252,10 @@ export class ConfiguratorBasicEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
+  
+  updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
       map(
@@ -278,10 +278,10 @@ export class ConfiguratorBasicEffects {
           )
         );
       })
-    );
+    ));
 
-  @Effect()
-  handleErrorOnUpdate$: Observable<ConfiguratorActions.ReadConfiguration> = this.actions$.pipe(
+  
+  handleErrorOnUpdate$: Observable<ConfiguratorActions.ReadConfiguration> = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FINALIZE_FAIL),
     map(
       (action: ConfiguratorActions.UpdateConfigurationFinalizeFail) =>
@@ -294,15 +294,15 @@ export class ConfiguratorBasicEffects {
           groupId: this.getGroupWithAttributesForConfiguration(payload),
         })
     )
-  );
+  ));
 
-  @Effect()
+  
   groupChange$: Observable<
     | ConfiguratorActions.SetCurrentGroup
     | ConfiguratorActions.SetMenuParentGroup
     | ConfiguratorActions.ReadConfigurationFail
     | ConfiguratorActions.ReadConfigurationSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.CHANGE_GROUP),
     switchMap((action: ConfiguratorActions.ChangeGroup) => {
       return this.store.pipe(
@@ -346,7 +346,7 @@ export class ConfiguratorBasicEffects {
         })
       );
     })
-  );
+  ));
 
   /**
    * Finds first group with attributes for a configuration. Throws error if such a group does not exist,

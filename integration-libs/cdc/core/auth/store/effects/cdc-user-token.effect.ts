@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -13,8 +13,8 @@ import { CdcAuthActions } from '../actions/index';
 
 @Injectable()
 export class CdcUserTokenEffects {
-  @Effect()
-  loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> = this.actions$.pipe(
+  
+  loadCdcUserToken$: Observable<CdcAuthActions.CdcUserTokenAction> = createEffect(() => this.actions$.pipe(
     ofType(CdcAuthActions.LOAD_CDC_USER_TOKEN),
     map((action: CdcAuthActions.LoadCdcUserToken) => action.payload),
     mergeMap((payload) =>
@@ -45,7 +45,7 @@ export class CdcUserTokenEffects {
           })
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { StoreFinderConnector } from '../../connectors/store-finder.connector';
@@ -13,10 +13,10 @@ export class FindStoresEffect {
     private storeFinderConnector: StoreFinderConnector
   ) {}
 
-  @Effect()
+  
   findStores$: Observable<
     StoreFinderActions.FindStoresSuccess | StoreFinderActions.FindStoresFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORES),
     map((action: StoreFinderActions.FindStores) => action.payload),
     mergeMap((payload) =>
@@ -46,13 +46,13 @@ export class FindStoresEffect {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   findStoreById$: Observable<
     | StoreFinderActions.FindStoreByIdSuccess
     | StoreFinderActions.FindStoreByIdFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(StoreFinderActions.FIND_STORE_BY_ID),
     map((action: StoreFinderActions.FindStoreById) => action.payload),
     switchMap((payload) =>
@@ -65,5 +65,5 @@ export class FindStoresEffect {
         )
       )
     )
-  );
+  ));
 }

@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   B2BApprovalProcess,
   B2BUnit,
@@ -21,13 +21,13 @@ import {
 
 @Injectable()
 export class OrgUnitEffects {
-  @Effect()
+  
   loadOrgUnit$: Observable<
     | OrgUnitActions.LoadOrgUnitSuccess
     | OrgUnitActions.LoadAddressSuccess
     | OrgUnitActions.LoadAddressesSuccess
     | OrgUnitActions.LoadOrgUnitFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ORG_UNIT),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId, orgUnitId }) => {
@@ -53,12 +53,12 @@ export class OrgUnitEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadAvailableOrgUnits$: Observable<
     OrgUnitActions.LoadOrgUnitNodesSuccess | OrgUnitActions.LoadOrgUnitNodesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_NODES),
     map((action: OrgUnitActions.LoadOrgUnitNodes) => action.payload),
     switchMap((payload) =>
@@ -76,14 +76,14 @@ export class OrgUnitEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   createUnit$: Observable<
     | OrgUnitActions.CreateUnitFail
     | OrgUnitActions.CreateUnitSuccess
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ORG_UNIT),
     map((action: OrgUnitActions.CreateUnit) => action.payload),
     switchMap((payload) =>
@@ -103,14 +103,14 @@ export class OrgUnitEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateUnit$: Observable<
     | OrgUnitActions.UpdateUnitSuccess
     | OrgUnitActions.UpdateUnitFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ORG_UNIT),
     map((action: OrgUnitActions.UpdateUnit) => action.payload),
     switchMap((payload) =>
@@ -133,12 +133,12 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadTree$: Observable<
     OrgUnitActions.LoadTreeSuccess | OrgUnitActions.LoadTreeFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_UNIT_TREE),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
@@ -155,13 +155,13 @@ export class OrgUnitEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadApprovalProcesses$: Observable<
     | OrgUnitActions.LoadApprovalProcessesSuccess
     | OrgUnitActions.LoadApprovalProcessesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_APPROVAL_PROCESSES),
     map((action: OrgUnitActions.LoadOrgUnit) => action.payload),
     switchMap(({ userId }) => {
@@ -179,14 +179,14 @@ export class OrgUnitEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadUsers$: Observable<
     | OrgUnitActions.LoadAssignedUsersSuccess
     | OrgUnitActions.LoadAssignedUsersFail
     | B2BUserActions.LoadB2BUserSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.LOAD_ASSIGNED_USERS),
     map((action: OrgUnitActions.LoadAssignedUsers) => action.payload),
     groupBy(({ orgUnitId, roleId, params }) =>
@@ -227,12 +227,12 @@ export class OrgUnitEffects {
         })
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignRoleToUser: Observable<
     OrgUnitActions.AssignRoleSuccess | OrgUnitActions.AssignRoleFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_ROLE),
     map((action: OrgUnitActions.AssignRole) => action.payload),
     switchMap(({ userId, orgCustomerId, roleId }) =>
@@ -255,12 +255,12 @@ export class OrgUnitEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignRoleToUser$: Observable<
     OrgUnitActions.UnassignRoleSuccess | OrgUnitActions.UnassignRoleFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_ROLE),
     map((action: OrgUnitActions.UnassignRole) => action.payload),
     switchMap(({ userId, orgCustomerId, roleId }) =>
@@ -283,14 +283,14 @@ export class OrgUnitEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   assignApprover: Observable<
     | OrgUnitActions.AssignApproverSuccess
     | OrgUnitActions.AssignApproverFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.ASSIGN_APPROVER),
     map((action: OrgUnitActions.AssignApprover) => action.payload),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
@@ -316,14 +316,14 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   unassignApprover: Observable<
     | OrgUnitActions.UnassignApproverSuccess
     | OrgUnitActions.UnassignApproverFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.UNASSIGN_APPROVER),
     map((action: OrgUnitActions.UnassignApprover) => action.payload),
     mergeMap(({ userId, orgUnitId, orgCustomerId, roleId }) =>
@@ -349,14 +349,14 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   createAddress$: Observable<
     | OrgUnitActions.CreateAddressSuccess
     | OrgUnitActions.CreateAddressFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.CREATE_ADDRESS),
     map((action: OrgUnitActions.CreateAddress) => action.payload),
     switchMap((payload) =>
@@ -379,14 +379,14 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateAddress$: Observable<
     | OrgUnitActions.UpdateAddressSuccess
     | OrgUnitActions.UpdateAddressFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.UPDATE_ADDRESS),
     map((action: OrgUnitActions.UpdateAddress) => action.payload),
     switchMap(({ userId, orgUnitId, addressId, address }) =>
@@ -410,14 +410,14 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
-  @Effect()
+  
   deleteAddress$: Observable<
     | OrgUnitActions.DeleteAddressSuccess
     | OrgUnitActions.DeleteAddressFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrgUnitActions.DELETE_ADDRESS),
     map((action: OrgUnitActions.DeleteAddress) => action.payload),
     switchMap((payload) =>
@@ -439,7 +439,7 @@ export class OrgUnitEffects {
           )
         )
     )
-  );
+  ));
 
   // @Effect()
   // loadAddress$: Observable<

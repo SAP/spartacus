@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   ActiveCartService,
   Cart,
@@ -16,12 +16,12 @@ import { SavedCartActions } from '../actions/index';
 
 @Injectable()
 export class SavedCartEffects {
-  @Effect()
+  
   loadSavedCart$: Observable<
     | CartActions.LoadCartSuccess
     | SavedCartActions.LoadSavedCartFail
     | SavedCartActions.LoadSavedCartSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.LOAD_SAVED_CART),
     map((action: SavedCartActions.LoadSavedCart) => action.payload),
     switchMap(({ userId, cartId }) =>
@@ -47,14 +47,14 @@ export class SavedCartEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   loadSavedCarts$: Observable<
     | CartActions.LoadCartsSuccess
     | SavedCartActions.LoadSavedCartsFail
     | SavedCartActions.LoadSavedCartsSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.LOAD_SAVED_CARTS),
     map((action: SavedCartActions.LoadSavedCarts) => action.payload),
     switchMap(({ userId }) =>
@@ -75,9 +75,9 @@ export class SavedCartEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   restoreSavedCart$: Observable<
     | SavedCartActions.RestoreSavedCartFail
     | SavedCartActions.RestoreSavedCartSuccess
@@ -85,7 +85,7 @@ export class SavedCartEffects {
     | SavedCartActions.SaveCart
     | CartActions.LoadCartSuccess
     | CartActions.SetActiveCartId
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.RESTORE_SAVED_CART),
     map((action: SavedCartActions.RestoreSavedCart) => action.payload),
     withLatestFrom(this.activeCartService.getActive()),
@@ -147,16 +147,16 @@ export class SavedCartEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   saveCart$: Observable<
     | SavedCartActions.SaveCartFail
     | SavedCartActions.SaveCartSuccess
     | SavedCartActions.SaveCart
     | CartActions.LoadCartSuccess
     | CartActions.ClearCartState
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.SAVE_CART),
     map((action: SavedCartActions.SaveCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
@@ -192,15 +192,15 @@ export class SavedCartEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   editSavedCart$: Observable<
     | SavedCartActions.EditSavedCartFail
     | SavedCartActions.EditSavedCartSuccess
     | SavedCartActions.EditSavedCart
     | CartActions.LoadCartSuccess
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.EDIT_SAVED_CART),
     map((action: SavedCartActions.EditSavedCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName, saveCartDescription }) => {
@@ -235,16 +235,16 @@ export class SavedCartEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   cloneSavedCart$: Observable<
     | SavedCartActions.CloneSavedCartFail
     | SavedCartActions.CloneSavedCartSuccess
     | SavedCartActions.CloneSavedCart
     | SavedCartActions.RestoreSavedCart
     | SavedCartActions.LoadSavedCarts
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(SavedCartActions.CLONE_SAVED_CART),
     map((action: SavedCartActions.CloneSavedCart) => action.payload),
     switchMap(({ userId, cartId, saveCartName }) => {
@@ -277,7 +277,7 @@ export class SavedCartEffects {
           )
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

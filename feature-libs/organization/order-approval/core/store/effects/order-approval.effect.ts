@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   EntitiesModel,
   normalizeHttpError,
@@ -15,11 +15,11 @@ import { OrderApprovalActions } from '../actions/index';
 
 @Injectable()
 export class OrderApprovalEffects {
-  @Effect()
+  
   loadOrderApproval$: Observable<
     | OrderApprovalActions.LoadOrderApprovalSuccess
     | OrderApprovalActions.LoadOrderApprovalFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVAL),
     map((action: OrderApprovalActions.LoadOrderApproval) => action.payload),
     filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
@@ -40,14 +40,14 @@ export class OrderApprovalEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadOrderApprovals$: Observable<
     | OrderApprovalActions.LoadOrderApprovalsSuccess
     | OrderApprovalActions.LoadOrderApprovalSuccess
     | OrderApprovalActions.LoadOrderApprovalsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrderApprovalActions.LOAD_ORDER_APPROVALS),
     map((action: OrderApprovalActions.LoadOrderApprovals) => action.payload),
     filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
@@ -76,14 +76,14 @@ export class OrderApprovalEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   makeDecision$: Observable<
     | OrderApprovalActions.MakeDecisionSuccess
     | OrderApprovalActions.LoadOrderApproval
     | OrderApprovalActions.MakeDecisionFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(OrderApprovalActions.MAKE_DECISION),
     map((action: OrderApprovalActions.MakeDecision) => action.payload),
     filter((payload) => payload.userId !== OCC_USER_ID_ANONYMOUS),
@@ -111,7 +111,7 @@ export class OrderApprovalEffects {
           )
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

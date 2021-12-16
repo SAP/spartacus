@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { EntitiesModel } from '../../../model/misc.model';
@@ -10,8 +10,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserCostCenterEffects {
-  @Effect()
-  loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> = this.actions$.pipe(
+  
+  loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_ACTIVE_COST_CENTERS),
     map((action: UserActions.LoadActiveCostCenters) => action.payload),
     switchMap((payload) =>
@@ -28,7 +28,7 @@ export class UserCostCenterEffects {
         )
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

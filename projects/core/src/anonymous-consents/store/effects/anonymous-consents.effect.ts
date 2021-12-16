@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { EMPTY, Observable, of } from 'rxjs';
 import {
   catchError,
@@ -22,12 +22,12 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
-  @Effect()
+  
   checkConsentVersions$: Observable<
     | AnonymousConsentsActions.LoadAnonymousConsentTemplates
     | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
     | Observable<never>
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
     withLatestFrom(this.anonymousConsentService.getConsents()),
     concatMap(([_, currentConsents]) => {
@@ -70,10 +70,10 @@ export class AnonymousConsentsEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> =
+  
+  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> = createEffect(() =>
     this.actions$.pipe(
       ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
       withLatestFrom(this.anonymousConsentService.getTemplates()),
@@ -111,13 +111,13 @@ export class AnonymousConsentsEffects {
             )
           )
       )
-    );
+    ));
 
   // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
-  @Effect()
+  
   transferAnonymousConsentsToUser$: Observable<
     UserActions.TransferAnonymousConsent | Observable<never>
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
     withLatestFrom(
@@ -168,12 +168,12 @@ export class AnonymousConsentsEffects {
         })
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType<AuthActions.Login>(AuthActions.LOGIN),
     filter(
       (action) =>
@@ -226,7 +226,7 @@ export class AnonymousConsentsEffects {
         })
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

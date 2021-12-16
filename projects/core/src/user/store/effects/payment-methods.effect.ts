@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -10,8 +10,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
-  @Effect()
-  loadUserPaymentMethods$: Observable<Action> = this.actions$.pipe(
+  
+  loadUserPaymentMethods$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
     map((action: UserActions.LoadUserPaymentMethods) => action.payload),
     mergeMap((payload) => {
@@ -28,10 +28,10 @@ export class UserPaymentMethodsEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  setDefaultUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
+  
+  setDefaultUserPaymentMethod$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.SET_DEFAULT_USER_PAYMENT_METHOD),
     map((action: UserActions.SetDefaultUserPaymentMethod) => action.payload),
     mergeMap((payload) => {
@@ -51,9 +51,9 @@ export class UserPaymentMethodsEffects {
           )
         );
     })
-  );
-  @Effect()
-  deleteUserPaymentMethod$: Observable<Action> = this.actions$.pipe(
+  ));
+  
+  deleteUserPaymentMethod$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.DELETE_USER_PAYMENT_METHOD),
     map((action: UserActions.DeleteUserPaymentMethod) => action.payload),
     mergeMap((payload) => {
@@ -73,7 +73,7 @@ export class UserPaymentMethodsEffects {
           )
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

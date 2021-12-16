@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartActions, normalizeHttpError } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
@@ -9,11 +9,11 @@ import { ConfiguratorTextfield } from '../../model/configurator-textfield.model'
 import { ConfiguratorTextfieldActions } from '../actions/index';
 @Injectable()
 export class ConfiguratorTextfieldEffects {
-  @Effect()
+  
   createConfiguration$: Observable<
     | ConfiguratorTextfieldActions.CreateConfigurationSuccess
     | ConfiguratorTextfieldActions.CreateConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.CREATE_CONFIGURATION),
     map(
       (action: ConfiguratorTextfieldActions.CreateConfiguration) =>
@@ -39,14 +39,14 @@ export class ConfiguratorTextfieldEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   addToCart$: Observable<
     | ConfiguratorTextfieldActions.RemoveConfiguration
     | ConfiguratorTextfieldActions.AddToCartFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.ADD_TO_CART),
     map((action: ConfiguratorTextfieldActions.AddToCart) => action.payload),
     switchMap((payload) => {
@@ -69,14 +69,14 @@ export class ConfiguratorTextfieldEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   updateCartEntry$: Observable<
     | ConfiguratorTextfieldActions.RemoveConfiguration
     | ConfiguratorTextfieldActions.UpdateCartEntryConfigurationFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.UPDATE_CART_ENTRY_CONFIGURATION),
     map(
       (action: ConfiguratorTextfieldActions.UpdateCartEntryConfiguration) =>
@@ -104,13 +104,13 @@ export class ConfiguratorTextfieldEffects {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   readConfigurationForCartEntry$: Observable<
     | ConfiguratorTextfieldActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorTextfieldActions.ReadCartEntryConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.READ_CART_ENTRY_CONFIGURATION),
     switchMap(
       (action: ConfiguratorTextfieldActions.ReadCartEntryConfiguration) => {
@@ -133,13 +133,13 @@ export class ConfiguratorTextfieldEffects {
           );
       }
     )
-  );
+  ));
 
-  @Effect()
+  
   readConfigurationForOrderEntry$: Observable<
     | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationSuccess
     | ConfiguratorTextfieldActions.ReadOrderEntryConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorTextfieldActions.READ_ORDER_ENTRY_CONFIGURATION),
     switchMap(
       (action: ConfiguratorTextfieldActions.ReadOrderEntryConfiguration) => {
@@ -162,7 +162,7 @@ export class ConfiguratorTextfieldEffects {
           );
       }
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

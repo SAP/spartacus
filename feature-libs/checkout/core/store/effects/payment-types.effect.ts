@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { CartActions, normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
@@ -8,11 +8,11 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class PaymentTypesEffects {
-  @Effect()
+  
   loadPaymentTypes$: Observable<
     | CheckoutActions.LoadPaymentTypesSuccess
     | CheckoutActions.LoadPaymentTypesFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.LOAD_PAYMENT_TYPES),
     switchMap(() => {
       return this.paymentTypeConnector.getPaymentTypes().pipe(
@@ -27,15 +27,15 @@ export class PaymentTypesEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   setPaymentType$: Observable<
     | CheckoutActions.SetPaymentTypeSuccess
     | CheckoutActions.SetPaymentTypeFail
     | CartActions.LoadCartSuccess
     | CheckoutActions.ClearCheckoutData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CheckoutActions.SET_PAYMENT_TYPE),
     map((action: CheckoutActions.SetPaymentType) => action.payload),
     switchMap((payload) => {
@@ -65,7 +65,7 @@ export class PaymentTypesEffects {
           )
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

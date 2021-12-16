@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';
 import { CartModification } from '../../../model/cart.model';
@@ -18,12 +18,12 @@ export class CartEntryEffects {
     )
   );
 
-  @Effect()
+  
   addEntry$: Observable<
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_ADD_ENTRY),
     map((action: CartActions.CartAddEntry) => action.payload),
     concatMap((payload) => {
@@ -57,14 +57,14 @@ export class CartEntryEffects {
         );
     }),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   removeEntry$: Observable<
     | CartActions.CartRemoveEntrySuccess
     | CartActions.CartRemoveEntryFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_REMOVE_ENTRY),
     map((action: CartActions.CartRemoveEntry) => action.payload),
     concatMap((payload) =>
@@ -91,14 +91,14 @@ export class CartEntryEffects {
         )
     ),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
-  @Effect()
+  
   updateEntry$: Observable<
     | CartActions.CartUpdateEntrySuccess
     | CartActions.CartUpdateEntryFail
     | CartActions.LoadCart
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CART_UPDATE_ENTRY),
     map((action: CartActions.CartUpdateEntry) => action.payload),
     concatMap((payload) =>
@@ -130,7 +130,7 @@ export class CartEntryEffects {
         )
     ),
     withdrawOn(this.contextChange$)
-  );
+  ));
 
   constructor(
     private actions$: Actions,

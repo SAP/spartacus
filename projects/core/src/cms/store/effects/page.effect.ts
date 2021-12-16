@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { Observable, of } from 'rxjs';
 import {
@@ -22,8 +22,8 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class PageEffects {
-  @Effect()
-  refreshPage$: Observable<Action> = this.actions$.pipe(
+  
+  refreshPage$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       AuthActions.LOGOUT,
@@ -43,10 +43,10 @@ export class PageEffects {
         mergeMap((context) => of(new CmsActions.LoadCmsPageData(context)))
       )
     )
-  );
+  ));
 
-  @Effect()
-  loadPageData$: Observable<Action> = this.actions$.pipe(
+  
+  loadPageData$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_PAGE_DATA),
     map((action: CmsActions.LoadCmsPageData) => action.payload),
     groupBy((pageContext) => serializePageContext(pageContext)),
@@ -94,7 +94,7 @@ export class PageEffects {
         )
       )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

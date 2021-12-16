@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { from, Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
@@ -11,10 +11,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 @Injectable()
 export class BudgetEffects {
-  @Effect()
+  
   loadBudget$: Observable<
     BudgetActions.LoadBudgetSuccess | BudgetActions.LoadBudgetFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGET),
     map((action: BudgetActions.LoadBudget) => action.payload),
     switchMap(({ userId, budgetCode }) => {
@@ -32,14 +32,14 @@ export class BudgetEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadBudgets$: Observable<
     | BudgetActions.LoadBudgetsSuccess
     | BudgetActions.LoadBudgetSuccess
     | BudgetActions.LoadBudgetsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(BudgetActions.LOAD_BUDGETS),
     map((action: BudgetActions.LoadBudgets) => action.payload),
     switchMap((payload) =>
@@ -67,14 +67,14 @@ export class BudgetEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   createBudget$: Observable<
     | BudgetActions.CreateBudgetSuccess
     | BudgetActions.CreateBudgetFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(BudgetActions.CREATE_BUDGET),
     map((action: BudgetActions.CreateBudget) => action.payload),
     switchMap((payload) =>
@@ -94,14 +94,14 @@ export class BudgetEffects {
         )
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   updateBudget$: Observable<
     | BudgetActions.UpdateBudgetSuccess
     | BudgetActions.UpdateBudgetFail
     | OrganizationActions.OrganizationClearData
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(BudgetActions.UPDATE_BUDGET),
     map((action: BudgetActions.UpdateBudget) => action.payload),
     switchMap((payload) =>
@@ -123,7 +123,7 @@ export class BudgetEffects {
           )
         )
     )
-  );
+  ));
 
   constructor(
     private actions$: Actions,

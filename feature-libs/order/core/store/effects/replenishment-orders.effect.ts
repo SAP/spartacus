@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { normalizeHttpError, ReplenishmentOrderList } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
@@ -8,8 +8,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrdersEffect {
-  @Effect()
-  loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> =
+  
+  loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(OrderActions.LOAD_USER_REPLENISHMENT_ORDERS),
       map((action: OrderActions.LoadUserReplenishmentOrders) => action.payload),
@@ -36,7 +36,7 @@ export class ReplenishmentOrdersEffect {
             )
           );
       })
-    );
+    ));
 
   constructor(
     private actions$: Actions,

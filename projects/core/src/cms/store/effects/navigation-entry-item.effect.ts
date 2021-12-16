@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, filter, map, mergeMap, take } from 'rxjs/operators';
 import { RoutingService } from '../../../routing/index';
@@ -10,11 +10,11 @@ import { CmsActions } from '../actions/index';
 
 @Injectable()
 export class NavigationEntryItemEffects {
-  @Effect()
+  
   loadNavigationItems$: Observable<
     | CmsActions.LoadCmsNavigationItemsSuccess
     | CmsActions.LoadCmsNavigationItemsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CmsActions.LOAD_CMS_NAVIGATION_ITEMS),
     map((action: CmsActions.LoadCmsNavigationItems) => action.payload),
     map((payload) => {
@@ -67,7 +67,7 @@ export class NavigationEntryItemEffects {
         );
       }
     })
-  );
+  ));
 
   // We only consider 3 item types: cms page, cms component, and media.
   getIdListByItemType(itemList: any[]): {

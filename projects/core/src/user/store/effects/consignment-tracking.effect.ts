@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ConsignmentTracking } from '../../../model/consignment-tracking.model';
@@ -12,8 +12,8 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class ConsignmentTrackingEffects {
-  @Effect()
-  loadConsignmentTracking$: Observable<UserActions.ConsignmentTrackingAction> =
+  
+  loadConsignmentTracking$: Observable<UserActions.ConsignmentTrackingAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
       map((action: UserActions.LoadConsignmentTracking) => action.payload),
@@ -38,7 +38,7 @@ export class ConsignmentTrackingEffects {
             )
           );
       })
-    );
+    ));
 
   constructor(
     private actions$: Actions,

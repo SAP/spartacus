@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, groupBy, map, mergeMap, switchMap } from 'rxjs/operators';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
@@ -8,10 +8,10 @@ import { ProductActions } from '../actions/index';
 
 @Injectable()
 export class ProductsSearchEffects {
-  @Effect()
+  
   searchProducts$: Observable<
     ProductActions.SearchProductsSuccess | ProductActions.SearchProductsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ProductActions.SEARCH_PRODUCTS),
     groupBy((action: ProductActions.SearchProducts) => action.auxiliary),
     mergeMap((group) =>
@@ -38,13 +38,13 @@ export class ProductsSearchEffects {
         })
       )
     )
-  );
+  ));
 
-  @Effect()
+  
   getProductSuggestions$: Observable<
     | ProductActions.GetProductSuggestionsSuccess
     | ProductActions.GetProductSuggestionsFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ProductActions.GET_PRODUCT_SUGGESTIONS),
     map((action: ProductActions.GetProductSuggestions) => action.payload),
     switchMap((payload) => {
@@ -66,7 +66,7 @@ export class ProductsSearchEffects {
           )
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

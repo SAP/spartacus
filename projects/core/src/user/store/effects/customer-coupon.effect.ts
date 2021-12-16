@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
 import * as fromCustomerCouponsAction from '../actions/customer-coupon.action';
@@ -9,8 +9,8 @@ import { normalizeHttpError } from '../../../util/normalize-http-error';
 
 @Injectable()
 export class CustomerCouponEffects {
-  @Effect()
-  loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+  
+  loadCustomerCoupons$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
       map(
@@ -40,10 +40,10 @@ export class CustomerCouponEffects {
             )
           );
       })
-    );
+    ));
 
-  @Effect()
-  subscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+  
+  subscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
       map(
@@ -68,10 +68,10 @@ export class CustomerCouponEffects {
             )
           );
       })
-    );
+    ));
 
-  @Effect()
-  unsubscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+  
+  unsubscribeCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
       map(
@@ -96,10 +96,10 @@ export class CustomerCouponEffects {
             )
           );
       })
-    );
+    ));
 
-  @Effect()
-  claimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> =
+  
+  claimCustomerCoupon$: Observable<fromCustomerCouponsAction.CustomerCouponAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
       map(
@@ -124,7 +124,7 @@ export class CustomerCouponEffects {
             )
           );
       })
-    );
+    ));
 
   constructor(
     private actions$: Actions,

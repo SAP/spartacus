@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
@@ -12,8 +12,8 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class UserReplenishmentOrdersEffect {
-  @Effect()
-  loadUserReplenishmentOrders$: Observable<UserActions.UserReplenishmentOrdersAction> =
+  
+  loadUserReplenishmentOrders$: Observable<UserActions.UserReplenishmentOrdersAction> = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.LOAD_USER_REPLENISHMENT_ORDERS),
       map((action: UserActions.LoadUserReplenishmentOrders) => action.payload),
@@ -38,7 +38,7 @@ export class UserReplenishmentOrdersEffect {
             )
           );
       })
-    );
+    ));
 
   constructor(
     private actions$: Actions,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   normalizeHttpError,
   ReturnRequest,
@@ -12,8 +12,8 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class OrderReturnRequestEffect {
-  @Effect()
-  createReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = this.actions$.pipe(
+  
+  createReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = createEffect(() => this.actions$.pipe(
     ofType(OrderActions.CREATE_ORDER_RETURN_REQUEST),
     map((action: OrderActions.CreateOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -33,10 +33,10 @@ export class OrderReturnRequestEffect {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  loadReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = this.actions$.pipe(
+  
+  loadReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = createEffect(() => this.actions$.pipe(
     ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST),
     map((action: OrderActions.LoadOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -56,10 +56,10 @@ export class OrderReturnRequestEffect {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  cancelReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = this.actions$.pipe(
+  
+  cancelReturnRequest$: Observable<OrderActions.OrderReturnRequestAction> = createEffect(() => this.actions$.pipe(
     ofType(OrderActions.CANCEL_ORDER_RETURN_REQUEST),
     map((action: OrderActions.CancelOrderReturnRequest) => action.payload),
     switchMap((payload) => {
@@ -80,10 +80,10 @@ export class OrderReturnRequestEffect {
           )
         );
     })
-  );
+  ));
 
-  @Effect()
-  loadReturnRequestList$: Observable<OrderActions.OrderReturnRequestAction> = this.actions$.pipe(
+  
+  loadReturnRequestList$: Observable<OrderActions.OrderReturnRequestAction> = createEffect(() => this.actions$.pipe(
     ofType(OrderActions.LOAD_ORDER_RETURN_REQUEST_LIST),
     map((action: OrderActions.LoadOrderReturnRequestList) => action.payload),
     switchMap((payload) => {
@@ -110,7 +110,7 @@ export class OrderReturnRequestEffect {
           )
         );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

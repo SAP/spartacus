@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   normalizeHttpError,
   OrderHistoryList,
@@ -21,8 +21,8 @@ export class OrdersEffect {
     private replenishmentOrderConnector: ReplenishmentOrderConnector
   ) {}
 
-  @Effect()
-  loadUserOrders$: Observable<OrderActions.UserOrdersAction> = this.actions$.pipe(
+  
+  loadUserOrders$: Observable<OrderActions.UserOrdersAction> = createEffect(() => this.actions$.pipe(
     ofType(OrderActions.LOAD_USER_ORDERS),
     map((action: OrderActions.LoadUserOrders) => action.payload),
     switchMap((payload) => {
@@ -50,13 +50,13 @@ export class OrdersEffect {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
-  resetUserOrders$: Observable<OrderActions.ClearUserOrders> = this.actions$.pipe(
+  
+  resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(() => this.actions$.pipe(
     ofType(SiteContextActions.LANGUAGE_CHANGE),
     map(() => {
       return new OrderActions.ClearUserOrders();
     })
-  );
+  ));
 }

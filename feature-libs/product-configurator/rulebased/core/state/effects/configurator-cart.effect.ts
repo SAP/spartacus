@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import {
   CartActions,
@@ -28,12 +28,12 @@ export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
  * Common configurator effects related to cart handling
  */
 export class ConfiguratorCartEffects {
-  @Effect()
+  
   addToCart$: Observable<
     | ConfiguratorActions.AddNextOwner
     | CartActions.CartAddEntrySuccess
     | CartActions.CartAddEntryFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.ADD_TO_CART),
     map((action: ConfiguratorActions.AddToCart) => action.payload),
     switchMap((payload: Configurator.AddToCartParameters) => {
@@ -80,12 +80,12 @@ export class ConfiguratorCartEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   updateCartEntry$: Observable<
     CartActions.CartUpdateEntrySuccess | CartActions.CartUpdateEntryFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_CART_ENTRY),
     map((action: ConfiguratorActions.UpdateCartEntry) => action.payload),
     switchMap(
@@ -116,14 +116,14 @@ export class ConfiguratorCartEffects {
           );
       }
     )
-  );
+  ));
 
-  @Effect()
+  
   readConfigurationForCartEntry$: Observable<
     | ConfiguratorActions.ReadCartEntryConfigurationSuccess
     | ConfiguratorActions.UpdatePriceSummary
     | ConfiguratorActions.ReadCartEntryConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.READ_CART_ENTRY_CONFIGURATION),
     switchMap((action: ConfiguratorActions.ReadCartEntryConfiguration) => {
       const parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
@@ -143,13 +143,13 @@ export class ConfiguratorCartEffects {
           ])
         );
     })
-  );
+  ));
 
-  @Effect()
+  
   readConfigurationForOrderEntry$: Observable<
     | ConfiguratorActions.ReadOrderEntryConfigurationSuccess
     | ConfiguratorActions.ReadOrderEntryConfigurationFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.READ_ORDER_ENTRY_CONFIGURATION),
     switchMap((action: ConfiguratorActions.ReadOrderEntryConfiguration) => {
       const parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
@@ -168,10 +168,10 @@ export class ConfiguratorCartEffects {
           ])
         );
     })
-  );
+  ));
 
-  @Effect()
-  removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+  
+  removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> = createEffect(() =>
     this.actions$.pipe(
       ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
       switchMap(() => {
@@ -192,13 +192,13 @@ export class ConfiguratorCartEffects {
           })
         );
       })
-    );
+    ));
 
-  @Effect()
+  
   addOwner$: Observable<
     | ConfiguratorActions.SetNextOwnerCartEntry
     | ConfiguratorActions.SetInteractionState
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(ConfiguratorActions.ADD_NEXT_OWNER),
     switchMap((action: ConfiguratorActions.AddNextOwner) => {
       return this.store.pipe(
@@ -226,7 +226,7 @@ export class ConfiguratorCartEffects {
         })
       );
     })
-  );
+  ));
 
   constructor(
     protected actions$: Actions,

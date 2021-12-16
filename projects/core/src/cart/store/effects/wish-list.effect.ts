@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
@@ -21,10 +21,10 @@ import { MultiCartSelectors } from '../selectors';
 
 @Injectable()
 export class WishListEffects {
-  @Effect()
+  
   createWishList$: Observable<
     CartActions.CreateWishListSuccess | CartActions.CreateWishListFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.CREATE_WISH_LIST),
     map((action: CartActions.CreateWishList) => action.payload),
     switchMap((payload) => {
@@ -56,15 +56,15 @@ export class WishListEffects {
         })
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   loadWishList$: Observable<
     | CartActions.LoadWishListSuccess
     | CartActions.RemoveCart
     | CartActions.CreateWishList
     | CartActions.LoadWishListFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(CartActions.LOAD_WISH_LIST),
     map((action: CartActions.LoadWishList) => action.payload),
     concatMap((payload) => {
@@ -108,12 +108,12 @@ export class WishListEffects {
         )
       );
     })
-  );
+  ));
 
-  @Effect()
+  
   resetWishList$: Observable<
     CartActions.LoadWishListSuccess | CartActions.LoadWishListFail
-  > = this.actions$.pipe(
+  > = createEffect(() => this.actions$.pipe(
     ofType(
       SiteContextActions.LANGUAGE_CHANGE,
       SiteContextActions.CURRENCY_CHANGE
@@ -145,7 +145,7 @@ export class WishListEffects {
       }
       return EMPTY;
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,

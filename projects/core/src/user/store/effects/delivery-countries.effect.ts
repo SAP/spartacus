@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { CountryType } from '../../../model/address.model';
@@ -9,8 +9,8 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class DeliveryCountriesEffects {
-  @Effect()
-  loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> = this.actions$.pipe(
+  
+  loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_DELIVERY_COUNTRIES),
     switchMap(() => {
       return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
@@ -24,7 +24,7 @@ export class DeliveryCountriesEffects {
         )
       );
     })
-  );
+  ));
 
   constructor(
     private actions$: Actions,
