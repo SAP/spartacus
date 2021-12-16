@@ -2,7 +2,15 @@ import { Injectable } from '@angular/core';
 import { AuthService, Translatable } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { BehaviorSubject, of } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
+import { ChatBotConfig } from '../config/chat-bot-config';
 import {
   AuthorType,
   ChatBotEvent,
@@ -20,17 +28,42 @@ export class ChatBotService {
   constructor(
     protected chatBotCategoryService: ChatBotCategoryService,
     protected chatBotFacetService: ChatBotFacetService,
+    protected chatBotConfig: ChatBotConfig,
     protected userAccount: UserAccountFacade,
     protected auth: AuthService
   ) {
     this.sayHello();
   }
 
-  conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
+  protected conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
+  chosenCategory: string;
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
   events$ = new BehaviorSubject<ChatBotEvent>(ChatBotEvent.INIT);
 
-  chosenCategory: string;
+  messages$ = this.conversation$.pipe(
+    debounceTime(10),
+    tap((messages) => {
+      if (this.areMessagesAwaiting(messages)) {
+        setTimeout(() => {
+          this.updateMessageStatuses();
+        }, this.chatBotConfig?.chatBot.messagesDelay);
+      }
+    }),
+    map((messages) => {
+      return messages.filter(
+        (message) => message.status !== MessageStatus.QUEUED
+      );
+    })
+  );
+
+  isBotWriting$ = this.conversation$.pipe(
+    map((messages) => this.areMessagesAwaiting(messages))
+  );
+
+  areMessagesAwaiting(messages) {
+    return this.getQueued(messages) || this.getWriting(messages);
+  }
+
   protected user$ = this.auth.isUserLoggedIn().pipe(
     switchMap((isUserLoggedIn) => {
       if (isUserLoggedIn) {
@@ -59,14 +92,18 @@ export class ChatBotService {
     this.events$.next(ChatBotEvent.NEW_MESSAGE);
   }
 
-  updateMessageStatuses() {
+  protected getQueued(messages) {
+    return messages.find((message) => message.status === MessageStatus.QUEUED);
+  }
+
+  protected getWriting(messages) {
+    return messages.find((message) => message.status === MessageStatus.WRITING);
+  }
+
+  protected updateMessageStatuses() {
     const messages = this.conversation$.getValue();
-    const foundWritingMessage = messages.find(
-      (message) => message.status === MessageStatus.WRITING
-    );
-    const foundQueuedMessage = messages.find(
-      (message) => message.status === MessageStatus.QUEUED
-    );
+    const foundWritingMessage = this.getWriting(messages);
+    const foundQueuedMessage = this.getQueued(messages);
     if (foundWritingMessage || foundQueuedMessage) {
       this.conversation$.next([
         ...messages.map((message) => {

@@ -14,7 +14,7 @@ import {
 import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
-import { debounceTime, map, tap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-chat-bot',
@@ -31,27 +31,10 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   @ViewChild('messages') private messagesContainer: ElementRef;
 
   config = this.chatBotConfig.chatBot;
-  conversation$ = this.service.conversation$.pipe(
-    debounceTime(10),
-    tap((messages) => {
-      if (this.areMessagesAwaiting(messages)) {
-        setTimeout(() => {
-          this.service.updateMessageStatuses();
-        }, this.config.messagesDelay);
-      }
-    }),
-    map((messages) => {
-      return messages.filter(
-        (message) => message.status !== MessageStatus.QUEUED
-      );
-    })
-  );
-
+  conversation$ = this.service.messages$;
+  isBotWriting$ = this.service.isBotWriting$;
   options$ = this.service.options$;
   events$ = this.service.events$;
-  isBotWriting$ = this.service.conversation$.pipe(
-    map((messages) => this.areMessagesAwaiting(messages))
-  );
 
   eventSubscription: Subscription;
 
@@ -70,20 +53,6 @@ export class ChatBotComponent implements OnInit, OnDestroy {
    * Observable with recommendations.
    */
   recommendations$: any;
-
-  areMessagesAwaiting(messages) {
-    return messages.find(
-      (message) => this.isQueued(message) || this.isWriting(message)
-    );
-  }
-
-  isQueued(message: any) {
-    return message.status === MessageStatus.QUEUED;
-  }
-
-  isWriting(message: any) {
-    return message.status === MessageStatus.WRITING;
-  }
 
   isSent(message: any) {
     return message.status === MessageStatus.SENT;
