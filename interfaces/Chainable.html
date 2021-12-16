@@ -143,7 +143,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { focusableSelectors, getNextFocusableElement } from &#x27;./utils/a11y-tab&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  focusableSelectors,
+  getNextFocusableElement,
+  getPreviousFocusableElement,
+} from &#x27;./utils/a11y-tab&#x27;;
 
 declare global {
   namespace Cypress {
@@ -153,17 +157,19 @@ declare global {
        *
        * @memberof Cypress.Chainable
        *
+       * @param shiftModifier When true, simulates the shift key being held (which reverses the focus movement direction).
+       *
        * @example
         &#x60;&#x60;&#x60;
         cy.pressTab()
         &#x60;&#x60;&#x60;
        */
-      pressTab: () &#x3D;&gt; void;
+      pressTab: (shiftModifier?: boolean) &#x3D;&gt; void;
     }
   }
 }
 
-Cypress.Commands.add(&#x27;pressTab&#x27;, () &#x3D;&gt; {
+Cypress.Commands.add(&#x27;pressTab&#x27;, (shiftModifier?: boolean) &#x3D;&gt; {
   cy.document().then((document) &#x3D;&gt; {
     const elements &#x3D; Array.from(
       &lt;NodeListOf&lt;HTMLElement&gt;&gt;(
@@ -175,7 +181,11 @@ Cypress.Commands.add(&#x27;pressTab&#x27;, () &#x3D;&gt; {
       document.activeElement as HTMLElement
     );
 
-    getNextFocusableElement(elements, activeElementIndex).focus();
+    if (shiftModifier &#x3D;&#x3D;&#x3D; true) {
+      getPreviousFocusableElement(elements, activeElementIndex).focus();
+    } else {
+      getNextFocusableElement(elements, activeElementIndex).focus();
+    }
   });
 });
 </code></pre>

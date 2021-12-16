@@ -18,13 +18,13 @@
 <title>cluster_ReplenishmentOrderCancellationDialogModule_imports</title>
 <polygon fill="none" stroke="black" points="346,-40.8 346,-92.8 614,-92.8 614,-40.8 346,-40.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ReplenishmentOrderCancellationDialogModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 338,-92.8 338,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ReplenishmentOrderCancellationDialogModule_exports</title>
 <polygon fill="none" stroke="black" points="265,-170.8 265,-222.8 591,-222.8 591,-170.8 265,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReplenishmentOrderCancellationDialogModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 338,-92.8 338,-40.8 16,-40.8"/>
 </g>
 <!-- ReplenishmentOrderCancellationDialogComponent -->
 <g id="node1" class="node">

@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -229,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="140"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:140</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="144"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:144</a></div>
                 </td>
             </tr>
 
@@ -266,8 +266,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="78"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:78</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:80</a></div>
                 </td>
             </tr>
 
@@ -341,8 +341,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:36</a></div>
                 </td>
             </tr>
 
@@ -380,8 +380,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:43</a></div>
                 </td>
             </tr>
 
@@ -419,8 +419,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -458,8 +458,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="70"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:70</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -497,8 +497,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="136"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:136</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:140</a></div>
                 </td>
             </tr>
 
@@ -536,8 +536,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:63</a></div>
                 </td>
             </tr>
 
@@ -575,8 +575,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">feature-libs/checkout/core/facade/checkout-payment.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -642,6 +642,7 @@ import { CheckoutPaymentFacade } from &#x27;@spartacus/checkout/root&#x27;;
 import {
   ActiveCartService,
   CardType,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   ProcessSelectors,
@@ -649,7 +650,8 @@ import {
   StateWithProcess,
   UserIdService,
 } from &#x27;@spartacus/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
+import { combineLatest, Observable } from &#x27;rxjs&#x27;;
+import { filter, take } from &#x27;rxjs/operators&#x27;;
 import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
@@ -745,25 +747,27 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId: string | undefined;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) &#x3D;&gt; (userId &#x3D; occUserId))
-        .unsubscribe();
+      const userId &#x3D; getLastValueSync(this.userIdService.getUserId());
+      const cartId &#x3D; getLastValueSync(this.activeCartService.getActiveCartId());
 
-      let cartId: string | undefined;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) &#x3D;&gt; (cartId &#x3D; activeCartId))
-        .unsubscribe();
       if (userId &amp;&amp; cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId,
-            paymentDetails: paymentDetails,
-          })
-        );
+        combineLatest([
+          this.activeCartService.isStable(),
+          this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading)),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) &#x3D;&gt; isStable &amp;&amp; !isLoading),
+            take(1)
+          )
+          .subscribe(() &#x3D;&gt; {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetPaymentDetails({
+                userId,
+                cartId,
+                paymentDetails: paymentDetails,
+              })
+            );
+          });
       }
     }
   }

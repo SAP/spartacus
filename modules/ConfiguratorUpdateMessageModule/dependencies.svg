@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorUpdateMessageModule_imports</title>
 <polygon fill="none" stroke="black" points="284,-40.8 284,-92.8 507,-92.8 507,-40.8 284,-40.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConfiguratorUpdateMessageModule_declarations</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 276,-92.8 276,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorUpdateMessageModule_exports</title>
 <polygon fill="none" stroke="black" points="213,-170.8 213,-222.8 475,-222.8 475,-170.8 213,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConfiguratorUpdateMessageModule_declarations</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 276,-92.8 276,-40.8 16,-40.8"/>
 </g>
 <!-- ConfiguratorUpdateMessageComponent -->
 <g id="node1" class="node">

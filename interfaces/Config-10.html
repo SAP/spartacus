@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/cart/import-export/core/config/import-export-config.ts</code>
+            <code>projects/storefrontlib/router/config/on-navigate-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/ImportExportConfig.html" target="_self" >ImportExportConfig</a></code>
+                        <code><a href="../injectables/OnNavigateConfig.html" target="_self" >OnNavigateConfig</a></code>
             </p>
 
 
@@ -85,23 +85,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import { ExportConfig } from &#x27;../model/export-entries.model&#x27;;
-import { ImportConfig } from &#x27;../model/import-entries.config&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class ImportExportConfig {
-  cartImportExport?: {
-    file: { separator: string };
-    import?: ImportConfig;
-    export: ExportConfig;
+export abstract class OnNavigateConfig {
+  enableResetViewOnNavigate?: {
+    active?: boolean;
+    ignoreQueryString?: boolean;
+    ignoreRoutes?: string[];
   };
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends ImportExportConfig {}
+  interface Config extends OnNavigateConfig {}
 }
 </code></pre>
     </div>

@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-structure/pwa/pwa.module-config.ts</code>
+            <code>feature-libs/storefinder/core/config/store-finder-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/PWAModuleConfig.html" target="_self" >PWAModuleConfig</a></code>
+                        <code><a href="../injectables/StoreFinderConfig.html" target="_self" >StoreFinderConfig</a></code>
             </p>
 
 
@@ -90,22 +90,18 @@ import { Config } from &#x27;@spartacus/core&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class PWAModuleConfig {
-  pwa?: {
-    enabled?: boolean;
-    addToHomeScreen?: boolean;
+export abstract class StoreFinderConfig {
+  googleMaps?: {
+    apiUrl?: string;
+    apiKey?: string;
+    scale?: number;
+    selectedMarkerScale?: number;
+    radius?: number;
   };
 }
 
-export const defaultPWAModuleConfig: PWAModuleConfig &#x3D; {
-  pwa: {
-    enabled: false,
-    addToHomeScreen: false,
-  },
-};
-
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends PWAModuleConfig {}
+  interface Config extends StoreFinderConfig {}
 }
 </code></pre>
     </div>

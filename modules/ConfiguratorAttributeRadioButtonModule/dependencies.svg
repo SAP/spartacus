@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorAttributeRadioButtonModule_declarations</title>
 <polygon fill="none" stroke="black" points="720,-40.8 720,-92.8 1012,-92.8 1012,-40.8 720,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ConfiguratorAttributeRadioButtonModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 712,-92.8 712,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ConfiguratorAttributeRadioButtonModule_exports</title>
 <polygon fill="none" stroke="black" points="226,-170.8 226,-222.8 522,-222.8 522,-170.8 226,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ConfiguratorAttributeRadioButtonModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 712,-92.8 712,-40.8 16,-40.8"/>
 </g>
 <!-- ConfiguratorAttributeRadioButtonComponent -->
 <g id="node1" class="node">

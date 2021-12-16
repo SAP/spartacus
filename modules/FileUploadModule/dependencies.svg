@@ -14,13 +14,13 @@
 <title>cluster_FileUploadModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-342.39 1166,-342.39 1166,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_FileUploadModule_imports</title>
-<polygon fill="none" stroke="black" points="914,-152.39 914,-204.39 1158,-204.39 1158,-152.39 914,-152.39"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_FileUploadModule_exports</title>
 <polygon fill="none" stroke="black" points="883,-282.39 883,-334.39 1047,-334.39 1047,-282.39 883,-282.39"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_FileUploadModule_imports</title>
+<polygon fill="none" stroke="black" points="914,-152.39 914,-204.39 1158,-204.39 1158,-152.39 914,-152.39"/>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_FileUploadModule_FileUploadComponent_providers</title>

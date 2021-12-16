@@ -18,13 +18,13 @@
 <title>cluster_CartItemValidationWarningModule_declarations</title>
 <polygon fill="none" stroke="black" points="324,-40.8 324,-92.8 580,-92.8 580,-40.8 324,-40.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_CartItemValidationWarningModule_imports</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 316,-92.8 316,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_CartItemValidationWarningModule_exports</title>
 <polygon fill="none" stroke="black" points="84,-170.8 84,-222.8 342,-222.8 342,-170.8 84,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_CartItemValidationWarningModule_imports</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 316,-92.8 316,-40.8 16,-40.8"/>
 </g>
 <!-- CartItemValidationWarningComponent -->
 <g id="node1" class="node">

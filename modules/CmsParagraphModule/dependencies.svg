@@ -14,13 +14,13 @@
 <title>cluster_CmsParagraphModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 404,-230.8 404,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_CmsParagraphModule_declarations</title>
-<polygon fill="none" stroke="black" points="242,-40.8 242,-92.8 396,-92.8 396,-40.8 242,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_CmsParagraphModule_exports</title>
 <polygon fill="none" stroke="black" points="142,-170.8 142,-222.8 300,-222.8 300,-170.8 142,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CmsParagraphModule_declarations</title>
+<polygon fill="none" stroke="black" points="242,-40.8 242,-92.8 396,-92.8 396,-40.8 242,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CmsParagraphModule_imports</title>

@@ -14,6 +14,10 @@
 <title>cluster_ConfiguratorPriceSummaryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 386,-230.8 386,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorPriceSummaryModule_exports</title>
+<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 325,-222.8 325,-170.8 69,-170.8"/>
+</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorPriceSummaryModule_declarations</title>
 <polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 378,-92.8 378,-40.8 126,-40.8"/>
@@ -21,10 +25,6 @@
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorPriceSummaryModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 118,-92.8 118,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorPriceSummaryModule_exports</title>
-<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 325,-222.8 325,-170.8 69,-170.8"/>
 </g>
 <!-- ConfiguratorPriceSummaryComponent -->
 <g id="node1" class="node">
