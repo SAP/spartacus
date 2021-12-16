@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/main/root';
 import {
+  isNotUndefined,
   normalizeHttpError,
   OCC_CART_ID_CURRENT,
   SiteContextActions,
@@ -178,19 +179,20 @@ export class CartEffects {
   mergeCart$: Observable<CartActions.CreateCart> = this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) => action.payload),
-    mergeMap((payload) => {
+    switchMap((payload) => {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        mergeMap((currentCart) => {
-          return [
-            new CartActions.CreateCart({
+        map((currentCart) => {
+          if (currentCart?.code !== payload.cartId) {
+            return new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
               tempCartId: payload.tempCartId,
-            }),
-          ];
-        })
+            });
+          }
+        }),
+        filter(isNotUndefined)
       );
     }),
     withdrawOn(this.contextChange$)

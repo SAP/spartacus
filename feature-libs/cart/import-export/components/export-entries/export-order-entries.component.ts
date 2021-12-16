@@ -1,6 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntriesContext } from '@spartacus/cart/main/components';
-import { OrderEntry, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import {
+  OrderEntriesContext,
+  OrderEntry,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/main/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

@@ -10,7 +10,7 @@ import { CartModification, CartModificationList } from '../models/cart.model';
     facadeFactory({
       facade: CartValidationFacade,
       feature: CART_CORE_FEATURE,
-      methods: ['validateCart'],
+      methods: ['validateCart', 'getValidationResults'],
     }),
 })
 export abstract class CartValidationFacade {
