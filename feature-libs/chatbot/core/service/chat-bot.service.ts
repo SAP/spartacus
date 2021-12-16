@@ -44,7 +44,6 @@ export class ChatBotService {
 
   protected addMessage(message: Partial<ChatBotMessage>) {
     const currentMessages = this.conversation$.getValue();
-
     if (message.author === AuthorType.CUSTOMER) {
       this.conversation$.next([
         ...currentMessages,
@@ -56,7 +55,6 @@ export class ChatBotService {
         status: MessageStatus.QUEUED,
       } as ChatBotMessage;
       this.conversation$.next([...currentMessages, newMessage]);
-      console.log('add by bot', currentMessages, newMessage);
     }
     this.events$.next(ChatBotEvent.NEW_MESSAGE);
   }
@@ -68,13 +66,6 @@ export class ChatBotService {
     );
     const foundQueuedMessage = messages.find(
       (message) => message.status === MessageStatus.QUEUED
-    );
-
-    console.log(
-      'updateMessageStatuses',
-      foundWritingMessage,
-      foundQueuedMessage,
-      messages
     );
     if (foundWritingMessage || foundQueuedMessage) {
       this.conversation$.next([

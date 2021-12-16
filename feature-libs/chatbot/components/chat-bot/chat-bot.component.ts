@@ -14,7 +14,7 @@ import {
 import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { debounceTime, map, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-chat-bot',
@@ -32,8 +32,8 @@ export class ChatBotComponent implements OnInit, OnDestroy {
 
   config = this.chatBotConfig.chatBot;
   conversation$ = this.service.conversation$.pipe(
+    debounceTime(10),
     tap((messages) => {
-      console.log('messages', messages, this.areMessagesAwaiting(messages));
       if (this.areMessagesAwaiting(messages)) {
         setTimeout(() => {
           this.service.updateMessageStatuses();
