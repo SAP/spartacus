@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
-import { AuthService, Translatable } from '@spartacus/core';
-import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { Translatable } from '@spartacus/core';
+import { User } from '@spartacus/user/account/root';
 import { ChatBotRecommendationsService } from './chat-bot-recommendations.service';
-import { BehaviorSubject, of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 import {
   debounceTime,
-  filter,
   map,
   switchMap,
   take,
@@ -22,6 +21,7 @@ import {
 } from '../model';
 import { ChatBotCategoryService } from './chat-bot-category.service';
 import { ChatBotFacetService } from './chat-bot-facet.service';
+import { ChatBotUserService } from './chat-bot-user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -31,14 +31,14 @@ export class ChatBotService {
     protected chatBotCategoryService: ChatBotCategoryService,
     protected chatBotFacetService: ChatBotFacetService,
     protected chatBotRecommendationsService: ChatBotRecommendationsService,
-    protected chatBotConfig: ChatBotConfig,
-    protected userAccount: UserAccountFacade,
-    protected auth: AuthService
+    protected chatBotUserService: ChatBotUserService,
+    protected chatBotConfig: ChatBotConfig
   ) {
     this.sayHello();
   }
 
   protected conversation$ = new BehaviorSubject<ChatBotMessage[]>([]);
+  protected user$ = this.chatBotUserService.user$;
   chosenCategory: string;
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
   events$ = new BehaviorSubject<ChatBotEvent>(ChatBotEvent.INIT);
@@ -67,17 +67,6 @@ export class ChatBotService {
   areMessagesAwaiting(messages) {
     return this.getQueued(messages) || this.getWriting(messages);
   }
-
-  protected user$ = this.auth.isUserLoggedIn().pipe(
-    switchMap((isUserLoggedIn) => {
-      if (isUserLoggedIn) {
-        return this.userAccount.get().pipe(filter((user) => !!user));
-      } else {
-        return of(undefined);
-      }
-    }),
-    take(1)
-  );
 
   protected addMessage(message: Partial<ChatBotMessage>) {
     const currentMessages = this.conversation$.getValue();
