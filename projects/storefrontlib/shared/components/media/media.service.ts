@@ -138,7 +138,7 @@ export class MediaService {
    * The optional maxFormat indicates that only sources till a certain format should be added
    * to the srcset.
    */
-  protected resolveSrcSet(
+  resolveSrcSet(
     media: MediaContainer | Image,
     maxFormat?: string
   ): string | undefined {

@@ -26,6 +26,7 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { MediaService } from '../../../shared/components/media/media.service';
 import { CxHtmlLinkBuilder } from './cx-html-link.builder';
 
 @Directive({
@@ -57,6 +58,7 @@ export class CxRouterLinkDirective
     protected productService: ProductService,
     protected productReviewService: ProductReviewService,
     protected productReferenceService: ProductReferenceService,
+    protected mediaService: MediaService,
 
     // cms
     protected routingService: RoutingService,
@@ -141,18 +143,21 @@ export class CxRouterLinkDirective
   }
 
   protected preFetchImages(product: Product): void {
+    console.log('xxx', product.images);
     const imageGroups = ([] as ImageGroup[])
       .concat(product.images?.PRIMARY ?? [])
       .concat(product.images?.GALLERY ?? []);
 
     imageGroups.forEach((group) => {
       Object.keys(group).forEach((type) => {
+        const imageSrcset = this.mediaService.resolveSrcSet(group);
         const href = group[type].url;
         if (href) {
           this.cxHtmlLinkBuilder.build({
             href,
-            rel: 'prefetch',
+            rel: 'preload',
             as: 'image',
+            imageSrcset,
           });
         }
       });
