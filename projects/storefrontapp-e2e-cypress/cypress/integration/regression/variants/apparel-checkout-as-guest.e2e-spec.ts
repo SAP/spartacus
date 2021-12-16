@@ -15,10 +15,11 @@ import {
 import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout as guest', () => {
-  viewportContext([/*'mobile',*/ 'desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      checkoutVariants.generateVariantGuestUser();
     });
 
     beforeEach(() => {
@@ -30,7 +31,7 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test. Guest user registered in this test.
+    // Core e2e test
     checkoutVariants.testCheckoutVariantAsGuest();
 
     it('should keep guest cart content and restart checkout', () => {

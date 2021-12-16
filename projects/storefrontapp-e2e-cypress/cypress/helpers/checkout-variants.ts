@@ -16,11 +16,13 @@ import {
   variantProduct,
 } from '../sample-data/apparel-checkout-flow';
 
-export const variantUser = getApparelCheckoutUser();
+export let variantUser;
+export function generateVariantGuestUser(){
+    variantUser = getApparelCheckoutUser();
+}
 
 export function testCheckoutVariantAsGuest() {
   it('should perform checkout as guest, create an account and verify guest data', () => {
-    //const variantUser = getApparelCheckoutUser();
     checkout.goToCheapProductDetailsPage(products[0]);
     addVariantOfSameProductToCart();
 
