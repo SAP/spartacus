@@ -6,7 +6,25 @@
     attr.role="{{ attribute.dataType }}"
     attr.aria-required="{{ attribute.required }}"
     maxlength="{{ attribute.maxlength }}"
-    attr.aria-labelledby="{{ createAriaLabelledBy('label', attribute.name) }}"
+    [attr.aria-label]="
+      attribute.userInput === undefined || attribute.userInput.length === 0
+        ? ('configurator.a11y.valueOfAttributeBlank'
+          | cxTranslate
+            : {
+                attribute: attribute.label
+              })
+        : ('configurator.a11y.valueOfAttributeFull'
+          | cxTranslate
+            : {
+                value: attribute.userInput,
+                attribute: attribute.label
+              })
+    "
+    [attr.aria-describedby]="
+      createAttributeUiKey('label', attribute.name) +
+      ' ' +
+      createAttributeUiKey('attribute-msg', attribute.name)
+    "
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"

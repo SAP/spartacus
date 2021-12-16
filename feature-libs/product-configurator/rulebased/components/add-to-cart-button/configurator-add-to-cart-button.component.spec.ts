@@ -428,6 +428,7 @@ describe('ConfigAddToCartButtonComponent', () => {
       expect(globalMessageService.add).toHaveBeenCalledTimes(0);
     });
   });
+
   describe('displayOnlyButton', () => {
     it('should navigate to review order', () => {
       setRouterTestDataReadOnlyCart();
