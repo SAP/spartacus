@@ -420,20 +420,33 @@ describe('Consent Changed for anonymous user', () => {
   });
 });
 
-describe('Consent Changed for registered user', () => {
+describe('Consent Changed for newly registered user', () => {
+  const loginAlias = 'loginNotification';
   beforeEach(() => {
     cdsHelper.setUpMocks(strategyRequestAlias);
+    cy.intercept({
+      method: 'POST',
+      path: '**/users/current/loginnotification**',
+    }).as(loginAlias);
     navigation.visitHomePage({
       options: {
         onBeforeLoad: profileTagHelper.interceptProfileTagJs,
       },
     });
     profileTagHelper.waitForCMSComponents();
-    anonymousConsents.clickAllowAllFromBanner();
-    loginHelper.loginAsDefaultUser();
   });
   it('should not send a consentgranted = false event on a page refresh', () => {
+    anonymousConsents.clickAllowAllFromBanner();
+    loginHelper.registerUser();
+    loginHelper.loginUser();
+    cy.wait(`@${loginAlias}`);
+
+    // reload and wait for all components to be loaded
     cy.reload();
+    profileTagHelper.waitForCMSComponents();
+    profileTagHelper.triggerLoaded();
+    profileTagHelper.triggerConsentReferenceLoaded();
+
     cy.window().then((win) => {
         const consentAccepted = profileTagHelper.getEvent(
         win,
