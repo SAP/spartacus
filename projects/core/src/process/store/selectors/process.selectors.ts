@@ -12,7 +12,7 @@ import { getProcessState } from './feature.selector';
 export function getProcessStateFactory<T>(
   processId: string
 ): MemoizedSelector<StateWithProcess<T>, LoaderState<T>> {
-  return createSelector(getProcessState(), (entityState) =>
+  return createSelector(getProcessState(), (entityState: StateUtils.EntityLoaderState<T>) =>
     StateUtils.entityLoaderStateSelector(entityState, processId)
   );
 }
