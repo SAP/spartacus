@@ -981,10 +981,6 @@ export class VisualViewerService implements OnDestroy {
     return !!window.sap;
   }
 
-  private getCore(): Core {
-    return sap.ui.getCore();
-  }
-
   private bootstrapUi5(scriptElementId: string): Observable<void> {
     const epdVisualization = this.epdVisualizationConfig
       .epdVisualization as EpdVisualizationInnerConfig;
@@ -1024,7 +1020,7 @@ export class VisualViewerService implements OnDestroy {
   private initializeUi5(): Observable<void> {
     return new Observable(
       (subscriber: { next: () => void; complete: () => void }) => {
-        const core: Core = this.getCore();
+        const core: Core = sap.ui.getCore();
         core.attachInit(() => {
           const loadLibraryOptions = { async: true };
           Promise.all([
@@ -1042,7 +1038,7 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private destroyViewportAssociations(viewport: Viewport): void {
-    const core = this.getCore();
+    const core = sap.ui.getCore();
     if (!core) {
       return;
     }
@@ -1198,7 +1194,7 @@ export class VisualViewerService implements OnDestroy {
             sap_ui_vk_ContentConnector: any,
             sap_ui_vk_DrawerToolbar: any
           ) => {
-            const core: Core = this.getCore();
+            const core: Core = sap.ui.getCore();
             const uiArea: UIArea = core.getUIArea(
               this.elementRef.nativeElement
             );
