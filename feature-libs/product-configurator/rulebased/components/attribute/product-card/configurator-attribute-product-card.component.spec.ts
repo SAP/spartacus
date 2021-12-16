@@ -1020,7 +1020,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that describes div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1033,7 +1033,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain cx-media element with 'aria-hidden' attribute that hides cx-media content for the screen reader", () => {
+    it("should contain cx-media element with 'aria-hidden' attribute that removes cx-media from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1045,7 +1045,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-selected' attribute that confirms whether button is selected or not", () => {
+    it("should contain button element with class name 'btn-primary' and 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1057,7 +1057,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that confirms whether button is selected or not", () => {
+    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       const itemIndex = component.productCardOptions.itemIndex + 1;
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
@@ -1080,7 +1080,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-describedby' attribute that describes button content for the screen reader", () => {
+    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the IDs of the elements that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

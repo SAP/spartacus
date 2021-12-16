@@ -1410,7 +1410,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       initialize();
     });
 
-    it("should contain action span element with ID 'listOfGroups' and class name 'cx-visually-hidden' that hides element on the UI", () => {
+    it("should contain action span element with ID 'listOfGroups' and class name 'cx-visually-hidden' that hides element content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1423,7 +1423,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action span element with ID 'inListOfGroups' and class name 'cx-visually-hidden' that hides element on the UI", () => {
+    it("should contain action span element with ID 'inListOfGroups' and class name 'cx-visually-hidden' that hides element content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1436,7 +1436,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action button element with class name 'cx-menu-item' and 'aria-describedby' attribute that describes a button", () => {
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1448,7 +1448,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action button element with class name 'cx-menu-item' and 'aria-selected' attribute that confirms whether button is selected or not", () => {
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1460,7 +1460,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action button element with class name 'cx-menu-item' and 'aria-label' attribute that overwrites button content", () => {
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1473,7 +1473,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action cx-icon element with class name 'WARNING' and 'aria-label' attribute that overwrites button content", () => {
+    it("should contain action cx-icon element with class name 'WARNING' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1485,7 +1485,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action cx-icon element with class name 'ERROR' and 'aria-label' attribute that overwrites button content", () => {
+    it("should contain action cx-icon element with class name 'ERROR' and 'aria-label' attribute that defines an accessible name to label the current elementt", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1497,7 +1497,7 @@ describe('ConfigurationGroupMenuComponent', () => {
       );
     });
 
-    it("should contain action cx-icon element with class name 'COMPLETE' and 'aria-label' attribute that overwrites button content", () => {
+    it("should contain action cx-icon element with class name 'COMPLETE' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

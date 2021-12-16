@@ -246,7 +246,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain action cx-media element with 'aria-hidden' attribute that is set to 'true'", () => {
+    it("should contain action cx-media element with 'aria-hidden' attribute that removes cx-media element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -258,7 +258,7 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
       );
     });
 
-    it("should contain action span element with class name 'cx-visually-hidden' that makes element not visible on the UI'", () => {
+    it("should contain action span element with class name 'cx-visually-hidden' that hides element content on the UI'", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -267,11 +267,16 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         0,
         undefined,
         undefined,
-        'configurator.a11y.itemOfAttributeFullWithPrice attribute:testAttribute item:testValue price:$20'
+        'configurator.a11y.itemOfAttributeFullWithPrice attribute:' +
+          component.attributeOverview.attribute +
+          ' item:' +
+          component.attributeOverview.value +
+          ' price:' +
+          component.attributeOverview.valuePrice.formattedValue
       );
     });
 
-    it("should contain action div element with class name 'cx-value-info' and 'aria-hidden' attribute that is set to 'true''", () => {
+    it("should contain action div element with class name 'cx-value-info' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -279,11 +284,12 @@ describe('ConfiguratorOverviewBundleAttributeComponent', () => {
         'cx-value-info',
         0,
         'aria-hidden',
-        'true'
+        'true',
+        component.attributeOverview.value
       );
     });
 
-    it("should contain action div element with class name 'cx-attribute-price-container' and 'aria-hidden' attribute that is set to 'true''", () => {
+    it("should contain action div element with class name 'cx-attribute-price-container' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

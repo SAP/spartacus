@@ -333,7 +333,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain action button element with 'aria-label' attribute that overwrites div content for the screen reader", () => {
+    it("should contain action button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -346,7 +346,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       );
     });
 
-    it("should contain secondary button element with 'aria-label' attribute that overwrites div content for the screen reader", () => {
+    it("should contain secondary button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

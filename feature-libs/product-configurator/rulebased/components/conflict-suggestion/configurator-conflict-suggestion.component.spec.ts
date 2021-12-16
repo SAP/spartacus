@@ -80,7 +80,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain div element with class name 'cx-title' and 'aria-label' attribute that overwrites div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-title' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -88,11 +88,12 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         'cx-title',
         0,
         'aria-label',
-        'configurator.conflict.suggestionTitle number:2 configurator.conflict.suggestionText attribute:attribute_label_01'
+        'configurator.conflict.suggestionTitle number:2 configurator.conflict.suggestionText attribute:' +
+          component.attribute.label
       );
     });
 
-    it("should contain span element 'aria-hidden' attribute that hides span content with suggestion text for the screen reader", () => {
+    it("should contain span element 'aria-hidden' attribute that removes span element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -105,7 +106,7 @@ describe('ConfigurationConflictSuggestionComponent', () => {
       );
     });
 
-    it("should contain span element 'aria-hidden' attribute that hides span content with suggestion text for the screen reader", () => {
+    it("should contain span element 'aria-hidden' attribute that hides span content with suggestion text from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -114,7 +115,8 @@ describe('ConfigurationConflictSuggestionComponent', () => {
         1,
         'aria-hidden',
         'true',
-        'configurator.conflict.suggestionText attribute:attribute_label_01'
+        'configurator.conflict.suggestionText attribute:' +
+          component.attribute.label
       );
     });
   });

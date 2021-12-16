@@ -137,7 +137,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
     });
 
-    it("should contain span element with class name 'cx-visually-hidden' without price that hides span content for the screen reader", () => {
+    it("should contain span element with class name 'cx-visually-hidden' without price that hides span element content on the UI", () => {
       fixture = TestBed.createComponent(ConfiguratorOverviewAttributeComponent);
       component = fixture.componentInstance;
       htmlElem = fixture.nativeElement;
@@ -165,7 +165,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       );
     });
 
-    it("should contain span element with class name 'cx-visually-hidden' with price that hides span content for the screen reader", () => {
+    it("should contain span element with class name 'cx-visually-hidden' with price that hides span element content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -183,7 +183,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-attribute-value' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -195,7 +195,7 @@ describe('ConfigurationOverviewAttributeComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-attribute-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-attribute-label' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

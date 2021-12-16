@@ -284,7 +284,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }));
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-control' without any set value and 'aria-label' attribute that overwrites input content for the screen reader", fakeAsync(() => {
+    it("should contain input element with class name 'form-control' without set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
       component.attribute.userInput = '';
       fixture.detectChanges();
       component.ngOnInit();
@@ -301,7 +301,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       );
     }));
 
-    it("should contain input element with class name 'form-control' with a set value and 'aria-label' attribute that overwrites input content for the screen reader", fakeAsync(() => {
+    it("should contain input element with class name 'form-control' with set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
@@ -320,7 +320,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       );
     }));
 
-    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute that describes input content for the screen reader", fakeAsync(() => {
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the IDs of the elements that describe the elements", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
@@ -356,7 +356,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       );
     }));
 
-    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that is set to 'true' to indicates whether a screen reader will present a changed region based on the change notifications", fakeAsync(() => {
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", fakeAsync(() => {
       component.attribute.userInput = '123';
       component.attributeInputForm.markAsTouched({ onlySelf: true });
       component.attributeInputForm.setErrors({

@@ -214,7 +214,7 @@ describe('ConfiguratorPriceComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain div element with 'aria-label' attribute that overwrites div content for the screen reader", () => {
+    it("should contain div element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.formula = createTestData(0, 0, 150, true);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -228,7 +228,7 @@ describe('ConfiguratorPriceComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-quantity-price' and 'aria-label' attribute that overwrites div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-quantity-price' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.formula = createTestData(2, 10, 20);
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(

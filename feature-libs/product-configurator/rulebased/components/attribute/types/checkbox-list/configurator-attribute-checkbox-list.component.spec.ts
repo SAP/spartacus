@@ -309,7 +309,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that overwrites input content for the screen reader", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -317,11 +317,14 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
         'form-check-input',
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:attributeName value:val2'
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay
       );
     });
 
-    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with price that overwrites input content for the screen reader", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
       let value = component.attribute.values
         ? component.attribute.values[0]
         : undefined;
@@ -352,7 +355,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       );
     });
 
-    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elementsr", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -364,7 +367,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       );
     });
 
-    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

@@ -303,7 +303,7 @@ describe('ConfigProductTitleComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that overwrites span content for the screen reader", () => {
+    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -315,7 +315,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain span element with 'aria-hidden' attribute that hides a content for the screen reader", () => {
+    it("should contain span element with 'aria-hidden' attribute that removes span element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -328,7 +328,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that overwrites span content for the screen reader", () => {
+    it("should contain div element with class name 'cx-toggle-details-link-text' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       component.triggerDetails();
       changeDetectorRef.detectChanges();
 
@@ -339,12 +339,12 @@ describe('ConfigProductTitleComponent', () => {
         'cx-toggle-details-link-text',
         undefined,
         'aria-label',
-        'configurator.a11y.showLessProductInfo product:productName',
+        'configurator.a11y.showLessProductInfo product:' + product.name,
         'configurator.header.showLess'
       );
     });
 
-    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -356,7 +356,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that does not hide div content for the screen reader", () => {
+    it("should contain div element with class name 'cx-details-content' and 'aria-hidden' attribute that removes div element from the accessibility tree", () => {
       component.triggerDetails();
       changeDetectorRef.detectChanges();
 
@@ -371,7 +371,7 @@ describe('ConfigProductTitleComponent', () => {
       );
     });
 
-    it("should contain span element with 'aria-label' attribute  for product name that overwrites div content for the screen reader", () => {
+    it("should contain span element with 'aria-label' attribute  for product name that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -380,11 +380,11 @@ describe('ConfigProductTitleComponent', () => {
         2,
         'aria-label',
         'configurator.a11y.productName',
-        PRODUCT_NAME
+        product.name
       );
     });
 
-    it("should contain span element with 'aria-label' attribute for product code that overwrites div content for the screen reader", () => {
+    it("should contain span element with 'aria-label' attribute for product code that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -393,11 +393,11 @@ describe('ConfigProductTitleComponent', () => {
         3,
         'aria-label',
         'configurator.a11y.productCode',
-        PRODUCT_CODE
+        product.code
       );
     });
 
-    it("should contain span element with 'aria-label' attribute for product description that overwrites div content for the screen reader", () => {
+    it("should contain span element with 'aria-label' attribute for product description that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -406,7 +406,7 @@ describe('ConfigProductTitleComponent', () => {
         4,
         'aria-label',
         'configurator.a11y.productDescription',
-        PRODUCT_DESCRIPTION
+        product.description
       );
     });
   });

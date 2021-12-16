@@ -102,7 +102,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
 
   describe('Accessibility', () => {
     describe('Static domain', () => {
-      it("should contain span element with class name 'cx-visually-hidden' and corresponding span content", () => {
+      it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -118,7 +118,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         );
       });
 
-      it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+      it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -130,7 +130,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
         );
       });
 
-      it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+      it("should contain span element with 'aria-hidden' attribute attribute that removes an element from the accessibility tree", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -163,7 +163,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           fixture.detectChanges();
         });
 
-        it("should contain span element with class name 'cx-visually-hidden' that hides span content for the screen reader", () => {
+        it("should contain span element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
             expect,
             htmlElem,
@@ -179,7 +179,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           );
         });
 
-        it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that hides div content for the screen reader", () => {
+        it("should contain div element with class name 'cx-read-only-label' and 'aria-hidden' attribute that removes div from the accessibility tree", () => {
           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
             expect,
             htmlElem,
@@ -191,7 +191,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           );
         });
 
-        it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+        it("should contain span element with 'aria-hidden' attribute attribute that removes span from the accessibility tree", () => {
           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
             expect,
             htmlElem,
@@ -223,7 +223,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           fixture.detectChanges();
         });
 
-        it("should contain span element with class name 'cx-visually-hidden' that hides span content for the screen reader", () => {
+        it("should contain span element with class name 'cx-visually-hidden' that hides span content on the UI", () => {
           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
             expect,
             htmlElem,
@@ -239,7 +239,7 @@ describe('ConfigAttributeReadOnlyComponent', () => {
           );
         });
 
-        it("should contain span element with 'aria-hidden' attribute that hides span content for the screen reader", () => {
+        it("should contain span element with 'aria-hidden' attribute that removes span from the accessibility tree", () => {
           CommonConfiguratorTestUtilsService.expectElementContainsA11y(
             expect,
             htmlElem,

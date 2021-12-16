@@ -382,7 +382,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       );
     });
 
-    it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", () => {
+    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -395,7 +395,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       );
     });
 
-    it("should contain action h2 element with 'aria-hidden' attribute that is set to 'true'", () => {
+    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

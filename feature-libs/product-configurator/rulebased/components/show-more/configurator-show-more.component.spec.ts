@@ -75,7 +75,7 @@ describe('ConfiguratorShowMoreComponent', () => {
       fixture.detectChanges();
     });
 
-    it("should contain span element with 'aria-label' attribute that overwrites span content for the screen reader", () => {
+    it("should contain span element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,

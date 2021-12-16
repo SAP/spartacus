@@ -259,7 +259,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     }
 
     describe('Accessibility', () => {
-      it("should contain label element with class name 'cx-visually-hidden' attribute that hides label content for the screen reader", () => {
+      it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -272,7 +272,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         );
       });
 
-      it("should contain select element with class name 'form-control' attribute that describes select element content for the screen reader", () => {
+      it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -284,7 +284,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         );
       });
 
-      it("should contain option elements with 'aria-selected' attribute that is set to 'true' to notify the screen reader that a value is selected", () => {
+      it("should contain option elements with 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -310,7 +310,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         );
       });
 
-      it("should contain option elements with 'aria-label' attribute for value without price that overwrites input content for the screen reader", () => {
+      it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,

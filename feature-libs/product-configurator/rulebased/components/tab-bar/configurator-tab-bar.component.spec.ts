@@ -108,7 +108,7 @@ describe('ConfigTabBarComponent', () => {
 
   describe('Accessibility', () => {
     describe('Configuration tag', () => {
-      it("should contain a element with 'aria-label' attribute that overwrites a content for the screen reader I", () => {
+      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -123,7 +123,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-label' attribute that overwrites a content for the screen reader II", () => {
+      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -140,7 +140,7 @@ describe('ConfigTabBarComponent', () => {
     });
 
     describe('Overview tag', () => {
-      it("should contain a element with 'aria-label' attribute that overwrites a content for the screen reader I", () => {
+      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element I", () => {
         mockRouterState.state.semanticRoute = CONFIG_OVERVIEW_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
@@ -155,7 +155,7 @@ describe('ConfigTabBarComponent', () => {
         );
       });
 
-      it("should contain a element with 'aria-label' attribute that overwrites a content for the screen reader II", () => {
+      it("should contain a element with 'aria-label' attribute that defines an accessible name to label the current element II", () => {
         mockRouterState.state.semanticRoute = CONFIGURATOR_ROUTE;
         fixture.detectChanges();
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(

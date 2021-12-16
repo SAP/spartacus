@@ -162,7 +162,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
   });
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-input' and 'aria-label' attribute that overwrites input content for the screen reader", () => {
+    it("should contain input element with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -177,7 +177,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that describes input content for the screen reader", () => {
+    it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -189,7 +189,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that exposes the check-box's state", () => {
+    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that indicates the current 'checked' state of widgete", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -201,14 +201,15 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that hides label content for the screen reader", () => {
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'label',
         'form-check-label',
         1,
-        'aria-hidden'
+        'aria-hidden',
+        'true'
       );
     });
   });
