@@ -412,7 +412,7 @@ export class VisualViewerService implements OnDestroy {
     this.sceneNodeToProductLookupService
       .lookupNodeIds(selectedProductCodes)
       .pipe(first())
-      .subscribe((selectedNodeIds) => {
+      .subscribe((selectedNodeIds: string[]) => {
         this.selectedNodeIds$.next(selectedNodeIds);
       });
   }
@@ -722,7 +722,7 @@ export class VisualViewerService implements OnDestroy {
     this.sceneLoadInfo$
       .pipe(
         filter(
-          (sceneLoadInfo) =>
+          (sceneLoadInfo: { sceneLoadState: SceneLoadState }) =>
             sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded ||
             sceneLoadInfo.sceneLoadState === SceneLoadState.Failed
         ),
@@ -985,29 +985,35 @@ export class VisualViewerService implements OnDestroy {
       .epdVisualization as EpdVisualizationInnerConfig;
     const ui5Config = epdVisualization.ui5 as Ui5Config;
 
-    return new Observable((subscriber) => {
-      if (this.isUi5BootStrapped()) {
-        subscriber.next();
-        subscriber.complete();
-        return;
-      }
+    return new Observable(
+      (subscriber: {
+        next: () => void;
+        complete: () => void;
+        error: (error: any) => void;
+      }) => {
+        if (this.isUi5BootStrapped()) {
+          subscriber.next();
+          subscriber.complete();
+          return;
+        }
 
-      const script = document.createElement('script');
-      script.setAttribute('id', scriptElementId);
-      document.getElementsByTagName('head')[0].appendChild(script);
-      script.onload = () => {
-        subscriber.next();
-        subscriber.complete();
-      };
-      script.onerror = (error: any) => {
-        subscriber.error(error);
-        subscriber.complete();
-      };
-      script.id = 'sap-ui-bootstrap';
-      script.type = 'text/javascript';
-      script.setAttribute('data-sap-ui-compatVersion', 'edge');
-      script.src = ui5Config.bootstrapUrl;
-    });
+        const script = document.createElement('script');
+        script.setAttribute('id', scriptElementId);
+        document.getElementsByTagName('head')[0].appendChild(script);
+        script.onload = () => {
+          subscriber.next();
+          subscriber.complete();
+        };
+        script.onerror = (error: any) => {
+          subscriber.error(error);
+          subscriber.complete();
+        };
+        script.id = 'sap-ui-bootstrap';
+        script.type = 'text/javascript';
+        script.setAttribute('data-sap-ui-compatVersion', 'edge');
+        script.src = ui5Config.bootstrapUrl;
+      }
+    );
   }
 
   private initializeUi5(): Observable<void> {
@@ -1168,88 +1174,95 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private addViewport(): Observable<void> {
-    return new Observable((subscriber) => {
-      sap.ui.require(
-        [
-          'sap/ui/vk/ViewManager',
-          'sap/ui/vk/Viewport',
-          'sap/ui/vk/ViewStateManager',
-          'sap/ui/vk/AnimationPlayer',
-          'sap/ui/vk/ContentConnector',
-          'sap/ui/vk/DrawerToolbar',
-        ],
-        (
-          sap_ui_vk_ViewManager: any,
-          sap_ui_vk_Viewport: any,
-          sap_ui_vk_ViewStateManager: any,
-          sap_ui_vk_AnimationPlayer: any,
-          sap_ui_vk_ContentConnector: any,
-          sap_ui_vk_DrawerToolbar: any
-        ) => {
-          const core: Core = this.getCore();
-          const uiArea: UIArea = core.getUIArea(this.elementRef.nativeElement);
-          if (uiArea) {
-            const oldViewport = uiArea.getContent()[0] as Viewport;
-            this.destroyViewportAssociations(oldViewport);
-            uiArea.destroyContent();
+    return new Observable(
+      (subscriber: { next: () => void; complete: () => void }) => {
+        sap.ui.require(
+          [
+            'sap/ui/vk/ViewManager',
+            'sap/ui/vk/Viewport',
+            'sap/ui/vk/ViewStateManager',
+            'sap/ui/vk/AnimationPlayer',
+            'sap/ui/vk/ContentConnector',
+            'sap/ui/vk/DrawerToolbar',
+          ],
+          (
+            sap_ui_vk_ViewManager: any,
+            sap_ui_vk_Viewport: any,
+            sap_ui_vk_ViewStateManager: any,
+            sap_ui_vk_AnimationPlayer: any,
+            sap_ui_vk_ContentConnector: any,
+            sap_ui_vk_DrawerToolbar: any
+          ) => {
+            const core: Core = this.getCore();
+            const uiArea: UIArea = core.getUIArea(
+              this.elementRef.nativeElement
+            );
+            if (uiArea) {
+              const oldViewport = uiArea.getContent()[0] as Viewport;
+              this.destroyViewportAssociations(oldViewport);
+              uiArea.destroyContent();
+            }
+
+            this.viewport = new sap_ui_vk_Viewport({ visible: false });
+            this.viewport.placeAt(this.elementRef.nativeElement);
+
+            this.contentConnector = new sap_ui_vk_ContentConnector();
+            this.contentConnector.attachContentChangesStarted(
+              this.onContentChangesStarted,
+              this
+            );
+            this.contentConnector.attachContentChangesFinished(
+              this.onContentChangesFinished,
+              this
+            );
+            this.contentConnector.attachContentLoadingFinished(
+              this.onContentLoadingFinished,
+              this
+            );
+
+            this.viewStateManager = new sap_ui_vk_ViewStateManager({
+              contentConnector: this.contentConnector,
+            });
+
+            this.viewport.setContentConnector(this.contentConnector);
+            this.viewport.setViewStateManager(this.viewStateManager);
+
+            this.animationPlayer = new sap_ui_vk_AnimationPlayer();
+            this.animationPlayer.setViewStateManager(this.viewStateManager);
+
+            this.animationPlayer.attachViewActivated(
+              this.onViewActivated,
+              this
+            );
+            this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
+
+            this.viewManager = new sap_ui_vk_ViewManager({
+              contentConnector: this.contentConnector,
+              animationPlayer: this.animationPlayer,
+            });
+
+            this.viewStateManager.setViewManager(this.viewManager);
+            this.viewStateManager.attachSelectionChanged(
+              this.onSelectionChanged,
+              this
+            );
+            this.viewStateManager.attachOutliningChanged(
+              this.onOutliningChanged,
+              this
+            );
+
+            this.drawerToolbar = new sap_ui_vk_DrawerToolbar({
+              viewport: this.viewport,
+              visible: false,
+            });
+
+            this.viewport.addDependent(this.drawerToolbar);
+            subscriber.next();
+            subscriber.complete();
           }
-
-          this.viewport = new sap_ui_vk_Viewport({ visible: false });
-          this.viewport.placeAt(this.elementRef.nativeElement);
-
-          this.contentConnector = new sap_ui_vk_ContentConnector();
-          this.contentConnector.attachContentChangesStarted(
-            this.onContentChangesStarted,
-            this
-          );
-          this.contentConnector.attachContentChangesFinished(
-            this.onContentChangesFinished,
-            this
-          );
-          this.contentConnector.attachContentLoadingFinished(
-            this.onContentLoadingFinished,
-            this
-          );
-
-          this.viewStateManager = new sap_ui_vk_ViewStateManager({
-            contentConnector: this.contentConnector,
-          });
-
-          this.viewport.setContentConnector(this.contentConnector);
-          this.viewport.setViewStateManager(this.viewStateManager);
-
-          this.animationPlayer = new sap_ui_vk_AnimationPlayer();
-          this.animationPlayer.setViewStateManager(this.viewStateManager);
-
-          this.animationPlayer.attachViewActivated(this.onViewActivated, this);
-          this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
-
-          this.viewManager = new sap_ui_vk_ViewManager({
-            contentConnector: this.contentConnector,
-            animationPlayer: this.animationPlayer,
-          });
-
-          this.viewStateManager.setViewManager(this.viewManager);
-          this.viewStateManager.attachSelectionChanged(
-            this.onSelectionChanged,
-            this
-          );
-          this.viewStateManager.attachOutliningChanged(
-            this.onOutliningChanged,
-            this
-          );
-
-          this.drawerToolbar = new sap_ui_vk_DrawerToolbar({
-            viewport: this.viewport,
-            visible: false,
-          });
-
-          this.viewport.addDependent(this.drawerToolbar);
-          subscriber.next();
-          subscriber.complete();
-        }
-      );
-    });
+        );
+      }
+    );
   }
 
   private getCSSPropertyValue(cssPropertyName: string): string {
@@ -1409,61 +1422,74 @@ export class VisualViewerService implements OnDestroy {
 
     this.setIs2D(this.is2DContentType(contentType));
 
-    return new Observable((subscriber) => {
-      sap.ui.require(['sap/ui/vk/ContentResource'], (ContentResource: any) => {
-        this.sceneLoadInfo$.next({
-          sceneLoadState: SceneLoadState.Loading,
-        });
+    return new Observable(
+      (subscriber: {
+        next: (sceneLoadInfo: SceneLoadInfo) => void;
+        complete: () => void;
+      }) => {
+        sap.ui.require(
+          ['sap/ui/vk/ContentResource'],
+          (ContentResource: any) => {
+            this.sceneLoadInfo$.next({
+              sceneLoadState: SceneLoadState.Loading,
+            });
 
-        this.viewport.setSelectionDisplayMode(
-          this.is2D ? 'Highlight' : 'Outline'
-        );
+            this.viewport.setSelectionDisplayMode(
+              this.is2D ? 'Highlight' : 'Outline'
+            );
 
-        const baseUrl: string = visualizationApiConfig.baseUrl;
+            const baseUrl: string = visualizationApiConfig.baseUrl;
 
-        const contentResource: ContentResource = new ContentResource({
-          useSecureConnection: false,
-          sourceType: this.is2D ? 'stream2d' : 'stream',
-          source: `${baseUrl}/vis/public/storage/v1`,
-          veid: sceneId,
-        });
+            const contentResource: ContentResource = new ContentResource({
+              useSecureConnection: false,
+              sourceType: this.is2D ? 'stream2d' : 'stream',
+              source: `${baseUrl}/vis/public/storage/v1`,
+              veid: sceneId,
+            });
 
-        this.contentChangesFinished
-          .pipe(first())
-          .subscribe((visualContentLoadFinished) => {
-            const succeeded = !!visualContentLoadFinished.content;
-            const sceneLoadInfo: SceneLoadInfo = succeeded
-              ? {
-                  sceneLoadState: SceneLoadState.Loaded,
-                  loadedSceneInfo: {
-                    sceneId: sceneId,
-                    contentType: contentType,
-                  },
+            this.contentChangesFinished
+              .pipe(first())
+              .subscribe(
+                (visualContentLoadFinished: {
+                  content: any;
+                  failureReason: any;
+                }) => {
+                  const succeeded = !!visualContentLoadFinished.content;
+                  const sceneLoadInfo: SceneLoadInfo = succeeded
+                    ? {
+                        sceneLoadState: SceneLoadState.Loaded,
+                        loadedSceneInfo: {
+                          sceneId: sceneId,
+                          contentType: contentType,
+                        },
+                      }
+                    : {
+                        sceneLoadState: SceneLoadState.Failed,
+                        errorMessage: visualContentLoadFinished.failureReason,
+                      };
+
+                  this.sceneLoadInfo$.next(sceneLoadInfo);
+                  subscriber.next(sceneLoadInfo);
+                  subscriber.complete();
                 }
-              : {
-                  sceneLoadState: SceneLoadState.Failed,
-                  errorMessage: visualContentLoadFinished.failureReason,
-                };
+              );
 
-            this.sceneLoadInfo$.next(sceneLoadInfo);
-            subscriber.next(sceneLoadInfo);
-            subscriber.complete();
-          });
+            this.contentLoadFinished.pipe(first()).subscribe(() => {
+              const sceneLoadInfo = this.sceneLoadInfo$.value;
+              if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
+                this.setViewportReady(true);
+                // Ensure that the spinner is hidden before the viewport becomes visible.
+                // Otherwise the position of the spinner changes
+                this.changeDetectorRef.detectChanges();
+                this.viewport.setVisible(true);
+              }
+            });
 
-        this.contentLoadFinished.pipe(first()).subscribe(() => {
-          const sceneLoadInfo = this.sceneLoadInfo$.value;
-          if (sceneLoadInfo.sceneLoadState === SceneLoadState.Loaded) {
-            this.setViewportReady(true);
-            // Ensure that the spinner is hidden before the viewport becomes visible.
-            // Otherwise the position of the spinner changes
-            this.changeDetectorRef.detectChanges();
-            this.viewport.setVisible(true);
+            this.contentConnector.addContentResource(contentResource);
           }
-        });
-
-        this.contentConnector.addContentResource(contentResource);
-      });
-    });
+        );
+      }
+    );
   }
 
   private onSelectionChanged(): void {
