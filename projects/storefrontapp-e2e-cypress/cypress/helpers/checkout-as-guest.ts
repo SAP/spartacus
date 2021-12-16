@@ -1,7 +1,13 @@
-import { SampleUser, user } from '../sample-data/checkout-flow';
+import { SampleUser, user, getSampleUser } from '../sample-data/checkout-flow';
 import * as checkout from './checkout-flow';
 import { assertAddressForm } from './address-book';
 import { validateUpdateProfileForm } from './update-profile';
+
+export let guestUser;
+
+export function generateGuestUser(){
+  guestUser = getSampleUser();
+}
 
 export function loginAsGuest(sampleUser: SampleUser = user) {
   const guestLoginPage = checkout.waitForPage(
@@ -26,22 +32,16 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
   cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function createAccountFromGuest(password: string) {
-  cy.get('cx-guest-register-form').within(() => {
-    cy.get('[formcontrolname="password"]').clear().type(password);
-    cy.get('[formcontrolname="passwordconf"]').clear().type(password);
-    cy.get('button[type=submit]').click();
-  });
-}
-
 export function testCheckoutAsGuest() {
   it('should perform checkout as guest and create a user account', () => {
+    //let user = getSampleUser();
+
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndProceedToCheckout();
 
     cy.get('.register').findByText(/Guest Checkout/i);
 
-    loginAsGuest(user);
+    loginAsGuest(guestUser);
 
     checkout.fillAddressFormWithCheapProduct();
     checkout.verifyDeliveryMethod();
@@ -49,7 +49,7 @@ export function testCheckoutAsGuest() {
     checkout.placeOrderWithCheapProduct();
     checkout.verifyOrderConfirmationPageWithCheapProduct();
 
-    createAccountFromGuest(user.password);
+    createAccountFromGuest(guestUser.password);
 
     cy.selectUserMenuOption({
       option: 'Address Book',
@@ -57,10 +57,10 @@ export function testCheckoutAsGuest() {
 
     assertAddressForm(
       {
-        firstName: user.firstName,
-        lastName: user.lastName,
+        firstName: guestUser.firstName,
+        lastName: guestUser.lastName,
         phone: '',
-        address: user.address,
+        address: guestUser.address,
       },
       'US-CA'
     );
@@ -77,7 +77,15 @@ export function testCheckoutAsGuest() {
       option: 'Personal Details',
     });
 
-    validateUpdateProfileForm('mr', user.firstName, user.lastName);
+    validateUpdateProfileForm('mr', guestUser.firstName, guestUser.lastName);
     checkout.signOut();
+  });
+}
+
+export function createAccountFromGuest(password: string) {
+  cy.get('cx-guest-register-form').within(() => {
+    cy.get('[formcontrolname="password"]').clear().type(password);
+    cy.get('[formcontrolname="passwordconf"]').clear().type(password);
+    cy.get('button[type=submit]').click();
   });
 }
