@@ -5,6 +5,7 @@ import {
   QueryList,
   ViewChildren,
 } from '@angular/core';
+import { TranslationService } from '@spartacus/core';
 import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -98,6 +99,7 @@ export class ConfiguratorGroupMenuComponent {
   ERROR = ' ERROR';
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
+  ICON = 'ICON';
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,
@@ -106,7 +108,8 @@ export class ConfiguratorGroupMenuComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected configGroupMenuService: ConfiguratorGroupMenuService,
-    protected directionService: DirectionService
+    protected directionService: DirectionService,
+    protected translation: TranslationService
   ) {}
 
   click(group: Configurator.Group): void {
@@ -156,7 +159,10 @@ export class ConfiguratorGroupMenuComponent {
    * @return {string} - number of conflicts
    */
   getConflictNumber(group: Configurator.Group): string {
-    if (group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP) {
+    if (
+      group &&
+      group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    ) {
       return '(' + group.subGroups.length + ')';
     }
     return '';
@@ -255,6 +261,28 @@ export class ConfiguratorGroupMenuComponent {
    */
   isConflictGroupType(groupType: Configurator.GroupType): boolean {
     return this.configuratorGroupsService.isConflictGroupType(groupType);
+  }
+
+  /**
+   * Returns true if group is conflict header group.
+   *
+   * @param {Configurator.Group} group - Current group
+   *  @return {boolean} - Returns 'true' if the current group is conflict header group, otherwise 'false'.
+   */
+  isConflictHeader(group: Configurator.Group): boolean {
+    return (
+      group && group.groupType === Configurator.GroupType.CONFLICT_HEADER_GROUP
+    );
+  }
+
+  /**
+   * Returns true if group is conflict group.
+   *
+   * @param {Configurator.Group} group - Current group
+   *  @return {boolean} - Returns 'true' if the current group is conflict group, otherwise 'false'.
+   */
+  isConflictGroup(group: Configurator.Group): boolean {
+    return group && group.groupType === Configurator.GroupType.CONFLICT_GROUP;
   }
 
   /**
@@ -461,5 +489,99 @@ export class ConfiguratorGroupMenuComponent {
    */
   createAriaControls(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
+  }
+
+  /**
+   * Generates aria-label for group menu item
+   *
+   * @param {string} groupId - group ID
+   * @returns {string | undefined} - generated group ID
+   */
+  getAriaLabel(group: Configurator.Group): string {
+    let translatedText = '';
+    if (group && group.groupType && this.isConflictGroupType(group.groupType)) {
+      if (this.isConflictHeader(group)) {
+        this.translation
+          .translate('configurator.a11y.conflictsInConfiguration', {
+            numberOfConflicts: this.getConflictNumber(group),
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        translatedText = group.description ? group.description : '';
+      }
+    } else {
+      this.translation
+        .translate('configurator.a11y.groupName', {
+          group: group.description,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    return translatedText;
+  }
+
+  /**
+   * Generates an id for icons.
+   *
+   * @param {string} prefix - prefix for type of icon
+   * @param {string} groupId - group id
+   * @returns {string | undefined} - generated icon id
+   */
+  createIconId(type: ICON_TYPE, groupId?: string): string | undefined {
+    return this.ICON + type + groupId;
+  }
+
+  /**
+   * Generates aria-describedby
+   *
+   * @param {Configurator.Group} group - Current group
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {Observable<string>} - aria-describedby
+   */
+  getAriaDescribedby(
+    group: Configurator.Group,
+    configuration: Configurator.Configuration
+  ): Observable<string> {
+    return this.isGroupVisited(group, configuration).pipe(
+      map((isVisited) => {
+        const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
+        let ariaDescribedby: string = '';
+        if (
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+          !group.consistent &&
+          group.groupType &&
+          !this.isConflictGroupType(group.groupType)
+        ) {
+          ariaDescribedby =
+            ariaDescribedby + this.createIconId(ICON_TYPE.WARNING, group.id);
+        }
+        if (
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
+          group.complete &&
+          group.consistent &&
+          isVisited
+        ) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.SUCCESS, group.id);
+        }
+        if (!group.complete && isVisited) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.ERROR, group.id);
+        }
+        if (this.hasSubGroups(group)) {
+          ariaDescribedby =
+            ariaDescribedby +
+            ' ' +
+            this.createIconId(ICON_TYPE.CARET_RIGHT, group.id);
+        }
+        ariaDescribedby = ariaDescribedby + ' inListOfGroups';
+        return ariaDescribedby;
+      })
+    );
   }
 }

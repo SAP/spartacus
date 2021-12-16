@@ -250,10 +250,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
   }
 
   protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
-    this.userOrderService.loadOrderDetails(
+    this.orderFacade.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
-    this.userOrderService
+    this.orderFacade
       .getOrderDetails()
       .pipe(
         filter((order: Order) => order !== undefined),
