@@ -14,7 +14,12 @@
   },
   "github": {
     "release": true,
-    "assets": ["../../docs.tar.gz", "../../docs.zip"],
+    "assets": [
+      "../../docs.tar.gz",
+       "../../docs.zip",
+       "../../epdvisualizationspartacussampledata.2105.zip",
+       "../../epdvisualizationspartacussampledata.2105.tar.gz"
+     ],
     "releaseName": "@spartacus/epd-visualization@${version}",
     "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib epd-visualization --to epd-visualization-${version}"
   },
