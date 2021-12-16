@@ -391,5 +391,4 @@ export class ChatBotService {
 
     this.events$.next(ChatBotEvent.DISPLAY_RECOMMENDATIONS);
   }
-
 }

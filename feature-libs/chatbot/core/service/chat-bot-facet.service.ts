@@ -11,7 +11,7 @@ export class ChatBotFacetService {
    * Facets received from the product service.
    */
   facets$ = this.productSearchService.getResults();
-  
+
   /**
    * Any selected facet is kept here.
    */
