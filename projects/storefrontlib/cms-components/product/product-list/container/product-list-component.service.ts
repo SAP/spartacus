@@ -18,8 +18,8 @@ import {
   shareReplay,
   tap,
 } from 'rxjs/operators';
-import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 import { ViewConfig } from '../../../../shared/config/view-config';
+import { ProductListRouteParams, SearchCriteria } from './product-list.model';
 
 /**
  * The `ProductListComponentService` is used to search products. The service is used
@@ -60,27 +60,22 @@ export class ProductListComponentService {
    * Context changes, such as language and currencies are also taken
    * into account, so that the search is performed again.
    */
-  protected searchByRouting$: Observable<ActivatedRouterStateSnapshot> =
-    combineLatest([
-      this.routing.getRouterState().pipe(
-        distinctUntilChanged((x, y) => {
-          // router emits new value also when the anticipated `nextState` changes
-          // but we want to perform search only when current url changes
-          return x.state.url === y.state.url;
-        })
-      ),
-      ...this.siteContext,
-    ]).pipe(
-      debounceTime(0),
-      map(([routerState, ..._context]) => (routerState as RouterState).state),
-      tap((state: ActivatedRouterStateSnapshot) => {
-        const criteria = this.getCriteriaFromRoute(
-          state.params,
-          state.queryParams
-        );
-        this.search(criteria);
+  public readonly searchCriteria$: Observable<SearchCriteria> = combineLatest([
+    this.routing.getRouterState().pipe(
+      distinctUntilChanged((x, y) => {
+        // router emits new value also when the anticipated `nextState` changes
+        // but we want to perform search only when current url changes
+        return x.state.url === y.state.url;
       })
-    );
+    ),
+    ...this.siteContext,
+  ]).pipe(
+    debounceTime(0),
+    map(([routerState, ..._context]) => (routerState as RouterState).state),
+    map((state: ActivatedRouterStateSnapshot) =>
+      this.getCriteriaFromRoute(state.params, state.queryParams)
+    )
+  );
 
   /**
    * This stream is used for the Product Listing and Product Facets.
@@ -92,7 +87,10 @@ export class ProductListComponentService {
    * so no longer the search is performed on route change.
    */
   readonly model$: Observable<ProductSearchPage> = using(
-    () => this.searchByRouting$.subscribe(),
+    () =>
+      this.searchCriteria$
+        .pipe(tap((criteria) => this.search(criteria)))
+        .subscribe(),
     () => this.searchResults$
   ).pipe(shareReplay({ bufferSize: 1, refCount: true }));
 

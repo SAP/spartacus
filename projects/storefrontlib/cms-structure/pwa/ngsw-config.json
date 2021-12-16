@@ -26,6 +26,17 @@
         "maxAge": "1d",
         "strategy": "performance"
       }
+    },
+    {
+      "name": "productSearch",
+      "urls": [
+        "*/products/search?fields*"
+      ],
+      "cacheConfig": {
+        "maxSize": 20,
+        "maxAge": "1d",
+        "strategy": "performance"
+      }
     }
   ]
 }

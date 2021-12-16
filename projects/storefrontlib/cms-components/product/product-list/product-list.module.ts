@@ -18,6 +18,7 @@ import {
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
+import { PlpPrefetchNextPageModule } from '../../../spartacon/plp-prefetch-next-page.module';
 import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
@@ -43,6 +44,8 @@ import { ProductViewComponent } from './product-view/product-view.component';
     InfiniteScrollModule,
     FeaturesConfigModule,
     OutletModule,
+
+    PlpPrefetchNextPageModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),

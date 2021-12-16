@@ -108,7 +108,7 @@ describe('ProductListComponentService', () => {
     };
 
     let activatedRouteState: ActivatedRouterStateSnapshot;
-    const subscription: Subscription = service['searchByRouting$'].subscribe(
+    const subscription: Subscription = service['searchCriteria$'].subscribe(
       (res) => (activatedRouteState = res)
     );
 
