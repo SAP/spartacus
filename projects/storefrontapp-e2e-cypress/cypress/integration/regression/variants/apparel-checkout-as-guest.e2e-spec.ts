@@ -9,19 +9,16 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   cartWithSingleVariantProduct,
-  getApparelCheckoutUser,
   products,
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
 import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout as guest', () => {
-  let variantUser;
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
-      variantUser = getApparelCheckoutUser();
     });
 
     beforeEach(() => {
@@ -33,15 +30,18 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
+    // Core e2e test. Guest user registered in this test.
+    checkoutVariants.testCheckoutVariantAsGuest();
+
     it('should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
       checkout.addCheapProductToCartAndProceedToCheckout(variantProduct);
 
-      guestCheckout.loginAsGuest(variantUser);
+      guestCheckout.loginAsGuest(checkoutVariants.variantUser);
 
       checkout.fillAddressFormWithCheapProduct(
-        variantUser,
+        checkoutVariants.variantUser,
         cartWithSingleVariantProduct
       );
 
@@ -56,7 +56,10 @@ context('Apparel - checkout as guest', () => {
       cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-      login(variantUser.email, variantUser.password);
+      login(
+        checkoutVariants.variantUser.email,
+        checkoutVariants.variantUser.password
+      );
       cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
@@ -72,9 +75,5 @@ context('Apparel - checkout as guest', () => {
         });
       loginHelper.signOutUser();
     });
-
-    // Core e2e test. Run in mobile if necessary
-    checkoutVariants.testCheckoutVariantAsGuest();
-
   });
 });

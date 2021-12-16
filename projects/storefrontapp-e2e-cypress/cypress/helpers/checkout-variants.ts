@@ -16,9 +16,11 @@ import {
   variantProduct,
 } from '../sample-data/apparel-checkout-flow';
 
+export const variantUser = getApparelCheckoutUser();
+
 export function testCheckoutVariantAsGuest() {
   it('should perform checkout as guest, create an account and verify guest data', () => {
-    const variantUser = getApparelCheckoutUser();
+    //const variantUser = getApparelCheckoutUser();
     checkout.goToCheapProductDetailsPage(products[0]);
     addVariantOfSameProductToCart();
 
@@ -98,35 +100,35 @@ export function testCheckoutVariantAsGuest() {
 
 export function testCheckoutRegisteredUser() {
   it('should perform checkout with a registered user', () => {
-    const variantUser = getApparelCheckoutUser();
+    const regVariantUser = getApparelCheckoutUser();
     checkout.visitHomePage();
 
     checkout.clickHamburger();
 
-    checkout.registerUser(false, variantUser);
+    checkout.registerUser(false, regVariantUser);
     checkout.goToCheapProductDetailsPage(products[0]);
     addVariantOfSameProductToCart();
     visitProductWithoutVariantPage();
     addMutipleProductWithoutVariantToCart();
     checkout.goToCheapProductDetailsPage(products[0]);
-    checkout.addCheapProductToCartAndLogin(variantUser, products[0]);
+    checkout.addCheapProductToCartAndLogin(regVariantUser, products[0]);
     checkout.fillAddressFormWithCheapProduct(
-      variantUser,
+      regVariantUser,
       cartWithTotalVariantProduct
     );
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct(
-      variantUser,
+      regVariantUser,
       undefined,
       cartWithTotalVariantProduct
     );
     checkout.placeOrderWithCheapProduct(
-      variantUser,
+      regVariantUser,
       cartWithTotalVariantProduct,
       APPAREL_CURRENCY
     );
     checkout.verifyOrderConfirmationPageWithCheapProduct(
-      variantUser,
+      regVariantUser,
       products[0],
       cartWithTotalVariantProduct,
       true
