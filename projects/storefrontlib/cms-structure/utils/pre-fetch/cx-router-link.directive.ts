@@ -99,6 +99,9 @@ export class CxRouterLinkDirective
       this.fetched.set(id, true);
       this.preFetchProductData(id);
       this.preFetchCmsData(id);
+      this.preFetchFont(
+        'https://use.fontawesome.com/releases/v5.8.1/webfonts/fa-regular-400.woff2'
+      );
     }
   }
 
@@ -153,6 +156,14 @@ export class CxRouterLinkDirective
           });
         }
       });
+    });
+  }
+
+  protected preFetchFont(href: string): void {
+    this.cxLinkBuilder.injectPreFetch({
+      href,
+      rel: 'prefetch',
+      as: 'font',
     });
   }
 
