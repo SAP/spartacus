@@ -95,9 +95,9 @@ function add_cdc {
     fi
 }
 
-function add_epd_visualisation {
-    if [ "$ADD_EPD_VISUALISATION" = true ] ; then
-        ng add --skip-confirmation @spartacus/epd-visualisation@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALISATION_BASE_URL} --interactive false
+function add_epd_visualization {
+    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
+        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
     fi
 }
 
@@ -123,7 +123,7 @@ function add_spartacus_csr {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualisation
+    add_epd_visualization
     add_product_configurator
     )
 }
@@ -134,7 +134,7 @@ function add_spartacus_ssr {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualisation
+    add_epd_visualization
     add_product_configurator
     )
 }
@@ -145,7 +145,7 @@ function add_spartacus_ssr_pwa {
     add_feature_libs
     add_b2b
     add_cdc
-    add_epd_visualisation
+    add_epd_visualization
     add_product_configurator
     )
 }
