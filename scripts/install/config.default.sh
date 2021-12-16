@@ -7,6 +7,14 @@
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://40.76.109.9:9002"
+
+# This CCv2 server has been initialized with the 'epdvisualizationspartacussampledata' addon
+# which creates 'electronics-epdvisualization-spa' and 'powertools-epdvisualization-spa' sites.
+#BACKEND_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com
+
+# The base URL (origin) of the SAP EPD Fiori launchpad (used when ADD_EPD_VISUALISATION is true)
+EPD_VISUALISATION_BASE_URL=https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com
+
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
@@ -59,3 +67,4 @@ ADD_B2B_LIBS=false
 
 ADD_CPQ=false
 ADD_CDC=false
+ADD_EPD_VISUALISATION=false
