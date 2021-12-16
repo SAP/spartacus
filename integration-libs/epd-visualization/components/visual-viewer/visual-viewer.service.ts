@@ -52,6 +52,7 @@ import { ZoomTo } from './models/zoom-to';
 
 type ViewManager = any;
 type NodeRef = any;
+type ViewInfo = any;
 
 interface VisualContentChangesFinishedEvent {
   content: any;
@@ -178,11 +179,11 @@ export class VisualViewerService implements OnDestroy {
     this._contentType = value;
   }
 
-  private _initialViewInfo: any;
-  private get initialViewInfo(): any {
+  private _initialViewInfo: ViewInfo;
+  private get initialViewInfo(): ViewInfo {
     return this._initialViewInfo;
   }
-  private set initialViewInfo(value: any) {
+  private set initialViewInfo(value: ViewInfo) {
     this._initialViewInfo = value;
   }
 
@@ -211,17 +212,17 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private _selectedNodeIds$ = new BehaviorSubject<string[]>([]);
-  private get selectedNodeIds$() {
+  private get selectedNodeIds$(): BehaviorSubject<string[]> {
     return this._selectedNodeIds$;
   }
-  private set selectedNodeIds$(value) {
+  private set selectedNodeIds$(value: BehaviorSubject<string[]>) {
     this._selectedNodeIds$ = value;
   }
 
   private _sceneLoadInfo$ = new BehaviorSubject<SceneLoadInfo>({
     sceneLoadState: SceneLoadState.NotStarted,
   });
-  public get sceneLoadInfo$() {
+  public get sceneLoadInfo$(): BehaviorSubject<SceneLoadInfo> {
     return this._sceneLoadInfo$;
   }
 
