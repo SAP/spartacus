@@ -54,6 +54,10 @@
       background-color: darken($background, 2%);
       border-color: transparent transparent var(--cx-color-light) transparent;
     }
+
+    &:focus {
+      outline-offset: -6px !important;
+    }
   }
 
   .thumbnail-container {
