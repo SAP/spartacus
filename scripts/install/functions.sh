@@ -95,6 +95,12 @@ function add_cdc {
     fi
 }
 
+function add_epd_visualisation {
+    if [ "$ADD_EPD_VISUALISATION" = true ] ; then
+        ng add --skip-confirmation @spartacus/epd-visualisation@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALISATION_BASE_URL} --interactive false
+    fi
+}
+
 function add_product_configurator {
     local FEATURES=(--features="Textfield-Configurator");
 
@@ -117,6 +123,7 @@ function add_spartacus_csr {
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualisation
     add_product_configurator
     )
 }
@@ -127,6 +134,7 @@ function add_spartacus_ssr {
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualisation
     add_product_configurator
     )
 }
@@ -137,6 +145,7 @@ function add_spartacus_ssr_pwa {
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualisation
     add_product_configurator
     )
 }
@@ -204,7 +213,7 @@ function install_from_sources {
         CLONE_DIR=`pwd`
         echo "CLONE DIR: ${CLONE_DIR}"
         yarn build:libs
-        
+
         popd > /dev/null
     else
         echo "Not installing develop. Cloning repo and installing dependencies."
