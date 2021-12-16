@@ -11,10 +11,8 @@ import {
   ChatBotService,
   MessageStatus,
 } from '@spartacus/chatbot/core';
-import { ProductService, ProductSearchService } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { of, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-chat-bot',
@@ -23,9 +21,7 @@ import { map } from 'rxjs/operators';
 export class ChatBotComponent implements OnInit, OnDestroy {
   constructor(
     protected chatBotConfig: ChatBotConfig,
-    protected service: ChatBotService,
-    protected productService: ProductService,
-    protected productSearchService: ProductSearchService
+    protected service: ChatBotService
   ) {}
 
   @ViewChild('messages') private messagesContainer: ElementRef;
@@ -52,7 +48,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   /**
    * Observable with recommendations.
    */
-  recommendations$: any;
+  recommendations$ = this.service.recommendations$;
 
   isSent(message: any) {
     return message.status === MessageStatus.SENT;
@@ -67,7 +63,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   /**
    * Displays results component.
    */
-  displayRecommendations(delay = 0) {
+  protected displayRecommendations(delay = 0) {
     setTimeout(() => {
       this.areRecommendationsOpen = true;
     }, delay);
@@ -83,20 +79,6 @@ export class ChatBotComponent implements OnInit, OnDestroy {
   handleEvents() {
     this.eventSubscription = this.events$.subscribe((event: ChatBotEvent) => {
       if (event === ChatBotEvent.DISPLAY_RECOMMENDATIONS) {
-        this.productSearchService
-          .getResults()
-          .pipe(
-            map((searchResults) =>
-              searchResults.products ? searchResults.products : []
-            )
-          )
-          .subscribe(
-            (data) =>
-              (this.recommendations$ = of(
-                data.map((product) => this.productService.get(product.code))
-              ))
-          );
-
         this.displayRecommendations(this.config?.messagesDelay * 2);
       }
       if (
@@ -108,7 +90,7 @@ export class ChatBotComponent implements OnInit, OnDestroy {
     });
   }
 
-  scrollToBottom() {
+  protected scrollToBottom() {
     setTimeout(() => {
       if (this.messagesContainer && this.messagesContainer.nativeElement) {
         this.messagesContainer.nativeElement.scrollTop =

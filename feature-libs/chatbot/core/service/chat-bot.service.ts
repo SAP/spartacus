@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService, Translatable } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
+import { ChatBotRecommendationsService } from './chat-bot-recommendations.service';
 import { BehaviorSubject, of } from 'rxjs';
 import {
   debounceTime,
@@ -28,6 +29,7 @@ export class ChatBotService {
   constructor(
     protected chatBotCategoryService: ChatBotCategoryService,
     protected chatBotFacetService: ChatBotFacetService,
+    protected chatBotRecommendationsService: ChatBotRecommendationsService,
     protected chatBotConfig: ChatBotConfig,
     protected userAccount: UserAccountFacade,
     protected auth: AuthService
@@ -39,6 +41,7 @@ export class ChatBotService {
   chosenCategory: string;
   options$ = new BehaviorSubject<ChatBotOption[]>([]);
   events$ = new BehaviorSubject<ChatBotEvent>(ChatBotEvent.INIT);
+  recommendations$ = this.chatBotRecommendationsService.recommendations$;
 
   messages$ = this.conversation$.pipe(
     debounceTime(10),
@@ -386,13 +389,7 @@ export class ChatBotService {
       });
     });
 
-    // this.buildQuery();
-
     this.events$.next(ChatBotEvent.DISPLAY_RECOMMENDATIONS);
   }
 
-  // protected buildQuery() {
-  //   const url = this.chosenCategory;
-  //   console.log('buildQuery', url);
-  // }
 }
