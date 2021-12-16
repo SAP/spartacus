@@ -22,6 +22,8 @@ export const chatBot = {
     ok: "Ok. I'm taking a look to see what we have...",
     whichOne: 'What criteria should I forget about?',
     changeCategory: 'Change category',
-    displayResults: 'Show me products',
+    displayResults: 'Show me product ({{count}})',
+    displayResults_plural: 'Show me products ({{count}})',
+    displayResults_noParam: 'Show me products',
   },
 };

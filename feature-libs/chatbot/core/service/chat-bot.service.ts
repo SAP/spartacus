@@ -10,6 +10,7 @@ import {
   switchMap,
   take,
   tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { ChatBotConfig } from '../config/chat-bot-config';
 import {
@@ -209,7 +210,8 @@ export class ChatBotService {
             });
           }
           return this.availableFacets.pipe(
-            tap((availableFacets) => {
+            withLatestFrom(this.recommendations$),
+            tap(([availableFacets, recommendations]) => {
               const options: ChatBotOption[] = [];
               if (availableFacets?.length > 0) {
                 options.push(...availableFacets);
@@ -224,10 +226,15 @@ export class ChatBotService {
                   callback: () => this.showAppliedFacets(),
                 });
               }
-              options.push({
-                text: { key: 'chatBot.displayResults' },
-                callback: () => this.displayResults(),
-              });
+              if (recommendations.length > 0) {
+                options.push({
+                  text: {
+                    key: 'chatBot.displayResults',
+                    params: { count: recommendations.length },
+                  },
+                  callback: () => this.displayResults(),
+                });
+              }
               this.showOptions(options);
             })
           );
@@ -376,7 +383,7 @@ export class ChatBotService {
   protected displayResults() {
     this.addMessage({
       author: AuthorType.CUSTOMER,
-      text: { key: 'chatBot.displayResults' },
+      text: { key: 'chatBot.displayResults_noParam' },
     });
     this.addMessage({
       author: AuthorType.BOT,
