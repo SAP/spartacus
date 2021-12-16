@@ -9,6 +9,10 @@
     max-height: 100vh;
     overflow-y: hidden;
     box-shadow: 0 0 80px rgb(0 0 0 / 20%);
+    @include media-breakpoint-down(md) {
+      right: 0;
+      width: 100%;
+    }
     main {
       min-height: 430px;
       border: 1px solid #ccc;
