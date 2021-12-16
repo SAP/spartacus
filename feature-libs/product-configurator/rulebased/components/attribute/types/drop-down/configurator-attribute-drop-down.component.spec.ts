@@ -275,7 +275,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         1,
         'aria-label',
-        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+        'configurator.a11y.valueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
           component.attribute.values[1].valueDisplay,
@@ -305,12 +305,44 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
           component.attribute.values[0].valuePrice.formattedValue +
           ' value:' +
           component.attribute.values[0].valueDisplay,
+        component.attribute.values[0].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with total price that overwrites input content for the screen reader", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePriceTotal = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+        component.attribute.label +
+        ' price:' +
+        component.attribute.values[0].valuePrice.formattedValue +
+        ' value:' +
+        component.attribute.values[0].valueDisplay,
         component.attribute.values[0].valueDisplay
       );
     });
