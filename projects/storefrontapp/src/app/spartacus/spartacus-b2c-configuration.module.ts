@@ -37,12 +37,6 @@ import {
         },
       },
     }),
-    provideConfig({
-      checkout: {
-        guest: true,
-        express: true
-      },
-    }),
   ],
 })
 export class SpartacusB2cConfigurationModule {}
