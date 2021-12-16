@@ -2,7 +2,11 @@
   <div class="chat-container">
     <section class="chat-header">
       <div></div>
-      <h2 class="title">{{ config?.botName }}</h2>
+      <h2 class="title">
+        {{
+          'chatBot.botHeaderTitle' | cxTranslate: { botName: config?.botName }
+        }}
+      </h2>
       <div><cx-icon (click)="toggle()" [type]="closeIcon"></cx-icon></div>
     </section>
 

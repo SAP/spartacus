@@ -1,8 +1,10 @@
 export const chatBot = {
   chatBot: {
+    botHeaderTitle: '{{botName}} Chatbot',
+    recommendationsHeaderTitle: 'Recommendations',
     hello: 'Hello {{firstName}}!',
     introduction:
-      'My name is Agapi. Your friendly Spartacus chatbot as well as your new best friend. :)',
+      'My name is {{botName}}. Your friendly Spartacus chatbot as well as your new best friend. :)',
     chooseCategory: 'How can I help you today?',
     bye: "Here's what I can find. Have fun shopping {{firstName}}!",
     chosenCategory: 'Okay. Lets take a look at {{category}}.',

@@ -136,7 +136,10 @@ export class ChatBotService {
       });
       this.addMessage({
         author: AuthorType.BOT,
-        text: { key: 'chatBot.introduction' },
+        text: {
+          key: 'chatBot.introduction',
+          params: this.chatBotConfig.chatBot,
+        },
       });
       this.showCategories();
     });
