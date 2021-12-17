@@ -166,7 +166,7 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Change styling of element
    *
-   * @param {string} querySelector - querySelector
+   * @param  querySelector - querySelector
    * @param {string} property - CSS property
    * @param {string} value - CSS value
    */
