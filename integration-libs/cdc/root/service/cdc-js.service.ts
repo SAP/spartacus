@@ -4,19 +4,20 @@ import {
   Injectable,
   NgZone,
   OnDestroy,
-  PLATFORM_ID,
+  PLATFORM_ID
 } from '@angular/core';
 import {
   AuthService,
   BaseSiteService,
-  LanguageService,
-  ScriptLoader,
+  GlobalMessageService,
+  GlobalMessageType,
+  LanguageService, ScriptLoader,
   User,
-  WindowRef,
+  WindowRef
 } from '@spartacus/core';
+import { UserProfileFacade, UserSignUp } from '@spartacus/user/profile/root';
 import { combineLatest, Observable, ReplaySubject, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { CdcConfig } from '../config/cdc-config';
 import { CdcAuthFacade } from '../facade/cdc-auth.facade';
 
@@ -38,7 +39,8 @@ export class CdcJsService implements OnDestroy {
     protected auth: AuthService,
     protected zone: NgZone,
     protected userProfileFacade: UserProfileFacade,
-    @Inject(PLATFORM_ID) protected platform: any
+    @Inject(PLATFORM_ID) protected platform: any,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   /**
@@ -157,6 +159,97 @@ export class CdcJsService implements OnDestroy {
   }
 
   /**
+   * Trigger CDC User registration and log in using CDC APIs.
+   *
+   * @param email
+   * @param password
+   */
+  registerUserWithoutScreenSet(user: UserSignUp) {
+    (this.winRef.nativeWindow as { [key: string]: any })?.[
+      'gigya'
+    ]?.accounts?.initRegistration({
+      callback: (response: any) => {
+        this.zone.run(() => this.onInitRegistrationHandler(user, response));
+      },
+    });
+  }
+
+  /**
+   * Trigger CDC User registration using CDC APIs.
+   *
+   * @param response
+   */
+  onInitRegistrationHandler(user: UserSignUp, response: any) {
+    if (response && response.regToken && user.uid) {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.register({
+        email: user.uid,
+        password: user.password,
+        profile: {
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        regToken: response.regToken,
+        ignoreInterruptions: true,
+        callback: (response: any) => {
+          this.zone.run(() => {
+            if (user.uid && user.password) {
+              this.loginUserWithoutScreenSet(user.uid, user.password, response);
+            }
+          });
+        },
+      });
+    }
+  }
+
+  /**
+   * Trigger CDC User log in using CDC APIs.
+   *
+   * @param response
+   */
+  loginUserWithoutScreenSet(email: string, password: string, response: any) {
+    if (response) {
+      (this.winRef.nativeWindow as { [key: string]: any })?.[
+        'gigya'
+      ]?.accounts?.login({
+        loginID: email,
+        password: password,
+        callback: (response: any) => {
+          this.zone.run(() => this.handleLoginResponse(response));
+        },
+      });
+    }
+  }
+
+  /**
+   * Show success / failure message to the user after login.
+   *
+   * @param response
+   */
+  handleLoginResponse(response: any) {
+    if (response) {
+      if (response.status === 'FAIL') {
+        this.globalMessageService.add(
+          {
+            key: 'httpHandlers.badRequestPleaseLoginAgain',
+            params: {
+              errorMessage: response.statusMessage,
+            },
+          },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      } else if (response.status === 'OK') {
+        this.globalMessageService.remove(GlobalMessageType.MSG_TYPE_ERROR);
+        this.globalMessageService.add(
+          { key: 'register.loginSuccessful' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      }
+    }
+  }
+
+  /**
    * Updates user details using the existing User API
    *
    * @param response
@@ -176,3 +269,4 @@ export class CdcJsService implements OnDestroy {
     }
   }
 }
+
