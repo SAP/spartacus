@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
   CheckoutB2BRootModule,
+  CHECKOUT_B2B_CMS_COMPONENTS,
   CHECKOUT_B2B_FEATURE,
 } from '@spartacus/checkout/b2b/root';
 import {
@@ -15,39 +16,20 @@ import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
 } from './feature-name';
 
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS: string[] = [
+  ...CHECKOUT_B2B_CMS_COMPONENTS,
+  'CheckoutScheduleReplenishmentOrder',
+  'ReplenishmentConfirmationMessageComponent',
+  'ReplenishmentConfirmationOverviewComponent',
+  'ReplenishmentConfirmationItemsComponent',
+  'ReplenishmentConfirmationTotalsComponent',
+];
+
 export function defaultCheckoutComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
-        cmsComponents: [
-          // scheduled replenishment cms components
-          'CheckoutScheduleReplenishmentOrder',
-          'ReplenishmentConfirmationMessageComponent',
-          'ReplenishmentConfirmationOverviewComponent',
-          'ReplenishmentConfirmationItemsComponent',
-          'ReplenishmentConfirmationTotalsComponent',
-
-          // b2b cms components
-          'CheckoutCostCenterComponent',
-          'CheckoutPaymentType',
-
-          // base cms components
-          'CheckoutReviewOrder',
-          'CheckoutShippingAddress',
-          'CheckoutOrchestrator',
-          'CheckoutOrderSummary',
-          'CheckoutProgress',
-          'CheckoutProgressMobileBottom',
-          'CheckoutProgressMobileTop',
-          'CheckoutDeliveryMode',
-          'CheckoutPaymentDetails',
-          'CheckoutPlaceOrder',
-          'GuestCheckoutLoginComponent',
-          'OrderConfirmationThankMessageComponent',
-          'OrderConfirmationItemsComponent',
-          'OrderConfirmationTotalsComponent',
-          'OrderConfirmationOverviewComponent',
-        ],
+        cmsComponents: CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS,
       },
       [CHECKOUT_B2B_FEATURE]: CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
       // by default core is bundled together with components
