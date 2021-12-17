@@ -50,7 +50,6 @@ export function defaultCartComponentsConfig() {
       },
     ]),
   ],
-  //exports: [MiniCartModule],
   providers: [
     provideDefaultConfigFactory(defaultCartComponentsConfig),
     provideDefaultConfig(defaultCartConfig),
