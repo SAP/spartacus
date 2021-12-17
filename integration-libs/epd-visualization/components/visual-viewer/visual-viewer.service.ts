@@ -744,52 +744,61 @@ export class VisualViewerService implements OnDestroy {
       .lookupNodeIds(productCodes)
       .pipe(first())
       .subscribe((sceneNodeIds: string[]) => {
-        const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
-          sceneNodeIds,
-          true
-        );
         if (this.is2D) {
-          const hotspotNodeRefs: NodeRef[] =
-            this.nodeHierarchy.getHotspotNodeIds();
-          if (this._showAllHotspotsEnabled) {
-            const nodeRefsToIncludeSet = new Set();
-            nodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-              nodeRefsToIncludeSet.add(nodeRef)
-            );
-            const nodeRefsToExclude: NodeRef[] = hotspotNodeRefs.filter(
-              (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
-            );
-            this.viewport.showHotspots(nodeRefsToExclude, false, null);
-            this.viewport.showHotspots(
-              nodeRefsToInclude,
-              true,
-              this.getCSSColor(this._showAllHotspotsColor)
-            );
-          } else {
-            this.viewport.showHotspots(hotspotNodeRefs, false, null);
-          }
+          this.applyInclusionStyle2D(sceneNodeIds);
         } else {
-          if (!this.leafNodeRefs) {
-            this.leafNodeRefs = this.getAllLeafNodeRefs();
-          }
-
-          const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
-            (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
-          );
-          const leafNodeRefsToIncludeSet = new Set(leafNodeRefsToInclude);
-          const leafNodeRefsToExclude = this.leafNodeRefs.filter(
-            (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
-          );
-
-          this.viewStateManager.setOpacity(
-            leafNodeRefsToExclude,
-            this.excludedOpacity
-          );
-          leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-            this.viewStateManager.restoreRestOpacity(nodeRef)
-          );
+          this.applyInclusionStyle3D(sceneNodeIds);
         }
       });
+  }
+
+  private applyInclusionStyle2D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+    const hotspotNodeRefs: NodeRef[] = this.nodeHierarchy.getHotspotNodeIds();
+    if (this._showAllHotspotsEnabled) {
+      const nodeRefsToIncludeSet = new Set(nodeRefsToInclude);
+      const nodeRefsToExclude: NodeRef[] = hotspotNodeRefs.filter(
+        (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
+      );
+      this.viewport.showHotspots(nodeRefsToExclude, false, null);
+      this.viewport.showHotspots(
+        nodeRefsToInclude,
+        true,
+        this.getCSSColor(this._showAllHotspotsColor)
+      );
+    } else {
+      this.viewport.showHotspots(hotspotNodeRefs, false, null);
+    }
+  }
+
+  private applyInclusionStyle3D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+
+    if (!this.leafNodeRefs) {
+      this.leafNodeRefs = this.getAllLeafNodeRefs();
+    }
+
+    const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
+      (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
+    );
+    const leafNodeRefsToIncludeSet = new Set(leafNodeRefsToInclude);
+    const leafNodeRefsToExclude = this.leafNodeRefs.filter(
+      (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
+    );
+
+    this.viewStateManager.setOpacity(
+      leafNodeRefsToExclude,
+      this.excludedOpacity
+    );
+    leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
+      this.viewStateManager.restoreRestOpacity(nodeRef)
+    );
   }
 
   private isReferenceNode(nodeRef: NodeRef): boolean {
