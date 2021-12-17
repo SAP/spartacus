@@ -759,9 +759,16 @@ export class VisualViewerService implements OnDestroy {
       true
     );
     const hotspotNodeRefs: NodeRef[] = this.nodeHierarchy.getHotspotNodeIds();
+    const hotspotNodeRefsSet: Set<NodeRef> = new Set(hotspotNodeRefs);
+    // Hotspot nodes can have descendants that are also Hotspot nodes.
+    // Ignore the descendant nodes and apply modifications at the highest level only.
+    const topLevelHotspotNodeRefs: NodeRef[] = hotspotNodeRefs.filter(
+      (hotspotNodeRef: NodeRef) =>
+        this.isTopLevelHotspotNode(hotspotNodeRef, hotspotNodeRefsSet)
+    );
     if (this._showAllHotspotsEnabled) {
       const nodeRefsToIncludeSet = new Set(nodeRefsToInclude);
-      const nodeRefsToExclude: NodeRef[] = hotspotNodeRefs.filter(
+      const nodeRefsToExclude: NodeRef[] = topLevelHotspotNodeRefs.filter(
         (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
       );
       this.viewport.showHotspots(nodeRefsToExclude, false, null);
@@ -771,7 +778,7 @@ export class VisualViewerService implements OnDestroy {
         this.getCSSColor(this._showAllHotspotsColor)
       );
     } else {
-      this.viewport.showHotspots(hotspotNodeRefs, false, null);
+      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, null);
     }
   }
 
@@ -800,6 +807,15 @@ export class VisualViewerService implements OnDestroy {
     leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
       this.viewStateManager.restoreRestOpacity(nodeRef)
     );
+  }
+
+  private isTopLevelHotspotNode(
+    hotspotNodeRef: NodeRef,
+    hotspotNodeRefs: Set<NodeRef>
+  ): boolean {
+    return !this.nodeHierarchy
+      .getAncestors(hotspotNodeRef)
+      .some((ancestor: NodeRef) => hotspotNodeRefs.has(ancestor));
   }
 
   private isReferenceNode(nodeRef: NodeRef): boolean {
