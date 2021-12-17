@@ -2,6 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
+  GlobalMessageService,
   I18nTestingModule,
   PaymentDetails,
   UserPaymentService,
@@ -10,6 +11,10 @@ import { Observable, of } from 'rxjs';
 import { ICON_TYPE } from '../../../cms-components/misc/icon';
 import { CardComponent } from '../../../shared/components/card/card.component';
 import { PaymentMethodsComponent } from './payment-methods.component';
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
+}
 
 @Component({
   template: '<div>Spinner</div>',
@@ -67,6 +72,7 @@ describe('PaymentMethodsComponent', () => {
         ],
         providers: [
           { provide: UserPaymentService, useClass: MockUserPaymentService },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
     })

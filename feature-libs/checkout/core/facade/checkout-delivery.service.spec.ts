@@ -15,6 +15,7 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
@@ -37,12 +38,22 @@ describe('CheckoutDeliveryService', () => {
     getActive() {
       return of(cart);
     }
+
+    isStable() {
+      return of(true);
+    }
   }
 
   class UserIdServiceStub implements Partial<UserIdService> {
     userId;
     getUserId() {
       return of(userId);
+    }
+  }
+
+  class mockCheckoutService {
+    isLoading() {
+      return of(false);
     }
   }
 
@@ -70,6 +81,7 @@ describe('CheckoutDeliveryService', () => {
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: CheckoutService, useClass: mockCheckoutService },
       ],
     });
 
