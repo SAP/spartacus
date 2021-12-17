@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { NEVER, Observable, of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import {
   bufferCount,
   catchError,
   exhaustMap,
   filter,
   map,
-  switchMapTo,
-  tap,
 } from 'rxjs/operators';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
-import { WindowRef } from '../../../window/window-ref';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
 import { getActiveLanguage } from '../selectors/languages.selectors';
@@ -41,17 +38,6 @@ export class LanguagesEffects {
   );
 
   @Effect()
-  persist$: Observable<void> = this.actions$.pipe(
-    ofType(SiteContextActions.SET_ACTIVE_LANGUAGE),
-    tap((action: SiteContextActions.SetActiveLanguage) => {
-      if (this.winRef.sessionStorage) {
-        this.winRef.sessionStorage.setItem('language', action.payload);
-      }
-    }),
-    switchMapTo(NEVER)
-  );
-
-  @Effect()
   activateLanguage$: Observable<SiteContextActions.LanguageChange> = this.state
     .select(getActiveLanguage)
     .pipe(
@@ -68,7 +54,6 @@ export class LanguagesEffects {
   constructor(
     private actions$: Actions,
     private siteConnector: SiteConnector,
-    private winRef: WindowRef,
     private state: Store<StateWithSiteContext>
   ) {}
 }

@@ -1,6 +1,6 @@
-import { Injectable, RendererFactory2 } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { WindowRef } from '@spartacus/core';
+import { ScriptLoader, WindowRef } from '@spartacus/core';
 import { of } from 'rxjs';
 import {
   QualtricsLoaderService,
@@ -19,22 +19,30 @@ const mockQsiJsApi = {
   },
 };
 
-const createElementSpy = jasmine.createSpy('createElement').and.returnValue({});
-
-class MockRendererFactory2 {
-  createRenderer() {
-    return {
-      createElement: createElementSpy,
-      appendChild() {},
-    };
-  }
-}
+const mockedWindowRef = {
+  nativeWindow: {
+    addEventListener: (event, listener) => {
+      eventListener[event] = listener;
+    },
+    removeEventListener: jasmine.createSpy('removeEventListener'),
+    QSI: mockQsiJsApi,
+  },
+  document: {
+    querySelector: () => {},
+  },
+};
 
 const eventListener: Map<String, Function> = <Map<String, Function>>{};
 
 const loadQsi = () => {
   eventListener[QUALTRICS_EVENT_NAME](new Event(QUALTRICS_EVENT_NAME));
 };
+
+const mockScript = 'whatever.js';
+
+class MockScriptLoader {
+  embedScript(_embedOptions: { _src: string }): void {}
+}
 
 @Injectable({
   providedIn: 'root',
@@ -51,32 +59,21 @@ class CustomQualtricsLoaderService extends QualtricsLoaderService {
 describe('QualtricsLoaderService', () => {
   let service: QualtricsLoaderService;
   let winRef: WindowRef;
+  let scriptLoader: ScriptLoader;
 
   beforeEach(() => {
-    const mockedWindowRef = {
-      nativeWindow: {
-        addEventListener: (event, listener) => {
-          eventListener[event] = listener;
-        },
-        removeEventListener: jasmine.createSpy('removeEventListener'),
-        QSI: mockQsiJsApi,
-      },
-      document: {
-        querySelector: () => {},
-      },
-    };
-
     TestBed.configureTestingModule({
       providers: [
         QualtricsLoaderService,
         CustomQualtricsLoaderService,
         { provide: WindowRef, useValue: mockedWindowRef },
-        { provide: RendererFactory2, useClass: MockRendererFactory2 },
+        { provide: ScriptLoader, useClass: MockScriptLoader },
       ],
     });
 
     winRef = TestBed.inject(WindowRef);
     service = TestBed.inject(QualtricsLoaderService);
+    scriptLoader = TestBed.inject(ScriptLoader);
   });
 
   it('should be created', () => {
@@ -116,7 +113,7 @@ describe('QualtricsLoaderService', () => {
 
       it('should unload when a script is alread in the DOM', () => {
         spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
-        service.addScript('whatever.js');
+        service.addScript(mockScript);
         expect(qsiUnload).toHaveBeenCalled();
       });
     });
@@ -124,20 +121,22 @@ describe('QualtricsLoaderService', () => {
 
   describe('addScript()', () => {
     beforeEach(() => {
+      spyOn(scriptLoader, 'embedScript').and.callThrough();
       loadQsi();
     });
 
     it('should add the deployment script', () => {
-      service.addScript('whatever.js');
-      expect(createElementSpy).toHaveBeenCalledWith('script');
+      service.addScript(mockScript);
+      expect(scriptLoader.embedScript).toHaveBeenCalledWith({
+        src: mockScript,
+      });
     });
 
     it('should not add the same script twice', () => {
-      createElementSpy.calls.reset();
       // simulate script has been added
       spyOn(winRef.document, 'querySelector').and.returnValue({} as Element);
-      service.addScript('whatever2.js');
-      expect(createElementSpy).not.toHaveBeenCalled();
+      service.addScript(mockScript);
+      expect(scriptLoader.embedScript).not.toHaveBeenCalled();
     });
   });
 

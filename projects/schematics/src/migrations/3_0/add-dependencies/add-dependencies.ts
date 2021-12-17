@@ -12,10 +12,11 @@ import {
   addPackageJsonDependencies,
   ANGULAR_OAUTH2_OIDC,
   installPackageJsonDependencies,
+  readPackageJson,
 } from '../../../shared/index';
 
 export function migrate(): Rule {
-  return (_tree: Tree, _context: SchematicContext) => {
+  return (tree: Tree, _context: SchematicContext) => {
     const dependencies: NodeDependency[] = [
       {
         type: NodeDependencyType.Default,
@@ -24,7 +25,7 @@ export function migrate(): Rule {
       },
     ];
     return chain([
-      addPackageJsonDependencies(dependencies),
+      addPackageJsonDependencies(dependencies, readPackageJson(tree)),
       installPackageJsonDependencies,
     ]);
   };

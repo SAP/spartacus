@@ -1,0 +1,193 @@
+<ng-container
+  *ngIf="{
+    orderHistory: orders$ | async,
+    replenishmentOrder: hasReplenishmentOrder$ | async
+  } as type"
+>
+  <ng-container *ngIf="type.orderHistory">
+    <div [ngClass]="type.replenishmentOrder ? '' : 'container'">
+      <!-- HEADER -->
+      <div
+        [ngClass]="
+          type.replenishmentOrder
+            ? 'cx-replenishment-details-order-history-header'
+            : 'cx-order-history-header'
+        "
+      >
+        <h4 *ngIf="type.replenishmentOrder">
+          {{ 'orderHistory.replenishmentHistory' | cxTranslate }}
+        </h4>
+        <h3 *ngIf="!type.replenishmentOrder">
+          {{ 'orderHistory.orderHistory' | cxTranslate }}
+        </h3>
+      </div>
+
+      <!-- BODY -->
+      <div class="cx-order-history-body">
+        <ng-container
+          *ngIf="type.orderHistory.pagination.totalResults > 0; else noOrder"
+        >
+          <!-- Select Form and Pagination Top -->
+          <div class="cx-order-history-sort top row">
+            <label
+              class="
+                cx-order-history-form-group
+                form-group
+                col-sm-12 col-md-4 col-lg-4
+              "
+              ><span>
+                {{ 'orderHistory.sortBy' | cxTranslate }}
+              </span>
+              <cx-sorting
+                [sortOptions]="type.orderHistory.sorts"
+                [sortLabels]="getSortLabels() | async"
+                (sortListEvent)="changeSortCode($event)"
+                [selectedOption]="type.orderHistory.pagination.sort"
+                placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
+              ></cx-sorting>
+            </label>
+            <div
+              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              class="cx-order-history-pagination"
+            >
+              <cx-pagination
+                [pagination]="type.orderHistory.pagination"
+                (viewPageEvent)="pageChange($event)"
+              ></cx-pagination>
+            </div>
+          </div>
+          <!-- TABLE -->
+          <table class="table cx-order-history-table">
+            <thead class="cx-order-history-thead-mobile">
+              <th scope="col">
+                {{ 'orderHistory.orderId' | cxTranslate }}
+              </th>
+              <th scope="col">{{ 'orderHistory.date' | cxTranslate }}</th>
+              <th scope="col">
+                {{ 'orderHistory.status' | cxTranslate }}
+              </th>
+              <th scope="col">{{ 'orderHistory.total' | cxTranslate }}</th>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let order of type.orderHistory.orders"
+                (click)="goToOrderDetail(order)"
+              >
+                <td class="cx-order-history-code">
+                  <div class="d-md-none cx-order-history-label">
+                    {{ 'orderHistory.orderId' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.code }}</a
+                  >
+                </td>
+                <td class="cx-order-history-placed">
+                  <div class="d-md-none cx-order-history-label">
+                    {{ 'orderHistory.date' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                    >{{ order?.placed | cxDate: 'longDate' }}</a
+                  >
+                </td>
+                <td class="cx-order-history-status">
+                  <div class="d-md-none cx-order-history-label">
+                    {{ 'orderHistory.status' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{
+                      'orderDetails.statusDisplay_' + order?.statusDisplay
+                        | cxTranslate
+                    }}</a
+                  >
+                </td>
+                <td class="cx-order-history-total">
+                  <div class="d-md-none cx-order-history-label">
+                    {{ 'orderHistory.total' | cxTranslate }}
+                  </div>
+                  <a
+                    [routerLink]="
+                      {
+                        cxRoute: 'orderDetails',
+                        params: order
+                      } | cxUrl
+                    "
+                    class="cx-order-history-value"
+                  >
+                    {{ order?.total.formattedValue }}</a
+                  >
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <!-- Select Form and Pagination Bottom -->
+          <div class="cx-order-history-sort bottom row">
+            <div
+              *ngIf="type.orderHistory.pagination.totalPages > 1"
+              class="cx-order-history-pagination"
+            >
+              <cx-pagination
+                [pagination]="type.orderHistory.pagination"
+                (viewPageEvent)="pageChange($event)"
+              ></cx-pagination>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- NO ORDER CONTAINER -->
+        <ng-template #noOrder>
+          <div
+            *ngIf="isLoaded$ | async"
+            [ngClass]="
+              type.replenishmentOrder
+                ? 'cx-replenishment-details-order-history-no-order row'
+                : 'cx-order-history-no-order row'
+            "
+          >
+            <div
+              [ngClass]="
+                type.replenishmentOrder ? '' : 'col-sm-12 col-md-6 col-lg-4'
+              "
+            >
+              <ng-container *ngIf="type.replenishmentOrder; else otherOrder">
+                <div>{{ 'orderHistory.notFound' | cxTranslate }}</div>
+              </ng-container>
+
+              <ng-template #otherOrder>
+                <div>{{ 'orderHistory.noOrders' | cxTranslate }}</div>
+                <a
+                  [routerLink]="{ cxRoute: 'home' } | cxUrl"
+                  routerLinkActive="active"
+                  class="btn btn-primary btn-block"
+                  >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+                >
+              </ng-template>
+            </div>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

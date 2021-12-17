@@ -18,15 +18,15 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
   ) {}
 
   loadConsents(userId: string): Observable<ConsentTemplate[]> {
-    const url = this.occEndpoints.getUrl('consentTemplates', { userId });
+    const url = this.occEndpoints.buildUrl('consentTemplates', {
+      urlParams: { userId },
+    });
     const headers = new HttpHeaders({ 'Cache-Control': 'no-cache' });
-    return this.http
-      .get<Occ.ConsentTemplateList>(url, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        map((consentList) => consentList.consentTemplates),
-        this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
-      );
+    return this.http.get<Occ.ConsentTemplateList>(url, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      map((consentList) => consentList.consentTemplates),
+      this.converter.pipeableMany(CONSENT_TEMPLATE_NORMALIZER)
+    );
   }
 
   giveConsent(
@@ -34,7 +34,9 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     consentTemplateId: string,
     consentTemplateVersion: number
   ): Observable<ConsentTemplate> {
-    const url = this.occEndpoints.getUrl('consents', { userId });
+    const url = this.occEndpoints.buildUrl('consents', {
+      urlParams: { userId },
+    });
     const httpParams = new HttpParams()
       .set('consentTemplateId', consentTemplateId)
       .set('consentTemplateVersion', consentTemplateVersion.toString());
@@ -54,9 +56,8 @@ export class OccUserConsentAdapter implements UserConsentAdapter {
     const headers = new HttpHeaders({
       'Cache-Control': 'no-cache',
     });
-    const url = this.occEndpoints.getUrl('consentDetail', {
-      userId,
-      consentId: consentCode,
+    const url = this.occEndpoints.buildUrl('consentDetail', {
+      urlParams: { userId, consentId: consentCode },
     });
 
     return this.http.delete(url, { headers });

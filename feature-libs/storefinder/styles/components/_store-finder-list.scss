@@ -104,12 +104,17 @@
   }
 
   .cx-back {
-    margin-top: 0.5rem;
-    cursor: pointer;
     font-weight: 600;
+    overflow: hidden;
+    white-space: nowrap;
 
-    &:hover {
-      color: var(--cx-color-primary);
+    cx-icon {
+      margin: 0 0.2rem 0 0;
     }
+  }
+
+  ul.nav {
+    border-bottom: 1px solid #dee2e6;
+    justify-content: center;
   }
 }

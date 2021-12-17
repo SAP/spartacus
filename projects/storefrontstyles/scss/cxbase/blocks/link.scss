@@ -14,7 +14,7 @@ a {
 
 .cx-action-link {
   @include type('7');
-  text-transform: capitalize;
+  text-transform: var(--cx-button-text-transform);
   text-decoration: underline;
   cursor: pointer;
   display: inline-block;

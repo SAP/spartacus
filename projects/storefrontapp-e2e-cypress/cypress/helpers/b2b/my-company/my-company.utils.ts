@@ -25,11 +25,15 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
   });
 }
 
-export function waitForData(thenCommand, waitForCommand?): void {
-  waitForCommand;
-  cy.wait('@getData').then((xhr: any) => {
+export function waitForData(
+  suffix: string,
+  thenCommand: Function,
+  waitForCommand: Function = () => {}
+): void {
+  waitForCommand();
+  cy.wait(`@getData${suffix}`).then((xhr: any) => {
     if (xhr.aborted) {
-      waitForData(thenCommand);
+      waitForData(suffix, thenCommand);
     } else {
       thenCommand(xhr?.response?.body);
     }

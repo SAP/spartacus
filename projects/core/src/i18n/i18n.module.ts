@@ -4,7 +4,6 @@ import {
   CONFIG_INITIALIZER,
 } from '../config/config-initializer/config-initializer';
 import { provideDefaultConfig } from '../config/config-providers';
-import { FeatureConfigService } from '../features-config/services/feature-config.service';
 import { defaultI18nConfig } from './config/default-i18n-config';
 import { I18nConfig } from './config/i18n-config';
 import { I18nConfigInitializer } from './config/i18n-config-initializer';
@@ -17,13 +16,8 @@ import { CxNumericPipe } from './numeric.pipe';
 
 export function initI18nConfig(
   configInitializer: I18nConfigInitializer,
-  config: I18nConfig,
-  featureConfigService: FeatureConfigService
+  config: I18nConfig
 ): ConfigInitializer | null {
-  // TODO(#11515): remove it in 4.0
-  if (!featureConfigService.isLevel('3.2')) {
-    return null;
-  }
   /**
    * If `fallbackLang` was already configured statically
    */
@@ -48,7 +42,7 @@ export class I18nModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initI18nConfig,
-          deps: [I18nConfigInitializer, I18nConfig, FeatureConfigService],
+          deps: [I18nConfigInitializer, I18nConfig],
           multi: true,
         },
       ],

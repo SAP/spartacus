@@ -20,6 +20,7 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
 @Injectable()
 /**
@@ -38,8 +39,15 @@ export class ConfiguratorBasicEffects {
         .createConfiguration(action.payload)
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
+            const currentGroup =
+              this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                configuration
+              );
             this.store.dispatch(
-              new ConfiguratorActions.UpdatePriceSummary(configuration)
+              new ConfiguratorActions.UpdatePriceSummary({
+                ...configuration,
+                interactionState: { currentGroup: currentGroup },
+              })
             );
 
             return [
@@ -125,7 +133,7 @@ export class ConfiguratorBasicEffects {
   > = this.actions$.pipe(
     ofType(ConfiguratorActions.UPDATE_PRICE_SUMMARY),
     map(
-      (action: { type: string; payload?: Configurator.Configuration }) =>
+      (action: { type: string; payload: Configurator.Configuration }) =>
         action.payload
     ),
     mergeMap((payload) => {
@@ -200,17 +208,19 @@ export class ConfiguratorBasicEffects {
             select(ConfiguratorSelectors.getCurrentGroup(payload.owner.key)),
             take(1),
             map((currentGroupId) => {
-              const groupIdFromPayload = this.getGroupWithAttributes(
-                payload.groups
-              );
-              const parentGroupFromPayload = this.configuratorGroupUtilsService.getParentGroup(
-                payload.groups,
-                this.configuratorGroupUtilsService.getGroupById(
+              const groupIdFromPayload =
+                this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                  payload
+                );
+              const parentGroupFromPayload =
+                this.configuratorGroupUtilsService.getParentGroup(
                   payload.groups,
-                  groupIdFromPayload
-                ),
-                null
-              );
+                  this.configuratorGroupUtilsService.getGroupById(
+                    payload.groups,
+                    groupIdFromPayload
+                  ),
+                  undefined
+                );
               return {
                 currentGroupId,
                 groupIdFromPayload,
@@ -220,12 +230,17 @@ export class ConfiguratorBasicEffects {
             switchMap((container) => {
               //changeGroup because in cases where a queue of updates exists with a group navigation in between,
               //we need to ensure that the last update determines the current group.
-              const updateFinalizeSuccessAction = new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
-                payload
-              );
-              const updatePriceSummaryAction = new ConfiguratorActions.UpdatePriceSummary(
-                payload
-              );
+              const updateFinalizeSuccessAction =
+                new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+                  payload
+                );
+              const updatePriceSummaryAction =
+                new ConfiguratorActions.UpdatePriceSummary({
+                  ...payload,
+                  interactionState: {
+                    currentGroup: container.groupIdFromPayload,
+                  },
+                });
               return container.currentGroupId === container.groupIdFromPayload
                 ? [updateFinalizeSuccessAction, updatePriceSummaryAction]
                 : [
@@ -245,29 +260,30 @@ export class ConfiguratorBasicEffects {
   );
 
   @Effect()
-  updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> = this.actions$.pipe(
-    ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
-    map(
-      (action: ConfiguratorActions.UpdateConfigurationFail) => action.payload
-    ),
-    mergeMap((payload) => {
-      return this.store.pipe(
-        select(
-          ConfiguratorSelectors.hasPendingChanges(
-            payload.configuration.owner.key
-          )
-        ),
-        take(1),
-        filter((hasPendingChanges) => hasPendingChanges === false),
-        map(
-          () =>
-            new ConfiguratorActions.UpdateConfigurationFinalizeFail(
-              payload.configuration
+  updateConfigurationFail$: Observable<ConfiguratorActions.UpdateConfigurationFinalizeFail> =
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.UPDATE_CONFIGURATION_FAIL),
+      map(
+        (action: ConfiguratorActions.UpdateConfigurationFail) => action.payload
+      ),
+      mergeMap((payload) => {
+        return this.store.pipe(
+          select(
+            ConfiguratorSelectors.hasPendingChanges(
+              payload.configuration.owner.key
             )
-        )
-      );
-    })
-  );
+          ),
+          take(1),
+          filter((hasPendingChanges) => hasPendingChanges === false),
+          map(
+            () =>
+              new ConfiguratorActions.UpdateConfigurationFinalizeFail(
+                payload.configuration
+              )
+          )
+        );
+      })
+    );
 
   @Effect()
   handleErrorOnUpdate$: Observable<ConfiguratorActions.ReadConfiguration> = this.actions$.pipe(
@@ -280,7 +296,10 @@ export class ConfiguratorBasicEffects {
       (payload) =>
         new ConfiguratorActions.ReadConfiguration({
           configuration: payload,
-          groupId: undefined,
+          groupId:
+            this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+              payload
+            ),
         })
     )
   );
@@ -337,31 +356,13 @@ export class ConfiguratorBasicEffects {
     })
   );
 
-  getGroupWithAttributes(groups: Configurator.Group[]): string {
-    const groupWithAttributes: Configurator.Group = groups
-      .filter((currentGroup) => currentGroup.attributes.length > 0)
-      .pop();
-    let id: string;
-    if (groupWithAttributes) {
-      id = groupWithAttributes.id;
-    } else {
-      id = groups
-        .filter((currentGroup) => currentGroup.subGroups.length > 0)
-        .flatMap((currentGroup) =>
-          this.getGroupWithAttributes(currentGroup.subGroups)
-        )
-        .filter((groupId) => groupId) //Filter undefined strings
-        .pop();
-    }
-    return id;
-  }
-
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
-    protected store: Store<StateWithConfigurator>
+    protected store: Store<StateWithConfigurator>,
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
   ) {}
 }

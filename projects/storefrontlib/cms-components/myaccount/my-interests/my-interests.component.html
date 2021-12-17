@@ -1,0 +1,219 @@
+<div *ngIf="interests$ | async as interests" class="container">
+  <div class="cx-product-interests-title h3">
+    <h3>{{ 'myInterests.header' | cxTranslate }}</h3>
+  </div>
+  <div
+    class="cx-product-interests-body"
+    *ngIf="!(getInterestsloading$ | async); else loading"
+  >
+    <ng-container *ngIf="interests.pagination.totalCount > 0; else noInterest">
+      <div class="cx-product-interests-sort top row">
+        <label
+          class="
+            cx-product-interests-form-group
+            form-group
+            col-sm-12 col-md-4 col-lg-4
+          "
+          ><span>{{ 'myInterests.sortBy' | cxTranslate }}</span>
+          <cx-sorting
+            [sortOptions]="sortOptions"
+            [sortLabels]="sortLabels | async"
+            (sortListEvent)="sortChange($event)"
+            [selectedOption]="sort"
+            placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+          >
+          </cx-sorting>
+        </label>
+        <div
+          class="
+            cx-product-interests-pagination cx-product-interests-thead-mobile
+          "
+        >
+          <cx-pagination
+            [pagination]="pagination"
+            (viewPageEvent)="pageChange($event)"
+          ></cx-pagination>
+        </div>
+      </div>
+      <table class="table cx-product-interests-table">
+        <thead class="cx-product-interests-thead-mobile">
+          <th scope="col">
+            {{ 'myInterests.item' | cxTranslate }}
+          </th>
+          <th scope="col"></th>
+          <th scope="col">
+            {{ 'myInterests.price' | cxTranslate }}
+          </th>
+          <th scope="col">
+            {{ 'myInterests.notifications' | cxTranslate }}
+          </th>
+          <th scope="col"></th>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let interest of interests.results"
+            class="cx-product-interests-product-item"
+          >
+            <ng-container *ngIf="interest.product$ | async as product">
+              <td>
+                <div class="cx-product-interests-label">
+                  <a
+                    class="cx-product-interests-product-image-link"
+                    tabindex="-1"
+                    [routerLink]="
+                      { cxRoute: 'product', params: product } | cxUrl
+                    "
+                  >
+                    <cx-media
+                      [container]="product.images?.PRIMARY"
+                      format="thumbnail"
+                    ></cx-media>
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div class="cx-info col-10">
+                  <div class="cx-info-container row">
+                    <div>
+                      <div *ngIf="product.name" class="cx-name">
+                        <a
+                          class="cx-link cx-product-interests-product-code-link"
+                          [routerLink]="
+                            { cxRoute: 'product', params: product } | cxUrl
+                          "
+                        >
+                          {{ product.name }}
+                        </a>
+                      </div>
+                      <div *ngIf="product.code" class="cx-code">
+                        <span>{{
+                          'myInterests.productId'
+                            | cxTranslate: { code: product.code }
+                        }}</span>
+                      </div>
+
+                      <ng-container
+                        *ngFor="let baseOptions of product.baseOptions"
+                      >
+                        <div
+                          *ngFor="
+                            let variant of baseOptions.selected
+                              ?.variantOptionQualifiers
+                          "
+                          class="cx-property"
+                        >
+                          <div
+                            class="cx-label cx-product-interests-variant-name"
+                          >
+                            {{ variant.name }}
+                          </div>
+                          <div
+                            class="cx-value cx-product-interests-variant-value"
+                          >
+                            {{ variant.value }}
+                          </div>
+                        </div>
+                      </ng-container>
+                      <div
+                        class="cx-property"
+                        *ngIf="product.stock.stockLevelStatus === 'outOfStock'"
+                      >
+                        <div
+                          class="cx-label cx-product-interests-product-stock"
+                        >
+                          {{ 'myInterests.outOfStock' | cxTranslate }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="cx-product-interests-product-price">
+                  <div class="d-md-none cx-product-interests-label">
+                    {{ 'myInterests.price' | cxTranslate }}
+                  </div>
+                  <span>{{ product.price.formattedValue }}</span>
+                </div>
+              </td>
+              <td>
+                <div class="cx-product-interests-subscriptions">
+                  <div class="d-md-none cx-product-interests-label">
+                    {{ 'myInterests.notifications' | cxTranslate }}
+                  </div>
+                  <div
+                    class="cx-product-interests-notification"
+                    *ngFor="let interestEntry of interest.productInterestEntry"
+                  >
+                    <span class="cx-product-interests-type">
+                      {{
+                        'myInterests.' + interestEntry.interestType
+                          | cxTranslate
+                      }}
+                    </span>
+                    <span class="cx-product-interests-expiration-date">
+                      {{
+                        'myInterests.expirationDate'
+                          | cxTranslate
+                            : {
+                                expirationDate:
+                                  interestEntry.expirationDate | date
+                              }
+                      }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="cx-actions cx-product-interests-remove-button">
+                  <button
+                    type="button"
+                    class="link cx-product-interests-remove-btn"
+                    [disabled]="isRemoveDisabled$ | async"
+                    (click)="removeInterest(interest)"
+                  >
+                    {{ 'myInterests.remove' | cxTranslate }}
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+          </tr>
+        </tbody>
+      </table>
+      <div class="cx-product-interests-sort bottom row">
+        <label
+          class="
+            cx-product-interests-form-group cx-product-interests-thead-mobile
+            form-group
+            col-sm-12 col-md-4 col-lg-4
+          "
+          ><span>{{ 'myInterests.sortBy' | cxTranslate }}</span>
+          <cx-sorting
+            [sortOptions]="sortOptions"
+            [sortLabels]="sortLabels | async"
+            (sortListEvent)="sortChange($event)"
+            [selectedOption]="sort"
+            placeholder="{{ 'myInterests.sortBy' | cxTranslate }}"
+          >
+          </cx-sorting>
+        </label>
+        <div class="cx-product-interests-pagination">
+          <cx-pagination
+            [pagination]="pagination"
+            (viewPageEvent)="pageChange($event)"
+          ></cx-pagination>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<ng-template #noInterest>
+  <div class="cx-product-interests-message">
+    {{ 'myInterests.noInterests' | cxTranslate }}
+  </div>
+</ng-template>
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

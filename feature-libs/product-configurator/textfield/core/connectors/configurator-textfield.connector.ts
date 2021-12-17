@@ -32,6 +32,16 @@ export class ConfiguratorTextfieldConnector {
     return this.adapter.readConfigurationForCartEntry(parameters);
   }
   /**
+   * Reads an existing configuration for an order entry
+   * @param {CommonConfigurator.ReadConfigurationFromOrderEntryParameters} parameters Attributes needed to read a product configuration for an order entry
+   * @returns {Observable<ConfiguratorTextfield.Configuration>} Observable of product configurations
+   */
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    return this.adapter.readConfigurationForOrderEntry(parameters);
+  }
+  /**
    * Updates a configuration that is attached to a cart entry
    * @param parameters Attributes needed to update a cart entries' configuration
    * @returns Observable of cart modifications

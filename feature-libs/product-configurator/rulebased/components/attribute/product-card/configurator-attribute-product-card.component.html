@@ -4,12 +4,20 @@
     [ngClass]="{
       'cx-product-card-selected': isProductCardSelected()
     }"
+    [attr.aria-label]="
+      'configurator.a11y.itemOfAttribute'
+        | cxTranslate
+          : {
+              attribute: productCardOptions?.attributeLabel
+            }
+    "
   >
     <div class="cx-product-card-rows">
       <div class="cx-product-card-imgs">
         <cx-media
           [container]="product?.images?.PRIMARY"
           format="product"
+          aria-hidden="true"
         ></cx-media>
       </div>
 
@@ -27,6 +35,7 @@
           *ngIf="product?.description"
           [text]="product?.description"
           [textSize]="45"
+          [productName]="product.code"
         ></cx-configurator-show-more>
       </div>
     </div>
@@ -62,15 +71,24 @@
               "
               class="btn btn-action"
               (click)="onHandleDeselect()"
-              [disabled]="
-                productCardOptions?.disableAllButtons ||
-                productCardOptions?.hideRemoveButton ||
-                (loading$ | async)
-              "
               [cxFocus]="focusConfig"
+              [attr.aria-label]="getAriaLabelMultiSelected(product)"
+              aria-selected="true"
+              [attr.aria-describedby]="
+                createAttributeUiKey(
+                  'label',
+                  productCardOptions?.attributeName
+                ) +
+                ' ' +
+                createAttributeUiKey(
+                  'attribute-msg',
+                  productCardOptions?.attributeName
+                )
+              "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
             </button>
+
             <ng-template #select>
               <button
                 class="btn btn-primary"
@@ -79,11 +97,25 @@
                   productCardOptions?.disableAllButtons || (loading$ | async)
                 "
                 [cxFocus]="focusConfig"
+                [attr.aria-label]="getAriaLabelMultiUnselected(product)"
+                aria-selected="false"
+                [attr.aria-describedby]="
+                  createAttributeUiKey(
+                    'label',
+                    productCardOptions?.attributeName
+                  ) +
+                  ' ' +
+                  createAttributeUiKey(
+                    'attribute-msg',
+                    productCardOptions?.attributeName
+                  )
+                "
               >
                 {{ 'configurator.button.add' | cxTranslate }}
               </button>
             </ng-template>
           </ng-container>
+
           <ng-template #single>
             <button
               class="btn btn-primary"
@@ -96,6 +128,19 @@
                 else deselect
               "
               [cxFocus]="focusConfig"
+              [attr.aria-label]="getAriaLabelSingleUnselected(product)"
+              aria-selected="false"
+              [attr.aria-describedby]="
+                createAttributeUiKey(
+                  'label',
+                  productCardOptions?.attributeName
+                ) +
+                ' ' +
+                createAttributeUiKey(
+                  'attribute-msg',
+                  productCardOptions?.attributeName
+                )
+              "
             >
               {{ 'configurator.button.select' | cxTranslate }}
             </button>
@@ -115,14 +160,51 @@
                     productCardOptions?.hideRemoveButton || (loading$ | async)
                   "
                   [cxFocus]="focusConfig"
+                  [attr.aria-label]="getAriaLabelSingleSelected(product)"
+                  aria-selected="true"
+                  [attr.aria-describedby]="
+                    createAttributeUiKey(
+                      'label',
+                      productCardOptions?.attributeName
+                    ) +
+                    ' ' +
+                    createAttributeUiKey(
+                      'attribute-msg',
+                      productCardOptions?.attributeName
+                    )
+                  "
                 >
                   {{ 'configurator.button.deselect' | cxTranslate }}
                 </button>
+                <span
+                  *ngIf="productCardOptions?.hideRemoveButton"
+                  class="cx-visually-hidden"
+                  tabindex="0"
+                >
+                  {{ getAriaLabelSingleSelectedNoButton(product) }}
+                </span>
               </ng-container>
             </ng-template>
           </ng-template>
         </div>
       </div>
     </div>
+    <ng-container *ngIf="showDeselectionNotPossible">
+      <div
+        class="cx-product-card-rows deselection-error-message"
+        aria-live="assertive"
+        aria-atomic="true"
+        role="alert"
+        id="{{
+          createAttributeUiKey(
+            'attribute-msg',
+            productCardOptions?.attributeName
+          )
+        }}"
+      >
+        <cx-icon class="deselection-error-symbol" type="ERROR"></cx-icon>
+        {{ 'configurator.attribute.deselectionNotPossible' | cxTranslate }}
+      </div>
+    </ng-container>
   </div>
 </ng-container>

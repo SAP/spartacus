@@ -18,7 +18,7 @@ context('Homepage', () => {
   it('should have footer with footer navigation and notice', () => {
     cy.get('cx-page-slot.Footer').within(() => {
       cy.get('cx-navigation-ui > nav').should('have.length', 3);
-      cy.get('h5').should('have.length', 3);
+      cy.get('span').should('have.length', 3);
       cy.get('cx-generic-link').should('have.length', 8);
     });
     cy.get('cx-paragraph .cx-notice').should(

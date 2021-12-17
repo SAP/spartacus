@@ -3,7 +3,7 @@ import { Component, Inject, Input, ViewChild } from '@angular/core';
 import { PointOfService } from '@spartacus/core';
 import { StoreFinderMapComponent } from '../../store-finder-map/store-finder-map.component';
 import { ICON_TYPE } from '@spartacus/storefront';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
 
 @Component({
   selector: 'cx-store-finder-list',
@@ -24,7 +24,7 @@ export class StoreFinderListComponent {
   iconTypes = ICON_TYPE;
 
   constructor(
-    private storeDataService: StoreDataService,
+    private storeFinderService: StoreFinderService,
     @Inject(DOCUMENT) private document: any
   ) {
     this.isDetailsModeVisible = false;
@@ -35,8 +35,8 @@ export class StoreFinderListComponent {
     this.selectedStoreIndex = index;
     this.selectedStore = location;
     this.storeMap.centerMap(
-      this.storeDataService.getStoreLatitude(this.locations.stores[index]),
-      this.storeDataService.getStoreLongitude(this.locations.stores[index])
+      this.storeFinderService.getStoreLatitude(this.locations.stores[index]),
+      this.storeFinderService.getStoreLongitude(this.locations.stores[index])
     );
   }
 

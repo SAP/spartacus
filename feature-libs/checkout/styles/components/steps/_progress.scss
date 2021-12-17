@@ -1,0 +1,112 @@
+%cx-checkout-progress,
+%cx-checkout-progress-mobile-top,
+%cx-checkout-progress-mobile-bottom {
+  .cx-nav {
+    @include media-breakpoint-only(lg) {
+      @include type('5', 'semi');
+    }
+    @include type('4', 'semi');
+    margin: 0;
+
+    .cx-list {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .cx-item {
+      display: flex;
+      justify-content: center;
+      flex: 1;
+      color: var(--cx-color-text);
+      padding: 0 0 1.375rem 0;
+      border-bottom: 2px solid var(--cx-color-text);
+
+      ::after {
+        padding-inline-end: 0.75em;
+        content: '';
+        @include media-breakpoint-only(lg) {
+          padding-inline-end: 0.5rem;
+        }
+      }
+
+      &.active {
+        border-color: var(--cx-color-primary);
+      }
+
+      &.disabled {
+        border-color: var(--cx-color-light);
+      }
+
+      &:first-child ::before {
+        padding: 0;
+        content: '';
+      }
+
+      &:last-child ::after {
+        padding: 0;
+        content: '';
+      }
+    }
+  }
+
+  .cx-link,
+  .cx-link:hover {
+    color: var(--cx-color-text);
+    cursor: pointer;
+    text-decoration: none;
+    text-align: start;
+
+    &.disabled {
+      color: var(--cx-color-light);
+      cursor: not-allowed;
+      pointer-events: none;
+      &::after {
+        color: var(--cx-color-light);
+      }
+    }
+
+    &.active {
+      color: var(--cx-color-primary);
+      &::after {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-media {
+    .cx-list-media {
+      display: none;
+      @include type('3');
+      justify-content: space-between;
+      align-items: center;
+      line-height: 4.75rem;
+      min-width: 100%;
+      border-width: 1px 0 0 0;
+      border-style: solid;
+      border-color: var(--cx-color-light);
+      margin: 0;
+      &.active {
+        background-color: var(--cx-color-background);
+        border: 0;
+      }
+
+      button {
+        font-weight: var(--cx-font-weight-semi);
+      }
+      @include media-breakpoint-down(md) {
+        display: flex;
+        padding: 0 3.5rem;
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: var(--cx-color-light);
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: 0 1.375rem;
+      }
+    }
+  }
+}

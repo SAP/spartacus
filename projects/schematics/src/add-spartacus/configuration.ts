@@ -11,7 +11,6 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
 } from '../shared/constants';
-import { getB2bConfiguration } from '../shared/utils/config-utils';
 import { addModuleProvider } from '../shared/utils/new-module-utils';
 import { getSpartacusCurrentFeatureLevel } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
@@ -52,11 +51,6 @@ function addConfiguration(
         .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
     ) {
       addCommonConfiguration(sourceFile, options);
-      if (options.configuration === 'b2b') {
-        getB2bConfiguration().forEach((b2bProvider) =>
-          addModuleProvider(sourceFile, b2bProvider)
-        );
-      }
 
       saveAndFormat(sourceFile);
 
@@ -116,7 +110,12 @@ function createSiteContextConfig(options: SpartacusOptions): string {
 
   if (options.baseSite) {
     const baseSites = parseCSV(options.baseSite);
-    contextConfig += `\nbaseSite: [${baseSites}]`;
+    contextConfig += `\nbaseSite: [${baseSites}],`;
+  }
+
+  if (options.urlParameters) {
+    const urlParameters = parseCSV(options.urlParameters);
+    contextConfig += `\nurlParameters: [${urlParameters}]`;
   }
 
   contextConfig += `},`;

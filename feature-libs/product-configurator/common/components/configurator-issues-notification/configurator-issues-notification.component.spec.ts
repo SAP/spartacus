@@ -1,10 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { OrderEntry, PromotionLocation } from '@spartacus/core';
 import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import {
   ConfigurationInfo,
   OrderEntryStatus,
@@ -17,6 +18,25 @@ import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-n
 })
 class MockTranslatePipe implements PipeTransform {
   transform(): any {}
+}
+
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
+@Component({
+  selector: 'cx-configure-cart-entry',
+  template: '',
+})
+class MockConfigureCartEntryComponent {
+  @Input() cartEntry: OrderEntry;
+  @Input() readOnly: boolean;
+  @Input() msgBanner: boolean;
+  @Input() disabled: boolean;
 }
 
 class MockCartItemContext implements Partial<CartItemContext> {
@@ -55,6 +75,8 @@ describe('ConfigureIssuesNotificationComponent', () => {
         declarations: [
           ConfiguratorIssuesNotificationComponent,
           MockTranslatePipe,
+          MockCxIconComponent,
+          MockConfigureCartEntryComponent,
         ],
         providers: [
           { provide: CartItemContext, useClass: MockCartItemContext },
@@ -176,6 +198,25 @@ describe('ConfigureIssuesNotificationComponent', () => {
       const htmlElem = fixture.nativeElement;
       expect(htmlElem.querySelectorAll('cx-configure-cart-entry').length).toBe(
         1
+      );
+    });
+  });
+
+  describe('Notification banner', () => {
+    it('should contain div element with ID cx-error-msg', function () {
+      emitNewContextValue({
+        statusSummary: [{ numberOfIssues: 2, status: OrderEntryStatus.Error }],
+        configurationInfos: [],
+        readOnly: false,
+        productConfigurable: true,
+      });
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        '#cx-error-msg'
       );
     });
   });

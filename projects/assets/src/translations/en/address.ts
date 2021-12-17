@@ -1,6 +1,7 @@
 export const address = {
   addressForm: {
     title: 'Title',
+    defaultTitle: 'Title',
     firstName: {
       label: 'First name',
       placeholder: 'First Name',
@@ -30,7 +31,7 @@ export const address = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
-    setAsDefault: 'Set as default',
+    setAsDefault: 'Set as default shipping address',
     titleRequired: 'Title is required.',
     userAddressAddSuccess: 'New address was added successfully!',
     userAddressUpdateSuccess: 'Address updated successfully!',
@@ -52,5 +53,15 @@ export const address = {
     setAsDefault: 'Set as default',
     shipTo: 'Ship To',
     billTo: 'Bill To',
+  },
+  addressSuggestion: {
+    verifyYourAddress: 'Verify your address',
+    ensureAccuracySuggestChange:
+      'To ensure delivery accuracy, we suggest the change selected below.',
+    chooseAddressToUse: 'Please choose which address you would like to use:',
+    suggestedAddress: 'Suggested address',
+    enteredAddress: 'Entered address',
+    editAddress: 'Edit address',
+    saveAddress: 'Save address',
   },
 };

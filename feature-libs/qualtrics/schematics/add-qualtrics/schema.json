@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "QualtricsSchematics",
+  "$id": "QualtricsSchematics",
   "title": "Qualtrics Schematics",
   "type": "object",
   "properties": {

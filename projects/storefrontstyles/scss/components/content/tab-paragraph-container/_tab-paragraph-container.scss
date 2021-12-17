@@ -195,4 +195,8 @@ $useTabsOnPDP: false !default;
   } @else {
     @extend %pdpFlat !optional;
   }
+
+  .active {
+    background-color: var(--cx-color-inverse);
+  }
 }

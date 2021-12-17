@@ -1,0 +1,60 @@
+<div
+  class="cx-anonymous-consent-dialog"
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+>
+  <div class="cx-dialog-content">
+    <div *ngIf="loading$ | async; else dialogBody">
+      <cx-spinner></cx-spinner>
+    </div>
+    <ng-template #dialogBody>
+      <div class="cx-dialog-header">
+        <h3>
+          {{ 'anonymousConsents.dialog.title' | cxTranslate }}
+        </h3>
+        <button
+          type="button"
+          class="close"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          (click)="close('Cross click')"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+      <!-- Separator -->
+      <div class="cx-dialog-description" *ngIf="showLegalDescription">
+        {{ 'anonymousConsents.dialog.legalDescription' | cxTranslate }}
+        <div
+          class="cx-dialog-separator col-sm-12 d-xs-block d-sm-block d-md-none"
+        ></div>
+      </div>
+      <!-- Actions -->
+      <div class="cx-dialog-buttons">
+        <a tabindex="0" class="btn-link cx-action-link" (click)="rejectAll()">{{
+          'anonymousConsents.dialog.clearAll' | cxTranslate
+        }}</a>
+        <a tabindex="0" class="btn-link cx-action-link" (click)="allowAll()">{{
+          'anonymousConsents.dialog.selectAll' | cxTranslate
+        }}</a>
+      </div>
+      <!-- Modal Body -->
+      <div class="cx-dialog-body" *ngIf="templates$ | async as templates">
+        <ng-container *ngIf="consents$ | async as consents">
+          <div
+            class="cx-dialog-row col-sm-12 col-md-6"
+            *ngFor="let template of templates"
+          >
+            <cx-consent-management-form
+              [consentTemplate]="template"
+              [requiredConsents]="requiredConsents"
+              [consent]="getCorrespondingConsent(template, consents)"
+              (consentChanged)="onConsentChange($event)"
+            ></cx-consent-management-form>
+          </div>
+        </ng-container>
+      </div>
+    </ng-template>
+  </div>
+</div>

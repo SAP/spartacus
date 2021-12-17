@@ -1,7 +1,7 @@
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as productSearch from '../../helpers/product-search';
 
 const electronicsShop = 'electronics-spa';
 const testProduct = 'CONF_CAMERA_SL';
@@ -57,15 +57,7 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/products/suggestions?term=CONF_CAMERA_SL*`
-      ).as('productSearch');
-      productSearch.searchForProduct(testProduct);
-      cy.wait('@productSearch');
+      configuration.searchForProduct(testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
@@ -106,13 +98,12 @@ context('Product Configuration', () => {
     });
 
     it('should keep checkboxes selected after group change', () => {
-      cy.server();
-      cy.route(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PATCH',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*`
-      ).as('updateConfig');
+        )}/ccpconfigurator/*`,
+      }).as('updateConfig');
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -126,13 +117,12 @@ context('Product Configuration', () => {
 
   describe('Group Status', () => {
     it('should set group status for single level product', () => {
-      cy.server();
-      cy.route(
-        'PATCH',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'PATCH',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/ccpconfigurator/*`
-      ).as('updateConfig');
+        )}/ccpconfigurator/*`,
+      }).as('updateConfig');
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkGroupMenuDisplayed();
 
@@ -293,6 +283,68 @@ context('Product Configuration', () => {
       );
       configurationVc.clickOnGroup(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
+    });
+  });
+});
+
+context('Retract mode for Product Configuration', () => {
+  let configUISettings: ConfiguratorUISettingsConfig;
+
+  beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        addRetractOption: true, // enable retract triggered
+      },
+    };
+    cy.cxConfig(configUISettings);
+    //Go to the configuration
+    configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+    // Verify whether attribute is displayed
+    configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.addRetractOption = false; // disable retract triggered
+  });
+
+  describe('Enable retract mode', () => {
+    it('should lead to additional retract value displayed', () => {
+      // Verify whether all values are displayed including 'No option selected' / a retract value
+      configuration.checkAttrValueDisplayed(
+        CAMERA_MODE,
+        radioGroup,
+        '###RETRACT_VALUE_CODE###'
+      );
+      configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
+      configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
+
+      //Verify whether a retract value is selected as a default value
+      configuration.checkValueSelected(
+        radioGroup,
+        CAMERA_MODE,
+        '###RETRACT_VALUE_CODE###'
+      );
+    });
+  });
+
+  describe('Selecting retract mode', () => {
+    it('should de-select the currently selected value', () => {
+      //Select another value and verify whether a corresponding value is selected
+      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
+      configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
+      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'P');
+      configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'P');
+      // Select a retract value and verify whether it is selected
+      configuration.selectAttribute(
+        CAMERA_MODE,
+        radioGroup,
+        '###RETRACT_VALUE_CODE###'
+      );
+      configuration.checkValueSelected(
+        radioGroup,
+        CAMERA_MODE,
+        '###RETRACT_VALUE_CODE###'
+      );
     });
   });
 });

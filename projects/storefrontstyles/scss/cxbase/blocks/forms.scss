@@ -60,6 +60,18 @@ cx-form-errors {
   }
 }
 
+cx-file-upload {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  input[type='file'] {
+    display: none;
+  }
+}
+
 input,
 input[type='checkbox'],
 input[type='radio'],

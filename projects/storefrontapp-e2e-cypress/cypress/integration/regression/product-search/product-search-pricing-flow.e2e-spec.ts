@@ -17,15 +17,13 @@ context('Product search pricing flow', () => {
 
     describe('Product search', () => {
       it('should be able to search product and sort by price', () => {
-        // compact cameras category ID
         const categoryId = '576';
         const category = 'Digital Compacts';
-        cy.server();
         createProductQuery(
           QUERY_ALIAS.FIRST_PAGE,
           `:relevance:allCategories:${categoryId}`,
           PRODUCT_LISTING.PRODUCTS_PER_PAGE,
-          `&currentPage=1`
+          `1`
         );
         createProductSortQuery('price-asc', QUERY_ALIAS.PRICE_ASC_FILTER);
 
@@ -45,9 +43,7 @@ context('Product search pricing flow', () => {
             .click({ force: true });
         });
 
-        cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`)
-          .its('status')
-          .should('eq', 200);
+        cy.wait(`@${QUERY_ALIAS.CATEGORY_PAGE}`);
 
         assertNumberOfProducts(`@${QUERY_ALIAS.CATEGORY_PAGE}`, category);
 

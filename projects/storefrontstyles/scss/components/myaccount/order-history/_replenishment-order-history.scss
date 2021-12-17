@@ -1,3 +1,4 @@
+// TODO: clean it in 5.0, since it was moved to order lib
 %cx-replenishment-order-history {
   $block: cx-replenishment-order-history;
 
@@ -177,6 +178,18 @@
         @include media-breakpoint-down(sm) {
           flex-direction: column;
           padding-top: 0;
+        }
+
+        .cx-replenishment-order-history-form-group {
+          align-items: center;
+          display: flex;
+          span {
+            margin-inline-end: 0.5rem;
+            flex: none;
+          }
+          cx-sorting {
+            width: 100%;
+          }
         }
       }
 

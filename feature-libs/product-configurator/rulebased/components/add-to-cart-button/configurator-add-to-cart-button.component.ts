@@ -2,10 +2,14 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  Order,
   RoutingService,
 } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -53,7 +57,9 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected orderFacade: OrderFacade,
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   protected navigateToCart(): void {
@@ -64,13 +70,10 @@ export class ConfiguratorAddToCartButtonComponent {
     configuratorType: string,
     owner: CommonConfigurator.Owner
   ): void {
-    this.routingService.go(
-      {
-        cxRoute: 'configureOverview' + configuratorType,
-        params: { ownerType: 'cartEntry', entityKey: owner.id },
-      },
-      {}
-    );
+    this.routingService.go({
+      cxRoute: 'configureOverview' + configuratorType,
+      params: { ownerType: 'cartEntry', entityKey: owner.id },
+    });
   }
 
   protected displayConfirmationMessage(key: string): void {
@@ -152,11 +155,13 @@ export class ConfiguratorAddToCartButtonComponent {
       routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY;
     const owner = configuration.owner;
 
-    this.configuratorGroupsService.setGroupStatusVisited(
-      configuration.owner,
-      configuration.interactionState.currentGroup
-    );
-
+    const currentGroup = configuration.interactionState.currentGroup;
+    if (currentGroup) {
+      this.configuratorGroupsService.setGroupStatusVisited(
+        configuration.owner,
+        currentGroup
+      );
+    }
     this.container$
       .pipe(
         filter((cont) => !cont.hasPendingChanges),
@@ -173,7 +178,7 @@ export class ConfiguratorAddToCartButtonComponent {
             owner,
             false,
             isOverview,
-            configuration.isCartEntryUpdateRequired
+            configuration.isCartEntryUpdateRequired ?? false
           );
           if (configuration.isCartEntryUpdateRequired) {
             this.configuratorCommonsService.removeConfiguration(owner);
@@ -195,9 +200,14 @@ export class ConfiguratorAddToCartButtonComponent {
               take(1)
             )
             .subscribe((configWithNextOwner) => {
+              //See preceeding filter operator: configWithNextOwner.nextOwner is always defined here
+              const nextOwner =
+                configWithNextOwner.nextOwner ??
+                ConfiguratorModelUtils.createInitialOwner();
+
               this.performNavigation(
                 configuratorType,
-                configWithNextOwner.nextOwner,
+                nextOwner,
                 true,
                 isOverview,
                 true
@@ -213,11 +223,36 @@ export class ConfiguratorAddToCartButtonComponent {
               // when a new config form requests a new observable for a product bound
               // configuration
 
-              this.configuratorCommonsService.removeConfiguration(
-                configWithNextOwner.nextOwner
-              );
+              this.configuratorCommonsService.removeConfiguration(nextOwner);
             });
         }
       });
+  }
+  leaveConfigurationOverview(): void {
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      ) {
+        this.goToOrderDetails(container.routerData.owner);
+      } else {
+        this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+      }
+    });
+  }
+
+  protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
+    this.orderFacade.loadOrderDetails(
+      this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
+    );
+    this.orderFacade
+      .getOrderDetails()
+      .pipe(
+        filter((order: Order) => order !== undefined),
+        take(1)
+      )
+      .subscribe((order: Order) =>
+        this.routingService.go({ cxRoute: 'orderDetails', params: order })
+      );
   }
 }

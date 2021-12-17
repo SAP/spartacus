@@ -1,10 +1,18 @@
-import { ChangeDetectionStrategy, Directive, Input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  Input,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
 
@@ -15,6 +23,13 @@ class MockGroupService {}
 })
 export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
+}
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
 }
 
 describe('ConfigAttributeMultiSelectionImageComponent', () => {
@@ -28,8 +43,9 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
         declarations: [
           ConfiguratorAttributeMultiSelectionImageComponent,
           MockFocusDirective,
+          MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -63,6 +79,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
   ): Configurator.Value {
     const value: Configurator.Value = {
       valueCode: code,
+      valueDisplay: name,
       name: name,
       selected: isSelected,
       images: images,
@@ -87,6 +104,7 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     htmlElem = fixture.nativeElement;
 
     component.attribute = {
+      label: 'attributeName',
       name: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
@@ -134,5 +152,58 @@ describe('ConfigAttributeMultiSelectionImageComponent', () => {
     fixture.detectChanges();
     expect(valueToSelect.checked).toBe(false);
     expect(component.attributeCheckBoxForms[0].value).toEqual(false);
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input elements with class name 'form-input' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[2].valueDisplay
+      );
+    });
+
+    it("should contain input elements with class name 'form-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
+    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that indicates the current 'checked' state of widget", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-input',
+        2,
+        'aria-checked',
+        'true'
+      );
+    });
+
+    it("should contain label elements with class name 'form-check-label' and 'aria-hidden' attribute attribute that removes label from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        2,
+        'aria-hidden',
+        'true'
+      );
+    });
   });
 });

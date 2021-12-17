@@ -5,8 +5,6 @@ export * from './variant-color-selector/product-variant-color-selector.module';
 export * from './variant-color-selector/product-variant-color-selector.component';
 export * from './variant-size-selector/product-variant-size-selector.module';
 export * from './variant-size-selector/product-variant-size-selector.component';
-export * from './variant-style-icons/product-variant-style-icons.module';
-export * from './variant-style-icons/product-variant-style-icons.component';
 export * from './variant-style-selector/product-variant-style-selector.module';
 export * from './variant-style-selector/product-variant-style-selector.component';
 export * from './guards/index';

@@ -1,5 +1,6 @@
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 import { ActionReducer, MetaReducer, META_REDUCERS } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
 import { ConfigInitializerService } from '../config/config-initializer/config-initializer.service';
 import { MultiCartStatePersistenceService } from './services/multi-cart-state-persistence.service';
 import { activeCartInitialState } from './store/reducers/multi-cart.reducer';
@@ -9,9 +10,14 @@ export function cartStatePersistenceFactory(
   configInit: ConfigInitializerService
 ) {
   const result = () =>
-    configInit.getStableConfig('context').then(() => {
-      cartStatePersistenceService.initSync();
-    });
+    configInit
+      .getStable('context')
+      .pipe(
+        tap(() => {
+          cartStatePersistenceService.initSync();
+        })
+      )
+      .toPromise();
   return result;
 }
 

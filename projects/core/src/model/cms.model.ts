@@ -6,6 +6,16 @@ export interface CmsComponent {
   uid?: string;
 
   /**
+   * Defines detailed CMS component composition
+   */
+  composition?: {
+    /**
+     * List of inner component mappings
+     */
+    inner?: string[];
+  };
+
+  /**
    * Style classes can be added to the CMS banner component to enhance the UX.
    * The style classes are typically derived from the (CMS) backend and should
    * match an existing CSS selector.
@@ -126,10 +136,12 @@ export interface CmsMiniCartComponent extends CmsComponent {
   lightboxBannerComponent?: CmsBannerComponent;
 }
 
-// TODO: Upgrade model when Breadcrumbs will be finally used in project
-export interface CmsBreadcrumbsComponent extends CmsComponent {
+export interface CmsPageTitleComponent extends CmsComponent {
   container?: string;
 }
+
+// TODO: Upgrade model when Breadcrumbs will be finally used in project
+export interface CmsBreadcrumbsComponent extends CmsPageTitleComponent {}
 
 export interface CmsNavigationNode {
   uid?: string;
@@ -158,4 +170,8 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
   activeFacetValueCode?: string;
   searchResult?: string;
   minPerFacet?: string;
+}
+
+export interface CmsAddToCartComponent extends CmsComponent {
+  inventoryDisplay?: boolean;
 }

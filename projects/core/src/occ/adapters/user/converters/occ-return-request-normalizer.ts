@@ -1,15 +1,19 @@
 import { Injectable } from '@angular/core';
-import { Occ } from '../../../occ-models/occ.models';
+import { OrderEntry, ReturnRequest } from '../../../../model/order.model';
+import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
 import {
   Converter,
   ConverterService,
 } from '../../../../util/converter.service';
-import { OrderEntry, ReturnRequest } from '../../../../model/order.model';
-import { PRODUCT_NORMALIZER } from '../../../../product/connectors/product/converters';
+import { Occ } from '../../../occ-models/occ.models';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 @Injectable({ providedIn: 'root' })
 export class OccReturnRequestNormalizer
-  implements Converter<Occ.ReturnRequest, ReturnRequest> {
+  implements Converter<Occ.ReturnRequest, ReturnRequest>
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {

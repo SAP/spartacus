@@ -1,12 +1,18 @@
 import { OrderHistoryList } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const initialState: OrderHistoryList = {
   orders: [],
   pagination: {},
   sorts: [],
 };
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export function reducer(
   state = initialState,
   action: UserActions.UserOrdersAction

@@ -1,0 +1,70 @@
+<ng-container *ngIf="outOfStock$ | async">
+  <ng-container *ngIf="!(hasProductInterests$ | async); else stopNotify">
+    <ng-container *ngIf="prefsEnabled$ | async; else disableNotify">
+      <div class="stock-notification-notes">
+        <p>{{ 'stockNotification.getNotified' | cxTranslate }}</p>
+      </div>
+      <button
+        class="btn btn-primary btn-block btn-notify"
+        type="button"
+        (click)="subscribe()"
+      >
+        {{ 'stockNotification.notifyMe' | cxTranslate }}
+      </button>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #disableNotify>
+  <div class="stock-notification-notes" id="outOfStockMessage">
+    <p>
+      <ng-container *ngIf="anonymous; else loggedIn">
+        <a [routerLink]="{ cxRoute: 'login' } | cxUrl">
+          {{ 'miniLogin.signInRegister' | cxTranslate }}</a
+        >
+        {{ 'stockNotification.getNotifySuffix' | cxTranslate }}<br />
+      </ng-container>
+      <ng-template #loggedIn>
+        {{ 'stockNotification.getNotify' | cxTranslate }}<br />
+        {{ 'stockNotification.activateChannelsPrefix' | cxTranslate
+        }}<a [routerLink]="['/my-account/notification-preference']">{{
+          'stockNotification.channelsLink' | cxTranslate
+        }}</a
+        >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
+      </ng-template>
+    </p>
+  </div>
+  <button
+    class="btn btn-primary btn-block btn-notify"
+    type="button"
+    disabled="true"
+    aria-describedby="outOfStockMessage"
+  >
+    {{ 'stockNotification.notifyMe' | cxTranslate }}
+  </button>
+</ng-template>
+
+<ng-template #stopNotify>
+  <ng-container *ngIf="!(isRemoveInterestLoading$ | async); else loading">
+    <div class="stock-notification-notes">
+      <p>{{ 'stockNotification.notified' | cxTranslate }}</p>
+    </div>
+    <button
+      class="btn btn-primary btn-block btn-stop-notify"
+      type="button"
+      (click)="unsubscribe()"
+    >
+      {{ 'stockNotification.stopNotify' | cxTranslate }}
+    </button>
+  </ng-container>
+</ng-template>
+
+<ng-template #loading>
+  <div class="cx-dialog-body modal-body">
+    <div class="cx-dialog-row">
+      <div class="col-sm-12">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -21,9 +21,9 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
+      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
@@ -66,7 +66,7 @@ export const orderHistoryTest = {
         .findByText('Start Shopping')
         .click();
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
       checkBanner();
     });
   },

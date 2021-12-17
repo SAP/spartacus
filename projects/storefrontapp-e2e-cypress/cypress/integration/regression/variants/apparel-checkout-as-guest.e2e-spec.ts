@@ -137,16 +137,16 @@ context('Apparel - checkout as guest', () => {
 
       const loginPage = checkout.waitForPage('/login', 'getLoginPage');
       cy.findByText(/Sign in \/ Register/i).click();
-      cy.wait(`@${loginPage}`).its('status').should('eq', 200);
+      cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       login(variantUser.email, variantUser.password);
-      cy.wait(`@${shippingPage}`).its('status').should('eq', 200);
+      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
       const cartPage = checkout.waitForPage('/cart', 'getCartPage');
       cy.get('cx-mini-cart').click();
-      cy.wait(`@${cartPage}`).its('status').should('eq', 200);
+      cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-cart-item-list')
         .contains('cx-cart-item', variantProduct.code)

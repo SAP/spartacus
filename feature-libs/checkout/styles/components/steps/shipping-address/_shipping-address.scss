@@ -1,0 +1,13 @@
+%cx-shipping-address {
+  @include checkout-media-style();
+
+  .cx-shipping-address-card {
+    padding-bottom: 30px;
+
+    .cx-shipping-address-card-inner {
+      height: 100%;
+      background-color: var(--cx-color-inverse);
+      cursor: pointer;
+    }
+  }
+}

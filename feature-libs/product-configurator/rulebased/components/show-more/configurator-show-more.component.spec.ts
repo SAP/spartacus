@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorShowMoreComponent } from './configurator-show-more.component';
 
 describe('ConfiguratorShowMoreComponent', () => {
   let component: ConfiguratorShowMoreComponent;
@@ -65,5 +65,54 @@ describe('ConfiguratorShowMoreComponent', () => {
     fixture.detectChanges();
     expect(component.showHiddenText).toBe(true);
     expect(component.textToShow).toBe(component.text);
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      component.text = 'Here is a short description to the product';
+      component.productName = 'Camera bundle';
+      component.ngAfterViewInit();
+      fixture.detectChanges();
+    });
+
+    it("should contain span element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.itemDescription item:Camera bundle'
+      );
+    });
+
+    it("should contain button element with a content 'configurator.button.less'", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        undefined,
+        undefined,
+        'configurator.button.less'
+      );
+    });
+
+    it("should contain button element with a content 'configurator.button.more'", () => {
+      component.toggleShowMore();
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        undefined,
+        0,
+        undefined,
+        undefined,
+        'configurator.button.more'
+      );
+    });
   });
 });

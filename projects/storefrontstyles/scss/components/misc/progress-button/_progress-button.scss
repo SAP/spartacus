@@ -1,0 +1,68 @@
+:root {
+  --cx-progress-button-radius: 24px;
+  --cx-progress-button-border-width: 3px;
+  --cx-progress-button-animation-time: 1s;
+  --cx-progress-button-primary-color: var(--cx-color-primary);
+  --cx-progress-button-secondary-color: var(--cx-color-white);
+}
+
+%cx-progress-button {
+  .cx-progress-button-container {
+    align-items: flex-start;
+    display: flex;
+    justify-content: center;
+
+    .loader-container {
+      position: relative;
+      margin-inline-end: 10px;
+      width: var(--cx-progress-button-radius);
+      height: var(--cx-progress-button-radius);
+    }
+
+    .loader {
+      width: var(--cx-progress-button-radius);
+      height: var(--cx-progress-button-radius);
+      font-size: 10px;
+      overflow: hidden;
+      animation: circleRotation var(--cx-progress-button-animation-time)
+        infinite linear;
+
+      &::before,
+      &:before {
+        content: '';
+        box-sizing: border-box;
+        display: block;
+        width: var(--cx-progress-button-radius);
+        height: var(--cx-progress-button-radius);
+        border: var(--cx-progress-button-border-width) solid;
+        margin: auto;
+        border-top-color: var(--cx-progress-button-secondary-color);
+        border-bottom-color: var(--cx-progress-button-secondary-color);
+        border-right-color: var(--cx-progress-button-secondary-color);
+        border-left-color: var(--cx-progress-button-primary-color);
+        border-radius: 50%;
+        pointer-events: none;
+      }
+    }
+
+    @keyframes circleRotation {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    &.overlay {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+      user-select: none;
+      background: rgba(255, 255, 255, 0.5);
+      position: absolute;
+      z-index: 10;
+    }
+  }
+}

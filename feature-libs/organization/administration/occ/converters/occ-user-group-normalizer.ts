@@ -6,7 +6,8 @@ import { UserGroup } from '@spartacus/organization/administration/core';
   providedIn: 'root',
 })
 export class OccUserGroupNormalizer
-  implements Converter<Occ.OrgUnitUserGroup, UserGroup> {
+  implements Converter<Occ.OrgUnitUserGroup, UserGroup>
+{
   constructor() {}
 
   convert(source: Occ.OrgUnitUserGroup, target?: UserGroup): UserGroup {

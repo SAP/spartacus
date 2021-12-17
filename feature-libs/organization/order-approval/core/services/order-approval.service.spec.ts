@@ -20,6 +20,7 @@ import * as fromReducers from '../store/reducers/index';
 import { OrderApprovalService } from './order-approval.service';
 
 import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
 const userId = 'current';
 const orderApprovalCode = 'testOrderApproval';
@@ -38,7 +39,9 @@ const orderApprovalDecision: OrderApprovalDecision = {
 };
 
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+  takeUserId = createSpy().and.callFake(() => {
+    return of(userId);
+  });
 }
 
 describe('OrderApprovalService', () => {
@@ -85,7 +88,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(orderApprovalDetails).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApproval({
@@ -110,7 +113,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(orderApprovalDetails).toEqual(orderApproval);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApproval({
@@ -159,7 +162,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(orderApprovals).toEqual(undefined);
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -191,7 +194,7 @@ describe('OrderApprovalService', () => {
         })
         .unsubscribe();
 
-      expect(userIdService.invokeWithUserId).not.toHaveBeenCalled();
+      expect(userIdService.takeUserId).not.toHaveBeenCalled();
       expect(orderApprovals).toEqual(orderApprovalList);
       expect(store.dispatch).not.toHaveBeenCalledWith(
         new OrderApprovalActions.LoadOrderApprovals({ userId, params })
@@ -203,7 +206,7 @@ describe('OrderApprovalService', () => {
     it('update() should should dispatch MakeDecision action', () => {
       service.makeDecision(orderApprovalCode, orderApprovalDecision);
 
-      expect(userIdService.invokeWithUserId).toHaveBeenCalled();
+      expect(userIdService.takeUserId).toHaveBeenCalled();
       expect(store.dispatch).toHaveBeenCalledWith(
         new OrderApprovalActions.MakeDecision({
           userId,

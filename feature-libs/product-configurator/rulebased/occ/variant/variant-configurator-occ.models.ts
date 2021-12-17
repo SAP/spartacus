@@ -7,22 +7,40 @@ export namespace OccConfigurator {
     /**
      * @member {string} [configId]
      */
-    configId?: string;
+    configId: string;
     /**
      * @member {boolean} [complete]
      */
     complete?: boolean;
-
+    /**
+     * Configuration is consistent, meaning it does not contain conflicts
+     *
+     * @member {boolean}
+     */
+    consistent?: boolean;
     totalNumberOfIssues?: number;
     groups?: Group[];
     rootProduct?: string;
   }
 
   export interface Prices {
-    configId?: string;
+    configId: string;
+    attributes?: Supplements[];
     pricingError?: boolean;
     showDeltaPrices?: boolean;
     priceSummary?: PriceSummary;
+  }
+
+  export interface Supplements {
+    csticUiKey: string;
+    selectedValues: string[];
+    priceSupplements: ValueSupplements[];
+  }
+
+  export interface ValueSupplements {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -33,9 +51,9 @@ export namespace OccConfigurator {
   }
 
   export interface PriceDetails {
-    currencyIso?: string;
+    currencyIso: string;
     formattedValue?: string;
-    value?: number;
+    value: number;
   }
 
   export interface PriceSavingDetails extends PriceDetails {
@@ -49,20 +67,20 @@ export namespace OccConfigurator {
     consistent?: boolean;
     attributes?: Attribute[];
     description?: string;
-    groupType?: GroupType;
-    id?: string;
+    groupType: GroupType;
+    id: string;
     name?: string;
     subGroups?: Group[];
   }
 
   export interface Attribute {
-    name?: string;
+    name: string;
     langDepName?: string;
     type?: UiType;
     domainValues?: Value[];
     required?: boolean;
     value?: string;
-    key?: string;
+    key: string;
     formattedValue?: string;
     maxlength?: number;
     images?: Image[];
@@ -74,7 +92,7 @@ export namespace OccConfigurator {
   }
 
   export interface Value {
-    key?: string;
+    key: string;
     name?: string;
     langDepName?: string;
     readonly?: boolean;
@@ -117,7 +135,7 @@ export namespace OccConfigurator {
   }
 
   export interface GroupOverview {
-    id?: string;
+    id: string;
     groupDescription?: string;
     characteristicValues?: CharacteristicOverview[];
     subGroups?: GroupOverview[];
@@ -125,11 +143,13 @@ export namespace OccConfigurator {
 
   export interface CharacteristicOverview {
     characteristic: string;
+    characteristicId?: string;
     value: string;
+    valueId?: string;
   }
   export interface Image {
-    imageType?: ImageType;
-    format?: ImageFormatType;
+    imageType: ImageType;
+    format: ImageFormatType;
     url?: string;
     altText?: string;
     galleryIndex?: number;

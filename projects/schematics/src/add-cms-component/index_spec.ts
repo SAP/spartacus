@@ -101,7 +101,6 @@ describe('add-cms-component', () => {
     project: 'schematics-test',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -156,17 +155,13 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [MyAwesomeCmsComponent],`],
+        [`declarations: [`, `MyAwesomeCmsComponent`],
         GENERATED_MODULE_PATH
       );
+      assertContentExists(appTree, [], GENERATED_MODULE_PATH);
       assertContentExists(
         appTree,
-        [`entryComponents: [MyAwesomeCmsComponent]`],
-        GENERATED_MODULE_PATH
-      );
-      assertContentExists(
-        appTree,
-        [`exports: [MyAwesomeCmsComponent]`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         GENERATED_MODULE_PATH
       );
       assertContentExists(
@@ -208,7 +203,6 @@ describe('add-cms-component', () => {
           `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
-          `entryComponents: [MyAwesomeCmsComponent]`,
         ],
         APP_MODULE_PATH
       );
@@ -228,7 +222,6 @@ describe('add-cms-component', () => {
         project: defaultOptions.project,
         name: 'dummy',
         module: moduleName,
-        entryComponent: true,
         export: true,
       };
       const modifiedOptions: CxCmsComponentSchema = {
@@ -278,17 +271,13 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [DummyComponent, MyAwesomeCmsComponent],`],
+        [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
+      assertContentExists(appTree, [], existingModulePath);
       assertContentExists(
         appTree,
-        [`entryComponents: [DummyComponent, MyAwesomeCmsComponent]`],
-        existingModulePath
-      );
-      assertContentExists(
-        appTree,
-        [`exports: [DummyComponent, MyAwesomeCmsComponent]`],
+        [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
       assertContentExists(
@@ -330,7 +319,6 @@ describe('add-cms-component', () => {
           `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
-          `entryComponents: [MyAwesomeCmsComponent]`,
         ],
         APP_MODULE_PATH
       );
@@ -378,17 +366,13 @@ describe('add-cms-component', () => {
         );
         assertContentExists(
           appTree,
-          [`declarations: [DummyComponent, MyAwesomeCmsComponent],`],
+          [`declarations: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
           existingModulePath
         );
+        assertContentExists(appTree, [], existingModulePath);
         assertContentExists(
           appTree,
-          [`entryComponents: [DummyComponent, MyAwesomeCmsComponent]`],
-          existingModulePath
-        );
-        assertContentExists(
-          appTree,
-          [`exports: [DummyComponent, MyAwesomeCmsComponent]`],
+          [`exports: [`, `DummyComponent,`, `MyAwesomeCmsComponent`],
           existingModulePath
         );
         assertContentExists(
@@ -432,7 +416,6 @@ describe('add-cms-component', () => {
             `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
             `MyAwesomeCmsComponent`,
             `exports: [MyAwesomeCmsComponent],`,
-            `entryComponents: [MyAwesomeCmsComponent]`,
           ],
           APP_MODULE_PATH
         );
@@ -468,17 +451,13 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [MyAwesomeCmsComponent],`],
+        [`declarations: [`, `MyAwesomeCmsComponent`],
         GENERATED_MODULE_PATH
       );
+      assertContentExists(appTree, [], GENERATED_MODULE_PATH);
       assertContentExists(
         appTree,
-        [`entryComponents: [MyAwesomeCmsComponent]`],
-        GENERATED_MODULE_PATH
-      );
-      assertContentExists(
-        appTree,
-        [`exports: [MyAwesomeCmsComponent]`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         GENERATED_MODULE_PATH
       );
       assertContentExists(
@@ -516,10 +495,7 @@ describe('add-cms-component', () => {
       // app.module.ts assertions
       assertContentDoesNotExist(
         appTree,
-        [
-          `exports: [MyAwesomeCmsComponent],`,
-          `entryComponents: [MyAwesomeCmsComponent]`,
-        ],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         APP_MODULE_PATH
       );
       assertContentExists(
@@ -579,17 +555,13 @@ describe('add-cms-component', () => {
       );
       assertContentExists(
         appTree,
-        [`declarations: [MyAwesomeCmsComponent],`],
+        [`declarations: [`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
+      assertContentExists(appTree, [], existingModulePath);
       assertContentExists(
         appTree,
-        [`entryComponents: [MyAwesomeCmsComponent]`],
-        existingModulePath
-      );
-      assertContentExists(
-        appTree,
-        [`exports: [MyAwesomeCmsComponent]`],
+        [`exports: [`, `MyAwesomeCmsComponent`],
         existingModulePath
       );
       assertContentExists(
@@ -631,7 +603,6 @@ describe('add-cms-component', () => {
           `import { MyAwesomeCmsComponent } from './my-awesome-cms/my-awesome-cms.component';`,
           `MyAwesomeCmsComponent`,
           `exports: [MyAwesomeCmsComponent],`,
-          `entryComponents: [MyAwesomeCmsComponent]`,
         ],
         APP_MODULE_PATH
       );

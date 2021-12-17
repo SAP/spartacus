@@ -20,7 +20,8 @@ import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';
 
 @Injectable()
 export class OccConfiguratorTextfieldAdapter
-  implements ConfiguratorTextfieldAdapter {
+  implements ConfiguratorTextfieldAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -33,8 +34,10 @@ export class OccConfiguratorTextfieldAdapter
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.http
       .get<OccConfiguratorTextfield.Configuration>(
-        this.occEndpointsService.getUrl('createTextfieldConfiguration', {
-          productCode,
+        this.occEndpointsService.buildUrl('createTextfieldConfiguration', {
+          urlParams: {
+            productCode,
+          },
         })
       )
       .pipe(
@@ -42,9 +45,7 @@ export class OccConfiguratorTextfieldAdapter
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
-            owner: {
-              ...owner,
-            },
+            owner: owner,
           };
         })
       );
@@ -53,11 +54,13 @@ export class OccConfiguratorTextfieldAdapter
   addToCart(
     parameters: ConfiguratorTextfield.AddToCartParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'addTextfieldConfigurationToCart',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+        },
       }
     );
 
@@ -74,12 +77,40 @@ export class OccConfiguratorTextfieldAdapter
   readConfigurationForCartEntry(
     parameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters
   ): Observable<ConfiguratorTextfield.Configuration> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'readTextfieldConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
+        };
+      })
+    );
+  }
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readTextfieldConfigurationForOrderEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
+        },
       }
     );
 
@@ -98,12 +129,14 @@ export class OccConfiguratorTextfieldAdapter
   updateConfigurationForCartEntry(
     parameters: ConfiguratorTextfield.UpdateCartEntryParameters
   ): Observable<CartModification> {
-    const url = this.occEndpointsService.getUrl(
+    const url = this.occEndpointsService.buildUrl(
       'updateTextfieldConfigurationForCartEntry',
       {
-        userId: parameters.userId,
-        cartId: parameters.cartId,
-        cartEntryNumber: parameters.cartEntryNumber,
+        urlParams: {
+          userId: parameters.userId,
+          cartId: parameters.cartId,
+          cartEntryNumber: parameters.cartEntryNumber,
+        },
       }
     );
 

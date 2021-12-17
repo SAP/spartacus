@@ -17,31 +17,31 @@ export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
     tsMorph.SyntaxKind.ObjectLiteralExpression
   );
   const providers: Node[] = [];
-  if (literal) {
-    const properties =
-      literal.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
-    properties.forEach((property) => {
-      if (
-        property.getNameNode().getText() === 'providers' &&
-        property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
-      ) {
-        const initializer = property.getInitializerIfKind(
-          tsMorph.SyntaxKind.ArrayLiteralExpression
-        );
-        initializer?.getElements().forEach((element) => {
-          if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
-            const expression = element.getExpression();
-            if (
-              Node.isIdentifier(expression) &&
-              isImportedFromSpartacusLibs(expression)
-            ) {
-              providers.push(element);
-            }
+
+  const properties =
+    literal?.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
+  properties.forEach((property) => {
+    if (
+      property.getNameNode().getText() === 'providers' &&
+      property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
+    ) {
+      const initializer = property.getInitializerIfKind(
+        tsMorph.SyntaxKind.ArrayLiteralExpression
+      );
+      initializer?.getElements().forEach((element) => {
+        if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
+          const expression = element.getExpression();
+          if (
+            Node.isIdentifier(expression) &&
+            isImportedFromSpartacusLibs(expression)
+          ) {
+            providers.push(element);
           }
-        });
-      }
-    });
-  }
+        }
+      });
+    }
+  });
+
   return providers;
 }
 

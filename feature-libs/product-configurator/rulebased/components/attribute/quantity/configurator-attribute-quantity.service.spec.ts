@@ -2,6 +2,9 @@ import { TestBed } from '@angular/core/testing';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorAttributeQuantityService } from './configurator-attribute-quantity.service';
 
+const VALUE_CODE = 'a';
+const VALUE_CODE2 = 'b';
+
 describe('ConfiguratorAttributeQuantityService', () => {
   let service: ConfiguratorAttributeQuantityService;
 
@@ -46,7 +49,7 @@ describe('ConfiguratorAttributeQuantityService', () => {
       const attribute: Configurator.Attribute = {
         name: 'attributeName',
         dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
-        values: [{ name: 'V1', selected: true }],
+        values: [{ name: 'V1', selected: true, valueCode: VALUE_CODE }],
         quantity: 1,
       };
       expect(service.disableQuantityActionsMultiSelection(attribute)).toBe(
@@ -70,8 +73,8 @@ describe('ConfiguratorAttributeQuantityService', () => {
         name: 'attributeName',
         dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
         values: [
-          { name: 'V1', selected: false },
-          { name: 'V2', selected: false },
+          { name: 'V1', selected: false, valueCode: VALUE_CODE },
+          { name: 'V2', selected: false, valueCode: VALUE_CODE2 },
         ],
         quantity: 1,
       };
@@ -85,8 +88,8 @@ describe('ConfiguratorAttributeQuantityService', () => {
         name: 'attributeName',
         dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
         values: [
-          { name: 'V1', selected: true },
-          { name: 'V2', selected: false },
+          { name: 'V1', selected: true, valueCode: VALUE_CODE },
+          { name: 'V2', selected: false, valueCode: VALUE_CODE2 },
         ],
         quantity: 0,
       };
@@ -171,8 +174,8 @@ describe('ConfiguratorAttributeQuantityService', () => {
         name: 'attributeName',
         required: true,
         values: [
-          { name: 'V1', selected: true },
-          { name: 'V2', selected: false },
+          { name: 'V1', selected: true, valueCode: VALUE_CODE },
+          { name: 'V2', selected: false, valueCode: VALUE_CODE2 },
         ],
       };
       expect(service.allowZeroValueQuantity(attribute)).toBe(false);
@@ -183,8 +186,8 @@ describe('ConfiguratorAttributeQuantityService', () => {
         name: 'attributeName',
         required: true,
         values: [
-          { name: 'V1', selected: true },
-          { name: 'V2', selected: true },
+          { name: 'V1', selected: true, valueCode: VALUE_CODE },
+          { name: 'V2', selected: true, valueCode: VALUE_CODE2 },
         ],
       };
       expect(service.allowZeroValueQuantity(attribute)).toBe(true);
@@ -195,8 +198,8 @@ describe('ConfiguratorAttributeQuantityService', () => {
         name: 'attributeName',
         required: false,
         values: [
-          { name: 'V1', selected: true },
-          { name: 'V2', selected: false },
+          { name: 'V1', selected: true, valueCode: VALUE_CODE },
+          { name: 'V2', selected: false, valueCode: VALUE_CODE2 },
         ],
       };
       expect(service.allowZeroValueQuantity(attribute)).toBe(true);

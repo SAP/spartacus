@@ -5,8 +5,10 @@ import {
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
+  BaseOccUrlProperties,
   CartModification,
   ConverterService,
+  DynamicAttributes,
   OccEndpointsService,
   TranslationService,
 } from '@spartacus/core';
@@ -18,32 +20,43 @@ import {
 } from '@spartacus/product-configurator/common';
 import { CART_MODIFICATION_NORMALIZER } from 'projects/core/src/cart';
 import { of } from 'rxjs';
-import { VariantConfiguratorOccAdapter } from '.';
+import {
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
+  VariantConfiguratorOccAdapter,
+} from '.';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
+import { OccConfiguratorTestUtils } from '../../testing/occ-configurator-test-utils';
 import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-variant-normalizer';
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
-import { OccConfiguratorVariantPriceSummaryNormalizer } from './converters/occ-configurator-variant-price-summary-normalizer';
 import {
   VARIANT_CONFIGURATOR_NORMALIZER,
   VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-  VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
   VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
+import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
 
 class MockOccEndpointsService {
-  getUrl(endpoint: string, _urlParams?: object, _queryParams?: object) {
+  buildUrl(
+    endpoint: string,
+    _attributes?: DynamicAttributes,
+    _propertiesToOmit?: BaseOccUrlProperties
+  ) {
     return this.getEndpoint(endpoint);
   }
+
   getEndpoint(url: string) {
     return url;
   }
 }
+
 class MockTranslationService {
   translate(text: string) {
     return text;
   }
 }
+
 const productCode = 'CONF_LAPTOP';
 const cartEntryNo = '1';
 const configId = '1234-56-7890';
@@ -52,32 +65,35 @@ const documentEntryNumber = '3';
 const userId = 'Anony';
 const documentId = '82736353';
 
-const productConfiguration: Configurator.Configuration = {
-  configId: configId,
-  productCode: productCode,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    productCode
+//const mockProductConfiguration: Configurator.Configuration = productConfiguration;
+
+const configuration: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      productCode
+    )
   ),
+  productCode: productCode,
 };
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
 };
 
-const pricesOcc: OccConfigurator.Prices = {
-  priceSummary: {
-    basePrice: { currencyIso: 'USD' },
-  },
-};
+const pricesOcc: OccConfigurator.Prices =
+  OccConfiguratorTestUtils.createOccConfiguratorPrices(false, 1, 0, 3, 3);
 
 const productConfigurationForCartEntry: Configurator.Configuration = {
-  configId: configId,
-  productCode: productCode,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    cartEntryNo
+  ...ConfiguratorTestUtils.createConfiguration(
+    configId,
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.CART_ENTRY,
+      cartEntryNo
+    )
   ),
+  productCode: productCode,
 };
 
 const overviewOcc: OccConfigurator.Overview = { id: configId };
@@ -88,7 +104,7 @@ describe('OccConfigurationVariantAdapter', () => {
   let occConfiguratorVariantAdapter: VariantConfiguratorOccAdapter;
   let httpMock: HttpTestingController;
   let converterService: ConverterService;
-  let occEnpointsService: OccEndpointsService;
+  let occEndpointsService: OccEndpointsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
 
   beforeEach(() => {
@@ -109,8 +125,8 @@ describe('OccConfigurationVariantAdapter', () => {
           multi: true,
         },
         {
-          provide: VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER,
-          useExisting: OccConfiguratorVariantPriceSummaryNormalizer,
+          provide: VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
+          useExisting: OccConfiguratorVariantPriceNormalizer,
           multi: true,
         },
       ],
@@ -122,7 +138,7 @@ describe('OccConfigurationVariantAdapter', () => {
     converterService = TestBed.inject(
       ConverterService as Type<ConverterService>
     );
-    occEnpointsService = TestBed.inject(
+    occEndpointsService = TestBed.inject(
       OccEndpointsService as Type<OccEndpointsService>
     );
 
@@ -132,10 +148,10 @@ describe('OccConfigurationVariantAdapter', () => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    configuratorUtils.setOwnerKey(productConfiguration.owner);
+    configuratorUtils.setOwnerKey(configuration.owner);
 
     spyOn(converterService, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEndpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -146,7 +162,7 @@ describe('OccConfigurationVariantAdapter', () => {
     spyOn(converterService, 'pipeable').and.callThrough();
 
     occConfiguratorVariantAdapter
-      .createConfiguration(productConfiguration.owner)
+      .createConfiguration(configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -161,10 +177,12 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'createVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'createVariantConfiguration',
       {
-        productCode,
+        urlParams: {
+          productCode,
+        },
       }
     );
 
@@ -176,7 +194,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readConfiguration endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .readConfiguration(configId, groupId, productConfiguration.owner)
+      .readConfiguration(configId, groupId, configuration.owner)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -186,10 +204,12 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'GET' && req.url === 'readVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfiguration',
-      { configId },
-      { groupId }
+      {
+        urlParams: { configId },
+        queryParams: { groupId },
+      }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
@@ -203,7 +223,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call updateConfiguration endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .updateConfiguration(productConfiguration)
+      .updateConfiguration(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.configId).toEqual(configId);
         done();
@@ -213,10 +233,12 @@ describe('OccConfigurationVariantAdapter', () => {
       return req.method === 'PATCH' && req.url === 'updateVariantConfiguration';
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfiguration',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 
@@ -226,7 +248,7 @@ describe('OccConfigurationVariantAdapter', () => {
       VARIANT_CONFIGURATOR_NORMALIZER
     );
     expect(converterService.convert).toHaveBeenCalledWith(
-      productConfiguration,
+      configuration,
       VARIANT_CONFIGURATOR_SERIALIZER
     );
     mockReq.flush(productConfigurationOcc);
@@ -235,11 +257,68 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call readPriceSummary endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .readPriceSummary(productConfiguration)
+      .readPriceSummary(configuration)
       .subscribe((resultConfiguration) => {
         expect(resultConfiguration.priceSummary?.basePrice?.currencyIso).toBe(
           pricesOcc.priceSummary?.basePrice?.currencyIso
         );
+        expect(resultConfiguration.priceSupplements.length).toBe(3);
+        expect(resultConfiguration.priceSupplements[0].attributeUiKey).toBe(
+          'group1@attribute_1_1'
+        );
+        expect(
+          resultConfiguration.priceSupplements[0].valueSupplements.length
+        ).toBe(3);
+        expect(
+          resultConfiguration.priceSupplements[0].valueSupplements[0]
+            .attributeValueKey
+        ).toBe('value_1_1');
+        expect(
+          resultConfiguration.priceSupplements[0].valueSupplements[1]
+            .attributeValueKey
+        ).toBe('value_1_2');
+        expect(
+          resultConfiguration.priceSupplements[0].valueSupplements[2]
+            .attributeValueKey
+        ).toBe('value_1_3');
+
+        expect(resultConfiguration.priceSupplements[1].attributeUiKey).toBe(
+          'group1@attribute_1_2'
+        );
+        expect(
+          resultConfiguration.priceSupplements[1].valueSupplements.length
+        ).toBe(3);
+        expect(
+          resultConfiguration.priceSupplements[1].valueSupplements[0]
+            .attributeValueKey
+        ).toBe('value_2_1');
+        expect(
+          resultConfiguration.priceSupplements[1].valueSupplements[1]
+            .attributeValueKey
+        ).toBe('value_2_2');
+        expect(
+          resultConfiguration.priceSupplements[1].valueSupplements[2]
+            .attributeValueKey
+        ).toBe('value_2_3');
+
+        expect(resultConfiguration.priceSupplements[2].attributeUiKey).toBe(
+          'group1@attribute_1_3'
+        );
+        expect(
+          resultConfiguration.priceSupplements[2].valueSupplements.length
+        ).toBe(3);
+        expect(
+          resultConfiguration.priceSupplements[2].valueSupplements[0]
+            .attributeValueKey
+        ).toBe('value_3_1');
+        expect(
+          resultConfiguration.priceSupplements[2].valueSupplements[1]
+            .attributeValueKey
+        ).toBe('value_3_2');
+        expect(
+          resultConfiguration.priceSupplements[2].valueSupplements[2]
+            .attributeValueKey
+        ).toBe('value_3_3');
         done();
       });
 
@@ -250,17 +329,20 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationPriceSummary',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
+        queryParams: { groupId: configuration?.interactionState?.currentGroup },
       }
     );
 
     expect(mockReq.cancelled).toBeFalsy();
     expect(mockReq.request.responseType).toEqual('json');
     expect(converterService.pipeable).toHaveBeenCalledWith(
-      VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER
+      VARIANT_CONFIGURATOR_PRICE_NORMALIZER
     );
 
     mockReq.flush(pricesOcc);
@@ -268,12 +350,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: productConfiguration.owner,
-      userId: userId,
-      cartId: documentId,
-      cartEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: configuration.owner,
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
+      };
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
       .subscribe((resultConfiguration) => {
@@ -288,12 +371,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -307,12 +392,13 @@ describe('OccConfigurationVariantAdapter', () => {
 
   it('should call readVariantConfigurationOverviewForOrderEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
-    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-      owner: productConfiguration.owner,
-      userId: userId,
-      orderId: documentId,
-      orderEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        owner: configuration.owner,
+        userId: userId,
+        orderId: documentId,
+        orderEntryNumber: documentEntryNumber,
+      };
     occConfiguratorVariantAdapter
       .readConfigurationForOrderEntry(params)
       .subscribe((resultConfiguration) => {
@@ -327,12 +413,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'readVariantConfigurationOverviewForOrderEntry',
       {
-        userId,
-        orderId: documentId,
-        orderEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          orderId: documentId,
+          orderEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -347,7 +435,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call updateVariantConfigurationForCartEntry endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     const params: Configurator.UpdateConfigurationForCartEntryParameters = {
-      configuration: productConfiguration,
+      configuration: configuration,
       userId: userId,
       cartId: documentId,
       cartEntryNumber: documentEntryNumber,
@@ -368,12 +456,14 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'updateVariantConfigurationForCartEntry',
       {
-        userId,
-        cartId: documentId,
-        cartEntryNumber: documentEntryNumber,
+        urlParams: {
+          userId,
+          cartId: documentId,
+          cartEntryNumber: documentEntryNumber,
+        },
       }
     );
 
@@ -391,7 +481,7 @@ describe('OccConfigurationVariantAdapter', () => {
       productCode: 'Product',
       quantity: 1,
       configId: configId,
-      owner: productConfiguration.owner,
+      owner: configuration.owner,
       userId: userId,
       cartId: documentId,
     };
@@ -419,14 +509,15 @@ describe('OccConfigurationVariantAdapter', () => {
   });
 
   it('should set owner on readVariantConfigurationForCartEntry according to parameters', (done) => {
-    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-      owner: productConfigurationForCartEntry.owner,
-      userId: userId,
-      cartId: documentId,
-      cartEntryNumber: documentEntryNumber,
-    };
+    const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+      {
+        owner: productConfigurationForCartEntry.owner,
+        userId: userId,
+        cartId: documentId,
+        cartEntryNumber: documentEntryNumber,
+      };
     spyOn(converterService, 'pipeable').and.returnValue(() =>
-      of(productConfiguration)
+      of(configuration)
     );
     occConfiguratorVariantAdapter
       .readConfigurationForCartEntry(params)
@@ -442,7 +533,7 @@ describe('OccConfigurationVariantAdapter', () => {
   it('should call getVariantConfigurationOverview endpoint', (done) => {
     spyOn(converterService, 'pipeable').and.callThrough();
     occConfiguratorVariantAdapter
-      .getConfigurationOverview(productConfiguration.configId)
+      .getConfigurationOverview(configuration.configId)
       .subscribe((productConfigurationResult) => {
         expect(productConfigurationResult.configId).toBe(configId);
         done();
@@ -454,10 +545,12 @@ describe('OccConfigurationVariantAdapter', () => {
       );
     });
 
-    expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+    expect(occEndpointsService.buildUrl).toHaveBeenCalledWith(
       'getVariantConfigurationOverview',
       {
-        configId,
+        urlParams: {
+          configId,
+        },
       }
     );
 

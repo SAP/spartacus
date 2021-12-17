@@ -9,7 +9,6 @@ import { defaultYotpoConfig } from './yotpoconfig/default-yotpo-config';
   imports: [CommonModule],
   exports: [YotporeviewComponent, YotpostarratingComponent],
   declarations: [YotporeviewComponent, YotpostarratingComponent],
-  entryComponents: [YotporeviewComponent, YotpostarratingComponent],
   providers: [provideDefaultConfig(defaultYotpoConfig)],
 })
 export class YotpoModule {}

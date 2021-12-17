@@ -101,8 +101,8 @@ function configureSpartacusModules(
 
       [
         `// User Core,
-        UserTransitionalModule,`,
-        'UserOccTransitionalModule,',
+        UserTransitional_4_2_Module,`,
+        'UserOccTransitional_4_2_Module,',
         `// User UI,
         AddressBookModule,`,
         'PaymentMethodsModule,',
@@ -117,8 +117,8 @@ function configureSpartacusModules(
             {
               moduleSpecifier: SPARTACUS_CORE,
               namedImports: [
-                'UserTransitionalModule',
-                'UserOccTransitionalModule',
+                'UserTransitional_4_2_Module',
+                'UserOccTransitional_4_2_Module',
               ],
             },
             {
@@ -231,33 +231,12 @@ function configureSpartacusModules(
         });
       });
 
-      [
-        `// Checkout Core,
-        CheckoutModule.forRoot(),`,
-        'CheckoutOccModule,',
-        'CostCenterOccModule,',
-        `// Checkout UI,
-        CheckoutLoginModule,`,
-        'CheckoutComponentModule,',
-        'OrderConfirmationModule,',
-      ].forEach((content) => {
+      ['CostCenterOccModule,'].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {
               moduleSpecifier: SPARTACUS_CORE,
-              namedImports: [
-                'CheckoutModule',
-                'CheckoutOccModule',
-                'CostCenterOccModule',
-              ],
-            },
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: [
-                'CheckoutComponentModule',
-                'CheckoutLoginModule',
-                'OrderConfirmationModule',
-              ],
+              namedImports: ['CostCenterOccModule'],
             },
           ],
           content,
@@ -266,31 +245,13 @@ function configureSpartacusModules(
 
       [
         `// Order,
-        OrderHistoryModule,`,
-        'OrderDetailsModule,',
-        'OrderCancellationModule,',
-        'OrderReturnModule,',
-        'ReturnRequestListModule,',
-        'ReturnRequestDetailModule,',
-        'ReplenishmentOrderHistoryModule,',
-        'ReplenishmentOrderDetailsModule,',
-        'ReplenishmentOrderConfirmationModule,',
+        OrderOccModule`,
       ].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: [
-                'OrderCancellationModule',
-                'OrderDetailsModule',
-                'OrderHistoryModule',
-                'OrderReturnModule',
-                'ReplenishmentOrderConfirmationModule',
-                'ReplenishmentOrderDetailsModule',
-                'ReplenishmentOrderHistoryModule',
-                'ReturnRequestDetailModule',
-                'ReturnRequestListModule',
-              ],
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: ['OrderOccModule'],
             },
           ],
           content,
@@ -314,6 +275,21 @@ function configureSpartacusModules(
                 'CartPageEventModule',
                 'ProductPageEventModule',
               ],
+            },
+          ],
+          content,
+        });
+      });
+
+      [
+        `// External routes,
+      ExternalRoutesModule.forRoot(),`,
+      ].forEach((content) => {
+        addModuleImport(sourceFile, {
+          import: [
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: ['ExternalRoutesModule'],
             },
           ],
           content,

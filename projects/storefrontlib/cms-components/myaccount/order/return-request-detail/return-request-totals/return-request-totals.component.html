@@ -1,0 +1,34 @@
+<ng-container *ngIf="returnRequest$ | async as returnRequest">
+  <div class="row justify-content-end">
+    <div class="cx-summary col-sm-12 col-md-6 col-lg-5 col-xl-4">
+      <h4>{{ 'returnRequest.summary' | cxTranslate }}</h4>
+      <div class="cx-summary-row">
+        <div class="col-6 cx-summary-label">
+          {{ 'returnRequest.subtotal' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ returnRequest.subTotal?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row">
+        <div class="col-6 cx-summary-label">
+          {{ 'returnRequest.deliveryCode' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ returnRequest.deliveryCost?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row cx-summary-total">
+        <div class="col-6 cx-summary-label">
+          {{ 'returnRequest.estimatedRefund' | cxTranslate }}
+        </div>
+        <div class="col-6 cx-summary-amount">
+          {{ returnRequest.totalPrice?.formattedValue }}
+        </div>
+      </div>
+      <div class="cx-summary-row cx-footnote">
+        {{ 'returnRequest.note' | cxTranslate }}
+      </div>
+    </div>
+  </div>
+</ng-container>

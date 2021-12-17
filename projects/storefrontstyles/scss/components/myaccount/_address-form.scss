@@ -1,0 +1,19 @@
+%cx-address-form {
+  .cx-address-form-btns {
+    padding: 1rem 0;
+    justify-content: flex-end;
+
+    @include media-breakpoint-down(md) {
+      padding: 1.25rem 0;
+    }
+    @include media-breakpoint-down(sm) {
+      padding: 1.25rem 0;
+    }
+
+    .btn-action {
+      @include media-breakpoint-down(md) {
+        margin: 0 0 1rem;
+      }
+    }
+  }
+}

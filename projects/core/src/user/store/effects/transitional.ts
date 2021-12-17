@@ -16,6 +16,9 @@ import { UserCostCenterEffects } from './user-cost-center.effect';
 import { UserOrdersEffect } from './user-orders.effect';
 import { UserReplenishmentOrdersEffect } from './user-replenishment-orders.effect';
 
+/**
+ * @deprecated since 4.2 - use effectsTransitional_4_2 with order lib instead
+ */
 export const effectsTransitional: any[] = [
   ClearMiscsDataEffect,
   DeliveryCountriesEffects,

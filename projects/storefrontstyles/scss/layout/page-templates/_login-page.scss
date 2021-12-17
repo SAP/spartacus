@@ -28,4 +28,11 @@
       margin-bottom: 1em;
     }
   }
+
+  cx-login-register {
+    @include media-breakpoint-up(md) {
+      width: 50%;
+      --cx-max-width: 50%;
+    }
+  }
 }

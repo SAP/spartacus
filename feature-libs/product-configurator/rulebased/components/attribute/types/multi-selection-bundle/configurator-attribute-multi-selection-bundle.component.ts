@@ -10,7 +10,7 @@ interface SelectionValue {
   name?: string;
   quantity?: number;
   selected?: boolean;
-  valueCode?: string;
+  valueCode: string;
 }
 
 @Component({
@@ -20,7 +20,8 @@ interface SelectionValue {
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   preventAction$ = new BehaviorSubject<boolean>(false);
   multipleSelectionValues: SelectionValue[] = [];
 
@@ -37,7 +38,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
 
     if (
-      this.attribute?.required &&
+      this.attribute.required &&
       this.multipleSelectionValues.filter((value) => value.selected).length < 2
     ) {
       this.preventAction$.next(true);
@@ -88,9 +89,10 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: string;
     quantity: number;
   }): ConfigFormUpdateEvent | undefined {
-    const value: Configurator.Value = this.multipleSelectionValues.find(
-      (selectionValue) => selectionValue?.valueCode === eventValue.valueCode
-    );
+    const value: Configurator.Value | undefined =
+      this.multipleSelectionValues.find(
+        (selectionValue) => selectionValue.valueCode === eventValue.valueCode
+      );
 
     if (!value) return;
 
@@ -162,6 +164,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       quantity: 0,
       price: {
         value: 0,
+        currencyIso: '',
       },
       priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
@@ -173,21 +176,29 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @param {boolean} disableAllButtons - Prevent all actions, e.g. while loading
    * @param {boolean} hideRemoveButton - hide remove action, e.g. if only value required attribute
    * @param {Configurator.Value} value - Value
+   * @param {number} index - index of current value in list of values of attribute
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean,
-    hideRemoveButton: boolean,
-    value: Configurator.Value
+    disableAllButtons: boolean | null,
+    hideRemoveButton: boolean | null,
+    value: Configurator.Value,
+    index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      disableAllButtons: disableAllButtons,
-      hideRemoveButton: hideRemoveButton,
+      disableAllButtons: disableAllButtons ? disableAllButtons : false,
+      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
-      attributeId: this.attribute.attrCode,
+      attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
+      attributeName: this.attribute.name,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
+      itemIndex: index ? index : 0,
     };
   }
 }

@@ -72,6 +72,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
     cpqAccessDataStack.push({
       accessToken: 'TOKEN',
       endpoint: 'https://cpq',
+      accessTokenExpirationTime: 0,
     });
 
     cpqResponseStack = [];
@@ -205,6 +206,7 @@ describe('CpqConfiguratorRestInterceptor', () => {
     cpqAccessDataStack.push({
       accessToken: 'EXPIRED_TOKEN',
       endpoint: 'https://cpq',
+      accessTokenExpirationTime: 0,
     });
     cpqResponseStack = [];
     cpqResponseStack.push(validCpqResponse); // second request should succeed

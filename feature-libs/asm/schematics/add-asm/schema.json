@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "AsmSchematics",
+  "$id": "AsmSchematics",
   "title": "ASM Schematics",
   "type": "object",
   "properties": {

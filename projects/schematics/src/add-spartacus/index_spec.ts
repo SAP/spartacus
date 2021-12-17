@@ -43,7 +43,6 @@ describe('add-spartacus', () => {
     occPrefix: 'xxx',
     baseSite: 'electronics',
     baseUrl: 'https://localhost:9002',
-    configuration: 'b2c',
     lazy: true,
     features: [],
   };
@@ -80,18 +79,25 @@ describe('add-spartacus', () => {
     expect(depPackageList.includes(SPARTACUS_STYLES)).toBe(true);
   });
 
-  it('Import SpartacusModule in app.module', async () => {
+  it('Import necessary modules in app.module', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
     const appModule = tree.readContent(
       '/projects/schematics-test/src/app/app.module.ts'
     );
-    expect(
-      appModule.includes(
-        `import { SpartacusModule } from './spartacus/spartacus.module';`
-      )
-    ).toBe(true);
+
+    const appModuleImports = [
+      `import { HttpClientModule } from "@angular/common/http";`,
+      `import { AppRoutingModule } from "@spartacus/storefront";`,
+      `import { StoreModule } from "@ngrx/store";`,
+      `import { EffectsModule } from "@ngrx/effects";`,
+      `import { SpartacusModule } from './spartacus/spartacus.module';`,
+    ];
+
+    appModuleImports.forEach((appImport) =>
+      expect(appModule.includes(appImport)).toBe(true)
+    );
   });
 
   describe('Setup configuration', () => {
@@ -325,7 +331,41 @@ describe('add-spartacus', () => {
       });
     });
 
-    describe('baseSite, language and currency', () => {
+    describe('urlParameters', () => {
+      it('should not set the urlParameters, if not provided', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync('add-spartacus', defaultOptions, appTree)
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(appModule.includes(`urlParameters: ['`)).toBe(false);
+      });
+      it('should set the provided urlParameters', async () => {
+        const tree = await schematicRunner
+          .runSchematicAsync(
+            'add-spartacus',
+            {
+              ...defaultOptions,
+              urlParameters: 'baseSite,language,currency',
+            },
+            appTree
+          )
+          .toPromise();
+        const appModule = tree.readContent(
+          `/projects/schematics-test/src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+        );
+
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
+          )
+        ).toBe(true);
+      });
+    });
+
+    describe('baseSite, language, currency and urlParameters', () => {
       it('should combine all context params properly', async () => {
         const tree = await schematicRunner
           .runSchematicAsync(
@@ -336,6 +376,7 @@ describe('add-spartacus', () => {
                 'electronics-spa,apparel-uk-spa,apparel-uk,electronics,apparel-de',
               currency: 'CAD,rsd',
               language: 'EN,RS',
+              urlParameters: 'baseSite,language,currency',
             },
             appTree
           )
@@ -348,14 +389,19 @@ describe('add-spartacus', () => {
         expect(appModule.includes(`language: ['en', 'rs'],`)).toBe(true);
         expect(
           appModule.includes(
-            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de']`
+            `baseSite: ['electronics-spa', 'apparel-uk-spa', 'apparel-uk', 'electronics', 'apparel-de'],`
+          )
+        ).toBe(true);
+        expect(
+          appModule.includes(
+            `urlParameters: ['baseSite', 'language', 'currency']`
           )
         ).toBe(true);
       });
     });
   });
 
-  it('Import Spartacus styles to main.scss', async () => {
+  it('Import Spartacus styles to styles.scss', async () => {
     const tree = await schematicRunner
       .runSchematicAsync('add-spartacus', defaultOptions, appTree)
       .toPromise();
@@ -365,6 +411,22 @@ describe('add-spartacus', () => {
     expect(stylesFile.includes(`@import '~@spartacus/styles/index';`)).toBe(
       true
     );
+  });
+
+  it('Add theme to styles.scss', async () => {
+    const tree = await schematicRunner
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...defaultOptions, theme: 'santorini' },
+        appTree
+      )
+      .toPromise();
+    const stylesFile = tree.readContent(
+      '/projects/schematics-test/src/styles.scss'
+    );
+    expect(
+      stylesFile.includes(`@import '~@spartacus/styles/scss/theme/santorini';`)
+    ).toBe(true);
   });
 
   it('Overwrite app.component with cx-storefront', async () => {

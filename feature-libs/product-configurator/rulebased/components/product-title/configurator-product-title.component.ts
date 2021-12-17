@@ -48,32 +48,4 @@ export class ConfiguratorProductTitleComponent {
   triggerDetails(): void {
     this.showMore = !this.showMore;
   }
-
-  /**
-   * @deprecated since 3.3
-   */
-  getProductImageURL(product: Product): string {
-    return product.images?.PRIMARY?.['thumbnail']?.url;
-  }
-
-  /**
-   * @deprecated since 3.3
-   */
-  getProductImageAlt(product: Product): string {
-    return product.images?.PRIMARY?.['thumbnail']?.altText;
-  }
-
-  /**
-   * Fired on key board events, checks for 'enter' and delegates to click.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  /**
-   * @deprecated since 3.3
-   */
-  clickOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter') {
-      this.triggerDetails();
-    }
-  }
 }

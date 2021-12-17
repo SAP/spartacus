@@ -272,9 +272,7 @@ export function checkPrice(
 function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
   return cy
     .get('cx-configurator-group-menu:visible')
-    .within(() =>
-      cy.get('ul>li.cx-menu-item').not('.cx-menu-conflict').eq(index)
-    );
+    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
 }
 
 /**
@@ -284,14 +282,10 @@ function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
  */
 export function clickOnGroup(groupIndex: number): void {
   getNthGroupMenu(groupIndex).within(() => {
-    cy.get('a')
-      .children()
-      .within(() => {
-        cy.get('div.subGroupIndicator').within(($list) => {
-          cy.log('$list.children().length: ' + $list.children().length);
-          cy.wrap($list.children().length).as('subGroupIndicator');
-        });
-      });
+    cy.get('div.subGroupIndicator').within(($list) => {
+      cy.log('$list.children().length: ' + $list.children().length);
+      cy.wrap($list.children().length).as('subGroupIndicator');
+    });
   });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

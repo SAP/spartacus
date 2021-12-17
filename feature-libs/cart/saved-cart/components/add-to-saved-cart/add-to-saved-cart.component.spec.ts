@@ -1,5 +1,6 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import {
   ActiveCartService,
@@ -11,7 +12,6 @@ import {
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { AddToSavedCartComponent } from './add-to-saved-cart.component';
 
 const mockCart: Cart = {
@@ -36,11 +36,7 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go(): void {}
-}
-
-class MockSavedCartFormLaunchDialogService {
-  openDialog(_openElement?: ElementRef, _vcr?: ViewContainerRef, _data?: any) {}
+  go = () => Promise.resolve(true);
 }
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
@@ -61,17 +57,17 @@ describe('AddToSavedCartComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [StoreModule.forRoot({}), I18nTestingModule, UrlTestingModule],
+      imports: [
+        StoreModule.forRoot({}),
+        I18nTestingModule,
+        UrlTestingModule,
+        RouterTestingModule,
+      ],
       declarations: [AddToSavedCartComponent],
       providers: [
         { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: AuthService, useClass: MockAuthService },
         { provide: RoutingService, useClass: MockRoutingService },
-        // TODO(#12167): remove unused class and provider
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
-        },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();

@@ -47,7 +47,7 @@ export class SmartEditLauncherService {
     this._cmsTicketId = cmsToken?.split('=')[1];
 
     return (
-      path.split('/').pop() === this.config.smartEdit.storefrontPreviewRoute &&
+      path.split('/').pop() === this.config.smartEdit?.storefrontPreviewRoute &&
       !!this._cmsTicketId
     );
   }

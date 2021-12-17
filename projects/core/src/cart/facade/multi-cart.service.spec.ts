@@ -11,6 +11,7 @@ import {
 } from '../store/multi-cart-state';
 import { MultiCartService } from './multi-cart.service';
 import createSpy = jasmine.createSpy;
+import { of } from 'rxjs';
 
 const testCart: Cart = {
   code: 'xxx',
@@ -53,7 +54,9 @@ const mockCarts: Cart[] = [testCart, testCart2];
 
 const userId = 'currentUserId';
 class MockUserIdService implements Partial<UserIdService> {
-  invokeWithUserId = createSpy().and.callFake((cb) => cb(userId));
+  takeUserId = createSpy().and.callFake(() => {
+    return of(userId);
+  });
 }
 
 describe('MultiCartService', () => {

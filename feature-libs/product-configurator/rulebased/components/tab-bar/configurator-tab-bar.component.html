@@ -12,7 +12,11 @@
           }
         } | cxUrl
       "
-      role="link"
+      [attr.aria-label]="
+        !(isOverviewPage$ | async)
+          ? ('configurator.a11y.configurationPage' | cxTranslate)
+          : ('configurator.a11y.configurationPageLink' | cxTranslate)
+      "
       >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
     >
     <a
@@ -27,7 +31,11 @@
           }
         } | cxUrl
       "
-      role="link"
+      [attr.aria-label]="
+        (isOverviewPage$ | async)
+          ? ('configurator.a11y.overviewPage' | cxTranslate)
+          : ('configurator.a11y.overviewPageLink' | cxTranslate)
+      "
       >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
     >
   </ng-container>

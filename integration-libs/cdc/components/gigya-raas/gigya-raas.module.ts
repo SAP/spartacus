@@ -21,6 +21,5 @@ import { GigyaRaasComponent } from './gigya-raas.component';
   ],
   declarations: [GigyaRaasComponent],
   exports: [GigyaRaasComponent],
-  entryComponents: [GigyaRaasComponent],
 })
 export class GigyaRaasModule {}

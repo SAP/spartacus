@@ -29,9 +29,13 @@ export class ConfiguratorConflictSuggestionComponent {
    * @return {boolean} - 'True' if the conflict description should be displayed, otherwise 'false'.
    */
   displayConflictSuggestion(group: Configurator.Group): boolean {
-    return (
-      group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
-      group.attributes?.length > 1
-    );
+    return group.groupType === Configurator.GroupType.CONFLICT_GROUP &&
+      group.attributes
+      ? group.attributes?.length > 1
+      : false;
+  }
+
+  createSuggestionUiKey(): string {
+    return 'suggestion--' + this.suggestionNumber;
   }
 }

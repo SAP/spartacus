@@ -3,11 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { ConfigModule } from '../../../config/config.module';
 import { Language } from '../../../model/misc.model';
-import { OccModule } from '../../../occ/occ.module';
-import { WindowRef } from '../../../window';
+import { BaseOccModule } from '../../../occ/base-occ.module';
 import { SiteAdapter } from '../../connectors/site.adapter';
 import { SiteConnector } from '../../connectors/site.connector';
 import { SiteContextActions } from '../actions/index';
@@ -15,7 +13,6 @@ import * as fromEffects from './languages.effect';
 
 describe('Languages Effects', () => {
   let actions$: Subject<SiteContextActions.LanguagesAction>;
-  let winRef: WindowRef;
   let connector: SiteConnector;
   let effects: fromEffects.LanguagesEffects;
   let mockState: BehaviorSubject<string>;
@@ -31,26 +28,17 @@ describe('Languages Effects', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [ConfigModule.forRoot(), HttpClientTestingModule, OccModule],
+      imports: [ConfigModule.forRoot(), HttpClientTestingModule, BaseOccModule],
       providers: [
         fromEffects.LanguagesEffects,
         { provide: SiteAdapter, useValue: {} },
         provideMockActions(() => actions$),
         { provide: Store, useValue: mockStore },
-        {
-          provide: WindowRef,
-          useValue: {
-            sessionStorage: {
-              setItem: jasmine.createSpy('sessionStorage.setItem'),
-            },
-          },
-        },
       ],
     });
 
     connector = TestBed.inject(SiteConnector);
     effects = TestBed.inject(fromEffects.LanguagesEffects);
-    winRef = TestBed.inject(WindowRef);
 
     spyOn(connector, 'getLanguages').and.returnValue(of(languages));
   });
@@ -89,20 +77,6 @@ describe('Languages Effects', () => {
           current: 'zh',
         });
         expect(results).toEqual([changeAction]);
-      });
-    });
-  });
-
-  describe('persist$', () => {
-    describe('when new value is set for active currency', () => {
-      it('should persist it in the session storage', () => {
-        effects.persist$.pipe(take(1)).subscribe();
-        actions$.next(new SiteContextActions.SetActiveLanguage('en'));
-
-        expect(winRef.sessionStorage.setItem).toHaveBeenCalledWith(
-          'language',
-          'en'
-        );
       });
     });
   });

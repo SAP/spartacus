@@ -1,0 +1,7 @@
+<cx-navigation-ui
+  *ngIf="data$ | async as data"
+  [node]="node$ | async"
+  [ngClass]="data.styleClass"
+  [wrapAfter]="data.wrapAfter"
+  [resetMenuOnClose]="data.resetMenuOnClose"
+></cx-navigation-ui>

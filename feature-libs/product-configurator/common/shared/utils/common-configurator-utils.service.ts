@@ -6,7 +6,14 @@ import {
   PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  CartItemContext,
+  LayoutConfig,
+  LayoutSlotConfig,
+  SlotConfig,
+  SlotGroup,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -49,7 +56,9 @@ export class CommonConfiguratorUtilsService {
   decomposeOwnerId(ownerId: string): any {
     const parts: string[] = ownerId.split('+');
     if (parts.length !== 2) {
-      throw new Error('We only expect 2 parts in ownerId, separated by +');
+      throw new Error(
+        'We only expect 2 parts in ownerId, separated by +, but was: ' + ownerId
+      );
     }
     const result = { documentId: parts[0], entryNumber: parts[1] };
     return result;
@@ -59,9 +68,9 @@ export class CommonConfiguratorUtilsService {
    * @param {Cart} cart - Cart
    * @returns {string} - Cart identifier
    */
-  getCartId(cart: Cart): string {
+  getCartId(cart?: Cart): string {
     const cartId =
-      cart.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart.code;
+      cart?.user?.uid === OCC_USER_ID_ANONYMOUS ? cart.guid : cart?.code;
     if (!cartId) {
       throw new Error('Cart ID is not defined');
     }
@@ -141,5 +150,36 @@ export class CommonConfiguratorUtilsService {
           location !== PromotionLocation.SavedCart
       )
     );
+  }
+
+  /**
+   * Reads slots from layout config, taking the breakpoint into account
+   * @param layoutConfig Layout config
+   * @param templateName Page template name
+   * @param sectionName Section name like 'header'
+   * @param breakPoint Current breakpoint
+   * @returns Array of slots
+   */
+  getSlotsFromLayoutConfiguration(
+    layoutConfig: LayoutConfig,
+    templateName: string,
+    sectionName: string,
+    breakPoint: BREAKPOINT.lg | BREAKPOINT.md | BREAKPOINT.sm | BREAKPOINT.xs
+  ): string[] {
+    const slots = layoutConfig.layoutSlots;
+    if (slots) {
+      const slotsForTemplate: LayoutSlotConfig = <LayoutSlotConfig>(
+        slots[templateName]
+      );
+      const slotGroupForSection: SlotGroup = <SlotGroup>(
+        slotsForTemplate[sectionName]
+      );
+      const slotConfigForBreakpoint: SlotConfig = <SlotConfig>(
+        slotGroupForSection[breakPoint]
+      );
+      return <string[]>slotConfigForBreakpoint['slots'];
+    } else {
+      return [];
+    }
   }
 }

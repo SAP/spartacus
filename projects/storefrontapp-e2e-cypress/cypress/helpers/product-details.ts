@@ -12,7 +12,7 @@ export const addToCartButton = `cx-add-to-cart`;
 export const atcModal = `cx-added-to-cart-dialog`;
 export const atcModalTitle = `${atcModal} .cx-dialog-title`;
 export const atcModalItem = `${atcModal} cx-cart-item`;
-export const atcModalCloseButton = `${atcModal} [aria-label="Close"]`;
+export const atcModalCloseButton = `${atcModal} [aria-label="Close Modal"]`;
 export const header = `cx-page-layout[section="header"]`;
 export const headerCartButton = `${header} cx-mini-cart .count`;
 export const itemCounter = 'cx-item-counter';
@@ -105,6 +105,7 @@ export function verifyQuantityInCart() {
   cy.get(addToCartButton)
     .findByText(/Add To Cart/i)
     .click();
+  cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }

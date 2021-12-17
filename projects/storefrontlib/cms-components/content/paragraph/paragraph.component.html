@@ -1,0 +1,4 @@
+<p
+  *ngIf="component.data$ | async as data"
+  [innerHTML]="data.content | cxSupplementHashAnchors"
+></p>

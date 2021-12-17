@@ -1,16 +1,50 @@
-import { ChangeDetectionStrategy } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Directive,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import { ConfiguratorAttributeQuantityService } from '../../quantity';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
+
+@Directive({
+  selector: '[cxFocus]',
+})
+export class MockFocusDirective {
+  @Input('cxFocus') protected config: any;
+}
+
+@Component({
+  selector: 'cx-configurator-attribute-quantity',
+  template: '',
+})
+class MockConfiguratorAttributeQuantityComponent {
+  @Input() quantityOptions: ConfiguratorAttributeQuantityComponentOptions;
+  @Output() changeQuantity = new EventEmitter<number>();
+}
+
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
 
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
@@ -20,8 +54,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        declarations: [ConfiguratorAttributeCheckBoxListComponent],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        declarations: [
+          ConfiguratorAttributeCheckBoxListComponent,
+          MockFocusDirective,
+          MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
+        ],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -43,6 +82,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
       valueCode: code,
+      valueDisplay: name,
       name: name,
       selected: isSelected,
     };
@@ -66,6 +106,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     component.attribute = {
       dataType: Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL,
       name: 'attributeName',
+      label: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
       values: values,
@@ -91,8 +132,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       component.attribute.name +
       '--' +
       values[1].valueCode;
-    const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
-      .nativeElement;
+    const valueToSelect = fixture.debugElement.query(
+      By.css(checkboxId)
+    ).nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
     valueToSelect.click();
@@ -153,7 +195,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   // HTML
-
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
@@ -178,39 +219,165 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should display value quantity when dataType is with value quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
   it('should allow zero value quantity', () => {
     expect(component.allowZeroValueQuantity).toBe(true);
   });
 
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow zero value quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.allowZeroValueQuantity).toBe(false);
+  describe('attribute level', () => {
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '250.00$',
+        value: 250,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should display value quantity when dataType is with value quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+
+      if (value) {
+        value = {
+          valueCode: 'a',
+          selected: true,
+          quantity: 5,
+          valuePrice: {
+            currencyIso: '$',
+            formattedValue: '100.00$',
+            value: 250,
+          },
+          valuePriceTotal: {
+            currencyIso: '$',
+            formattedValue: '$500.0',
+            value: 500,
+          },
+        };
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elementsr", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        1,
+        'aria-hidden',
+        'true',
+        component.attribute.values[1].valueDisplay
+      );
+    });
   });
 });

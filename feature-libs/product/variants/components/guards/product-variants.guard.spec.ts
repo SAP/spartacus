@@ -33,11 +33,11 @@ const mockNonPurchasableProduct = {
   ],
 };
 
-const activatedRoute = ({
+const activatedRoute = {
   params: {
     productCode: 'test123',
   },
-} as unknown) as ActivatedRouteSnapshot;
+} as unknown as ActivatedRouteSnapshot;
 
 class MockProductService implements Partial<ProductService> {
   get(): Observable<Product> {
@@ -104,9 +104,9 @@ describe('ProductVariantsGuard', () => {
   });
 
   it('should return true if no productCode in route parameter (launch from smartedit)', (done) => {
-    const activatedRouteWithoutParams = ({
+    const activatedRouteWithoutParams = {
       params: {},
-    } as unknown) as ActivatedRouteSnapshot;
+    } as unknown as ActivatedRouteSnapshot;
 
     guard
       .canActivate(activatedRouteWithoutParams)
