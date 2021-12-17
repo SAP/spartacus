@@ -1,5 +1,8 @@
 import { NgModule } from '@angular/core';
-import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
+import {
+  CheckoutRootModule,
+  CHECKOUT_FEATURE,
+} from '@spartacus/checkout/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -48,7 +51,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [CheckoutB2BEventModule],
+  imports: [CheckoutRootModule, CheckoutB2BEventModule],
   providers: [
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),

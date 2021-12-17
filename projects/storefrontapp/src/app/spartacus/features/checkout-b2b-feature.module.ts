@@ -11,11 +11,10 @@ import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
-import { CheckoutRootModule } from '@spartacus/checkout/base/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CheckoutRootModule, CheckoutB2BRootModule],
+  imports: [CheckoutB2BRootModule],
   providers: [
     provideConfig({
       i18n: {

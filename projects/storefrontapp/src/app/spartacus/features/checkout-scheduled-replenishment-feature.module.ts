@@ -1,11 +1,9 @@
 import { NgModule } from '@angular/core';
 import { checkoutB2BTranslations } from '@spartacus/checkout/b2b/assets';
-import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
-import { CheckoutRootModule } from '@spartacus/checkout/base/root';
 import { checkoutScheduledReplenishmentTranslations } from '@spartacus/checkout/scheduled-replenishment/assets';
 import {
   CheckoutScheduledReplenishmentRootModule,
@@ -14,11 +12,7 @@ import {
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [
-    CheckoutRootModule,
-    CheckoutB2BRootModule,
-    CheckoutScheduledReplenishmentRootModule,
-  ],
+  imports: [CheckoutScheduledReplenishmentRootModule],
   providers: [
     provideConfig({
       i18n: {
