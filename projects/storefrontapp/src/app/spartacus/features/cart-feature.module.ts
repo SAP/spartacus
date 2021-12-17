@@ -3,7 +3,11 @@ import {
   cartTranslationChunksConfig,
   cartTranslations,
 } from '@spartacus/cart/main/assets';
-import { CartRootModule, CART_FEATURE } from '@spartacus/cart/main/root';
+import {
+  CartRootModule,
+  CART_FEATURE,
+  MINI_CART,
+} from '@spartacus/cart/main/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -14,6 +18,12 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         [CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/main').then((m) => m.CartModule),
+        },
+        [MINI_CART]: {
+          module: () =>
+            import('@spartacus/cart/main/components1').then(
+              (m) => m.MiniCartModule
+            ),
         },
       },
     }),

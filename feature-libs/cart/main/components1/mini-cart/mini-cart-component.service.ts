@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
@@ -6,7 +7,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-  UnifiedInjector,
+  UnifiedInjector
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
@@ -15,9 +16,9 @@ import {
   map,
   startWith,
   switchMap,
-  takeWhile,
+  takeWhile
 } from 'rxjs/operators';
-import { ActiveCartFacade } from '../../facade/active-cart.facade';
+
 
 @Injectable({
   providedIn: 'root',

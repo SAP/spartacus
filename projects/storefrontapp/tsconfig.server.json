@@ -37,6 +37,9 @@
       "@spartacus/cart/main/components": [
         "../../feature-libs/cart/main/components/public_api"
       ],
+      "@spartacus/cart/main/components1": [
+        "../../feature-libs/cart/main/components1/public_api"
+      ],
       "@spartacus/cart/main/core": [
         "../../feature-libs/cart/main/core/public_api"
       ],
