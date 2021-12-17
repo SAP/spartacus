@@ -28,7 +28,7 @@ declare global {
        *
        * @memberof Cypress.Chainable
        */
-      tabScreenshot: (config?: TabScreenshotConfig) => void;
+      domSnapshot: (config?: DomSnapshotConfig) => void;
     }
   }
 }
@@ -49,27 +49,27 @@ Cypress.Commands.add('pressTab', () => {
   });
 });
 
-export interface TabScreenshotConfig {
+export interface DomSnapshotConfig {
   /**
-   * Tag name for element in which to perform screenshot within.
+   * Tag name for element in which to perform snapshots within.
    * @default 'body'
    */
   container: string;
   /**
-   * Appended to file name to identify unique states in a test with multiple screenshots.
+   * Appended to file name to identify unique states in a test with multiple snapshots.
    */
   scenario?: string;
 }
 
 Cypress.Commands.add(
-  'tabScreenshot',
-  (config: TabScreenshotConfig = { container: 'body' }) => {
+  'domSnapshot',
+  (config: DomSnapshotConfig = { container: 'body' }) => {
     const FILE_NAME = `${getViewport()}/${Cypress.spec.name}${
       config.scenario ? `-${config.scenario}` : ''
     }.json`;
-    const DRAFT_FILE = `cypress/fixtures/a11y/tab/drafts/${FILE_NAME}`;
-    const CONFIG_FILE = `cypress/fixtures/a11y/tab/configs/${FILE_NAME}`;
-    const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify with screenshots that keyboard accessibility is correct and move to '${CONFIG_FILE}' to pass assertion.`;
+    const DRAFT_FILE = `cypress/fixtures/a11y/snapshots/drafts/${FILE_NAME}`;
+    const CONFIG_FILE = `cypress/fixtures/a11y/snapshots/configs/${FILE_NAME}`;
+    const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify that keyboard accessibility is correct and move to '${CONFIG_FILE}' to pass assertion.`;
     
     cy.document().then((document) => {
       const focusable = Array.from(
@@ -89,10 +89,10 @@ Cypress.Commands.add(
         if (file?.length) {
           const json = JSON.parse(file);
           if (JSON.stringify(json) === JSON.stringify(focusable)) {
-            console.log(`Tab screenshot verified for: '${FILE_NAME}''`);
+            console.log(`DOM Snapshot verified for: '${FILE_NAME}''`);
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
-              throw new Error(`DOM not matching config. ${GENERATION_MESSAGE}`);
+              throw new Error(`DOM not matching snapshot. ${GENERATION_MESSAGE}`);
             });
           }
         } else {
