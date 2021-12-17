@@ -745,56 +745,77 @@ export class VisualViewerService implements OnDestroy {
       .lookupNodeIds(productCodes)
       .pipe(first())
       .subscribe((sceneNodeIds: string[]) => {
-        const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
-          sceneNodeIds,
-          true
-        );
         if (this.is2D) {
-          const hotspotNodeRefs: NodeRef[] =
-            this.nodeHierarchy.getHotspotNodeIds();
-          if (this._showAllHotspotsEnabled) {
-            const nodeRefsToIncludeSet = new Set();
-            nodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-              nodeRefsToIncludeSet.add(nodeRef)
-            );
-            const nodeRefsToExclude: NodeRef[] = hotspotNodeRefs.filter(
-              (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
-            );
-            this.viewport.showHotspots(nodeRefsToExclude, false, null);
-            this.viewport.showHotspots(
-              nodeRefsToInclude,
-              true,
-              this.getCSSColor(this._showAllHotspotsColor)
-            );
-          } else {
-            this.viewport.showHotspots(hotspotNodeRefs, false, null);
-          }
+          this.applyInclusionStyle2D(sceneNodeIds);
         } else {
-          if (!this.leafNodeRefs) {
-            this.leafNodeRefs = this.getAllLeafNodeRefs();
-          }
-
-          const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
-            (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
-          );
-          const leafNodeRefsToIncludeSet = new Set();
-          leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-            leafNodeRefsToIncludeSet.add(nodeRef)
-          );
-
-          const leafNodeRefsToExclude = this.leafNodeRefs.filter(
-            (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
-          );
-
-          this.viewStateManager.setOpacity(
-            leafNodeRefsToExclude,
-            this.excludedOpacity
-          );
-          leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-            this.viewStateManager.restoreRestOpacity(nodeRef)
-          );
+          this.applyInclusionStyle3D(sceneNodeIds);
         }
       });
+  }
+
+  private applyInclusionStyle2D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+    const hotspotNodeRefs: NodeRef[] = this.nodeHierarchy.getHotspotNodeIds();
+    const hotspotNodeRefsSet: Set<NodeRef> = new Set(hotspotNodeRefs);
+    // Hotspot nodes can have descendants that are also Hotspot nodes.
+    // Ignore the descendant nodes and apply modifications at the highest level only.
+    const topLevelHotspotNodeRefs: NodeRef[] = hotspotNodeRefs.filter(
+      (hotspotNodeRef: NodeRef) =>
+        this.isTopLevelHotspotNode(hotspotNodeRef, hotspotNodeRefsSet)
+    );
+    if (this._showAllHotspotsEnabled) {
+      const nodeRefsToIncludeSet = new Set(nodeRefsToInclude);
+      const nodeRefsToExclude: NodeRef[] = topLevelHotspotNodeRefs.filter(
+        (nodeRef: NodeRef) => !nodeRefsToIncludeSet.has(nodeRef)
+      );
+      this.viewport.showHotspots(nodeRefsToExclude, false, null);
+      this.viewport.showHotspots(
+        nodeRefsToInclude,
+        true,
+        this.getCSSColor(this._showAllHotspotsColor)
+      );
+    } else {
+      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, null);
+    }
+  }
+
+  private applyInclusionStyle3D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] = this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+
+    if (!this.leafNodeRefs) {
+      this.leafNodeRefs = this.getAllLeafNodeRefs();
+    }
+
+    const leafNodeRefsToInclude = nodeRefsToInclude.flatMap(
+      (nodeRef: NodeRef) => this.getLeafDescendants(nodeRef, [])
+    );
+    const leafNodeRefsToIncludeSet = new Set(leafNodeRefsToInclude);
+    const leafNodeRefsToExclude = this.leafNodeRefs.filter(
+      (leafNodeRef: NodeRef) => !leafNodeRefsToIncludeSet.has(leafNodeRef)
+    );
+
+    this.viewStateManager.setOpacity(
+      leafNodeRefsToExclude,
+      this.excludedOpacity
+    );
+    leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
+      this.viewStateManager.restoreRestOpacity(nodeRef)
+    );
+  }
+
+  private isTopLevelHotspotNode(
+    hotspotNodeRef: NodeRef,
+    hotspotNodeRefs: Set<NodeRef>
+  ): boolean {
+    return !this.nodeHierarchy
+      .getAncestors(hotspotNodeRef)
+      .some((ancestor: NodeRef) => hotspotNodeRefs.has(ancestor));
   }
 
   private isReferenceNode(nodeRef: NodeRef): boolean {
