@@ -70,7 +70,7 @@ Cypress.Commands.add(
     const DRAFT_FILE = `cypress/fixtures/a11y/snapshots/drafts/${FILE_NAME}`;
     const SNAPSHOT_FILE = `cypress/fixtures/a11y/snapshots/${FILE_NAME}`;
     const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify that keyboard accessibility is correct and move to '${SNAPSHOT_FILE}' to pass assertion.`;
-    
+
     cy.document().then((document) => {
       const focusable = Array.from(
         <NodeListOf<HTMLElement>>(
@@ -92,7 +92,9 @@ Cypress.Commands.add(
             console.log(`DOM Snapshot verified for: '${FILE_NAME}''`);
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
-              throw new Error(`DOM not matching snapshot. ${GENERATION_MESSAGE}`);
+              throw new Error(
+                `DOM not matching snapshot. ${GENERATION_MESSAGE}`
+              );
             });
           }
         } else {
