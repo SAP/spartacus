@@ -1,10 +1,16 @@
 import { NgModule } from '@angular/core';
-import { checkoutB2BTranslations } from '@spartacus/checkout/b2b/assets';
+import {
+  checkoutB2BTranslationChunksConfig,
+  checkoutB2BTranslations,
+} from '@spartacus/checkout/b2b/assets';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
-import { checkoutScheduledReplenishmentTranslations } from '@spartacus/checkout/scheduled-replenishment/assets';
+import {
+  checkoutScheduledReplenishmentTranslationChunksConfig,
+  checkoutScheduledReplenishmentTranslations,
+} from '@spartacus/checkout/scheduled-replenishment/assets';
 import {
   CheckoutScheduledReplenishmentRootModule,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
@@ -23,7 +29,7 @@ import { provideConfig } from '@spartacus/core';
     provideConfig({
       i18n: {
         resources: checkoutB2BTranslations,
-        chunks: checkoutTranslationChunksConfig,
+        chunks: checkoutB2BTranslationChunksConfig,
       },
     }),
     provideConfig({
@@ -37,7 +43,7 @@ import { provideConfig } from '@spartacus/core';
       },
       i18n: {
         resources: checkoutScheduledReplenishmentTranslations,
-        chunks: checkoutTranslationChunksConfig,
+        chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     }),
   ],
