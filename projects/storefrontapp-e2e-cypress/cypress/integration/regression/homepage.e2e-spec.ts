@@ -34,9 +34,9 @@ describe('Homepage', () => {
       // Ensures carousel products are loaded before running checks
       cy.get('cx-carousel').find('img').should('have.length', 18);
 
-      cy.tabScreenshot({ container: 'header', scenario: 'header' });
-      cy.tabScreenshot({ container: 'main', scenario: 'content' });
-      cy.tabScreenshot({
+      cy.domSnapshot({ container: 'header', scenario: 'header' });
+      cy.domSnapshot({ container: 'main', scenario: 'content' });
+      cy.domSnapshot({
         container: 'cx-footer-navigation',
         scenario: 'footer',
       });
@@ -58,7 +58,7 @@ describe('Homepage', () => {
 
             cy.get('cx-navigation-ui .is-open .wrapper').should('be.visible');
 
-            cy.tabScreenshot({
+            cy.domSnapshot({
               container: 'cx-navigation-ui',
               scenario: type.replaceAll(' ', '-'),
             });

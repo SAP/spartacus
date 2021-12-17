@@ -9,7 +9,7 @@ context('Forgot Password Page', () => {
 
   it('should check keyboard accessibility', () => {
     cy.get('main');
-    cy.tabScreenshot({ container: 'main' });
+    cy.domSnapshot({ container: 'main' });
   });
 
   it('should request password reset email on submit', () => {

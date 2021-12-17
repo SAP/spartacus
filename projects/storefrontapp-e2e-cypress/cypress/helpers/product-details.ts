@@ -50,7 +50,7 @@ export function verifyTextInTabs() {
     )
     .should('contain', 'Includes shoe adaptor for increased functionality.');
 
-  cy.tabScreenshot({
+  cy.domSnapshot({
     container: 'cx-tab-paragraph-container',
     scenario: 'electronics-details',
   });
@@ -59,7 +59,7 @@ export function verifyTextInTabs() {
     .should('contain', 'Weight & dimensions')
     .should('contain', 'Colour')
     .should('contain', 'Technical details');
-  cy.tabScreenshot({
+  cy.domSnapshot({
     container: 'cx-tab-paragraph-container',
     scenario: 'electronics-specs',
   });
@@ -68,14 +68,14 @@ export function verifyTextInTabs() {
   checkTabbingOrderForReviews();
   cy.get(tabsHeaderList).eq(3).click();
   cy.get(shippingTabActive).should('contain', 'Lorem ipsum dolor sit amet,');
-  cy.tabScreenshot({
+  cy.domSnapshot({
     container: 'cx-tab-paragraph-container',
     scenario: 'electronics-shipping',
   });
 }
 
 /**
- * Because reviews keep being added every test run, the DOM will always changing with every test making `cy.tabScreenshot()` fail due to outdating configs.
+ * Because reviews keep being added every test run, the DOM will always changing with every test making `cy.domSnapshot()` fail due to outdating configs.
  * Therefore, we need to use a custom method for testing keyboard tabbing for product reviews.
  */
 function checkTabbingOrderForReviews() {
@@ -122,7 +122,7 @@ export function verifyReviewForm() {
   cy.get(writeAReviewForm).should('be.visible');
   cy.get(writeAReviewForm).findByText('Cancel').should('be.not.disabled');
 
-  cy.tabScreenshot({
+  cy.domSnapshot({
     container: 'cx-tab-paragraph-container',
     scenario: 'electronics-write-review',
   });

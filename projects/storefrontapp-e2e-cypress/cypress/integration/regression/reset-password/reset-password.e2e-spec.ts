@@ -9,7 +9,7 @@ context('Reset Password Page', () => {
 
   it('should check keyboard accessibility', () => {
     cy.get('main');
-    cy.tabScreenshot({ container: 'main' });
+    cy.domSnapshot({ container: 'main' });
   });
 
   it('should not submit an empty form', () => {

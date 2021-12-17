@@ -39,7 +39,7 @@ describe('Cart', () => {
       });
 
       it('should check keyboard accessibility', () => {
-        cy.tabScreenshot({
+        cy.domSnapshot({
           container: 'main',
         });
       });

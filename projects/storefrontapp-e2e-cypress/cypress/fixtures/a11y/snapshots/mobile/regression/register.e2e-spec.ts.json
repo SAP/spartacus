@@ -4,23 +4,23 @@
     "child": "<option selected=\"\" value=\"\" disabled=\"\" ng-reflect-value=\"\"> Select Title </option><!--bindings={\n  \"ng-reflect-ng-for-of\": \"\"\n}-->"
   },
   {
-    "element": "<input type=\"text\" name=\"firstname\" formcontrolname=\"firstName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"firstName\" placeholder=\"First name\">",
+    "element": "<input aria-required=\"true\" type=\"text\" name=\"firstname\" formcontrolname=\"firstName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"firstName\" placeholder=\"First name\">",
     "child": ""
   },
   {
-    "element": "<input type=\"text\" name=\"lastname\" formcontrolname=\"lastName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"lastName\" placeholder=\"Last name\">",
+    "element": "<input aria-required=\"true\" type=\"text\" name=\"lastname\" formcontrolname=\"lastName\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"lastName\" placeholder=\"Last name\">",
     "child": ""
   },
   {
-    "element": "<input type=\"email\" name=\"email\" formcontrolname=\"email\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"email\" placeholder=\"Email address\">",
+    "element": "<input aria-required=\"true\" type=\"email\" name=\"email\" formcontrolname=\"email\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"email\" placeholder=\"Email address\">",
     "child": ""
   },
   {
-    "element": "<input type=\"password\" name=\"password\" formcontrolname=\"password\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"password\" placeholder=\"Password\">",
+    "element": "<input aria-required=\"true\" type=\"password\" name=\"password\" formcontrolname=\"password\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"password\" placeholder=\"Password\">",
     "child": ""
   },
   {
-    "element": "<input type=\"password\" name=\"confirmpassword\" formcontrolname=\"passwordconf\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"passwordconf\" placeholder=\"Confirm Password\">",
+    "element": "<input aria-required=\"true\" type=\"password\" name=\"confirmpassword\" formcontrolname=\"passwordconf\" class=\"form-control ng-untouched ng-pristine ng-invalid\" ng-reflect-name=\"passwordconf\" placeholder=\"Confirm Password\">",
     "child": ""
   },
   {
@@ -28,7 +28,7 @@
     "child": ""
   },
   {
-    "element": "<input type=\"checkbox\" name=\"termsandconditions\" formcontrolname=\"termsandconditions\" ng-reflect-name=\"termsandconditions\" class=\"ng-untouched ng-pristine ng-invalid\">",
+    "element": "<input aria-required=\"true\" type=\"checkbox\" name=\"termsandconditions\" formcontrolname=\"termsandconditions\" ng-reflect-name=\"termsandconditions\" class=\"ng-untouched ng-pristine ng-invalid\">",
     "child": ""
   },
   {

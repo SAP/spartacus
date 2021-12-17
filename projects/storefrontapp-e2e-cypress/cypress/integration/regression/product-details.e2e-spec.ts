@@ -69,7 +69,7 @@ context('Product details', () => {
       productDetailsTest();
 
       it('should check keyboard accessibility', () => {
-        cy.tabScreenshot({ container: 'main', scenario: 'electronics' });
+        cy.domSnapshot({ container: 'main', scenario: 'electronics' });
       });
     });
 
@@ -79,7 +79,7 @@ context('Product details', () => {
       apparelProductDetailsTest();
 
       it('should check keyboard accessibility', () => {
-        cy.tabScreenshot({ container: 'main', scenario: 'apparel' });
+        cy.domSnapshot({ container: 'main', scenario: 'apparel' });
       });
     });
   });
