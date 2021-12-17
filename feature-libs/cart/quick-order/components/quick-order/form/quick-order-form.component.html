@@ -8,6 +8,7 @@
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
       [attr.aria-label]="'common.search' | cxTranslate"
+      aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"
       placeholder="{{ 'quickOrderForm.placeholder' | cxTranslate }}"
@@ -90,3 +91,18 @@
     </span>
   </div>
 </form>
+
+<label
+  aria-live="polite"
+  id="quickOrderFormInitialDescription"
+  aria-atomic="true"
+  class="cx-visually-hidden"
+>
+  {{
+    results.length
+      ? ('quickOrderForm.productsResults'
+        | cxTranslate: { count: results.length })
+      : ''
+  }}
+  {{ 'quickOrderForm.initialDescription' | cxTranslate }}
+</label>

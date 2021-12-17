@@ -23,6 +23,12 @@
       "@spartacus/checkout/root": ["dist/checkout/root"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/cart/import-export/assets": [
         "dist/cart/import-export/assets"
       ],

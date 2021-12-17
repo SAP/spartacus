@@ -16,6 +16,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import * as ConfigurationTestData from '../../testing/configurator-test-data';
@@ -360,6 +361,51 @@ describe('ConfigurationOverviewFormComponent', () => {
       expect(result.includes('general')).toBe(false);
       expect(result.includes('margin')).toBe(false);
       expect(result.includes('last-value-pair')).toBe(true);
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      initialize();
+    });
+
+    it("should contain action span element with class name 'cx-visually-hidden' that hides element on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listOfAttributesAndValues'
+      );
+    });
+
+    it("should contain action span element with class name 'cx-visually-hidden' that hides span element content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        1,
+        undefined,
+        undefined,
+        'configurator.a11y.group group:Group 1'
+      );
+    });
+
+    it("should contain action h2 element with 'aria-hidden' attribute that removes h2 element from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'h2',
+        undefined,
+        0,
+        'aria-hidden',
+        'true',
+        'Group 1'
+      );
     });
   });
 });

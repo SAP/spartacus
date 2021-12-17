@@ -1,6 +1,4 @@
-import { removeCartItem } from '../../helpers/cart';
 import * as cartValidation from '../../helpers/cart-validation';
-import { addProductToCart } from '../../helpers/save-for-later';
 import { viewportContext } from '../../helpers/viewport-context';
 import {
   lowStockResponse,
@@ -10,6 +8,10 @@ import {
 } from '../../sample-data/cart-validation';
 import { standardUser } from '../../sample-data/shared-users';
 import { clearAllStorage } from '../../support/utils/clear-all-storage';
+import {
+  addMultipleProductsToCart,
+  removeItemAndCheckCartEntriesNumber,
+} from '../../helpers/cart-validation';
 
 context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -29,19 +31,15 @@ context('Cart validation', () => {
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
+        cy.requireLoggedIn(standardUser);
       });
 
       afterEach(() => {
         cy.saveLocalStorage();
       });
 
-      after(() => {
-        removeCartItem(PRODUCT_1);
-      });
-
       it('should display information about reduced stock for product in cart', () => {
-        addProductToCart(PRODUCT_1);
-        addProductToCart(PRODUCT_2);
+        addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
 
         cartValidation.validateStock(lowStockResponse);
 
@@ -57,9 +55,14 @@ context('Cart validation', () => {
 
         cartValidation.checkReducedQuantity(PRODUCT_1);
         cartValidation.checkReducedQuantity(PRODUCT_2);
+
+        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
+        removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
       });
 
       it('should display information about removed product from cart due to out of stock', () => {
+        addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
+
         cartValidation.validateStock(outOfStockResponse);
 
         cy.findByText(/proceed to checkout/i).click();
@@ -73,10 +76,13 @@ context('Cart validation', () => {
             'contain',
             `has been removed from the cart due to insufficient stock.`
           );
+
+        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
+        removeItemAndCheckCartEntriesNumber(PRODUCT_2, 0);
       });
 
       it('should display information about only product in cart being removed due to out of stock', () => {
-        removeCartItem(PRODUCT_2);
+        addMultipleProductsToCart([PRODUCT_1]);
 
         cartValidation.validateStock(outOfStockResponse);
 
@@ -87,6 +93,8 @@ context('Cart validation', () => {
           'contain',
           `${PRODUCT_1.name} was removed from the cart due to being out of stock.`
         );
+
+        removeItemAndCheckCartEntriesNumber(PRODUCT_1, 1);
       });
     });
   });

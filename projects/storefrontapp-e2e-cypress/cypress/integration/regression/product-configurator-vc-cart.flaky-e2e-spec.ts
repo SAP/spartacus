@@ -1,16 +1,10 @@
 import * as cart from '../../helpers/cart';
 import * as configuration from '../../helpers/product-configurator';
-import * as configurationOverview from '../../helpers/product-configurator-overview';
-import * as configurationVc from '../../helpers/product-configurator-vc';
-import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationCart from '../../helpers/product-configurator-cart';
 import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
-
-/**
- * This suite is marked as flaky due to performance (synchronization) issues on
- * https://spartacus-devci767.eastus.cloudapp.azure.com:9002 that we analyze in
- * https://cxjira.sap.com/browse/TIGER-7252
- */
+import * as configurationOverview from '../../helpers/product-configurator-overview';
+import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
+import * as configurationVc from '../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
@@ -164,7 +158,6 @@ context('Product Configuration', () => {
       configurationCartVc.verifyNotificationBannerInCart(0);
     });
   });
-
   describe('Configuration process', () => {
     it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
