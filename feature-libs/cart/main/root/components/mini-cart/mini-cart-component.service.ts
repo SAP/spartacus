@@ -84,7 +84,7 @@ export class MiniCartComponentService {
    * Once the observable returned by activeCartRequired emits true, it completes.
    * activeCartRequired helps to make the mini cart compatible with some level of lazy loading.
    */
-  protected activeCartRequired() {
+  protected activeCartRequired(): Observable<boolean> {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),

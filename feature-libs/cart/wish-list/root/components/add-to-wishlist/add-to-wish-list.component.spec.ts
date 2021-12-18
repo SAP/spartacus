@@ -13,6 +13,7 @@ import { Cart, OrderEntry } from '@spartacus/cart/main/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -71,7 +72,9 @@ class MockWishListService {
   addEntry = createSpy();
   removeEntry = createSpy();
   getWishList = createSpy().and.returnValue(wishListSubject);
-  getWishListLoading = createSpy().and.returnValue(of(false));
+  getWishListLoading() {
+    return of(false);
+  }
 }
 
 class MockCurrentProductService {
@@ -93,10 +96,13 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-describe('AddToWishListComponent', () => {
+const booleanValues = { t: true, f: false };
+
+fdescribe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
-  let wishListService: WishListFacade;
+  let wishListFacade: WishListFacade;
+  let authService: AuthService;
   let el: DebugElement;
 
   beforeEach(
@@ -124,7 +130,8 @@ describe('AddToWishListComponent', () => {
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.inject(WishListFacade);
+    wishListFacade = TestBed.inject(WishListFacade);
+    authService = TestBed.inject(AuthService);
 
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -138,7 +145,7 @@ describe('AddToWishListComponent', () => {
     it('should add product to wish list', () => {
       component.add(mockProduct);
 
-      expect(wishListService.addEntry).toHaveBeenCalledWith(mockProduct.code);
+      expect(wishListFacade.addEntry).toHaveBeenCalledWith(mockProduct.code);
     });
   });
 
@@ -146,7 +153,7 @@ describe('AddToWishListComponent', () => {
     it('should remove product from wish list', () => {
       component.remove(mockCartEntry);
 
-      expect(wishListService.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+      expect(wishListFacade.removeEntry).toHaveBeenCalledWith(mockCartEntry);
     });
   });
 
@@ -208,6 +215,102 @@ describe('AddToWishListComponent', () => {
         fixture.detectChanges();
         expect(el.query(By.css('.button-add-link'))).toBeNull();
       });
+    });
+  });
+
+  describe('getWishListLoading', () => {
+    it('should return default value when wish list data is not required', () => {
+      spyOn(component as any, 'wishListDataRequired').and.returnValue(
+        cold('f', booleanValues)
+      );
+      spyOn(wishListFacade, 'getWishListLoading').and.stub();
+
+      expect(component['getWishListLoading']()).toBeObservable(
+        cold('f', booleanValues)
+      );
+
+      expect(wishListFacade.getWishListLoading).not.toHaveBeenCalled();
+    });
+
+    it('should return facade data when wish list data is required', () => {
+      spyOn(component as any, 'wishListDataRequired').and.returnValue(
+        cold('t', booleanValues)
+      );
+      spyOn(wishListFacade, 'getWishListLoading').and.returnValue(
+        cold('t', booleanValues)
+      );
+
+      expect(component['getWishListLoading']()).toBeObservable(
+        cold('t', booleanValues)
+      );
+
+      expect(wishListFacade.getWishListLoading).toHaveBeenCalled();
+    });
+  });
+
+  describe('getWishListEntries', () => {
+    it('should return default value when wish list data is not required', () => {
+      spyOn(component as any, 'wishListDataRequired').and.returnValue(
+        cold('f', booleanValues)
+      );
+      spyOn(component as any, 'getWishListEntriesFromFacade').and.stub();
+
+      expect(component['getWishListEntries']()).toBeObservable(
+        cold('r', { r: [] })
+      );
+
+      expect(component['getWishListEntriesFromFacade']).not.toHaveBeenCalled();
+    });
+
+    it('should return wish list data when wish list data is required', () => {
+      spyOn(component as any, 'wishListDataRequired').and.returnValue(
+        cold('t', booleanValues)
+      );
+      spyOn(component as any, 'getWishListEntriesFromFacade').and.returnValue(
+        cold('e', { e: entries })
+      );
+
+      expect(component['getWishListEntries']()).toBeObservable(
+        cold('r', { r: entries })
+      );
+    });
+  });
+
+  describe('getWishListEntriesFromFacade', () => {
+    it('should return the wishlist entriies from the facade', (done) => {
+      wishListSubject.next(mockWishList);
+      component['getWishListEntriesFromFacade']().subscribe((wishList) => {
+        expect(wishList).toEqual(mockWishList.entries);
+        done();
+      });
+    });
+  });
+
+  describe('wishListDataRequired', () => {
+    it('should return true when a user is loggd in', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('t', booleanValues)
+      );
+      expect((component as any)['wishListDataRequired']()).toBeObservable(
+        cold('(t|)', booleanValues)
+      );
+    });
+
+    it('should return false when no user is loggd in', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f', booleanValues)
+      );
+      expect((component as any)['wishListDataRequired']()).toBeObservable(
+        cold('f', booleanValues)
+      );
+    });
+    it('should return false then true if a user eventually logs in', () => {
+      spyOn(authService, 'isUserLoggedIn').and.returnValue(
+        cold('f---t', booleanValues)
+      );
+      expect((component as any)['wishListDataRequired']()).toBeObservable(
+        cold('f---(t|)', booleanValues)
+      );
     });
   });
 });
