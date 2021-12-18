@@ -43,11 +43,11 @@ export class AddToCartDialogEventListener implements OnDestroy {
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
     modalInstance.entry$ = this.activeCartFacade.getLastEntry(
-      event.productCode //this.productCode
+      event.productCode
     );
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
-    modalInstance.quantity = event.quantityAdded; // this.quantity;
+    modalInstance.quantity = event.quantityAdded;
     modalInstance.addedEntryWasMerged$ = this.activeCartFacade
       .getEntry(event.productCode)
       .pipe(

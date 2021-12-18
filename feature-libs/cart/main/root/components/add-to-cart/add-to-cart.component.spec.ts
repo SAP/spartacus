@@ -16,7 +16,6 @@ import {
 import {
   CmsComponentData,
   CurrentProductService,
-  ModalService,
   ProductListItemContext,
   SpinnerModule,
 } from '@spartacus/storefront';
@@ -113,7 +112,6 @@ fdescribe('AddToCartComponent', () => {
   let currentProductService: CurrentProductService;
   let el: DebugElement;
 
-  let modalInstance: any;
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   function configureTestingModule(): TestBedStatic {
@@ -127,10 +125,6 @@ fdescribe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        {
-          provide: ModalService,
-          useValue: { open: () => ({ componentInstance: {} }) },
-        },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
@@ -152,7 +146,6 @@ fdescribe('AddToCartComponent', () => {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
     service = TestBed.inject(ActiveCartFacade);
-    modalInstance = TestBed.inject(ModalService);
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
 
@@ -160,7 +153,6 @@ fdescribe('AddToCartComponent', () => {
       inventoryDisplay: false,
     });
 
-    spyOn(modalInstance, 'open').and.callThrough();
     fixture.detectChanges();
   }
 
@@ -250,12 +242,7 @@ fdescribe('AddToCartComponent', () => {
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
-
-      expect(modalInstance.open).toHaveBeenCalled();
       expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
-      expect(
-        addToCartComponent.modalRef.componentInstance.numberOfEntriesBeforeAdd
-      ).toBe(1);
     });
 
     describe('UI', () => {

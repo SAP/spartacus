@@ -12,8 +12,6 @@ import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  ModalRef,
-  ModalService,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -36,7 +34,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() product: Product;
 
   maxQuantity: number;
-  modalRef: ModalRef;
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
@@ -54,7 +51,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
 
   // TODO(#13041): Remove deprecated constructors
   constructor(
-    modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
     activeCartService: ActiveCartFacade,
@@ -66,14 +62,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
    * @deprecated since 4.1
    */
   constructor(
-    modalService: ModalService,
     currentProductService: CurrentProductService,
     cd: ChangeDetectorRef,
     activeCartService: ActiveCartFacade
   );
 
   constructor(
-    protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartFacade,
