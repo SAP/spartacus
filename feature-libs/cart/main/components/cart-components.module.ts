@@ -10,7 +10,7 @@ import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart/cart-totals/cart-totals.module';
 import { ActiveCartOrderEntriesContext } from './cart/page-context/active-cart-order-entries.context';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
-import { CartComponentEventModule } from './events/cart-event.module';
+import { CartComponentsEventModule } from './events/cart-components-event.module';
 
 @NgModule({
   imports: [
@@ -21,7 +21,7 @@ import { CartComponentEventModule } from './events/cart-event.module';
     CartSharedModule,
     SaveForLaterModule,
     OutletModule.forChild(),
-    CartComponentEventModule,
+    CartComponentsEventModule,
   ],
   exports: [
     CartDetailsModule,

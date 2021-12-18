@@ -12,7 +12,7 @@ import { AddedToCartDialogComponent } from '../cart/add-to-cart/added-to-cart-di
 @Injectable({
   providedIn: 'root',
 })
-export class CartComponentEventListener implements OnDestroy {
+export class AddToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
@@ -48,7 +48,6 @@ export class CartComponentEventListener implements OnDestroy {
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
     modalInstance.quantity = event.quantityAdded; // this.quantity;
-    //modalInstance.numberOfEntriesBeforeAdd = 0; // this.numberOfEntriesBeforeAdd;
     modalInstance.addedEntryWasMerged$ = this.activeCartFacade
       .getEntry(event.productCode)
       .pipe(
