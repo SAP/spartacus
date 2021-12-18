@@ -98,7 +98,7 @@ class MockUrlPipe implements PipeTransform {
 
 const booleanValues = { t: true, f: false };
 
-fdescribe('AddToWishListComponent', () => {
+describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
   let wishListFacade: WishListFacade;

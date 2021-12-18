@@ -8,7 +8,6 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -19,6 +18,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
   selector: 'cx-add-to-cart',

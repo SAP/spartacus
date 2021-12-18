@@ -8,7 +8,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
 import {
   CmsAddToCartComponent,
   I18nTestingModule,
@@ -22,6 +21,8 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { ActiveCartFacade } from '../../facade/active-cart.facade';
+import { Cart, OrderEntry } from '../../models/cart.model';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
@@ -105,7 +106,7 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-describe('AddToCartComponent', () => {
+fdescribe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: ActiveCartFacade;
