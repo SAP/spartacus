@@ -147,4 +147,94 @@
     padding-block-start: 20px;
     padding-block-end: 20px;
   }
+
+  .header {
+    width: 100%;
+    background-color: var(--cx-color-ghost);
+    height: 1.6rem;
+    margin-block-end: 25px;
+  }
+
+  .body {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+
+    .attribute-text,
+    .attribute-value,
+    .price {
+      margin-block-end: 15px;
+    }
+
+    .attribute-value {
+      width: 30%;
+
+      .ghost {
+        background-color: var(--cx-color-ghost);
+        height: 1.6rem;
+      }
+    }
+
+    .attribute-value:nth-child(1) .ghost {
+      width: 25%;
+    }
+    .attribute-value:nth-child(4) .ghost {
+      width: 75%;
+    }
+    .attribute-value:nth-child(7) .ghost {
+      width: 25%;
+    }
+    .attribute-value:nth-child(10) .ghost {
+      width: 65%;
+    }
+    .attribute-value:nth-child(13) .ghost {
+      width: 25%;
+    }
+    .attribute-value:nth-child(16) .ghost {
+      width: 35%;
+    }
+
+    .attribute-text {
+      width: 60%;
+      height: 1.6rem;
+
+      .ghost {
+        background-color: var(--cx-color-ghost);
+        height: 1.6rem;
+      }
+    }
+
+    .attribute-text:nth-child(2) .ghost {
+      width: 65%;
+    }
+    .attribute-text:nth-child(5) .ghost {
+      width: 80%;
+      height: 2.5rem;
+    }
+    .attribute-text:nth-child(8) .ghost {
+      width: 75%;
+    }
+    .attribute-text:nth-child(11) .ghost {
+      width: 70%;
+      height: 2.5rem;
+    }
+    .attribute-text:nth-child(14) .ghost {
+      width: 60%;
+    }
+    .attribute-text:nth-child(17) .ghost {
+      width: 70%;
+    }
+
+    .price {
+      background-color: var(--cx-color-ghost);
+      height: 1.6rem;
+      width: 10%;
+    }
+
+    .price:nth-child(6),
+    .price:nth-child(9),
+    .price:nth-child(18) {
+      background-color: transparent;
+    }
+  }
 }
