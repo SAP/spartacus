@@ -8,12 +8,9 @@
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://40.76.109.9:9002"
 
-# This CCv2 server has been initialized with the 'epdvisualizationspartacussampledata' addon
-# which creates 'electronics-epdvisualization-spa' and 'powertools-epdvisualization-spa' sites.
-#BACKEND_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.ondemand.com
-
-# The base URL (origin) of the SAP EPD Fiori launchpad (used when ADD_EPD_VISUALIZATION is true)
-EPD_VISUALIZATION_BASE_URL=https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com
+# A comma separated list of base sites.
+# When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
+BASE_SITE=
 
 OCC_PREFIX="/occ/v2/"
 
@@ -67,4 +64,8 @@ ADD_B2B_LIBS=false
 
 ADD_CPQ=false
 ADD_CDC=false
+# config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
 ADD_EPD_VISUALIZATION=false
+
+# The base URL (origin) of the SAP EPD Fiori launchpad
+EPD_VISUALIZATION_BASE_URL=
