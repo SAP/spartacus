@@ -1,4 +1,5 @@
 import { PRODUCT_LISTING } from './data-configuration';
+import { waitForPage } from './checkout-flow';
 
 export const resultsTitleSelector = 'cx-breadcrumb h1';
 export const productItemSelector = 'cx-product-list cx-product-list-item';
@@ -43,6 +44,55 @@ export function clickSearchIcon() {
 
 export function searchForProduct(product: string) {
   cy.get('cx-searchbox input').type(`${product}{enter}`, { force: true });
+}
+
+
+export function searchForProductAddToCart(product: string) {
+  cy.get('cx-searchbox input').clear();
+  cy.get('cx-searchbox input').type(`${product}{enter}`);
+  cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > \
+                cx-add-to-cart > .ng-untouched > .btn').click({ force: true });
+
+  cy.get('cx-item-counter > :nth-child(3)').click({ force: true });     
+  cy.get('.cx-dialog-header > .close').click({force: true});         
+  
+}
+
+export function searchForProductAddNToCart(product: string) {
+  cy.get('cx-searchbox input').clear();
+  cy.get('cx-searchbox input').type(`${product}{enter}`);
+
+  // Find a better way to do this. Should be by result row. 
+  for ( let i = 1; i < 5; i++){
+    
+    let locator = ':nth-child(' + i + ') > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > \
+    cx-add-to-cart > .ng-untouched > .btn';
+
+    var start = new Date().getTime();
+
+    cy.get(locator)
+      .scrollIntoView()
+      .click({force: true});
+
+    // Add to Cart Dialogue
+    cy.get('cx-item-counter > :nth-child(3)').click({ force: true });     
+    cy.get('.cx-dialog-header > .close').click({force: true});         
+
+    var end = new Date().getTime();
+    var time = end - start;
+    cy.log("Add to Cart Duration: ", time)
+
+  }
+}
+
+export function goToCartPage(){
+
+  //cy.get('cx-mini-cart > a').click({force: true});
+
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.get('cx-mini-cart').click();
+  cy.wait(`@${cartPage}`);
+
 }
 
 export function assertFirstProduct() {
