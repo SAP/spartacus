@@ -17,9 +17,9 @@ import {
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
-import { ghostConfigurationId } from '../../core';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';

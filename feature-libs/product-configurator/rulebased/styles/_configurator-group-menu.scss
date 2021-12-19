@@ -176,6 +176,9 @@
   }
 
   .cx-menu-ghostGroup {
+    /*
+    TODO: many css properties here are copied form classes above, maybe we can create a mixin here
+    */
     display: flex;
     padding-inline-start: 15px;
     padding-inline-end: 15px;

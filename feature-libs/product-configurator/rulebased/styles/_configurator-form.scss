@@ -1,7 +1,8 @@
 %cx-configurator-form {
   width: 100%;
 
-  .cx-group-attribute {
+  .cx-group-attribute,
+  .cx-ghost-attribute {
     padding-inline-start: 16px;
     padding-inline-end: 16px;
 
@@ -17,6 +18,88 @@
 
     em {
       @include cx-configurator-attribute-type();
+    }
+  }
+
+  .cx-ghost-attribute {
+    .header,
+    .body {
+      display: flex;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    .header {
+      margin-block-end: 8px;
+
+      .title {
+        width: 10%;
+      }
+      .icon {
+        margin-inline-start: 10px;
+        width: 1.6rem;
+        border-radius: 50%;
+      }
+
+      .description-box {
+        .description-text {
+          width: 60%;
+        }
+      }
+    }
+
+    .title,
+    .icon,
+    .description-text,
+    .price,
+    .radiobutton-description {
+      background-color: var(--cx-color-ghost);
+      height: 1.6rem;
+    }
+
+    .radiobutton-value,
+    .description-box {
+      display: flex;
+      margin-block-start: 8px;
+      flex: 0 0 100%;
+    }
+
+    .body {
+      margin-block-end: 15px;
+
+      .dropdown {
+        background-color: var(--cx-color-ghost);
+        height: 4.5rem;
+        width: 70%;
+      }
+
+      .radiobutton-value {
+        .radiobutton-box {
+          background-color: var(--cx-color-ghost);
+          width: 2.5rem;
+          height: 2.5rem;
+          border-radius: 50%;
+        }
+
+        .radiobutton-description {
+          margin-inline-start: 10px;
+        }
+
+        &:nth-child(1) .radiobutton-description {
+          width: 40%;
+        }
+        &:nth-child(2) .radiobutton-description {
+          width: 65%;
+        }
+        &:nth-child(3) .radiobutton-description {
+          width: 30%;
+        }
+      }
+
+      .price {
+        width: 10%;
+        margin-left: auto;
+      }
     }
   }
 

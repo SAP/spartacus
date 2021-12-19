@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
+import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
 import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
@@ -32,6 +33,7 @@ export class ConfiguratorGroupTitleComponent {
       );
 
   iconTypes = ICON_TYPE;
+  GHOST_ID = ghostConfigurationId;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

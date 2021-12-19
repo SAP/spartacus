@@ -11,6 +11,7 @@ import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from './configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -42,6 +43,7 @@ export class ConfiguratorFormComponent implements OnInit {
   activeLanguage$: Observable<string> = this.languageService.getActive();
 
   uiType = Configurator.UiType;
+  GHOST_ID = ghostConfigurationId;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
