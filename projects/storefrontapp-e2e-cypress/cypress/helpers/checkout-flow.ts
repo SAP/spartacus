@@ -201,7 +201,7 @@ export function fillAddressFormNoProduct(
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function fillPaymentFormNoProduct
@@ -212,7 +212,7 @@ export function fillPaymentFormNoProduct
   cy.get('.cx-checkout-title').should('contain', 'Payment');
   const reviewPage = waitForPage('/checkout/review-order', 'getReviewPage');
   fillPaymentDetails(paymentDetailsData, billingAddress);
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function verifyDeliveryMethod() {
@@ -338,7 +338,8 @@ export function addCheapProductToCartAndLogin(
     'getShippingPage'
   );
   loginUser(sampleUser);
-  // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
+  // Double timeout, because we have here a cascade of requests 
+  // (login, load /checkout page, merge cart, load shipping page)
   cy.wait(`@${shippingPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
@@ -352,9 +353,10 @@ export function proceedToCheckoutSignedInUser()
       'getShippingPage'
     );
 
-    // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
+    // Double timeout, because we have here a cascade of requests 
+    // (login, load /checkout page, merge cart, load shipping page)
     cy.wait(`@${shippingPage}`, { timeout: 30000 })
-      .its('status')
+      .its('response.statusCode')
       .should('eq', 200);
 }
 
