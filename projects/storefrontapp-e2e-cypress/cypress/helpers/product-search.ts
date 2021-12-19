@@ -49,7 +49,7 @@ export function searchForProduct(product: string) {
 
 export function searchForProductAddToCart(product: string) {
   cy.get('cx-searchbox input').clear();
-  cy.get('cx-searchbox input').type(`${product}{enter}`);
+  cy.get('cx-searchbox input').type(`${product}{enter}`, { force: true });
   cy.get(':nth-child(1) > :nth-child(1) > :nth-child(2) > .row > .col-md-4 > \
                 cx-add-to-cart > .ng-untouched > .btn').click({ force: true });
 
@@ -60,7 +60,7 @@ export function searchForProductAddToCart(product: string) {
 
 export function searchForProductAddNToCart(product: string) {
   cy.get('cx-searchbox input').clear();
-  cy.get('cx-searchbox input').type(`${product}{enter}`);
+  cy.get('cx-searchbox input').type(`${product}{enter}`, { force: true });
 
   // Find a better way to do this. Should be by result row. 
   for ( let i = 1; i < 5; i++){

@@ -15,7 +15,7 @@ context('Checkout flow', () => {
 
     it('should perform checkout multiple sku', () => {
       const user = getSampleUser();
-      cy.fixture("searchqueries").then((keywords) => {
+      cy.fixture("searchkeywords").then((keywords) => {
         const searchkeywords = keywords.keywords;  
         console.log(searchkeywords);
         checkout.visitHomePage();
