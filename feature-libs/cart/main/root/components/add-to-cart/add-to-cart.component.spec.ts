@@ -105,7 +105,7 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-fdescribe('AddToCartComponent', () => {
+describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
   let service: ActiveCartFacade;

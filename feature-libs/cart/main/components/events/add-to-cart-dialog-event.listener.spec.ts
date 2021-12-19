@@ -32,7 +32,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-fdescribe('AddToCartDialogEventListener', () => {
+describe('AddToCartDialogEventListener', () => {
   let activeCartFacade: ActiveCartFacade;
   //let eventService: EventService;
   let listener: AddToCartDialogEventListener;
