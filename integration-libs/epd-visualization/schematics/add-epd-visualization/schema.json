@@ -14,7 +14,7 @@
     "features": {
       "type": "array",
       "uniqueItems": true,
-      "default": ["EpdVisualization"]
+      "default": ["EPD-Visualization"]
     },
     "baseUrl": {
       "type": "string",
