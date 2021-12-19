@@ -1,12 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  ActiveCartFacade,
-  CartAddEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+import { ActiveCartFacade, CartAddEntryEvent } from '@spartacus/cart/main/root';
 import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
-import { Subscription } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { of, Subscription } from 'rxjs';
 import { AddedToCartDialogComponent } from '../cart/add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Injectable({
@@ -25,13 +21,13 @@ export class AddToCartDialogEventListener implements OnDestroy {
 
   protected onAddToCart() {
     this.subscription.add(
-      this.eventService.get(CartAddEntrySuccessEvent).subscribe((event) => {
+      this.eventService.get(CartAddEntryEvent).subscribe((event) => {
         console.log(`CartAddEntrySuccessEvent`, event);
         this.openModal(event);
       })
     );
   }
-  protected openModal(event: CartAddEntrySuccessEvent) {
+  protected openModal(event: CartAddEntryEvent) {
     let modalRef: ModalRef;
 
     let modalInstance: any;
@@ -47,13 +43,14 @@ export class AddToCartDialogEventListener implements OnDestroy {
     );
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
-    modalInstance.quantity = event.quantityAdded;
-    modalInstance.addedEntryWasMerged$ = this.activeCartFacade
-      .getEntry(event.productCode)
-      .pipe(
-        take(1),
-        map((entry) => entry?.quantity !== event.quantity)
-      );
+    modalInstance.quantity = event.quantity;
+    // modalInstance.addedEntryWasMerged$ = this.activeCartFacade
+    //   .getEntry(event.productCode)
+    //   .pipe(
+    //     take(1),
+    //     map((entry) => entry?.quantity !== event.quantity)
+    //   );
+    modalInstance.addedEntryWasMerged$ = of(false);
   }
 
   ngOnDestroy(): void {

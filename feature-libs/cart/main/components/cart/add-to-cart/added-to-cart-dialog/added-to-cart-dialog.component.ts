@@ -28,7 +28,7 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   addedEntryWasMerged$: Observable<boolean>;
-  numberOfEntriesBeforeAdd: number;
+  //numberOfEntriesBeforeAdd: number;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
