@@ -14,22 +14,27 @@ const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
   { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
+  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
     type: TabbingOrderTypes.IMG_LINK,
   },
+  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
     type: TabbingOrderTypes.IMG_LINK,
   },
+  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/shipping-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
+  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/shipping-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
+  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/delivery-mode',
     type: TabbingOrderTypes.IMG_LINK,
@@ -99,9 +104,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   shippingAddressAccount: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
+    { type: TabbingOrderTypes.GENERIC_ELEMENT },
     {
       value: 'Ship to this address',
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     backButton,
     continueButton,

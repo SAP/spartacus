@@ -74,6 +74,7 @@
       <div *ngFor="let action of content.actions">
         <div [ngSwitch]="action.event">
           <button
+            type="button"
             *ngSwitchCase="'delete'"
             class="link cx-action-link"
             (click)="delete()"
@@ -81,6 +82,7 @@
             {{ action.name }}
           </button>
           <button
+            type="button"
             *ngSwitchCase="'default'"
             class="link cx-action-link"
             (click)="setDefault()"
@@ -88,6 +90,7 @@
             {{ action.name }}
           </button>
           <button
+            type="button"
             *ngSwitchCase="'send'"
             class="link cx-action-link"
             (click)="send()"
@@ -95,6 +98,7 @@
             {{ action.name }}
           </button>
           <button
+            type="button"
             *ngSwitchCase="'edit'"
             class="link cx-action-link"
             (click)="edit()"
