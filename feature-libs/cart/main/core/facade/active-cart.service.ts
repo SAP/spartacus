@@ -295,9 +295,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         : this.cartEntity$
     ).pipe(filter((cartState) => !cartState.loading));
 
-    return this.activeCartId$.pipe(
+    return combineLatest([this.activeCartId$, cartSelector$]).pipe(
       // Avoid load/create call when there are new cart creating at the moment
-      withLatestFrom(cartSelector$),
       filter(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
       map(([, cartState]) => cartState),
       take(1),
