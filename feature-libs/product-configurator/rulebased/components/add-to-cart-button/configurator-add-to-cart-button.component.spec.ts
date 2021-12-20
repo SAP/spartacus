@@ -14,6 +14,7 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import { IntersectionService } from '@spartacus/storefront';
 import { OrderFacade } from 'feature-libs/order/root';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
@@ -109,6 +110,12 @@ class MockUserOrderService {
 class MockConfiguratorRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return of(mockRouterData);
+  }
+}
+
+class MockIntersectionService {
+  isIntersected(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -239,6 +246,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let intersectionService: IntersectionService;
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
@@ -281,6 +289,10 @@ describe('ConfigAddToCartButtonComponent', () => {
           {
             provide: ConfiguratorStorefrontUtilsService,
           },
+          {
+            provide: IntersectionService,
+            useClass: MockIntersectionService,
+          },
         ],
       })
         .overrideComponent(ConfiguratorAddToCartButtonComponent, {
@@ -312,6 +324,9 @@ describe('ConfigAddToCartButtonComponent', () => {
     );
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
+    );
+    intersectionService = TestBed.inject(
+      IntersectionService as Type<IntersectionService>
     );
     spyOn(configuratorGroupsService, 'setGroupStatusVisited').and.callThrough();
     spyOn(routingService, 'go').and.callThrough();
@@ -489,10 +504,9 @@ describe('ConfigAddToCartButtonComponent', () => {
     );
 
     it('should make button sticky', (done) => {
+      spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
-        const observer = component.intersectionObserver as MockOberserver;
-        observer.callCallbackFunction(true);
         expect(
           configuratorStorefrontUtilsService.changeStyling
         ).toHaveBeenCalledWith(
@@ -507,8 +521,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should make button fixed when not intersecting', (done) => {
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
-        const observer = component.intersectionObserver as MockOberserver;
-        observer.callCallbackFunction(false);
+        spyOn(intersectionService, 'isIntersected').and.callThrough();
         expect(
           configuratorStorefrontUtilsService.changeStyling
         ).toHaveBeenCalledWith(

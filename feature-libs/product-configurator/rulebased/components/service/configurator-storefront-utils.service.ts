@@ -125,7 +125,7 @@ export class ConfiguratorStorefrontUtilsService {
    * Focus the first attribute in the form.
    */
   focusFirstAttribute(): void {
-    if (!this.keyboardFocusService || !this.windowRef.isBrowser()) {
+    if (!this.windowRef.isBrowser()) {
       return;
     }
     const form = this.getElement('cx-configurator-form');
@@ -166,9 +166,9 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Change styling of element
    *
-   * @param {string} querySelector - querySelector
-   * @param {string} property - CSS property
-   * @param {string} value - CSS value
+   * @param querySelector - querySelector
+   * @param property - CSS property
+   * @param value - CSS value
    */
   changeStyling(querySelector: string, property: string, value: string): void {
     const element = this.getElement(querySelector);
@@ -180,8 +180,8 @@ export class ConfiguratorStorefrontUtilsService {
   /**
    * Get HTML element based on querySelector when running in browser
    *
-   * @param {String} querySelector - querySelector
-   * @returns {HTMLElement | undefined} - selected HTML element
+   * @param querySelector - querySelector
+   * @returns selected HTML element
    */
   getElement(querySelector: string): HTMLElement | undefined {
     if (this.windowRef.isBrowser()) {

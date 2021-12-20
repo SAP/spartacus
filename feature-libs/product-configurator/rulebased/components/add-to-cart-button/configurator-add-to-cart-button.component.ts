@@ -14,7 +14,11 @@ import {
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
-import { Observable } from 'rxjs';
+import {
+  IntersectionOptions,
+  IntersectionService,
+} from '@spartacus/storefront';
+import { Observable, of } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -51,7 +55,6 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
         )
     )
   );
-  intersectionObserver: IntersectionObserver;
 
   constructor(
     protected routingService: RoutingService,
@@ -60,14 +63,13 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
-    protected userOrderService: OrderFacade,
+    protected orderFacade: OrderFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
-    protected configUtils: ConfiguratorStorefrontUtilsService
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected intersectionService: IntersectionService
   ) {}
   ngOnInit(): void {
-    this.container$.pipe(take(1), delay(0)).subscribe(() => {
-      this.makeAddToCartButtonSticky();
-    });
+    this.makeAddToCartButtonSticky();
   }
 
   protected navigateToCart(): void {
@@ -250,10 +252,10 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
   }
 
   protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
-    this.userOrderService.loadOrderDetails(
+    this.orderFacade.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
-    this.userOrderService
+    this.orderFacade
       .getOrderDetails()
       .pipe(
         filter((order: Order) => order !== undefined),
@@ -265,10 +267,21 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
   }
 
   protected makeAddToCartButtonSticky(): void {
-    const options = { rootMargin: '0px 0px -100px 0px' };
-    this.intersectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+    const options: IntersectionOptions = { rootMargin: '0px 0px -100px 0px' };
+    this.container$
+      .pipe(
+        take(1),
+        delay(0),
+        map(() => this.configUtils.getElement('.cx-price-summary-container')),
+        switchMap((priceSummary) =>
+          priceSummary !== undefined
+            ? this.intersectionService.isIntersected(priceSummary, options)
+            : of(undefined)
+        ),
+        filter((isIntersecting) => isIntersecting !== undefined)
+      )
+      .subscribe((isIntersecting) => {
+        if (isIntersecting) {
           this.configUtils.changeStyling(
             'cx-configurator-add-to-cart-button',
             'position',
@@ -282,12 +295,5 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
           );
         }
       });
-    }, options);
-    const priceSummary = this.configUtils.getElement(
-      '.cx-price-summary-container'
-    );
-    if (priceSummary) {
-      this.intersectionObserver.observe(priceSummary);
-    }
   }
 }
