@@ -15,9 +15,8 @@ import {
 } from 'rxjs/operators';
 import { Translatable } from '../../../i18n/translatable';
 import {
-  countOfDeepEqualObjects,
-  indexOfFirstOccurrence,
-} from '../../../util/compare-equal-objects';
+  EqualObjectComparer
+} from '../../../util/equal-object-comparer';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
@@ -26,7 +25,7 @@ import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
-  
+
   removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => this.actions$.pipe(
     ofType(GlobalMessageActions.ADD_MESSAGE),
     pluck('payload'),
@@ -43,20 +42,20 @@ export class GlobalMessageEffect {
         ),
         filter(
           ([text, messages]: [Translatable, Translatable[]]) =>
-            countOfDeepEqualObjects(text, messages) > 1
+            EqualObjectComparer.countOfDeepEqualObjects(text, messages) > 1
         ),
         map(
           ([text, messages]: [Translatable, Translatable[]]) =>
             new GlobalMessageActions.RemoveMessage({
               type: message.type,
-              index: indexOfFirstOccurrence(text, messages),
+              index: EqualObjectComparer.indexOfFirstOccurrence(text, messages),
             })
         )
       )
     )
   ));
 
-  
+
   hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => isPlatformBrowser(
     this.platformId
   ) // we don't want to run this logic when doing SSR

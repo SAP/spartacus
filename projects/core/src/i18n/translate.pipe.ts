@@ -6,7 +6,7 @@ import {
   PipeTransform,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { shallowEqualObjects } from '../util/compare-equal-objects';
+import { EqualObjectComparer } from '../util/equal-object-comparer';
 import { Translatable, TranslatableParams } from './translatable';
 import { TranslationService } from './translation.service';
 
@@ -51,7 +51,7 @@ export class TranslatePipe implements PipeTransform, OnDestroy {
   private translate(key: any, options: object) {
     if (
       key !== this.lastKey ||
-      !shallowEqualObjects(options, this.lastOptions)
+      !EqualObjectComparer.shallowEqualObjects(options, this.lastOptions)
     ) {
       this.lastKey = key;
       this.lastOptions = options;
