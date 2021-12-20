@@ -66,8 +66,13 @@ export class SceneNodeToProductLookupService {
       .getNodes(
         sceneId,
         undefined,
-        ['hotspot', `meta.${this.usageId.category}.${this.usageId.keyName}`],
-        [`metadata.${this.usageId.category}.${this.usageId.keyName}`],
+        [
+          'hotspot',
+          `metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}`,
+        ],
+        [
+          `metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}`,
+        ],
         '*'
       )
       .pipe(
