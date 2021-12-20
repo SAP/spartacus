@@ -10,5 +10,5 @@ BACKEND_URL=https://api.cp96avkh5f-integrati1-d1-public.model-t.cc.commerce.onde
 # Sample data may be added to electronics-epdvisualization-spa in the future.
 BASE_SITE=powertools-epdvisualization-spa,electronics-epdvisualization-spa
 
-# The base URL (origin) of the SAP EPD Fiori launchpad environment used for integration tests
+# The base URL (origin) of the SAP EPD environment used for integration tests
 EPD_VISUALIZATION_BASE_URL=https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com

@@ -17,12 +17,6 @@ function cleanup {
     delete_file spartacussampledata.2105.zip
     delete_file spartacussampledata.2105.tar.gz
 
-    delete_file epdvisualizationspartacussampledata.1905.zip
-    delete_file epdvisualizationspartacussampledata.1905.tar.gz
-    delete_file epdvisualizationspartacussampledata.2005.zip
-    delete_file epdvisualizationspartacussampledata.2005.tar.gz
-    delete_file epdvisualizationspartacussampledata.2011.zip
-    delete_file epdvisualizationspartacussampledata.2011.tar.gz
     delete_file epdvisualizationspartacussampledata.2105.zip
     delete_file epdvisualizationspartacussampledata.2105.tar.gz
 
@@ -95,27 +89,6 @@ function zipEpdVisualizationSamplesAddOn {
     delete_dir epdvisualizationspartacussampledata
     git clone https://github.tools.sap/cx-commerce/epdvisualizationspartacussampledata.git
     cd epdvisualizationspartacussampledata
-
-    # 1905 release untested
-    # git co release/1905/next
-    # git archive -o epdvisualizationspartacussampledata.1905.tar.gz HEAD
-    # mv epdvisualizationspartacussampledata.1905.tar.gz ../
-    # git archive -o epdvisualizationspartacussampledata.1905.zip HEAD
-    # mv epdvisualizationspartacussampledata.1905.zip ../
-
-    # 2005 release untested
-    # git co release/2005/next
-    # git archive -o epdvisualizationspartacussampledata.2005.tar.gz HEAD
-    # mv epdvisualizationspartacussampledata.2005.tar.gz ../
-    # git archive -o epdvisualizationspartacussampledata.2005.zip HEAD
-    # mv epdvisualizationspartacussampledata.2005.zip ../
-
-    # 2011 release untested
-    # git co release/2011/next
-    # git archive -o epdvisualizationspartacussampledata.2011.tar.gz HEAD
-    # mv epdvisualizationspartacussampledata.2011.tar.gz ../
-    # git archive -o epdvisualizationspartacussampledata.2011.zip HEAD
-    # mv epdvisualizationspartacussampledata.2011.zip ../
 
     git co release/2105/next
     git archive -o epdvisualizationspartacussampledata.2105.tar.gz HEAD
