@@ -104,6 +104,24 @@ export class ConfiguratorCommonsService {
   }
 
   /**
+   * Checks if we are dealing with a ghost configuration
+   * @param owner - Configuration owner
+   *
+   * @returns  Is the configuration per owner a ghost config?
+   */
+  //TODO GHOST Reconsider name
+  isGhostConfiguration(owner: CommonConfigurator.Owner): Observable<boolean> {
+    return this.getConfiguration(owner).pipe(
+      tap((c) => console.log('CHHI isGhostConfig: ' + c.configId)),
+      map(
+        (configuration) =>
+          configuration.configId === ghostConfigurationId ||
+          configuration.nextOwner !== undefined
+      )
+    );
+  }
+
+  /**
    * Returns a configuration if it exists or creates a new one.
    * Emits if there is a valid configuration available and triggers
    * the configuration creation or read from backend in case it is not

@@ -19,9 +19,10 @@ export class ConfiguratorUpdateMessageComponent {
           .hasPendingChanges(routerData.owner)
           .pipe(
             switchMap((hasPendingChanges) =>
+              //TODO GHOST refactor
               this.configuratorCommonsService
                 .isConfigurationLoading(routerData.owner)
-                .pipe(map((isLoading) => hasPendingChanges || isLoading))
+                .pipe(map(() => hasPendingChanges))
             )
           )
       ),

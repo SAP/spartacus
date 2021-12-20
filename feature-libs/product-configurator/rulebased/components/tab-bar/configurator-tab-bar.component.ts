@@ -5,7 +5,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -16,6 +17,15 @@ export class ConfiguratorTabBarComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
+  //TODO GHOST Better method name
+  isReady$: Observable<boolean> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
+    ),
+    map((isGhost) => !isGhost),
+    tap((b) => console.log('CHHI is ready: ' + b))
+  );
+
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(
       (routerData) =>
@@ -23,7 +33,9 @@ export class ConfiguratorTabBarComponent {
     )
   );
 
+  //TODO GHOST add to breaking changes issue
   constructor(
-    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService,
+    protected configuratorCommonsService: ConfiguratorCommonsService
   ) {}
 }
