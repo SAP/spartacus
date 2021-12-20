@@ -51,6 +51,16 @@ export class ConfiguratorAddToCartButtonComponent {
     )
   );
 
+  //TODO GHOST Better method name
+  isReady$: Observable<boolean> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
+      ),
+      map((isGhost) => !isGhost)
+    );
+
   constructor(
     protected routingService: RoutingService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
