@@ -127,12 +127,12 @@ const validateGetNodesParameters = (
   if (expand) {
     expect(expand.length).toBe(2);
     expect(expand[0]).toBe('hotspot');
-    expect(expand[1]).toBe('meta.SpareParts.ProductCode');
+    expect(expand[1]).toBe('metadata[CommerceCloud].SpareParts.ProductCode');
   }
   expect(filter).toBeTruthy();
   if (filter) {
     expect(filter.length).toBe(1);
-    expect(filter[0]).toBe('metadata.SpareParts.ProductCode');
+    expect(filter[0]).toBe('metadata[CommerceCloud].SpareParts.ProductCode');
   }
   expect(contentType).toBe('*');
 };
