@@ -1,7 +1,7 @@
 <div
   *ngIf="content"
   class="cx-card"
-  tabindex="0"
+  [tabindex]="border ? 0 : -1"
   role="region"
   [attr.aria-label]="
     content.label ? (content.label | cxTranslate: { number: this.index }) : null

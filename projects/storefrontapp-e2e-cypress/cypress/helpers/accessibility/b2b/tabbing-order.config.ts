@@ -10,39 +10,26 @@ const paymentTypeRadio = {
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
-const cardGroup = [
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
-];
-
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
   { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
     type: TabbingOrderTypes.IMG_LINK,
   },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
     type: TabbingOrderTypes.IMG_LINK,
   },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/shipping-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/shipping-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
-  { type: TabbingOrderTypes.GENERIC_ELEMENT },
   {
     value: '/powertools-spa/en/USD/checkout/delivery-mode',
     type: TabbingOrderTypes.IMG_LINK,
@@ -268,7 +255,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-    ...cardGroup,
   ],
   orderApprovalForm: [
     {
@@ -287,7 +273,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-    ...cardGroup,
   ],
   orderRejectionForm: [
     {
@@ -306,7 +291,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
-    ...cardGroup,
   ],
   replenishmentOrderAccountCheckoutReviewOrder: [
     ...accountReviewOrderGeneral,
