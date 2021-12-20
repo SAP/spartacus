@@ -5,7 +5,7 @@ import { validateUpdateProfileForm } from './update-profile';
 
 export let guestUser;
 
-export function generateGuestUser(){
+export function generateGuestUser() {
   guestUser = getSampleUser();
 }
 

@@ -17,8 +17,8 @@ import {
 } from '../sample-data/apparel-checkout-flow';
 
 export let variantUser;
-export function generateVariantGuestUser(){
-    variantUser = getApparelCheckoutUser();
+export function generateVariantGuestUser() {
+  variantUser = getApparelCheckoutUser();
 }
 
 export function testCheckoutVariantAsGuest() {
