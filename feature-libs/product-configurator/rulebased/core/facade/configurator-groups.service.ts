@@ -178,7 +178,7 @@ export class ConfiguratorGroupsService {
     groupId: string
   ): void {
     this.configuratorCommonsService
-      .getConfiguration(owner)
+      .getConfigurationExcludingGhost(owner)
       .pipe(
         map((configuration) =>
           this.configuratorGroupStatusService.setGroupStatusVisited(
