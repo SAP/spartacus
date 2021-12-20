@@ -98,7 +98,7 @@ describe('StorageV1Adapter', () => {
     it('should construct $filter query param', () => {
       sceneAdapter
         .getNodes('123', undefined, undefined, [
-          'meta.categoryNameValue.keyNameValue',
+          'metadata[sourceNameValue].categoryNameValue.keyNameValue',
           'name.nameValue',
         ])
         .subscribe((result) => {
@@ -109,7 +109,7 @@ describe('StorageV1Adapter', () => {
         (req) =>
           req.method === 'GET' &&
           req.url ===
-            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$filter=meta.categoryNameValue.keyNameValue,name.nameValue'
+            'https://epd-acc-eu20-consumer.epdacc.cfapps.eu20.hana.ondemand.com/vis/public/storage/v1/scenes/123/nodes?$filter=metadata[sourceNameValue].categoryNameValue.keyNameValue,name.nameValue'
       );
 
       expect(mockReq.cancelled).toBeFalsy();
