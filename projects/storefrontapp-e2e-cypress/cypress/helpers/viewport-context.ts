@@ -49,3 +49,12 @@ export function viewportContext(
     );
   });
 }
+
+/**
+ * Gets the current viewport of the test.
+ */
+export function getViewport(): Viewports | undefined {
+  return viewportConfigs.find(
+    (config) => config.width === Cypress.config('viewportWidth')
+  )?.viewport;
+}

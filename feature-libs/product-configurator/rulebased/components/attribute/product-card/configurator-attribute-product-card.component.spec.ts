@@ -210,6 +210,10 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       singleDropdown: false,
       withQuantity: true,
       attributeId: 123,
+      attributeLabel: 'Attribute Label',
+      attributeName: 'Attribute Name',
+      itemCount: 3,
+      itemIndex: 1,
     };
 
     spyOn(component, 'onHandleDeselect').and.callThrough();
@@ -694,6 +698,402 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       component.productCardOptions.fallbackFocusId = 'fallbackId';
       component.onHandleSelect();
       expect(focusService.get()).toBe('fallbackId');
+    });
+  });
+
+  describe('getAriaLabelSingleSelectedNoButton', () => {
+    it("should return 'configurator.a11y.itemOfAttributeSelectedWithPrice' if there is a price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue.valuePriceTotal
+            .formattedValue
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeSelected' if there is no price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleSelectedNoButton(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('getAriaLabelSingleSelected', () => {
+    it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice' if there is a price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$30',
+        value: 30,
+      };
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$30',
+        value: 30,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is no price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('getAriaLabelMultiSelected', () => {
+    it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice' if there is a price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelMultiSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeSelectedPressToUnselect' if there is no price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelMultiSelected(product)).toBe(
+        'configurator.a11y.itemOfAttributeSelectedPressToUnselect attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('getAriaLabelMultiUnselected', () => {
+    it("should return 'configurator.a11y.itemOfAttributeUnselectedWithPrice' if there is a price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelMultiUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is no price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelMultiUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('getAriaLabelSingleUnselected', () => {
+    it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is a price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      productBoundValue.valuePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '$20',
+        value: 20,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePriceTotal
+            .formattedValue
+      );
+    });
+
+    it("should return 'configurator.a11y.itemOfAttributeUnselected' if there is no price", () => {
+      const productBoundValue = setProductBoundValueAttributes(
+        component,
+        true,
+        undefined
+      );
+      productBoundValue.valuePrice = {
+        currencyIso: '$',
+        formattedValue: undefined,
+        value: 0,
+      };
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.itemOfAttributeUnselected attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+
+    it("should return 'configurator.a11y.selectNoItemOfAttribute' if there is valueCode=0 for the productBoundValue", () => {
+      component.productCardOptions.productBoundValue.valueCode = '0';
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+      expect(component.getAriaLabelSingleUnselected(product)).toBe(
+        'configurator.a11y.selectNoItemOfAttribute attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain div element with class name 'cx-product-card' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-product-card',
+        0,
+        'aria-label',
+        'configurator.a11y.itemOfAttribute attribute:' +
+          component.productCardOptions.attributeLabel
+      );
+    });
+
+    it("should contain cx-media element with 'aria-hidden' attribute that removes cx-media from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-media',
+        undefined,
+        0,
+        'aria-hidden',
+        'true'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-selected',
+        'false'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      const itemIndex = component.productCardOptions.itemIndex + 1;
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-label',
+        'configurator.a11y.itemOfAttributeUnselectedWithPrice attribute:' +
+          component.productCardOptions.attributeLabel +
+          ' item:' +
+          product.code +
+          ' itemCount:' +
+          component.productCardOptions.itemCount +
+          ' itemIndex:' +
+          itemIndex +
+          ' price:' +
+          component.productCardOptions.productBoundValue?.valuePrice,
+        'configurator.button.select'
+      );
+    });
+
+    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the IDs of the elements that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-primary',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--' +
+          component.productCardOptions.attributeName +
+          ' cx-configurator--attribute-msg--' +
+          component.productCardOptions.attributeName,
+        'configurator.button.select'
+      );
     });
   });
 });

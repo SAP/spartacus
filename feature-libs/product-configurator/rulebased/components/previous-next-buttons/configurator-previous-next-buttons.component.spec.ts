@@ -14,6 +14,7 @@ import {
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -97,6 +98,7 @@ export class MockFocusDirective {
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
+  let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
@@ -142,6 +144,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -327,5 +330,33 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     expect(
       configuratorStorefrontUtilsService.focusFirstAttribute
     ).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Accessibility', () => {
+    it("should contain action button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-action',
+        0,
+        'aria-label',
+        'configurator.a11y.previous',
+        'configurator.button.previous'
+      );
+    });
+
+    it("should contain secondary button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-secondary',
+        0,
+        'aria-label',
+        'configurator.a11y.next',
+        'configurator.button.next'
+      );
+    });
   });
 });
