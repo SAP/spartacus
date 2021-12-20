@@ -109,7 +109,7 @@
     "@angular/pwa": "^13.0.1",
     "@angular/router": "^13.0.0",
     "@angular/service-worker": "^13.0.0",
-    "@ng-bootstrap/ng-bootstrap": "^10.0.0",
+    "@ng-bootstrap/ng-bootstrap": "^11.0.0",
     "@ng-select/ng-select": "^7.0.1",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/router-store": "^13.0.2",
