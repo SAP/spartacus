@@ -7,7 +7,7 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-  UnifiedInjector
+  UnifiedInjector,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
@@ -16,9 +16,8 @@ import {
   map,
   startWith,
   switchMap,
-  takeWhile
+  takeWhile,
 } from 'rxjs/operators';
-
 
 @Injectable({
   providedIn: 'root',

@@ -1,5 +1,6 @@
 import { AbstractType, InjectionToken, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   AuthService,
   FacadeFactoryService,
@@ -10,8 +11,6 @@ import {
 } from '@spartacus/core';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, ReplaySubject } from 'rxjs';
-import { ActiveCartFacade } from '../../facade/active-cart.facade';
-import { Cart } from '../../models/cart.model';
 import { MiniCartComponentService } from './mini-cart-component.service';
 
 const activeCart = new ReplaySubject<Cart>();
