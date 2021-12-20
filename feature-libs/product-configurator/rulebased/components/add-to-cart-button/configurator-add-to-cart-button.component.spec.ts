@@ -226,20 +226,6 @@ class MockConfiguratorAddToCartButtonComponent {
   goToOrderDetails() {}
 }
 
-class MockOberserver extends IntersectionObserver {
-  fCallbackFunction: any;
-  constructor(fCallback: any) {
-    super(fCallback);
-    this.fCallbackFunction = fCallback;
-  }
-  observe(): void {}
-  callCallbackFunction(isIntersecting: Boolean): void {
-    const entries = [{ isIntersecting: isIntersecting }];
-
-    this.fCallbackFunction(entries);
-  }
-}
-
 describe('ConfigAddToCartButtonComponent', () => {
   let routingService: RoutingService;
   let globalMessageService: GlobalMessageService;
@@ -498,12 +484,6 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
   });
   describe('Floating button', () => {
-    beforeEach(
-      waitForAsync(() => {
-        (<any>window).IntersectionObserver = MockOberserver;
-      })
-    );
-
     it('should make button sticky', (done) => {
       spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
       component.ngOnInit();
