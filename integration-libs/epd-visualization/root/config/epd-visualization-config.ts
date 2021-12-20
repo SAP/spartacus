@@ -8,7 +8,10 @@ import { UsageIdDefinition } from '../models/usage-ids/usage-id-definition';
   useExisting: Config,
 })
 export abstract class EpdVisualizationConfig implements Config {
-  public epdVisualization?: EpdVisualizationInnerConfig;
+  /**
+   * This field introduces a namespace for EPD Visualization to avoid collisions when configuration merging occurs.
+   */
+   public epdVisualization?: EpdVisualizationInnerConfig;
 }
 
 export interface EpdVisualizationInnerConfig {
@@ -34,6 +37,9 @@ export interface Ui5Config {
   /**
    * This is the URL that SAPUI5 is bootstrapped from.
    * The value that is configured by default in a given Spartacus release is the SAPUI5 version supported for that Spartacus release.
+   *
+   * Important: Please check the *End of Cloud Provisioning* column in https://sapui5.hana.ondemand.com/versionoverview.html
+   * When the Cloud Provisioning period ends for a particular SAPUI5 version, that version will no longer be available on https://sapui5.hana.ondemand.com
    */
   bootstrapUrl: string;
 }
