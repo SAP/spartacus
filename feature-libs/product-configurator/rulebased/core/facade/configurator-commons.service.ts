@@ -15,11 +15,11 @@ import {
   take,
   tap,
 } from 'rxjs/operators';
-import { Configurator } from '../model/configurator.model';
 import {
   ghostConfiguration,
   ghostConfigurationId,
 } from '../model/configurator.ghostdata';
+import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
 import { ConfiguratorSelectors } from '../state/selectors/index';
@@ -85,6 +85,21 @@ export class ConfiguratorCommonsService {
         this.configuratorUtils.isConfigurationCreated(configuration)
       ),
       startWith(ghostConfiguration)
+    );
+  }
+
+  /**
+   * Returns a configuration for an owner, and excludes the ghost
+   * configuration. Otherwise, it forwards to getConfiguration
+   * @param owner - Configuration owner
+   *
+   * @returns {Observable<Configurator.Configuration>}
+   */
+  getConfigurationExcludingGhost(
+    owner: CommonConfigurator.Owner
+  ): Observable<Configurator.Configuration> {
+    return this.getConfiguration(owner).pipe(
+      filter((configuration) => configuration.configId !== ghostConfigurationId)
     );
   }
 
