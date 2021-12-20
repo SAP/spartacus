@@ -1,11 +1,12 @@
 <ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container
-    *ngIf="configuration.configId !== GHOST_ID; else ghostGroupTitle"
-  >
-    <ng-container *ngIf="displayedGroup$ | async as group">
-      {{ group.description }}
+  <ng-container *ngIf="isReady$ | async as isReady">
+    <ng-container
+      *ngIf="configuration.configId !== GHOST_ID; else ghostGroupTitle"
+    >
+      <ng-container *ngIf="displayedGroup$ | async as group">
+        {{ group.description }}
+      </ng-container>
     </ng-container>
   </ng-container>
 </ng-container>
-
 <ng-template #ghostGroupTitle><div class="ghost"></div></ng-template>

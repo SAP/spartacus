@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, map } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
@@ -34,6 +34,16 @@ export class ConfiguratorGroupTitleComponent {
 
   iconTypes = ICON_TYPE;
   GHOST_ID = ghostConfigurationId;
+
+  //TODO GHOST Better method name
+  isReady$: Observable<boolean> = this.configRouterExtractorService
+    .extractRouterData()
+    .pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
+      ),
+      map((isGhost) => !isGhost)
+    );
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,
