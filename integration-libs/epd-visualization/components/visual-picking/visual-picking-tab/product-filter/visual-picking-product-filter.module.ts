@@ -1,28 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { IconModule } from '@spartacus/storefront';
 import { VisualPickingProductFilterComponent } from './visual-picking-product-filter.component';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
 @NgModule({
   imports: [CommonModule, FormsModule, IconModule, UrlModule, I18nModule],
-  providers: [
-    VisualPickingProductFilterService,
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        VisualPickingProductFilterComponent: {
-          component: VisualPickingProductFilterComponent,
-        },
-      },
-    }),
-  ],
+  providers: [VisualPickingProductFilterService],
   declarations: [VisualPickingProductFilterComponent],
   entryComponents: [VisualPickingProductFilterComponent],
   exports: [VisualPickingProductFilterComponent],
