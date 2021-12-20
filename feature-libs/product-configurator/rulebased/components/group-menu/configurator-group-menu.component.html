@@ -1,6 +1,6 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-group-menu" role="tablist">
-    <ng-container *ngIf="configuration.configId !== GHOST_ID; else ghostGroups">
+    <ng-container *ngIf="isReady$ | async as isReady; else ghostGroups">
       <span id="listOfGroups" class="cx-visually-hidden">
         {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
       </span>

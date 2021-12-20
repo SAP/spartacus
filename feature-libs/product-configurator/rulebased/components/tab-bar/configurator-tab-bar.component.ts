@@ -5,7 +5,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -22,8 +22,7 @@ export class ConfiguratorTabBarComponent {
     switchMap((routerData) =>
       this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
     ),
-    map((isGhost) => !isGhost),
-    tap((b) => console.log('CHHI is ready: ' + b))
+    map((isGhost) => !isGhost)
   );
 
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(

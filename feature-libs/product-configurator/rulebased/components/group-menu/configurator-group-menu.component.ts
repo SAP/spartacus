@@ -61,6 +61,14 @@ export class ConfiguratorGroupMenuComponent {
       )
     );
 
+  //TODO GHOST Better method name
+  isReady$: Observable<boolean> = this.routerData$.pipe(
+    switchMap((routerData) =>
+      this.configCommonsService.isGhostConfiguration(routerData.owner)
+    ),
+    map((isGhost) => !isGhost)
+  );
+
   configurationExcludingGhost$: Observable<Configurator.Configuration> =
     this.configuration$.pipe(
       filter((configuration) => configuration.configId !== ghostConfigurationId)
@@ -106,8 +114,6 @@ export class ConfiguratorGroupMenuComponent {
   COMPLETE = ' COMPLETE';
   WARNING = ' WARNING';
   ICON = 'ICON';
-
-  GHOST_ID = ghostConfigurationId;
 
   constructor(
     protected configCommonsService: ConfiguratorCommonsService,

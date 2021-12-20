@@ -112,7 +112,6 @@ export class ConfiguratorCommonsService {
   //TODO GHOST Reconsider name
   isGhostConfiguration(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.getConfiguration(owner).pipe(
-      tap((c) => console.log('CHHI isGhostConfig: ' + c.configId)),
       map(
         (configuration) =>
           configuration.configId === ghostConfigurationId ||
