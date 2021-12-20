@@ -11,7 +11,7 @@ export abstract class EpdVisualizationConfig implements Config {
   /**
    * This field introduces a namespace for EPD Visualization to avoid collisions when configuration merging occurs.
    */
-   public epdVisualization?: EpdVisualizationInnerConfig;
+  public epdVisualization?: EpdVisualizationInnerConfig;
 }
 
 export interface EpdVisualizationInnerConfig {
