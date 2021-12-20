@@ -1,5 +1,6 @@
 import { addProductFromPdp, loginRegisteredUser } from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
+import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import {
   addPaymentMethod,
@@ -59,10 +60,25 @@ describe('Payment Methods', () => {
       });
 
       it('should set additional payment method as default', () => {
+        cy.intercept({
+          method: 'GET',
+          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+            'BASE_SITE'
+          )}/users/*/paymentdetails`,
+          query: {
+            lang: 'en',
+            curr: 'USD',
+          },
+        }).as('paymentDetails');
+
         cy.get('cx-payment-methods')
           .findByText('Set as default')
           .click({ force: true });
 
+        cy.wait('@paymentDetails').its('response.statusCode').should('eq', 200);
+        alerts
+          .getSuccessAlert()
+          .contains('New payment was sucessfully set as default');
         const firstCard = cy.get('.cx-payment-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', '1234');
