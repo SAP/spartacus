@@ -39,6 +39,7 @@ describe('Payment Methods', () => {
       // Core test. Repeat in different view port.
       paymentMethods.testRenderOnePaymentMethod();
 
+      // Below tests depend on core tests for setup
       it('should render page with two payment methods', () => {
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);

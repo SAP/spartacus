@@ -17,7 +17,6 @@ context('Cart validation', () => {
         },
       });
     });
-
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
@@ -27,7 +26,6 @@ context('Cart validation', () => {
       afterEach(() => {
         cy.saveLocalStorage();
       });
-
       cartValidation.testReducedProductStockValidation();
     });
   });

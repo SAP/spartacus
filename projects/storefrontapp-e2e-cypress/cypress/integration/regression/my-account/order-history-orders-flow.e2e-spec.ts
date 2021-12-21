@@ -4,7 +4,7 @@ import { product } from '../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/utils/order-placed';
 
 describe('Order History with orders', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();

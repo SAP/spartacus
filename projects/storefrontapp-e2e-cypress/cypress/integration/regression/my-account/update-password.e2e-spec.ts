@@ -6,6 +6,16 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
 describe('My Account - Update Password', () => {
+  viewportContext(['mobile'], () => {
+    before(() =>
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+      })
+    );
+    // Core e2e test. Repeat in mobile viewport.
+    updatePassword.testUpdatePasswordLoggedInUser();
+  });
+
   viewportContext(['mobile', 'desktop'], () => {
     before(() =>
       cy.window().then((win) => {
@@ -56,9 +66,6 @@ describe('My Account - Update Password', () => {
         cy.url().should('contain', updatePassword.PAGE_URL_UPDATE_PASSWORD);
         alerts.getErrorAlert().should('exist');
       });
-
-      // Core e2e test. Repeat in mobile viewport.
-      updatePassword.testUpdatePassword();
 
       afterEach(() => {
         cy.saveLocalStorage();

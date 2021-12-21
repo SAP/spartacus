@@ -1,7 +1,6 @@
 import * as cartValidation from '../../../helpers/cart-validation';
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
-  lowStockResponse,
   outOfStockResponse,
   PRODUCT_1,
   PRODUCT_2,
@@ -13,7 +12,33 @@ import {
   removeItemAndCheckCartEntriesNumber,
 } from '../../../helpers/cart-validation';
 
-context('Cart validation', () => {
+context('Cart validation', () => {    
+  viewportContext(['mobile'], () => {
+    beforeEach(() => {
+      clearAllStorage();
+      cy.requireLoggedIn(standardUser);
+      cy.cxConfig({
+        cart: {
+          validation: {
+            enabled: true,
+          },
+        },
+      });  
+    });
+    describe('As logged in', () => {
+      beforeEach(() => {
+        cy.restoreLocalStorage();
+        cy.requireLoggedIn(standardUser);
+      });
+
+      afterEach(() => {
+        cy.saveLocalStorage();
+      });
+
+      // Core test. Check with mobile as well.
+      cartValidation.testReducedProductStockValidation();
+    });
+  });
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
@@ -37,9 +62,6 @@ context('Cart validation', () => {
       afterEach(() => {
         cy.saveLocalStorage();
       });
-
-      // Core test. Check with mobile as well.
-      cartValidation.testReducedProductStockValidation();
 
       it('should display information about removed product from cart due to out of stock', () => {
         addMultipleProductsToCart([PRODUCT_1, PRODUCT_2]);
