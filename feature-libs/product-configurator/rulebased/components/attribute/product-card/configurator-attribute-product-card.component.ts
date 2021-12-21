@@ -6,7 +6,7 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
+import { Product, ProductService, TranslationService } from '@spartacus/core';
 import { ConfiguratorProductScope } from '@spartacus/product-configurator/common';
 import {
   FocusConfig,
@@ -14,7 +14,7 @@ import {
   KeyboardFocusService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { map, take, tap } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { QuantityUpdateEvent } from '../../form/configurator-form.event';
 import { ConfiguratorPriceComponentOptions } from '../../price/configurator-price.component';
@@ -39,6 +39,10 @@ export interface ConfiguratorAttributeProductCardComponentOptions {
    */
   loading$?: Observable<boolean>;
   attributeId: number;
+  attributeLabel?: string;
+  attributeName?: string;
+  itemCount: number;
+  itemIndex: number;
 }
 
 @Component({
@@ -63,7 +67,8 @@ export class ConfiguratorAttributeProductCardComponent
 
   constructor(
     protected productService: ProductService,
-    protected keyBoardFocus: KeyboardFocusService
+    protected keyBoardFocus: KeyboardFocusService,
+    protected translation: TranslationService
   ) {
     super();
   }
@@ -249,5 +254,195 @@ export class ConfiguratorAttributeProductCardComponent
 
   showDeselectionNotPossibleMessage() {
     this.showDeselectionNotPossible = true;
+  }
+
+  getAriaLabelSingleUnselected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (
+      this.isValueCodeDefined(
+        this.productCardOptions?.productBoundValue?.valueCode
+      )
+    ) {
+      if (
+        this.hasPriceDisplay() &&
+        this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+      ) {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      } else {
+        this.translation
+          .translate('configurator.a11y.itemOfAttributeUnselected', {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+          })
+          .pipe(take(1))
+          .subscribe((text) => (translatedText = text));
+      }
+    } else {
+      this.translation
+        .translate('configurator.a11y.selectNoItemOfAttribute', {
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+    return translatedText;
+  }
+
+  getAriaLabelSingleSelected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
+      this.translation
+        .translate(
+          'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
+          {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
+          }
+        )
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    } else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelSingleSelectedNoButton(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedWithPrice', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+          price:
+            this.productCardOptions.productBoundValue.valuePriceTotal
+              ?.formattedValue,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    } else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelMultiSelected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
+      this.translation
+        .translate(
+          'configurator.a11y.itemOfAttributeSelectedPressToUnselectWithPrice',
+          {
+            item: product.code,
+            attribute: this.productCardOptions?.attributeLabel,
+            itemIndex: index,
+            itemCount: this.productCardOptions.itemCount,
+            price:
+              this.productCardOptions.productBoundValue.valuePriceTotal
+                ?.formattedValue,
+          }
+        )
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    } else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeSelectedPressToUnselect', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
+  }
+
+  getAriaLabelMultiUnselected(product: Product): string {
+    let translatedText = '';
+    let index = this.productCardOptions.itemIndex + 1;
+    if (
+      this.hasPriceDisplay() &&
+      this.productCardOptions.productBoundValue.valuePrice?.value !== 0
+    ) {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeUnselectedWithPrice', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+          price:
+            this.productCardOptions.productBoundValue.valuePriceTotal
+              ?.formattedValue,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    } else {
+      this.translation
+        .translate('configurator.a11y.itemOfAttributeUnselected', {
+          item: product.code,
+          attribute: this.productCardOptions?.attributeLabel,
+          itemIndex: index,
+          itemCount: this.productCardOptions.itemCount,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (translatedText = text));
+    }
+
+    return translatedText;
   }
 }

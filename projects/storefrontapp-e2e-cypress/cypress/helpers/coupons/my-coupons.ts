@@ -184,7 +184,7 @@ export function verifyFindProduct(couponCode: string, productNumber: number) {
   cy.wait(`@${productSearchPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-breadcrumb').within(() => {
-    cy.get('span:last a').should('contain', 'My coupons');
+    cy.get('ol li:last a').should('contain', 'My coupons');
     cy.get('h1').should('contain', couponCode);
   });
   cy.get('cx-product-list-item').should('have.length', productNumber);
