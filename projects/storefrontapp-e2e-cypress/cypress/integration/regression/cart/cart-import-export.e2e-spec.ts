@@ -4,17 +4,22 @@ import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flo
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });
-
     // Core test. Repeat in mobile viewport.
     importExport.testImportExportSingleProduct();
 
     // Core test. Repeat in mobile viewport.
     importExport.testImportExportLargerQuantity();
+  });
+  viewportContext(['mobile', 'desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      cy.visit('/');
+    });
 
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
