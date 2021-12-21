@@ -10,8 +10,6 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 
 /**
  * Auth service for normal user authentication.
@@ -37,8 +35,7 @@ export class AuthService {
     protected oAuthLibWrapperService: OAuthLibWrapperService,
     protected authStorageService: AuthStorageService,
     protected authRedirectService: AuthRedirectService,
-    protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService
+    protected routingService: RoutingService
   ) {}
 
   /**
@@ -88,20 +85,13 @@ export class AuthService {
   /**
    * Revokes tokens and clears state for logged user (tokens, userId).
    * To perform logout it is best to use `logout` method. Use this method with caution.
-   * @param showGlobalMsg show a successful global message upon sign out.
    */
-  coreLogout(showGlobalMsg = true): Promise<void> {
+  coreLogout(): Promise<void> {
     this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
         this.store.dispatch(new AuthActions.Logout());
-        if (showGlobalMsg) {
-          this.globalMessageService.add(
-            { key: 'authMessages.signedOutSuccessfully' },
-            GlobalMessageType.MSG_TYPE_CONFIRMATION
-          );
-        }
         resolve();
       });
     });

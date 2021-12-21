@@ -26,16 +26,39 @@
           name="{{ createAttributeIdForConfigurator(attribute) }}"
           attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
           [cxFocus]="{ key: attribute.name + '-' + value.name }"
-          attr.aria-labelledby="{{
-            createAriaLabelledBy('label', attribute.name, value.valueCode)
-          }}"
           [attr.aria-checked]="
             attributeRadioButtonForm.value === value.valueCode ? true : false
+          "
+          [attr.aria-label]="
+            value.valuePrice && value.valuePrice?.value !== 0
+              ? value.valuePriceTotal && value.valuePriceTotal?.value !== 0
+                ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+                  | cxTranslate
+                    : {
+                        value: value.valueDisplay,
+                        attribute: attribute.label,
+                        price: value.valuePriceTotal.formattedValue
+                      })
+                : ('configurator.a11y.valueOfAttributeFullWithPrice'
+                  | cxTranslate
+                    : {
+                        value: value.valueDisplay,
+                        attribute: attribute.label,
+                        price: value.valuePrice.formattedValue
+                      })
+              : ('configurator.a11y.valueOfAttributeFull'
+                | cxTranslate
+                  : { value: value.valueDisplay, attribute: attribute.label })
           "
           [attr.checked]="
             attributeRadioButtonForm.value === value.valueCode
               ? 'checked'
               : null
+          "
+          [attr.aria-describedby]="
+            createAttributeUiKey('label', attribute.name) +
+            ' ' +
+            createAttributeUiKey('attribute-msg', attribute.name)
           "
           (change)="onSelect(value.valueCode)"
         />
@@ -44,6 +67,7 @@
           for="{{
             createAttributeValueIdForConfigurator(attribute, value.valueCode)
           }}"
+          aria-hidden="true"
           class="form-check-label form-radio-label"
           >{{ value.valueDisplay }}</label
         >
