@@ -52,7 +52,7 @@ export function addProductToTheList(query: string) {
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
   cy.get('.quick-order-results-products').should('exist');
-  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
+  cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
 }
 
 export function addWrongProductQuery(query: string) {
@@ -70,7 +70,8 @@ export function addProductToTheListAndModifyQuantity(
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
-  cy.get('.quick-order-form-input input').type(`{downarrow}{enter}`);
+  cy.get('.quick-order-results-products').should('exist');
+  cy.get('.quick-order-form-input input').type('{downarrow}{enter}');
 
   this.modifyProductQuantityInQuickOrderList(quantity);
 }
@@ -115,12 +116,22 @@ export function restoreDeletedEntry() {
     .click();
 }
 
-export function addToCart() {
+export function addToCartClick() {
   cy.get(`.quick-order-footer .add-button`).click();
 }
 
-export function verifyQuickOrderFormIsDisabled() {
-  cy.get('.quick-order-form-input input').should('be.disabled');
+export function addToCart() {
+  cy.get('cx-quick-order').find('.cx-quick-order-table-row').should('exist');
+  this.addToCartClick();
+}
+
+export function verifyQuickOrderReachedListLimit() {
+  cy.get('.quick-order-form-input input').type(`test`);
+  cy.get('.quick-order-list-limit-message').should('exist');
+}
+
+export function verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart() {
+  cy.get('.quick-order-add-to-cart-information-message').should('exist');
 }
 
 export function verifyQuickOrderPageShowErrorMessageOutOfStock() {
@@ -156,6 +167,10 @@ export function verifyQuickOrderPageDoNotShowEntryDeletionMessages() {
 
 export function verifyQuickOrderPageHasNotDeletionMessage() {
   cy.get('.quick-order-deletions').should('not.exist');
+}
+
+export function verifyQuickOrderPageShowErrorMessageNonPurchasableProduct() {
+  cy.get('.quick-order-add-to-cart-information-message').should('not.exist');
 }
 
 export function verifyEmptyListButtonIsHidden() {

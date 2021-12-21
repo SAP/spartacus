@@ -141,4 +141,7 @@ export interface CartModificationList {
 export enum CartValidationStatusCode {
   NO_STOCK = 'noStock',
   LOW_STOCK = 'lowStock',
+  REVIEW_CONFIGURATION = 'reviewConfiguration',
+  PRICING_ERROR = 'pricingError',
+  UNRESOLVABLE_ISSUES = 'unresolvableIssues',
 }

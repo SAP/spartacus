@@ -111,7 +111,7 @@ export class ConfiguratorGroupMenuComponent {
 
   click(group: Configurator.Group): void {
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      if (configuration.interactionState?.currentGroup === group.id) {
+      if (configuration.interactionState.currentGroup === group.id) {
         return;
       }
       if (!this.configuratorGroupsService.hasSubGroups(group)) {
@@ -273,15 +273,13 @@ export class ConfiguratorGroupMenuComponent {
         const CLOUDCPQ_CONFIGURATOR_TYPE = 'CLOUDCPQCONFIGURATOR';
         let groupStatusStyle: string = 'cx-menu-item';
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           !group.consistent
         ) {
           groupStatusStyle = groupStatusStyle + this.WARNING;
         }
         if (
-          configuration.owner?.configuratorType !==
-            CLOUDCPQ_CONFIGURATOR_TYPE &&
+          configuration.owner.configuratorType !== CLOUDCPQ_CONFIGURATOR_TYPE &&
           group.complete &&
           group.consistent &&
           isVisited
@@ -355,12 +353,12 @@ export class ConfiguratorGroupMenuComponent {
     } else if (this.isForwardsNavigation(event)) {
       if (targetGroup && this.hasSubGroups(targetGroup)) {
         this.click(targetGroup);
-        this.setFocusForSubGroup(targetGroup, currentGroup?.id);
+        this.setFocusForSubGroup(targetGroup, currentGroup.id);
       }
     } else if (this.isBackNavigation(event)) {
       if (this.configGroupMenuService.isBackBtnFocused(this.groups)) {
         this.navigateUp();
-        this.setFocusForMainMenu(currentGroup?.id);
+        this.setFocusForMainMenu(currentGroup.id);
       }
     }
   }
@@ -374,13 +372,13 @@ export class ConfiguratorGroupMenuComponent {
   setFocusForMainMenu(currentGroupId?: string): void {
     let key: string | undefined = currentGroupId;
     this.configuration$.pipe(take(1)).subscribe((configuration) => {
-      configuration?.groups?.forEach((group) => {
+      configuration.groups?.forEach((group) => {
         if (
-          group?.subGroups?.length !== 1 &&
-          (this.isGroupSelected(group?.id, currentGroupId) ||
+          group.subGroups?.length !== 1 &&
+          (this.isGroupSelected(group.id, currentGroupId) ||
             this.containsSelectedGroup(group, currentGroupId))
         ) {
-          key = group?.id;
+          key = group.id;
         }
       });
     });
@@ -417,7 +415,7 @@ export class ConfiguratorGroupMenuComponent {
     currentGroupId?: string
   ): boolean {
     let isCurrentGroupFound = false;
-    group?.subGroups?.forEach((subGroup) => {
+    group.subGroups?.forEach((subGroup) => {
       if (this.isGroupSelected(subGroup.id, currentGroupId)) {
         isCurrentGroupFound = true;
       }

@@ -29,7 +29,12 @@
         </button>
       </span>
 
-      <button (click)="closeMessage.emit()" class="close" type="button">
+      <button
+        *ngIf="isVisibleCloseButton"
+        (click)="closeMessage.emit()"
+        class="close"
+        type="button"
+      >
         <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
       </button>
     </div>

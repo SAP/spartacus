@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
@@ -14,7 +15,12 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  LaunchDialogService,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -117,7 +123,15 @@ describe('SavedCartFormDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        KeyboardFocusTestingModule,
+        IconTestingModule,
+      ],
       declarations: [SavedCartFormDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },

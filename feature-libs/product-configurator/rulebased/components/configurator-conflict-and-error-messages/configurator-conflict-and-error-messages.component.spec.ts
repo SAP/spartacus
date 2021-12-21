@@ -46,6 +46,11 @@ const configWOMessages: Configurator.Configuration = {
     configuratorType: ConfiguratorType.VARIANT,
   }),
 };
+const errorMessage1 = 'test error message 1';
+const errorMessage2 = 'test error message 2';
+const warningMessage1 = 'test warning message 1';
+const warningMessage2 = 'test warning message 2';
+const warningMessage3 = 'test warning message 3';
 const configWithMessages: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
@@ -56,12 +61,8 @@ const configWithMessages: Configurator.Configuration = {
     ),
     configuratorType: ConfiguratorType.VARIANT,
   }),
-  errorMessages: ['test error message 1', 'test error message 2'],
-  warningMessages: [
-    'test warning message 1',
-    'test warning message 2',
-    'test warning message 3',
-  ],
+  errorMessages: [errorMessage1, errorMessage2],
+  warningMessages: [warningMessage1, warningMessage2, warningMessage3],
 };
 const configWithOnlyOneMessage: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
@@ -142,13 +143,13 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    if (configWOMessages?.owner) {
+    if (configWOMessages.owner) {
       configuratorUtils.setOwnerKey(configWOMessages.owner);
     }
-    if (configWithMessages?.owner) {
+    if (configWithMessages.owner) {
       configuratorUtils.setOwnerKey(configWithMessages.owner);
     }
-    if (configWithOnlyOneMessage?.owner) {
+    if (configWithOnlyOneMessage.owner) {
       configuratorUtils.setOwnerKey(configWithOnlyOneMessage.owner);
     }
   });
@@ -216,31 +217,31 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       expect,
       htmlElem,
       '.cx-error-message:nth-child(1)',
-      configWithMessages.errorMessages[0]
+      errorMessage1
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-error-message:nth-child(2)',
-      configWithMessages.errorMessages[1]
+      errorMessage2
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(1)',
-      configWithMessages.warningMessages[0]
+      warningMessage1
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(2)',
-      configWithMessages.warningMessages[1]
+      warningMessage2
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(3)',
-      configWithMessages.warningMessages[2]
+      warningMessage3
     );
   });
 

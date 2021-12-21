@@ -58,7 +58,7 @@ export class ConfiguratorAttributeQuantityComponent
     return this.quantity.valueChanges
       .pipe(
         debounce(() =>
-          timer(this.config?.productConfigurator?.updateDebounceTime?.quantity)
+          timer(this.config.productConfigurator?.updateDebounceTime?.quantity)
         ),
         take(1)
       )

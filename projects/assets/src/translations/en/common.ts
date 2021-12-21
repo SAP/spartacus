@@ -20,6 +20,7 @@ export const common = {
     reset: 'Reset',
     search: 'Search',
     add: 'Add',
+    selectFile: 'Select file',
   },
   pageMetaResolver: {
     category: {
@@ -169,6 +170,14 @@ export const common = {
       max: 'Date cannot be after {{max}}',
       pattern: 'Use dateformat yyyy-mm-dd',
       invalid: 'Use a valid date',
+    },
+    file: {
+      required: 'File is required',
+      empty: 'File should not be empty',
+      invalidExtension: 'File extension is not valid',
+      tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
+      notParsable: 'File is not parsable',
     },
   },
   errorHandlers: {

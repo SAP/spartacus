@@ -5,9 +5,9 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
+import { BreakpointService, LayoutConfig } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-
 import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout-handler';
 
 const standardRouterData: ConfiguratorRouter.Data = {
@@ -17,6 +17,12 @@ let routerData: ConfiguratorRouter.Data;
 class MockRouterExtractorService {
   extractRouterData(): Observable<ConfiguratorRouter.Data> {
     return of(routerData);
+  }
+}
+let isLargeResolution: boolean;
+class MockBreakpointService {
+  isUp(): Observable<boolean> {
+    return of(isLargeResolution);
   }
 }
 const headerSlots = ['SiteLogo', 'MiniCart'];
@@ -30,7 +36,38 @@ const contentSlots = [
   'CpqConfigOverviewContent',
   'CpqConfigBottombar',
 ];
-const pageTemplateCpq = 'CpqConfigurationTemplate';
+
+const displayOnlyHeaderSlotsLargeResolution = [
+  'SiteContext',
+  'SiteLinks',
+  'SiteLogo',
+  'SearchBox',
+  'SiteLogin',
+  'MiniCart',
+  'NavigationBar',
+];
+
+const displayOnlyHeaderSlotsSmallResolution = [
+  'SiteLogo',
+  'SearchBox',
+  'MiniCart',
+];
+
+const mockLayoutConfig: LayoutConfig = {
+  layoutSlots: {
+    CpqConfigurationTemplate: {
+      headerDisplayOnly: {
+        lg: {
+          slots: displayOnlyHeaderSlotsLargeResolution,
+        },
+        xs: {
+          slots: displayOnlyHeaderSlotsSmallResolution,
+        },
+      },
+    },
+  },
+};
+const pageTemplateCpq = CpqConfiguratorPageLayoutHandler['templateName'];
 const pageTemplateOther = 'OtherTemplate';
 const sectionHeader = 'header';
 const sectionContent = 'content';
@@ -45,6 +82,14 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
           {
             provide: ConfiguratorRouterExtractorService,
             useClass: MockRouterExtractorService,
+          },
+          {
+            provide: BreakpointService,
+            useClass: MockBreakpointService,
+          },
+          {
+            provide: LayoutConfig,
+            useValue: mockLayoutConfig,
           },
         ],
       }).compileComponents();
@@ -122,5 +167,48 @@ describe('CpqConfiguratorPageLayoutHandler', () => {
       sectionHeader
     );
     expect(handledSlots$).toBeObservable(slots$);
+  });
+
+  it('should return SPA large resolution header slots in case we call overview in read-only mode, and lg resolution is active', () => {
+    isLargeResolution = true;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a-a', {
+      a: headerSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      sectionHeader
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a-a', {
+        a: displayOnlyHeaderSlotsLargeResolution,
+      })
+    );
+  });
+  it('should return SPA reduced resolution header slots in case we call overview in read-only mode, and a small resolution is active', () => {
+    isLargeResolution = false;
+    routerData = {
+      ...standardRouterData,
+      pageType: ConfiguratorRouter.PageType.OVERVIEW,
+      displayOnly: true,
+    };
+    let slots$ = cold('-a-a', {
+      a: headerSlots,
+    });
+    const handledSlots$ = classUnderTest.handle(
+      slots$,
+      pageTemplateCpq,
+      sectionHeader
+    );
+    expect(handledSlots$).toBeObservable(
+      cold('-a-a', {
+        a: displayOnlyHeaderSlotsSmallResolution,
+      })
+    );
   });
 });

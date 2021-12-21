@@ -5,6 +5,7 @@ import {
   OccConfig,
   TranslationService,
 } from '@spartacus/core';
+import { ConfiguratorUISettingsConfig } from '../../../components/config/configurator-ui-settings.config';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { OccConfigurator } from '../variant-configurator-occ.models';
@@ -230,6 +231,42 @@ const occValue: OccConfigurator.Value = {
   langDepName: valueName,
 };
 
+function createOccAttribute(
+  key: string,
+  name: string,
+  type: OccConfigurator.UiType
+): OccConfigurator.Attribute {
+  return {
+    key: key,
+    name: name,
+    type: type,
+    domainValues: [],
+  };
+}
+
+function createOccValue(
+  key: string,
+  langDepName: string,
+  isSelected: boolean
+): OccConfigurator.Value {
+  return {
+    key: key,
+    langDepName: langDepName,
+    selected: isSelected,
+  };
+}
+
+function createValue(
+  valueCode: string,
+  isSelected: boolean
+): Configurator.Value {
+  return {
+    valueCode: valueCode,
+    valueDisplay: '',
+    selected: isSelected,
+  };
+}
+
 class MockConverterService {
   convert() {}
 }
@@ -261,9 +298,16 @@ const MockOccModuleConfig: OccConfig = {
   },
 };
 
+const MockConfiguratorUISettingsConfig: ConfiguratorUISettingsConfig = {
+  productConfigurator: {
+    addRetractOption: false,
+  },
+};
+
 describe('OccConfiguratorVariantNormalizer', () => {
   let occConfiguratorVariantNormalizer: OccConfiguratorVariantNormalizer;
   let occConfig: OccConfig;
+  let configUISettingsConfig: ConfiguratorUISettingsConfig;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -272,6 +316,10 @@ describe('OccConfiguratorVariantNormalizer', () => {
         { provide: ConverterService, useClass: MockConverterService },
         { provide: OccConfig, useValue: MockOccModuleConfig },
         { provide: TranslationService, useClass: MockTranslationService },
+        {
+          provide: ConfiguratorUISettingsConfig,
+          useValue: MockConfiguratorUISettingsConfig,
+        },
       ],
     });
 
@@ -279,6 +327,9 @@ describe('OccConfiguratorVariantNormalizer', () => {
       OccConfiguratorVariantNormalizer as Type<OccConfiguratorVariantNormalizer>
     );
     occConfig = TestBed.inject(OccConfig as Type<OccConfig>);
+    configUISettingsConfig = TestBed.inject(
+      ConfiguratorUISettingsConfig as Type<ConfiguratorUISettingsConfig>
+    );
     groups = [];
     flatGroups = [];
   });
@@ -696,6 +747,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(attributeRBWithValues.incomplete).toBe(false);
     });
 
+    it('should set incomplete for radio button type with retract option correctly', () => {
+      attributeRBWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeRBWithValues
+      );
+
+      expect(attributeRBWithValues.incomplete).toBe(true);
+    });
+
     it('should set incomplete by drop-down type correctly', () => {
       occConfiguratorVariantNormalizer.compileAttributeIncomplete(
         attributeDDWoValues
@@ -706,6 +767,16 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
       expect(attributeDDWoValues.incomplete).toBe(true);
       expect(attributeDDWithValues.incomplete).toBe(false);
+    });
+
+    it('should set incomplete for drop-down type with retract option correctly', () => {
+      attributeDDWithValues.selectedSingleValue =
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE;
+      occConfiguratorVariantNormalizer.compileAttributeIncomplete(
+        attributeDDWithValues
+      );
+
+      expect(attributeDDWithValues.incomplete).toBe(true);
     });
 
     it('should set incomplete by single-selection-image type correctly', () => {
@@ -758,6 +829,323 @@ describe('OccConfiguratorVariantNormalizer', () => {
       );
       const resultAttribute = attributes[0];
       expect(resultAttribute.uiType).toBe(Configurator.UiType.NOT_IMPLEMENTED);
+    });
+  });
+
+  describe('isRetractValueSelected', () => {
+    it("should return 'false' because the list of domain values is undefined", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        domainValues: undefined,
+      };
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'false' because the list of domain values is empty", () => {
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        domainValues: [],
+      };
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
+    });
+
+    it("should return 'false' because there is a selected value under domain values", () => {
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        true
+      );
+
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        domainValues: [occValue1, occValue2, occValue3],
+      };
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(false);
+    });
+
+    it("should return 'true' because there is no selected value under domain values", () => {
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
+
+      const sourceAttribute: OccConfigurator.Attribute = {
+        name: attributeName,
+        key: attributeName,
+        domainValues: [occValue1, occValue2, occValue3],
+      };
+      expect(
+        occConfiguratorVariantNormalizer['isRetractValueSelected'](
+          sourceAttribute
+        )
+      ).toBe(true);
+    });
+  });
+
+  describe('setRetractValueDisplay', () => {
+    it('should return no value display', () => {
+      const value: Configurator.Value = createValue('valueCode', false);
+
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.LISTBOX,
+        value
+      );
+      expect(value.valueDisplay).toEqual('');
+    });
+
+    it("should return 'Make a selection' for drop-down list", () => {
+      const value: Configurator.Value = createValue('valueCode', true);
+
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
+    });
+
+    it("should return 'No option selected' for drop-down list", () => {
+      const value: Configurator.Value = createValue('valueCode', false);
+
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.DROPDOWN,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+    });
+
+    it("should return 'No option selected' for radion buttons list", () => {
+      const value: Configurator.Value = createValue('valueCode', true);
+
+      occConfiguratorVariantNormalizer['setRetractValueDisplay'](
+        Configurator.UiType.RADIOBUTTON,
+        value
+      );
+      expect(value.valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+    });
+  });
+
+  describe('addRetractValue', () => {
+    beforeEach(() => {
+      if (
+        configUISettingsConfig?.productConfigurator?.addRetractOption !==
+        undefined
+      ) {
+        configUISettingsConfig.productConfigurator.addRetractOption = true;
+      }
+    });
+
+    it('should not add a retract value to the list of values because the retract mode is not activated', () => {
+      if (
+        configUISettingsConfig?.productConfigurator?.addRetractOption !==
+        undefined
+      ) {
+        configUISettingsConfig.productConfigurator.addRetractOption = false;
+      }
+      const values: Configurator.Value[] = [];
+      const sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.RADIO_BUTTON
+      );
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(0);
+    });
+
+    it('should not add a retract value to the list of values', () => {
+      const values: Configurator.Value[] = [];
+      const sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.CHECK_BOX
+      );
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(0);
+    });
+
+    it('should add a retract value for a drop-down list to the list of values', () => {
+      const values: Configurator.Value[] = [];
+      const sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.DROPDOWN
+      );
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(1);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
+    });
+
+    it("should add a retract value with 'Make a selection' message for a drop-down list to the list of values", () => {
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        false
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
+
+      const values: Configurator.Value[] = [];
+      let sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.DROPDOWN
+      );
+      sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(1);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.dropDownSelectMsg'
+      );
+      expect(values[0].selected).toBe(true);
+    });
+
+    it("should add a retract value with 'No option selected' message for a drop-down list to the list of values", () => {
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        true
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
+
+      const values: Configurator.Value[] = [];
+      let sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.DROPDOWN
+      );
+      sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(1);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+      expect(values[0].selected).toBe(false);
+    });
+
+    it("should add a retract value with 'No option selected' message for a radio buttons list to the list of values", () => {
+      const occValue1: OccConfigurator.Value = createOccValue(
+        'key1',
+        'langDepName1',
+        false
+      );
+      const occValue2: OccConfigurator.Value = createOccValue(
+        'key2',
+        'langDepName2',
+        true
+      );
+      const occValue3: OccConfigurator.Value = createOccValue(
+        'key3',
+        'langDepName3',
+        false
+      );
+
+      const values: Configurator.Value[] = [];
+      const sourceAttribute = createOccAttribute(
+        'key',
+        'name',
+        OccConfigurator.UiType.RADIO_BUTTON
+      );
+      sourceAttribute.domainValues = [occValue1, occValue2, occValue3];
+      expect(values.length).toEqual(0);
+      occConfiguratorVariantNormalizer['addRetractValue'](
+        sourceAttribute,
+        values
+      );
+      expect(values.length).toEqual(1);
+      expect(values[0].valueCode).toEqual(
+        OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+      );
+      expect(values[0].valueDisplay).toEqual(
+        'configurator.attribute.noOptionSelectedMsg'
+      );
+      expect(values[0].selected).toBe(false);
     });
   });
 });

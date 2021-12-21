@@ -20,6 +20,7 @@ import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
+import { ConfiguratorBasicEffectService } from './configurator-basic-effect.service';
 
 @Injectable()
 /**
@@ -39,7 +40,9 @@ export class ConfiguratorBasicEffects {
         .pipe(
           switchMap((configuration: Configurator.Configuration) => {
             const currentGroup =
-              this.getGroupWithAttributesForConfiguration(configuration);
+              this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                configuration
+              );
             this.store.dispatch(
               new ConfiguratorActions.UpdatePriceSummary({
                 ...configuration,
@@ -206,7 +209,9 @@ export class ConfiguratorBasicEffects {
             take(1),
             map((currentGroupId) => {
               const groupIdFromPayload =
-                this.getGroupWithAttributesForConfiguration(payload);
+                this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+                  payload
+                );
               const parentGroupFromPayload =
                 this.configuratorGroupUtilsService.getParentGroup(
                   payload.groups,
@@ -291,7 +296,10 @@ export class ConfiguratorBasicEffects {
       (payload) =>
         new ConfiguratorActions.ReadConfiguration({
           configuration: payload,
-          groupId: this.getGroupWithAttributesForConfiguration(payload),
+          groupId:
+            this.configuratorBasicEffectService.getFirstGroupWithAttributes(
+              payload
+            ),
         })
     )
   );
@@ -348,60 +356,13 @@ export class ConfiguratorBasicEffects {
     })
   );
 
-  /**
-   * Finds first group with attributes for a configuration. Throws error if such a group does not exist,
-   * as this is an illegal state
-   * @param configuration
-   * @returns Group id
-   */
-  getGroupWithAttributesForConfiguration(
-    configuration: Configurator.Configuration
-  ): string {
-    const id = this.getGroupWithAttributes(configuration.groups);
-    if (id) {
-      return id;
-    } else {
-      throw new Error('Configuration does not have any attributes');
-    }
-  }
-  /**
-   * Finds first group with attributes in a list of groups
-   * @param groups
-   * @returns Group or undefined if such a group does not exist
-   */
-  getGroupWithAttributes(groups: Configurator.Group[]): string | undefined {
-    const groupWithAttributes: Configurator.Group | undefined = groups
-      .filter(
-        (currentGroup) =>
-          currentGroup.attributes && currentGroup.attributes.length > 0
-      )
-      .pop();
-    let id: string | undefined;
-    if (groupWithAttributes) {
-      id = groupWithAttributes.id;
-    } else {
-      id = groups
-        .filter(
-          (currentGroup) =>
-            currentGroup.subGroups && currentGroup.subGroups.length > 0
-        )
-        .flatMap((currentGroup) =>
-          currentGroup.subGroups
-            ? this.getGroupWithAttributes(currentGroup.subGroups)
-            : []
-        )
-        .filter((groupId) => groupId) //Filter undefined strings
-        .pop();
-    }
-    return id;
-  }
-
   constructor(
     protected actions$: Actions,
     protected configuratorCommonsConnector: RulebasedConfiguratorConnector,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected configuratorGroupUtilsService: ConfiguratorUtilsService,
     protected configuratorGroupStatusService: ConfiguratorGroupStatusService,
-    protected store: Store<StateWithConfigurator>
+    protected store: Store<StateWithConfigurator>,
+    protected configuratorBasicEffectService: ConfiguratorBasicEffectService
   ) {}
 }

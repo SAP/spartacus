@@ -1,3 +1,4 @@
+import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../helpers/product-configurator-vc';
@@ -282,6 +283,68 @@ context('Product Configuration', () => {
       );
       configurationVc.clickOnGroup(2);
       configuration.checkAttributeDisplayed(SPEAKER_TYPE_FRONT, radioGroup);
+    });
+  });
+});
+
+context('Retract mode for Product Configuration', () => {
+  let configUISettings: ConfiguratorUISettingsConfig;
+
+  beforeEach(() => {
+    configUISettings = {
+      productConfigurator: {
+        addRetractOption: true, // enable retract triggered
+      },
+    };
+    cy.cxConfig(configUISettings);
+    //Go to the configuration
+    configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+    // Verify whether attribute is displayed
+    configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
+  });
+
+  afterEach(() => {
+    configUISettings.productConfigurator.addRetractOption = false; // disable retract triggered
+  });
+
+  describe('Enable retract mode', () => {
+    it('should lead to additional retract value displayed', () => {
+      // Verify whether all values are displayed including 'No option selected' / a retract value
+      configuration.checkAttrValueDisplayed(
+        CAMERA_MODE,
+        radioGroup,
+        '###RETRACT_VALUE_CODE###'
+      );
+      configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
+      configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
+
+      //Verify whether a retract value is selected as a default value
+      configuration.checkValueSelected(
+        radioGroup,
+        CAMERA_MODE,
+        '###RETRACT_VALUE_CODE###'
+      );
+    });
+  });
+
+  describe('Selecting retract mode', () => {
+    it('should de-select the currently selected value', () => {
+      //Select another value and verify whether a corresponding value is selected
+      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
+      configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
+      configuration.selectAttribute(CAMERA_MODE, radioGroup, 'P');
+      configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'P');
+      // Select a retract value and verify whether it is selected
+      configuration.selectAttribute(
+        CAMERA_MODE,
+        radioGroup,
+        '###RETRACT_VALUE_CODE###'
+      );
+      configuration.checkValueSelected(
+        radioGroup,
+        CAMERA_MODE,
+        '###RETRACT_VALUE_CODE###'
+      );
     });
   });
 });

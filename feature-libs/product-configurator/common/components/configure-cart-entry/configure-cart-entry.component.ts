@@ -17,7 +17,7 @@ export class ConfigureCartEntryComponent {
   /**
    * Verifies whether the entry has any issues.
    *
-   * @returns {boolean} - whether there are any issues
+   * @returns - whether there are any issues
    */
   hasIssues(): boolean {
     return this.commonConfigUtilsService.hasIssues(this.cartEntry);
@@ -26,7 +26,7 @@ export class ConfigureCartEntryComponent {
   /**
    * Verifies whether the cart entry has an order code and returns a corresponding owner type.
    *
-   * @returns {CommonConfigurator.OwnerType} - an owner type
+   * @returns - an owner type
    */
   getOwnerType(): CommonConfigurator.OwnerType {
     return this.cartEntry.orderCode !== undefined
@@ -38,7 +38,7 @@ export class ConfigureCartEntryComponent {
    * Verifies whether the cart entry has an order code, retrieves a composed owner ID
    * and concatenates a corresponding entry number.
    *
-   * @returns {string} - an entry key
+   * @returns - an entry key
    */
   getEntityKey(): string {
     const entryNumber = this.cartEntry.entryNumber;
@@ -57,7 +57,7 @@ export class ConfigureCartEntryComponent {
   /**
    * Retrieves a corresponding route depending whether the configuration is read only or not.
    *
-   * @returns {string} - a route
+   * @returns - a route
    */
   getRoute(): string {
     const configuratorType = this.cartEntry.product?.configuratorType;
@@ -69,7 +69,7 @@ export class ConfigureCartEntryComponent {
   /**
    * Retrieves the state of the configuration.
    *
-   *  @returns {boolean} - 'true' if the configuration is read only, otherwise 'false'
+   *  @returns - 'true' if the configuration is read only, otherwise 'false'
    */
   getDisplayOnly(): boolean {
     return this.readOnly;
@@ -78,10 +78,19 @@ export class ConfigureCartEntryComponent {
   /**
    * Verifies whether the link to the configuration is disabled.
    *
-   *  @returns {boolean} - 'true' if the the configuration is not read only, otherwise 'false'
+   *  @returns - 'true' if the the configuration is not read only, otherwise 'false'
    */
   isDisabled() {
     return this.readOnly ? false : this.disabled;
+  }
+
+  /**
+   * Retrieves the additional resolve issues accessibility description.
+   *
+   * @returns - If there is a 'resolve issues' link, the ID to the element with additional description will be returned.
+   */
+  getResolveIssuesA11yDescription(): string | undefined {
+    return !this.readOnly && this.msgBanner ? 'cx-error-msg' : undefined;
   }
 
   constructor(

@@ -314,6 +314,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
     {
       value: 'Proceed to Checkout',
@@ -380,6 +382,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Make Cart Active',
       type: TabbingOrderTypes.LINK,
     },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
   ],
   savedCartDetails: [
     {
@@ -392,6 +395,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
     { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
   ],
@@ -426,6 +431,8 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
     {
       value: 'Proceed to Checkout',

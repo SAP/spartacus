@@ -23,11 +23,13 @@ export const product = {
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
+    productListResults: 'Product Results List',
   },
   productFacetNavigation: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
+      facet: 'Filter results by Facets',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',

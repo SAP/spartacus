@@ -13,11 +13,11 @@ export function createTest(config: MyCompanyConfig) {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
 
-      cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
       cy.intercept({
         method: 'GET',
         path: `**${config.apiEndpoint}**`,
       }).as('loadEntity');
+      cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
       cy.get('cx-storefront').contains('Loading...').should('not.exist');
       cy.wait('@loadEntity');
     });

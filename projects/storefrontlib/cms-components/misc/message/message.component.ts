@@ -19,6 +19,9 @@ export class MessageComponent {
   showBody = false;
 
   @Input()
+  isVisibleCloseButton = true;
+
+  @Input()
   type: GlobalMessageType;
 
   @Output()
