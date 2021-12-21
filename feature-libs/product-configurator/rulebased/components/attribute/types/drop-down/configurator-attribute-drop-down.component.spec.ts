@@ -9,6 +9,7 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
@@ -18,6 +19,7 @@ import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
     valueCode: code,
+    valueDisplay: name,
     name: name,
     selected: isSelected,
   };
@@ -54,7 +56,7 @@ describe('ConfigAttributeDropDownComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'theName';
+  const name = 'attributeName';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
@@ -73,7 +75,7 @@ describe('ConfigAttributeDropDownComponent', () => {
           MockConfiguratorAttributeQuantityComponent,
           MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
           set: {
@@ -90,6 +92,7 @@ describe('ConfigAttributeDropDownComponent', () => {
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
+      label: name,
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       uiType: Configurator.UiType.DROPDOWN,
@@ -208,6 +211,139 @@ describe('ConfigAttributeDropDownComponent', () => {
         expect,
         htmlElem,
         'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listbox count:' + component.attribute.values.length
+      );
+    });
+
+    it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'select',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    });
+
+    it("should contain option elements with 'aria-selected' attribute that is set to 'true' to notify the screen reader that a value is selected", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-selected',
+        'true',
+        component.attribute.values[0].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-selected' attribute that is set to 'false' to notify the screen reader that a value is not selected", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        1,
+        'aria-selected',
+        'false',
+        component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay,
+        component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay,
+        component.attribute.values[0].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePriceTotal = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay,
+        component.attribute.values[0].valueDisplay
       );
     });
   });

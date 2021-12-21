@@ -236,6 +236,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.forceLoader = true;
     if (Boolean(address)) {
       this.checkoutDeliveryService.createAndSetAddress(address);
+      this.globalMessageService.add(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     } else {
       this.forceLoader = false;
       this.next();

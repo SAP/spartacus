@@ -24,10 +24,12 @@ export const payment = {
     expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
+    paymentAddedSuccessfully: 'New payment was added successfully!',
     changePayment: 'Change Payment',
   },
   paymentMethods: {
     paymentMethods: 'Payment methods',
+    paymentMethodSelected: 'Payment method selected',
     newPaymentMethodsAreAddedDuringCheckout:
       'New payment methods are added during checkout.',
     invalidField: 'InvalidField: {{ field }}',
@@ -38,10 +40,14 @@ export const payment = {
     expires: 'Expires: {{ month }}/{{ year }}',
     defaultPaymentMethod: '✓ DEFAULT',
     selected: 'Selected',
+    deletePaymentSuccess: 'Payment method deleted successfully',
   },
   paymentTypes: {
     title: 'Payment method',
     paymentType_CARD: 'Credit Card',
     paymentType_ACCOUNT: 'Account',
+  },
+  messages: {
+    setAsDefaultSucessfully: 'New payment was sucessfully set as default',
   },
 };
