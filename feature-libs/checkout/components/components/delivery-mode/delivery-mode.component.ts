@@ -31,6 +31,9 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
+  deliveryModeSetInProcess$ =
+    this.checkoutDeliveryService.getSetDeliveryModeInProcess();
+
   deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
