@@ -74,6 +74,9 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
+  isGhostConfiguration(): Observable<boolean> {
+    return of(false);
+  }
   removeConfiguration() {}
   removeUiState() {}
   hasPendingChanges() {
@@ -333,6 +336,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should not remove configuration for cart entry owner in case configuration is cart bound and we are on OV page and no changes happened', () => {
+      //not needed to remove the configuration here, as clean up is done in router listener
       mockProductConfiguration.isCartEntryUpdateRequired = false;
       performUpdateOnOV();
       expect(
@@ -397,10 +401,11 @@ describe('ConfigAddToCartButtonComponent', () => {
     });
 
     it('should remove one (cart bound) configurations in case configuration has not yet been added and process was triggered from overview', () => {
+      //not needed to remove the configuration here, as clean up is done in router listener
       performAddToCartOnOverview();
       expect(
         configuratorCommonsService.removeConfiguration
-      ).toHaveBeenCalledTimes(1);
+      ).toHaveBeenCalledTimes(0);
     });
   });
 

@@ -272,21 +272,6 @@ describe('ConfigurationFormComponent', () => {
     ).toHaveBeenCalledTimes(0);
   });
 
-  it('should enforce a reload of the configuration by removing the current one in case the router requires this', () => {
-    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    routerStateObservable = of({
-      ...mockRouterState,
-      state: {
-        ...mockRouterState.state,
-        queryParams: { forceReload: 'true' },
-      },
-    });
-    createComponent().ngOnInit();
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(1);
-  });
-
   it('should call configurator group service to check group type', () => {
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();

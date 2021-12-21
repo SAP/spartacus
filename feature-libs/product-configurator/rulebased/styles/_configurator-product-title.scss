@@ -1,5 +1,9 @@
 %cx-configurator-product-title {
-  display: none;
+  &:empty {
+    background-color: var(--cx-color-ghost);
+    height: 58px;
+    margin-block-end: 15px;
+  }
 
   &:not(:empty) {
     display: flex;

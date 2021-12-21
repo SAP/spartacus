@@ -11,8 +11,6 @@ import {
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-  ConfiguratorRouter,
-  ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -51,7 +49,7 @@ let configurationObservable: any;
 let overviewObservable: any;
 let defaultConfigObservable: any;
 let defaultRouterStateObservable: any;
-let defaultRouterDataObservable: any;
+
 let component: ConfiguratorOverviewFormComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewFormComponent>;
 let htmlElem: HTMLElement;
@@ -62,12 +60,6 @@ class MockRoutingService {
       ? routerStateObservable
       : defaultRouterStateObservable;
     return obs;
-  }
-}
-
-class MockRouterExtractorService {
-  extractRouterData(): Observable<ConfiguratorRouter.Data> {
-    return of(defaultRouterDataObservable);
   }
 }
 
@@ -407,66 +399,5 @@ describe('ConfigurationOverviewFormComponent', () => {
         'Group 1'
       );
     });
-  });
-});
-
-describe('ConfigurationOverviewFormComponent with forceReload', () => {
-  let configuratorCommonsServiceMock: ConfiguratorCommonsService;
-  const theOwner = ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.CART_ENTRY,
-    '1',
-    'cpqconfigurator'
-  );
-
-  beforeEach(
-    waitForAsync(() => {
-      const bed = TestBed.configureTestingModule({
-        imports: [I18nTestingModule, ReactiveFormsModule, NgSelectModule],
-        declarations: [
-          ConfiguratorOverviewFormComponent,
-          ConfiguratorOverviewAttributeComponent,
-          MockConfiguratorPriceComponent,
-        ],
-        providers: [
-          {
-            provide: RoutingService,
-            useClass: MockRoutingService,
-          },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorRouterExtractorService,
-            useClass: MockRouterExtractorService,
-          },
-        ],
-      });
-      configuratorCommonsServiceMock = bed.inject(ConfiguratorCommonsService);
-      bed.compileComponents();
-    })
-  );
-  beforeEach(() => {
-    routerStateObservable = null;
-    configurationObservable = null;
-    overviewObservable = null;
-    defaultRouterStateObservable = of(mockRouterState);
-    defaultConfigObservable = of(configCreate2);
-    defaultRouterDataObservable = {
-      forceReload: true,
-      owner: theOwner,
-    };
-  });
-
-  it('should create component and call removeConfiguration', () => {
-    spyOn(
-      configuratorCommonsServiceMock,
-      'removeConfiguration'
-    ).and.callThrough();
-    initialize();
-    expect(component).toBeDefined();
-    expect(
-      configuratorCommonsServiceMock.removeConfiguration
-    ).toHaveBeenCalledWith(theOwner);
   });
 });

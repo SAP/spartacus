@@ -17,6 +17,8 @@ export class ConfiguratorTabBarComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
+  //TODO GHOST check: Navigation from order history
+
   //TODO GHOST Better method name
   isReady$: Observable<boolean> = this.routerData$.pipe(
     switchMap((routerData) =>

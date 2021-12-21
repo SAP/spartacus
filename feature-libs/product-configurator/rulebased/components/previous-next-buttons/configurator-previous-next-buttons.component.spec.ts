@@ -24,7 +24,7 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -73,7 +73,7 @@ const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 class MockConfiguratorCommonsService {
-  getConfiguration(): Observable<Configurator.Configuration> {
+  getConfigurationExcludingGhost(): Observable<Configurator.Configuration> {
     return of(config);
   }
 
@@ -92,7 +92,7 @@ class MockConfigUtilsService {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigPreviousNextButtonsComponent', () => {
@@ -171,9 +171,10 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it("should not display 'previous' & 'next' buttons", () => {
-    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
-      of(configWithoutGroups)
-    );
+    spyOn(
+      configuratorCommonsService,
+      'getConfigurationExcludingGhost'
+    ).and.returnValue(of(configWithoutGroups));
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();
