@@ -805,7 +805,10 @@ export class VisualViewerService implements OnDestroy {
       this.excludedOpacity
     );
     leafNodeRefsToInclude.forEach((nodeRef: NodeRef) =>
-      this.viewStateManager.restoreRestOpacity(nodeRef)
+      this.viewStateManager.setOpacity(
+        nodeRef,
+        this.viewStateManager.getRestOpacity(nodeRef)
+      )
     );
   }
 
