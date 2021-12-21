@@ -20,7 +20,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;

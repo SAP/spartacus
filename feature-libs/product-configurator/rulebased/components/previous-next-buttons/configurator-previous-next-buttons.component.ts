@@ -21,7 +21,9 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
+          this.configuratorCommonsService.getConfigurationExcludingGhost(
+            routerData.owner
+          )
         )
       );
 
@@ -106,14 +108,4 @@ export class ConfiguratorPreviousNextButtonsComponent {
       )
       .subscribe(() => this.configUtils.focusFirstAttribute());
   }
-
-  //TODO GHOST Better method name
-  isReady$: Observable<boolean> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
-      switchMap((routerData) =>
-        this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
-      ),
-      map((isGhost) => !isGhost)
-    );
 }
