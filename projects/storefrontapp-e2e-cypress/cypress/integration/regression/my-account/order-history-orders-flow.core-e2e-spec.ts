@@ -2,7 +2,7 @@ import { orderHistoryTest } from '../../../helpers/order-history';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Order History with orders', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();

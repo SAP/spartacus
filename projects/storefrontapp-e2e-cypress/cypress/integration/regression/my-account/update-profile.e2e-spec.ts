@@ -4,6 +4,14 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('My Account - Update Profile', () => {
+  viewportContext(['mobile'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+    });
+
+    // Core e2e test. Repeat in mobile view.
+    updateProfile.testUpdateProfileLoggedInUser();
+  });
   viewportContext(['desktop', 'mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
@@ -34,26 +42,6 @@ describe('My Account - Update Profile', () => {
         checkBanner();
 
         cy.location('pathname').should('contain', '/');
-      });
-
-      // Core e2e test. Repeat in mobile view.
-      updateProfile.testUpdateProfileDetails();
-
-      it('should be able to see the new profile info', () => {
-        // check where the user's details updated in the previous test
-        cy.get('cx-update-profile').within(() => {
-          cy.get('[formcontrolname="titleCode"]')
-            .find(':selected')
-            .should('have.value', updateProfile.newTitle);
-          cy.get('[formcontrolname="firstName"]').should(
-            'have.value',
-            updateProfile.newFirstName
-          );
-          cy.get('[formcontrolname="lastName"]').should(
-            'have.value',
-            updateProfile.newLastName
-          );
-        });
       });
 
       afterEach(() => {

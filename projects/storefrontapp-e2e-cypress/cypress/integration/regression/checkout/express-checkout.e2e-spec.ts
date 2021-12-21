@@ -23,6 +23,7 @@ context('Express checkout', () => {
     // Core e2e test. Run in mobile as well.
     expressCheckout.testExpressCheckout();
 
+    // Test depends on core test for setup.
     it('should redirect to first step if payment method is not set', () => {
       cy.selectUserMenuOption({
         option: 'Payment Details',

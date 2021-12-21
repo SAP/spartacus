@@ -27,7 +27,6 @@ describe('Payment Methods', () => {
       });
 
       paymentMethods.testRenderEmptyPaymentDetailsPage();
-
       paymentMethods.testRenderOnePaymentMethod();
 
       afterEach(() => {

@@ -8,6 +8,9 @@ export const PAGE_TITLE_HOME = 'Homepage';
 export const PAGE_URL_UPDATE_PASSWORD = '/my-account/update-password';
 export const newPassword = 'newPassword123!';
 
+import { signOutUser } from '../helpers/login';
+import { generateMail, randomString } from '../helpers/user';
+
 export function testUpdatePassword() {
   it('should update the password with success', () => {
     alerts.getSuccessAlert().should('not.exist');
@@ -24,5 +27,32 @@ export function testUpdatePassword() {
     cy.visit('/login');
     login(standardUser.registrationData.email, newPassword);
     cy.get(helper.userGreetSelector).should('exist');
+  });
+}
+
+export function testUpdatePasswordLoggedInUser() {
+  describe('update password test for logged in user', () => {
+    before(() => {
+      standardUser.registrationData.email = generateMail(randomString(), true);
+      cy.requireLoggedIn(standardUser);
+      cy.visit('/');
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+      cy.selectUserMenuOption({
+        option: 'Password',
+      });
+    });
+
+    testUpdatePassword();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    after(() => {
+      signOutUser();
+    });
   });
 }
