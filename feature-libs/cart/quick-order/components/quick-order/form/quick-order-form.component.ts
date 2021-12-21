@@ -7,12 +7,7 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import {
-  Config,
-  GlobalMessageService,
-  Product,
-  WindowRef,
-} from '@spartacus/core';
+import { Config, Product, WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import {
@@ -38,22 +33,11 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
   protected searchSubscription = new Subscription();
 
-  /**
-   * @deprecated since version 4.2
-   * Use constructor(globalMessageService: GlobalMessageService, quickOrderService: QuickOrderFacade, config: Config, cd: ChangeDetectorRef, winRef: WindowRef); instead
-   */
-  // TODO(#14058): Remove deprecated constructor
   constructor(
-    globalMessageService: GlobalMessageService,
-    quickOrderService: QuickOrderFacade
-  );
-
-  constructor(
-    protected globalMessageService: GlobalMessageService, // TODO(#14058): Remove it as it is not in use anymore
     protected quickOrderService: QuickOrderFacade,
-    public config?: Config, // TODO(#14058): Make it required
-    protected cd?: ChangeDetectorRef, // TODO(#14058): Make it required
-    protected winRef?: WindowRef // TODO(#14058): Make it required
+    public config: Config,
+    protected cd: ChangeDetectorRef,
+    protected winRef: WindowRef
   ) {}
 
   ngOnInit(): void {
