@@ -20,6 +20,7 @@ import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
+  first,
   map,
   pairwise,
   shareReplay,
@@ -287,19 +288,17 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
     // For guest cart merge we want to filter guest cart in the whole stream
     // We have to wait with load/create/addEntry after guest cart will be deleted.
-    const cartSelector$ = (
-      forGuestMerge
-        ? this.cartEntity$.pipe(
-            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
-          )
-        : this.cartEntity$
-    ).pipe(filter((cartState) => !cartState.loading));
+    const cartSelector$ = forGuestMerge
+      ? this.cartEntity$.pipe(
+          filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+        )
+      : this.cartEntity$;
 
-    return combineLatest([this.activeCartId$, cartSelector$]).pipe(
+    return this.activeCartId$.pipe(
       // Avoid load/create call when there are new cart creating at the moment
-      filter(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
+      withLatestFrom(cartSelector$),
+      first(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
       map(([, cartState]) => cartState),
-      take(1),
       withLatestFrom(this.userIdService.getUserId()),
       tap(([cartState, userId]) => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
