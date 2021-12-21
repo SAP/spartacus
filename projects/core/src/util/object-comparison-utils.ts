@@ -1,4 +1,4 @@
-export class EqualObjectComparer {
+export class ObjectComparisonUtils {
   static shallowEqualObjects(objA: object, objB: object): boolean {
     if (objA === objB) {
       return true;

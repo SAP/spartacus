@@ -3,7 +3,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
-import {EqualObjectComparer} from '../../../util/equal-object-comparer';
+import {ObjectComparisonUtils} from '../../../util/object-comparison-utils';
 import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
@@ -119,8 +119,8 @@ describe('GlobalMessage Effects', () => {
   describe('removeDuplicated$', () => {
     it('should not remove message if there is only one', () => {
       getTestScheduler().run(() => {
-        spyOn(EqualObjectComparer, 'countOfDeepEqualObjects').and.returnValue(1);
-        spyOn(EqualObjectComparer, 'indexOfFirstOccurrence').and.returnValue(0);
+        spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').and.returnValue(1);
+        spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').and.returnValue(0);
 
         const action = new GlobalMessageActions.AddMessage(message2);
 
@@ -128,18 +128,18 @@ describe('GlobalMessage Effects', () => {
         const expected = cold('--');
 
         expect(effects.removeDuplicated$).toBeObservable(expected);
-        expect(EqualObjectComparer.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        expect(ObjectComparisonUtils.countOfDeepEqualObjects).toHaveBeenCalledWith(
           message2.text,
           [message2.text]
         );
-        expect(EqualObjectComparer.indexOfFirstOccurrence).not.toHaveBeenCalled();
+        expect(ObjectComparisonUtils.indexOfFirstOccurrence).not.toHaveBeenCalled();
       });
     });
 
     it('should remove message if already exist', () => {
       getTestScheduler().run(() => {
-        spyOn(EqualObjectComparer, 'countOfDeepEqualObjects').and.returnValue(2);
-        spyOn(EqualObjectComparer, 'indexOfFirstOccurrence').and.returnValue(0);
+        spyOn(ObjectComparisonUtils, 'countOfDeepEqualObjects').and.returnValue(2);
+        spyOn(ObjectComparisonUtils, 'indexOfFirstOccurrence').and.returnValue(0);
 
         const action = new GlobalMessageActions.AddMessage(message2);
         const completion = new GlobalMessageActions.RemoveMessage({
@@ -151,11 +151,11 @@ describe('GlobalMessage Effects', () => {
         const expected = cold('-b', { b: completion });
 
         expect(effects.removeDuplicated$).toBeObservable(expected);
-        expect(EqualObjectComparer.countOfDeepEqualObjects).toHaveBeenCalledWith(
+        expect(ObjectComparisonUtils.countOfDeepEqualObjects).toHaveBeenCalledWith(
           message2.text,
           [message2.text]
         );
-        expect(EqualObjectComparer.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
+        expect(ObjectComparisonUtils.indexOfFirstOccurrence).toHaveBeenCalledWith(message2.text, [
           message2.text,
         ]);
       });

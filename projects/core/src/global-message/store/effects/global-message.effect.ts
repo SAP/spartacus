@@ -15,8 +15,8 @@ import {
 } from 'rxjs/operators';
 import { Translatable } from '../../../i18n/translatable';
 import {
-  EqualObjectComparer
-} from '../../../util/equal-object-comparer';
+  ObjectComparisonUtils
+} from '../../../util/object-comparison-utils';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
@@ -42,13 +42,13 @@ export class GlobalMessageEffect {
         ),
         filter(
           ([text, messages]: [Translatable, Translatable[]]) =>
-            EqualObjectComparer.countOfDeepEqualObjects(text, messages) > 1
+            ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) > 1
         ),
         map(
           ([text, messages]: [Translatable, Translatable[]]) =>
             new GlobalMessageActions.RemoveMessage({
               type: message.type,
-              index: EqualObjectComparer.indexOfFirstOccurrence(text, messages),
+              index: ObjectComparisonUtils.indexOfFirstOccurrence(text, messages),
             })
         )
       )
