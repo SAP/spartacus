@@ -10,6 +10,7 @@ import {
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -32,6 +33,12 @@ let routerStateObservable: any = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
+  }
+}
+
+class MockConfiguratorCommonsService {
+  isGhostConfiguration(): Observable<boolean> {
+    return of(false);
   }
 }
 
@@ -59,6 +66,10 @@ describe('ConfigTabBarComponent', () => {
           {
             provide: RoutingService,
             useClass: MockRoutingService,
+          },
+          {
+            provide: ConfiguratorCommonsService,
+            useClass: MockConfiguratorCommonsService,
           },
         ],
       })
