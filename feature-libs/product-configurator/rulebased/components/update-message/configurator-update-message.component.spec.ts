@@ -130,7 +130,8 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div').length).toBe(1);
   }));
 
-  it('should show update banner if loading is true', fakeAsync(() => {
+  // TODO GHOST
+  xit('should show update banner if loading is true', fakeAsync(() => {
     hasPendingChanges = false;
     isConfigurationLoading = true;
     fixture.detectChanges();
