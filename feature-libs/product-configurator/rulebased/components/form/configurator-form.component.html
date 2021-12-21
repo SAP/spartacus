@@ -140,40 +140,38 @@
 <ng-template #ghostForm>
   <ng-container *ngFor="let number of [0, 1, 2]">
     <div class="cx-ghost-attribute">
-      <div class="header">
-        <div class="title ghost"></div>
-        <div class="icon ghost"></div>
+      <div class="cx-ghost-header">
+        <div class="cx-ghost-title ghost"></div>
+        <div class="cx-ghost-icon ghost"></div>
       </div>
-      <div class="body">
-        <div class="dropdown ghost"></div>
-        <div class="price ghost"></div>
+      <div class="cx-ghost-body">
+        <div class="cx-ghost-dropdown ghost"></div>
+        <div class="cx-ghost-price ghost"></div>
       </div>
     </div>
 
     <div class="cx-ghost-attribute">
-      <div class="header">
-        <div class="title ghost"></div>
-        <div class="icon ghost"></div>
-        <div class="description-box">
-          <div class="description-text ghost"></div>
+      <div class="cx-ghost-header">
+        <div class="cx-ghost-title ghost"></div>
+        <div class="cx-ghost-icon ghost"></div>
+        <div class="cx-ghost-description-box">
+          <div class="cx-ghost-description-text ghost"></div>
         </div>
       </div>
-      <div class="body">
-        <div class="radiobutton-value">
-          <div class="radiobutton-box ghost"></div>
-          <div class="radiobutton-description ghost"></div>
-        </div>
-
-        <div class="radiobutton-value">
-          <div class="radiobutton-box ghost"></div>
-          <div class="radiobutton-description ghost"></div>
-          <div class="price ghost"></div>
-        </div>
-
-        <div class="radiobutton-value">
-          <div class="radiobutton-box ghost"></div>
-          <div class="radiobutton-description ghost"></div>
-          <div class="price ghost"></div>
+      <div class="cx-ghost-body">
+        <div
+          *ngFor="let number of [0, 1, 2]; let i = index"
+          class="cx-ghost-radiobutton-value"
+        >
+          <div class="cx-ghost-value-label-pair">
+            <div class="cx-ghost-value-icon ghost"></div>
+            <div class="cx-ghost-label ghost"></div>
+          </div>
+          <div class="cx-ghost-value-price">
+            <ng-container *ngIf="i !== 0">
+              <div class="cx-ghost-price ghost"></div>
+            </ng-container>
+          </div>
         </div>
       </div>
     </div>

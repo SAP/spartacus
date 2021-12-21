@@ -1,5 +1,11 @@
 %cx-configurator-group-title {
-  display: none;
+  &:empty {
+    background-color: var(--cx-color-ghost);
+    height: 55px;
+    padding-block-start: 1px;
+    padding-block-end: 1px;
+    margin-block-end: 15px;
+  }
 
   &:not(:empty) {
     display: flex;
@@ -19,9 +25,5 @@
     margin-inline-end: 0px;
     margin-block-start: 0px;
     margin-block-end: 15px;
-  }
-
-  .ghost {
-    height: 1.6rem;
   }
 }
