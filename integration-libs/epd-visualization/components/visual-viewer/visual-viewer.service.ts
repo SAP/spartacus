@@ -5,12 +5,12 @@ import {
   ElementRef,
   EventEmitter,
   Injectable,
-  OnDestroy
+  OnDestroy,
 } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
 import {
   SceneNodeToProductLookupService,
-  VisualizationLookupService
+  VisualizationLookupService,
 } from '@spartacus/epd-visualization/core';
 import {
   ContentType,
@@ -18,7 +18,7 @@ import {
   EpdVisualizationInnerConfig,
   Ui5Config,
   VisualizationApiConfig,
-  VisualizationInfo
+  VisualizationInfo,
 } from '@spartacus/epd-visualization/root';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import {
@@ -26,7 +26,7 @@ import {
   filter,
   first,
   mergeMap,
-  shareReplay
+  shareReplay,
 } from 'rxjs/operators';
 import type Core from 'sap/ui/core/Core';
 import type { CSSColor } from 'sap/ui/core/library';
@@ -47,7 +47,7 @@ import { SelectionMode } from './models/selection-mode';
 import {
   VisualizationLoadInfo,
   VisualizationLoadStatus,
-  VisualizationLookupResult
+  VisualizationLookupResult,
 } from './models/visualization-load-info';
 import { ZoomTo } from './models/zoom-to';
 
