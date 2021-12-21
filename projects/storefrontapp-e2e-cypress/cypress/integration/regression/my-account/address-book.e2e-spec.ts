@@ -93,7 +93,7 @@ describe('My Account - Address Book', () => {
         const firstCard = cy.get('cx-card').first();
 
         firstCard.within(() => {
-          cy.get('a').contains('Delete').click();
+          cy.get('button').contains('Delete').click();
         });
 
         cy.get('.cx-card-delete-msg').should(
