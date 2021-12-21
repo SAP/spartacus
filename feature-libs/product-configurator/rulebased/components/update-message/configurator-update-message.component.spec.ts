@@ -30,16 +30,12 @@ class MockRoutingService {
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-let isConfigurationLoading = false;
 let hasPendingChanges = false;
 let waitingTime = 1000;
 
 class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<boolean> {
     return of(hasPendingChanges);
-  }
-  isConfigurationLoading(): Observable<boolean> {
-    return of(isConfigurationLoading);
   }
 }
 
@@ -113,7 +109,6 @@ describe('ConfigurationUpdateMessageComponent', () => {
 
   it('should show update banner if pending changes is true', fakeAsync(() => {
     hasPendingChanges = true;
-    isConfigurationLoading = false;
     fixture.detectChanges();
 
     //Should be hidden first
@@ -127,54 +122,11 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
-  }));
-
-  it('should show update banner if loading is true', fakeAsync(() => {
-    hasPendingChanges = false;
-    isConfigurationLoading = true;
-    fixture.detectChanges();
-
-    //Should be hidden first
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
-    );
-
-    //Should appear after a bit
-    tick(2000);
-
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
-    );
-
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
-  }));
-
-  it('should show update banner if loading and pending changes are true', fakeAsync(() => {
-    hasPendingChanges = true;
-    isConfigurationLoading = true;
-    fixture.detectChanges();
-
-    //Should be hidden first
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
-    );
-
-    //Should appear after a bit
-    tick(2000);
-
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
-    );
-
     expect(htmlElem.querySelectorAll('div').length).toBe(1);
   }));
 
   it('should consider the configured timeout', fakeAsync(() => {
     hasPendingChanges = true;
-    isConfigurationLoading = true;
     waitingTime = 100;
     fixture.detectChanges();
 
