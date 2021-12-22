@@ -262,16 +262,6 @@ describe('ConfigurationFormComponent', () => {
     return TestBed.createComponent(ConfiguratorFormComponent).componentInstance;
   }
 
-  it('should not enforce a reload of the configuration per default', () => {
-    spyOn(configuratorCommonsService, 'removeConfiguration').and.callThrough();
-    mockRouterState.state.queryParams = { forceReload: 'false' };
-    routerStateObservable = of(mockRouterState);
-    createComponent().ngOnInit();
-    expect(
-      configuratorCommonsService.removeConfiguration
-    ).toHaveBeenCalledTimes(0);
-  });
-
   it('should call configurator group service to check group type', () => {
     routerStateObservable = of(mockRouterState);
     spyOn(configuratorGroupsService, 'isConflictGroupType').and.callThrough();
