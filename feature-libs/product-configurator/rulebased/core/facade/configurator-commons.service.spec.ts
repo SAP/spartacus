@@ -10,13 +10,8 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
 import { productConfigurationWithConflicts } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
-import {
-  ghostConfiguration,
-  ghostConfigurationId,
-} from '../model/configurator.ghostdata';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -138,14 +133,7 @@ function callGetOrCreate(
     y: productConfigurationLoaderStateChanged,
   });
   spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-  const configurationObs = serviceUnderTest
-    .getOrCreateConfiguration(owner)
-    .pipe(
-      filter(
-        (productConfiguration) =>
-          productConfiguration.configId !== ghostConfigurationId
-      )
-    );
+  const configurationObs = serviceUnderTest.getOrCreateConfiguration(owner);
   return configurationObs;
 }
 
@@ -373,21 +361,6 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getConfigurationWithOverview', () => {
-    it('first emission should be ghost data for loading animation', (done) => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfiguration)
-      );
-      spyOn(store, 'dispatch').and.stub();
-
-      serviceUnderTest
-        .getConfigurationWithOverview(productConfiguration)
-        .pipe(take(1))
-        .subscribe((loadingGhostConfiguration) => {
-          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
-          done();
-        });
-    });
-
     it('should get an overview from occ, accessing the store', () => {
       expect(productConfiguration.overview).toBeUndefined();
       spyOnProperty(ngrxStore, 'select').and.returnValue(
@@ -396,12 +369,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        )
+
         .subscribe(() => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new ConfiguratorActions.GetConfigurationOverview(
@@ -435,42 +403,16 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('getConfigurationIncludingGhost', () => {
-    it('first emission should be ghost data for loading animation', (done) => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: true,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
-      });
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.stub();
-
-      serviceUnderTest
-        .getConfigurationIncludingGhost(OWNER_PRODUCT)
-        .pipe(take(1))
-        .subscribe((loadingGhostConfiguration) => {
-          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
-          done();
-        });
-    });
-
+  describe('getConfiguration', () => {
     it('should return an unchanged observable of product configurations in case configurations carry valid config IDs', () => {
       const obs = cold('x-y', {
         x: productConfiguration,
         y: productConfigurationChanged,
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      const configurationObs = serviceUnderTest
-        .getConfigurationIncludingGhost(productConfiguration.owner)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        );
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
       expect(configurationObs).toBeObservable(obs);
     });
 
@@ -486,15 +428,9 @@ describe('ConfiguratorCommonsService', () => {
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
-      const configurationObs = serviceUnderTest
-        .getConfigurationIncludingGhost(productConfiguration.owner)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        );
-
+      const configurationObs = serviceUnderTest.getConfiguration(
+        productConfiguration.owner
+      );
       expect(configurationObs).toBeObservable(
         cold('x-|', {
           x: productConfiguration,
@@ -552,15 +488,8 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest
-        .getOrCreateConfiguration(OWNER_PRODUCT)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        );
-
+      const configurationObs =
+        serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.CreateConfiguration(OWNER_PRODUCT)
@@ -579,15 +508,8 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest
-        .getOrCreateConfiguration(OWNER_PRODUCT)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        );
-
+      const configurationObs =
+        serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
@@ -605,15 +527,8 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       spyOn(store, 'dispatch').and.callThrough();
 
-      const configurationObs = serviceUnderTest
-        .getOrCreateConfiguration(OWNER_PRODUCT)
-        .pipe(
-          filter(
-            (productConfiguration) =>
-              productConfiguration.configId !== ghostConfigurationId
-          )
-        );
-
+      const configurationObs =
+        serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });

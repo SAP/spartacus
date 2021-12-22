@@ -7,10 +7,15 @@ import {
   RouterState,
   RoutingService,
 } from '@spartacus/core';
-import { CommonConfigurator } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+} from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorTabBarComponent } from './configurator-tab-bar.component';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
@@ -37,8 +42,13 @@ class MockRoutingService {
 }
 
 class MockConfiguratorCommonsService {
-  isGhostConfiguration(): Observable<boolean> {
-    return of(false);
+  getConfiguration(): Observable<Configurator.Configuration> {
+    return of(
+      ConfiguratorTestUtils.createConfiguration(
+        'a',
+        ConfiguratorModelUtils.createInitialOwner()
+      )
+    );
   }
 }
 

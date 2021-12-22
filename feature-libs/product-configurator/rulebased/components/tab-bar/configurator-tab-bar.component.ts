@@ -7,6 +7,7 @@ import {} from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
+import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-tab-bar',
@@ -19,13 +20,12 @@ export class ConfiguratorTabBarComponent {
 
   //TODO GHOST check: Navigation from order history
 
-  //TODO GHOST Better method name
-  isReady$: Observable<boolean> = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService.isGhostConfiguration(routerData.owner)
-    ),
-    map((isGhost) => !isGhost)
-  );
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
 
   isOverviewPage$: Observable<boolean> = this.routerData$.pipe(
     map(

@@ -6,19 +6,7 @@ import {
   CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import {
-  filter,
-  map,
-  startWith,
-  switchMap,
-  switchMapTo,
-  take,
-  tap,
-} from 'rxjs/operators';
-import {
-  ghostConfiguration,
-  ghostConfigurationId,
-} from '../model/configurator.ghostdata';
+import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import { StateWithConfigurator } from '../state/configurator-state';
@@ -76,48 +64,13 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  getConfigurationIncludingGhost(
+  getConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
       select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
       filter((configuration) =>
         this.configuratorUtils.isConfigurationCreated(configuration)
-      ),
-      startWith(ghostConfiguration)
-    );
-  }
-
-  /**
-   * Returns a configuration for an owner. Emits only if there are valid configurations
-   * available for the requested owner, does not trigger the re-read or
-   * creation of the configuration in case it's not there
-   *
-   * @param owner - Configuration owner
-   *
-   * @returns {Observable<Configurator.Configuration>}
-   */
-  getConfiguration(
-    owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Configuration> {
-    return this.getConfigurationIncludingGhost(owner).pipe(
-      filter((configuration) => configuration.configId !== ghostConfigurationId)
-    );
-  }
-
-  /**
-   * Checks if we are dealing with a ghost configuration
-   * @param owner - Configuration owner
-   *
-   * @returns  Is the configuration per owner a ghost config?
-   */
-  //TODO GHOST Reconsider name
-  isGhostConfiguration(owner: CommonConfigurator.Owner): Observable<boolean> {
-    return this.getConfigurationIncludingGhost(owner).pipe(
-      map(
-        (configuration) =>
-          configuration.configId === ghostConfigurationId ||
-          configuration.nextOwner !== undefined
       )
     );
   }
@@ -227,8 +180,7 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter((config) => this.hasConfigurationOverview(config)),
-      startWith(ghostConfiguration)
+      filter((config) => this.hasConfigurationOverview(config))
     );
   }
   // TODO GHOST removeObsoleteProductBoundConfiguration has been removed / cover as breaking change
@@ -253,9 +205,6 @@ export class ConfiguratorCommonsService {
    */
   hasConflicts(owner: CommonConfigurator.Owner): Observable<boolean> {
     return this.getConfiguration(owner).pipe(
-      filter(
-        (configuration) => configuration.configId !== ghostConfigurationId
-      ),
       map(
         (configuration) =>
           //We expect that the first group must always be the conflict group
