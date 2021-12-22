@@ -74,9 +74,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return productConfigurationObservable;
   }
-  isGhostConfiguration(): Observable<boolean> {
-    return of(false);
-  }
   removeConfiguration() {}
   removeUiState() {}
   hasPendingChanges() {
