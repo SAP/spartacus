@@ -37,7 +37,7 @@ context('Group Skipping - Checkout', () => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
       checkout.fillAddressForm();
-      cy.get('input[type=radio][formcontrolname=deliveryModeId]')
+      cy.get('input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)')
         .first()
         .focus()
         .click();
