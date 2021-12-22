@@ -41,12 +41,6 @@ describe('Order Cancellations and Returns', () => {
     });
   });
 
-  // Core test.
-  orderCancellationReturn.testCancelOrder();
-
-  // Core test.
-  orderCancellationReturn.testReturnOrder();
-
   describe('Return request list and details', () => {
     it('should display return request list', () => {
       orderCancellationReturn.getStubbedReturnRequestList();

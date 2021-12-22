@@ -15,8 +15,10 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.TITLES
   );
 
+  // Core test.
   siteContextSelector.testLangSwitchOrderPage();
 
+  // Below tests depend on core test for setup.
   describe('address book page', () => {
     const addressBookPath = siteContextSelector.ADDRESS_BOOK_PATH;
     const deutschName = siteContextSelector.TITLE_DE;
@@ -60,8 +62,10 @@ describe('Language switch - my-account pages', () => {
     });
   });
 
+  // Core test
   siteContextSelector.testPersonalDetailsPage();
 
+  // Below tests depend on core test for setup.
   describe('close account page', () => {
     const closeAccountPath = siteContextSelector.CLOSE_ACCOUNT_PATH;
 

@@ -24,8 +24,6 @@ describe('Infinite scroll', () => {
     }).as(infiniteScroll.defaultQuery);
   });
 
-  infiniteScroll.testInfiniteScrollAvoidDisplayShowMoreButton();
-
   it("should enable infinite scroll and display 'Show more' button", () => {
     configScroll(true, 0, true);
     cy.visit(infiniteScroll.testUrl);

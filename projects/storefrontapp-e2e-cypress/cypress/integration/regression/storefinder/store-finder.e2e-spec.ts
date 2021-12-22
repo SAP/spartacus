@@ -33,12 +33,13 @@ context('Store finder', () => {
     cy.get('.cx-store-details').should('exist');
   });
 
-  // Core e2e test. Repeat in mobile if necessary.
+  // Core e2e test. 
   storeFinder.testAllowViewAllStores();
 
-  // Core e2e test. Repeat in mobile if necessary.
+  // Core e2e test. 
   storeFinder.testAllowViewStoreDetails();
 
+  // Test depends on core tests for setup. 
   it('should call back action and go to country all stores', () => {
     cy.get('.cx-store').should('exist');
     cy.get('cx-store-finder .btn-action')

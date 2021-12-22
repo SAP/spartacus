@@ -11,7 +11,6 @@ import {
   verifyMiniCartQty,
 } from '../../../helpers/save-for-later';
 import { viewportContext } from '../../../helpers/viewport-context';
-import * as saveForLater from '../../../helpers/save-for-later';
 
 context('Save for later', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -19,12 +18,6 @@ context('Save for later', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });
-
-    // Core test. Repeat in mobile.
-    saveForLater.testAnonymousUserSaveForLater();
-
-    // Core test. Repeat in mobile.
-    saveForLater.testLoggedInUserSaveForLater();
 
     describe('Customer', () => {
       beforeEach(() => {

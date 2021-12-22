@@ -1,8 +1,6 @@
 import * as authForms from '../../../helpers/auth-forms';
 import {
   createUser,
-  testRedirectAfterForcedLogin,
-  testRedirectBackfterLogin,
   revokeAccessToken,
 } from '../../../helpers/auth-redirects';
 import { AccountData } from '../../../support/require-logged-in.commands';
@@ -13,11 +11,6 @@ context('Redirect after auth', () => {
   before(() => {
     user = createUser();
   });
-
-  // Core e2e tests. Run in mobile if necessary
-  testRedirectBackfterLogin();
-
-  testRedirectAfterForcedLogin();
 
   it('should redirect back after the forced login when access token expired and page was refreshed', () => {
     cy.requireLoggedIn(user);
