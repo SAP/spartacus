@@ -1,4 +1,10 @@
-import { AbstractType, Injectable, Injector } from '@angular/core';
+import {
+  AbstractType,
+  Injectable,
+  InjectionToken,
+  Injector,
+  Type,
+} from '@angular/core';
 import {
   ConnectableObservable,
   EMPTY,
@@ -8,12 +14,14 @@ import {
 } from 'rxjs';
 import {
   delay,
+  distinctUntilChanged,
   map,
   publishReplay,
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
 import { FeatureModulesService } from '../feature-modules.service';
+import { UnifiedInjector } from '../unified-injector';
 import { FacadeDescriptor } from './facade-descriptor';
 
 const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
@@ -31,7 +39,8 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected injector: Injector
+    protected injector: Injector,
+    protected unifiedInjector: UnifiedInjector
   ) {}
 
   protected getResolver<T>(
@@ -133,5 +142,16 @@ export class FacadeFactoryService {
    */
   isProxyFacadeInstance(facade: any) {
     return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
+  }
+
+  isFacadeImplProvided<T>(
+    token: Type<T> | InjectionToken<T> | AbstractType<T>
+  ): Observable<boolean> {
+    return this.unifiedInjector.get(token).pipe(
+      map(
+        (facade) => facade !== undefined && !this.isProxyFacadeInstance(facade)
+      ),
+      distinctUntilChanged()
+    );
   }
 }

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
-  CartAddEntrySuccessEvent,
+  CartUiEventAddToCart,
 } from '@spartacus/cart/main/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
@@ -33,7 +33,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 }
 
 describe('AddToCartDialogEventListener', () => {
-  let activeCartFacade: ActiveCartFacade;
+  //let activeCartFacade: ActiveCartFacade;
   //let eventService: EventService;
   let listener: AddToCartDialogEventListener;
 
@@ -57,22 +57,25 @@ describe('AddToCartDialogEventListener', () => {
     });
 
     listener = TestBed.inject(AddToCartDialogEventListener);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    //activeCartFacade = TestBed.inject(ActiveCartFacade);
     //eventService = TestBed.inject(EventService);
   });
 
   describe('onAddToCart', () => {
     it('Should test something', () => {
       spyOn(listener as any, 'openModal').and.stub();
-      const event = new CartAddEntrySuccessEvent();
-      mockEventStream$.next(event);
-      expect(listener['openModal']).toHaveBeenCalled();
-      console.log(activeCartFacade, event);
+
+      const mockEvent = new CartUiEventAddToCart();
+      mockEvent.productCode = 'test';
+      mockEvent.quantity = 3;
+
+      mockEventStream$.next(mockEvent);
+      expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
   });
-  describe('openModal', () => {
-    it('Should test something', () => {
-      console.log(activeCartFacade);
-    });
-  });
+  // describe('openModal', () => {
+  //   it('Should test something', () => {
+  //     //console.log(activeCartFacade);
+  //   });
+  // });
 });

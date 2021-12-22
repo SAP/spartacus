@@ -6,6 +6,7 @@ import {
 import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { of, Subscription } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from '../cart/add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 
 @Injectable({
@@ -46,12 +47,12 @@ export class AddToCartDialogEventListener implements OnDestroy {
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
     modalInstance.quantity = event.quantity;
-    // modalInstance.addedEntryWasMerged$ = this.activeCartFacade
-    //   .getEntry(event.productCode)
-    //   .pipe(
-    //     take(1),
-    //     map((entry) => entry?.quantity !== event.quantity)
-    //   );
+    modalInstance.addedEntryWasMerged$ = this.activeCartFacade
+      .getEntry(event.productCode)
+      .pipe(
+        first(),
+        map((entry) => (entry?.quantity ?? 0) > event.quantity)
+      );
     modalInstance.addedEntryWasMerged$ = of(false);
   }
 

@@ -22,7 +22,7 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
+import { filter, first, map } from 'rxjs/operators';
 import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
@@ -136,9 +136,13 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     }
     this.activeCartService.addEntry(this.productCode, quantity);
 
-    this.isActiveCartFacadeImplProvided()
+    // Because the cart library can be lazy loaded, we wait for
+    // the cart library to be loaded before dispatching the event,
+    // otherwise the event will fire before the listener can catch it.
+    this.facadeFactoryService
+      .isFacadeImplProvided(ActiveCartFacade)
       .pipe(first((isProvided) => isProvided))
-      .subscribe((_) => {
+      .subscribe(() => {
         const newEvent = new CartUiEventAddToCart();
         newEvent.productCode = this.productCode;
         newEvent.quantity = quantity;
@@ -150,16 +154,5 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
-  }
-
-  protected isActiveCartFacadeImplProvided(): Observable<boolean> {
-    return this.injector.get(ActiveCartFacade).pipe(
-      map(
-        (activeCartFacade) =>
-          activeCartFacade !== undefined &&
-          !this.facadeFactoryService.isProxyFacadeInstance(activeCartFacade)
-      ),
-      distinctUntilChanged()
-    );
   }
 }
