@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   provideConfigFactory,
   provideDefaultConfigFactory,
+  WindowRef,
 } from '@spartacus/core';
 import {
   SceneNodeToProductLookupService,
@@ -66,6 +67,7 @@ describe('VisualViewerService', () => {
   let mockVisualizationLookupService = new MockVisualizationLookupService();
   let mockElementRef = new MockElementRef();
   let mockChangeDetectorRef = new MockChangeDetectorRef();
+  let windowRef: WindowRef;
 
   let visualViewerService: VisualViewerService;
 
@@ -110,9 +112,11 @@ describe('VisualViewerService', () => {
     });
 
     visualViewerService = TestBed.inject(VisualViewerService);
+    windowRef = TestBed.inject(WindowRef);
 
     viewportAdded$ = visualViewerService['viewportAdded$'] as Observable<void>;
-    isUi5BootStrapped = visualViewerService['isUi5BootStrapped'];
+    isUi5BootStrapped =
+      visualViewerService['isUi5BootStrapped'].bind(visualViewerService);
     getCore = visualViewerService['getCore'];
     containerDiv = mockElementRef.nativeElement as HTMLDivElement;
   });
@@ -143,6 +147,21 @@ describe('VisualViewerService', () => {
   });
 
   describe('backgroundTopColor', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_backgroundTopColor'] = 'red';
+      expect(visualViewerService.backgroundTopColor).toEqual('red');
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.backgroundTopColor = 'blue';
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.backgroundTopColor).toEqual('red');
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_backgroundTopColor'] = 'red';
       expect(visualViewerService.backgroundTopColor).toEqual('red');
@@ -199,6 +218,21 @@ describe('VisualViewerService', () => {
   });
 
   describe('backgroundBottomColor', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_backgroundBottomColor'] = 'red';
+      expect(visualViewerService.backgroundBottomColor).toEqual('red');
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.backgroundBottomColor = 'blue';
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.backgroundBottomColor).toEqual('red');
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_backgroundBottomColor'] = 'red';
       expect(visualViewerService.backgroundBottomColor).toEqual('red');
@@ -258,6 +292,21 @@ describe('VisualViewerService', () => {
   });
 
   describe('hotspotSelectionColor', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_hotspotSelectionColor'] = 'red';
+      expect(visualViewerService.hotspotSelectionColor).toEqual('red');
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.hotspotSelectionColor = 'blue';
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.hotspotSelectionColor).toEqual('red');
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_hotspotSelectionColor'] = 'red';
       expect(visualViewerService.hotspotSelectionColor).toEqual('red');
@@ -312,6 +361,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('showAllHotspotsEnabled', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_showAllHotspotsEnabled'] = false;
+      expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.showAllHotspotsEnabled = true;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_showAllHotspotsEnabled'] = false;
       expect(visualViewerService.showAllHotspotsEnabled).toEqual(false);
@@ -350,6 +413,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('showAllHotspotsColor', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_showAllHotspotsColor'] = 'red';
+      expect(visualViewerService.showAllHotspotsColor).toEqual('red');
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.showAllHotspotsColor = 'blue';
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.showAllHotspotsColor).toEqual('red');
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_showAllHotspotsColor'] = 'red';
       expect(visualViewerService.showAllHotspotsColor).toEqual('red');
@@ -402,6 +479,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('outlineColor', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_outlineColor'] = 'red';
+      expect(visualViewerService.outlineColor).toEqual('red');
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.outlineColor = 'blue';
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.outlineColor).toEqual('red');
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_outlineColor'] = 'red';
       expect(visualViewerService.outlineColor).toEqual('red');
@@ -452,6 +543,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('outlineWidth', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_outlineWidth'] = 4;
+      expect(visualViewerService.outlineWidth).toEqual(4);
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.outlineWidth = 8;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.outlineWidth).toEqual(4);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_outlineWidth'] = 4;
       expect(visualViewerService.outlineWidth).toEqual(4);
@@ -502,6 +607,24 @@ describe('VisualViewerService', () => {
   });
 
   describe('selectionMode', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_selectionMode'] = SelectionMode.Exclusive;
+      expect(visualViewerService.selectionMode).toEqual(
+        SelectionMode.Exclusive
+      );
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.selectionMode = SelectionMode.Sticky;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.selectionMode).toEqual(
+        SelectionMode.Exclusive
+      );
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       visualViewerService['_selectionMode'] = SelectionMode.Exclusive;
       expect(visualViewerService.selectionMode).toEqual(
@@ -578,7 +701,7 @@ describe('VisualViewerService', () => {
       ).and.callThrough();
 
       const selectedNodeIds$ = visualViewerService['selectedNodeIds$'];
-      const selectedNodeIds$NextSpy = spyOn(selectedNodeIds$, 'next');
+      const selectedNodeIdsNextSpy = spyOn(selectedNodeIds$, 'next');
 
       visualViewerService.selectedProductCodes = [
         'productCode1',
@@ -593,12 +716,110 @@ describe('VisualViewerService', () => {
         1
       );
       expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(1);
-      expect(selectedNodeIds$NextSpy).toHaveBeenCalledTimes(1);
-      expect(selectedNodeIds$NextSpy).toHaveBeenCalledWith(sceneNodeIds);
+      expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(1);
+      expect(selectedNodeIdsNextSpy).toHaveBeenCalledWith(sceneNodeIds);
+    });
+
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_selectedProductCodes'] = [];
+      expect(visualViewerService.selectedProductCodes).toEqual([]);
+
+      const sceneNodeIds = ['sceneNode1', 'sceneNode2'];
+      const lookupNodeIdsReturnValue = of(sceneNodeIds);
+
+      const mockSceneNodeToProductLookupService = {
+        lookupNodeIds: (_productCodes: string[]) => lookupNodeIdsReturnValue,
+      };
+      const sceneNodeToProductLookupServicePropertySpy = spyOnProperty<any>(
+        visualViewerService,
+        'sceneNodeToProductLookupService',
+        'get'
+      ).and.returnValue(mockSceneNodeToProductLookupService);
+
+      const lookupNodeIdsSpy = spyOn(
+        mockSceneNodeToProductLookupService,
+        'lookupNodeIds'
+      ).and.callThrough();
+
+      const selectedNodeIds$ = visualViewerService['selectedNodeIds$'];
+      const selectedNodeIdsNextSpy = spyOn(selectedNodeIds$, 'next');
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+      visualViewerService.selectedProductCodes = [
+        'productCode1',
+        'productCode2',
+      ];
+
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.selectedProductCodes).toEqual([]);
+      expect(sceneNodeToProductLookupServicePropertySpy).toHaveBeenCalledTimes(
+        0
+      );
+      expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(0);
+      expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('includedProductCodes', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_includedProductCodes'] = [];
+      expect(visualViewerService.includedProductCodes).toEqual([]);
+
+      const mockExecuteWhenSceneLoaded = (callback: () => void) => {
+        callback();
+      };
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      ).and.callFake(mockExecuteWhenSceneLoaded);
+
+      const applyInclusionStyleSpy = spyOn<any>(
+        visualViewerService,
+        'applyInclusionStyle'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.includedProductCodes = [
+        'productCode1',
+        'productCode2',
+      ];
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.includedProductCodes).toEqual([]);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+      expect(applyInclusionStyleSpy).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call applyInclusionStyle (after scene has loaded)', () => {
+      visualViewerService['_includedProductCodes'] = [];
+      expect(visualViewerService.includedProductCodes).toEqual([]);
+
+      const mockExecuteWhenSceneLoaded = (callback: () => void) => {
+        callback();
+      };
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      ).and.callFake(mockExecuteWhenSceneLoaded);
+
+      const applyInclusionStyleSpy = spyOn<any>(
+        visualViewerService,
+        'applyInclusionStyle'
+      );
+
+      visualViewerService.includedProductCodes = [
+        'productCode1',
+        'productCode2',
+      ];
+
+      expect(visualViewerService.includedProductCodes).toEqual([
+        'productCode1',
+        'productCode2',
+      ]);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(1);
+      expect(applyInclusionStyleSpy).toHaveBeenCalledTimes(1);
+    });
+
     it('should call applyInclusionStyle (after scene has loaded)', () => {
       visualViewerService['_includedProductCodes'] = [];
       expect(visualViewerService.includedProductCodes).toEqual([]);
@@ -668,6 +889,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('animationPosition', () => {
+    it('should do nothing when not running in browser', () => {
+      expect(visualViewerService.animationPosition).toEqual(0);
+
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.animationPosition = 1;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.animationPosition).toEqual(0);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should not do anything when value has not changed', () => {
       expect(visualViewerService.animationPosition).toEqual(0);
 
@@ -718,6 +953,20 @@ describe('VisualViewerService', () => {
   });
 
   describe('animationPlaying', () => {
+    it('should do nothing when not running in browser', () => {
+      expect(visualViewerService.animationPlaying).toEqual(false);
+
+      const executeWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.animationPlaying = true;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService.animationPlaying).toEqual(false);
+      expect(executeWhenSceneLoadedSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should not do anything when the value has not changed', () => {
       expect(visualViewerService.animationPlaying).toEqual(false);
 
@@ -896,6 +1145,23 @@ describe('VisualViewerService', () => {
   });
 
   describe('navigationMode', () => {
+    it('should do nothing when not running in browser', () => {
+      visualViewerService['_navigationMode'] = NavigationMode.Zoom;
+      expect(visualViewerService.navigationMode).toEqual(NavigationMode.Zoom);
+
+      const spyOnExecuteWhenSceneLoaded = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.navigationMode = NavigationMode.Pan;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(visualViewerService['_navigationMode']).toEqual(
+        NavigationMode.Zoom
+      );
+      expect(spyOnExecuteWhenSceneLoaded).toHaveBeenCalledTimes(0);
+    });
+
     it('should not do anything when the value has not changed', () => {
       visualViewerService['_navigationMode'] = NavigationMode.Zoom;
       expect(visualViewerService.navigationMode).toEqual(NavigationMode.Zoom);
@@ -905,7 +1171,7 @@ describe('VisualViewerService', () => {
         'executeWhenSceneLoaded'
       );
       visualViewerService.navigationMode = NavigationMode.Zoom;
-
+      expect(visualViewerService.navigationMode).toEqual(NavigationMode.Zoom);
       expect(spyOnExecuteWhenSceneLoaded).toHaveBeenCalledTimes(0);
     });
 
@@ -968,6 +1234,24 @@ describe('VisualViewerService', () => {
   });
 
   describe('isolateModeEnabled', () => {
+    it('should do nothing when not running in browser', () => {
+      expect(visualViewerService.isolateModeEnabled).toEqual(false);
+
+      const visualViewerServiceExecuteWhenSceneLoadedSpy = spyOn<any>(
+        visualViewerService,
+        'executeWhenSceneLoaded'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.isolateModeEnabled = true;
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+
+      expect(visualViewerService.isolateModeEnabled).toEqual(false);
+      expect(
+        visualViewerServiceExecuteWhenSceneLoadedSpy
+      ).toHaveBeenCalledTimes(0);
+    });
+
     it('should do nothing when value has not changed', () => {
       expect(visualViewerService.isolateModeEnabled).toEqual(false);
 
@@ -1309,6 +1593,61 @@ describe('VisualViewerService', () => {
   });
 
   describe('activateHomeView', () => {
+    it('should do nothing when not running in browser', () => {
+      const getIs2DPropertySpy = spyOnProperty(
+        visualViewerService,
+        'is2D',
+        'get'
+      ).and.returnValue(true);
+
+      const mockViewport = {
+        zoomTo: (
+          what: ZoomTo | ZoomTo[],
+          nodeRef: any,
+          crossFadeSeconds: float,
+          margin: float
+        ) => {
+          expect(what).toEqual(ZoomTo.All);
+          expect(nodeRef).toEqual(null);
+          expect(crossFadeSeconds).toEqual(
+            visualViewerService['flyToDurationInSeconds']
+          );
+          expect(margin).toEqual(visualViewerService['zoomToMargin']);
+        },
+      };
+
+      const getViewportPropertySpy = spyOnProperty<any>(
+        visualViewerService,
+        'viewport',
+        'get'
+      ).and.returnValue(mockViewport);
+
+      const zoomToSpy = spyOn(mockViewport, 'zoomTo').and.callThrough();
+
+      const getIsolateModeEnabledPropertySpy = spyOnProperty(
+        visualViewerService,
+        'isolateModeEnabled',
+        'get'
+      ).and.returnValue(false);
+
+      const isolateModeEnabledChange =
+        visualViewerService['isolateModeEnabledChange'];
+      const isolateModeEnabledChangeEmitSpy = spyOn(
+        isolateModeEnabledChange,
+        'emit'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.activateHomeView();
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+
+      expect(getIs2DPropertySpy).toHaveBeenCalledTimes(0);
+      expect(getViewportPropertySpy).toHaveBeenCalledTimes(0);
+      expect(zoomToSpy).toHaveBeenCalledTimes(0);
+      expect(getIsolateModeEnabledPropertySpy).toHaveBeenCalledTimes(0);
+      expect(isolateModeEnabledChangeEmitSpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should zoom to all if in 2D mode', () => {
       const getIs2DPropertySpy = spyOnProperty(
         visualViewerService,
@@ -1474,6 +1813,18 @@ describe('VisualViewerService', () => {
   });
 
   describe('playAnimation', () => {
+    it('should do nothing when not running in browser', () => {
+      const setAnimationPlayingPropertySpy = spyOnProperty(
+        visualViewerService,
+        'animationPlaying',
+        'set'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.playAnimation();
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(setAnimationPlayingPropertySpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should set animationPlaying property to true', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
@@ -1489,6 +1840,18 @@ describe('VisualViewerService', () => {
   });
 
   describe('pauseAnimation', () => {
+    it('should do nothing when not running in browser', () => {
+      const setAnimationPlayingPropertySpy = spyOnProperty(
+        visualViewerService,
+        'animationPlaying',
+        'set'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualViewerService.pauseAnimation();
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(setAnimationPlayingPropertySpy).toHaveBeenCalledTimes(0);
+    });
+
     it('should set animationPlaying property to false', () => {
       const setAnimationPlayingPropertySpy = spyOnProperty(
         visualViewerService,
@@ -1893,7 +2256,7 @@ describe('VisualViewerService', () => {
         loadingSceneLoadInfo,
         loadedSceneLoadInfo,
       ];
-      const getSceneLoadInfo$PropertySpy = spyOnProperty<any>(
+      const getSceneLoadInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneLoadInfo$',
         'get'
@@ -1906,7 +2269,7 @@ describe('VisualViewerService', () => {
         }
       );
 
-      expect(getSceneLoadInfo$PropertySpy).toHaveBeenCalledTimes(1);
+      expect(getSceneLoadInfoPropertySpy).toHaveBeenCalledTimes(1);
     });
 
     it('should not invoke callback when sceneLoadInfo$ does not produce a SceneLoadInfo with a sceneLoadState of SceneLoadState.Loaded', () => {
@@ -1925,7 +2288,7 @@ describe('VisualViewerService', () => {
         loadingSceneLoadInfo,
         loadedSceneLoadInfo,
       ];
-      const getSceneLoadInfo$PropertySpy = spyOnProperty<any>(
+      const getSceneLoadInfoPropertySpy = spyOnProperty<any>(
         visualViewerService,
         'sceneLoadInfo$',
         'get'
@@ -1937,7 +2300,7 @@ describe('VisualViewerService', () => {
         }
       );
 
-      expect(getSceneLoadInfo$PropertySpy).toHaveBeenCalledTimes(1);
+      expect(getSceneLoadInfoPropertySpy).toHaveBeenCalledTimes(1);
     });
   });
 
