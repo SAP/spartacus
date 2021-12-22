@@ -1,18 +1,57 @@
 <div
-  id="{{ createAttributeIdForConfigurator(attribute) }}"
   class="form-group"
   *ngIf="attribute.values && attribute.values.length !== 0"
 >
+  <label
+    for="{{ createAttributeIdForConfigurator(attribute) }}"
+    class="cx-visually-hidden"
+  >
+    {{
+      'configurator.a11y.listbox'
+        | cxTranslate
+          : {
+              count: attribute.values.length
+            }
+    }}
+  </label>
   <select
+    id="{{ createAttributeIdForConfigurator(attribute) }}"
     class="form-control"
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
+    [attr.aria-describedby]="
+      createAttributeUiKey('label', attribute.name) +
+      ' ' +
+      createAttributeUiKey('attribute-msg', attribute.name)
+    "
   >
     <option
       *ngFor="let item of attribute.values"
       [label]="item.valueDisplay"
       [selected]="item.selected"
+      [attr.aria-selected]="item.selected"
+      [attr.aria-label]="
+        item.valuePrice && item.valuePrice?.value !== 0
+          ? item.valuePriceTotal && item.valuePriceTotal?.value !== 0
+            ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+              | cxTranslate
+                : {
+                    value: item.valueDisplay,
+                    attribute: attribute.label,
+                    price: item.valuePriceTotal.formattedValue
+                  })
+            : ('configurator.a11y.valueOfAttributeFullWithPrice'
+              | cxTranslate
+                : {
+                    value: item.valueDisplay,
+                    attribute: attribute.label,
+                    price: item.valuePrice.formattedValue
+                  })
+          : ('configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : { value: item.valueDisplay, attribute: attribute.label })
+      "
       [value]="item.valueCode"
     >
       {{ item.valueDisplay }}

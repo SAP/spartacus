@@ -1,4 +1,8 @@
-<div id="{{ createAttributeIdForConfigurator(attribute) }}" class="cx-row">
+<div
+  id="{{ createAttributeIdForConfigurator(attribute) }}"
+  class="cx-row"
+  role="listbox"
+>
   <div
     *ngFor="let value of attribute.values"
     id="{{ createAttributeValueIdForConfigurator(attribute, value.valueCode) }}"
@@ -18,17 +22,33 @@
       name="{{ createAttributeIdForConfigurator(attribute) }}"
       attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
       [attr.required]="attribute.required"
-      [attr.aria-labelledby]="
-        createAriaLabelledBy('label', attribute.name, value.valueCode)
-      "
       [attr.aria-checked]="
         attributeRadioButtonForm.value === value.valueCode ? true : false
+      "
+      [attr.aria-label]="
+        value.valuePrice && value.valuePrice?.value !== 0
+          ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+            | cxTranslate
+              : {
+                  value: value.valueDisplay,
+                  attribute: attribute.label,
+                  price: value.valuePrice.formattedValue
+                })
+          : ('configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : { value: value.valueDisplay, attribute: attribute.label })
+      "
+      [attr.aria-describedby]="
+        createAttributeUiKey('label', attribute.name) +
+        ' ' +
+        createAttributeUiKey('attribute-msg', attribute.name)
       "
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "
       (click)="onClick(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
+      role="option"
     />
     <div class="cx-label-container">
       <label
@@ -37,6 +57,7 @@
           createAttributeValueIdForConfigurator(attribute, value.valueCode) +
             '-input'
         }}"
+        aria-hidden="true"
         class="form-check-label form-radio-label"
       >
         <img
