@@ -10,6 +10,7 @@ import {
   provideConfigFactory,
   provideDefaultConfigFactory,
   Translatable,
+  WindowRef,
 } from '@spartacus/core';
 import { getEpdVisualizationDefaultConfig } from '@spartacus/epd-visualization/root';
 import { CurrentProductService } from '@spartacus/storefront';
@@ -148,6 +149,7 @@ describe('VisualPickingTabService', () => {
   let visualPickingTabService: VisualPickingTabService;
   let mockCurrentProductService: MockCurrentProductService;
   let mockChangeDetectorRef = new MockChangeDetectorRef();
+  let windowRef: WindowRef;
 
   beforeEach(() => {
     mockGlobalMessageService = new MockGlobalMessageService();
@@ -183,6 +185,9 @@ describe('VisualPickingTabService', () => {
     });
 
     visualViewerService = TestBed.inject(VisualViewerService);
+
+    windowRef = TestBed.inject(WindowRef);
+
     visualPickingProductListService = TestBed.inject(
       VisualPickingProductListService
     );
@@ -323,6 +328,154 @@ describe('VisualPickingTabService', () => {
 
       expect(loadVisualizationSpy).toHaveBeenCalledTimes(0);
     });
+
+    it('should not do anything when not running in browser', () => {
+      const mockVisualizationLoadInfoChange = {
+        subscribe: (
+          _next?: (value: string[]) => void,
+          _error?: (error: any) => void,
+          _complete?: () => void
+        ) => Subscription,
+      };
+
+      const getVisualViewerServiceVisualizationLoadInfoChangePropertySpy =
+        spyOnProperty(
+          mockVisualViewerService,
+          'visualizationLoadInfoChange',
+          'get'
+        ).and.returnValue(mockVisualizationLoadInfoChange);
+      const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
+        mockVisualizationLoadInfoChange,
+        'subscribe'
+      );
+
+      mockVisualPickingProductListService.getProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.getFilteredProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.currentProduct$ = of(currentProduct);
+
+      const getVisualPickingProductListServicePropertySpy = spyOnProperty<any>(
+        visualPickingTabService,
+        'visualPickingProductListService',
+        'get'
+      );
+
+      mockVisualViewerService.expectedIncludedProductCodes =
+        filteredProductReferences.map(
+          (productReference) => productReference.target?.code as string
+        );
+
+      const loadVisualizationSpy = spyOn(
+        visualViewerService,
+        'loadVisualization'
+      );
+
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+      visualPickingTabService.initialize(
+        visualViewerService,
+        visualPickingProductListService
+      );
+
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(
+        getVisualViewerServiceVisualizationLoadInfoChangePropertySpy
+      ).toHaveBeenCalledTimes(0);
+      expect(mockVisualizationLoadInfoChangeSubscribeSpy).toHaveBeenCalledTimes(
+        0
+      );
+      expect(
+        getVisualPickingProductListServicePropertySpy
+      ).toHaveBeenCalledTimes(0);
+      expect(loadVisualizationSpy).toHaveBeenCalledTimes(0);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should do nothing when not running in browser', () => {
+      mockVisualPickingProductListService.getProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.getFilteredProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.currentProduct$ = of(currentProduct);
+
+      visualPickingTabService.initialize(
+        visualViewerService,
+        visualPickingProductListService
+      );
+
+      const visualizationLoadInfoChangeSubscriptionUnsubscribeSpy = spyOn(
+        visualPickingTabService['visualizationLoadInfoChangeSubscription'],
+        'unsubscribe'
+      );
+      const getProductReferencesSubscriptionUnsubscribeSpy = spyOn(
+        visualPickingTabService['getProductReferencesSubscription'],
+        'unsubscribe'
+      );
+      const getFilteredProductReferencesSubscriptionUnsubscribeSpy = spyOn<any>(
+        visualPickingTabService['getFilteredProductReferencesSubscription'],
+        'unsubscribe'
+      );
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+
+      visualPickingTabService.ngOnDestroy();
+
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+      expect(
+        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        getProductReferencesSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(0);
+      expect(
+        getFilteredProductReferencesSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(0);
+    });
+
+    it('should unsubscribe observable subscriptions when running in browser', () => {
+      mockVisualPickingProductListService.getProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.getFilteredProductReferences = () => {
+        return of([]);
+      };
+      mockVisualPickingProductListService.currentProduct$ = of(currentProduct);
+
+      visualPickingTabService.initialize(
+        visualViewerService,
+        visualPickingProductListService
+      );
+
+      const visualizationLoadInfoChangeSubscriptionUnsubscribeSpy = spyOn(
+        visualPickingTabService['visualizationLoadInfoChangeSubscription'],
+        'unsubscribe'
+      );
+      const getProductReferencesSubscriptionUnsubscribeSpy = spyOn(
+        visualPickingTabService['getProductReferencesSubscription'],
+        'unsubscribe'
+      );
+      const getFilteredProductReferencesSubscriptionUnsubscribeSpy = spyOn<any>(
+        visualPickingTabService['getFilteredProductReferencesSubscription'],
+        'unsubscribe'
+      );
+
+      visualPickingTabService.ngOnDestroy();
+
+      expect(
+        visualizationLoadInfoChangeSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        getProductReferencesSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        getFilteredProductReferencesSubscriptionUnsubscribeSpy
+      ).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('productReferences', () => {
@@ -374,6 +527,32 @@ describe('VisualPickingTabService', () => {
     });
   });
 
+  describe('hideNoProductReferencesText', () => {
+    it('should return true when product references have not been retrieved', () => {
+      expect(visualPickingTabService['productReferences']).toBeUndefined();
+      expect(visualPickingTabService.hideNoProductReferencesText).toEqual(true);
+    });
+
+    it('should return false when no product references of required type exist for current product', () => {
+      visualPickingTabService['setProductReferences']([]);
+      expect(visualPickingTabService.hideNoProductReferencesText).toEqual(
+        false
+      );
+    });
+
+    it('should return true when one or more product references of required type exists for current product', () => {
+      visualPickingTabService['setProductReferences'](productReferences);
+      expect(visualPickingTabService.hideNoProductReferencesText).toEqual(true);
+    });
+
+    it('should return true when not running in browser', () => {
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualPickingTabService['setProductReferences']([]);
+      expect(visualPickingTabService.hideNoProductReferencesText).toEqual(true);
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('hideProductList', () => {
     it('should return true when product references have not been retrieved', () => {
       expect(visualPickingTabService['productReferences']).toBeUndefined();
@@ -385,9 +564,16 @@ describe('VisualPickingTabService', () => {
       expect(visualPickingTabService.hideProductList).toEqual(true);
     });
 
-    it('should return true when one or more product references of required type exists for current product', () => {
+    it('should return false when one or more product references of required type exists for current product', () => {
       visualPickingTabService['setProductReferences'](productReferences);
       expect(visualPickingTabService.hideProductList).toEqual(false);
+    });
+
+    it('should return true when not running in browser', () => {
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualPickingTabService['setProductReferences'](productReferences);
+      expect(visualPickingTabService.hideProductList).toEqual(true);
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -440,6 +626,18 @@ describe('VisualPickingTabService', () => {
         'get'
       ).and.returnValue(VisualizationLoadStatus.UnexpectedError);
       expect(visualPickingTabService.hideViewport).toEqual(true);
+    });
+
+    it('should return true when not running in browser', () => {
+      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      visualPickingTabService['setProductReferences'](productReferences);
+      spyOnProperty<any>(
+        visualPickingTabService,
+        'visualizationLoadStatus',
+        'get'
+      ).and.returnValue(VisualizationLoadStatus.Loading);
+      expect(visualPickingTabService.hideViewport).toEqual(true);
+      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
     });
   });
 
