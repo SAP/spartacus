@@ -330,24 +330,12 @@ describe('VisualPickingTabService', () => {
     });
 
     it('should not do anything when not running in browser', () => {
-      const mockVisualizationLoadInfoChange = {
-        subscribe: (
-          _next?: (value: string[]) => void,
-          _error?: (error: any) => void,
-          _complete?: () => void
-        ) => Subscription,
-      };
-
       const getVisualViewerServiceVisualizationLoadInfoChangePropertySpy =
         spyOnProperty(
           mockVisualViewerService,
           'visualizationLoadInfoChange',
           'get'
-        ).and.returnValue(mockVisualizationLoadInfoChange);
-      const mockVisualizationLoadInfoChangeSubscribeSpy = spyOn(
-        mockVisualizationLoadInfoChange,
-        'subscribe'
-      );
+        );
 
       mockVisualPickingProductListService.getProductReferences = () => {
         return of([]);
@@ -384,9 +372,6 @@ describe('VisualPickingTabService', () => {
       expect(
         getVisualViewerServiceVisualizationLoadInfoChangePropertySpy
       ).toHaveBeenCalledTimes(0);
-      expect(mockVisualizationLoadInfoChangeSubscribeSpy).toHaveBeenCalledTimes(
-        0
-      );
       expect(
         getVisualPickingProductListServicePropertySpy
       ).toHaveBeenCalledTimes(0);
