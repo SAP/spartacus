@@ -9,7 +9,7 @@ export const UPDATE_PROFILE_URL = '/my-account/update-profile';
 
 export function updateProfile() {
   cy.get('cx-update-profile').within(() => {
-    cy.get('[formcontrolname="titleCode"]').select(newTitle);
+    cy.get('[formcontrolname="titleCode"]').select(newTitle, { force: true });
     cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
     cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
     cy.get('button').click();
@@ -56,7 +56,7 @@ export function verifyUpdatedProfile() {
 export function testUpdateProfileDetails() {
   it('should be able to update profile details', () => {
     cy.get('cx-update-profile').within(() => {
-      cy.get('[formcontrolname="titleCode"]').select(newTitle);
+      cy.get('[formcontrolname="titleCode"]').select(newTitle, { force: true });
       cy.get('[formcontrolname="firstName"]').clear().type(newFirstName);
       cy.get('[formcontrolname="lastName"]').clear().type(newLastName);
       cy.get('button').click();
