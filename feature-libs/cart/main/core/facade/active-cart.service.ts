@@ -20,7 +20,6 @@ import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
-  first,
   map,
   pairwise,
   shareReplay,
@@ -297,7 +296,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.activeCartId$.pipe(
       // Avoid load/create call when there are new cart creating at the moment
       withLatestFrom(cartSelector$),
-      first(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
+      filter(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
+      take(1),
       map(([, cartState]) => cartState),
       withLatestFrom(this.userIdService.getUserId()),
       tap(([cartState, userId]) => {

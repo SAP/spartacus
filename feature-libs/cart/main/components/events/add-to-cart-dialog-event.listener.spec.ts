@@ -73,6 +73,7 @@ describe('AddToCartDialogEventListener', () => {
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
   });
+
   // describe('openModal', () => {
   //   it('Should test something', () => {
   //     //console.log(activeCartFacade);

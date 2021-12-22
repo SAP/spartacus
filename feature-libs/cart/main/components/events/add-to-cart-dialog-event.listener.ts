@@ -5,7 +5,7 @@ import {
 } from '@spartacus/cart/main/root';
 import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
-import { of, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from '../cart/add-to-cart/added-to-cart-dialog/added-to-cart-dialog.component';
 
@@ -30,7 +30,7 @@ export class AddToCartDialogEventListener implements OnDestroy {
       })
     );
   }
-  protected openModal(event: CartUiEventAddToCart) {
+  protected openModal(event: CartUiEventAddToCart): void {
     let modalRef: ModalRef;
 
     let modalInstance: any;
@@ -53,7 +53,6 @@ export class AddToCartDialogEventListener implements OnDestroy {
         first(),
         map((entry) => (entry?.quantity ?? 0) > event.quantity)
       );
-    modalInstance.addedEntryWasMerged$ = of(false);
   }
 
   ngOnDestroy(): void {
