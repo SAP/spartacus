@@ -32,10 +32,22 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
+const mockEvent = new CartUiEventAddToCart();
+mockEvent.productCode = 'test';
+mockEvent.quantity = 3;
+
+const mockInstance = {
+  entry$: of({}),
+  cart$: of({}),
+  loaded$: of({}),
+  addedEntryWasMerged$: of({}),
+  quantity: 0,
+};
+
 describe('AddToCartDialogEventListener', () => {
-  //let activeCartFacade: ActiveCartFacade;
-  //let eventService: EventService;
+  let activeCartFacade: ActiveCartFacade;
   let listener: AddToCartDialogEventListener;
+  let modalService: ModalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -51,32 +63,36 @@ describe('AddToCartDialogEventListener', () => {
         },
         {
           provide: ModalService,
-          useValue: { open: () => ({ componentInstance: {} }) },
+          useValue: { open: () => ({ componentInstance: mockInstance }) },
         },
       ],
     });
 
     listener = TestBed.inject(AddToCartDialogEventListener);
-    //activeCartFacade = TestBed.inject(ActiveCartFacade);
-    //eventService = TestBed.inject(EventService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
+    modalService = TestBed.inject(ModalService);
   });
 
   describe('onAddToCart', () => {
     it('Should test something', () => {
       spyOn(listener as any, 'openModal').and.stub();
-
-      const mockEvent = new CartUiEventAddToCart();
-      mockEvent.productCode = 'test';
-      mockEvent.quantity = 3;
-
       mockEventStream$.next(mockEvent);
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
     });
   });
 
-  // describe('openModal', () => {
-  //   it('Should test something', () => {
-  //     //console.log(activeCartFacade);
-  //   });
-  // });
+  describe('openModal', () => {
+    it('Should open the add to cart dialog', () => {
+      spyOn(modalService, 'open').and.callThrough();
+      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
+      spyOn(activeCartFacade, 'isStable').and.callThrough();
+      spyOn(activeCartFacade, 'getEntry').and.callThrough();
+
+      listener['openModal'](mockEvent);
+      expect(modalService.open).toHaveBeenCalled();
+      expect(activeCartFacade.getLastEntry).toHaveBeenCalled();
+      expect(activeCartFacade.isStable).toHaveBeenCalled();
+      expect(activeCartFacade.getEntry).toHaveBeenCalled();
+    });
+  });
 });
