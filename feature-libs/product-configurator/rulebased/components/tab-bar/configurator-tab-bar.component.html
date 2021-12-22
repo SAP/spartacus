@@ -1,5 +1,5 @@
 <ng-container *ngIf="routerData$ | async as routerData">
-  <ng-container *ngIf="configuration$ | async">
+  <ng-container *ngIf="configuration$ | async; else ghostTabBar">
     <ng-container *ngIf="!routerData.displayOnly">
       <a
         tabindex="0"
@@ -41,4 +41,7 @@
       >
     </ng-container>
   </ng-container>
+  <ng-template #ghostTabBar>
+    <div class="cx-ghost-tab-bar"></div>
+  </ng-template>
 </ng-container>

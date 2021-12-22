@@ -1,20 +1,4 @@
 %cx-configurator-tab-bar {
-  &:empty {
-    background-color: var(--cx-color-ghost);
-    height: 46px;
-    padding-block-start: 10px;
-    padding-block-end: 10px;
-    margin-block-end: 32px;
-
-    @include media-breakpoint-up(xl) {
-      max-width: 1140px;
-    }
-
-    @include media-breakpoint-down(xl) {
-      width: 100%;
-    }
-  }
-
   &:not(:empty) {
     display: flex;
     flex-direction: row;
@@ -36,6 +20,15 @@
 
     @include media-breakpoint-down(xl) {
       width: 100%;
+    }
+
+    .cx-ghost-tab-bar {
+      height: 46px;
+    }
+
+    & {
+      border: 0px;
+      background-color: var(--cx-color-ghost);
     }
 
     a {
