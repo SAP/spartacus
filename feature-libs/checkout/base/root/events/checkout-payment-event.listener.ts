@@ -1,5 +1,9 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { EventService } from '@spartacus/core';
+import {
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
   PaymentDetailsCreatedEvent,
@@ -16,7 +20,10 @@ import {
 export class CheckoutPaymentEventListener implements OnDestroy {
   protected subscriptions = new Subscription();
 
-  constructor(protected eventService: EventService) {
+  constructor(
+    protected eventService: EventService,
+    protected globalMessageService: GlobalMessageService
+  ) {
     this.onPaymentChange();
   }
 
@@ -26,6 +33,10 @@ export class CheckoutPaymentEventListener implements OnDestroy {
   protected onPaymentChange(): void {
     this.subscriptions.add(
       this.eventService.get(PaymentDetailsCreatedEvent).subscribe(() => {
+        this.globalMessageService.add(
+          { key: 'paymentForm.paymentAddedSuccessfully' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
         this.eventService.dispatch({}, ResetCheckoutQueryEvent);
       })
     );

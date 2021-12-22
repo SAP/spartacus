@@ -3,6 +3,8 @@ import {
   CxEvent,
   DeleteUserAddressEvent,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   UpdateUserAddressEvent,
 } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
@@ -11,6 +13,7 @@ import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-addres
 import {
   ClearCheckoutDeliveryAddressEvent,
   DeliveryAddressClearedEvent,
+  DeliveryAddressCreatedEvent,
   DeliveryAddressSetEvent,
   ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
@@ -30,9 +33,14 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe(`CheckoutDeliveryAddressEventListener`, () => {
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let eventService: EventService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -46,6 +54,10 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           provide: CheckoutDeliveryAddressFacade,
           useClass: MockCheckoutDeliveryAddressFacade,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
 
@@ -54,6 +66,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       CheckoutDeliveryAddressFacade
     );
     eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(`onUserAddressChange`, () => {
@@ -111,6 +124,17 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
       ).toHaveBeenCalled();
+    });
+
+    describe(`global message`, () => {
+      it(`DeliveryAddressCreatedEvent should add a global message`, () => {
+        mockEventStream$.next(new DeliveryAddressCreatedEvent());
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'addressForm.userAddressAddSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
   });
 });

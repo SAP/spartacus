@@ -17,7 +17,6 @@ import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   Address,
-  GlobalMessageService,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -50,7 +49,6 @@ export class B2BCheckoutShippingAddressComponent
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
     protected userCostCenterService: UserCostCenterService
@@ -61,8 +59,7 @@ export class B2BCheckoutShippingAddressComponent
       activatedRoute,
       translationService,
       activeCartService,
-      checkoutStepService,
-      globalMessageService
+      checkoutStepService
     );
   }
 

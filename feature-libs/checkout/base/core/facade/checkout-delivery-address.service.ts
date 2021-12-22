@@ -4,6 +4,7 @@ import {
   CheckoutDeliveryAddressFacade,
   CheckoutQueryFacade,
   DeliveryAddressClearedEvent,
+  DeliveryAddressCreatedEvent,
   DeliveryAddressSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
@@ -57,6 +58,16 @@ export class CheckoutDeliveryAddressService
                   }
                   return address;
                 }),
+                tap((address) =>
+                  this.eventService.dispatch(
+                    {
+                      userId,
+                      cartId,
+                      address: address,
+                    },
+                    DeliveryAddressCreatedEvent
+                  )
+                ),
                 switchMap((address) => this.setDeliveryAddress(address))
               );
           })

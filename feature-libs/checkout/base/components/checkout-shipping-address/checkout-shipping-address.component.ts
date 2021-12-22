@@ -4,8 +4,6 @@ import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   Address,
-  GlobalMessageService,
-  GlobalMessageType,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -35,8 +33,7 @@ export class CheckoutShippingAddressComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
+    protected checkoutStepService: CheckoutStepService
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -151,10 +148,6 @@ export class CheckoutShippingAddressComponent implements OnInit {
     if (address) {
       this.checkoutDeliveryAddressFacade.createAndSetAddress(address);
       this.shouldRedirect = true;
-      this.globalMessageService.add(
-        { key: 'addressForm.userAddressAddSuccess' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
     } else {
       this.shouldRedirect = false;
       this.next();

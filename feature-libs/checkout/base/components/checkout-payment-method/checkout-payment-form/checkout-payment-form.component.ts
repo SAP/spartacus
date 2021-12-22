@@ -270,14 +270,12 @@ export class CheckoutPaymentFormComponent implements OnInit {
           paymentDetails: this.paymentForm.value,
           billingAddress: null,
         });
-        this.paymentAddedSuccessfullyMessage();
       } else {
         if (this.billingAddressForm.valid) {
           this.setPaymentDetails.emit({
             paymentDetails: this.paymentForm.value,
             billingAddress: this.billingAddressForm.value,
           });
-          this.paymentAddedSuccessfullyMessage();
         } else {
           this.billingAddressForm.markAllAsTouched();
         }
@@ -289,12 +287,5 @@ export class CheckoutPaymentFormComponent implements OnInit {
         this.billingAddressForm.markAllAsTouched();
       }
     }
-  }
-
-  paymentAddedSuccessfullyMessage() {
-    this.globalMessageService.add(
-      { key: 'paymentForm.paymentAddedSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
   }
 }

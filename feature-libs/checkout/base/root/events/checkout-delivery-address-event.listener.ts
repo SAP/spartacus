@@ -2,6 +2,8 @@ import { Injectable, OnDestroy } from '@angular/core';
 import {
   DeleteUserAddressEvent,
   EventService,
+  GlobalMessageService,
+  GlobalMessageType,
   UpdateUserAddressEvent,
   UserAddressEvent,
 } from '@spartacus/core';
@@ -11,6 +13,7 @@ import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-addre
 import {
   ClearCheckoutDeliveryAddressEvent,
   DeliveryAddressClearedEvent,
+  DeliveryAddressCreatedEvent,
   DeliveryAddressSetEvent,
   ResetCheckoutQueryEvent,
   ResetDeliveryModesEvent,
@@ -27,7 +30,8 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
 
   constructor(
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected eventService: EventService
+    protected eventService: EventService,
+    protected globalMessageService: GlobalMessageService
   ) {
     this.onUserAddressChange();
     this.onDeliveryAddressChange();
@@ -60,6 +64,14 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
    * Registers listeners on the Delivery address set event
    */
   protected onDeliveryAddressChange(): void {
+    this.subscriptions.add(
+      this.eventService.get(DeliveryAddressCreatedEvent).subscribe(() => {
+        this.globalMessageService.add(
+          { key: 'addressForm.userAddressAddSuccess' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      })
+    );
     this.subscriptions.add(
       this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
         this.eventService.dispatch({}, ResetDeliveryModesEvent);
