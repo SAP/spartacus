@@ -8,7 +8,6 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CartUiEventAddToCart } from '@spartacus/cart/main/root';
 import {
   CmsAddToCartComponent,
   EventService,
@@ -24,6 +23,7 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
+import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
