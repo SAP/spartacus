@@ -84,21 +84,20 @@
 </ng-template>
 
 <ng-template #ghostForm>
-  <ng-container *ngFor="let number of [0, 1, 2]">
-    <div class="cx-ghost-group">
-      <div class="header ghost"></div>
-      <div class="body">
-        <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
-          <div class="attribute-value">
-            <div class="ghost"></div>
-          </div>
-          <div class="attribute-text">
-            <div class="ghost"></div>
-          </div>
-          <div class="price ghost"></div>
-        </ng-container>
-      </div>
+<ng-container *ngFor="let number of [0, 1, 2]">
+  <div class="cx-ghost-group">
+    <div class="cx-ghost-header ghost"></div>
+    <div class="cx-ghost-body">
+      <ng-container *ngFor="let number of [0, 1, 2, 3, 4, 5]">
+        <div class="cx-ghost-attribute-value">
+          <div class="cx-ghost-value ghost"></div>
+        </div>
+        <div class="cx-ghost-attribute-label">
+          <div class="cx-ghost-label ghost"></div>
+        </div>
+        <div class="cx-ghost-attribute-price ghost"></div>
+      </ng-container>
     </div>
-  </ng-container>
-  ></ng-template
->
+  </div>
+</ng-container>
+  </ng-template>
