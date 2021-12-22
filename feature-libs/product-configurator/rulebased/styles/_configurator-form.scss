@@ -29,12 +29,39 @@
       padding-block-end: 12px;
     }
 
-    .cx-ghost-header {
+    .cx-ghost-title,
+    .cx-ghost-icon,
+    .cx-ghost-description,
+    .cx-ghost-price,
+    .cx-ghost-label {
+      height: 30px;
+    }
+
+    .cx-ghost-title,
+    .cx-ghost-icon,
+    .cx-ghost-description,
+    .cx-ghost-price,
+    .cx-ghost-label,
+    .cx-ghost-text,
+    .cx-ghost-value-icon,
+    .cx-ghost-value-price {
+      background-color: var(--cx-color-ghost);
+    }
+
+    .cx-ghost-header,
+    .cx-ghost-description-box,
+    .cx-ghost-body,
+    .cx-ghost-radiobutton-value,
+    .cx-ghost-value-label-pair,
+    .cx-ghost-value-price {
       display: flex;
       flex-direction: row;
+      align-items: center;
+    }
+
+    .cx-ghost-header {
       flex-wrap: wrap;
       justify-content: flex-start;
-      align-items: center;
       margin-block-end: 8px;
 
       .cx-ghost-title {
@@ -42,29 +69,28 @@
       }
 
       .cx-ghost-icon {
-        margin-inline-start: 10px;
         width: 30px;
         border-radius: 50%;
+        margin-inline-start: 10px;
       }
 
       .cx-ghost-description-box {
-        .cx-ghost-description-text {
+        flex: 0 0 100%;
+        margin-block-start: 8px;
+
+        .cx-ghost-description {
           width: 60%;
         }
       }
     }
 
     .cx-ghost-body {
-      display: flex;
-      flex-direction: row;
       flex-wrap: wrap;
       justify-content: space-between;
-      align-items: center;
       margin-block-end: 15px;
 
-      .cx-ghost-dropdown {
+      .cx-ghost-text {
         width: 70%;
-        background-color: var(--cx-color-ghost);
         height: 72px;
       }
 
@@ -73,20 +99,16 @@
       }
 
       .cx-ghost-radiobutton-value {
-        display: flex;
-        flex-direction: row;
+        flex: 0 0 100%;
         justify-content: space-between;
+        margin-block-start: 8px;
 
         .cx-ghost-value-label-pair {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
           width: 80%;
 
           .cx-ghost-value-icon {
-            background-color: var(--cx-color-ghost);
-            width: 45px;
-            height: 45px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
           }
 
@@ -107,33 +129,12 @@
         &:nth-child(3) .cx-ghost-label {
           width: 30%;
         }
+
+        .cx-ghost-value-price {
+          width: 10%;
+          align-items: flex-end;
+        }
       }
-
-      .cx-ghost-value-price {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        width: 10%;
-        background-color: var(--cx-color-ghost);
-      }
-    }
-
-    .cx-ghost-title,
-    .cx-ghost-icon,
-    .cx-ghost-description-text,
-    .cx-ghost-price,
-    .cx-ghost-label {
-      background-color: var(--cx-color-ghost);
-      height: 30px;
-    }
-
-    .cx-ghost-radiobutton-value,
-    .cx-ghost-description-box {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      margin-block-start: 8px;
-      flex: 0 0 100%;
     }
   }
 
