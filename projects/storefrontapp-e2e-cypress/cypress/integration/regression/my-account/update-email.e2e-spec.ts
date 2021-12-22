@@ -43,7 +43,7 @@ describe('My Account - Update Email', () => {
       // Core e2e test. Check with different view port.
       updateEmail.testUpdateEmailAndLogin();
 
-      // Below test depends on core test for setup. 
+      // Below test depends on core test for setup.
       it('should not allow login with old email address', () => {
         signOut();
         cy.visit('/login');

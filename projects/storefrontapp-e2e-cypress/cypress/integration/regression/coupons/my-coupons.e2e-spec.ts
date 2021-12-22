@@ -12,7 +12,7 @@ viewportContext(['mobile'], () => {
       cy.requireLoggedIn();
     });
 
-    // Core Test. Test in mobile as well. 
+    // Core Test. Test in mobile as well.
     myCoupons.testClaimCustomerCoupon();
   });
 });

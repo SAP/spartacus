@@ -23,7 +23,7 @@ context('Checkout as guest', () => {
     // Core e2e test.
     guestCheckout.testCheckoutAsGuest();
 
-    // Test depends on on core test for guest account creation. 
+    // Test depends on on core test for guest account creation.
     it('should keep products in guest cart and restart checkout', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();

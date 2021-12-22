@@ -7,7 +7,7 @@ describe('Cart Coupon', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
     });
-        
+
     // TODO. Core test. Move to helper after GH-14500
     it('should apply cart coupon', () => {
       const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
