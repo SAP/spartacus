@@ -63,7 +63,7 @@ export class CheckoutDeliveryAddressService
                     {
                       userId,
                       cartId,
-                      address: address,
+                      address,
                     },
                     DeliveryAddressCreatedEvent
                   )
