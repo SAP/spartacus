@@ -7,6 +7,7 @@ import {
   Injectable,
   OnDestroy,
 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import {
   SceneNodeToProductLookupService,
   VisualizationLookupService,
@@ -70,8 +71,12 @@ export class VisualViewerService implements OnDestroy {
     protected _sceneNodeToProductLookupService: SceneNodeToProductLookupService,
     protected visualizationLookupService: VisualizationLookupService,
     protected elementRef: ElementRef,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected windowRef: WindowRef
   ) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     const ui5BootStrapped$: Observable<void> =
       this.bootstrapUi5('ui5bootstrap');
     const ui5Initialized$: Observable<void> = ui5BootStrapped$.pipe(
@@ -259,6 +264,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
   public set backgroundTopColor(backgroundTopColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._backgroundTopColor === backgroundTopColor) {
       return;
     }
@@ -277,6 +285,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-background' with the quotes.
    */
   public set backgroundBottomColor(backgroundBottomColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._backgroundBottomColor === backgroundBottomColor) {
       return;
     }
@@ -297,6 +308,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   public set hotspotSelectionColor(hotspotSelectionColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._hotspotSelectionColor === hotspotSelectionColor) {
       return;
     }
@@ -316,6 +330,9 @@ export class VisualViewerService implements OnDestroy {
    * Highlights all hotspots in 2D content that are included in the includedProductCodes property using the colour specified by the showAllHotspotsColor property.
    */
   public set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._showAllHotspotsEnabled === showAllHotspotsEnabled) {
       return;
     }
@@ -334,6 +351,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   public set showAllHotspotsColor(showAllHotspotsColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._showAllHotspotsColor === showAllHotspotsColor) {
       return;
     }
@@ -353,6 +373,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. '--cx-color-primary' with the quotes.
    */
   public set outlineColor(outlineColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._outlineColor === outlineColor) {
       return;
     }
@@ -370,6 +393,9 @@ export class VisualViewerService implements OnDestroy {
    * The width of the outline used to indicate selected objects in 3D content.
    */
   public set outlineWidth(outlineWidth: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._outlineWidth === outlineWidth) {
       return;
     }
@@ -390,6 +416,9 @@ export class VisualViewerService implements OnDestroy {
    * Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.
    */
   public set selectionMode(selectionMode: SelectionMode) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._selectionMode === selectionMode) {
       return;
     }
@@ -409,6 +438,9 @@ export class VisualViewerService implements OnDestroy {
    * Sets the selection set based on the set of supplied product codes.
    */
   public set selectedProductCodes(selectedProductCodes: string[]) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._selectedProductCodes = selectedProductCodes;
     this.sceneNodeToProductLookupService
       .lookupNodeIds(selectedProductCodes)
@@ -434,6 +466,9 @@ export class VisualViewerService implements OnDestroy {
    * - hotspots that are not included will not be selectable or visible
    */
   public set includedProductCodes(includedProductCodes: string[]) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._includedProductCodes = includedProductCodes;
     this.executeWhenSceneLoaded(() => {
       this.applyInclusionStyle(includedProductCodes);
@@ -448,6 +483,9 @@ export class VisualViewerService implements OnDestroy {
    * Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property.
    */
   public set excludedOpacity(excludedOpacity: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._excludedOpacity = excludedOpacity;
   }
   public get excludedOpacity(): number {
@@ -459,6 +497,9 @@ export class VisualViewerService implements OnDestroy {
    * The current time position in seconds in the animation (if there is one).
    */
   public set animationTime(animationTime: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._animationTime = animationTime;
   }
   public get animationTime(): number {
@@ -482,6 +523,9 @@ export class VisualViewerService implements OnDestroy {
    * The animation playback position as a fractional value between 0 (start) and 1 (end).
    */
   public set animationPosition(position: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._animationPosition === position) {
       return;
     }
@@ -501,6 +545,9 @@ export class VisualViewerService implements OnDestroy {
    * Gets/sets whether the animation (if there is one) is currently playing.
    */
   public set animationPlaying(animationPlaying: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._animationPlaying === animationPlaying) {
       return;
     }
@@ -530,6 +577,9 @@ export class VisualViewerService implements OnDestroy {
    * Zoom: A left mouse drag zooms the camera in the viewport in or out
    */
   public set navigationMode(navigationMode: NavigationMode) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._navigationMode === navigationMode) {
       return;
     }
@@ -554,6 +604,9 @@ export class VisualViewerService implements OnDestroy {
    * Isolate mode allows a single object to be viewed in isolation.
    */
   public set isolateModeEnabled(isolateModeEnabled: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._isolateModeEnabled === isolateModeEnabled) {
       return;
     }
@@ -625,6 +678,9 @@ export class VisualViewerService implements OnDestroy {
    * Returns the user to the initial camera position used when a scene was first loaded.
    */
   public activateHomeView(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this.is2D) {
       this.viewport.zoomTo(
         ZoomTo.All,
@@ -651,6 +707,9 @@ export class VisualViewerService implements OnDestroy {
    * Plays the animation (if one exists).
    */
   public playAnimation(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this.animationPlaying = true;
   }
 
@@ -658,6 +717,9 @@ export class VisualViewerService implements OnDestroy {
    * Pauses animation playback.
    */
   public pauseAnimation(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this.animationPlaying = false;
   }
 
@@ -717,7 +779,7 @@ export class VisualViewerService implements OnDestroy {
     }
   }
 
-  protected executeWhenSceneLoaded(
+  private executeWhenSceneLoaded(
     callback: (loadedSceneInfo: LoadedSceneInfo) => void
   ): void {
     this.sceneLoadInfo$
@@ -949,6 +1011,13 @@ export class VisualViewerService implements OnDestroy {
   public loadVisualization(
     productCode: string
   ): Observable<VisualizationLoadInfo> {
+    if (!this.windowRef.isBrowser()) {
+      return of({
+        lookupResult: VisualizationLookupResult.UnexpectedError,
+        loadStatus: VisualizationLoadStatus.UnexpectedError,
+        errorMessage: 'Should not call loadVisualization in server side code',
+      });
+    }
     this.selectedNodeIdsSubscription?.unsubscribe();
 
     return this.viewportAdded$.pipe(
@@ -1002,7 +1071,10 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private isUi5BootStrapped(): boolean {
-    return !!window.sap;
+    return (
+      !!this.windowRef.nativeWindow &&
+      !!(this.windowRef.nativeWindow as any).sap
+    );
   }
 
   private getCore(): Core {
@@ -1021,9 +1093,11 @@ export class VisualViewerService implements OnDestroy {
         return;
       }
 
-      const script = document.createElement('script');
+      const script = this.windowRef.document.createElement('script');
       script.setAttribute('id', scriptElementId);
-      document.getElementsByTagName('head')[0].appendChild(script);
+      this.windowRef.document
+        .getElementsByTagName('head')[0]
+        .appendChild(script);
       script.onload = () => {
         subscriber.next();
         subscriber.complete();

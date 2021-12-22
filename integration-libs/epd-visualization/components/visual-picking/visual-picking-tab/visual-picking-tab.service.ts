@@ -5,6 +5,7 @@ import {
   Product,
   ProductReference,
   Translatable,
+  WindowRef,
 } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
@@ -24,7 +25,8 @@ export class VisualPickingTabService implements OnDestroy {
   constructor(
     protected currentProductService: CurrentProductService,
     protected globalMessageService: GlobalMessageService,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected windowRef: WindowRef
   ) {}
 
   /**
@@ -36,6 +38,10 @@ export class VisualPickingTabService implements OnDestroy {
     visualViewerService: VisualViewerService,
     visualPickingProductListService: VisualPickingProductListService
   ): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+
     this.visualViewerService = visualViewerService;
     this.visualPickingProductListService = visualPickingProductListService;
 
@@ -74,14 +80,17 @@ export class VisualPickingTabService implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this.visualizationLoadInfoChangeSubscription.unsubscribe();
     this.getProductReferencesSubscription.unsubscribe();
-    this.getFilteredProductReferencesSubscription?.unsubscribe();
+    this.getFilteredProductReferencesSubscription.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;
   private getProductReferencesSubscription: Subscription;
-  private getFilteredProductReferencesSubscription?: Subscription;
+  private getFilteredProductReferencesSubscription: Subscription;
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.
@@ -107,6 +116,9 @@ export class VisualPickingTabService implements OnDestroy {
   }
 
   public get hideNoProductReferencesText() {
+    if (!this.windowRef.isBrowser()) {
+      return true;
+    }
     return (
       this.productReferences === undefined ||
       (this.productReferences as ProductReference[]).length > 0
@@ -114,6 +126,9 @@ export class VisualPickingTabService implements OnDestroy {
   }
 
   public get hideProductList() {
+    if (!this.windowRef.isBrowser()) {
+      return true;
+    }
     return (
       this.productReferences === undefined ||
       (this.productReferences as ProductReference[]).length === 0
@@ -121,6 +136,9 @@ export class VisualPickingTabService implements OnDestroy {
   }
 
   public get hideViewport() {
+    if (!this.windowRef.isBrowser()) {
+      return true;
+    }
     return (
       this.productReferences === undefined ||
       (this.productReferences as ProductReference[]).length === 0 ||
@@ -177,6 +195,9 @@ export class VisualPickingTabService implements OnDestroy {
     return this._visualViewerService;
   }
   public set visualViewerService(value: VisualViewerService) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._visualViewerService = value;
   }
 
@@ -187,6 +208,9 @@ export class VisualPickingTabService implements OnDestroy {
   public set visualPickingProductListService(
     value: VisualPickingProductListService
   ) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._visualPickingProductListService = value;
   }
 }
