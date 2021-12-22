@@ -1,0 +1,70 @@
+commit ccdb51175eec7c775425a288e5b62b355480b614
+Author: Jerry Wang <58975336+wangzixi-diablo@users.noreply.github.com>
+Date:   Tue Dec 21 15:16:16 2021 +0800
+
+    feat: disable shipping method radio input when there is ongoing delivery mode request (#14401)
+    
+    * add spinner when there is onging delivery mode request
+    
+    * disable radio input instead of using spinner
+    
+    * fix regression error: only retrieve enabled radio input
+    
+    * fix broken a18y test
+    
+    * when loading shipping methods, continue button hiden by spinner
+    
+    * remove unused flag
+    
+    * Michal's improvement
+    
+    * fix broken e2e test
+    
+    * fix prettier issue
+    
+    * disable fieldset
+    
+    * add feature level
+    
+    * fix unit test after feature level is introduced
+    
+    * small refactor
+    
+    * remove log
+    
+    * add doc for breaking change
+    
+    * up
+    
+    * fix disable delay issue
+    
+    * remove console.log
+    
+    * add unit test
+    
+    * add space in comment
+    
+    * update migration document
+    
+    * fix build error
+    
+    * remove duplicate spyOn code
+    
+    * use BehaviorSubject to improve test
+    
+    * emit default data in beforeEach
+    
+    Co-authored-by: Michał Gruca <pucek9@gmail.com>
+
+docs/migration/5_0.md
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.spec.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.ts
+(DONE - brought to old checkout only) feature-libs/checkout/components/components/delivery-mode/delivery-mode.module.ts
+(DONE - brought to old checkout only) feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
+(DONE - brought to old checkout only) feature-libs/checkout/core/facade/checkout-delivery.service.ts
+(DONE - brought to old checkout only) feature-libs/checkout/root/facade/checkout-delivery.facade.ts
+(DONE) projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/tabbing-order.ts
+(DONE) projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/b2b-checkout.ts
+(DONE) projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/group-skipping.e2e-spec.ts
+(DONE) projects/storefrontapp/src/app/app.module.ts
