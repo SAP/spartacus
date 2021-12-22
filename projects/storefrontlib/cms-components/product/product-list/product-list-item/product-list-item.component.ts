@@ -34,12 +34,4 @@ export class ProductListItemComponent implements OnChanges {
       this.productListItemContextSource.product$.next(this.product);
     }
   }
-
-  getMediaAltText(): string {
-    if (this.product.summary) {
-      return this.product.summary;
-    } else {
-      return this.product.name;
-    }
-  }
 }
