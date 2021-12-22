@@ -1072,7 +1072,7 @@ export class VisualViewerService implements OnDestroy {
 
   private isUi5BootStrapped(): boolean {
     return (
-      !!this.windowRef.nativeWindow && (this.windowRef.nativeWindow as any).sap
+      !!this.windowRef.nativeWindow && !!(this.windowRef.nativeWindow as any).sap
     );
   }
 
