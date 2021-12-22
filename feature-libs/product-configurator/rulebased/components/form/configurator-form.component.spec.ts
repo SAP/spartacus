@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterState } from '@angular/router';
 import { NgSelectModule } from '@ng-select/ng-select';
@@ -17,6 +17,7 @@ import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configura
 import { ICON_TYPE } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { EMPTY, Observable, of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -177,6 +178,8 @@ describe('ConfigurationFormComponent', () => {
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configuratorGroupsService: ConfiguratorGroupsService;
   let mockLanguageService;
+  let htmlElem: HTMLElement;
+  let fixture: ComponentFixture<ConfiguratorFormComponent>;
 
   beforeEach(
     waitForAsync(() => {
@@ -259,8 +262,22 @@ describe('ConfigurationFormComponent', () => {
   });
 
   function createComponent(): ConfiguratorFormComponent {
-    return TestBed.createComponent(ConfiguratorFormComponent).componentInstance;
+    fixture = TestBed.createComponent(ConfiguratorFormComponent);
+    htmlElem = fixture.nativeElement;
+    return fixture.componentInstance;
   }
+
+  it('should render ghost view if no data is present', () => {
+    createComponent();
+    fixture.detectChanges();
+    console.log('CHHI: ' + htmlElem.innerHTML);
+    CommonConfiguratorTestUtilsService.expectNumberOfElements(
+      expect,
+      htmlElem,
+      '.cx-ghost-attribute',
+      6
+    );
+  });
 
   it('should call configurator group service to check group type', () => {
     routerStateObservable = of(mockRouterState);

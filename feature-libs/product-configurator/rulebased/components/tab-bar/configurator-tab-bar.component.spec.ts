@@ -58,7 +58,7 @@ class MockConfiguratorCommonsService {
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
-
+//TODO GHOST add test for ghost rendering
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;

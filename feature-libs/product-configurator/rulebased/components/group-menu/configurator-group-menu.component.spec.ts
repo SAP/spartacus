@@ -211,7 +211,7 @@ function initialize() {
   htmlElem = fixture.nativeElement;
   fixture.detectChanges();
 }
-
+//TODO GHOST add test for ghost rendering
 describe('ConfigurationGroupMenuComponent', () => {
   beforeEach(
     waitForAsync(() => {

@@ -123,7 +123,7 @@ function checkConfigurationOverviewObs(
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
-
+//TODO GHOST add test for ghost rendering
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
