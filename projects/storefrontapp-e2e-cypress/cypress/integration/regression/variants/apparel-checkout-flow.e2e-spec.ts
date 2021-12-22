@@ -8,7 +8,7 @@ import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout flow', () => {
   let variantUser;
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);

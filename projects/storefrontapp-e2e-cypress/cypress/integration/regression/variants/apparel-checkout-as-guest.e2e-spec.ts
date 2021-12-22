@@ -15,7 +15,7 @@ import {
 import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout as guest', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext(['mobile'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       Cypress.env('BASE_SITE', APPAREL_BASESITE);
@@ -31,9 +31,29 @@ context('Apparel - checkout as guest', () => {
       cy.saveLocalStorage();
     });
 
-    // Core e2e test
+    // Core e2e test. Repeat in mobile.
+    checkoutVariants.testCheckoutVariantAsGuest();
+  });
+  viewportContext(['desktop'], () => {
+    before(() => {
+      cy.window().then((win) => win.sessionStorage.clear());
+      Cypress.env('BASE_SITE', APPAREL_BASESITE);
+      checkoutVariants.generateVariantGuestUser();
+    });
+
+    beforeEach(() => {
+      configureProductWithVariants();
+      cy.restoreLocalStorage();
+    });
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
+
+    // Core e2e test.
     checkoutVariants.testCheckoutVariantAsGuest();
 
+    // Below tests depend on core test for setup.
     it('should keep guest cart content and restart checkout', () => {
       cy.clearLocalStorage();
       checkout.goToCheapProductDetailsPage(products[0]);
