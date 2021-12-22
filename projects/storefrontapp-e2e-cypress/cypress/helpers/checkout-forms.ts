@@ -33,6 +33,8 @@ export function fillShippingAddress(
 ) {
   cy.get('button.btn-primary').should('be.visible');
   cy.get('cx-page-layout').then((body) => {
+    // If the address form does not exists, shipping address has been added in previous
+    // spec attempt so we can continue
     if (!body.find('cx-address-form').length) {
       cy.get('button.btn-primary').click();
     } else {

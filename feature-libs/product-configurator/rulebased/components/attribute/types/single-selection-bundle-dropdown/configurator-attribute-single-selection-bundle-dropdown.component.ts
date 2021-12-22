@@ -49,6 +49,9 @@ export class ConfiguratorAttributeSingleSelectionBundleDropdownComponent
       withQuantity: false,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeName: this.attribute.name,
+      itemCount: 0,
+      itemIndex: 0,
     };
   }
 }
