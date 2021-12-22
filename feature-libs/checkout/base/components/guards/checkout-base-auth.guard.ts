@@ -12,7 +12,7 @@ import { filter, map } from 'rxjs/operators';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 
 @Injectable()
-export class BaseCheckoutAuthGuard implements CheckoutAuthGuard {
+export class CheckoutBaseAuthGuard implements CheckoutAuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,

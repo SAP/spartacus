@@ -14,7 +14,7 @@ import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Injectable()
-export class BaseCheckoutStepsSetGuard implements CheckoutStepsSetGuard {
+export class CheckoutBaseStepsSetGuard implements CheckoutStepsSetGuard {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,

@@ -10,7 +10,7 @@ import {
 import { RouteConfig, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { BaseCheckoutStepsSetGuard } from './checkout-steps-set.guard';
+import { CheckoutBaseStepsSetGuard } from './checkout-base-steps-set.guard';
 import createSpy = jasmine.createSpy;
 
 class MockRoutingConfigService implements Partial<RoutingConfigService> {
@@ -88,8 +88,8 @@ class MockCheckoutPaymentFacade implements Partial<CheckoutPaymentFacade> {
   );
 }
 
-describe(`CheckoutStepsSetGuard`, () => {
-  let guard: BaseCheckoutStepsSetGuard;
+describe(`CheckoutBaseStepsSetGuard`, () => {
+  let guard: CheckoutBaseStepsSetGuard;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let checkoutPaymentFacade: CheckoutPaymentFacade;
@@ -98,7 +98,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       providers: [
-        BaseCheckoutStepsSetGuard,
+        CheckoutBaseStepsSetGuard,
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         {
           provide: CheckoutDeliveryAddressFacade,
@@ -116,7 +116,7 @@ describe(`CheckoutStepsSetGuard`, () => {
       ],
     });
 
-    guard = TestBed.inject(BaseCheckoutStepsSetGuard);
+    guard = TestBed.inject(CheckoutBaseStepsSetGuard);
     checkoutDeliveryAddressFacade = TestBed.inject(
       CheckoutDeliveryAddressFacade
     );

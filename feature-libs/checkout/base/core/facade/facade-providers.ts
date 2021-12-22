@@ -8,8 +8,8 @@ import {
   CheckoutQueryFacade,
   CheckoutStepsSetGuard,
 } from '@spartacus/checkout/base/root';
-import { BaseCheckoutAuthGuard } from '../../components/guards/checkout-auth.guard';
-import { BaseCheckoutStepsSetGuard } from '../../components/guards/checkout-steps-set.guard';
+import { CheckoutBaseAuthGuard } from '../../components/guards/checkout-base-auth.guard';
+import { CheckoutBaseStepsSetGuard } from '../../components/guards/checkout-base-steps-set.guard';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -43,14 +43,14 @@ export const facadeProviders: Provider[] = [
     useExisting: CheckoutQueryService,
   },
 
-  BaseCheckoutAuthGuard,
+  CheckoutBaseAuthGuard,
   {
     provide: CheckoutAuthGuard,
-    useExisting: BaseCheckoutAuthGuard,
+    useExisting: CheckoutBaseAuthGuard,
   },
-  BaseCheckoutStepsSetGuard,
+  CheckoutBaseStepsSetGuard,
   {
     provide: CheckoutStepsSetGuard,
-    useExisting: BaseCheckoutStepsSetGuard,
+    useExisting: CheckoutBaseStepsSetGuard,
   },
 ];

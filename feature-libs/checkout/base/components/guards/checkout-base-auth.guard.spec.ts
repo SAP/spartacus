@@ -11,7 +11,7 @@ import {
 import { User } from '@spartacus/user/account/root';
 import { of } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
-import { BaseCheckoutAuthGuard } from './checkout-auth.guard';
+import { CheckoutBaseAuthGuard } from './checkout-base-auth.guard';
 import createSpy = jasmine.createSpy;
 
 class AuthServiceStub implements Partial<AuthService> {
@@ -40,8 +40,8 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
 }
 
-describe('CheckoutAuthGuard', () => {
-  let checkoutGuard: BaseCheckoutAuthGuard;
+describe('CheckoutBaseAuthGuard', () => {
+  let checkoutGuard: CheckoutBaseAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
   let activeCartService: ActiveCartFacade;
@@ -50,7 +50,7 @@ describe('CheckoutAuthGuard', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        BaseCheckoutAuthGuard,
+        CheckoutBaseAuthGuard,
         {
           provide: SemanticPathService,
           useClass: MockSemanticPathService,
@@ -78,7 +78,7 @@ describe('CheckoutAuthGuard', () => {
       ],
       imports: [RouterTestingModule],
     });
-    checkoutGuard = TestBed.inject(BaseCheckoutAuthGuard);
+    checkoutGuard = TestBed.inject(CheckoutBaseAuthGuard);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
     activeCartService = TestBed.inject(ActiveCartFacade);

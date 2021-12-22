@@ -5,7 +5,7 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
-  BaseCheckoutStepsSetGuard,
+  CheckoutBaseStepsSetGuard,
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
 import {
@@ -20,7 +20,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable()
-export class CheckoutB2BStepsSetGuard extends BaseCheckoutStepsSetGuard {
+export class CheckoutB2BStepsSetGuard extends CheckoutBaseStepsSetGuard {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  BaseCheckoutAuthGuard,
+  CheckoutBaseAuthGuard,
   CheckoutConfigService,
 } from '@spartacus/checkout/base/components';
 import {
@@ -19,7 +19,7 @@ import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 @Injectable()
-export class CheckoutB2BAuthGuard extends BaseCheckoutAuthGuard {
+export class CheckoutB2BAuthGuard extends CheckoutBaseAuthGuard {
   constructor(
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
