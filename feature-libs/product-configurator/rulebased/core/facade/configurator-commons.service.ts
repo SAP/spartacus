@@ -76,7 +76,7 @@ export class ConfiguratorCommonsService {
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  getConfiguration(
+  getConfigurationIncludingGhost(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
     return this.store.pipe(
@@ -89,16 +89,18 @@ export class ConfiguratorCommonsService {
   }
 
   /**
-   * Returns a configuration for an owner, and excludes the ghost
-   * configuration. Otherwise, it forwards to getConfiguration
+   * Returns a configuration for an owner. Emits only if there are valid configurations
+   * available for the requested owner, does not trigger the re-read or
+   * creation of the configuration in case it's not there
+   *
    * @param owner - Configuration owner
    *
    * @returns {Observable<Configurator.Configuration>}
    */
-  getConfigurationExcludingGhost(
+  getConfiguration(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    return this.getConfiguration(owner).pipe(
+    return this.getConfigurationIncludingGhost(owner).pipe(
       filter((configuration) => configuration.configId !== ghostConfigurationId)
     );
   }
@@ -111,7 +113,7 @@ export class ConfiguratorCommonsService {
    */
   //TODO GHOST Reconsider name
   isGhostConfiguration(owner: CommonConfigurator.Owner): Observable<boolean> {
-    return this.getConfiguration(owner).pipe(
+    return this.getConfigurationIncludingGhost(owner).pipe(
       map(
         (configuration) =>
           configuration.configId === ghostConfigurationId ||
@@ -229,6 +231,7 @@ export class ConfiguratorCommonsService {
       startWith(ghostConfiguration)
     );
   }
+  // TODO GHOST removeObsoleteProductBoundConfiguration has been removed / cover as breaking change
 
   /**
    * Removes a configuration.
@@ -261,28 +264,10 @@ export class ConfiguratorCommonsService {
       )
     );
   }
-  protected removeObsoleteProductBoundConfiguration(
-    owner: CommonConfigurator.Owner
-  ): void {
-    this.store
-      .pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-        take(1)
-      )
-      .subscribe((configuration) => {
-        if (
-          this.configuratorUtils.isConfigurationCreated(configuration) &&
-          configuration.nextOwner
-        ) {
-          this.removeConfiguration(owner);
-        }
-      });
-  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    this.removeObsoleteProductBoundConfiguration(owner);
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(

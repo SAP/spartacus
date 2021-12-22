@@ -73,7 +73,7 @@ const config: Configurator.Configuration =
   ConfigurationTestData.productConfiguration;
 
 class MockConfiguratorCommonsService {
-  getConfigurationExcludingGhost(): Observable<Configurator.Configuration> {
+  getConfiguration(): Observable<Configurator.Configuration> {
     return of(config);
   }
 
@@ -171,10 +171,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   });
 
   it("should not display 'previous' & 'next' buttons", () => {
-    spyOn(
-      configuratorCommonsService,
-      'getConfigurationExcludingGhost'
-    ).and.returnValue(of(configWithoutGroups));
+    spyOn(configuratorCommonsService, 'getConfiguration').and.returnValue(
+      of(configWithoutGroups)
+    );
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
     fixture.detectChanges();

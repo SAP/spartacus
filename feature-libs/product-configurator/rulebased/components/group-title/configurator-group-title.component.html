@@ -1,7 +1,3 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="isReady$ | async as isReady">
-    <ng-container *ngIf="displayedGroup$ | async as group">
-      {{ group.description }}
-    </ng-container>
-  </ng-container>
+<ng-container *ngIf="displayedGroup$ | async as group">
+  {{ group.description }}
 </ng-container>

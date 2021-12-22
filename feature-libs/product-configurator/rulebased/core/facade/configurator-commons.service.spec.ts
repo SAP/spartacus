@@ -75,11 +75,6 @@ let productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
-const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
-  nextOwner: OWNER_CART_ENTRY,
-};
-
 const productConfigurationChanged: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
@@ -454,7 +449,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.stub();
 
       serviceUnderTest
-        .getConfiguration(OWNER_PRODUCT)
+        .getConfigurationIncludingGhost(OWNER_PRODUCT)
         .pipe(take(1))
         .subscribe((loadingGhostConfiguration) => {
           expect(loadingGhostConfiguration).toBe(ghostConfiguration);
@@ -469,7 +464,7 @@ describe('ConfiguratorCommonsService', () => {
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       const configurationObs = serviceUnderTest
-        .getConfiguration(productConfiguration.owner)
+        .getConfigurationIncludingGhost(productConfiguration.owner)
         .pipe(
           filter(
             (productConfiguration) =>
@@ -492,7 +487,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
       const configurationObs = serviceUnderTest
-        .getConfiguration(productConfiguration.owner)
+        .getConfigurationIncludingGhost(productConfiguration.owner)
         .pipe(
           filter(
             (productConfiguration) =>
@@ -672,30 +667,6 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
-    });
-  });
-
-  describe('removeObsoleteProductBoundConfiguration', () => {
-    it('should not dispatch any action if the configuration does not carry a next owner', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfiguration)
-      );
-      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
-        OWNER_PRODUCT
-      );
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should dispatch the remove action if the configuration carries a next owner', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationProductBoundObsolete)
-      );
-      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
-        OWNER_PRODUCT
-      );
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });
