@@ -1,15 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  UrlTree,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, Router, UrlTree } from '@angular/router';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
   CheckoutStep,
+  CheckoutStepsSetGuard,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { RoutingConfigService } from '@spartacus/core';
@@ -17,10 +13,8 @@ import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, take } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class CheckoutStepsSetGuard implements CanActivate {
+@Injectable()
+export class BaseCheckoutStepsSetGuard implements CheckoutStepsSetGuard {
   constructor(
     protected checkoutStepService: CheckoutStepService,
     protected routingConfigService: RoutingConfigService,

@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import {
   CheckoutAuthGuard,
   CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
+} from '@spartacus/checkout/base/root';
 import { CheckoutCostCenterModule } from './checkout-cost-center/checkout-cost-center.module';
 import { CheckoutPaymentTypeModule } from './checkout-payment-type/checkout-payment-type.module';
 import { B2BCheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
@@ -20,10 +20,13 @@ import { CheckoutB2BStepsSetGuard } from './guards/checkout-b2b-steps-set.guard'
     B2BCheckoutReviewSubmitModule,
   ],
   providers: [
+    CheckoutB2BAuthGuard,
     {
       provide: CheckoutAuthGuard,
       useExisting: CheckoutB2BAuthGuard,
     },
+
+    CheckoutB2BStepsSetGuard,
     {
       provide: CheckoutStepsSetGuard,
       useExisting: CheckoutB2BStepsSetGuard,

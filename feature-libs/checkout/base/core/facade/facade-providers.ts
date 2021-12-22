@@ -1,11 +1,15 @@
 import { Provider } from '@angular/core';
 import {
+  CheckoutAuthGuard,
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
+  CheckoutStepsSetGuard,
 } from '@spartacus/checkout/base/root';
+import { BaseCheckoutAuthGuard } from '../../components/guards/checkout-auth.guard';
+import { BaseCheckoutStepsSetGuard } from '../../components/guards/checkout-steps-set.guard';
 import { CheckoutDeliveryAddressService } from './checkout-delivery-address.service';
 import { CheckoutDeliveryModesService } from './checkout-delivery-modes.service';
 import { CheckoutPaymentService } from './checkout-payment.service';
@@ -37,5 +41,16 @@ export const facadeProviders: Provider[] = [
   {
     provide: CheckoutQueryFacade,
     useExisting: CheckoutQueryService,
+  },
+
+  BaseCheckoutAuthGuard,
+  {
+    provide: CheckoutAuthGuard,
+    useExisting: BaseCheckoutAuthGuard,
+  },
+  BaseCheckoutStepsSetGuard,
+  {
+    provide: CheckoutStepsSetGuard,
+    useExisting: BaseCheckoutStepsSetGuard,
   },
 ];

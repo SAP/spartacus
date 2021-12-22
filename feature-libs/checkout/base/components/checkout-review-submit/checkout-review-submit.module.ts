@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CheckoutAuthGuard } from '@spartacus/checkout/base/root';
 import {
   CmsConfig,
   I18nModule,
@@ -14,7 +15,6 @@ import {
   PromotionsModule,
 } from '@spartacus/storefront';
 import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
-import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
 import { CheckoutReviewSubmitComponent } from './checkout-review-submit.component';
 
 @NgModule({

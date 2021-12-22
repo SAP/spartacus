@@ -88,7 +88,7 @@ export class FacadeFactoryService {
   /**
    * Get the property value from the facade
    *
-   * Property has to be an aobservable
+   * Property has to be an observable
    *
    * @param resolver$
    * @param property
@@ -112,7 +112,7 @@ export class FacadeFactoryService {
 
     const result: any = new (class extends (facade as any) {})();
     (methods ?? []).forEach((method) => {
-      result[method] = (...args) =>
+      result[method] = (...args: unknown[]) =>
         this.call(resolver$, method as string, args);
     });
     (properties ?? []).forEach((property) => {
