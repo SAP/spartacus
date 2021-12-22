@@ -98,7 +98,8 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should not show update banner if pending changes and loading is false', () => {
+  it('should not show update banner if pending changes is false', () => {
+    hasPendingChanges = false;
     fixture.detectChanges();
 
     //Should contain d-none class
@@ -108,13 +109,13 @@ describe('ConfigurationUpdateMessageComponent', () => {
   });
 
   it('should show update banner if pending changes is true', fakeAsync(() => {
-    hasPendingChanges = true;
-    fixture.detectChanges();
-
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
+    hasPendingChanges = true;
+    fixture.detectChanges();
+
     //Should appear after a bit
     tick(2000);
 
@@ -126,14 +127,13 @@ describe('ConfigurationUpdateMessageComponent', () => {
   }));
 
   it('should consider the configured timeout', fakeAsync(() => {
-    hasPendingChanges = true;
-    waitingTime = 100;
-    fixture.detectChanges();
-
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
+    hasPendingChanges = true;
+    waitingTime = 100;
+    fixture.detectChanges();
 
     //Should appear after a bit
     tick(2000);
