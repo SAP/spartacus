@@ -39,6 +39,7 @@ context('Cart validation', () => {
       cartValidation.testReducedProductStockValidation();
     });
   });
+
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();

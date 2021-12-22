@@ -18,6 +18,10 @@ context('Assisted Service Module', () => {
     customer = getSampleUser();
     checkout.registerUser(false, customer);
   });
+  /*
+  describe('Customer Support Agent - Emulation', () => {
+    asm.testCustomerEmulation();
+  });*/
 
   describe('Customer Self Verification', () => {
     it('checks data changes made by the agent', () => {
