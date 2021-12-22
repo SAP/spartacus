@@ -12,6 +12,7 @@ import {
   ActiveCartService,
   Address,
   CostCenter,
+  GlobalMessageService,
   I18nTestingModule,
   QueryState,
   UserAddressService,
@@ -46,6 +47,10 @@ class MockCheckoutDeliveryFacade
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = jasmine.createSpy();
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -183,6 +188,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(B2BCheckoutShippingAddressComponent, {

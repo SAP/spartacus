@@ -6,6 +6,7 @@ import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
@@ -39,6 +40,10 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText = createSpy().and.returnValue('common.back');
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = jasmine.createSpy();
 }
 
 const mockAddress1: Address = {
@@ -130,6 +135,7 @@ describe('CheckoutShippingAddressComponent', () => {
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(CheckoutShippingAddressComponent, {
