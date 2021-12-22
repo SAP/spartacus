@@ -21,6 +21,7 @@ import {
   take,
   tap,
   withLatestFrom,
+  map,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
