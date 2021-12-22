@@ -21,9 +21,7 @@ export class ConfiguratorPreviousNextButtonsComponent {
       .extractRouterData()
       .pipe(
         switchMap((routerData) =>
-          this.configuratorCommonsService.getConfigurationExcludingGhost(
-            routerData.owner
-          )
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
         )
       );
 

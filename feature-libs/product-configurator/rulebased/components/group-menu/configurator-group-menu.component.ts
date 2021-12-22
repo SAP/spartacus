@@ -61,19 +61,6 @@ export class ConfiguratorGroupMenuComponent {
       )
     );
 
-  //TODO GHOST Better method name
-  isReady$: Observable<boolean> = this.routerData$.pipe(
-    switchMap((routerData) =>
-      this.configCommonsService.isGhostConfiguration(routerData.owner)
-    ),
-    map((isGhost) => !isGhost)
-  );
-
-  configurationExcludingGhost$: Observable<Configurator.Configuration> =
-    this.configuration$.pipe(
-      filter((configuration) => configuration.configId !== ghostConfigurationId)
-    );
-
   currentGroup$: Observable<Configurator.Group> = this.routerData$.pipe(
     switchMap((routerData) =>
       this.configuratorGroupsService.getCurrentGroup(routerData.owner)
@@ -83,7 +70,7 @@ export class ConfiguratorGroupMenuComponent {
    * Current parent group. Undefined for top level groups
    */
   displayedParentGroup$: Observable<Configurator.Group | undefined> =
-    this.configurationExcludingGhost$.pipe(
+    this.configuration$.pipe(
       switchMap((configuration) =>
         this.configuratorGroupsService.getMenuParentGroup(configuration.owner)
       ),
@@ -164,16 +151,14 @@ export class ConfiguratorGroupMenuComponent {
         //we only navigate up if we are not on a sub level group
         if (displayedParentGroup) {
           const grandParentGroup$ = this.getParentGroup(displayedParentGroup);
-          this.configurationExcludingGhost$
-            .pipe(take(1))
-            .subscribe((configuration) => {
-              grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
-                this.configuratorGroupsService.setMenuParentGroup(
-                  configuration.owner,
-                  grandParentGroup ? grandParentGroup.id : undefined
-                );
-              });
+          this.configuration$.pipe(take(1)).subscribe((configuration) => {
+            grandParentGroup$.pipe(take(1)).subscribe((grandParentGroup) => {
+              this.configuratorGroupsService.setMenuParentGroup(
+                configuration.owner,
+                grandParentGroup ? grandParentGroup.id : undefined
+              );
             });
+          });
         }
       });
   }
@@ -212,7 +197,7 @@ export class ConfiguratorGroupMenuComponent {
   protected getParentGroup(
     group: Configurator.Group
   ): Observable<Configurator.Group | undefined> {
-    return this.configurationExcludingGhost$.pipe(
+    return this.configuration$.pipe(
       map((configuration) =>
         this.configuratorGroupsService.getParentGroup(
           configuration.groups,

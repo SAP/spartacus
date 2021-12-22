@@ -31,17 +31,15 @@ export class ConfiguratorGroupsService {
    * @returns {Observable<string>} Group ID
    */
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
-    return this.configuratorCommonsService
-      .getConfigurationExcludingGhost(owner)
-      .pipe(
-        map((configuration) => {
-          if (configuration?.interactionState.currentGroup) {
-            return configuration.interactionState.currentGroup;
-          } else {
-            return configuration?.groups[0]?.id;
-          }
-        })
-      );
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      map((configuration) => {
+        if (configuration?.interactionState.currentGroup) {
+          return configuration.interactionState.currentGroup;
+        } else {
+          return configuration?.groups[0]?.id;
+        }
+      })
+    );
   }
 
   /**
@@ -111,20 +109,17 @@ export class ConfiguratorGroupsService {
   getMenuParentGroup(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Group | undefined> {
-    return this.configuratorCommonsService
-      .getConfigurationExcludingGhost(owner)
-      .pipe(
-        map((configuration) => {
-          const menuParentGroup =
-            configuration.interactionState.menuParentGroup;
-          return menuParentGroup
-            ? this.configuratorUtilsService.getOptionalGroupById(
-                configuration.groups,
-                menuParentGroup
-              )
-            : undefined;
-        })
-      );
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      map((configuration) => {
+        const menuParentGroup = configuration.interactionState.menuParentGroup;
+        return menuParentGroup
+          ? this.configuratorUtilsService.getOptionalGroupById(
+              configuration.groups,
+              menuParentGroup
+            )
+          : undefined;
+      })
+    );
   }
 
   /**
@@ -154,7 +149,7 @@ export class ConfiguratorGroupsService {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
         return this.configuratorCommonsService
-          .getConfigurationExcludingGhost(owner)
+          .getConfiguration(owner)
           .pipe(
             map((configuration) =>
               this.configuratorUtilsService.getGroupById(
@@ -178,7 +173,7 @@ export class ConfiguratorGroupsService {
     groupId: string
   ): void {
     this.configuratorCommonsService
-      .getConfigurationExcludingGhost(owner)
+      .getConfiguration(owner)
       .pipe(
         map((configuration) =>
           this.configuratorGroupStatusService.setGroupStatusVisited(
@@ -304,25 +299,23 @@ export class ConfiguratorGroupsService {
   ): Observable<string | undefined> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
-        return this.configuratorCommonsService
-          .getConfigurationExcludingGhost(owner)
-          .pipe(
-            map((configuration) => {
-              let nextGroup;
-              configuration?.flatGroups.forEach((group, index) => {
-                if (
-                  group.id === currentGroupId &&
-                  configuration?.flatGroups &&
-                  configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
-                ) {
-                  nextGroup =
-                    configuration?.flatGroups[index + neighboringIndex].id;
-                }
-              });
-              return nextGroup;
-            }),
-            take(1)
-          );
+        return this.configuratorCommonsService.getConfiguration(owner).pipe(
+          map((configuration) => {
+            let nextGroup;
+            configuration?.flatGroups.forEach((group, index) => {
+              if (
+                group.id === currentGroupId &&
+                configuration?.flatGroups &&
+                configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
+              ) {
+                nextGroup =
+                  configuration?.flatGroups[index + neighboringIndex].id;
+              }
+            });
+            return nextGroup;
+          }),
+          take(1)
+        );
       })
     );
   }

@@ -454,7 +454,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.stub();
 
       serviceUnderTest
-        .getConfiguration(OWNER_PRODUCT)
+        .getConfigurationIncludingGhost(OWNER_PRODUCT)
         .pipe(take(1))
         .subscribe((loadingGhostConfiguration) => {
           expect(loadingGhostConfiguration).toBe(ghostConfiguration);
@@ -469,7 +469,7 @@ describe('ConfiguratorCommonsService', () => {
       });
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
       const configurationObs = serviceUnderTest
-        .getConfiguration(productConfiguration.owner)
+        .getConfigurationIncludingGhost(productConfiguration.owner)
         .pipe(
           filter(
             (productConfiguration) =>
@@ -492,7 +492,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
 
       const configurationObs = serviceUnderTest
-        .getConfiguration(productConfiguration.owner)
+        .getConfigurationIncludingGhost(productConfiguration.owner)
         .pipe(
           filter(
             (productConfiguration) =>
