@@ -297,7 +297,7 @@ export function selectAttribute(
       cy.get(`#${valueId}`).clear().type(value);
       break;
     case 'dropdownProduct':
-      cy.get(`#${attributeId} select`).select(valueName);
+      cy.get(`select#${attributeId}`).select(valueName);
       break;
     case 'radioGroupProduct':
     case 'checkBoxListProduct':
@@ -341,7 +341,7 @@ export function checkValueSelected(
   } else {
     if (uiType === 'dropdownProduct') {
       if (valueName === '0') {
-        // no product card for 'no option slected'
+        // no product card for 'no option selected'
         cy.get(`#${valueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
