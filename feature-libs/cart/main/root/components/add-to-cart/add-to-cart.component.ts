@@ -8,14 +8,22 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
+import { CartUiEventAddToCart } from '@spartacus/cart/main/root';
+import {
+  CmsAddToCartComponent,
+  EventService,
+  FacadeFactoryService,
+  isNotNullable,
+  Product,
+  UnifiedInjector,
+} from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, first, map } from 'rxjs/operators';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
@@ -49,29 +57,14 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  // TODO(#13041): Remove deprecated constructors
-  constructor(
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    component?: CmsComponentData<CmsAddToCartComponent>
-  );
-
-  /**
-   * @deprecated since 4.1
-   */
-  constructor(
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartFacade
-  );
-
   constructor(
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartFacade,
-    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>,
+    protected component: CmsComponentData<CmsAddToCartComponent>,
+    protected eventService: EventService,
+    protected injector: UnifiedInjector,
+    protected facadeFactoryService: FacadeFactoryService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -142,11 +135,31 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       return;
     }
     this.activeCartService.addEntry(this.productCode, quantity);
+
+    this.isActiveCartFacadeImplProvided()
+      .pipe(first((isProvided) => isProvided))
+      .subscribe((_) => {
+        const newEvent = new CartUiEventAddToCart();
+        newEvent.productCode = this.productCode;
+        newEvent.quantity = quantity;
+        this.eventService.dispatch(newEvent);
+      });
   }
 
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
     }
+  }
+
+  protected isActiveCartFacadeImplProvided(): Observable<boolean> {
+    return this.injector.get(ActiveCartFacade).pipe(
+      map(
+        (activeCartFacade) =>
+          activeCartFacade !== undefined &&
+          !this.facadeFactoryService.isProxyFacadeInstance(activeCartFacade)
+      ),
+      distinctUntilChanged()
+    );
   }
 }
