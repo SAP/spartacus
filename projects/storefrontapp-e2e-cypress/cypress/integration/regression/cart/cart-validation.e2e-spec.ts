@@ -12,7 +12,7 @@ import {
   removeItemAndCheckCartEntriesNumber,
 } from '../../../helpers/cart-validation';
 
-context('Cart validation', () => {    
+context('Cart validation', () => {
   viewportContext(['mobile'], () => {
     beforeEach(() => {
       clearAllStorage();
@@ -23,7 +23,7 @@ context('Cart validation', () => {
             enabled: true,
           },
         },
-      });  
+      });
     });
     describe('As logged in', () => {
       beforeEach(() => {

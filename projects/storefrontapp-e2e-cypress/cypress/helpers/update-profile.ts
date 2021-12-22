@@ -76,7 +76,7 @@ export function testUpdateProfileDetails() {
   });
 }
 
-export function testSeeNewProfileInfo(){
+export function testSeeNewProfileInfo() {
   it('should be able to see the new profile info', () => {
     // check where the user's details updated in the previous test
     cy.get('cx-update-profile').within(() => {
@@ -87,14 +87,9 @@ export function testSeeNewProfileInfo(){
         'have.value',
         newFirstName
       );
-      cy.get('[formcontrolname="lastName"]').should(
-        'have.value',
-        newLastName
-      );
+      cy.get('[formcontrolname="lastName"]').should('have.value', newLastName);
     });
   });
-
-
 }
 
 export function testUpdateProfileLoggedInUser() {
