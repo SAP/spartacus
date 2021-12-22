@@ -679,7 +679,7 @@ describe('VisualViewerService', () => {
   });
 
   describe('selectedProductCodes', () => {
-    it('should do nothing when not running in browser', () => {
+    it('should get scene node ids for selected product codes and produce next selectedNodeIds$ value', () => {
       visualViewerService['_selectedProductCodes'] = [];
       expect(visualViewerService.selectedProductCodes).toEqual([]);
 
@@ -703,20 +703,21 @@ describe('VisualViewerService', () => {
       const selectedNodeIds$ = visualViewerService['selectedNodeIds$'];
       const selectedNodeIdsNextSpy = spyOn(selectedNodeIds$, 'next');
 
-      const isBrowserSpy = spyOn(windowRef, 'isBrowser').and.returnValue(false);
-
       visualViewerService.selectedProductCodes = [
         'productCode1',
         'productCode2',
       ];
 
-      expect(isBrowserSpy).toHaveBeenCalledTimes(1);
-      expect(visualViewerService.selectedProductCodes).toEqual([]);
+      expect(visualViewerService.selectedProductCodes).toEqual([
+        'productCode1',
+        'productCode2',
+      ]);
       expect(sceneNodeToProductLookupServicePropertySpy).toHaveBeenCalledTimes(
-        0
+        1
       );
-      expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(0);
-      expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(0);
+      expect(lookupNodeIdsSpy).toHaveBeenCalledTimes(1);
+      expect(selectedNodeIdsNextSpy).toHaveBeenCalledTimes(1);
+      expect(selectedNodeIdsNextSpy).toHaveBeenCalledWith(sceneNodeIds);
     });
 
     it('should do nothing when not running in browser', () => {

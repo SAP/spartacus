@@ -85,12 +85,12 @@ export class VisualPickingTabService implements OnDestroy {
     }
     this.visualizationLoadInfoChangeSubscription.unsubscribe();
     this.getProductReferencesSubscription.unsubscribe();
-    this.getFilteredProductReferencesSubscription?.unsubscribe();
+    this.getFilteredProductReferencesSubscription.unsubscribe();
   }
 
   private visualizationLoadInfoChangeSubscription: Subscription;
   private getProductReferencesSubscription: Subscription;
-  private getFilteredProductReferencesSubscription?: Subscription;
+  private getFilteredProductReferencesSubscription: Subscription;
 
   /**
    * When true, error messages will be shown when visualization load/lookup failures occur.
