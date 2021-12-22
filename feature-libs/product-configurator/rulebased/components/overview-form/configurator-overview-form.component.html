@@ -1,16 +1,14 @@
-<ng-container *ngIf="configuration$ | async as configuration">
-  <ng-container *ngIf="configuration.configId !== GHOST_ID; else ghostForm">
-    <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
-      <ng-container
-        *ngTemplateOutlet="
-          groups;
-          context: {
-            overviewGroups: configuration.overview.groups,
-            level: 1
-          }
-        "
-      ></ng-container>
-    </ng-container>
+<ng-container *ngIf="configuration$ | async as configuration; else ghostForm">
+  <ng-container *ngIf="hasAttributes(configuration); else noAttributes">
+    <ng-container
+      *ngTemplateOutlet="
+        groups;
+        context: {
+          overviewGroups: configuration.overview.groups,
+          level: 1
+        }
+      "
+    ></ng-container>
   </ng-container>
 </ng-container>
 

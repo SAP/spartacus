@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
-import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfigFormUpdateEvent } from './configurator-form.event';
@@ -43,7 +42,6 @@ export class ConfiguratorFormComponent implements OnInit {
   activeLanguage$: Observable<string> = this.languageService.getActive();
 
   uiType = Configurator.UiType;
-  GHOST_ID = ghostConfigurationId;
 
   constructor(
     protected configuratorCommonsService: ConfiguratorCommonsService,

@@ -298,8 +298,7 @@ export class ConfiguratorCommonsService {
       //save to assume configuration is defined after previous filter
       map((configurationState) =>
         this.configuratorUtils.getConfigurationFromState(configurationState)
-      ),
-      startWith(ghostConfiguration)
+      )
     );
   }
 

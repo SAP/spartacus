@@ -3,7 +3,6 @@ import { ConfiguratorRouterExtractorService } from '@spartacus/product-configura
 import { Observable } from 'rxjs';
 import { distinctUntilKeyChanged, filter, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { ghostConfigurationId } from '../../core/model/configurator.ghostdata';
 import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
@@ -13,7 +12,6 @@ import { Configurator } from '../../core/model/configurator.model';
 })
 export class ConfiguratorOverviewFormComponent {
   attributeOverviewType = Configurator.AttributeOverviewType;
-  GHOST_ID = ghostConfigurationId;
 
   configuration$: Observable<Configurator.Configuration> =
     this.configRouterExtractorService.extractRouterData().pipe(

@@ -435,7 +435,7 @@ describe('ConfiguratorCommonsService', () => {
     });
   });
 
-  describe('getConfiguration', () => {
+  describe('getConfigurationIncludingGhost', () => {
     it('first emission should be ghost data for loading animation', (done) => {
       const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
         {
@@ -504,27 +504,6 @@ describe('ConfiguratorCommonsService', () => {
   });
 
   describe('getOrCreateConfiguration', () => {
-    it('first emission should be ghost data for loading animation', (done) => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
-        {
-          loading: true,
-        };
-
-      const obs = cold('x', {
-        x: productConfigurationLoaderState,
-      });
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () => obs);
-      spyOn(store, 'dispatch').and.stub();
-
-      serviceUnderTest
-        .getOrCreateConfiguration(OWNER_PRODUCT)
-        .pipe(take(1))
-        .subscribe((loadingGhostConfiguration) => {
-          expect(loadingGhostConfiguration).toBe(ghostConfiguration);
-          done();
-        });
-    });
-
     it('should return an unchanged observable of product configurations in case configurations exist and carry valid config IDs', () => {
       const configurationObs = callGetOrCreate(serviceUnderTest, OWNER_PRODUCT);
       expect(configurationObs).toBeObservable(
