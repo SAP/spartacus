@@ -1,6 +1,8 @@
 import { removeCartItem } from './cart';
 import { PRODUCT_1, PRODUCT_2 } from '../sample-data/cart-validation';
 import * as cart from './cart';
+import { standardUser } from '../sample-data/shared-users';
+import { generateMail, randomString } from './user';
 
 export function validateStock(mockResponse = {}, alias = 'validate') {
   cy.intercept(
@@ -12,6 +14,12 @@ export function validateStock(mockResponse = {}, alias = 'validate') {
     },
     mockResponse
   ).as(alias);
+}
+
+export function loginRegisteredUser() {
+  standardUser.registrationData.email = generateMail(randomString(), true);
+  cy.requireLoggedIn(standardUser);
+  cy.reload();
 }
 
 export function checkProductAvailabilityMessage() {

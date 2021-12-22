@@ -6,7 +6,6 @@ import {
   PRODUCT_1,
   PRODUCT_2,
 } from '../../sample-data/cart-validation';
-import { standardUser } from '../../sample-data/shared-users';
 import { clearAllStorage } from '../../support/utils/clear-all-storage';
 import {
   addMultipleProductsToCart,
@@ -17,7 +16,7 @@ context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-      cy.requireLoggedIn(standardUser);
+      cartValidation.loginRegisteredUser();
 
       cy.cxConfig({
         cart: {
@@ -31,7 +30,7 @@ context('Cart validation', () => {
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
-        cy.requireLoggedIn(standardUser);
+        cartValidation.loginRegisteredUser();
       });
 
       afterEach(() => {
