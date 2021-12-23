@@ -50,7 +50,7 @@ describe('My Account - Address Book', () => {
       });
 
       it('should edit the existing address', () => {
-        cy.get('a').contains('Edit').click();
+        cy.get('button').contains('Edit').click();
         cy.get('cx-address-form').within(() => {
           cy.get('[formcontrolname="titleCode"]').ngSelect('Mr.');
           cy.get('[formcontrolname="firstName"]')
@@ -82,7 +82,7 @@ describe('My Account - Address Book', () => {
       });
 
       it('should set the second address as the default one', () => {
-        cy.get('a').contains('Set as default').click();
+        cy.get('button').contains('Set as default').click();
 
         const firstCard = cy.get('cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
@@ -93,7 +93,7 @@ describe('My Account - Address Book', () => {
         const firstCard = cy.get('cx-card').first();
 
         firstCard.within(() => {
-          cy.get('a').contains('Delete').click();
+          cy.get('button').contains('Delete').click();
         });
 
         cy.get('.cx-card-delete-msg').should(
