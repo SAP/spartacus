@@ -28,8 +28,7 @@
 8. Check how do various checkouts work:
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
-9. remove orderType$ from feature-libs/checkout/scheduled-replenishment/root/facade/checkout-scheduled-replenishment.facade.ts - re-watch ep17, from ~30:00 - ~45:00
-10. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+9. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
     - ```ts
       const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
         user: 'orgUsers/${userId}',
@@ -62,20 +61,20 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-11. Move models from _core_ to _checkout root_: 
+10. Move models from _core_ to _checkout root_: 
     1.  projects/core/src/model/payment.model.ts to base-root
     2.  cost center from projects/core/src/model/org-unit.model.ts to b2b-root
     3.  projects/core/src/model/address.model.ts to user lib? add a todo, since the user address is still in core
-12. align the event names - prefix them with Checkout?
-13. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
-14. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+11. align the event names - prefix them with Checkout?
+12. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
+13. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    4.  Rename the checkout components' selectors to have the checkout prefix?
-15. query debounce - `feature/query-debounce`
-16. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-17. Look into `TODO(#8880):`
-18. check changes to the old checkout
+14. query debounce - `feature/query-debounce`
+15. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+16. Look into `TODO(#8880):`
+17. check changes to the old checkout
    1. revert the variable names from *facade to *service _in old checkout only_
-19. check the bundle size of checkout (maybe using webpack analyzer)
+18. check the bundle size of checkout (maybe using webpack analyzer)
 
 ## Near the end
 
