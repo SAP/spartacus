@@ -16,7 +16,7 @@ context('Cart validation', () => {
   viewportContext(['mobile'], () => {
     beforeEach(() => {
       clearAllStorage();
-      //cy.requireLoggedIn(standardUser);
+      cy.requireLoggedIn(standardUser);
       cy.cxConfig({
         cart: {
           validation: {
@@ -28,8 +28,7 @@ context('Cart validation', () => {
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
-        //cy.requireLoggedIn(standardUser);
-        cy.requireLoggedIn();
+        cy.requireLoggedIn(standardUser);
       });
 
       afterEach(() => {
@@ -44,7 +43,7 @@ context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-      //cy.requireLoggedIn(standardUser);
+      cy.requireLoggedIn(standardUser);
 
       cy.cxConfig({
         cart: {
@@ -58,8 +57,7 @@ context('Cart validation', () => {
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
-        //cy.requireLoggedIn(standardUser);
-        cy.requireLoggedIn();
+        cy.requireLoggedIn(standardUser);
       });
 
       afterEach(() => {
