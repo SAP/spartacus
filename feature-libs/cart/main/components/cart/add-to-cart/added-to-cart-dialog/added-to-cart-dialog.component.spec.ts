@@ -225,9 +225,10 @@ describe('AddedToCartDialogComponent', () => {
       });
   });
 
-  xit('should show added dialog title message in case new entry appears in cart', () => {
+  it('should show added dialog title message in case new entry appears in cart', () => {
     component.entry$ = of(mockOrderEntry[0]);
     component.loaded$ = of(true);
+    component.addedEntryWasMerged$ = of(false);
     spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
     component.ngOnInit();
     fixture.detectChanges();
@@ -237,9 +238,10 @@ describe('AddedToCartDialogComponent', () => {
     );
   });
 
-  xit('should show increment dialog title message in case no new entry appears in cart', () => {
+  it('should show increment dialog title message in case no new entry appears in cart', () => {
     component.entry$ = of(mockOrderEntry[0]);
     component.loaded$ = of(true);
+    component.addedEntryWasMerged$ = of(true);
     spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
     component.ngOnInit();
     fixture.detectChanges();
