@@ -11,7 +11,7 @@ import {
   CommonConfigurator,
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -41,14 +41,11 @@ class MockRoutingService {
   }
 }
 
+let configurationObs: Observable<Configurator.Configuration>;
+
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
-    return of(
-      ConfiguratorTestUtils.createConfiguration(
-        'a',
-        ConfiguratorModelUtils.createInitialOwner()
-      )
-    );
+    return configurationObs;
   }
 }
 
@@ -58,7 +55,7 @@ class MockConfiguratorCommonsService {
 class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
-//TODO GHOST add test for ghost rendering
+
 describe('ConfigTabBarComponent', () => {
   let component: ConfiguratorTabBarComponent;
   let fixture: ComponentFixture<ConfiguratorTabBarComponent>;
@@ -95,10 +92,22 @@ describe('ConfigTabBarComponent', () => {
     fixture = TestBed.createComponent(ConfiguratorTabBarComponent);
     component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
+    configurationObs = of(
+      ConfiguratorTestUtils.createConfiguration(
+        'a',
+        ConfiguratorModelUtils.createInitialOwner()
+      )
+    );
   });
 
   it('should create component', () => {
     expect(component).toBeDefined();
+  });
+
+  it('should render ghost view if no data is present', () => {
+    configurationObs = NEVER;
+    fixture.detectChanges();
+    expect(htmlElem.querySelectorAll('.cx-ghost-tab-bar').length).toEqual(1);
   });
 
   it('should render 2 navigation links per default', () => {
