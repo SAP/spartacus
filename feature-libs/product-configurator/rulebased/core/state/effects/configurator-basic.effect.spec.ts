@@ -27,6 +27,7 @@ import * as fromEffects from './configurator-basic.effect';
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
+const parentGroupid = 'GROUP-PARENT';
 const groupIdA = 'a';
 
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
@@ -83,6 +84,16 @@ const productConfiguration: Configurator.Configuration = {
   priceSupplements: [],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
+
+const parentGroup: Configurator.Group = {
+  id: parentGroupid,
+  subGroups: [group],
+};
+const productConfigurationAttributeOnNestedGroup: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  groups: [parentGroup],
+  flatGroups: [parentGroup],
+};
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -364,6 +375,36 @@ describe('ConfiguratorEffect', () => {
         configuration: productConfiguration,
         groupId: groupId,
         parentGroupId: undefined,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should cover deeply nested updates properly', () => {
+      const payloadInput = productConfigurationAttributeOnNestedGroup;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfigurationAttributeOnNestedGroup
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfigurationAttributeOnNestedGroup,
+        interactionState: { currentGroup: groupId },
+      });
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfigurationAttributeOnNestedGroup,
+        groupId: groupId,
+        parentGroupId: parentGroupid,
       });
 
       actions$ = hot('-a', { a: action });
