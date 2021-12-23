@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutPaymentFacade,
@@ -6,7 +7,6 @@ import {
 } from '@spartacus/checkout/root';
 import {
   Address,
-  DeliveryMode,
   PaymentDetails,
   StateUtils,
   UserAddressService,

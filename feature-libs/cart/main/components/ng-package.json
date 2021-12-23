@@ -1,0 +1,14 @@
+{
+  "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
+  "lib": {
+    "entryFile": "./public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "@spartacus/storefront": "storefront",
+      "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
+      "@ng-select/ng-select": "ngSelect",
+      "@ngrx/effects": "ngrxEffects",
+      "@ngrx/store": "ngrxStore"
+    }
+  }
+}

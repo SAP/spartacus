@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import {
-  facadeFactory,
-  ORDER_TYPE,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from '@spartacus/core';
+import { facadeFactory } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE } from '../feature-name';
+import {
+  ORDER_TYPE,
+  ScheduleReplenishmentForm,
+} from '../models/scheduled-replenishment.model';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +15,7 @@ import { CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE } from '../feature-name';
       facade: CheckoutScheduledReplenishmentFacade,
       feature: CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder', 'setOrderType', 'getOrderType'],
-      // TODO:#checkout - remove once we remove ngrx
+      // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })

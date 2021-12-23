@@ -1,15 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { PaymentTypeSetEvent } from '@spartacus/checkout/b2b/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
+import {
+  B2BPaymentTypeEnum,
+  PaymentTypeSetEvent,
+} from '@spartacus/checkout/b2b/root';
 import {
   CheckoutQueryFacade,
   CheckoutState,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  B2BPaymentTypeEnum,
   EventService,
   OCC_USER_ID_CURRENT,
-  PaymentType,
   QueryState,
   UserIdService,
 } from '@spartacus/core';
@@ -27,9 +28,9 @@ const mockPaymentType: PaymentType = {
 };
 const mockPurchaseOrderNumber = 'purchaseOrderNumber';
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(false);
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -64,7 +65,7 @@ describe(`CheckoutPaymentTypeService`, () => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutPaymentTypeService,
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
         {

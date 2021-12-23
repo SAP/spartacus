@@ -2,15 +2,12 @@ import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
-  CartModule,
-  CartOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
-  OrderOccModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitional_4_2_Module,
-  UserTransitional_4_2_Module,
+  UserModule,
+  UserOccModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -19,8 +16,6 @@ import {
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
-  CartComponentModule,
-  CartPageEventModule,
   CategoryNavigationModule,
   CmsParagraphModule,
   ConsentManagementModule,
@@ -53,15 +48,14 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  WishListModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { CartFeatureModule } from './features/cart-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { CheckoutB2BFeatureModule } from './features/checkout-b2b-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
 import { CheckoutOldFeatureModule } from './features/checkout-old-feature.module';
 import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
@@ -81,13 +75,10 @@ import { StorefinderFeatureModule } from './features/storefinder-feature.module'
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { WishListFeatureModule } from './features/wish-list-feature.module';
 
 const featureModules = [];
-let CheckoutFeature = CheckoutFeatureModule;
 
-if (environment.oldCheckout) {
-  CheckoutFeature = CheckoutOldFeatureModule;
-}
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
@@ -95,11 +86,13 @@ if (environment.b2b) {
     OrderApprovalFeatureModule
   );
 }
+
+let CheckoutFeature = CheckoutFeatureModule;
+if (environment.oldCheckout) {
+  CheckoutFeature = CheckoutOldFeatureModule;
+}
 if (environment.b2b && !environment.oldCheckout) {
-  featureModules.push(
-    CheckoutB2BFeatureModule,
-    CheckoutScheduledReplenishmentFeatureModule
-  );
+  CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
 }
 
 if (environment.cdc) {
@@ -139,8 +132,8 @@ if (environment.digitalPayments) {
     BreadcrumbModule,
 
     // User Core
-    UserTransitional_4_2_Module,
-    UserOccTransitional_4_2_Module,
+    UserModule,
+    UserOccModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
@@ -173,23 +166,12 @@ if (environment.digitalPayments) {
     ProductSummaryModule,
     ProductIntroModule,
 
-    // Cart Core
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI
-    CartComponentModule,
-    WishListModule,
-
     // Cost Center
     CostCenterOccModule,
-
-    // Order
-    OrderOccModule,
 
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
-    CartPageEventModule,
     ProductPageEventModule,
 
     /************************* Opt-in features *************************/
@@ -199,7 +181,8 @@ if (environment.digitalPayments) {
 
     /************************* Feature libraries *************************/
     UserFeatureModule,
-    CheckoutFeature,
+    CartFeatureModule,
+    WishListFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
@@ -212,6 +195,7 @@ if (environment.digitalPayments) {
     ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+    CheckoutFeature,
     ...featureModules,
   ],
 })

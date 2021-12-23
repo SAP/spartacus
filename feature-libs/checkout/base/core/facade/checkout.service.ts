@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutFacade,
   OrderPlacedEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CartActions,
   Command,
   CommandService,
   CommandStrategy,
   EventService,
   OCC_USER_ID_ANONYMOUS,
-  Order,
-  StateWithMultiCart,
   UserIdService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -57,8 +56,8 @@ export class CheckoutService implements CheckoutFacade {
 
   constructor(
     // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<StateWithMultiCart>,
-    protected activeCartService: ActiveCartService,
+    protected store: Store<unknown>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected checkoutConnector: CheckoutConnector,
@@ -71,15 +70,15 @@ export class CheckoutService implements CheckoutFacade {
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

@@ -1,4 +1,5 @@
-import { Address, CxEvent, Order, PaymentDetails } from '@spartacus/core';
+import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 
 /**
  * Emit this event to force checkout details reload

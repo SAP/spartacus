@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   RouteConfig,
   RoutesConfig,
   RoutingConfigService,
@@ -39,15 +39,15 @@ class MockRoutingConfigService implements Partial<RoutingConfigService> {
   }
 }
 
-class MockCartService implements Partial<ActiveCartService> {
-  isGuestCart = createSpy().and.returnValue(false);
+class MockCartService implements Partial<ActiveCartFacade> {
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 describe(`CheckoutGuard`, () => {
   let guard: CheckoutGuard;
   let mockRoutingConfigService: RoutingConfigService;
   let mockCheckoutStepService: CheckoutStepService;
-  let cartService: ActiveCartService;
+  let cartService: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
   let expressCheckoutService: ExpressCheckoutService;
 
@@ -58,7 +58,7 @@ describe(`CheckoutGuard`, () => {
         { provide: CheckoutConfigService, useClass: MockCheckoutConfigService },
         { provide: CheckoutStepService, useClass: MockCheckoutStepService },
         { provide: RoutingConfigService, useClass: MockRoutingConfigService },
-        { provide: ActiveCartService, useClass: MockCartService },
+        { provide: ActiveCartFacade, useClass: MockCartService },
         {
           provide: ExpressCheckoutService,
           useClass: MockExpressCheckoutService,
@@ -70,7 +70,7 @@ describe(`CheckoutGuard`, () => {
     guard = TestBed.inject(CheckoutGuard);
     mockRoutingConfigService = TestBed.inject(RoutingConfigService);
     mockCheckoutStepService = TestBed.inject(CheckoutStepService);
-    cartService = TestBed.inject(ActiveCartService);
+    cartService = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
     expressCheckoutService = TestBed.inject(ExpressCheckoutService);
   });
@@ -95,7 +95,7 @@ describe(`CheckoutGuard`, () => {
   });
 
   it(`should redirect to first checkout step if is guest checkout`, (done) => {
-    cartService.isGuestCart = createSpy().and.returnValue(true);
+    cartService.isGuestCart = createSpy().and.returnValue(of(true));
 
     guard
       .canActivate()

@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
-import {
-  GetOrderEntriesContext,
-  OrderEntriesSource,
-} from '@spartacus/storefront';
+import { GetOrderEntriesContext } from '@spartacus/cart/main/components';
+import { OrderEntriesSource, OrderEntry } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { CheckoutFacade } from '../facade/checkout.facade';

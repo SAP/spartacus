@@ -1,5 +1,5 @@
 import { CheckoutEvent } from '@spartacus/checkout/base/root';
-import { ReplenishmentOrder } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 
 /**
  * Indicates that a user has scheduled replenishment order.

@@ -1,4 +1,5 @@
-import { MULTI_CART_DATA, StateUtils } from '@spartacus/core';
+import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorType,

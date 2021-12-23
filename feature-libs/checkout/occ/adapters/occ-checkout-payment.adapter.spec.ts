@@ -3,20 +3,20 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import {
-  Cart,
-  ConverterService,
-  Occ,
-  OccConfig,
-  PaymentDetails,
-  PAYMENT_DETAILS_NORMALIZER,
-  OccEndpoints,
-} from '@spartacus/core';
-import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
+import { Cart } from '@spartacus/cart/main/root';
 import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,
 } from '@spartacus/checkout/core';
+import {
+  ConverterService,
+  Occ,
+  OccConfig,
+  OccEndpoints,
+  PaymentDetails,
+  PAYMENT_DETAILS_NORMALIZER,
+} from '@spartacus/core';
+import { OccCheckoutPaymentAdapter } from './occ-checkout-payment.adapter';
 
 const userId = '123';
 const cartId = '456';

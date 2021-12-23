@@ -5,14 +5,14 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { PaymentType } from '@spartacus/cart/main/root';
 import {
   B2BPaymentTypeEnum,
-  isNotUndefined,
-  PaymentType,
-} from '@spartacus/core';
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { isNotUndefined } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 

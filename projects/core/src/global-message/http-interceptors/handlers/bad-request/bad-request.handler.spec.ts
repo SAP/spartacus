@@ -44,29 +44,6 @@ const MockBadLoginResponse = {
   },
 } as HttpErrorResponse;
 
-const MockBadCartResponse = {
-  error: {
-    errors: [
-      {
-        subjectType: 'cart',
-        reason: 'notFound',
-      },
-    ],
-  },
-} as HttpErrorResponse;
-
-const MockBadCartResponseForSelectiveCart = {
-  error: {
-    errors: [
-      {
-        subjectType: 'cart',
-        subject: 'selectivecart-electronics-12345',
-        reason: 'notFound',
-      },
-    ],
-  },
-} as HttpErrorResponse;
-
 const MockValidationErrorResponse = {
   error: {
     errors: [
@@ -182,19 +159,6 @@ describe('BadRequestHandler', () => {
       },
       GlobalMessageType.MSG_TYPE_ERROR
     );
-  });
-
-  it('should handle bad cart error', () => {
-    service.handleError(MockRequest, MockBadCartResponse);
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      { key: 'httpHandlers.cartNotFound' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
-  });
-
-  it('should not handle bad cart error for selective cart', () => {
-    service.handleError(MockRequest, MockBadCartResponseForSelectiveCart);
-    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should handle duplication of a registered email for guest checkout', () => {

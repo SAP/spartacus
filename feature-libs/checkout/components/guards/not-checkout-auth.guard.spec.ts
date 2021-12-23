@@ -1,11 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActiveCartService,
-  AuthService,
-  SemanticPathService,
-} from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { AuthService, SemanticPathService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { NotCheckoutAuthGuard } from './not-checkout-auth.guard';
 
@@ -21,16 +18,16 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
   }
 }
 
-class CartServiceStub implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return true;
+class CartServiceStub implements Partial<ActiveCartFacade> {
+  isGuestCart(): Observable<boolean> {
+    return of(true);
   }
 }
 
 describe('NotCheckoutAuthGuard', () => {
   let guard: NotCheckoutAuthGuard;
   let authService: AuthServiceStub;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -39,7 +36,7 @@ describe('NotCheckoutAuthGuard', () => {
         { provide: SemanticPathService, useClass: SemanticPathServiceStub },
         { provide: AuthService, useClass: AuthServiceStub },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: CartServiceStub,
         },
       ],
@@ -47,7 +44,7 @@ describe('NotCheckoutAuthGuard', () => {
     });
     authService = TestBed.inject(AuthService);
     guard = TestBed.inject(NotCheckoutAuthGuard);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   describe('when user is authorized,', () => {
@@ -85,7 +82,7 @@ describe('NotCheckoutAuthGuard', () => {
   describe('when user is NOT authorized nor guest', () => {
     beforeEach(() => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(of(false));
-      spyOn(activeCartService, 'isGuestCart').and.returnValue(false);
+      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(false));
     });
 
     it('should return true', () => {

@@ -5,6 +5,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
@@ -23,7 +24,6 @@ import {
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
-
 const mockPaymentDetails: PaymentDetails = {
   id: 'mock payment id',
   accountHolderName: 'Name',
@@ -81,6 +81,12 @@ const mockActivatedRoute = {
   },
 };
 
+class MockActiveCartService {
+  isGuestCart(): Observable<boolean> {
+    return of(false);
+  }
+}
+
 describe('DpPaymentMethodComponent', () => {
   let component: DpPaymentMethodComponent;
   let fixture: ComponentFixture<DpPaymentMethodComponent>;
@@ -91,8 +97,8 @@ describe('DpPaymentMethodComponent', () => {
       providers: [
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
-          provide: DpPaymentMethodComponent,
-          useClass: DpPaymentMethodComponent,
+          provide: ActiveCartFacade,
+          useClass: MockActiveCartService,
         },
         {
           provide: TranslationService,

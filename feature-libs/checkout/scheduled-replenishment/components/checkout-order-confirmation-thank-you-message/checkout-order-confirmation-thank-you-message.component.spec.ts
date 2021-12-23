@@ -2,13 +2,12 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
-  I18nTestingModule,
-  Order,
+  CheckoutScheduledReplenishmentFacade,
   ORDER_TYPE,
-  ReplenishmentOrder,
-} from '@spartacus/core';
+} from '@spartacus/checkout/scheduled-replenishment/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
 

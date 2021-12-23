@@ -6,7 +6,8 @@
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
       "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
-      "@ng-select/ng-select": "ngSelect"
+      "@ng-select/ng-select": "ngSelect",
+      "@spartacus/cart/main/root": "cartRoot"
     }
   }
 }

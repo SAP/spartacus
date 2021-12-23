@@ -1,11 +1,8 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry, TranslationService } from '@spartacus/core';
-import {
-  BREAKPOINT,
-  BreakpointService,
-  CartItemContext,
-} from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/main/root';
+import { TranslationService } from '@spartacus/core';
+import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';

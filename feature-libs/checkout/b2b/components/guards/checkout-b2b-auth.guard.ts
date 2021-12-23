@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutAuthGuard,
   CheckoutConfigService,
 } from '@spartacus/checkout/base/components';
 import {
-  ActiveCartService,
   AuthRedirectService,
   AuthService,
   B2BUser,
@@ -29,7 +29,7 @@ export class CheckoutB2BAuthGuard
     protected authService: AuthService,
     protected authRedirectService: AuthRedirectService,
     protected checkoutConfigService: CheckoutConfigService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected semanticPathService: SemanticPathService,
     protected router: Router,
     protected userAccountFacade: UserAccountFacade,
@@ -39,7 +39,7 @@ export class CheckoutB2BAuthGuard
       authService,
       authRedirectService,
       checkoutConfigService,
-      activeCartService,
+      activeCartFacade,
       semanticPathService,
       router
     );
@@ -48,22 +48,26 @@ export class CheckoutB2BAuthGuard
   canActivate(): Observable<boolean | UrlTree> {
     return combineLatest([
       this.authService.isUserLoggedIn(),
-      this.activeCartService.getAssignedUser(),
+      this.activeCartFacade.isGuestCart(),
       this.userAccountFacade.get(),
-      this.activeCartService.isStable(),
+      this.activeCartFacade.isStable(),
     ]).pipe(
-      filter(([_isLoggedIn, _cartUser, _user, isStable]) => isStable),
+      map(([isLoggedIn, isGuestCart, user, isStable]) => ({
+        isLoggedIn,
+        isGuestCart,
+        user,
+        isStable,
+      })),
+      filter((data) => data.isStable),
       // if the user is authenticated and we have their data, OR if the user is anonymous
-      filter(
-        ([isLoggedIn, _cartUser, user]) => (!!user && isLoggedIn) || !isLoggedIn
-      ),
-      map(([isLoggedIn, cartUser, user]) => {
-        if (!isLoggedIn) {
-          return this.handleAnonymousUser(cartUser);
-        } else if (user && 'roles' in user) {
-          return this.handleUserRole(user);
+      filter((data) => (!!data.user && data.isLoggedIn) || !data.isLoggedIn),
+      map((data) => {
+        if (!data.isLoggedIn) {
+          return data.isGuestCart ? true : this.handleAnonymousUser();
+        } else if (data.user && 'roles' in data.user) {
+          return this.handleUserRole(data.user);
         }
-        return isLoggedIn;
+        return data.isLoggedIn;
       })
     );
   }

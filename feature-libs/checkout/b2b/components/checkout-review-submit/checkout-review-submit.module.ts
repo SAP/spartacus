@@ -13,8 +13,8 @@ import {
 } from '@spartacus/core';
 import {
   CardModule,
-  CartSharedModule,
   IconModule,
+  OutletModule,
   PromotionsModule,
 } from '@spartacus/storefront';
 import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.component';
@@ -23,12 +23,12 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
   imports: [
     CommonModule,
     CardModule,
-    CartSharedModule,
     I18nModule,
     UrlModule,
     RouterModule,
     PromotionsModule,
     IconModule,
+    OutletModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

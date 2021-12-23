@@ -1,7 +1,6 @@
 import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/main/root';
 import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 

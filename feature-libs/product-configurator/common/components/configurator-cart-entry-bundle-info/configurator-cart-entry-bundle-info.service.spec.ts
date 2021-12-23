@@ -1,9 +1,9 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { OrderEntry } from '@spartacus/cart/main/root';
 import { ConfigurationInfo } from '../../core/model/common-configurator.model';
-import { OrderEntry } from '@spartacus/core';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { ConfiguratorCartEntryBundleInfoService } from './configurator-cart-entry-bundle-info.service';
 
 const confInfo1: ConfigurationInfo = {
   configurationLabel: 'name:',

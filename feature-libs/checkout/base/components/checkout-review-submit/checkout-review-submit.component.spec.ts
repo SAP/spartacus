@@ -3,6 +3,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
+  Cart,
+  DeliveryMode,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
   CheckoutPaymentFacade,
@@ -10,15 +16,10 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
-  Cart,
   Country,
-  DeliveryMode,
   I18nTestingModule,
-  OrderEntry,
   PaymentDetails,
-  PromotionLocation,
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
@@ -66,16 +67,6 @@ const mockPaymentDetails: PaymentDetails = {
 const mockEntries: OrderEntry[] = [{ entryNumber: 123 }, { entryNumber: 456 }];
 
 @Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() items: OrderEntry[];
-  @Input() readonly: boolean;
-  @Input() promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
-}
-
-@Component({
   selector: 'cx-card',
   template: '',
 })
@@ -113,7 +104,7 @@ class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
   );
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockCart));
   getEntries = createSpy().and.returnValue(of(mockEntries));
 }
@@ -165,7 +156,6 @@ describe('CheckoutReviewSubmitComponent', () => {
         ],
         declarations: [
           CheckoutReviewSubmitComponent,
-          MockCartItemListComponent,
           MockCardComponent,
           MockUrlPipe,
         ],
@@ -182,7 +172,7 @@ describe('CheckoutReviewSubmitComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutStepService,
             useClass: MockCheckoutStepService,
@@ -326,20 +316,6 @@ describe('CheckoutReviewSubmitComponent', () => {
     it('should contain total price', () => {
       fixture.detectChanges();
       expect(getCartTotalText()).toContain('$999.98');
-    });
-  });
-
-  describe('child cx-cart-item-list component', () => {
-    const getCartItemList = () =>
-      fixture.debugElement.query(By.css('cx-cart-item-list')).componentInstance;
-
-    it('should receive items attribute with cart entires', () => {
-      fixture.detectChanges();
-      expect(getCartItemList().items).toEqual([
-        { entryNumber: 123 },
-        { entryNumber: 456 },
-      ]);
-      expect(getCartItemList().readonly).toBe(true);
     });
   });
 });

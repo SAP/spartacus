@@ -5,7 +5,8 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MultiCartService, RoutingService } from '@spartacus/core';
+import { MultiCartFacade } from '@spartacus/cart/main/root';
+import { RoutingService } from '@spartacus/core';
 import { EMPTY, of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { CheckoutCartInterceptor } from './checkout-cart.interceptor';
@@ -29,7 +30,7 @@ class MockRoutingService implements Partial<RoutingService> {
   getRouterState = createSpy().and.returnValue(of());
 }
 
-class MultiCartServiceStub implements Partial<MultiCartService> {
+class MultiCartServiceStub implements Partial<MultiCartFacade> {
   reloadCart = createSpy();
 }
 
@@ -37,7 +38,7 @@ describe('CheckoutCartInterceptor', () => {
   let httpMock: HttpTestingController;
   let http: HttpClient;
   let routingService: RoutingService;
-  let multiCartService: MultiCartService;
+  let multiCartService: MultiCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -49,14 +50,14 @@ describe('CheckoutCartInterceptor', () => {
           multi: true,
         },
         { provide: RoutingService, useClass: MockRoutingService },
-        { provide: MultiCartService, useClass: MultiCartServiceStub },
+        { provide: MultiCartFacade, useClass: MultiCartServiceStub },
       ],
     });
 
     httpMock = TestBed.inject(HttpTestingController);
     http = TestBed.inject(HttpClient);
     routingService = TestBed.inject(RoutingService);
-    multiCartService = TestBed.inject(MultiCartService);
+    multiCartService = TestBed.inject(MultiCartFacade);
   });
 
   describe('intercept', () => {

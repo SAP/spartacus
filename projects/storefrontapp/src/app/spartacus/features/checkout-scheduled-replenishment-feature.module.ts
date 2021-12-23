@@ -1,7 +1,16 @@
 import { NgModule } from '@angular/core';
-import { CHECKOUT_B2B_FEATURE } from '@spartacus/checkout/b2b/root';
-import { checkoutTranslationChunksConfig } from '@spartacus/checkout/base/assets';
-import { checkoutScheduledReplenishmentTranslations } from '@spartacus/checkout/scheduled-replenishment/assets';
+import {
+  checkoutB2BTranslationChunksConfig,
+  checkoutB2BTranslations,
+} from '@spartacus/checkout/b2b/assets';
+import {
+  checkoutTranslationChunksConfig,
+  checkoutTranslations,
+} from '@spartacus/checkout/base/assets';
+import {
+  checkoutScheduledReplenishmentTranslationChunksConfig,
+  checkoutScheduledReplenishmentTranslations,
+} from '@spartacus/checkout/scheduled-replenishment/assets';
 import {
   CheckoutScheduledReplenishmentRootModule,
   CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
@@ -12,18 +21,29 @@ import { provideConfig } from '@spartacus/core';
   imports: [CheckoutScheduledReplenishmentRootModule],
   providers: [
     provideConfig({
+      i18n: {
+        resources: checkoutTranslations,
+        chunks: checkoutTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
+      i18n: {
+        resources: checkoutB2BTranslations,
+        chunks: checkoutB2BTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
       featureModules: {
         [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
           module: () =>
             import('@spartacus/checkout/scheduled-replenishment').then(
               (m) => m.CheckoutScheduledReplenishmentModule
             ),
-          dependencies: [CHECKOUT_B2B_FEATURE],
         },
       },
       i18n: {
         resources: checkoutScheduledReplenishmentTranslations,
-        chunks: checkoutTranslationChunksConfig,
+        chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     }),
   ],

@@ -1,10 +1,6 @@
 import { Action } from '@ngrx/store';
-import {
-  Cart,
-  PaymentType,
-  PROCESS_FEATURE,
-  StateUtils,
-} from '@spartacus/core';
+import { Cart, PaymentType } from '@spartacus/cart/main/root';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { GET_PAYMENT_TYPES_PROCESS_ID } from '../checkout-state';
 
 export const LOAD_PAYMENT_TYPES = '[Checkout] Load Payment Types';

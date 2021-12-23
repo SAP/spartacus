@@ -6,8 +6,10 @@ import {
 } from '@angular/core';
 import { CheckoutOrderConfirmationThankYouMessageComponent } from '@spartacus/checkout/base/components';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
-import { ORDER_TYPE } from '@spartacus/core';
+import {
+  CheckoutScheduledReplenishmentFacade,
+  ORDER_TYPE,
+} from '@spartacus/checkout/scheduled-replenishment/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 

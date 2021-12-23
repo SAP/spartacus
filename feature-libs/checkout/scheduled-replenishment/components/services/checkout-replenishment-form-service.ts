@@ -3,7 +3,7 @@ import {
   DaysOfWeek,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/checkout/scheduled-replenishment/root';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({

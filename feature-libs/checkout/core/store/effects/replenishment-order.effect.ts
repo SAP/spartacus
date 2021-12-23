@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions, normalizeHttpError } from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/main/core';
+import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../../connectors/index';

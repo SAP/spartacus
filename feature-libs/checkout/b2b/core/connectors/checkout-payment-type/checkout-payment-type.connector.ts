@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PaymentType } from '@spartacus/core';
+import { PaymentType } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 import { CheckoutPaymentTypeAdapter } from './checkout-payment-type.adapter';
 

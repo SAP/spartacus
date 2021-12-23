@@ -17,15 +17,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'errorHandlers',
     'carousel',
   ],
-  cart: [
-    'cartDetails',
-    'cartItems',
-    'orderCost',
-    'voucher',
-    'wishList',
-    'saveForLaterItems',
-    'validation',
-  ],
   address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
   payment: [
     'paymentForm',
@@ -42,7 +33,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'updateProfileForm',
     'consentManagementForm',
     'myCoupons',
-    'wishlist',
     'notificationPreference',
     'myInterests',
     'AccountOrderHistoryTabContainer',
