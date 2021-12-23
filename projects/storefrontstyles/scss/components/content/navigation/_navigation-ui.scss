@@ -329,7 +329,8 @@
 
         // We only treat the first wrapper as a collapsible container
         &:hover {
-          > button + .wrapper {
+          > button:hover + .wrapper,
+          button + .wrapper:hover {
             @include showWrapperDesktop();
           }
         }
