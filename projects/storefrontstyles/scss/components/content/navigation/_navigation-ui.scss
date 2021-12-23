@@ -146,10 +146,14 @@
           padding-top: 20px;
           padding-bottom: 22px;
           padding-inline-start: 0;
+          padding-inline-end: 0;
         }
         // first level headings will be bold in desktop
         ul > li > span,
         ul > li > button {
+          padding-inline-start: 0;
+          padding-inline-end: 0;
+
           @include type('5');
           cursor: default;
 
