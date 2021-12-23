@@ -10,8 +10,6 @@ import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 import { getLastValueSync } from '@spartacus/core';
 
 /**
@@ -53,7 +51,7 @@ export class AuthService {
       );
 
       const result = await this.oAuthLibWrapperService.tryLogin();
-      
+
       const token = this.authStorageService.getItem('access_token');
 
       // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
