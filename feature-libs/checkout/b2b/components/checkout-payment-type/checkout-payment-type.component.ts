@@ -72,19 +72,24 @@ export class CheckoutPaymentTypeComponent {
     (
       this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
     ).next(true);
+    this.typeSelected = code;
 
     this.checkoutPaymentTypeFacade.setPaymentType(code).subscribe({
-      complete: () =>
-        (
-          this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-        ).next(false),
-      error: () =>
-        (
-          this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-        ).next(false),
+      complete: () => this.onSuccess(),
+      error: () => this.onError(),
     });
+  }
 
-    this.typeSelected = code;
+  protected onSuccess(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
+  }
+
+  protected onError(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
   }
 
   next(): void {
