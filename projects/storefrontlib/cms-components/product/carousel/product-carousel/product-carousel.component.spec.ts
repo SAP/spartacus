@@ -11,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsProductCarouselComponent,
   FeatureConfigService,
+  I18nTestingModule,
   Product,
   ProductService,
 } from '@spartacus/core';
@@ -109,7 +110,7 @@ describe('ProductCarouselComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           ProductCarouselComponent,
           MockCarouselComponent,

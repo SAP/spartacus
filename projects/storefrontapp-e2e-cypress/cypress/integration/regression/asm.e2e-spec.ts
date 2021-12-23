@@ -44,6 +44,7 @@ context('Assisted Service Module', () => {
 
       cy.log('--> Update personal details');
       cy.visit('/my-account/update-profile');
+      cy.wait('@userDetails');
       profile.updateProfile();
       customer.firstName = profile.newFirstName;
       customer.lastName = profile.newLastName;

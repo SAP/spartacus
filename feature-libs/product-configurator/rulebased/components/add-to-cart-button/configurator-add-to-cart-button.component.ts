@@ -58,7 +58,7 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
-    protected userOrderService: OrderFacade,
+    protected orderFacade: OrderFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
 
@@ -242,10 +242,10 @@ export class ConfiguratorAddToCartButtonComponent {
   }
 
   protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
-    this.userOrderService.loadOrderDetails(
+    this.orderFacade.loadOrderDetails(
       this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
     );
-    this.userOrderService
+    this.orderFacade
       .getOrderDetails()
       .pipe(
         filter((order: Order) => order !== undefined),
