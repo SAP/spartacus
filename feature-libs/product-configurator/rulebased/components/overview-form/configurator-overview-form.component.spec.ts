@@ -13,7 +13,7 @@ import {
   ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -123,7 +123,7 @@ function checkConfigurationOverviewObs(
 class MockConfiguratorPriceComponent {
   @Input() formula: ConfiguratorPriceComponentOptions;
 }
-//TODO GHOST add test for ghost rendering
+
 describe('ConfigurationOverviewFormComponent', () => {
   beforeEach(
     waitForAsync(() => {
@@ -159,6 +159,13 @@ describe('ConfigurationOverviewFormComponent', () => {
   it('should create component', () => {
     initialize();
     expect(component).toBeDefined();
+  });
+
+  it('should display ghost view, consisting of 3 elements representing groups, if no data is present', () => {
+    defaultConfigObservable = NEVER;
+    initialize();
+
+    expect(htmlElem.querySelectorAll('.cx-ghost-group').length).toBe(3);
   });
 
   it('should display configuration overview', () => {
