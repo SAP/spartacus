@@ -21,8 +21,10 @@
       list-style: none;
       display: flex;
 
-      > .wrapper {
-        margin-top: 67px;
+      @include media-breakpoint-up(lg) {
+        > .wrapper {
+          margin-top: 67px;
+        }
       }
     }
   }
