@@ -270,7 +270,6 @@ describe('ConfigurationFormComponent', () => {
   it('should render ghost view if no data is present', () => {
     createComponent();
     fixture.detectChanges();
-    console.log('CHHI: ' + htmlElem.innerHTML);
     CommonConfiguratorTestUtilsService.expectNumberOfElements(
       expect,
       htmlElem,
