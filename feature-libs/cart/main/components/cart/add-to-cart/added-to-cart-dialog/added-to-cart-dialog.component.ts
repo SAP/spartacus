@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -21,14 +21,13 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent implements OnInit {
+export class AddedToCartDialogComponent {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   addedEntryWasMerged$: Observable<boolean>;
-  //numberOfEntriesBeforeAdd: number;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -79,14 +78,6 @@ export class AddedToCartDialogComponent implements OnInit {
       );
     }
     return this.quantityControl$;
-  }
-
-  ngOnInit() {
-    // this.addedEntryWasMerged$ = this.loaded$.pipe(
-    //   filter((loaded) => loaded),
-    //   switchMapTo(this.cartService.getEntries()),
-    //   map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
-    // );
   }
 
   /**
