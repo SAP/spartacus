@@ -183,7 +183,6 @@ export class ConfiguratorCommonsService {
       filter((config) => this.hasConfigurationOverview(config))
     );
   }
-  // TODO GHOST removeObsoleteProductBoundConfiguration has been removed / cover as breaking change
 
   /**
    * Removes a configuration.

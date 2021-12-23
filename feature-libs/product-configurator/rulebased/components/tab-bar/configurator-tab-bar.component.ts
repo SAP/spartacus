@@ -18,7 +18,7 @@ export class ConfiguratorTabBarComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
-  //TODO GHOST check: Navigation from order history
+  //TODO GHOST check: tabbar styling shows wrong background
 
   configuration$: Observable<Configurator.Configuration> =
     this.routerData$.pipe(
@@ -34,7 +34,6 @@ export class ConfiguratorTabBarComponent {
     )
   );
 
-  //TODO GHOST add to breaking changes issue
   constructor(
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService
