@@ -144,7 +144,6 @@
         > span,
         > button {
           padding-top: 20px;
-          padding-inline-end: 15px;
           padding-bottom: 22px;
           padding-inline-start: 0;
         }
@@ -167,11 +166,15 @@
 }
 
 @include media-breakpoint-up(lg) {
-  cx-navigation-ui > nav > ul > li > cx-generic-link > a {
-    padding-top: 20px;
+  //cx-navigation-ui > nav > ul > li {
+  li {
     padding-inline-end: 15px;
-    padding-bottom: 22px;
-    padding-inline-start: 0;
+
+    > cx-generic-link > a {
+      padding-top: 20px;
+      padding-bottom: 22px;
+      padding-inline-start: 0;
+    }
   }
   li > div > cx-generic-link {
     padding: 10px 0;
