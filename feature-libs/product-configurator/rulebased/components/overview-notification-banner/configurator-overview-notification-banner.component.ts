@@ -9,7 +9,6 @@ import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
-import { Configurator } from '../../core/model/configurator.model';
 
 @Component({
   selector: 'cx-configurator-overview-notification-banner',
@@ -48,14 +47,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  protected countIssuesInGroup(group: Configurator.Group): number {
-    let numberOfIssues = 0;
-
-    group.attributes?.forEach((attribute) => {
-      numberOfIssues =
-        numberOfIssues + (attribute.incomplete && attribute.required ? 1 : 0);
-    });
-    return numberOfIssues;
-  }
 }
