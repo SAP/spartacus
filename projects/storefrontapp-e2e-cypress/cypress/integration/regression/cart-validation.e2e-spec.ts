@@ -1,4 +1,8 @@
 import * as cartValidation from '../../helpers/cart-validation';
+import {
+  addMultipleProductsToCart,
+  removeItemAndCheckCartEntriesNumber,
+} from '../../helpers/cart-validation';
 import { viewportContext } from '../../helpers/viewport-context';
 import {
   lowStockResponse,
@@ -6,18 +10,12 @@ import {
   PRODUCT_1,
   PRODUCT_2,
 } from '../../sample-data/cart-validation';
-import { standardUser } from '../../sample-data/shared-users';
 import { clearAllStorage } from '../../support/utils/clear-all-storage';
-import {
-  addMultipleProductsToCart,
-  removeItemAndCheckCartEntriesNumber,
-} from '../../helpers/cart-validation';
 
 context('Cart validation', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-      cy.requireLoggedIn(standardUser);
 
       cy.cxConfig({
         cart: {
@@ -31,7 +29,7 @@ context('Cart validation', () => {
     describe('As logged in', () => {
       beforeEach(() => {
         cy.restoreLocalStorage();
-        cy.requireLoggedIn(standardUser);
+        cy.requireLoggedIn();
       });
 
       afterEach(() => {
