@@ -179,7 +179,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
     });
 
-    it('should NOT display spinner when user selects a new payment and response did not complete', () => {
+    it('should NOT display spinner when the payment type is NOT loading', () => {
       (
         component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
       ).next(false);
@@ -202,7 +202,7 @@ describe('CheckoutPaymentTypeComponent', () => {
       ).toBe(true);
     });
 
-    it('should enable continue button when type selected is in progress', () => {
+    it('should enable continue button when the payment is selected', () => {
       (
         component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
       ).next(false);
