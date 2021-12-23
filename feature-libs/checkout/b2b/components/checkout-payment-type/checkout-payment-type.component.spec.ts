@@ -1,5 +1,6 @@
-import { Component, Type } from '@angular/core';
+import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/main/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
@@ -60,6 +61,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -91,20 +93,12 @@ describe('CheckoutPaymentTypeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     fixture.detectChanges();
   });
 
   it('should be created', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get the loading state when selecting a payment type', (done) => {
-    component.selectedPaymentTypeIsLoading$
-      .pipe(take(1))
-      .subscribe((loading) => {
-        expect(loading).toBe(false);
-        done();
-      });
   });
 
   it('should get all supported payment types', (done) => {
@@ -172,5 +166,53 @@ describe('CheckoutPaymentTypeComponent', () => {
     expect(checkoutStepService.back).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
+  });
+
+  describe('UI spinner when changing payment type', () => {
+    it('should display spinner when user selects a new payment and response did not complete', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(true);
+
+      fixture.detectChanges();
+
+      expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
+    });
+
+    it('should NOT display spinner when user selects a new payment and response did not complete', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(false);
+
+      fixture.detectChanges();
+
+      expect(el.query(By.css('div.cx-spinner'))).toBeFalsy();
+    });
+
+    it('should disable continue button when type selected is in progress', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(true);
+
+      fixture.detectChanges();
+
+      expect(
+        el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
+          .disabled
+      ).toBe(true);
+    });
+
+    it('should enable continue button when type selected is in progress', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(false);
+
+      fixture.detectChanges();
+
+      expect(
+        el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
+          .disabled
+      ).toBe(false);
+    });
   });
 });

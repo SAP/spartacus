@@ -13,7 +13,7 @@ import {
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
 import { isNotUndefined } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
@@ -31,10 +31,8 @@ export class CheckoutPaymentTypeComponent {
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
 
-  selectedPaymentTypeIsLoading$: Observable<boolean> =
-    this.checkoutPaymentTypeFacade
-      .getSelectedPaymentTypeState()
-      .pipe(map((state) => state.loading));
+  changeSelectedPaymentTypeInProgress$: Observable<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
@@ -71,7 +69,21 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    this.checkoutPaymentTypeFacade.setPaymentType(code);
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(true);
+
+    this.checkoutPaymentTypeFacade.setPaymentType(code).subscribe({
+      complete: () =>
+        (
+          this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+        ).next(false),
+      error: () =>
+        (
+          this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+        ).next(false),
+    });
+
     this.typeSelected = code;
   }
 
