@@ -87,7 +87,7 @@ export function doPlaceOrder() {
 }
 
 export function addressBookNextStep() {
-  cy.get('cx-shipping-address .cx-card-link').click({ force: true });
+  cy.get('cx-shipping-address .link').click({ force: true });
 
   const deliveryPage = waitForPage(
     CHECKOUT_DELIVERY_MODE_PATH,
@@ -115,7 +115,7 @@ export function deliveryModeNextStep() {
 }
 
 export function paymentDetailsNextStep() {
-  cy.get('cx-payment-method .cx-card-link').click({
+  cy.get('cx-payment-method .link').click({
     force: true,
   });
 
