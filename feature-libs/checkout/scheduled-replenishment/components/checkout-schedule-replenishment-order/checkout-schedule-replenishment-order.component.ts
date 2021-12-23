@@ -12,7 +12,7 @@ import {
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-schedule-replenishment-order',

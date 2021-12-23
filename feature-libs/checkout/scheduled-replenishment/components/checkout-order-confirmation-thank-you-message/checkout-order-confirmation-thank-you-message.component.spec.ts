@@ -5,7 +5,7 @@ import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { ORDER_TYPE } from '@spartacus/checkout/scheduled-replenishment/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageComponent } from './checkout-order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
 

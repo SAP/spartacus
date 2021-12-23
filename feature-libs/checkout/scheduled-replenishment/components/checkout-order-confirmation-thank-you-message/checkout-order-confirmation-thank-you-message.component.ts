@@ -9,7 +9,7 @@ import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { ORDER_TYPE } from '@spartacus/checkout/scheduled-replenishment/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',

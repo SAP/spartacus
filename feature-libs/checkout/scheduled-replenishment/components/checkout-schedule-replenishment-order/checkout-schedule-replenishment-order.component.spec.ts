@@ -9,7 +9,7 @@ import {
 import { I18nTestingModule } from '@spartacus/core';
 import { IconTestingModule } from 'projects/storefrontlib/cms-components/misc/icon/testing/icon-testing.module';
 import { of } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 import { CheckoutScheduleReplenishmentOrderComponent } from './checkout-schedule-replenishment-order.component';
 import createSpy = jasmine.createSpy;
 

@@ -41,12 +41,11 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
     replenishmentStartDate: new Date().toISOString().split('T')[0],
   };
 
-  private scheduleReplenishmentFormData$: BehaviorSubject<ScheduleReplenishmentForm> =
+  private scheduleReplenishmentFormData$: Observable<ScheduleReplenishmentForm> =
     new BehaviorSubject<ScheduleReplenishmentForm>(this.defaultFormData);
 
-  protected orderType$ = new BehaviorSubject<ORDER_TYPE>(
-    ORDER_TYPE.PLACE_ORDER
-  );
+  protected orderType$: Observable<ORDER_TYPE> =
+    new BehaviorSubject<ORDER_TYPE>(ORDER_TYPE.PLACE_ORDER);
 
   constructor(protected eventService: EventService) {
     this.registerOrderTypeEventListers();
@@ -69,7 +68,9 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
         this.eventService.get(ReplenishmentOrderScheduledEvent),
         this.eventService.get(MergeCartSuccessEvent)
       ).subscribe(() => {
-        this.orderType$.next(ORDER_TYPE.PLACE_ORDER);
+        (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(
+          ORDER_TYPE.PLACE_ORDER
+        );
       })
     );
   }
@@ -78,7 +79,7 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
    * Get replenishment form data
    */
   getScheduleReplenishmentFormData(): Observable<ScheduleReplenishmentForm> {
-    return this.scheduleReplenishmentFormData$.asObservable();
+    return this.scheduleReplenishmentFormData$;
   }
 
   /**
@@ -86,21 +87,27 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
    * @param formData : an object containing the data for scheduling a replenishment order
    */
   setScheduleReplenishmentFormData(formData: ScheduleReplenishmentForm): void {
-    this.scheduleReplenishmentFormData$.next(formData);
+    (
+      this
+        .scheduleReplenishmentFormData$ as BehaviorSubject<ScheduleReplenishmentForm>
+    ).next(formData);
   }
 
   /**
    * Clears the existing replenishment form data to include the default replenishment form data
    */
   resetScheduleReplenishmentFormData(): void {
-    this.scheduleReplenishmentFormData$.next(this.defaultFormData);
+    (
+      this
+        .scheduleReplenishmentFormData$ as BehaviorSubject<ScheduleReplenishmentForm>
+    ).next(this.defaultFormData);
   }
 
   /**
    * Get current checkout order type
    */
   getOrderType(): Observable<ORDER_TYPE> {
-    return this.orderType$.asObservable();
+    return this.orderType$;
   }
 
   /**
@@ -108,7 +115,7 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
    * @param orderType : an enum of types of order we are placing
    */
   setOrderType(orderType: ORDER_TYPE): void {
-    this.orderType$.next(orderType);
+    (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(orderType);
   }
 
   ngOnDestroy(): void {

@@ -4,7 +4,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { take } from 'rxjs/operators';
-import { CheckoutReplenishmentFormService } from './checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from './checkout-replenishment-form.service';
 
 const newReplenishmentFormData: ScheduleReplenishmentForm = {
   recurrencePeriod: 'test-period',
