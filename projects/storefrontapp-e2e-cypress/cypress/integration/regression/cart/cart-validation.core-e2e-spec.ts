@@ -6,7 +6,7 @@ context('Cart validation', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-      
+
       cy.cxConfig({
         cart: {
           validation: {
