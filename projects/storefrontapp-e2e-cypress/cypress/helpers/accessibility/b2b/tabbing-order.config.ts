@@ -99,9 +99,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   shippingAddressAccount: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
+    { type: TabbingOrderTypes.GENERIC_ELEMENT },
     {
       value: 'Ship to this address',
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     backButton,
     continueButton,
