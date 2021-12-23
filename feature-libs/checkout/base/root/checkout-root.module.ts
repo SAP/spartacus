@@ -14,27 +14,29 @@ import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context';
 
+export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
+  'CheckoutOrchestrator',
+  'CheckoutOrderSummary',
+  'CheckoutProgress',
+  'CheckoutProgressMobileBottom',
+  'CheckoutProgressMobileTop',
+  'CheckoutDeliveryMode',
+  'CheckoutPaymentDetails',
+  'CheckoutPlaceOrder',
+  'CheckoutReviewOrder',
+  'CheckoutShippingAddress',
+  'GuestCheckoutLoginComponent',
+  'OrderConfirmationThankMessageComponent',
+  'OrderConfirmationItemsComponent',
+  'OrderConfirmationTotalsComponent',
+  'OrderConfirmationOverviewComponent',
+];
+
 export function defaultCheckoutComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_FEATURE]: {
-        cmsComponents: [
-          'CheckoutOrchestrator',
-          'CheckoutOrderSummary',
-          'CheckoutProgress',
-          'CheckoutProgressMobileBottom',
-          'CheckoutProgressMobileTop',
-          'CheckoutDeliveryMode',
-          'CheckoutPaymentDetails',
-          'CheckoutPlaceOrder',
-          'CheckoutReviewOrder',
-          'CheckoutShippingAddress',
-          'GuestCheckoutLoginComponent',
-          'OrderConfirmationThankMessageComponent',
-          'OrderConfirmationItemsComponent',
-          'OrderConfirmationTotalsComponent',
-          'OrderConfirmationOverviewComponent',
-        ],
+        cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
         dependencies: [CART_FEATURE],
       },
       // by default core is bundled together with components

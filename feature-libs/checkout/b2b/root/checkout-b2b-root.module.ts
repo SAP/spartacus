@@ -1,5 +1,10 @@
 import { NgModule } from '@angular/core';
 import {
+  CheckoutRootModule,
+  CHECKOUT_BASE_CMS_COMPONENTS,
+  CHECKOUT_FEATURE,
+} from '@spartacus/checkout/base/root';
+import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
@@ -11,17 +16,19 @@ import {
   CHECKOUT_B2B_FEATURE,
 } from './feature-name';
 
+export const CHECKOUT_B2B_CMS_COMPONENTS: string[] = [
+  ...CHECKOUT_BASE_CMS_COMPONENTS,
+  'CheckoutCostCenterComponent',
+  'CheckoutPaymentType',
+];
+
 export function defaultCheckoutComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
       [CHECKOUT_B2B_FEATURE]: {
-        cmsComponents: [
-          'CheckoutCostCenterComponent',
-          'CheckoutPaymentType',
-          'CheckoutReviewOrder',
-          'CheckoutShippingAddress',
-        ],
+        cmsComponents: CHECKOUT_B2B_CMS_COMPONENTS,
       },
+      [CHECKOUT_FEATURE]: CHECKOUT_B2B_FEATURE,
       // by default core is bundled together with components
       [CHECKOUT_B2B_CORE_FEATURE]: CHECKOUT_B2B_FEATURE,
     },
@@ -30,7 +37,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [CheckoutB2BEventModule],
+  imports: [CheckoutRootModule, CheckoutB2BEventModule],
   providers: [
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
