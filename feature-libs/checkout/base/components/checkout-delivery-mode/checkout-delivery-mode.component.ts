@@ -95,15 +95,21 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(true);
 
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
-      complete: () =>
-        (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
-          false
-        ),
-      error: () =>
-        (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
-          false
-        ),
+      complete: () => this.onSuccess(),
+      error: () => this.onError(),
     });
+  }
+
+  protected onSuccess(): void {
+    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
+      false
+    );
+  }
+
+  protected onError(): void {
+    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
+      false
+    );
   }
 
   next(): void {
