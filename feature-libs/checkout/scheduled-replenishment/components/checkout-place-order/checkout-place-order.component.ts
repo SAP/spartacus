@@ -17,7 +17,7 @@ import {
 import { RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-place-order',
@@ -86,7 +86,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutScheduledReplenishmentFacade
+      this.checkoutReplenishmentFormService
         .getOrderType()
         .subscribe((orderType) => (this.currentOrderType = orderType))
     );
