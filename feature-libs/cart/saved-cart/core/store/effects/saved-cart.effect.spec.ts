@@ -2,7 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
+import { CartActions, CartConnector } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
@@ -41,8 +41,11 @@ class MockSavedCartConnector implements Partial<SavedCartConnector> {
   get = createSpy().and.returnValue(of(mockSavedCarts[0]));
   getList = createSpy().and.returnValue(of(mockSavedCarts));
   restoreSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
-  saveCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
   cloneSavedCart = createSpy().and.returnValue(of(mockSavedCarts[0]));
+}
+
+class MockCartConnector {
+  save = createSpy().and.returnValue(of(mockSavedCarts[0]));
 }
 
 const activeCart$ = new BehaviorSubject<Cart>(mockActiveCart);
@@ -59,6 +62,7 @@ describe('SavedCart Effects', () => {
   let effects: fromEffects.SavedCartEffects;
   let actions$: Observable<Action>;
   let globalMessageService: GlobalMessageService;
+  let cartConnector: CartConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -77,6 +81,7 @@ describe('SavedCart Effects', () => {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,
         },
+        { provide: CartConnector, useClass: MockCartConnector },
         provideMockActions(() => actions$),
       ],
     });
@@ -84,6 +89,7 @@ describe('SavedCart Effects', () => {
     activeCart$.next(mockActiveCart);
     effects = TestBed.inject(fromEffects.SavedCartEffects);
     connector = TestBed.inject(SavedCartConnector);
+    cartConnector = TestBed.inject(CartConnector);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
@@ -258,7 +264,7 @@ describe('SavedCart Effects', () => {
       });
 
       expect(effects.saveCart$).toBeObservable(expected);
-      expect(connector.saveCart).toHaveBeenCalledWith(
+      expect(cartConnector.save).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
         mockSavedCarts[0].name,
@@ -295,7 +301,7 @@ describe('SavedCart Effects', () => {
       });
 
       expect(effects.editSavedCart$).toBeObservable(expected);
-      expect(connector.saveCart).toHaveBeenCalledWith(
+      expect(cartConnector.save).toHaveBeenCalledWith(
         mockUserId,
         mockCartId,
         mockSavedCarts[0].name,

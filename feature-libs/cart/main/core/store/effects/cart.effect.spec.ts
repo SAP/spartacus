@@ -293,6 +293,18 @@ describe('Cart effect', () => {
 
       expect(cartEffects.mergeCart$).toBeObservable(expected);
     });
+
+    it('should do nothing if merged old cart is the same as session cart', () => {
+      const action = new CartActions.MergeCart({
+        userId: userId,
+        cartId: 'xxx',
+        tempCartId: 'temp-uuid',
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      expect(cartEffects.mergeCart$).toBeObservable(cold('--'));
+    });
   });
 
   describe('refresh$', () => {

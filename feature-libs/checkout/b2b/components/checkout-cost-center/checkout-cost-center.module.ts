@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartValidationGuard } from '@spartacus/cart/main/components';
+import { CartValidationGuard } from '@spartacus/cart/main/core';
 import {
   CartNotEmptyGuard,
   CheckoutAuthGuard,

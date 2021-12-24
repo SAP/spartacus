@@ -36,25 +36,6 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
-  saveCart(
-    userId: string,
-    cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
-  ): Observable<Cart> {
-    return this.http
-      .patch<Occ.Cart>(
-        this.getSaveCartEndpoint(
-          userId,
-          cartId,
-          saveCartName,
-          saveCartDescription
-        ),
-        cartId
-      )
-      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
-  }
-
   cloneSavedCart(
     userId: string,
     cartId: string,
@@ -84,22 +65,6 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
   ): string {
     return this.occEndpoints.buildUrl('restoreSavedCart', {
       urlParams: { userId, cartId },
-    });
-  }
-
-  protected getSaveCartEndpoint(
-    userId: string,
-    cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
-  ): string {
-    return this.occEndpoints.buildUrl('saveCart', {
-      urlParams: {
-        userId,
-        cartId,
-        saveCartName,
-        saveCartDescription,
-      },
     });
   }
 

@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { CartValidationFacade } from '@spartacus/cart/main/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { CartValidationStateService } from '../cart-validation-state.service';
 
 @Component({
   selector: 'cx-cart-item-validation-warning',
@@ -15,8 +15,9 @@ export class CartItemValidationWarningComponent {
   iconTypes = ICON_TYPE;
   isVisible = true;
 
-  cartModification$ =
-    this.cartValidationStateService.cartValidationResult$.pipe(
+  cartModification$ = this.cartValidationFacade
+    .getValidationResults()
+    .pipe(
       map((modificationList) =>
         modificationList.find(
           (modification) => modification.entry?.product?.code === this.code
@@ -24,7 +25,5 @@ export class CartItemValidationWarningComponent {
       )
     );
 
-  constructor(
-    protected cartValidationStateService: CartValidationStateService
-  ) {}
+  constructor(protected cartValidationFacade: CartValidationFacade) {}
 }
