@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PaymentDetails } from '@spartacus/checkout/base/root';
+import { PaymentDetails } from '@spartacus/cart/main/root';
 import {
   ConverterService,
   HttpParamsURIEncoder,

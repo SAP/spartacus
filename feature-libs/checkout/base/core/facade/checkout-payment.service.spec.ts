@@ -1,11 +1,13 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  ActiveCartFacade,
   CardType,
+  PaymentDetails,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutQueryFacade,
   CheckoutState,
-  PaymentDetails,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';

@@ -2,12 +2,12 @@ import {
   DeliveryMode,
   DeliveryOrderEntryGroup,
   OrderEntry,
+  PaymentDetails,
   PaymentType,
   PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
 } from '@spartacus/cart/main/root';
-import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,

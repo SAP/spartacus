@@ -1,4 +1,4 @@
-import { PaymentDetails } from '@spartacus/checkout/base/root';
+import { PaymentDetails } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 import { DpPaymentRequest } from '../models';
 

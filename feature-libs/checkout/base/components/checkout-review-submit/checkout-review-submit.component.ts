@@ -5,6 +5,7 @@ import {
   CartOutlets,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
@@ -13,7 +14,6 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import { Address, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';

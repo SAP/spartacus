@@ -5,11 +5,10 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
-  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,

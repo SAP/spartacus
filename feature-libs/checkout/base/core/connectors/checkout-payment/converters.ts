@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { CardType, PaymentDetails } from '@spartacus/checkout/base/root';
+import { CardType, PaymentDetails } from '@spartacus/cart/main/root';
 import { Converter } from '@spartacus/core';
 
 export const PAYMENT_DETAILS_SERIALIZER = new InjectionToken<

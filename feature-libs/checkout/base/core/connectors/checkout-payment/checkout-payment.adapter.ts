@@ -1,4 +1,4 @@
-import { CardType, PaymentDetails } from '@spartacus/checkout/base/root';
+import { CardType, PaymentDetails } from '@spartacus/cart/main/root';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutPaymentAdapter {

@@ -7,6 +7,7 @@ import {
   Cart,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PaymentType,
 } from '@spartacus/cart/main/root';
 import {
@@ -20,7 +21,6 @@ import {
   CheckoutPaymentFacade,
   CheckoutStep,
   CheckoutStepType,
-  PaymentDetails,
 } from '@spartacus/checkout/base/root';
 import {
   Address,

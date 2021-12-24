@@ -1,4 +1,3 @@
-import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
@@ -151,6 +150,28 @@ export interface DeliveryMode {
   deliveryCost?: Price;
   description?: string;
   name?: string;
+}
+
+export interface CardType {
+  code?: string;
+  name?: string;
+}
+
+export interface PaymentDetails {
+  accountHolderName?: string;
+  billingAddress?: Address;
+  cardNumber?: string;
+  cardType?: CardType;
+  cvn?: string;
+  defaultPayment?: boolean;
+  expiryMonth?: string;
+  expiryYear?: string;
+  id?: string;
+  issueNumber?: string;
+  saved?: boolean;
+  startMonth?: string;
+  startYear?: string;
+  subscriptionId?: string;
 }
 
 export enum CartType {
