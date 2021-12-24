@@ -64,6 +64,20 @@ export class DeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
 }
 
 /**
+ * Fired when the delivery address have been created.
+ */
+export class DeliveryAddressCreatedEvent extends CheckoutDeliveryAddressEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeliveryAddressCreatedEvent';
+  /**
+   * The address.
+   */
+  address: Address;
+}
+
+/**
  * Fired when the delivery address has to be cleared.
  */
 export class ClearCheckoutDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {

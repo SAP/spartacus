@@ -23,7 +23,7 @@ class MockCheckoutDeliveryModeService
   implements Partial<CheckoutDeliveryModesFacade>
 {
   loadSupportedDeliveryModes = createSpy();
-  setDeliveryMode = createSpy();
+  setDeliveryMode = createSpy().and.returnValue(of());
   getSupportedDeliveryModes = createSpy().and.returnValue(of());
   getSelectedDeliveryModeState = createSpy().and.returnValue(of());
   getLoadSupportedDeliveryModeProcess = createSpy().and.returnValue(of());

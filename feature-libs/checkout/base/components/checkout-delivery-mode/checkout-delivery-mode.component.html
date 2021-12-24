@@ -6,7 +6,11 @@
       </h2>
 
       <ng-container
-        *ngIf="(supportedDeliveryModes$ | async)?.length; else loading"
+        *ngIf="
+          (supportedDeliveryModes$ | async)?.length &&
+            !(changeDeliveryModeInProgress$ | async);
+          else loading
+        "
       >
         <div
           class="form-check"
@@ -47,7 +51,9 @@
       <div class="col-md-12 col-lg-6">
         <button
           class="btn btn-block btn-primary"
-          [disabled]="deliveryModeInvalid"
+          [disabled]="
+            deliveryModeInvalid || (changeDeliveryModeInProgress$ | async)
+          "
           (click)="next()"
         >
           {{ 'common.continue' | cxTranslate }}

@@ -14,6 +14,8 @@ import {
 import {
   Address,
   getLastValueSync,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -44,14 +46,15 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected paymentTypeFacade?: PaymentTypeFacade,
+    protected globalMessageService: GlobalMessageService,
+    protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterFacade?: CheckoutCostCenterFacade
+    protected checkoutCostCenterService?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -67,7 +70,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   get selectedAddress$(): Observable<Address> {
-    return this.checkoutDeliveryFacade.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryService.getDeliveryAddress().pipe(
       tap((address) => {
         if (
           address &&
@@ -112,10 +115,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   getSupportedAddresses(): Observable<Address[]> {
     if (
       this.isAccountPayment &&
-      this.checkoutCostCenterFacade &&
+      this.checkoutCostCenterService &&
       this.userCostCenterService
     ) {
-      return this.checkoutCostCenterFacade.getCostCenter().pipe(
+      return this.checkoutCostCenterService.getCostCenter().pipe(
         distinctUntilChanged(),
         switchMap((selected) => {
           this.doneAutoSelect = false;
@@ -153,12 +156,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (
-      this.paymentTypeFacade &&
+      this.paymentTypeService &&
       this.userCostCenterService &&
-      this.checkoutCostCenterFacade
+      this.checkoutCostCenterService
     ) {
       this.subscriptions.add(
-        this.paymentTypeFacade
+        this.paymentTypeService
           .isAccountPayment()
           .pipe(distinctUntilChanged())
           .subscribe((isAccount) => (this.isAccountPayment = isAccount))
@@ -198,13 +201,17 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
-    this.checkoutDeliveryFacade.setDeliveryAddress(address);
+    this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {
-      this.checkoutDeliveryFacade.createAndSetAddress(address);
+      this.checkoutDeliveryService.createAndSetAddress(address);
+      this.globalMessageService.add(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     } else {
       this.forceLoader = false;
       this.next();
