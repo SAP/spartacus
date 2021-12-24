@@ -25,4 +25,5 @@ export * from './checkout-review-submit/checkout-review-submit.module';
 export * from './checkout-shipping-address/checkout-shipping-address.component';
 export * from './checkout-shipping-address/checkout-shipping-address.module';
 export * from './guards/index';
+export * from './page-context/index';
 export * from './services/index';

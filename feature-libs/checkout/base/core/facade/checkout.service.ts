@@ -91,7 +91,7 @@ export class CheckoutService implements CheckoutFacade {
     return this.placeOrderCommand.execute(termsChecked);
   }
 
-  getOrder(): Observable<Order | undefined> {
+  getOrderDetails(): Observable<Order | undefined> {
     return this.order$.asObservable();
   }
 

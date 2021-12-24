@@ -17,7 +17,7 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder = createSpy().and.returnValue(
+  getOrderDetails = createSpy().and.returnValue(
     of({
       code: 'test-code-412',
       guid: 'guid',
@@ -80,7 +80,7 @@ describe('CheckoutOrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    checkoutService.getOrder = createSpy().and.returnValue(
+    checkoutService.getOrderDetails = createSpy().and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
 

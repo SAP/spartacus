@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/main/root';
+import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { of } from 'rxjs';
-import { CheckoutFacade } from '../facade/checkout.facade';
-import { OrderConfirmationOrderEntriesContext } from './order-confirmation-order-entries-context';
+import { OrderConfirmationOrderEntriesContext } from './order-confirmation-order-entries.context';
 import createSpy = jasmine.createSpy;
 
 const mockEntries: OrderEntry[] = [
@@ -12,20 +12,20 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder = createSpy().and.returnValue(of({ entries: mockEntries }));
+class MockUserOrderService implements Partial<CheckoutFacade> {
+  getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
 describe('OrderConfirmationOrderEntriesContext', () => {
   let service: OrderConfirmationOrderEntriesContext;
-  let checkoutService: CheckoutFacade;
+  let userOrderService: CheckoutFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ useClass: MockCheckoutService, provide: CheckoutFacade }],
+      providers: [{ useClass: MockUserOrderService, provide: CheckoutFacade }],
     });
     service = TestBed.inject(OrderConfirmationOrderEntriesContext);
-    checkoutService = TestBed.inject(CheckoutFacade);
+    userOrderService = TestBed.inject(CheckoutFacade);
   });
 
   it('should be created', () => {
@@ -34,7 +34,7 @@ describe('OrderConfirmationOrderEntriesContext', () => {
 
   describe('getEntries', () => {
     it('getEntries from order details', () => {
-      let entries: OrderEntry[] | undefined;
+      let entries: OrderEntry[];
       service
         .getEntries()
         .subscribe((result) => {
@@ -42,7 +42,7 @@ describe('OrderConfirmationOrderEntriesContext', () => {
         })
         .unsubscribe();
 
-      expect(checkoutService.getOrder).toHaveBeenCalledWith();
+      expect(userOrderService.getOrderDetails).toHaveBeenCalledWith();
       expect(entries).toEqual(mockEntries);
     });
   });

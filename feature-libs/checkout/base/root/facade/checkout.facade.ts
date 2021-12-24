@@ -10,7 +10,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
     facadeFactory({
       facade: CheckoutFacade,
       feature: CHECKOUT_CORE_FEATURE,
-      methods: ['getOrder', 'clearOrder', 'setOrder', 'placeOrder'],
+      methods: ['getOrderDetails', 'clearOrder', 'setOrder', 'placeOrder'],
       // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
@@ -19,7 +19,7 @@ export abstract class CheckoutFacade {
   /**
    * Returns the current order
    */
-  abstract getOrder(): Observable<Order | undefined>;
+  abstract getOrderDetails(): Observable<Order | undefined>;
   /**
    * Clears the current order
    */

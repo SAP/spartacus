@@ -6,13 +6,14 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context';
+import { OrderConfirmationOrderEntriesContextToken } from './tokens/index';
 
 export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutOrchestrator',
@@ -37,7 +38,7 @@ export function defaultCheckoutComponentsConfig() {
     featureModules: {
       [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
-        dependencies: [CART_FEATURE],
+        dependencies: [CART_FEATURE, ORDER_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,
@@ -58,7 +59,7 @@ export function defaultCheckoutComponentsConfig() {
         data: {
           cxRoute: 'orderConfirmation',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
           },
         },
       },
