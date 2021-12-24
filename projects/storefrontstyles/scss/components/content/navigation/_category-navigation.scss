@@ -33,9 +33,10 @@
   cx-navigation-ui.flyout {
     @include media-breakpoint-down(md) {
       &.is-open {
-        li.is-open {
-          > span,
-          > button {
+        li.is-open:not(.back) {
+          > span {
+          //> span,
+          //> button {
             display: none;
           }
         }

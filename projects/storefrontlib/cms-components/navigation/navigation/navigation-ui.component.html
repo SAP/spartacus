@@ -1,12 +1,11 @@
 <nav>
   <ul>
-    <div *ngIf="flyout && node?.children.length > 1" class="back is-open">
-      <!--      <button class="is-open">-->
+    <li *ngIf="flyout && node?.children.length > 1" class="back is-open">
       <button (click)="back()">
         <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
         {{ 'common.back' | cxTranslate }}
       </button>
-    </div>
+    </li>
 
     <ng-container *ngFor="let child of node?.children">
       <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
@@ -29,10 +28,6 @@
       [class]="node.styleClasses"
     >
       {{ node.title }}
-      <cx-icon
-        *ngIf="flyout && node.children?.length > 0"
-        [type]="iconType.CARET_DOWN"
-      ></cx-icon>
     </cx-generic-link>
 
     <ng-template #heading>
@@ -45,7 +40,6 @@
           {{ node.title }}
         </cx-generic-link>
         <button
-          *ngIf="depth === 0; else title"
           [attr.tabindex]="0"
           [attr.aria-haspopup]="true"
           (click)="toggleOpen($event)"
@@ -58,12 +52,6 @@
           </ng-container>
           <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
         </button>
-        <ng-template #title>
-          <button [attr.tabindex]="0" [attr.aria-haspopup]="true">
-            {{ node.title }}
-            <!--          <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>-->
-          </button>
-        </ng-template>
       </ng-container>
       <ng-template #span>
         <span [attr.tabindex]="-1">

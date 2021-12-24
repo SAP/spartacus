@@ -138,6 +138,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
     const parentNode = <HTMLElement>node.parentNode;
+    console.log('parentNode', parentNode, node);
     if (this.openNodes.includes(parentNode)) {
       if (event.type === 'keydown') {
         this.back();

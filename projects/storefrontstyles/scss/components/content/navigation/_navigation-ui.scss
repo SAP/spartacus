@@ -170,21 +170,22 @@
 }
 
 @include media-breakpoint-up(lg) {
-  //cx-navigation-ui > nav > ul > li {
-  li {
-    padding-inline-end: 15px;
+  cx-navigation-ui nav {
+    li {
+      padding-inline-end: 15px;
 
-    > cx-generic-link > a {
-      padding-top: 20px;
-      padding-bottom: 22px;
-      padding-inline-start: 0;
+      > cx-generic-link > a {
+        padding-top: 20px;
+        padding-bottom: 22px;
+        padding-inline-start: 0;
+      }
     }
-  }
-  li > div > cx-generic-link {
-    padding: 10px 0;
-  }
-  ul.childs > li > cx-generic-link > a {
-    padding: 5px 0;
+    li > div > cx-generic-link {
+      padding: 10px 0;
+    }
+    ul.childs > li > cx-generic-link > a {
+      padding: 5px 0;
+    }
   }
 }
 
@@ -278,9 +279,7 @@
     @include media-breakpoint-down(md) {
       flex-direction: column;
       color: #000;
-    }
 
-    @include media-breakpoint-down(md) {
       &.is-open {
         > nav > ul > li {
           display: none;
@@ -298,14 +297,16 @@
           }
         }
 
-        li.is-opened {
+        .is-opened {
+        //li.is-opened {
           display: initial;
-          > .wrapper > .childs > ul > li {
+          > .wrapper > ul.childs > li {
             display: none;
             &.is-open {
               display: initial;
             }
           }
+          > cx-generic-link,
           > span,
           > button {
             display: none;
