@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { CxEvent, EventService, GlobalMessageService } from '@spartacus/core';
+import {
+  CxEvent,
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
@@ -22,6 +27,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
 
 describe(`CheckoutPaymentEventListener`, () => {
   let eventService: EventService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -40,6 +46,7 @@ describe(`CheckoutPaymentEventListener`, () => {
 
     TestBed.inject(CheckoutPaymentEventListener);
     eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(`onPaymentChange`, () => {
@@ -59,6 +66,17 @@ describe(`CheckoutPaymentEventListener`, () => {
         {},
         ResetCheckoutQueryEvent
       );
+    });
+
+    describe(`global message`, () => {
+      it(`PaymentDetailsCreatedEvent should add a global message`, () => {
+        mockEventStream$.next(new PaymentDetailsCreatedEvent());
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'paymentForm.paymentAddedSuccessfully' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
   });
 });

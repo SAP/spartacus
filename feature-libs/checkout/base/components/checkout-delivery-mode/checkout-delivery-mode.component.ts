@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { DeliveryMode } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -35,6 +35,10 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   mode: FormGroup = this.fb.group({
     deliveryModeId: ['', Validators.required],
   });
+
+  changeDeliveryModeInProgress$: Observable<boolean> = new BehaviorSubject(
+    false
+  );
 
   constructor(
     protected fb: FormBuilder,
@@ -88,7 +92,24 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   changeMode(code: string): void {
-    this.checkoutDeliveryModesFacade.setDeliveryMode(code);
+    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(true);
+
+    this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
+      complete: () => this.onSuccess(),
+      error: () => this.onError(),
+    });
+  }
+
+  protected onSuccess(): void {
+    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
+      false
+    );
+  }
+
+  protected onError(): void {
+    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
+      false
+    );
   }
 
   next(): void {

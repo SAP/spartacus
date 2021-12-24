@@ -15,12 +15,12 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
+  map,
   pluck,
   shareReplay,
   take,
   tap,
   withLatestFrom,
-  map,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
