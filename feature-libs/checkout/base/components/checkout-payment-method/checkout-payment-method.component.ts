@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -15,7 +15,6 @@ import {
   getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
-  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';

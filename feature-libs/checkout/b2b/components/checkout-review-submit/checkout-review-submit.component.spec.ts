@@ -7,6 +7,7 @@ import {
   Cart,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PaymentType,
 } from '@spartacus/cart/main/root';
 import {
@@ -26,7 +27,6 @@ import {
   CostCenter,
   Country,
   I18nTestingModule,
-  PaymentDetails,
   QueryState,
   UserCostCenterService,
 } from '@spartacus/core';

@@ -9,9 +9,9 @@ import {
   CheckoutDeliveryAddressService,
   CheckoutPaymentService,
 } from '@spartacus/checkout/base/core';
+import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
-  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';

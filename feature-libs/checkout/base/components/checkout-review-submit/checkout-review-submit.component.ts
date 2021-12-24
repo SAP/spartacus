@@ -5,6 +5,7 @@ import {
   CartOutlets,
   DeliveryMode,
   OrderEntry,
+  PaymentDetails,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
 import {
@@ -14,7 +15,7 @@ import {
   CheckoutStep,
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
-import { Address, PaymentDetails, TranslationService } from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

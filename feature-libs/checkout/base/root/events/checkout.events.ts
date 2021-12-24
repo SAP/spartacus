@@ -1,4 +1,5 @@
-import { Address, CxEvent, PaymentDetails } from '@spartacus/core';
+import { PaymentDetails } from '@spartacus/cart/main/root';
+import { Address, CxEvent } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 
 /**

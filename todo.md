@@ -61,20 +61,16 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-10. Move models from _core_ to _checkout root_: 
-    1.  projects/core/src/model/payment.model.ts to base-root
-    2.  cost center from projects/core/src/model/org-unit.model.ts to b2b-root
-    3.  projects/core/src/model/address.model.ts to user lib? add a todo, since the user address is still in core
-11. align the event names - prefix them with Checkout?
-12. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
-13. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+10. align the event names - prefix them with Checkout?
+11. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
+12. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    4.  Rename the checkout components' selectors to have the checkout prefix?
-14. query debounce - `feature/query-debounce`
-15. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-16. Look into `TODO(#8880):`
-17. check changes to the old checkout
+13. query debounce - `feature/query-debounce`
+14. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+15. Look into `TODO(#8880):`
+16. check changes to the old checkout
    1. revert the variable names from *facade to *service _in old checkout only_
-18. check the bundle size of checkout (maybe using webpack analyzer)
+17. check the bundle size of checkout (maybe using webpack analyzer)
 
 ## Near the end
 
