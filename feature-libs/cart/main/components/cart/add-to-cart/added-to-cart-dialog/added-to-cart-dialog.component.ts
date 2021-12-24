@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -6,6 +6,7 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
+import { getLastValueSync } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
@@ -21,13 +22,14 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent {
+export class AddedToCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
 
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
-  addedEntryWasMerged$: Observable<boolean>;
+  addedEntryWasMerged: boolean = false;
+
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -78,6 +80,15 @@ export class AddedToCartDialogComponent {
       );
     }
     return this.quantityControl$;
+  }
+
+  ngOnInit() {
+    this.addedEntryWasMerged =
+      getLastValueSync(
+        this.entry$.pipe(
+          map((cartEntry) => (cartEntry?.quantity ?? 0) > this.quantity)
+        )
+      ) ?? false;
   }
 
   /**

@@ -165,6 +165,7 @@ describe('AddedToCartDialogComponent', () => {
     spyOn(activeCartService, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
     component.loaded$ = of(true);
+    component.quantity = mockOrderEntry[0].quantity ?? 0;
   });
 
   it('should create', () => {
@@ -226,11 +227,6 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show added dialog title message in case new entry appears in cart', () => {
-    component.entry$ = of(mockOrderEntry[0]);
-    component.loaded$ = of(true);
-    component.addedEntryWasMerged$ = of(false);
-    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
-    component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -239,10 +235,7 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show increment dialog title message in case no new entry appears in cart', () => {
-    component.entry$ = of(mockOrderEntry[0]);
-    component.loaded$ = of(true);
-    component.addedEntryWasMerged$ = of(true);
-    spyOn(activeCartService, 'getEntries').and.returnValue(of(mockOrderEntry));
+    component.entry$ = of(mockOrderEntry[1]);
     component.ngOnInit();
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
