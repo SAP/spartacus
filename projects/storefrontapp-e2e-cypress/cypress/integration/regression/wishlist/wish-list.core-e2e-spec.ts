@@ -3,6 +3,7 @@ import * as login from '../../../helpers/login';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 
+// Slow test. Improve Execution in pipeline. 
 describe('Wish list', () => {
   before(() => {
     cy.window().then((win) => {

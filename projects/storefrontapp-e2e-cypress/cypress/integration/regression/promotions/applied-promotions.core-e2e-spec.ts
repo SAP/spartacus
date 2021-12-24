@@ -2,6 +2,8 @@ import * as appliedPromotions from '../../../helpers/applied-promotions';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { standardUser } from '../../../sample-data/shared-users';
 
+// Slow test. Improve Execution in pipeline. 
+
 context('Applied promotions', () => {
   viewportContext(['desktop'], () => {
     before(() => {

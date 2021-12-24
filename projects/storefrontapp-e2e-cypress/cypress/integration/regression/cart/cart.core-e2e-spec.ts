@@ -5,6 +5,7 @@ import { clickHamburger } from '../../../helpers/homepage';
 import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
 
+// Slow test. Improve Execution in pipeline. 
 describe('Cart', () => {
   viewportContext(['mobile'], () => {
     context('Anonymous user', () => {
