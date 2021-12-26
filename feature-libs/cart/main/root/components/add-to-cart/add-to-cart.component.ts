@@ -14,7 +14,6 @@ import {
   FacadeFactoryService,
   isNotNullable,
   Product,
-  UnifiedInjector,
 } from '@spartacus/core';
 import {
   CmsComponentData,
@@ -63,7 +62,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
-    protected injector: UnifiedInjector,
     protected facadeFactoryService: FacadeFactoryService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
