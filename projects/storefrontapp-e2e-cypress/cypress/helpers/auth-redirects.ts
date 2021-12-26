@@ -2,6 +2,7 @@ import { standardUser } from '../sample-data/shared-users';
 import { AccountData } from '../support/require-logged-in.commands';
 import { config } from '../support/utils/login';
 import { generateMail, randomString } from './user';
+import * as authForms from './auth-forms';
 
 const AUTH_STORAGE_KEY = 'spartacus⚿⚿auth';
 
@@ -72,5 +73,35 @@ export function revokeAccessToken() {
           message: [`🚨 Access token revoked`],
         });
       });
+  });
+}
+
+export function testRedirectBackfterLogin() {
+  it('should redirect back after the login', () => {
+    const user = createUser();
+    cy.visit(`/contact`);
+
+    cy.get('cx-login').click();
+    cy.location('pathname').should('contain', '/login');
+    authForms.login(
+      user.registrationData.email,
+      user.registrationData.password
+    );
+
+    cy.location('pathname').should('contain', '/contact');
+  });
+}
+
+export function testRedirectAfterForcedLogin() {
+  it('should redirect back after the forced login', () => {
+    const user = createUser();
+    cy.visit(`/my-account/address-book`);
+    cy.location('pathname').should('contain', '/login');
+    authForms.login(
+      user.registrationData.email,
+      user.registrationData.password
+    );
+
+    cy.location('pathname').should('contain', '/my-account/address-book');
   });
 }

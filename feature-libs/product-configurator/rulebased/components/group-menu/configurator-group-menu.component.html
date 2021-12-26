@@ -1,5 +1,11 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <div class="cx-group-menu" role="tablist">
+    <span id="listOfGroups" class="cx-visually-hidden">
+      {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
+    </span>
+    <span id="inListOfGroups" class="cx-visually-hidden" aria-hidden="true">
+      {{ 'configurator.a11y.inListOfGroups' | cxTranslate }}
+    </span>
     <ng-container *ngIf="displayedGroups$ | async as groups">
       <ng-container *ngIf="currentGroup$ | async as currentGroup">
         <ng-container *ngFor="let group of groups; let groupIndex = index">
@@ -10,6 +16,12 @@
               class="cx-menu-back"
               role="tab"
               [attr.aria-selected]="false"
+              [attr.aria-label]="
+                isConflictGroupType(parentGroup.groupType)
+                  ? ('configurator.a11y.conflictBack' | cxTranslate)
+                  : ('configurator.a11y.groupBack' | cxTranslate)
+              "
+              aria-describedby="listOfGroups"
               [cxFocus]="{ key: 'cx-menu-back' }"
               (click)="navigateUp()"
               (keydown)="
@@ -29,8 +41,12 @@
             [class.cx-menu-conflict]="isConflictGroupType(group.groupType)"
             [class.active]="isGroupSelected(group.id, currentGroup.id)"
             [class.disable]="!group.configurable"
+            [attr.aria-describedby]="
+              getAriaDescribedby(group, configuration) | async
+            "
             [attr.aria-selected]="isGroupSelected(group.id, currentGroup.id)"
             [attr.aria-controls]="createAriaControls(group.id)"
+            [attr.aria-label]="getAriaLabel(group)"
             [cxFocus]="{
               key: group.id
             }"
@@ -46,16 +62,41 @@
                 {{ getConflictNumber(group) }}
               </div>
               <div class="groupStatusIndicator">
-                <cx-icon class="WARNING" [type]="iconTypes.WARNING"></cx-icon>
+                <cx-icon
+                  class="WARNING"
+                  [type]="iconTypes.WARNING"
+                  id="{{ createIconId(iconTypes.WARNING, group.id) }}"
+                  [attr.aria-label]="
+                    'configurator.a11y.iconConflict' | cxTranslate
+                  "
+                ></cx-icon>
               </div>
               <div class="groupStatusIndicator">
-                <cx-icon class="ERROR" [type]="iconTypes.ERROR"></cx-icon>
-                <cx-icon class="COMPLETE" [type]="iconTypes.SUCCESS"></cx-icon>
+                <cx-icon
+                  class="ERROR"
+                  [type]="iconTypes.ERROR"
+                  id="{{ createIconId(iconTypes.ERROR, group.id) }}"
+                  [attr.aria-label]="
+                    'configurator.a11y.iconIncomplete' | cxTranslate
+                  "
+                ></cx-icon>
+                <cx-icon
+                  class="COMPLETE"
+                  [type]="iconTypes.SUCCESS"
+                  id="{{ createIconId(iconTypes.SUCCESS, group.id) }}"
+                  [attr.aria-label]="
+                    'configurator.a11y.iconComplete' | cxTranslate
+                  "
+                ></cx-icon>
               </div>
               <div class="subGroupIndicator">
                 <cx-icon
                   *ngIf="hasSubGroups(group)"
                   [type]="iconTypes.CARET_RIGHT"
+                  id="{{ createIconId(iconTypes.CARET_RIGHT, group.id) }}"
+                  [attr.aria-label]="
+                    'configurator.a11y.iconSubGroup' | cxTranslate
+                  "
                 ></cx-icon>
               </div>
             </div>
