@@ -1,4 +1,10 @@
-import { Injectable, NgModule } from '@angular/core';
+import {
+  AbstractType,
+  Injectable,
+  InjectionToken,
+  NgModule,
+  Type,
+} from '@angular/core';
 import {
   fakeAsync,
   flushMicrotasks,
@@ -7,6 +13,7 @@ import {
 } from '@angular/core/testing';
 import {
   BehaviorSubject,
+  EMPTY,
   isObservable,
   Observable,
   of,
@@ -17,6 +24,7 @@ import { CmsConfig } from '../../cms/config/cms-config';
 import { EventService } from '../../event/event.service';
 import { getLastValueSync } from '../../util/rxjs/get-last-value-sync';
 import { ModuleInitializedEvent } from '../events/module-initialized-event';
+import { UnifiedInjector } from '../unified-injector';
 import { FacadeDescriptor } from './facade-descriptor';
 import { facadeFactory } from './facade-factory';
 import { FacadeFactoryService } from './facade-factory.service';
@@ -63,6 +71,15 @@ class TestFacadeService implements TestFacade {
   }
 }
 
+class mockUnifiedInjector implements Partial<UnifiedInjector> {
+  get<T>(
+    _token: Type<T> | InjectionToken<T> | AbstractType<T>,
+    _notFoundValue?: T
+  ): Observable<T> {
+    return EMPTY;
+  }
+}
+
 @NgModule({
   providers: [
     {
@@ -81,7 +98,7 @@ const MockCmsConfig: CmsConfig = {
   },
 };
 
-describe('FacadeFactoryService', () => {
+fdescribe('FacadeFactoryService', () => {
   let service: FacadeFactoryService;
   let moduleInitializedEvent: ModuleInitializedEvent;
   let subscription: Subscription;
@@ -92,6 +109,10 @@ describe('FacadeFactoryService', () => {
         {
           provide: CmsConfig,
           useValue: MockCmsConfig,
+        },
+        {
+          provide: UnifiedInjector,
+          useClass: mockUnifiedInjector,
         },
       ],
     });
@@ -191,6 +212,30 @@ describe('FacadeFactoryService', () => {
       it('should proxy return observable from the property', async () => {
         const result = await facade.testProperty.toPromise();
         expect(result).toEqual(333);
+      });
+    });
+  });
+
+  describe('isFacadeImplProvided', () => {
+    it('should return false for factory created facades.', (done) => {
+      const unifiedInjector = TestBed.inject(UnifiedInjector);
+      spyOn(unifiedInjector, 'get').and.returnValue(
+        of(service.create(testFacadeDescriptor))
+      );
+      service.isFacadeImplProvided(TestFacade).subscribe((result) => {
+        expect(result).toEqual(false);
+        done();
+      });
+    });
+
+    it('should return true for facades backed by an implmentation.', (done) => {
+      const unifiedInjector = TestBed.inject(UnifiedInjector);
+      spyOn(unifiedInjector, 'get').and.returnValue(
+        of(new TestFacadeService())
+      );
+      service.isFacadeImplProvided(TestFacade).subscribe((result) => {
+        expect(result).toEqual(true);
+        done();
       });
     });
   });
