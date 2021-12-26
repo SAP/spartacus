@@ -116,7 +116,7 @@ describe('FacadeFactoryService', () => {
       expect(facade.testMethod).toBeTruthy();
       expect(facade.testMethod2).toBeTruthy();
       expect(facade.testProperty).toBeTruthy();
-      expect(service.isProxyFacadeInstance(facade)).toBeTruthy();
+      expect(service['isProxyFacadeInstance'](facade)).toBeTruthy();
     });
 
     it('should not trigger lazy loading', fakeAsync(() => {
@@ -151,7 +151,7 @@ describe('FacadeFactoryService', () => {
     });
 
     it('should be identified as a proxy instance', () => {
-      expect(service.isProxyFacadeInstance(facade)).toBeTruthy();
+      expect(service['isProxyFacadeInstance'](facade)).toBeTruthy();
     });
 
     describe('method call', () => {
