@@ -1,19 +1,36 @@
 <label
   id="{{ createAttributeUiKey('label', attribute.name) }}"
-  [class.cx-required-icon]="attribute.required"
   [class.cx-required-error]="showRequiredMessageForDomainAttribute$ | async"
   [attr.aria-label]="
     !attribute.required
-      ? attribute.label
-      : ('configurator.attribute.requiredAttribute'
+      ? ('configurator.a11y.attribute'
+        | cxTranslate: { attribute: attribute.label })
+      : ('configurator.a11y.requiredAttribute'
         | cxTranslate: { param: attribute.label })
   "
-  >{{ attribute.label }}</label
+  ><span
+    [class.cx-required-icon]="attribute.required"
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+    >{{ attribute.label }}</span
+  ></label
 >
-<div *ngIf="attribute.hasConflicts" class="cx-conflict-msg">
+<div
+  *ngIf="attribute.hasConflicts"
+  class="cx-conflict-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-live]="isAttributeGroup(groupType) ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isAttributeGroup(groupType) ? true : false"
+  role="alert"
+  [attr.aria-label]="
+    isAttributeGroup(groupType)
+      ? ('configurator.a11y.conflictDetected' | cxTranslate)
+      : ''
+  "
+>
   <cx-icon
     *ngIf="isAttributeGroup(groupType)"
     [type]="iconTypes.WARNING"
+    aria-hidden="true"
   ></cx-icon>
   <div class="cx-conflict-msg">
     {{ getConflictMessageKey(groupType) | cxTranslate }}
@@ -22,6 +39,8 @@
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
   class="cx-required-error-msg"
+  id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
+  [attr.aria-label]="getRequiredMessageKey() | cxTranslate"
 >
   <cx-icon [type]="iconTypes.ERROR"></cx-icon>
   {{ getRequiredMessageKey() | cxTranslate }}

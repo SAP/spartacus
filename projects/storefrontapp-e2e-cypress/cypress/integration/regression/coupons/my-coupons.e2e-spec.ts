@@ -3,6 +3,19 @@ import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import * as myCoupons from '../../../helpers/coupons/my-coupons';
 import { viewportContext } from '../../../helpers/viewport-context';
 
+viewportContext(['mobile'], () => {
+  describe('My coupons - Authenticated user', () => {
+    beforeEach(() => {
+      cy.window().then((win) => {
+        win.sessionStorage.clear();
+      });
+      cy.requireLoggedIn();
+    });
+
+    // Core Test. Test in mobile as well.
+    myCoupons.testClaimCustomerCoupon();
+  });
+});
 viewportContext(['mobile', 'desktop'], () => {
   describe('My coupons - Anonymous user', () => {
     it('should redirect to login page', () => {
@@ -23,17 +36,8 @@ viewportContext(['mobile', 'desktop'], () => {
       cy.requireLoggedIn();
     });
 
-    describe('Claim customer coupon', () => {
-      it('should claim customer coupon successfully', () => {
-        myCoupons.verifyClaimCouponSuccess(myCoupons.validCouponCode);
-        cy.saveLocalStorage();
-      });
-
-      it('should not claim invalid customer coupon', () => {
-        cy.restoreLocalStorage();
-        myCoupons.verifyClaimCouponFail(myCoupons.invalidCouponCode);
-      });
-    });
+    // Core Test
+    //myCoupons.testClaimCustomerCoupon();
 
     it('should claim customer coupon, switch notification button and find products', () => {
       visitHomePage();

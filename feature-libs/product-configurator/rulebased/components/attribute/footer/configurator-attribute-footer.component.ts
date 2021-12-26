@@ -10,18 +10,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeFooterComponent implements OnInit {
+export class ConfiguratorAttributeFooterComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+    super();
+  }
 
   iconType = ICON_TYPE;
   showRequiredMessageForUserInput$: Observable<boolean>;

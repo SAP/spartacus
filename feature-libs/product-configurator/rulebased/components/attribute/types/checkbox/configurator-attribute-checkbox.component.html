@@ -15,6 +15,19 @@
         (change)="onSelect()"
         [formControl]="attributeCheckBoxForm"
         name="{{ createAttributeIdForConfigurator(attribute) }}"
+        [attr.aria-label]="
+          'configurator.a11y.valueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute?.values[0].valueDisplay,
+                  attribute: attribute.label
+                }
+        "
+        [attr.aria-describedby]="
+          createAttributeUiKey('label', attribute.name) +
+          ' ' +
+          createAttributeUiKey('attribute-msg', attribute.name)
+        "
       />
       <label
         id="{{
@@ -30,6 +43,7 @@
             attribute?.values[0].valueCode
           )
         }}"
+        aria-hidden="true"
         class="form-check-label"
         >{{ attribute?.values[0].valueDisplay }}</label
       >
@@ -59,6 +73,28 @@
             (change)="onSelect()"
             [formControl]="attributeCheckBoxForm"
             name="{{ createAttributeIdForConfigurator(attribute) }}"
+            [attr.aria-label]="
+              attribute?.values[0].valuePrice &&
+              attribute?.values[0].valuePrice?.value !== 0
+                ? ('configurator.a11y.valueOfAttributeFullWithPrice'
+                  | cxTranslate
+                    : {
+                        value: attribute?.values[0].valueDisplay,
+                        attribute: attribute.label,
+                        price: attribute?.values[0].valuePrice.formattedValue
+                      })
+                : ('configurator.a11y.valueOfAttributeFull'
+                  | cxTranslate
+                    : {
+                        value: attribute?.values[0].valueDisplay,
+                        attribute: attribute.label
+                      })
+            "
+            [attr.aria-describedby]="
+              createAttributeUiKey('label', attribute.name) +
+              ' ' +
+              createAttributeUiKey('attribute-msg', attribute.name)
+            "
           />
           <label
             id="{{
@@ -74,6 +110,7 @@
                 attribute?.values[0].valueCode
               )
             }}"
+            aria-hidden="true"
             class="form-check-label"
             >{{ attribute?.values[0].valueDisplay }}</label
           >
