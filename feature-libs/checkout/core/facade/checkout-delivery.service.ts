@@ -14,12 +14,12 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
+  map,
   pluck,
   shareReplay,
   take,
   tap,
   withLatestFrom,
-  map,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -132,7 +132,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   getSetDeliveryModeInProcess(): Observable<boolean> {
     return combineLatest([
-      this.activeCartService.isStable(),
+      this.activeCartFacade.isStable(),
       this.checkoutService.isLoading(),
       this.getSetDeliveryModeProcess(),
     ]).pipe(

@@ -277,7 +277,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should return set delivery mode in process flag as true when cart is not stable', () => {
-    spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+    spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
 
     let setDeliveryModeInProcess = false;
     service
