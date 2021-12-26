@@ -6,7 +6,6 @@ import {
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
-  UnifiedInjector,
 } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import {
@@ -28,7 +27,6 @@ export class MiniCartComponentService {
     protected authService: AuthService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService,
-    protected injector: UnifiedInjector,
     protected facadeFactoryService: FacadeFactoryService
   ) {}
 
@@ -88,7 +86,7 @@ export class MiniCartComponentService {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
-      this.isActiveCartFacadeImplProvided(),
+      this.facadeFactoryService.isFacadeImplProvided(ActiveCartFacade),
     ]).pipe(
       map(
         ([hasCartInStorage, isUserLoggedIn, isActiveCartFacadeImplProvided]) =>
@@ -102,25 +100,6 @@ export class MiniCartComponentService {
   protected hasActiveCartInStorage(): Observable<boolean> {
     return this.getCartStateFromBrowserStorage().pipe(
       map((state) => Boolean(state?.active))
-    );
-  }
-
-  /**
-   * When lazy loading is used, the ActiveCartFacade is imiplemented
-   * with a proxy class.  When the code chunk with the ActiveCartFacade
-   * is lazy loaded, the ActiveCartFacade proxy is replaced with the actual
-   * ActiveCartFacade implementation.  This is why we can use this to evaluate
-   * if the library chunk that contains the ActiveCartFacade imiplementation has be
-   * loaded already or not.
-   */
-  protected isActiveCartFacadeImplProvided(): Observable<boolean> {
-    return this.injector.get(ActiveCartFacade).pipe(
-      map(
-        (activeCartFacade) =>
-          activeCartFacade !== undefined &&
-          !this.facadeFactoryService.isProxyFacadeInstance(activeCartFacade)
-      ),
-      distinctUntilChanged()
     );
   }
 

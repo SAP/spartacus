@@ -140,10 +140,18 @@ export class FacadeFactoryService {
    * Facade proxy instances contain an object key to label them as such.
    * @param facade The facade object to evaluate
    */
-  isProxyFacadeInstance(facade: any) {
+  protected isProxyFacadeInstance(facade: any) {
     return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
   }
 
+  /**
+   * When lazy loading is used, a facade is implemented
+   * with a proxy class.  When the code chunk with the facade imiplementation
+   * is lazy loaded, the facade proxy is replaced with the actual
+   * facade implementation.  This is why we can use this to evaluate
+   * if the library chunk that contains the facade imiplementation has be
+   * loaded already or not.
+   */
   isFacadeImplProvided<T>(
     token: Type<T> | InjectionToken<T> | AbstractType<T>
   ): Observable<boolean> {
