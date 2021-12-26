@@ -98,7 +98,7 @@ const MockCmsConfig: CmsConfig = {
   },
 };
 
-fdescribe('FacadeFactoryService', () => {
+describe('FacadeFactoryService', () => {
   let service: FacadeFactoryService;
   let moduleInitializedEvent: ModuleInitializedEvent;
   let subscription: Subscription;
