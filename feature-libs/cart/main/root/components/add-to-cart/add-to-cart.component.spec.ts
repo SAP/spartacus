@@ -1,4 +1,11 @@
-import { Component, DebugElement, Input } from '@angular/core';
+import {
+  AbstractType,
+  Component,
+  DebugElement,
+  InjectionToken,
+  Input,
+  Type,
+} from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -10,6 +17,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsAddToCartComponent,
+  CxEvent,
+  EventService,
+  FacadeFactoryService,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
@@ -105,12 +115,27 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
+const mockEventStream$ = new BehaviorSubject<CxEvent>({});
+
+class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
+  isFacadeImplProvided<T>(
+    _token: Type<T> | InjectionToken<T> | AbstractType<T>
+  ): Observable<boolean> {
+    return of(true);
+  }
+
+  get(): Observable<any> {
+    return mockEventStream$.asObservable();
+  }
+}
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
+  let eventService: EventService;
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
@@ -138,6 +163,7 @@ describe('AddToCartComponent', () => {
           provide: ProductListItemContext,
           useValue: undefined,
         },
+        { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
       ],
     });
   }
@@ -145,9 +171,10 @@ describe('AddToCartComponent', () => {
   function stubSeviceAndCreateComponent() {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
+    eventService = TestBed.inject(EventService);
 
     config$.next({
       inventoryDisplay: false,
@@ -236,13 +263,43 @@ describe('AddToCartComponent', () => {
     it('should call addToCart()', () => {
       addToCartComponent.productCode = productCode;
       addToCartComponent.ngOnInit();
-      spyOn(service, 'addEntry').and.callThrough();
-      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-      spyOn(service, 'isStable').and.returnValue(of(true));
+      spyOn(activeCartFacade, 'addEntry').and.callThrough();
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        of([mockCartEntry])
+      );
+      spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
-      expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
+      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(productCode, 1);
+    });
+
+    describe('addToCart ', () => {
+      const mockProductCode = 'pcode';
+      it('should return if item qty is 0', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(0);
+        addToCartComponent.productCode = mockProductCode;
+        spyOn(activeCartFacade, 'addEntry').and.stub();
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).not.toHaveBeenCalled();
+      });
+      it('should add item to cart via ActiveCartFacade', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
+        addToCartComponent.productCode = mockProductCode;
+        spyOn(activeCartFacade, 'addEntry').and.stub();
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          mockProductCode,
+          1
+        );
+      });
+      it('should dispatch the add to cart UI event', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
+        addToCartComponent.productCode = mockProductCode;
+        spyOn(eventService, 'dispatch').and.stub();
+        addToCartComponent.addToCart();
+        expect(eventService.dispatch).toHaveBeenCalled();
+      });
     });
 
     describe('UI', () => {
