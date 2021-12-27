@@ -1,16 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
-  Cart,
-  Order,
   ORDER_TYPE,
-  PROCESS_FEATURE,
-  ReplenishmentOrder,
   ScheduleReplenishmentForm,
+} from '@spartacus/checkout/root';
+import {
+  PROCESS_FEATURE,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
+import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
@@ -35,9 +35,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 
 const mockOrder: Order = { code: 'testOrder', guestCustomer: true };
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
-  isGuestCart(): boolean {
-    return true;
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
+  isGuestCart(): Observable<boolean> {
+    return of(true);
   }
 
   getActiveCartId(): Observable<string> {
@@ -58,7 +58,7 @@ class UserIdServiceStub implements Partial<UserIdService> {
 describe('CheckoutService', () => {
   let service: CheckoutService;
   let store: Store<StateWithCheckout | StateWithProcess<void>>;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let userIdService: UserIdService;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -78,17 +78,17 @@ describe('CheckoutService', () => {
       ],
       providers: [
         CheckoutService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
       ],
     });
 
     service = TestBed.inject(CheckoutService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
     store = TestBed.inject(Store);
 
     spyOn(store, 'dispatch').and.callThrough();

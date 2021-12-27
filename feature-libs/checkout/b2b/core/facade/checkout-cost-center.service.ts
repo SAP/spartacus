@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CostCenterSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  Cart,
   Command,
   CommandService,
   CommandStrategy,
@@ -49,7 +48,7 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
     );
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
     protected checkoutCostCenterConnector: CheckoutCostCenterConnector,
@@ -60,15 +59,15 @@ export class CheckoutCostCenterService implements CheckoutCostCenterFacade {
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

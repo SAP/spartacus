@@ -1,18 +1,19 @@
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { BehaviorSubject } from 'rxjs';
-import { OrderEntry } from '@spartacus/core';
+import {
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
+} from '@spartacus/cart/main/components';
 import {
   OrderEntriesSource,
-  GetOrderEntriesContext,
-  AddOrderEntriesContext,
-  PageComponentModule,
+  OrderEntry,
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-  ContextService,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/root';
+import { ContextService, PageComponentModule } from '@spartacus/storefront';
+import { BehaviorSubject } from 'rxjs';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';
 import createSpy = jasmine.createSpy;
 

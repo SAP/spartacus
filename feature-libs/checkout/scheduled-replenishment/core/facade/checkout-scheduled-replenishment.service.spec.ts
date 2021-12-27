@@ -1,19 +1,19 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { ReplenishmentOrderScheduledEvent } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
-  ActiveCartService,
-  CartActions,
+  ReplenishmentOrderScheduledEvent,
+  ScheduleReplenishmentForm,
+} from '@spartacus/checkout/scheduled-replenishment/root';
+import {
   EventService,
   OCC_USER_ID_CURRENT,
-  ORDER_TYPE,
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
   UserIdService,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
 import createSpy = jasmine.createSpy;
@@ -28,9 +28,9 @@ const mockScheduleReplenishmentForm: ScheduleReplenishmentForm = {
 };
 const termsChecked = true;
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   takeActiveCartId = createSpy().and.returnValue(of(mockCartId));
-  isGuestCart = createSpy().and.returnValue(false);
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
 class MockUserIdService implements Partial<UserIdService> {
@@ -66,7 +66,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       providers: [
         CheckoutScheduledReplenishmentService,
         provideMockStore(),
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
         {
@@ -122,7 +122,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       );
     });
 
-    // TODO:#checkout Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch CartActions.RemoveCart`, () => {
       spyOn(store, 'dispatch').and.stub();
 
@@ -136,7 +136,7 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       );
     });
 
-    // TODO:#checkout Replace with event testing once we remove ngrx store.
+    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should dispatch ReplenishmentOrderScheduledEvent`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
@@ -151,20 +151,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
         },
         ReplenishmentOrderScheduledEvent
       );
-    });
-
-    describe(`getOrderType and setOrderType`, () => {
-      it(`should set an order type return an order type`, (done) => {
-        service.setOrderType(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-
-        service
-          .getOrderType()
-          .pipe(take(1))
-          .subscribe((result) => {
-            expect(result).toEqual(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER);
-            done();
-          });
-      });
     });
   });
 });

@@ -5,15 +5,18 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  Cart,
+  CartOutlets,
+  PromotionLocation,
+} from '@spartacus/cart/main/root';
+import {
   DeleteSavedCartSuccessEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  PromotionLocation,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -27,6 +30,8 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 })
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
+
+  readonly CartOutlets = CartOutlets;
 
   CartLocation = PromotionLocation;
 

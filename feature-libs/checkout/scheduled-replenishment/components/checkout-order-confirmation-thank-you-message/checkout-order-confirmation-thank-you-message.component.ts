@@ -6,10 +6,10 @@ import {
 } from '@angular/core';
 import { CheckoutOrderConfirmationThankYouMessageComponent } from '@spartacus/checkout/base/components';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
-import { ORDER_TYPE } from '@spartacus/core';
+import { ORDER_TYPE } from '@spartacus/checkout/scheduled-replenishment/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -24,7 +24,7 @@ export class CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageCompo
 
   constructor(
     protected checkoutFacade: CheckoutFacade,
-    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
   ) {
     super(checkoutFacade);
   }
@@ -32,7 +32,7 @@ export class CheckoutScheduledReplenishmentOrderConfirmationThankYouMessageCompo
   ngOnInit(): void {
     super.ngOnInit();
 
-    this.isReplenishmentOrderType$ = this.checkoutScheduledReplenishmentFacade
+    this.isReplenishmentOrderType$ = this.checkoutReplenishmentFormService
       .getOrderType()
       .pipe(
         map(

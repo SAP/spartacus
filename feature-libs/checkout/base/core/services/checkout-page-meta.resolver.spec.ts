@@ -1,8 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   BasePageMetaResolver,
-  Cart,
   I18nTestingModule,
   PageMetaResolver,
   PageMetaService,
@@ -17,7 +16,7 @@ const mockCart: Cart = {
   totalItems: 5,
 };
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of(mockCart));
 }
 
@@ -35,7 +34,7 @@ describe('CheckoutPageMetaResolver', () => {
       imports: [I18nTestingModule],
       providers: [
         PageMetaService,
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: PageMetaResolver,
           useExisting: CheckoutPageMetaResolver,

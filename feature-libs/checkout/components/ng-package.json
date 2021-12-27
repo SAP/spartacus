@@ -7,7 +7,10 @@
       "@spartacus/storefront": "storefront",
       "@ng-select/ng-select": "ng-select",
       "@spartacus/user/account/root": "userAccountRoot",
-      "@spartacus/user/profile/root": "userProfileRoot"
+      "@spartacus/user/profile/root": "userProfileRoot",
+      "@spartacus/cart/main/root": "cartRoot",
+      "@spartacus/cart/main/components": "cartComponents",
+      "@spartacus/order/components": "orderComponents"
     }
   }
 }

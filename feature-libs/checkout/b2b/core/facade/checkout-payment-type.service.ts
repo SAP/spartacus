@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
 import {
+  B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
   PaymentTypeSetEvent,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  B2BPaymentTypeEnum,
   Command,
   CommandService,
   CommandStrategy,
@@ -16,7 +16,6 @@ import {
   LoginEvent,
   LogoutEvent,
   OCC_USER_ID_ANONYMOUS,
-  PaymentType,
   Query,
   QueryNotifier,
   QueryService,
@@ -82,7 +81,7 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   );
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,
     protected commandService: CommandService,
@@ -94,15 +93,15 @@ export class CheckoutPaymentTypeService implements CheckoutPaymentTypeFacade {
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

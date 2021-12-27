@@ -5,16 +5,16 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
-  PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
@@ -57,7 +57,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected globalMessageService: GlobalMessageService
   ) {}
@@ -66,7 +66,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.shouldRedirect = false;
     this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
 
-    if (!this.activeCartService.isGuestCart()) {
+    if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {
       this.userPaymentService.loadPaymentMethods();
     } else {
       this.isGuestCheckout = true;

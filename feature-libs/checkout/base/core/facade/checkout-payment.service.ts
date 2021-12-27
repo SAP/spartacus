@@ -1,14 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
+  ActiveCartFacade,
+  CardType,
+  PaymentDetails,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
-  CardType,
   Command,
   CommandService,
   CommandStrategy,
@@ -16,12 +19,10 @@ import {
   EventService,
   LanguageSetEvent,
   OCC_USER_ID_ANONYMOUS,
-  PaymentDetails,
   Query,
   QueryNotifier,
   QueryService,
   QueryState,
-  StateWithMultiCart,
   UserActions,
   UserIdService,
 } from '@spartacus/core';
@@ -113,8 +114,8 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
 
   constructor(
     // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<StateWithMultiCart>,
-    protected activeCartService: ActiveCartService,
+    protected store: Store<unknown>,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,
     protected commandService: CommandService,
@@ -129,15 +130,15 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   protected checkoutPreconditions(): Observable<[string, string]> {
     return combineLatest([
       this.userIdService.takeUserId(),
-      this.activeCartService.takeActiveCartId(),
+      this.activeCartFacade.takeActiveCartId(),
+      this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS &&
-            !this.activeCartService.isGuestCart())
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

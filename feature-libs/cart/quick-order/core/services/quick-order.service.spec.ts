@@ -1,11 +1,13 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  ActiveCartFacade,
+  CartAddEntrySuccessEvent,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
-  CartAddEntrySuccessEvent,
   EventService,
-  OrderEntry,
   Product,
   ProductSearchConnector,
   ProductSearchPage,
@@ -81,7 +83,7 @@ class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   }
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
@@ -100,14 +102,14 @@ class MockEventService implements Partial<EventService> {
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
   let productSearchConnector: ProductSearchConnector;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
         {
@@ -123,7 +125,7 @@ describe('QuickOrderService', () => {
 
     service = TestBed.inject(QuickOrderService);
     productSearchConnector = TestBed.inject(ProductSearchConnector);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   beforeEach(() => {

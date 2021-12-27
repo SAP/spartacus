@@ -9,10 +9,11 @@ import {
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import {
-  I18nTestingModule,
+  CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/core';
+} from '@spartacus/cart/main/root';
+import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
   ConfigurationInfo,
@@ -20,7 +21,7 @@ import {
   ConfiguratorType,
   LineItem,
 } from '@spartacus/product-configurator/common';
-import { BreakpointService, CartItemContext } from '@spartacus/storefront';
+import { BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';

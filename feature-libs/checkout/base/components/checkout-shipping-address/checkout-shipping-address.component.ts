@@ -1,9 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   Address,
+  getLastValueSync,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -32,12 +33,12 @@ export class CheckoutShippingAddressComponent implements OnInit {
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService
   ) {}
 
   get isGuestCheckout(): boolean {
-    return this.activeCartService.isGuestCart();
+    return !!getLastValueSync(this.activeCartFacade.isGuestCart());
   }
 
   get backBtnText(): string {

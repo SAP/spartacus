@@ -1,10 +1,12 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  ActiveCartService,
-  Address,
+  ActiveCartFacade,
   Cart,
   DeliveryMode,
+} from '@spartacus/cart/main/root';
+import {
+  Address,
   PROCESS_FEATURE,
   StateUtils,
   UserIdService,
@@ -19,17 +21,17 @@ import { CheckoutService } from './checkout.service';
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let userIdService: UserIdService;
   let checkoutService: CheckoutService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
 
-  class ActiveCartServiceStub implements Partial<ActiveCartService> {
+  class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
     cart;
     isGuestCart() {
-      return true;
+      return of(true);
     }
 
     getActiveCartId() {
@@ -81,19 +83,19 @@ describe('CheckoutDeliveryService', () => {
       providers: [
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: CheckoutService, useClass: mockCheckoutService },
       ],
     });
 
     service = TestBed.inject(CheckoutDeliveryService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     userIdService = TestBed.inject(UserIdService);
     checkoutService = TestBed.inject(CheckoutService);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });
@@ -275,7 +277,7 @@ describe('CheckoutDeliveryService', () => {
   });
 
   it('should return set delivery mode in process flag as true when cart is not stable', () => {
-    spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+    spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
 
     let setDeliveryModeInProcess = false;
     service

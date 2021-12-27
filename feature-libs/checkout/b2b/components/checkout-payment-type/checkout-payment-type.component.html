@@ -19,7 +19,9 @@
   <div class="col-md-12 col-lg-6">
     <ng-container
       *ngIf="
-        (paymentTypes$ | async)?.length && typeSelected$ | async;
+        (paymentTypes$ | async)?.length &&
+          (typeSelected$ | async) &&
+          !(changeSelectedPaymentTypeInProgress$ | async);
         else loading
       "
     >
@@ -60,7 +62,11 @@
     </button>
   </div>
   <div class="col-md-12 col-lg-6">
-    <button class="btn btn-block btn-primary" (click)="next()">
+    <button
+      class="btn btn-block btn-primary"
+      (click)="next()"
+      [disabled]="changeSelectedPaymentTypeInProgress$ | async"
+    >
       {{ 'common.continue' | cxTranslate }}
     </button>
   </div>

@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  Address,
-  DeliveryMode,
-  facadeFactory,
-  StateUtils,
-} from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
+import { Address, facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 

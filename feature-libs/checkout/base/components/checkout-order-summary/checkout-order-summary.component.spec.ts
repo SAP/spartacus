@@ -1,21 +1,17 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ActiveCartService,
-  Cart,
-  CartVoucherService,
-  I18nTestingModule,
-} from '@spartacus/core';
-import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
-  PromotionsComponent,
-} from '@spartacus/storefront';
+} from '@spartacus/cart/main/components';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { I18nTestingModule } from '@spartacus/core';
+import { PromotionsComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { of } from 'rxjs';
 import { CheckoutOrderSummaryComponent } from './checkout-order-summary.component';
 import createSpy = jasmine.createSpy;
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(
     of(<Partial<Cart>>{
       totalItems: 5141,
@@ -40,8 +36,7 @@ describe('CheckoutOrderSummaryComponent', () => {
           MockFeatureLevelDirective,
         ],
         providers: [
-          { provide: ActiveCartService, useClass: MockActiveCartService },
-          { provide: CartVoucherService, useValue: {} },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
         ],
       }).compileComponents();
     })

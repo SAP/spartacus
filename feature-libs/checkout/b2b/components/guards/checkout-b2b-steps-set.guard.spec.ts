@@ -1,6 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  DeliveryMode,
+  PaymentDetails,
+  PaymentType,
+} from '@spartacus/cart/main/root';
+import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
@@ -15,9 +20,6 @@ import {
 import {
   Address,
   CostCenter,
-  DeliveryMode,
-  PaymentDetails,
-  PaymentType,
   QueryState,
   RouteConfig,
   RoutingConfigService,

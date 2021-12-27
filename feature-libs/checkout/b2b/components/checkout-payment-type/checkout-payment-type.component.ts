@@ -5,15 +5,15 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { PaymentType } from '@spartacus/cart/main/root';
 import {
   B2BPaymentTypeEnum,
-  isNotUndefined,
-  PaymentType,
-} from '@spartacus/core';
-import { Observable } from 'rxjs';
+  CheckoutPaymentTypeFacade,
+} from '@spartacus/checkout/b2b/root';
+import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { CheckoutStepType } from '@spartacus/checkout/base/root';
+import { isNotUndefined } from '@spartacus/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
@@ -30,6 +30,9 @@ export class CheckoutPaymentTypeComponent {
 
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
+
+  changeSelectedPaymentTypeInProgress$: Observable<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
@@ -66,8 +69,27 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    this.checkoutPaymentTypeFacade.setPaymentType(code);
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(true);
     this.typeSelected = code;
+
+    this.checkoutPaymentTypeFacade.setPaymentType(code).subscribe({
+      complete: () => this.onSuccess(),
+      error: () => this.onError(),
+    });
+  }
+
+  protected onSuccess(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
+  }
+
+  protected onError(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
   }
 
   next(): void {

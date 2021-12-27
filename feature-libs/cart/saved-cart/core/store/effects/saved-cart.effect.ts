@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
+import { CartActions } from '@spartacus/cart/main/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
-  Cart,
-  CartActions,
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
@@ -282,7 +281,7 @@ export class SavedCartEffects {
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,
-    private activeCartService: ActiveCartService,
+    private activeCartService: ActiveCartFacade,
     private globalMessageService: GlobalMessageService
   ) {}
 }

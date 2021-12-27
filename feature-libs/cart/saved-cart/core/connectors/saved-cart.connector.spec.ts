@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/main/root';
 import { of } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 import { SavedCartConnector } from './saved-cart.connector';

@@ -10,8 +10,9 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,
+  CLI_CART_MAIN_FEATURE,
+  CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
   SpartacusOptions,
@@ -23,6 +24,8 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
+const mainCartFeatureModulePath =
+  'src/app/spartacus/features/cart/cart-feature.module.ts';
 const quickOrderFeatureModulePath =
   'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
 const importExportFeatureModulePath =
@@ -64,6 +67,11 @@ describe('Spartacus Cart schematics: ng-add', () => {
   const savedCartFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_CART_SAVED_CART_FEATURE],
+  };
+
+  const cartMainFeatureOptions: SpartacusCartOptions = {
+    ...libraryNoFeaturesOptions,
+    features: [CLI_CART_MAIN_FEATURE],
   };
 
   const quickOrderFeatureOptions: SpartacusCartOptions = {
@@ -189,6 +197,55 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(savedCartFeatureModulePath);
+        expect(module).toMatchSnapshot();
+      });
+    });
+  });
+
+  describe('Cart Main feature', () => {
+    describe('general setup', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync('ng-add', cartMainFeatureOptions, appTree)
+          .toPromise();
+      });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(mainCartFeatureModulePath);
+        // console.log(`PLA CONTENT of ${mainCartFeatureModulePath}:`);
+        // console.log(`PLA CONTENT ${module}`);
+        // appTree.files.forEach((file) => console.log(file));
+        expect(module).toMatchSnapshot();
+      });
+
+      describe('styling', () => {
+        it('should create a proper scss file', () => {
+          const scssContent = appTree.readContent(scssFilePath);
+          console.log(`scssContent received: [${scssContent}]`);
+          expect(scssContent).toMatchSnapshot();
+        });
+
+        it('should update angular.json', async () => {
+          const content = appTree.readContent('/angular.json');
+          console.log(`angular.json: [${content}]`);
+          expect(content).toMatchSnapshot();
+        });
+      });
+    });
+
+    describe('eager loading', () => {
+      beforeEach(async () => {
+        appTree = await schematicRunner
+          .runSchematicAsync(
+            'ng-add',
+            { ...cartMainFeatureOptions, lazy: false },
+            appTree
+          )
+          .toPromise();
+      });
+
+      it('should import appropriate modules', async () => {
+        const module = appTree.readContent(mainCartFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

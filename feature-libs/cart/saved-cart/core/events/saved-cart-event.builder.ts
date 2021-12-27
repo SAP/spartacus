@@ -1,6 +1,8 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
+import { MultiCartFacade } from '@spartacus/cart/main/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -20,10 +22,8 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
-  CartActions,
   createFrom,
   EventService,
-  MultiCartService,
   StateEventService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -36,7 +36,7 @@ export class SavedCartEventBuilder {
     protected actionsSubject: ActionsSubject,
     protected eventService: EventService,
     protected stateEventService: StateEventService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {
     this.register();
   }

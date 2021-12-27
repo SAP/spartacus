@@ -1,19 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
 import {
   AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
-import { OrderDetailsOrderEntriesContext } from './pages/order-details-order-entries-context';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
+import { OrderDetailsOrderEntriesContextToken } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -40,7 +37,9 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReturnRequestItemsComponent',
           'ReturnRequestTotalsComponent',
           'OrderReturnRequestListComponent',
+          'CheckoutPlaceOrder',
         ],
+        dependencies: [CART_FEATURE],
       },
       // by default core is bundled together with components
       [ORDER_CORE_FEATURE]: ORDER_FEATURE,
@@ -67,7 +66,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'orderDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: OrderDetailsOrderEntriesContextToken,
           },
         },
       },

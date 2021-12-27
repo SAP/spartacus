@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
-  ActiveCartService,
   AuthRedirectService,
   AuthService,
   GlobalMessageService,
@@ -18,9 +18,9 @@ class AuthServiceStub implements Partial<AuthService> {
   isUserLoggedIn = createSpy().and.returnValue(of());
 }
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
   getAssignedUser = createSpy().and.returnValue(of());
-  isGuestCart = createSpy().and.returnValue(true);
+  isGuestCart = createSpy().and.returnValue(of(true));
   isStable = createSpy().and.returnValue(of(true));
 }
 
@@ -44,7 +44,7 @@ describe('CheckoutAuthGuard', () => {
   let checkoutGuard: CheckoutAuthGuard;
   let authService: AuthService;
   let authRedirectService: AuthRedirectService;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let checkoutConfigService: CheckoutConfigService;
 
   beforeEach(() => {
@@ -64,7 +64,7 @@ describe('CheckoutAuthGuard', () => {
           useClass: AuthServiceStub,
         },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: ActiveCartServiceStub,
         },
         {
@@ -81,7 +81,7 @@ describe('CheckoutAuthGuard', () => {
     checkoutGuard = TestBed.inject(CheckoutAuthGuard);
     authService = TestBed.inject(AuthService);
     authRedirectService = TestBed.inject(AuthRedirectService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     checkoutConfigService = TestBed.inject(CheckoutConfigService);
   });
 
@@ -93,7 +93,7 @@ describe('CheckoutAuthGuard', () => {
     describe('and cart does NOT have a user, ', () => {
       beforeEach(() => {
         activeCartService.getAssignedUser = createSpy().and.returnValue(of({}));
-        activeCartService.isGuestCart = createSpy().and.returnValue(false);
+        activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
       });
 
       it('should return url to login with forced flag when guestCheckout feature enabled', () => {
@@ -144,7 +144,7 @@ describe('CheckoutAuthGuard', () => {
   describe(', when user is in checkout pages,', () => {
     it('should NOT redirect route when cart is unstable', () => {
       activeCartService.isStable = createSpy().and.returnValue(of(false));
-      activeCartService.isGuestCart = createSpy().and.returnValue(false);
+      activeCartService.isGuestCart = createSpy().and.returnValue(of(false));
       authService.isUserLoggedIn = createSpy().and.returnValue(of(true));
 
       checkoutGuard.canActivate().subscribe().unsubscribe();

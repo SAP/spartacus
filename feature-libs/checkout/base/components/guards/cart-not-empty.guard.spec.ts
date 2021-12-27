@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartService, SemanticPathService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { SemanticPathService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';
 import createSpy = jasmine.createSpy;
@@ -9,7 +10,7 @@ const CART_EMPTY = Object.freeze({ totalItems: 0 });
 const CART_NOT_EMPTY = Object.freeze({ totalItems: 1 });
 const CART_NOT_CREATED = Object.freeze({});
 
-class ActiveCartServiceStub implements Partial<ActiveCartService> {
+class ActiveCartServiceStub implements Partial<ActiveCartFacade> {
   getActive = createSpy().and.returnValue(of());
   isStable = createSpy().and.returnValue(of());
 }
@@ -20,7 +21,7 @@ class SemanticPathServiceStub implements Partial<SemanticPathService> {
 
 describe('CartNotEmptyGuard', () => {
   let cartNotEmptyGuard: CartNotEmptyGuard;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,7 +31,7 @@ describe('CartNotEmptyGuard', () => {
           useClass: SemanticPathServiceStub,
         },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: ActiveCartServiceStub,
         },
       ],
@@ -38,17 +39,17 @@ describe('CartNotEmptyGuard', () => {
     });
 
     cartNotEmptyGuard = TestBed.inject(CartNotEmptyGuard);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   describe('canActivate:', () => {
     describe('when cart is loaded', () => {
       describe(', and when cart is NOT created', () => {
         beforeEach(() => {
-          activeCartService.getActive = createSpy().and.returnValue(
+          activeCartFacade.getActive = createSpy().and.returnValue(
             of(CART_NOT_CREATED)
           );
-          activeCartService.isStable = createSpy().and.returnValue(of(true));
+          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then router should return main page url', () => {
@@ -63,10 +64,10 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is empty', () => {
         beforeEach(() => {
-          activeCartService.getActive = createSpy().and.returnValue(
+          activeCartFacade.getActive = createSpy().and.returnValue(
             of(CART_EMPTY)
           );
-          activeCartService.isStable = createSpy().and.returnValue(of(true));
+          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then router should return main page url', () => {
@@ -81,10 +82,10 @@ describe('CartNotEmptyGuard', () => {
 
       describe(', and when cart is NOT empty', () => {
         beforeEach(() => {
-          activeCartService.getActive = createSpy().and.returnValue(
+          activeCartFacade.getActive = createSpy().and.returnValue(
             of(CART_NOT_EMPTY)
           );
-          activeCartService.isStable = createSpy().and.returnValue(of(true));
+          activeCartFacade.isStable = createSpy().and.returnValue(of(true));
         });
 
         it('then returned observable should emit true', () => {
@@ -100,10 +101,10 @@ describe('CartNotEmptyGuard', () => {
 
     describe('when cart is not loaded', () => {
       beforeEach(() => {
-        activeCartService.getActive = createSpy().and.returnValue(
+        activeCartFacade.getActive = createSpy().and.returnValue(
           of(CART_NOT_CREATED)
         );
-        activeCartService.isStable = createSpy().and.returnValue(of(false));
+        activeCartFacade.isStable = createSpy().and.returnValue(of(false));
       });
 
       it('then returned observable should not emit', () => {

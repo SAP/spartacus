@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryModesAdapter,
   DELIVERY_MODE_NORMALIZER,
@@ -7,7 +8,6 @@ import {
 import {
   backOff,
   ConverterService,
-  DeliveryMode,
   isJaloError,
   normalizeHttpError,
   Occ,

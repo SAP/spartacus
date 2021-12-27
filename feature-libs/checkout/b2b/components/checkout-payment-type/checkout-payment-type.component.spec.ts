@@ -1,11 +1,14 @@
-import { Component, Type } from '@angular/core';
+import { Component, DebugElement, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { PaymentType } from '@spartacus/cart/main/root';
 import { CheckoutPaymentTypeFacade } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { I18nTestingModule, PaymentType, QueryState } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { I18nTestingModule, QueryState } from '@spartacus/core';
+import { BehaviorSubject, of } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { CheckoutPaymentTypeComponent } from './checkout-payment-type.component';
 import createSpy = jasmine.createSpy;
 
@@ -18,23 +21,14 @@ class MockSpinnerComponent {}
 class MockCheckoutPaymentTypeService
   implements Partial<CheckoutPaymentTypeFacade>
 {
-  getPaymentTypes(): Observable<PaymentType[]> {
-    return of();
-  }
-  setPaymentType(
-    _paymentTypeCode: string,
-    _purchaseOrderNumber?: string
-  ): Observable<unknown> {
-    return of('setPaymentType');
-  }
-  getSelectedPaymentTypeState(): Observable<
-    QueryState<PaymentType | undefined>
-  > {
-    return selectedPaymentType$.asObservable();
-  }
-  getPurchaseOrderNumberState(): Observable<QueryState<string | undefined>> {
-    return of({ loading: false, error: false, data: 'test-po' });
-  }
+  getPaymentTypes = createSpy().and.returnValue(of(mockPaymentTypes));
+  setPaymentType = createSpy().and.returnValue(of('setPaymentType'));
+  getSelectedPaymentTypeState = createSpy().and.returnValue(
+    selectedPaymentType$.asObservable()
+  );
+  getPurchaseOrderNumberState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: 'test-po' })
+  );
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
@@ -67,6 +61,7 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let checkoutStepService: CheckoutStepService;
+  let el: DebugElement;
 
   beforeEach(
     waitForAsync(() => {
@@ -92,16 +87,13 @@ describe('CheckoutPaymentTypeComponent', () => {
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
-
-      spyOn(checkoutPaymentTypeFacade, 'getPaymentTypes').and.returnValue(
-        of(mockPaymentTypes)
-      );
     })
   );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentTypeComponent);
     component = fixture.componentInstance;
+    el = fixture.debugElement;
     fixture.detectChanges();
   });
 
@@ -109,43 +101,33 @@ describe('CheckoutPaymentTypeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get all supported payment types', () => {
-    component.paymentTypes$
-      .subscribe((types) => {
-        expect(types).toBe(mockPaymentTypes);
-      })
-      .unsubscribe();
+  it('should get all supported payment types', (done) => {
+    component.paymentTypes$.pipe(take(1)).subscribe((types) => {
+      expect(types).toBe(mockPaymentTypes);
+      done();
+    });
   });
 
-  it('should get selected payment type', () => {
-    let selected: PaymentType | undefined;
-    component.typeSelected$
-      .subscribe((data) => {
-        selected = data;
-      })
-      .unsubscribe();
-    expect(selected).toEqual({ code: 'ACCOUNT' });
-    expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
-      CheckoutStepType.PAYMENT_DETAILS,
-      true
-    );
+  it('should get selected payment type', (done) => {
+    component.typeSelected$.pipe(take(1)).subscribe((selectedPaymentType) => {
+      expect(selectedPaymentType).toEqual({ code: 'ACCOUNT' });
+      expect(checkoutStepService.disableEnableStep).toHaveBeenCalledWith(
+        CheckoutStepType.PAYMENT_DETAILS,
+        true
+      );
+      done();
+    });
   });
 
-  it('should get po number from cart', () => {
-    let cartPoNumber: string | undefined;
-
-    component.cartPoNumber$
-      .subscribe((data) => {
-        return (cartPoNumber = data);
-      })
-      .unsubscribe();
-
-    expect(cartPoNumber).toBeTruthy();
-    expect(cartPoNumber).toEqual('test-po');
+  it('should get po number from cart', (done) => {
+    component.cartPoNumber$.pipe(take(1)).subscribe((cartPoNumber) => {
+      expect(cartPoNumber).toBeTruthy();
+      expect(cartPoNumber).toEqual('test-po');
+      done();
+    });
   });
 
   it('should set payment type when changeType is called', () => {
-    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
     component.changeType('ACCOUNT');
     expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalledWith(
       'ACCOUNT'
@@ -153,8 +135,6 @@ describe('CheckoutPaymentTypeComponent', () => {
   });
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {
-    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
-
     component.typeSelected = 'test-code';
     component['_poNumberInput'].nativeElement.value = 'test-po';
     component.cartPoNumber = 'test-cart-po';
@@ -168,8 +148,6 @@ describe('CheckoutPaymentTypeComponent', () => {
   });
 
   it('should NOT set po number to cart if the cart po number does match when calling next()', () => {
-    spyOn(checkoutPaymentTypeFacade, 'setPaymentType').and.callThrough();
-
     component.typeSelected = 'test-code';
     component['_poNumberInput'].nativeElement.value = 'test-po';
     component.cartPoNumber = component['_poNumberInput'].nativeElement.value;
@@ -188,5 +166,53 @@ describe('CheckoutPaymentTypeComponent', () => {
     expect(checkoutStepService.back).toHaveBeenCalledWith(
       <any>mockActivatedRoute
     );
+  });
+
+  describe('UI spinner when changing payment type', () => {
+    it('should display spinner when user selects a new payment and response did not complete', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(true);
+
+      fixture.detectChanges();
+
+      expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
+    });
+
+    it('should NOT display spinner when the payment type is NOT loading', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(false);
+
+      fixture.detectChanges();
+
+      expect(el.query(By.css('div.cx-spinner'))).toBeFalsy();
+    });
+
+    it('should disable continue button when type selected is in progress', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(true);
+
+      fixture.detectChanges();
+
+      expect(
+        el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
+          .disabled
+      ).toBe(true);
+    });
+
+    it('should enable continue button when the payment is selected', () => {
+      (
+        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+      ).next(false);
+
+      fixture.detectChanges();
+
+      expect(
+        el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
+          .disabled
+      ).toBe(false);
+    });
   });
 });

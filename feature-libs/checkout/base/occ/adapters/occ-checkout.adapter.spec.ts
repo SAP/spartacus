@@ -11,9 +11,8 @@ import {
   normalizeHttpError,
   OccConfig,
   OccEndpoints,
-  Order,
-  ORDER_NORMALIZER,
 } from '@spartacus/core';
+import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OccCheckoutAdapter } from './occ-checkout.adapter';

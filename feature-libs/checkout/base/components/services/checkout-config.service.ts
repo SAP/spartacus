@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
+import { DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutConfig,
   DeliveryModePreferences,
 } from '@spartacus/checkout/base/root';
-import { DeliveryMode } from '@spartacus/core';
 
 @Injectable({
   providedIn: 'root',

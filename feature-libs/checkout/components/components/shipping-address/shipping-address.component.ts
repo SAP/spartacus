@@ -5,14 +5,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
@@ -48,7 +49,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected checkoutDeliveryService: CheckoutDeliveryFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected globalMessageService: GlobalMessageService,
     protected paymentTypeService?: PaymentTypeFacade,
@@ -57,7 +58,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   ) {}
 
   get isGuestCheckout(): boolean {
-    return this.activeCartService.isGuestCart();
+    return Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()));
   }
 
   get backBtnText(): string {

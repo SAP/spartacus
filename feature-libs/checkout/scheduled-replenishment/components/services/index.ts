@@ -1,1 +1,1 @@
-export * from './checkout-replenishment-form-service';
+export * from './checkout-replenishment-form.service';

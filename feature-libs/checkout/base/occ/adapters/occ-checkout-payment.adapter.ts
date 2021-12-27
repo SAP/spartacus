@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { CardType, PaymentDetails } from '@spartacus/cart/main/root';
 import {
   CARD_TYPE_NORMALIZER,
   CheckoutPaymentAdapter,
@@ -7,14 +8,12 @@ import {
 } from '@spartacus/checkout/base/core';
 import {
   backOff,
-  CardType,
   ConverterService,
   HttpParamsURIEncoder,
   isJaloError,
   normalizeHttpError,
   Occ,
   OccEndpointsService,
-  PaymentDetails,
   PAYMENT_DETAILS_NORMALIZER,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';

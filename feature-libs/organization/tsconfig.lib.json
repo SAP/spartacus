@@ -16,6 +16,12 @@
     "lib": ["es2020", "dom"],
     "paths": {
       "@spartacus/core": ["dist/core"],
+      "@spartacus/order/assets": ["dist/order/assets"],
+      "@spartacus/order/components": ["dist/order/components"],
+      "@spartacus/order/core": ["dist/order/core"],
+      "@spartacus/order": ["dist/order"],
+      "@spartacus/order/occ": ["dist/order/occ"],
+      "@spartacus/order/root": ["dist/order/root"],
       "@spartacus/storefront": ["dist/storefrontlib"],
       "@spartacus/user/account/assets": ["dist/user/account/assets"],
       "@spartacus/user/account/components": ["dist/user/account/components"],
@@ -29,7 +35,45 @@
       "@spartacus/user/profile/core": ["dist/user/profile/core"],
       "@spartacus/user/profile": ["dist/user/profile"],
       "@spartacus/user/profile/occ": ["dist/user/profile/occ"],
-      "@spartacus/user/profile/root": ["dist/user/profile/root"]
+      "@spartacus/user/profile/root": ["dist/user/profile/root"],
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
+      "@spartacus/cart/main/assets": ["dist/cart/main/assets"],
+      "@spartacus/cart/main/components": ["dist/cart/main/components"],
+      "@spartacus/cart/main/core": ["dist/cart/main/core"],
+      "@spartacus/cart/main": ["dist/cart/main"],
+      "@spartacus/cart/main/occ": ["dist/cart/main/occ"],
+      "@spartacus/cart/main/root": ["dist/cart/main/root"],
+      "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@spartacus/cart/quick-order/components": [
+        "dist/cart/quick-order/components"
+      ],
+      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
+      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
+      "@spartacus/cart/saved-cart/components": [
+        "dist/cart/saved-cart/components"
+      ],
+      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
+      "@spartacus/cart/wish-list/components": [
+        "dist/cart/wish-list/components"
+      ],
+      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
+      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"]
     }
   },
   "angularCompilerOptions": {

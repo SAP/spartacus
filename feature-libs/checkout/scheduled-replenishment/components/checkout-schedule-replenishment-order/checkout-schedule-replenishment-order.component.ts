@@ -4,16 +4,15 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutScheduledReplenishmentFacade } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/checkout/scheduled-replenishment/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form-service';
+import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
 
 @Component({
   selector: 'cx-schedule-replenishment-order',
@@ -31,7 +30,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   recurrencePeriodType = Object.values(recurrencePeriod);
 
   selectedOrderType$: Observable<ORDER_TYPE> =
-    this.checkoutScheduledReplenishmentFacade.getOrderType();
+    this.checkoutReplenishmentFormService.getOrderType();
 
   isMonthly: Boolean = false;
   isWeekly: Boolean = false;
@@ -42,8 +41,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   scheduleReplenishmentFormData: ScheduleReplenishmentForm;
 
   constructor(
-    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
+    protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +57,7 @@ export class CheckoutScheduleReplenishmentOrderComponent
   }
 
   changeOrderType(orderType: ORDER_TYPE): void {
-    this.checkoutScheduledReplenishmentFacade.setOrderType(orderType);
+    this.checkoutReplenishmentFormService.setOrderType(orderType);
   }
 
   changeNumberOfDays(nDays: string): void {
