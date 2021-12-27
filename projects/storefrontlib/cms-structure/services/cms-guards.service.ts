@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {
   CmsActivatedRouteSnapshot,
@@ -15,8 +15,7 @@ import { CmsComponentsService } from './cms-components.service';
 export class CmsGuardsService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
-    protected injector: Injector,
-    // TODO:#checkout - handle breaking changes
+    // TODO:#checkout - handle breaking changes in schematics
     protected unifiedInjector: UnifiedInjector
   ) {}
 
@@ -29,7 +28,6 @@ export class CmsGuardsService {
 
     if (guards.length) {
       const canActivateObservables = guards.map((guardClass) => {
-        // TODO:#checkout - be smarter here, and start the return stream with this, if possible
         const guard = getLastValueSync(
           this.unifiedInjector.get<CanActivate>(guardClass)
         );
