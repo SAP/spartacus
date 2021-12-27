@@ -28,7 +28,9 @@ export class CheckoutStepsSetGuard implements CanActivate {
     protected checkoutPaymentFacade: CheckoutPaymentFacade,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected router: Router
-  ) {}
+  ) {
+    console.log('B2C step');
+  }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
     let currentIndex = -1;

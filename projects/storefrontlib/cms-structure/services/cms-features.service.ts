@@ -157,6 +157,8 @@ export class CmsFeaturesService {
       feature
     ] as FeatureModuleConfig;
 
+    console.log('feat', feature);
+
     const featureInstance: FeatureInstance = {
       moduleRef,
       componentsMappings: {},
@@ -173,6 +175,7 @@ export class CmsFeaturesService {
       featureInstance.componentsMappings![componentType] =
         resolvedConfiguration.cmsComponents?.[componentType] ?? {};
     }
+    console.log('featureinstance', featureInstance);
     return featureInstance;
   }
 

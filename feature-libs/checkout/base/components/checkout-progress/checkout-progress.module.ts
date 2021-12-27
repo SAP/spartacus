@@ -1,15 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
-import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
-import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
-import { CheckoutStepsSetGuard } from '../guards/checkout-steps-set.guard';
+import { I18nModule, UrlModule } from '@spartacus/core';
 import { CheckoutProgressComponent } from './checkout-progress.component';
 import { MultiLinePipe } from './multiline-titles.pipe';
 
@@ -18,14 +10,15 @@ import { MultiLinePipe } from './multiline-titles.pipe';
   declarations: [CheckoutProgressComponent, MultiLinePipe],
   exports: [CheckoutProgressComponent],
   providers: [
-    provideDefaultConfig(<CmsConfig>{
-      cmsComponents: {
-        CheckoutProgress: {
-          component: CheckoutProgressComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutStepsSetGuard],
-        },
-      },
-    }),
+    //     // PART 3 -- test
+    // provideDefaultConfig(<CmsConfig>{
+    //   cmsComponents: {
+    //     CheckoutProgress: {
+    //       component: CheckoutProgressComponent,
+    //       guards: [CheckoutAuthGuard, CartNotEmptyGuard, CheckoutStepsSetGuard],
+    //     },
+    //   },
+    // }),
   ],
 })
 export class CheckoutProgressModule {}

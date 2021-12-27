@@ -11,5 +11,15 @@ import { CheckoutModule } from '@spartacus/checkout/base';
     CheckoutB2BCoreModule,
     CheckoutB2BOccModule,
   ],
+  providers: [
+    // {
+    //   provide: CheckoutAuthGuard,
+    //   useExisting: CheckoutB2BAuthGuard,
+    // },
+    // {
+    //   provide: CheckoutStepsSetGuard,
+    //   useExisting: CheckoutB2BStepsSetGuard,
+    // },
+  ],
 })
 export class CheckoutB2BModule {}

@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
+import { SavedCartAuthGuard } from './auth.guard';
 import { SavedCartListComponent } from './saved-cart-list.component';
 
 @NgModule({
@@ -29,6 +30,8 @@ import { SavedCartListComponent } from './saved-cart-list.component';
         },
       },
     }),
+
+    { provide: AuthGuard, useExisting: SavedCartAuthGuard },
   ],
   declarations: [SavedCartListComponent],
   exports: [SavedCartListComponent],

@@ -12,7 +12,8 @@ export class CmsGuardsService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
     protected injector: Injector
-  ) {}
+  ) // protected unifiedInjector: UnifiedInjector // protected unifiedInjector: UnifiedInjector
+  {}
 
   cmsPageCanActivate(
     componentTypes: string[],
@@ -23,6 +24,10 @@ export class CmsGuardsService {
 
     if (guards.length) {
       const canActivateObservables = guards.map((guardClass) => {
+        // const guard = getLastValueSync(
+        //   this.unifiedInjector.get<CanActivate>(guardClass)
+        // );
+
         const guard = this.injector.get<CanActivate>(guardClass, null);
         if (isCanActivate(guard)) {
           return wrapIntoObservable(guard.canActivate(route, state)).pipe(
