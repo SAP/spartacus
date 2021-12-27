@@ -126,7 +126,7 @@ export function selectAccountShippingAddress() {
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
+    cy.get('.cx-card-actions .link').click({ force: true });
   });
 
   cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
@@ -157,13 +157,16 @@ export function selectAccountDeliveryMode() {
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
+  cy.get(
+    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
+  ).then(() => {
+    // Accessibility
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.deliveryMode
+    );
+  });
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
-
-  // Accessibility
-  verifyTabbingOrder(
-    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    config.deliveryMode
-  );
 
   cy.get('.cx-checkout-btns button.btn-primary').click();
 

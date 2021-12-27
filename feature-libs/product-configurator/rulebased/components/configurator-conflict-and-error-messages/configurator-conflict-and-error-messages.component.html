@@ -1,6 +1,10 @@
 <ng-container *ngIf="configuration$ | async as configuration">
   <ng-container *ngIf="configuration?.warningMessages?.length > 0">
-    <div class="alert-message alert-message-invalid-warning">
+    <div
+      aria-live="assertive"
+      aria-atomic="true"
+      class="alert-message alert-message-invalid-warning"
+    >
       <span class="alert-icon">
         <cx-icon type="WARNING"></cx-icon>
       </span>
@@ -42,7 +46,12 @@
     </div>
   </ng-container>
   <ng-container *ngIf="configuration?.errorMessages?.length > 0">
-    <div class="alert-message alert-message-error">
+    <div
+      aria-live="assertive"
+      aria-atomic="true"
+      role="alert"
+      class="alert-message alert-message-error"
+    >
       <span class="alert-icon">
         <cx-icon type="ERROR"></cx-icon>
       </span>
