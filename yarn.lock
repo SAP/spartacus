@@ -2047,12 +2047,12 @@
   dependencies:
     tslib "^2.3.0"
 
-"@ng-select/ng-select@^7.0.1":
-  version "7.1.1"
-  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-7.1.1.tgz#987f45e8e53ad61e266284a341c04a9c794e56ca"
-  integrity sha512-5+ZO81Vpa1DXyxdw6a1N252QhzKyUZfSJbQDskb8ITHE5k546eF4dANUfyzG7DCzkO0ocLNQkLiDn8pOCmrdKA==
+"@ng-select/ng-select@^8.0.0":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@ng-select/ng-select/-/ng-select-8.1.1.tgz#1697d554970b99fc238255709655fb4dd45d1ab1"
+  integrity sha512-CP9Pve3L1aGqej38T9utdd6Waobbybwe9QIEObwicBI5fiIMAXwKT6lFT3fDLTUK/79y5nebiGtwTBfMm71Psg==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.3.1"
 
 "@ngrx/effects@^13.0.2":
   version "13.0.2"
@@ -13441,7 +13441,7 @@ tsconfig-paths@^3.9.0:
     minimist "^1.2.0"
     strip-bom "^3.0.0"
 
-tslib@2.3.1, tslib@^2.0.3:
+tslib@2.3.1, tslib@^2.0.3, tslib@^2.3.1:
   version "2.3.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
   integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==

@@ -110,7 +110,7 @@
     "@angular/router": "^13.0.0",
     "@angular/service-worker": "^13.0.0",
     "@ng-bootstrap/ng-bootstrap": "^11.0.0",
-    "@ng-select/ng-select": "^7.0.1",
+    "@ng-select/ng-select": "^8.0.0",
     "@ngrx/effects": "^13.0.2",
     "@ngrx/router-store": "^13.0.2",
     "@ngrx/store": "^13.0.2",
