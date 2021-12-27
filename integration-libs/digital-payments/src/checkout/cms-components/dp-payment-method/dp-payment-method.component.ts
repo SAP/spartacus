@@ -44,7 +44,7 @@ export class DpPaymentMethodComponent
   }
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
-    this.selectPaymentMethod(paymentDetails);
+    this.savePaymentMethod(paymentDetails);
     this.next();
   }
 
@@ -53,21 +53,21 @@ export class DpPaymentMethodComponent
     protected userPaymentService: UserPaymentService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
     protected checkoutPaymentFacade: CheckoutPaymentService,
-    protected globalMessageService: GlobalMessageService,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
   ) {
     super(
       userPaymentService,
       checkoutDeliveryAddressFacade,
       checkoutPaymentFacade,
-      globalMessageService,
       activatedRoute,
       translationService,
       activeCartService,
-      checkoutStepService
+      checkoutStepService,
+      globalMessageService
     );
 
     this.showCallbackScreen = this.isDpCallback();

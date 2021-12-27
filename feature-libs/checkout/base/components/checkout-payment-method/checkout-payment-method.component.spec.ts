@@ -10,7 +10,6 @@ import {
   ActiveCartService,
   Address,
   GlobalMessageService,
-  GlobalMessageType,
   I18nTestingModule,
   PaymentDetails,
   QueryState,
@@ -20,7 +19,6 @@ import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutPaymentMethodComponent } from './checkout-payment-method.component';
-
 import createSpy = jasmine.createSpy;
 
 @Component({
@@ -92,14 +90,14 @@ const mockActivatedRoute = {
   },
 };
 
-class MockGlobalMessageService implements Partial<GlobalMessageService> {
-  add = createSpy();
-}
-
 class MockActiveCartService implements Partial<ActiveCartService> {
   isGuestCart(): boolean {
     return false;
   }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 const mockAddress: Address = {
@@ -138,7 +136,6 @@ describe('CheckoutPaymentMethodComponent', () => {
   let mockUserPaymentService: UserPaymentService;
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartService;
-  let mockGlobalMessageService: GlobalMessageService;
   let checkoutStepService: CheckoutStepService;
 
   beforeEach(
@@ -166,16 +163,15 @@ describe('CheckoutPaymentMethodComponent', () => {
             provide: CheckoutPaymentFacade,
             useClass: MockCheckoutPaymentService,
           },
-          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       }).compileComponents();
 
       mockUserPaymentService = TestBed.inject(UserPaymentService);
       mockCheckoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
       mockActiveCartService = TestBed.inject(ActiveCartService);
-      mockGlobalMessageService = TestBed.inject(GlobalMessageService);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
@@ -542,40 +538,6 @@ describe('CheckoutPaymentMethodComponent', () => {
 
       expect(checkoutStepService.back).toHaveBeenCalledWith(
         <any>mockActivatedRoute
-      );
-    });
-
-    it('should show errors on wrong card information', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
-        of([mockPaymentDetails])
-      );
-      spyOn(
-        mockCheckoutPaymentService,
-        'getPaymentDetailsState'
-      ).and.returnValue(
-        of({
-          loading: false,
-          error: false,
-          data: {
-            ...mockPaymentDetails,
-            hasError: true,
-            InvalidFieldCVV: 'cvv',
-          },
-        })
-      );
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      expect(mockGlobalMessageService.add).toHaveBeenCalledWith(
-        {
-          key: 'paymentMethods.invalidField',
-          params: { field: 'cvv' },
-        },
-        GlobalMessageType.MSG_TYPE_ERROR
       );
     });
   });

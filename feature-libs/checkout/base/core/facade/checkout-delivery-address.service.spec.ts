@@ -4,6 +4,7 @@ import {
   CheckoutQueryFacade,
   CheckoutState,
   DeliveryAddressClearedEvent,
+  DeliveryAddressCreatedEvent,
   DeliveryAddressSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
@@ -138,6 +139,19 @@ describe(`CheckoutDeliveryAddressService`, () => {
       service.createAndSetAddress(mockAddress);
 
       expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
+    });
+
+    it(`should dispatch DeliveryAddressCreatedEvent event`, () => {
+      service.createAndSetAddress(mockAddress);
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {
+          userId: mockUserId,
+          cartId: mockCartId,
+          address: mockAddress,
+        },
+        DeliveryAddressCreatedEvent
+      );
     });
 
     // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.

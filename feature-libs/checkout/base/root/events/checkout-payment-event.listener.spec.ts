@@ -1,5 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { CxEvent, EventService } from '@spartacus/core';
+import {
+  CxEvent,
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
@@ -16,8 +21,13 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
+}
+
 describe(`CheckoutPaymentEventListener`, () => {
   let eventService: EventService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,11 +37,16 @@ describe(`CheckoutPaymentEventListener`, () => {
           provide: EventService,
           useClass: MockEventService,
         },
+        {
+          provide: GlobalMessageService,
+          useClass: MockGlobalMessageService,
+        },
       ],
     });
 
     TestBed.inject(CheckoutPaymentEventListener);
     eventService = TestBed.inject(EventService);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   describe(`onPaymentChange`, () => {
@@ -44,13 +59,24 @@ describe(`CheckoutPaymentEventListener`, () => {
       );
     });
 
-    it(`PaymentDetailsSetEvent dispatch ResetCheckoutQueryEvent`, () => {
+    it(`PaymentDetailsSetEvent should dispatch ResetCheckoutQueryEvent`, () => {
       mockEventStream$.next(new PaymentDetailsSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         ResetCheckoutQueryEvent
       );
+    });
+
+    describe(`global message`, () => {
+      it(`PaymentDetailsCreatedEvent should add a global message`, () => {
+        mockEventStream$.next(new PaymentDetailsCreatedEvent());
+
+        expect(globalMessageService.add).toHaveBeenCalledWith(
+          { key: 'paymentForm.paymentAddedSuccessfully' },
+          GlobalMessageType.MSG_TYPE_CONFIRMATION
+        );
+      });
     });
   });
 });

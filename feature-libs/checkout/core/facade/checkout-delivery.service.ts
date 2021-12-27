@@ -15,6 +15,7 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
+  map,
   pluck,
   shareReplay,
   take,
@@ -126,6 +127,22 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  /**
+   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * True means at least one quest is still in process, false means all three requests are done
+   */
+  getSetDeliveryModeInProcess(): Observable<boolean> {
+    return combineLatest([
+      this.activeCartService.isStable(),
+      this.checkoutService.isLoading(),
+      this.getSetDeliveryModeProcess(),
+    ]).pipe(
+      map(
+        ([isStable, isLoading, setDeliveryProcess]) =>
+          !isStable || isLoading || (setDeliveryProcess.loading ?? false)
+      )
+    );
+  }
   /**
    * Clear info about process of setting Delivery Mode
    */

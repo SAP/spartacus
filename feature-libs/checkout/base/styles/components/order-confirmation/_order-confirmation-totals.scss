@@ -1,0 +1,17 @@
+%cx-order-confirmation-totals {
+  .cx-order-summary {
+    padding-inline-end: var(--cx-padding, 0);
+
+    &.container {
+      @include media-breakpoint-down(md) {
+        max-width: var(--cx-max-width, 100%);
+        min-width: var(--cx-min-width, 100%);
+        padding-inline-end: var(--cx-padding, 1.625rem);
+      }
+
+      @include media-breakpoint-down(sm) {
+        padding: var(--cx-padding, 0);
+      }
+    }
+  }
+}

@@ -9,6 +9,7 @@ import { combineLatest, Observable, of } from 'rxjs';
 import {
   catchError,
   debounceTime,
+  distinctUntilChanged,
   filter,
   map,
   switchMap,
@@ -68,7 +69,8 @@ export class ExpressCheckoutService {
             );
         }
         return of(false);
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
@@ -116,23 +118,29 @@ export class ExpressCheckoutService {
             );
           })
         );
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
   protected setPaymentMethod(): void {
     this.paymentMethodSet$ = combineLatest([
+      this.deliveryModeSet$,
       this.userPaymentService.getPaymentMethods(),
       this.userPaymentService.getPaymentMethodsLoadedSuccess(),
     ]).pipe(
       debounceTime(0),
-      tap(([, paymentMethodsLoadedSuccess]) => {
+      tap(([, , paymentMethodsLoadedSuccess]) => {
         if (!paymentMethodsLoadedSuccess) {
           this.userPaymentService.loadPaymentMethods();
         }
       }),
-      filter(([, success]) => success),
-      switchMap(([payments]) => {
+      filter(([, , success]) => success),
+      switchMap(([deliveryModeSet, payments]) => {
+        if (!deliveryModeSet) {
+          return of(false);
+        }
+
         const defaultPayment =
           payments.find((address) => address.defaultPayment) || payments[0];
         if (!defaultPayment || Object.keys(defaultPayment).length === 0) {
@@ -149,16 +157,14 @@ export class ExpressCheckoutService {
             map((data) => !!(data && Object.keys(data).length)),
             catchError(() => of(false))
           );
-      })
+      }),
+      distinctUntilChanged()
     );
   }
 
   public trySetDefaultCheckoutDetails(): Observable<boolean> {
-    return combineLatest([this.deliveryModeSet$, this.paymentMethodSet$]).pipe(
-      map(
-        ([deliveryModeSet, paymentMethodSet]) =>
-          deliveryModeSet && paymentMethodSet
-      )
+    return this.paymentMethodSet$.pipe(
+      map((paymentMethodSet) => !!paymentMethodSet)
     );
   }
 }
