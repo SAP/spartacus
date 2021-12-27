@@ -202,26 +202,26 @@ describe('DeliveryModeComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  describe('Shipping method fieldset', () => {
-    const getShippingMethodFieldSet = () =>
-      fixture.debugElement.query(By.css('fieldset'));
+  describe('Shipping method radio input', () => {
+    const getShippingMethodRadioInput = () =>
+      fixture.debugElement.query(By.css('.form-check .form-check-input'));
 
-    it('should be enabled after supported delivery modes are loaded', () => {
+    it('should be displayed after supported delivery modes are loaded', () => {
       component.ngOnInit();
       setDeliveryModeInProcess$.next(false);
 
       fixture.detectChanges();
 
-      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeFalsy();
+      expect(getShippingMethodRadioInput().nativeElement).toBeTruthy();
     });
 
-    it('should be disabled when there is another ongoing request', () => {
+    it('should be hidden by spinner when there is another ongoing request', () => {
       component.ngOnInit();
       setDeliveryModeInProcess$.next(true);
 
       fixture.detectChanges();
 
-      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeTruthy();
+      expect(getShippingMethodRadioInput()).toBeFalsy();
     });
   });
 
