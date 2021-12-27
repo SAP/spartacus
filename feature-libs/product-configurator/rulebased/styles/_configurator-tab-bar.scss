@@ -88,15 +88,12 @@
     }
 
     .cx-ghost-tab-bar {
+      width: 100%;
       height: 46px;
+      background-color: var(--cx-color-ghost);
 
       @include media-breakpoint-down(lg) {
         margin-block-end: 15px;
-      }
-
-      .cx-ghost-tab {
-        width: 100%;
-        background-color: var(--cx-color-ghost);
       }
     }
   }
