@@ -2,8 +2,12 @@ import { ENTITY_UID_COOKIE_KEY, MyCompanyConfig } from './models/index';
 import { POWERTOOLS_BASESITE } from '../../../sample-data/b2b-checkout';
 import { myCompanyAdminUser } from '../../../sample-data/shared-users';
 import { testFeaturesFromConfig } from './my-company-features';
+import { testCoreFeaturesFromConfig } from './my-company-features';
 
-export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
+export function testMyCompanyFeatureFromConfig(
+  config: MyCompanyConfig,
+  core: boolean = false
+) {
   describe(`My Company - ${config.name}${config.nameSuffix || ''}`, () => {
     before(() => {
       Cypress.env('BASE_SITE', POWERTOOLS_BASESITE);
@@ -21,7 +25,11 @@ export function testMyCompanyFeatureFromConfig(config: MyCompanyConfig) {
       cy.saveLocalStorage();
     });
 
-    testFeaturesFromConfig(config);
+    if (core) {
+      testCoreFeaturesFromConfig(config);
+    } else {
+      testFeaturesFromConfig(config);
+    }
   });
 }
 
