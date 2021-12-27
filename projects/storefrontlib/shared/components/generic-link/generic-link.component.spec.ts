@@ -2,7 +2,7 @@ import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HamburgerMenuService } from '@spartacus/storefront';
+import { HamburgerMenuService } from '../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { BehaviorSubject } from 'rxjs';
 import { GenericLinkComponent } from './generic-link.component';
 

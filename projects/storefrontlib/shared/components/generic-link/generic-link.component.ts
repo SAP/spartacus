@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
-import { HamburgerMenuService } from '@spartacus/storefront';
+import { HamburgerMenuService } from '../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { take } from 'rxjs/operators';
 
 // private
