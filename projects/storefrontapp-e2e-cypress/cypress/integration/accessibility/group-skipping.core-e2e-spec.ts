@@ -37,10 +37,10 @@ context('Group Skipping - Checkout', () => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
       checkout.fillAddressForm();
-      cy.get('input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)')
+      cy.get('input[type=radio][formcontrolname=deliveryModeId]')
         .first()
         .focus()
-        .click();
+        .click({ force: true });
       checkoutNextStep('/checkout/payment-details');
       checkout.fillPaymentForm();
       cy.get('.cx-review-summary-card');
