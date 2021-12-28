@@ -1,5 +1,7 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Params, Router } from '@angular/router';
+import { HamburgerMenuService } from '../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { take } from 'rxjs/operators';
 
 // private
 interface RouteParts {
@@ -21,7 +23,10 @@ interface RouteParts {
   templateUrl: './generic-link.component.html',
 })
 export class GenericLinkComponent implements OnChanges {
-  constructor(protected router: Router) {}
+  constructor(
+    protected router: Router,
+    protected hamburgerMenuService: HamburgerMenuService
+  ) {}
 
   /**
    * Pattern matching string starting with `http://` or `https://`.
@@ -48,6 +53,7 @@ export class GenericLinkComponent implements OnChanges {
   @Input() class: string;
   @Input() style: string;
   @Input() title: string;
+  @Input() isNavLink = false;
 
   /**
    * Returns true when the @Input `url` is a string starting with `http://` or `https://`.
@@ -85,6 +91,21 @@ export class GenericLinkComponent implements OnChanges {
    */
   get fragment(): string {
     return this.routeParts.fragment;
+  }
+
+  /**
+   * Checking each link click to verify if the menu should be closed
+   */
+  triggerLink(): void {
+    if (this.isNavLink) {
+      this.hamburgerMenuService.isExpanded
+        .pipe(take(1))
+        .subscribe((isExpanded) => {
+          if (isExpanded) {
+            this.hamburgerMenuService.toggle();
+          }
+        });
+    }
   }
 
   /**
