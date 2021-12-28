@@ -90,6 +90,7 @@ describe('ConfigurationGroupTitleComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorGroupTitleComponent);
     component = fixture.componentInstance;
+    component.ghostStyle = false;
 
     configuratorGroupsService = TestBed.inject(ConfiguratorGroupsService);
 

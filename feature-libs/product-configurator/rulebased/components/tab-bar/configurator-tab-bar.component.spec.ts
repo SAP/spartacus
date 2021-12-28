@@ -98,6 +98,8 @@ describe('ConfigTabBarComponent', () => {
         ConfiguratorModelUtils.createInitialOwner()
       )
     );
+    component.ghostStyle = false;
+    fixture.detectChanges();
   });
 
   it('should create component', () => {
