@@ -38,6 +38,7 @@ export function defaultCheckoutComponentsConfig() {
     featureModules: {
       [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
+        // TODO:#checkout - remove ORDER_FEATURE once we move the order placing functionality to the order lib
         dependencies: [CART_FEATURE, ORDER_FEATURE],
       },
       // by default core is bundled together with components
