@@ -1,7 +1,7 @@
-import { addProductFromPdp, loginRegisteredUser } from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
+import * as paymentMethods from '../../../helpers/payment-methods';
 import {
   addPaymentMethod,
   testPaymentDetail,
@@ -33,25 +33,13 @@ describe('Payment Methods', () => {
         cy.restoreLocalStorage();
       });
 
-      it('should render empty payment details page', () => {
-        loginRegisteredUser();
-        visitPaymentDetailsPage();
-        cy.get('cx-payment-methods').within(() => {
-          cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
-          cy.get('.cx-payment .cx-body').should(
-            'contain',
-            'New payment methods are added during checkout.'
-          );
-        });
-      });
+      // Core test. Repeat in different view port.
+      paymentMethods.testRenderEmptyPaymentDetailsPage();
 
-      it('should render page with only one payment methods', () => {
-        addProductFromPdp();
-        addPaymentMethod(testPaymentDetail[0]);
-        visitPaymentDetailsPage();
-        verifyPaymentCard(1);
-      });
+      // Core test. Repeat in different view port.
+      paymentMethods.testRenderOnePaymentMethod();
 
+      // Below tests depend on core tests for setup
       it('should render page with two payment methods', () => {
         cy.get('cx-mini-cart > a').click({ force: true });
         addPaymentMethod(testPaymentDetail[1]);

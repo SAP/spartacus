@@ -15,7 +15,7 @@ const mockCmsConfig: CmsConfig = {
       module: async () => MockFeature1Module,
     },
     feature2: {
-      cmsComponents: ['component2'],
+      cmsComponents: ['component2', 'component1'],
       module: async () => MockFeature1Module,
       dependencies: [async () => MockDependencyModule],
     },
@@ -88,10 +88,11 @@ describe('CmsFeaturesService', () => {
       });
     });
 
-    it('should call FeatureModulesService.resolveFeature', (done) => {
+    it('should call FeatureModulesService.resolveFeature for each mapped feature', (done) => {
       spyOn(featureModules, 'resolveFeature').and.callThrough();
       service.getCmsMapping('component1').subscribe(() => {
         expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature1');
+        expect(featureModules.resolveFeature).toHaveBeenCalledWith('feature2');
         done();
       });
     });

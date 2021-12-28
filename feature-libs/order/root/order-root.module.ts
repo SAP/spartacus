@@ -37,6 +37,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
           'ReturnRequestItemsComponent',
           'ReturnRequestTotalsComponent',
           'OrderReturnRequestListComponent',
+          'CheckoutPlaceOrder',
         ],
         dependencies: [CART_FEATURE],
       },
