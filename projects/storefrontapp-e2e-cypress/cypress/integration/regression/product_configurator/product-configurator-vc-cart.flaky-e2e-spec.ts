@@ -69,7 +69,7 @@ context('Product Configuration', () => {
   });
 
   describe('Conflict Solver', () => {
-    it.only('should support the conflict solving process', () => {
+    it('should support the conflict solving process', () => {
       cy.intercept({
         method: 'PATCH',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
