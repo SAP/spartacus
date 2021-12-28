@@ -36,12 +36,23 @@ context('Group Skipping - Checkout', () => {
     cy.requireLoggedIn().then(() => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
+
+      cy.intercept({
+        method: 'PUT',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/${Cypress.env(
+          'OCC_PREFIX_USER_ENDPOINT'
+        )}/current/carts/*/deliverymode?deliveryModeId=*`,
+      }).as('setDeliveryMode');
+
       checkout.fillAddressForm();
-      const oDeliveryModeInput = cy.get(
-        'input[type=radio][formcontrolname=deliveryModeId]'
-      );
-      oDeliveryModeInput.should('be.visible');
-      oDeliveryModeInput.first().focus().click();
+
+      cy.wait('@setDeliveryMode');
+      cy.get('input[type=radio][formcontrolname=deliveryModeId]')
+        .first()
+        .focus()
+        .click();
       checkoutNextStep('/checkout/payment-details');
       checkout.fillPaymentForm();
       cy.get('.cx-review-summary-card');
