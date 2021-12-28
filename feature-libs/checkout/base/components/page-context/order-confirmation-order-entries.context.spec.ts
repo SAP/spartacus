@@ -34,7 +34,7 @@ describe('OrderConfirmationOrderEntriesContext', () => {
 
   describe('getEntries', () => {
     it('getEntries from order details', () => {
-      let entries: OrderEntry[];
+      let entries: OrderEntry[] | undefined;
       service
         .getEntries()
         .subscribe((result) => {
