@@ -3306,10 +3306,10 @@ amdefine@>=0.0.4:
   resolved "https://registry.yarnpkg.com/amdefine/-/amdefine-1.0.1.tgz#4a5282ac164729e93619bcfd3ad151f817ce91f5"
   integrity sha1-SlKCrBZHKek2Gbz9OtFR+BfOkfU=
 
-angular-oauth2-oidc@^12.0.0:
-  version "12.1.0"
-  resolved "https://registry.yarnpkg.com/angular-oauth2-oidc/-/angular-oauth2-oidc-12.1.0.tgz#d15b40e52c149187303d4511dd0e4d9661281fc6"
-  integrity sha512-YUsNTWx8lccgo4e3qHvqJ6DOR9nfPVd+riyXzcy5nI4CB9cc2+SxaxiqQMGPAaKI2EOIfdxNobmUqUSEO+IXxA==
+angular-oauth2-oidc@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.yarnpkg.com/angular-oauth2-oidc/-/angular-oauth2-oidc-13.0.1.tgz#81a001b19452d19b1972035d742b777d75ef34fa"
+  integrity sha512-aL1VIv9Jqoqq31lbpUXIeNpM3GeN/ldb3KOlq0cV92amGpZs9J4YA+2rlJ5V9zb6NFNbvd7XfTntMbnNuS0+CQ==
   dependencies:
     fast-sha256 "^1.3.0"
     tslib "^2.0.0"
