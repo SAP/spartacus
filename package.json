@@ -116,7 +116,7 @@
     "@ngrx/store": "^13.0.2",
     "@nguniversal/express-engine": "^13.0.0",
     "@types/googlemaps": "^3.37.5",
-    "angular-oauth2-oidc": "^10.0.1",
+    "angular-oauth2-oidc": "^12.0.0",
     "bootstrap": "^4.3.1",
     "comment-json": "^4.1.0",
     "express": "^4.15.2",
