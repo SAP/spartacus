@@ -37,10 +37,11 @@ context('Group Skipping - Checkout', () => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
       checkout.fillAddressForm();
-      cy.get('input[type=radio][formcontrolname=deliveryModeId]')
-        .first()
-        .focus()
-        .click({ force: true });
+      const oDeliveryModeInput = cy.get(
+        'input[type=radio][formcontrolname=deliveryModeId]'
+      );
+      oDeliveryModeInput.should('be.visible');
+      oDeliveryModeInput.first().focus().click();
       checkoutNextStep('/checkout/payment-details');
       checkout.fillPaymentForm();
       cy.get('.cx-review-summary-card');
