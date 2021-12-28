@@ -207,7 +207,7 @@
 
 %nav-childs {
   &.flyout {
-    // the last level of navigations is tyically displayed in a column
+    // the last level of navigations is typically displayed in a column
     .childs[depth='1'] {
       flex-direction: column;
     }
@@ -277,7 +277,12 @@
 
   &.flyout {
     @include media-breakpoint-down(md) {
-      flex-direction: column;
+      nav {
+        width: 100%;
+        ul {
+          flex-direction: column;
+        }
+      }
       color: #000;
 
       &.is-open {
@@ -292,13 +297,18 @@
           cx-generic-link.all {
             display: initial;
           }
+
           > .wrapper {
             height: auto;
+          }
+
+          > cx-generic-link + button {
+            display: none;
           }
         }
 
         .is-opened {
-        //li.is-opened {
+          //li.is-opened {
           display: initial;
           > .wrapper > ul.childs > li {
             display: none;
