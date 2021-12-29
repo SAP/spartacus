@@ -2,6 +2,8 @@ import { SimpleChange, SimpleChanges } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { HamburgerMenuService } from '../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { BehaviorSubject } from 'rxjs';
 import { GenericLinkComponent } from './generic-link.component';
 
 /**
@@ -13,20 +15,31 @@ function changeUrl(url: string | any[]): SimpleChanges {
   };
 }
 
+class MockHamburgerMenuService implements Partial<HamburgerMenuService> {
+  toggle(): void {}
+  isExpanded: BehaviorSubject<boolean> = new BehaviorSubject(true);
+}
+
 describe('GenericLinkComponent', () => {
   let component: GenericLinkComponent;
   let fixture: ComponentFixture<GenericLinkComponent>;
+  let hamburgerMenuService: HamburgerMenuService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
       declarations: [GenericLinkComponent],
+      providers: [
+        { provide: HamburgerMenuService, useClass: MockHamburgerMenuService },
+      ],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GenericLinkComponent);
     component = fixture.componentInstance;
+
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
   });
 
   it('should create', () => {
@@ -231,6 +244,43 @@ describe('GenericLinkComponent', () => {
 
       component.ngOnChanges(changeUrl('/local/url?foo=bar#anchor3'));
       expect(component.fragment).toEqual('anchor3');
+    });
+  });
+
+  describe('oc trigger click', () => {
+    beforeEach(() => {
+      spyOn(hamburgerMenuService, 'toggle').and.callThrough();
+    });
+
+    describe('should check if link is from navigation', () => {
+      it('and trigger toogle hamburger if it is', () => {
+        component.isNavLink = true;
+        component.triggerLink();
+        expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+      });
+
+      it('and do not trigger toogle hamburger if it is not', () => {
+        component.isNavLink = false;
+        component.triggerLink();
+        expect(hamburgerMenuService.toggle).not.toHaveBeenCalled();
+      });
+    });
+
+    describe('should check if hamburger menu is expanded', () => {
+      beforeEach(() => {
+        component.isNavLink = true;
+      });
+
+      it('and trigger toogle hamburger if it is', () => {
+        component.triggerLink();
+        expect(hamburgerMenuService.toggle).toHaveBeenCalled();
+      });
+
+      it('and do not trigger toogle hamburger if it is not', () => {
+        hamburgerMenuService.isExpanded.next(false);
+        component.triggerLink();
+        expect(hamburgerMenuService.toggle).not.toHaveBeenCalled();
+      });
     });
   });
 });
