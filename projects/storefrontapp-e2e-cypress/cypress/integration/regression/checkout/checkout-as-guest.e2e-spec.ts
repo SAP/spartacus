@@ -1,79 +1,34 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import { assertAddressForm } from '../../../helpers/address-book';
-import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
+import { login } from '../../../helpers/auth-forms';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
-import { validateUpdateProfileForm } from '../../../helpers/update-profile';
 import { viewportContext } from '../../../helpers/viewport-context';
 import {
   cheapProduct,
   getSampleUser,
 } from '../../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
-  let user;
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
-      user = getSampleUser();
       cy.window().then((win) => win.sessionStorage.clear());
+      guestCheckout.generateGuestUser();
     });
 
     beforeEach(() => {
       cy.cxConfig({ checkout: { guest: true } } as CheckoutConfig);
     });
 
-    it('should perform checkout as guest and create a user account', () => {
-      checkout.goToCheapProductDetailsPage();
-      checkout.addCheapProductToCartAndProceedToCheckout();
+    // Core e2e test.
+    guestCheckout.testCheckoutAsGuest();
 
-      cy.get('.register').findByText(/Guest Checkout/i);
-
-      guestCheckout.loginAsGuest(user);
-
-      checkout.fillAddressFormWithCheapProduct();
-      checkout.verifyDeliveryMethod();
-      checkout.fillPaymentFormWithCheapProduct();
-      checkout.placeOrderWithCheapProduct();
-      checkout.verifyOrderConfirmationPageWithCheapProduct();
-
-      guestCheckout.createAccountFromGuest(user.password);
-
-      cy.selectUserMenuOption({
-        option: 'Address Book',
-      });
-
-      assertAddressForm(
-        {
-          firstName: user.firstName,
-          lastName: user.lastName,
-          phone: '',
-          address: user.address,
-        },
-        'US-CA'
-      );
-
-      cy.selectUserMenuOption({
-        option: 'Payment Details',
-      });
-
-      cy.get('.cx-payment .cx-body').then(() => {
-        cy.get('cx-card').should('exist');
-      });
-
-      cy.selectUserMenuOption({
-        option: 'Personal Details',
-      });
-
-      validateUpdateProfileForm('mr', user.firstName, user.lastName);
-      checkout.signOut();
-    });
-
+    // Test depends on on core test for guest account creation.
     it('should keep products in guest cart and restart checkout', () => {
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndProceedToCheckout();
 
-      guestCheckout.loginAsGuest(user);
+      guestCheckout.loginAsGuest(guestCheckout.guestUser);
 
       checkout.fillAddressFormWithCheapProduct();
 
@@ -88,7 +43,7 @@ context('Checkout as guest', () => {
       cy.findByText(/Sign in \/ Register/i).click();
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-      login(user.email, user.password);
+      login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
       cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');

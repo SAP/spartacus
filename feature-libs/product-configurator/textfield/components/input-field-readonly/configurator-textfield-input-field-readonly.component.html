@@ -1,8 +1,16 @@
-<label
-  id="{{ getIdLabel(attribute) }}"
-  [attr.aria-label]="attribute.configurationLabel"
-  >{{ attribute.configurationLabel }}</label
->
-<div attr.aria-labelledby="{{ getIdLabel(attribute) }}">
+<span id="{{ getIdLabel(attribute) }}" class="cx-visually-hidden">
+  {{
+    'configurator.a11y.valueOfAttributeFull'
+      | cxTranslate
+        : {
+            value: attribute.configurationValue,
+            attribute: attribute.configurationLabel
+          }
+  }}
+</span>
+<label aria-hidden="true" attr.aria-describedby="{{ getIdLabel(attribute) }}">{{
+  attribute.configurationLabel
+}}</label>
+<div aria-hidden="true">
   {{ attribute.configurationValue }}
 </div>

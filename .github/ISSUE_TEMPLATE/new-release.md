@@ -11,31 +11,15 @@ assignees: ''
 
 - [ ] Validate that all merged tickets were tested (QA column must be empty, except for tickets marked as `not-blocking-release`)
 - [ ] If there is no maintenance branch yet:
-  - [ ] Create new maintenance branch (`release/*.*.x`)
+  - [ ] Create new maintenance branch (`release/major.minor.x`)
   - [ ] Announce new maintenance branch (Set topic in tribe channel)
   - [ ] Bump the maintenance branch for the Hosting service deployment github action (workflows/deploy-hs.yml)
-- [ ] Create new release branch `release/*.*.*` from the corresponding branch (develop/maintenance)
+- [ ] Create new release branch `release/major.minor.patch.*` from the corresponding branch (develop/maintenance)
 - [ ] Follow the steps to [release update schematics](https://github.com/SAP/spartacus/blob/develop/projects/schematics/README.md#releasing-update-schematics)
 - [ ] If a new maintenance branch was created, enable the branch to be deployed by the hosting service deployment github action (workflows/deploy-hs.yml).
-- [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
-
-    ```bash
-    BACKEND_URL="https://20.83.184.244:9002"
-    BRANCH='release/*.*.*'
-    SPARTACUS_VERSION='*.*.*'
-    ```
-
-  Finally, run the script:
-
-    ```bash
-    cd scripts/install && ./run.sh install
-    ```
-
-  Once finished, run `./run.sh start` to start the apps and check that they are working. You can also go to each app directory and run it with `yarn build`, `start`, `build:ssr`, etc.
-
-  This can be done on a separate machine to speed up the release process.
-
-- [ ] Trigger a Travis build to run all e2e tests on this latest branch. Make sure all the tests pass.
+- [ ] Trigger a Travis build and make sure:
+  - [ ] All e2e tests pass.
+  - [ ] Installation script job runs successfully
 
 ---
 

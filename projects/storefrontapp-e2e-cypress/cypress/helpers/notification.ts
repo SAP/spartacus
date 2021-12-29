@@ -213,3 +213,13 @@ export function navigateToMyInterestsPage() {
     option: 'My Interests',
   });
 }
+
+export function testEnableDisableNotification() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
+  });
+}

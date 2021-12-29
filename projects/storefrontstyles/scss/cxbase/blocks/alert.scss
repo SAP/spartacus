@@ -79,7 +79,10 @@
     font-weight: var(--cx-font-weight, var(--cx-font-weight-normal));
     position: var(--cx-position, absolute);
     top: var(--cx-top, 32%);
-    right: 3rem;
+
+    @include forVersion(4.1) {
+      right: 3rem;
+    }
 
     @include forVersion(4.2) {
       right: auto;

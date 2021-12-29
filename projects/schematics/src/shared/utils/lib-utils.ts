@@ -24,21 +24,22 @@ import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   CLI_ASM_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,
+  CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CDC_FEATURE,
   CLI_CDS_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
   CLI_CHECKOUT_FEATURE,
+  CLI_DIGITAL_PAYMENTS_FEATURE,
+  CLI_ORDER_FEATURE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-  CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
+  CLI_PRODUCT_VARIANTS_FEATURE,
   CLI_QUALTRICS_FEATURE,
   CLI_SMARTEDIT_FEATURE,
   CLI_STOREFINDER_FEATURE,
@@ -54,12 +55,13 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CDC,
   SPARTACUS_CDS,
-  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_CHECKOUT,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
+  SPARTACUS_ORDER,
   SPARTACUS_ORGANIZATION,
   SPARTACUS_PRODUCT,
   SPARTACUS_PRODUCT_CONFIGURATOR,
@@ -223,6 +225,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
   ],
   [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
   [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
+  [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
 };
 
 export function shouldAddFeature(
@@ -401,9 +404,9 @@ function addRootModule(
     }
 
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-    const moduleName = createModuleFileName(config);
+    const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         addModuleImport(sourceFile, {
           import: {
             moduleSpecifier: config.rootModule.importPath,
@@ -429,7 +432,7 @@ function addFeatureModule(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (options.lazy) {
           let lazyLoadingChunkName = config.moduleName;
           if (config.lazyLoadingChunk) {
@@ -480,7 +483,7 @@ function addFeatureTranslations(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.i18n) {
           addModuleProvider(sourceFile, {
             import: [
@@ -518,7 +521,7 @@ function addCustomConfig(
     const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
-      if (sourceFile.getFilePath().includes(moduleFileName)) {
+      if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
         if (config.customConfig) {
           const customConfigs = ([] as CustomConfig[]).concat(
             config.customConfig

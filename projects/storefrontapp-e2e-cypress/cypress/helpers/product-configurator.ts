@@ -178,6 +178,15 @@ export function checkAttributeNotDisplayed(
   cy.get(`#${attributeId}`).should('be.not.visible');
 }
 
+export function maskCharacter(searchValue: string, character: string): string {
+  if (searchValue.indexOf(character) !== -1) {
+    const replaceValue = '\\' + character;
+    searchValue = searchValue.replaceAll(character, replaceValue);
+  }
+  cy.log('searched value: ' + searchValue);
+  return searchValue;
+}
+
 /**
  * Verifies whether the attribute value is displayed.
  *
@@ -195,8 +204,10 @@ export function checkAttrValueDisplayed(
   if (uiType.startsWith('dropdown')) {
     valueLocator = `#${attributeId} [value="${valueName}"]`;
   } else {
+    valueName = this.maskCharacter(valueName, '#');
     valueLocator = `#${attributeId}--${valueName}`;
   }
+  cy.log('value locator: ' + valueLocator);
   cy.get(`${valueLocator}`).should('be.visible');
 }
 
@@ -259,7 +270,8 @@ export function selectAttribute(
 ): void {
   const attributeId = getAttributeId(attributeName, uiType);
   cy.log('attributeId: ' + attributeId);
-  const valueId = `${attributeId}--${valueName}`;
+  let valueId = `${attributeId}--${valueName}`;
+  valueId = this.maskCharacter(valueId, '#');
   cy.log('valueId: ' + valueId);
 
   switch (uiType) {
@@ -285,7 +297,7 @@ export function selectAttribute(
       cy.get(`#${valueId}`).clear().type(value);
       break;
     case 'dropdownProduct':
-      cy.get(`#${attributeId} select`).select(valueName);
+      cy.get(`select#${attributeId}`).select(valueName);
       break;
     case 'radioGroupProduct':
     case 'checkBoxListProduct':
@@ -329,7 +341,7 @@ export function checkValueSelected(
   } else {
     if (uiType === 'dropdownProduct') {
       if (valueName === '0') {
-        // no product card for 'no option slected'
+        // no product card for 'no option selected'
         cy.get(`#${valueId} .cx-product-card`).should('not.exist');
       } else {
         cy.get(`#${valueId} .cx-product-card`).should('be.visible');
@@ -338,6 +350,9 @@ export function checkValueSelected(
     if (uiType.startsWith('dropdown')) {
       valueId = `${attributeId} [value="${valueName}"]`;
     }
+
+    valueId = this.maskCharacter(valueId, '#');
+
     cy.get(`#${valueId}`).should('be.checked');
   }
 }

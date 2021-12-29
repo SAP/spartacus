@@ -11,16 +11,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import {
-  CONFIG_ID,
-  GROUP_ID_1,
-  GROUP_ID_2,
-  GROUP_ID_3,
-  GROUP_ID_4,
-  GROUP_ID_5,
-  GROUP_ID_6,
-  GROUP_ID_7,
-} from '../../../testing/configurator-test-data';
+import { CONFIG_ID } from '../../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { RulebasedConfiguratorConnector } from '../../connectors/rulebased-configurator.connector';
 import { ConfiguratorUtilsService } from '../../facade/utils/configurator-utils.service';
@@ -36,6 +27,7 @@ import * as fromEffects from './configurator-basic.effect';
 const productCode = 'CONF_LAPTOP';
 const configId = '1234-56-7890';
 const groupId = 'GROUP-1';
+const parentGroupid = 'GROUP-PARENT';
 const groupIdA = 'a';
 
 const errorResponse: HttpErrorResponse = new HttpErrorResponse({
@@ -92,6 +84,16 @@ const productConfiguration: Configurator.Configuration = {
   priceSupplements: [],
 };
 ConfiguratorTestUtils.freezeProductConfiguration(productConfiguration);
+
+const parentGroup: Configurator.Group = {
+  id: parentGroupid,
+  subGroups: [group],
+};
+const productConfigurationAttributeOnNestedGroup: Configurator.Configuration = {
+  ...ConfiguratorTestUtils.createConfiguration('a', owner),
+  groups: [parentGroup],
+  flatGroups: [parentGroup],
+};
 
 describe('ConfiguratorEffect', () => {
   let createMock: jasmine.Spy;
@@ -386,6 +388,36 @@ describe('ConfiguratorEffect', () => {
       );
     });
 
+    it('should cover deeply nested updates properly', () => {
+      const payloadInput = productConfigurationAttributeOnNestedGroup;
+      const action = new ConfiguratorActions.UpdateConfigurationSuccess(
+        payloadInput
+      );
+      const finalizeSuccess =
+        new ConfiguratorActions.UpdateConfigurationFinalizeSuccess(
+          productConfigurationAttributeOnNestedGroup
+        );
+      const updatePrices = new ConfiguratorActions.UpdatePriceSummary({
+        ...productConfigurationAttributeOnNestedGroup,
+        interactionState: { currentGroup: groupId },
+      });
+      const changeGroup = new ConfiguratorActions.ChangeGroup({
+        configuration: productConfigurationAttributeOnNestedGroup,
+        groupId: groupId,
+        parentGroupId: parentGroupid,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-(bcd)', {
+        b: finalizeSuccess,
+        c: updatePrices,
+        d: changeGroup,
+      });
+      expect(configEffects.updateConfigurationSuccess$).toBeObservable(
+        expected
+      );
+    });
+
     it('should not raise ChangeGroup in case current group does not change', () => {
       store.dispatch(
         new ConfiguratorActions.SetCurrentGroup({
@@ -517,101 +549,6 @@ describe('ConfiguratorEffect', () => {
         b: readConfigurationFail,
       });
       expect(configEffects.groupChange$).toBeObservable(expected);
-    });
-  });
-
-  describe('getGroupWithAttributes', () => {
-    it('should find group in multi level config', () => {
-      const groups: Configurator.Group[] = [
-        {
-          id: GROUP_ID_1,
-          attributes: [],
-          subGroups: [
-            {
-              id: GROUP_ID_2,
-              attributes: [],
-              subGroups: [],
-            },
-            {
-              id: GROUP_ID_3,
-              attributes: [],
-              subGroups: [],
-            },
-          ],
-        },
-        {
-          id: GROUP_ID_4,
-          attributes: [],
-          subGroups: productConfiguration.groups,
-        },
-        {
-          id: GROUP_ID_5,
-          attributes: [],
-          subGroups: [
-            {
-              id: GROUP_ID_6,
-              attributes: [],
-              subGroups: [],
-            },
-          ],
-        },
-      ];
-      expect(configEffects.getGroupWithAttributes(groups)).toBe(groupId);
-    });
-
-    it('should find no group in multi level config in case no attributes exist at all', () => {
-      const groups: Configurator.Group[] = [
-        {
-          id: GROUP_ID_1,
-          attributes: [],
-          subGroups: [
-            {
-              id: GROUP_ID_2,
-              attributes: [],
-              subGroups: [],
-            },
-            {
-              id: GROUP_ID_3,
-              attributes: [],
-              subGroups: [],
-            },
-          ],
-        },
-        {
-          id: GROUP_ID_5,
-          attributes: [],
-          subGroups: [{ id: GROUP_ID_4, attributes: [], subGroups: [] }],
-        },
-        {
-          id: GROUP_ID_6,
-          attributes: [],
-          subGroups: [
-            {
-              id: GROUP_ID_7,
-              attributes: [],
-              subGroups: [],
-            },
-          ],
-        },
-      ];
-      expect(configEffects.getGroupWithAttributes(groups)).toBeUndefined();
-    });
-  });
-
-  describe('getGroupWithAttributesForConfiguration', () => {
-    it('should find group in single level config', () => {
-      expect(
-        configEffects.getGroupWithAttributesForConfiguration(
-          productConfiguration
-        )
-      ).toBe(groupId);
-    });
-    it('should throw error in case configuration has no attribute at all', () => {
-      expect(function () {
-        configEffects.getGroupWithAttributesForConfiguration(
-          ConfiguratorTestUtils.createConfiguration('a', owner)
-        );
-      }).toThrow();
     });
   });
 });
