@@ -6,7 +6,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
-import { PaymentDetails } from '@spartacus/checkout/base/root';
+import { PaymentDetails } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
   GlobalMessageType,
