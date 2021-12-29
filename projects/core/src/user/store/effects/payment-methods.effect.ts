@@ -7,10 +7,12 @@ import { PaymentDetails } from '../../../model/cart.model';
 import { normalizeHttpError } from '../../../util/normalize-http-error';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';
 import { UserActions } from '../actions/index';
+import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
+import { GlobalMessageType } from '../../../global-message/models/global-message.model';
 
 @Injectable()
 export class UserPaymentMethodsEffects {
-  
+
   loadUserPaymentMethods$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.LOAD_USER_PAYMENT_METHODS),
     map((action: UserActions.LoadUserPaymentMethods) => action.payload),
@@ -30,7 +32,7 @@ export class UserPaymentMethodsEffects {
     })
   ));
 
-  
+
   setDefaultUserPaymentMethod$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.SET_DEFAULT_USER_PAYMENT_METHOD),
     map((action: UserActions.SetDefaultUserPaymentMethod) => action.payload),
@@ -52,7 +54,7 @@ export class UserPaymentMethodsEffects {
         );
     })
   ));
-  
+
   deleteUserPaymentMethod$: Observable<Action> = createEffect(() => this.actions$.pipe(
     ofType(UserActions.DELETE_USER_PAYMENT_METHOD),
     map((action: UserActions.DeleteUserPaymentMethod) => action.payload),
@@ -60,10 +62,16 @@ export class UserPaymentMethodsEffects {
       return this.userPaymentMethodConnector
         .delete(payload.userId, payload.paymentMethodId)
         .pipe(
-          switchMap((data) => [
-            new UserActions.DeleteUserPaymentMethodSuccess(data),
-            new UserActions.LoadUserPaymentMethods(payload.userId),
-          ]),
+          switchMap((data) => {
+            this.globalMessageService.add(
+              { key: 'paymentCard.deletePaymentSuccess' },
+              GlobalMessageType.MSG_TYPE_CONFIRMATION
+            );
+            return [
+              new UserActions.DeleteUserPaymentMethodSuccess(data),
+              new UserActions.LoadUserPaymentMethods(payload.userId),
+            ];
+          }),
           catchError((error) =>
             of(
               new UserActions.DeleteUserPaymentMethodFail(
@@ -77,6 +85,7 @@ export class UserPaymentMethodsEffects {
 
   constructor(
     private actions$: Actions,
-    private userPaymentMethodConnector: UserPaymentConnector
+    private userPaymentMethodConnector: UserPaymentConnector,
+    private globalMessageService: GlobalMessageService
   ) {}
 }

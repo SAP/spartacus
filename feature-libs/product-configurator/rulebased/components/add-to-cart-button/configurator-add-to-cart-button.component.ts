@@ -2,10 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  Order,
   RoutingService,
 } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -54,7 +57,9 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected orderFacade: OrderFacade,
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   protected navigateToCart(): void {
@@ -222,5 +227,32 @@ export class ConfiguratorAddToCartButtonComponent {
             });
         }
       });
+  }
+  leaveConfigurationOverview(): void {
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      ) {
+        this.goToOrderDetails(container.routerData.owner);
+      } else {
+        this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+      }
+    });
+  }
+
+  protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
+    this.orderFacade.loadOrderDetails(
+      this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
+    );
+    this.orderFacade
+      .getOrderDetails()
+      .pipe(
+        filter((order: Order) => order !== undefined),
+        take(1)
+      )
+      .subscribe((order: Order) =>
+        this.routingService.go({ cxRoute: 'orderDetails', params: order })
+      );
   }
 }

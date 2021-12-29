@@ -2,6 +2,7 @@ import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
 import { waitForPage } from './checkout-flow';
+import { waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -43,10 +44,8 @@ export function addProductToCart() {
   cy.wait(`@addToCart`);
 }
 
-export function goToCartDetailsViewFromCartDialog() {
-  cy.get('cx-added-to-cart-dialog').within(() => {
-    cy.findByText(/view cart/i).click();
-  });
+export function goToCartDetailsView() {
+  cy.get('cx-mini-cart').click();
 }
 
 export function selectShippingAddress() {
@@ -88,12 +87,10 @@ export function goToOrderHistoryDetailsFromSummary() {
 
 export function checkAppliedPromotions() {
   it('Should display promotions for product in cart and checkout', () => {
-    addProductToCart();
-    checkForAppliedPromotionsInCartModal(eosCameraProductName);
-    goToCartDetailsViewFromCartDialog();
+    goToCartDetailsView();
     checkForAppliedPromotions();
 
-    cy.get('.cart-details-wrapper > :nth-child(1)').then(($cart) => {
+    cy.get('.cart-details-wrapper > .cx-total').then(($cart) => {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       cy.log(`CartId: ${cartId}`);
       cy.window()
@@ -131,17 +128,22 @@ export function removeCartEntry() {
   });
 }
 
+export function closeCartDialog() {
+  cy.get('cx-added-to-cart-dialog').should('be.visible');
+  cy.get('cx-added-to-cart-dialog').within(() => {
+    cy.get('button.close').click({ force: true });
+  });
+}
+
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
-  it('Should add two products to the cart', () => {
-    cy.visit(`/product/${batteryProductCode}`);
-    addProductToCart();
-    cy.visit(`/product/${batteryProductCode}`);
-    addProductToCart();
-  });
-
   it('Should display promotions for cart quantities increase/decrease', () => {
+    cy.visit(`/product/${batteryProductCode}`);
+    addProductToCart();
+    cy.visit(`/product/${batteryProductCode}`);
+    addProductToCart();
+
     registerCartPageRoute();
     cy.intercept({
       method: 'GET',
@@ -149,12 +151,43 @@ export function checkAppliedPromotionsFordifferentCartTotals() {
         'BASE_SITE'
       )}/users/*/customercoupons`,
     }).as('customer_coupons');
-    goToCartDetailsViewFromCartDialog();
+
+    closeCartDialog();
+    goToCartDetailsView();
     cy.wait('@cart_page');
     cy.wait('@customer_coupons');
     cy.get('.cx-promotions').should('contain', '200');
 
     decreaseQuantityOfCartEntry();
     cy.get('.cx-promotions').should('not.contain', '200');
+  });
+}
+
+export function testPromotionsForLoggedInUser() {
+  describe('As a logged in user', () => {
+    before(() => {
+      const eosCameraProductCode = '1382080';
+      const productPage = waitForProductPage(
+        eosCameraProductCode,
+        'getProductPage'
+      );
+      cy.visit(`/product/${eosCameraProductCode}`);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      addProductToCart();
+      checkForAppliedPromotionsInCartModal(eosCameraProductName);
+      closeCartDialog();
+    });
+
+    beforeEach(() => {
+      cy.restoreLocalStorage();
+    });
+
+    checkAppliedPromotions();
+
+    checkAppliedPromotionsFordifferentCartTotals();
+
+    afterEach(() => {
+      cy.saveLocalStorage();
+    });
   });
 }

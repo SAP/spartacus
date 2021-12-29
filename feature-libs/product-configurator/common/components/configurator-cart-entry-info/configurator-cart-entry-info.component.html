@@ -1,12 +1,34 @@
 <ng-container *ngIf="orderEntry$ | async as orderEntry">
   <ng-container *ngIf="isAttributeBasedConfigurator(orderEntry)">
     <ng-container *ngIf="hasStatus(orderEntry)">
-      <div
-        class="cx-configuration-info"
-        *ngFor="let info of orderEntry.configurationInfos"
+      <span
+        *ngIf="orderEntry.configurationInfos.length > 0"
+        class="cx-intro cx-visually-hidden"
       >
-        <div class="cx-label">{{ info?.configurationLabel }}:</div>
-        <div class="cx-value">
+        {{ 'configurator.a11y.cartEntryInfoIntro' | cxTranslate }}
+      </span>
+      <div
+        *ngFor="let info of orderEntry.configurationInfos; let i = index"
+        class="cx-configuration-info"
+        attr.aria-describedby="{{ getHiddenConfigurationInfoId(i) }}"
+      >
+        <span
+          id="{{ getHiddenConfigurationInfoId(i) }}"
+          class="cx-visually-hidden"
+        >
+          {{
+            'configurator.a11y.cartEntryInfo'
+              | cxTranslate
+                : {
+                    attribute: info.configurationLabel,
+                    value: info.configurationValue
+                  }
+          }}
+        </span>
+        <div class="cx-label" aria-hidden="true">
+          {{ info?.configurationLabel }}:
+        </div>
+        <div class="cx-value" aria-hidden="true">
           {{ info?.configurationValue }}
         </div>
       </div>

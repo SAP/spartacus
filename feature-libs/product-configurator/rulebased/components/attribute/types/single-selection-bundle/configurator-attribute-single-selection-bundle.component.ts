@@ -14,10 +14,12 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
    * Extract corresponding product card parameters
    *
    * @param {Configurator.Value} value - Value
+   * @param {number} index - index of current value in list of values of attribute
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    value: Configurator.Value
+    value: Configurator.Value,
+    index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
       hideRemoveButton: this.attribute.required,
@@ -25,6 +27,12 @@ export class ConfiguratorAttributeSingleSelectionBundleComponent extends Configu
       productBoundValue: value,
       loading$: this.loading$,
       attributeId: this.getAttributeCode(this.attribute),
+      attributeLabel: this.attribute.label,
+      attributeName: this.attribute.name,
+      itemCount: this.attribute.values?.length
+        ? this.attribute.values?.length
+        : 0,
+      itemIndex: index,
     };
   }
 

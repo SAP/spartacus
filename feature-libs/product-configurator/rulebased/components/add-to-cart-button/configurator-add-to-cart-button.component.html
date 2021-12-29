@@ -1,5 +1,5 @@
 <ng-container *ngIf="container$ | async as container">
-  <ng-container *ngIf="!container.routerData.displayOnly">
+  <ng-container *ngIf="!container.routerData.displayOnly; else displayOnly">
     <div class="cx-add-to-cart-btn-container">
       <button
         class="cx-btn btn btn-block btn-primary cx-add-to-cart-btn"
@@ -12,4 +12,14 @@
       </button>
     </div>
   </ng-container>
+  <ng-template #displayOnly>
+    <div class="cx-display-only-btn-container">
+      <button
+        class="cx-btn btn btn-block btn-primary cx-display-only-btn"
+        (click)="leaveConfigurationOverview()"
+      >
+        {{ 'configurator.addToCart.buttonDisplayOnly' | cxTranslate }}
+      </button>
+    </div>
+  </ng-template>
 </ng-container>

@@ -65,6 +65,7 @@ class MockConfiguratorTextfieldService {
     });
   }
 }
+
 describe('TextfieldFormComponent', () => {
   let component: ConfiguratorTextfieldFormComponent;
   let fixture: ComponentFixture<ConfiguratorTextfieldFormComponent>;
