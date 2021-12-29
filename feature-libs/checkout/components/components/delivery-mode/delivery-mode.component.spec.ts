@@ -47,7 +47,7 @@ const mockActivatedRoute = {
   },
 };
 
-const setDeliveryModeInProcess$ = new BehaviorSubject<boolean>(false);
+const isSetDeliveryModeBusy$ = new BehaviorSubject<boolean>(false);
 
 const selectedDeliveryMode$ = new BehaviorSubject<DeliveryMode>({});
 
@@ -68,7 +68,7 @@ class MockCheckoutDeliveryService {
     return of({});
   }
   getSetDeliveryModeInProcess(): Observable<boolean> {
-    return setDeliveryModeInProcess$.asObservable();
+    return isSetDeliveryModeBusy$.asObservable();
   }
 }
 
@@ -127,7 +127,7 @@ describe('DeliveryModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
-    setDeliveryModeInProcess$.next(false);
+    isSetDeliveryModeBusy$.next(false);
     selectedDeliveryMode$.next({});
   });
 
@@ -208,7 +208,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be displayed after supported delivery modes are loaded', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
 
       fixture.detectChanges();
 
@@ -217,7 +217,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be hidden by spinner when there is another ongoing request', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(true);
+      isSetDeliveryModeBusy$.next(true);
 
       fixture.detectChanges();
 
@@ -243,7 +243,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be enabled when delivery mode is selected', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -255,7 +255,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'next');
 
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -276,7 +276,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'back');
 
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
 
       fixture.detectChanges();
 
