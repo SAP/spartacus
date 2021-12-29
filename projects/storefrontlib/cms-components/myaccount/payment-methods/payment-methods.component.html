@@ -15,10 +15,11 @@
         <div class="cx-existing row">
           <div
             class="cx-payment-card col-sm-12 col-md-12 col-lg-6"
-            *ngFor="let paymentMethod of paymentMethods"
+            *ngFor="let paymentMethod of paymentMethods; let i = index"
           >
             <div class="cx-payment-inner">
               <cx-card
+                [index]="i"
                 [border]="true"
                 [fitToContainer]="true"
                 [content]="getCardContent(paymentMethod) | async"
