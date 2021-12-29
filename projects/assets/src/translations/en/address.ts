@@ -46,8 +46,8 @@ export const address = {
     addAddress: 'Add address',
     updateAddress: 'Update address',
     backToAddressList: 'Back to address list',
-    defaultShippingAddress: '{{ line1 }}, Default Shipping Address',
-    additionalShippingAddress: '{{ line1 }}, Additional Shipping Address',
+    defaultShippingAddress: 'Default Shipping Address',
+    additionalShippingAddress: 'Additional Shipping Address {{number}}',
   },
   addressCard: {
     default: 'DEFAULT',
