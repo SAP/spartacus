@@ -157,20 +157,18 @@ export function selectAccountDeliveryMode() {
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
-  cy.get(
-    'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
-  ).then(() => {
+  cy.get('input[type=radio][formcontrolname=deliveryModeId]').then(() => {
     // Accessibility
     verifyTabbingOrder(
       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
       config.deliveryMode
     );
   });
-  const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
-
-  cy.get('.cx-checkout-btns button.btn-primary').click();
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.get('.cx-checkout-btns button.btn-primary').click();
+
+  const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);

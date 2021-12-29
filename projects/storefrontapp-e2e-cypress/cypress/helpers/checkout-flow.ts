@@ -181,13 +181,21 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 
 export function verifyDeliveryMethod() {
   cy.log('🛒 Selecting delivery method');
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?*`,
+  }).as('putDeliveryMode');
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.get('.cx-checkout-btns button.btn-primary').click();
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('.cx-checkout-btns button.btn-primary').click();
   cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
