@@ -67,7 +67,7 @@ class MockCheckoutDeliveryService {
   getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of({});
   }
-  getSetDeliveryModeInProcess(): Observable<boolean> {
+  isSetDeliveryModeBusy(): Observable<boolean> {
     return isSetDeliveryModeBusy$.asObservable();
   }
 }
