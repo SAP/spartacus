@@ -3,10 +3,16 @@
   tabindex="0"
   (click)="exitConfiguration()"
 >
-  <ng-container *ngIf="isDesktop() | async">
+  <ng-container *ngIf="!isNavigatedFromCart && isDesktop() | async">
     {{ 'configurator.button.exit' | cxTranslate }}
   </ng-container>
-  <ng-container *ngIf="isMobile() | async">
+  <ng-container *ngIf="!isNavigatedFromCart && isMobile() | async">
     {{ 'configurator.button.exitMobile' | cxTranslate }}
+  </ng-container>
+  <ng-container *ngIf="isNavigatedFromCart && isMobile() | async">
+    {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
+  </ng-container>
+  <ng-container *ngIf="isNavigatedFromCart && isDesktop() | async">
+    {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
   </ng-container>
 </button>
