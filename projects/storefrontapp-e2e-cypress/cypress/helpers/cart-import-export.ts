@@ -289,3 +289,57 @@ export function attemptUpload(csvPath: string) {
   cy.intercept('GET', '**/users/current/carts/*?**').as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 }
+
+/**
+ * Test import / export single product.
+ */
+export function testImportExportSingleProduct() {
+  describe('Single product', () => {
+    const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
+
+    it('should export cart', () => {
+      addProductToCart(cart.products[1].code);
+      exportCart(EXPECTED_CSV);
+    });
+
+    it('should import cart', () => {
+      importCartTestFromConfig({
+        name: 'Single Product Cart',
+        description: 'A test description for Single Product Cart.',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '$114.12',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+  });
+}
+
+/**
+ * Test import / export single product larger quantity.
+ */
+export function testImportExportLargerQuantity() {
+  describe('Single product with larger quantity', () => {
+    const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
+
+    it('should export cart', () => {
+      addProductToCart();
+      addProductToCart();
+      addProductToCart();
+      exportCart(EXPECTED_CSV);
+    });
+
+    it('should import cart', () => {
+      importCartTestFromConfig({
+        name: 'Single Product (Lg Qty) Cart',
+        description: 'A test description for Single Product (Lg Qty) Cart.',
+        saveTime: getSavedDate(),
+        quantity: 3,
+        total: '$322.36',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+  });
+}

@@ -379,7 +379,16 @@ export class OccConfiguratorVariantNormalizer
 
     switch (attribute.uiType) {
       case Configurator.UiType.RADIOBUTTON:
-      case Configurator.UiType.DROPDOWN:
+      case Configurator.UiType.DROPDOWN: {
+        if (
+          !attribute.selectedSingleValue ||
+          attribute.selectedSingleValue ===
+            OccConfiguratorVariantNormalizer.RETRACT_VALUE_CODE
+        ) {
+          attribute.incomplete = true;
+        }
+        break;
+      }
       case Configurator.UiType.SINGLE_SELECTION_IMAGE: {
         if (!attribute.selectedSingleValue) {
           attribute.incomplete = true;
