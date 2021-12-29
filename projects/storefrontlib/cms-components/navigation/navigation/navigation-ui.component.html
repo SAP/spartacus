@@ -31,6 +31,7 @@
       [target]="node.target"
       [style]="node.styleAttributes"
       [class]="node.styleClasses"
+      [isNavLink]="true"
     >
       {{ node.title }}
       <cx-icon
@@ -55,6 +56,7 @@
         *ngIf="node.url"
         [url]="node.url"
         [target]="node.target"
+        [isNavLink]="true"
         class="all"
       >
         {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}

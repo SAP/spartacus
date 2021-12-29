@@ -1,6 +1,11 @@
 <div
   *ngIf="content"
   class="cx-card"
+  [tabindex]="border ? 0 : -1"
+  role="region"
+  [attr.aria-label]="
+    content.label ? (content.label | cxTranslate: { number: this.index }) : null
+  "
   [class.cx-card-border]="border"
   [class.cx-card-fit-to-container]="fitToContainer"
 >
@@ -68,45 +73,45 @@
     <div *ngIf="content.actions && !editMode" class="cx-card-actions">
       <div *ngFor="let action of content.actions">
         <div [ngSwitch]="action.event">
-          <a
+          <button
+            type="button"
             *ngSwitchCase="'delete'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="delete()"
-            (keydown.enter)="delete()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'default'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="setDefault()"
-            (keydown.enter)="setDefault()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'send'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="send()"
-            (keydown.enter)="send()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
-          <a
+            {{ action.name }}
+          </button>
+          <button
+            type="button"
             *ngSwitchCase="'edit'"
-            class="cx-card-link card-link btn-link cx-action-link"
+            class="link cx-action-link"
             (click)="edit()"
-            (keydown.enter)="edit()"
-            tabindex="0"
-            >{{ action.name }}</a
           >
+            {{ action.name }}
+          </button>
           <a
             *ngSwitchDefault
             href="{{ action.link }}"
-            class="card-link btn-link cx-action-link"
-            tabindex="0"
-            >{{ action.name }}</a
+            class="link cx-action-link"
           >
+            {{ action.name }}
+          </a>
         </div>
       </div>
     </div>
