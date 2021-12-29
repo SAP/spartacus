@@ -65,32 +65,33 @@ export class ConfiguratorExitButtonComponent {
    * Navigates to the product detail page of the product that is being configured.
    */
   exitConfiguration() {
-    this.container$.pipe(take(1)).subscribe((container) => {
-      if (
-        container.routerData.owner.type ===
-        CommonConfigurator.OwnerType.CART_ENTRY
-      ) {
-        this.navigateToCart();
-      } else {
-        this.configRouterExtractorService
-          .extractRouterData()
-          .pipe(
-            switchMap((routerData) =>
-              this.configuratorCommonsService.getConfiguration(routerData.owner)
-            ),
-            switchMap((configuration: Configurator.Configuration) =>
-              this.productService.get(
-                configuration.productCode ? configuration.productCode : ''
-              )
-            ),
-            filter((product) => product !== undefined),
-            take(1)
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(
+        switchMap((routerData) =>
+          this.configuratorCommonsService.getConfiguration(routerData.owner)
+        ),
+        switchMap((configuration: Configurator.Configuration) =>
+          this.productService.get(
+            configuration.productCode ? configuration.productCode : ''
           )
-          .subscribe((product) =>
-            this.routingService.go({ cxRoute: 'product', params: product })
-          );
-      }
-    });
+        ),
+        filter((product) => product !== undefined),
+        take(1)
+      )
+      .subscribe((product) =>
+        this.container$.pipe(take(1)).subscribe((container) => {
+          console.log(container.routerData.owner.type);
+          if (
+            container.routerData.owner.type ===
+            CommonConfigurator.OwnerType.CART_ENTRY
+          ) {
+            this.navigateToCart();
+          } else {
+            this.routingService.go({ cxRoute: 'product', params: product });
+          }
+        })
+      );
   }
 
   /**
@@ -114,11 +115,12 @@ export class ConfiguratorExitButtonComponent {
   /**
    * Verifies whether user is navigated from cart.
    *
-   * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.sm` returns `true`, otherwise `false`.
+   * @returns {boolean} - If user is in cart context, the method returns true
    */
   isNavigatedFromCart(): boolean {
     let isNavigatedFromCart = false;
     this.container$.pipe(take(1)).subscribe((container) => {
+      console.log(container.routerData.owner.type);
       if (
         container.routerData.owner.type ===
         CommonConfigurator.OwnerType.CART_ENTRY
