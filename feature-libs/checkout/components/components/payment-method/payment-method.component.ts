@@ -175,16 +175,6 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
     this.newPaymentFormManuallyOpened = false;
   }
 
-  getAriaLabel(title: string): Observable<string> {
-    return this.translation.translate('paymentCard.defaultPaymentMethod').pipe(
-      map((key) => {
-        return title === key
-          ? 'paymentCard.defaultPayment'
-          : 'paymentCard.additionalPaymentMethod';
-      })
-    );
-  }
-
   setPaymentDetails({
     paymentDetails,
     billingAddress,
@@ -251,6 +241,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         selected?.id === paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
+      label: paymentDetails.defaultPayment
+        ? 'paymentCard.defaultPaymentLabel'
+        : 'paymentCard.additionalPaymentLabel',
     };
   }
 
