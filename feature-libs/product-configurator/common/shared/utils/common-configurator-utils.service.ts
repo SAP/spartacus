@@ -6,7 +6,14 @@ import {
   PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  CartItemContext,
+  LayoutConfig,
+  LayoutSlotConfig,
+  SlotConfig,
+  SlotGroup,
+} from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
@@ -143,5 +150,36 @@ export class CommonConfiguratorUtilsService {
           location !== PromotionLocation.SavedCart
       )
     );
+  }
+
+  /**
+   * Reads slots from layout config, taking the breakpoint into account
+   * @param layoutConfig Layout config
+   * @param templateName Page template name
+   * @param sectionName Section name like 'header'
+   * @param breakPoint Current breakpoint
+   * @returns Array of slots
+   */
+  getSlotsFromLayoutConfiguration(
+    layoutConfig: LayoutConfig,
+    templateName: string,
+    sectionName: string,
+    breakPoint: BREAKPOINT.lg | BREAKPOINT.md | BREAKPOINT.sm | BREAKPOINT.xs
+  ): string[] {
+    const slots = layoutConfig.layoutSlots;
+    if (slots) {
+      const slotsForTemplate: LayoutSlotConfig = <LayoutSlotConfig>(
+        slots[templateName]
+      );
+      const slotGroupForSection: SlotGroup = <SlotGroup>(
+        slotsForTemplate[sectionName]
+      );
+      const slotConfigForBreakpoint: SlotConfig = <SlotConfig>(
+        slotGroupForSection[breakPoint]
+      );
+      return <string[]>slotConfigForBreakpoint['slots'];
+    } else {
+      return [];
+    }
   }
 }

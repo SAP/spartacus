@@ -22,6 +22,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSetDeliveryAddressProcess',
         'resetSetDeliveryAddressProcess',
         'getSetDeliveryModeProcess',
+        'getSetDeliveryModeInProcess',
         'resetSetDeliveryModeProcess',
         'resetLoadSupportedDeliveryModesProcess',
         'getLoadSupportedDeliveryModeProcess',
@@ -79,6 +80,11 @@ export abstract class CheckoutDeliveryFacade {
     StateUtils.LoaderState<void>
   >;
 
+  /**
+   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * True means at least one quest is still in process, false means all three requests are done
+   */
+  abstract getSetDeliveryModeInProcess(): Observable<boolean>;
   /**
    * Clear info about process of setting Delivery Mode
    */

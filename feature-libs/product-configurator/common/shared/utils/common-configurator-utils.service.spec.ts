@@ -8,7 +8,12 @@ import {
   PromotionLocation,
   UserIdService,
 } from '@spartacus/core';
-import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
+import {
+  BREAKPOINT,
+  CartItemContext,
+  CartItemContextSource,
+  LayoutConfig,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
@@ -49,6 +54,27 @@ class MockCartItemContext implements Partial<CartItemContext> {
     PromotionLocation.ActiveCart
   );
 }
+
+const slotsLargeResolution = ['SiteContext', 'SiteLinks', 'SiteLogo'];
+
+const slotsSmallResolution = ['SiteLogo'];
+
+const templateName = 'ConfiguratorTemplate';
+const sectionName = 'headerDisplayOnly';
+const layoutConfig: LayoutConfig = {
+  layoutSlots: {
+    ConfiguratorTemplate: {
+      headerDisplayOnly: {
+        lg: {
+          slots: slotsLargeResolution,
+        },
+        xs: {
+          slots: slotsSmallResolution,
+        },
+      },
+    },
+  },
+};
 
 describe('CommonConfiguratorUtilsService', () => {
   let classUnderTest: CommonConfiguratorUtilsService;
@@ -255,6 +281,59 @@ describe('CommonConfiguratorUtilsService', () => {
         .unsubscribe();
 
       expect(result).toEqual(true);
+    });
+  });
+
+  describe('getSlotsFromLayoutConfiguration', () => {
+    it('should find slots in layout configuration providing a breakpoint', () => {
+      expect(
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toBe(slotsLargeResolution);
+    });
+
+    it('should return empty array in case no layout config is available', () => {
+      expect(
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          {},
+          templateName,
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toEqual([]);
+    });
+
+    it('should throw error in case of unknown template, section or breakpoint ', () => {
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          'UnknownTemplate',
+          sectionName,
+          BREAKPOINT.lg
+        )
+      ).toThrowError();
+
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          'UnknownSection',
+          BREAKPOINT.lg
+        )
+      ).toThrowError();
+
+      expect(() =>
+        classUnderTest.getSlotsFromLayoutConfiguration(
+          layoutConfig,
+          templateName,
+          sectionName,
+          BREAKPOINT.sm
+        )
+      ).toThrowError();
     });
   });
 });
