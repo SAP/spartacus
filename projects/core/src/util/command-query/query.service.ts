@@ -30,9 +30,9 @@ export interface QueryState<T> {
   data: T | undefined;
 }
 
-export interface Query<T, P extends unknown[] = []> {
-  get(...params: P): Observable<T | undefined>;
-  getState(...params: P): Observable<QueryState<T>>;
+export interface Query<RESULT, PARAMS extends unknown[] = []> {
+  get(...params: PARAMS): Observable<RESULT | undefined>;
+  getState(...params: PARAMS): Observable<QueryState<RESULT>>;
 }
 
 @Injectable({
