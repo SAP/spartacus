@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/main/root';
 import {
   CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
@@ -9,7 +9,6 @@ import {
   CheckoutDeliveryAddressService,
   CheckoutPaymentService,
 } from '@spartacus/checkout/base/core';
-import { PaymentDetails } from '@spartacus/checkout/base/root';
 import {
   GlobalMessageService,
   TranslationService,
