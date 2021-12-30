@@ -18,12 +18,11 @@
     flex-wrap: wrap;
     padding: 0;
 
-    @include media-breakpoint-up(lg) {
-      li {
+    > li {
+      @include media-breakpoint-up(lg) {
         padding-inline-end: 15px;
       }
-    }
-    > li {
+
       list-style: none;
       display: flex;
 

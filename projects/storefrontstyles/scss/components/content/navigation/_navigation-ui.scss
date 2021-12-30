@@ -334,8 +334,8 @@
     }
 
     @include media-breakpoint-up(lg) {
-      .childs[depth='2'] {
-        > ul > li {
+      ul.childs[depth='2'] {
+        > li {
           &:not(:only-child):not(:last-child) {
             padding-inline-end: 20px;
           }
