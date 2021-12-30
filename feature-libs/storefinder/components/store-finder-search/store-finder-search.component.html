@@ -8,12 +8,13 @@
           (keyup)="onKey($event)"
           type="text"
           class="form-control"
-          [attr.aria-label]="'common.search' | cxTranslate"
+          [attr.aria-label]="'storeFinder.searchBoxLabel' | cxTranslate"
           placeholder="{{ 'storeFinder.searchBox' | cxTranslate }}"
         />
         <cx-icon
           [type]="iconTypes.SEARCH"
-          [attr.aria-label]="'common.search' | cxTranslate"
+          role="button"
+          [attr.aria-label]="'storeFinder.searchNearestStores' | cxTranslate"
           class="search"
           (keyup)="onKey($event)"
           [routerLink]="['/store-finder/find']"
