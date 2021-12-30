@@ -113,7 +113,7 @@
       // make all first level hedings uppercase in mobile view
       > nav > ul > li {
         > span,
-        > button,
+        > button:not(cx-generic-link + button),
         > cx-generic-link {
           text-transform: uppercase;
           font-weight: 600;
