@@ -4,7 +4,7 @@ import { I18nModule } from '@spartacus/core';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { TruncateTextPopoverModule } from '../truncate-text-popover/truncate-text-popover.module';
 import { CardComponent } from './card.component';
-import { KeyboardFocusModule } from '../../../../storefrontlib/layout/a11y/keyboard-focus/keyboard-focus.module';
+import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
 
 @NgModule({
   imports: [
