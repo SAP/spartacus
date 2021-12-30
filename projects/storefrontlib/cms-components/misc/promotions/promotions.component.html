@@ -3,8 +3,10 @@
     <p>{{ promotions[0].description }}</p>
   </ng-container>
   <ng-container *ngIf="promotions.length > 1">
-    <ul *ngFor="let promotion of promotions">
-      <li>{{ promotion.description }}</li>
+    <ul>
+      <li *ngFor="let promotion of promotions">
+        {{ promotion.description }}
+      </li>
     </ul>
   </ng-container>
 </div>
