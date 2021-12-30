@@ -119,6 +119,11 @@
           font-weight: 600;
           width: 100%;
         }
+        &:not(.is-open):not(.is-opened) {
+          > .wrapper {
+            display: none;
+          }
+        }
       }
       span,
       button,
