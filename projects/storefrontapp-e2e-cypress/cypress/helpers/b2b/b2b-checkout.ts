@@ -168,7 +168,7 @@ export function selectAccountDeliveryMode() {
   });
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').click({ force: true });
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
