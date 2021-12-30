@@ -38,27 +38,32 @@
             <div class="cx-delivery-details">{{ mode.description }}</div>
           </label>
         </div>
-        <div class="row cx-checkout-btns">
-          <div class="col-md-12 col-lg-6">
-            <button class="btn btn-block btn-action" (click)="back()">
-              {{ backBtnText | cxTranslate }}
-            </button>
-          </div>
-          <div class="col-md-12 col-lg-6">
-            <button
-              class="btn btn-block btn-primary"
-              [disabled]="
-                deliveryModeInvalid || (isSetDeliveryModeBusy$ | async)
-              "
-              (click)="next()"
-            >
-              {{ 'common.continue' | cxTranslate }}
-            </button>
-          </div>
-        </div>
       </ng-container>
     </div>
   </div>
+
+  <ng-container>
+    <div class="row cx-checkout-btns">
+      <div class="col-md-12 col-lg-6">
+        <button class="btn btn-block btn-action" (click)="back()">
+          {{ backBtnText | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-md-12 col-lg-6">
+        <button
+          class="btn btn-block btn-primary"
+          [disabled]="
+            deliveryModeInvalid ||
+            continueButtonPressed ||
+            (isSetDeliveryModeBusy$ | async)
+          "
+          (click)="next()"
+        >
+          {{ 'common.continue' | cxTranslate }}
+        </button>
+      </div>
+    </div>
+  </ng-container>
 </div>
 
 <ng-template #loading>
