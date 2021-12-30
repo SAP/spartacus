@@ -17,6 +17,12 @@
     display: flex;
     flex-wrap: wrap;
     padding: 0;
+
+    @include media-breakpoint-up(lg) {
+      li {
+        padding-inline-end: 15px;
+      }
+    }
     > li {
       list-style: none;
       display: flex;
@@ -35,8 +41,6 @@
       &.is-open {
         li.is-open:not(.back) {
           > span {
-          //> span,
-          //> button {
             display: none;
           }
         }

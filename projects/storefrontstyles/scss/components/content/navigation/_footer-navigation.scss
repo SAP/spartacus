@@ -17,12 +17,17 @@
     }
 
     justify-content: center;
-    @include media-breakpoint-down(sm) {
-      flex-direction: column;
-    }
 
-    > nav {
-      margin: 3vw;
+    > nav > ul {
+      display: flex;
+
+      @include media-breakpoint-down(sm) {
+        flex-direction: column;
+      }
+
+      > li {
+        margin: 3vw;
+      }
     }
   }
 }

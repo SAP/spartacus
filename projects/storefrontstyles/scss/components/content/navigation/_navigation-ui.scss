@@ -172,7 +172,7 @@
 @include media-breakpoint-up(lg) {
   cx-navigation-ui nav {
     li {
-      padding-inline-end: 15px;
+      //padding-inline-end: 15px;
 
       > cx-generic-link > a {
         padding-top: 20px;
@@ -265,7 +265,7 @@
 
     ul {
       list-style: none;
-      padding-left: 0;
+      padding-inline-start: 0;
       margin-bottom: 0;
     }
 
@@ -307,8 +307,8 @@
           }
         }
 
-        .is-opened {
-          //li.is-opened {
+        //.is-opened {
+        li.is-opened {
           display: initial;
           > .wrapper > ul.childs > li {
             display: none;
