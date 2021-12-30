@@ -144,9 +144,9 @@ export function verifyCart(config: ImportConfig) {
                 .get('div.cx-quantity cx-item-counter input')
                 .should('have.value', cell);
             case 'Name':
-              return cy.get('div.cx-name1').contains(cell);
+              return cy.get('div.cx-name').contains(cell);
             case 'Price':
-              return cy.get('div.cx-price1').contains(cell);
+              return cy.get('div.cx-price').contains(cell);
             case '[importExport:exportEntries.columnNames.engravedTextHeading]':
               cy.get('div.cx-configuration-info .cx-label').contains(
                 'Engraved Text'
