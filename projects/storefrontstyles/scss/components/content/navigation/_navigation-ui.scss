@@ -110,7 +110,7 @@
     }
 
     @include media-breakpoint-down(md) {
-      // make all first level hedings uppercase in mobile view
+      // make all first level headings uppercase in mobile view
       > nav > ul > li {
         > span,
         > button:not(cx-generic-link + button),
