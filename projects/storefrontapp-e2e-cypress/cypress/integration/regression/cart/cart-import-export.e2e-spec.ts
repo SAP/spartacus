@@ -31,10 +31,11 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Multi-Product Cart',
           description: 'A test description for Multi-Product Cart.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 3,
           total: '$564.69',
@@ -56,11 +57,12 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Multi-Product Cart with varied quantities',
           description:
             'A test description for Multi-Product Cart with varied quantities.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 5,
           total: '$522.06',
@@ -83,11 +85,12 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Normal and Configurable Products Cart',
           description:
             'A test description for Normal and Configurable Products Cart.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 6,
           total: '$621.91',
@@ -110,10 +113,11 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Non-default export Cart',
           description: 'A test description for Non-default export Cart.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 2,
           total: '$193.97',
@@ -136,10 +140,11 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Configurable products Cart',
           description: 'A test description for Configurable products Cart.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '$99.85',
@@ -167,10 +172,11 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
           name: 'Variable products Cart',
           description: 'A test description for Variable products Cart.',
+          cartPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '£24.26',

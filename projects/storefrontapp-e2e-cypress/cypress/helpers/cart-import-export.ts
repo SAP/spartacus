@@ -9,13 +9,17 @@ const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
  */
 export interface ImportConfig {
   /**
-   * Name of cart.
+   * Name of cart. If name is not defined it means that test works for active cart.
    */
   name: string;
   /**
-   * Description of cart.
+   * Description of cart. If description is not defined it means that test works for active cart.
    */
-  description: string;
+  description?: string;
+  /**
+   * Path to cart details page.
+   */
+  cartPath: string;
   /**
    * Time of cart being saved.
    */
@@ -140,9 +144,9 @@ export function verifyCart(config: ImportConfig) {
                 .get('div.cx-quantity cx-item-counter input')
                 .should('have.value', cell);
             case 'Name':
-              return cy.get('div.cx-name').contains(cell);
+              return cy.get('div.cx-name1').contains(cell);
             case 'Price':
-              return cy.get('div.cx-price').contains(cell);
+              return cy.get('div.cx-price1').contains(cell);
             case '[importExport:exportEntries.columnNames.engravedTextHeading]':
               cy.get('div.cx-configuration-info .cx-label').contains(
                 'Engraved Text'
@@ -234,7 +238,7 @@ export function exportCart(expectedData?: string) {
 export function importCartTestFromConfig(config: ImportConfig) {
   loginAsMyCompanyAdmin();
 
-  cy.visit('my-account/saved-carts');
+  cy.visit(config.cartPath);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
     cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
@@ -242,9 +246,11 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
   ).attachFile({ filePath: `../downloads/${config.name}.csv` });
-  cy.get(
-    'cx-import-entries-dialog textarea[formcontrolname="description"]'
-  ).type(config.description);
+  if (config.description) {
+    cy.get(
+      'cx-import-entries-dialog textarea[formcontrolname="description"]'
+    ).type(config.description);
+  }
 
   cy.intercept('GET', '**/users/current/carts/*?**').as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
@@ -262,8 +268,12 @@ export function importCartTestFromConfig(config: ImportConfig) {
       .contains('Close')
       .click();
 
-    verifyImportedData(config, importedCart);
-    restoreCart(importedCart);
+    // TODO: Base decision on some enum instead if description is defined?
+    if (config.description) {
+      verifyImportedData(config, importedCart);
+      restoreCart(importedCart);
+    }
+
     verifyCart(config);
   });
 }
@@ -297,15 +307,28 @@ export function testImportExportSingleProduct() {
   describe('Single product', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
-    it('should export cart', () => {
+    it('should export from cart', () => {
       addProductToCart(cart.products[1].code);
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import cart', () => {
+    it('should import to active cart', () => {
+      importCartTestFromConfig({
+        name: '',
+        cartPath: 'cart',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '$114.12',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+
+    it('should import to saved cart', () => {
       importCartTestFromConfig({
         name: 'Single Product Cart',
         description: 'A test description for Single Product Cart.',
+        cartPath: 'my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '$114.12',
@@ -334,6 +357,7 @@ export function testImportExportLargerQuantity() {
       importCartTestFromConfig({
         name: 'Single Product (Lg Qty) Cart',
         description: 'A test description for Single Product (Lg Qty) Cart.',
+        cartPath: 'my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 3,
         total: '$322.36',
