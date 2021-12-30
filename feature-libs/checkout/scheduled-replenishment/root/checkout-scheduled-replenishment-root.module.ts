@@ -19,6 +19,10 @@ import {
 } from './feature-name';
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS: string[] = [
+  /**
+   *  TODO:#9574 - we should be able to remove the spread of `CHECKOUT_BASE_CMS_COMPONENTS`.
+   * Re-test the B2B checkout flow after doing it.
+   */
   ...CHECKOUT_B2B_CMS_COMPONENTS,
   'CheckoutScheduleReplenishmentOrder',
   'ReplenishmentConfirmationMessageComponent',
