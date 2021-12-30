@@ -28,7 +28,7 @@
 
       @include media-breakpoint-up(lg) {
         > .wrapper {
-          margin-top: 67px;
+          margin-top: $header-height;
         }
       }
     }

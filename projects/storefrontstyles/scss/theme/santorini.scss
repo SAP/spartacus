@@ -53,7 +53,7 @@
     @include media-breakpoint-up(lg) {
       background: linear-gradient(
         to top,
-        var(--cx-color-dark) 67px,
+        var(--cx-color-dark) $header-height,
         var(--cx-color-background) 0
       );
     }
