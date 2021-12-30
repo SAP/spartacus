@@ -5,6 +5,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
@@ -40,7 +41,7 @@ export function defaultCheckoutComponentsConfig() {
           'ReplenishmentConfirmationItemsComponent',
           'ReplenishmentConfirmationTotalsComponent',
         ],
-        dependencies: [CART_FEATURE],
+        dependencies: [CART_FEATURE, ORDER_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,

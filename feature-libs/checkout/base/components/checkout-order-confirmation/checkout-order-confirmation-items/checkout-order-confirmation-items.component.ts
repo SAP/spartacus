@@ -12,7 +12,7 @@ import { Observable } from 'rxjs';
 export class CheckoutOrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-  order$: Observable<Order | undefined> = this.checkoutFacade.getOrder();
+  order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();
 
   constructor(protected checkoutFacade: CheckoutFacade) {}
 

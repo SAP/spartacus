@@ -3,6 +3,7 @@ import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';
+import { CartValidationStateService } from '../services/cart-validation-state.service';
 import { CartValidationService } from './cart-validation.service';
 
 import createSpy = jasmine.createSpy;
@@ -27,6 +28,10 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
+class MockCartValidationStateService {
+  cartValidationResult$ = of([]);
+}
+
 describe('CartValidationService', () => {
   let service: CartValidationService;
   let connector: CartValidationConnector;
@@ -46,6 +51,10 @@ describe('CartValidationService', () => {
         {
           provide: ActiveCartFacade,
           useClass: MockActiveCartFacade,
+        },
+        {
+          provide: CartValidationStateService,
+          useClass: MockCartValidationStateService,
         },
       ],
     });
@@ -73,5 +82,11 @@ describe('CartValidationService', () => {
   it('should call connector with passed params to validate cart', () => {
     service.validateCart();
     expect(connector.validate).toHaveBeenCalled();
+  });
+
+  it('should be able to get the cart validation results', () => {
+    let result;
+    service.getValidationResults().subscribe((value) => (result = value));
+    expect(result).toEqual([]);
   });
 });

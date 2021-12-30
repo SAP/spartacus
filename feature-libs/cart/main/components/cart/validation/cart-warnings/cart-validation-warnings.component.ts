@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   CartModification,
+  CartValidationFacade,
   CartValidationStatusCode,
 } from '@spartacus/cart/main/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { map } from 'rxjs/operators';
-import { CartValidationStateService } from '../cart-validation-state.service';
 
 @Component({
   selector: 'cx-cart-validation-warnings',
@@ -16,26 +16,23 @@ export class CartValidationWarningsComponent {
   iconTypes = ICON_TYPE;
   visibleWarnings: Record<string, boolean> = {};
 
-  cartModifications$ =
-    this.cartValidationStateService.cartValidationResult$.pipe(
-      map((modificationList) => {
-        const result = modificationList.filter(
-          (modification) =>
-            modification.statusCode === CartValidationStatusCode.NO_STOCK
-        );
+  cartModifications$ = this.cartValidationFacade.getValidationResults().pipe(
+    map((modificationList) => {
+      const result = modificationList.filter(
+        (modification) =>
+          modification.statusCode === CartValidationStatusCode.NO_STOCK
+      );
 
-        result.forEach((modification) => {
-          if (modification.entry?.product?.code) {
-            this.visibleWarnings[modification.entry.product.code] = true;
-          }
-        });
-        return result;
-      })
-    );
+      result.forEach((modification) => {
+        if (modification.entry?.product?.code) {
+          this.visibleWarnings[modification.entry.product.code] = true;
+        }
+      });
+      return result;
+    })
+  );
 
-  constructor(
-    protected cartValidationStateService: CartValidationStateService
-  ) {}
+  constructor(protected cartValidationFacade: CartValidationFacade) {}
 
   removeMessage(cartModification: CartModification) {
     if (cartModification.entry?.product?.code) {

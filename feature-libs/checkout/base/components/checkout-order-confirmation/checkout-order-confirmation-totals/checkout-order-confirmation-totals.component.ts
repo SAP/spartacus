@@ -11,7 +11,7 @@ import { Observable } from 'rxjs';
 })
 export class CheckoutOrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
-  order$: Observable<Order | undefined> = this.checkoutFacade.getOrder();
+  order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();
 
   constructor(protected checkoutFacade: CheckoutFacade) {}
 

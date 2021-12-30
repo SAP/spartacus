@@ -108,10 +108,10 @@ describe(`CheckoutService`, () => {
     });
   });
 
-  describe(`getOrder`, () => {
+  describe(`getOrderDetails`, () => {
     it(`should return falsy when there's no order`, (done) => {
       service
-        .getOrder()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toBeFalsy();
@@ -123,7 +123,7 @@ describe(`CheckoutService`, () => {
       service.placeOrder(termsChecked);
 
       service
-        .getOrder()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockOrder);
@@ -138,7 +138,7 @@ describe(`CheckoutService`, () => {
       service.clearOrder();
 
       service
-        .getOrder()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(undefined);
@@ -154,7 +154,7 @@ describe(`CheckoutService`, () => {
       service.setOrder(newMockOrder);
 
       service
-        .getOrder()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(newMockOrder);

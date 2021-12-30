@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { AddOrderEntriesContext } from '@spartacus/cart/main/components';
 import {
+  AddOrderEntriesContext,
   OrderEntriesSource,
   ProductData,
   ProductImportInfo,

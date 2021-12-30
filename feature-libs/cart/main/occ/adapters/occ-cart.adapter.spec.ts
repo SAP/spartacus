@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/main/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
@@ -259,6 +259,35 @@ describe('OccCartAdapter', () => {
 
       mockReq.flush('');
       expect(result).toEqual('');
+    });
+  });
+
+  describe('should save a cart from saveCart endpoint', () => {
+    it('should save a cart', () => {
+      const mockCartName = 'test-cart-name';
+      const mockCartDescription = 'test-cart-description';
+      const mockSavedCartResult = {
+        savedCartData: {
+          name: mockCartName,
+          entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
+          description: mockCartDescription,
+        },
+      };
+
+      occCartAdapter
+        .save(userId, cartId, mockCartName, mockCartDescription)
+        .subscribe((data) =>
+          expect(data).toEqual(mockSavedCartResult.savedCartData)
+        );
+
+      const mockReq = httpMock.expectOne(
+        (req) => req.method === 'PATCH' && req.url === `saveCart`
+      );
+
+      expect(mockReq.cancelled).toBeFalsy();
+      expect(mockReq.request.responseType).toEqual('json');
+      mockReq.flush(mockSavedCartResult);
+      expect(converterService.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
     });
   });
 });

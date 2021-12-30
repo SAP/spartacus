@@ -5,7 +5,6 @@ import {
   CartEntryAdapter,
   CartValidationAdapter,
   CartVoucherAdapter,
-  SaveCartAdapter,
 } from '@spartacus/cart/main/core';
 import {
   CART_NORMALIZER,
@@ -19,7 +18,6 @@ import { OccCartEntryAdapter } from './adapters/occ-cart-entry.adapter';
 import { OccCartValidationAdapter } from './adapters/occ-cart-validation.adapter';
 import { OccCartVoucherAdapter } from './adapters/occ-cart-voucher.adapter';
 import { OccCartAdapter } from './adapters/occ-cart.adapter';
-import { OccSaveCartAdapter } from './adapters/occ-save-cart.adapter';
 
 @NgModule({
   imports: [CommonModule],
@@ -46,10 +44,6 @@ import { OccSaveCartAdapter } from './adapters/occ-save-cart.adapter';
     {
       provide: CartVoucherAdapter,
       useClass: OccCartVoucherAdapter,
-    },
-    {
-      provide: SaveCartAdapter,
-      useClass: OccSaveCartAdapter,
     },
     {
       provide: CartValidationAdapter,

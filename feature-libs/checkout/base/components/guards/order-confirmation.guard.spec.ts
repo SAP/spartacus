@@ -7,7 +7,7 @@ import { OrderConfirmationGuard } from './order-confirmation.guard';
 import createSpy = jasmine.createSpy;
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder = createSpy().and.returnValue(of(undefined));
+  getOrderDetails = createSpy().and.returnValue(of(undefined));
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
@@ -39,7 +39,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      mockCheckoutFacade.getOrder = createSpy().and.returnValue(of({}));
+      mockCheckoutFacade.getOrderDetails = createSpy().and.returnValue(of({}));
       semanticPathService.get =
         createSpy().and.returnValue('/my-account/orders');
 
@@ -52,7 +52,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      mockCheckoutFacade.getOrder = createSpy().and.returnValue(
+      mockCheckoutFacade.getOrderDetails = createSpy().and.returnValue(
         of({ code: 'test order' })
       );
 

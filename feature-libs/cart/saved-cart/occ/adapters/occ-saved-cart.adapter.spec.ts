@@ -112,25 +112,6 @@ describe('OccSavedCartAdapter', () => {
     });
   });
 
-  describe('should save a cart from saveCart endpoint', () => {
-    it('should save a cart', () => {
-      adapter
-        .saveCart(mockUserId, mockCartId, mockCartName, mockCartDescription)
-        .subscribe((data) =>
-          expect(data).toEqual(mockSavedCartResult.savedCartData)
-        );
-
-      const mockReq = httpMock.expectOne(
-        (req) => req.method === 'PATCH' && req.url === `/saveCart`
-      );
-
-      expect(mockReq.cancelled).toBeFalsy();
-      expect(mockReq.request.responseType).toEqual('json');
-      mockReq.flush(mockSavedCartResult);
-      expect(converterService.pipeable).toHaveBeenCalledWith(CART_NORMALIZER);
-    });
-  });
-
   describe('should clone a saved cart from cloneSavedCart endpoint', () => {
     it('should clone a saved cart', () => {
       adapter

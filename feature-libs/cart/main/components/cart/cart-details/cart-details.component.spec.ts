@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { CartConfigService } from '@spartacus/cart/main/core';
 import {
   ActiveCartFacade,
   Cart,
@@ -17,7 +18,6 @@ import {
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CartConfigService } from '../..';
 import { CartDetailsComponent } from './cart-details.component';
 
 class MockActiveCartService {

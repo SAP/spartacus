@@ -8,15 +8,8 @@ import { CartDetailsModule } from './cart/cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart/cart-page-layout-handler';
 import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart/cart-totals/cart-totals.module';
-import { MiniCartModule } from './cart/mini-cart/mini-cart.module';
-import { AddOrderEntriesContext } from './cart/order-entries-context/add-order-entries.context';
-import { ActiveCartOrderEntriesContext } from './cart/order-entries-context/cart-page/active-cart-order-entries-context';
-import { GetOrderEntriesContext } from './cart/order-entries-context/get-order-entries.context';
+import { ActiveCartOrderEntriesContext } from './cart/page-context/active-cart-order-entries.context';
 import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module';
-
-export type OrderEntriesContext = Partial<
-  AddOrderEntriesContext & GetOrderEntriesContext
->;
 
 @NgModule({
   imports: [
@@ -33,7 +26,6 @@ export type OrderEntriesContext = Partial<
     CartTotalsModule,
     CartSharedModule,
     AddToCartModule,
-    MiniCartModule,
     SaveForLaterModule,
   ],
   providers: [

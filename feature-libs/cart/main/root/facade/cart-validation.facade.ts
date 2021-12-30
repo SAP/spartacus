@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_CORE_FEATURE } from '../feature-name';
-import { CartModificationList } from '../models/cart.model';
+import { CartModification, CartModificationList } from '../models/cart.model';
 
 @Injectable({
   providedIn: 'root',
@@ -10,15 +10,17 @@ import { CartModificationList } from '../models/cart.model';
     facadeFactory({
       facade: CartValidationFacade,
       feature: CART_CORE_FEATURE,
-      methods: ['validateCart'],
+      methods: ['validateCart', 'getValidationResults'],
     }),
 })
 export abstract class CartValidationFacade {
   /**
-   * Returns cart modification list.
-   *
-   * @param cartId
-   * @param userId
+   * Validates cart, and returns cart modification list.
    */
   abstract validateCart(): Observable<CartModificationList>;
+
+  /**
+   * Returns cart modification results
+   */
+  abstract getValidationResults(): Observable<CartModification[]>;
 }

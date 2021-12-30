@@ -6,7 +6,7 @@ import { CheckoutOrderConfirmationTotalsComponent } from './checkout-order-confi
 import createSpy = jasmine.createSpy;
 
 class MockCheckoutService implements Partial<CheckoutFacade> {
-  getOrder = createSpy().and.returnValue(
+  getOrderDetails = createSpy().and.returnValue(
     of({
       code: 'test-code-412',
     })

@@ -212,22 +212,17 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(mainCartFeatureModulePath);
-        // console.log(`PLA CONTENT of ${mainCartFeatureModulePath}:`);
-        // console.log(`PLA CONTENT ${module}`);
-        // appTree.files.forEach((file) => console.log(file));
         expect(module).toMatchSnapshot();
       });
 
       describe('styling', () => {
         it('should create a proper scss file', () => {
           const scssContent = appTree.readContent(scssFilePath);
-          console.log(`scssContent received: [${scssContent}]`);
           expect(scssContent).toMatchSnapshot();
         });
 
         it('should update angular.json', async () => {
           const content = appTree.readContent('/angular.json');
-          console.log(`angular.json: [${content}]`);
           expect(content).toMatchSnapshot();
         });
       });

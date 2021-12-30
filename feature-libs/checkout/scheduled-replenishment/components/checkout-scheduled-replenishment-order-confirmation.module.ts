@@ -4,16 +4,24 @@ import { ReactiveFormsModule } from '@angular/forms';
 import {
   CheckoutOrderConfirmationItemsComponent,
   CheckoutOrderConfirmationModule,
-  CheckoutOrderConfirmationOverviewComponent,
   CheckoutOrderConfirmationTotalsComponent,
   OrderConfirmationGuard,
+  OrderConfirmationOrderEntriesContext,
 } from '@spartacus/checkout/base/components';
+import {
+  CheckoutFacade,
+  OrderConfirmationOrderEntriesContextToken,
+} from '@spartacus/checkout/base/root';
 import {
   CmsConfig,
   FeaturesConfigModule,
   I18nModule,
   provideDefaultConfig,
 } from '@spartacus/core';
+import {
+  OrderDetailShippingComponent,
+  OrderDetailsService,
+} from '@spartacus/order/components';
 import {
   CardModule,
   FormErrorsModule,
@@ -54,7 +62,13 @@ const orderConfirmationComponents: Type<any>[] = [
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationOverviewComponent: {
-          component: CheckoutOrderConfirmationOverviewComponent,
+          component: OrderDetailShippingComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: CheckoutFacade,
+            },
+          ],
           guards: [OrderConfirmationGuard],
         },
         // TODO:#checkout - do we need to duplicate these components?
@@ -68,6 +82,10 @@ const orderConfirmationComponents: Type<any>[] = [
         },
       },
     }),
+    {
+      provide: OrderConfirmationOrderEntriesContextToken,
+      useExisting: OrderConfirmationOrderEntriesContext,
+    },
   ],
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
