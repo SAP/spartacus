@@ -9,7 +9,6 @@ import {
   DeliveryAddressSetEvent,
   DeliveryModeClearedEvent,
   DeliveryModeSetEvent,
-  OrderPlacedEvent,
   PaymentDetailsCreatedEvent,
   PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
@@ -17,7 +16,6 @@ import {
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,
-  ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
@@ -64,8 +62,6 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
         this.eventService.get(RestoreSavedCartSuccessEvent),
         this.eventService.get(PaymentDetailsCreatedEvent),
         this.eventService.get(PaymentDetailsSetEvent),
-        this.eventService.get(OrderPlacedEvent),
-        this.eventService.get(ReplenishmentOrderScheduledEvent),
         this.eventService.get(MergeCartSuccessEvent)
       ).subscribe(() => {
         (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(
