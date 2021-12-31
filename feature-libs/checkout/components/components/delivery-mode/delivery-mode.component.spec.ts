@@ -14,7 +14,6 @@ import { LoaderState } from '../../../../../projects/core/src/state/utils/loader
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
-import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 
 import createSpy = jasmine.createSpy;
 
@@ -97,11 +96,7 @@ describe('DeliveryModeComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
-        declarations: [
-          DeliveryModeComponent,
-          MockSpinnerComponent,
-          MockFeatureLevelDirective,
-        ],
+        declarations: [DeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
             provide: CheckoutDeliveryFacade,
