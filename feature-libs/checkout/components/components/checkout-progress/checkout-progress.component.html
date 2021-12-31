@@ -1,4 +1,7 @@
-<section *ngIf="(activeStepIndex$ | async) !== undefined">
+<nav
+  [attr.aria-label]="'checkoutProgress.label' | cxTranslate"
+  *ngIf="(activeStepIndex$ | async) !== undefined"
+>
   <div class="cx-nav d-none d-lg-block d-xl-block">
     <ul class="cx-list">
       <ng-container *ngFor="let step of steps$ | async; let i = index">
@@ -20,4 +23,4 @@
       </ng-container>
     </ul>
   </div>
-</section>
+</nav>
