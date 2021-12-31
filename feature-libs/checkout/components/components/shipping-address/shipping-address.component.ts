@@ -21,14 +21,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  skip,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -177,18 +170,6 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     if (!this.isGuestCheckout && !this.isAccountPayment) {
       this.userAddressService.loadAddresses();
     }
-
-    this.subscriptions.add(
-      this.checkoutDeliveryService
-        .getSetDeliveryAddressProcess()
-        .pipe(
-          filter((shippingAddressState) => shippingAddressState.success),
-          skip(1)
-        )
-        .subscribe((shippingAddressState) =>
-          this.onSelectAddressComplete(shippingAddressState.success)
-        )
-    );
   }
 
   getCardContent(
@@ -222,16 +203,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryService.setDeliveryAddress(address);
   }
 
-  onSelectAddressComplete(success: boolean): void {
-    if (success) {
-      this.globalMessageService.add(
-        {
-          key: 'checkoutAddress.selectShippingAddressSuccess',
-        },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+  onAddressCardSelect(address: Address): void {
+    this.selectAddress(address);
+    this.globalMessageService.add(
+      {
+        key: 'checkoutAddress.selectShippingAddressSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
+
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {

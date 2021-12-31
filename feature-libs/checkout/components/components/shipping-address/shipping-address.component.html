@@ -30,13 +30,13 @@
         >
           <div
             class="cx-shipping-address-card-inner"
-            (click)="selectAddress(card.address)"
+            (click)="onAddressCardSelect(card.address)"
           >
             <cx-card
               [border]="true"
               [fitToContainer]="true"
               [content]="card.card"
-              (sendCard)="selectAddress(card.address)"
+              (sendCard)="onAddressCardSelect(card.address)"
             ></cx-card>
           </div>
         </div>
