@@ -21,10 +21,11 @@
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
       <div
-        *ngFor="let address of addresses$ | async"
+        *ngFor="let address of addresses$ | async; let i = index"
         class="col-md-6 cx-address-card"
       >
         <cx-card
+          [index]="i"
           [border]="true"
           [fitToContainer]="true"
           [content]="getCardContent(address) | async"
