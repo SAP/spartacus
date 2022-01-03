@@ -141,7 +141,12 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   });
 
   it('should display banner when there are issues', () => {
-    configurationObs = of(productConfigurationWithConflicts);
+    const productConfigurationWithIssuesAndConflicts: Configurator.Configuration =
+      {
+        ...productConfigurationWithConflicts,
+        overview: { configId: productConfigurationWithConflicts.configId },
+      };
+    configurationObs = of(productConfigurationWithIssuesAndConflicts);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
