@@ -105,12 +105,6 @@ describe('ConfigurationGroupTitleComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should get product code as part of product configuration', () => {
-    component.configuration$.subscribe((data: Configurator.Configuration) => {
-      expect(data.productCode).toEqual(config.productCode);
-    });
-  });
-
   it('should get group id as part of group', () => {
     component.displayedGroup$.subscribe((data: Configurator.Group) => {
       expect(data.id).toEqual(group.id);
