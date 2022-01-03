@@ -7,12 +7,11 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, take } from 'rxjs/operators';
+import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import { Location } from '@angular/common';
@@ -23,30 +22,6 @@ import { Location } from '@angular/common';
 })
 export class ConfiguratorExitButtonComponent {
   product$: Observable<Product>;
-  container$: Observable<{
-    routerData: ConfiguratorRouter.Data;
-    configuration: Configurator.Configuration;
-    hasPendingChanges: boolean;
-  }> = this.configRouterExtractorService.extractRouterData().pipe(
-    switchMap((routerData) =>
-      this.configuratorCommonsService
-        .getConfiguration(routerData.owner)
-        .pipe(map((configuration) => ({ routerData, configuration })))
-        .pipe(
-          switchMap((cont) =>
-            this.configuratorCommonsService
-              .hasPendingChanges(cont.configuration.owner)
-              .pipe(
-                map((hasPendingChanges) => ({
-                  routerData: cont.routerData,
-                  configuration: cont.configuration,
-                  hasPendingChanges,
-                }))
-              )
-          )
-        )
-    )
-  );
 
   constructor(
     protected productService: ProductService,
@@ -80,17 +55,18 @@ export class ConfiguratorExitButtonComponent {
         take(1)
       )
       .subscribe((product) =>
-        this.container$.pipe(take(1)).subscribe((container) => {
-          console.log(container.routerData.owner.type);
-          if (
-            container.routerData.owner.type ===
-            CommonConfigurator.OwnerType.CART_ENTRY
-          ) {
-            this.navigateToCart();
-          } else {
-            this.routingService.go({ cxRoute: 'product', params: product });
-          }
-        })
+        this.configRouterExtractorService
+          .extractRouterData()
+          .pipe(take(1))
+          .subscribe((routerData) => {
+            if (
+              routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+            ) {
+              this.navigateToCart();
+            } else {
+              this.routingService.go({ cxRoute: 'product', params: product });
+            }
+          })
       );
   }
 
@@ -119,15 +95,14 @@ export class ConfiguratorExitButtonComponent {
    */
   isNavigatedFromCart(): boolean {
     let isNavigatedFromCart = false;
-    this.container$.pipe(take(1)).subscribe((container) => {
-      console.log(container.routerData.owner.type);
-      if (
-        container.routerData.owner.type ===
-        CommonConfigurator.OwnerType.CART_ENTRY
-      ) {
-        isNavigatedFromCart = true;
-      }
-    });
+    this.configRouterExtractorService
+      .extractRouterData()
+      .pipe(take(1))
+      .subscribe((routerData) => {
+        if (routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY) {
+          isNavigatedFromCart = true;
+        }
+      });
     return isNavigatedFromCart;
   }
 }
