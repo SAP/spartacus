@@ -90,7 +90,7 @@ export function clickOnConfigureBtnInCatalog(): void {
 }
 
 /**
- * Verifies whether the loading message is not displayed.
+ * Verifies whether the ghost animation is not displayed.
  */
 export function checkGhostAnimationNotDisplayed(): void {
   cy.log('Wait until the ghost animation is not displayed anymore');
