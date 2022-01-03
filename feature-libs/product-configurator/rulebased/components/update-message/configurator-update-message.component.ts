@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
+import { distinctUntilChanged, switchMap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 
@@ -15,9 +15,7 @@ export class ConfiguratorUpdateMessageComponent {
     .extractRouterData()
     .pipe(
       switchMap((routerData) =>
-        this.configuratorCommonsService
-          .hasPendingChanges(routerData.owner)
-          .pipe(map((hasPendingChanges) => hasPendingChanges))
+        this.configuratorCommonsService.hasPendingChanges(routerData.owner)
       ),
       distinctUntilChanged() // avoid subsequent emissions of the same value from the source observable
     );

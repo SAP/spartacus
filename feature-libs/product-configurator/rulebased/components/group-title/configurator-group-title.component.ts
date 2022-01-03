@@ -15,16 +15,6 @@ import { Configurator } from '../../core/model/configurator.model';
 export class ConfiguratorGroupTitleComponent {
   @HostBinding('class.ghost') ghostStyle = true;
 
-  //TODO: is never used
-  configuration$: Observable<Configurator.Configuration> =
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        )
-      );
-
   displayedGroup$: Observable<Configurator.Group> =
     this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) =>
