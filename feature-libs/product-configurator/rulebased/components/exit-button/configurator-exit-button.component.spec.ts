@@ -6,6 +6,7 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
+  RouterState,
   RoutingService,
 } from '@spartacus/core';
 import {
@@ -24,8 +25,11 @@ import {
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { mockRouterState } from '../../testing/configurator-test-data';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
+const CART_ENTRY_KEY = '001+1';
+const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 const PRODUCT: Product = {
   code: PRODUCT_CODE,
 };
@@ -65,6 +69,9 @@ class MockConfiguratorCommonsService {
 }
 
 class MockRoutingService {
+  getRouterState(): Observable<RouterState> {
+    return routerStateObservable;
+  }
   go() {}
 }
 
@@ -79,10 +86,32 @@ class MockBreakpointService {
   isDown() {}
 }
 
+let component: ConfiguratorExitButtonComponent;
+let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
+let htmlElem: HTMLElement;
+let routerStateObservable: Observable<any>;
+
+function initialize() {
+  routerStateObservable = of(mockRouterState);
+  fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
+  component = fixture.componentInstance;
+  htmlElem = fixture.nativeElement;
+  fixture.detectChanges();
+}
+
+function setRouterTestDataCartEntry() {
+  mockRouterState.state.params = {
+    entityKey: CART_ENTRY_KEY,
+    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
+  mockRouterData.owner.id = CART_ENTRY_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+}
+
 describe('ConfiguratorExitButton', () => {
-  let component: ConfiguratorExitButtonComponent;
-  let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
-  let htmlElem: HTMLElement;
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
 
@@ -141,6 +170,13 @@ describe('ConfiguratorExitButton', () => {
         params: PRODUCT,
       });
     });
+
+    it('should navigate back to cart', () => {
+      spyOn(routingService, 'go').and.callThrough();
+      setRouterTestDataCartEntry();
+      component.exitConfiguration();
+      expect(routingService.go).toHaveBeenCalledWith('cart');
+    });
   });
 
   describe('rendering tests', () => {
@@ -165,6 +201,34 @@ describe('ConfiguratorExitButton', () => {
         htmlElem,
         '.cx-config-exit-button',
         'configurator.button.exit'
+      );
+    });
+
+    it('should render short text  when navigate from cart', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+      spyOn(breakpointService, 'isUp').and.returnValue(of(false));
+      setRouterTestDataCartEntry();
+      initialize();
+      component.isNavigatedFromCart();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-exit-button',
+        'configurator.button.cancelConfigurationMobile'
+      );
+    });
+
+    it('should render long text  when navigate from cart', () => {
+      spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+      spyOn(breakpointService, 'isUp').and.returnValue(of(true));
+      setRouterTestDataCartEntry();
+      initialize();
+      component.isNavigatedFromCart();
+      CommonConfiguratorTestUtilsService.expectElementToContainText(
+        expect,
+        htmlElem,
+        '.cx-config-exit-button',
+        'configurator.button.cancelConfiguration'
       );
     });
   });
