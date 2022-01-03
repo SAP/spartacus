@@ -9,21 +9,21 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorExitButtonComponent,
-} from '@spartacus/product-configurator/rulebased';
-import { BreakpointService } from '@spartacus/storefront';
-import {
   CommonConfigurator,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  ConfiguratorCommonsService,
+  ConfiguratorExitButtonComponent,
+} from '@spartacus/product-configurator/rulebased';
+import { BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const PRODUCT: Product = {
