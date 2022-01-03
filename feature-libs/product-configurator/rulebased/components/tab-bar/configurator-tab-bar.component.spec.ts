@@ -99,7 +99,6 @@ describe('ConfigTabBarComponent', () => {
       )
     );
     component.ghostStyle = false;
-    fixture.detectChanges();
   });
 
   it('should create component', () => {
