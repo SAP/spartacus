@@ -1,4 +1,4 @@
-import * as configuration from '../../helpers/product-configurator';
+import * as configuration from '../../../helpers/product-configurator';
 
 /**
  * This suite is marked as flaky because we cannot run it on the SPA pipeline as of now.
