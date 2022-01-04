@@ -87,20 +87,4 @@ export class ConfiguratorExitButtonComponent {
   isMobile(): Observable<boolean> {
     return this.breakpointService?.isDown(BREAKPOINT.sm);
   }
-
-  /**
-   * Verifies whether user is navigated from cart.
-   *
-   * @returns {boolean} - If user is in cart context, the method returns true
-   */
-  /*isNavigatedFromCart(): Observable<boolean> {
-    return this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(),
-        switchMap(
-          (routerData) =>
-            routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
-        )
-      );
-  }*/
 }
