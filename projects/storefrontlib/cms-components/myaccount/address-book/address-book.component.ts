@@ -1,10 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  Address,
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslationService,
-} from '@spartacus/core';
+import { Address, TranslationService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Card } from '../../../shared/components/card';
@@ -26,11 +21,11 @@ export class AddressBookComponent implements OnInit {
 
   constructor(
     public service: AddressBookComponentService,
-    protected translation: TranslationService,
-    protected globalMessageService: GlobalMessageService
+    protected translation: TranslationService
   ) {}
 
   ngOnInit(): void {
+    //tests
     this.addresses$ = this.service.getAddresses();
     this.addressesStateLoading$ = this.service.getAddressesStateLoading();
     this.service.loadAddresses();
@@ -106,21 +101,17 @@ export class AddressBookComponent implements OnInit {
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
+            label: address.defaultAddress
+              ? 'addressBook.defaultShippingAddress'
+              : 'addressBook.additionalShippingAddress',
           };
         }
       )
     );
   }
 
-  setAddressAsDefault(address: Address): void {
-    this.service.setAddressAsDefault(address.id!);
-    this.globalMessageService.add(
-      {
-        key: 'messages.setAsDefaultSucessfully',
-        params: { streetAddress: address.line1 },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+  setAddressAsDefault(addressId: string): void {
+    this.service.setAddressAsDefault(addressId);
   }
 
   deleteAddress(addressId: string): void {
