@@ -6,15 +6,8 @@ import {
   I18nTestingModule,
   Product,
   ProductService,
-  RouterState,
   RoutingService,
 } from '@spartacus/core';
-import {
-  Configurator,
-  ConfiguratorCommonsService,
-  ConfiguratorExitButtonComponent,
-} from '@spartacus/product-configurator/rulebased';
-import { BreakpointService } from '@spartacus/storefront';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -22,15 +15,19 @@ import {
   ConfiguratorRouterExtractorService,
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
+import {
+  Configurator,
+  ConfiguratorCommonsService,
+  ConfiguratorExitButtonComponent,
+} from '@spartacus/product-configurator/rulebased';
+import { BreakpointService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
-import { mockRouterState } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
 const PRODUCT_KEY = '001+1';
-const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 const PRODUCT: Product = {
   code: PRODUCT_CODE,
 };
@@ -70,9 +67,6 @@ class MockConfiguratorCommonsService {
 }
 
 class MockRoutingService {
-  getRouterState(): Observable<RouterState> {
-    return routerStateObservable;
-  }
   go() {}
 }
 
@@ -90,10 +84,8 @@ class MockBreakpointService {
 let component: ConfiguratorExitButtonComponent;
 let fixture: ComponentFixture<ConfiguratorExitButtonComponent>;
 let htmlElem: HTMLElement;
-let routerStateObservable: Observable<any>;
 
 function initialize() {
-  routerStateObservable = of(mockRouterState);
   fixture = TestBed.createComponent(ConfiguratorExitButtonComponent);
   component = fixture.componentInstance;
   htmlElem = fixture.nativeElement;
@@ -101,11 +93,6 @@ function initialize() {
 }
 
 function setRouterTestDataCartEntry() {
-  mockRouterState.state.params = {
-    entityKey: CART_ENTRY_KEY,
-    ownerType: CommonConfigurator.OwnerType.CART_ENTRY,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
   mockRouterData.isOwnerCartEntry = true;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.CART_ENTRY;
   mockRouterData.owner.id = CART_ENTRY_KEY;
@@ -113,12 +100,7 @@ function setRouterTestDataCartEntry() {
 }
 
 function setRouterTestDataProduct() {
-  mockRouterState.state.params = {
-    entityKey: PRODUCT_KEY,
-    ownerType: CommonConfigurator.OwnerType.PRODUCT,
-  };
-  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
-  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.isOwnerCartEntry = false;
   mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
   mockRouterData.owner.id = PRODUCT_KEY;
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
