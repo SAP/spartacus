@@ -19,7 +19,7 @@ describe('My Account - Address Book', () => {
     describe('address book test for anonymous user', () => {
       it('should redirect to login page for anonymous user', () => {
         cy.visit('/my-account/address-book');
-        cy.location('pathname').should('contain', '/login');
+        cy.location('pathname').should('contain', '/logins');
       });
     });
 
