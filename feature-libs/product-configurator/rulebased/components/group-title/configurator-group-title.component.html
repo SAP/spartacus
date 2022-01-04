@@ -1,3 +1,7 @@
-<ng-container *ngIf="displayedGroup$ | async as group">
-  {{ group.description }}
-</ng-container>
+<ng-container *ngIf="displayedGroup$ | async as group; else ghostGroup">
+  <div class="cx-group-title">
+    {{ group.description }}
+  </div> </ng-container
+><ng-template #ghostGroup>
+  <div class="cx-ghost-group-title"></div>
+</ng-template>
