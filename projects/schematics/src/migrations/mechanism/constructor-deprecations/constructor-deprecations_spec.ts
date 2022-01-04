@@ -19,6 +19,25 @@ import {
   writeFile,
 } from '../../../shared/utils/test-utils';
 
+const MIGRATION_TEST_CLASS = `
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import { ConfiguratorTabBarComponent } from '@spartacus/product-configurator/rulebased';
+import {} from '@spartacus/storefront';
+
+@Component({
+  selector: 'custom-configurator-tab-bar',
+  templateUrl: './configurator-tab-bar.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomTabBarComponen extends ConfiguratorTabBarComponent {
+  constructor(
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
+  ) {
+    super(configRouterExtractorService);
+  }
+}`;
+
 const MIGRATION_SCRIPT_NAME = 'migration-v2-constructor-deprecations-03';
 const NOT_INHERITING_SPARTACUS_CLASS = `
     import { Store } from '@ngrx/store';
@@ -500,6 +519,17 @@ describe('constructor migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(NOT_INHERITING_SPARTACUS_CLASS);
+    });
+  });
+
+  describe('configurator migration', () => {
+    it('should make the required changes', async () => {
+      writeFile(host, '/src/index.ts', MIGRATION_TEST_CLASS);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(MIGRATION_TEST_CLASS);
     });
   });
 
