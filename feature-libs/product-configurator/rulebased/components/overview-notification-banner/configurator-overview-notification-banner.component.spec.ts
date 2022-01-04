@@ -69,10 +69,6 @@ class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
   }
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-  removeConfiguration(): void {}
 }
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
@@ -140,6 +136,16 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
   });
 
+  it('should count issues from configuration in case OV not available', () => {
+    configurationObs = of(productConfigurationWithoutIssues);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(
+        productConfigurationWithoutIssues.totalNumberOfIssues
+      )
+    );
+  });
+
   it('should display banner when there are issues', () => {
     const productConfigurationWithIssuesAndConflicts: Configurator.Configuration =
       {
@@ -162,11 +168,13 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
 
   it('should display banner when there are issues counted in Configurator.Overview', () => {
     const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration =
-      productConfigurationWithoutIssues;
-    productConfigurationWithConflictsCountedInOverview.overview = {
-      configId: CONFIG_ID,
-      totalNumberOfIssues: 5,
-    };
+      {
+        ...productConfigurationWithoutIssues,
+        overview: {
+          configId: CONFIG_ID,
+          totalNumberOfIssues: 5,
+        },
+      };
     configurationObs = of(productConfigurationWithConflictsCountedInOverview);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(

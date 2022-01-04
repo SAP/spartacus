@@ -55,14 +55,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  protected countIssuesInGroup(group: Configurator.Group): number {
-    let numberOfIssues = 0;
-
-    group.attributes?.forEach((attribute) => {
-      numberOfIssues =
-        numberOfIssues + (attribute.incomplete && attribute.required ? 1 : 0);
-    });
-    return numberOfIssues;
-  }
 }
