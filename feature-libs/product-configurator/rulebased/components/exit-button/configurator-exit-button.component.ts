@@ -7,6 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   CommonConfigurator,
+  ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
@@ -22,6 +23,8 @@ import { Location } from '@angular/common';
 })
 export class ConfiguratorExitButtonComponent {
   product$: Observable<Product>;
+  routerData$: Observable<ConfiguratorRouter.Data> =
+    this.configRouterExtractorService.extractRouterData();
 
   constructor(
     protected productService: ProductService,
@@ -55,18 +58,15 @@ export class ConfiguratorExitButtonComponent {
         take(1)
       )
       .subscribe((product) =>
-        this.configRouterExtractorService
-          .extractRouterData()
-          .pipe(take(1))
-          .subscribe((routerData) => {
-            if (
-              routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
-            ) {
-              this.navigateToCart();
-            } else {
-              this.routingService.go({ cxRoute: 'product', params: product });
-            }
-          })
+        this.routerData$.pipe(take(1)).subscribe((routerData) => {
+          if (
+            routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+          ) {
+            this.navigateToCart();
+          } else {
+            this.routingService.go({ cxRoute: 'product', params: product });
+          }
+        })
       );
   }
 
@@ -93,16 +93,14 @@ export class ConfiguratorExitButtonComponent {
    *
    * @returns {boolean} - If user is in cart context, the method returns true
    */
-  isNavigatedFromCart(): boolean {
-    let isNavigatedFromCart = false;
-    this.configRouterExtractorService
+  /*isNavigatedFromCart(): Observable<boolean> {
+    return this.configRouterExtractorService
       .extractRouterData()
-      .pipe(take(1))
-      .subscribe((routerData) => {
-        if (routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY) {
-          isNavigatedFromCart = true;
-        }
-      });
-    return isNavigatedFromCart;
-  }
+      .pipe(),
+        switchMap(
+          (routerData) =>
+            routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+        )
+      );
+  }*/
 }

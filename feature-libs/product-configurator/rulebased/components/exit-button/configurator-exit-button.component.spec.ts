@@ -29,6 +29,7 @@ import { mockRouterState } from '../../testing/configurator-test-data';
 
 const PRODUCT_CODE = 'CONF_LAPTOP';
 const CART_ENTRY_KEY = '001+1';
+const PRODUCT_KEY = '001+1';
 const ROUTE_OVERVIEW = 'configureOverviewCPQCONFIGURATOR';
 const PRODUCT: Product = {
   code: PRODUCT_CODE,
@@ -111,6 +112,18 @@ function setRouterTestDataCartEntry() {
   mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
 }
 
+function setRouterTestDataProduct() {
+  mockRouterState.state.params = {
+    entityKey: PRODUCT_KEY,
+    ownerType: CommonConfigurator.OwnerType.PRODUCT,
+  };
+  mockRouterState.state.semanticRoute = ROUTE_OVERVIEW;
+  mockRouterData.isOwnerCartEntry = true;
+  mockRouterData.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+  mockRouterData.owner.id = PRODUCT_KEY;
+  mockRouterData.pageType = ConfiguratorRouter.PageType.CONFIGURATION;
+}
+
 describe('ConfiguratorExitButton', () => {
   let routingService: RoutingService;
   let breakpointService: BreakpointService;
@@ -183,7 +196,8 @@ describe('ConfiguratorExitButton', () => {
     it('should render short text in mobile mode', () => {
       spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       spyOn(breakpointService, 'isUp').and.returnValue(of(false));
-      fixture.detectChanges();
+      setRouterTestDataProduct();
+      initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -195,7 +209,8 @@ describe('ConfiguratorExitButton', () => {
     it('should render long text in desktop mode', () => {
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
       spyOn(breakpointService, 'isDown').and.returnValue(of(false));
-      fixture.detectChanges();
+      setRouterTestDataProduct();
+      initialize();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -205,11 +220,11 @@ describe('ConfiguratorExitButton', () => {
     });
 
     it('should render short text  when navigate from cart', () => {
+      console.log('test');
       spyOn(breakpointService, 'isDown').and.returnValue(of(true));
       spyOn(breakpointService, 'isUp').and.returnValue(of(false));
       setRouterTestDataCartEntry();
       initialize();
-      component.isNavigatedFromCart();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
@@ -223,7 +238,6 @@ describe('ConfiguratorExitButton', () => {
       spyOn(breakpointService, 'isUp').and.returnValue(of(true));
       setRouterTestDataCartEntry();
       initialize();
-      component.isNavigatedFromCart();
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
