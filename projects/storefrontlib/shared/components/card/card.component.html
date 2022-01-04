@@ -10,7 +10,11 @@
   [class.cx-card-fit-to-container]="fitToContainer"
 >
   <!-- Card Header -->
-  <div *ngIf="content.header && !editMode" class="card-header">
+  <div
+    *ngIf="content.header && !editMode"
+    class="card-header"
+    [id]="'content-header' + (index >= 0 ? '-' + index : '')"
+  >
     {{ content.header }}
   </div>
   <!-- Card Body -->
@@ -94,6 +98,7 @@
             *ngSwitchCase="'send'"
             class="link cx-action-link"
             (click)="send()"
+            [attr.aria-describedby]="index ? 'content-header-' + index : ''"
           >
             {{ action.name }}
           </button>
