@@ -1,42 +1,49 @@
 <ng-container *ngIf="routerData$ | async as routerData">
-  <ng-container *ngIf="!routerData.displayOnly">
-    <a
-      tabindex="0"
-      [class.active]="!(isOverviewPage$ | async)"
-      [routerLink]="
-        {
-          cxRoute: 'configure' + routerData.owner.configuratorType,
-          params: {
-            entityKey: routerData.owner.id,
-            ownerType: routerData.owner.type
-          }
-        } | cxUrl
-      "
-      [attr.aria-label]="
-        !(isOverviewPage$ | async)
-          ? ('configurator.a11y.configurationPage' | cxTranslate)
-          : ('configurator.a11y.configurationPageLink' | cxTranslate)
-      "
-      >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
-    >
-    <a
-      tabindex="0"
-      [class.active]="isOverviewPage$ | async"
-      [routerLink]="
-        {
-          cxRoute: 'configureOverview' + routerData.owner.configuratorType,
-          params: {
-            entityKey: routerData.owner.id,
-            ownerType: routerData.owner.type
-          }
-        } | cxUrl
-      "
-      [attr.aria-label]="
-        (isOverviewPage$ | async)
-          ? ('configurator.a11y.overviewPage' | cxTranslate)
-          : ('configurator.a11y.overviewPageLink' | cxTranslate)
-      "
-      >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
-    >
+  <ng-container *ngIf="configuration$ | async; else ghostTabBar">
+    <ng-container *ngIf="!routerData.displayOnly">
+      <div class="cx-tab-bar">
+        <a
+          tabindex="0"
+          [class.active]="!(isOverviewPage$ | async)"
+          [routerLink]="
+            {
+              cxRoute: 'configure' + routerData.owner.configuratorType,
+              params: {
+                entityKey: routerData.owner.id,
+                ownerType: routerData.owner.type
+              }
+            } | cxUrl
+          "
+          [attr.aria-label]="
+            !(isOverviewPage$ | async)
+              ? ('configurator.a11y.configurationPage' | cxTranslate)
+              : ('configurator.a11y.configurationPageLink' | cxTranslate)
+          "
+          >{{ 'configurator.tabBar.configuration' | cxTranslate }}</a
+        >
+        <a
+          tabindex="0"
+          [class.active]="isOverviewPage$ | async"
+          [routerLink]="
+            {
+              cxRoute: 'configureOverview' + routerData.owner.configuratorType,
+              params: {
+                entityKey: routerData.owner.id,
+                ownerType: routerData.owner.type
+              }
+            } | cxUrl
+          "
+          [attr.aria-label]="
+            (isOverviewPage$ | async)
+              ? ('configurator.a11y.overviewPage' | cxTranslate)
+              : ('configurator.a11y.overviewPageLink' | cxTranslate)
+          "
+          >{{ 'configurator.tabBar.overview' | cxTranslate }}</a
+        >
+      </div>
+    </ng-container>
   </ng-container>
+  <ng-template #ghostTabBar>
+    <div class="cx-ghost-tab-bar"></div>
+  </ng-template>
 </ng-container>

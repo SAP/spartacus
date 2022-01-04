@@ -54,10 +54,10 @@ context('Product Configuration', () => {
         CAMERA_MODE_PROFESSIONAL
       );
       configuration.navigateToOverviewPage();
-
       configurationVc.checkGlobalMessageNotDisplayed();
       configuration.checkUpdatingMessageNotDisplayed();
       configurationOverview.checkConfigOverviewPageDisplayed();
+      configurationVc.checkGhostAnimationNotDisplayed();
       verifyTabbingOrder(
         containerSelectorOverviewForm,
         tabConfig.productConfigurationOverview
