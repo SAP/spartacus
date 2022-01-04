@@ -100,6 +100,9 @@ export class AddressBookComponent implements OnInit {
             actions: actions,
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
+            label: address.defaultAddress
+              ? 'addressBook.defaultShippingAddress'
+              : 'addressBook.additionalShippingAddress',
           };
         }
       )

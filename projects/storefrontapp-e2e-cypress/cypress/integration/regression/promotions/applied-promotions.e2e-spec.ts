@@ -1,6 +1,5 @@
 import * as appliedPromotions from '../../../helpers/applied-promotions';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { standardUser } from '../../../sample-data/shared-users';
 
 context('Applied promotions', () => {
   viewportContext(['mobile'], () => {
@@ -9,7 +8,7 @@ context('Applied promotions', () => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.requireLoggedIn(standardUser);
+      cy.requireLoggedIn();
     });
 
     // Core test. Repeat in mobile.

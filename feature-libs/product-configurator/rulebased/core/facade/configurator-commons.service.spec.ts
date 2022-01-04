@@ -70,11 +70,6 @@ let productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
 
-const productConfigurationProductBoundObsolete: Configurator.Configuration = {
-  ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_PRODUCT),
-  nextOwner: OWNER_CART_ENTRY,
-};
-
 const productConfigurationChanged: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID),
 };
@@ -374,6 +369,7 @@ describe('ConfiguratorCommonsService', () => {
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
         .getConfigurationWithOverview(productConfiguration)
+
         .subscribe(() => {
           expect(store.dispatch).toHaveBeenCalledWith(
             new ConfiguratorActions.GetConfigurationOverview(
@@ -435,7 +431,6 @@ describe('ConfiguratorCommonsService', () => {
       const configurationObs = serviceUnderTest.getConfiguration(
         productConfiguration.owner
       );
-
       expect(configurationObs).toBeObservable(
         cold('x-|', {
           x: productConfiguration,
@@ -495,7 +490,6 @@ describe('ConfiguratorCommonsService', () => {
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
-
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledWith(
         new ConfiguratorActions.CreateConfiguration(OWNER_PRODUCT)
@@ -516,7 +510,6 @@ describe('ConfiguratorCommonsService', () => {
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
-
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
@@ -536,7 +529,6 @@ describe('ConfiguratorCommonsService', () => {
 
       const configurationObs =
         serviceUnderTest.getOrCreateConfiguration(OWNER_PRODUCT);
-
       expect(configurationObs).toBeObservable(cold('', {}));
       expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
@@ -569,30 +561,6 @@ describe('ConfiguratorCommonsService', () => {
           done();
         })
         .unsubscribe();
-    });
-  });
-
-  describe('removeObsoleteProductBoundConfiguration', () => {
-    it('should not dispatch any action if the configuration does not carry a next owner', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfiguration)
-      );
-      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
-        OWNER_PRODUCT
-      );
-      expect(store.dispatch).toHaveBeenCalledTimes(0);
-    });
-
-    it('should dispatch the remove action if the configuration carries a next owner', () => {
-      spyOn(store, 'dispatch').and.callThrough();
-      spyOnProperty(ngrxStore, 'select').and.returnValue(
-        () => () => of(productConfigurationProductBoundObsolete)
-      );
-      serviceUnderTest['removeObsoleteProductBoundConfiguration'](
-        OWNER_PRODUCT
-      );
-      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });
