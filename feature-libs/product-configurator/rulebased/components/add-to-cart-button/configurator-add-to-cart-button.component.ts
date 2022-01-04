@@ -180,7 +180,9 @@ export class ConfiguratorAddToCartButtonComponent {
             isOverview,
             configuration.isCartEntryUpdateRequired ?? false
           );
-          if (configuration.isCartEntryUpdateRequired) {
+          //Only remove if we are on configuration page, because on final cart navigation,
+          //the configuration will anyhow be removed
+          if (configuration.isCartEntryUpdateRequired && !isOverview) {
             this.configuratorCommonsService.removeConfiguration(owner);
           }
         } else {
@@ -217,13 +219,17 @@ export class ConfiguratorAddToCartButtonComponent {
               // configuration for the same cart entry number stored already.
               // (Cart entries might have been deleted)
 
+              // Needs to happen only if we are on configuration page, navigation to
+              // cart will anyhow delete
+
               // we do not clean up the product bound configuration yet, as existing
               // observables would instantly trigger a re-create.
               // Cleaning up this obsolete product bound configuration will only happen
               // when a new config form requests a new observable for a product bound
               // configuration
-
-              this.configuratorCommonsService.removeConfiguration(nextOwner);
+              if (!isOverview) {
+                this.configuratorCommonsService.removeConfiguration(nextOwner);
+              }
             });
         }
       });
