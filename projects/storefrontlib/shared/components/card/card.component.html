@@ -16,7 +16,7 @@
   <!-- Card Body -->
   <div class="card-body cx-card-body" [class.cx-card-delete]="editMode">
     <!-- Edit message -->
-    <div *ngIf="editMode" class="cx-card-delete-msg">
+    <div *ngIf="editMode" role="alert" class="cx-card-delete-msg">
       {{ content.deleteMsg }}
     </div>
     <!-- Card title -->
@@ -63,7 +63,7 @@
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
-      <div class="col-md-6">
+      <div class="col-md-6" [cxFocus]="{ autofocus: true }">
         <button class="btn btn-block btn-primary" (click)="delete()">
           {{ 'common.delete' | cxTranslate }}
         </button>
