@@ -1,7 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './checkout-flow';
-import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -197,14 +197,16 @@ export function verifySiteContextChangeUrl(
   assertSiteContextChange(testPath);
 }
 
-export function testLangSwitchOrderPage() {
+export function testLangSwitchOrderPage(waitForOrder: boolean) {
   describe('order page', () => {
     const orderPath = ORDER_PATH;
     const deutschName = MONTH_DE;
 
     before(() => {
       doPlaceOrder();
-      waitForOrderToBePlacedRequest();
+      if (waitForOrder) {
+        waitForOrderToBePlacedRequest();
+      }
     });
 
     it('should change language in the url', () => {
@@ -220,9 +222,15 @@ export function testLangSwitchOrderPage() {
     it('should change language in the page', () => {
       siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
 
-      cy.get(
-        'cx-order-history .cx-order-history-placed .cx-order-history-value'
-      ).should('contain', deutschName);
+      if (waitForOrder) {
+        cy.get(
+          'cx-order-history .cx-order-history-placed .cx-order-history-value'
+        ).should('contain', deutschName);
+      } else {
+        cy.get(
+          'body > cx-storefront > cx-page-slot > cx-breadcrumb > h1'
+        ).should('contain', 'Bestellverlauf');
+      }
     });
   });
 }

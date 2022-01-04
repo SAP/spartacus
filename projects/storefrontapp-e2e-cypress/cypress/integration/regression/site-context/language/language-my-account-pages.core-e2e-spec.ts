@@ -16,6 +16,6 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.TITLES
   );
 
-  siteContextSelector.testLangSwitchOrderPage();
+  siteContextSelector.testLangSwitchOrderPage(false);
   siteContextSelector.testPersonalDetailsPage();
 });
