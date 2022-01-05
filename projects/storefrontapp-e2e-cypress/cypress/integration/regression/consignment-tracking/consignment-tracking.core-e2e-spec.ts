@@ -2,7 +2,7 @@ import * as orderDetail from '../../../helpers/consignment-tracking';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('consignment tracking', () => {
-  viewportContext(['desktop', 'mobile'], () => {
+  viewportContext(['desktop'/*, 'mobile'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       orderDetail.loginUsingUserWithOrder();

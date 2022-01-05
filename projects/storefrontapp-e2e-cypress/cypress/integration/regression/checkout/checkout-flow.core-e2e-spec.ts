@@ -32,7 +32,7 @@ Cypress.on('command:end', (c) => {
 })
 
 context('Checkout flow', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
         win.sessionStorage.clear();

@@ -6,7 +6,7 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('My Account - Consent Management', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

@@ -5,7 +5,7 @@ import * as sampleData from '../../../../sample-data/b2b-checkout';
 import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Quick Order', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
     });
