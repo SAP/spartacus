@@ -159,6 +159,8 @@ describe('ConfiguratorExitButton', () => {
   describe('exit a configuration', () => {
     it('should navigate to product detail page', () => {
       spyOn(routingService, 'go').and.callThrough();
+      setRouterTestDataProduct();
+      initialize();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith({
         cxRoute: 'product',
@@ -169,6 +171,7 @@ describe('ConfiguratorExitButton', () => {
     it('should navigate back to cart', () => {
       spyOn(routingService, 'go').and.callThrough();
       setRouterTestDataCartEntry();
+      initialize();
       component.exitConfiguration();
       expect(routingService.go).toHaveBeenCalledWith('cart');
     });
