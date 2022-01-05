@@ -461,6 +461,7 @@ export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
+export const CONFIGURATOR_EVENT_LISTENER = 'RulebasedConfiguratorEventListener';
 export const CONFIGURATOR_COMMONS_SERVICE = 'ConfiguratorCommonsService';
 export const CONFIGURATOR_REMOVE_OBSOLETE_PRODUCT_BOUND_CONFIGURATION =
   'removeObsoleteProductBoundConfiguration';
