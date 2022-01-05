@@ -12,6 +12,6 @@ export const CONFIGURATOR_GROUP_TITLE_COMPONENT_MIGRATION: MethodPropertyDepreca
       class: CONFIGURATOR_GROUP_TITLE_COMPONENT,
       importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
       deprecatedNode: CONFIGURATOR_CONFIGURATION_OBS,
-      comment: `// ${TODO_SPARTACUS} Method '${CONFIGURATOR_GROUP_TITLE_COMPONENT}.${CONFIGURATOR_CONFIGURATION_OBS}' was removed. Consult the migration documentation on how to deal with that`,
+      comment: `// ${TODO_SPARTACUS} Member '${CONFIGURATOR_GROUP_TITLE_COMPONENT}.${CONFIGURATOR_CONFIGURATION_OBS}' was removed. Consult the migration documentation on how to deal with that`,
     },
   ];
