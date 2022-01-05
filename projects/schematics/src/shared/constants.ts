@@ -498,6 +498,10 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeMultiSelectionBundleComponent';
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBundleComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
 export const QUICK_ORDER_SERVICE = 'QuickOrderService';
 
@@ -1067,6 +1071,7 @@ export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
+export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
 
 /***** APIs end *****/
 
