@@ -9,7 +9,7 @@ const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
  */
 export interface ImportConfig {
   /**
-   * Name of cart. If name is not defined it means that test works for active cart.
+   * Name of cart. If name is empty it means that test works for active cart.
    */
   name: string;
   /**
@@ -17,9 +17,9 @@ export interface ImportConfig {
    */
   description?: string;
   /**
-   * Path to cart details page.
+   * Path to the page which contains import button.
    */
-  cartPath: string;
+  importButtonPath: string;
   /**
    * Time of cart being saved.
    */
@@ -238,7 +238,9 @@ export function exportCart(expectedData?: string) {
 export function importCartTestFromConfig(config: ImportConfig) {
   loginAsMyCompanyAdmin();
 
-  cy.visit(config.cartPath);
+  cy.visit(config.importButtonPath);
+  x;
+
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
     cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
@@ -307,7 +309,7 @@ export function testImportExportSingleProduct() {
   describe('Single product', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n`;
 
-    it('should export from cart', () => {
+    it('should export cart', () => {
       addProductToCart(cart.products[1].code);
       exportCart(EXPECTED_CSV);
     });
@@ -315,7 +317,7 @@ export function testImportExportSingleProduct() {
     it('should import to active cart', () => {
       importCartTestFromConfig({
         name: '',
-        cartPath: 'cart',
+        importButtonPath: 'cart',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '$114.12',
@@ -328,7 +330,7 @@ export function testImportExportSingleProduct() {
       importCartTestFromConfig({
         name: 'Single Product Cart',
         description: 'A test description for Single Product Cart.',
-        cartPath: 'my-account/saved-carts',
+        importButtonPath: 'my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '$114.12',
@@ -357,7 +359,7 @@ export function testImportExportLargerQuantity() {
       importCartTestFromConfig({
         name: 'Single Product (Lg Qty) Cart',
         description: 'A test description for Single Product (Lg Qty) Cart.',
-        cartPath: 'my-account/saved-carts',
+        importButtonPath: 'my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 3,
         total: '$322.36',
