@@ -22,6 +22,44 @@ import {
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 import { buildMethodComment } from './methods-and-properties-deprecations';
 
+const MIGRATION_TEST_CLASS = `
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { ActiveCartService } from '@spartacus/core';
+import {
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+} from '@spartacus/product-configurator/common';
+import {
+  ConfiguratorCartService,
+  ConfiguratorCommonsService,
+  ConfiguratorUtilsService,
+  StateWithConfigurator,
+} from '@spartacus/product-configurator/rulebased';
+
+@Injectable({ providedIn: 'root' })
+export class CustomCommonsService extends ConfiguratorCommonsService {
+  constructor(
+    protected store: Store<StateWithConfigurator>,
+    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
+    protected configuratorCartService: ConfiguratorCartService,
+    protected activeCartService: ActiveCartService,
+    protected configuratorUtils: ConfiguratorUtilsService
+  ) {
+    super(
+      store,
+      commonConfigUtilsService,
+      configuratorCartService,
+      activeCartService,
+      configuratorUtils
+    );
+  }
+
+  removeObsoleteProductBoundConfiguration(owner: CommonConfigurator.Owner) {
+    super.removeObsoleteProductBoundConfiguration(owner);
+  }
+}`;
+
 const MIGRATION_SCRIPT_NAME =
   'migration-v2-methods-and-properties-deprecations-02';
 const GET_COMPONENT_STATE_TEST_CLASS = `
@@ -239,6 +277,17 @@ describe('updateCmsComponentState migration', () => {
     );
     const commentOccurrences = (content.match(regex) || []).length;
     expect(commentOccurrences).toEqual(3);
+  });
+
+  describe('configurator migration', () => {
+    it('should make the required changes', async () => {
+      writeFile(host, '/src/index.ts', MIGRATION_TEST_CLASS);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(MIGRATION_TEST_CLASS);
+    });
   });
 
   it('getComponentEntities', async () => {
