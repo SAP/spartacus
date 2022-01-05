@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  Input,
   isDevMode,
   OnInit,
 } from '@angular/core';
@@ -21,6 +22,8 @@ export class ConfiguratorAttributeCheckBoxListComponent
   implements OnInit
 {
   attributeCheckBoxForms = new Array<FormControl>();
+
+  @Input() group: string;
 
   constructor(
     protected configUtilsService: ConfiguratorStorefrontUtilsService,
