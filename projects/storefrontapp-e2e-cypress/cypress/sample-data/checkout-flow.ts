@@ -47,19 +47,19 @@ export const user = getSampleUser();
 export function getSampleUser() {
   return {
     titleCode: 'Mr',
-    firstName: 'Cypress',
-    lastName: 'customer',
-    fullName: 'Cypress customer',
+    firstName: 'John',
+    lastName: 'Doe',
+    fullName: 'John Doe',
     password: 'Password123.',
     email: generateMail(randomString(), true),
     phone: '555 555 555',
     address: {
-      city: 'Los Angeles',
-      line1: '1111 S Figueroa St',
-      line2: 'US-CA',
+      city: 'Rye',
+      line1: '7 Park St',
+      line2: 'US-NY',
       country: 'United States',
-      state: 'California',
-      postal: '90015',
+      state: 'New York',
+      postal: '10580',
     },
     payment: {
       card: 'Visa',
