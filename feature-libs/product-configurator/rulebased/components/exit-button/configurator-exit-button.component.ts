@@ -23,8 +23,6 @@ import { Location } from '@angular/common';
 })
 export class ConfiguratorExitButtonComponent {
   product$: Observable<Product>;
-  routerData$: Observable<ConfiguratorRouter.Data> =
-    this.configRouterExtractorService.extractRouterData();
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
