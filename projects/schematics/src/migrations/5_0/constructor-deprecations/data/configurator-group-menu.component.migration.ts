@@ -11,6 +11,7 @@ import {
   CONFIGURATOR_GROUP_MENU_SERVICE,
   DIRECTION_SERVICE,
   SPARTACUS_STOREFRONTLIB,
+  SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -34,7 +35,7 @@ export const CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION: ConstructorDeprecation
       },
       {
         className: CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
-        importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+        importPath: SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
       },
       {
         className: CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
