@@ -23,40 +23,31 @@ import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 import { buildMethodComment } from './methods-and-properties-deprecations';
 
 const MIGRATION_TEST_CLASS = `
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { ActiveCartService } from '@spartacus/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
 import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-} from '@spartacus/product-configurator/common';
-import {
-  ConfiguratorCartService,
   ConfiguratorCommonsService,
-  ConfiguratorUtilsService,
-  StateWithConfigurator,
+  ConfiguratorGroupsService,
+  ConfiguratorGroupTitleComponent,
 } from '@spartacus/product-configurator/rulebased';
 
-@Injectable({ providedIn: 'root' })
-export class CustomCommonsService extends ConfiguratorCommonsService {
+@Component({
+  selector: 'custom-configurator-group-title',
+  templateUrl: './configurator-group-title.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class CustomGroupTitleComponent extends ConfiguratorGroupTitleComponent {
   constructor(
-    protected store: Store<StateWithConfigurator>,
-    protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected configuratorCartService: ConfiguratorCartService,
-    protected activeCartService: ActiveCartService,
-    protected configuratorUtils: ConfiguratorUtilsService
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService,
+    protected configRouterExtractorService: ConfiguratorRouterExtractorService
   ) {
     super(
-      store,
-      commonConfigUtilsService,
-      configuratorCartService,
-      activeCartService,
-      configuratorUtils
+      configuratorCommonsService,
+      configuratorGroupsService,
+      configRouterExtractorService
     );
-  }
-
-  removeObsoleteProductBoundConfiguration(owner: CommonConfigurator.Owner) {
-    super.removeObsoleteProductBoundConfiguration(owner);
+    this.configuration$.subscribe();
   }
 }`;
 
