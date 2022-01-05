@@ -9,6 +9,24 @@ import * as shx from 'shelljs';
 import { TODO_SPARTACUS } from '../../../shared/constants';
 import { runMigration, writeFile } from '../../../shared/utils/test-utils';
 
+const MIGRATION_TEST_CLASS = `
+import { Injectable } from '@angular/core';
+import { EventService } from '@spartacus/core';
+import {
+  ConfiguratorCartService,
+  RulebasedConfiguratorEventListener,
+} from '@spartacus/product-configurator/rulebased';
+
+@Injectable({ providedIn: 'root' })
+export class CustomEventListener extends RulebasedConfiguratorEventListener {
+  constructor(
+    protected configuratorCartService: ConfiguratorCartService,
+    protected eventService: EventService
+  ) {
+    super(configuratorCartService, eventService);
+  }
+}`;
+
 const MIGRATION_SCRIPT_NAME = 'migration-v2-removed-public-api-deprecation-04';
 
 const REMOVED_NODE_USED_VALID_TEST = `
@@ -127,6 +145,17 @@ describe('removed public api migrations', () => {
 
       const content = appTree.readContent('/src/index.ts');
       expect(content).toEqual(REMOVED_NODE_USED_EXPECTED);
+    });
+  });
+
+  describe('configurator migration', () => {
+    it('should make the required changes', async () => {
+      writeFile(host, '/src/index.ts', MIGRATION_TEST_CLASS);
+
+      await runMigration(appTree, schematicRunner, MIGRATION_SCRIPT_NAME);
+
+      const content = appTree.readContent('/src/index.ts');
+      expect(content).toEqual(MIGRATION_TEST_CLASS);
     });
   });
 
