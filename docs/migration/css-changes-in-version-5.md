@@ -30,3 +30,7 @@ title: Changes to Styles in 5.0
 ### Breadcrumb component 
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup. 
+
+### AddressFormComponent
+
+- Changed `justify-content` to `center` for `.cx-address-form-btns` in `%cx-address-form`
