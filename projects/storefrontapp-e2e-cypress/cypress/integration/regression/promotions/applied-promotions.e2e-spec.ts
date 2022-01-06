@@ -8,10 +8,10 @@ context('Applied promotions', () => {
         win.sessionStorage.clear();
         win.localStorage.clear();
       });
-      cy.requireLoggedIn();
     });
 
     // Core test. Repeat in mobile.
-    appliedPromotions.testPromotionsForLoggedInUser();
+    appliedPromotions.testPromotionsForLoggedInUser(true);
+    appliedPromotions.checkAppliedPromotionsDiffQuantities();
   });
 });
