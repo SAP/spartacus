@@ -2,8 +2,7 @@ import {
   ChangeDetectionStrategy,
   Directive,
   Input,
-  Pipe,
-  PipeTransform,
+  Component,
 } from '@angular/core';
 import {
   ComponentFixture,
@@ -13,20 +12,14 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LanguageService } from '@spartacus/core';
+import { LanguageService, I18nTestingModule } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
 
 @Directive({
   selector: '[cxFocus]',
@@ -35,12 +28,21 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
 let DEBOUNCE_TIME: number;
 
 const userInput = '345.00';
 
 const attribute: Configurator.Attribute = {
   name: 'attributeName',
+  label: 'attributeName',
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
   numDecimalPlaces: 2,
@@ -87,10 +89,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
-          MockTranslateUrlPipe,
           MockFocusDirective,
+          MockCxIconComponent,
         ],
-        imports: [ReactiveFormsModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
@@ -280,4 +282,98 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).not.toHaveBeenCalled();
   }));
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-control' without set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
+      component.attribute.userInput = '';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeBlank attribute:' +
+          component.attribute.label
+      );
+    }));
+
+    it("should contain input element with class name 'form-control' with set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.userInput
+      );
+    }));
+
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the IDs of the elements that describe the elements", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    }));
+  });
 });

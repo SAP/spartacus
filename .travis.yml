@@ -1,3 +1,4 @@
+os: linux
 dist: bionic
 language: node_js
 node_js:
@@ -11,8 +12,6 @@ branches:
     - "/^epic\\/.*$/"
     - "/^release\\/.*$/"
     - "/^integration-libs\\/.*$/"
-defaults: &defaults
-  script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
   - script: "./ci-scripts/unit-tests-core-lib.sh"
     name: "Unit tests for core and storefrontlib"
@@ -21,19 +20,19 @@ jobs:
   - script: "./ci-scripts/validate-lint.sh"
     name: "Validation checks"
   - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
-    name: "E2E regression tests for B2B"
-  - script:
+    name: "E2E tests for B2B, 1st job"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
+    name: "E2E tests for B2B, 2nd job"
+  - script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
     name: "E2E tests for B2C, 1st job"
-    <<: *defaults
-  - script:
-    name: "E2E tests for B2C, 2st job"
-    <<: *defaults
-  - script:
+  - script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
+    name: "E2E tests for B2C, 2nd job"
+  - script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
     name: "E2E tests for B2C, 3rd job"
-    <<: *defaults
-  - script:
+  - script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
     name: "E2E tests for B2C, 4th job"
-    <<: *defaults
+  - script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
+    name: "E2E tests for B2C, 5th job"
   - script: "./ci-scripts/e2e-cypress.sh --ssr"
     name: "E2E tests for SSR B2C"
   - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
