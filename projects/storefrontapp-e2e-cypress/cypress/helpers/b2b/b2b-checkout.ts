@@ -301,7 +301,7 @@ export function placeOrder(orderUrl: string) {
     'getOrderConfirmationPage'
   );
 
-  cy.get('cx-place-order button.btn-primary').click();
+  cy.get('cx-place-order button.btn-primary').click({ force: true });
   // temporary solution for very slow backend response while placing order
   cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
     .its('response.statusCode')
