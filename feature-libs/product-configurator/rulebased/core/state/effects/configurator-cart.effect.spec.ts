@@ -52,6 +52,13 @@ const ownerCartEntry: CommonConfigurator.Owner = {
   configuratorType: ConfiguratorType.VARIANT,
 };
 
+const ownerOrderEntry: CommonConfigurator.Owner = {
+  type: CommonConfigurator.OwnerType.ORDER_ENTRY,
+  id: entryNumber.toString(),
+  key: 'orderEntryKey',
+  configuratorType: ConfiguratorType.VARIANT,
+};
+
 const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration('a', owner),
   productCode: productCode,
@@ -94,6 +101,10 @@ const cartModification: CartModification = {
 };
 
 const cartModificationWithoutEntry: CartModification = {};
+let entitiesInConfigurationState: {
+  [id: string]: any;
+} = {};
+let configurationState: any;
 
 describe('ConfiguratorCartEffect', () => {
   let addToCartMock: jasmine.Spy;
@@ -153,6 +164,11 @@ describe('ConfiguratorCartEffect', () => {
       configuration: productConfiguration,
       cartEntryNumber: entryNumber.toString(),
     };
+
+    entitiesInConfigurationState = {};
+    configurationState = {
+      configurations: { entities: entitiesInConfigurationState },
+    };
   });
 
   it('should provide configuration effects', () => {
@@ -195,16 +211,6 @@ describe('ConfiguratorCartEffect', () => {
 
   describe('Effect removeCartBoundConfigurations', () => {
     it('should emit remove configuration action for configurations that belong to cart entries', () => {
-      //the following is a simplification of the store content,
-      //sufficient for that test as the action is interested only
-      //in the keys of the store
-      const entities: {
-        [id: string]: string;
-      } = {};
-
-      const configurationState = {
-        configurations: { entities: entities },
-      };
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of(configurationState)
       );
@@ -212,8 +218,9 @@ describe('ConfiguratorCartEffect', () => {
       const configurationCartBound: Configurator.Configuration =
         ConfiguratorTestUtils.createConfiguration('6514', ownerCartEntry);
 
-      entities[productConfiguration.owner.key] = productConfiguration.owner.key;
-      entities[configurationCartBound.owner.key] =
+      entitiesInConfigurationState[productConfiguration.owner.key] =
+        productConfiguration.owner.key;
+      entitiesInConfigurationState[configurationCartBound.owner.key] =
         configurationCartBound.owner.key;
 
       const removeCartBoundConfigurationsAction =
@@ -221,6 +228,73 @@ describe('ConfiguratorCartEffect', () => {
       const removeConfigurationAction =
         new ConfiguratorActions.RemoveConfiguration({
           ownerKey: [configurationCartBound.owner.key],
+        });
+
+      actions$ = cold('-a', { a: removeCartBoundConfigurationsAction });
+      const expected = cold('-(b)', {
+        b: removeConfigurationAction,
+      });
+
+      expect(configCartEffects.removeCartBoundConfigurations$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should emit remove configuration action for configurations that have been turned into cart configurations', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(configurationState)
+      );
+      const configurationProductBoundObsolete: Configurator.Configuration =
+        ConfiguratorTestUtils.createConfiguration('6514', owner);
+
+      configurationProductBoundObsolete.nextOwner = ownerCartEntry;
+
+      entitiesInConfigurationState[
+        configurationProductBoundObsolete.owner.key
+      ] = {
+        value: configurationProductBoundObsolete,
+      };
+
+      const removeCartBoundConfigurationsAction =
+        new ConfiguratorActions.RemoveCartBoundConfigurations();
+      const removeConfigurationAction =
+        new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: [configurationProductBoundObsolete.owner.key],
+        });
+
+      actions$ = cold('-a', { a: removeCartBoundConfigurationsAction });
+      const expected = cold('-(b)', {
+        b: removeConfigurationAction,
+      });
+
+      expect(configCartEffects.removeCartBoundConfigurations$).toBeObservable(
+        expected
+      );
+    });
+
+    it('should not emit remove configuration action for configurations that are purely product bound or order bound', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(configurationState)
+      );
+      const configurationProductBound: Configurator.Configuration =
+        ConfiguratorTestUtils.createConfiguration('6514', owner);
+
+      const configurationOrderBound: Configurator.Configuration =
+        ConfiguratorTestUtils.createConfiguration('6513', ownerOrderEntry);
+
+      entitiesInConfigurationState[configurationProductBound.owner.key] = {
+        value: configurationProductBound,
+      };
+
+      entitiesInConfigurationState[configurationOrderBound.owner.key] = {
+        value: configurationOrderBound,
+      };
+
+      const removeCartBoundConfigurationsAction =
+        new ConfiguratorActions.RemoveCartBoundConfigurations();
+      const removeConfigurationAction =
+        new ConfiguratorActions.RemoveConfiguration({
+          ownerKey: [],
         });
 
       actions$ = cold('-a', { a: removeCartBoundConfigurationsAction });
