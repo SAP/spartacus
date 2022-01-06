@@ -33,6 +33,4 @@ title: Changes to Styles in 5.0
 
 ### AddressFormComponent
 
-- Moved `<div class="cx-address-form-btns row">` inside the top level `<div class="row">`
-- Changed classes of `<div class="col-md-12 col-lg-6" *ngIf="showCancelBtn">` to `<div class="col-md-13 col-lg-6" *ngIf="showCancelBtn">`
--`justify-content` set to `center` for `.cx-address-form-btns` in `%cx-address-form`
+- Changed `justify-content` to `center` for `.cx-address-form-btns` in `%cx-address-form`
