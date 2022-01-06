@@ -1,5 +1,9 @@
 <form [formGroup]="form" class="quick-order-form-container">
-  <div class="quick-order-form-input">
+  <div
+    class="quick-order-form-input"
+    role="search"
+    [attr.aria-label]="'quickOrderForm.quickOrderSearch' | cxTranslate"
+  >
     <input
       (blur)="onBlur($event)"
       (focus)="open()"
@@ -7,7 +11,7 @@
       (keydown.arrowup)="focusPreviousChild($event)"
       (keydown.enter)="addProduct($event)"
       (keydown.escape)="clear($event)"
-      [attr.aria-label]="'common.search' | cxTranslate"
+      [attr.aria-label]="'quickOrderForm.searchBoxLabel' | cxTranslate"
       aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"

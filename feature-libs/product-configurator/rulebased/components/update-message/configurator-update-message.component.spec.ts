@@ -20,7 +20,7 @@ import * as ConfigurationTestData from '../../testing/configurator-test-data';
 import { ConfiguratorMessageConfig } from '../config/configurator-message.config';
 import { ConfiguratorUpdateMessageComponent } from './configurator-update-message.component';
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
     return routerStateObservable;
@@ -30,16 +30,12 @@ class MockRoutingService {
 const owner: CommonConfigurator.Owner =
   ConfigurationTestData.productConfiguration.owner;
 
-let isConfigurationLoading = false;
 let hasPendingChanges = false;
 let waitingTime = 1000;
 
 class MockConfiguratorCommonsService {
   hasPendingChanges(): Observable<boolean> {
     return of(hasPendingChanges);
-  }
-  isConfigurationLoading(): Observable<boolean> {
-    return of(isConfigurationLoading);
   }
 }
 
@@ -102,7 +98,8 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(component).toBeDefined();
   });
 
-  it('should not show update banner if pending changes and loading is false', () => {
+  it('should not show update banner if pending changes is false', () => {
+    hasPendingChanges = false;
     fixture.detectChanges();
 
     //Should contain d-none class
@@ -112,33 +109,12 @@ describe('ConfigurationUpdateMessageComponent', () => {
   });
 
   it('should show update banner if pending changes is true', fakeAsync(() => {
+    //Should be hidden first
+    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
+      0
+    );
     hasPendingChanges = true;
-    isConfigurationLoading = false;
     fixture.detectChanges();
-
-    //Should be hidden first
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
-    );
-    //Should appear after a bit
-    tick(2000);
-
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
-    );
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
-  }));
-
-  it('should show update banner if loading is true', fakeAsync(() => {
-    hasPendingChanges = false;
-    isConfigurationLoading = true;
-    fixture.detectChanges();
-
-    //Should be hidden first
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
-    );
 
     //Should appear after a bit
     tick(2000);
@@ -147,41 +123,17 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
-
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
-  }));
-
-  it('should show update banner if loading and pending changes are true', fakeAsync(() => {
-    hasPendingChanges = true;
-    isConfigurationLoading = true;
-    fixture.detectChanges();
-
-    //Should be hidden first
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      0
-    );
-
-    //Should appear after a bit
-    tick(2000);
-
-    fixture.detectChanges();
-    expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
-      1
-    );
-
     expect(htmlElem.querySelectorAll('div').length).toBe(1);
   }));
 
   it('should consider the configured timeout', fakeAsync(() => {
-    hasPendingChanges = true;
-    isConfigurationLoading = true;
-    waitingTime = 100;
-    fixture.detectChanges();
-
     //Should be hidden first
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       0
     );
+    hasPendingChanges = true;
+    waitingTime = 100;
+    fixture.detectChanges();
 
     //Should appear after a bit
     tick(2000);
