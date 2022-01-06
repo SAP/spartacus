@@ -110,9 +110,10 @@
         display: flex;
         justify-content: space-between;
 
+        //psuedo-element to create space between cx-label and cx-value
         &::before {
           content: '';
-          width: 105px;
+          width: 110px;
         }
       }
     }
@@ -171,7 +172,7 @@
   .cx-actions,
   .cx-total {
     @include media-breakpoint-down(sm) {
-      width: 250px;
+      width: 255px;
       justify-content: space-between;
     }
   }
