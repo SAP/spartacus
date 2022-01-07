@@ -8,7 +8,7 @@ import {
   Output,
   Renderer2,
 } from '@angular/core';
-import { Facet } from '@spartacus/core';
+import { Facet, WindowRef } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
@@ -31,7 +31,7 @@ export class FacetListComponent {
   set isDialog(value: boolean) {
     this._isDialog = value;
     if (value) {
-      this.renderer.addClass(document.body, 'modal-open');
+      this.renderer.addClass(this.winRef.document.body, 'modal-open');
     }
   }
 
@@ -61,7 +61,8 @@ export class FacetListComponent {
   constructor(
     protected facetService: FacetService,
     protected elementRef: ElementRef,
-    protected renderer: Renderer2
+    protected renderer: Renderer2,
+    protected winRef: WindowRef
   ) {}
 
   /**

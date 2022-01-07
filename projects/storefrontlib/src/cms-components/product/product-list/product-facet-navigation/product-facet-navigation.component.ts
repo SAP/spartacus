@@ -4,8 +4,8 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { asapScheduler, BehaviorSubject, interval, Observable, of } from 'rxjs';
-import { delayWhen, observeOn, switchMap } from 'rxjs/operators';
+import { asapScheduler, BehaviorSubject, Observable, of } from 'rxjs';
+import { observeOn } from 'rxjs/operators';
 import { ICON_TYPE } from '../../../../cms-components/misc/icon/icon.model';
 import { BreakpointService } from '../../../../layout/breakpoint/breakpoint.service';
 
@@ -32,7 +32,7 @@ export class ProductFacetNavigationComponent {
    */
   @ViewChild('trigger') trigger: ElementRef<HTMLElement>;
 
-  protected open$ = new BehaviorSubject(false);
+  protected open$ = new BehaviorSubject<boolean>(true);
 
   /**
    * Emits the open state that indicates whether the facet list should be rendered.
@@ -43,13 +43,15 @@ export class ProductFacetNavigationComponent {
    * There's a configurable delay for the closed state, so that the DOM is not removed
    * before some CSS animations are done.
    */
-  isOpen$: Observable<boolean> = this.breakpointService.breakpoint$.pipe(
-    // deffer emitting a new value to the next micro-task to ensure that the `hasTrigger`
-    // method represents the actual UI state.
-    observeOn(asapScheduler),
-    switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
-    delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
-  );
+  isOpen$: Observable<boolean> = this.hasTrigger ? this.open$ : of(true);
+  // this.breakpointService.breakpoint$.pipe(
+  //   // tap((x) => console.log('breakpoint', x)),
+  //   // deffer emitting a new value to the next micro-task to ensure that the `hasTrigger`
+  //   // method represents the actual UI state.
+  //   // observeOn(asapScheduler),
+  //   switchMap(() => (this.hasTrigger ? this.open$ : of(true))),
+  // delayWhen((launched) => interval(launched ? 0 : this.CLOSE_DELAY))
+  // );
 
   /**
    * Emits the active state that indicates whether the facet list is activated. Activation
@@ -79,6 +81,7 @@ export class ProductFacetNavigationComponent {
    * (display:none) for certain screen sizes.
    */
   get hasTrigger() {
-    return this.trigger.nativeElement.offsetParent !== null;
+    return false;
+    // return this.trigger.nativeElement.offsetParent !== null;
   }
 }

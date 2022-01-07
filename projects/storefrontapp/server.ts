@@ -15,9 +15,10 @@ import { AppServerModule } from './src/main.server';
 const express = require('express');
 
 const ssrOptions: SsrOptimizationOptions = {
+  cache: false,
   concurrency: 20,
-  timeout: Number(process.env.SSR_TIMEOUT ?? 3000),
-  reuseCurrentRendering: true,
+  timeout: 3000,
+  debug: true,
 };
 
 const ngExpressEngine = NgExpressEngineDecorator.get(engine, ssrOptions);
