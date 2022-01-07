@@ -4,13 +4,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
 import { OAuthLibWrapperService } from '../services/oauth-lib-wrapper.service';
 import { AuthActions } from '../store/actions/index';
 import { UserIdService } from './user-id.service';
-import { getLastValueSync } from '@spartacus/core';
 
 /**
  * Auth service for normal user authentication.
