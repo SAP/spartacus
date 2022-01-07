@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   Product,
@@ -15,7 +16,6 @@ import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { Location } from '@angular/common';
 
 @Component({
   selector: 'cx-configurator-exit-button',
@@ -90,7 +90,7 @@ export class ConfiguratorExitButtonComponent {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isDesktop(): Observable<boolean> {
-    return this.breakpointService?.isUp(BREAKPOINT.md);
+    return this.breakpointService.isUp(BREAKPOINT.md);
   }
 
   /**
@@ -99,6 +99,6 @@ export class ConfiguratorExitButtonComponent {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.sm` returns `true`, otherwise `false`.
    */
   isMobile(): Observable<boolean> {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 }
