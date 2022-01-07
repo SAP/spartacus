@@ -55,7 +55,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-fdescribe('AuthService', () => {
+describe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
   let authStorageService: AuthStorageService;
