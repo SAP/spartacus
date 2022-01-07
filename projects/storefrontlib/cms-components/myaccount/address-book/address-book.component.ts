@@ -110,8 +110,8 @@ export class AddressBookComponent implements OnInit {
     );
   }
 
-  setAddressAsDefault(addressId: string): void {
-    console.log(addressId);
+  setAddressAsDefault(address: Address): void {
+    console.log(address.id);
   }
 
   deleteAddress(addressId: string): void {
