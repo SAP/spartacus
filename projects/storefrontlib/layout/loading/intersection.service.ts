@@ -31,6 +31,17 @@ export class IntersectionService {
   }
 
   /**
+   * Returns an Observable that emits only once a boolean value whenever
+   * the given element has shown in the view port.
+   */
+  isIntersecting(
+    element: HTMLElement,
+    options?: IntersectionOptions
+  ): Observable<boolean> {
+    return this.intersects(element, options);
+  }
+
+  /**
    * Indicates whenever the element intersects the view port. An optional margin
    * is used to intersects before the element shows up in the viewport.
    * A value is emitted each time the element intersects.

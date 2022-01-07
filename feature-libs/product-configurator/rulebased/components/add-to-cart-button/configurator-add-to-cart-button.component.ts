@@ -275,7 +275,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
         map(() => this.configUtils.getElement('.cx-price-summary-container')),
         switchMap((priceSummary) =>
           priceSummary !== undefined
-            ? this.intersectionService.isIntersected(priceSummary, options)
+            ? this.intersectionService.isIntersecting(priceSummary, options)
             : of(undefined)
         ),
         filter((isIntersecting) => isIntersecting !== undefined)
