@@ -1,12 +1,24 @@
-<button
-  class="cx-config-exit-button"
-  tabindex="0"
-  (click)="exitConfiguration()"
->
-  <ng-container *ngIf="isDesktop() | async">
-    {{ 'configurator.button.exit' | cxTranslate }}
-  </ng-container>
-  <ng-container *ngIf="isMobile() | async">
-    {{ 'configurator.button.exitMobile' | cxTranslate }}
-  </ng-container>
-</button>
+<ng-container *ngIf="container$ | async as container">
+  <button
+    class="cx-config-exit-button"
+    tabindex="0"
+    (click)="exitConfiguration()"
+  >
+    <ng-container *ngIf="!container.routerData.isOwnerCartEntry">
+      <ng-container *ngIf="isDesktop() | async">
+        {{ 'configurator.button.exit' | cxTranslate }}
+      </ng-container>
+      <ng-container *ngIf="isMobile() | async">
+        {{ 'configurator.button.exitMobile' | cxTranslate }}
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="container.routerData.isOwnerCartEntry">
+      <ng-container *ngIf="isMobile() | async">
+        {{ 'configurator.button.cancelConfigurationMobile' | cxTranslate }}
+      </ng-container>
+      <ng-container *ngIf="isDesktop() | async">
+        {{ 'configurator.button.cancelConfiguration' | cxTranslate }}
+      </ng-container>
+    </ng-container>
+  </button>
+</ng-container>
