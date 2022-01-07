@@ -387,7 +387,7 @@ describe('ConfiguratorCommonsService', () => {
           CONFIG_ID,
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       spyOnProperty(ngrxStore, 'select').and.returnValue(
         () => () => of(configurationWithOverview)
