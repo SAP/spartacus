@@ -50,7 +50,6 @@ export function addProductToCart() {
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-dialog-title').should('be.visible');
   });
-
 }
 
 export function goToCartDetailsView() {
@@ -58,7 +57,7 @@ export function goToCartDetailsView() {
 }
 
 export function selectShippingAddress() {
-  cy.findByText(/proceed to checkout/i).click({ force: true });;
+  cy.findByText(/proceed to checkout/i).click({ force: true });
   cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .find('.cx-summary-amount')
@@ -94,7 +93,7 @@ export function goToOrderHistoryDetailsFromSummary() {
   });
 }
 
-export function checkAppliedPromotions(checkOrderDetails : boolean) {
+export function checkAppliedPromotions(checkOrderDetails: boolean) {
   it('Should display promotions for product in cart and checkout', () => {
     goToCartDetailsView();
     checkForAppliedPromotions();
@@ -120,14 +119,13 @@ export function checkAppliedPromotions(checkOrderDetails : boolean) {
     verifyAndPlaceOrder();
     checkForAppliedPromotions();
   });
-  if (checkOrderDetails){
+  if (checkOrderDetails) {
     checkAppliedPromotionsOrderDetails();
   }
 }
 
-export function checkAppliedPromotionsOrderDetails()
-{
-  // Assumes order has been placed and at order details page. 
+export function checkAppliedPromotionsOrderDetails() {
+  // Assumes order has been placed and at order details page.
   it('Should verify promotions in order confirmation details', () => {
     goToOrderHistoryDetailsFromSummary();
     checkForAppliedPromotions();
@@ -152,20 +150,17 @@ export function closeCartDialog() {
   });
 }
 
-export function navigateCartFromCartDialog()
-{
+export function navigateCartFromCartDialog() {
   cy.get('cx-added-to-cart-dialog').should('be.visible');
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-dialog-buttons > .btn-primary').click();
   });
-
 }
 
 export function checkAppliedPromotionsFordifferentCartTotals() {
   const batteryProductCode = '266685';
 
   it('Should display promotions for cart quantities increase/decrease', () => {
-
     cart.registerCartPageRoute();
     cart.registerCartRefreshRoute();
 
@@ -219,16 +214,16 @@ export function testPromotionsForLoggedInUser(checkOrderDetails: boolean) {
 
     beforeEach(() => {
       cy.restoreLocalStorage();
-    }); 
+    });
     checkAppliedPromotions(checkOrderDetails);
-    
+
     afterEach(() => {
       cy.saveLocalStorage();
     });
   });
 }
 
-export function checkAppliedPromotionsDiffQuantities(){
+export function checkAppliedPromotionsDiffQuantities() {
   describe('As anonymous', () => {
     before(() => {
       cy.window().then((win) => {

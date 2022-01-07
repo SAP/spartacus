@@ -5,7 +5,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { user } from '../../../sample-data/checkout-flow';
 
 describe('Register', () => {
-  viewportContext(['desktop'/*, 'mobile'*/], () => {
+  viewportContext(['desktop' /*, 'mobile'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');

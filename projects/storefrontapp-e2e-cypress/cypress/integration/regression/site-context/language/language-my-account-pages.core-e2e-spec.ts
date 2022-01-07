@@ -1,6 +1,6 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
-// Slow test. Improve Execution in pipeline. 
+// Slow test. Improve Execution in pipeline.
 describe('Language switch - my-account pages', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
