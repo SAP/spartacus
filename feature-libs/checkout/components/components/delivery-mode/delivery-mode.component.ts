@@ -31,8 +31,7 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  deliveryModeSetInProcess$ =
-    this.checkoutDeliveryService.getSetDeliveryModeInProcess();
+  isSetDeliveryModeBusy$ = this.checkoutDeliveryService.isSetDeliveryModeBusy();
 
   deliveryModeSub: Subscription;
 
