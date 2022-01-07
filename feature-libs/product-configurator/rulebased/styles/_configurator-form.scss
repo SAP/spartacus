@@ -1,7 +1,8 @@
 %cx-configurator-form {
   width: 100%;
 
-  .cx-group-attribute {
+  .cx-group-attribute,
+  .cx-ghost-attribute {
     padding-inline-start: 16px;
     padding-inline-end: 16px;
 
@@ -17,6 +18,123 @@
 
     em {
       @include cx-configurator-attribute-type();
+    }
+  }
+
+  .cx-ghost-attribute {
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 10px;
+      padding-inline-end: 10px;
+      padding-block-start: 12px;
+      padding-block-end: 12px;
+    }
+
+    .cx-ghost-title,
+    .cx-ghost-icon,
+    .cx-ghost-description,
+    .cx-ghost-price,
+    .cx-ghost-label {
+      height: 30px;
+    }
+
+    .cx-ghost-title,
+    .cx-ghost-icon,
+    .cx-ghost-description,
+    .cx-ghost-price,
+    .cx-ghost-label,
+    .cx-ghost-text,
+    .cx-ghost-value-icon,
+    .cx-ghost-value-price {
+      background-color: var(--cx-color-ghost);
+    }
+
+    .cx-ghost-header,
+    .cx-ghost-description-box,
+    .cx-ghost-body,
+    .cx-ghost-radiobutton-value,
+    .cx-ghost-value-label-pair,
+    .cx-ghost-value-price {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+    }
+
+    .cx-ghost-header {
+      flex-wrap: wrap;
+      justify-content: flex-start;
+      margin-block-end: 8px;
+
+      .cx-ghost-title {
+        width: 30%;
+      }
+
+      .cx-ghost-icon {
+        width: 30px;
+        border-radius: 50%;
+        margin-inline-start: 10px;
+      }
+
+      .cx-ghost-description-box {
+        flex: 0 0 100%;
+        margin-block-start: 8px;
+
+        .cx-ghost-description {
+          width: 60%;
+        }
+      }
+    }
+
+    .cx-ghost-body {
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-block-end: 15px;
+
+      .cx-ghost-text {
+        width: 70%;
+        height: 72px;
+      }
+
+      .cx-ghost-price {
+        width: 10%;
+      }
+
+      .cx-ghost-radiobutton-value {
+        flex: 0 0 100%;
+        justify-content: space-between;
+        margin-block-start: 8px;
+
+        .cx-ghost-value-label-pair {
+          width: 80%;
+
+          .cx-ghost-value-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+
+          .cx-ghost-label {
+            margin-inline-start: 10px;
+            height: 30px;
+          }
+        }
+
+        &:nth-child(1) .cx-ghost-label {
+          width: 20%;
+        }
+
+        &:nth-child(2) .cx-ghost-label {
+          width: 55%;
+        }
+
+        &:nth-child(3) .cx-ghost-label {
+          width: 30%;
+        }
+
+        .cx-ghost-value-price {
+          width: 10%;
+          align-items: flex-end;
+        }
+      }
     }
   }
 

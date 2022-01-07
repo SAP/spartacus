@@ -262,14 +262,36 @@ describe('SavedCartFormDialogComponent', () => {
   it('should provide default value to saveCartDescription when empty', () => {
     spyOn(savedCartService, 'editSavedCart');
 
-    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+    mockDialogData$.next({
+      cart: {
+        code: '123456789',
+        name: 'testCartName',
+      },
+      layoutOption: 'edit',
+    });
 
     component.saveOrEditCart(mockCartId);
 
     expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
       cartId: mockCartId,
-      saveCartName: '',
+      saveCartName: mockCart.name,
       saveCartDescription: '-',
+    });
+  });
+
+  it('should not trigger saveOrEditCart when empty cart name is empty', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    component.form?.get('name')?.setValue('');
+
+    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).not.toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: '',
+      saveCartDescription: '',
     });
   });
 
