@@ -1,0 +1,15 @@
+%cx-clear-cart {
+  .empty-cart-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+    margin: 0 0 40px;
+  }
+
+  .empty-cart-btn {
+    width: 200px;
+    @include media-breakpoint-down(sm) {
+      width: 100%;
+    }
+  }
+}
