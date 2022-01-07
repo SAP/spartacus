@@ -29,9 +29,7 @@ export class PageTitleComponent implements OnInit {
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(isNotNullable),
-      map((meta) => {
-        return (meta.heading || meta.title) ?? '';
-      })
+      map((meta) => (meta.heading || meta.title) ?? '')
     );
     this.lastestTitle$ = this.title$.pipe(debounceTime(500));
   }
