@@ -5,7 +5,7 @@ import {
   PageMetaService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, debounceTime } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 
 @Component({
@@ -15,6 +15,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
 })
 export class PageTitleComponent implements OnInit {
   title$: Observable<string>;
+  lastestTitle$: Observable<string>;
 
   constructor(
     public component: CmsComponentData<CmsPageTitleComponent>,
@@ -28,7 +29,10 @@ export class PageTitleComponent implements OnInit {
   private setTitle(): void {
     this.title$ = this.pageMetaService.getMeta().pipe(
       filter(isNotNullable),
-      map((meta) => (meta.heading || meta.title) ?? '')
+      map((meta) => {
+        return (meta.heading || meta.title) ?? '';
+      })
     );
+    this.lastestTitle$ = this.title$.pipe(debounceTime(500));
   }
 }
