@@ -65,6 +65,7 @@ const productConfiguration: Configurator.Configuration = {
   consistent: true,
   overview: {
     configId: CONFIG_ID,
+    productCode: productCode,
     groups: [
       {
         id: groupIdA,
@@ -262,7 +263,10 @@ describe('ConfiguratorEffect', () => {
       const overviewSuccessAction =
         new ConfiguratorActions.GetConfigurationOverviewSuccess({
           ownerKey: owner.key,
-          overview: productConfiguration.overview ?? { configId: CONFIG_ID },
+          overview: productConfiguration.overview ?? {
+            configId: CONFIG_ID,
+            productCode: productCode,
+          },
         });
       actions$ = hot('-a', { a: action });
       const expected = cold('-b', { b: overviewSuccessAction });
