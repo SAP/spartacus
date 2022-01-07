@@ -11,7 +11,7 @@ import * as alerts from '../../../helpers/global-message';
 import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 describe('My Account - Address Book', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

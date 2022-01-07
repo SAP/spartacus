@@ -3,7 +3,7 @@ import * as sampleData from '../../../../sample-data/b2b-bulk-pricing';
 import * as b2bBulkPricing from '../../../../helpers/b2b/b2b-bulk-pricing';
 
 describe('B2B - Bulk Pricing', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
     });

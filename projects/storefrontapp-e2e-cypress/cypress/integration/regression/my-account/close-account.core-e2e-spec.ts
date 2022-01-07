@@ -7,7 +7,7 @@ import { standardUser } from '../../../sample-data/shared-users';
 const CLOSE_ACCOUNT_URL = '/my-account/close-account';
 
 describe('My Account - Close Account', () => {
-  viewportContext(['mobile', 'desktop'], () => {
+  viewportContext([/*'mobile',*/ 'desktop'], () => {
     before(() =>
       cy.window().then((win) => {
         win.sessionStorage.clear();

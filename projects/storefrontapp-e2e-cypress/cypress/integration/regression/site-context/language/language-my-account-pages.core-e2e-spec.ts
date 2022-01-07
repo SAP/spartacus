@@ -1,5 +1,6 @@
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
+// Slow test. Improve Execution in pipeline. 
 describe('Language switch - my-account pages', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());
@@ -15,6 +16,6 @@ describe('Language switch - my-account pages', () => {
     siteContextSelector.TITLES
   );
 
-  siteContextSelector.testLangSwitchOrderPage();
+  siteContextSelector.testLangSwitchOrderPage(false);
   siteContextSelector.testPersonalDetailsPage();
 });

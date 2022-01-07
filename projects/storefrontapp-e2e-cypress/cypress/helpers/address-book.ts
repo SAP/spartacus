@@ -1,11 +1,11 @@
 import { AddressData } from './checkout-forms';
 
 export const newAddress: AddressData = {
-  firstName: 'Cypress',
-  lastName: 'User',
+  firstName: 'Jane',
+  lastName: 'Doe',
   phone: '1234567',
   address: {
-    city: 'Montreal',
+    city: 'York',
     country: 'Canada',
     line1: 'xxx1',
     line2: 'xxx2',

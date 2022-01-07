@@ -5,15 +5,15 @@ export const variantUser: SampleUser = getApparelCheckoutUser();
 
 export function getApparelCheckoutUser() {
   return {
-    firstName: 'Cypress',
-    lastName: 'Customer',
-    fullName: 'Cypress Customer',
+    firstName: 'Jack',
+    lastName: 'Doe',
+    fullName: 'Jack Doe',
     password: 'Pw4all.',
     email: generateMail(randomString(), true),
     phone: '44 7911 123456',
     address: {
       city: 'London',
-      line1: 'Buckingham Street 5',
+      line1: 'Posh Street 5',
       line2: '1A',
       country: 'United Kingdom',
       postal: 'MA8902',

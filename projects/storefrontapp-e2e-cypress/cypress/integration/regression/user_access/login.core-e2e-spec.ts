@@ -2,7 +2,7 @@ import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Login', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['desktop'], () => {
     before(() => {
       cy.visit('/login');
       login.registerUserFromLoginPage();

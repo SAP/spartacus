@@ -16,7 +16,7 @@ describe('Language switch - my-account pages', () => {
   );
 
   // Core test.
-  siteContextSelector.testLangSwitchOrderPage();
+  siteContextSelector.testLangSwitchOrderPage(true);
 
   // Below tests depend on core test for setup.
   describe('address book page', () => {

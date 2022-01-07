@@ -4,8 +4,8 @@ import { user } from '../../../sample-data/checkout-flow';
 import { verifyGlobalMessageAfterRegistration } from '../../../helpers/register';
 
 const usaAddress: Address = {
-  city: 'Los Angeles',
-  line1: '340 Main Street',
+  city: 'Taft',
+  line1: '5 Main St',
   line2: '',
   country: 'United States',
   postal: '90291',
@@ -14,7 +14,7 @@ const usaAddress: Address = {
 
 const canadaAddress: Address = {
   city: 'Montreal',
-  line1: '111 Boulevard Robert-Bourassa',
+  line1: '2 Park St',
   line2: '',
   country: 'Canada',
   postal: '9000',
