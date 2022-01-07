@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  GlobalMessageService,
-  GlobalMessageType,
-  ActiveCartService,
-} from '@spartacus/core';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +8,7 @@ import {
 export class ClearCartService {
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected activeCartService: ActiveCartService
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   clearActiveCart(): void {

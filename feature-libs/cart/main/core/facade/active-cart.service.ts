@@ -485,6 +485,20 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .subscribe();
   }
 
+  /**
+   * Clears active cart
+   */
+  clearActiveCart(): void {
+    this.getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        // Remove the 0th entry n-times
+        entries.forEach(() => {
+          this.removeEntry(entries[0]);
+        });
+      });
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
