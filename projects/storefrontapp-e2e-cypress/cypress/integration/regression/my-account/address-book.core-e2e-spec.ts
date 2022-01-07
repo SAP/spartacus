@@ -82,6 +82,7 @@ describe('My Account - Address Book', () => {
       });
 
       it('should set the second address as the default one', () => {
+        fetchAddressesInterceptor();
         cy.get('button').contains('Set as default').click();
 
         cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
