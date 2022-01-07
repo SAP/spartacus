@@ -258,7 +258,8 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      // will fail right now, as this is not fixed yet
+      // will fail right now, as this is not fixed yet.
+      // Recheck
       it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
         cy.visit(`/product/${cart.products[0].code}`);
         cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
