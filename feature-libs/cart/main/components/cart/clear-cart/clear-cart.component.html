@@ -1,0 +1,11 @@
+<div *ngIf="cart$ | async as cart" class="empty-cart-wrapper">
+  <button
+    *ngIf="cart.totalItems > 0"
+    #element
+    (click)="openDialog($event)"
+    class="btn btn-block btn-action empty-cart-btn"
+    type="button"
+  >
+    {{ 'clearCart.clearCart' | cxTranslate }}
+  </button>
+</div>
