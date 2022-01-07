@@ -31,8 +31,7 @@ export class IntersectionService {
   }
 
   /**
-   * Returns an Observable that emits only once a boolean value whenever
-   * the given element has shown in the view port.
+   * Returns an observable that emits for every change of visibility of a given element
    */
   isIntersecting(
     element: HTMLElement,
