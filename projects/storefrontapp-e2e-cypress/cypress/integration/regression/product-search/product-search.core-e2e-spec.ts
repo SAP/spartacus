@@ -2,7 +2,7 @@ import * as productSearchFlow from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Product search', () => {
-  viewportContext([/*'mobile', */'desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.visit('/');
     });
