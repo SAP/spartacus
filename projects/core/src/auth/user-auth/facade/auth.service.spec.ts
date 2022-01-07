@@ -21,6 +21,9 @@ class MockUserIdService implements Partial<UserIdService> {
   setUserId() {}
 }
 
+const oauthLibEvents = new BehaviorSubject<OAuthEvent>({
+  type: 'token_received',
+});
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   revokeAndLogout() {
     return Promise.resolve();
@@ -32,10 +35,7 @@ class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {
   tryLogin() {
     return Promise.resolve(true);
   }
-  events$?: Observable<OAuthEvent> | undefined =
-    new BehaviorSubject<OAuthEvent>({
-      type: 'token_received',
-    });
+  events$ = oauthLibEvents;
 }
 
 class MockAuthStorageService implements Partial<AuthStorageService> {
@@ -55,7 +55,7 @@ class MockRoutingService implements Partial<RoutingService> {
   go = () => Promise.resolve(true);
 }
 
-describe('AuthService', () => {
+fdescribe('AuthService', () => {
   let service: AuthService;
   let routingService: RoutingService;
   let authStorageService: AuthStorageService;
@@ -100,7 +100,6 @@ describe('AuthService', () => {
     it('should login user when token is present', async () => {
       spyOn(oAuthLibWrapperService, 'tryLogin').and.callThrough();
       spyOn(userIdService, 'setUserId').and.callThrough();
-      spyOn(authRedirectService, 'redirect').and.callThrough();
       spyOn(store, 'dispatch').and.callThrough();
       spyOn(authStorageService, 'getItem').and.returnValue('token');
 
@@ -109,7 +108,27 @@ describe('AuthService', () => {
       expect(oAuthLibWrapperService.tryLogin).toHaveBeenCalled();
       expect(userIdService.setUserId).toHaveBeenCalledWith(OCC_USER_ID_CURRENT);
       expect(store.dispatch).toHaveBeenCalledWith(new AuthActions.Login());
-      expect(authRedirectService.redirect).toHaveBeenCalled();
+    });
+
+    describe('when the token is received', () => {
+      it('should redirect', async () => {
+        spyOn(authRedirectService, 'redirect').and.callThrough();
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(authRedirectService.redirect).toHaveBeenCalled();
+      });
+    });
+
+    describe('when the token is NOT received', () => {
+      it('should NOT redirect', async () => {
+        oauthLibEvents.next({ type: 'discovery_document_load_error' });
+        spyOn(authRedirectService, 'redirect').and.stub();
+
+        await service.checkOAuthParamsInUrl();
+
+        expect(authRedirectService.redirect).not.toHaveBeenCalled();
+      });
     });
   });
 
