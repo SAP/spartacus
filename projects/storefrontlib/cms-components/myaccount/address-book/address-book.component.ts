@@ -111,7 +111,7 @@ export class AddressBookComponent implements OnInit {
   }
 
   setAddressAsDefault(addressId: string): void {
-    this.service.setAddressAsDefault(addressId);
+    console.log(addressId);
   }
 
   deleteAddress(addressId: string): void {
