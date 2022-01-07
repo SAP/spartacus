@@ -1,10 +1,10 @@
-import * as cart from '../../helpers/cart';
-import * as configuration from '../../helpers/product-configurator';
-import * as configurationCart from '../../helpers/product-configurator-cart';
-import * as configurationCartVc from '../../helpers/product-configurator-cart-vc';
-import * as configurationOverview from '../../helpers/product-configurator-overview';
-import * as configurationOverviewVc from '../../helpers/product-configurator-overview-vc';
-import * as configurationVc from '../../helpers/product-configurator-vc';
+import * as cart from '../../../helpers/cart';
+import * as configuration from '../../../helpers/product-configurator';
+import * as configurationCart from '../../../helpers/product-configurator-cart';
+import * as configurationCartVc from '../../../helpers/product-configurator-cart-vc';
+import * as configurationOverview from '../../../helpers/product-configurator-overview';
+import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
+import * as configurationVc from '../../../helpers/product-configurator-vc';
 
 const electronicsShop = 'electronics-spa';
 const testProductMultiLevel = 'CONF_HOME_THEATER_ML';
