@@ -22,7 +22,6 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-exit-button.component.html',
 })
 export class ConfiguratorExitButtonComponent {
-  product$: Observable<Product>;
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
