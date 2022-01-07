@@ -4,6 +4,7 @@ import { I18nTestingModule, PageMeta, PageMetaService } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { BreadcrumbComponent } from './breadcrumb.component';
+import { DebounceTimeModule } from '../../../shared/pipes/debounce-time/debounce-time.module';
 
 class MockPageMetaService {
   getMeta(): Observable<PageMeta> {
@@ -21,7 +22,7 @@ describe('BreadcrumbComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule, I18nTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule, DebounceTimeModule],
         declarations: [BreadcrumbComponent],
         providers: [
           { provide: PageMetaService, useClass: MockPageMetaService },
