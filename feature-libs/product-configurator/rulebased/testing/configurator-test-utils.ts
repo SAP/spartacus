@@ -59,6 +59,7 @@ export class ConfiguratorTestUtils {
   ): Configurator.Configuration {
     const configuration: Configurator.Configuration = {
       configId: configId,
+      productCode: '',
       owner: owner,
       groups: [],
       flatGroups: [],
