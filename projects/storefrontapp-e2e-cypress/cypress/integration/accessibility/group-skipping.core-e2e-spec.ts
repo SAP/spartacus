@@ -36,8 +36,18 @@ context('Group Skipping - Checkout', () => {
     cy.requireLoggedIn().then(() => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();
+
+      cy.intercept({
+        method: 'PUT',
+        path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+          'BASE_SITE'
+        )}/**/deliverymode?*`,
+      }).as('putDeliveryMode');
+
       checkout.fillAddressForm();
-      cy.get('input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)')
+
+      cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+      cy.get('input[type=radio][formcontrolname=deliveryModeId]')
         .first()
         .focus()
         .click();

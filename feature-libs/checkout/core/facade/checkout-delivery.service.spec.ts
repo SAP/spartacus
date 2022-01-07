@@ -266,7 +266,7 @@ describe('CheckoutDeliveryService', () => {
 
     let setDeliveryModeInProcess = false;
     service
-      .getSetDeliveryModeInProcess()
+      .isSetDeliveryModeBusy()
       .subscribe((data) => {
         setDeliveryModeInProcess = data;
       })
@@ -279,7 +279,7 @@ describe('CheckoutDeliveryService', () => {
 
     let setDeliveryModeInProcess = false;
     service
-      .getSetDeliveryModeInProcess()
+      .isSetDeliveryModeBusy()
       .subscribe((data) => {
         setDeliveryModeInProcess = data;
       })
@@ -292,7 +292,7 @@ describe('CheckoutDeliveryService', () => {
 
     let setDeliveryModeInProcess = false;
     service
-      .getSetDeliveryModeInProcess()
+      .isSetDeliveryModeBusy()
       .subscribe((data) => {
         setDeliveryModeInProcess = data;
       })
@@ -306,7 +306,7 @@ describe('CheckoutDeliveryService', () => {
 
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess(modeId));
     service
-      .getSetDeliveryModeInProcess()
+      .isSetDeliveryModeBusy()
       .subscribe((data) => {
         setDeliveryModeInProcess = data;
       })
