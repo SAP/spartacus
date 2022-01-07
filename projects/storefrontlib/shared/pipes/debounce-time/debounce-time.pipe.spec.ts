@@ -1,11 +1,10 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { DebounceTimePipe } from './debounce-time.pipe';
 
-fdescribe('DebounceTimePipe', () => {
+describe('DebounceTimePipe', () => {
   let pipe: DebounceTimePipe<any>;
-  let observer: Observable<string>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -14,22 +13,23 @@ fdescribe('DebounceTimePipe', () => {
     pipe = TestBed.inject(DebounceTimePipe);
   });
 
-  describe('transform', () => {
-    it('should debounce observable by 1000 ms', fakeAsync(() => {
-      let obs = of('Test Title');
-      let title = '';
-      observer = pipe.transform(obs, 4000);
-      observer.pipe(take(1)).subscribe((result) => {
-        console.log('here1');
-        title = result;
-      });
-      console.log('here1');
-      expect(title).toEqual('');
+  it('should debounce observable by 2000 ms', fakeAsync(() => {
+    let finalTime;
 
-      tick(1000);
+    const observable = new Observable((subscribe: any) => {
+      subscribe.next('test');
+    });
 
-      observer.pipe(take(1)).subscribe((result) => (title = result));
-      expect(title).toEqual('Test Title');
-    }));
-  });
+    const initialTime = new Date().getTime();
+
+    const observer = pipe.transform(observable, 2000);
+    observer.pipe(take(1)).subscribe(() => {
+      finalTime = new Date().getTime();
+    });
+
+    tick(2000);
+    const time = (finalTime ?? 0) - initialTime;
+
+    expect(time).toBeGreaterThanOrEqual(2000);
+  }));
 });

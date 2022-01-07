@@ -8,10 +8,16 @@ import {
   I18nModule,
 } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
-import { DebounceTimePipe } from '../../../shared/pipes/debounce-time/debounce-time.pipe';
+import { DebounceTimeModule } from '../../../shared/pipes/debounce-time/debounce-time.module';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, PageMetaModule, I18nModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    PageMetaModule,
+    I18nModule,
+    DebounceTimeModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
@@ -21,7 +27,7 @@ import { DebounceTimePipe } from '../../../shared/pipes/debounce-time/debounce-t
       },
     }),
   ],
-  declarations: [BreadcrumbComponent, DebounceTimePipe],
+  declarations: [BreadcrumbComponent],
   exports: [BreadcrumbComponent],
 })
 export class BreadcrumbModule {}
