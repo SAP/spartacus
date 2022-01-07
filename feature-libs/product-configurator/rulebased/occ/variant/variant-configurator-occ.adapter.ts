@@ -205,6 +205,7 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          productCode: overview.productCode,
           groups: [],
           flatGroups: [],
           interactionState: {},

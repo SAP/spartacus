@@ -1,4 +1,4 @@
-<ng-container *ngIf="configuration$ | async as configuration">
+<ng-container *ngIf="configuration$ | async as configuration; else ghostGroups">
   <div class="cx-group-menu" role="tablist">
     <span id="listOfGroups" class="cx-visually-hidden">
       {{ 'configurator.a11y.listOfGroups' | cxTranslate }}
@@ -106,3 +106,13 @@
     </ng-container>
   </div>
 </ng-container>
+<ng-template #ghostGroups>
+  <div class="cx-ghost-group-menu">
+    <div
+      *ngFor="let number of [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]"
+      class="cx-ghost-menu-item"
+    >
+      <div class="cx-ghost-item-title ghost"></div>
+    </div>
+  </div>
+</ng-template>
