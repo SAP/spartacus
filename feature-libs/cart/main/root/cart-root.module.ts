@@ -33,6 +33,8 @@ export function defaultCartComponentsConfig() {
 
 @NgModule({
   imports: [
+    MiniCartModule,
+    AddToCartModule,
     RouterModule.forChild([
       {
         // @ts-ignore
@@ -48,7 +50,6 @@ export function defaultCartComponentsConfig() {
       },
     ]),
   ],
-  exports: [MiniCartModule, AddToCartModule],
   providers: [
     provideDefaultConfigFactory(defaultCartComponentsConfig),
     provideDefaultConfig(defaultCartConfig),
