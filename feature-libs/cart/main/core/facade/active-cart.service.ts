@@ -284,7 +284,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     );
   }
 
-  // When the function is first called, the init load for login user may not be done
+  // When the function `requireLoadedCart` is first called, the init cart loading for login user may not be done
   private checkInitLoad: boolean | undefined = undefined;
 
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
