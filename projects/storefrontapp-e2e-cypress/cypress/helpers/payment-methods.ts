@@ -1,4 +1,5 @@
 import { waitForPage } from './checkout-flow';
+import { addProductFromPdp, loginRegisteredUser } from './cart';
 
 interface PaymentDetail {
   accountHolderName: string;
@@ -100,4 +101,26 @@ export function addPaymentMethod(paymentDetail: PaymentDetail) {
         expect(response.status).to.eq(201);
       });
     });
+}
+
+export function testRenderEmptyPaymentDetailsPage() {
+  it('should render empty payment details page', () => {
+    loginRegisteredUser();
+    visitPaymentDetailsPage();
+    cy.get('cx-payment-methods').within(() => {
+      cy.get('.cx-payment .cx-header').should('contain', 'Payment methods');
+      cy.get('.cx-payment .cx-body').should(
+        'contain',
+        'New payment methods are added during checkout.'
+      );
+    });
+  });
+}
+export function testRenderOnePaymentMethod() {
+  it('should render page with only one payment methods', () => {
+    addProductFromPdp();
+    addPaymentMethod(testPaymentDetail[0]);
+    visitPaymentDetailsPage();
+    verifyPaymentCard(1);
+  });
 }
