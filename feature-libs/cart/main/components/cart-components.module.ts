@@ -28,6 +28,7 @@ import { ClearCartModule } from './cart/clear-cart/clear-cart.module';
     CartTotalsModule,
     CartSharedModule,
     AddToCartModule,
+    ClearCartModule,
     SaveForLaterModule,
   ],
   providers: [
