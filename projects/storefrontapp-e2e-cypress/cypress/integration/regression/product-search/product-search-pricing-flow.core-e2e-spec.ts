@@ -9,7 +9,7 @@ import {
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Product search pricing flow', () => {
-  viewportContext(['desktop'/*, 'mobile'*/], () => {
+  viewportContext(['desktop' /*, 'mobile'*/], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
