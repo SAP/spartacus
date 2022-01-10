@@ -1,10 +1,4 @@
-import {
-  AbstractType,
-  Injectable,
-  InjectionToken,
-  Injector,
-  Type,
-} from '@angular/core';
+import { AbstractType, Injectable, InjectionToken, Type } from '@angular/core';
 import {
   ConnectableObservable,
   EMPTY,
@@ -39,7 +33,6 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected injector: Injector,
     protected unifiedInjector: UnifiedInjector
   ) {}
 
@@ -140,7 +133,7 @@ export class FacadeFactoryService {
    * Facade proxy instances contain an object key to label them as such.
    * @param facade The facade object to evaluate
    */
-  protected isProxyFacadeInstance(facade: any) {
+  private isProxyFacadeInstance(facade: any) {
     return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
   }
 
