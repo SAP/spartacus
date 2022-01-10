@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
@@ -18,7 +23,7 @@ import {
   IntersectionOptions,
   IntersectionService,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -30,7 +35,9 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-add-to-cart-button.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAddToCartButtonComponent implements OnInit {
+export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
   container$: Observable<{
     routerData: ConfiguratorRouter.Data;
     configuration: Configurator.Configuration;
@@ -268,32 +275,39 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit {
 
   protected makeAddToCartButtonSticky(): void {
     const options: IntersectionOptions = { rootMargin: '0px 0px -100px 0px' };
-    this.container$
-      .pipe(
-        take(1),
-        delay(0),
-        map(() => this.configUtils.getElement('.cx-price-summary-container')),
-        switchMap((priceSummary) =>
-          priceSummary !== undefined
-            ? this.intersectionService.isIntersecting(priceSummary, options)
-            : of(undefined)
-        ),
-        filter((isIntersecting) => isIntersecting !== undefined)
-      )
-      .subscribe((isIntersecting) => {
-        if (isIntersecting) {
-          this.configUtils.changeStyling(
-            'cx-configurator-add-to-cart-button',
-            'position',
-            'sticky'
-          );
-        } else {
-          this.configUtils.changeStyling(
-            'cx-configurator-add-to-cart-button',
-            'position',
-            'fixed'
-          );
-        }
-      });
+
+    this.subscription.add(
+      this.container$
+        .pipe(
+          take(1),
+          delay(0),
+          map(() => this.configUtils.getElement('.cx-price-summary-container')),
+          switchMap((priceSummary) =>
+            priceSummary
+              ? this.intersectionService.isIntersecting(priceSummary, options)
+              : of(undefined)
+          ),
+          filter((isIntersecting) => isIntersecting !== undefined)
+        )
+        .subscribe((isIntersecting) => {
+          if (isIntersecting) {
+            this.configUtils.changeStyling(
+              'cx-configurator-add-to-cart-button',
+              'position',
+              'sticky'
+            );
+          } else {
+            this.configUtils.changeStyling(
+              'cx-configurator-add-to-cart-button',
+              'position',
+              'fixed'
+            );
+          }
+        })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

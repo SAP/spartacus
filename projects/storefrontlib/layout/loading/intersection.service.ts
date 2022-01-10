@@ -31,7 +31,10 @@ export class IntersectionService {
   }
 
   /**
-   * Returns an observable that emits for every change of visibility of a given element
+   * Returns an observable that emits for every change of intersection of a given element
+   * @param  element - HTML element
+   * @param  options - Allows to specify an optional root margin, in order to fire before the element shows up in the viewport
+   * @returns Element intersects?
    */
   isIntersecting(
     element: HTMLElement,
@@ -44,9 +47,6 @@ export class IntersectionService {
    * Indicates whenever the element intersects the view port. An optional margin
    * is used to intersects before the element shows up in the viewport.
    * A value is emitted each time the element intersects.
-   *
-   * This is private for now, but could be exposed as a public API
-   * to introduce additional (css) render effects to the UI.
    */
   private intersects(
     element: HTMLElement,

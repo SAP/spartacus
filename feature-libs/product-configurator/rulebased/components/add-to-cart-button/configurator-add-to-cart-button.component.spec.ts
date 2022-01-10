@@ -114,7 +114,7 @@ class MockConfiguratorRouterExtractorService {
 }
 
 class MockIntersectionService {
-  isIntersected(): Observable<boolean> {
+  isIntersecting(): Observable<boolean> {
     return of(false);
   }
 }
@@ -485,7 +485,7 @@ describe('ConfigAddToCartButtonComponent', () => {
   });
   describe('Floating button', () => {
     it('should make button sticky', (done) => {
-      spyOn(intersectionService, 'isIntersected').and.returnValue(of(true));
+      spyOn(intersectionService, 'isIntersecting').and.returnValue(of(true));
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
         expect(
@@ -502,7 +502,7 @@ describe('ConfigAddToCartButtonComponent', () => {
     it('should make button fixed when not intersecting', (done) => {
       component.ngOnInit();
       component.container$.pipe(take(1), delay(0)).subscribe(() => {
-        spyOn(intersectionService, 'isIntersected').and.callThrough();
+        spyOn(intersectionService, 'isIntersecting').and.callThrough();
         expect(
           configuratorStorefrontUtilsService.changeStyling
         ).toHaveBeenCalledWith(
