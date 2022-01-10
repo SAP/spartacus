@@ -22,6 +22,7 @@ export function defaultCartComponentsConfig() {
           'CartComponent',
           'CartTotalsComponent',
           'SaveForLaterComponent',
+          'ClearCartComponent',
         ],
       },
       // by default core is bundled together with components
