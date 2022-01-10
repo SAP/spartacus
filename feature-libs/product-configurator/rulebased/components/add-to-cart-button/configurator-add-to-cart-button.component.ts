@@ -18,7 +18,6 @@ import {
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
-import { ConfiguratorStorefrontUtilsService } from '@spartacus/product-configurator/rulebased';
 import {
   IntersectionOptions,
   IntersectionService,
@@ -29,6 +28,7 @@ import { ConfiguratorCartService } from '../../core/facade/configurator-cart.ser
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
+import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 
 @Component({
   selector: 'cx-configurator-add-to-cart-button',
