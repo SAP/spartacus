@@ -284,27 +284,39 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     );
   }
 
+  // When the function is first called, the init load for login user may not be done
+  private checkInitLoad: boolean | undefined = undefined;
+
   requireLoadedCart(forGuestMerge = false): Observable<Cart> {
+    this.checkInitLoad = this.checkInitLoad === undefined;
+
     // For guest cart merge we want to filter guest cart in the whole stream
     // We have to wait with load/create/addEntry after guest cart will be deleted.
-    const cartSelector$ = forGuestMerge
-      ? this.cartEntity$.pipe(
-          filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
-        )
-      : this.cartEntity$;
+    const cartSelector$ = (
+      forGuestMerge
+        ? this.cartEntity$.pipe(
+            filter(() => !Boolean(getLastValueSync(this.isGuestCart())))
+          )
+        : this.cartEntity$
+    ).pipe(filter((cartState) => !cartState.loading || !!this.checkInitLoad));
 
     return this.activeCartId$.pipe(
       // Avoid load/create call when there are new cart creating at the moment
       withLatestFrom(cartSelector$),
       filter(([cartId, cartState]) => !this.isCartCreating(cartState, cartId)),
-      take(1),
       map(([, cartState]) => cartState),
+      take(1),
       withLatestFrom(this.userIdService.getUserId()),
       tap(([cartState, userId]) => {
         // Try to load the cart, because it might have been created on another device between our login and add entry call
-        if (isEmpty(cartState.value) && userId !== OCC_USER_ID_ANONYMOUS) {
+        if (
+          isEmpty(cartState.value) &&
+          userId !== OCC_USER_ID_ANONYMOUS &&
+          !cartState.loading
+        ) {
           this.load(OCC_CART_ID_CURRENT, userId);
         }
+        this.checkInitLoad = false;
       }),
       switchMapTo(cartSelector$),
       // create cart can happen to anonymous user if it is not empty or to any other user if it is loaded and empty
