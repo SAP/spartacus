@@ -270,7 +270,6 @@ export function importCartTestFromConfig(config: ImportConfig) {
       .contains('Close')
       .click();
 
-    // TODO: Base decision on some enum instead if description is defined?
     if (config.description) {
       verifyImportedData(config, importedCart);
       restoreCart(importedCart);
