@@ -7,11 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ClearCartService } from '../clear-cart.service';
-import {
-  LaunchDialogService,
-  FocusConfig,
-  ICON_TYPE,
-} from '@spartacus/storefront';
+import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-clear-cart-dialog',
@@ -20,13 +16,6 @@ import {
 })
 export class ClearCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
-
-  focusConfig: FocusConfig = {
-    trap: true,
-    block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
-  };
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
