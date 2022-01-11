@@ -11,6 +11,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
+import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @NgModule({
@@ -31,4 +32,6 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
   declarations: [AddedToCartDialogComponent],
   exports: [AddedToCartDialogComponent],
 })
-export class AddedToCartDialogModule {}
+export class AddedToCartDialogModule {
+  constructor(_addToCartDialogEventListener: AddedToCartDialogEventListener) {}
+}

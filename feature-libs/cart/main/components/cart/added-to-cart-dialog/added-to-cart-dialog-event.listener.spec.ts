@@ -6,8 +6,8 @@ import {
 import { CxEvent, EventService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Cart, OrderEntry } from '../../root/models/cart.model';
-import { AddToCartDialogEventListener } from './add-to-cart-dialog-event.listener';
+import { Cart, OrderEntry } from '../../../root/models/cart.model';
+import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
 
@@ -46,13 +46,13 @@ const mockInstance = {
 
 describe('AddToCartDialogEventListener', () => {
   let activeCartFacade: ActiveCartFacade;
-  let listener: AddToCartDialogEventListener;
+  let listener: AddedToCartDialogEventListener;
   let modalService: ModalService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        AddToCartDialogEventListener,
+        AddedToCartDialogEventListener,
         {
           provide: EventService,
           useClass: MockEventService,
@@ -68,7 +68,7 @@ describe('AddToCartDialogEventListener', () => {
       ],
     });
 
-    listener = TestBed.inject(AddToCartDialogEventListener);
+    listener = TestBed.inject(AddedToCartDialogEventListener);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     modalService = TestBed.inject(ModalService);
   });

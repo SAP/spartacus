@@ -7,12 +7,12 @@ import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
-import { AddedToCartDialogComponent } from '../cart/added-to-cart-dialog/added-to-cart-dialog.component';
+import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AddToCartDialogEventListener implements OnDestroy {
+export class AddedToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
