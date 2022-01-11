@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/main/root';
 import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
-import { AddToCartModule } from './cart/add-to-cart/add-to-cart.module';
+import { AddedToCartDialogModule } from './cart/added-to-cart-dialog/added-to-cart-dialog.module';
 import { CartDetailsModule } from './cart/cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart/cart-page-layout-handler';
 import { CartSharedModule } from './cart/cart-shared/cart-shared.module';
@@ -27,7 +27,7 @@ import { CartComponentsEventModule } from './events/cart-components-event.module
     CartDetailsModule,
     CartTotalsModule,
     CartSharedModule,
-    AddToCartModule,
+    AddedToCartDialogModule,
     SaveForLaterModule,
   ],
   providers: [
