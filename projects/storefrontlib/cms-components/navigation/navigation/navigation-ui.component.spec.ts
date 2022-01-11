@@ -176,42 +176,39 @@ describe('Navigation UI Component', () => {
       expect(icon).toBeFalsy();
     });
 
-    it('should render all link for root 1', () => {
+    it('should render all link for root', () => {
       fixture.detectChanges();
-      const allLink: ElementRef[] = element.queryAll(By.css('.wrapper > .all'));
-      expect(allLink.length).toEqual(1);
+      const allLink: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > cx-generic-link')
+      );
+      expect(allLink.length).toEqual(2);
     });
 
     it('should render ' + childLength + ' nav elements', () => {
+      navigationComponent.flyout = false;
       fixture.detectChanges();
-      const nav: ElementRef[] = element.queryAll(By.css('nav'));
+      const nav: ElementRef[] = element.queryAll(By.css('li'));
       expect(nav.length).toEqual(childLength);
-    });
-
-    it('should render 2 root nav elements', () => {
-      fixture.detectChanges();
-      // mmm... no `> nav` available in By.css
-      let rootNavElementCount = 0;
-      (<HTMLElement>element.nativeElement).childNodes.forEach((el) => {
-        if (el.nodeName === 'NAV') {
-          rootNavElementCount++;
-        }
-      });
-      expect(rootNavElementCount).toEqual(2);
     });
 
     it('should render a tag for nav nodes without a URL', () => {
       fixture.detectChanges();
-
-      const nav: ElementRef = element.query(By.css('nav > button'));
-      const el: HTMLElement = nav.nativeElement;
-      expect(el.innerText).toEqual('Root 1');
+      const navs: ElementRef[] = element.queryAll(
+        By.css('nav > ul > li > button')
+      );
+      const back: HTMLElement = navs[0].nativeElement;
+      const root1: HTMLElement = navs[1].nativeElement;
+      expect(navs.length).toBe(2);
+      expect(back.innerText).toEqual('common.back');
+      expect(root1.innerText).toEqual('');
     });
 
     it('should render link for nav nodes with a URL', () => {
       fixture.detectChanges();
 
-      const nav: ElementRef = element.query(By.css('nav > cx-generic-link'));
+      const nav: ElementRef = element.query(
+        By.css('nav > ul > li > cx-generic-link')
+      );
       const el: HTMLElement = nav.nativeElement;
       expect(el).toBeTruthy();
     });
@@ -245,9 +242,7 @@ describe('Navigation UI Component', () => {
     it('should render child element in the childs container for nav nodes with childs', () => {
       fixture.detectChanges();
 
-      const child: ElementRef[] = element.queryAll(
-        By.css('nav div .childs nav')
-      );
+      const child: ElementRef[] = element.queryAll(By.css('nav .childs li'));
       expect(child.length).toEqual(7);
     });
 

@@ -170,9 +170,6 @@
       }
     }
   }
-  cx-generic-link.all {
-    text-decoration: underline;
-  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -294,15 +291,9 @@
       &.is-open {
         > nav > ul > li {
           display: none;
-          cx-generic-link.all {
-            display: none;
-          }
         }
         li.is-open {
           display: initial;
-          cx-generic-link.all {
-            display: initial;
-          }
 
           > .wrapper {
             height: auto;
