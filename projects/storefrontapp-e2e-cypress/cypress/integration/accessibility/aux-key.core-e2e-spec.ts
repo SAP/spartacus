@@ -18,8 +18,7 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('not.be.visible');
-            cy.get('nav > ul > li')
-              .contains('Brands')
+            cy.get('nav > ul > li > button[aria-label="Brands"]')
               .focus()
               .trigger('keydown', {
                 key: ' ',
@@ -59,7 +58,7 @@ context('Auxiliary Keys', () => {
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('not.be.visible');
-            cy.get('nav span').first().focus().trigger('keydown', {
+            cy.get('nav > ul > li').first().focus().trigger('keydown', {
               key: ' ',
               code: 'Space',
               force: true,
