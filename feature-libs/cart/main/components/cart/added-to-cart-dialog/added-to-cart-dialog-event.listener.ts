@@ -4,7 +4,7 @@ import {
   CartUiEventAddToCart,
 } from '@spartacus/cart/main/root';
 import { EventService } from '@spartacus/core';
-import { ModalRef, ModalService } from '@spartacus/storefront';
+import { ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
@@ -31,14 +31,11 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     );
   }
   protected openModal(event: CartUiEventAddToCart): void {
-    let modalRef: ModalRef;
-
-    let modalInstance: any;
-    modalRef = this.modalService.open(AddedToCartDialogComponent, {
+    const modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
       size: 'lg',
     });
-    modalInstance = modalRef.componentInstance;
+    const modalInstance = modalRef.componentInstance;
     // Display last entry for new product code. This always corresponds to
     // our new item, independently of whether merging occured or not
     modalInstance.entry$ = this.activeCartFacade.getLastEntry(
