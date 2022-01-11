@@ -92,7 +92,7 @@ export function selectAccountPayment() {
     '/checkout/shipping-address',
     'getShippingPage'
   );
-  cy.get('button.btn-primary').click({ force: true });
+  cy.get('button.btn-primary').should('be.enabled').click({ force: true });
   cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
   cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
@@ -143,7 +143,7 @@ export function selectAccountShippingAddress() {
     config.shippingAddressAccount
   );
 
-  cy.get('button.btn-primary').click();
+  cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
@@ -168,7 +168,7 @@ export function selectAccountDeliveryMode() {
   });
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').should('be.enabled').click();
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
@@ -301,7 +301,7 @@ export function placeOrder(orderUrl: string) {
     'getOrderConfirmationPage'
   );
 
-  cy.get('cx-place-order button.btn-primary').click();
+  cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   // temporary solution for very slow backend response while placing order
   cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
     .its('response.statusCode')

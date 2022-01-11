@@ -187,7 +187,7 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary').should('be.enabled').click();
   cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
@@ -411,7 +411,7 @@ export function placeOrderWithCheapProduct(
     '/order-confirmation',
     'getOrderConfirmationPage'
   );
-  cy.get('cx-place-order button.btn-primary').click();
+  cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   cy.wait(`@${orderConfirmationPage}`)
     .its('response.statusCode')
     .should('eq', 200);

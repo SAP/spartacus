@@ -70,7 +70,7 @@ export function fillShippingAddress(
           .type(shippingAddress.address.postal);
         cy.get('[formcontrolname="phone"]').clear().type(shippingAddress.phone);
         if (submitForm) {
-          cy.get('button.btn-primary').click();
+          cy.get('button.btn-primary').should('be.enabled').click();
         }
       });
     }
@@ -142,7 +142,10 @@ export function fillPaymentDetails(
        * Was reported in the ec-spartacus-release https://sap-cx.slack.com/archives/GLJ5MR1LL/p1586937731001500
        */
       //cy.wait(3000);
-      cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+      cy.get('button.btn.btn-block.btn-primary')
+        .should('be.enabled')
+        .contains('Continue')
+        .click();
     }
   });
 }
