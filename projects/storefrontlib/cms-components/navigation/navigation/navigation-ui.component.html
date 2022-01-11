@@ -42,6 +42,8 @@
         <button
           [attr.tabindex]="0"
           [attr.aria-haspopup]="true"
+          [attr.aria-expanded]="false"
+          [attr.aria-label]="node.title"
           (click)="toggleOpen($event)"
           (mouseenter)="onMouseEnter($event)"
           (keydown.space)="toggleOpen($event)"
