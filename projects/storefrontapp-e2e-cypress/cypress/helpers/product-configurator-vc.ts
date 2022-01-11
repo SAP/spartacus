@@ -90,9 +90,18 @@ export function clickOnConfigureBtnInCatalog(): void {
 }
 
 /**
+ * Verifies whether the ghost animation is not displayed.
+ */
+export function checkGhostAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost animation is not displayed anymore');
+  cy.get('.ghost').should('not.exist');
+}
+
+/**
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
+  checkGhostAnimationNotDisplayed();
   checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   configuration.checkTabBarDisplayed();
