@@ -83,6 +83,9 @@ export class PaymentMethodsComponent implements OnInit {
             actions,
             deleteMsg: textDeleteConfirmation,
             img: this.getCardIcon(cardType.code),
+            label: defaultPayment
+              ? 'paymentCard.defaultPaymentLabel'
+              : 'paymentCard.additionalPaymentLabel',
           };
 
           return card;
