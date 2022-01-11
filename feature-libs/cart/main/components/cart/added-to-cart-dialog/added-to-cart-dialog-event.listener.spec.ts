@@ -86,13 +86,11 @@ describe('AddToCartDialogEventListener', () => {
       spyOn(modalService, 'open').and.callThrough();
       spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
       spyOn(activeCartFacade, 'isStable').and.callThrough();
-      spyOn(activeCartFacade, 'getEntry').and.callThrough();
 
       listener['openModal'](mockEvent);
       expect(modalService.open).toHaveBeenCalled();
       expect(activeCartFacade.getLastEntry).toHaveBeenCalled();
       expect(activeCartFacade.isStable).toHaveBeenCalled();
-      expect(activeCartFacade.getEntry).toHaveBeenCalled();
     });
   });
 });
