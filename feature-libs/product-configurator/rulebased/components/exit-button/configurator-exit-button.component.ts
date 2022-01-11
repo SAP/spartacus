@@ -33,19 +33,13 @@ export class ConfiguratorExitButtonComponent {
         .pipe(map((configuration) => ({ routerData, configuration })))
         .pipe(
           switchMap((cont) =>
-            this.productService
-              .get(
-                cont.configuration.productCode
-                  ? cont.configuration.productCode
-                  : ''
-              )
-              .pipe(
-                map((product) => ({
-                  routerData: cont.routerData,
-                  configuration: cont.configuration,
-                  product,
-                }))
-              )
+            this.productService.get(cont.configuration.productCode).pipe(
+              map((product) => ({
+                routerData: cont.routerData,
+                configuration: cont.configuration,
+                product,
+              }))
+            )
           )
         )
     )
