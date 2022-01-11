@@ -8,7 +8,7 @@
         aria-atomic="true"
       >
         {{
-          addedEntryWasMerged
+          (addedEntryWasMerged$ | async)
             ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
             : ('addToCart.itemsAddedToYourCart' | cxTranslate)
         }}
