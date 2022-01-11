@@ -59,11 +59,14 @@ context('Auxiliary Keys', () => {
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('not.be.visible');
-            cy.get('nav > ul > li').first().focus().trigger('keydown', {
-              key: ' ',
-              code: 'Space',
-              force: true,
-            });
+            cy.get('nav > ul > li > button')
+              .first()
+              .focus()
+              .trigger('keydown', {
+                key: ' ',
+                code: 'Space',
+                force: true,
+              });
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('be.visible');
