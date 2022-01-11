@@ -18,11 +18,14 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('not.be.visible');
-            cy.get('nav span').contains('Brands').focus().trigger('keydown', {
-              key: ' ',
-              code: 'Space',
-              force: true,
-            });
+            cy.get('nav > ul > li')
+              .contains('Brands')
+              .focus()
+              .trigger('keydown', {
+                key: ' ',
+                code: 'Space',
+                force: true,
+              });
             cy.get('div.wrapper')
               .should('have.length', 7)
               .first()
