@@ -6,7 +6,9 @@ context('Auxiliary Keys', () => {
 
     it('should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
-        cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
+        cy.get('cx-navigation-ui')
+          .find('li:not(.back)')
+          .should('have.length', 30);
         cy.get('cx-navigation-ui')
           .first()
           .should('contain.text', 'Brands')
