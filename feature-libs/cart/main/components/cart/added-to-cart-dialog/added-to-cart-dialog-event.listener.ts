@@ -43,12 +43,6 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
     modalInstance.quantity = event.quantity;
-    // modalInstance.addedEntryWasMerged$ = this.activeCartFacade
-    //   .getEntry(event.productCode)
-    //   .pipe(
-    //     take(1),
-    //     map((entry) => (entry?.quantity ?? 0) > event.quantity)
-    //   );
   }
 
   ngOnDestroy(): void {
