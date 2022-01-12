@@ -6,11 +6,11 @@ import {
   OrderEntry,
   PromotionLocation,
 } from '@spartacus/cart/main/root';
-import { getLastValueSync } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
+  first,
   map,
   shareReplay,
   startWith,
@@ -29,6 +29,7 @@ export class AddedToCartDialogComponent implements OnInit {
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
   addedEntryWasMerged: boolean = false;
+  addedEntryWasMerged$: Observable<boolean>;
 
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
@@ -83,12 +84,14 @@ export class AddedToCartDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.addedEntryWasMerged =
-      getLastValueSync(
+    this.addedEntryWasMerged$ = this.loaded$.pipe(
+      first((isLoaded) => isLoaded),
+      switchMap((_) =>
         this.entry$.pipe(
           map((cartEntry) => (cartEntry?.quantity ?? 0) > this.quantity)
         )
-      ) ?? false;
+      )
+    );
   }
 
   /**
