@@ -20,6 +20,9 @@ function cleanup {
     delete_file epdvisualizationspartacussampledata.2105.zip
     delete_file epdvisualizationspartacussampledata.2105.tar.gz
 
+    delete_file epdvisualizationspartacussampledata-visualizations.zip
+    delete_file epdvisualizationspartacussampledata-visualizations.tar.gz
+
     delete_dir coverage
     delete_dir dist
     delete_dir documentation
@@ -83,7 +86,6 @@ function zipSamplesAddOn {
     delete_dir spartacussampledata
 }
 
-
 function zipEpdVisualizationSamplesAddOn {
     echo "--> Generating EPD Visualization Spartacus sample data addon archives"
     delete_dir epdvisualizationspartacussampledata
@@ -100,9 +102,26 @@ function zipEpdVisualizationSamplesAddOn {
     delete_dir epdvisualizationspartacussampledata
 }
 
+function zipEpdVisualizationSamplesAddOnVisualizations {
+    echo "--> Generating visualization data archive for EPD Visualization Spartacus sample data addon"
+    delete_dir epdvisualizationspartacussampledata-visualizations
+    git clone https://github.tools.sap/cx-commerce/epdvisualizationspartacussampledata-visualizations.git
+    cd epdvisualizationspartacussampledata-visualizations
+
+    git co main
+    git archive -o epdvisualizationspartacussampledata-visualizations.tar.gz HEAD
+    mv epdvisualizationspartacussampledata-visualizations.tar.gz ../
+    git archive -o epdvisualizationspartacussampledata-visualizations.zip HEAD
+    mv epdvisualizationspartacussampledata-visualizations.zip ../
+
+    cd ..
+    delete_dir epdvisualizationspartacussampledata-visualizations
+}
+
 cleanup
 zipSamplesAddOn
 zipEpdVisualizationSamplesAddOn
+zipEpdVisualizationSamplesAddOnVisualizations
 generate_docs
 build_libs
 
