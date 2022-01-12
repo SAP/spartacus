@@ -8,6 +8,7 @@ const productName2 = 'M340';
 describe('Added to cart modal - Anonymous user', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
+      Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });

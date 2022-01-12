@@ -1,6 +1,7 @@
 context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
+      Cypress.config('requestTimeout', 30000);
       loadPageWithComponenents('/');
     });
 

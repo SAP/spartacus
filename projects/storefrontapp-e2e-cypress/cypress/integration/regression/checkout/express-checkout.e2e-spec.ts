@@ -9,6 +9,7 @@ context('Express checkout', () => {
     before(() => {
       clearAllStorage();
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
+      Cypress.config('requestTimeout', 30000);
       checkout.visitHomePage();
     });
 

@@ -7,6 +7,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Order History with no orders', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
+      Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
       cy.onMobile(() => {

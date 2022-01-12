@@ -6,7 +6,7 @@ context('Cart validation', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
       clearAllStorage();
-
+      Cypress.config('requestTimeout', 30000);
       cy.cxConfig({
         cart: {
           validation: {

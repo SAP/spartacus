@@ -4,6 +4,7 @@ const productId = '266685';
 describe('Added to cart modal - Anonymous user', () => {
   viewportContext(['desktop'], () => {
     before(() => {
+      Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });

@@ -4,6 +4,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 describe('Order History with orders', () => {
   viewportContext(['desktop'], () => {
     before(() => {
+      Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
     });

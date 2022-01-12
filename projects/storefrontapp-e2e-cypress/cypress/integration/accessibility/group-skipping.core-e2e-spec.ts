@@ -9,6 +9,7 @@ import { checkoutNextStep } from '../../helpers/accessibility/tabbing-order';
 
 context('Group Skipping - Not Logged In', () => {
   before(() => {
+    Cypress.config('requestTimeout', 30000);
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
