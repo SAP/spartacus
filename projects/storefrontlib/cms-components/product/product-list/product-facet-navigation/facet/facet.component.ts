@@ -53,25 +53,6 @@ export class FacetComponent {
     protected cd: ChangeDetectorRef
   ) {}
 
-  /**
-   * Handles clicking the heading of the facet group, which means toggling
-   * the visibility of the group (collapse / expand) and optionally focusing
-   * the group.
-   */
-  toggleGroup(event: UIEvent) {
-    const host: HTMLElement = this.elementRef.nativeElement;
-    const isLocked = this.keyboardFocus?.isLocked;
-
-    this.facetService.toggle(this.facet, this.isExpanded);
-
-    if (!isLocked || this.isExpanded) {
-      host.focus();
-      // we stop propagating the event as otherwise the focus on the host will trigger
-      // an unlock event from the LockFocus directive.
-      event.stopPropagation();
-    }
-  }
-
   get isExpanded(): boolean {
     return this.values.first.nativeElement.offsetParent !== null;
   }
