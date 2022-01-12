@@ -15,6 +15,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 context('Product search store flow', () => {
   viewportContext(['desktop' /*, 'mobile'*/], () => {
     before(() => {
+      //Temporary change. Test repeatability in pipeline. 
       Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
