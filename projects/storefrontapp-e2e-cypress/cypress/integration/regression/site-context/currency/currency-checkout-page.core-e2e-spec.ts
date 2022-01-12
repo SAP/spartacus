@@ -12,6 +12,8 @@ describe('Currency switch - checkout page', () => {
     cy.window().then((win) => {
       win.sessionStorage.clear();
       win.localStorage.clear();
+      //Temporary change. Test repeatability in pipeline. 
+      Cypress.config('requestTimeout', 30000);
     });
     cy.requireLoggedIn();
     siteContextSelector.doPlaceOrder();

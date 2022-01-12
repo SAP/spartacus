@@ -12,6 +12,8 @@ context('B2B - Replenishment Checkout flow', () => {
   for (const [key, replenishment] of Object.entries(recurrencePeriod)) {
     describe(key, () => {
       before(() => {
+        //Temporary change. Test repeatability in pipeline. 
+        Cypress.config('requestTimeout', 30000);
         cy.window().then((win) => {
           win.sessionStorage.clear();
           win.localStorage.clear();
