@@ -16,7 +16,7 @@ context('Product search store flow', () => {
   viewportContext(['desktop' /*, 'mobile'*/], () => {
     before(() => {
       //Temporary change. Test repeatability in pipeline. 
-      Cypress.config('requestTimeout', 30001);
+      Cypress.config('requestTimeout', 30002);
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });
