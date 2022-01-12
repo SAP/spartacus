@@ -15,7 +15,7 @@ context('Assisted Service Module', () => {
   before(() => {
     clearAllStorage();
     //Temporary change. Test repeatability in pipeline. 
-    Cypress.config('requestTimeout', 30000);
+    Cypress.config('requestTimeout', 30001);
 
     cy.visit('/');
 
