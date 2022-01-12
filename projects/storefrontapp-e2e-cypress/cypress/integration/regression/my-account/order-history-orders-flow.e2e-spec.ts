@@ -6,6 +6,7 @@ import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../support/u
 describe('Order History with orders', () => {
   viewportContext(['mobile'], () => {
     before(() => {
+       //Temporary change. Test repeatability in pipeline. 
       Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
