@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart, CartType } from '@spartacus/cart/main/root';
+import { OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as fromCartReducers from '../../store/reducers/index';
@@ -90,6 +91,22 @@ describe('Multi Cart effect', () => {
   });
 
   describe('setActiveCartId$', () => {
+    it('should clear active cart id when load current cart', () => {
+      const action = new CartActions.LoadCart({
+        userId: 'userId',
+        cartId: OCC_CART_ID_CURRENT,
+      });
+
+      const setActiveCartIdAction = new CartActions.SetCartTypeIndex({
+        cartType: CartType.ACTIVE,
+        cartId: '',
+      });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: setActiveCartIdAction });
+
+      expect(cartEffects.setActiveCartId$).toBeObservable(expected);
+    });
     it('should set active cart id to state for LoadCartSuccess', () => {
       const action = new CartActions.LoadCartSuccess({
         userId: 'userId',
