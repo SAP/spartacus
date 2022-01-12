@@ -6,6 +6,11 @@ import { viewportContext } from '../../../helpers/viewport-context';
 context('Cart Import/Export', () => {
   viewportContext(['mobile'], () => {
     before(() => {
+      //Temporary change. Test repeatability in pipeline.
+      Cypress.config(
+        'requestTimeout',
+        Number(Cypress.config('requestTimeout')) * 2
+      );
       cy.window().then((win) => win.sessionStorage.clear());
       cy.visit('/');
     });

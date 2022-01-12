@@ -14,6 +14,11 @@ import {
 context('Cart validation', () => {
   viewportContext(['mobile'], () => {
     beforeEach(() => {
+      //Temporary change. Test repeatability in pipeline.
+      Cypress.config(
+        'requestTimeout',
+        Number(Cypress.config('requestTimeout')) * 2
+      );
       clearAllStorage();
       cy.cxConfig({
         cart: {

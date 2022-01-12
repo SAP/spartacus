@@ -7,6 +7,11 @@ import * as expressCheckout from '../../../helpers/express-checkout';
 context('Express checkout', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
+      //Temporary change. Test repeatability in pipeline.
+      Cypress.config(
+        'requestTimeout',
+        Number(Cypress.config('requestTimeout')) * 2
+      );
       clearAllStorage();
       cy.cxConfig({ checkout: { express: true } } as CheckoutConfig);
       checkout.visitHomePage();

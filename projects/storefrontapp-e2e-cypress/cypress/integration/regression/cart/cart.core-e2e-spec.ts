@@ -6,6 +6,13 @@ import { login } from '../../../support/utils/login';
 
 // Slow test. Improve Execution in pipeline.
 describe('Cart', () => {
+  before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
+  });
   viewportContext(['desktop'], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {

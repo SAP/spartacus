@@ -9,6 +9,11 @@ import { checkoutNextStep } from '../../helpers/accessibility/tabbing-order';
 
 context('Group Skipping - Not Logged In', () => {
   before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
     cy.window().then((win) => win.sessionStorage.clear());
   });
 
@@ -17,6 +22,11 @@ context('Group Skipping - Not Logged In', () => {
 
 context('Group Skipping - My Account', () => {
   before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
     cy.requireLoggedIn();
   });
 
@@ -33,6 +43,11 @@ context('Group Skipping - My Account', () => {
 
 context('Group Skipping - Checkout', () => {
   before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
     cy.requireLoggedIn().then(() => {
       checkout.goToProductDetailsPage();
       checkout.addProductToCart();

@@ -6,6 +6,11 @@ import { getSampleUser } from '../../../sample-data/checkout-flow';
 let customer: any;
 context('Assisted Service Module', () => {
   before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
     clearAllStorage();
     cy.visit('/');
     customer = getSampleUser();

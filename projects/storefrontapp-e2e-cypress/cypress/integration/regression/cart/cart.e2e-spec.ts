@@ -6,6 +6,13 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { login } from '../../../support/utils/login';
 
 describe('Cart', () => {
+  before(() => {
+    //Temporary change. Test repeatability in pipeline.
+    Cypress.config(
+      'requestTimeout',
+      Number(Cypress.config('requestTimeout')) * 2
+    );
+  });
   viewportContext(['mobile', 'desktop'], () => {
     context('Anonymous user', () => {
       it('should add and remove products', () => {

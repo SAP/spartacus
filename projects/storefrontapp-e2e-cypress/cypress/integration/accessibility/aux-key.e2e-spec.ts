@@ -2,6 +2,11 @@ context('Auxiliary Keys', () => {
   describe('Category Navigation', () => {
     before(() => {
       loadPageWithComponenents('/');
+      //Temporary change. Test repeatability in pipeline.
+      Cypress.config(
+        'requestTimeout',
+        Number(Cypress.config('requestTimeout')) * 2
+      );
     });
 
     it('should open and close menu with space key', () => {

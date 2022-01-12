@@ -5,6 +5,11 @@ import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 context('Cart validation', () => {
   viewportContext(['desktop'], () => {
     beforeEach(() => {
+      //Temporary change. Test repeatability in pipeline.
+      Cypress.config(
+        'requestTimeout',
+        Number(Cypress.config('requestTimeout')) * 2
+      );
       clearAllStorage();
 
       cy.cxConfig({
