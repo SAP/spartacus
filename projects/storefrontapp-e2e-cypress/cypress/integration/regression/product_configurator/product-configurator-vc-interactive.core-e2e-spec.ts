@@ -1,4 +1,5 @@
 import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
@@ -57,16 +58,19 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
+      clickAllowAllFromBanner();
       configuration.searchForProduct(testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToPDPage(electronicsShop, testProduct);
       configurationVc.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the overview page', () => {
+      clickAllowAllFromBanner();
       configurationOverviewVc.goToConfigOverviewPage(
         electronicsShop,
         testProduct
@@ -123,6 +127,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`,
       }).as('updateConfig');
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkGroupMenuDisplayed();
 
@@ -309,6 +314,7 @@ context('Retract mode for Product Configuration', () => {
 
   describe('Enable retract mode', () => {
     it('should lead to additional retract value displayed', () => {
+      clickAllowAllFromBanner();
       // Verify whether all values are displayed including 'No option selected' / a retract value
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,

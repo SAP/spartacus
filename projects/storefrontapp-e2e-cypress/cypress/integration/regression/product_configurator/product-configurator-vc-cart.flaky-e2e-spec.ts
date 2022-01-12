@@ -1,3 +1,4 @@
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as cart from '../../../helpers/cart';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
@@ -53,6 +54,7 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
+      clickAllowAllFromBanner();
       configurationVc.clickAddToCartBtn();
       configurationVc.goToCart(electronicsShop);
       //We assume only one product is in the cart
@@ -60,6 +62,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
+      clickAllowAllFromBanner();
       configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -80,6 +83,7 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
+      clickAllowAllFromBanner();
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       cy.wait('@updateConfig');
