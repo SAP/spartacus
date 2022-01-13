@@ -126,31 +126,31 @@
 # ================================================
 #  Spartacus Core
 # ================================================
-/projects/core/src/**                                                  @SAP/spartacus-core-owners @SAP/spartacus-global-owners
+/projects/core/src/**                                                  @SAP/spartacus-core-owners @SAP/spartacus-owners
 
 # ================================================
 #  Spartacus Styles
 # ================================================
-/projects/storefrontstyles/src/**                                      @SAP/spartacus-style-owners @SAP/spartacus-global-owners
+/projects/storefrontstyles/src/**                                      @SAP/spartacus-style-owners @SAP/spartacus-owners
 
 # ================================================
 #  Cart Functionality
 # ================================================
-/projects/core/src/cart/**                                             @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
-/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-cart-owners @SAP/spartacus-global-owners
+/projects/core/src/cart/**                                             @SAP/spartacus-cart-owners @SAP/spartacus-owners
+/projects/storefrontlib/cms-components/cart/**                         @SAP/spartacus-cart-owners @SAP/spartacus-owners
 
 # ================================================
 #  Routing Functionality
 # ================================================
-/projects/core/src/routing/**                                          @SAP/spartacus-routing-owners @SAP/spartacus-global-owners
+/projects/core/src/routing/**                                          @SAP/spartacus-routing-owners @SAP/spartacus-owners
 
 # ================================================
 #  Schematics
 # ================================================
-/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-global-owners
+/projects/schematics/src/**                                            @SAP/spartacus-schematics-owners @SAP/spartacus-owners
 
 # ================================================
 #  CODEOWNERS Owners owners ...
 # ================================================
 
-/.github/CODEOWNERS                                                     @SAP/spartacus-global-owners
+/.github/CODEOWNERS                                                     @SAP/spartacus-owners
