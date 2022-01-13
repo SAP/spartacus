@@ -3,10 +3,10 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import {
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
   CheckoutQueryFacade,
   CheckoutState,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   EventService,
@@ -198,7 +198,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    it(`should dispatch DeliveryModeSetEvent event`, () => {
+    it(`should dispatch CheckoutDeliveryModeSetEvent event`, () => {
       service.setDeliveryMode(mockDeliveryModeCode);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -207,7 +207,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           cartId: mockCartId,
           deliveryModeCode: mockDeliveryModeCode,
         },
-        DeliveryModeSetEvent
+        CheckoutDeliveryModeSetEvent
       );
     });
 
@@ -233,7 +233,7 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    it(`should dispatch DeliveryModeClearedEvent event`, () => {
+    it(`should dispatch CheckoutDeliveryModeClearedEvent event`, () => {
       service.clearCheckoutDeliveryMode();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -241,7 +241,7 @@ describe(`CheckoutDeliveryModesService`, () => {
           userId: mockUserId,
           cartId: mockCartId,
         },
-        DeliveryModeClearedEvent
+        CheckoutDeliveryModeClearedEvent
       );
     });
 

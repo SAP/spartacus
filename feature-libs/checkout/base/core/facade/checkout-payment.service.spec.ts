@@ -6,10 +6,10 @@ import {
   PaymentDetails,
 } from '@spartacus/cart/main/root';
 import {
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
   CheckoutQueryFacade,
   CheckoutState,
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   EventService,
@@ -202,7 +202,7 @@ describe(`CheckoutPaymentService`, () => {
       );
     });
 
-    it(`should dispatch PaymentDetailsCreatedEvent event`, () => {
+    it(`should dispatch CheckoutPaymentDetailsCreatedEvent event`, () => {
       service.createPaymentDetails(mockPaymentInfo);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -211,7 +211,7 @@ describe(`CheckoutPaymentService`, () => {
           cartId: mockCartId,
           paymentDetails: mockPaymentInfo,
         },
-        PaymentDetailsCreatedEvent
+        CheckoutPaymentDetailsCreatedEvent
       );
     });
 
@@ -262,7 +262,7 @@ describe(`CheckoutPaymentService`, () => {
       );
     });
 
-    it(`should dispatch PaymentDetailsSetEvent event`, () => {
+    it(`should dispatch CheckoutPaymentDetailsSetEvent event`, () => {
       service.setPaymentDetails(mockPaymentInfo);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -271,7 +271,7 @@ describe(`CheckoutPaymentService`, () => {
           cartId: mockCartId,
           paymentDetailsId: mockPaymentInfo.id,
         },
-        PaymentDetailsSetEvent
+        CheckoutPaymentDetailsSetEvent
       );
     });
   });

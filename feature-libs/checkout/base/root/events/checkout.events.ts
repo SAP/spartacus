@@ -33,11 +33,11 @@ export abstract class CheckoutEvent extends CxEvent {
 /**
  * Indicates that a user has successfully placed an order.
  */
-export class OrderPlacedEvent extends CheckoutEvent {
+export class CheckoutOrderPlacedEvent extends CheckoutEvent {
   /**
    * Event's type
    */
-  static readonly type = 'OrderPlacedEvent';
+  static readonly type = 'CheckoutOrderPlacedEvent';
   /**
    * Order
    */
@@ -52,11 +52,11 @@ export abstract class CheckoutDeliveryAddressEvent extends CheckoutEvent {}
 /**
  * Fired when the user sets a delivery address during checkout.
  */
-export class DeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'DeliveryAddressSetEvent';
+  static readonly type = 'CheckoutDeliveryAddressSetEvent';
   /**
    * The address.
    */
@@ -66,11 +66,11 @@ export class DeliveryAddressSetEvent extends CheckoutDeliveryAddressEvent {
 /**
  * Fired when the delivery address have been created.
  */
-export class DeliveryAddressCreatedEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressCreatedEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'DeliveryAddressCreatedEvent';
+  static readonly type = 'CheckoutDeliveryAddressCreatedEvent';
   /**
    * The address.
    */
@@ -90,11 +90,11 @@ export class ClearCheckoutDeliveryAddressEvent extends CheckoutDeliveryAddressEv
 /**
  * Fired when the delivery address was cleared.
  */
-export class DeliveryAddressClearedEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutDeliveryAddressClearedEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'DeliveryAddressClearedEvent';
+  static readonly type = 'CheckoutDeliveryAddressClearedEvent';
 }
 
 /**
@@ -105,31 +105,31 @@ export abstract class CheckoutDeliveryModeEvent extends CheckoutEvent {}
 /**
  * Emit this event to force delivery modes reload
  */
-export class ReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ReloadDeliveryModesEvent';
+  static readonly type = 'CheckoutReloadDeliveryModesEvent';
 }
 
 /**
  * Emit this event to force delivery modes reset
  */
-export class ResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class ResetCheckoutDeliveryModesEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ResetDeliveryModesEvent';
+  static readonly type = 'ResetCheckoutDeliveryModesEvent';
 }
 
 /**
  * Fired when the delivery mode was set.
  */
-export class DeliveryModeSetEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutDeliveryModeSetEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'DeliveryModeSetEvent';
+  static readonly type = 'CheckoutDeliveryModeSetEvent';
   /**
    * Delivery mode code.
    */
@@ -139,11 +139,11 @@ export class DeliveryModeSetEvent extends CheckoutDeliveryModeEvent {
 /**
  * Fired when the delivery mode has been cleared.
  */
-export class DeliveryModeClearedEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutDeliveryModeClearedEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'DeliveryModeClearedEvent';
+  static readonly type = 'CheckoutDeliveryModeClearedEvent';
 }
 
 /**
@@ -154,11 +154,11 @@ export abstract class CheckoutPaymentDetailsEvent extends CheckoutEvent {}
 /**
  * Fired when the payment details have been set.
  */
-export class PaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'PaymentDetailsSetEvent';
+  static readonly type = 'CheckoutPaymentDetailsSetEvent';
   /**
    * Payment details id
    */
@@ -168,11 +168,11 @@ export class PaymentDetailsSetEvent extends CheckoutPaymentDetailsEvent {
 /**
  * Fired when the payment details have been created.
  */
-export class PaymentDetailsCreatedEvent extends CheckoutPaymentDetailsEvent {
+export class CheckoutPaymentDetailsCreatedEvent extends CheckoutPaymentDetailsEvent {
   /**
    * Event's type
    */
-  static readonly type = 'PaymentDetailsCreatedEvent';
+  static readonly type = 'CheckoutPaymentDetailsCreatedEvent';
   /**
    * Payment details
    */

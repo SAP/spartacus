@@ -3,12 +3,12 @@ import { Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import {
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
-  ReloadDeliveryModesEvent,
-  ResetDeliveryModesEvent,
+  CheckoutReloadDeliveryModesEvent,
+  ResetCheckoutDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -39,7 +39,7 @@ export class CheckoutDeliveryModesService
    */
   protected getSupportedDeliveryModesReloadTriggers(): QueryNotifier[] {
     return [
-      ReloadDeliveryModesEvent,
+      CheckoutReloadDeliveryModesEvent,
       ...this.getSupportedDeliveryModesQueryReloadSiteContextTriggers(),
     ];
   }
@@ -54,7 +54,7 @@ export class CheckoutDeliveryModesService
    */
   protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
     return [
-      ResetDeliveryModesEvent,
+      ResetCheckoutDeliveryModesEvent,
       ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
     ];
   }
@@ -97,7 +97,7 @@ export class CheckoutDeliveryModesService
                       cartId,
                       deliveryModeCode,
                     },
-                    DeliveryModeSetEvent
+                    CheckoutDeliveryModeSetEvent
                   );
                   /**
                    * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
@@ -133,7 +133,7 @@ export class CheckoutDeliveryModesService
                       userId,
                       cartId,
                     },
-                    DeliveryModeClearedEvent
+                    CheckoutDeliveryModeClearedEvent
                   );
                   /**
                    * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.

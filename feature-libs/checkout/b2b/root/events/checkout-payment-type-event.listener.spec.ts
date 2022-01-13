@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  ResetCheckoutDeliveryModesEvent,
   ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -35,12 +35,12 @@ describe(`CheckoutPaymentTypeEventListener`, () => {
   });
 
   describe(`onPaymentTypeChange`, () => {
-    it(`should dispatch ResetDeliveryModesEvent`, () => {
+    it(`should dispatch ResetCheckoutDeliveryModesEvent`, () => {
       mockEventStream$.next(new PaymentTypeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        ResetCheckoutDeliveryModesEvent
       );
     });
 

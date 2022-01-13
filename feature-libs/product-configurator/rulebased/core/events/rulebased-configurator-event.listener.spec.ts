@@ -1,6 +1,6 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
+import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { ReplaySubject } from 'rxjs';
 import { ConfiguratorCartService } from '../facade/configurator-cart.service';
@@ -30,7 +30,7 @@ let mockConfiguratorCartService: MockConfiguratorCartService =
   new MockConfiguratorCartService();
 
 describe('RulebasedConfiguratorEventListener', () => {
-  let orderPlacedEvent: ReplaySubject<any> | undefined;
+  let CheckoutorderPlacedEvent: ReplaySubject<any> | undefined;
   let configuratorCartService: ConfiguratorCartService;
 
   beforeEach(
@@ -59,15 +59,17 @@ describe('RulebasedConfiguratorEventListener', () => {
     ).and.callThrough();
 
     eventServiceEvents.set(
-      OrderPlacedEvent,
-      new ReplaySubject<OrderPlacedEvent>()
+      CheckoutOrderPlacedEvent,
+      new ReplaySubject<CheckoutOrderPlacedEvent>()
     );
-    orderPlacedEvent = eventServiceEvents.get(OrderPlacedEvent);
+    CheckoutorderPlacedEvent = eventServiceEvents.get(CheckoutOrderPlacedEvent);
   });
 
   describe('onPlaceOrder', () => {
-    it('should subscribe to orderPlacedEvent and call facade service', () => {
-      orderPlacedEvent?.next({ entry: { product: { categories: [{}] } } });
+    it('should subscribe to CheckoutorderPlacedEvent and call facade service', () => {
+      CheckoutorderPlacedEvent?.next({
+        entry: { product: { categories: [{}] } },
+      });
       TestBed.inject(
         RulebasedConfiguratorEventListener as Type<RulebasedConfiguratorEventListener>
       );
@@ -77,7 +79,7 @@ describe('RulebasedConfiguratorEventListener', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should not call facade service in case orderPlacedEvent did not happen', () => {
+    it('should not call facade service in case CheckoutorderPlacedEvent did not happen', () => {
       TestBed.inject(
         RulebasedConfiguratorEventListener as Type<RulebasedConfiguratorEventListener>
       );

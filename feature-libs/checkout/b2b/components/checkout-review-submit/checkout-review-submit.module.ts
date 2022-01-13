@@ -35,7 +35,6 @@ import { B2BCheckoutReviewSubmitComponent } from './checkout-review-submit.compo
       cmsComponents: {
         CheckoutReviewOrder: {
           component: B2BCheckoutReviewSubmitComponent,
-          // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

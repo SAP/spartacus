@@ -9,11 +9,11 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import {
-  DeliveryAddressSetEvent,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
+  CheckoutDeliveryAddressSetEvent,
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
+  ResetCheckoutDeliveryModesEvent,
   ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
 } from './checkout.events';
 
 /**
@@ -52,7 +52,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
           // we want to LL the checkout feature (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
 
-          this.eventService.dispatch({}, ResetDeliveryModesEvent);
+          this.eventService.dispatch({}, ResetCheckoutDeliveryModesEvent);
         })
     );
   }
@@ -62,7 +62,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
    */
   protected onDeliveryAddressChange(): void {
     this.subscriptions.add(
-      this.eventService.get(DeliveryAddressSetEvent).subscribe(() =>
+      this.eventService.get(CheckoutDeliveryAddressSetEvent).subscribe(() =>
         // we want to LL the checkout feature (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
         this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
       )
@@ -75,14 +75,14 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   protected onDeliveryModeChange(): void {
     this.subscriptions.add(
       this.eventService
-        .get(DeliveryModeSetEvent)
+        .get(CheckoutDeliveryModeSetEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, ResetCheckoutQueryEvent)
         )
     );
     this.subscriptions.add(
       this.eventService
-        .get(DeliveryModeClearedEvent)
+        .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, ResetCheckoutQueryEvent)
         )

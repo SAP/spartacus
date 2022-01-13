@@ -4,7 +4,7 @@ import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutFacade,
-  OrderPlacedEvent,
+  CheckoutOrderPlacedEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -43,7 +43,7 @@ export class CheckoutService implements CheckoutFacade {
                     cartId,
                     order,
                   },
-                  OrderPlacedEvent
+                  CheckoutOrderPlacedEvent
                 );
               })
             )

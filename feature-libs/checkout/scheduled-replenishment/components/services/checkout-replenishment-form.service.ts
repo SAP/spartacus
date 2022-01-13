@@ -5,12 +5,12 @@ import {
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  DeliveryAddressClearedEvent,
-  DeliveryAddressSetEvent,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressSetEvent,
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   DaysOfWeek,
@@ -52,16 +52,16 @@ export class CheckoutReplenishmentFormService implements OnDestroy {
   protected registerOrderTypeEventListers(): void {
     this.subscriptions.add(
       merge(
-        this.eventService.get(DeliveryAddressSetEvent),
+        this.eventService.get(CheckoutDeliveryAddressSetEvent),
         this.eventService.get(LogoutEvent),
         this.eventService.get(LoginEvent),
-        this.eventService.get(DeliveryAddressClearedEvent),
-        this.eventService.get(DeliveryModeSetEvent),
-        this.eventService.get(DeliveryModeClearedEvent),
+        this.eventService.get(CheckoutDeliveryAddressClearedEvent),
+        this.eventService.get(CheckoutDeliveryModeSetEvent),
+        this.eventService.get(CheckoutDeliveryModeClearedEvent),
         this.eventService.get(SaveCartSuccessEvent),
         this.eventService.get(RestoreSavedCartSuccessEvent),
-        this.eventService.get(PaymentDetailsCreatedEvent),
-        this.eventService.get(PaymentDetailsSetEvent),
+        this.eventService.get(CheckoutPaymentDetailsCreatedEvent),
+        this.eventService.get(CheckoutPaymentDetailsSetEvent),
         this.eventService.get(MergeCartSuccessEvent)
       ).subscribe(() => {
         (this.orderType$ as BehaviorSubject<ORDER_TYPE>).next(

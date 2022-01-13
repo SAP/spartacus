@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
   ClearCheckoutDeliveryAddressEvent,
+  ResetCheckoutDeliveryModesEvent,
   ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -21,7 +21,7 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
   protected onCostCenterChange(): void {
     this.subscriptions.add(
       this.eventService.get(CostCenterSetEvent).subscribe((event) => {
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+        this.eventService.dispatch({}, ResetCheckoutDeliveryModesEvent);
         this.eventService.dispatch(
           { cartId: event.cartId, userId: event.userId },
           ClearCheckoutDeliveryAddressEvent

@@ -8,9 +8,9 @@ import {
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
+  CheckoutOrderPlacedEvent,
   CheckoutQueryFacade,
   CheckoutState,
-  OrderPlacedEvent,
   ReloadCheckoutQueryEvent,
   ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/base/root';
@@ -80,7 +80,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   protected getCheckoutQueryResetOrderTriggers(): QueryNotifier[] {
     return [
       // we need to reset the query's state after the checkout is finished
-      OrderPlacedEvent,
+      CheckoutOrderPlacedEvent,
     ];
   }
 

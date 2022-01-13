@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
   ClearCheckoutDeliveryAddressEvent,
+  ResetCheckoutDeliveryModesEvent,
   ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -40,12 +40,12 @@ describe(`CheckoutCostCenterEventListener`, () => {
   });
 
   describe(`onCostCenterChange`, () => {
-    it(`should dispatch ResetDeliveryModesEvent`, () => {
+    it(`should dispatch ResetCheckoutDeliveryModesEvent`, () => {
       mockEventStream$.next(new CostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        ResetCheckoutDeliveryModesEvent
       );
     });
 

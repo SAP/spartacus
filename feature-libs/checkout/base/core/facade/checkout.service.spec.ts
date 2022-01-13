@@ -2,7 +2,7 @@ import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { CartActions } from '@spartacus/cart/main/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
+import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
@@ -94,7 +94,7 @@ describe(`CheckoutService`, () => {
       );
     });
 
-    it(`should dispatch OrderPlacedEvent`, () => {
+    it(`should dispatch CheckoutOrderPlacedEvent`, () => {
       service.placeOrder(termsChecked);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -103,7 +103,7 @@ describe(`CheckoutService`, () => {
           cartId: mockCartId,
           order: mockOrder,
         },
-        OrderPlacedEvent
+        CheckoutOrderPlacedEvent
       );
     });
   });

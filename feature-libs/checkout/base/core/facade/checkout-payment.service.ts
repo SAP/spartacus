@@ -6,10 +6,10 @@ import {
   PaymentDetails,
 } from '@spartacus/cart/main/root';
 import {
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
   CheckoutPaymentFacade,
   CheckoutQueryFacade,
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -60,7 +60,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       cartId,
                       paymentDetails: response,
                     },
-                    PaymentDetailsCreatedEvent
+                    CheckoutPaymentDetailsCreatedEvent
                   );
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
                     this.store.dispatch(
@@ -101,7 +101,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                       cartId,
                       paymentDetailsId,
                     },
-                    PaymentDetailsSetEvent
+                    CheckoutPaymentDetailsSetEvent
                   )
                 )
               );
