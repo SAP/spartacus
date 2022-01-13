@@ -7,7 +7,13 @@ import {
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, merge, Observable, of } from 'rxjs';
+import {
+  combineLatest,
+  merge,
+  MonoTypeOperatorFunction,
+  Observable,
+  of,
+} from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -24,6 +30,7 @@ import { MerchandisingUserContext } from '../model/merchandising-user-context.mo
 import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
 import { ProfileTagLifecycleService } from '../../profiletag/services';
 import { ConsentChangedPushEvent } from '../../profiletag/model';
+import { environment } from '../../../../../projects/storefrontapp/src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
@@ -65,7 +72,17 @@ export class CdsMerchandisingUserContextService {
   }
 
   private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
+    let operators: MonoTypeOperatorFunction<ConsentChangedPushEvent>[] = [];
+    if (!!environment.b2b) {
+      operators.push(
+        startWith(<ConsentChangedPushEvent>{
+          name: ConsentChangedPushEvent.name,
+          data: { granted: false },
+        })
+      );
+    }
     return this.profileTagLifecycleService.consentChanged().pipe(
+      (input) => operators.reduce((prev, fn) => fn(prev), input),
       switchMap((changed: ConsentChangedPushEvent) => {
         if (changed.data.granted) {
           return this.profileTagEventService
