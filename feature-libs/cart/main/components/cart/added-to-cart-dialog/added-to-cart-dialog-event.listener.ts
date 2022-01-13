@@ -43,6 +43,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
     modalInstance.cart$ = this.activeCartFacade.getActive();
     modalInstance.loaded$ = this.activeCartFacade.isStable();
     modalInstance.quantity = event.quantity;
+    modalInstance.numberOfEntriesBeforeAdd = event.numberOfEntriesBeforeAdd;
   }
 
   ngOnDestroy(): void {

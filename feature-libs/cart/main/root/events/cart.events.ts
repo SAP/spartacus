@@ -84,4 +84,5 @@ export class CartUiEventAddToCart extends CxEvent {
   static readonly type = 'CartUiEventAddToCart';
   productCode: string;
   quantity: number;
+  numberOfEntriesBeforeAdd: number;
 }

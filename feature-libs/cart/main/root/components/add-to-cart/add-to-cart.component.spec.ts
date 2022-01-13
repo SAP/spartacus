@@ -30,6 +30,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart, OrderEntry } from '../../models/cart.model';
 import { AddToCartComponent } from './add-to-cart.component';
@@ -129,6 +130,10 @@ class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
   }
 }
 
+class MockEventService implements Partial<EventService> {
+  dispatch<T extends object>(_event: T): void {}
+}
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
@@ -164,6 +169,7 @@ describe('AddToCartComponent', () => {
           useValue: undefined,
         },
         { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
+        { provide: EventService, useClass: MockEventService },
       ],
     });
   }
@@ -294,11 +300,25 @@ describe('AddToCartComponent', () => {
         );
       });
       it('should dispatch the add to cart UI event', () => {
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([{}, {}] as OrderEntry[])
+        );
+        spyOn(eventService, 'dispatch').and.callThrough();
+
         addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
         addToCartComponent.productCode = mockProductCode;
-        spyOn(eventService, 'dispatch').and.stub();
+        const uiEvent: CartUiEventAddToCart = new CartUiEventAddToCart();
+        uiEvent.productCode = mockProductCode;
+        uiEvent.numberOfEntriesBeforeAdd = 2;
+        uiEvent.quantity = 1;
+        spyOn(
+          addToCartComponent as any,
+          'createCartUiEventAddToCart'
+        ).and.returnValue(uiEvent);
+
         addToCartComponent.addToCart();
-        expect(eventService.dispatch).toHaveBeenCalled();
+
+        expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
       });
     });
 
@@ -513,6 +533,18 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
 
       expect(currentProductService.getProduct).not.toHaveBeenCalled();
+    });
+  });
+  describe('createCartUiEventAddToCart', () => {
+    it('should create even from provided arguments', () => {
+      const newEvent = addToCartComponent['createCartUiEventAddToCart'](
+        productCode,
+        1,
+        2
+      );
+      expect(newEvent.productCode).toEqual(productCode);
+      expect(newEvent.quantity).toEqual(1);
+      expect(newEvent.numberOfEntriesBeforeAdd).toEqual(2);
     });
   });
 });

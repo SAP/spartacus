@@ -10,11 +10,11 @@ import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
-  first,
   map,
   shareReplay,
   startWith,
   switchMap,
+  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -28,9 +28,8 @@ export class AddedToCartDialogComponent implements OnInit {
   entry$: Observable<OrderEntry>;
   cart$: Observable<Cart>;
   loaded$: Observable<boolean>;
-  addedEntryWasMerged: boolean = false;
   addedEntryWasMerged$: Observable<boolean>;
-
+  numberOfEntriesBeforeAdd: number;
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -85,12 +84,9 @@ export class AddedToCartDialogComponent implements OnInit {
 
   ngOnInit() {
     this.addedEntryWasMerged$ = this.loaded$.pipe(
-      first((isLoaded) => isLoaded),
-      switchMap((_) =>
-        this.entry$.pipe(
-          map((cartEntry) => (cartEntry?.quantity ?? 0) > this.quantity)
-        )
-      )
+      filter((loaded) => loaded),
+      switchMapTo(this.cartService.getEntries()),
+      map((entries) => entries.length === this.numberOfEntriesBeforeAdd)
     );
   }
 

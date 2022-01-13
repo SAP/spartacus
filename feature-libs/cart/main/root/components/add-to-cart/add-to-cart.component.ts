@@ -21,7 +21,7 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, first, map, take } from 'rxjs/operators';
 import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
@@ -132,20 +132,44 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
-    this.activeCartService.addEntry(this.productCode, quantity);
 
-    // Because the cart library can be lazy loaded, we wait for
-    // the cart library to be loaded before dispatching the event,
-    // otherwise the event will fire before the listener can catch it.
-    this.facadeFactoryService
-      .isFacadeImplProvided(ActiveCartFacade)
-      .pipe(first((isProvided) => isProvided))
-      .subscribe(() => {
-        const newEvent = new CartUiEventAddToCart();
-        newEvent.productCode = this.productCode;
-        newEvent.quantity = quantity;
-        this.eventService.dispatch(newEvent);
+    let numberOfEntriesBeforeAdd = 0;
+
+    this.activeCartService
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) => {
+        numberOfEntriesBeforeAdd = entries.length;
+        this.activeCartService.addEntry(this.productCode, quantity);
+
+        // Because the cart library can be lazy loaded, we wait for
+        // the cart library to be loaded before dispatching the event,
+        // otherwise the event will fire before the listener can catch it.
+        this.facadeFactoryService
+          .isFacadeImplProvided(ActiveCartFacade)
+          .pipe(first((isProvided) => isProvided))
+          .subscribe(() => {
+            this.eventService.dispatch(
+              this.createCartUiEventAddToCart(
+                this.productCode,
+                quantity,
+                numberOfEntriesBeforeAdd
+              )
+            );
+          });
       });
+  }
+
+  protected createCartUiEventAddToCart(
+    productCode: string,
+    quantity: number,
+    numberOfEntriesBeforeAdd: number
+  ) {
+    const newEvent = new CartUiEventAddToCart();
+    newEvent.productCode = productCode;
+    newEvent.quantity = quantity;
+    newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    return newEvent;
   }
 
   ngOnDestroy() {
