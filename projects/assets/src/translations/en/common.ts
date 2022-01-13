@@ -20,6 +20,7 @@ export const common = {
     reset: 'Reset',
     search: 'Search',
     add: 'Add',
+    breadcrumbs: 'breadcrumbs',
     selectFile: 'Select file',
   },
   pageMetaResolver: {
@@ -50,7 +51,8 @@ export const common = {
     shopAll: 'Shop all {{ navNode}} >',
   },
   searchBox: {
-    placeholder: 'Search here...',
+    placeholder: 'Enter product name or SKU',
+    productSearch: 'Find a product',
     ariaLabelInput: 'Search here...',
     ariaLabelSuggestions: 'typing suggestions',
     ariaLabelProducts: 'product results',

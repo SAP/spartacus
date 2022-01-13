@@ -2,10 +2,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  Order,
   RoutingService,
 } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
+  CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
@@ -54,7 +57,9 @@ export class ConfiguratorAddToCartButtonComponent {
     protected configuratorCartService: ConfiguratorCartService,
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
-    protected globalMessageService: GlobalMessageService
+    protected globalMessageService: GlobalMessageService,
+    protected orderFacade: OrderFacade,
+    protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService
   ) {}
 
   protected navigateToCart(): void {
@@ -175,7 +180,9 @@ export class ConfiguratorAddToCartButtonComponent {
             isOverview,
             configuration.isCartEntryUpdateRequired ?? false
           );
-          if (configuration.isCartEntryUpdateRequired) {
+          //Only remove if we are on configuration page, because on final cart navigation,
+          //the configuration will anyhow be removed
+          if (configuration.isCartEntryUpdateRequired && !isOverview) {
             this.configuratorCommonsService.removeConfiguration(owner);
           }
         } else {
@@ -212,15 +219,46 @@ export class ConfiguratorAddToCartButtonComponent {
               // configuration for the same cart entry number stored already.
               // (Cart entries might have been deleted)
 
+              // Needs to happen only if we are on configuration page, navigation to
+              // cart will anyhow delete
+
               // we do not clean up the product bound configuration yet, as existing
               // observables would instantly trigger a re-create.
               // Cleaning up this obsolete product bound configuration will only happen
               // when a new config form requests a new observable for a product bound
               // configuration
-
-              this.configuratorCommonsService.removeConfiguration(nextOwner);
+              if (!isOverview) {
+                this.configuratorCommonsService.removeConfiguration(nextOwner);
+              }
             });
         }
       });
+  }
+  leaveConfigurationOverview(): void {
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.ORDER_ENTRY
+      ) {
+        this.goToOrderDetails(container.routerData.owner);
+      } else {
+        this.routingService.go({ cxRoute: 'checkoutReviewOrder' });
+      }
+    });
+  }
+
+  protected goToOrderDetails(owner: CommonConfigurator.Owner): void {
+    this.orderFacade.loadOrderDetails(
+      this.commonConfiguratorUtilsService.decomposeOwnerId(owner.id).documentId
+    );
+    this.orderFacade
+      .getOrderDetails()
+      .pipe(
+        filter((order: Order) => order !== undefined),
+        take(1)
+      )
+      .subscribe((order: Order) =>
+        this.routingService.go({ cxRoute: 'orderDetails', params: order })
+      );
   }
 }

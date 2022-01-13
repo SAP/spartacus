@@ -202,4 +202,52 @@ describe('ConfigureCartEntryComponent', () => {
       );
     });
   });
+
+  describe('getResolveIssuesA11yDescription', () => {
+    it("should return 'undefined' if the expected conditions are not met", () => {
+      component.readOnly = true;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      expect(component.getResolveIssuesA11yDescription()).toBeUndefined();
+    });
+
+    it("should return 'cx-error-msg' ID for a HTML element if the expected conditions are met", () => {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+      expect(component.getResolveIssuesA11yDescription()).toEqual(
+        'cx-error-msg'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain link element with ID 'cx-error-msg' and aria-describedby attribute that refers to the corresponding resolve issue message", function () {
+      component.readOnly = false;
+      component.msgBanner = true;
+      component.cartEntry = {
+        entryNumber: 0,
+        product: { configuratorType: configuratorType },
+      };
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'a',
+        'cx-action-link',
+        undefined,
+        'aria-describedby',
+        'cx-error-msg'
+      );
+    });
+  });
 });

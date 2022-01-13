@@ -5,11 +5,12 @@ import {
   CmsConfig,
   PageMetaModule,
   provideDefaultConfig,
+  I18nModule,
 } from '@spartacus/core';
 import { BreadcrumbComponent } from './breadcrumb.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, PageMetaModule],
+  imports: [CommonModule, RouterModule, PageMetaModule, I18nModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
