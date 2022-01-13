@@ -9,7 +9,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -28,6 +28,13 @@ export class CheckoutShippingAddressComponent implements OnInit {
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
+  protected busy$ = new BehaviorSubject<boolean>(false);
+
+  isUpdated$: Observable<boolean> = combineLatest([
+    this.busy$,
+    this.userAddressService.getAddressesLoading(),
+  ]).pipe(map(([busy, loading]) => busy || loading));
+
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -43,10 +50,6 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
   get backBtnText(): string {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
-  }
-
-  get isLoading$(): Observable<boolean> {
-    return this.userAddressService.getAddressesLoading();
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
@@ -93,7 +96,10 @@ export class CheckoutShippingAddressComponent implements OnInit {
     return this.userAddressService.getAddresses();
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
+  selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
     if (
       !this.doneAutoSelect &&
       addresses &&
@@ -142,13 +148,25 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
+    // TODO:#checkout - put spinner
     this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
   }
 
   addAddress(address: Address | undefined): void {
     if (address) {
-      this.checkoutDeliveryAddressFacade.createAndSetAddress(address);
-      this.shouldRedirect = true;
+      this.busy$.next(true);
+      this.checkoutDeliveryAddressFacade
+        .createAndSetAddress(address)
+        .subscribe({
+          complete: () => {
+            this.busy$.next(false);
+            this.shouldRedirect = true;
+          },
+          error: () => {
+            this.busy$.next(false);
+            this.shouldRedirect = true;
+          },
+        });
     } else {
       this.shouldRedirect = false;
       this.next();
