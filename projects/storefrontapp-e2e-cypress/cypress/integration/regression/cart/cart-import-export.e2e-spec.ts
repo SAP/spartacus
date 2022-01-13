@@ -1,7 +1,9 @@
+
 import * as cart from '../../../helpers/cart';
 import * as importExport from '../../../helpers/cart-import-export';
 import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+import { ImportExportContext } from './../../../helpers/cart-import-export';
 
 context('Cart Import/Export', () => {
   viewportContext(['mobile'], () => {
@@ -31,15 +33,33 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to active cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Multi-Product Cart',
-          description: 'A test description for Multi-Product Cart.',
+          fileName: 'cart-multiple-products',
+          context: ImportExportContext.ACTIVE_CART,
+          importButtonPath: 'cart',
           saveTime: importExport.getSavedDate(),
           quantity: 3,
           total: '$564.69',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
+      });
+
+      it('should import to saved cart', () => {
+        importExport.importCartTestFromConfig({
+          fileName: 'cart-multiple-products',
+          context: ImportExportContext.SAVED_CART,
+          importButtonPath: 'my-account/saved-carts',
+          saveTime: importExport.getSavedDate(),
+          quantity: 3,
+          total: '$564.69',
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Multi-Product Cart',
+            description: 'A test description for Multi-Product Cart.',
+          },
         });
       });
     });
@@ -56,16 +76,34 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to active cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Multi-Product Cart with varied quantities',
-          description:
-            'A test description for Multi-Product Cart with varied quantities.',
+          fileName: 'cart-multi-product',
+          context: ImportExportContext.ACTIVE_CART,
+          importButtonPath: 'cart',
           saveTime: importExport.getSavedDate(),
           quantity: 5,
           total: '$522.06',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
+      });
+
+      it('should import to saved cart', () => {
+        importExport.importCartTestFromConfig({
+          context: ImportExportContext.SAVED_CART,
+          fileName: 'cart-multi-product',
+          importButtonPath: 'my-account/saved-carts',
+          saveTime: importExport.getSavedDate(),
+          quantity: 5,
+          total: '$522.06',
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Multi-Product Cart with varied quantities',
+            description:
+              'A test description for Multi-Product Cart with varied quantities.',
+          },
         });
       });
     });
@@ -83,16 +121,34 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to active cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Normal and Configurable Products Cart',
-          description:
-            'A test description for Normal and Configurable Products Cart.',
+          fileName: 'cart-normal-product',
+          context: ImportExportContext.ACTIVE_CART,
+          importButtonPath: 'cart',
           saveTime: importExport.getSavedDate(),
           quantity: 6,
           total: '$621.91',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
+      });
+
+      it('should import to saved cart', () => {
+        importExport.importCartTestFromConfig({
+          fileName: 'cart-normal-product',
+          context: ImportExportContext.SAVED_CART,
+          importButtonPath: 'my-account/saved-carts',
+          saveTime: importExport.getSavedDate(),
+          quantity: 6,
+          total: '$621.91',
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Normal and Configurable Products Cart',
+            description:
+              'A test description for Normal and Configurable Products Cart.',
+          },
         });
       });
     });
@@ -110,15 +166,33 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to active cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Non-default export Cart',
-          description: 'A test description for Non-default export Cart.',
+          fileName: 'cart-non-default',
+          context: ImportExportContext.ACTIVE_CART,
+          importButtonPath: 'cart',
           saveTime: importExport.getSavedDate(),
           quantity: 2,
           total: '$193.97',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+        });
+      });
+
+      it('should import to saved cart', () => {
+        importExport.importCartTestFromConfig({
+          fileName: 'cart-non-default',
+          context: ImportExportContext.SAVED_CART,
+          importButtonPath: 'my-account/saved-carts',
+          saveTime: importExport.getSavedDate(),
+          quantity: 2,
+          total: '$193.97',
+          headers: importExport.getCsvHeaders(EXPECTED_CSV),
+          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Non-default export Cart',
+            description: 'A test description for Non-default export Cart.',
+          },
         });
       });
     });
@@ -136,15 +210,20 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Configurable products Cart',
-          description: 'A test description for Configurable products Cart.',
+          fileName: 'cart-configurable-products',
+          context: ImportExportContext.SAVED_CART,
+          importButtonPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '$99.85',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Configurable products Cart',
+            description: 'A test description for Configurable products Cart.',
+          },
         });
       });
     });
@@ -167,15 +246,20 @@ context('Cart Import/Export', () => {
         importExport.exportCart(EXPECTED_CSV);
       });
 
-      it('should import cart', () => {
+      it('should import to saved cart', () => {
         importExport.importCartTestFromConfig({
-          name: 'Variable products Cart',
-          description: 'A test description for Variable products Cart.',
+          fileName: 'cart-variable-products',
+          context: ImportExportContext.SAVED_CART,
+          importButtonPath: 'my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '£24.26',
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
+          savedCartConfig: {
+            name: 'Variable products Cart',
+            description: 'A test description for Variable products Cart.',
+          },
         });
       });
     });
