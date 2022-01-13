@@ -1,5 +1,6 @@
 import { loginAsMyCompanyAdmin } from './b2b/my-company/my-company.utils';
 import * as cart from './cart';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
@@ -209,11 +210,11 @@ export function verifyImportedData(config: ImportConfig, cart) {
  * @param productCode identifies the unique product to add.
  */
 export function addProductToCart(productCode: string = cart.products[1].code) {
-  cy.intercept('GET', `**/products/${productCode}**`).as('productPage');
   cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refreshCart');
   cy.intercept('POST', `**/users/*/carts/*/entries?**`).as('addToCart');
+  const productPage = waitForProductPage(productCode, 'getProductPage');
   cy.visit(`/product/${productCode}`);
-  cy.wait('@productPage');
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
   cy.wait(['@refreshCart', '@addToCart']);
 }
@@ -223,9 +224,9 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
  * @param expectedData will compare the data of the downloaded .csv to the parsed string.
  */
 export function exportCart(expectedData?: string) {
-  cy.intercept('GET', `**ContentPage&pageLabelOrId=%2Fcart**`).as('cart');
-  cy.visit('cart');
-  cy.wait('@cart');
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-export-order-entries button').contains('Export to CSV').click();
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
@@ -237,8 +238,9 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   loginAsMyCompanyAdmin();
-
-  cy.visit('my-account/saved-carts');
+  const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
+  cy.visit('/my-account/saved-carts');
+  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
     cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
