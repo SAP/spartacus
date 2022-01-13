@@ -98,7 +98,9 @@
             *ngSwitchCase="'send'"
             class="link cx-action-link"
             (click)="send()"
-            [attr.aria-describedby]="index ? 'content-header-' + index : ''"
+            [attr.aria-describedby]="
+              index >= 0 ? 'content-header-' + index : ''
+            "
           >
             {{ action.name }}
           </button>
