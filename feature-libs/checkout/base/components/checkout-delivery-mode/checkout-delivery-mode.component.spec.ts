@@ -5,8 +5,8 @@ import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { I18nTestingModule } from '@spartacus/core';
-import { of } from 'rxjs';
+import { CxEvent, EventService, I18nTestingModule } from '@spartacus/core';
+import { of, Subject } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
 import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.component';
@@ -37,6 +37,11 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText = createSpy().and.returnValue('common.back');
+}
+
+const mockEventStream$ = new Subject<CxEvent>();
+class MockEventService implements Partial<EventService> {
+  get = createSpy().and.returnValue(mockEventStream$.asObservable());
 }
 
 const mockActivatedRoute = {
@@ -83,6 +88,10 @@ describe('CheckoutDeliveryModeComponent', () => {
           {
             provide: CheckoutConfigService,
             useClass: MockCheckoutConfigService,
+          },
+          {
+            provide: EventService,
+            useClass: MockEventService,
           },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
         ],
