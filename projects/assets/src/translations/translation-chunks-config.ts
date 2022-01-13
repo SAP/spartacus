@@ -31,14 +31,14 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'addressBook',
     'addressCard',
     'addressSuggestion',
-    'messages',
+    'addressMessages',
   ],
   payment: [
     'paymentForm',
     'paymentMethods',
     'paymentCard',
     'paymentTypes',
-    'messages',
+    'paymentMessages',
   ],
   myAccount: [
     'orderDetails',
