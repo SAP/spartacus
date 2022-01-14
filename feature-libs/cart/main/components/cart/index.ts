@@ -1,5 +1,4 @@
-export * from './added-to-cart-dialog/added-to-cart-dialog.component';
-export * from './added-to-cart-dialog/added-to-cart-dialog.module';
+export * from './added-to-cart-dialog/index';
 export * from './cart-coupon/index';
 export * from './cart-details/cart-details.component';
 export * from './cart-details/cart-details.module';
