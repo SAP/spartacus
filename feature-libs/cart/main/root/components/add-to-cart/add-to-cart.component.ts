@@ -133,13 +133,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       return;
     }
 
-    let numberOfEntriesBeforeAdd = 0;
-
     this.activeCartService
       .getEntries()
       .pipe(take(1))
-      .subscribe((entries) => {
-        numberOfEntriesBeforeAdd = entries.length;
+      .subscribe((cartEntries) => {
         this.activeCartService.addEntry(this.productCode, quantity);
 
         // Because the cart library can be lazy loaded, we wait for
@@ -153,7 +150,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
               this.createCartUiEventAddToCart(
                 this.productCode,
                 quantity,
-                numberOfEntriesBeforeAdd
+                cartEntries.length
               )
             );
           });
