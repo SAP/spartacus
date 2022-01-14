@@ -29,6 +29,7 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       })
     );
   }
+
   protected openModal(event: CartUiEventAddToCart): void {
     const modalRef = this.modalService.open(AddedToCartDialogComponent, {
       centered: true,
