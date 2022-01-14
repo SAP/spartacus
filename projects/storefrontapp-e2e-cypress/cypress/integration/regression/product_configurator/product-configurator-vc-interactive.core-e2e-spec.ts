@@ -82,6 +82,7 @@ context('Product Configuration', () => {
 
   describe('Configure Product', () => {
     it('should support image attribute type - single selection', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -108,6 +109,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*`,
       }).as('updateConfig');
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
       configuration.clickOnNextBtn(SPECIFICATION);
@@ -121,13 +123,14 @@ context('Product Configuration', () => {
 
   describe('Group Status', () => {
     it('should set group status for single level product', () => {
+      clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
         pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
         )}/ccpconfigurator/*`,
       }).as('updateConfig');
-      clickAllowAllFromBanner();
+
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkGroupMenuDisplayed();
 
@@ -176,6 +179,7 @@ context('Product Configuration', () => {
     });
 
     it('should set group status for multi level product', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -242,6 +246,7 @@ context('Product Configuration', () => {
 
   describe('Group Handling', () => {
     it('should navigate between groups', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.clickOnNextBtn(SPECIFICATION);
       configuration.clickOnNextBtn(DISPLAY);
@@ -249,6 +254,7 @@ context('Product Configuration', () => {
     });
 
     it('should check if group buttons are clickable', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkNextBtnEnabled();
       configuration.checkPreviousBtnDisabled();
@@ -262,6 +268,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
 
@@ -272,6 +279,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the previous and next button for multi level product', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -282,6 +290,7 @@ context('Product Configuration', () => {
     });
 
     it('should navigate using the group menu for multi level product', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -313,8 +322,7 @@ context('Retract mode for Product Configuration', () => {
   });
 
   describe('Enable retract mode', () => {
-    it('should lead to additional retract value displayed', () => {
-      clickAllowAllFromBanner();
+    it.only('should lead to additional retract value displayed', () => {
       // Verify whether all values are displayed including 'No option selected' / a retract value
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,
@@ -323,7 +331,7 @@ context('Retract mode for Product Configuration', () => {
       );
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
-
+      clickAllowAllFromBanner();
       //Verify whether a retract value is selected as a default value
       configuration.checkValueSelected(
         radioGroup,
@@ -335,6 +343,7 @@ context('Retract mode for Product Configuration', () => {
 
   describe('Selecting retract mode', () => {
     it('should de-select the currently selected value', () => {
+      clickAllowAllFromBanner();
       //Select another value and verify whether a corresponding value is selected
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');

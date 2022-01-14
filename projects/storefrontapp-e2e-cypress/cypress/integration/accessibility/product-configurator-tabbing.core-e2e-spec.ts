@@ -82,7 +82,7 @@ context('Product Configuration', () => {
           'BASE_SITE'
         )}/ccpconfigurator/*/pricing*`,
       }).as('priceUpdate');
-
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
 
       cy.wait('@priceUpdate');
