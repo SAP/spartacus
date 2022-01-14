@@ -35,13 +35,20 @@ import { CpqConfiguratorPageLayoutHandler } from './cpq-configurator-page-layout
               ],
             },
             xs: {
-              slots: ['SiteLogo', 'SearchBox', 'MiniCart'],
+              slots: ['PreHeader', 'SiteLogo', 'SearchBox', 'MiniCart'],
             },
           },
 
           navigation: {
             lg: { slots: [] },
             slots: ['CpqConfigMenu'],
+          },
+
+          navigationDisplayOnly: {
+            lg: { slots: [] },
+            xs: {
+              slots: ['SiteLogin', 'NavigationBar', 'SiteContext', 'SiteLinks'],
+            },
           },
 
           lg: {

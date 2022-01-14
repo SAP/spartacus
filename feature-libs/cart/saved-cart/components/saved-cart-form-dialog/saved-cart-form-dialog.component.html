@@ -255,7 +255,7 @@
             <button
               (click)="saveOrEditCart(cart?.code)"
               [attr.aria-label]="'common.save' | cxTranslate"
-              [disabled]="form.invalid || (isLoading$ | async)"
+              [disabled]="isLoading$ | async"
               class="btn btn-primary"
               type="button"
             >

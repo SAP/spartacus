@@ -13,6 +13,8 @@ import {
 import {
   ActiveCartService,
   Address,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -48,6 +50,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
     protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService,
     protected paymentTypeService?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
     protected checkoutCostCenterService?: CheckoutCostCenterFacade
@@ -193,6 +196,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
+      label: address.defaultAddress
+        ? 'addressBook.defaultShippingAddress'
+        : 'addressBook.additionalShippingAddress',
     } as Card;
   }
 
@@ -204,6 +210,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.forceLoader = true;
     if (Boolean(address)) {
       this.checkoutDeliveryService.createAndSetAddress(address);
+      this.globalMessageService.add(
+        { key: 'addressForm.userAddressAddSuccess' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     } else {
       this.forceLoader = false;
       this.next();

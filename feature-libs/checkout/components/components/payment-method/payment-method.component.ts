@@ -158,6 +158,12 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
+    this.globalMessageService.add(
+      {
+        key: 'paymentMethods.paymentMethodSelected',
+      },
+      GlobalMessageType.MSG_TYPE_INFO
+    );
     this.checkoutPaymentService.setPaymentDetails(paymentDetails);
   }
 
@@ -235,6 +241,9 @@ export class PaymentMethodComponent implements OnInit, OnDestroy {
         selected?.id === paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
+      label: paymentDetails.defaultPayment
+        ? 'paymentCard.defaultPaymentLabel'
+        : 'paymentCard.additionalPaymentLabel',
     };
   }
 
