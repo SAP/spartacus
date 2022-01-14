@@ -28,7 +28,6 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
     ItemCounterModule,
     ModalModule,
   ],
-  providers: [],
   declarations: [AddedToCartDialogComponent],
   exports: [AddedToCartDialogComponent],
 })
