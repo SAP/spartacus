@@ -50,11 +50,11 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the cart', () => {
-      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
       );
+      clickAllowAllFromBanner();
       configurationVc.clickAddToCartBtn();
       configurationVc.goToCart(electronicsShop);
       //We assume only one product is in the cart
@@ -73,7 +73,6 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
-      clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -84,6 +83,7 @@ context('Product Configuration', () => {
         electronicsShop,
         testProductMultiLevel
       );
+      clickAllowAllFromBanner();
       configuration.clickOnNextBtn(PROJECTOR);
       configuration.selectAttribute(PROJECTOR_TYPE, radioGroup, PROJECTOR_LCD);
       cy.wait('@updateConfig');
