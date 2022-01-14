@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -8,6 +8,7 @@ import {
 import {
   Address,
   getLastValueSync,
+  QueryState,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -37,6 +38,12 @@ export class CheckoutShippingAddressComponent implements OnInit {
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
+
+  protected supportedDeliveryModes$: Observable<QueryState<DeliveryMode[]>> =
+    this.checkoutDeliveryModesFacade.getSupportedDeliveryModesState().pipe(
+      filter((state) => !state.loading),
+      take(1)
+    );
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -161,14 +168,17 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
   selectAddress(address: Address): void {
     this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
-      complete: () => {
-        this.onSuccess();
-      },
-      error: () => {
-        this.onError();
-      },
-    });
+    this.checkoutDeliveryAddressFacade
+      .setDeliveryAddress(address)
+      .pipe(switchMap(() => this.supportedDeliveryModes$))
+      .subscribe({
+        complete: () => {
+          this.onSuccess();
+        },
+        error: () => {
+          this.onError();
+        },
+      });
   }
 
   addAddress(address: Address | undefined): void {
@@ -180,15 +190,9 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
     this.busy$.next(true);
 
-    const supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
-      .getSupportedDeliveryModesState()
-      .pipe(
-        filter((state) => !state.loading),
-        take(1)
-      );
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
-      .pipe(switchMap(() => supportedDeliveryModes$))
+      .pipe(switchMap(() => this.supportedDeliveryModes$))
       .subscribe({
         complete: () => {
           this.onSuccess();
