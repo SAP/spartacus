@@ -125,7 +125,9 @@ export function verifyCart(config: ImportConfig) {
   const rowLength = config.headers.length;
   const rowCount = (config.expectedData.length - 1 - rowLength) / rowLength;
 
-  cy.visit('cart');
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   for (let i = 0; i < rowCount; i++) {
     cy.get('cx-cart-item')
@@ -279,8 +281,9 @@ export function importCartTestFromConfig(config: ImportConfig) {
  */
 export function attemptUpload(csvPath: string) {
   loginAsMyCompanyAdmin();
-
-  cy.visit('my-account/saved-carts');
+  const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
+  cy.visit('/my-account/saved-carts');
+  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
