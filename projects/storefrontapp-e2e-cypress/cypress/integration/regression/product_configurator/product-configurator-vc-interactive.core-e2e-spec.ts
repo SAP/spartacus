@@ -312,6 +312,7 @@ context('Retract mode for Product Configuration', () => {
     cy.cxConfig(configUISettings);
     //Go to the configuration
     configurationVc.goToConfigurationPage(electronicsShop, testProduct);
+    clickAllowAllFromBanner();
     // Verify whether attribute is displayed
     configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
   });
@@ -330,7 +331,6 @@ context('Retract mode for Product Configuration', () => {
       );
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'P');
       configuration.checkAttrValueDisplayed(CAMERA_MODE, radioGroup, 'S');
-      clickAllowAllFromBanner();
       //Verify whether a retract value is selected as a default value
       configuration.checkValueSelected(
         radioGroup,
@@ -342,7 +342,6 @@ context('Retract mode for Product Configuration', () => {
 
   describe('Selecting retract mode', () => {
     it('should de-select the currently selected value', () => {
-      clickAllowAllFromBanner();
       //Select another value and verify whether a corresponding value is selected
       configuration.selectAttribute(CAMERA_MODE, radioGroup, 'S');
       configuration.checkValueSelected(radioGroup, CAMERA_MODE, 'S');
