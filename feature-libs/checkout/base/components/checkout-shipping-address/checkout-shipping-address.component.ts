@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   getLastValueSync,
@@ -10,7 +13,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -41,7 +44,8 @@ export class CheckoutShippingAddressComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -168,24 +172,33 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   addAddress(address: Address | undefined): void {
-    if (address) {
-      this.busy$.next(true);
-      this.checkoutDeliveryAddressFacade
-        .createAndSetAddress(address)
-        .subscribe({
-          complete: () => {
-            this.onSuccess();
-            this.shouldRedirect = true;
-          },
-          error: () => {
-            this.onError();
-            this.shouldRedirect = false;
-          },
-        });
-    } else {
+    if (!address) {
       this.shouldRedirect = false;
       this.next();
+      return;
     }
+
+    this.busy$.next(true);
+
+    const supportedDeliveryModes$ = this.checkoutDeliveryModesFacade
+      .getSupportedDeliveryModesState()
+      .pipe(
+        filter((state) => !state.loading),
+        take(1)
+      );
+    this.checkoutDeliveryAddressFacade
+      .createAndSetAddress(address)
+      .pipe(switchMap(() => supportedDeliveryModes$))
+      .subscribe({
+        complete: () => {
+          this.onSuccess();
+          this.shouldRedirect = true;
+        },
+        error: () => {
+          this.onError();
+          this.shouldRedirect = false;
+        },
+      });
   }
 
   showNewAddressForm(): void {
