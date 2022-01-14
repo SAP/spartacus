@@ -26,13 +26,19 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'saveForLaterItems',
     'validation',
   ],
-  address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
+  address: [
+    'addressForm',
+    'addressBook',
+    'addressCard',
+    'addressSuggestion',
+    'addressMessages',
+  ],
   payment: [
     'paymentForm',
     'paymentMethods',
     'paymentCard',
     'paymentTypes',
-    'messages',
+    'paymentMessages',
   ],
   myAccount: [
     'orderDetails',
