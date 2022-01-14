@@ -71,6 +71,7 @@
 16. check changes to the old checkout
    1. revert the variable names from *facade to *service _in old checkout only_
 17. check the bundle size of checkout (maybe using webpack analyzer)
+18. rename `checkout-shipping-address.component` (both base and b2b) to `checkout-delivery-address.component`.
 
 ## Near the end
 
