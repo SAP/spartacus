@@ -1,4 +1,3 @@
-import { ConfiguratorUISettingsConfig } from '@spartacus/product-configurator/rulebased';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationOverviewVc from '../../../helpers/product-configurator-overview-vc';
 import * as configurationVc from '../../../helpers/product-configurator-vc';
@@ -288,7 +287,7 @@ context('Product Configuration', () => {
 });
 
 context('Retract mode for Product Configuration', () => {
-  let configUISettings: ConfiguratorUISettingsConfig;
+  let configUISettings: any;
 
   beforeEach(() => {
     configUISettings = {

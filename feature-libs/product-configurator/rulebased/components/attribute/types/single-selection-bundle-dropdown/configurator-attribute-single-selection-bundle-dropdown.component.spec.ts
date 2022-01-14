@@ -272,7 +272,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         );
       });
 
-      it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+      it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
           htmlElem,
@@ -280,7 +280,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
           'form-control',
           0,
           'aria-describedby',
-          'cx-configurator--label--nameAttribute cx-configurator--attribute-msg--nameAttribute'
+          'cx-configurator--label--nameAttribute'
         );
       });
 

@@ -46,6 +46,8 @@ export const address = {
     addAddress: 'Add address',
     updateAddress: 'Update address',
     backToAddressList: 'Back to address list',
+    defaultShippingAddress: 'Default Shipping Address',
+    additionalShippingAddress: 'Additional Shipping Address {{number}}',
   },
   addressCard: {
     default: 'DEFAULT',
@@ -63,5 +65,9 @@ export const address = {
     enteredAddress: 'Entered address',
     editAddress: 'Edit address',
     saveAddress: 'Save address',
+  },
+  messages: {
+    setAsDefaultSucessfully:
+      'Address {{ streetAddress }} was sucessfully set as default',
   },
 };

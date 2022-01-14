@@ -16,7 +16,7 @@ import {
   HamburgerMenuService,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
@@ -58,7 +58,8 @@ const typeCPQ = ConfiguratorType.CPQ;
 const typeVariant = ConfiguratorType.VARIANT;
 
 const simpleConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
+  ...mockProductConfiguration,
+
   groups: [
     {
       id: GROUP_ID_1,
@@ -85,9 +86,8 @@ const simpleConfig: Configurator.Configuration = {
 };
 
 const inconsistentConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: false,
   complete: true,
   interactionState: {
@@ -97,9 +97,8 @@ const inconsistentConfig: Configurator.Configuration = {
 };
 
 const incompleteConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: true,
   complete: false,
   interactionState: {
@@ -302,6 +301,13 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(PRODUCT_CODE);
     });
+  });
+
+  it('should render ghost view, consisting of 10 elements, if no data is present', () => {
+    productConfigurationObservable = NEVER;
+    routerStateObservable = of(mockRouterState);
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-ghost-menu-item').length).toBe(10);
   });
 
   it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {

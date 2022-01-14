@@ -180,12 +180,25 @@ export class ConfiguratorCartEffects {
           take(1),
           map((configuratorState) => {
             const entities = configuratorState.configurations.entities;
+
             const ownerKeysToRemove: string[] = [];
+            const ownerKeysProductBound: string[] = [];
             for (const ownerKey in entities) {
               if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
                 ownerKeysToRemove.push(ownerKey);
+              } else if (
+                ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)
+              ) {
+                ownerKeysProductBound.push(ownerKey);
               }
             }
+
+            ownerKeysProductBound.forEach((ownerKey) => {
+              const configuration = entities[ownerKey];
+              if (configuration.value?.nextOwner !== undefined) {
+                ownerKeysToRemove.push(ownerKey);
+              }
+            });
             return new ConfiguratorActions.RemoveConfiguration({
               ownerKey: ownerKeysToRemove,
             });

@@ -309,6 +309,7 @@ export const productConfiguration: Configurator.Configuration = {
   },
   overview: {
     configId: CONFIG_ID,
+    productCode: PRODUCT_CODE,
     groups: [
       {
         id: '1',
