@@ -1080,7 +1080,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
       );
     });
 
-    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the IDs of the elements that describe the elements", () => {
+    it("should contain button element with class name 'btn-primary' and 'aria-describedby' that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -1088,10 +1088,7 @@ describe('ConfiguratorAttributeProductCardComponent', () => {
         'btn-primary',
         0,
         'aria-describedby',
-        'cx-configurator--label--' +
-          component.productCardOptions.attributeName +
-          ' cx-configurator--attribute-msg--' +
-          component.productCardOptions.attributeName,
+        'cx-configurator--label--' + component.productCardOptions.attributeName,
         'configurator.button.select'
       );
     });
