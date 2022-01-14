@@ -92,18 +92,17 @@ context('CPQ Configuration', () => {
   beforeEach(() => {
     configuration.defineAliases(CPQ_BACKEND_URL);
     cy.visit('/');
+    clickAllowAllFromBanner();
     configurationCpq.login(EMAIL, PASSWORD, CPQ_USER);
   });
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      clickAllowAllFromBanner();
       configuration.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
     it('should be able to navigate from the product details page', () => {
-      clickAllowAllFromBanner();
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
@@ -132,7 +131,6 @@ context('CPQ Configuration', () => {
     });
 
     it('should support checkbox list attribute type', () => {
-      clickAllowAllFromBanner();
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_COF);
       configurationCpq.clickOnConfigureBtnInCatalog();
 
@@ -163,7 +161,6 @@ context('CPQ Configuration', () => {
     });
 
     it('should support single select (radio) bundle items', () => {
-      clickAllowAllFromBanner();
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.checkCurrentGroupActive(GRP_CAM_MAIN);
 
@@ -214,7 +211,7 @@ context('CPQ Configuration', () => {
 
     it('should support single select (ddlb) bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
-      clickAllowAllFromBanner();
+
       configurationCpq.clickOnGroup(2);
       configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
@@ -241,7 +238,7 @@ context('CPQ Configuration', () => {
 
     it('should support multi select bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
-      clickAllowAllFromBanner();
+
       configuration.checkAttributeDisplayed(ATTR_CAM_MC, CHKBOX_PROD);
       configuration.checkValueSelected(
         CHKBOX_PROD,
@@ -282,7 +279,6 @@ context('CPQ Configuration', () => {
 
   describe('Group Handling', () => {
     it('should navigate with next and previous buttons', () => {
-      clickAllowAllFromBanner();
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -306,7 +302,6 @@ context('CPQ Configuration', () => {
     });
 
     it('should navigate via group menu', () => {
-      clickAllowAllFromBanner();
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -327,7 +322,6 @@ context('CPQ Configuration', () => {
     });
 
     it('should display correct attributes', () => {
-      clickAllowAllFromBanner();
       configurationCpq
         .goToConfigurationPage(POWERTOOLS, PROD_CODE_CAM, 'cpq')
         .then(() => {
@@ -353,7 +347,6 @@ context('CPQ Configuration', () => {
   describe('Overview Page', () => {
     it('should display user selections and prices on overview page', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
-      clickAllowAllFromBanner();
       configurationCpq.selectProductCard(
         RADGRP,
         ATTR_CAM_BODY,
@@ -478,7 +471,6 @@ context('CPQ Configuration', () => {
   describe('Configuration Process', () => {
     it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
       configurationCartCpq.defineDeliveryModeAlias();
-      clickAllowAllFromBanner();
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -547,7 +539,6 @@ context('CPQ Configuration', () => {
         line.quantity
       );
     });
-    clickAllowAllFromBanner();
     configurationCart.clickOnEditConfigurationLink(cartEntryIndex);
 
     configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);

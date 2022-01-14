@@ -321,7 +321,7 @@ context('Retract mode for Product Configuration', () => {
   });
 
   describe('Enable retract mode', () => {
-    it.only('should lead to additional retract value displayed', () => {
+    it('should lead to additional retract value displayed', () => {
       // Verify whether all values are displayed including 'No option selected' / a retract value
       configuration.checkAttrValueDisplayed(
         CAMERA_MODE,
