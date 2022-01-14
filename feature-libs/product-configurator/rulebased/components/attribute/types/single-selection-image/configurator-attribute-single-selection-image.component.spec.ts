@@ -189,15 +189,15 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that indicates the current 'checked' state of widgete", () => {
+    it("should contain input elements with class name 'form-input' and 'checked' attribute that indicates the current 'checked' state of widgete", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'input',
         'form-input',
         2,
-        'aria-checked',
-        'true'
+        'checked',
+        'checked'
       );
     });
 
