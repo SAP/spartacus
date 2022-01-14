@@ -22,8 +22,8 @@
       name="{{ createAttributeIdForConfigurator(attribute) }}"
       attr.name="{{ createAttributeIdForConfigurator(attribute) }}"
       [attr.required]="attribute.required"
-      [attr.aria-checked]="
-        attributeRadioButtonForm.value === value.valueCode ? true : false
+      [attr.checked]="
+        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "
       [attr.aria-label]="
         value.valuePrice && value.valuePrice?.value !== 0
@@ -39,9 +39,6 @@
               : { value: value.valueDisplay, attribute: attribute.label })
       "
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      [attr.checked]="
-        attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
-      "
       (click)="onClick(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
       role="option"

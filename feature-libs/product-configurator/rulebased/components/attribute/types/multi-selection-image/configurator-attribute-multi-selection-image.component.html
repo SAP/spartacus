@@ -29,7 +29,7 @@
               : { value: value.valueDisplay, attribute: attribute.label })
       "
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
-      [attr.aria-checked]="attributeCheckBoxForms[i].value"
+      [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
     <div class="cx-label-container">
