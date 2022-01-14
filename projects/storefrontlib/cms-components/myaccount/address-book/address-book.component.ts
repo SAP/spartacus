@@ -119,7 +119,7 @@ export class AddressBookComponent implements OnInit {
     this.service.setAddressAsDefault(address.id ?? '');
     this.globalMessageService.add(
       {
-        key: 'messages.setAsDefaultSucessfully',
+        key: 'addressMessages.setAsDefaultSucessfully',
         params: { streetAddress: address.line1 },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
