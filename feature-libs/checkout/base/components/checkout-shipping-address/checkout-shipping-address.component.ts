@@ -120,6 +120,14 @@ export class CheckoutShippingAddressComponent implements OnInit {
     }
   }
 
+  protected onSuccess(): void {
+    this.busy$.next(false);
+  }
+
+  protected onError(): void {
+    this.busy$.next(false);
+  }
+
   getCardContent(
     address: Address,
     selected: any,
@@ -148,8 +156,15 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
-    // TODO:#checkout - put spinner
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
+    this.busy$.next(true);
+    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
+      complete: () => {
+        this.onSuccess();
+      },
+      error: () => {
+        this.onError();
+      },
+    });
   }
 
   addAddress(address: Address | undefined): void {
@@ -159,12 +174,12 @@ export class CheckoutShippingAddressComponent implements OnInit {
         .createAndSetAddress(address)
         .subscribe({
           complete: () => {
-            this.busy$.next(false);
+            this.onSuccess();
             this.shouldRedirect = true;
           },
           error: () => {
-            this.busy$.next(false);
-            this.shouldRedirect = true;
+            this.onError();
+            this.shouldRedirect = false;
           },
         });
     } else {

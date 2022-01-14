@@ -1,7 +1,7 @@
-<ng-container *ngIf="cards$ | async as cards">
-  <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-    {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
-  </h2>
+<h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
+  {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
+</h2>
+<ng-container *ngIf="cards$ | async as cards; else loading">
   <ng-container *ngIf="!shouldRedirect && !(isUpdated$ | async); else loading">
     <ng-container
       *ngIf="cards?.length && !addressFormOpened; else newAddressForm"
@@ -75,10 +75,10 @@
       </ng-template>
     </ng-template>
   </ng-container>
-
-  <ng-template #loading>
-    <div class="cx-spinner">
-      <cx-spinner></cx-spinner>
-    </div>
-  </ng-template>
 </ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
