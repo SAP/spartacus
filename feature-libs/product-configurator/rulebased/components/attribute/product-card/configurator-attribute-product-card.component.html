@@ -73,7 +73,6 @@
               (click)="onHandleDeselect()"
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
-              aria-selected="true"
               [attr.aria-describedby]="
                 createAttributeUiKey('label', productCardOptions?.attributeName)
               "
@@ -90,7 +89,6 @@
                 "
                 [cxFocus]="focusConfig"
                 [attr.aria-label]="getAriaLabelMultiUnselected(product)"
-                aria-selected="false"
                 [attr.aria-describedby]="
                   createAttributeUiKey(
                     'label',
@@ -116,7 +114,6 @@
               "
               [cxFocus]="focusConfig"
               [attr.aria-label]="getAriaLabelSingleUnselected(product)"
-              aria-selected="false"
               [attr.aria-describedby]="
                 createAttributeUiKey('label', productCardOptions?.attributeName)
               "
@@ -140,7 +137,6 @@
                   "
                   [cxFocus]="focusConfig"
                   [attr.aria-label]="getAriaLabelSingleSelected(product)"
-                  aria-selected="true"
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
