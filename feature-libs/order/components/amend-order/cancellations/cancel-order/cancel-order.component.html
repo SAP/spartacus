@@ -1,5 +1,6 @@
 <ng-container *ngIf="form$ | async as form">
   <cx-message
+    role="alert"
     *ngIf="!form.get('entries').valid && form.get('entries').touched"
     [text]="'formErrors.cxNoSelectedItemToCancel' | cxTranslate"
     [isVisibleCloseButton]="false"
