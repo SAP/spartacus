@@ -177,7 +177,7 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
       );
     });
 
-    it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+    it("should contain input element with class name 'form-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -185,19 +185,19 @@ describe('ConfigAttributeSingleSelectionImageComponent', () => {
         'form-input',
         1,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+        'cx-configurator--label--attributeName'
       );
     });
 
-    it("should contain input elements with class name 'form-input' and 'aria-checked' attribute that indicates the current 'checked' state of widgete", () => {
+    it("should contain input elements with class name 'form-input' and 'checked' attribute that indicates the current 'checked' state of widgete", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
         'input',
         'form-input',
         2,
-        'aria-checked',
-        'true'
+        'checked',
+        'checked'
       );
     });
 
