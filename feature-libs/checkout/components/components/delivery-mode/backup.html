@@ -7,11 +7,11 @@
 
       <ng-container
         *ngIf="
-          (supportedDeliveryModes$ | async)?.length &&
-            !(isSetDeliveryModeBusy$ | async) &&
-            !continueButtonPressed;
-          else loading
-        "
+            (supportedDeliveryModes$ | async)?.length &&
+              !(isSetDeliveryModeBusy$ | async) &&
+              !continueButtonPressed;
+            else loading
+          "
       >
         <div
           class="form-check"
@@ -53,10 +53,10 @@
         <button
           class="btn btn-block btn-primary"
           [disabled]="
-            deliveryModeInvalid ||
-            continueButtonPressed ||
-            (isSetDeliveryModeBusy$ | async)
-          "
+              deliveryModeInvalid ||
+              continueButtonPressed ||
+              (isSetDeliveryModeBusy$ | async)
+            "
           (click)="next()"
         >
           {{ 'common.continue' | cxTranslate }}
