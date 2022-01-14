@@ -45,6 +45,13 @@ export class CheckoutShippingAddressComponent implements OnInit {
       take(1)
     );
 
+  protected prepareDeliveryModes$: Observable<unknown> =
+    this.supportedDeliveryModes$.pipe(
+      switchMap(() =>
+        this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+      )
+    );
+
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -170,7 +177,7 @@ export class CheckoutShippingAddressComponent implements OnInit {
     this.busy$.next(true);
     this.checkoutDeliveryAddressFacade
       .setDeliveryAddress(address)
-      .pipe(switchMap(() => this.supportedDeliveryModes$))
+      .pipe(switchMap(() => this.prepareDeliveryModes$))
       .subscribe({
         complete: () => {
           this.onSuccess();
@@ -192,7 +199,7 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
-      .pipe(switchMap(() => this.supportedDeliveryModes$))
+      .pipe(switchMap(() => this.prepareDeliveryModes$))
       .subscribe({
         complete: () => {
           this.onSuccess();

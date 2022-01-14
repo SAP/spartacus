@@ -66,8 +66,7 @@ export class CheckoutDeliveryAddressService
                     },
                     DeliveryAddressCreatedEvent
                   )
-                ),
-                switchMap((address) => this.setDeliveryAddress(address))
+                )
               );
           })
         ),
