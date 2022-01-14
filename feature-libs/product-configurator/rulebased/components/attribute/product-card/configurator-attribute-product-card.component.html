@@ -75,15 +75,7 @@
               [attr.aria-label]="getAriaLabelMultiSelected(product)"
               aria-selected="true"
               [attr.aria-describedby]="
-                createAttributeUiKey(
-                  'label',
-                  productCardOptions?.attributeName
-                ) +
-                ' ' +
-                createAttributeUiKey(
-                  'attribute-msg',
-                  productCardOptions?.attributeName
-                )
+                createAttributeUiKey('label', productCardOptions?.attributeName)
               "
             >
               {{ 'configurator.button.remove' | cxTranslate }}
@@ -102,11 +94,6 @@
                 [attr.aria-describedby]="
                   createAttributeUiKey(
                     'label',
-                    productCardOptions?.attributeName
-                  ) +
-                  ' ' +
-                  createAttributeUiKey(
-                    'attribute-msg',
                     productCardOptions?.attributeName
                   )
                 "
@@ -131,15 +118,7 @@
               [attr.aria-label]="getAriaLabelSingleUnselected(product)"
               aria-selected="false"
               [attr.aria-describedby]="
-                createAttributeUiKey(
-                  'label',
-                  productCardOptions?.attributeName
-                ) +
-                ' ' +
-                createAttributeUiKey(
-                  'attribute-msg',
-                  productCardOptions?.attributeName
-                )
+                createAttributeUiKey('label', productCardOptions?.attributeName)
               "
             >
               {{ 'configurator.button.select' | cxTranslate }}
@@ -165,11 +144,6 @@
                   [attr.aria-describedby]="
                     createAttributeUiKey(
                       'label',
-                      productCardOptions?.attributeName
-                    ) +
-                    ' ' +
-                    createAttributeUiKey(
-                      'attribute-msg',
                       productCardOptions?.attributeName
                     )
                   "
