@@ -63,3 +63,6 @@ debug.log
 Thumbs.db
 
 **/git-ignore
+
+# Angular app cache
+.angular/
