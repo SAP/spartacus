@@ -37,7 +37,7 @@ export function interceptB2BCheckoutSuperQueryEndpoint() {
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
   ).as(GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS);
 
   return GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS;
