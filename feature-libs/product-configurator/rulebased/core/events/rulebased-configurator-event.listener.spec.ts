@@ -30,7 +30,7 @@ let mockConfiguratorCartService: MockConfiguratorCartService =
   new MockConfiguratorCartService();
 
 describe('RulebasedConfiguratorEventListener', () => {
-  let CheckoutorderPlacedEvent: ReplaySubject<any> | undefined;
+  let checkoutOrderPlacedEvent: ReplaySubject<any> | undefined;
   let configuratorCartService: ConfiguratorCartService;
 
   beforeEach(
@@ -62,12 +62,12 @@ describe('RulebasedConfiguratorEventListener', () => {
       CheckoutOrderPlacedEvent,
       new ReplaySubject<CheckoutOrderPlacedEvent>()
     );
-    CheckoutorderPlacedEvent = eventServiceEvents.get(CheckoutOrderPlacedEvent);
+    checkoutOrderPlacedEvent = eventServiceEvents.get(CheckoutOrderPlacedEvent);
   });
 
   describe('onPlaceOrder', () => {
-    it('should subscribe to CheckoutorderPlacedEvent and call facade service', () => {
-      CheckoutorderPlacedEvent?.next({
+    it('should subscribe to CheckoutOrderPlacedEvent and call facade service', () => {
+      checkoutOrderPlacedEvent?.next({
         entry: { product: { categories: [{}] } },
       });
       TestBed.inject(
@@ -79,7 +79,7 @@ describe('RulebasedConfiguratorEventListener', () => {
       ).toHaveBeenCalled();
     });
 
-    it('should not call facade service in case CheckoutorderPlacedEvent did not happen', () => {
+    it('should not call facade service in case checkoutOrderPlacedEvent did not happen', () => {
       TestBed.inject(
         RulebasedConfiguratorEventListener as Type<RulebasedConfiguratorEventListener>
       );
