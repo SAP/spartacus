@@ -38,6 +38,10 @@
       cx-cart-coupon {
         max-width: 50%;
       }
+
+      cx-cart-proceed-to-checkout {
+        max-width: 50%;
+      }
     }
 
     @include media-breakpoint-down(sm) {
@@ -55,6 +59,12 @@
       }
 
       cx-cart-coupon {
+        max-width: 100%;
+        padding-inline-end: 0;
+        padding-inline-start: 0;
+      }
+
+      cx-cart-proceed-to-checkout {
         max-width: 100%;
         padding-inline-end: 0;
         padding-inline-start: 0;

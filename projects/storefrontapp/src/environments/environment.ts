@@ -15,7 +15,8 @@ import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
   production: false,
-  occBaseUrl: buildProcess.env.CX_BASE_URL,
+  // occBaseUrl: buildProcess.env.CX_BASE_URL,
+  occBaseUrl: 'https://cx-platform-current.eastus.cloudapp.azure.com:9002',
   occApiPrefix: '/occ/v2/',
   cds: buildProcess.env.CX_CDS ?? false,
   b2b: buildProcess.env.CX_B2B ?? false,
