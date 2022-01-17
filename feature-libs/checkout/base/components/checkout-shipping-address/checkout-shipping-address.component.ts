@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,
@@ -8,13 +8,12 @@ import {
 import {
   Address,
   getLastValueSync,
-  QueryState,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -38,19 +37,6 @@ export class CheckoutShippingAddressComponent implements OnInit {
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
-
-  protected supportedDeliveryModes$: Observable<QueryState<DeliveryMode[]>> =
-    this.checkoutDeliveryModesFacade.getSupportedDeliveryModesState().pipe(
-      filter((state) => !state.loading),
-      take(1)
-    );
-
-  protected prepareDeliveryModes$: Observable<unknown> =
-    this.supportedDeliveryModes$.pipe(
-      switchMap(() =>
-        this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-      )
-    );
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -196,7 +182,11 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
     this.checkoutDeliveryAddressFacade
       .createAndSetAddress(address)
-      .pipe(switchMap(() => this.prepareDeliveryModes$))
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+        )
+      )
       .subscribe({
         complete: () => {
           this.onSuccess();
