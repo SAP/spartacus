@@ -1,5 +1,5 @@
 import { waitForProductPage } from '../checkout-flow';
-import { loginB2bUser as login } from './b2b-checkout';
+import * as b2bCheckout from './b2b-checkout';
 
 export function visitProduct(productCode) {
   const page = `/product/${productCode}`;
@@ -72,7 +72,7 @@ export function updateAndverifyTotal(newQuantity) {
 }
 
 export function loginB2bUser() {
-  login();
+  b2bCheckout.loginB2bUser();
 }
 
 export function placeOrder() {
@@ -87,14 +87,13 @@ export function placeOrder() {
     cy.findByText('Account').click({ force: true });
   });
 
-  cy.get('cx-payment-type .btn-primary').click();
+  b2bCheckout.selectAccountPayment();
+  b2bCheckout.selectAccountShippingAddress();
+  b2bCheckout.selectAccountDeliveryMode();
 
-  cy.get('cx-shipping-address').contains('Select your Shipping Address');
-  cy.get('cx-shipping-address .cx-checkout-btns button.btn-primary').click();
-  cy.get('cx-delivery-mode').contains('Standard Delivery');
-  cy.get('cx-delivery-mode .btn-primary').click();
   cy.get('.cx-review-title').should('contain', 'Review');
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
-  cy.get('cx-place-order button.btn-primary').click();
+
+  b2bCheckout.placeOrder('/order-confirmation');
 }
