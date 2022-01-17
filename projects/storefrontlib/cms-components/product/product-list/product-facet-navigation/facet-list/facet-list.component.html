@@ -23,7 +23,7 @@
       Here we'd like to introduce configurable facet components, 
       either by using specific configuration or generic sproutlets 
   -->
-  <cx-tab [tabs$]="tabs$" [config]="tabConfig"></cx-tab>
+  <cx-tab [tabs$]="tabs$" [config]="tabConfig" *ngIf="tabs$ | async"></cx-tab>
 
   <ng-template #facetsRef *ngFor="let facet of facets">
     <cx-facet [facet]="facet"></cx-facet>

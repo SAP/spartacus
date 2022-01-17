@@ -13,11 +13,11 @@ import {
   ViewChildren,
 } from '@angular/core';
 import { Tab, TabConfig, TAB_MODE } from '../../../../content/tab/Tab';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { FacetList } from '../facet.model';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetService } from '../services/facet.service';
+import { filter, take } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-facet-list',
@@ -34,6 +34,7 @@ export class FacetListComponent implements AfterViewInit {
     this._isDialog = value;
     if (value) {
       this.renderer.addClass(document.body, 'modal-open');
+      this.renderFacets();
     }
   }
 
@@ -68,24 +69,31 @@ export class FacetListComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.renderFacets();
+
+    // Renders facets on first PLP load on desktop
+    this.facetsRef.changes
+      .pipe(
+        take(1),
+        filter((changes) => !!changes)
+      )
+      .subscribe(() => this.renderFacets());
   }
 
   renderFacets(): void {
-    combineLatest([this.facetsRef.changes, this.facetList$])
-      .pipe(take(1))
-      .subscribe(([templates, list]) => {
-        const facets = list.facets;
-        const tabs = [];
-        for (let i = 0; i < facets?.length; i++) {
-          tabs.push({
-            header: facets[i].name ?? 'unnamed',
-            content: templates?._results[i],
-          });
-        }
+    this.facetList$.pipe(take(1)).subscribe((list) => {
+      const facets = list.facets;
+      const tabs = [];
 
-        this.tabs$.next(tabs);
-        this.changeDetectorRef.detectChanges();
-      });
+      for (let i = 0; i < facets?.length; i++) {
+        tabs.push({
+          header: facets[i].name ?? 'unnamed',
+          content: this.facetsRef?.get(i),
+        });
+      }
+
+      this.tabs$.next(tabs);
+      this.changeDetectorRef.detectChanges();
+    });
   }
 
   close(event?: boolean): void {

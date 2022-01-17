@@ -39,33 +39,6 @@ $intialExpandedFacetsLarge: 3 !default;
 
   display: block;
 
-  @include media-breakpoint-down(md) {
-    &:nth-of-type(-n + #{$intialExpandedFacets}) {
-      &.collapsed {
-        .collapse-icon,
-        a,
-        button:not(.heading) {
-          display: none;
-        }
-      }
-      &:not(.collapsed) .expand-icon {
-        display: none;
-      }
-    }
-    &:nth-of-type(n + #{$intialExpandedFacets + 1}) {
-      &:not(.expanded) {
-        .collapse-icon,
-        a,
-        button:not(.heading) {
-          display: none;
-        }
-      }
-      &.expanded .expand-icon {
-        display: none;
-      }
-    }
-  }
-
   @include media-breakpoint-up(lg) {
     // first number of facets
     &:nth-of-type(-n + #{$intialExpandedFacetsLarge}) {
