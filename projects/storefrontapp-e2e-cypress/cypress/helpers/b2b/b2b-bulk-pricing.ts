@@ -76,17 +76,11 @@ export function loginB2bUser() {
 }
 
 export function placeOrder() {
-  const checkoutSelector =
-    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary';
-  cy.get(checkoutSelector).click();
-  cy.get('cx-payment-type').contains(' Account ');
-  cy.get('cx-payment-type').within(() => {
-    cy.get('.form-control').clear().type('123');
-  });
-  cy.get('cx-payment-type').within(() => {
-    cy.findByText('Account').click({ force: true });
-  });
+  cy.get(
+    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary'
+  ).click();
 
+  b2bCheckout.enterPONumber();
   b2bCheckout.selectAccountPayment();
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
