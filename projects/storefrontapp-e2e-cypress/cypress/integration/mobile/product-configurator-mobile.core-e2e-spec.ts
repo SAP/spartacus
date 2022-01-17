@@ -1,3 +1,4 @@
+import { clickAllowAllFromBanner } from '../../helpers/anonymous-consents';
 import * as configuration from '../../helpers/product-configurator';
 import * as configurationVc from '../../helpers/product-configurator-vc';
 import { formats } from '../../sample-data/viewports';
@@ -20,6 +21,7 @@ context('Product Configuration', () => {
     it('should navigate using the group menu in mobile resolution', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.viewport(formats.mobile.width, formats.mobile.height);
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(electronicsShop, testProduct);
       configuration.checkHamburgerDisplayed();
       configuration.checkAttributeDisplayed(CAMERA_MODE, radioGroup);
