@@ -13,7 +13,6 @@ import { Cart, OrderEntry } from '@spartacus/cart/main/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, I18nTestingModule, Product } from '@spartacus/core';
 import { CurrentProductService } from '@spartacus/storefront';
-import { cold } from 'jasmine-marbles';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToWishListComponent } from './add-to-wish-list.component';
 import createSpy = jasmine.createSpy;
@@ -49,11 +48,6 @@ const mockCartEntry2: OrderEntry = {
 
 const entries = [mockCartEntry, mockCartEntry1, mockCartEntry2];
 
-const mockEmptyWishList: Cart = {
-  code: '1',
-  entries: [],
-};
-
 const mockWishList: Cart = {
   code: '2',
   entries: entries,
@@ -65,13 +59,14 @@ class MockAuthService {
   }
 }
 
-const wishListSubject = new BehaviorSubject(mockWishList);
 const productSubject = new BehaviorSubject(mockProduct);
 
 class MockWishListService {
   addEntry = createSpy();
   removeEntry = createSpy();
-  getWishList = createSpy().and.returnValue(wishListSubject);
+  getWishList() {
+    return of(mockWishList);
+  }
   getWishListLoading() {
     return of(false);
   }
@@ -96,13 +91,10 @@ class MockUrlPipe implements PipeTransform {
   transform(): any {}
 }
 
-const booleanValues = { t: true, f: false };
-
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
   let wishListFacade: WishListFacade;
-  let authService: AuthService;
   let el: DebugElement;
 
   beforeEach(
@@ -131,7 +123,6 @@ describe('AddToWishListComponent', () => {
     component = fixture.componentInstance;
 
     wishListFacade = TestBed.inject(WishListFacade);
-    authService = TestBed.inject(AuthService);
 
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -194,7 +185,7 @@ describe('AddToWishListComponent', () => {
       });
 
       it('should show add to wish list if product is NOT the in wish list', () => {
-        wishListSubject.next(mockEmptyWishList);
+        component.wishListEntries$ = of([]);
         fixture.detectChanges();
         expect(el.query(By.css('.button-add')).nativeElement).toBeDefined();
       });
@@ -218,99 +209,21 @@ describe('AddToWishListComponent', () => {
     });
   });
 
-  describe('getWishListLoading', () => {
-    it('should return default value when wish list data is not required', () => {
-      spyOn(component as any, 'wishListDataRequired').and.returnValue(
-        cold('f', booleanValues)
-      );
-      spyOn(wishListFacade, 'getWishListLoading').and.stub();
-
-      expect(component['getWishListLoading']()).toBeObservable(
-        cold('f', booleanValues)
-      );
-
-      expect(wishListFacade.getWishListLoading).not.toHaveBeenCalled();
-    });
-
-    it('should return facade data when wish list data is required', () => {
-      spyOn(component as any, 'wishListDataRequired').and.returnValue(
-        cold('t', booleanValues)
-      );
-      spyOn(wishListFacade, 'getWishListLoading').and.returnValue(
-        cold('t', booleanValues)
-      );
-
-      expect(component['getWishListLoading']()).toBeObservable(
-        cold('t', booleanValues)
-      );
-
-      expect(wishListFacade.getWishListLoading).toHaveBeenCalled();
-    });
-  });
-
-  describe('getWishListEntries', () => {
-    it('should return default value when wish list data is not required', () => {
-      spyOn(component as any, 'wishListDataRequired').and.returnValue(
-        cold('f', booleanValues)
-      );
-      spyOn(component as any, 'getWishListEntriesFromFacade').and.stub();
-
-      expect(component['getWishListEntries']()).toBeObservable(
-        cold('r', { r: [] })
-      );
-
-      expect(component['getWishListEntriesFromFacade']).not.toHaveBeenCalled();
-    });
-
-    it('should return wish list data when wish list data is required', () => {
-      spyOn(component as any, 'wishListDataRequired').and.returnValue(
-        cold('t', booleanValues)
-      );
-      spyOn(component as any, 'getWishListEntriesFromFacade').and.returnValue(
-        cold('e', { e: entries })
-      );
-
-      expect(component['getWishListEntries']()).toBeObservable(
-        cold('r', { r: entries })
-      );
-    });
-  });
-
   describe('getWishListEntriesFromFacade', () => {
-    it('should return the wishlist entriies from the facade', (done) => {
-      wishListSubject.next(mockWishList);
+    it('should return the wishlist entries from the facade', (done) => {
       component['getWishListEntriesFromFacade']().subscribe((wishList) => {
         expect(wishList).toEqual(mockWishList.entries);
         done();
       });
     });
-  });
-
-  describe('wishListDataRequired', () => {
-    it('should return true when a user is loggd in', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('t', booleanValues)
+    it('should return an empty list if entries are falsy', (done) => {
+      spyOn(wishListFacade, 'getWishList').and.returnValue(
+        of({ ...mockWishList, entries: undefined })
       );
-      expect((component as any)['wishListDataRequired']()).toBeObservable(
-        cold('(t|)', booleanValues)
-      );
-    });
-
-    it('should return false when no user is loggd in', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', booleanValues)
-      );
-      expect((component as any)['wishListDataRequired']()).toBeObservable(
-        cold('f', booleanValues)
-      );
-    });
-    it('should return false then true if a user eventually logs in', () => {
-      spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f---t', booleanValues)
-      );
-      expect((component as any)['wishListDataRequired']()).toBeObservable(
-        cold('f---(t|)', booleanValues)
-      );
+      component['getWishListEntriesFromFacade']().subscribe((wishList) => {
+        expect(wishList).toEqual([]);
+        done();
+      });
     });
   });
 });
