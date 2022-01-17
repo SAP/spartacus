@@ -12,8 +12,8 @@ import {
   CheckoutDeliveryAddressSetEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
-  ResetCheckoutDeliveryModesEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 
 /**
@@ -52,7 +52,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
           // we want to LL the checkout feature (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode();
 
-          this.eventService.dispatch({}, ResetCheckoutDeliveryModesEvent);
+          this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
         })
     );
   }
@@ -77,14 +77,14 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryModeSetEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+          this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )
     );
     this.subscriptions.add(
       this.eventService
         .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+          this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )
     );
   }

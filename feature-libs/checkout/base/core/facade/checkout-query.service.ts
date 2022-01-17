@@ -10,9 +10,9 @@ import {
 import {
   CheckoutOrderPlacedEvent,
   CheckoutQueryFacade,
+  CheckoutReloadQueryEvent,
+  CheckoutResetQueryEvent,
   CheckoutState,
-  ReloadCheckoutQueryEvent,
-  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/base/root';
 import {
   CurrencySetEvent,
@@ -37,7 +37,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
    */
   protected getQueryReloadTriggers(): QueryNotifier[] {
     return [
-      ReloadCheckoutQueryEvent,
+      CheckoutReloadQueryEvent,
       ...this.getCheckoutQuerySiteContextReloadTriggers(),
     ];
   }
@@ -52,7 +52,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
    */
   protected getQueryResetTriggers(): QueryNotifier[] {
     return [
-      ResetCheckoutQueryEvent,
+      CheckoutResetQueryEvent,
       ...this.getCheckoutQueryResetAuthTriggers(),
       ...this.getCheckoutQueryResetCartTriggers(),
       ...this.getCheckoutQueryResetOrderTriggers(),

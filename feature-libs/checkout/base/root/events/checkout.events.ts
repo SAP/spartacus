@@ -5,21 +5,21 @@ import { Order } from '@spartacus/order/root';
 /**
  * Emit this event to force checkout details reload
  */
-export class ReloadCheckoutQueryEvent extends CxEvent {
+export class CheckoutReloadQueryEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ReloadCheckoutQueryEvent';
+  static readonly type = 'CheckoutReloadQueryEvent';
 }
 
 /**
  * Emit this event to force checkout details reset
  */
-export class ResetCheckoutQueryEvent extends CxEvent {
+export class CheckoutResetQueryEvent extends CxEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ResetCheckoutQueryEvent';
+  static readonly type = 'CheckoutResetQueryEvent';
 }
 
 /**
@@ -80,11 +80,11 @@ export class CheckoutDeliveryAddressCreatedEvent extends CheckoutDeliveryAddress
 /**
  * Fired when the delivery address has to be cleared.
  */
-export class ClearCheckoutDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
+export class CheckoutClearDeliveryAddressEvent extends CheckoutDeliveryAddressEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ClearCheckoutDeliveryAddressEvent';
+  static readonly type = 'CheckoutClearDeliveryAddressEvent';
 }
 
 /**
@@ -115,11 +115,11 @@ export class CheckoutReloadDeliveryModesEvent extends CheckoutDeliveryModeEvent 
 /**
  * Emit this event to force delivery modes reset
  */
-export class ResetCheckoutDeliveryModesEvent extends CheckoutDeliveryModeEvent {
+export class CheckoutResetDeliveryModesEvent extends CheckoutDeliveryModeEvent {
   /**
    * Event's type
    */
-  static readonly type = 'ResetCheckoutDeliveryModesEvent';
+  static readonly type = 'CheckoutResetDeliveryModesEvent';
 }
 
 /**

@@ -4,12 +4,6 @@
 2. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
    1. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200) - related to waiting for Wei and Patrick PR to be merged 
    - (related to above) sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
-3.  check the event listeners for the following scenario:
-    1.  a user started the checkout, entered their delivery address, and set the delivery mode, and the data is sent on the back-end for the active cart
-    2.  the user changes their mind, and navigates away from the checkout page to homepage, and refreshes the browser.
-    3.  after it, they decide to change their address in the profile menu. 
-    4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
-    5.  if the listener was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
 4. Check how do various checkouts work:
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
@@ -46,12 +40,10 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-6. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274 (I think it's best to not rename them. What do you think?)
 7. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    4.  Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
 8. query debounce - `feature/query-debounce`
 9. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-10. Look into `TODO(#8880):`
 11. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
    1. revert the variable names from *facade to *service _in old checkout only_
 12. check the bundle size of checkout (maybe using webpack analyzer)

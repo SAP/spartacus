@@ -8,7 +8,7 @@ import {
   CheckoutDeliveryModesFacade,
   CheckoutQueryFacade,
   CheckoutReloadDeliveryModesEvent,
-  ResetCheckoutDeliveryModesEvent,
+  CheckoutResetDeliveryModesEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Command,
@@ -54,7 +54,7 @@ export class CheckoutDeliveryModesService
    */
   protected getSupportedDeliveryModesQueryResetTriggers(): QueryNotifier[] {
     return [
-      ResetCheckoutDeliveryModesEvent,
+      CheckoutResetDeliveryModesEvent,
       ...this.getSupportedDeliveryModesQueryResetAuthTriggers(),
     ];
   }

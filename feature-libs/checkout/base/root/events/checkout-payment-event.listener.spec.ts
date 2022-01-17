@@ -10,7 +10,7 @@ import { CheckoutPaymentEventListener } from './checkout-payment-event.listener'
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -50,21 +50,21 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onPaymentChange`, () => {
-    it(`should dispatch ResetCheckoutQueryEvent`, () => {
+    it(`should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
 
-    it(`CheckoutPaymentDetailsSetEvent should dispatch ResetCheckoutQueryEvent`, () => {
+    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
 

@@ -11,12 +11,12 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
+  CheckoutClearDeliveryAddressEvent,
   CheckoutDeliveryAddressClearedEvent,
   CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressSetEvent,
-  ClearCheckoutDeliveryAddressEvent,
-  ResetCheckoutDeliveryModesEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 
 /**
@@ -55,7 +55,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           // we want to LL the checkout (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
 
-          this.eventService.dispatch({}, ResetCheckoutDeliveryModesEvent);
+          this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
         })
     );
   }
@@ -76,9 +76,9 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
     );
     this.subscriptions.add(
       this.eventService.get(CheckoutDeliveryAddressSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutDeliveryModesEvent);
+        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
 
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );
 
@@ -86,13 +86,13 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
       this.eventService
         .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+          this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )
     );
 
     this.subscriptions.add(
       this.eventService
-        .get(ClearCheckoutDeliveryAddressEvent)
+        .get(CheckoutClearDeliveryAddressEvent)
         .subscribe(() =>
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
         )

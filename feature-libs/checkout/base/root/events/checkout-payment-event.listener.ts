@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 
 /**
@@ -39,12 +39,12 @@ export class CheckoutPaymentEventListener implements OnDestroy {
             { key: 'paymentForm.paymentAddedSuccessfully' },
             GlobalMessageType.MSG_TYPE_CONFIRMATION
           );
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
         })
     );
     this.subscriptions.add(
       this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );
   }
