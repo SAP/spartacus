@@ -130,5 +130,5 @@ export abstract class ActiveCartFacade {
   /**
    * Clears active cart
    */
-  abstract clearActiveCart(): void;
+  abstract clearActiveCart(): Observable<boolean>;
 }
