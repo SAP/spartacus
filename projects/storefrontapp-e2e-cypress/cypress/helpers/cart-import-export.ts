@@ -239,7 +239,10 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   cy.requireLoggedIn();
-  const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
+  const savedCartPage = waitForPage(
+    '/my-account/saved-carts',
+    'getSavedCartsPage'
+  );
   cy.visit('/my-account/saved-carts');
   cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
@@ -253,7 +256,9 @@ export function importCartTestFromConfig(config: ImportConfig) {
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type(config.description);
 
-  cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as('import');
+  cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
+    'import'
+  );
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
   cy.wait('@import').then((xhr) => {
@@ -280,7 +285,10 @@ export function importCartTestFromConfig(config: ImportConfig) {
  */
 export function attemptUpload(csvPath: string) {
   cy.requireLoggedIn();
-  const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
+  const savedCartPage = waitForPage(
+    '/my-account/saved-carts',
+    'getSavedCartsPage'
+  );
   cy.visit('/my-account/saved-carts');
   cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();

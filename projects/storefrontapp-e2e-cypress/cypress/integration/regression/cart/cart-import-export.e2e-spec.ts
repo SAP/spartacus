@@ -173,8 +173,10 @@ context('Cart Import/Export', () => {
         const toImport = `Code,Quantity\r\n325234,999\r\n`;
         const CSV = 'limited-quantity.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, toImport);
-  
-        cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as('import');
+
+        cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
+          'import'
+        );
         importExport.attemptUpload(`../downloads/${CSV}`);
         cy.wait('@import');
 
