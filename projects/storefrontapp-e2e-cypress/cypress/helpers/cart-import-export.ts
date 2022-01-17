@@ -1,4 +1,3 @@
-import { loginAsMyCompanyAdmin } from './b2b/my-company/my-company.utils';
 import * as cart from './cart';
 import { waitForPage, waitForProductPage } from './checkout-flow';
 
@@ -239,7 +238,7 @@ export function exportCart(expectedData?: string) {
  * Standardized E2E Test for import cart scenarios.
  */
 export function importCartTestFromConfig(config: ImportConfig) {
-  loginAsMyCompanyAdmin();
+  cy.requireLoggedIn();
   const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
   cy.visit('/my-account/saved-carts');
   cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
@@ -253,7 +252,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.get(
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type(config.description);
-
+  
   cy.intercept('GET', '**/users/current/carts/*?**').as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
@@ -280,7 +279,7 @@ export function importCartTestFromConfig(config: ImportConfig) {
  * Attempt to upload a csv by filling out import cart form and clicking "Upload".
  */
 export function attemptUpload(csvPath: string) {
-  loginAsMyCompanyAdmin();
+  cy.requireLoggedIn();
   const savedCartPage = waitForPage('/my-account/saved-carts', 'getSavedCartsPage');
   cy.visit('/my-account/saved-carts');
   cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
