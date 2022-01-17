@@ -1,6 +1,5 @@
 import * as cart from '../../../helpers/cart';
 import * as importExport from '../../../helpers/cart-import-export';
-import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
@@ -149,37 +148,6 @@ context('Cart Import/Export', () => {
       });
     });
 
-    describe('Variable products', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
-      const variableProductCode = '300785814';
-
-      beforeEach(() => {
-        cy.cxConfig({
-          context: {
-            baseSite: [APPAREL_BASESITE],
-            currency: ['GBP'],
-          },
-        });
-      });
-
-      it('should export cart', () => {
-        importExport.addProductToCart(variableProductCode);
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Variable products Cart',
-          description: 'A test description for Variable products Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 1,
-          total: '£24.26',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
-
     describe('Malformed CSVs', () => {
       it('should NOT import empty csv file', () => {
         const CSV = 'empty.csv';
@@ -205,6 +173,8 @@ context('Cart Import/Export', () => {
         const toImport = `Code,Quantity\r\n325234,999\r\n`;
         const CSV = 'limited-quantity.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, toImport);
+  
+        cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as('import');
         importExport.attemptUpload(`../downloads/${CSV}`);
         cy.wait('@import');
 
