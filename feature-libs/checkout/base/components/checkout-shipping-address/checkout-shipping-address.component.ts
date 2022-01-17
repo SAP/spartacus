@@ -175,17 +175,14 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
   selectAddress(address: Address): void {
     this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade
-      .setDeliveryAddress(address)
-      .pipe(switchMap(() => this.prepareDeliveryModes$))
-      .subscribe({
-        complete: () => {
-          this.onSuccess();
-        },
-        error: () => {
-          this.onError();
-        },
-      });
+    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
+      complete: () => {
+        this.onSuccess();
+      },
+      error: () => {
+        this.onError();
+      },
+    });
   }
 
   addAddress(address: Address | undefined): void {
