@@ -1,5 +1,3 @@
-
-
 import { loginAsMyCompanyAdmin } from './b2b/my-company/my-company.utils';
 import * as cart from './cart';
 
@@ -256,6 +254,22 @@ export function exportCart(expectedData?: string) {
   }
 }
 
+export function removeProductsFromActiveCart() {
+  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
+  cy.wait(['@refresh_cart']);
+
+  cy.get('cx-cart-item').then(($items) => {
+    for (let i = 0; i < $items.length; i++) {
+      cy.get('.link:contains("Remove")')
+        .first()
+        .click()
+        .then(() => {
+          cy.wait(['@refresh_cart']);
+        });
+    }
+  });
+}
+
 /**
  * Standardized E2E Test for import cart scenarios.
  */
@@ -263,6 +277,10 @@ export function importCartTestFromConfig(config: ImportConfig) {
   loginAsMyCompanyAdmin();
 
   cy.visit(config.importButtonPath);
+
+  if (config.context === ImportExportContext.ACTIVE_CART) {
+    removeProductsFromActiveCart();
+  }
 
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
@@ -344,7 +362,7 @@ export function testImportExportSingleProduct() {
 
     it('should import to active cart', () => {
       importCartTestFromConfig({
-        fileName: 'cart',
+        fileName: 'cart-single',
         context: ImportExportContext.ACTIVE_CART,
         importButtonPath: 'cart',
         saveTime: getSavedDate(),
@@ -357,7 +375,7 @@ export function testImportExportSingleProduct() {
 
     it('should import to saved cart', () => {
       importCartTestFromConfig({
-        fileName: 'cart',
+        fileName: 'cart-single',
         context: ImportExportContext.SAVED_CART,
         importButtonPath: 'my-account/saved-carts',
         saveTime: getSavedDate(),
@@ -419,4 +437,3 @@ export function testImportExportLargerQuantity() {
     });
   });
 }
-
