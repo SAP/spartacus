@@ -20,18 +20,17 @@ import {
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
 
-export const GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS =
-  'GET_CHECKOUT_SUPER_QUERY';
+export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 
-export function interceptB2CCheckoutSuperQueryEndpoint() {
+export function interceptCheckoutB2CDetailsEndpoint() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
-  ).as(GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS);
+  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
-  return GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS;
+  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
 /**
@@ -195,7 +194,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutSuperQueryAlias = interceptB2CCheckoutSuperQueryEndpoint();
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -211,7 +210,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+  cy.wait(`@${getCheckoutDetailsAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -390,7 +389,7 @@ export function fillAddressFormWithCheapProduct(
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutSuperQueryAlias = interceptB2CCheckoutSuperQueryEndpoint();
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -406,7 +405,7 @@ export function fillAddressFormWithCheapProduct(
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+  cy.wait(`@${getCheckoutDetailsAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 }

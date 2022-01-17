@@ -29,18 +29,17 @@ import {
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
-export const GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS =
-  'GET_CHECKOUT_SUPER_QUERY';
+export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
 
-export function interceptB2BCheckoutSuperQueryEndpoint() {
+export function interceptCheckoutB2BDetailsEndpoint() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
-  ).as(GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS);
+  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
 
-  return GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS;
+  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
 
 export function loginB2bUser() {
@@ -147,10 +146,10 @@ export function selectAccountShippingAddress() {
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
   /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * Delivery mode PUT intercept is not in selectAccountDeliveryMode()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutSuperQueryAlias = interceptB2BCheckoutSuperQueryEndpoint();
+  const getCheckoutDetailsAlias = interceptCheckoutB2BDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -173,7 +172,7 @@ export function selectAccountShippingAddress() {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+  cy.wait(`@${getCheckoutDetailsAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 }

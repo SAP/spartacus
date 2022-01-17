@@ -3,7 +3,7 @@ import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
 import {
-  interceptB2CCheckoutSuperQueryEndpoint,
+  interceptCheckoutB2CDetailsEndpoint,
   waitForPage,
   waitForProductPage,
 } from './checkout-flow';
@@ -268,7 +268,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
    * Delivery mode PUT intercept is not in verifyDeliveryMethod()
    * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
    */
-  const getCheckoutSuperQueryAlias = interceptB2CCheckoutSuperQueryEndpoint();
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -285,7 +285,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+  cy.wait(`@${getCheckoutDetailsAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
