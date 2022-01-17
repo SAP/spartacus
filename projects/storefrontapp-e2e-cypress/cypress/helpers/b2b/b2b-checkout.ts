@@ -146,6 +146,18 @@ export function selectAccountShippingAddress() {
   cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutSuperQueryAlias = interceptB2BCheckoutSuperQueryEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -159,23 +171,15 @@ export function selectAccountShippingAddress() {
 
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
-}
-
-export function selectAccountDeliveryMode() {
-  const getCheckoutSuperQueryAlias = interceptB2BCheckoutSuperQueryEndpoint();
-  cy.intercept({
-    method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/deliverymode?deliveryModeId=*`,
-  }).as('putDeliveryMode');
-
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${getCheckoutSuperQueryAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
+}
+
+export function selectAccountDeliveryMode() {
+  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
 
