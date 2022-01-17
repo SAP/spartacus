@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   CmsConfig,
   I18nModule,
@@ -15,6 +16,7 @@ import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.compo
     CommonModule,
     I18nModule,
     ProgressButtonModule,
+    RouterModule,
     UrlModule,
   ],
   providers: [
