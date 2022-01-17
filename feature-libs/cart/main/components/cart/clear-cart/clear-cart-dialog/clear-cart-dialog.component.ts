@@ -7,6 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ClearCartService } from '../clear-cart.service';
+import { BehaviorSubject } from 'rxjs';
 import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -16,6 +17,7 @@ import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
 })
 export class ClearCartDialogComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
+  isClearing$: BehaviorSubject<boolean>;
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -31,11 +33,12 @@ export class ClearCartDialogComponent implements OnInit, OnDestroy {
     protected clearCartService: ClearCartService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isClearing$ = this.clearCartService.getClearingCartProgess();
+  }
 
   clear(): void {
     this.clearCartService.clearActiveCart();
-    this.close('close dialog');
   }
 
   close(reason: string): void {
