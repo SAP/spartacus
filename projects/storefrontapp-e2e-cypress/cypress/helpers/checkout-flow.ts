@@ -20,6 +20,20 @@ import {
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
 
+export const GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS =
+  'GET_CHECKOUT_SUPER_QUERY';
+
+export function interceptB2CCheckoutSuperQueryEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
+  ).as(GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS);
+
+  return GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS;
+}
+
 /**
  * Clicks the main menu (on mobile only)
  */
@@ -134,7 +148,7 @@ export function signInUser(sampleUser: SampleUser = user) {
   login(sampleUser.email, sampleUser.password);
 }
 
-export function signOutUser(sampleUser: SampleUser = user) {
+export function signOutUser() {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
@@ -176,13 +190,35 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
     .first()
     .find('.cx-summary-amount')
     .should('contain', cart.total);
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
   fillShippingAddress(shippingAddressData);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function verifyDeliveryMethod() {
   cy.log('🛒 Selecting delivery method');
+
+  const getCheckoutSuperQueryAlias = interceptB2CCheckoutSuperQueryEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
   cy.get('cx-delivery-mode input').first().should('be.checked');
+
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -355,8 +391,7 @@ export function fillAddressFormWithCheapProduct(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: PaymentDetails = user,
-  billingAddress?: AddressData,
-  cartData: SampleCartProduct = cartWithCheapProduct
+  billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -420,7 +455,7 @@ export function placeOrderWithCheapProduct(
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-  cartData: SampleCartProduct = cartWithCheapProduct,
+  _cartData: SampleCartProduct = cartWithCheapProduct,
   isApparel: boolean = false
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
@@ -463,9 +498,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
-export function viewOrderHistoryWithCheapProduct(
-  cartData: SampleCartProduct = cartWithCheapProduct
-) {
+export function viewOrderHistoryWithCheapProduct() {
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
     'getOrderHistoryPage'

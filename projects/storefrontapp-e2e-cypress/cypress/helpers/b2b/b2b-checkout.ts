@@ -29,6 +29,20 @@ import {
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
+export const GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS =
+  'GET_CHECKOUT_SUPER_QUERY';
+
+export function interceptB2BCheckoutSuperQueryEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
+  ).as(GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS);
+
+  return GET_CHECKOUT_SUPER_QUERY_ENDPOINT_ALIAS;
+}
+
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(b2bUser);
@@ -148,15 +162,23 @@ export function selectAccountShippingAddress() {
 }
 
 export function selectAccountDeliveryMode() {
+  const getCheckoutSuperQueryAlias = interceptB2BCheckoutSuperQueryEndpoint();
   cy.intercept({
     method: 'PUT',
     path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/**/deliverymode?*`,
+    )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutSuperQueryAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
+
   cy.get('cx-delivery-mode input').first().should('be.checked');
+
   cy.get(
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
   ).then(() => {
@@ -166,11 +188,11 @@ export function selectAccountDeliveryMode() {
       config.deliveryMode
     );
   });
+
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   cy.get('.cx-checkout-btns button.btn-primary').should('be.enabled').click();
 
-  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
