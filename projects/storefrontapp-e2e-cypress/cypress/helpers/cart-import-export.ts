@@ -252,8 +252,8 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.get(
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type(config.description);
-  
-  cy.intercept('GET', '**/users/current/carts/*?**').as('import');
+
+  cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
   cy.wait('@import').then((xhr) => {
@@ -294,7 +294,6 @@ export function attemptUpload(csvPath: string) {
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type('A test description.');
 
-  cy.intercept('GET', '**/users/current/carts/*?**').as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 }
 
