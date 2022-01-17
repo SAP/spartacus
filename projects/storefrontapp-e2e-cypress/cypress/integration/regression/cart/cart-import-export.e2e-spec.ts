@@ -178,7 +178,7 @@ context('Cart Import/Export', () => {
           'import'
         );
         importExport.attemptUpload(`../downloads/${CSV}`);
-        cy.wait('@import');
+        cy.wait('@import').its('response.statusCode').should('eq', 200);
 
         cy.get('.cx-import-entries-summary-warnings p').contains(
           `1 product was not imported totally.`
