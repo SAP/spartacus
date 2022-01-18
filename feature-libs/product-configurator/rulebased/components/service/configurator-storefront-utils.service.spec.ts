@@ -181,4 +181,24 @@ describe('ConfigUtilsService', () => {
       expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
     });
   });
+
+  describe('change styling of selected element', () => {
+    it('should get HTML element based on query selector', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
+    });
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.changeStyling('elementMock', 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
+    });
+  });
 });
