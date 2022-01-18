@@ -76,3 +76,13 @@ export class CartUpdateEntryFailEvent extends CartEvent {
   quantity: number;
   entry: OrderEntry;
 }
+
+export class CartUiEventAddToCart extends CxEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CartUiEventAddToCart';
+  productCode: string;
+  quantity: number;
+  numberOfEntriesBeforeAdd: number;
+}

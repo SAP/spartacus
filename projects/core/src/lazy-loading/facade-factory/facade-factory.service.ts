@@ -1,4 +1,4 @@
-import { AbstractType, Injectable, Injector } from '@angular/core';
+import { AbstractType, Injectable, InjectionToken, Type } from '@angular/core';
 import {
   ConnectableObservable,
   EMPTY,
@@ -8,12 +8,14 @@ import {
 } from 'rxjs';
 import {
   delay,
+  distinctUntilChanged,
   map,
   publishReplay,
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
 import { FeatureModulesService } from '../feature-modules.service';
+import { UnifiedInjector } from '../unified-injector';
 import { FacadeDescriptor } from './facade-descriptor';
 
 const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
@@ -31,7 +33,7 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected injector: Injector
+    protected unifiedInjector: UnifiedInjector
   ) {}
 
   protected getResolver<T>(
@@ -131,7 +133,26 @@ export class FacadeFactoryService {
    * Facade proxy instances contain an object key to label them as such.
    * @param facade The facade object to evaluate
    */
-  isProxyFacadeInstance(facade: any) {
+  private isProxyFacadeInstance(facade: any) {
     return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
+  }
+
+  /**
+   * When lazy loading is used, a facade is implemented
+   * with a proxy class.  When the code chunk with the facade imiplementation
+   * is lazy loaded, the facade proxy is replaced with the actual
+   * facade implementation.  This is why we can use this to evaluate
+   * if the library chunk that contains the facade imiplementation has be
+   * loaded already or not.
+   */
+  isFacadeImplProvided<T>(
+    token: Type<T> | InjectionToken<T> | AbstractType<T>
+  ): Observable<boolean> {
+    return this.unifiedInjector.get(token).pipe(
+      map(
+        (facade) => facade !== undefined && !this.isProxyFacadeInstance(facade)
+      ),
+      distinctUntilChanged()
+    );
   }
 }
