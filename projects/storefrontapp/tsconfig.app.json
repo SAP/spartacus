@@ -4,8 +4,8 @@
     "module": "es2020",
     "outDir": "../../out-tsc/app",
     "strict": false, // TODO: Fix strict errors and remove this option
-    "target": "es2015",
-    "skipLibCheck": true // Needed due to @sapui5/ts-types-esm dependency (used by @spartacus/epd-visualization)
+    "types": [],
+    "target": "es2015"
   },
   "files": [
     "src/main.ts",

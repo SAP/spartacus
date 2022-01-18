@@ -7,5 +7,4 @@ export interface Environment {
   cdc: boolean;
   cpq: boolean;
   digitalPayments: boolean;
-  epdVisualization: boolean;
 }

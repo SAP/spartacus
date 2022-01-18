@@ -14,36 +14,32 @@ branches:
 defaults: &defaults
   script: "export CYPRESS_CONFIG=cypress.ci.json && export SPA_ENV='ci,b2c' && ./ci-scripts/e2e-cypress.sh"
 jobs:
-  include:
-    - script: "./ci-scripts/unit-tests-core-lib.sh"
-      name: "Unit tests for core and storefrontlib"
-    - script: "./ci-scripts/unit-tests.sh"
-      name: "Unit tests for libs"
-    - script: "./ci-scripts/validate-lint.sh"
-      name: "Validation checks"
-    - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
-      name: "E2E regression tests for B2B"
-    - script:
-      name: "E2E tests for B2C, 1st job"
-      <<: *defaults
-    - script:
-      name: "E2E tests for B2C, 2st job"
-      <<: *defaults
-    - script:
-      name: "E2E tests for B2C, 3rd job"
-      <<: *defaults
-    - script:
-      name: "E2E tests for B2C, 4th job"
-      <<: *defaults
-    - script: "./ci-scripts/e2e-cypress.sh --ssr"
-      name: "E2E tests for SSR B2C"
-    - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
-      name: "E2E tests for CDC"
-    - script: "./ci-scripts/lhci.sh"
-      name: "Lighthouse score validation"
-    - script: "export CYPRESS_CONFIG=cypress.ci.epd-visualization.json && export SPA_ENV='b2b,epd-visualization' && ./ci-scripts/e2e-cypress.sh -s epd-visualization || exit 0"
-      name: "E2E tests for EPD Visualization"
-      if: branch IN (integration-libs/epd-visualization, integration-libs/epd-visualization-maintenance)
+  - script: "./ci-scripts/unit-tests-core-lib.sh"
+    name: "Unit tests for core and storefrontlib"
+  - script: "./ci-scripts/unit-tests.sh"
+    name: "Unit tests for libs"
+  - script: "./ci-scripts/validate-lint.sh"
+    name: "Validation checks"
+  - script: "export CYPRESS_CONFIG=cypress.ci.b2b.json && export SPA_ENV='ci,b2b' && ./ci-scripts/e2e-cypress.sh -s b2b"
+    name: "E2E regression tests for B2B"
+  - script:
+    name: "E2E tests for B2C, 1st job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 2st job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 3rd job"
+    <<: *defaults
+  - script:
+    name: "E2E tests for B2C, 4th job"
+    <<: *defaults
+  - script: "./ci-scripts/e2e-cypress.sh --ssr"
+    name: "E2E tests for SSR B2C"
+  - script: "export CYPRESS_CONFIG=cypress.ci.cdc.json && export SPA_ENV='cdc' && ./ci-scripts/e2e-cypress.sh -s cdc || exit 0"
+    name: "E2E tests for CDC"
+  - script: "./ci-scripts/lhci.sh"
+    name: "Lighthouse score validation"
 addons:
   chrome: stable
   sonarcloud:

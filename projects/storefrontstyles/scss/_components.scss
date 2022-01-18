@@ -14,7 +14,6 @@ $content-components-allowlist: () !default;
 $misc-components-allowlist: () !default;
 $pwa-components-allowlist: () !default;
 $cds-components-allowlist: () !default;
-$epd-visualization-components-allowlist: () !default;
 $wish-list-components-allowlist: () !default;
 $myaccount-components-allowlist: () !default;
 
@@ -29,7 +28,6 @@ $selectors: mergeAll(
     $myaccount-components-allowlist,
     $pwa-components-allowlist,
     $cds-components-allowlist,
-    $epd-visualization-components-allowlist,
     $wish-list-components-allowlist
   )
 );
@@ -37,7 +35,7 @@ $selectors: mergeAll(
 @each $selector in $selectors {
   #{$selector} {
     // skip selectors if they're added to the $skipComponentStyles list
-    @if (index($skipComponentStyles, $selector) ==null) {
+    @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }
@@ -46,7 +44,7 @@ $selectors: mergeAll(
 // add body specific selectors
 body {
   @each $selector in $selectors {
-    @if (index($skipComponentStyles, $selector) ==null) {
+    @if (index($skipComponentStyles, $selector) == null) {
       @extend %#{$selector}__body !optional;
     }
   }

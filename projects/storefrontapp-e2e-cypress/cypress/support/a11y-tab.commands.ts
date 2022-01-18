@@ -1,8 +1,4 @@
-import {
-  focusableSelectors,
-  getNextFocusableElement,
-  getPreviousFocusableElement,
-} from './utils/a11y-tab';
+import { focusableSelectors, getNextFocusableElement } from './utils/a11y-tab';
 
 declare global {
   namespace Cypress {
@@ -12,19 +8,17 @@ declare global {
        *
        * @memberof Cypress.Chainable
        *
-       * @param shiftModifier When true, simulates the shift key being held (which reverses the focus movement direction).
-       *
        * @example
         ```
         cy.pressTab()
         ```
        */
-      pressTab: (shiftModifier?: boolean) => void;
+      pressTab: () => void;
     }
   }
 }
 
-Cypress.Commands.add('pressTab', (shiftModifier?: boolean) => {
+Cypress.Commands.add('pressTab', () => {
   cy.document().then((document) => {
     const elements = Array.from(
       <NodeListOf<HTMLElement>>(
@@ -36,10 +30,6 @@ Cypress.Commands.add('pressTab', (shiftModifier?: boolean) => {
       document.activeElement as HTMLElement
     );
 
-    if (shiftModifier === true) {
-      getPreviousFocusableElement(elements, activeElementIndex).focus();
-    } else {
-      getNextFocusableElement(elements, activeElementIndex).focus();
-    }
+    getNextFocusableElement(elements, activeElementIndex).focus();
   });
 });

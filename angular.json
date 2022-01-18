@@ -72,18 +72,13 @@
               {
                 "input": "projects/storefrontapp/src/styles/lib-order.scss",
                 "bundleName": "order"
-              },
-              {
-                "input": "projects/storefrontapp/src/styles/lib-epd-visualization.scss",
-                "bundleName": "epd-visualization"
               }
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "./projects",
                 "./projects/storefrontstyles/scss",
-                "./feature-libs",
-                "./integration-libs"
+                "./feature-libs"
               ]
             },
             "ngswConfigPath": "projects/storefrontlib/cms-structure/pwa/ngsw-config.json",
@@ -603,43 +598,6 @@
             "lintFilePatterns": [
               "integration-libs/digital-payments/**/*.ts",
               "integration-libs/digital-payments/**/*.html"
-            ]
-          }
-        }
-      }
-    },
-    "epd-visualization": {
-      "projectType": "library",
-      "root": "integration-libs/epd-visualization",
-      "sourceRoot": "integration-libs/epd-visualization",
-      "prefix": "cx-epd-visualization",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:ng-packagr",
-          "options": {
-            "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.json",
-            "project": "integration-libs/epd-visualization/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "integration-libs/epd-visualization/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "integration-libs/epd-visualization/test.ts",
-            "tsConfig": "integration-libs/epd-visualization/tsconfig.spec.json",
-            "karmaConfig": "integration-libs/epd-visualization/karma.conf.js"
-          }
-        },
-        "lint": {
-          "builder": "@angular-eslint/builder:lint",
-          "options": {
-            "lintFilePatterns": [
-              "integration-libs/epd-visualization/**/*.ts",
-              "integration-libs/epd-visualization/**/*.html"
             ]
           }
         }
