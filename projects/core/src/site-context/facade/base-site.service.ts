@@ -29,6 +29,18 @@ export class BaseSiteService implements SiteContext<BaseSite> {
   }
 
   /**
+   * Get active base site's details
+   */
+  getActiveData(): Observable<BaseSite> {
+    return this.store.pipe(
+      select(SiteContextSelectors.getBaseSiteData),
+      filter(
+        (baseSiteData) => baseSiteData && Object.keys(baseSiteData).length > 0
+      )
+    );
+  }
+
+  /**
    * Get all base sites data
    */
   getAll(): Observable<BaseSite[]> {

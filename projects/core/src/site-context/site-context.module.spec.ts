@@ -4,12 +4,12 @@ import { SiteContextConfigInitializer } from './config/config-loader/site-contex
 import { SiteContextConfig } from './config/site-context-config';
 import { initSiteContextConfig } from './site-context.module';
 
-class MockSiteContextConfigInitializer implements ConfigInitializer {
+class MockSiteContextConfigInitializer implements Partial<ConfigInitializer> {
   readonly scopes = ['context'];
   readonly configFactory = async () => ({});
 }
 
-class MockSiteContextConfig {
+class MockSiteContextConfig implements Partial<SiteContextConfig> {
   context = {};
 }
 
@@ -34,17 +34,9 @@ describe('SiteContextModule', () => {
     spyOn(initializer, 'configFactory').and.callThrough();
   });
 
-  it(`should not resolve SiteContextConfig when it was already configured statically `, () => {
-    config.context = {
-      baseSite: ['electronics'],
-    };
-    const result = initSiteContextConfig(initializer, config);
-    expect(result).toEqual(null);
-  });
-
-  it(`should resolve SiteContextConfig when it was not configured statically `, () => {
+  it(`should resolve SiteContextConfig`, () => {
     config.context = {};
-    const result = initSiteContextConfig(initializer, config);
+    const result = initSiteContextConfig(initializer);
     expect(result).toEqual(initializer);
   });
 });
