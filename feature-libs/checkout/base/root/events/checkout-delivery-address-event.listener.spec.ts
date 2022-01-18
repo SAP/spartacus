@@ -134,6 +134,15 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
           { key: 'addressForm.userAddressAddSuccess' },
           GlobalMessageType.MSG_TYPE_CONFIRMATION
         );
+
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          ResetDeliveryModesEvent
+        );
+        expect(eventService.dispatch).toHaveBeenCalledWith(
+          {},
+          ResetDeliveryModesEvent
+        );
       });
     });
   });

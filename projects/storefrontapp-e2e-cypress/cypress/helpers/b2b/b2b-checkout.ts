@@ -29,6 +29,19 @@ import {
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
+export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
+
+export function interceptCheckoutB2BDetailsEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL),costCenter(FULL),purchaseOrderNumber,paymentType(FULL)*`
+  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+
+  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+}
+
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
   cy.requireLoggedIn(b2bUser);
@@ -132,6 +145,18 @@ export function selectAccountShippingAddress() {
   cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
   cy.get('cx-card .card-header').should('contain', 'Selected');
 
+  /**
+   * Delivery mode PUT intercept is not in selectAccountDeliveryMode()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2BDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -145,18 +170,18 @@ export function selectAccountShippingAddress() {
 
   cy.get('button.btn-primary').should('be.enabled').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function selectAccountDeliveryMode() {
-  cy.intercept({
-    method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/deliverymode?*`,
-  }).as('putDeliveryMode');
-
   cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+
   cy.get('cx-delivery-mode input').first().should('be.checked');
+
   cy.get(
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
   ).then(() => {
@@ -166,11 +191,11 @@ export function selectAccountDeliveryMode() {
       config.deliveryMode
     );
   });
+
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   cy.get('.cx-checkout-btns button.btn-primary').should('be.enabled').click();
 
-  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);

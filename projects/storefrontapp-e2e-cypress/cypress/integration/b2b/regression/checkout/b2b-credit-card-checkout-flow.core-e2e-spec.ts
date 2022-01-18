@@ -44,11 +44,7 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should enter payment method', () => {
-    checkout.fillPaymentFormWithCheapProduct(
-      user,
-      undefined,
-      cartWithB2bProduct
-    );
+    checkout.fillPaymentFormWithCheapProduct(user, undefined);
   });
 
   it('should review and place order', () => {

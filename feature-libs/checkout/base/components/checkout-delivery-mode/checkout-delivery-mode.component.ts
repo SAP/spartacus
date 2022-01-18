@@ -26,8 +26,8 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
 
+  selectedDeliveryModeCode$: Observable<string | undefined>;
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
-  selectedDeliveryMode$: Observable<DeliveryMode>;
   continueButtonPressed = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -58,19 +58,17 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
         })
       );
 
+    this.selectedDeliveryModeCode$ = this.checkoutDeliveryModesFacade
+      .getSelectedDeliveryModeState()
+      .pipe(
+        filter((state) => !state.loading),
+        map((state) => state.data),
+        map((deliveryMode) => deliveryMode?.code)
+      );
+
     this.subscriptions.add(
       this.supportedDeliveryModes$
-        .pipe(
-          withLatestFrom(
-            this.checkoutDeliveryModesFacade
-              .getSelectedDeliveryModeState()
-              .pipe(
-                filter((state) => !state.loading),
-                map((state) => state.data),
-                map((deliveryMode) => deliveryMode?.code)
-              )
-          )
-        )
+        .pipe(withLatestFrom(this.selectedDeliveryModeCode$))
         .subscribe(([deliveryModes, code]) => {
           if (
             !(

@@ -41,8 +41,8 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 class MockCheckoutDeliveryFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  createAndSetAddress = createSpy();
-  setDeliveryAddress = createSpy();
+  createAndSetAddress = createSpy().and.returnValue(of());
+  setDeliveryAddress = createSpy().and.returnValue(of());
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
   }
@@ -433,9 +433,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('should not display if existing addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
-        of(true)
-      );
+      component.isUpdated$ = of(true);
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
@@ -497,9 +495,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('should not render when existing addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
-        of(true)
-      );
+      component.isUpdated$ = of(true);
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
       fixture.detectChanges();
@@ -511,9 +507,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
-        of(true)
-      );
+      component.isUpdated$ = of(true);
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
       fixture.detectChanges();
