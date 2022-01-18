@@ -85,6 +85,7 @@
       1. you can consider using our new components. 
       2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
    7.  go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
+   8.  Mention the available events - e.g. CheckoutReloadDeliveryModesEvent and ReloadCheckoutQueryEvent
 8. check LL:
    1. check the chunks: base, b2b, replenishment
    2. check if and when those are loaded
