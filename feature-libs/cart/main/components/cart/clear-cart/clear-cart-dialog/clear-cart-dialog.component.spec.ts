@@ -25,7 +25,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
   closeDialog(_reason: string): void {}
 }
 
-fdescribe('ClearCartDialogComponent', () => {
+describe('ClearCartDialogComponent', () => {
   let component: ClearCartDialogComponent;
   let fixture: ComponentFixture<ClearCartDialogComponent>;
   let clearCartService: ClearCartService;

@@ -217,6 +217,16 @@ describe('ActiveCartService', () => {
         });
     });
 
+    describe('clearActiveCart', () => {
+      it('should get entries and clear active cart', () => {
+        service['activeCartId$'] = of('cartId');
+        spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
+
+        service.clearActiveCart();
+        expect(service['getEntries']).toHaveBeenCalled();
+      });
+    });
+
     it('should return false when isStable returns false', (done) => {
       spyOn(multiCartFacade, 'isStable').and.returnValue(of(false));
 
