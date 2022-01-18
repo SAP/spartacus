@@ -31,7 +31,7 @@ const mockInstance = {
   ) => {},
 };
 
-fdescribe('AddToCartDialogEventListener', () => {
+describe('AddToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
   let modalService: ModalService;
 
