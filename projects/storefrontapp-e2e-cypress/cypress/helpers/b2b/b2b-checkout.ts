@@ -165,7 +165,9 @@ export function selectAccountDeliveryMode() {
     config.deliveryMode
   );
 
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
