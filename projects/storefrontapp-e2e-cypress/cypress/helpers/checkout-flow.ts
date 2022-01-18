@@ -147,7 +147,9 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
   cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
 }
 
