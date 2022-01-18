@@ -137,11 +137,11 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          ResetDeliveryModesEvent
+          CheckoutResetDeliveryModesEvent
         );
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          ResetDeliveryModesEvent
+          CheckoutResetDeliveryModesEvent
         );
       });
     });

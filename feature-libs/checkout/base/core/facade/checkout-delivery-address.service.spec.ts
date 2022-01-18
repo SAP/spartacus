@@ -134,13 +134,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    it(`should call facade's setDeliveryAddress()`, () => {
-      spyOn(service, 'setDeliveryAddress').and.stub();
-      service.createAndSetAddress(mockAddress);
-
-      expect(service.setDeliveryAddress).toHaveBeenCalledWith(mockAddress);
-    });
-
     it(`should dispatch CheckoutDeliveryAddressCreatedEvent event`, () => {
       service.createAndSetAddress(mockAddress);
 
