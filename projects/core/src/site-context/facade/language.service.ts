@@ -3,11 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter, take, tap } from 'rxjs/operators';
 import { Language } from '../../model/misc.model';
-import { WindowRef } from '../../window/window-ref';
-import {
-  getContextParameterDefault,
-  getContextParameterValues,
-} from '../config/context-config-utils';
+import { getContextParameterValues } from '../config/context-config-utils';
 import { SiteContextConfig } from '../config/site-context-config';
 import { LANGUAGE_CONTEXT_ID } from '../providers/context-ids';
 import { SiteContextActions } from '../store/actions/index';
@@ -20,15 +16,10 @@ import { SiteContext } from './site-context.interface';
  */
 @Injectable()
 export class LanguageService implements SiteContext<Language> {
-  private sessionStorage: Storage;
-
   constructor(
     protected store: Store<StateWithSiteContext>,
-    winRef: WindowRef,
     protected config: SiteContextConfig
-  ) {
-    this.sessionStorage = winRef.sessionStorage;
-  }
+  ) {}
 
   /**
    * Represents all the languages supported by the current store.
@@ -62,7 +53,7 @@ export class LanguageService implements SiteContext<Language> {
     this.store
       .pipe(select(SiteContextSelectors.getActiveLanguage), take(1))
       .subscribe((activeLanguage) => {
-        if (activeLanguage !== isocode) {
+        if (activeLanguage !== isocode && this.isValid(isocode)) {
           this.store.dispatch(
             new SiteContextActions.SetActiveLanguage(isocode)
           );
@@ -71,33 +62,28 @@ export class LanguageService implements SiteContext<Language> {
   }
 
   /**
-   * Initials the active language. The active language is either given
-   * by the last visit (stored in session storage) or by the
-   * default session language of the store.
+   * Tells whether the value of the active language has been already initialized
    */
-  initialize(): void {
-    let value;
+  isInitialized(): boolean {
+    let valueInitialized = false;
     this.getActive()
-      .subscribe((val) => (value = val))
+      .subscribe(() => (valueInitialized = true))
       .unsubscribe();
-    if (value) {
-      // don't initialize, if there is already a value (i.e. retrieved from route or transferred from SSR)
-      return;
-    }
 
-    const sessionLanguage =
-      this.sessionStorage && this.sessionStorage.getItem('language');
-    if (
-      sessionLanguage &&
+    return valueInitialized;
+  }
+
+  /**
+   * Tells whether the given iso code is allowed.
+   *
+   * The list of allowed iso codes can be configured in the `context` config of Spartacus.
+   */
+  protected isValid(value: string): boolean {
+    return (
+      !!value &&
       getContextParameterValues(this.config, LANGUAGE_CONTEXT_ID).includes(
-        sessionLanguage
+        value
       )
-    ) {
-      this.setActive(sessionLanguage);
-    } else {
-      this.setActive(
-        getContextParameterDefault(this.config, LANGUAGE_CONTEXT_ID)
-      );
-    }
+    );
   }
 }

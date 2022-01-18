@@ -1,5 +1,7 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { RouterModule } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -8,14 +10,15 @@ import {
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorRouter } from '../../../common/components/service/configurator-router-data';
-import { CommonConfiguratorTestUtilsService } from '../../../common/shared/testing/common-configurator-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 import {
+  CONFIG_ID,
   productConfiguration,
   productConfigurationWithConflicts,
   productConfigurationWithoutIssues,
-} from '../../shared/testing/configurator-test-data';
+} from '../../testing/configurator-test-data';
 import { ConfiguratorOverviewNotificationBannerComponent } from './configurator-overview-notification-banner.component';
 
 @Pipe({
@@ -54,22 +57,18 @@ const orderRouterData: ConfiguratorRouter.Data = {
   ),
 };
 
-let routerObs;
+let routerObs: any;
 class MockConfigRouterExtractorService {
   extractRouterData() {
     return routerObs;
   }
 }
 
-let configurationObs;
+let configurationObs: Observable<Configurator.Configuration>;
 class MockConfiguratorCommonsService {
   getConfiguration(): Observable<Configurator.Configuration> {
     return configurationObs;
   }
-  getConfigurationWithOverview(): Observable<Configurator.Configuration> {
-    return configurationObs;
-  }
-  removeConfiguration(): void {}
 }
 let component: ConfiguratorOverviewNotificationBannerComponent;
 let fixture: ComponentFixture<ConfiguratorOverviewNotificationBannerComponent>;
@@ -88,13 +87,14 @@ function initialize(router: ConfiguratorRouter.Data) {
   template: '',
 })
 class MockCxIconComponent {
-  @Input() type;
+  @Input() type: any;
 }
 
 describe('ConfigOverviewNotificationBannerComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        imports: [RouterModule, RouterTestingModule],
         declarations: [
           ConfiguratorOverviewNotificationBannerComponent,
           MockTranslatePipe,
@@ -136,8 +136,26 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     );
   });
 
+  it('should count issues from configuration in case OV not available', () => {
+    configurationObs = of(productConfigurationWithoutIssues);
+    initialize(routerData);
+    component.numberOfIssues$.subscribe((numberOfIssues) =>
+      expect(numberOfIssues).toBe(
+        productConfigurationWithoutIssues.totalNumberOfIssues
+      )
+    );
+  });
+
   it('should display banner when there are issues', () => {
-    configurationObs = of(productConfigurationWithConflicts);
+    const productConfigurationWithIssuesAndConflicts: Configurator.Configuration =
+      {
+        ...productConfigurationWithConflicts,
+        overview: {
+          configId: productConfigurationWithConflicts.configId,
+          productCode: productConfigurationWithoutIssues.productCode,
+        },
+      };
+    configurationObs = of(productConfigurationWithIssuesAndConflicts);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(
       expect,
@@ -152,10 +170,15 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
   });
 
   it('should display banner when there are issues counted in Configurator.Overview', () => {
-    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration = productConfigurationWithoutIssues;
-    productConfigurationWithConflictsCountedInOverview.overview = {
-      totalNumberOfIssues: 5,
-    };
+    const productConfigurationWithConflictsCountedInOverview: Configurator.Configuration =
+      {
+        ...productConfigurationWithoutIssues,
+        overview: {
+          configId: CONFIG_ID,
+          productCode: productConfigurationWithoutIssues.productCode,
+          totalNumberOfIssues: 5,
+        },
+      };
     configurationObs = of(productConfigurationWithConflictsCountedInOverview);
     initialize(routerData);
     CommonConfiguratorTestUtilsService.expectElementPresent(

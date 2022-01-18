@@ -14,9 +14,12 @@ import {
 export class OrganizationBadRequestHandler extends HttpErrorHandler {
   responseStatus = HttpResponseStatus.BAD_REQUEST;
 
-  protected costCenterMask = /ambiguous unique keys \{code\=(.*)\} for model B2BCostCenterModel/;
-  protected unitMask = /ambiguous unique keys \{uid\=(.*)\} for model B2BUnitModel/;
-  protected permissionMask = /Approval Permission with code\: (.*) already exists\./;
+  protected costCenterMask =
+    /ambiguous unique keys \{code\=(.*)\} for model B2BCostCenterModel/;
+  protected unitMask =
+    /ambiguous unique keys \{uid\=(.*)\} for model B2BUnitModel/;
+  protected permissionMask =
+    /Approval Permission with code\: (.*) already exists\./;
   protected unknownMask = /Model saving error\./;
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {

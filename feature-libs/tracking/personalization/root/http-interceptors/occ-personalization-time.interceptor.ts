@@ -26,16 +26,17 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
   ) {
     if (this.winRef.isBrowser()) {
       this.enabled =
-        (this.winRef.localStorage && this.config.personalization.enabled) ||
+        (this.winRef.localStorage && this.config.personalization?.enabled) ||
         false;
 
       if (this.enabled) {
-        if (!this.config.personalization.httpHeaderName && isDevMode()) {
+        if (!this.config.personalization?.httpHeaderName && isDevMode()) {
           console.warn(
             `There is no httpHeaderName configured in Personalization`
           );
         }
-        this.requestHeader = this.config.personalization.httpHeaderName?.timestamp.toLowerCase();
+        this.requestHeader =
+          this.config.personalization?.httpHeaderName?.timestamp.toLowerCase();
         this.timestamp = this.winRef.localStorage?.getItem(
           PERSONALIZATION_TIME_KEY
         );
@@ -56,7 +57,7 @@ export class OccPersonalizationTimeInterceptor implements HttpInterceptor {
     if (
       this.requestHeader &&
       this.timestamp &&
-      request.url.includes(this.occEndpoints.getBaseEndpoint())
+      request.url.includes(this.occEndpoints.getBaseUrl())
     ) {
       request = request.clone({
         setHeaders: {

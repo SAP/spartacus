@@ -1,0 +1,12 @@
+<ng-select
+  [searchable]="false"
+  [clearable]="false"
+  placeholder="{{ placeholder }}"
+  (change)="sortList($event)"
+  [ngModel]="selectedOption"
+  [attr.aria-label]="selectedLabel || placeholder"
+>
+  <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{
+    sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''
+  }}</ng-option>
+</ng-select>

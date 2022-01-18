@@ -4,5 +4,5 @@
 @import './skip-link';
 @import './split-view';
 
-$layout-components-whitelist: cx-storefront, header, cx-site-context-selector,
+$layout-components-allowlist: cx-storefront, header, cx-site-context-selector,
   cx-skip-link, cx-split-view !default;

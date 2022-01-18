@@ -7,9 +7,9 @@ import {
   RoutingService,
 } from '@spartacus/core';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
+import { UserProfileFacade } from '@spartacus/user/profile/root';
 import { Observable, of, throwError } from 'rxjs';
 import { CloseAccountModalComponent } from './close-account-modal.component';
-import { UserProfileFacade } from '@spartacus/user/profile/root';
 import createSpy = jasmine.createSpy;
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -31,7 +31,7 @@ class MockAuthService implements Partial<AuthService> {
 }
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 @Component({

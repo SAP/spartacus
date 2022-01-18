@@ -1,6 +1,6 @@
 import * as AngularCore from '@angular/core';
 import { Injectable, PLATFORM_ID } from '@angular/core';
-import { inject, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Observable, of } from 'rxjs';
 import { PageType } from '../../model/cms.model';
 import {
@@ -39,6 +39,41 @@ const mockProductPage: Page = {
   slots: {},
 };
 
+const PageMetaResolvers: PageMetaConfig = {
+  pageMeta: {
+    resolvers: [
+      {
+        property: 'title',
+        method: 'resolveTitle',
+      },
+      {
+        property: 'heading',
+        method: 'resolveHeading',
+      },
+      {
+        property: 'description',
+        method: 'resolveDescription',
+        disabledInCsr: true,
+      },
+      {
+        property: 'image',
+        method: 'resolveImage',
+        disabledInCsr: true,
+      },
+      {
+        property: 'breadcrumbs',
+        method: 'resolveBreadcrumbs',
+      },
+      {
+        property: 'robots',
+        method: 'resolveRobots',
+        disabledInCsr: true,
+      },
+    ],
+    enableInDevMode: true,
+  },
+};
+
 class MockCmsService {
   getCurrentPage(): Observable<Page> {
     return of(mockContentPage);
@@ -48,7 +83,8 @@ class MockCmsService {
 @Injectable()
 class ContentPageResolver
   extends PageMetaResolver
-  implements PageTitleResolver {
+  implements PageTitleResolver
+{
   pageType = PageType.CONTENT_PAGE;
   resolveTitle(): Observable<string> {
     return of('content page title');
@@ -60,7 +96,8 @@ class ContentPageResolver
 })
 class PageWithHeadingResolver
   extends PageMetaResolver
-  implements PageHeadingResolver {
+  implements PageHeadingResolver
+{
   pageType = PageType.CONTENT_PAGE;
   pageTemplate = 'template';
 
@@ -79,7 +116,8 @@ class PageWithAllResolvers
     PageImageResolver,
     PageRobotsResolver,
     PageDescriptionResolver,
-    PageBreadcrumbResolver {
+    PageBreadcrumbResolver
+{
   pageType = PageType.PRODUCT_PAGE;
   pageTemplate = 'any-template';
 
@@ -132,32 +170,7 @@ describe('PageMetaService', () => {
           { provide: PLATFORM_ID, useValue: 'browser' },
           {
             provide: PageMetaConfig,
-            useValue: {
-              pageMeta: {
-                resolvers: [
-                  {
-                    property: 'title',
-                    method: 'resolveTitle',
-                  },
-                  {
-                    property: 'description',
-                    method: 'resolveDescription',
-                    disabledInCsr: true,
-                  },
-                  {
-                    property: 'image',
-                    method: 'resolveImage',
-                    disabledInCsr: true,
-                  },
-                  {
-                    property: 'robots',
-                    method: 'resolveRobots',
-                    disabledInCsr: true,
-                  },
-                ],
-                enableInDevMode: true,
-              },
-            } as PageMetaConfig,
+            useValue: PageMetaResolvers,
           },
         ],
       });
@@ -215,6 +228,7 @@ describe('PageMetaService', () => {
             useExisting: PageWithAllResolvers,
             multi: true,
           },
+          { provide: PageMetaConfig, useValue: PageMetaResolvers },
         ],
       });
 
@@ -237,7 +251,7 @@ describe('PageMetaService', () => {
       spyOn(cmsService, 'getCurrentPage').and.returnValue(
         of(mockContentPageWithTemplate)
       );
-      let result: PageMeta;
+      let result: PageMeta | null;
       service
         .getMeta()
         .subscribe((value) => {
@@ -245,7 +259,7 @@ describe('PageMetaService', () => {
         })
         .unsubscribe();
 
-      expect(result.heading).toEqual('page heading');
+      expect(result?.heading).toEqual('page heading');
     });
 
     it('should resolve meta data for product page', () => {
@@ -269,14 +283,6 @@ describe('PageMetaService', () => {
     });
   });
 });
-
-// Test Custom PageMetaService to bring in custom resolvers (for all pages)
-@Injectable({ providedIn: 'root' })
-export class CustomPageMetaService extends PageMetaService {
-  protected resolverMethods = {
-    keywords: 'resolveKeywords',
-  };
-}
 
 const KEYWORDS = 'keywords, are, no longer, used, for, SEO';
 
@@ -310,26 +316,31 @@ describe('Custom PageTitleService', () => {
     TestBed.configureTestingModule({
       imports: [],
       providers: [
-        CustomPageMetaService,
         { provide: CmsService, useClass: MockCmsService },
         {
           provide: PageMetaResolver,
           useExisting: PageWithKeywordsResolver,
           multi: true,
         },
+        {
+          provide: PageMetaConfig,
+          useValue: {
+            pageMeta: {
+              resolvers: [
+                {
+                  property: 'keywords',
+                  method: 'resolveKeywords',
+                },
+              ],
+            },
+          },
+        },
       ],
     });
 
-    service = TestBed.inject(CustomPageMetaService);
+    service = TestBed.inject(PageMetaService);
     cmsService = TestBed.inject(CmsService);
   });
-
-  it('PageTitleService should be created', inject(
-    [CustomPageMetaService],
-    (customPageTitleService: CustomPageMetaService) => {
-      expect(customPageTitleService).toBeTruthy();
-    }
-  ));
 
   it('should resolve keywords for custom page meta service', () => {
     spyOn(cmsService, 'getCurrentPage').and.returnValue(of(mockKeywordPage));

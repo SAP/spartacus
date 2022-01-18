@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -6,7 +6,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -15,6 +15,8 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorProductTitleComponent {
+  @HostBinding('class.ghost') ghostStyle = true;
+
   product$: Observable<Product> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
@@ -35,6 +37,11 @@ export class ConfiguratorProductTitleComponent {
           ? this.productService.get(productCode, ProductScope.LIST)
           : EMPTY
       )
+    )
+    .pipe(
+      tap(() => {
+        this.ghostStyle = false;
+      })
     );
   showMore = false;
   iconTypes = ICON_TYPE;
@@ -47,33 +54,5 @@ export class ConfiguratorProductTitleComponent {
 
   triggerDetails(): void {
     this.showMore = !this.showMore;
-  }
-
-  /**
-   * @deprecated since 3.3
-   */
-  getProductImageURL(product: Product): string {
-    return product.images?.PRIMARY?.['thumbnail']?.url;
-  }
-
-  /**
-   * @deprecated since 3.3
-   */
-  getProductImageAlt(product: Product): string {
-    return product.images?.PRIMARY?.['thumbnail']?.altText;
-  }
-
-  /**
-   * Fired on key board events, checks for 'enter' and delegates to click.
-   *
-   * @param {KeyboardEvent} event - Keyboard event
-   */
-  /**
-   * @deprecated since 3.3
-   */
-  clickOnEnter(event: KeyboardEvent): void {
-    if (event.code === 'Enter') {
-      this.triggerDetails();
-    }
   }
 }

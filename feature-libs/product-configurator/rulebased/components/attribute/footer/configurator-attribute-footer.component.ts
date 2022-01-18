@@ -10,18 +10,24 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
+import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
 
 @Component({
   selector: 'cx-configurator-attribute-footer',
   templateUrl: './configurator-attribute-footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ConfiguratorAttributeFooterComponent implements OnInit {
+export class ConfiguratorAttributeFooterComponent
+  extends ConfiguratorAttributeBaseComponent
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {}
+  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+    super();
+  }
 
   iconType = ICON_TYPE;
   showRequiredMessageForUserInput$: Observable<boolean>;
@@ -41,18 +47,18 @@ export class ConfiguratorAttributeFooterComponent implements OnInit {
    * Method will return false for domain based attributes
    * @param {string} input - user input
    */
-  isUserInputEmpty(input: string): boolean {
+  isUserInputEmpty(input?: string): boolean {
     return input !== undefined && (!input.trim() || 0 === input.length);
   }
 
   protected needsUserInputMessage(): boolean {
     const uiType = this.attribute.uiType;
-    return (
+    const needsMessage =
       this.attribute.required &&
       this.attribute.incomplete &&
       (uiType === Configurator.UiType.STRING ||
         uiType === Configurator.UiType.NUMERIC) &&
-      this.isUserInputEmpty(this.attribute.userInput)
-    );
+      this.isUserInputEmpty(this.attribute.userInput);
+    return needsMessage ?? false;
   }
 }

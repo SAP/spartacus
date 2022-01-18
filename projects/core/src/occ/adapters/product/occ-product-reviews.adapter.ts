@@ -47,12 +47,9 @@ export class OccProductReviewsAdapter implements ProductReviewsAdapter {
   }
 
   protected getEndpoint(code: string, maxCount?: number): string {
-    return this.occEndpoints.getUrl(
-      'productReviews',
-      {
-        productCode: code,
-      },
-      { maxCount }
-    );
+    return this.occEndpoints.buildUrl('productReviews', {
+      urlParams: { productCode: code },
+      queryParams: { maxCount },
+    });
   }
 }

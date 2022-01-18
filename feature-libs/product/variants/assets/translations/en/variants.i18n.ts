@@ -1,5 +1,5 @@
 export const productVariants = {
-  variants: {
+  productVariants: {
     style: 'Style',
     selectedStyle: 'Selected style',
     size: 'Size',

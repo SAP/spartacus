@@ -17,7 +17,9 @@ export function asmTabbingOrderNoSelectedUser(config: TabElement[]) {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
   });
-  cy.wait(customerSearchRequestAlias).its('status').should('eq', 200);
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   verifyTabbingOrder(containerSelector, config);
 }
@@ -30,7 +32,9 @@ export function asmTabbingOrderWithSelectedUser(config: TabElement[]) {
   cy.get('cx-customer-selection form').within(() => {
     cy.get('[formcontrolname="searchTerm"]').type('Linda Wolf');
   });
-  cy.wait(customerSearchRequestAlias).its('status').should('eq', 200);
+  cy.wait(customerSearchRequestAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.get('cx-customer-selection div.asm-results button').first().click();
 
   verifyTabbingOrder(containerSelector, config);

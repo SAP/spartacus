@@ -28,7 +28,7 @@ const mockAnonymousConsents: AnonymousConsent[] = [
 ];
 
 class MockOccEndpointsService {
-  getBaseEndpoint(): string {
+  getBaseUrl(): string {
     return '';
   }
 }

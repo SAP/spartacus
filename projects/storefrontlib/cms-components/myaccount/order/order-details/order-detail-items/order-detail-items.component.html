@@ -1,0 +1,61 @@
+<ng-container *ngIf="order$ | async as order">
+  <ng-container
+    *ngIf="
+      order.consignments?.length ||
+      order.unconsignedEntries?.length ||
+      order.replenishmentOrderCode
+    "
+  >
+    <cx-promotions
+      [promotions]="order.appliedOrderPromotions || []"
+    ></cx-promotions>
+  </ng-container>
+
+  <!-- consigned entries -->
+  <ng-container *ngIf="order.consignments?.length">
+    <cx-order-consigned-entries
+      *ngIf="others$ | async as others"
+      [order]="order"
+      [consignments]="others"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="completed$ | async as completed"
+      [order]="order"
+      [consignments]="completed"
+    ></cx-order-consigned-entries>
+
+    <cx-order-consigned-entries
+      *ngIf="cancel$ | async as cancel"
+      [order]="order"
+      [consignments]="cancel"
+    ></cx-order-consigned-entries>
+  </ng-container>
+
+  <!-- unconsigned entries OR any entries -->
+  <ng-container
+    *ngIf="
+      order?.unconsignedEntries?.length ||
+      (order?.entries && order?.replenishmentOrderCode)
+    "
+  >
+    <div class="cx-list row">
+      <div *ngIf="order?.statusDisplay" class="cx-list-header col-12">
+        <div class="cx-list-status">
+          {{
+            'orderDetails.statusDisplay_' + order?.statusDisplay | cxTranslate
+          }}
+        </div>
+      </div>
+      <div class="cx-list-item col-12">
+        <cx-cart-item-list
+          [items]="
+            order?.unconsignedEntries ? order.unconsignedEntries : order.entries
+          "
+          [readonly]="true"
+          [promotionLocation]="promotionLocation"
+        ></cx-cart-item-list>
+      </div>
+    </div>
+  </ng-container>
+</ng-container>

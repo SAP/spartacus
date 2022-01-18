@@ -5,6 +5,9 @@ import { LoaderState } from '../../../state/utils/loader/loader-state';
 import { StateWithUser, UserState } from '../user-state';
 import { getUserState } from './feature.selector';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getReplenishmentOrderState: MemoizedSelector<
   StateWithUser,
   LoaderState<ReplenishmentOrder>
@@ -13,6 +16,9 @@ export const getReplenishmentOrderState: MemoizedSelector<
   (state: UserState) => state.replenishmentOrder
 );
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getReplenishmentOrderDetailsValue: MemoizedSelector<
   StateWithUser,
   ReplenishmentOrder
@@ -22,6 +28,9 @@ export const getReplenishmentOrderDetailsValue: MemoizedSelector<
     StateUtils.loaderValueSelector(state)
 );
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getReplenishmentOrderDetailsLoading: MemoizedSelector<
   StateWithUser,
   boolean
@@ -31,6 +40,9 @@ export const getReplenishmentOrderDetailsLoading: MemoizedSelector<
     StateUtils.loaderLoadingSelector(state)
 );
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getReplenishmentOrderDetailsSuccess: MemoizedSelector<
   StateWithUser,
   boolean
@@ -40,6 +52,9 @@ export const getReplenishmentOrderDetailsSuccess: MemoizedSelector<
     StateUtils.loaderSuccessSelector(state)
 );
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const getReplenishmentOrderDetailsError: MemoizedSelector<
   StateWithUser,
   boolean

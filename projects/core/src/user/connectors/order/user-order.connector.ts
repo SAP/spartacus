@@ -12,6 +12,9 @@ import {
 } from '../../../model/order.model';
 import { UserOrderAdapter } from './user-order.adapter';
 
+/**
+ * @deprecated since 4.2 - use OrderConnector in @spartacus/order/core
+ */
 @Injectable({
   providedIn: 'root',
 })

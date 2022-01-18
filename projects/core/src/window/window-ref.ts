@@ -10,14 +10,10 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from '../util/ssr.tokens';
 export class WindowRef {
   readonly document: Document;
 
-  // TODO(#11133): Make platformId required in 4.0
-  /**
-   * @deprecated since 3.2. Provide PLATFORM_ID, serverRequestUrl and serverRequestOrigin as constructor parameters
-   */
   constructor(
     // https://github.com/angular/angular/issues/20351
     @Inject(DOCUMENT) document: any,
-    @Inject(PLATFORM_ID) protected platformId?: Object,
+    @Inject(PLATFORM_ID) protected platformId: Object,
     @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
     @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
   ) {
@@ -29,10 +25,7 @@ export class WindowRef {
    * Use this method to check if you can access `window` and other browser globals.
    */
   isBrowser(): boolean {
-    // TODO(#11133): Remove condition when platformId will be always provided
-    return this.platformId
-      ? isPlatformBrowser(this.platformId)
-      : typeof window !== 'undefined';
+    return isPlatformBrowser(this.platformId);
   }
 
   /**

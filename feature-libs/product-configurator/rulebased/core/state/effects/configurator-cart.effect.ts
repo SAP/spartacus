@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
@@ -20,6 +21,8 @@ import { ConfiguratorActions } from '../actions/index';
 import { StateWithConfigurator } from '../configurator-state';
 import { ConfiguratorSelectors } from '../selectors/index';
 
+export const ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND =
+  'Entry number is required in addToCart response';
 @Injectable()
 /**
  * Common configurator effects related to cart handling
@@ -36,24 +39,30 @@ export class ConfiguratorCartEffects {
     switchMap((payload: Configurator.AddToCartParameters) => {
       return this.configuratorCommonsConnector.addToCart(payload).pipe(
         switchMap((entry: CartModification) => {
-          return [
-            new ConfiguratorActions.AddNextOwner({
-              ownerKey: payload.owner.key,
-              cartEntryNo: '' + entry.entry.entryNumber,
-            }),
-            new CartActions.CartAddEntrySuccess({
-              ...entry,
-              userId: payload.userId,
-              cartId: payload.cartId,
-              productCode: payload.productCode,
-              quantity: entry.quantity,
-              deliveryModeChanged: entry.deliveryModeChanged,
-              entry: entry.entry,
-              quantityAdded: entry.quantityAdded,
-              statusCode: entry.statusCode,
-              statusMessage: entry.statusMessage,
-            }),
-          ];
+          const entryNumber = entry.entry?.entryNumber;
+          if (entryNumber === undefined) {
+            throw Error(ERROR_MESSAGE_NO_ENTRY_NUMBER_FOUND);
+          } else {
+            return [
+              new ConfiguratorActions.AddNextOwner({
+                ownerKey: payload.owner.key,
+                cartEntryNo: entryNumber.toString(),
+              }),
+
+              new CartActions.CartAddEntrySuccess({
+                ...entry,
+                userId: payload.userId,
+                cartId: payload.cartId,
+                productCode: payload.productCode,
+                quantity: payload.quantity,
+                deliveryModeChanged: entry.deliveryModeChanged,
+                entry: entry.entry,
+                quantityAdded: entry.quantityAdded,
+                statusCode: entry.statusCode,
+                statusMessage: entry.statusMessage,
+              }),
+            ];
+          }
         }),
         catchError((error) =>
           of(
@@ -62,7 +71,10 @@ export class ConfiguratorCartEffects {
               cartId: payload.cartId,
               productCode: payload.productCode,
               quantity: payload.quantity,
-              error: normalizeHttpError(error),
+              error:
+                error instanceof HttpErrorResponse
+                  ? normalizeHttpError(error)
+                  : error,
             })
           )
         )
@@ -81,14 +93,13 @@ export class ConfiguratorCartEffects {
         return this.configuratorCommonsConnector
           .updateConfigurationForCartEntry(payload)
           .pipe(
-            switchMap((entry: CartModification) => {
+            switchMap((cartModification: CartModification) => {
               return [
                 new CartActions.CartUpdateEntrySuccess({
-                  ...entry,
                   userId: payload.userId,
                   cartId: payload.cartId,
-                  entryNumber: entry.entry.entryNumber.toString(),
-                  quantity: entry.quantity,
+                  entryNumber: payload.cartEntryNumber,
+                  quantity: cartModification.quantity,
                 }),
               ];
             }),
@@ -98,7 +109,6 @@ export class ConfiguratorCartEffects {
                   userId: payload.userId,
                   cartId: payload.cartId,
                   entryNumber: payload.cartEntryNumber,
-                  quantity: 1,
                   error: normalizeHttpError(error),
                 })
               )
@@ -159,6 +169,43 @@ export class ConfiguratorCartEffects {
         );
     })
   );
+
+  @Effect()
+  removeCartBoundConfigurations$: Observable<ConfiguratorActions.RemoveConfiguration> =
+    this.actions$.pipe(
+      ofType(ConfiguratorActions.REMOVE_CART_BOUND_CONFIGURATIONS),
+      switchMap(() => {
+        return this.store.pipe(
+          select(ConfiguratorSelectors.getConfigurationsState),
+          take(1),
+          map((configuratorState) => {
+            const entities = configuratorState.configurations.entities;
+
+            const ownerKeysToRemove: string[] = [];
+            const ownerKeysProductBound: string[] = [];
+            for (const ownerKey in entities) {
+              if (ownerKey.includes(CommonConfigurator.OwnerType.CART_ENTRY)) {
+                ownerKeysToRemove.push(ownerKey);
+              } else if (
+                ownerKey.includes(CommonConfigurator.OwnerType.PRODUCT)
+              ) {
+                ownerKeysProductBound.push(ownerKey);
+              }
+            }
+
+            ownerKeysProductBound.forEach((ownerKey) => {
+              const configuration = entities[ownerKey];
+              if (configuration.value?.nextOwner !== undefined) {
+                ownerKeysToRemove.push(ownerKey);
+              }
+            });
+            return new ConfiguratorActions.RemoveConfiguration({
+              ownerKey: ownerKeysToRemove,
+            });
+          })
+        );
+      })
+    );
 
   @Effect()
   addOwner$: Observable<

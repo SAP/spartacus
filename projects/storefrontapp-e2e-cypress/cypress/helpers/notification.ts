@@ -14,14 +14,31 @@ export function navigateToNotificationPreferencePage() {
   });
 }
 
+export function interceptNotificationPreferencesChange() {
+  cy.intercept(
+    'PATCH',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/notificationpreferences*`
+  ).as('notificationPreferencesChange');
+}
+
 export function enableNotificationChannel() {
   navigateToNotificationPreferencePage();
+  interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().check();
+  cy.wait('@notificationPreferencesChange')
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function disableNotificationChannel() {
   navigateToNotificationPreferencePage();
+  interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().uncheck();
+  cy.wait('@notificationPreferencesChange')
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function updateEmail(): String {
@@ -159,8 +176,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
 }
 
 export function stubForPaginableMyInterests(jsonfile: string, url: string) {
-  cy.server();
-  cy.route('GET', url, `fixture:${jsonfile}`);
+  cy.intercept({ method: 'GET', path: url }, { fixture: jsonfile });
 }
 
 export function verifyPagingAndSorting() {
@@ -195,5 +211,15 @@ export function verifyPagingAndSorting() {
 export function navigateToMyInterestsPage() {
   cy.selectUserMenuOption({
     option: 'My Interests',
+  });
+}
+
+export function testEnableDisableNotification() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }

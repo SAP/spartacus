@@ -5,7 +5,7 @@ export function createCodeForEntityName(
   code: AbstractControl
 ): void {
   if (!code.value) {
-    const codeFromName = name.value.replace(/\s+/g, '-').toLowerCase();
+    const codeFromName = name.value?.replace(/\s+/g, '-').toLowerCase();
     code.patchValue(codeFromName);
   }
 }

@@ -9,6 +9,9 @@ export const initialState: ReplenishmentOrderList = {
   sorts: [],
 };
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export function reducer(
   state = initialState,
   action:

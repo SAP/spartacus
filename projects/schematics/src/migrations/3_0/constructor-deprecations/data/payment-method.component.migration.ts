@@ -18,7 +18,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAYMENT_METHOD_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-method.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/payment-method/payment-method.component.ts
   class: PAYMENT_METHOD_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

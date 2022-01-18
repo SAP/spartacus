@@ -5,7 +5,9 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { StoreFinderListItemComponent } from './store-finder-list-item.component';
-import { StoreDataService } from '@spartacus/storefinder/core';
+import { StoreFinderService } from '@spartacus/storefinder/core';
+import { of } from 'rxjs';
+import createSpy = jasmine.createSpy;
 
 const weekday = {
   closingTime: {
@@ -83,6 +85,16 @@ const sampleStore: any = {
   },
 };
 
+class MockStoreFinderService implements Partial<StoreFinderService> {
+  getFindStoresEntities = createSpy('getFindStoresEntities').and.returnValue(
+    of()
+  );
+  getStoresLoading = createSpy('getStoresLoading');
+  callFindStoresAction = createSpy('callFindStoresAction');
+  getStoreLatitude = createSpy('getStoreLatitude');
+  getStoreLongitude = createSpy('getStoreLongitude');
+}
+
 describe('StoreFinderListItemComponent', () => {
   let component: StoreFinderListItemComponent;
   let fixture: ComponentFixture<StoreFinderListItemComponent>;
@@ -97,7 +109,9 @@ describe('StoreFinderListItemComponent', () => {
           RouterTestingModule,
         ],
         declarations: [StoreFinderListItemComponent],
-        providers: [StoreDataService],
+        providers: [
+          { provide: StoreFinderService, useClass: MockStoreFinderService },
+        ],
       }).compileComponents();
     })
   );

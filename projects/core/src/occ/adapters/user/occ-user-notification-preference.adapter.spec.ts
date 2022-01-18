@@ -68,7 +68,7 @@ describe('OccUserNotificationPreferenceAdapter', () => {
     occEnpointsService = TestBed.inject(OccEndpointsService);
     spyOn(converter, 'pipeableMany').and.callThrough();
     spyOn(converter, 'convert').and.callThrough();
-    spyOn(occEnpointsService, 'getUrl').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {
@@ -85,10 +85,10 @@ describe('OccUserNotificationPreferenceAdapter', () => {
         return req.method === 'GET';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'notificationPreference',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();
@@ -121,10 +121,10 @@ describe('OccUserNotificationPreferenceAdapter', () => {
         return req.method === 'PATCH';
       });
 
-      expect(occEnpointsService.getUrl).toHaveBeenCalledWith(
+      expect(occEnpointsService.buildUrl).toHaveBeenCalledWith(
         'notificationPreference',
         {
-          userId: userId,
+          urlParams: { userId: userId },
         }
       );
       expect(mockReq.cancelled).toBeFalsy();

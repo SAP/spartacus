@@ -8,12 +8,15 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: [
+      '*orderApprovalPermissionTypes*',
+      '*availableOrgUnitNodes*',
+    ],
     verifyStatusInDetails: true,
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -47,7 +50,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',
@@ -63,6 +66,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.LIST,
       ,
     ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
   {
     name: 'Purchase Limit',
@@ -70,11 +74,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -128,7 +132,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',
@@ -142,6 +146,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.DISABLE,
       MY_COMPANY_FEATURE.UPDATE,
     ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
   {
     name: 'Purchase Limit',
@@ -149,11 +154,11 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
     baseUrl: `${FULL_BASE_URL_EN_USD}/organization/purchase-limits`,
     apiEndpoint: '/users/current/orderApprovalPermissions',
     objectType: 'orderApprovalPermissions',
-    selectOptionsEndpoint: '*orderApprovalPermissionTypes*',
+    selectOptionsEndpoint: ['*orderApprovalPermissionTypes*'],
     rows: [
       {
         label: 'Code',
-        sortLabel: 'name',
+        sortLabel: 'Name',
         variableName: 'uid',
         inputType: INPUT_TYPE.TEXT,
         createValue: `test-entity-${randomString()}`,
@@ -217,7 +222,7 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
         variableName: 'orgUnit.name',
         link: `/organization/units/Custom%20Retail`,
         updatedLink: `/organization/units/Rustic%20Retail`,
-        sortLabel: 'unit',
+        sortLabel: 'Unit',
         inputType: INPUT_TYPE.NG_SELECT,
         createValue: 'Custom Retail',
         updateValue: 'Rustic Retail',
@@ -231,5 +236,6 @@ export const purchaseLimitConfigs: MyCompanyConfig[] = [
       MY_COMPANY_FEATURE.DISABLE,
       MY_COMPANY_FEATURE.UPDATE,
     ],
+    coreFeatures: [MY_COMPANY_FEATURE.CREATE, MY_COMPANY_FEATURE.DISABLE],
   },
 ];

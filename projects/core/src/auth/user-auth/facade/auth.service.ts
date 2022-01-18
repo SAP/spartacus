@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -19,6 +20,16 @@ import { UserIdService } from './user-id.service';
   providedIn: 'root',
 })
 export class AuthService {
+  /**
+   * Indicates whether the access token is being refreshed
+   */
+  refreshInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Indicates whether the logout is being performed
+   */
+  logoutInProgress$: Observable<boolean> = new BehaviorSubject<boolean>(false);
+
   constructor(
     protected store: Store<StateWithClientAuth>,
     protected userIdService: UserIdService,
@@ -33,13 +44,26 @@ export class AuthService {
    */
   async checkOAuthParamsInUrl(): Promise<void> {
     try {
+      const tokenReceived = getLastValueSync(
+        this.oAuthLibWrapperService.events$.pipe(
+          filter((e) => e.type === 'token_received')
+        )
+      );
+
       const result = await this.oAuthLibWrapperService.tryLogin();
+
       const token = this.authStorageService.getItem('access_token');
+
       // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
       if (result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
-        this.authRedirectService.redirect();
+
+        // Only redirect if we have received a token,
+        // otherwise we are not returning from authentication server.
+        if (tokenReceived) {
+          this.authRedirectService.redirect();
+        }
       }
     } catch {}
   }
@@ -77,6 +101,7 @@ export class AuthService {
    * To perform logout it is best to use `logout` method. Use this method with caution.
    */
   coreLogout(): Promise<void> {
+    this.setLogoutProgress(true);
     this.userIdService.clearUserId();
     return new Promise((resolve) => {
       this.oAuthLibWrapperService.revokeAndLogout().finally(() => {
@@ -101,5 +126,19 @@ export class AuthService {
    */
   logout(): void {
     this.routingService.go({ cxRoute: 'logout' });
+  }
+
+  /**
+   * Start or stop the refresh process
+   */
+  setRefreshProgress(progress: boolean): void {
+    (this.refreshInProgress$ as BehaviorSubject<boolean>).next(progress);
+  }
+
+  /**
+   * Start or stop the logout process
+   */
+  setLogoutProgress(progress: boolean): void {
+    (this.logoutInProgress$ as BehaviorSubject<boolean>).next(progress);
   }
 }

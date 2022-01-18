@@ -68,6 +68,9 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -82,7 +85,7 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
             \\"main\\": \\"src/main.ts\\",
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"aot\\": true,
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -95,45 +98,48 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
           },
           \\"configurations\\": {
             \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
               \\"fileReplacements\\": [
                 {
                   \\"replace\\": \\"src/environments/environment.ts\\",
                   \\"with\\": \\"src/environments/environment.prod.ts\\"
                 }
               ],
-              \\"optimization\\": true,
-              \\"outputHashing\\": \\"all\\",
-              \\"sourceMap\\": false,
-              \\"extractCss\\": true,
-              \\"namedChunks\\": false,
-              \\"extractLicenses\\": true,
-              \\"vendorChunk\\": false,
-              \\"buildOptimizer\\": true,
-              \\"budgets\\": [
-                {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"2mb\\",
-                  \\"maximumError\\": \\"5mb\\"
-                },
-                {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"6kb\\",
-                  \\"maximumError\\": \\"10kb\\"
-                }
-              ]
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
         },
         \\"serve\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
-          },
           \\"configurations\\": {
             \\"production\\": {
               \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
         },
         \\"extract-i18n\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
@@ -148,6 +154,7 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.spec.json\\",
             \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -157,31 +164,6 @@ exports[`Spartacus User schematics: ng-add Account feature general setup styling
               \\"src/styles/spartacus/user.scss\\"
             ],
             \\"scripts\\": []
-          }
-        },
-        \\"lint\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
-          \\"options\\": {
-            \\"tsConfig\\": [
-              \\"tsconfig.app.json\\",
-              \\"tsconfig.spec.json\\",
-              \\"e2e/tsconfig.json\\"
-            ],
-            \\"exclude\\": [
-              \\"**/node_modules/**\\"
-            ]
-          }
-        },
-        \\"e2e\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
-          \\"options\\": {
-            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
-            \\"devServerTarget\\": \\"schematics-test:serve\\"
-          },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
-            }
           }
         }
       }
@@ -259,6 +241,9 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -273,7 +258,7 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
             \\"main\\": \\"src/main.ts\\",
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"aot\\": true,
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -286,45 +271,48 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
           },
           \\"configurations\\": {
             \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
               \\"fileReplacements\\": [
                 {
                   \\"replace\\": \\"src/environments/environment.ts\\",
                   \\"with\\": \\"src/environments/environment.prod.ts\\"
                 }
               ],
-              \\"optimization\\": true,
-              \\"outputHashing\\": \\"all\\",
-              \\"sourceMap\\": false,
-              \\"extractCss\\": true,
-              \\"namedChunks\\": false,
-              \\"extractLicenses\\": true,
-              \\"vendorChunk\\": false,
-              \\"buildOptimizer\\": true,
-              \\"budgets\\": [
-                {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"2mb\\",
-                  \\"maximumError\\": \\"5mb\\"
-                },
-                {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"6kb\\",
-                  \\"maximumError\\": \\"10kb\\"
-                }
-              ]
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
         },
         \\"serve\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
-          },
           \\"configurations\\": {
             \\"production\\": {
               \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
         },
         \\"extract-i18n\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
@@ -339,6 +327,7 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.spec.json\\",
             \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -348,31 +337,6 @@ exports[`Spartacus User schematics: ng-add Profile feature general setup styling
               \\"src/styles/spartacus/user.scss\\"
             ],
             \\"scripts\\": []
-          }
-        },
-        \\"lint\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
-          \\"options\\": {
-            \\"tsConfig\\": [
-              \\"tsconfig.app.json\\",
-              \\"tsconfig.spec.json\\",
-              \\"e2e/tsconfig.json\\"
-            ],
-            \\"exclude\\": [
-              \\"**/node_modules/**\\"
-            ]
-          }
-        },
-        \\"e2e\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
-          \\"options\\": {
-            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
-            \\"devServerTarget\\": \\"schematics-test:serve\\"
-          },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
-            }
           }
         }
       }

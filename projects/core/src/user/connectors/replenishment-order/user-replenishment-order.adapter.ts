@@ -5,6 +5,9 @@ import {
   ReplenishmentOrderList,
 } from '../../../model/index';
 
+/**
+ * @deprecated since 4.2 - use ReplenishmentOrderAdapter in @spartacus/order/core
+ */
 export abstract class UserReplenishmentOrderAdapter {
   /**
    * Abstract method used to load replenishment order details.

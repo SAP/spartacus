@@ -1,0 +1,100 @@
+<div class="cx-dialog-header modal-header">
+  <div class="cx-dialog-title modal-title">
+    {{ 'stockNotification.subscriptionDialog.header' | cxTranslate }}
+  </div>
+  <button
+    type="button"
+    [attr.aria-label]="'common.close' | cxTranslate"
+    class="close"
+    tabindex="-1"
+    (click)="close()"
+  >
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<ng-container *ngIf="subscribeSuccess$ | async; else loading">
+  <div class="cx-dialog-body modal-body">
+    <div class="container">
+      <p>
+        {{
+          'stockNotification.subscriptionDialog.notifiedPrefix' | cxTranslate
+        }}
+      </p>
+      <p *ngFor="let preference of enabledPrefs" class="channels">
+        <span>{{ preference.channel }}</span
+        ><span *ngIf="preference.value">{{ ': ' + preference.value }}</span>
+      </p>
+      <p>
+        {{
+          'stockNotification.subscriptionDialog.notifiedSuffix' | cxTranslate
+        }}
+      </p>
+      <p>
+        {{
+          'stockNotification.subscriptionDialog.manageChannelsPrefix'
+            | cxTranslate
+        }}
+        <a
+          (click)="close()"
+          [routerLink]="['/my-account/notification-preference']"
+          class="link-prefs"
+        >
+          {{
+            'stockNotification.subscriptionDialog.manageChannelsLink'
+              | cxTranslate
+          }}</a
+        >
+        {{
+          'stockNotification.subscriptionDialog.manageChannelsSuffix'
+            | cxTranslate
+        }}
+      </p>
+
+      <p>
+        {{
+          'stockNotification.subscriptionDialog.manageSubscriptionsPrefix'
+            | cxTranslate
+        }}
+        <a
+          (click)="close()"
+          [routerLink]="['/my-account/my-interests']"
+          class="link-interests"
+        >
+          {{
+            'stockNotification.subscriptionDialog.manageSubscriptionsLink'
+              | cxTranslate
+          }}</a
+        >
+        {{
+          'stockNotification.subscriptionDialog.manageSubscriptionsSuffix'
+            | cxTranslate
+        }}
+      </p>
+      <div class="row">
+        <div class="cx-dialog-actions col-sm-12 col-md-3 offset-md-9">
+          <button
+            class="btn btn-primary btn-block btn-ok"
+            type="button"
+            (click)="close()"
+          >
+            {{ 'stockNotification.subscriptionDialog.okBtn' | cxTranslate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-dialog-body modal-body">
+    <p>
+      {{ 'stockNotification.subscriptionDialog.subscribing' | cxTranslate }}
+    </p>
+    <div class="cx-dialog-row">
+      <div class="col-sm-12">
+        <cx-spinner></cx-spinner>
+      </div>
+    </div>
+  </div>
+</ng-template>

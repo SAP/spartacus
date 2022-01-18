@@ -1,3 +1,4 @@
+// TODO: clean it in 5.0, since it was moved to order lib
 %cx-order-return-request-list {
   .cx-order-history {
     @include media-breakpoint-down(sm) {
@@ -127,7 +128,15 @@
   .cx-order-history-form-group {
     padding: 0;
     margin-bottom: 0;
-
+    align-items: center;
+    display: flex;
+    span {
+      margin-inline-end: 0.5rem;
+      flex: none;
+    }
+    cx-sorting {
+      width: 100%;
+    }
     @include media-breakpoint-down(sm) {
       padding: 1.25rem;
     }

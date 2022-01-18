@@ -13,7 +13,7 @@
                 placement: 'auto',
                 class: 'hint-popover',
                 appendToBody: true,
-                displayCloseButton: false
+                displayCloseButton: true
               }"
             >
               <cx-icon [type]="iconTypes.INFO"> </cx-icon>
@@ -22,19 +22,31 @@
         </div>
 
         <div class="actions">
-          <ng-select
-            class="sort"
-            *ngIf="data.pagination?.sort"
-            [searchable]="false"
-            [clearable]="false"
-            (change)="sort(data.pagination)"
-            [tabIndex]="0"
-            [(ngModel)]="sortCode"
-          >
-            <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
-              {{ structure.type + '.' + sort.code | cxTranslate }}
-            </ng-option>
-          </ng-select>
+          <label>
+            <span *ngIf="data.pagination?.sort">{{
+              structure.type + '.sortBy' | cxTranslate
+            }}</span>
+            <ng-select
+              name="sort"
+              class="sort"
+              *ngIf="data.pagination?.sort"
+              [searchable]="false"
+              [clearable]="false"
+              (change)="sort(data.pagination)"
+              [tabIndex]="0"
+              [(ngModel)]="sortCode"
+              [attr.aria-label]="
+                (sortCode
+                  ? structure.type + '.sort.' + sortCode
+                  : structure.type + '.sortBy'
+                ) | cxTranslate
+              "
+            >
+              <ng-option *ngFor="let sort of data.sorts" [value]="sort.code">
+                {{ structure.type + '.sort.' + sort.code | cxTranslate }}
+              </ng-option>
+            </ng-select>
+          </label>
 
           <ng-content select="[actions]"></ng-content>
 

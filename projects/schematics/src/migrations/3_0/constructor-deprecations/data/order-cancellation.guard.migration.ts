@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_CANCELLATION_GUARD_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/order/amend-order/cancellations/order-cancellation.guard.ts
+  // projects/storefrontlib/cms-components/myaccount/order/amend-order/cancellations/order-cancellation.guard.ts
   class: ORDER_CANCELLATION_GUARD,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

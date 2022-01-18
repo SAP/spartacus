@@ -10,7 +10,6 @@ module.exports = function (config) {
       require('karma-coverage'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
     client: {
@@ -19,15 +18,17 @@ module.exports = function (config) {
         random: false,
       },
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
-    coverageIstanbulReporter: {
+    reporters: ['progress', 'kjhtml', 'dots'],
+    coverageReporter: {
       dir: require('path').join(__dirname, '../../coverage/storefront'),
-      reports: ['lcov', 'cobertura', 'text-summary'],
-      thresholds: {
-        statements: 80,
-        lines: 80,
-        branches: 60,
-        functions: 73,
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
+      check: {
+        global: {
+          statements: 85,
+          lines: 85,
+          branches: 70,
+          functions: 80,
+        },
       },
     },
     port: 9876,

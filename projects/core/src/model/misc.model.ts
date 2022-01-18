@@ -81,17 +81,12 @@ export interface ErrorModel {
   type?: string;
 }
 
-export interface HttpErrorModel {
+export class HttpErrorModel {
   message?: string;
   status?: number;
   statusText?: string;
   url?: string | null;
   details?: ErrorModel[];
-
-  /**
-   * @deprecated since 2.1
-   */
-  error?: any | null;
 }
 
 export interface BaseStore {
@@ -115,14 +110,4 @@ export interface BaseSite {
   urlPatterns?: string[];
   urlEncodingAttributes?: string[];
   baseStore?: BaseStore;
-}
-/**
- * @deprecated moved to user lib
- */
-export interface UserSignUp {
-  firstName?: string;
-  lastName?: string;
-  password?: string;
-  titleCode?: string;
-  uid?: string;
 }

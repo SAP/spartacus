@@ -27,22 +27,24 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   ) {}
 
   loadAll(userId: string): Observable<Address[]> {
-    const url = this.occEndpoints.getUrl('addresses', { userId });
+    const url = this.occEndpoints.buildUrl('addresses', {
+      urlParams: { userId },
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http
-      .get<Occ.AddressList>(url, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        map((addressList) => addressList.addresses),
-        this.converter.pipeableMany(ADDRESS_NORMALIZER)
-      );
+    return this.http.get<Occ.AddressList>(url, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      map((addressList) => addressList.addresses),
+      this.converter.pipeableMany(ADDRESS_NORMALIZER)
+    );
   }
 
   add(userId: string, address: Address): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addresses', { userId });
+    const url = this.occEndpoints.buildUrl('addresses', {
+      urlParams: { userId },
+    });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -54,9 +56,8 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   update(userId: string, addressId: string, address: Address): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addressDetail', {
-      userId,
-      addressId,
+    const url = this.occEndpoints.buildUrl('addressDetail', {
+      urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
@@ -69,7 +70,9 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
   }
 
   verify(userId: string, address: Address): Observable<AddressValidation> {
-    const url = this.occEndpoints.getUrl('addressVerification', { userId });
+    const url = this.occEndpoints.buildUrl('addressVerification', {
+      urlParams: { userId },
+    });
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
@@ -78,18 +81,15 @@ export class OccUserAddressAdapter implements UserAddressAdapter {
     }
     address = this.converter.convert(address, ADDRESS_SERIALIZER);
 
-    return this.http
-      .post<AddressValidation>(url, address, { headers })
-      .pipe(
-        catchError((error: any) => throwError(error)),
-        this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
-      );
+    return this.http.post<AddressValidation>(url, address, { headers }).pipe(
+      catchError((error: any) => throwError(error)),
+      this.converter.pipeable(ADDRESS_VALIDATION_NORMALIZER)
+    );
   }
 
   delete(userId: string, addressId: string): Observable<{}> {
-    const url = this.occEndpoints.getUrl('addressDetail', {
-      userId,
-      addressId,
+    const url = this.occEndpoints.buildUrl('addressDetail', {
+      urlParams: { userId, addressId },
     });
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',

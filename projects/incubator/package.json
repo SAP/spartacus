@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "Spartacus incubator library",
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^10.1.0"
+    "@angular/core": "^12.0.5"
   }
 }

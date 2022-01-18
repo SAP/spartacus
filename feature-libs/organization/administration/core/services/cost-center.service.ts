@@ -36,7 +36,9 @@ export class CostCenterService {
         this.store.dispatch(
           new CostCenterActions.LoadCostCenter({ userId, costCenterCode })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -46,7 +48,9 @@ export class CostCenterService {
         this.store.dispatch(
           new CostCenterActions.LoadCostCenters({ userId, params })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -119,7 +123,9 @@ export class CostCenterService {
         this.store.dispatch(
           new CostCenterActions.CreateCostCenter({ userId, costCenter })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -133,7 +139,9 @@ export class CostCenterService {
             costCenter,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -153,7 +161,9 @@ export class CostCenterService {
             params,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -186,7 +196,9 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 
@@ -200,7 +212,9 @@ export class CostCenterService {
             budgetCode,
           })
         ),
-      () => {}
+      () => {
+        // TODO: for future releases, refactor this part to thrown errors
+      }
     );
   }
 

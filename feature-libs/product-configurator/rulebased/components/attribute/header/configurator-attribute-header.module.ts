@@ -17,6 +17,5 @@ import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-h
   ],
   declarations: [ConfiguratorAttributeHeaderComponent],
   exports: [ConfiguratorAttributeHeaderComponent],
-  entryComponents: [ConfiguratorAttributeHeaderComponent],
 })
 export class ConfiguratorAttributeHeaderModule {}

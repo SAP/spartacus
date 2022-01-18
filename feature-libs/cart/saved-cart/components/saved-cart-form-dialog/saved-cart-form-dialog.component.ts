@@ -11,12 +11,11 @@ import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   DeleteSavedCartSuccessEvent,
-  SavedCartFormType,
   SavedCartFacade,
+  SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import {
   Cart,
-  ClearCheckoutService,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -24,11 +23,12 @@ import {
 } from '@spartacus/core';
 import {
   FocusConfig,
+  FormUtils,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
-import { merge, Observable, Subscription } from 'rxjs';
-import { mapTo, take } from 'rxjs/operators';
+import { combineLatest, merge, Observable, Subscription } from 'rxjs';
+import { map, mapTo, take } from 'rxjs/operators';
 
 export interface SavedCartFormDialogOptions {
   cart: Cart;
@@ -50,6 +50,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   descriptionMaxLength: number = 250;
   nameMaxLength: number = 50;
+  isCloneSavedCart = false;
 
   focusConfig: FocusConfig = {
     trap: true,
@@ -60,6 +61,7 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
   isLoading$: Observable<boolean>;
   isDisableDeleteButton$: Observable<boolean>;
+  isDisableRestoreButton$: Observable<boolean>;
 
   get descriptionsCharacterLeft(): number {
     return (
@@ -82,11 +84,12 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
     protected savedCartService: SavedCartFacade,
     protected eventService: EventService,
     protected routingService: RoutingService,
-    protected globalMessageService: GlobalMessageService,
-    protected clearCheckoutService: ClearCheckoutService
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
+    this.resetSavedCartStates();
+
     this.isLoading$ = this.savedCartService.getSaveCartProcessLoading();
 
     this.isDisableDeleteButton$ = merge(
@@ -94,6 +97,16 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       this.eventService
         .get(DeleteSavedCartFailEvent)
         .pipe(take(1), mapTo(false))
+    );
+
+    this.isDisableRestoreButton$ = combineLatest([
+      this.savedCartService.getCloneSavedCartProcessLoading(),
+      this.savedCartService.getRestoreSavedCartProcessLoading(),
+    ]).pipe(
+      map(
+        ([isCloneLoading, isRestoreLoading]) =>
+          isCloneLoading || isRestoreLoading
+      )
     );
 
     this.subscription.add(
@@ -119,34 +132,60 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
         .pipe(take(1), mapTo(true))
         .subscribe((success) => this.onComplete(success))
     );
+
+    this.subscription.add(
+      this.savedCartService
+        .getRestoreSavedCartProcessSuccess()
+        .subscribe((success) => this.onComplete(success))
+    );
   }
 
   saveOrEditCart(cartId: string): void {
-    switch (this.layoutOption) {
-      case SavedCartFormType.SAVE: {
-        this.savedCartService.saveCart({
-          cartId,
-          saveCartName: this.form.get('name')?.value,
-          saveCartDescription: this.form.get('description')?.value,
-        });
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(this.form);
+    } else {
+      const name = this.form.get('name')?.value;
+      // TODO(#12660): Remove default value once backend is updated
+      const description = this.form.get('description')?.value || '-';
 
-        break;
-      }
+      switch (this.layoutOption) {
+        case SavedCartFormType.SAVE: {
+          this.savedCartService.saveCart({
+            cartId,
+            saveCartName: name,
+            saveCartDescription: description,
+          });
 
-      case SavedCartFormType.EDIT: {
-        this.savedCartService.editSavedCart({
-          cartId,
-          saveCartName: this.form.get('name')?.value,
-          saveCartDescription: this.form.get('description')?.value,
-        });
+          break;
+        }
 
-        break;
+        case SavedCartFormType.EDIT: {
+          this.savedCartService.editSavedCart({
+            cartId,
+            saveCartName: name,
+            saveCartDescription: description,
+          });
+
+          break;
+        }
       }
     }
   }
 
   deleteCart(cartId: string): void {
     this.savedCartService.deleteSavedCart(cartId);
+  }
+
+  restoreSavedCart(cartId: string): void {
+    if (this.isCloneSavedCart) {
+      this.savedCartService.cloneSavedCart(
+        cartId,
+        this.form.get('cloneName')?.value
+      );
+    } else {
+      this.savedCartService.restoreSavedCart(cartId);
+    }
   }
 
   close(reason: string): void {
@@ -171,7 +210,6 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
         case SavedCartFormType.SAVE: {
           this.close('Successfully saved cart');
-          this.clearCheckoutService.resetCheckoutProcesses();
           this.savedCartService.clearSaveCart();
 
           this.globalMessageService.add(
@@ -203,8 +241,21 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
 
           break;
         }
+
+        case SavedCartFormType.RESTORE: {
+          this.close('Successfully restored saved cart');
+          this.routingService.go({ cxRoute: 'savedCarts' });
+
+          this.resetSavedCartStates();
+
+          break;
+        }
       }
     }
+  }
+
+  toggleIsCloneSavedCart() {
+    return (this.isCloneSavedCart = !this.isCloneSavedCart);
   }
 
   protected build(cart?: Cart) {
@@ -220,12 +271,20 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
       'description',
       new FormControl('', [Validators.maxLength(this.descriptionMaxLength)])
     );
+    form.setControl('isCloneSavedCart', new FormControl(''));
+    form.setControl('cloneName', new FormControl(''));
     this.form = form;
     this.patchData(cart);
   }
 
   protected patchData(item?: any): void {
     this.form.patchValue({ ...item });
+  }
+
+  private resetSavedCartStates(): void {
+    this.savedCartService.clearCloneSavedCart();
+    this.savedCartService.clearSaveCart();
+    this.savedCartService.clearRestoreSavedCart();
   }
 
   ngOnDestroy(): void {

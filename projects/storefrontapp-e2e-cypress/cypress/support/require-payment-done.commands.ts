@@ -4,21 +4,22 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have payment done. Returns payment object.
+       * Adds a payment method to a cart.
+       * Returns payment method object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requirePaymentDone(auth);
+        cy.requirePaymentDone(token, cartId);
         ```
        */
-      requirePaymentDone: (auth: {}, cartId?: string) => Cypress.Chainable<{}>;
+      requirePaymentDone: (token: {}, cartId?: string) => Cypress.Chainable<{}>;
     }
   }
 }
-Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
-  const cartQueryValue = cartId || 'current';
+Cypress.Commands.add('requirePaymentDone', (token, cartId) => {
+  const cartCode = cartId || 'current';
   function getResponseUrl() {
     return cy.request({
       method: 'GET',
@@ -26,10 +27,10 @@ Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/${cartQueryValue}/payment/sop/request?responseUrl=sampleUrl`,
+      )}/users/current/carts/${cartCode}/payment/sop/request?responseUrl=sampleUrl`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -42,7 +43,7 @@ Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -63,11 +64,11 @@ Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
         'OCC_PREFIX'
       )}/${Cypress.env(
         'BASE_SITE'
-      )}/users/current/carts/${cartQueryValue}/payment/sop/response`,
+      )}/users/current/carts/${cartCode}/payment/sop/response`,
       body: data,
       form: true,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
     });
   }
@@ -90,13 +91,13 @@ Cypress.Commands.add('requirePaymentDone', (auth, cartId) => {
     return data;
   }
 
-  cy.server();
-
   getResponseUrl().then((resp) => {
     doVerification(convertToMap(resp.body.parameters.entry)).then((respV) => {
-      const sidRe = /name="paySubscriptionCreateReply_subscriptionID" value="(.+)"/gm;
+      const sidRe =
+        /name="paySubscriptionCreateReply_subscriptionID" value="(.+)"/gm;
       const sid = sidRe.exec(respV.body)[1];
-      const sidSigRe = /name="paySubscriptionCreateReply_subscriptionIDPublicSignature" value="(.+)"/gm;
+      const sidSigRe =
+        /name="paySubscriptionCreateReply_subscriptionIDPublicSignature" value="(.+)"/gm;
       const sidSig = sidSigRe.exec(respV.body)[1];
       doPayment(convertToMap(resp.body.parameters.entry), sid, sidSig);
     });

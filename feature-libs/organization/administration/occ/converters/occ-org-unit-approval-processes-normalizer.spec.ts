@@ -1,28 +1,13 @@
 import { TestBed } from '@angular/core/testing';
-import { B2BApprovalProcess, Occ, OccEndpointsService } from '@spartacus/core';
+import { B2BApprovalProcess, Occ } from '@spartacus/core';
 import { OccOrgUnitApprovalProcessNormalizer } from './occ-org-unit-approval-processes-normalizer';
-
-import createSpy = jasmine.createSpy;
-
-class MockOccEndpointsService {
-  getUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
-    // eslint-disable-next-line no-shadow
-    (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
-  );
-}
 
 describe('OccOrgUnitApprovalProcessNormalizer', () => {
   let service: OccOrgUnitApprovalProcessNormalizer;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        OccOrgUnitApprovalProcessNormalizer,
-        {
-          provide: OccEndpointsService,
-          useClass: MockOccEndpointsService,
-        },
-      ],
+      providers: [OccOrgUnitApprovalProcessNormalizer],
     });
 
     service = TestBed.inject(OccOrgUnitApprovalProcessNormalizer);

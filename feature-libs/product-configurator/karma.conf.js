@@ -4,35 +4,39 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
-    frameworks: ['jasmine', '@angular-devkit/build-angular'],
+    frameworks: ['parallel', 'jasmine', '@angular-devkit/build-angular'],
     plugins: [
+      require('karma-parallel'),
       require('karma-jasmine'),
       require('karma-coverage'),
-      require('karma-junit-reporter'),
       require('karma-chrome-launcher'),
       require('karma-jasmine-html-reporter'),
-      require('karma-coverage-istanbul-reporter'),
       require('@angular-devkit/build-angular/plugins/karma'),
     ],
+    parallelOptions: {
+      executors: 2,
+      shardStrategy: 'round-robin',
+    },
     client: {
       clearContext: false, // leave Jasmine Spec Runner output visible in browser
       jasmine: {
         random: false,
       },
     },
-    reporters: ['progress', 'kjhtml', 'coverage-istanbul', 'dots'],
-    coverageIstanbulReporter: {
+    reporters: ['progress', 'kjhtml', 'dots'],
+    coverageReporter: {
       dir: require('path').join(
         __dirname,
         '../../coverage/product-configurator'
       ),
-      reports: ['lcov', 'cobertura', 'text-summary'],
-      fixWebpackSourcePaths: true,
-      thresholds: {
-        statements: 80,
-        lines: 80,
-        branches: 70,
-        functions: 80,
+      reporters: [{ type: 'lcov', subdir: '.' }, { type: 'text-summary' }],
+      check: {
+        global: {
+          statements: 90,
+          lines: 90,
+          branches: 75,
+          functions: 90,
+        },
       },
     },
     port: 9876,

@@ -1,16 +1,16 @@
 import { DaysOfWeek, recurrencePeriod } from '../sample-data/b2b-checkout';
-
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Make sure you have placed the order. Returns new order data.
+       * Places an order with the current cart of the current user.
+       * Returns new order object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requirePlacedOrder(auth, address);
+        cy.requirePlacedOrder(token, address);
         ```
        */
       requirePlacedOrder: (token: {}, cartId: {}) => Cypress.Chainable<{}>;
@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
+Cypress.Commands.add('requirePlacedOrder', (token, cartId) => {
   function placeOrder() {
     return cy.request({
       method: 'POST',
@@ -31,7 +31,7 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
       )}?cartId=${cartId}&termsChecked=true`,
       form: false,
       headers: {
-        Authorization: `bearer ${auth.access_token}`,
+        Authorization: `bearer ${token.access_token}`,
       },
       body: Cypress.env('OCC_PREFIX_USER_ENDPOINT')
         ? {
@@ -46,6 +46,5 @@ Cypress.Commands.add('requirePlacedOrder', (auth, cartId) => {
     });
   }
 
-  cy.server();
   placeOrder().then((response) => cy.wrap(response));
 });

@@ -11,7 +11,6 @@ import { ConfiguratorAttributeMultiSelectionBundleComponent } from './configurat
 
 @NgModule({
   declarations: [ConfiguratorAttributeMultiSelectionBundleComponent],
-  entryComponents: [ConfiguratorAttributeMultiSelectionBundleComponent],
   exports: [ConfiguratorAttributeMultiSelectionBundleComponent],
   imports: [
     CommonModule,

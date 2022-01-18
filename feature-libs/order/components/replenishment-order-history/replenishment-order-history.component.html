@@ -1,0 +1,240 @@
+<ng-container *ngIf="replenishmentOrders$ | async as replenishmentOrders">
+  <div class="container">
+    <!-- HEADER -->
+    <div class="cx-replenishment-order-history-header">
+      <h3>
+        {{ 'orderHistory.replenishmentOrderHistory' | cxTranslate }}
+      </h3>
+    </div>
+
+    <!-- BODY -->
+    <div class="cx-replenishment-order-history-body">
+      <ng-container
+        *ngIf="replenishmentOrders.pagination.totalResults > 0; else noOrder"
+      >
+        <!-- Select Form and Pagination Top -->
+        <div class="cx-replenishment-order-history-sort top row">
+          <label
+            class="
+              cx-replenishment-order-history-form-group
+              form-group
+              col-sm-12 col-md-4 col-lg-4
+            "
+          >
+            <span>{{ 'orderHistory.sortBy' | cxTranslate }}</span>
+            <cx-sorting
+              [sortOptions]="replenishmentOrders.sorts"
+              [sortLabels]="getSortLabels() | async"
+              (sortListEvent)="changeSortCode($event)"
+              [selectedOption]="replenishmentOrders.pagination.sort"
+              placeholder="{{ 'orderHistory.sortBy' | cxTranslate }}"
+            ></cx-sorting>
+          </label>
+          <div
+            class="cx-replenishment-order-history-pagination"
+            *ngIf="replenishmentOrders.pagination.totalPages > 1"
+          >
+            <cx-pagination
+              [pagination]="replenishmentOrders.pagination"
+              (viewPageEvent)="pageChange($event)"
+            ></cx-pagination>
+          </div>
+        </div>
+        <!-- TABLE -->
+        <table class="table cx-replenishment-order-history-table">
+          <thead class="cx-replenishment-order-history-thead-mobile">
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.startOn' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.frequency' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.nextOrderDate' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col" class="cx-replenishment-order-history-total">
+              <span class="cx-replenishment-order-history-ellipses">
+                {{ 'orderHistory.total' | cxTranslate }}
+              </span>
+            </th>
+            <th scope="col"></th>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let order of replenishmentOrders.replenishmentOrders"
+              (click)="goToOrderDetail(order)"
+            >
+              <td class="cx-replenishment-order-history-code">
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.replenishmentOrderId' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-replenishment-order-history-value"
+                >
+                  {{ order?.replenishmentOrderCode }}</a
+                >
+              </td>
+              <td>
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.purchaseOrderNumber' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="
+                    cx-replenishment-order-history-value
+                    cx-purchase-order-number
+                  "
+                >
+                  {{
+                    order?.purchaseOrderNumber?.length > 0
+                      ? order?.purchaseOrderNumber
+                      : ('orderHistory.emptyPurchaseOrderId' | cxTranslate)
+                  }}
+                </a>
+              </td>
+              <td>
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.startOn' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-replenishment-order-history-value"
+                >
+                  {{ order?.firstDate | cxDate: 'M/d/yyyy' }}</a
+                >
+              </td>
+              <td class="cx-replenishment-order-history-frequency">
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.frequency' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-replenishment-order-history-value"
+                >
+                  {{ order?.trigger.displayTimeTable | slice: 0:-12 }}
+                </a>
+              </td>
+              <td>
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.nextOrderDate' | cxTranslate }}
+                </div>
+
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="
+                    cx-replenishment-order-history-value cx-next-order-date
+                  "
+                >
+                  {{
+                    order?.active
+                      ? (order?.trigger.activationTime | cxDate: 'M/d/yyyy')
+                      : ('orderHistory.cancelled' | cxTranslate)
+                  }}
+                </a>
+              </td>
+              <td class="cx-replenishment-order-history-total">
+                <div class="d-md-none cx-replenishment-order-history-label">
+                  {{ 'orderHistory.total' | cxTranslate }}
+                </div>
+                <a
+                  [routerLink]="
+                    {
+                      cxRoute: 'replenishmentDetails',
+                      params: order
+                    } | cxUrl
+                  "
+                  class="cx-replenishment-order-history-value"
+                >
+                  {{ order?.totalPriceWithTax.formattedValue }}</a
+                >
+              </td>
+              <td class="cx-replenishment-order-history-cancel">
+                <div
+                  class="d-md-none cx-replenishment-order-history-label"
+                ></div>
+                <button
+                  (click)="openDialog($event, order?.replenishmentOrderCode)"
+                  class="cx-order-cancel btn btn-link"
+                  #element
+                  *ngIf="order?.active"
+                >
+                  {{ 'orderHistory.cancel' | cxTranslate }}
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <!-- Select Form and Pagination Bottom -->
+        <div class="cx-replenishment-order-history-sort bottom row">
+          <div class="cx-replenishment-order-history-pagination">
+            <cx-pagination
+              [pagination]="replenishmentOrders.pagination"
+              (viewPageEvent)="pageChange($event)"
+              *ngIf="replenishmentOrders.pagination.totalPages > 1"
+            ></cx-pagination>
+          </div>
+        </div>
+      </ng-container>
+
+      <!-- NO ORDER CONTAINER -->
+      <ng-template #noOrder>
+        <div
+          class="cx-replenishment-order-history-no-order row"
+          *ngIf="isLoaded$ | async"
+        >
+          <div class="col-sm-12 col-md-6 col-lg-4">
+            <div>{{ 'orderHistory.noReplenishmentOrders' | cxTranslate }}</div>
+            <a
+              [routerLink]="{ cxRoute: 'home' } | cxUrl"
+              routerLinkActive="active"
+              class="btn btn-primary btn-block"
+              >{{ 'orderHistory.startShopping' | cxTranslate }}</a
+            >
+          </div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

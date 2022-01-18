@@ -54,7 +54,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '3.2'
+      level: '4.1'
     }
   }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
 })
@@ -106,6 +106,9 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -120,7 +123,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             \\"main\\": \\"src/main.ts\\",
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"aot\\": true,
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -133,45 +136,48 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
           },
           \\"configurations\\": {
             \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
               \\"fileReplacements\\": [
                 {
                   \\"replace\\": \\"src/environments/environment.ts\\",
                   \\"with\\": \\"src/environments/environment.prod.ts\\"
                 }
               ],
-              \\"optimization\\": true,
-              \\"outputHashing\\": \\"all\\",
-              \\"sourceMap\\": false,
-              \\"extractCss\\": true,
-              \\"namedChunks\\": false,
-              \\"extractLicenses\\": true,
-              \\"vendorChunk\\": false,
-              \\"buildOptimizer\\": true,
-              \\"budgets\\": [
-                {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"2mb\\",
-                  \\"maximumError\\": \\"5mb\\"
-                },
-                {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"6kb\\",
-                  \\"maximumError\\": \\"10kb\\"
-                }
-              ]
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
         },
         \\"serve\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
-          },
           \\"configurations\\": {
             \\"production\\": {
               \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
         },
         \\"extract-i18n\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
@@ -186,6 +192,7 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.spec.json\\",
             \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -195,31 +202,6 @@ exports[`Spartacus Organization schematics: ng-add Administration feature genera
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []
-          }
-        },
-        \\"lint\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
-          \\"options\\": {
-            \\"tsConfig\\": [
-              \\"tsconfig.app.json\\",
-              \\"tsconfig.spec.json\\",
-              \\"e2e/tsconfig.json\\"
-            ],
-            \\"exclude\\": [
-              \\"**/node_modules/**\\"
-            ]
-          }
-        },
-        \\"e2e\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
-          \\"options\\": {
-            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
-            \\"devServerTarget\\": \\"schematics-test:serve\\"
-          },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
-            }
           }
         }
       }
@@ -283,7 +265,7 @@ import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@sparta
     },
   }), provideConfig(<FeaturesConfig>{
     features: {
-      level: '3.2'
+      level: '4.1'
     }
   }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
 })
@@ -335,6 +317,9 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
       \\"schematics\\": {
         \\"@schematics/angular:component\\": {
           \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
         }
       },
       \\"root\\": \\"\\",
@@ -349,7 +334,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             \\"main\\": \\"src/main.ts\\",
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.app.json\\",
-            \\"aot\\": true,
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -362,45 +347,48 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
           },
           \\"configurations\\": {
             \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
               \\"fileReplacements\\": [
                 {
                   \\"replace\\": \\"src/environments/environment.ts\\",
                   \\"with\\": \\"src/environments/environment.prod.ts\\"
                 }
               ],
-              \\"optimization\\": true,
-              \\"outputHashing\\": \\"all\\",
-              \\"sourceMap\\": false,
-              \\"extractCss\\": true,
-              \\"namedChunks\\": false,
-              \\"extractLicenses\\": true,
-              \\"vendorChunk\\": false,
-              \\"buildOptimizer\\": true,
-              \\"budgets\\": [
-                {
-                  \\"type\\": \\"initial\\",
-                  \\"maximumWarning\\": \\"2mb\\",
-                  \\"maximumError\\": \\"5mb\\"
-                },
-                {
-                  \\"type\\": \\"anyComponentStyle\\",
-                  \\"maximumWarning\\": \\"6kb\\",
-                  \\"maximumError\\": \\"10kb\\"
-                }
-              ]
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
         },
         \\"serve\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
-          \\"options\\": {
-            \\"browserTarget\\": \\"schematics-test:build\\"
-          },
           \\"configurations\\": {
             \\"production\\": {
               \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
             }
-          }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
         },
         \\"extract-i18n\\": {
           \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
@@ -415,6 +403,7 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
             \\"polyfills\\": \\"src/polyfills.ts\\",
             \\"tsConfig\\": \\"tsconfig.spec.json\\",
             \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
             \\"assets\\": [
               \\"src/favicon.ico\\",
               \\"src/assets\\"
@@ -424,31 +413,6 @@ exports[`Spartacus Organization schematics: ng-add Order approval feature genera
               \\"src/styles/spartacus/organization.scss\\"
             ],
             \\"scripts\\": []
-          }
-        },
-        \\"lint\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:tslint\\",
-          \\"options\\": {
-            \\"tsConfig\\": [
-              \\"tsconfig.app.json\\",
-              \\"tsconfig.spec.json\\",
-              \\"e2e/tsconfig.json\\"
-            ],
-            \\"exclude\\": [
-              \\"**/node_modules/**\\"
-            ]
-          }
-        },
-        \\"e2e\\": {
-          \\"builder\\": \\"@angular-devkit/build-angular:protractor\\",
-          \\"options\\": {
-            \\"protractorConfig\\": \\"e2e/protractor.conf.js\\",
-            \\"devServerTarget\\": \\"schematics-test:serve\\"
-          },
-          \\"configurations\\": {
-            \\"production\\": {
-              \\"devServerTarget\\": \\"schematics-test:serve:production\\"
-            }
           }
         }
       }

@@ -2,6 +2,7 @@ import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
 import * as configuration from './product-configurator';
+import * as configurationVc from './product-configurator-vc';
 
 /**
  * bundle types
@@ -79,6 +80,7 @@ export function clickOnConfigureBtnInCatalog(): void {
  */
 export function checkConfigPageDisplayed(): void {
   checkSuccessMessageNotDisplayed();
+  configurationVc.checkGhostAnimationNotDisplayed();
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();
@@ -272,9 +274,7 @@ export function checkPrice(
 function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
   return cy
     .get('cx-configurator-group-menu:visible')
-    .within(() =>
-      cy.get('ul>li.cx-menu-item').not('.cx-menu-conflict').eq(index)
-    );
+    .within(() => cy.get('.cx-menu-item').not('.cx-menu-conflict').eq(index));
 }
 
 /**
@@ -284,14 +284,10 @@ function getNthGroupMenu(index: number): Chainable<JQuery<HTMLElement>> {
  */
 export function clickOnGroup(groupIndex: number): void {
   getNthGroupMenu(groupIndex).within(() => {
-    cy.get('a')
-      .children()
-      .within(() => {
-        cy.get('div.subGroupIndicator').within(($list) => {
-          cy.log('$list.children().length: ' + $list.children().length);
-          cy.wrap($list.children().length).as('subGroupIndicator');
-        });
-      });
+    cy.get('div.subGroupIndicator').within(($list) => {
+      cy.log('$list.children().length: ' + $list.children().length);
+      cy.wrap($list.children().length).as('subGroupIndicator');
+    });
   });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

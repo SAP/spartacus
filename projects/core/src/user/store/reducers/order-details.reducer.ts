@@ -1,8 +1,14 @@
 import { Order } from '../../../model/order.model';
 import { UserActions } from '../actions/index';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const initialState: Order = {};
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export function reducer(
   state = initialState,
   action: UserActions.OrderDetailsAction

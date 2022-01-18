@@ -2,7 +2,6 @@ export * from './applicable';
 export * from './command-query/index';
 export * from './converter.service';
 export * from './create-from';
-export * from './external-js-file-loader/index';
 export * from './glob.service';
 export * from './http-params-uri.encoder';
 export * from './java-reg-exp-converter/index';

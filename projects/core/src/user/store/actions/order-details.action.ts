@@ -1,27 +1,54 @@
 import {
-  Order,
   CancellationRequestEntryInputList,
+  Order,
 } from '../../../model/order.model';
+import { PROCESS_FEATURE } from '../../../process/store/process-state';
+import { StateUtils } from '../../../state/utils/index';
 import {
   LoaderFailAction,
   LoaderLoadAction,
-  LoaderSuccessAction,
   LoaderResetAction,
+  LoaderSuccessAction,
 } from '../../../state/utils/loader/loader.action';
-import { PROCESS_FEATURE } from '../../../process/store/process-state';
-import { StateUtils } from '../../../state/utils/index';
-import { USER_ORDER_DETAILS, CANCEL_ORDER_PROCESS_ID } from '../user-state';
+import { CANCEL_ORDER_PROCESS_ID, USER_ORDER_DETAILS } from '../user-state';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const LOAD_ORDER_DETAILS = '[User] Load Order Details';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const LOAD_ORDER_DETAILS_FAIL = '[User] Load Order Details Fail';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const LOAD_ORDER_DETAILS_SUCCESS = '[User] Load Order Details Success';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CLEAR_ORDER_DETAILS = '[User] Clear Order Details';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_ORDER = '[User] Cancel Order';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_ORDER_FAIL = '[User] Cancel Order Fail';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const CANCEL_ORDER_SUCCESS = '[User] Cancel Order Success';
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export const RESET_CANCEL_ORDER_PROCESS = '[User] Reset Cancel Order Process';
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class LoadOrderDetails extends LoaderLoadAction {
   readonly type = LOAD_ORDER_DETAILS;
   constructor(
@@ -34,6 +61,9 @@ export class LoadOrderDetails extends LoaderLoadAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class LoadOrderDetailsFail extends LoaderFailAction {
   readonly type = LOAD_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
@@ -41,6 +71,9 @@ export class LoadOrderDetailsFail extends LoaderFailAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class LoadOrderDetailsSuccess extends LoaderSuccessAction {
   readonly type = LOAD_ORDER_DETAILS_SUCCESS;
   constructor(public payload: Order) {
@@ -48,6 +81,9 @@ export class LoadOrderDetailsSuccess extends LoaderSuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class ClearOrderDetails extends LoaderResetAction {
   readonly type = CLEAR_ORDER_DETAILS;
   constructor() {
@@ -55,6 +91,9 @@ export class ClearOrderDetails extends LoaderResetAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class CancelOrder extends StateUtils.EntityLoadAction {
   readonly type = CANCEL_ORDER;
   constructor(
@@ -68,6 +107,9 @@ export class CancelOrder extends StateUtils.EntityLoadAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class CancelOrderFail extends StateUtils.EntityFailAction {
   readonly type = CANCEL_ORDER_FAIL;
   constructor(public payload: any) {
@@ -75,6 +117,9 @@ export class CancelOrderFail extends StateUtils.EntityFailAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class CancelOrderSuccess extends StateUtils.EntitySuccessAction {
   readonly type = CANCEL_ORDER_SUCCESS;
   constructor() {
@@ -82,6 +127,9 @@ export class CancelOrderSuccess extends StateUtils.EntitySuccessAction {
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export class ResetCancelOrderProcess extends StateUtils.EntityLoaderResetAction {
   readonly type = RESET_CANCEL_ORDER_PROCESS;
   constructor() {
@@ -89,6 +137,9 @@ export class ResetCancelOrderProcess extends StateUtils.EntityLoaderResetAction 
   }
 }
 
+/**
+ * @deprecated since 4.2 - use order lib instead
+ */
 export type OrderDetailsAction =
   | LoadOrderDetails
   | LoadOrderDetailsFail

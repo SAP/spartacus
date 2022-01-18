@@ -51,7 +51,7 @@ export class ConfiguratorCommonsService {
           owner.key
         )
       ),
-      map((configurationState) => configurationState.loading)
+      map((configurationState) => configurationState.loading ?? false)
     );
   }
 
@@ -212,28 +212,10 @@ export class ConfiguratorCommonsService {
       )
     );
   }
-  protected removeObsoleteProductBoundConfiguration(
-    owner: CommonConfigurator.Owner
-  ): void {
-    this.store
-      .pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-        take(1)
-      )
-      .subscribe((configuration) => {
-        if (
-          this.configuratorUtils.isConfigurationCreated(configuration) &&
-          configuration.nextOwner
-        ) {
-          this.removeConfiguration(owner);
-        }
-      });
-  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    this.removeObsoleteProductBoundConfiguration(owner);
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(
@@ -242,9 +224,10 @@ export class ConfiguratorCommonsService {
       ),
       tap((configurationState) => {
         if (
-          !this.configuratorUtils.isConfigurationCreated(
-            configurationState.value
-          ) &&
+          (configurationState.value === undefined ||
+            !this.configuratorUtils.isConfigurationCreated(
+              configurationState.value
+            )) &&
           configurationState.loading !== true &&
           configurationState.error !== true
         ) {
@@ -253,10 +236,17 @@ export class ConfiguratorCommonsService {
           );
         }
       }),
-      filter((configurationState) =>
-        this.configuratorUtils.isConfigurationCreated(configurationState.value)
+      filter(
+        (configurationState) =>
+          configurationState.value !== undefined &&
+          this.configuratorUtils.isConfigurationCreated(
+            configurationState.value
+          )
       ),
-      map((configurationState) => configurationState.value)
+      //save to assume configuration is defined after previous filter
+      map((configurationState) =>
+        this.configuratorUtils.getConfigurationFromState(configurationState)
+      )
     );
   }
 

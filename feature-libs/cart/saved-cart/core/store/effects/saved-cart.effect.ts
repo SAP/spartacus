@@ -237,6 +237,48 @@ export class SavedCartEffects {
     })
   );
 
+  @Effect()
+  cloneSavedCart$: Observable<
+    | SavedCartActions.CloneSavedCartFail
+    | SavedCartActions.CloneSavedCartSuccess
+    | SavedCartActions.CloneSavedCart
+    | SavedCartActions.RestoreSavedCart
+    | SavedCartActions.LoadSavedCarts
+  > = this.actions$.pipe(
+    ofType(SavedCartActions.CLONE_SAVED_CART),
+    map((action: SavedCartActions.CloneSavedCart) => action.payload),
+    switchMap(({ userId, cartId, saveCartName }) => {
+      return this.savedCartConnector
+        .cloneSavedCart(userId, cartId, saveCartName)
+        .pipe(
+          switchMap((_) => {
+            return [
+              new SavedCartActions.CloneSavedCartSuccess({
+                userId,
+                cartId,
+                saveCartName,
+              }),
+              new SavedCartActions.RestoreSavedCart({
+                userId,
+                cartId,
+              }),
+              new SavedCartActions.LoadSavedCarts({ userId }),
+            ];
+          }),
+          catchError((error: HttpErrorResponse) =>
+            of(
+              new SavedCartActions.CloneSavedCartFail({
+                userId,
+                cartId,
+                saveCartName,
+                error: normalizeHttpError(error),
+              })
+            )
+          )
+        );
+    })
+  );
+
   constructor(
     private actions$: Actions,
     private savedCartConnector: SavedCartConnector,

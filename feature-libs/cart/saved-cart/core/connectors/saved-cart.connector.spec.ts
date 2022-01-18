@@ -21,6 +21,7 @@ class MockSavedCartAdapter implements Partial<SavedCartAdapter> {
   loadList = createSpy().and.returnValue(of([mockSavedCart]));
   restoreSavedCart = createSpy().and.returnValue(of(mockSavedCart));
   saveCart = createSpy().and.returnValue(of(mockSavedCart));
+  cloneSavedCart = createSpy().and.returnValue(of(mockSavedCart));
 }
 
 describe('SavedCartConnector', () => {
@@ -73,6 +74,15 @@ describe('SavedCartConnector', () => {
       mockCartId,
       mockCartName,
       mockCartDescription
+    );
+  });
+
+  it('should clone saved cart', () => {
+    connector.cloneSavedCart(mockUserId, mockCartId, mockCartName);
+    expect(adapter.cloneSavedCart).toHaveBeenCalledWith(
+      mockUserId,
+      mockCartId,
+      mockCartName
     );
   });
 });

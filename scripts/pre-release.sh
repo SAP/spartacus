@@ -11,6 +11,10 @@ function cleanup {
     delete_file spartacussampledataaddon.1905.tar.gz
     delete_file spartacussampledata.2005.zip
     delete_file spartacussampledata.2005.tar.gz
+    delete_file spartacussampledata.2011.zip
+    delete_file spartacussampledata.2011.tar.gz
+    delete_file spartacussampledata.2105.zip
+    delete_file spartacussampledata.2105.tar.gz
 
     delete_dir coverage
     delete_dir dist
@@ -39,7 +43,10 @@ function generate_docs {
     echo "--> Generating compodocs"
     yarn generate:docs
 
-    echo "--> Getting dependencies again"
+    echo "--> Publishing compodocs"
+    yarn publish:docs
+
+    echo "--> Getting npm dependencies back"
     yarn
 }
 
@@ -58,6 +65,16 @@ function zipSamplesAddOn {
     mv spartacussampledata.2005.tar.gz ../
     git archive -o spartacussampledata.2005.zip HEAD
     mv spartacussampledata.2005.zip ../
+    git co release/2011/next
+    git archive -o spartacussampledata.2011.tar.gz HEAD
+    mv spartacussampledata.2011.tar.gz ../
+    git archive -o spartacussampledata.2011.zip HEAD
+    mv spartacussampledata.2011.zip ../
+    git co release/2105/next
+    git archive -o spartacussampledata.2105.tar.gz HEAD
+    mv spartacussampledata.2105.tar.gz ../
+    git archive -o spartacussampledata.2105.zip HEAD
+    mv spartacussampledata.2105.zip ../
     cd ..
     delete_dir spartacussampledata
 }

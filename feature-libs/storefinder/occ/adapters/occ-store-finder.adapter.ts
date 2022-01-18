@@ -43,7 +43,9 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
 
   loadCounts(): Observable<StoreCount[]> {
     return this.http
-      .get<Occ.StoreCountList>(this.occEndpointsService.getUrl('storescounts'))
+      .get<Occ.StoreCountList>(
+        this.occEndpointsService.buildUrl('storescounts')
+      )
       .pipe(
         map(
           ({ countriesAndRegionsStoreCount }) => countriesAndRegionsStoreCount
@@ -55,7 +57,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
   load(storeId: string): Observable<PointOfService> {
     return this.http
       .get<Occ.PointOfService>(
-        this.occEndpointsService.getUrl('store', { storeId })
+        this.occEndpointsService.buildUrl('store', { urlParams: { storeId } })
       )
       .pipe(this.converterService.pipeable(POINT_OF_SERVICE_NORMALIZER));
   }
@@ -87,7 +89,7 @@ export class OccStoreFinderAdapter implements StoreFinderAdapter {
     }
 
     return this.http.get<Occ.StoreFinderSearchPage>(
-      this.occEndpointsService.getUrl('stores', undefined, params)
+      this.occEndpointsService.buildUrl('stores', { queryParams: params })
     );
   }
 }

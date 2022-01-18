@@ -14,18 +14,17 @@ import {
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { TestScheduler } from 'rxjs/testing';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import * as ConfigurationTestData from '../../shared/testing/configurator-test-data';
-import {
-  GROUP_ID_1,
-  PRODUCT_CODE,
-} from '../../shared/testing/configurator-test-data';
+import * as ConfigurationTestData from '../../testing/configurator-test-data';
+import { GROUP_ID_1, PRODUCT_CODE } from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
 import { ConfiguratorPreviousNextButtonsComponent } from './configurator-previous-next-buttons.component';
 
-let routerStateObservable = null;
+let routerStateObservable: any = null;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -57,13 +56,15 @@ const groups: Configurator.Group = {
 };
 
 const configWithoutGroups: Configurator.Configuration = {
-  configId: 'CONFIG_ID',
+  ...ConfiguratorTestUtils.createConfiguration(
+    'CONFIG_ID',
+    ConfiguratorModelUtils.createOwner(
+      CommonConfigurator.OwnerType.PRODUCT,
+      PRODUCT_CODE
+    )
+  ),
   productCode: PRODUCT_CODE,
   totalNumberOfIssues: 0,
-  owner: ConfiguratorModelUtils.createOwner(
-    CommonConfigurator.OwnerType.PRODUCT,
-    PRODUCT_CODE
-  ),
   groups: [groups],
   flatGroups: [groups],
 };
@@ -91,12 +92,13 @@ class MockConfigUtilsService {
   selector: '[cxFocus]',
 })
 export class MockFocusDirective {
-  @Input('cxFocus') protected config;
+  @Input('cxFocus') protected config: any;
 }
 
 describe('ConfigPreviousNextButtonsComponent', () => {
   let classUnderTest: ConfiguratorPreviousNextButtonsComponent;
   let fixture: ComponentFixture<ConfiguratorPreviousNextButtonsComponent>;
+  let htmlElem: HTMLElement;
   let configuratorCommonsService: ConfiguratorCommonsService;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorUtils: CommonConfiguratorUtilsService;
@@ -142,6 +144,7 @@ describe('ConfigPreviousNextButtonsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorPreviousNextButtonsComponent);
     classUnderTest = fixture.componentInstance;
+    htmlElem = fixture.nativeElement;
     configuratorCommonsService = TestBed.inject(
       ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
     );
@@ -182,8 +185,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(true);
   });
 
@@ -192,8 +196,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-action'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -202,8 +207,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of(null)
     );
     fixture.detectChanges();
-    const lastBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const lastBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(lastBtn.disabled).toBe(true);
   });
 
@@ -212,8 +218,9 @@ describe('ConfigPreviousNextButtonsComponent', () => {
       of('anyGroupId')
     );
     fixture.detectChanges();
-    const prevBtn = fixture.debugElement.query(By.css('.btn-secondary'))
-      .nativeElement;
+    const prevBtn = fixture.debugElement.query(
+      By.css('.btn-secondary')
+    ).nativeElement;
     expect(prevBtn.disabled).toBe(false);
   });
 
@@ -323,5 +330,33 @@ describe('ConfigPreviousNextButtonsComponent', () => {
     expect(
       configuratorStorefrontUtilsService.focusFirstAttribute
     ).toHaveBeenCalledTimes(1);
+  });
+
+  describe('Accessibility', () => {
+    it("should contain action button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-action',
+        0,
+        'aria-label',
+        'configurator.a11y.previous',
+        'configurator.button.previous'
+      );
+    });
+
+    it("should contain secondary button element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'btn-secondary',
+        0,
+        'aria-label',
+        'configurator.a11y.next',
+        'configurator.button.next'
+      );
+    });
   });
 });

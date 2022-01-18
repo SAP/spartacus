@@ -6,15 +6,15 @@ import { addComment, getBundleId } from './functions';
  * Deploys an app to the hosting service
  * @param github Github object
  * @param octoKit Octokit object
+ * @param branch Name of the branch to deploy
  */
-export async function deploy(github: any, octoKit: any) {
+export async function deploy(github: any, octoKit: any, branch: string) {
   const context = github.context;
-  const branch = context.payload.pull_request.head.ref;
 
   console.log(`--> Deploying branch ${branch}`);
 
   const bundleId = getBundleId(branch);
-  const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
+  const command = `upp application deploy -b ${bundleId} -t spartacus --csr-dist ./dist/storefrontapp --ssr-dist ./dist/storefrontapp-server -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
   const ERROR = 'Response code: 500';

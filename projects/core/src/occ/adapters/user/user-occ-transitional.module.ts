@@ -31,6 +31,9 @@ import { OccUserOrderAdapter } from './occ-user-order.adapter';
 import { OccUserPaymentAdapter } from './occ-user-payment.adapter';
 import { OccUserReplenishmentOrderAdapter } from './occ-user-replenishment-order.adapter';
 
+/**
+ * @deprecated since 4.2 - use UserOccTransitional_4_2_Module wiith order lib instead
+ */
 @NgModule({
   imports: [CommonModule],
   providers: [

@@ -8,12 +8,18 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
-import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
 import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+
+class DefaultSettings {
+  numDecimalPlaces: number;
+  numTotalLength: number;
+  negativeAllowed: boolean;
+}
 
 @Component({
   selector: 'cx-configurator-attribute-numeric-input-field',
@@ -22,35 +28,17 @@ import { ConfiguratorAttributeNumericInputFieldService } from './configurator-at
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   numericFormatPattern: string;
   locale: string;
+  iconType = ICON_TYPE;
 
   @Input() language: string;
 
-  // TODO(#11681): make config a required dependency
-  /**
-   * @param {ConfiguratorAttributeNumericInputFieldService} configAttributeNumericInputFieldService Service for numeric formatting and validation.
-   * @param {ConfiguratorUISettingsConfig} config Optional configuration for debounce time,
-   * if omitted {@link FALLBACK_DEBOUNCE_TIME} is used instead.
-   */
-  constructor(
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    config?: ConfiguratorUISettingsConfig
-  );
-
-  /**
-   * @deprecated  since 3.3
-   */
-  constructor(
-    configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService
-  );
-
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config?: ConfiguratorUISettingsConfig
+    protected config: ConfiguratorUISettingsConfig
   ) {
     super(config);
   }
@@ -70,21 +58,45 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     //locales are available as 'languages' in the commerce backend
     this.locale = this.getInstalledLocale(this.language);
 
+    let numDecimalPlaces = this.attribute.numDecimalPlaces;
+    let numTotalLength = this.attribute.numTotalLength;
+    let negativeAllowed = this.attribute.negativeAllowed;
+
+    if (
+      numDecimalPlaces === undefined ||
+      numTotalLength === undefined ||
+      negativeAllowed === undefined
+    ) {
+      //This won't happen in environments with the standard configurators deployed, as numeric
+      //attributes do carry these settings. We still introduce default values to ease development
+      //of extension use cases, but log a warning
+      const defaultSettings = this.getDefaultSettings();
+      numDecimalPlaces = defaultSettings.numDecimalPlaces;
+      numTotalLength = defaultSettings.numTotalLength;
+      negativeAllowed = defaultSettings.negativeAllowed;
+      if (isDevMode()) {
+        console.warn(
+          'Meta data for numeric attribute not present, falling back to defaults'
+        );
+      }
+    }
+
     this.attributeInputForm = new FormControl('', [
       this.configAttributeNumericInputFieldService.getNumberFormatValidator(
         this.locale,
-        this.attribute.numDecimalPlaces,
-        this.attribute.numTotalLength,
-        this.attribute.negativeAllowed
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed
       ),
     ]);
-    const numDecimalPlaces = this.attribute.numDecimalPlaces;
-    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      this.attribute.numTotalLength,
-      this.attribute.negativeAllowed,
-      this.locale
-    );
+
+    this.numericFormatPattern =
+      this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.locale
+      );
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }
@@ -93,7 +105,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.productConfigurator?.updateDebounceTime?.input ??
+            this.config.productConfigurator?.updateDebounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )
@@ -105,18 +117,8 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     super.ngOnDestroy();
   }
 
-  /**
-   * @deprecated since 3.3
-   * This method should be removed because there is no use for this method.
-   */
-  protected createEventFromInput(): ConfigFormUpdateEvent {
-    return {
-      ownerKey: this.ownerKey,
-      changedAttribute: {
-        ...this.attribute,
-        userInput: this.attributeInputForm.value,
-      },
-    };
+  protected getDefaultSettings(): DefaultSettings {
+    return { numDecimalPlaces: 2, numTotalLength: 6, negativeAllowed: false };
   }
 
   protected getInstalledLocale(locale: string): string {

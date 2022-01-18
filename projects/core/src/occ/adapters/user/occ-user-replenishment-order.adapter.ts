@@ -1,19 +1,23 @@
-import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
-import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { REPLENISHMENT_ORDER_NORMALIZER } from '../../../checkout/connectors/replenishment-order/converters';
 import { OrderHistoryList, ReplenishmentOrder } from '../../../model/index';
+import { ReplenishmentOrderList } from '../../../model/replenishment-order.model';
 import { ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/order/converters';
+import { REPLENISHMENT_ORDER_HISTORY_NORMALIZER } from '../../../user/connectors/replenishment-order/converters';
 import { UserReplenishmentOrderAdapter } from '../../../user/connectors/replenishment-order/user-replenishment-order.adapter';
 import { ConverterService } from '../../../util/converter.service';
 import { Occ } from '../../occ-models/occ.models';
 import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
+/**
+ * @deprecated since 4.2 - use OccReplenishmentOrderAdapter in @spartacus/order/occ instead
+ */
 @Injectable()
 export class OccUserReplenishmentOrderAdapter
-  implements UserReplenishmentOrderAdapter {
+  implements UserReplenishmentOrderAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -25,9 +29,8 @@ export class OccUserReplenishmentOrderAdapter
   ): Observable<ReplenishmentOrder> {
     return this.http
       .get<Occ.ReplenishmentOrder>(
-        this.occEndpoints.getUrl('replenishmentOrderDetails', {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl('replenishmentOrderDetails', {
+          urlParams: { userId, replenishmentOrderCode },
         })
       )
       .pipe(this.converter.pipeable(REPLENISHMENT_ORDER_NORMALIZER));
@@ -54,14 +57,10 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .get<Occ.OrderHistoryList>(
-        this.occEndpoints.getUrl(
-          'replenishmentOrderDetailsHistory',
-          {
-            userId,
-            replenishmentOrderCode,
-          },
-          params
-        )
+        this.occEndpoints.buildUrl('replenishmentOrderDetailsHistory', {
+          urlParams: { userId, replenishmentOrderCode },
+          queryParams: params,
+        })
       )
       .pipe(this.converter.pipeable(ORDER_HISTORY_NORMALIZER));
   }
@@ -74,9 +73,8 @@ export class OccUserReplenishmentOrderAdapter
 
     return this.http
       .patch<Occ.ReplenishmentOrder>(
-        this.occEndpoints.getUrl('cancelReplenishmentOrder', {
-          userId,
-          replenishmentOrderCode,
+        this.occEndpoints.buildUrl('cancelReplenishmentOrder', {
+          urlParams: { userId, replenishmentOrderCode },
         }),
         {},
         { headers }
@@ -101,11 +99,10 @@ export class OccUserReplenishmentOrderAdapter
       params['sort'] = sort.toString();
     }
 
-    const url = this.occEndpoints.getUrl(
-      'replenishmentOrderHistory',
-      { userId },
-      params
-    );
+    const url = this.occEndpoints.buildUrl('replenishmentOrderHistory', {
+      urlParams: { userId },
+      queryParams: params,
+    });
 
     return this.http
       .get<Occ.ReplenishmentOrderList>(url)

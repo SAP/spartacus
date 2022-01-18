@@ -39,10 +39,16 @@ export class ConfiguratorAttributeBaseComponent {
     value: string
   ): string {
     return this.createValueUiKey(
-      currentAttribute.uiType,
+      this.getUiType(currentAttribute),
       currentAttribute.name,
       value
     );
+  }
+
+  protected getUiType(attribute: Configurator.Attribute): string {
+    return attribute.uiType
+      ? attribute.uiType
+      : Configurator.UiType.NOT_IMPLEMENTED;
   }
 
   /**
@@ -67,12 +73,10 @@ export class ConfiguratorAttributeBaseComponent {
   createAttributeIdForConfigurator(
     currentAttribute: Configurator.Attribute
   ): string {
-    if (currentAttribute) {
-      return this.createAttributeUiKey(
-        currentAttribute.uiType,
-        currentAttribute.name
-      );
-    }
+    return this.createAttributeUiKey(
+      this.getUiType(currentAttribute),
+      currentAttribute.name
+    );
   }
 
   /**
@@ -128,5 +132,24 @@ export class ConfiguratorAttributeBaseComponent {
    */
   createFocusId(attributeId: string, valueCode: string): string {
     return `${attributeId}--${valueCode}--focus`;
+  }
+
+  /**
+   * Get code from attribute.
+   * The code is not a mandatory attribute (since not available for VC flavour),
+   * still it is mandatory in the context of CPQ. Calling this method therefore only
+   * makes sense when CPQ is active. In case the method is called in the wrong context, an exception will
+   * be thrown
+   *
+   * @param {Configurator.Attribute} Attribute
+   * @returns {number} Attribute code
+   */
+  protected getAttributeCode(attribute: Configurator.Attribute): number {
+    const code = attribute.attrCode;
+    if (code) {
+      return code;
+    } else {
+      throw new Error('No attribute code for: ' + attribute.name);
+    }
   }
 }

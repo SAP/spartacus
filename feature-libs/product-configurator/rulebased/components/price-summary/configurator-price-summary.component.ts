@@ -11,9 +11,8 @@ import { Configurator } from '../../core/model/configurator.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorPriceSummaryComponent {
-  configuration$: Observable<Configurator.Configuration> = this.configRouterExtractorService
-    .extractRouterData()
-    .pipe(
+  configuration$: Observable<Configurator.Configuration> =
+    this.configRouterExtractorService.extractRouterData().pipe(
       switchMap((routerData) => {
         return this.configuratorCommonsService.getConfiguration(
           routerData.owner

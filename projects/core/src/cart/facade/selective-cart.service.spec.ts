@@ -154,54 +154,6 @@ describe('Selective Cart Service', () => {
     expect(multiCartService.loadCart).toHaveBeenCalledTimes(0);
   });
 
-  it('should return loaded true when cart load success', () => {
-    service['cartSelector$'] = of({
-      value: { code: TEST_CART_ID },
-      loading: false,
-      success: true,
-      error: false,
-    });
-
-    let result: boolean;
-    service
-      .getLoaded()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(true);
-  });
-
-  it('should return loaded true when cart load error', () => {
-    service['cartSelector$'] = of({
-      value: { code: TEST_CART_ID },
-      loading: false,
-      success: false,
-      error: true,
-    });
-
-    let result: boolean;
-    service
-      .getLoaded()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(true);
-  });
-
-  it('should return loaded false when cart loading', () => {
-    service['cartSelector$'] = of({
-      value: { code: TEST_CART_ID },
-      loading: true,
-      success: false,
-      error: false,
-    });
-
-    let result: boolean;
-    service
-      .getLoaded()
-      .subscribe((value) => (result = value))
-      .unsubscribe();
-    expect(result).toEqual(false);
-  });
-
   it('should not load selective cart for anonymous user', () => {
     spyOn<any>(service, 'load').and.callThrough();
     spyOn(multiCartService, 'loadCart').and.stub();
@@ -343,6 +295,19 @@ describe('Selective Cart Service', () => {
   });
 
   describe('isStable', () => {
+    it('should return false when cartId$ is null', (done) => {
+      service['cartId$'].next(null);
+      spyOn(multiCartService, 'isStable').and.returnValue(of(true));
+
+      service
+        .isStable()
+        .pipe(take(1))
+        .subscribe((val) => {
+          expect(val).toBe(true);
+          done();
+        });
+    });
+
     it('should return true when isStable returns true', (done) => {
       spyOn(multiCartService, 'isStable').and.returnValue(of(true));
 

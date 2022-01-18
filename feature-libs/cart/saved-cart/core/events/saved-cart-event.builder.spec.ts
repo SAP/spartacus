@@ -1,6 +1,23 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
+  CloneSavedCartEvent,
+  CloneSavedCartFailEvent,
+  CloneSavedCartSuccessEvent,
+  DeleteSavedCartEvent,
+  DeleteSavedCartFailEvent,
+  DeleteSavedCartSuccessEvent,
+  EditSavedCartEvent,
+  EditSavedCartFailEvent,
+  EditSavedCartSuccessEvent,
+  RestoreSavedCartEvent,
+  RestoreSavedCartFailEvent,
+  RestoreSavedCartSuccessEvent,
+  SaveCartEvent,
+  SaveCartFailEvent,
+  SaveCartSuccessEvent,
+} from '@spartacus/cart/saved-cart/root';
+import {
   Cart,
   CartActions,
   EventService,
@@ -10,17 +27,6 @@ import { of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';
 import { SavedCartEventBuilder } from './saved-cart-event.builder';
-import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
-  RestoreSavedCartEvent,
-  RestoreSavedCartFailEvent,
-  RestoreSavedCartSuccessEvent,
-  SaveCartEvent,
-  SaveCartFailEvent,
-  SaveCartSuccessEvent,
-} from '@spartacus/cart/saved-cart/root';
 
 interface ActionWithPayload extends Action {
   payload: any;
@@ -336,6 +342,197 @@ describe('SavedCartEventBuilder', () => {
 
         actions$.next({
           type: CartActions.DELETE_CART_FAIL,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+  });
+
+  describe('Edit Saved Cart Events', () => {
+    describe('EditSavedCartEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+          saveCartDescription: mockSavedCartDescription,
+          saveCartName: mockSavedCartName,
+        };
+
+        const eventData: EditSavedCartEvent = {
+          cartCode: mockSavedCartCode,
+          ...payload,
+        };
+
+        let result: EditSavedCartEvent | undefined;
+        eventService
+          .get(EditSavedCartEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.EDIT_SAVED_CART,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+
+    describe('EditSavedCartSuccessEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+          saveCartDescription: mockSavedCartDescription,
+          saveCartName: mockSavedCartName,
+        };
+
+        const eventData: EditSavedCartSuccessEvent = {
+          cartCode: mockSavedCartCode,
+          saveTime: mockSavedCartTime,
+          ...payload,
+        };
+
+        let result: EditSavedCartSuccessEvent | undefined;
+        eventService
+          .get(EditSavedCartSuccessEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.EDIT_SAVED_CART_SUCCESS,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+
+    describe('EditSavedCartFailEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+          saveCartDescription: mockSavedCartDescription,
+          saveCartName: mockSavedCartName,
+          error: { error: 'error' },
+        };
+
+        const eventData: EditSavedCartFailEvent = {
+          cartCode: mockSavedCartCode,
+          ...payload,
+        };
+
+        let result: EditSavedCartFailEvent | undefined;
+        eventService
+          .get(EditSavedCartFailEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.EDIT_SAVED_CART_FAIL,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+  });
+
+  describe('Clone Save Cart Events', () => {
+    describe('CloneSavedCartEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+        };
+
+        const eventData: CloneSavedCartEvent = {
+          cartCode: mockSavedCartCode,
+          saveTime: mockSavedCartTime,
+          ...payload,
+        };
+
+        let result: CloneSavedCartEvent | undefined;
+        eventService
+          .get(CloneSavedCartEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.CLONE_SAVED_CART,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+
+    describe('CloneSavedCartSuccessEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+        };
+
+        const eventData: CloneSavedCartSuccessEvent = {
+          cartCode: mockSavedCartCode,
+          ...payload,
+        };
+
+        let result: CloneSavedCartSuccessEvent | undefined;
+        eventService
+          .get(CloneSavedCartSuccessEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.CLONE_SAVED_CART_SUCCESS,
+          payload,
+        });
+
+        expect(result).toEqual(jasmine.objectContaining(eventData));
+      });
+    });
+
+    describe('CloneSavedCartFailEvent', () => {
+      it('should emit the event when the action is fired', () => {
+        spyOn(multiCartService, 'getCart').and.returnValue(
+          of(mockSavedCartData)
+        );
+
+        const payload = {
+          cartId: mockSavedCartCode,
+          userId: mockUserId,
+          saveCartDescription: mockSavedCartDescription,
+          saveCartName: mockSavedCartName,
+          error: { error: 'error' },
+        };
+
+        const eventData: CloneSavedCartFailEvent = {
+          cartCode: mockSavedCartCode,
+          saveTime: mockSavedCartTime,
+          ...payload,
+        };
+
+        let result: CloneSavedCartFailEvent | undefined;
+        eventService
+          .get(CloneSavedCartFailEvent)
+          .pipe(take(1))
+          .subscribe((value) => (result = value));
+
+        actions$.next({
+          type: SavedCartActions.CLONE_SAVED_CART_FAIL,
           payload,
         });
 

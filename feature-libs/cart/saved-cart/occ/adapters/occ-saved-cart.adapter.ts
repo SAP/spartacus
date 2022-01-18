@@ -60,32 +60,61 @@ export class OccSavedCartAdapter implements SavedCartAdapter {
       .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getSaveCartEndpoint(
+  cloneSavedCart(
     userId: string,
     cartId: string,
-    saveCartName: string,
-    saveCartDescription: string
-  ): string {
-    return this.occEndpoints.getUrl('saveCart', {
-      userId,
-      cartId,
-      saveCartName,
-      saveCartDescription,
-    });
+    saveCartName: string
+  ): Observable<Cart> {
+    return this.http
+      .post<Occ.Cart>(
+        this.getCloneSavedCartEndpoint(userId, cartId, saveCartName),
+        cartId
+      )
+      .pipe(pluck('savedCartData'), this.converter.pipeable(CART_NORMALIZER));
   }
 
   protected getSavedCartEndpoint(userId: string, cartId: string): string {
-    return this.occEndpoints.getUrl('savedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('savedCart', {
+      urlParams: { userId, cartId },
+    });
   }
 
   protected getSavedCartListEndpoint(userId: string): string {
-    return this.occEndpoints.getUrl('savedCarts', { userId });
+    return this.occEndpoints.buildUrl('savedCarts', { urlParams: { userId } });
   }
 
   protected getRestoreSavedCartEndpoint(
     userId: string,
     cartId: string
   ): string {
-    return this.occEndpoints.getUrl('restoreSavedCart', { userId, cartId });
+    return this.occEndpoints.buildUrl('restoreSavedCart', {
+      urlParams: { userId, cartId },
+    });
+  }
+
+  protected getSaveCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string,
+    saveCartDescription: string
+  ): string {
+    return this.occEndpoints.buildUrl('saveCart', {
+      urlParams: {
+        userId,
+        cartId,
+        saveCartName,
+        saveCartDescription,
+      },
+    });
+  }
+
+  protected getCloneSavedCartEndpoint(
+    userId: string,
+    cartId: string,
+    saveCartName: string
+  ): string {
+    return this.occEndpoints.buildUrl('cloneSavedCart', {
+      urlParams: { userId, cartId, saveCartName },
+    });
   }
 }

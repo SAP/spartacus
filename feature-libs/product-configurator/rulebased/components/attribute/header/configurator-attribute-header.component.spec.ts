@@ -11,7 +11,7 @@ import {
   ICON_TYPE,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { CommonConfiguratorTestUtilsService } from '../../../../common/shared/testing/common-configurator-test-utils.service';
+import { CommonConfiguratorTestUtilsService } from '../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeHeaderComponent } from './configurator-attribute-header.component';
@@ -36,7 +36,7 @@ class MockConfigUtilsService {
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
-  let classUnderTest: ConfiguratorAttributeHeaderComponent;
+  let component: ConfiguratorAttributeHeaderComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
 
   const owner = ConfiguratorModelUtils.createOwner(
@@ -44,14 +44,20 @@ describe('ConfigAttributeHeaderComponent', () => {
     'PRODUCT_CODE'
   );
 
+  const image = {
+    url: 'someImageURL',
+  };
+
+  const image2 = {
+    url: 'someOtherImageURL',
+  };
+
+  const images = [image, image2];
+
   const currentAttribute: Configurator.Attribute = {
     name: 'attributeId',
     uiType: Configurator.UiType.RADIOBUTTON,
-    images: [
-      {
-        url: 'someImageURL',
-      },
-    ],
+    images: images,
   };
   let htmlElem: HTMLElement;
 
@@ -79,22 +85,58 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeHeaderComponent);
-    classUnderTest = fixture.componentInstance;
+    component = fixture.componentInstance;
     htmlElem = fixture.nativeElement;
-    classUnderTest.attribute = currentAttribute;
-    classUnderTest.attribute.label = 'label of attribute';
-    classUnderTest.attribute.name = '123';
-    classUnderTest.owner = owner;
-    classUnderTest.groupId = 'testGroup';
-    classUnderTest.attribute.required = false;
-    classUnderTest.attribute.incomplete = true;
-    classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-    classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+    component.attribute = currentAttribute;
+    component.attribute.label = 'label of attribute';
+    component.attribute.name = '123';
+    component.owner = owner;
+    component.groupId = 'testGroup';
+    component.attribute.required = false;
+    component.attribute.incomplete = true;
+    component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+    component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
     fixture.detectChanges();
   });
 
   it('should create', () => {
-    expect(classUnderTest).toBeTruthy();
+    expect(component).toBeTruthy();
+  });
+
+  describe('getImage', () => {
+    it('should return first image', () => {
+      expect(component.image).toBe(image);
+    });
+
+    it('should return undefined if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(component.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(component.image).toBeUndefined();
+      currentAttribute.images = images;
+    });
+  });
+
+  describe('hasImage', () => {
+    it('should return true if image available', () => {
+      expect(component.hasImage).toBe(true);
+    });
+
+    it('should return false if images are undefined', () => {
+      currentAttribute.images = undefined;
+      expect(component.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
+
+    it('should return undefined if no images are available', () => {
+      currentAttribute.images = [];
+      expect(component.hasImage).toBe(false);
+      currentAttribute.images = images;
+    });
   });
 
   describe('Render corresponding part of the component', () => {
@@ -107,17 +149,16 @@ describe('ConfigAttributeHeaderComponent', () => {
       CommonConfiguratorTestUtilsService.expectElementToContainText(
         expect,
         htmlElem,
-        'label',
+        'span',
         'label of attribute'
       );
-      const id = htmlElem.querySelector('label').getAttribute('id');
-      expect(id.indexOf('123')).toBeGreaterThan(
-        0,
-        'id of label does not contain the StdAttrCode'
-      );
+      const id = htmlElem.querySelector('label')?.getAttribute('id');
+      expect((id ? id : '').indexOf('123')).toBeGreaterThan(0);
       expect(
-        htmlElem.querySelector('label').getAttribute('aria-label')
-      ).toEqual(classUnderTest.attribute.label);
+        htmlElem.querySelector('label')?.getAttribute('aria-label')
+      ).toEqual(
+        'configurator.a11y.attribute attribute:' + component.attribute.label
+      );
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
         htmlElem,
@@ -126,7 +167,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render a label as required', () => {
-      classUnderTest.attribute.required = true;
+      component.attribute.required = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -146,87 +187,84 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Get required message key', () => {
     it('should return a single-select message key for radio button attribute type', () => {
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for simple radio buttons attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for simple radio buttons - product attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON_PRODUCT;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for simple checkbox attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOX;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.CHECKBOX;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for ddlb attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.DROPDOWN;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for ddlb-product attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.DROPDOWN_PRODUCT;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a single-select message key for single-selection-image attribute type', () => {
-      classUnderTest.attribute.uiType =
-        Configurator.UiType.SINGLE_SELECTION_IMAGE;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.SINGLE_SELECTION_IMAGE;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return a multi-select message key for checkbox list attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.CHECKBOXLIST;
+      expect(component.getRequiredMessageKey()).toContain(
         'multiSelectRequiredMessage'
       );
     });
 
     it('should return a multi-select message key for checkbox-product list attribute type', () => {
-      classUnderTest.attribute.uiType =
-        Configurator.UiType.CHECKBOXLIST_PRODUCT;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.CHECKBOXLIST_PRODUCT;
+      expect(component.getRequiredMessageKey()).toContain(
         'multiSelectRequiredMessage'
       );
     });
 
     it('should return a multi-select message key for multi-selection-image list attribute type', () => {
-      classUnderTest.attribute.uiType =
-        Configurator.UiType.MULTI_SELECTION_IMAGE;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.MULTI_SELECTION_IMAGE;
+      expect(component.getRequiredMessageKey()).toContain(
         'multiSelectRequiredMessage'
       );
     });
 
     it('should return no key for not implemented attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.NOT_IMPLEMENTED;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
 
     it('should return no key for read only attribute type', () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.READ_ONLY;
-      expect(classUnderTest.getRequiredMessageKey()).toContain(
+      component.attribute.uiType = Configurator.UiType.READ_ONLY;
+      expect(component.getRequiredMessageKey()).toContain(
         'singleSelectRequiredMessage'
       );
     });
@@ -234,9 +272,9 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Required message at the attribute level', () => {
     it('should render a required message if attribute has been set, yet.', () => {
-      classUnderTest.attribute.required = true;
-      classUnderTest.attribute.uiType = Configurator.UiType.RADIOBUTTON;
-      classUnderTest.ngOnInit();
+      component.attribute.required = true;
+      component.attribute.uiType = Configurator.UiType.RADIOBUTTON;
+      component.ngOnInit();
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
@@ -246,7 +284,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it('should render a required message if the group has already been visited.', () => {
-      classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+      component.owner.type = CommonConfigurator.OwnerType.PRODUCT;
       isCartEntryOrGroupVisited = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -257,7 +295,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("shouldn't render a required message if attribute has not been added to the cart yet.", () => {
-      classUnderTest.owner.type = CommonConfigurator.OwnerType.PRODUCT;
+      component.owner.type = CommonConfigurator.OwnerType.PRODUCT;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -267,7 +305,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("shouldn't render a required message if attribute is not required.", () => {
-      classUnderTest.attribute.required = false;
+      component.attribute.required = false;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -277,7 +315,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("shouldn't render a required message if attribute is complete.", () => {
-      classUnderTest.attribute.incomplete = true;
+      component.attribute.incomplete = true;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -287,7 +325,7 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
 
     it("shouldn't render a required message if ui type is string.", () => {
-      classUnderTest.attribute.uiType = Configurator.UiType.STRING;
+      component.attribute.uiType = Configurator.UiType.STRING;
       fixture.detectChanges();
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
         expect,
@@ -298,9 +336,9 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Conflict text at the attribute level', () => {
-    it('should render conflict icon with corresponding message if attribute has conflicts.', () => {
-      classUnderTest.attribute.hasConflicts = true;
-      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+    it('should render conflict icon with corresponding message and corresponding aria-attributes if attribute has conflicts.', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -314,11 +352,41 @@ describe('ConfigAttributeHeaderComponent', () => {
         htmlElem,
         'cx-icon'
       );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-label',
+        'configurator.a11y.conflictDetected'
+      );
     });
 
     it('should render conflict message without icon container if conflict message is not displayed in the configuration.', () => {
-      classUnderTest.attribute.hasConflicts = true;
-      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementPresent(
@@ -332,10 +400,40 @@ describe('ConfigAttributeHeaderComponent', () => {
         htmlElem,
         'cx-icon'
       );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-live',
+        'off'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-atomic',
+        'false'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-conflict-msg',
+        0,
+        'aria-label',
+        ''
+      );
     });
 
     it("shouldn't render conflict message if attribute has no conflicts.", () => {
-      classUnderTest.attribute.hasConflicts = false;
+      component.attribute.hasConflicts = false;
       fixture.detectChanges();
 
       CommonConfiguratorTestUtilsService.expectElementNotPresent(
@@ -348,37 +446,199 @@ describe('ConfigAttributeHeaderComponent', () => {
 
   describe('Verify attribute type', () => {
     it("should return 'true'", () => {
-      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
-      expect(classUnderTest.isAttributeGroup(classUnderTest.groupType)).toBe(
-        true
-      );
+      expect(component.isAttributeGroup(component.groupType)).toBe(true);
     });
 
     it("should return 'false'", () => {
-      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
-      expect(classUnderTest.isAttributeGroup(classUnderTest.groupType)).toBe(
-        false
-      );
+      expect(component.isAttributeGroup(component.groupType)).toBe(false);
     });
   });
 
   describe('Get conflict message key', () => {
     it("should return 'configurator.conflict.viewConflictDetails' conflict message key", () => {
-      classUnderTest.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       fixture.detectChanges();
-      expect(
-        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
-      ).toEqual('configurator.conflict.viewConflictDetails');
+      expect(component.getConflictMessageKey(component.groupType)).toEqual(
+        'configurator.conflict.viewConflictDetails'
+      );
     });
 
     it("should return 'configurator.conflict.viewConfigurationDetails' conflict message key", () => {
-      classUnderTest.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       fixture.detectChanges();
-      expect(
-        classUnderTest.getConflictMessageKey(classUnderTest.groupType)
-      ).toEqual('configurator.conflict.viewConfigurationDetails');
+      expect(component.getConflictMessageKey(component.groupType)).toEqual(
+        'configurator.conflict.viewConfigurationDetails'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain label element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.attribute attribute:label of attribute'
+      );
+    });
+
+    it("should contain label element with 'aria-label' attribute for required attribute type that defines an accessible name to label the current element", () => {
+      component.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.requiredAttribute param:label of attribute'
+      );
+    });
+
+    it("should contain span element with 'aria-describedby' attribute for required attribute type that indicates the IDs of the elements that describe the elements", () => {
+      component.attribute.required = true;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-required-icon',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--123',
+        'label of attribute'
+      );
+    });
+
+    describe('Conflict message', () => {
+      beforeEach(() => {
+        component.attribute.hasConflicts = true;
+        fixture.detectChanges();
+      });
+
+      it("should contain label element for not required attribute with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          undefined,
+          0,
+          'aria-label',
+          'configurator.a11y.attribute attribute:' + component.attribute.label
+        );
+      });
+
+      it("should contain label element for required attribute with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+        component.attribute.required = true;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          undefined,
+          0,
+          'aria-label',
+          'configurator.a11y.requiredAttribute param:' +
+            component.attribute.label
+        );
+      });
+
+      it("should contain span element for required attribute with 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+        component.attribute.required = true;
+        fixture.detectChanges();
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'span',
+          'cx-required-icon',
+          0,
+          'aria-describedby',
+          'cx-configurator--label--123',
+          component.attribute.label
+        );
+      });
+
+      it("should contain div element with 'role' attribute that is set to notify as soon as a conflict message occurs", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'role',
+          'alert'
+        );
+      });
+
+      it("should contain div element with class name 'cx-conflict-msg' and 'aria-live' attribute that enables the screen reader to read out a conflict message as soon as it occurs", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-live',
+          'assertive'
+        );
+      });
+
+      it("should contain div element with class name 'cx-conflict-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-atomic',
+          'true'
+        );
+      });
+
+      it("should contain div element with class name 'cx-conflict-msg' and 'aria-label' attribute for a conflicted attribute type that defines an accessible name to label the current element", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'div',
+          'cx-conflict-msg',
+          0,
+          'aria-label',
+          'configurator.a11y.conflictDetected'
+        );
+      });
+
+      it("should contain cx-icon element with 'aria-hidden' attribute that removes an element from the accessibility tree", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'cx-icon',
+          undefined,
+          0,
+          'aria-hidden',
+          'true'
+        );
+      });
+    });
+
+    it("should contain div element with 'aria-label' attribute for required error message that defines an accessible name to label the current element", () => {
+      component.showRequiredMessageForDomainAttribute$ = of(true);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-required-error-msg',
+        undefined,
+        'aria-label',
+        'configurator.attribute.singleSelectRequiredMessage'
+      );
     });
   });
 });

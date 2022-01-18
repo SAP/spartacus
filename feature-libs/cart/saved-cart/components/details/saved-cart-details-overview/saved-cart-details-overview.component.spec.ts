@@ -1,9 +1,14 @@
 import { ElementRef, ViewContainerRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 import { Cart, I18nTestingModule, TranslationService } from '@spartacus/core';
-import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
+import {
+  CardModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
+  IconTestingModule,
+} from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { SavedCartFormLaunchDialogService } from '../../saved-cart-form-dialog/saved-cart-form-launch-dialog.service';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview.component';
 
@@ -23,16 +28,6 @@ const mockSavedCart: Cart = {
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
     return of(mockSavedCart);
-  }
-}
-class MockSavedCartFormLaunchDialogService
-  implements Partial<SavedCartFormLaunchDialogService> {
-  openDialog(
-    _openElement?: ElementRef,
-    _vcr?: ViewContainerRef,
-    _data?: any
-  ): Observable<any> {
-    return of();
   }
 }
 
@@ -59,17 +54,17 @@ describe('SavedCartDetailsOverviewComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [I18nTestingModule],
+      imports: [
+        I18nTestingModule,
+        IconTestingModule,
+        CardModule,
+        RouterTestingModule,
+      ],
       declarations: [SavedCartDetailsOverviewComponent],
       providers: [
         {
           provide: SavedCartDetailsService,
           useClass: MockSavedCartDetailsService,
-        },
-        // TODO(#12167): remove unused class and provider
-        {
-          provide: SavedCartFormLaunchDialogService,
-          useClass: MockSavedCartFormLaunchDialogService,
         },
         { provide: TranslationService, useClass: MockTranslationService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -139,7 +134,7 @@ describe('SavedCartDetailsOverviewComponent', () => {
   });
 
   it('should trigger getDateSaved(saveTime: string)', () => {
-    const date = component['getDate'](mockSavedCart.saveTime as Date);
+    const date = mockSavedCart.saveTime.toDateString();
 
     component
       .getDateSaved(date)

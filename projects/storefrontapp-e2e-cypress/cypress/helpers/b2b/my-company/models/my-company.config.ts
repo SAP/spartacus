@@ -51,14 +51,14 @@ export interface MyCompanyConfig {
    *   inputType: 'text',
    *   createValue: `Test Entity ${randomString()}`,
    *   updateValue: `Edited Test Entity ${randomString()}`,
-   *   sortLabel: 'name',
+   *   sortLabel: 'Name',
    *   showInTable: true,
    *   formLabel: 'Name',
    *   showInDetails: true,
    * },
    * {
    *   label: 'Code',
-   *   sortLabel: 'code',
+   *   sortLabel: 'Code',
    *   variableName: 'uid',
    *   inputType: 'text',
    *   createValue: `test-entity-${randomString()}`,
@@ -80,7 +80,7 @@ export interface MyCompanyConfig {
    *   variableName: 'orgUnit.name',
    *   link: `/organization/units/Custom%20Retail`,
    *   updatedLink: `/organization/units/Rustic%20Retail`,
-   *   sortLabel: 'unit',
+   *   sortLabel: 'Unit',
    *   inputType: 'ngSelect',
    *   createValue: 'Custom Retail',
    *   updateValue: 'Rustic Retail',
@@ -123,6 +123,12 @@ export interface MyCompanyConfig {
   features?: MY_COMPANY_FEATURE[];
 
   /**
+   * Indicates which core features should be tested in the current suite.
+   * @example features: [MY_COMPANY_FEATURE.CREATE]
+   */
+  coreFeatures?: MY_COMPANY_FEATURE[];
+
+  /**
    * SUBCATEGORY: Config for updating entities from submenu.
    */
   editConfig?: MyCompanyConfig;
@@ -150,7 +156,7 @@ export interface MyCompanyConfig {
   /**
    * Define request required to be complete before create/update form filling.
    */
-  selectOptionsEndpoint?: string;
+  selectOptionsEndpoint?: string[];
 
   /**
    * Skip waiting for requests in assignment tests (used when GET requests aren't fired).

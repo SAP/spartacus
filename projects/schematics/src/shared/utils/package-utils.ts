@@ -4,6 +4,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
+import collectedDependencies from '../../dependencies.json';
 import {
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
@@ -51,6 +52,8 @@ export function createDependencies(
     onlyIncludeScopes?: string[];
     /** dependency version which to set. If not provided, the one from the given `dependencyObject` will be used. */
     version?: string;
+    /** Overwrite the dependencies */
+    overwrite?: boolean;
   } = {
     skipScopes: FEATURES_LIBS_SKIP_SCOPES,
   }
@@ -76,7 +79,8 @@ export function createDependencies(
       dependencies.push(
         mapPackageToNodeDependencies(
           dependencyName,
-          options.version ?? dependencyObject[dependencyName]
+          options.version ?? dependencyObject[dependencyName],
+          options.overwrite
         )
       );
     }
@@ -87,14 +91,16 @@ export function createDependencies(
 
 export function mapPackageToNodeDependencies(
   packageName: string,
-  version: string
+  version: string,
+  overwrite = false
 ): NodeDependency {
   return {
     type: packageName.includes('schematics')
       ? NodeDependencyType.Dev
       : NodeDependencyType.Default,
     name: packageName,
-    version: version,
+    version,
+    overwrite,
   };
 }
 
@@ -108,17 +114,16 @@ export function readPackageJson(tree: Tree): any {
   return JSON.parse(buffer.toString(UTF_8));
 }
 
+export function cleanSemverVersion(versionString: string): string {
+  if (isNaN(Number(versionString.charAt(0)))) {
+    return versionString.substr(1, versionString.length - 1);
+  }
+  return versionString;
+}
+
 export function getMajorVersionNumber(versionString: string): number {
-  if (!versionString) {
-    throw new Error('versionString is undefined.');
-  }
-
-  let majorVersion = versionString.charAt(0);
-  if (isNaN(Number(majorVersion))) {
-    majorVersion = versionString.charAt(1);
-  }
-
-  return Number(majorVersion);
+  const cleanVersion = cleanSemverVersion(versionString);
+  return Number(cleanVersion.charAt(0));
 }
 
 export function getSpartacusSchematicsVersion(): string {
@@ -141,9 +146,8 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   }
   const angularFileBuffer = buffer.toString(UTF_8);
   const angularJson = JSON.parse(angularFileBuffer);
-  const isServerConfiguration = !!angularJson.projects[projectName].architect[
-    'server'
-  ];
+  const isServerConfiguration =
+    !!angularJson.projects[projectName].architect['server'];
 
   const serverFileLocation = getServerTsPath(tree);
   if (!serverFileLocation) {
@@ -155,4 +159,43 @@ export function checkIfSSRIsUsed(tree: Tree): boolean {
   const isServerSideAvailable = serverFileBuffer && !!serverFileBuffer.length;
 
   return !!(isServerConfiguration && isServerSideAvailable);
+}
+
+export function prepareSpartacusDependencies(): NodeDependency[] {
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+
+  const spartacusDependencies: NodeDependency[] = [
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_CORE,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STOREFRONTLIB,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_ASSETS,
+    },
+    {
+      type: NodeDependencyType.Default,
+      version: spartacusVersion,
+      name: SPARTACUS_STYLES,
+    },
+  ];
+
+  return spartacusDependencies;
+}
+
+export function prepare3rdPartyDependencies(): NodeDependency[] {
+  const thirdPartyDependencies = createDependencies({
+    ...collectedDependencies[SPARTACUS_CORE],
+    ...collectedDependencies[SPARTACUS_STOREFRONTLIB],
+    ...collectedDependencies[SPARTACUS_STYLES],
+    ...collectedDependencies[SPARTACUS_ASSETS],
+  });
+  return thirdPartyDependencies;
 }

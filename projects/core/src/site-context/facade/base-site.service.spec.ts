@@ -22,6 +22,12 @@ const mockBaseSitesSelect = createSpy('select').and.returnValue(() =>
   of([{ uid: 'mock-active-base-site-uid' }, { uid: 'test-baseSite' }])
 );
 
+const mockSiteContextConfig: SiteContextConfig = {
+  context: {
+    baseSite: ['electronics-spa'],
+  },
+};
+
 describe('BaseSiteService', () => {
   let service: BaseSiteService;
   let store: Store<StateWithSiteContext>;
@@ -39,7 +45,7 @@ describe('BaseSiteService', () => {
           provide: SiteAdapter,
           useValue: {},
         },
-        { provide: SiteContextConfig, useValue: {} },
+        { provide: SiteContextConfig, useValue: mockSiteContextConfig },
       ],
     });
     store = TestBed.inject(Store);
@@ -120,5 +126,21 @@ describe('BaseSiteService', () => {
     let result;
     service.get('test-baseSite').subscribe((res) => (result = res));
     expect(result).toEqual({ uid: 'test-baseSite' });
+  });
+
+  describe('isInitialized', () => {
+    it('should return TRUE if a base site is initialized', () => {
+      spyOnProperty(ngrxStore, 'select').and.returnValues(mockBaseSitesSelect);
+      expect(service.isInitialized()).toBeTruthy();
+    });
+  });
+
+  describe('isValid', () => {
+    it('should return TRUE if the base site is valid', () => {
+      expect(service['isValid']('electronics-spa')).toBeTruthy();
+    });
+    it('should return FALSE if the base site is not valid', () => {
+      expect(service['isValid']('something-else')).toBeFalsy();
+    });
   });
 });

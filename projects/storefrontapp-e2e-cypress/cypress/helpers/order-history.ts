@@ -7,6 +7,7 @@ import {
 import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
+import { product } from '../sample-data/checkout-flow';
 
 const orderHistoryLink = '/my-account/orders';
 
@@ -21,9 +22,9 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth);
-      cy.requireShippingMethodSelected(stateAuth);
-      cy.requirePaymentDone(stateAuth);
+      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
+      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);
     });
@@ -66,7 +67,7 @@ export const orderHistoryTest = {
         .findByText('Start Shopping')
         .click();
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
       checkBanner();
     });
   },
@@ -153,6 +154,19 @@ export const orderHistoryTest = {
         clickHamburger();
       });
       switchLanguage('en'); // switch language back
+    });
+  },
+  checkOrderDetailsUnconsignedEntries() {
+    it('should display order details page with unconsigned entries', () => {
+      doPlaceOrder().then((orderData: any) => {
+        cy.visit(`/my-account/order/${orderData.body.code}`);
+        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+        cy.get('.cx-summary-total > .cx-summary-amount').should(
+          'contain',
+          orderData.body.totalPrice.formattedValue
+        );
+      });
     });
   },
 };

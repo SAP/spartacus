@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
 import { KeyboardFocusModule } from '@spartacus/storefront';
 import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurator-attribute-multi-selection-image.component';
+import { ConfiguratorPriceModule } from '../../../price/configurator-price.module';
 
 @NgModule({
   imports: [
@@ -12,9 +13,9 @@ import { ConfiguratorAttributeMultiSelectionImageComponent } from './configurato
     ReactiveFormsModule,
     CommonModule,
     I18nModule,
+    ConfiguratorPriceModule,
   ],
   declarations: [ConfiguratorAttributeMultiSelectionImageComponent],
   exports: [ConfiguratorAttributeMultiSelectionImageComponent],
-  entryComponents: [ConfiguratorAttributeMultiSelectionImageComponent],
 })
 export class ConfiguratorAttributeMultiSelectionImageModule {}

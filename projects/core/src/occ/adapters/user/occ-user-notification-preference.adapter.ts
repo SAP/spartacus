@@ -20,7 +20,8 @@ const headers = new HttpHeaders({
 
 @Injectable()
 export class OccUserNotificationPreferenceAdapter
-  implements UserNotificationPreferenceAdapter {
+  implements UserNotificationPreferenceAdapter
+{
   constructor(
     protected http: HttpClient,
     protected converter: ConverterService,
@@ -30,7 +31,9 @@ export class OccUserNotificationPreferenceAdapter
   loadAll(userId: string): Observable<NotificationPreference[]> {
     return this.http
       .get<NotificationPreferenceList>(
-        this.occEndpoints.getUrl('notificationPreference', { userId }),
+        this.occEndpoints.buildUrl('notificationPreference', {
+          urlParams: { userId },
+        }),
         {
           headers,
         }
@@ -52,7 +55,9 @@ export class OccUserNotificationPreferenceAdapter
     );
     return this.http
       .patch(
-        this.occEndpoints.getUrl('notificationPreference', { userId }),
+        this.occEndpoints.buildUrl('notificationPreference', {
+          urlParams: { userId },
+        }),
         { preferences: preferences },
         { headers }
       )

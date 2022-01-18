@@ -9,6 +9,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfigFormUpdateEvent } from '../../../form/configurator-form.event';
+import { ConfiguratorPriceComponentOptions } from '../../../price';
 import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribute-base.component';
 
 @Component({
@@ -18,7 +19,8 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -48,12 +50,36 @@ export class ConfiguratorAttributeCheckBoxComponent
 
   protected assembleSingleValue(): Configurator.Value[] {
     const localAssembledValues: Configurator.Value[] = [];
+    const value = this.attribute.values ? this.attribute.values[0] : undefined;
+    //we can assume that for this component, value is always present
+    if (value) {
+      const localAttributeValue: Configurator.Value = {
+        valueCode: value.valueCode,
+      };
 
-    const localAttributeValue: Configurator.Value = {};
-    localAttributeValue.valueCode = this.attribute.values[0].valueCode;
-    localAttributeValue.name = this.attribute.values[0].name;
-    localAttributeValue.selected = this.attributeCheckBoxForm.value;
-    localAssembledValues.push(localAttributeValue);
+      localAttributeValue.name = value.name;
+      localAttributeValue.selected = this.attributeCheckBoxForm.value;
+      localAssembledValues.push(localAttributeValue);
+    }
+
     return localAssembledValues;
+  }
+
+  /**
+   * Extract corresponding value price formula parameters.
+   * For the multi-selection attribute types the complete price formula should be displayed at the value level.
+   *
+   * @param {Configurator.Value} value - Configurator value
+   * @return {ConfiguratorPriceComponentOptions} - New price formula
+   */
+  extractValuePriceFormulaParameters(
+    value: Configurator.Value
+  ): ConfiguratorPriceComponentOptions | undefined {
+    return {
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
+      isLightedUp: value.selected,
+    };
   }
 }

@@ -1,16 +1,16 @@
 @import 'company-page-template';
 
-// The blacklist can be used to prevent template CSS
+// The blocklist can be used to prevent template CSS
 // being generated.
-$page-template-blacklist-organization: () !default;
+$page-template-blocklist-organization: () !default;
 
-// whitelisted page template selectors are processed
-// unless (some) they are blacklisted
-$page-template-whitelist-organization: CompanyPageTemplate !default;
+// allowlisted page template selectors are processed
+// unless (some) that are blocklisted using `$page-template-blocklist`
+$page-template-allowlist-organization: CompanyPageTemplate !default;
 
-@each $selector in $page-template-whitelist-organization {
+@each $selector in $page-template-allowlist-organization {
   cx-page-layout.#{$selector} {
-    @if (index($page-template-blacklist-organization, $selector) == null) {
+    @if (index($page-template-blocklist-organization, $selector) == null) {
       @extend %#{$selector} !optional;
     }
   }

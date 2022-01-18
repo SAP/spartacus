@@ -1,10 +1,5 @@
 import { InjectionToken, Provider } from '@angular/core';
-import {
-  ActionReducer,
-  ActionReducerMap,
-  combineReducers,
-  MetaReducer,
-} from '@ngrx/store';
+import { ActionReducer, ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { AuthActions } from '../../../auth/user-auth/store/actions/index';
 import { Address } from '../../../model/address.model';
 import { PaymentDetails } from '../../../model/cart.model';
@@ -30,17 +25,17 @@ import {
   PRODUCT_INTERESTS,
   REGIONS,
   RegionsState,
+  UserState,
   USER_ADDRESSES,
   USER_CONSENTS,
   USER_COST_CENTERS,
-  USER_ORDER_DETAILS,
   USER_ORDERS,
+  USER_ORDER_DETAILS,
   USER_PAYMENT_METHODS,
-  USER_REPLENISHMENT_ORDER_DETAILS,
   USER_REPLENISHMENT_ORDERS,
-  USER_RETURN_REQUEST_DETAILS,
+  USER_REPLENISHMENT_ORDER_DETAILS,
   USER_RETURN_REQUESTS,
-  UserState,
+  USER_RETURN_REQUEST_DETAILS,
 } from '../user-state';
 import * as fromBillingCountriesReducer from './billing-countries.reducer';
 import * as fromConsignmentTrackingReducer from './consignment-tracking.reducer';
@@ -53,20 +48,14 @@ import * as fromPaymentReducer from './payment-methods.reducer';
 import * as fromInterestsReducer from './product-interests.reducer';
 import * as fromRegionsReducer from './regions.reducer';
 import * as fromReplenishmentOrderDetailsReducer from './replenishment-order-details.reducer';
-import * as fromResetPasswordReducer from './reset-password.reducer';
-import * as fromTitlesReducer from './titles.reducer';
 import * as fromAddressesReducer from './user-addresses.reducer';
 import * as fromUserConsentsReducer from './user-consents.reducer';
 import * as fromCostCenterReducer from './user-cost-center.reducer';
-import * as fromUserDetailsReducer from './user-details.reducer';
 import * as fromUserOrdersReducer from './user-orders.reducer';
 import * as fromUserReplenishmentOrdersReducer from './user-replenishment-orders.reducer';
 
 export function getReducers(): ActionReducerMap<UserState> {
   return {
-    account: combineReducers({
-      details: fromUserDetailsReducer.reducer,
-    }),
     addresses: loaderReducer<Address[]>(
       USER_ADDRESSES,
       fromAddressesReducer.reducer
@@ -98,9 +87,7 @@ export function getReducers(): ActionReducerMap<UserState> {
       fromOrderReturnRequestReducer.reducer
     ),
     countries: fromDeliveryCountries.reducer,
-    titles: fromTitlesReducer.reducer,
     regions: loaderReducer<RegionsState>(REGIONS, fromRegionsReducer.reducer),
-    resetPassword: fromResetPasswordReducer.reducer,
     consignmentTracking: fromConsignmentTrackingReducer.reducer,
     customerCoupons: loaderReducer<CustomerCouponSearchResult>(
       CUSTOMER_COUPONS,
@@ -125,9 +112,8 @@ export function getReducers(): ActionReducerMap<UserState> {
   };
 }
 
-export const reducerToken: InjectionToken<
-  ActionReducerMap<UserState>
-> = new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
+export const reducerToken: InjectionToken<ActionReducerMap<UserState>> =
+  new InjectionToken<ActionReducerMap<UserState>>('UserReducers');
 
 export const reducerProvider: Provider = {
   provide: reducerToken,
