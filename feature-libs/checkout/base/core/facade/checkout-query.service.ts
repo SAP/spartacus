@@ -8,11 +8,11 @@ import {
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
+  CheckoutOrderPlacedEvent,
   CheckoutQueryFacade,
+  CheckoutReloadQueryEvent,
+  CheckoutResetQueryEvent,
   CheckoutState,
-  OrderPlacedEvent,
-  ReloadCheckoutQueryEvent,
-  ResetCheckoutQueryEvent,
 } from '@spartacus/checkout/base/root';
 import {
   CurrencySetEvent,
@@ -37,7 +37,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
    */
   protected getQueryReloadTriggers(): QueryNotifier[] {
     return [
-      ReloadCheckoutQueryEvent,
+      CheckoutReloadQueryEvent,
       ...this.getCheckoutQuerySiteContextReloadTriggers(),
     ];
   }
@@ -52,7 +52,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
    */
   protected getQueryResetTriggers(): QueryNotifier[] {
     return [
-      ResetCheckoutQueryEvent,
+      CheckoutResetQueryEvent,
       ...this.getCheckoutQueryResetAuthTriggers(),
       ...this.getCheckoutQueryResetCartTriggers(),
       ...this.getCheckoutQueryResetOrderTriggers(),
@@ -80,7 +80,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   protected getCheckoutQueryResetOrderTriggers(): QueryNotifier[] {
     return [
       // we need to reset the query's state after the checkout is finished
-      OrderPlacedEvent,
+      CheckoutOrderPlacedEvent,
     ];
   }
 

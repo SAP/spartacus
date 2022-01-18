@@ -22,7 +22,6 @@ import { CheckoutPaymentMethodComponent } from './checkout-payment-method.compon
       cmsComponents: {
         CheckoutPaymentDetails: {
           component: CheckoutPaymentMethodComponent,
-          // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

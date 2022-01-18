@@ -23,10 +23,10 @@ export interface CardWithAddress {
 
 @Component({
   selector: 'cx-shipping-address',
-  templateUrl: './checkout-shipping-address.component.html',
+  templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutShippingAddressComponent implements OnInit {
+export class CheckoutDeliveryAddressComponent implements OnInit {
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;

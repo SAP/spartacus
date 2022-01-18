@@ -2,11 +2,11 @@ import { inject, TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
+  CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
   CheckoutState,
-  DeliveryAddressClearedEvent,
-  DeliveryAddressCreatedEvent,
-  DeliveryAddressSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -134,7 +134,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    it(`should dispatch DeliveryAddressCreatedEvent event`, () => {
+    it(`should dispatch CheckoutDeliveryAddressCreatedEvent event`, () => {
       service.createAndSetAddress(mockAddress);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -143,7 +143,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
           cartId: mockCartId,
           address: mockAddress,
         },
-        DeliveryAddressCreatedEvent
+        CheckoutDeliveryAddressCreatedEvent
       );
     });
 
@@ -193,12 +193,12 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    it(`should dispatch DeliveryAddressSetEvent`, () => {
+    it(`should dispatch CheckoutDeliveryAddressSetEvent`, () => {
       service.setDeliveryAddress(mockAddress);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId, address: mockAddress },
-        DeliveryAddressSetEvent
+        CheckoutDeliveryAddressSetEvent
       );
     });
   });
@@ -213,12 +213,12 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    it(`should dispatch DeliveryAddressClearedEvent`, () => {
+    it(`should dispatch CheckoutDeliveryAddressClearedEvent`, () => {
       service.clearCheckoutDeliveryAddress();
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { userId: mockUserId, cartId: mockCartId },
-        DeliveryAddressClearedEvent
+        CheckoutDeliveryAddressClearedEvent
       );
     });
   });

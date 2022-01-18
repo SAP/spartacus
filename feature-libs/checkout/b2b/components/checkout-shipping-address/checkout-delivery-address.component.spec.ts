@@ -19,7 +19,7 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
-import { B2BCheckoutShippingAddressComponent } from './checkout-shipping-address.component';
+import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -143,8 +143,8 @@ class MockCardComponent {
 }
 
 describe('B2BCheckoutShippingAddressComponent', () => {
-  let component: B2BCheckoutShippingAddressComponent;
-  let fixture: ComponentFixture<B2BCheckoutShippingAddressComponent>;
+  let component: B2BCheckoutDeliveryAddressComponent;
+  let fixture: ComponentFixture<B2BCheckoutDeliveryAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartFacade: ActiveCartFacade;
@@ -157,7 +157,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          B2BCheckoutShippingAddressComponent,
+          B2BCheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
           MockCardComponent,
           MockSpinnerComponent,
@@ -185,7 +185,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
           },
         ],
       })
-        .overrideComponent(B2BCheckoutShippingAddressComponent, {
+        .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -202,7 +202,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(B2BCheckoutShippingAddressComponent);
+    fixture = TestBed.createComponent(B2BCheckoutDeliveryAddressComponent);
     component = fixture.componentInstance;
 
     spyOn(component, 'addAddress').and.callThrough();

@@ -33,7 +33,6 @@ import { CheckoutReviewSubmitComponent } from './checkout-review-submit.componen
       cmsComponents: {
         CheckoutReviewOrder: {
           component: CheckoutReviewSubmitComponent,
-          // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard and others here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

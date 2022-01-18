@@ -14,7 +14,6 @@ import { CheckoutDeliveryModeComponent } from './checkout-delivery-mode.componen
       cmsComponents: {
         CheckoutDeliveryMode: {
           component: CheckoutDeliveryModeComponent,
-          // TODO(#8880): Shouldn't we keep ShippingAddressSetGuard here?
           guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },

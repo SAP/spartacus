@@ -11,12 +11,12 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import {
-  ClearCheckoutDeliveryAddressEvent,
-  DeliveryAddressClearedEvent,
-  DeliveryAddressCreatedEvent,
-  DeliveryAddressSetEvent,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
+  CheckoutClearDeliveryAddressEvent,
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
+  CheckoutDeliveryAddressSetEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 
 /**
@@ -55,7 +55,7 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
           // we want to LL the checkout (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress();
 
-          this.eventService.dispatch({}, ResetDeliveryModesEvent);
+          this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
         })
     );
   }
@@ -65,36 +65,38 @@ export class CheckoutDeliveryAddressEventListener implements OnDestroy {
    */
   protected onDeliveryAddressChange(): void {
     this.subscriptions.add(
-      this.eventService.get(DeliveryAddressCreatedEvent).subscribe(() => {
-        this.globalMessageService.add(
-          { key: 'addressForm.userAddressAddSuccess' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
+      this.eventService
+        .get(CheckoutDeliveryAddressCreatedEvent)
+        .subscribe(() => {
+          this.globalMessageService.add(
+            { key: 'addressForm.userAddressAddSuccess' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
 
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+          this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
 
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        })
     );
     this.subscriptions.add(
-      this.eventService.get(DeliveryAddressSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
+      this.eventService.get(CheckoutDeliveryAddressSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
 
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );
 
     this.subscriptions.add(
       this.eventService
-        .get(DeliveryAddressClearedEvent)
+        .get(CheckoutDeliveryAddressClearedEvent)
         .subscribe(() =>
-          this.eventService.dispatch({}, ResetCheckoutQueryEvent)
+          this.eventService.dispatch({}, CheckoutResetQueryEvent)
         )
     );
 
     this.subscriptions.add(
       this.eventService
-        .get(ClearCheckoutDeliveryAddressEvent)
+        .get(CheckoutClearDeliveryAddressEvent)
         .subscribe(() =>
           this.checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress()
         )

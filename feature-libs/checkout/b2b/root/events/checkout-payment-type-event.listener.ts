@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -20,8 +20,8 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
   protected onPaymentTypeChange(): void {
     this.subscriptions.add(
       this.eventService.get(PaymentTypeSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetDeliveryModesEvent);
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
+        this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );
   }

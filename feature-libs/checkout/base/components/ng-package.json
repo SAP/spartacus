@@ -10,7 +10,8 @@
       "@spartacus/user/profile/root": "userProfileRoot",
       "@spartacus/cart/main/root": "cartRoot",
       "@spartacus/cart/main/components": "cartComponents",
-      "@spartacus/order/components": "orderComponents"
+      "@spartacus/order/components": "orderComponents",
+      "@spartacus/cart/main/core": "cartCore"
     }
   }
 }

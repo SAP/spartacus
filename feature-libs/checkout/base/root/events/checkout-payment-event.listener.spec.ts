@@ -8,9 +8,9 @@ import {
 import { Subject } from 'rxjs';
 import { CheckoutPaymentEventListener } from './checkout-payment-event.listener';
 import {
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -50,27 +50,27 @@ describe(`CheckoutPaymentEventListener`, () => {
   });
 
   describe(`onPaymentChange`, () => {
-    it(`should dispatch ResetCheckoutQueryEvent`, () => {
-      mockEventStream$.next(new PaymentDetailsCreatedEvent());
+    it(`should dispatch CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
 
-    it(`PaymentDetailsSetEvent should dispatch ResetCheckoutQueryEvent`, () => {
-      mockEventStream$.next(new PaymentDetailsSetEvent());
+    it(`CheckoutPaymentDetailsSetEvent should dispatch CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutPaymentDetailsSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
 
     describe(`global message`, () => {
-      it(`PaymentDetailsCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(new PaymentDetailsCreatedEvent());
+      it(`CheckoutPaymentDetailsCreatedEvent should add a global message`, () => {
+        mockEventStream$.next(new CheckoutPaymentDetailsCreatedEvent());
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'paymentForm.paymentAddedSuccessfully' },

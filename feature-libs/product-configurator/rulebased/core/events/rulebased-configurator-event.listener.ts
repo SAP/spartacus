@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { OrderPlacedEvent } from '@spartacus/checkout/base/root';
+import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import { ConfiguratorCartService } from '../facade/configurator-cart.service';
@@ -16,7 +16,7 @@ export class RulebasedConfiguratorEventListener implements OnDestroy {
 
   onPlaceOrder(): void {
     this.subscription.add(
-      this.eventService.get(OrderPlacedEvent).subscribe(() => {
+      this.eventService.get(CheckoutOrderPlacedEvent).subscribe(() => {
         this.configuratorCartService.removeCartBoundConfigurations();
       })
     );

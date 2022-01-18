@@ -12,7 +12,7 @@ import {
 import { Card } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CheckoutStepService } from '../services/checkout-step.service';
-import { CheckoutShippingAddressComponent } from './checkout-shipping-address.component';
+import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
@@ -104,8 +104,8 @@ class MockCardComponent {
 }
 
 describe('CheckoutShippingAddressComponent', () => {
-  let component: CheckoutShippingAddressComponent;
-  let fixture: ComponentFixture<CheckoutShippingAddressComponent>;
+  let component: CheckoutDeliveryAddressComponent;
+  let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartFacade: ActiveCartFacade;
@@ -116,7 +116,7 @@ describe('CheckoutShippingAddressComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          CheckoutShippingAddressComponent,
+          CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
           MockCardComponent,
           MockSpinnerComponent,
@@ -132,7 +132,7 @@ describe('CheckoutShippingAddressComponent', () => {
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
         ],
       })
-        .overrideComponent(CheckoutShippingAddressComponent, {
+        .overrideComponent(CheckoutDeliveryAddressComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
@@ -149,7 +149,7 @@ describe('CheckoutShippingAddressComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CheckoutShippingAddressComponent);
+    fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);
     component = fixture.componentInstance;
 
     spyOn(component, 'addAddress').and.callThrough();

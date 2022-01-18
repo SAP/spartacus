@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  ClearCheckoutDeliveryAddressEvent,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
+  CheckoutClearDeliveryAddressEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from '@spartacus/checkout/base/root';
 import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
@@ -40,16 +40,16 @@ describe(`CheckoutCostCenterEventListener`, () => {
   });
 
   describe(`onCostCenterChange`, () => {
-    it(`should dispatch ResetDeliveryModesEvent`, () => {
+    it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(new CostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
 
-    it(`should dispatch ClearCheckoutDeliveryAddressEvent`, () => {
+    it(`should dispatch CheckoutClearDeliveryAddressEvent`, () => {
       const event = createFrom(CostCenterSetEvent, {
         code: mockCode,
         cartId: mockCartId,
@@ -59,16 +59,16 @@ describe(`CheckoutCostCenterEventListener`, () => {
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         { cartId: mockCartId, userId: mockUserId },
-        ClearCheckoutDeliveryAddressEvent
+        CheckoutClearDeliveryAddressEvent
       );
     });
 
-    it(`should dispatch ResetCheckoutQueryEvent`, () => {
+    it(`should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new CostCenterSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
   });

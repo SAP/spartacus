@@ -9,11 +9,11 @@ import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
-  DeliveryAddressSetEvent,
-  DeliveryModeClearedEvent,
-  DeliveryModeSetEvent,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
+  CheckoutDeliveryAddressSetEvent,
+  CheckoutDeliveryModeClearedEvent,
+  CheckoutDeliveryModeSetEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -55,7 +55,7 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onUserAddressChange`, () => {
-    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent`, () => {
+    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(new UpdateUserAddressEvent());
 
       expect(
@@ -63,11 +63,11 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
 
-    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch ResetDeliveryModesEvent`, () => {
+    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryMode() and dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(new DeleteUserAddressEvent());
 
       expect(
@@ -75,14 +75,14 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
   });
 
   describe(`onDeliveryAddressChange`, () => {
-    it(`DeliveryAddressSetEvent should call clearCheckoutDeliveryMode()`, () => {
-      mockEventStream$.next(new DeliveryAddressSetEvent());
+    it(`CheckoutDeliveryAddressSetEvent should call clearCheckoutDeliveryMode()`, () => {
+      mockEventStream$.next(new CheckoutDeliveryAddressSetEvent());
 
       expect(
         checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
@@ -91,31 +91,31 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
   });
 
   describe(`onDeliveryModeChange`, () => {
-    it(`DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()`, () => {
-      mockEventStream$.next(new DeliveryModeSetEvent());
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
+      mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
   });
 
   describe(`onDeliveryModeChange`, () => {
-    it(`DeliveryModeSetEvent should dispatch ResetCheckoutQueryEvent()`, () => {
-      mockEventStream$.next(new DeliveryModeSetEvent());
+    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
+      mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
-    it(`DeliveryModeClearedEvent should dispatch ResetCheckoutQueryEvent()`, () => {
-      mockEventStream$.next(new DeliveryModeClearedEvent());
+    it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent()`, () => {
+      mockEventStream$.next(new CheckoutDeliveryModeClearedEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
   });

@@ -6,9 +6,9 @@ import {
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 import {
-  PaymentDetailsCreatedEvent,
-  PaymentDetailsSetEvent,
-  ResetCheckoutQueryEvent,
+  CheckoutPaymentDetailsCreatedEvent,
+  CheckoutPaymentDetailsSetEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 
 /**
@@ -32,17 +32,19 @@ export class CheckoutPaymentEventListener implements OnDestroy {
    */
   protected onPaymentChange(): void {
     this.subscriptions.add(
-      this.eventService.get(PaymentDetailsCreatedEvent).subscribe(() => {
-        this.globalMessageService.add(
-          { key: 'paymentForm.paymentAddedSuccessfully' },
-          GlobalMessageType.MSG_TYPE_CONFIRMATION
-        );
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
-      })
+      this.eventService
+        .get(CheckoutPaymentDetailsCreatedEvent)
+        .subscribe(() => {
+          this.globalMessageService.add(
+            { key: 'paymentForm.paymentAddedSuccessfully' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        })
     );
     this.subscriptions.add(
-      this.eventService.get(PaymentDetailsSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, ResetCheckoutQueryEvent);
+      this.eventService.get(CheckoutPaymentDetailsSetEvent).subscribe(() => {
+        this.eventService.dispatch({}, CheckoutResetQueryEvent);
       })
     );
   }

@@ -1,34 +1,13 @@
-## TODO:
+## TODO: before merge
 
 1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-2. catch refresh bug on b2b (account type on refresh displays the payment method step when it's not supposed to) - related to b2b guard issue (partially solved until further discussions)
-3. BUG - When doing b2b checkout: - related to multiple cms trigger issue (partially solved until further discussions)
-   1. select the credit card payment method
-   2. go all the way to the last step (review order)
-   3. notice the delivery method is there
-   4. go back to the previous step (payment), and refresh browser
-   5. go to the last step - the delivery mode is not there.
-4. BUG - the payment method infinite spinner: - related to multiple cms trigger issue (partially solved until further discussions)
-   1. repeat the steps above
-   2. go to the first step (payment method)
-   3. notice the infinite spinner
-5. In b2b, add a spinner to the 1st checkout step (payment method). The reason is the bug: 
-   1. Have the account type selected
-   2. Switch to credit card
-   3. if we're quick enough, and click "continue" button before the two API calls are resolved, we'll see _4_ steps instead of _5_.
-6. Is the checkout properly using the new cart lib?
-   1. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200) - related to waiting for Wei and Patrick PR to be merged (partially solved until further discussions)
+2. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
+   1. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200) - related to waiting for Wei and Patrick PR to be merged 
    - (related to above) sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
-7.  check the event listeners for the following scenario:
-    1.  a user started the checkout, entered their delivery address, and set the delivery mode, and the data is sent on the back-end for the active cart
-    2.  the user changes their mind, and navigates away from the checkout page to homepage, and refreshes the browser.
-    3.  after it, they decide to change their address in the profile menu. 
-    4.  if they now start the checkout (and LL the feature), the current back-end data is _not_ valid for the active cart - we must reset the set delivery mode, and load the supported delivery modes again for the new address.
-    5.  if the listener was in the root module, it can listen to the userupdateaddress event, ll the checkout, and issue a reset query event
-8. Check how do various checkouts work:
+4. Check how do various checkouts work:
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
-9. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+5. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
     - ```ts
       const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
         user: 'orgUsers/${userId}',
@@ -61,20 +40,15 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-10. align the event names - prefix them with Checkout?
-11. Rename b2b and repl endpoint config keys - https://github.com/SAP/spartacus/pull/14495/files#r760445274
-12. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
-   4.  Rename the checkout components' selectors to have the checkout prefix?
-13. query debounce - `feature/query-debounce`
-14. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-15. Look into `TODO(#8880):`
-16. check changes to the old checkout
+6. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+7. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
    1. revert the variable names from *facade to *service _in old checkout only_
-17. check the bundle size of checkout (maybe using webpack analyzer)
-18. rename `checkout-shipping-address.component` (both base and b2b) to `checkout-delivery-address.component`.
-19. make sure in new checkout for checkout-delivery-mode template works similarly to the one in develop (look and feel) when cart-lib has updates and pulls from develop. https://github.com/SAP/spartacus/blob/develop/feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html --> specifically removing spinner from the button area.
+8.  remove old checkout
+9.  Remove `checkout-git-check.sh`
+10. remove `todo.md` and 
+11. make sure in new checkout for checkout-delivery-mode template works similarly to the one in develop (look and feel) when cart-lib has updates and pulls from develop. https://github.com/SAP/spartacus/blob/develop/feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html --> specifically removing spinner from the button area.
 
-## Near the end
+## Second phase
 
 1. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
 2. Schematics and deprecations
@@ -110,6 +84,7 @@
       1. you can consider using our new components. 
       2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
    7.  go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
+   8.  Mention the available events - e.g. CheckoutReloadDeliveryModesEvent and ReloadCheckoutQueryEvent
 8. check LL:
    1. check the chunks: base, b2b, replenishment
    2. check if and when those are loaded
@@ -118,10 +93,17 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-9. Remove `checkout-git-check.sh`
-10. remove `todo.md` and 
+9. check the bundle size of checkout (maybe using webpack analyzer)
+10. query debounce - `feature/query-debounce`
 
 ### Future
 
-1. coordinate with UX and A11Y teams about the new checkout and announce a work on the components
-2. search for `TODO:#deprecation-checkout`
+1. coordinate with UX and A11Y teams about the new checkout and announce a work on the components:
+   1. UX dev - should create a draft wireframes
+   2. dev(s) - Brian and Nik at least, and Kris would be good to review the design
+   3. Bill
+   4. Miguel for a11y
+2. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+   1. Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
+   2. if we decide to do it, we should align the selector names with the component names - i.e. `cx-shipping-address` should be renamed to contain the checkout prefix, _and_ to instead of `shipping` we should use `delivery`.
+3. search for `TODO:#deprecation-checkout`

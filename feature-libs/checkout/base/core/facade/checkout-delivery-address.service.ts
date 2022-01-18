@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
   CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryAddressSetEvent,
   CheckoutQueryFacade,
-  DeliveryAddressClearedEvent,
-  DeliveryAddressCreatedEvent,
-  DeliveryAddressSetEvent,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
@@ -64,7 +64,7 @@ export class CheckoutDeliveryAddressService
                       cartId,
                       address,
                     },
-                    DeliveryAddressCreatedEvent
+                    CheckoutDeliveryAddressCreatedEvent
                   )
                 )
               );
@@ -94,7 +94,7 @@ export class CheckoutDeliveryAddressService
                       cartId,
                       address,
                     },
-                    DeliveryAddressSetEvent
+                    CheckoutDeliveryAddressSetEvent
                   );
                 })
               );
@@ -119,7 +119,7 @@ export class CheckoutDeliveryAddressService
                       userId,
                       cartId,
                     },
-                    DeliveryAddressClearedEvent
+                    CheckoutDeliveryAddressClearedEvent
                   );
                 })
               )

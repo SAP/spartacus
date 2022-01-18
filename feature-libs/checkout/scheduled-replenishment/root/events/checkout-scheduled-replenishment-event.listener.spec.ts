@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ResetCheckoutQueryEvent } from '@spartacus/checkout/base/root';
+import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CheckoutScheduledReplenishmentEventListener } from './checkout-scheduled-replenishment-event.listener';
@@ -31,12 +31,12 @@ describe(`CheckoutScheduledReplenishmentEventListener`, () => {
   });
 
   describe(`onReplenishmentOrder`, () => {
-    it(`ReplenishmentOrderScheduledEvent should dispatch ResetCheckoutQueryEvent`, () => {
+    it(`ReplenishmentOrderScheduledEvent should dispatch CheckoutResetQueryEvent`, () => {
       mockEventStream$.next(new ReplenishmentOrderScheduledEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetCheckoutQueryEvent
+        CheckoutResetQueryEvent
       );
     });
   });

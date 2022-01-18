@@ -11,12 +11,12 @@ import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryAddressFacade } from '../facade/checkout-delivery-address.facade';
 import { CheckoutDeliveryAddressEventListener } from './checkout-delivery-address-event.listener';
 import {
-  ClearCheckoutDeliveryAddressEvent,
-  DeliveryAddressClearedEvent,
-  DeliveryAddressCreatedEvent,
-  DeliveryAddressSetEvent,
-  ResetCheckoutQueryEvent,
-  ResetDeliveryModesEvent,
+  CheckoutClearDeliveryAddressEvent,
+  CheckoutDeliveryAddressClearedEvent,
+  CheckoutDeliveryAddressCreatedEvent,
+  CheckoutDeliveryAddressSetEvent,
+  CheckoutResetDeliveryModesEvent,
+  CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
 
@@ -70,7 +70,7 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
   });
 
   describe(`onUserAddressChange`, () => {
-    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
+    it(`UpdateUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(new UpdateUserAddressEvent());
 
       expect(
@@ -78,11 +78,11 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
 
-    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch ResetDeliveryModesEvent`, () => {
+    it(`DeleteUserAddressEvent should call clearCheckoutDeliveryAddress() and dispatch CheckoutResetDeliveryModesEvent`, () => {
       mockEventStream$.next(new DeleteUserAddressEvent());
 
       expect(
@@ -90,36 +90,36 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
       ).toHaveBeenCalled();
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
   });
 
   describe(`onDeliveryAddressChange`, () => {
-    it(`DeliveryAddressSetEvent should dispatch ResetDeliveryModesEvent and ResetCheckoutQueryEvent`, () => {
-      mockEventStream$.next(new DeliveryAddressSetEvent());
+    it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent and CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutDeliveryAddressSetEvent());
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
+        CheckoutResetDeliveryModesEvent
       );
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        ResetDeliveryModesEvent
-      );
-    });
-
-    it(`DeliveryAddressClearedEvent should dispatch ResetCheckoutQueryEvent`, () => {
-      mockEventStream$.next(new DeliveryAddressClearedEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        ResetCheckoutQueryEvent
+        CheckoutResetDeliveryModesEvent
       );
     });
 
-    it(`ClearCheckoutDeliveryAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
-      mockEventStream$.next(new ClearCheckoutDeliveryAddressEvent());
+    it(`CheckoutDeliveryAddressClearedEvent should dispatch CheckoutResetQueryEvent`, () => {
+      mockEventStream$.next(new CheckoutDeliveryAddressClearedEvent());
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        {},
+        CheckoutResetQueryEvent
+      );
+    });
+
+    it(`CheckoutClearDeliveryAddressEvent should call clearCheckoutDeliveryAddress()`, () => {
+      mockEventStream$.next(new CheckoutClearDeliveryAddressEvent());
 
       expect(
         checkoutDeliveryAddressFacade.clearCheckoutDeliveryAddress
@@ -127,8 +127,8 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
     });
 
     describe(`global message`, () => {
-      it(`DeliveryAddressCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(new DeliveryAddressCreatedEvent());
+      it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
+        mockEventStream$.next(new CheckoutDeliveryAddressCreatedEvent());
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'addressForm.userAddressAddSuccess' },
@@ -137,11 +137,11 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          ResetDeliveryModesEvent
+          CheckoutResetDeliveryModesEvent
         );
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          ResetDeliveryModesEvent
+          CheckoutResetDeliveryModesEvent
         );
       });
     });
