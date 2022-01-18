@@ -7,8 +7,7 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
-
-import { ProgressButtonModule } from '../../../shared/components/progress-button/progress-button.module';
+import { ProgressButtonModule } from '@spartacus/storefront';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 
 @NgModule({
