@@ -5,6 +5,6 @@ export * from './checkout-payment-type/checkout-payment-type.component';
 export * from './checkout-payment-type/checkout-payment-type.module';
 export * from './checkout-review-submit/checkout-review-submit.component';
 export * from './checkout-review-submit/checkout-review-submit.module';
-export * from './checkout-shipping-address/checkout-shipping-address.component';
-export * from './checkout-shipping-address/checkout-shipping-address.module';
+export * from './checkout-shipping-address/checkout-delivery-address.component';
+export * from './checkout-shipping-address/checkout-delivery-address.module';
 export * from './guards/index';
