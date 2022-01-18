@@ -108,12 +108,12 @@ export class AddedToCartDialogComponent {
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry: OrderEntry): FormControl {
+  protected getQuantityFormControl(entry: OrderEntry | undefined): FormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry.quantity, { updateOn: 'blur' });
+      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new FormControl(entry.entryNumber);
+      const entryNumber = new FormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     }
     return <FormControl>this.form.get('quantity');
