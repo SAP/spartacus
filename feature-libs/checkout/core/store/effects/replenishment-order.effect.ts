@@ -8,37 +8,40 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrderEffects {
-  
   scheduleReplenishmentOrder$: Observable<
     | CheckoutActions.ScheduleReplenishmentOrderSuccess
     | CheckoutActions.ScheduleReplenishmentOrderFail
     | CartActions.RemoveCart
-  > = createEffect(() => this.actions$.pipe(
-    ofType(CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER),
-    map((action: CheckoutActions.ScheduleReplenishmentOrder) => action.payload),
-    mergeMap((payload) => {
-      return this.checkoutReplOrderConnector
-        .scheduleReplenishmentOrder(
-          payload.cartId,
-          payload.scheduleReplenishmentForm,
-          payload.termsChecked,
-          payload.userId
-        )
-        .pipe(
-          switchMap((data) => [
-            new CartActions.RemoveCart({ cartId: payload.cartId }),
-            new CheckoutActions.ScheduleReplenishmentOrderSuccess(data),
-          ]),
-          catchError((error) =>
-            of(
-              new CheckoutActions.ScheduleReplenishmentOrderFail(
-                normalizeHttpError(error)
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CheckoutActions.SCHEDULE_REPLENISHMENT_ORDER),
+      map(
+        (action: CheckoutActions.ScheduleReplenishmentOrder) => action.payload
+      ),
+      mergeMap((payload) => {
+        return this.checkoutReplOrderConnector
+          .scheduleReplenishmentOrder(
+            payload.cartId,
+            payload.scheduleReplenishmentForm,
+            payload.termsChecked,
+            payload.userId
+          )
+          .pipe(
+            switchMap((data) => [
+              new CartActions.RemoveCart({ cartId: payload.cartId }),
+              new CheckoutActions.ScheduleReplenishmentOrderSuccess(data),
+            ]),
+            catchError((error) =>
+              of(
+                new CheckoutActions.ScheduleReplenishmentOrderFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  ));
+          );
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

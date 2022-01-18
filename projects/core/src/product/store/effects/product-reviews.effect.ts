@@ -12,63 +12,70 @@ import {
 
 @Injectable()
 export class ProductReviewsEffects {
-  
   loadProductReviews$: Observable<
     | ProductActions.LoadProductReviewsSuccess
     | ProductActions.LoadProductReviewsFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
-    map((action: ProductActions.LoadProductReviews) => action.payload),
-    mergeMap((productCode) => {
-      return this.productReviewsConnector.get(productCode).pipe(
-        map((data) => {
-          return new ProductActions.LoadProductReviewsSuccess({
-            productCode,
-            list: data,
-          });
-        }),
-        catchError((_error) =>
-          of(
-            new ProductActions.LoadProductReviewsFail({
-              message: productCode,
-            } as ErrorModel)
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.LOAD_PRODUCT_REVIEWS),
+      map((action: ProductActions.LoadProductReviews) => action.payload),
+      mergeMap((productCode) => {
+        return this.productReviewsConnector.get(productCode).pipe(
+          map((data) => {
+            return new ProductActions.LoadProductReviewsSuccess({
+              productCode,
+              list: data,
+            });
+          }),
+          catchError((_error) =>
+            of(
+              new ProductActions.LoadProductReviewsFail({
+                message: productCode,
+              } as ErrorModel)
+            )
           )
-        )
-      );
-    })
-  ));
+        );
+      })
+    )
+  );
 
-  
   postProductReview: Observable<
     | ProductActions.PostProductReviewSuccess
     | ProductActions.PostProductReviewFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(ProductActions.POST_PRODUCT_REVIEW),
-    map((action: ProductActions.PostProductReview) => action.payload),
-    mergeMap((payload) => {
-      return this.productReviewsConnector
-        .add(payload.productCode, payload.review)
-        .pipe(
-          map((reviewResponse) => {
-            return new ProductActions.PostProductReviewSuccess(reviewResponse);
-          }),
-          catchError((_error) =>
-            of(new ProductActions.PostProductReviewFail(payload.productCode))
-          )
-        );
-    })
-  ));
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ProductActions.POST_PRODUCT_REVIEW),
+      map((action: ProductActions.PostProductReview) => action.payload),
+      mergeMap((payload) => {
+        return this.productReviewsConnector
+          .add(payload.productCode, payload.review)
+          .pipe(
+            map((reviewResponse) => {
+              return new ProductActions.PostProductReviewSuccess(
+                reviewResponse
+              );
+            }),
+            catchError((_error) =>
+              of(new ProductActions.PostProductReviewFail(payload.productCode))
+            )
+          );
+      })
+    )
+  );
 
-  
-  showGlobalMessageOnPostProductReviewSuccess$ = createEffect(() => this.actions$.pipe(
-    ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
-    tap(() => {
-      this.globalMessageService.add(
-        { key: 'productReview.thankYouForReview' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    })
-  ), { dispatch: false });
+  showGlobalMessageOnPostProductReviewSuccess$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(ProductActions.POST_PRODUCT_REVIEW_SUCCESS),
+        tap(() => {
+          this.globalMessageService.add(
+            { key: 'productReview.thankYouForReview' },
+            GlobalMessageType.MSG_TYPE_CONFIRMATION
+          );
+        })
+      ),
+    { dispatch: false }
+  );
 
   constructor(
     private actions$: Actions,

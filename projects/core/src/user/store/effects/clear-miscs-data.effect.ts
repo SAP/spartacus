@@ -8,16 +8,17 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class ClearMiscsDataEffect {
-  
-  clearMiscsData$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    map(() => {
-      return new UserActions.ClearUserMiscsData();
-    })
-  ));
+  clearMiscsData$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      map(() => {
+        return new UserActions.ClearUserMiscsData();
+      })
+    )
+  );
 
   constructor(private actions$: Actions) {}
 }

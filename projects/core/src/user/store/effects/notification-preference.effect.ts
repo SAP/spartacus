@@ -8,49 +8,57 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class NotificationPreferenceEffects {
-  
-  loadPreferences$: Observable<UserActions.NotificationPreferenceAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
-    map((action: UserActions.LoadNotificationPreferences) => action.payload),
-    switchMap((payload) =>
-      this.connector.loadAll(payload).pipe(
+  loadPreferences$: Observable<UserActions.NotificationPreferenceAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_NOTIFICATION_PREFERENCES),
         map(
-          (preferences) =>
-            new UserActions.LoadNotificationPreferencesSuccess(preferences)
+          (action: UserActions.LoadNotificationPreferences) => action.payload
         ),
-        catchError((error) =>
-          of(
-            new UserActions.LoadNotificationPreferencesFail(
-              normalizeHttpError(error)
+        switchMap((payload) =>
+          this.connector.loadAll(payload).pipe(
+            map(
+              (preferences) =>
+                new UserActions.LoadNotificationPreferencesSuccess(preferences)
+            ),
+            catchError((error) =>
+              of(
+                new UserActions.LoadNotificationPreferencesFail(
+                  normalizeHttpError(error)
+                )
+              )
             )
           )
         )
       )
-    )
-  ));
+    );
 
-  
-  updatePreferences$: Observable<UserActions.NotificationPreferenceAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
-    map((action: UserActions.UpdateNotificationPreferences) => action.payload),
-    mergeMap((payload) =>
-      this.connector.update(payload.userId, payload.preferences).pipe(
+  updatePreferences$: Observable<UserActions.NotificationPreferenceAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.UPDATE_NOTIFICATION_PREFERENCES),
         map(
-          () =>
-            new UserActions.UpdateNotificationPreferencesSuccess(
-              payload.preferences
-            )
+          (action: UserActions.UpdateNotificationPreferences) => action.payload
         ),
-        catchError((error) =>
-          of(
-            new UserActions.UpdateNotificationPreferencesFail(
-              normalizeHttpError(error)
+        mergeMap((payload) =>
+          this.connector.update(payload.userId, payload.preferences).pipe(
+            map(
+              () =>
+                new UserActions.UpdateNotificationPreferencesSuccess(
+                  payload.preferences
+                )
+            ),
+            catchError((error) =>
+              of(
+                new UserActions.UpdateNotificationPreferencesFail(
+                  normalizeHttpError(error)
+                )
+              )
             )
           )
         )
       )
-    )
-  ));
+    );
 
   constructor(
     private actions$: Actions,

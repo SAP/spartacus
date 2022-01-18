@@ -11,79 +11,88 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserConsentsEffect {
-  
-  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE),
-    map(() => new UserActions.ResetLoadUserConsents())
-  ));
+  resetConsents$: Observable<UserActions.ResetLoadUserConsents> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SiteContextActions.LANGUAGE_CHANGE),
+        map(() => new UserActions.ResetLoadUserConsents())
+      )
+  );
 
-  
-  getConsents$: Observable<UserActions.UserConsentsAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_USER_CONSENTS),
-    map((action: UserActions.LoadUserConsents) => action.payload),
-    concatMap((userId) =>
-      this.userConsentConnector.loadConsents(userId).pipe(
-        map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
-        catchError((error) =>
-          of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
+  getConsents$: Observable<UserActions.UserConsentsAction> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.LOAD_USER_CONSENTS),
+      map((action: UserActions.LoadUserConsents) => action.payload),
+      concatMap((userId) =>
+        this.userConsentConnector.loadConsents(userId).pipe(
+          map((consents) => new UserActions.LoadUserConsentsSuccess(consents)),
+          catchError((error) =>
+            of(new UserActions.LoadUserConsentsFail(normalizeHttpError(error)))
+          )
         )
       )
     )
-  ));
+  );
 
-  
   giveConsent$: Observable<
     UserActions.UserConsentsAction | GlobalMessageActions.RemoveMessagesByType
-  > = createEffect(() => this.actions$.pipe(
-    ofType<UserActions.GiveUserConsent | UserActions.TransferAnonymousConsent>(
-      UserActions.GIVE_USER_CONSENT,
-      UserActions.TRANSFER_ANONYMOUS_CONSENT
-    ),
-    concatMap((action) =>
-      this.userConsentConnector
-        .giveConsent(
-          action.payload.userId,
-          action.payload.consentTemplateId,
-          action.payload.consentTemplateVersion
-        )
-        .pipe(
-          map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
-          catchError((error) => {
-            const errors: Array<
-              | UserActions.UserConsentsAction
-              | GlobalMessageActions.RemoveMessagesByType
-            > = [
-              new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
-            ];
-            if (
-              action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
-              error.status === 409
-            ) {
-              errors.push(
-                new GlobalMessageActions.RemoveMessagesByType(
-                  GlobalMessageType.MSG_TYPE_ERROR
-                )
-              );
-            }
-            return of(...errors);
-          })
-        )
-    )
-  ));
-
-  
-  withdrawConsent$: Observable<UserActions.UserConsentsAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.WITHDRAW_USER_CONSENT),
-    map((action: UserActions.WithdrawUserConsent) => action.payload),
-    concatMap(({ userId, consentCode }) =>
-      this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
-        map(() => new UserActions.WithdrawUserConsentSuccess()),
-        catchError((error) =>
-          of(new UserActions.WithdrawUserConsentFail(normalizeHttpError(error)))
-        )
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType<
+        UserActions.GiveUserConsent | UserActions.TransferAnonymousConsent
+      >(UserActions.GIVE_USER_CONSENT, UserActions.TRANSFER_ANONYMOUS_CONSENT),
+      concatMap((action) =>
+        this.userConsentConnector
+          .giveConsent(
+            action.payload.userId,
+            action.payload.consentTemplateId,
+            action.payload.consentTemplateVersion
+          )
+          .pipe(
+            map((consent) => new UserActions.GiveUserConsentSuccess(consent)),
+            catchError((error) => {
+              const errors: Array<
+                | UserActions.UserConsentsAction
+                | GlobalMessageActions.RemoveMessagesByType
+              > = [
+                new UserActions.GiveUserConsentFail(normalizeHttpError(error)),
+              ];
+              if (
+                action.type === UserActions.TRANSFER_ANONYMOUS_CONSENT &&
+                error.status === 409
+              ) {
+                errors.push(
+                  new GlobalMessageActions.RemoveMessagesByType(
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  )
+                );
+              }
+              return of(...errors);
+            })
+          )
       )
     )
-  ));
+  );
+
+  withdrawConsent$: Observable<UserActions.UserConsentsAction> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.WITHDRAW_USER_CONSENT),
+        map((action: UserActions.WithdrawUserConsent) => action.payload),
+        concatMap(({ userId, consentCode }) =>
+          this.userConsentConnector.withdrawConsent(userId, consentCode).pipe(
+            map(() => new UserActions.WithdrawUserConsentSuccess()),
+            catchError((error) =>
+              of(
+                new UserActions.WithdrawUserConsentFail(
+                  normalizeHttpError(error)
+                )
+              )
+            )
+          )
+        )
+      )
+  );
 
   constructor(
     private actions$: Actions,

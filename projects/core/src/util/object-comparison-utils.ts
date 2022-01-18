@@ -68,10 +68,7 @@ export class ObjectComparisonUtils {
     }, 0);
   }
 
-  static indexOfFirstOccurrence(
-    obj: any,
-    arr: Array<any>
-  ): number | undefined {
+  static indexOfFirstOccurrence(obj: any, arr: Array<any>): number | undefined {
     for (let index = 0; index < arr.length; index++) {
       if (this.deepEqualObjects(arr[index], obj)) {
         return index;
@@ -79,4 +76,3 @@ export class ObjectComparisonUtils {
     }
   }
 }
-

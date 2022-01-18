@@ -17,40 +17,43 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class CurrenciesEffects {
-  
   loadCurrencies$: Observable<
     | SiteContextActions.LoadCurrenciesSuccess
     | SiteContextActions.LoadCurrenciesFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_CURRENCIES),
-    exhaustMap(() => {
-      return this.siteConnector.getCurrencies().pipe(
-        map(
-          (currencies) =>
-            new SiteContextActions.LoadCurrenciesSuccess(currencies)
-        ),
-        catchError((error) =>
-          of(
-            new SiteContextActions.LoadCurrenciesFail(normalizeHttpError(error))
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SiteContextActions.LOAD_CURRENCIES),
+      exhaustMap(() => {
+        return this.siteConnector.getCurrencies().pipe(
+          map(
+            (currencies) =>
+              new SiteContextActions.LoadCurrenciesSuccess(currencies)
+          ),
+          catchError((error) =>
+            of(
+              new SiteContextActions.LoadCurrenciesFail(
+                normalizeHttpError(error)
+              )
+            )
           )
+        );
+      })
+    )
+  );
+
+  activateCurrency$: Observable<SiteContextActions.CurrencyChange> =
+    createEffect(() =>
+      this.state.select(getActiveCurrency).pipe(
+        bufferCount(2, 1),
+
+        // avoid dispatching `change` action when we're just setting the initial value:
+        filter(([previous]) => !!previous),
+        map(
+          ([previous, current]) =>
+            new SiteContextActions.CurrencyChange({ previous, current })
         )
-      );
-    })
-  ));
-
-  
-  activateCurrency$: Observable<SiteContextActions.CurrencyChange> = createEffect(() => this.state
-    .select(getActiveCurrency)
-    .pipe(
-      bufferCount(2, 1),
-
-      // avoid dispatching `change` action when we're just setting the initial value:
-      filter(([previous]) => !!previous),
-      map(
-        ([previous, current]) =>
-          new SiteContextActions.CurrencyChange({ previous, current })
       )
-    ));
+    );
 
   constructor(
     private actions$: Actions,

@@ -21,42 +21,46 @@ export class OrdersEffect {
     private replenishmentOrderConnector: ReplenishmentOrderConnector
   ) {}
 
-  
-  loadUserOrders$: Observable<OrderActions.UserOrdersAction> = createEffect(() => this.actions$.pipe(
-    ofType(OrderActions.LOAD_USER_ORDERS),
-    map((action: OrderActions.LoadUserOrders) => action.payload),
-    switchMap((payload) => {
-      return (
-        Boolean(payload.replenishmentOrderCode)
-          ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
-              payload.userId,
-              payload.replenishmentOrderCode ?? '',
-              payload.pageSize,
-              payload.currentPage,
-              payload.sort
+  loadUserOrders$: Observable<OrderActions.UserOrdersAction> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(OrderActions.LOAD_USER_ORDERS),
+        map((action: OrderActions.LoadUserOrders) => action.payload),
+        switchMap((payload) => {
+          return (
+            Boolean(payload.replenishmentOrderCode)
+              ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
+                  payload.userId,
+                  payload.replenishmentOrderCode ?? '',
+                  payload.pageSize,
+                  payload.currentPage,
+                  payload.sort
+                )
+              : this.orderConnector.getHistory(
+                  payload.userId,
+                  payload.pageSize,
+                  payload.currentPage,
+                  payload.sort
+                )
+          ).pipe(
+            map((orders: OrderHistoryList) => {
+              return new OrderActions.LoadUserOrdersSuccess(orders);
+            }),
+            catchError((error) =>
+              of(new OrderActions.LoadUserOrdersFail(normalizeHttpError(error)))
             )
-          : this.orderConnector.getHistory(
-              payload.userId,
-              payload.pageSize,
-              payload.currentPage,
-              payload.sort
-            )
-      ).pipe(
-        map((orders: OrderHistoryList) => {
-          return new OrderActions.LoadUserOrdersSuccess(orders);
-        }),
-        catchError((error) =>
-          of(new OrderActions.LoadUserOrdersFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  ));
+          );
+        })
+      )
+  );
 
-  
-  resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LANGUAGE_CHANGE),
-    map(() => {
-      return new OrderActions.ClearUserOrders();
-    })
-  ));
+  resetUserOrders$: Observable<OrderActions.ClearUserOrders> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(SiteContextActions.LANGUAGE_CHANGE),
+        map(() => {
+          return new OrderActions.ClearUserOrders();
+        })
+      )
+  );
 }

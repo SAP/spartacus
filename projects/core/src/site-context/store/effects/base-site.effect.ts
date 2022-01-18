@@ -8,40 +8,49 @@ import { SiteContextActions } from '../actions/index';
 
 @Injectable()
 export class BaseSiteEffects {
-  
   loadBaseSite$: Observable<
     SiteContextActions.LoadBaseSiteSuccess | SiteContextActions.LoadBaseSiteFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_BASE_SITE),
-    exhaustMap(() => {
-      return this.siteConnector.getBaseSite().pipe(
-        map((baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)),
-        catchError((error) =>
-          of(new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  ));
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SiteContextActions.LOAD_BASE_SITE),
+      exhaustMap(() => {
+        return this.siteConnector.getBaseSite().pipe(
+          map(
+            (baseSite) => new SiteContextActions.LoadBaseSiteSuccess(baseSite)
+          ),
+          catchError((error) =>
+            of(
+              new SiteContextActions.LoadBaseSiteFail(normalizeHttpError(error))
+            )
+          )
+        );
+      })
+    )
+  );
 
-  
   loadBaseSites$: Observable<
     | SiteContextActions.LoadBaseSitesSuccess
     | SiteContextActions.LoadBaseSitesFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_BASE_SITES),
-    exhaustMap(() => {
-      return this.siteConnector.getBaseSites().pipe(
-        map(
-          (baseSites) => new SiteContextActions.LoadBaseSitesSuccess(baseSites)
-        ),
-        catchError((error) =>
-          of(
-            new SiteContextActions.LoadBaseSitesFail(normalizeHttpError(error))
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SiteContextActions.LOAD_BASE_SITES),
+      exhaustMap(() => {
+        return this.siteConnector.getBaseSites().pipe(
+          map(
+            (baseSites) =>
+              new SiteContextActions.LoadBaseSitesSuccess(baseSites)
+          ),
+          catchError((error) =>
+            of(
+              new SiteContextActions.LoadBaseSitesFail(
+                normalizeHttpError(error)
+              )
+            )
           )
-        )
-      );
-    })
-  ));
+        );
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

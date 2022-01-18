@@ -17,39 +17,43 @@ import { StateWithSiteContext } from '../state';
 
 @Injectable()
 export class LanguagesEffects {
-  
   loadLanguages$: Observable<
     | SiteContextActions.LoadLanguagesSuccess
     | SiteContextActions.LoadLanguagesFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(SiteContextActions.LOAD_LANGUAGES),
-    exhaustMap(() => {
-      return this.siteConnector.getLanguages().pipe(
-        map(
-          (languages) => new SiteContextActions.LoadLanguagesSuccess(languages)
-        ),
-        catchError((error) =>
-          of(
-            new SiteContextActions.LoadLanguagesFail(normalizeHttpError(error))
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(SiteContextActions.LOAD_LANGUAGES),
+      exhaustMap(() => {
+        return this.siteConnector.getLanguages().pipe(
+          map(
+            (languages) =>
+              new SiteContextActions.LoadLanguagesSuccess(languages)
+          ),
+          catchError((error) =>
+            of(
+              new SiteContextActions.LoadLanguagesFail(
+                normalizeHttpError(error)
+              )
+            )
           )
+        );
+      })
+    )
+  );
+
+  activateLanguage$: Observable<SiteContextActions.LanguageChange> =
+    createEffect(() =>
+      this.state.select(getActiveLanguage).pipe(
+        bufferCount(2, 1),
+
+        // avoid dispatching `change` action when we're just setting the initial value:
+        filter(([previous]) => !!previous),
+        map(
+          ([previous, current]) =>
+            new SiteContextActions.LanguageChange({ previous, current })
         )
-      );
-    })
-  ));
-
-  
-  activateLanguage$: Observable<SiteContextActions.LanguageChange> = createEffect(() => this.state
-    .select(getActiveLanguage)
-    .pipe(
-      bufferCount(2, 1),
-
-      // avoid dispatching `change` action when we're just setting the initial value:
-      filter(([previous]) => !!previous),
-      map(
-        ([previous, current]) =>
-          new SiteContextActions.LanguageChange({ previous, current })
       )
-    ));
+    );
 
   constructor(
     private actions$: Actions,

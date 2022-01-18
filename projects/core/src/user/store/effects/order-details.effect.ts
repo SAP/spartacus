@@ -16,46 +16,55 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class OrderDetailsEffect {
-  
-  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_ORDER_DETAILS),
-    map((action: UserActions.LoadOrderDetails) => action.payload),
-    switchMap((payload) => {
-      return this.orderConnector.get(payload.userId, payload.orderCode).pipe(
-        map((order: Order) => {
-          return new UserActions.LoadOrderDetailsSuccess(order);
-        }),
-        catchError((error) =>
-          of(new UserActions.LoadOrderDetailsFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  ));
-
-  
-  cancelOrder$: Observable<UserActions.OrderDetailsAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.CANCEL_ORDER),
-    map((action: UserActions.CancelOrder) => action.payload),
-    switchMap((payload) => {
-      return this.orderConnector
-        .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
-        .pipe(
-          map(() => new UserActions.CancelOrderSuccess()),
-          catchError((error) => {
-            error.error?.errors.forEach((err) =>
-              this.globalMessageService.add(
-                err.message,
-                GlobalMessageType.MSG_TYPE_ERROR
+  loadOrderDetails$: Observable<UserActions.OrderDetailsAction> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_ORDER_DETAILS),
+        map((action: UserActions.LoadOrderDetails) => action.payload),
+        switchMap((payload) => {
+          return this.orderConnector
+            .get(payload.userId, payload.orderCode)
+            .pipe(
+              map((order: Order) => {
+                return new UserActions.LoadOrderDetailsSuccess(order);
+              }),
+              catchError((error) =>
+                of(
+                  new UserActions.LoadOrderDetailsFail(
+                    normalizeHttpError(error)
+                  )
+                )
               )
             );
+        })
+      )
+  );
 
-            return of(
-              new UserActions.CancelOrderFail(normalizeHttpError(error))
-            );
-          })
-        );
-    })
-  ));
+  cancelOrder$: Observable<UserActions.OrderDetailsAction> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.CANCEL_ORDER),
+      map((action: UserActions.CancelOrder) => action.payload),
+      switchMap((payload) => {
+        return this.orderConnector
+          .cancel(payload.userId, payload.orderCode, payload.cancelRequestInput)
+          .pipe(
+            map(() => new UserActions.CancelOrderSuccess()),
+            catchError((error) => {
+              error.error?.errors.forEach((err) =>
+                this.globalMessageService.add(
+                  err.message,
+                  GlobalMessageType.MSG_TYPE_ERROR
+                )
+              );
+
+              return of(
+                new UserActions.CancelOrderFail(normalizeHttpError(error))
+              );
+            })
+          );
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

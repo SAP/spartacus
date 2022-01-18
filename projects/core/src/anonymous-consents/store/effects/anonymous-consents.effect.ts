@@ -22,86 +22,47 @@ import { AnonymousConsentsActions } from '../actions/index';
 
 @Injectable()
 export class AnonymousConsentsEffects {
-  
   checkConsentVersions$: Observable<
     | AnonymousConsentsActions.LoadAnonymousConsentTemplates
     | AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail
     | Observable<never>
-  > = createEffect(() => this.actions$.pipe(
-    ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
-    withLatestFrom(this.anonymousConsentService.getConsents()),
-    concatMap(([_, currentConsents]) => {
-      return this.anonymousConsentTemplatesConnector
-        .loadAnonymousConsents()
-        .pipe(
-          map((newConsents) => {
-            if (!newConsents) {
-              if (isDevMode()) {
-                console.warn(
-                  'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
-                );
-              }
-              return false;
-            }
-
-            const currentConsentVersions = currentConsents.map(
-              (consent) => consent.templateVersion
-            );
-            const newConsentVersions = newConsents.map(
-              (consent) => consent.templateVersion
-            );
-
-            return this.detectUpdatedVersion(
-              currentConsentVersions,
-              newConsentVersions
-            );
-          }),
-          switchMap((updated) =>
-            updated
-              ? of(new AnonymousConsentsActions.LoadAnonymousConsentTemplates())
-              : EMPTY
-          ),
-          catchError((error) =>
-            of(
-              new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
-                normalizeHttpError(error)
-              )
-            )
-          )
-        );
-    })
-  ));
-
-  
-  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> = createEffect(() =>
+  > = createEffect(() =>
     this.actions$.pipe(
-      ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
-      withLatestFrom(this.anonymousConsentService.getTemplates()),
-      concatMap(([_, currentConsentTemplates]) =>
-        this.anonymousConsentTemplatesConnector
-          .loadAnonymousConsentTemplates()
+      ofType(AnonymousConsentsActions.ANONYMOUS_CONSENT_CHECK_UPDATED_VERSIONS),
+      withLatestFrom(this.anonymousConsentService.getConsents()),
+      concatMap(([_, currentConsents]) => {
+        return this.anonymousConsentTemplatesConnector
+          .loadAnonymousConsents()
           .pipe(
-            mergeMap((newConsentTemplates) => {
-              let updated = false;
-              if (
-                currentConsentTemplates &&
-                currentConsentTemplates.length !== 0
-              ) {
-                updated = this.anonymousConsentService.detectUpdatedTemplates(
-                  currentConsentTemplates,
-                  newConsentTemplates
-                );
+            map((newConsents) => {
+              if (!newConsents) {
+                if (isDevMode()) {
+                  console.warn(
+                    'No consents were loaded. Please check the Spartacus documentation as this could be a back-end configuration issue.'
+                  );
+                }
+                return false;
               }
 
-              return [
-                new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
-                  newConsentTemplates
-                ),
-                new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
-                  updated
-                ),
-              ];
+              const currentConsentVersions = currentConsents.map(
+                (consent) => consent.templateVersion
+              );
+              const newConsentVersions = newConsents.map(
+                (consent) => consent.templateVersion
+              );
+
+              return this.detectUpdatedVersion(
+                currentConsentVersions,
+                newConsentVersions
+              );
             }),
+            switchMap((updated) =>
+              updated
+                ? of(
+                    new AnonymousConsentsActions.LoadAnonymousConsentTemplates()
+                  )
+                : EMPTY
+            ),
             catchError((error) =>
               of(
                 new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
@@ -109,124 +70,170 @@ export class AnonymousConsentsEffects {
                 )
               )
             )
-          )
-      )
-    ));
+          );
+      })
+    )
+  );
 
-  // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
-  
-  transferAnonymousConsentsToUser$: Observable<
-    UserActions.TransferAnonymousConsent | Observable<never>
-  > = createEffect(() => this.actions$.pipe(
-    ofType<AuthActions.Login>(AuthActions.LOGIN),
-    filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
-    withLatestFrom(
+  loadAnonymousConsentTemplates$: Observable<AnonymousConsentsActions.AnonymousConsentsActions> =
+    createEffect(() =>
       this.actions$.pipe(
-        ofType<UserActions.RegisterUserSuccess>(
-          UserActions.REGISTER_USER_SUCCESS
+        ofType(AnonymousConsentsActions.LOAD_ANONYMOUS_CONSENT_TEMPLATES),
+        withLatestFrom(this.anonymousConsentService.getTemplates()),
+        concatMap(([_, currentConsentTemplates]) =>
+          this.anonymousConsentTemplatesConnector
+            .loadAnonymousConsentTemplates()
+            .pipe(
+              mergeMap((newConsentTemplates) => {
+                let updated = false;
+                if (
+                  currentConsentTemplates &&
+                  currentConsentTemplates.length !== 0
+                ) {
+                  updated = this.anonymousConsentService.detectUpdatedTemplates(
+                    currentConsentTemplates,
+                    newConsentTemplates
+                  );
+                }
+
+                return [
+                  new AnonymousConsentsActions.LoadAnonymousConsentTemplatesSuccess(
+                    newConsentTemplates
+                  ),
+                  new AnonymousConsentsActions.ToggleAnonymousConsentTemplatesUpdated(
+                    updated
+                  ),
+                ];
+              }),
+              catchError((error) =>
+                of(
+                  new AnonymousConsentsActions.LoadAnonymousConsentTemplatesFail(
+                    normalizeHttpError(error)
+                  )
+                )
+              )
+            )
         )
       )
-    ),
-    filter(([, registerAction]) => Boolean(registerAction)),
-    switchMap(() =>
-      this.anonymousConsentService.getConsents().pipe(
-        withLatestFrom(
-          this.userIdService.getUserId(),
-          this.anonymousConsentService.getTemplates(),
-          this.authService.isUserLoggedIn()
-        ),
-        filter(([, , , loggedIn]) => loggedIn),
-        concatMap(([consents, userId, templates, _loggedIn]) => {
-          const actions: UserActions.TransferAnonymousConsent[] = [];
-          for (const consent of consents) {
-            if (
-              this.anonymousConsentService.isConsentGiven(consent) &&
-              (!this.anonymousConsentsConfig.anonymousConsents
-                .requiredConsents ||
-                !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-                  consent.templateCode
-                ))
-            ) {
-              for (const template of templates) {
-                if (template.id === consent.templateCode) {
-                  actions.push(
-                    new UserActions.TransferAnonymousConsent({
-                      userId,
-                      consentTemplateId: template.id,
-                      consentTemplateVersion: template.version,
-                    })
-                  );
-                  break;
+    );
+
+  // TODO(#9416): This won't work with flow different than `Resource Owner Password Flow` which involves redirect (maybe in popup in will work)
+
+  transferAnonymousConsentsToUser$: Observable<
+    UserActions.TransferAnonymousConsent | Observable<never>
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType<AuthActions.Login>(AuthActions.LOGIN),
+      filter(() => Boolean(this.anonymousConsentsConfig.anonymousConsents)),
+      withLatestFrom(
+        this.actions$.pipe(
+          ofType<UserActions.RegisterUserSuccess>(
+            UserActions.REGISTER_USER_SUCCESS
+          )
+        )
+      ),
+      filter(([, registerAction]) => Boolean(registerAction)),
+      switchMap(() =>
+        this.anonymousConsentService.getConsents().pipe(
+          withLatestFrom(
+            this.userIdService.getUserId(),
+            this.anonymousConsentService.getTemplates(),
+            this.authService.isUserLoggedIn()
+          ),
+          filter(([, , , loggedIn]) => loggedIn),
+          concatMap(([consents, userId, templates, _loggedIn]) => {
+            const actions: UserActions.TransferAnonymousConsent[] = [];
+            for (const consent of consents) {
+              if (
+                this.anonymousConsentService.isConsentGiven(consent) &&
+                (!this.anonymousConsentsConfig.anonymousConsents
+                  .requiredConsents ||
+                  !this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                    consent.templateCode
+                  ))
+              ) {
+                for (const template of templates) {
+                  if (template.id === consent.templateCode) {
+                    actions.push(
+                      new UserActions.TransferAnonymousConsent({
+                        userId,
+                        consentTemplateId: template.id,
+                        consentTemplateVersion: template.version,
+                      })
+                    );
+                    break;
+                  }
                 }
               }
             }
-          }
-          if (actions.length > 0) {
-            return actions;
-          }
-          return EMPTY;
-        })
+            if (actions.length > 0) {
+              return actions;
+            }
+            return EMPTY;
+          })
+        )
       )
     )
-  ));
+  );
 
-  
   giveRequiredConsentsToUser$: Observable<
     UserActions.GiveUserConsent | Observable<never>
-  > = createEffect(() => this.actions$.pipe(
-    ofType<AuthActions.Login>(AuthActions.LOGIN),
-    filter(
-      (action) =>
-        Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
-        Boolean(
-          this.anonymousConsentsConfig.anonymousConsents.requiredConsents
-        ) &&
-        Boolean(action)
-    ),
-    concatMap(() =>
-      this.userConsentService.getConsentsResultSuccess().pipe(
-        withLatestFrom(
-          this.userIdService.getUserId(),
-          this.userConsentService.getConsents(),
-          this.authService.isUserLoggedIn()
-        ),
-        filter(([, , , loggedIn]) => loggedIn),
-        tap(([loaded, _userId, _templates, _loggedIn]) => {
-          if (!loaded) {
-            this.userConsentService.loadConsents();
-          }
-        }),
-        map(([_loaded, userId, templates, _loggedIn]) => {
-          return { userId, templates };
-        }),
-        concatMap(({ userId, templates }) => {
-          const actions: UserActions.GiveUserConsent[] = [];
-          for (const template of templates) {
-            if (
-              this.userConsentService.isConsentWithdrawn(
-                template.currentConsent
-              ) &&
-              this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
-                template.id
-              )
-            ) {
-              actions.push(
-                new UserActions.GiveUserConsent({
-                  userId,
-                  consentTemplateId: template.id,
-                  consentTemplateVersion: template.version,
-                })
-              );
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType<AuthActions.Login>(AuthActions.LOGIN),
+      filter(
+        (action) =>
+          Boolean(this.anonymousConsentsConfig.anonymousConsents) &&
+          Boolean(
+            this.anonymousConsentsConfig.anonymousConsents.requiredConsents
+          ) &&
+          Boolean(action)
+      ),
+      concatMap(() =>
+        this.userConsentService.getConsentsResultSuccess().pipe(
+          withLatestFrom(
+            this.userIdService.getUserId(),
+            this.userConsentService.getConsents(),
+            this.authService.isUserLoggedIn()
+          ),
+          filter(([, , , loggedIn]) => loggedIn),
+          tap(([loaded, _userId, _templates, _loggedIn]) => {
+            if (!loaded) {
+              this.userConsentService.loadConsents();
             }
-          }
-          if (actions.length > 0) {
-            return actions;
-          }
-          return EMPTY;
-        })
+          }),
+          map(([_loaded, userId, templates, _loggedIn]) => {
+            return { userId, templates };
+          }),
+          concatMap(({ userId, templates }) => {
+            const actions: UserActions.GiveUserConsent[] = [];
+            for (const template of templates) {
+              if (
+                this.userConsentService.isConsentWithdrawn(
+                  template.currentConsent
+                ) &&
+                this.anonymousConsentsConfig.anonymousConsents.requiredConsents.includes(
+                  template.id
+                )
+              ) {
+                actions.push(
+                  new UserActions.GiveUserConsent({
+                    userId,
+                    consentTemplateId: template.id,
+                    consentTemplateVersion: template.version,
+                  })
+                );
+              }
+            }
+            if (actions.length > 0) {
+              return actions;
+            }
+            return EMPTY;
+          })
+        )
       )
     )
-  ));
+  );
 
   constructor(
     private actions$: Actions,

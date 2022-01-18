@@ -12,33 +12,34 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class ConsignmentTrackingEffects {
-  
-  loadConsignmentTracking$: Observable<UserActions.ConsignmentTrackingAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
-      map((action: UserActions.LoadConsignmentTracking) => action.payload),
-      switchMap((payload) => {
-        return this.userOrderConnector
-          .getConsignmentTracking(
-            payload.orderCode,
-            payload.consignmentCode,
-            payload.userId
-          )
-          .pipe(
-            map(
-              (tracking: ConsignmentTracking) =>
-                new UserActions.LoadConsignmentTrackingSuccess(tracking)
-            ),
-            catchError((error) =>
-              of(
-                new UserActions.LoadConsignmentTrackingFail(
-                  normalizeHttpError(error)
+  loadConsignmentTracking$: Observable<UserActions.ConsignmentTrackingAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_CONSIGNMENT_TRACKING),
+        map((action: UserActions.LoadConsignmentTracking) => action.payload),
+        switchMap((payload) => {
+          return this.userOrderConnector
+            .getConsignmentTracking(
+              payload.orderCode,
+              payload.consignmentCode,
+              payload.userId
+            )
+            .pipe(
+              map(
+                (tracking: ConsignmentTracking) =>
+                  new UserActions.LoadConsignmentTrackingSuccess(tracking)
+              ),
+              catchError((error) =>
+                of(
+                  new UserActions.LoadConsignmentTrackingFail(
+                    normalizeHttpError(error)
+                  )
                 )
               )
-            )
-          );
-      })
-    ));
+            );
+        })
+      )
+    );
 
   constructor(
     private actions$: Actions,

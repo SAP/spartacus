@@ -10,25 +10,29 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class UserCostCenterEffects {
-  
-  loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_ACTIVE_COST_CENTERS),
-    map((action: UserActions.LoadActiveCostCenters) => action.payload),
-    switchMap((payload) =>
-      this.userCostCenterConnector.getActiveList(payload).pipe(
-        // TODO(#8875): Should we use here serialize utils?
-        map(
-          (data: EntitiesModel<CostCenter>) =>
-            new UserActions.LoadActiveCostCentersSuccess(data.values)
-        ),
-        catchError((error) =>
-          of(
-            new UserActions.LoadActiveCostCentersFail(normalizeHttpError(error))
+  loadActiveCostCenters$: Observable<UserActions.UserCostCenterAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_ACTIVE_COST_CENTERS),
+        map((action: UserActions.LoadActiveCostCenters) => action.payload),
+        switchMap((payload) =>
+          this.userCostCenterConnector.getActiveList(payload).pipe(
+            // TODO(#8875): Should we use here serialize utils?
+            map(
+              (data: EntitiesModel<CostCenter>) =>
+                new UserActions.LoadActiveCostCentersSuccess(data.values)
+            ),
+            catchError((error) =>
+              of(
+                new UserActions.LoadActiveCostCentersFail(
+                  normalizeHttpError(error)
+                )
+              )
+            )
           )
         )
       )
-    )
-  ));
+    );
 
   constructor(
     private actions$: Actions,

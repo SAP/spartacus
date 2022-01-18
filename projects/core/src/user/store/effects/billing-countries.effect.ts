@@ -9,22 +9,27 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class BillingCountriesEffect {
-  
-  loadBillingCountries$: Observable<UserActions.BillingCountriesAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_BILLING_COUNTRIES),
-    switchMap(() => {
-      return this.siteConnector.getCountries(CountryType.BILLING).pipe(
-        map(
-          (countries) => new UserActions.LoadBillingCountriesSuccess(countries)
-        ),
-        catchError((error) =>
-          of(
-            new UserActions.LoadBillingCountriesFail(normalizeHttpError(error))
-          )
-        )
-      );
-    })
-  ));
+  loadBillingCountries$: Observable<UserActions.BillingCountriesAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_BILLING_COUNTRIES),
+        switchMap(() => {
+          return this.siteConnector.getCountries(CountryType.BILLING).pipe(
+            map(
+              (countries) =>
+                new UserActions.LoadBillingCountriesSuccess(countries)
+            ),
+            catchError((error) =>
+              of(
+                new UserActions.LoadBillingCountriesFail(
+                  normalizeHttpError(error)
+                )
+              )
+            )
+          );
+        })
+      )
+    );
 
   constructor(
     private actions$: Actions,

@@ -11,35 +11,37 @@ import { REGIONS } from '../user-state';
 
 @Injectable()
 export class RegionsEffects {
-  
-  loadRegions$: Observable<UserActions.RegionsAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_REGIONS),
-    map((action: UserActions.LoadRegions) => {
-      return action.payload;
-    }),
-    switchMap((countryCode: string) => {
-      return this.siteConnector.getRegions(countryCode).pipe(
-        map(
-          (regions) =>
-            new UserActions.LoadRegionsSuccess({
-              entities: regions,
-              country: countryCode,
-            })
-        ),
-        catchError((error) =>
-          of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  ));
+  loadRegions$: Observable<UserActions.RegionsAction> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.LOAD_REGIONS),
+      map((action: UserActions.LoadRegions) => {
+        return action.payload;
+      }),
+      switchMap((countryCode: string) => {
+        return this.siteConnector.getRegions(countryCode).pipe(
+          map(
+            (regions) =>
+              new UserActions.LoadRegionsSuccess({
+                entities: regions,
+                country: countryCode,
+              })
+          ),
+          catchError((error) =>
+            of(new UserActions.LoadRegionsFail(normalizeHttpError(error)))
+          )
+        );
+      })
+    )
+  );
 
-  
-  resetRegions$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_REGIONS),
-    map(() => {
-      return new StateUtils.LoaderResetAction(REGIONS);
-    })
-  ));
+  resetRegions$: Observable<Action> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserActions.CLEAR_USER_MISCS_DATA, UserActions.CLEAR_REGIONS),
+      map(() => {
+        return new StateUtils.LoaderResetAction(REGIONS);
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

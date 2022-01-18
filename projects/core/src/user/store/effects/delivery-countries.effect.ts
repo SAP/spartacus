@@ -9,22 +9,27 @@ import { UserActions } from '../actions/index';
 
 @Injectable()
 export class DeliveryCountriesEffects {
-  
-  loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> = createEffect(() => this.actions$.pipe(
-    ofType(UserActions.LOAD_DELIVERY_COUNTRIES),
-    switchMap(() => {
-      return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
-        map(
-          (countries) => new UserActions.LoadDeliveryCountriesSuccess(countries)
-        ),
-        catchError((error) =>
-          of(
-            new UserActions.LoadDeliveryCountriesFail(normalizeHttpError(error))
-          )
-        )
-      );
-    })
-  ));
+  loadDeliveryCountries$: Observable<UserActions.DeliveryCountriesAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_DELIVERY_COUNTRIES),
+        switchMap(() => {
+          return this.siteConnector.getCountries(CountryType.SHIPPING).pipe(
+            map(
+              (countries) =>
+                new UserActions.LoadDeliveryCountriesSuccess(countries)
+            ),
+            catchError((error) =>
+              of(
+                new UserActions.LoadDeliveryCountriesFail(
+                  normalizeHttpError(error)
+                )
+              )
+            )
+          );
+        })
+      )
+    );
 
   constructor(
     private actions$: Actions,

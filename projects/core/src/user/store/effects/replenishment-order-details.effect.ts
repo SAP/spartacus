@@ -16,68 +16,70 @@ import { UserActions } from '../actions/index';
  */
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
-  
-  loadReplenishmentOrderDetails$: Observable<UserActions.ReplenishmentOrderDetailsAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
-      map(
-        (action: UserActions.LoadReplenishmentOrderDetails) => action.payload
-      ),
-      switchMap((payload) => {
-        return this.replenishmentOrderConnector
-          .load(payload.userId, payload.replenishmentOrderCode)
-          .pipe(
-            map((replenishmentOrder: ReplenishmentOrder) => {
-              return new UserActions.LoadReplenishmentOrderDetailsSuccess(
-                replenishmentOrder
-              );
-            }),
-            catchError((error) =>
-              of(
-                new UserActions.LoadReplenishmentOrderDetailsFail(
-                  normalizeHttpError(error)
+  loadReplenishmentOrderDetails$: Observable<UserActions.ReplenishmentOrderDetailsAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
+        map(
+          (action: UserActions.LoadReplenishmentOrderDetails) => action.payload
+        ),
+        switchMap((payload) => {
+          return this.replenishmentOrderConnector
+            .load(payload.userId, payload.replenishmentOrderCode)
+            .pipe(
+              map((replenishmentOrder: ReplenishmentOrder) => {
+                return new UserActions.LoadReplenishmentOrderDetailsSuccess(
+                  replenishmentOrder
+                );
+              }),
+              catchError((error) =>
+                of(
+                  new UserActions.LoadReplenishmentOrderDetailsFail(
+                    normalizeHttpError(error)
+                  )
                 )
               )
+            );
+        })
+      )
+    );
+
+  cancelReplenishmentOrder$: Observable<UserActions.ReplenishmentOrderDetailsAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
+        map((action: UserActions.CancelReplenishmentOrder) => action.payload),
+        switchMap((payload) => {
+          return this.replenishmentOrderConnector
+            .cancelReplenishmentOrder(
+              payload.userId,
+              payload.replenishmentOrderCode
             )
-          );
-      })
-    ));
+            .pipe(
+              map(
+                (replenishmentOrder: ReplenishmentOrder) =>
+                  new UserActions.CancelReplenishmentOrderSuccess(
+                    replenishmentOrder
+                  )
+              ),
+              catchError((error) => {
+                error?.error?.errors.forEach((err) =>
+                  this.globalMessageService.add(
+                    err.message,
+                    GlobalMessageType.MSG_TYPE_ERROR
+                  )
+                );
 
-  
-  cancelReplenishmentOrder$: Observable<UserActions.ReplenishmentOrderDetailsAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
-      map((action: UserActions.CancelReplenishmentOrder) => action.payload),
-      switchMap((payload) => {
-        return this.replenishmentOrderConnector
-          .cancelReplenishmentOrder(
-            payload.userId,
-            payload.replenishmentOrderCode
-          )
-          .pipe(
-            map(
-              (replenishmentOrder: ReplenishmentOrder) =>
-                new UserActions.CancelReplenishmentOrderSuccess(
-                  replenishmentOrder
-                )
-            ),
-            catchError((error) => {
-              error?.error?.errors.forEach((err) =>
-                this.globalMessageService.add(
-                  err.message,
-                  GlobalMessageType.MSG_TYPE_ERROR
-                )
-              );
-
-              return of(
-                new UserActions.CancelReplenishmentOrderFail(
-                  normalizeHttpError(error)
-                )
-              );
-            })
-          );
-      })
-    ));
+                return of(
+                  new UserActions.CancelReplenishmentOrderFail(
+                    normalizeHttpError(error)
+                  )
+                );
+              })
+            );
+        })
+      )
+    );
 
   constructor(
     private actions$: Actions,

@@ -14,9 +14,7 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 import { Translatable } from '../../../i18n/translatable';
-import {
-  ObjectComparisonUtils
-} from '../../../util/object-comparison-utils';
+import { ObjectComparisonUtils } from '../../../util/object-comparison-utils';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import { GlobalMessage } from '../../models/global-message.model';
 import { GlobalMessageActions } from '../actions/index';
@@ -25,69 +23,78 @@ import { GlobalMessageSelectors } from '../selectors/index';
 
 @Injectable()
 export class GlobalMessageEffect {
-
-  removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => this.actions$.pipe(
-    ofType(GlobalMessageActions.ADD_MESSAGE),
-    pluck('payload'),
-    switchMap((message: GlobalMessage) =>
-      of(message.text).pipe(
-        withLatestFrom(
-          this.store.pipe(
-            select(
-              GlobalMessageSelectors.getGlobalMessageEntitiesByType(
-                message.type
-              )
-            )
-          )
-        ),
-        filter(
-          ([text, messages]: [Translatable, Translatable[]]) =>
-            ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) > 1
-        ),
-        map(
-          ([text, messages]: [Translatable, Translatable[]]) =>
-            new GlobalMessageActions.RemoveMessage({
-              type: message.type,
-              index: ObjectComparisonUtils.indexOfFirstOccurrence(text, messages),
-            })
-        )
-      )
-    )
-  ));
-
-
-  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> = createEffect(() => isPlatformBrowser(
-    this.platformId
-  ) // we don't want to run this logic when doing SSR
-    ? this.actions$.pipe(
+  removeDuplicated$: Observable<GlobalMessageActions.RemoveMessage> =
+    createEffect(() =>
+      this.actions$.pipe(
         ofType(GlobalMessageActions.ADD_MESSAGE),
         pluck('payload'),
-        concatMap((message: GlobalMessage) => {
-          const config = this.config.globalMessages[message.type];
-          return this.store.pipe(
-            select(
-              GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+        switchMap((message: GlobalMessage) =>
+          of(message.text).pipe(
+            withLatestFrom(
+              this.store.pipe(
+                select(
+                  GlobalMessageSelectors.getGlobalMessageEntitiesByType(
+                    message.type
+                  )
+                )
+              )
             ),
-            take(1),
             filter(
-              (count: number) =>
-                ((config && config.timeout !== undefined) || message.timeout) &&
-                count &&
-                count > 0
+              ([text, messages]: [Translatable, Translatable[]]) =>
+                ObjectComparisonUtils.countOfDeepEqualObjects(text, messages) >
+                1
             ),
-            delay(message.timeout || config.timeout),
-            switchMap(() =>
-              of(
+            map(
+              ([text, messages]: [Translatable, Translatable[]]) =>
                 new GlobalMessageActions.RemoveMessage({
                   type: message.type,
-                  index: 0,
+                  index: ObjectComparisonUtils.indexOfFirstOccurrence(
+                    text,
+                    messages
+                  ),
                 })
-              )
             )
-          );
-        })
+          )
+        )
       )
-    : EMPTY);
+    );
+
+  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> =
+    createEffect(() =>
+      isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+        ? this.actions$.pipe(
+            ofType(GlobalMessageActions.ADD_MESSAGE),
+            pluck('payload'),
+            concatMap((message: GlobalMessage) => {
+              const config = this.config.globalMessages[message.type];
+              return this.store.pipe(
+                select(
+                  GlobalMessageSelectors.getGlobalMessageCountByType(
+                    message.type
+                  )
+                ),
+                take(1),
+                filter(
+                  (count: number) =>
+                    ((config && config.timeout !== undefined) ||
+                      message.timeout) &&
+                    count &&
+                    count > 0
+                ),
+                delay(message.timeout || config.timeout),
+                switchMap(() =>
+                  of(
+                    new GlobalMessageActions.RemoveMessage({
+                      type: message.type,
+                      index: 0,
+                    })
+                  )
+                )
+              );
+            })
+          )
+        : EMPTY
+    );
 
   constructor(
     private actions$: Actions,

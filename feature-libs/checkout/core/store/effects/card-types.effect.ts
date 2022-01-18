@@ -8,20 +8,23 @@ import { CheckoutActions } from '../actions/index';
 
 @Injectable()
 export class CardTypesEffects {
-  
   loadCardTypes$: Observable<
     CheckoutActions.LoadCardTypesSuccess | CheckoutActions.LoadCardTypesFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(CheckoutActions.LOAD_CARD_TYPES),
-    switchMap(() => {
-      return this.checkoutPaymentConnector.getCardTypes().pipe(
-        map((cardTypes) => new CheckoutActions.LoadCardTypesSuccess(cardTypes)),
-        catchError((error) =>
-          of(new CheckoutActions.LoadCardTypesFail(normalizeHttpError(error)))
-        )
-      );
-    })
-  ));
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CheckoutActions.LOAD_CARD_TYPES),
+      switchMap(() => {
+        return this.checkoutPaymentConnector.getCardTypes().pipe(
+          map(
+            (cardTypes) => new CheckoutActions.LoadCardTypesSuccess(cardTypes)
+          ),
+          catchError((error) =>
+            of(new CheckoutActions.LoadCardTypesFail(normalizeHttpError(error)))
+          )
+        );
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

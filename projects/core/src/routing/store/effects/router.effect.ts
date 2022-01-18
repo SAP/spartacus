@@ -10,22 +10,25 @@ import { CmsRoute } from '../../models/cms-route';
 
 @Injectable()
 export class RouterEffects {
-  
-  clearCmsRoutes$: Observable<Action> = createEffect(() => this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      AuthActions.LOGOUT,
-      AuthActions.LOGIN
-    ),
-    tap(() => {
-      const filteredConfig = this.router.config.filter(
-        (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
-      );
-      if (filteredConfig.length !== this.router.config.length) {
-        this.router.resetConfig(filteredConfig);
-      }
-    })
-  ), { dispatch: false });
+  clearCmsRoutes$: Observable<Action> = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(
+          SiteContextActions.LANGUAGE_CHANGE,
+          AuthActions.LOGOUT,
+          AuthActions.LOGIN
+        ),
+        tap(() => {
+          const filteredConfig = this.router.config.filter(
+            (route: CmsRoute) => !(route.data && route.data.cxCmsRouteContext)
+          );
+          if (filteredConfig.length !== this.router.config.length) {
+            this.router.resetConfig(filteredConfig);
+          }
+        })
+      ),
+    { dispatch: false }
+  );
 
   constructor(private actions$: Actions, private router: Router) {}
 }

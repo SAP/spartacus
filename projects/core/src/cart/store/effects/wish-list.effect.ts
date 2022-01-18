@@ -21,131 +21,134 @@ import { MultiCartSelectors } from '../selectors';
 
 @Injectable()
 export class WishListEffects {
-  
   createWishList$: Observable<
     CartActions.CreateWishListSuccess | CartActions.CreateWishListFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(CartActions.CREATE_WISH_LIST),
-    map((action: CartActions.CreateWishList) => action.payload),
-    switchMap((payload) => {
-      return this.cartConnector.create(payload.userId).pipe(
-        switchMap((cart) => {
-          return this.saveCartConnector
-            .saveCart(
-              payload.userId,
-              cart.code,
-              payload.name,
-              payload.description
-            )
-            .pipe(
-              switchMap((saveCartResult) => [
-                new CartActions.CreateWishListSuccess({
-                  cart: saveCartResult.savedCartData,
-                  userId: payload.userId,
-                }),
-              ]),
-              catchError((error) =>
-                from([
-                  new CartActions.CreateWishListFail({
-                    cartId: cart.code,
-                    error: normalizeHttpError(error),
-                  }),
-                ])
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.CREATE_WISH_LIST),
+      map((action: CartActions.CreateWishList) => action.payload),
+      switchMap((payload) => {
+        return this.cartConnector.create(payload.userId).pipe(
+          switchMap((cart) => {
+            return this.saveCartConnector
+              .saveCart(
+                payload.userId,
+                cart.code,
+                payload.name,
+                payload.description
               )
-            );
-        })
-      );
-    })
-  ));
+              .pipe(
+                switchMap((saveCartResult) => [
+                  new CartActions.CreateWishListSuccess({
+                    cart: saveCartResult.savedCartData,
+                    userId: payload.userId,
+                  }),
+                ]),
+                catchError((error) =>
+                  from([
+                    new CartActions.CreateWishListFail({
+                      cartId: cart.code,
+                      error: normalizeHttpError(error),
+                    }),
+                  ])
+                )
+              );
+          })
+        );
+      })
+    )
+  );
 
-  
   loadWishList$: Observable<
     | CartActions.LoadWishListSuccess
     | CartActions.RemoveCart
     | CartActions.CreateWishList
     | CartActions.LoadWishListFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(CartActions.LOAD_WISH_LIST),
-    map((action: CartActions.LoadWishList) => action.payload),
-    concatMap((payload) => {
-      const { userId, customerId, tempCartId } = payload;
-      return this.cartConnector.loadAll(userId).pipe(
-        switchMap((carts) => {
-          if (carts) {
-            const wishList = carts.find(
-              (cart) => cart.name === getWishlistName(customerId)
-            );
-            if (Boolean(wishList)) {
-              return [
-                new CartActions.LoadWishListSuccess({
-                  cart: wishList,
-                  userId,
-                  tempCartId,
-                  customerId,
-                  cartId: getCartIdByUserId(wishList, userId),
-                }),
-                new CartActions.RemoveCart({ cartId: tempCartId }),
-              ];
-            } else {
-              return [
-                new CartActions.CreateWishList({
-                  userId,
-                  name: getWishlistName(customerId),
-                }),
-              ];
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(CartActions.LOAD_WISH_LIST),
+      map((action: CartActions.LoadWishList) => action.payload),
+      concatMap((payload) => {
+        const { userId, customerId, tempCartId } = payload;
+        return this.cartConnector.loadAll(userId).pipe(
+          switchMap((carts) => {
+            if (carts) {
+              const wishList = carts.find(
+                (cart) => cart.name === getWishlistName(customerId)
+              );
+              if (Boolean(wishList)) {
+                return [
+                  new CartActions.LoadWishListSuccess({
+                    cart: wishList,
+                    userId,
+                    tempCartId,
+                    customerId,
+                    cartId: getCartIdByUserId(wishList, userId),
+                  }),
+                  new CartActions.RemoveCart({ cartId: tempCartId }),
+                ];
+              } else {
+                return [
+                  new CartActions.CreateWishList({
+                    userId,
+                    name: getWishlistName(customerId),
+                  }),
+                ];
+              }
             }
-          }
-        }),
-        catchError((error) =>
-          from([
-            new CartActions.LoadWishListFail({
-              userId,
-              cartId: tempCartId,
-              customerId,
-              error: normalizeHttpError(error),
-            }),
-          ])
-        )
-      );
-    })
-  ));
-
-  
-  resetWishList$: Observable<
-    CartActions.LoadWishListSuccess | CartActions.LoadWishListFail
-  > = createEffect(() => this.actions$.pipe(
-    ofType(
-      SiteContextActions.LANGUAGE_CHANGE,
-      SiteContextActions.CURRENCY_CHANGE
-    ),
-    withLatestFrom(
-      this.userIdService.getUserId(),
-      this.store.pipe(select(MultiCartSelectors.getWishListId))
-    ),
-    switchMap(([, userId, wishListId]) => {
-      if (Boolean(wishListId)) {
-        return this.cartConnector.load(userId, wishListId).pipe(
-          switchMap((wishList) => [
-            new CartActions.LoadWishListSuccess({
-              cart: wishList,
-              userId,
-              cartId: getCartIdByUserId(wishList, userId),
-            }),
-          ]),
+          }),
           catchError((error) =>
             from([
               new CartActions.LoadWishListFail({
                 userId,
-                cartId: wishListId,
+                cartId: tempCartId,
+                customerId,
                 error: normalizeHttpError(error),
               }),
             ])
           )
         );
-      }
-      return EMPTY;
-    })
-  ));
+      })
+    )
+  );
+
+  resetWishList$: Observable<
+    CartActions.LoadWishListSuccess | CartActions.LoadWishListFail
+  > = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        SiteContextActions.LANGUAGE_CHANGE,
+        SiteContextActions.CURRENCY_CHANGE
+      ),
+      withLatestFrom(
+        this.userIdService.getUserId(),
+        this.store.pipe(select(MultiCartSelectors.getWishListId))
+      ),
+      switchMap(([, userId, wishListId]) => {
+        if (Boolean(wishListId)) {
+          return this.cartConnector.load(userId, wishListId).pipe(
+            switchMap((wishList) => [
+              new CartActions.LoadWishListSuccess({
+                cart: wishList,
+                userId,
+                cartId: getCartIdByUserId(wishList, userId),
+              }),
+            ]),
+            catchError((error) =>
+              from([
+                new CartActions.LoadWishListFail({
+                  userId,
+                  cartId: wishListId,
+                  error: normalizeHttpError(error),
+                }),
+              ])
+            )
+          );
+        }
+        return EMPTY;
+      })
+    )
+  );
 
   constructor(
     private actions$: Actions,

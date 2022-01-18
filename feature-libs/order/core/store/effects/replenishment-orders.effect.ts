@@ -8,35 +8,38 @@ import { OrderActions } from '../actions/index';
 
 @Injectable()
 export class ReplenishmentOrdersEffect {
-  
-  loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> = createEffect(() =>
-    this.actions$.pipe(
-      ofType(OrderActions.LOAD_USER_REPLENISHMENT_ORDERS),
-      map((action: OrderActions.LoadUserReplenishmentOrders) => action.payload),
-      switchMap((payload) => {
-        return this.replenishmentOrderConnector
-          .loadHistory(
-            payload.userId,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
-          .pipe(
-            map((orders: ReplenishmentOrderList) => {
-              return new OrderActions.LoadUserReplenishmentOrdersSuccess(
-                orders
-              );
-            }),
-            catchError((error) =>
-              of(
-                new OrderActions.LoadUserReplenishmentOrdersFail(
-                  normalizeHttpError(error)
+  loadUserReplenishmentOrders$: Observable<OrderActions.UserReplenishmentOrdersAction> =
+    createEffect(() =>
+      this.actions$.pipe(
+        ofType(OrderActions.LOAD_USER_REPLENISHMENT_ORDERS),
+        map(
+          (action: OrderActions.LoadUserReplenishmentOrders) => action.payload
+        ),
+        switchMap((payload) => {
+          return this.replenishmentOrderConnector
+            .loadHistory(
+              payload.userId,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
+            .pipe(
+              map((orders: ReplenishmentOrderList) => {
+                return new OrderActions.LoadUserReplenishmentOrdersSuccess(
+                  orders
+                );
+              }),
+              catchError((error) =>
+                of(
+                  new OrderActions.LoadUserReplenishmentOrdersFail(
+                    normalizeHttpError(error)
+                  )
                 )
               )
-            )
-          );
-      })
-    ));
+            );
+        })
+      )
+    );
 
   constructor(
     private actions$: Actions,

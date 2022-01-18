@@ -9,21 +9,22 @@ import { AsmActions } from '../actions/index';
 
 @Injectable()
 export class CustomerEffects {
-  
-  customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() => this.actions$.pipe(
-    ofType(AsmActions.CUSTOMER_SEARCH),
-    map((action: AsmActions.CustomerSearch) => action.payload),
-    switchMap((options) =>
-      this.asmConnector.customerSearch(options).pipe(
-        map((customerSearchResults: CustomerSearchPage) => {
-          return new AsmActions.CustomerSearchSuccess(customerSearchResults);
-        }),
-        catchError((error) =>
-          of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
+  customerSearch$: Observable<AsmActions.CustomerAction> = createEffect(() =>
+    this.actions$.pipe(
+      ofType(AsmActions.CUSTOMER_SEARCH),
+      map((action: AsmActions.CustomerSearch) => action.payload),
+      switchMap((options) =>
+        this.asmConnector.customerSearch(options).pipe(
+          map((customerSearchResults: CustomerSearchPage) => {
+            return new AsmActions.CustomerSearchSuccess(customerSearchResults);
+          }),
+          catchError((error) =>
+            of(new AsmActions.CustomerSearchFail(normalizeHttpError(error)))
+          )
         )
       )
     )
-  ));
+  );
 
   constructor(private actions$: Actions, private asmConnector: AsmConnector) {}
 }
