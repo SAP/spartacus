@@ -1,11 +1,4 @@
-import {
-  AbstractType,
-  Component,
-  DebugElement,
-  InjectionToken,
-  Input,
-  Type,
-} from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -17,9 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsAddToCartComponent,
-  CxEvent,
   EventService,
-  FacadeFactoryService,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
@@ -116,20 +107,6 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-const mockEventStream$ = new BehaviorSubject<CxEvent>({});
-
-class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
-  isFacadeImplProvided<T>(
-    _token: Type<T> | InjectionToken<T> | AbstractType<T>
-  ): Observable<boolean> {
-    return of(true);
-  }
-
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
-  }
-}
-
 class MockEventService implements Partial<EventService> {
   dispatch<T extends object>(_event: T): void {}
 }
@@ -168,7 +145,6 @@ describe('AddToCartComponent', () => {
           provide: ProductListItemContext,
           useValue: undefined,
         },
-        { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
         { provide: EventService, useClass: MockEventService },
       ],
     });
