@@ -284,32 +284,6 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         );
       });
 
-      it("should contain option elements with 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'option',
-          undefined,
-          0,
-          'aria-selected',
-          'true',
-          component.attribute.values[0].valueDisplay
-        );
-      });
-
-      it("should contain option elements with 'aria-selected' attribute that is set to 'false' to notify the screen reader that a value is not selected", () => {
-        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-          expect,
-          htmlElem,
-          'option',
-          undefined,
-          2,
-          'aria-selected',
-          'false',
-          component.attribute.values[2].valueDisplay
-        );
-      });
-
       it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
         CommonConfiguratorTestUtilsService.expectElementContainsA11y(
           expect,
