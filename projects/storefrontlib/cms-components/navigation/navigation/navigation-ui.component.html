@@ -40,7 +40,7 @@
           {{ node.title }}
         </cx-generic-link>
         <button
-          [attr.tabindex]="0"
+          [attr.tabindex]="depth < 1 ? 0 : -1"
           [attr.aria-haspopup]="true"
           [attr.aria-expanded]="false"
           [attr.aria-label]="node.title"
