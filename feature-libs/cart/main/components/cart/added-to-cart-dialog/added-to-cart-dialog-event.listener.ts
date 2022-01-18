@@ -1,8 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import {
-  ActiveCartFacade,
-  CartUiEventAddToCart,
-} from '@spartacus/cart/main/root';
+import { CartUiEventAddToCart } from '@spartacus/cart/main/root';
 import { EventService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
@@ -15,7 +12,6 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   protected subscription = new Subscription();
 
   constructor(
-    protected activeCartFacade: ActiveCartFacade,
     protected eventService: EventService,
     protected modalService: ModalService
   ) {
@@ -36,15 +32,11 @@ export class AddedToCartDialogEventListener implements OnDestroy {
       size: 'lg',
     });
     const modalInstance = modalRef.componentInstance;
-    // Display last entry for new product code. This always corresponds to
-    // our new item, independently of whether merging occured or not
-    modalInstance.entry$ = this.activeCartFacade.getLastEntry(
-      event.productCode
+    modalInstance.init(
+      event.productCode,
+      event.quantity,
+      event.numberOfEntriesBeforeAdd
     );
-    modalInstance.cart$ = this.activeCartFacade.getActive();
-    modalInstance.loaded$ = this.activeCartFacade.isStable();
-    modalInstance.quantity = event.quantity;
-    modalInstance.numberOfEntriesBeforeAdd = event.numberOfEntriesBeforeAdd;
   }
 
   ngOnDestroy(): void {

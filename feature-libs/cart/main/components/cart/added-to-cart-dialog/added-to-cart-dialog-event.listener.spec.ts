@@ -1,12 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-import {
-  ActiveCartFacade,
-  CartUiEventAddToCart,
-} from '@spartacus/cart/main/root';
+import { CartUiEventAddToCart } from '@spartacus/cart/main/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { Cart, OrderEntry } from '../../../root/models/cart.model';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
 
 const mockEventStream$ = new BehaviorSubject<CxEvent>({});
@@ -17,24 +13,10 @@ class MockEventService implements Partial<EventService> {
   }
 }
 
-class MockActiveCartFacade implements Partial<ActiveCartFacade> {
-  getLastEntry(_productCode: string): Observable<OrderEntry | undefined> {
-    return of({});
-  }
-  getActive(): Observable<Cart> {
-    return of({});
-  }
-  isStable(): Observable<boolean> {
-    return of(true);
-  }
-  getEntry(_productCode: string): Observable<OrderEntry | undefined> {
-    return of({});
-  }
-}
-
 const mockEvent = new CartUiEventAddToCart();
 mockEvent.productCode = 'test';
 mockEvent.quantity = 3;
+mockEvent.numberOfEntriesBeforeAdd = 1;
 
 const mockInstance = {
   entry$: of({}),
@@ -42,10 +24,14 @@ const mockInstance = {
   loaded$: of({}),
   addedEntryWasMerged$: of({}),
   quantity: 0,
+  init: (
+    _productCode: string,
+    _quantity: number,
+    _numberOfEntriesBeforeAdd: number
+  ) => {},
 };
 
-describe('AddToCartDialogEventListener', () => {
-  let activeCartFacade: ActiveCartFacade;
+fdescribe('AddToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
   let modalService: ModalService;
 
@@ -58,10 +44,6 @@ describe('AddToCartDialogEventListener', () => {
           useClass: MockEventService,
         },
         {
-          provide: ActiveCartFacade,
-          useClass: MockActiveCartFacade,
-        },
-        {
           provide: ModalService,
           useValue: { open: () => ({ componentInstance: mockInstance }) },
         },
@@ -69,12 +51,11 @@ describe('AddToCartDialogEventListener', () => {
     });
 
     listener = TestBed.inject(AddedToCartDialogEventListener);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
     modalService = TestBed.inject(ModalService);
   });
 
   describe('onAddToCart', () => {
-    it('Should test something', () => {
+    it('Should open modal on event', () => {
       spyOn(listener as any, 'openModal').and.stub();
       mockEventStream$.next(mockEvent);
       expect(listener['openModal']).toHaveBeenCalledWith(mockEvent);
@@ -84,13 +65,14 @@ describe('AddToCartDialogEventListener', () => {
   describe('openModal', () => {
     it('Should open the add to cart dialog', () => {
       spyOn(modalService, 'open').and.callThrough();
-      spyOn(activeCartFacade, 'getLastEntry').and.callThrough();
-      spyOn(activeCartFacade, 'isStable').and.callThrough();
-
+      spyOn(mockInstance, 'init').and.stub();
       listener['openModal'](mockEvent);
       expect(modalService.open).toHaveBeenCalled();
-      expect(activeCartFacade.getLastEntry).toHaveBeenCalled();
-      expect(activeCartFacade.isStable).toHaveBeenCalled();
+      expect(mockInstance.init).toHaveBeenCalledWith(
+        mockEvent.productCode,
+        mockEvent.quantity,
+        mockEvent.numberOfEntriesBeforeAdd
+      );
     });
   });
 });
