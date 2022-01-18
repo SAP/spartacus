@@ -10,6 +10,9 @@
             {{ 'quickOrderCartForm.productCodeLabel' | cxTranslate }}
           </label>
           <input
+            [attr.aria-label]="
+              'quickOrderCartForm.productCodeComment' | cxTranslate
+            "
             aria-required="true"
             class="form-control input-product-code"
             formControlName="productCode"
@@ -25,6 +28,9 @@
             {{ 'quickOrderCartForm.quantityLabel' | cxTranslate }}
           </label>
           <input
+            [attr.aria-label]="
+              'quickOrderCartForm.quantityComment' | cxTranslate
+            "
             aria-required="true"
             class="form-control input-quantity"
             formControlName="quantity"
@@ -32,6 +38,9 @@
           />
         </span>
         <button
+          [attr.aria-label]="
+            'quickOrderCartForm.addToCartComment' | cxTranslate
+          "
           [class.disabled]="cartIsLoading$ | async"
           [disabled]="cartIsLoading$ | async"
           class="btn btn-block btn-action apply-quick-order-button"
