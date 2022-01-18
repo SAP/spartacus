@@ -40,14 +40,12 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-7. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
-   4.  Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
-8. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-9. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
+6. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+7. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
    1. revert the variable names from *facade to *service _in old checkout only_
-10. remove old checkout
-11. Remove `checkout-git-check.sh`
-12. remove `todo.md` and 
+8.  remove old checkout
+9.  Remove `checkout-git-check.sh`
+10. remove `todo.md` and 
 
 ## Second phase
 
@@ -104,4 +102,6 @@
    2. dev(s) - Brian and Nik at least, and Kris would be good to review the design
    3. Bill
    4. Miguel for a11y
-2. search for `TODO:#deprecation-checkout`
+2. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
+   1.  Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
+3. search for `TODO:#deprecation-checkout`
