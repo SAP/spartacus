@@ -1,23 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
-import { ProgressButtonModule } from '@spartacus/storefront';
+import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
+import { ProgressButtonModule } from '../../../shared/components/progress-button/progress-button.module';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    I18nModule,
-    ProgressButtonModule,
-    RouterModule,
-    UrlModule,
-  ],
+  imports: [CommonModule, ProgressButtonModule, RouterModule],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
