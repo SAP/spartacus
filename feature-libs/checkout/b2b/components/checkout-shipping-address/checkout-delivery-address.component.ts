@@ -11,7 +11,7 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import {
-  CheckoutShippingAddressComponent,
+  CheckoutDeliveryAddressComponent,
   CheckoutStepService,
 } from '@spartacus/checkout/base/components';
 import {
@@ -39,7 +39,7 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class B2BCheckoutDeliveryAddressComponent
-  extends CheckoutShippingAddressComponent
+  extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   isAccountPayment = false;

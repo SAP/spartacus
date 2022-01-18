@@ -46,8 +46,7 @@
 8.  remove old checkout
 9.  Remove `checkout-git-check.sh`
 10. remove `todo.md` and 
-11. rename `checkout-shipping-address.component` (both base and b2b) to `checkout-delivery-address.component`.
-12. make sure in new checkout for checkout-delivery-mode template works similarly to the one in develop (look and feel) when cart-lib has updates and pulls from develop. https://github.com/SAP/spartacus/blob/develop/feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html --> specifically removing spinner from the button area.
+11. make sure in new checkout for checkout-delivery-mode template works similarly to the one in develop (look and feel) when cart-lib has updates and pulls from develop. https://github.com/SAP/spartacus/blob/develop/feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html --> specifically removing spinner from the button area.
 
 ## Second phase
 
@@ -105,5 +104,6 @@
    3. Bill
    4. Miguel for a11y
 2. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
-   1.  Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
+   1. Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
+   2. if we decide to do it, we should align the selector names with the component names - i.e. `cx-shipping-address` should be renamed to contain the checkout prefix, _and_ to instead of `shipping` we should use `delivery`.
 3. search for `TODO:#deprecation-checkout`
