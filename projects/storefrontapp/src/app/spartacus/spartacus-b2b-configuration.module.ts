@@ -10,6 +10,11 @@ import {
   mediaConfig,
   PWAModuleConfig,
 } from '@spartacus/storefront';
+import { environment } from '../../environments/environment';
+
+const baseSite = environment.epdVisualization
+  ? ['powertools-epdvisualization-spa', 'powertools-spa']
+  : ['powertools-spa'];
 
 @NgModule({
   providers: [
@@ -23,7 +28,7 @@ import {
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
-        baseSite: ['powertools-spa'],
+        baseSite: baseSite,
       },
     }),
     provideConfig(<PWAModuleConfig>{

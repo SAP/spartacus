@@ -7,6 +7,7 @@
   "scripts": {
     "cy:open": "cypress open",
     "cy:open:b2b": "cypress open --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
+    "cy:open:epd-visualization": "cypress open --env BASE_SITE=powertools-epdvisualization-spa",
     "cy:run": "cypress run",
     "cy:run:b2b": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:run:ci": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2011,b2c,all,parallel\" --parallel --group B2C --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/!(vendor|b2b|ssr)/**/*.e2e-spec.ts\"",
@@ -16,7 +17,8 @@
     "cy:run:product-configurator-vc": "cypress run --spec \"cypress/integration/**/*-configurator*.*e2e-spec.ts\"",
     "cy:run:cpq": "cypress run  --config-file cypress.cpq.json --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\"",
     "cy:run:ci:cdc": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2005,cdc\" --group CDC --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/cdc/**/*.e2e-spec.ts\"",
-    "cy:run:ci:digital-payments": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,digital-payments\" --group DIGITAL-PAYMENTS --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/digital-payments/*.e2e-spec.ts\""
+    "cy:run:ci:digital-payments": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,digital-payments\" --group DIGITAL-PAYMENTS --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/digital-payments/*.e2e-spec.ts\"",
+    "cy:run:ci:epd-visualization": "cypress run --config-file $CYPRESS_CONFIG --record --key $CYPRESS_KEY --tag \"2105,epd-visualization\" --group EPD_VISUALIZATION --ci-build-id $TRAVIS_BUILD_ID --spec \"cypress/integration/vendor/epd-visualization/**/*.e2e-spec.ts\""
   },
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^5.9.1",
