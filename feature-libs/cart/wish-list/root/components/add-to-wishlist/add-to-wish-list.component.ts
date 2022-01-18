@@ -23,7 +23,7 @@ export class AddToWishListComponent {
   userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
     tap((isLogin) => {
       if (isLogin) {
-        this.wishListEntries$ = this.getWishListEntriesFromFacade();
+        this.wishListEntries$ = this.getWishListEntries();
         this.loading$ = this.wishListFacade.getWishListLoading();
       }
     })
@@ -62,7 +62,7 @@ export class AddToWishListComponent {
     );
   }
 
-  protected getWishListEntriesFromFacade(): Observable<OrderEntry[]> {
+  protected getWishListEntries(): Observable<OrderEntry[]> {
     return this.wishListFacade.getWishList().pipe(
       filter((wishlist) => Boolean(wishlist)),
       map((wishList) => wishList.entries ?? [])

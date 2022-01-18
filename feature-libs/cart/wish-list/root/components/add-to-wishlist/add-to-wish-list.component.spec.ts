@@ -209,9 +209,9 @@ describe('AddToWishListComponent', () => {
     });
   });
 
-  describe('getWishListEntriesFromFacade', () => {
+  describe('getWishListEntries', () => {
     it('should return the wishlist entries from the facade', (done) => {
-      component['getWishListEntriesFromFacade']().subscribe((wishList) => {
+      component['getWishListEntries']().subscribe((wishList) => {
         expect(wishList).toEqual(mockWishList.entries);
         done();
       });
@@ -220,7 +220,7 @@ describe('AddToWishListComponent', () => {
       spyOn(wishListFacade, 'getWishList').and.returnValue(
         of({ ...mockWishList, entries: undefined })
       );
-      component['getWishListEntriesFromFacade']().subscribe((wishList) => {
+      component['getWishListEntries']().subscribe((wishList) => {
         expect(wishList).toEqual([]);
         done();
       });
