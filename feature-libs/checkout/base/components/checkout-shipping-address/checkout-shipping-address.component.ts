@@ -1,7 +1,10 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   getLastValueSync,
@@ -9,8 +12,8 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -28,13 +31,21 @@ export class CheckoutShippingAddressComponent implements OnInit {
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
+  protected busy$ = new BehaviorSubject<boolean>(false);
+
+  isUpdated$: Observable<boolean> = combineLatest([
+    this.busy$,
+    this.userAddressService.getAddressesLoading(),
+  ]).pipe(map(([busy, loading]) => busy || loading));
+
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
     protected activatedRoute: ActivatedRoute,
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -43,10 +54,6 @@ export class CheckoutShippingAddressComponent implements OnInit {
 
   get backBtnText(): string {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
-  }
-
-  get isLoading$(): Observable<boolean> {
-    return this.userAddressService.getAddressesLoading();
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
@@ -93,7 +100,10 @@ export class CheckoutShippingAddressComponent implements OnInit {
     return this.userAddressService.getAddresses();
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
+  selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
     if (
       !this.doneAutoSelect &&
       addresses &&
@@ -112,6 +122,14 @@ export class CheckoutShippingAddressComponent implements OnInit {
     if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
+  }
+
+  protected onSuccess(): void {
+    this.busy$.next(false);
+  }
+
+  protected onError(): void {
+    this.busy$.next(false);
   }
 
   getCardContent(
@@ -142,17 +160,43 @@ export class CheckoutShippingAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address);
+    this.busy$.next(true);
+    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
+      complete: () => {
+        this.onSuccess();
+      },
+      error: () => {
+        this.onError();
+      },
+    });
   }
 
   addAddress(address: Address | undefined): void {
-    if (address) {
-      this.checkoutDeliveryAddressFacade.createAndSetAddress(address);
-      this.shouldRedirect = true;
-    } else {
+    if (!address) {
       this.shouldRedirect = false;
       this.next();
+      return;
     }
+
+    this.busy$.next(true);
+
+    this.checkoutDeliveryAddressFacade
+      .createAndSetAddress(address)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+        )
+      )
+      .subscribe({
+        complete: () => {
+          this.onSuccess();
+          this.shouldRedirect = true;
+        },
+        error: () => {
+          this.onError();
+          this.shouldRedirect = false;
+        },
+      });
   }
 
   showNewAddressForm(): void {

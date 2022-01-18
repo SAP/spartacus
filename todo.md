@@ -46,6 +46,8 @@
 8.  remove old checkout
 9.  Remove `checkout-git-check.sh`
 10. remove `todo.md` and 
+11. rename `checkout-shipping-address.component` (both base and b2b) to `checkout-delivery-address.component`.
+12. make sure in new checkout for checkout-delivery-mode template works similarly to the one in develop (look and feel) when cart-lib has updates and pulls from develop. https://github.com/SAP/spartacus/blob/develop/feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html --> specifically removing spinner from the button area.
 
 ## Second phase
 

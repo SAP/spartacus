@@ -32,7 +32,7 @@ export class CheckoutDeliveryAddressService
       (payload) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) => {
-            return this.checkoutDeliveryConnector
+            return this.checkoutDeliveryAddressConnector
               .createAddress(userId, cartId, payload)
               .pipe(
                 tap(() => {
@@ -66,8 +66,7 @@ export class CheckoutDeliveryAddressService
                     },
                     CheckoutDeliveryAddressCreatedEvent
                   )
-                ),
-                switchMap((address) => this.setDeliveryAddress(address))
+                )
               );
           })
         ),
@@ -85,7 +84,7 @@ export class CheckoutDeliveryAddressService
             if (!addressId) {
               throw new Error('Checkout conditions not met');
             }
-            return this.checkoutDeliveryConnector
+            return this.checkoutDeliveryAddressConnector
               .setAddress(userId, cartId, addressId)
               .pipe(
                 tap(() => {
@@ -111,7 +110,7 @@ export class CheckoutDeliveryAddressService
       () =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
-            this.checkoutDeliveryConnector
+            this.checkoutDeliveryAddressConnector
               .clearCheckoutDeliveryAddress(userId, cartId)
               .pipe(
                 tap(() => {
@@ -138,7 +137,7 @@ export class CheckoutDeliveryAddressService
     protected userIdService: UserIdService,
     protected eventService: EventService,
     protected commandService: CommandService,
-    protected checkoutDeliveryConnector: CheckoutDeliveryAddressConnector,
+    protected checkoutDeliveryAddressConnector: CheckoutDeliveryAddressConnector,
     protected checkoutQueryFacade: CheckoutQueryFacade
   ) {}
 
@@ -152,11 +151,11 @@ export class CheckoutDeliveryAddressService
       this.activeCartFacade.isGuestCart(),
     ]).pipe(
       take(1),
-      map(([userId, cartId, isGustCart]) => {
+      map(([userId, cartId, isGuestCart]) => {
         if (
           !userId ||
           !cartId ||
-          (userId === OCC_USER_ID_ANONYMOUS && !isGustCart)
+          (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
           throw new Error('Checkout conditions not met');
         }

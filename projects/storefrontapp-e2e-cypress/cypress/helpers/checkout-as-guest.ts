@@ -1,6 +1,6 @@
-import { SampleUser, user, getSampleUser } from '../sample-data/checkout-flow';
-import * as checkout from './checkout-flow';
+import { getSampleUser, SampleUser, user } from '../sample-data/checkout-flow';
 import { assertAddressForm } from './address-book';
+import * as checkout from './checkout-flow';
 import { validateUpdateProfileForm } from './update-profile';
 
 export let guestUser;
@@ -18,6 +18,12 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
     .findByText(/Guest Checkout/i)
     .click();
   cy.wait(`@${guestLoginPage}`).its('response.statusCode').should('eq', 200);
+
+  const shippingPage = checkout.waitForPage(
+    '/checkout/shipping-address',
+    'getShippingPage'
+  );
+
   cy.get('cx-checkout-login').within(() => {
     cy.get('[formcontrolname="email"]').clear().type(sampleUser.email);
     cy.get('[formcontrolname="emailConfirmation"]')
@@ -25,17 +31,11 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
       .type(sampleUser.email);
     cy.get('button[type=submit]').click();
   });
-  const shippingPage = checkout.waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
-  );
   cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function testCheckoutAsGuest() {
   it('should perform checkout as guest and create a user account', () => {
-    //let user = getSampleUser();
-
     checkout.goToCheapProductDetailsPage();
     checkout.addCheapProductToCartAndProceedToCheckout();
 
