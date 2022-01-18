@@ -1,4 +1,4 @@
-## TODO:
+## TODO: before merge
 
 1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
 2. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
@@ -42,13 +42,14 @@
       };
 7. When we were renaming components / folders to have the checkout prefix, we intentionally left out the components' prefix untouched.
    4.  Rename the checkout components' selectors to have the checkout prefix? (revisit as I think it's fine)
-8. query debounce - `feature/query-debounce`
-9. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-11. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
+8. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+9. check changes to the old checkout (we might remove as mentioned before and Kris is for it too)
    1. revert the variable names from *facade to *service _in old checkout only_
-12. check the bundle size of checkout (maybe using webpack analyzer)
+10. remove old checkout
+11. Remove `checkout-git-check.sh`
+12. remove `todo.md` and 
 
-## Near the end
+## Second phase
 
 1. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
 2. Schematics and deprecations
@@ -92,10 +93,14 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-9. Remove `checkout-git-check.sh`
-10. remove `todo.md` and 
+9. check the bundle size of checkout (maybe using webpack analyzer)
+10. query debounce - `feature/query-debounce`
 
 ### Future
 
-1. coordinate with UX and A11Y teams about the new checkout and announce a work on the components
+1. coordinate with UX and A11Y teams about the new checkout and announce a work on the components:
+   1. UX dev - should create a draft wireframes
+   2. dev(s) - Brian and Nik at least, and Kris would be good to review the design
+   3. Bill
+   4. Miguel for a11y
 2. search for `TODO:#deprecation-checkout`
