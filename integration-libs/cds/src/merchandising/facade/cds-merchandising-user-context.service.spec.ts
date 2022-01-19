@@ -20,6 +20,7 @@ import {
   ConsentChangedPushEvent,
   ProfileTagLifecycleService,
 } from '@spartacus/cds';
+import { environment } from 'projects/storefrontapp/src/environments/environment';
 
 const consentReference = '75b75543-950f-4e53-a36c-ab8737a0974a';
 const emptyPageSearchResults: ProductSearchPage = {};
@@ -129,6 +130,38 @@ describe('CdsMerchandisingUserContextService', () => {
     );
     spyOn(profileTagLifecycleService, 'consentChanged').and.returnValue(
       of(consentGrantedEvent)
+    );
+    let merchandisingUserContext: MerchandisingUserContext;
+    cdsMerchandisingUserContextService
+      .getUserContext()
+      .subscribe((userContext) => (merchandisingUserContext = userContext))
+      .unsubscribe();
+    expect(merchandisingUserContext).toEqual(expectedMerchandisingUserContext);
+  });
+
+  it('should return a valid MerchandisingUserContext object with a valid consent reference, when B2B environment is enabled and if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
+    const expectedMerchandisingUserContext = {
+      consentReference: `${consentReference}`,
+    };
+    environment.b2b = true;
+
+    spyOn(routingService, 'getPageContext').and.returnValue(
+      of(new PageContext('homepage', PageType.CONTENT_PAGE))
+    );
+    spyOn(productSearchService, 'getResults').and.returnValue(
+      of(emptyPageSearchResults)
+    );
+    spyOn(profileTagEventService, 'getConsentReference').and.returnValue(
+      of(consentReference)
+    );
+    spyOn(profileTagLifecycleService, 'consentChanged').and.callFake(() => {
+      if (!!environment.b2b) {
+        return of(consentGrantedEvent)
+      }
+      else {
+        return  of();
+      }
+    }
     );
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
