@@ -1,7 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { provideMockStore } from '@ngrx/store/testing';
+import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/main/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   ReplenishmentOrderScheduledEvent,
@@ -54,10 +53,9 @@ class MockCheckoutFacade implements Partial<CheckoutFacade> {
   setOrder = createSpy();
 }
 
-describe(`CheckoutScheduledReplenishmentService`, () => {
+fdescribe(`CheckoutScheduledReplenishmentService`, () => {
   let service: CheckoutScheduledReplenishmentService;
   let connector: CheckoutReplenishmentOrderConnector;
-  let store: MockStore;
   let checkoutFacade: CheckoutFacade;
   let eventService: EventService;
 
@@ -82,7 +80,6 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
 
     service = TestBed.inject(CheckoutScheduledReplenishmentService);
     connector = TestBed.inject(CheckoutReplenishmentOrderConnector);
-    store = TestBed.inject(MockStore);
     checkoutFacade = TestBed.inject(CheckoutFacade);
     eventService = TestBed.inject(EventService);
   });
@@ -122,17 +119,15 @@ describe(`CheckoutScheduledReplenishmentService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch CartActions.RemoveCart`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
+    it(`should dispatch RemoveCartEvent`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
         termsChecked
       );
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.RemoveCart({ cartId: mockCartId })
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        RemoveCartEvent
       );
     });
 
