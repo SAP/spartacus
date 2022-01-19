@@ -61,6 +61,7 @@
    2. adapters / connectors - import paths; some classes have been renamed
    3. components - import paths; some classes have been renamed
    4. modules? import paths; some classes have been renamed
+   5. Check the existing schematics written before the checkout was merged!
 4. Installation schematics
    1. Update the current installation schematics for the new lib
    2. create a prompt for each of the checkout entry points? (base, b2b, repl)
