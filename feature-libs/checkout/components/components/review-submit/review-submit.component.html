@@ -182,9 +182,9 @@
       }}:
       {{ cart.totalPrice?.formattedValue }}
     </div>
-    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+    <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
-    </h4>
+    </div>
     <div
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"
