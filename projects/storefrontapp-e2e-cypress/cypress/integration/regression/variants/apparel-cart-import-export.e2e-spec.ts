@@ -4,7 +4,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 export const APPAREL_BASESITE = 'apparel-uk-spa';
 export const APPAREL_CURRENCY = 'GBP';
 
-context('Apparel - Cart Import/Export', () => {
+context.skip('Apparel - Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());

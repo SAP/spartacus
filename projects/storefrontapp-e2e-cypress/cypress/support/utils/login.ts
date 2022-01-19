@@ -4,9 +4,7 @@ export const config = {
   revokeTokenUrl: `${Cypress.env('API_URL')}/authorizationserver/oauth/revoke`,
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
-  )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=${Cypress.env(
-    'BASE_CURRENCY'
-  )}`,
+  )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=USD`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET'),
