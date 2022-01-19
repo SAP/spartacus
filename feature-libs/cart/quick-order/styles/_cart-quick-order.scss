@@ -1,23 +1,29 @@
 cx-cart-quick-order-form {
   padding-inline-end: 0;
   padding-inline-start: 3rem;
+  padding-bottom: 3rem;
+  padding-top: 0;
 
   @include media-breakpoint-down(md) {
     max-width: 50%;
+    padding-inline-end: 3rem;
+    padding-inline-start: 0;
     padding-bottom: 2rem;
-    padding-inline-start: 3rem;
-    padding-top: 0;
   }
 
   @include media-breakpoint-down(sm) {
     max-width: 100%;
-    padding-inline-start: 0;
-    padding-top: 2rem;
+    padding-inline-end: 0;
+    padding-top: 1rem;
   }
 
   .cx-cart-quick-order-form-title {
     @include type('5');
     margin: 1.125rem 0 0.5rem;
+  }
+
+  .form-group {
+    margin-bottom: 0;
   }
 
   .cx-cart-quick-order-form-container {

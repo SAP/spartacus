@@ -3,9 +3,11 @@
 %cx-cart-coupon {
   padding-inline-end: 0;
   padding-inline-start: 3rem;
+  padding-top: 0;
+  padding-bottom: 1rem;
 
-  @include media-breakpoint-down(md) {
-    padding-inline-start: 3rem;
+  @include media-breakpoint-down(sm) {
+    padding-inline-start: 0;
   }
 
   .form-group .col-md-4 {
@@ -81,6 +83,16 @@
     background: var(--cx-color-background);
     &:hover {
       text-decoration: underline;
+    }
+  }
+
+  cx-applied-coupons {
+    .row {
+      width: calc(100% + 15px);
+
+      @include media-breakpoint-down(sm) {
+        width: auto;
+      }
     }
   }
 }
