@@ -1,5 +1,4 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   ActiveCartFacade,
   CardType,
@@ -13,10 +12,10 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   EventService,
+  LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
-  UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -73,7 +72,6 @@ class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
 describe(`CheckoutPaymentService`, () => {
   let service: CheckoutPaymentService;
   let connector: CheckoutPaymentConnector;
-  let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
   let userIdService: UserIdService;
@@ -82,7 +80,6 @@ describe(`CheckoutPaymentService`, () => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutPaymentService,
-        provideMockStore(),
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
@@ -96,7 +93,6 @@ describe(`CheckoutPaymentService`, () => {
 
     service = TestBed.inject(CheckoutPaymentService);
     connector = TestBed.inject(CheckoutPaymentConnector);
-    store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
     userIdService = TestBed.inject(UserIdService);
@@ -215,27 +211,26 @@ describe(`CheckoutPaymentService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch UserActions.LoadUserPaymentMethods`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
+    it(`should dispatch LoadUserPaymentMethodsEvent`, () => {
       service.createPaymentDetails(mockPaymentInfo);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserPaymentMethods(mockUserId)
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserPaymentMethodsEvent
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should NOT dispatch UserActions.LoadUserPaymentMethods when the use is anonymous`, () => {
+    it(`should NOT dispatch LoadUserPaymentMethodsEvent when the user is anonymous`, () => {
       userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
-      spyOn(store, 'dispatch').and.stub();
 
       service.createPaymentDetails(mockPaymentInfo);
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(eventService.dispatch).not.toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserPaymentMethodsEvent
+      );
     });
   });
 
