@@ -20,6 +20,6 @@ export const AUTH_REDIRECT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
     class: AUTH_REDIRECT_SERVICE,
     importPath: SPARTACUS_CORE,
     deprecatedNode: REPORT_NOT_AUTH_GUARD,
-    comment: `// ${TODO_SPARTACUS} Method '${AUTH_REDIRECT_SERVICE}.${REPORT_NOT_AUTH_GUARD}' was removed.`,
+    comment: `// ${TODO_SPARTACUS} Method '${AUTH_REDIRECT_SERVICE}.${REPORT_NOT_AUTH_GUARD}' was removed. No replacement needed. Every visited URL is now remembered automatically as redirect URL on `NavigationEnd` event.`,
   },
 ];
