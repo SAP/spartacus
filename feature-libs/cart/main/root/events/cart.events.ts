@@ -107,3 +107,11 @@ export class LoadCartEvent extends CartEvent {
    */
   static readonly type = 'LoadCartEvent';
 }
+
+/** Removes the cart. */
+export class RemoveCartEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'RemoveCartEvent';
+}

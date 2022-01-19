@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/main/root';
 import {
   CheckoutFacade,
   CheckoutOrderPlacedEvent,
@@ -31,12 +29,15 @@ export class CheckoutService implements CheckoutFacade {
             this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
               tap((order) => {
                 this.order$.next(order);
-                /**
-                 * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-                 * Remove once it is switched from ngrx to c&q.
-                 * We should dispatch an event, which will load the cart$ query.
-                 */
-                this.store.dispatch(new CartActions.RemoveCart({ cartId }));
+                this.eventService.dispatch(
+                  {
+                    userId,
+                    cartId,
+                    // TODO:#checkout - check this
+                    cartCode: cartId,
+                  },
+                  RemoveCartEvent
+                );
                 this.eventService.dispatch(
                   {
                     userId,
@@ -55,8 +56,6 @@ export class CheckoutService implements CheckoutFacade {
     );
 
   constructor(
-    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<unknown>,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
