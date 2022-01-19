@@ -35,7 +35,6 @@ do
             exit 0
             ;;
         '--traffic' | '-t' )
-            # do something here
             SPLIT=true
             shift
             ;;
@@ -54,13 +53,12 @@ set -- "${POSITIONAL[@]}"
 echo '-----'
 echo "Building Spartacus libraries"
 
-#if traffic, sed change ip address of .env-cmdrc, cypress.ci.json and cypress.ci.b2b, etc. 
-
+#if traffic flag, sed change ip address of .env-cmdrc, cypress.ci.json and cypress.ci.b2b, etc. 
 if [[ "${SPLIT}" = true ]]; then
-    sed 's/20.83.184.244/20.83.178.185/' ./../.env-cmdrc || true
-    sed 's/20.83.184.244/20.83.178.185/' ./../projects/storefrontapp-e2e-cypress/cypress.json || true
-    sed 's/20.83.184.244/20.83.178.185/' ./../projects/storefrontapp-e2e-cypress/cypress.ci.json || true
-    sed 's/20.83.184.244/20.83.178.185/' ./../projects/storefrontapp-e2e-cypress/cypress.ci.b2b.json || true
+    sed 's/20.83.184.244/20.83.178.185/' .env-cmdrc || true
+    sed 's/20.83.184.244/20.83.178.185/' projects/storefrontapp-e2e-cypress/cypress.json || true
+    sed 's/20.83.184.244/20.83.178.185/' projects/storefrontapp-e2e-cypress/cypress.ci.json || true
+    sed 's/20.83.184.244/20.83.178.185/' projects/storefrontapp-e2e-cypress/cypress.ci.b2b.json || true
 fi
 
 yarn install
