@@ -4,11 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import {
-  DeliveryMode,
-  I18nTestingModule,
-  FeaturesConfigModule,
-} from '@spartacus/core';
+import { DeliveryMode, I18nTestingModule } from '@spartacus/core';
 import { Observable, of, BehaviorSubject } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
@@ -95,7 +91,7 @@ describe('DeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         declarations: [DeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
