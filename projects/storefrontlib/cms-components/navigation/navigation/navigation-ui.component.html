@@ -26,6 +26,7 @@
       [target]="node.target"
       [style]="node.styleAttributes"
       [class]="node.styleClasses"
+      (click)="closeIfClickedTheSameLink(node)"
     >
       {{ node.title }}
     </cx-generic-link>
@@ -36,6 +37,7 @@
           *ngIf="node.url"
           [url]="node.url"
           [target]="node.target"
+          (click)="closeIfClickedTheSameLink(node)"
         >
           {{ node.title }}
         </cx-generic-link>

@@ -104,6 +104,20 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     );
   }
 
+  closeIfClickedTheSameLink(navNode: NavigationNode) {
+    if (
+      typeof navNode.url === 'string' &&
+      window.location.href.includes(navNode.url)
+    ) {
+      this.elemRef.nativeElement
+        .querySelectorAll('li.is-open:not(.back)')
+        .forEach((el) => {
+          this.renderer.removeClass(el, 'is-open');
+        });
+      this.hamburgerMenuService.toggle();
+    }
+  }
+
   /**
    * @deprecated since 5.0, use reinitializeMenu method instead
    */
@@ -138,7 +152,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     this.ariaCollapseNodes();
     const node = <HTMLElement>event.currentTarget;
     const parentNode = <HTMLElement>node.parentNode;
-    console.log('parentNode', parentNode, node);
     if (this.openNodes.includes(parentNode)) {
       if (event.type === 'keydown') {
         this.back();
