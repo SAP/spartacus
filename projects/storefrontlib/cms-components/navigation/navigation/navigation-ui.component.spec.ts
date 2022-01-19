@@ -271,7 +271,7 @@ describe('Navigation UI Component', () => {
       expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
     });
 
-    fit('should close hamburger and every LI element when click on link to current route', () => {
+    it('should close hamburger and every LI element when click on link to current route', () => {
       spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
       spyOn(hamburgerMenuService, 'toggle').and.stub();
       fixture.detectChanges();
@@ -286,9 +286,7 @@ describe('Navigation UI Component', () => {
         .query(By.css('button[aria-label="Sub child 1"]'))
         .nativeElement.click();
 
-      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toEqual(
-        1
-      );
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
 
       element
         .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
@@ -299,9 +297,7 @@ describe('Navigation UI Component', () => {
         title: 'Sub sub child 1a',
         url: '/sub-sub-child-1a',
       });
-      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toEqual(
-        0
-      );
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(0);
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
   });
