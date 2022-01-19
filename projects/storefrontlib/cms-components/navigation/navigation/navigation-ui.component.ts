@@ -12,6 +12,7 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { WindowRef } from '@spartacus/core';
 import { debounceTime, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
 import { NavigationNode } from './navigation-node.model';
@@ -67,7 +68,8 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     private elemRef: ElementRef,
-    protected hamburgerMenuService: HamburgerMenuService
+    protected hamburgerMenuService: HamburgerMenuService,
+    protected winRef: WindowRef
   ) {
     this.subscriptions.add(
       this.router.events
@@ -107,7 +109,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   closeIfClickedTheSameLink(navNode: NavigationNode) {
     if (
       typeof navNode.url === 'string' &&
-      window.location.href.includes(navNode.url)
+      this.winRef.nativeWindow.location.href.includes(navNode.url)
     ) {
       this.elemRef.nativeElement
         .querySelectorAll('li.is-open:not(.back)')

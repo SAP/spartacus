@@ -2,7 +2,7 @@ import { Component, DebugElement, ElementRef, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, WindowRef } from '@spartacus/core';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
@@ -18,7 +18,7 @@ class MockIconComponent {
 
 @Component({
   selector: 'cx-generic-link',
-  template: '',
+  template: '{{title}}',
 })
 class MockGenericLinkComponent {
   @Input() url: string | any[];
@@ -30,6 +30,12 @@ class MockHamburgerMenuService {
   isExpanded = of(true);
   toggle(_forceCollapse?: boolean): void {}
 }
+
+const mockWinRef: WindowRef = {
+  nativeWindow: {
+    location: { href: '/sub-sub-child-1a' },
+  },
+} as WindowRef;
 
 const childLength = 9;
 
@@ -47,20 +53,20 @@ const mockNode: NavigationNode = {
               title: 'Sub child 1',
               children: [
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1a',
+                  url: '/sub-sub-child-1a',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1b',
+                  url: '/sub-sub-child-1b',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1c',
+                  url: '/sub-sub-child-1c',
                 },
                 {
-                  title: 'Sub sub child 1',
-                  url: '/sub-sub-child-1',
+                  title: 'Sub sub child 1d',
+                  url: '/sub-sub-child-1d',
                 },
               ],
             },
@@ -82,6 +88,7 @@ const mockNode: NavigationNode = {
 describe('Navigation UI Component', () => {
   let fixture: ComponentFixture<NavigationUIComponent>;
   let navigationComponent: NavigationUIComponent;
+  let hamburgerMenuService: HamburgerMenuService;
   let element: DebugElement;
 
   beforeEach(() => {
@@ -97,11 +104,16 @@ describe('Navigation UI Component', () => {
           provide: HamburgerMenuService,
           useClass: MockHamburgerMenuService,
         },
+        {
+          provide: WindowRef,
+          useValue: mockWinRef,
+        },
       ],
     }).compileComponents();
   });
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationUIComponent);
+    hamburgerMenuService = TestBed.inject(HamburgerMenuService);
     navigationComponent = fixture.debugElement.componentInstance;
     element = fixture.debugElement;
 
@@ -257,6 +269,40 @@ describe('Navigation UI Component', () => {
       spyOn(navigationComponent, 'reinitializeMenu').and.stub();
       fixture.detectChanges();
       expect(navigationComponent.reinitializeMenu).not.toHaveBeenCalled();
+    });
+
+    fit('should close hamburger and every LI element when click on link to current route', () => {
+      spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
+      spyOn(hamburgerMenuService, 'toggle').and.stub();
+      fixture.detectChanges();
+
+      element
+        .query(By.css('nav > ul > li:nth-child(2) > button'))
+        .nativeElement.click();
+      element
+        .query(By.css('button[aria-label="Child 1"]'))
+        .nativeElement.click();
+      element
+        .query(By.css('button[aria-label="Sub child 1"]'))
+        .nativeElement.click();
+
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toEqual(
+        1
+      );
+
+      element
+        .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
+        .nativeElement.click();
+      expect(
+        navigationComponent.closeIfClickedTheSameLink
+      ).toHaveBeenCalledWith({
+        title: 'Sub sub child 1a',
+        url: '/sub-sub-child-1a',
+      });
+      expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toEqual(
+        0
+      );
+      expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
   });
 });
