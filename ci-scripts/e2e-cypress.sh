@@ -51,7 +51,8 @@ done
 set -- "${POSITIONAL[@]}"
 
 
-#if traffic flag, sed change ip address of .env-cmdrc, cypress.ci.json and cypress.ci.b2b, etc. 
+# if traffic flag, sed change ip address of .env-cmdrc, cypress.ci.json and cypress.ci.b2b, etc. 
+# Pending verification with b2b
 if [[ "${SPLIT}" = true ]]; then
     echo "Swtiching to different load balancer"
     
