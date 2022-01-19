@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component } from '@angular/core';
 import {
   Product,
@@ -5,10 +6,14 @@ import {
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { ConfiguratorRouterExtractorService } from '@spartacus/product-configurator/common';
+import {
+  CommonConfigurator,
+  ConfiguratorRouter,
+  ConfiguratorRouterExtractorService,
+} from '@spartacus/product-configurator/common';
 import { BREAKPOINT, BreakpointService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { filter, switchMap, take } from 'rxjs/operators';
+import { map, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { Configurator } from '../../core/model/configurator.model';
 
@@ -17,7 +22,28 @@ import { Configurator } from '../../core/model/configurator.model';
   templateUrl: './configurator-exit-button.component.html',
 })
 export class ConfiguratorExitButtonComponent {
-  product$: Observable<Product>;
+  container$: Observable<{
+    routerData: ConfiguratorRouter.Data;
+    configuration: Configurator.Configuration;
+    product: Product;
+  }> = this.configRouterExtractorService.extractRouterData().pipe(
+    switchMap((routerData) =>
+      this.configuratorCommonsService
+        .getConfiguration(routerData.owner)
+        .pipe(map((configuration) => ({ routerData, configuration })))
+        .pipe(
+          switchMap((cont) =>
+            this.productService.get(cont.configuration.productCode).pipe(
+              map((product) => ({
+                routerData: cont.routerData,
+                configuration: cont.configuration,
+                product,
+              }))
+            )
+          )
+        )
+    )
+  );
 
   constructor(
     protected productService: ProductService,
@@ -25,29 +51,30 @@ export class ConfiguratorExitButtonComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected configuratorCommonsService: ConfiguratorCommonsService,
     protected breakpointService: BreakpointService,
-    protected windowRef: WindowRef
+    protected windowRef: WindowRef,
+    protected location: Location
   ) {}
+
+  protected navigateToCart(): void {
+    this.routingService.go('cart');
+  }
   /**
    * Navigates to the product detail page of the product that is being configured.
    */
   exitConfiguration() {
-    this.configRouterExtractorService
-      .extractRouterData()
-      .pipe(
-        switchMap((routerData) =>
-          this.configuratorCommonsService.getConfiguration(routerData.owner)
-        ),
-        switchMap((configuration: Configurator.Configuration) =>
-          this.productService.get(
-            configuration.productCode ? configuration.productCode : ''
-          )
-        ),
-        filter((product) => product !== undefined),
-        take(1)
-      )
-      .subscribe((product) =>
-        this.routingService.go({ cxRoute: 'product', params: product })
-      );
+    this.container$.pipe(take(1)).subscribe((container) => {
+      if (
+        container.routerData.owner.type ===
+        CommonConfigurator.OwnerType.CART_ENTRY
+      ) {
+        this.navigateToCart();
+      } else {
+        this.routingService.go({
+          cxRoute: 'product',
+          params: container.product,
+        });
+      }
+    });
   }
 
   /**
@@ -56,7 +83,7 @@ export class ConfiguratorExitButtonComponent {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isDesktop(): Observable<boolean> {
-    return this.breakpointService?.isUp(BREAKPOINT.md);
+    return this.breakpointService.isUp(BREAKPOINT.md);
   }
 
   /**
@@ -65,6 +92,6 @@ export class ConfiguratorExitButtonComponent {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is smaller than`BREAKPOINT.sm` returns `true`, otherwise `false`.
    */
   isMobile(): Observable<boolean> {
-    return this.breakpointService?.isDown(BREAKPOINT.sm);
+    return this.breakpointService.isDown(BREAKPOINT.sm);
   }
 }

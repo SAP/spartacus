@@ -17,13 +17,19 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'errorHandlers',
     'carousel',
   ],
-  address: ['addressForm', 'addressBook', 'addressCard', 'addressSuggestion'],
+  address: [
+    'addressForm',
+    'addressBook',
+    'addressCard',
+    'addressSuggestion',
+    'addressMessages',
+  ],
   payment: [
     'paymentForm',
     'paymentMethods',
     'paymentCard',
     'paymentTypes',
-    'messages',
+    'paymentMessages',
   ],
   myAccount: [
     'orderDetails',

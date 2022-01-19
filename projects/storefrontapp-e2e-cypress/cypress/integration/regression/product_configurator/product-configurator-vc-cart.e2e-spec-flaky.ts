@@ -1,3 +1,4 @@
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as cart from '../../../helpers/cart';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
@@ -49,6 +50,7 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the cart', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -60,6 +62,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
+      clickAllowAllFromBanner();
       configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -70,6 +73,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
+      clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(

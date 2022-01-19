@@ -23,6 +23,7 @@ import {
 } from '@spartacus/core';
 import {
   FocusConfig,
+  FormUtils,
   ICON_TYPE,
   LaunchDialogService,
 } from '@spartacus/storefront';
@@ -140,29 +141,34 @@ export class SavedCartFormDialogComponent implements OnInit, OnDestroy {
   }
 
   saveOrEditCart(cartId: string): void {
-    const name = this.form.get('name')?.value;
-    // TODO(#12660): Remove default value once backend is updated
-    const description = this.form.get('description')?.value || '-';
+    if (this.form.invalid) {
+      this.form.markAllAsTouched();
+      FormUtils.deepUpdateValueAndValidity(this.form);
+    } else {
+      const name = this.form.get('name')?.value;
+      // TODO(#12660): Remove default value once backend is updated
+      const description = this.form.get('description')?.value || '-';
 
-    switch (this.layoutOption) {
-      case SavedCartFormType.SAVE: {
-        this.savedCartService.saveCart({
-          cartId,
-          saveCartName: name,
-          saveCartDescription: description,
-        });
+      switch (this.layoutOption) {
+        case SavedCartFormType.SAVE: {
+          this.savedCartService.saveCart({
+            cartId,
+            saveCartName: name,
+            saveCartDescription: description,
+          });
 
-        break;
-      }
+          break;
+        }
 
-      case SavedCartFormType.EDIT: {
-        this.savedCartService.editSavedCart({
-          cartId,
-          saveCartName: name,
-          saveCartDescription: description,
-        });
+        case SavedCartFormType.EDIT: {
+          this.savedCartService.editSavedCart({
+            cartId,
+            saveCartName: name,
+            saveCartDescription: description,
+          });
 
-        break;
+          break;
+        }
       }
     }
   }
