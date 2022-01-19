@@ -1,7 +1,9 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  DeliveryMode,
+  LoadCartEvent,
+} from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
@@ -68,7 +70,6 @@ class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
 describe(`CheckoutDeliveryModesService`, () => {
   let service: CheckoutDeliveryModesService;
   let connector: CheckoutDeliveryModesConnector;
-  let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
 
@@ -76,7 +77,6 @@ describe(`CheckoutDeliveryModesService`, () => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutDeliveryModesService,
-        provideMockStore(),
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
@@ -90,7 +90,6 @@ describe(`CheckoutDeliveryModesService`, () => {
 
     service = TestBed.inject(CheckoutDeliveryModesService);
     connector = TestBed.inject(CheckoutDeliveryModesConnector);
-    store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
   });
@@ -211,14 +210,12 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch CartActions.LoadCart`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
+    it(`should dispatch LoadCartEvent`, () => {
       service.setDeliveryMode(mockDeliveryModeCode);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadCart({ userId: mockUserId, cartId: mockCartId })
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });
@@ -245,28 +242,25 @@ describe(`CheckoutDeliveryModesService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch CartActions.LoadCart`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
+    it(`should dispatch LoadCartEvent`, () => {
       service.clearCheckoutDeliveryMode();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadCart({ userId: mockUserId, cartId: mockCartId })
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
     it(`should reload cart on error`, () => {
       connector.clearCheckoutDeliveryMode = createSpy().and.returnValue(
         throwError('err')
       );
-      spyOn(store, 'dispatch').and.stub();
 
       service.clearCheckoutDeliveryMode();
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.LoadCart({ userId: mockUserId, cartId: mockCartId })
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });
