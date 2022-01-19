@@ -1,5 +1,4 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { provideMockStore } from '@ngrx/store/testing';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
@@ -69,7 +68,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutDeliveryAddressService,
-        provideMockStore(),
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
