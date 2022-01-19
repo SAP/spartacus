@@ -11,7 +11,6 @@ import { FormControl, FormGroup } from '@angular/forms';
 import {
   CmsAddToCartComponent,
   EventService,
-  FacadeFactoryService,
   isNotNullable,
   Product,
 } from '@spartacus/core';
@@ -21,7 +20,7 @@ import {
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { filter, map, take } from 'rxjs/operators';
 import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
@@ -62,7 +61,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsAddToCartComponent>,
     protected eventService: EventService,
-    protected facadeFactoryService: FacadeFactoryService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -132,20 +130,39 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
-    this.activeCartService.addEntry(this.productCode, quantity);
 
-    // Because the cart library can be lazy loaded, we wait for
-    // the cart library to be loaded before dispatching the event,
-    // otherwise the event will fire before the listener can catch it.
-    this.facadeFactoryService
-      .isFacadeImplProvided(ActiveCartFacade)
-      .pipe(first((isProvided) => isProvided))
-      .subscribe(() => {
-        const newEvent = new CartUiEventAddToCart();
-        newEvent.productCode = this.productCode;
-        newEvent.quantity = quantity;
-        this.eventService.dispatch(newEvent);
+    this.activeCartService
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((cartEntries) => {
+        this.activeCartService.addEntry(this.productCode, quantity);
+
+        // A CartUiEventAddToCart is dispatched.  Thiis event is intended for the UI
+        // responsible to proviide feedback aboout what was added to the cart, like
+        // the added to cart dialog.
+        //
+        // Because we call activeCartService.getEntries() before, we can be sure the
+        // cart library is loaded already and that the event listener exists.
+        this.eventService.dispatch(
+          this.createCartUiEventAddToCart(
+            this.productCode,
+            quantity,
+            cartEntries.length
+          )
+        );
       });
+  }
+
+  protected createCartUiEventAddToCart(
+    productCode: string,
+    quantity: number,
+    numberOfEntriesBeforeAdd: number
+  ) {
+    const newEvent = new CartUiEventAddToCart();
+    newEvent.productCode = productCode;
+    newEvent.quantity = quantity;
+    newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    return newEvent;
   }
 
   ngOnDestroy() {

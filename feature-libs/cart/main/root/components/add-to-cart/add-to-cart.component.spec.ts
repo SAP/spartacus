@@ -1,11 +1,4 @@
-import {
-  AbstractType,
-  Component,
-  DebugElement,
-  InjectionToken,
-  Input,
-  Type,
-} from '@angular/core';
+import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
@@ -17,9 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CmsAddToCartComponent,
-  CxEvent,
   EventService,
-  FacadeFactoryService,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
@@ -30,6 +21,7 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CartUiEventAddToCart } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 import { Cart, OrderEntry } from '../../models/cart.model';
 import { AddToCartComponent } from './add-to-cart.component';
@@ -115,18 +107,8 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
-const mockEventStream$ = new BehaviorSubject<CxEvent>({});
-
-class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
-  isFacadeImplProvided<T>(
-    _token: Type<T> | InjectionToken<T> | AbstractType<T>
-  ): Observable<boolean> {
-    return of(true);
-  }
-
-  get(): Observable<any> {
-    return mockEventStream$.asObservable();
-  }
+class MockEventService implements Partial<EventService> {
+  dispatch<T extends object>(_event: T): void {}
 }
 
 describe('AddToCartComponent', () => {
@@ -163,7 +145,7 @@ describe('AddToCartComponent', () => {
           provide: ProductListItemContext,
           useValue: undefined,
         },
-        { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
+        { provide: EventService, useClass: MockEventService },
       ],
     });
   }
@@ -294,11 +276,25 @@ describe('AddToCartComponent', () => {
         );
       });
       it('should dispatch the add to cart UI event', () => {
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([{}, {}] as OrderEntry[])
+        );
+        spyOn(eventService, 'dispatch').and.callThrough();
+
         addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
         addToCartComponent.productCode = mockProductCode;
-        spyOn(eventService, 'dispatch').and.stub();
+        const uiEvent: CartUiEventAddToCart = new CartUiEventAddToCart();
+        uiEvent.productCode = mockProductCode;
+        uiEvent.numberOfEntriesBeforeAdd = 2;
+        uiEvent.quantity = 1;
+        spyOn(
+          addToCartComponent as any,
+          'createCartUiEventAddToCart'
+        ).and.returnValue(uiEvent);
+
         addToCartComponent.addToCart();
-        expect(eventService.dispatch).toHaveBeenCalled();
+
+        expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
       });
     });
 
@@ -513,6 +509,18 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
 
       expect(currentProductService.getProduct).not.toHaveBeenCalled();
+    });
+  });
+  describe('createCartUiEventAddToCart', () => {
+    it('should create even from provided arguments', () => {
+      const newEvent = addToCartComponent['createCartUiEventAddToCart'](
+        productCode,
+        1,
+        2
+      );
+      expect(newEvent.productCode).toEqual(productCode);
+      expect(newEvent.quantity).toEqual(1);
+      expect(newEvent.numberOfEntriesBeforeAdd).toEqual(2);
     });
   });
 });

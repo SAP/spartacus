@@ -2,15 +2,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/main/root';
 import { AuthService, isNotNullable, Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  takeWhile,
-  tap,
-} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 import { WishListFacade } from '../../facade/wish-list.facade';
 
 @Component({
@@ -24,10 +17,17 @@ export class AddToWishListComponent {
     tap((product) => this.setStockInfo(product))
   );
 
-  wishListEntries$: Observable<OrderEntry[]> = this.getWishListEntries();
+  wishListEntries$: Observable<OrderEntry[]>;
+  loading$: Observable<boolean>;
 
-  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn();
-  loading$: Observable<boolean> = this.getWishListLoading();
+  userLoggedIn$: Observable<boolean> = this.authService.isUserLoggedIn().pipe(
+    tap((isLogin) => {
+      if (isLogin) {
+        this.wishListEntries$ = this.getWishListEntries();
+        this.loading$ = this.wishListFacade.getWishListLoading();
+      }
+    })
+  );
 
   hasStock = false;
   iconTypes = ICON_TYPE;
@@ -62,41 +62,10 @@ export class AddToWishListComponent {
     );
   }
 
-  protected getWishListLoading(): Observable<boolean> {
-    return this.wishListDataRequired().pipe(
-      switchMap((wishListDataRequired) => {
-        if (wishListDataRequired) {
-          return this.wishListFacade.getWishListLoading();
-        } else {
-          return of(false);
-        }
-      })
-    );
-  }
-
   protected getWishListEntries(): Observable<OrderEntry[]> {
-    return this.wishListDataRequired().pipe(
-      switchMap((wishListDataRequired) => {
-        if (wishListDataRequired) {
-          return this.getWishListEntriesFromFacade();
-        } else {
-          return of([]);
-        }
-      })
-    );
-  }
-
-  protected getWishListEntriesFromFacade(): Observable<OrderEntry[]> {
     return this.wishListFacade.getWishList().pipe(
       filter((wishlist) => Boolean(wishlist)),
       map((wishList) => wishList.entries ?? [])
-    );
-  }
-
-  protected wishListDataRequired(): Observable<boolean> {
-    return this.authService.isUserLoggedIn().pipe(
-      distinctUntilChanged(),
-      takeWhile((isUserLoggedIn) => !isUserLoggedIn, true)
     );
   }
 }

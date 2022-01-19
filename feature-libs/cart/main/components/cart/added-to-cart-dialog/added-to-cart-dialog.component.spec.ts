@@ -29,8 +29,9 @@ import {
   PromotionsModule,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { cold } from 'jasmine-marbles';
 import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 @Directive({
@@ -50,9 +51,18 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return of({});
   }
+  getLastEntry(_productCode: string): Observable<OrderEntry | undefined> {
+    return of({});
+  }
+  isStable(): Observable<boolean> {
+    return of(true);
+  }
+  getEntry(_productCode: string): Observable<OrderEntry | undefined> {
+    return of({});
+  }
 }
 
-const mockOrderEntry: OrderEntry[] = [
+const mockOrderEntries: OrderEntry[] = [
   {
     quantity: 1,
     entryNumber: 1,
@@ -108,7 +118,7 @@ describe('AddedToCartDialogComponent', () => {
   let component: AddedToCartDialogComponent;
   let fixture: ComponentFixture<AddedToCartDialogComponent>;
   let el: DebugElement;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let mockModalService: MockModalService;
 
   beforeEach(
@@ -158,18 +168,62 @@ describe('AddedToCartDialogComponent', () => {
     fixture = TestBed.createComponent(AddedToCartDialogComponent);
     component = fixture.componentInstance;
     el = fixture.debugElement;
-    component.entry$ = of(mockOrderEntry[0]);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     mockModalService = TestBed.inject(ModalService);
 
-    spyOn(activeCartService, 'updateEntry').and.callThrough();
+    spyOn(activeCartFacade, 'updateEntry').and.callThrough();
     spyOn(mockModalService, 'dismissActiveModal').and.callThrough();
+    component.entry$ = of(mockOrderEntries[0]);
     component.loaded$ = of(true);
-    component.quantity = mockOrderEntry[0].quantity ?? 0;
+    component.addedEntryWasMerged$ = of(false);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('init()', () => {
+    it('should init the component', () => {
+      component.quantity = -1;
+      component.entry$ = EMPTY;
+      component.addedEntryWasMerged$ = EMPTY;
+
+      spyOn(activeCartFacade, 'getLastEntry').and.returnValue(
+        cold('a', { a: mockOrderEntries[0] })
+      );
+
+      spyOn(component as any, 'getAddedEntryWasMerged').and.stub();
+      component.init('productCode', 3, 2);
+
+      expect(component.quantity).toEqual(3);
+      expect((component as any)['getAddedEntryWasMerged']).toHaveBeenCalledWith(
+        2
+      );
+      expect(component.entry$).toBeObservable(
+        cold('r', { r: mockOrderEntries[0] })
+      );
+    });
+  });
+
+  describe('getAddedEntryWasMerged()', () => {
+    it('should return observable<true> when entry was merged.', () => {
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        cold('a', { a: mockOrderEntries })
+      );
+      component.loaded$ = cold('t', { t: true });
+      expect(component['getAddedEntryWasMerged'](2)).toBeObservable(
+        cold('t', { t: true })
+      );
+    });
+    it('should return observable<false> when a new entry is added.', () => {
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        cold('a', { a: mockOrderEntries })
+      );
+      component.loaded$ = cold('t', { t: true });
+      expect(component['getAddedEntryWasMerged'](3)).toBeObservable(
+        cold('f', { f: false })
+      );
+    });
   });
 
   it('should display loading placeholder', () => {
@@ -227,6 +281,9 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show added dialog title message in case new entry appears in cart', () => {
+    component.entry$ = of(mockOrderEntries[0]);
+    component.loaded$ = of(true);
+    spyOn(activeCartFacade, 'getEntries').and.returnValue(of(mockOrderEntries));
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(
@@ -235,8 +292,10 @@ describe('AddedToCartDialogComponent', () => {
   });
 
   it('should show increment dialog title message in case no new entry appears in cart', () => {
-    component.entry$ = of(mockOrderEntry[1]);
-    component.ngOnInit();
+    component.entry$ = of(mockOrderEntries[0]);
+    component.loaded$ = of(true);
+    component.addedEntryWasMerged$ = of(true);
+    spyOn(activeCartFacade, 'getEntries').and.returnValue(of(mockOrderEntries));
     fixture.detectChanges();
     const dialogTitleEl = el.query(By.css('.cx-dialog-title')).nativeElement;
     expect(dialogTitleEl.textContent).toEqual(

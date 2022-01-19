@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
@@ -10,11 +10,11 @@ import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
   filter,
-  first,
   map,
   shareReplay,
   startWith,
   switchMap,
+  switchMapTo,
   tap,
 } from 'rxjs/operators';
 
@@ -22,15 +22,13 @@ import {
   selector: 'cx-added-to-cart-dialog',
   templateUrl: './added-to-cart-dialog.component.html',
 })
-export class AddedToCartDialogComponent implements OnInit {
+export class AddedToCartDialogComponent {
   iconTypes = ICON_TYPE;
 
-  entry$: Observable<OrderEntry>;
-  cart$: Observable<Cart>;
-  loaded$: Observable<boolean>;
-  addedEntryWasMerged: boolean = false;
+  entry$: Observable<OrderEntry | undefined>;
+  cart$: Observable<Cart> = this.activeCartFacade.getActive();
+  loaded$: Observable<boolean> = this.activeCartFacade.isStable();
   addedEntryWasMerged$: Observable<boolean>;
-
   promotionLocation: PromotionLocation = PromotionLocation.ActiveCart;
 
   quantity = 0;
@@ -45,7 +43,7 @@ export class AddedToCartDialogComponent implements OnInit {
 
   constructor(
     protected modalService: ModalService,
-    protected cartService: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade
   ) {}
   /**
    * Returns an observable formControl with the quantity of the cartEntry,
@@ -63,7 +61,7 @@ export class AddedToCartDialogComponent implements OnInit {
             startWith(null),
             tap((valueChange) => {
               if (valueChange) {
-                this.cartService.updateEntry(
+                this.activeCartFacade.updateEntry(
                   valueChange.entryNumber,
                   valueChange.quantity
                 );
@@ -83,27 +81,39 @@ export class AddedToCartDialogComponent implements OnInit {
     return this.quantityControl$;
   }
 
-  ngOnInit() {
-    this.addedEntryWasMerged$ = this.loaded$.pipe(
-      first((isLoaded) => isLoaded),
-      switchMap((_) =>
-        this.entry$.pipe(
-          map((cartEntry) => (cartEntry?.quantity ?? 0) > this.quantity)
-        )
-      )
+  init(
+    productCode: string,
+    quantity: number,
+    numberOfEntriesBeforeAdd: number
+  ): void {
+    // Display last entry for new product code. This always corresponds to
+    // our new item, independently of whether merging occured or not
+    this.entry$ = this.activeCartFacade.getLastEntry(productCode);
+    this.quantity = quantity;
+    this.addedEntryWasMerged$ = this.getAddedEntryWasMerged(
+      numberOfEntriesBeforeAdd
     );
   }
 
+  protected getAddedEntryWasMerged(
+    numberOfEntriesBeforeAdd: number
+  ): Observable<boolean> {
+    return this.loaded$.pipe(
+      filter((loaded) => loaded),
+      switchMapTo(this.activeCartFacade.getEntries()),
+      map((entries) => entries.length === numberOfEntriesBeforeAdd)
+    );
+  }
   /**
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
    */
-  protected getQuantityFormControl(entry: OrderEntry): FormControl {
+  protected getQuantityFormControl(entry?: OrderEntry): FormControl {
     if (!this.form.get('quantity')) {
-      const quantity = new FormControl(entry.quantity, { updateOn: 'blur' });
+      const quantity = new FormControl(entry?.quantity, { updateOn: 'blur' });
       this.form.addControl('quantity', quantity);
 
-      const entryNumber = new FormControl(entry.entryNumber);
+      const entryNumber = new FormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
     }
     return <FormControl>this.form.get('quantity');
