@@ -119,13 +119,6 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * @deprecated since 5.0, use reinitializeMenu method instead
-   */
-  reinitalizeMenu(): void {
-    this.reinitializeMenu();
-  }
-
-  /**
    * This method performs the actions required to reset the state of the menu and reset any visual components.
    */
   reinitializeMenu(): void {
