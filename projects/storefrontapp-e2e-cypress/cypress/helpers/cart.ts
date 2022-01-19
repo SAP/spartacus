@@ -517,3 +517,28 @@ export function loginCartUser() {
   login(cartUser.registrationData.email, cartUser.registrationData.password);
   cy.url().should('not.contain', 'login');
 }
+
+export function saveCartId() {
+  cy.get('cx-cart-details')
+    .get('h2.cx-total')
+    .then(($cartId) => {
+      let cartId = $cartId.text();
+      cy.wrap(cartId).as('cartId');
+    });
+}
+
+export function verifyCartIdAfterClearCart() {
+  cy.visit(`/product/${products[0].code}`);
+  clickAddToCart();
+  goToCart();
+  let _cartId;
+  cy.get('cx-cart-details')
+    .get('h2.cx-total')
+    .then(($cartId) => {
+      _cartId = $cartId.text();
+    });
+
+  cy.get('@cartId').then((cartId) => {
+    expect(cartId).to.eq(_cartId);
+  });
+}
