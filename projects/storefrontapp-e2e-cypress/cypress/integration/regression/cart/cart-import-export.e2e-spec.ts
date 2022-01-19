@@ -6,7 +6,6 @@ context('Cart Import/Export', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
     });
 
     // Core test. Repeat in mobile viewport.
