@@ -140,11 +140,10 @@ describe('CdsMerchandisingUserContextService', () => {
   });
 
   it('should return a valid MerchandisingUserContext object with a valid consent reference, when B2B environment is enabled and if the page is not a PRODUCT_PAGE or CATEGORY_PAGE', () => {
+    environment.b2b = true;
     const expectedMerchandisingUserContext = {
       consentReference: `${consentReference}`,
     };
-    environment.b2b = true;
-
     spyOn(routingService, 'getPageContext').and.returnValue(
       of(new PageContext('homepage', PageType.CONTENT_PAGE))
     );
@@ -156,13 +155,11 @@ describe('CdsMerchandisingUserContextService', () => {
     );
     spyOn(profileTagLifecycleService, 'consentChanged').and.callFake(() => {
       if (!!environment.b2b) {
-        return of(consentGrantedEvent)
+        return of(consentGrantedEvent);
+      } else {
+        return of();
       }
-      else {
-        return  of();
-      }
-    }
-    );
+    });
     let merchandisingUserContext: MerchandisingUserContext;
     cdsMerchandisingUserContextService
       .getUserContext()
