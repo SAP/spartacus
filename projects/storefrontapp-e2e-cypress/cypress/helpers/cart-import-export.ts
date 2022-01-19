@@ -182,13 +182,14 @@ export function restoreCart(cart) {
     .get('td.cx-saved-cart-list-make-cart-active')
     .contains('Make cart active')
     .click();
-    cy.intercept('PATCH', /\.*\/users\/current\/carts\/(\d*)\/restoresavedcart.*/).as(
-      'restoreSavedCart'
-    );
+  cy.intercept(
+    'PATCH',
+    /\.*\/users\/current\/carts\/(\d*)\/restoresavedcart.*/
+  ).as('restoreSavedCart');
   cy.get('cx-saved-cart-form-dialog div.cx-saved-cart-form-footer button')
     .contains('Restore')
     .click();
-    cy.wait('@restoreSavedCart').its('response.statusCode').should('eq', 200);
+  cy.wait('@restoreSavedCart').its('response.statusCode').should('eq', 200);
   cy.get('cx-global-message').contains(
     `Existing cart is activated by ${cart.code} successfully.`
   );
@@ -265,7 +266,9 @@ export function importCartTestFromConfig(config: ImportConfig) {
   );
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
-  cy.wait('@import').then((xhr) => {
+  cy.wait('@import').its('response.statusCode').should('eq', 200);
+
+  cy.get('@import').then((xhr: any) => {
     cy.get(
       'cx-import-entries-summary div.cx-import-entries-summary-status'
     ).contains(`Products has been loaded to cart ${config.name}`);
