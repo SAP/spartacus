@@ -152,7 +152,7 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    it(`should NOT dispatch LoadUserAddressesEvent when the use is anonymous`, () => {
+    it(`should NOT dispatch LoadUserAddressesEvent when the user is anonymous`, () => {
       userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
