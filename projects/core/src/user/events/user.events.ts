@@ -21,3 +21,8 @@ export class AddUserAddressEvent extends UserAddressEvent {
   userId: string;
   address: Address;
 }
+
+export class LoadUserAddresses extends UserAddressEvent {
+  static readonly type = 'LoadUserAddresses';
+  userId: string;
+}
