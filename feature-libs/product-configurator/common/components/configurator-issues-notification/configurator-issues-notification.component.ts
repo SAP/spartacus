@@ -49,4 +49,14 @@ export class ConfiguratorIssuesNotificationComponent {
   getNumberOfIssues(item: OrderEntry): number {
     return this.commonConfigUtilsService.getNumberOfIssues(item);
   }
+
+  /**
+   * Retrieves the unique id for the error message.
+   *
+   * @param item - Cart item
+   * @returns - Unique id for error message
+   */
+  getErrorMessageId(item: OrderEntry): string {
+    return 'cx-error-msg-' + item.entryNumber;
+  }
 }
