@@ -95,7 +95,7 @@ describe('DeliveryModeComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         declarations: [DeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
