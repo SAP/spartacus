@@ -26,3 +26,8 @@ export class LoadUserAddressesEvent extends UserAddressEvent {
   static readonly type = 'LoadUserAddressesEvent';
   userId: string;
 }
+
+export class LoadUserPaymentMethodsEvent extends UserAddressEvent {
+  static readonly type = 'LoadUserPaymentMethodsEvent';
+  userId: string;
+}

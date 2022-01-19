@@ -5,6 +5,7 @@ import { LoadCartEvent } from '@spartacus/cart/main/root';
 import {
   EventService,
   LoadUserAddressesEvent,
+  LoadUserPaymentMethodsEvent,
   UserActions,
 } from '@spartacus/core';
 import { Subscription } from 'rxjs';
@@ -24,14 +25,15 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
     protected eventService: EventService,
     protected store: Store<unknown>
   ) {
-    this.onUserAction();
+    this.onUserAddressAction();
+    this.onUserPaymentAction();
     this.onCartAction();
   }
 
   /**
-   * Registers events for the user actions.
+   * Registers events for the user address actions.
    */
-  protected onUserAction(): void {
+  protected onUserAddressAction(): void {
     this.subscriptions.add(
       this.eventService.get(LoadUserAddressesEvent).subscribe(({ userId }) => {
         /**
@@ -41,6 +43,26 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
          */
         this.store.dispatch(new UserActions.LoadUserAddresses(userId));
       })
+    );
+  }
+
+  /**
+   * Registers events for the user payment actions.
+   */
+  protected onUserPaymentAction(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(LoadUserPaymentMethodsEvent)
+        .subscribe(({ userId }) => {
+          this.store.dispatch(
+            /**
+             * TODO:#deprecation-checkout We have to keep this here, since the user payment feature is still ngrx-based.
+             * Remove once it is switched from ngrx to c&q.
+             * We should dispatch an event, which will load the userPayment$ query.
+             */
+            new UserActions.LoadUserPaymentMethods(userId)
+          );
+        })
     );
   }
 
