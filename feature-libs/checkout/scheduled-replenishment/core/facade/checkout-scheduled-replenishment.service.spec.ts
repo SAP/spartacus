@@ -53,7 +53,7 @@ class MockCheckoutFacade implements Partial<CheckoutFacade> {
   setOrder = createSpy();
 }
 
-fdescribe(`CheckoutScheduledReplenishmentService`, () => {
+describe(`CheckoutScheduledReplenishmentService`, () => {
   let service: CheckoutScheduledReplenishmentService;
   let connector: CheckoutReplenishmentOrderConnector;
   let checkoutFacade: CheckoutFacade;

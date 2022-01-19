@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
@@ -11,10 +11,10 @@ import {
 import {
   Address,
   EventService,
+  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   QueryState,
-  UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
@@ -61,7 +61,6 @@ class MockCheckoutQueryFacade implements Partial<CheckoutQueryFacade> {
 describe(`CheckoutDeliveryAddressService`, () => {
   let service: CheckoutDeliveryAddressService;
   let connector: CheckoutDeliveryAddressConnector;
-  let store: MockStore;
   let checkoutQuery: CheckoutQueryFacade;
   let eventService: EventService;
   let userIdService: UserIdService;
@@ -84,7 +83,6 @@ describe(`CheckoutDeliveryAddressService`, () => {
 
     service = TestBed.inject(CheckoutDeliveryAddressService);
     connector = TestBed.inject(CheckoutDeliveryAddressConnector);
-    store = TestBed.inject(MockStore);
     checkoutQuery = TestBed.inject(CheckoutQueryFacade);
     eventService = TestBed.inject(EventService);
     userIdService = TestBed.inject(UserIdService);
@@ -147,26 +145,26 @@ describe(`CheckoutDeliveryAddressService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch UserActions.LoadUserAddresses`, () => {
-      spyOn(store, 'dispatch').and.stub();
+    it(`should dispatch LoadUserAddressesEvent`, () => {
       service.createAndSetAddress(mockAddress);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new UserActions.LoadUserAddresses(mockUserId)
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserAddressesEvent
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should NOT dispatch UserActions.LoadUserAddresses when the use is anonymous`, () => {
+    it(`should NOT dispatch LoadUserAddressesEvent when the use is anonymous`, () => {
       userIdService.takeUserId = createSpy().and.returnValue(
         of(OCC_USER_ID_ANONYMOUS)
       );
-      spyOn(store, 'dispatch').and.stub();
 
       service.createAndSetAddress(mockAddress);
 
-      expect(store.dispatch).not.toHaveBeenCalled();
+      expect(eventService.dispatch).not.toHaveBeenCalledWith(
+        { userId: mockUserId },
+        LoadUserAddressesEvent
+      );
     });
   });
 
