@@ -42,7 +42,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     @Optional() protected checkoutService?: CheckoutService
   ) {}
 
-  private isCheckoutDetailsLoading$ = this.checkoutService
+  protected isCheckoutDetailsLoading$ = this.checkoutService
     ? this.checkoutService.isLoading()
     : this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading));
 
