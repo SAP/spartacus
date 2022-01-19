@@ -618,6 +618,42 @@ describe('ActiveCartService', () => {
       });
     });
 
+    it('should not load cart for logged user if it is loading', (done) => {
+      const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(
+        {}
+      );
+      // init loading is running
+      cart$.next({
+        loading: true,
+        success: false,
+        error: false,
+      });
+      spyOn<any>(service, 'load').and.callThrough();
+      spyOn(multiCartFacade, 'createCart').and.callThrough();
+
+      service['cartEntity$'] = cart$.asObservable();
+      userId$.next(OCC_USER_ID_CURRENT);
+
+      service['requireLoadedCart']().subscribe((cart) => {
+        expect(cart).toEqual(cartState.value);
+        expect(service['load']).not.toHaveBeenCalledWith(
+          OCC_CART_ID_CURRENT,
+          OCC_USER_ID_CURRENT
+        );
+        expect(multiCartFacade.createCart).not.toHaveBeenCalled();
+        done();
+      });
+      // init loading done
+      cart$.next({
+        loading: false,
+        success: true,
+        error: false,
+        value: {
+          code: 'code',
+        },
+      });
+    });
+
     it('should try to create cart after failed load cart for logged user', (done) => {
       userId$.next(OCC_USER_ID_CURRENT);
       const cart$ = new BehaviorSubject<StateUtils.ProcessesLoaderState<Cart>>(

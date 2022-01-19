@@ -8,18 +8,21 @@ import {
   Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { CmsAddToCartComponent, isNotNullable, Product } from '@spartacus/core';
+import {
+  CmsAddToCartComponent,
+  EventService,
+  isNotNullable,
+  Product,
+} from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  ModalRef,
-  ModalService,
   ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { AddedToCartDialogComponent } from './added-to-cart-dialog/added-to-cart-dialog.component';
+import { CartUiEventAddToCart } from '../../events/cart.events';
+import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -37,7 +40,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   @Input() product: Product;
 
   maxQuantity: number;
-  modalRef: ModalRef;
 
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
@@ -46,7 +48,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     this.component?.data$.pipe(map((data) => data.inventoryDisplay));
 
   quantity = 1;
-  protected numberOfEntriesBeforeAdd = 0;
 
   subscription: Subscription;
 
@@ -54,32 +55,12 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  // TODO(#13041): Remove deprecated constructors
   constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartFacade,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    component?: CmsComponentData<CmsAddToCartComponent>
-  );
-
-  /**
-   * @deprecated since 4.1
-   */
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartFacade
-  );
-
-  constructor(
-    protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
     protected cd: ChangeDetectorRef,
     protected activeCartService: ActiveCartFacade,
-    @Optional() protected component?: CmsComponentData<CmsAddToCartComponent>,
+    protected component: CmsComponentData<CmsAddToCartComponent>,
+    protected eventService: EventService,
     @Optional() protected productListItemContext?: ProductListItemContext
   ) {}
 
@@ -149,36 +130,39 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     if (!this.productCode || quantity <= 0) {
       return;
     }
+
     this.activeCartService
       .getEntries()
       .pipe(take(1))
-      .subscribe((entries) => {
-        this.numberOfEntriesBeforeAdd = entries.length;
-        this.openModal();
+      .subscribe((cartEntries) => {
         this.activeCartService.addEntry(this.productCode, quantity);
+
+        // A CartUiEventAddToCart is dispatched.  Thiis event is intended for the UI
+        // responsible to proviide feedback aboout what was added to the cart, like
+        // the added to cart dialog.
+        //
+        // Because we call activeCartService.getEntries() before, we can be sure the
+        // cart library is loaded already and that the event listener exists.
+        this.eventService.dispatch(
+          this.createCartUiEventAddToCart(
+            this.productCode,
+            quantity,
+            cartEntries.length
+          )
+        );
       });
   }
 
-  /**
-   * Provides required data and opens AddedToCartDialogComponent modal
-   */
-  protected openModal() {
-    let modalInstance: any;
-    this.modalRef = this.modalService.open(AddedToCartDialogComponent, {
-      centered: true,
-      size: 'lg',
-    });
-
-    modalInstance = this.modalRef.componentInstance;
-    // Display last entry for new product code. This always corresponds to
-    // our new item, independently of whether merging occured or not
-    modalInstance.entry$ = this.activeCartService.getLastEntry(
-      this.productCode
-    );
-    modalInstance.cart$ = this.activeCartService.getActive();
-    modalInstance.loaded$ = this.activeCartService.isStable();
-    modalInstance.quantity = this.quantity;
-    modalInstance.numberOfEntriesBeforeAdd = this.numberOfEntriesBeforeAdd;
+  protected createCartUiEventAddToCart(
+    productCode: string,
+    quantity: number,
+    numberOfEntriesBeforeAdd: number
+  ) {
+    const newEvent = new CartUiEventAddToCart();
+    newEvent.productCode = productCode;
+    newEvent.quantity = quantity;
+    newEvent.numberOfEntriesBeforeAdd = numberOfEntriesBeforeAdd;
+    return newEvent;
   }
 
   ngOnDestroy() {

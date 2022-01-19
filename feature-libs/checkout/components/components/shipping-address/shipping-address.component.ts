@@ -197,6 +197,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
+      label: address.defaultAddress
+        ? 'addressBook.defaultShippingAddress'
+        : 'addressBook.additionalShippingAddress',
     } as Card;
   }
 

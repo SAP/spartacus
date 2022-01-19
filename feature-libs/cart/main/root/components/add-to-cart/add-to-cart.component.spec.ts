@@ -8,20 +8,22 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
 import {
   CmsAddToCartComponent,
+  EventService,
   I18nTestingModule,
   Product,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  ModalService,
   ProductListItemContext,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
+import { CartUiEventAddToCart } from '../../events/cart.events';
+import { ActiveCartFacade } from '../../facade/active-cart.facade';
+import { Cart, OrderEntry } from '../../models/cart.model';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({
@@ -105,14 +107,18 @@ class MockItemCounterComponent {
   @Input() control;
 }
 
+class MockEventService implements Partial<EventService> {
+  dispatch<T extends object>(_event: T): void {}
+}
+
 describe('AddToCartComponent', () => {
   let addToCartComponent: AddToCartComponent;
   let fixture: ComponentFixture<AddToCartComponent>;
-  let service: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
+  let eventService: EventService;
 
-  let modalInstance: any;
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   function configureTestingModule(): TestBedStatic {
@@ -126,10 +132,6 @@ describe('AddToCartComponent', () => {
       ],
       declarations: [AddToCartComponent, MockItemCounterComponent],
       providers: [
-        {
-          provide: ModalService,
-          useValue: { open: () => ({ componentInstance: {} }) },
-        },
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: CurrentProductService,
@@ -143,6 +145,7 @@ describe('AddToCartComponent', () => {
           provide: ProductListItemContext,
           useValue: undefined,
         },
+        { provide: EventService, useClass: MockEventService },
       ],
     });
   }
@@ -150,16 +153,15 @@ describe('AddToCartComponent', () => {
   function stubSeviceAndCreateComponent() {
     fixture = TestBed.createComponent(AddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.inject(ActiveCartFacade);
-    modalInstance = TestBed.inject(ModalService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     currentProductService = TestBed.inject(CurrentProductService);
     el = fixture.debugElement;
+    eventService = TestBed.inject(EventService);
 
     config$.next({
       inventoryDisplay: false,
     });
 
-    spyOn(modalInstance, 'open').and.callThrough();
     fixture.detectChanges();
   }
 
@@ -243,18 +245,57 @@ describe('AddToCartComponent', () => {
     it('should call addToCart()', () => {
       addToCartComponent.productCode = productCode;
       addToCartComponent.ngOnInit();
-      spyOn(service, 'addEntry').and.callThrough();
-      spyOn(service, 'getEntries').and.returnValue(of([mockCartEntry]));
-      spyOn(service, 'isStable').and.returnValue(of(true));
+      spyOn(activeCartFacade, 'addEntry').and.callThrough();
+      spyOn(activeCartFacade, 'getEntries').and.returnValue(
+        of([mockCartEntry])
+      );
+      spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
       addToCartComponent.quantity = 1;
 
       addToCartComponent.addToCart();
+      expect(activeCartFacade.addEntry).toHaveBeenCalledWith(productCode, 1);
+    });
 
-      expect(modalInstance.open).toHaveBeenCalled();
-      expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
-      expect(
-        addToCartComponent.modalRef.componentInstance.numberOfEntriesBeforeAdd
-      ).toBe(1);
+    describe('addToCart ', () => {
+      const mockProductCode = 'pcode';
+      it('should return if item qty is 0', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(0);
+        addToCartComponent.productCode = mockProductCode;
+        spyOn(activeCartFacade, 'addEntry').and.stub();
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).not.toHaveBeenCalled();
+      });
+      it('should add item to cart via ActiveCartFacade', () => {
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
+        addToCartComponent.productCode = mockProductCode;
+        spyOn(activeCartFacade, 'addEntry').and.stub();
+        addToCartComponent.addToCart();
+        expect(activeCartFacade.addEntry).toHaveBeenCalledWith(
+          mockProductCode,
+          1
+        );
+      });
+      it('should dispatch the add to cart UI event', () => {
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([{}, {}] as OrderEntry[])
+        );
+        spyOn(eventService, 'dispatch').and.callThrough();
+
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(1);
+        addToCartComponent.productCode = mockProductCode;
+        const uiEvent: CartUiEventAddToCart = new CartUiEventAddToCart();
+        uiEvent.productCode = mockProductCode;
+        uiEvent.numberOfEntriesBeforeAdd = 2;
+        uiEvent.quantity = 1;
+        spyOn(
+          addToCartComponent as any,
+          'createCartUiEventAddToCart'
+        ).and.returnValue(uiEvent);
+
+        addToCartComponent.addToCart();
+
+        expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
+      });
     });
 
     describe('UI', () => {
@@ -468,6 +509,18 @@ describe('AddToCartComponent', () => {
       addToCartComponent.ngOnInit();
 
       expect(currentProductService.getProduct).not.toHaveBeenCalled();
+    });
+  });
+  describe('createCartUiEventAddToCart', () => {
+    it('should create even from provided arguments', () => {
+      const newEvent = addToCartComponent['createCartUiEventAddToCart'](
+        productCode,
+        1,
+        2
+      );
+      expect(newEvent.productCode).toEqual(productCode);
+      expect(newEvent.quantity).toEqual(1);
+      expect(newEvent.numberOfEntriesBeforeAdd).toEqual(2);
     });
   });
 });

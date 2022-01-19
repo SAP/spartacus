@@ -2,6 +2,7 @@ import Chainable = Cypress.Chainable;
 import * as authentication from './auth-forms';
 import * as globalMessage from './global-message';
 import * as configuration from './product-configurator';
+import * as configurationVc from './product-configurator-vc';
 
 /**
  * bundle types
@@ -79,6 +80,7 @@ export function clickOnConfigureBtnInCatalog(): void {
  */
 export function checkConfigPageDisplayed(): void {
   checkSuccessMessageNotDisplayed();
+  configurationVc.checkGhostAnimationNotDisplayed();
   configuration.checkTabBarDisplayed();
   configuration.checkGroupTitleDisplayed();
   configuration.checkGroupFormDisplayed();

@@ -48,11 +48,6 @@ const mockCartEntry2: OrderEntry = {
 
 const entries = [mockCartEntry, mockCartEntry1, mockCartEntry2];
 
-const mockEmptyWishList: Cart = {
-  code: '1',
-  entries: [],
-};
-
 const mockWishList: Cart = {
   code: '2',
   entries: entries,
@@ -64,14 +59,17 @@ class MockAuthService {
   }
 }
 
-const wishListSubject = new BehaviorSubject(mockWishList);
 const productSubject = new BehaviorSubject(mockProduct);
 
 class MockWishListService {
   addEntry = createSpy();
   removeEntry = createSpy();
-  getWishList = createSpy().and.returnValue(wishListSubject);
-  getWishListLoading = createSpy().and.returnValue(of(false));
+  getWishList() {
+    return of(mockWishList);
+  }
+  getWishListLoading() {
+    return of(false);
+  }
 }
 
 class MockCurrentProductService {
@@ -96,7 +94,7 @@ class MockUrlPipe implements PipeTransform {
 describe('AddToWishListComponent', () => {
   let component: AddToWishListComponent;
   let fixture: ComponentFixture<AddToWishListComponent>;
-  let wishListService: WishListFacade;
+  let wishListFacade: WishListFacade;
   let el: DebugElement;
 
   beforeEach(
@@ -124,7 +122,7 @@ describe('AddToWishListComponent', () => {
     fixture = TestBed.createComponent(AddToWishListComponent);
     component = fixture.componentInstance;
 
-    wishListService = TestBed.inject(WishListFacade);
+    wishListFacade = TestBed.inject(WishListFacade);
 
     el = fixture.debugElement;
     fixture.detectChanges();
@@ -138,7 +136,7 @@ describe('AddToWishListComponent', () => {
     it('should add product to wish list', () => {
       component.add(mockProduct);
 
-      expect(wishListService.addEntry).toHaveBeenCalledWith(mockProduct.code);
+      expect(wishListFacade.addEntry).toHaveBeenCalledWith(mockProduct.code);
     });
   });
 
@@ -146,7 +144,7 @@ describe('AddToWishListComponent', () => {
     it('should remove product from wish list', () => {
       component.remove(mockCartEntry);
 
-      expect(wishListService.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+      expect(wishListFacade.removeEntry).toHaveBeenCalledWith(mockCartEntry);
     });
   });
 
@@ -187,7 +185,7 @@ describe('AddToWishListComponent', () => {
       });
 
       it('should show add to wish list if product is NOT the in wish list', () => {
-        wishListSubject.next(mockEmptyWishList);
+        component.wishListEntries$ = of([]);
         fixture.detectChanges();
         expect(el.query(By.css('.button-add')).nativeElement).toBeDefined();
       });
@@ -207,6 +205,24 @@ describe('AddToWishListComponent', () => {
         productSubject.next(mockOutOfStockProduct);
         fixture.detectChanges();
         expect(el.query(By.css('.button-add-link'))).toBeNull();
+      });
+    });
+  });
+
+  describe('getWishListEntries', () => {
+    it('should return the wishlist entries from the facade', (done) => {
+      component['getWishListEntries']().subscribe((wishList) => {
+        expect(wishList).toEqual(mockWishList.entries);
+        done();
+      });
+    });
+    it('should return an empty list if entries are falsy', (done) => {
+      spyOn(wishListFacade, 'getWishList').and.returnValue(
+        of({ ...mockWishList, entries: undefined })
+      );
+      component['getWishListEntries']().subscribe((wishList) => {
+        expect(wishList).toEqual([]);
+        done();
       });
     });
   });

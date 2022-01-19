@@ -10,6 +10,14 @@ title: Changes to Styles in 5.0
 
 - `.cx-display-only-btn-container` and `button.cx-display-only-btn` were added to `_configurator-add-to-cart-button.scss`.
   Both classes use the same styling as the `add-to-cart-button`
+- `position` was added and set to `fixed` on `%cx-configurator-add-to-cart-button` to make the button float. `position` will be set to `sticky` once the intersection of `.cx-price-summary-container` occurs
+- `bottom` was added and set to `0` on `%cx-configurator-add-to-cart-button` 
+- `width` was added and set to `100%` on `%cx-configurator-add-to-cart-button` 
+- `background-color` was added and set to `var(--cx-color-background)` on `%cx-configurator-add-to-cart-button` 
+- `border-top` was added and set to `solid 1px var(--cx-color-light)` on `%cx-configurator-add-to-cart-button` 
+- `box-shadow` was added and set to ` 0 0 5px var(--cx-color-light)` on `%cx-configurator-add-to-cart-button` 
+- `margin-top` was added and set to `0px` on `@include cx-configurator-footer-container()` 
+
 
 ## Changes in Configurator Tab Bar Component
 
@@ -27,6 +35,13 @@ title: Changes to Styles in 5.0
 
 ## Changes in styles
 
+### Mixins
+- `padding-block-end` was deleted on `@mixin cx-configurator-template` to enable floating add to cart button styling. 
+
 ### Breadcrumb component 
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup. 
+
+### AddressFormComponent
+
+- Changed `justify-content` to `center` for `.cx-address-form-btns` in `%cx-address-form`
