@@ -97,3 +97,13 @@ export class MergeCartSuccessEvent extends CartEvent {
   /** Extra data */
   extraData?: { active?: boolean };
 }
+
+/**
+ * Triggers the loading of the cart.
+ */
+export class LoadCartEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'LoadCartEvent';
+}

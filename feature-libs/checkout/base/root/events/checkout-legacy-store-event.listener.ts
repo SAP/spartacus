@@ -1,5 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/main/core';
+import { LoadCartEvent } from '@spartacus/cart/main/root';
 import { EventService, LoadUserAddresses, UserActions } from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
@@ -19,6 +21,7 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
     protected store: Store<unknown>
   ) {
     this.onUserAction();
+    this.onCartAction();
   }
 
   /**
@@ -33,6 +36,27 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
          * We should dispatch an event, which will reload the userAddress$ query.
          */
         this.store.dispatch(new UserActions.LoadUserAddresses(userId));
+      })
+    );
+  }
+
+  /**
+   * Registers events for the cart actions.
+   */
+  protected onCartAction(): void {
+    this.subscriptions.add(
+      this.eventService.get(LoadCartEvent).subscribe(({ userId, cartId }) => {
+        /**
+         * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
+         * Remove once it is switched from ngrx to c&q.
+         * We should dispatch an event, which will load the cart$ query.
+         */
+        this.store.dispatch(
+          new CartActions.LoadCart({
+            userId,
+            cartId,
+          })
+        );
       })
     );
   }
