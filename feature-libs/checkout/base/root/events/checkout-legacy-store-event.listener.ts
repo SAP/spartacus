@@ -2,7 +2,11 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/main/core';
 import { LoadCartEvent } from '@spartacus/cart/main/root';
-import { EventService, LoadUserAddresses, UserActions } from '@spartacus/core';
+import {
+  EventService,
+  LoadUserAddressesEvent,
+  UserActions,
+} from '@spartacus/core';
 import { Subscription } from 'rxjs';
 
 /**
@@ -29,7 +33,7 @@ export class CheckoutLegacyStoreEventListener implements OnDestroy {
    */
   protected onUserAction(): void {
     this.subscriptions.add(
-      this.eventService.get(LoadUserAddresses).subscribe(({ userId }) => {
+      this.eventService.get(LoadUserAddressesEvent).subscribe(({ userId }) => {
         /**
          * TODO:#deprecation-checkout We have to keep this here, since the user address feature is still ngrx-based.
          * Remove once it is switched from ngrx to c&q.

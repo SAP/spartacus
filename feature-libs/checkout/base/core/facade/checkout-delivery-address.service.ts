@@ -13,7 +13,7 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
-  LoadUserAddresses,
+  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
   UserIdService,
@@ -36,7 +36,10 @@ export class CheckoutDeliveryAddressService
               .pipe(
                 tap(() => {
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.eventService.dispatch({ userId }, LoadUserAddresses);
+                    this.eventService.dispatch(
+                      { userId },
+                      LoadUserAddressesEvent
+                    );
                   }
                 }),
                 map((address) => {

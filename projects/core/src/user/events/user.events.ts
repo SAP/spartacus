@@ -22,7 +22,7 @@ export class AddUserAddressEvent extends UserAddressEvent {
   address: Address;
 }
 
-export class LoadUserAddresses extends UserAddressEvent {
-  static readonly type = 'LoadUserAddresses';
+export class LoadUserAddressesEvent extends UserAddressEvent {
+  static readonly type = 'LoadUserAddressesEvent';
   userId: string;
 }
