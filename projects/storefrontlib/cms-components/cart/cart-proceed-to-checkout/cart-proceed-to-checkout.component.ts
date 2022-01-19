@@ -4,7 +4,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { ActiveCartService, Cart, OrderEntry } from '@spartacus/core';
+import { ActiveCartService, OrderEntry } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
@@ -20,7 +20,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
-  cart$: Observable<Cart>;
   entries$: Observable<OrderEntry[]>;
   cartValidationInProgress = false;
 
@@ -31,8 +30,7 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
     protected router: Router
   ) {}
 
-  ngOnInit() {
-    this.cart$ = this.activeCartService.getActive();
+  ngOnInit(): void {
     this.entries$ = this.activeCartService
       .getEntries()
       .pipe(filter((entries) => entries.length > 0));
@@ -49,11 +47,11 @@ export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy() {
-    this.subscription.unsubscribe();
-  }
-
   disableButtonWhileNavigation(): void {
     this.cartValidationInProgress = true;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

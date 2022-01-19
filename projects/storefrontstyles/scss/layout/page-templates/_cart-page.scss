@@ -31,14 +31,8 @@
       justify-content: flex-end;
       flex-direction: row;
 
-      cx-cart-totals {
-        max-width: 50%;
-      }
-
-      cx-cart-coupon {
-        max-width: 50%;
-      }
-
+      cx-cart-totals,
+      x-cart-coupon,
       cx-cart-proceed-to-checkout {
         max-width: 50%;
       }
@@ -52,19 +46,9 @@
         max-width: none;
       }
 
-      cx-cart-quick-form {
-        max-width: 100%;
-        padding-inline-end: 0;
-        padding-inline-start: 0;
-      }
-
-      cx-cart-coupon {
-        max-width: 100%;
-        padding-inline-end: 0;
-        padding-inline-start: 0;
-      }
-
-      cx-cart-proceed-to-checkout {
+      cx-cart-quick-form,
+      x-cart-coupon,
+      x-cart-proceed-to-checkout {
         max-width: 100%;
         padding-inline-end: 0;
         padding-inline-start: 0;
