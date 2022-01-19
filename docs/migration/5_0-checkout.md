@@ -32,3 +32,4 @@ We are moving away from our initial idea of having recipes contained in the setu
 ### New functionality
 
 - `backOff` pattern is now added to the OCC adapters, and configured to retry on OCC-specific JALO errors. 
+- validation and error handling - the commands now perform various precondition checks. At the same time, commands will throw errors if the execution fails. Previously, effects were dispatching Fail actions, which usually were't handled.
