@@ -229,7 +229,7 @@ describe('ConfigAttributeDropDownComponent', () => {
       );
     });
 
-    it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+    it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
       CommonConfiguratorTestUtilsService.expectElementContainsA11y(
         expect,
         htmlElem,
@@ -237,33 +237,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
-      );
-    });
-
-    it("should contain option elements with 'aria-selected' attribute that is set to 'true' to notify the screen reader that a value is selected", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'option',
-        undefined,
-        0,
-        'aria-selected',
-        'true',
-        component.attribute.values[0].valueDisplay
-      );
-    });
-
-    it("should contain option elements with 'aria-selected' attribute that is set to 'false' to notify the screen reader that a value is not selected", () => {
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'option',
-        undefined,
-        1,
-        'aria-selected',
-        'false',
-        component.attribute.values[1].valueDisplay
+        'cx-configurator--label--attributeName'
       );
     });
 
@@ -275,7 +249,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         1,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
           component.attribute.label +
           ' value:' +
           component.attribute.values[1].valueDisplay,
@@ -305,7 +279,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
           component.attribute.values[0].valuePrice.formattedValue +
@@ -337,7 +311,7 @@ describe('ConfigAttributeDropDownComponent', () => {
         undefined,
         0,
         'aria-label',
-        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
           component.attribute.label +
           ' price:' +
           component.attribute.values[0].valuePrice.formattedValue +
