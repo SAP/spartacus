@@ -5,7 +5,8 @@ export const config = {
   newUserUrl: `${Cypress.env('API_URL')}/${Cypress.env(
     'OCC_PREFIX'
   )}/${Cypress.env('BASE_SITE')}/users/?lang=en&curr=${Cypress.env(
-    'BASE_CURRENCY')}`,
+    'BASE_CURRENCY'
+  )}`,
   client: {
     client_id: Cypress.env('CLIENT_ID'),
     client_secret: Cypress.env('CLIENT_SECRET'),
