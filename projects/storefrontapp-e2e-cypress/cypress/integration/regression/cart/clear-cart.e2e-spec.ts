@@ -2,11 +2,9 @@ import * as cart from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-let cartId;
-
 describe('Cart', () => {
   viewportContext(['desktop'], () => {
-    context('Clear Cart for registered user', () => {
+    describe('Clear Cart for registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.registerCartUser();
@@ -31,7 +29,22 @@ describe('Cart', () => {
         cart.verifyCartIdAfterClearCart();
       });
 
-      it('should clear cart after restoring a saved cart', () => {});
+      describe('Clear Cart - Saved Cart', () => {
+        it('should save a cart', () => {
+          cart.addProducts();
+          cart.verifyCartNotEmpty();
+          cart.goToCart();
+          cart.saveCartId();
+          cart.saveActiveCart();
+        });
+
+        it('should restore a saved cart and clear it', () => {
+          cart.restoreCart();
+          cart.goToCart();
+          cart.clearActiveCart();
+          cart.validateEmptyCart();
+        });
+      });
 
       it('should clear cart after importing products to cart', () => {});
 
