@@ -6,7 +6,8 @@ import { Configurator } from './../../../core/model/configurator.model';
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantPriceNormalizer
-  implements Converter<OccConfigurator.Prices, Configurator.Configuration> {
+  implements Converter<OccConfigurator.Prices, Configurator.Configuration>
+{
   convert(
     source: OccConfigurator.Prices,
     target?: Configurator.Configuration
@@ -15,9 +16,13 @@ export class OccConfiguratorVariantPriceNormalizer
     source.attributes?.forEach((attr) => {
       this.convertAttributeSupplements(attr, priceSupplements);
     });
+
+    //fine to build an incomplete configuratiom here,
+    //as we later on only take over the pricing related aspects
     const resultTarget: Configurator.Configuration = {
       ...target,
       configId: source.configId,
+      productCode: '',
       groups: [],
       flatGroups: [],
       owner: ConfiguratorModelUtils.createInitialOwner(),

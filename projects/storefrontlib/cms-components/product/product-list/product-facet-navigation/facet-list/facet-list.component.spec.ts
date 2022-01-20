@@ -163,7 +163,7 @@ describe('FacetListComponent', () => {
       component.isDialog = true;
       fixture.detectChanges();
 
-      const container = element.query(By.css('div'));
+      const container = element.query(By.css('section'));
       (container.nativeElement as HTMLElement).dispatchEvent(new Event('esc'));
       expect(component.closeList.emit).toHaveBeenCalled();
     });

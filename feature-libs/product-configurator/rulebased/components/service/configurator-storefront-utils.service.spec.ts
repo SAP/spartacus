@@ -119,10 +119,11 @@ describe('ConfigUtilsService', () => {
       values: [{ valueCode: 'b' }, { name: 'blue', valueCode: 'a' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
     if (attribute.values) {
       expect(values.length).toBe(2);
       expect(values[0].valueCode).toBe(attribute.values[0].valueCode);
@@ -142,10 +143,11 @@ describe('ConfigUtilsService', () => {
       values: [{ name: 'blue', valueCode: 'a' }],
     };
 
-    const values: Configurator.Value[] = classUnderTest.assembleValuesForMultiSelectAttributes(
-      controlArray,
-      attribute
-    );
+    const values: Configurator.Value[] =
+      classUnderTest.assembleValuesForMultiSelectAttributes(
+        controlArray,
+        attribute
+      );
     expect(values.length).toBe(1);
   });
 
@@ -177,6 +179,26 @@ describe('ConfigUtilsService', () => {
 
     it('should return group ID string', () => {
       expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('change styling of selected element', () => {
+    it('should get HTML element based on query selector', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
+    });
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.changeStyling('elementMock', 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
     });
   });
 });

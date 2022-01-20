@@ -7,6 +7,7 @@
       class="previous"
       (click)="activeSlide = activeSlide - size"
       [disabled]="activeSlide === 0"
+      [attr.aria-label]="'carousel.previousSlide' | cxTranslate"
     >
       <cx-icon [type]="previousIcon"></cx-icon>
     </button>
@@ -41,6 +42,7 @@
       (click)="activeSlide = activeSlide + size"
       tabindex="-1"
       [disabled]="activeSlide > items.length - size - 1"
+      [attr.aria-label]="'carousel.nextSlide' | cxTranslate"
     >
       <cx-icon [type]="nextIcon"></cx-icon>
     </button>
@@ -52,9 +54,13 @@
         *ngIf="i % size === 0"
         (focus)="activeSlide = i"
         [disabled]="i === activeSlide"
+        [attr.aria-label]="
+          'carousel.slideNumber'
+            | cxTranslate: { currentSlideNumber: getSlideNumber(size, i) }
+        "
         tabindex="-1"
       >
-        <cx-icon [type]="indicatorIcon"></cx-icon>
+        <cx-icon [type]="indicatorIcon" aria-hidden="true"></cx-icon>
       </button>
     </ng-container>
   </div>

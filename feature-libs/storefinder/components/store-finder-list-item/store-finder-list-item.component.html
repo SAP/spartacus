@@ -3,18 +3,23 @@
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
-    <h2 class="cx-store-name">
-      <button
-        *ngIf="useClickEvent"
-        (click)="handleStoreItemClick()"
-        (keyup)="onKey($event)"
-      >
-        {{ location.displayName || location.name }}
-      </button>
-      <a *ngIf="!useClickEvent" [routerLink]="[location.name]">{{
-        location.displayName || location.name
-      }}</a>
-    </h2>
+    <a
+      *ngIf="useClickEvent"
+      (click)="handleStoreItemClick()"
+      (keyup)="onKey($event)"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
+    </a>
+    <a
+      *ngIf="!useClickEvent"
+      [routerLink]="[location.name]"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
+    </a>
     <div class="cx-store-address" *ngIf="location.address">
       <div class="cx-store-address-street">
         {{ location.address.line1 }} {{ location.address.line2 }}
@@ -38,6 +43,7 @@
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"
       (click)="$event.stopPropagation()"
+      [attr.aria-label]="'storeFinder.ariaLabelGetDirections' | cxTranslate"
       >{{ 'storeFinder.getDirections' | cxTranslate }}</a
     >
   </div>

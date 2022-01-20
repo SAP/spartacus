@@ -32,9 +32,8 @@ export class InlineRootRenderStrategy extends LaunchRenderStrategy {
     caller: LAUNCH_CALLER | string
   ): Observable<ComponentRef<any>> | void {
     if (this.shouldRender(caller, config)) {
-      const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-        config.component
-      );
+      const componentFactory =
+        this.componentFactoryResolver.resolveComponentFactory(config.component);
 
       const contentInjector = Injector.create({
         providers: [],

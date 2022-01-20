@@ -90,4 +90,9 @@ export class CarouselComponent implements OnInit {
       .getItemsPerSlide(this.el.nativeElement, this.itemWidth)
       .pipe(tap(() => (this.activeSlide = 0)));
   }
+
+  getSlideNumber(size: number, currentIndex: number): number {
+    let normalizedCurrentIndex = currentIndex + 1;
+    return Math.ceil(normalizedCurrentIndex / size);
+  }
 }

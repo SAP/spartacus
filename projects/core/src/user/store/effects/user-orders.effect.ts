@@ -27,20 +27,21 @@ export class UserOrdersEffect {
     ofType(UserActions.LOAD_USER_ORDERS),
     map((action: UserActions.LoadUserOrders) => action.payload),
     switchMap((payload) => {
-      return (Boolean(payload.replenishmentOrderCode)
-        ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
-            payload.userId,
-            payload.replenishmentOrderCode,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
-        : this.orderConnector.getHistory(
-            payload.userId,
-            payload.pageSize,
-            payload.currentPage,
-            payload.sort
-          )
+      return (
+        Boolean(payload.replenishmentOrderCode)
+          ? this.replenishmentOrderConnector.loadReplenishmentDetailsHistory(
+              payload.userId,
+              payload.replenishmentOrderCode,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
+          : this.orderConnector.getHistory(
+              payload.userId,
+              payload.pageSize,
+              payload.currentPage,
+              payload.sort
+            )
       ).pipe(
         map((orders: OrderHistoryList) => {
           return new UserActions.LoadUserOrdersSuccess(orders);

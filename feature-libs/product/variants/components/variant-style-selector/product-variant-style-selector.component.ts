@@ -37,6 +37,7 @@ export class ProductVariantStyleSelectorComponent {
     variantOptionQualifiers: VariantOptionQualifier[]
   ): string {
     const qualifier = variantOptionQualifiers.find((item) => item.image);
+
     return qualifier
       ? `${this.config?.backend?.occ?.baseUrl}${qualifier.image?.url}`
       : '';

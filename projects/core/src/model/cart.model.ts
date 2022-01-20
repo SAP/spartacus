@@ -133,3 +133,15 @@ export interface CartModification {
   statusCode?: string;
   statusMessage?: string;
 }
+
+export interface CartModificationList {
+  cartModifications?: CartModification[];
+}
+
+export enum CartValidationStatusCode {
+  NO_STOCK = 'noStock',
+  LOW_STOCK = 'lowStock',
+  REVIEW_CONFIGURATION = 'reviewConfiguration',
+  PRICING_ERROR = 'pricingError',
+  UNRESOLVABLE_ISSUES = 'unresolvableIssues',
+}

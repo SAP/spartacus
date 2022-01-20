@@ -11,7 +11,10 @@
       <cx-page-layout section="navigation"></cx-page-layout>
     </header>
     <cx-page-slot position="BottomHeaderSlot"></cx-page-slot>
-    <cx-global-message></cx-global-message>
+    <cx-global-message
+      aria-atomic="true"
+      aria-live="assertive"
+    ></cx-global-message>
   </ng-template>
 
   <main cxSkipLink="cx-main" [cxFocus]="{ disableMouseFocus: true }">

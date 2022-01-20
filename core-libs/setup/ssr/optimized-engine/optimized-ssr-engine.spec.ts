@@ -1,4 +1,7 @@
 import { fakeAsync, flush, tick } from '@angular/core/testing';
+import { Application, Request } from 'express';
+import { IncomingHttpHeaders } from 'http';
+import { Socket } from 'net';
 import { NgExpressEngineInstance } from '../engine-decorator/ng-express-engine-decorator';
 import { OptimizedSsrEngine, SsrCallbackFn } from './optimized-ssr-engine';
 import {
@@ -7,6 +10,8 @@ import {
 } from './ssr-optimization-options';
 
 const defaultRenderTime = 100;
+const host = 'my.shop.com';
+
 /**
  * Helper class to easily create and test engine wrapper against mocked engine.
  *
@@ -48,21 +53,40 @@ class TestEngineRunner {
   }
 
   /** Run request against the engine. The result will be stored in rendering property. */
-  request(url: string, params?: { httpHeaders?: { [key: string]: string } }) {
+  request(
+    url: string,
+    params?: {
+      /** headers */
+      httpHeaders?: IncomingHttpHeaders;
+    }
+  ): TestEngineRunner {
     const response: { [key: string]: string } = {};
-    const headers = new Headers(params?.httpHeaders ?? {});
+    const headers = params?.httpHeaders ?? { host };
+    /** used when resolving getRequestUrl() and getRequestOrigin() */
+    const app = <Partial<Application>>{
+      get:
+        (_name: string): any =>
+        (_connectionRemoteAddress: string) =>
+          true,
+    };
+
     const optionsMock = {
       req: <Partial<Request>>{
+        protocol: 'https',
         originalUrl: url,
         headers,
-        get: (header: string): string | null => headers.get(header),
+        get: (header: string): string | string[] | null | undefined => {
+          return headers[header];
+        },
+        app,
+        connection: <Partial<Socket>>{},
       },
       res: <Partial<Response>>{
         set: (key: string, value: any) => (response[key] = value),
       },
     };
 
-    this.engineInstance(url, optionsMock, (_, html) => {
+    this.engineInstance(url, optionsMock, (_, html): void => {
       this.renders.push(html ?? '');
       this.responseParams.push(response);
     });
@@ -272,6 +296,51 @@ describe('OptimizedSsrEngine', () => {
   });
 
   describe('renderKeyResolver option', () => {
+    describe('default key resolver', () => {
+      it('should be used when the custom one is provided', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+        });
+        spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        ).and.callThrough();
+
+        const route = 'home';
+        engineRunner.request(route);
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`https://${host}${route}`);
+      }));
+
+      it('should use the X-Forwarded-Host header to resolve the origin', fakeAsync(() => {
+        const engineRunner = new TestEngineRunner({
+          timeout: 200,
+          cache: true,
+        });
+        spyOn(
+          engineRunner.optimizedSsrEngine as any,
+          'isConcurrencyLimitExceeded'
+        );
+
+        const domain = 'my.shop.com/';
+        const route = 'home';
+        engineRunner.request(route, {
+          httpHeaders: {
+            'X-Forwarded-Host': domain,
+          },
+        });
+        tick(200);
+
+        expect(
+          engineRunner.optimizedSsrEngine['isConcurrencyLimitExceeded']
+        ).toHaveBeenCalledWith(`https://${domain}${route}`);
+      }));
+    });
+
     it('should use custom render key resolver', fakeAsync(() => {
       const engineRunner = new TestEngineRunner({
         renderKeyResolver: (req) => req.originalUrl.substr(0, 2),
@@ -610,7 +679,8 @@ describe('OptimizedSsrEngine', () => {
 
       tick(fiveMinutes + 101);
       expect(engineRunner.optimizedSsrEngine['log']).toHaveBeenCalledWith(
-        `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`
+        `Rendering of ${requestUrl} completed after the specified maxRenderTime, therefore it was ignored.`,
+        false
       );
       expect(engineRunner.renders).toEqual(['']);
 
@@ -624,14 +694,18 @@ describe('OptimizedSsrEngine', () => {
     const requestUrl = 'a';
     const differentUrl = 'b';
 
+    const getRenderingKey = (requestUrl: string): string =>
+      `https://${host}${requestUrl}`;
+
     const getRenderCallbacksCount = (
       engineRunner: TestEngineRunner,
-      renderingKey: string
+      requestUrl: string
     ): { renderCallbacksCount: number } => {
       return {
         renderCallbacksCount:
-          engineRunner.optimizedSsrEngine['renderCallbacks'].get(renderingKey)
-            ?.length ?? 0,
+          engineRunner.optimizedSsrEngine['renderCallbacks'].get(
+            getRenderingKey(requestUrl)
+          )?.length ?? 0,
       };
     };
 
@@ -914,6 +988,7 @@ describe('OptimizedSsrEngine', () => {
         it('should free up only one concurrent slot when the render is hanging for many waiting requests', fakeAsync(() => {
           const hangingRequest = 'a';
           const ssrRequest = 'b';
+
           const renderTime = 200;
           const maxRenderTime = renderTime - 50; // shorter than the predicted render time
           const engineRunner = new TestEngineRunner(

@@ -58,7 +58,8 @@ export class AnonymousConsentDialogComponent implements OnInit, OnDestroy {
     protected launchDialogService: LaunchDialogService
   ) {
     if (Boolean(this.config.anonymousConsents)) {
-      this.showLegalDescription = this.config.anonymousConsents.showLegalDescriptionInDialog;
+      this.showLegalDescription =
+        this.config.anonymousConsents.showLegalDescriptionInDialog;
       if (Boolean(this.config.anonymousConsents.requiredConsents)) {
         this.requiredConsents = this.config.anonymousConsents.requiredConsents;
       }

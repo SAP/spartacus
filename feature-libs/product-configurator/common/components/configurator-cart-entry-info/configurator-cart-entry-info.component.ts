@@ -25,9 +25,8 @@ export class ConfiguratorCartEntryInfoComponent {
     this.cartItemContext?.readonly$ ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.
@@ -37,7 +36,7 @@ export class ConfiguratorCartEntryInfoComponent {
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
   hasStatus(item: OrderEntry): boolean {
-    const configurationInfos = item?.configurationInfos;
+    const configurationInfos = item.configurationInfos;
 
     return configurationInfos
       ? configurationInfos.length > 0 &&
@@ -60,5 +59,9 @@ export class ConfiguratorCartEntryInfoComponent {
         )
       : false;
     return attributeBased ? attributeBased : false;
+  }
+
+  getHiddenConfigurationInfoId(index: number): string {
+    return 'cx-configuration-hidden-info-' + index.toString();
   }
 }

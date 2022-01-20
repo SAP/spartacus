@@ -96,9 +96,8 @@ describe('FormErrors', () => {
   it('should render multiple errors', () => {
     control.setErrors({ email: true, required: true });
     fixture.detectChanges();
-    const renderedErrors = fixture.debugElement.nativeElement.querySelectorAll(
-      'p'
-    );
+    const renderedErrors =
+      fixture.debugElement.nativeElement.querySelectorAll('p');
     expect(renderedErrors[0].innerText).toEqual('formErrors.email');
     expect(renderedErrors[1].innerText).toEqual('formErrors.required');
   });

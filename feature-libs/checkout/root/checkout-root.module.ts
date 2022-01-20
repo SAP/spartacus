@@ -1,12 +1,19 @@
 import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import {
+  CmsPageGuard,
+  PageLayoutComponent,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
+import { OrderConfirmationOrderEntriesContext } from './pages/order-confirmation-order-entries-context';
 
 export function defaultCheckoutComponentsConfig() {
   const config = {
@@ -45,7 +52,22 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [],
+  imports: [
+    RouterModule.forChild([
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'orderConfirmation',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContext,
+          },
+        },
+      },
+    ]),
+  ],
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultCheckoutRoutingConfig),

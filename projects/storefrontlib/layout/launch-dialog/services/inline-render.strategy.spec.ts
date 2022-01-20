@@ -54,8 +54,9 @@ describe('InlineRenderStrategy', () => {
     }).compileComponents();
 
     service = TestBed.inject(InlineRenderStrategy);
-    component = TestBed.createComponent(TestContainerComponent)
-      .componentInstance;
+    component = TestBed.createComponent(
+      TestContainerComponent
+    ).componentInstance;
 
     spyOn(component.vcr, 'createComponent');
   });

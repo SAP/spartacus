@@ -43,13 +43,13 @@ function getSelected(
   component: ConfiguratorAttributeSingleSelectionBundleComponent,
   index: number
 ): boolean | undefined {
-  const values = component?.attribute?.values;
+  const values = component.attribute?.values;
   return values ? values[index].selected : false;
 }
 function getFirstValue(
   component: ConfiguratorAttributeSingleSelectionBundleComponent
 ): Configurator.Value {
-  const values = component?.attribute?.values;
+  const values = component.attribute?.values;
   return values ? values[0] : { valueCode: 'a' };
 }
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {

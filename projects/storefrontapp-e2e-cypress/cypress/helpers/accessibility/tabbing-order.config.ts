@@ -8,6 +8,33 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { value: 'Sign In', type: TabbingOrderTypes.BUTTON },
     { value: 'Register', type: TabbingOrderTypes.BUTTON },
   ],
+  register: [
+    { value: 'titleCode', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'firstName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'lastName', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'email', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'password', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'passwordconf', type: TabbingOrderTypes.FORM_FIELD },
+    {
+      value: 'newsletter',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'termsandconditions',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { value: 'Terms & Conditions', type: TabbingOrderTypes.LINK },
+    { value: 'Register', type: TabbingOrderTypes.BUTTON },
+    {
+      value: 'I already have an account. Sign In',
+      type: TabbingOrderTypes.LINK,
+    },
+  ],
+  resetPassword: [
+    { value: 'userEmail', type: TabbingOrderTypes.FORM_FIELD },
+    { value: 'Cancel', type: TabbingOrderTypes.BUTTON },
+    { value: 'Submit', type: TabbingOrderTypes.BUTTON },
+  ],
   productConfigurationPage: [
     {
       type: TabbingOrderTypes.GENERIC_ELEMENT,
@@ -389,6 +416,74 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Cancel Return Request',
       type: TabbingOrderTypes.BUTTON,
+    },
+  ],
+  headerDesktopNotLoggedIn: [
+    {
+      value: 'Language',
+      type: TabbingOrderTypes.SELECT,
+    },
+    {
+      value: 'Currency',
+      type: TabbingOrderTypes.SELECT,
+    },
+    {
+      value: 'Quick Order',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Find a Store',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Contact Us',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Help',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      type: TabbingOrderTypes.GENERIC_INPUT,
+    },
+    {
+      type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Sign In / Register',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: '/electronics-spa/en/USD/cart',
+      type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Brands',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
+      value: 'Digital Cameras',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
+    },
+    {
+      value: 'Film Cameras',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Camcorders',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Webcams',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Accessories',
+      type: TabbingOrderTypes.NAV_CATEGORY_DROPDOWN,
     },
   ],
   headerDesktopLoggedIn: [
