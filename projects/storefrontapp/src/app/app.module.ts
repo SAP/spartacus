@@ -23,6 +23,7 @@ import {
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { CustomLoginModule } from './spartacus/custom/custom-login.module';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
@@ -45,6 +46,8 @@ if (!environment.production) {
     SpartacusModule,
     TestOutletModule, // custom usages of cxOutletRef only for e2e testing
     TestConfigModule.forRoot({ cookie: 'cxConfigE2E' }), // Injects config dynamically from e2e tests. Should be imported after other config modules.
+
+    CustomLoginModule,
 
     ...devImports,
   ],
