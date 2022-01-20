@@ -21,6 +21,6 @@ context('Apparel - Cart Import/Export', () => {
       });
     });
 
-    importExport.testImportExportWithVariableProducts();
+    importExport.testImportExportWithApparelProducts();
   });
 });

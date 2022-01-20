@@ -367,22 +367,22 @@ export function testImportExportLargerQuantity() {
 }
 
 /**
- * Test import / export variable products.
+ * Test import / export with apparel products
  */
-export function testImportExportWithVariableProducts() {
-  describe('Variable products', () => {
+export function testImportExportWithApparelProducts() {
+  describe('Apparel products', () => {
     const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
-    const variableProductCode = '300785814';
+    const apparelProductCode = '300785814';
 
     it('should export cart', () => {
-      addProductToCart(variableProductCode);
+      addProductToCart(apparelProductCode);
       exportCart(EXPECTED_CSV);
     });
 
     it('should import cart', () => {
       importCartTestFromConfig({
-        name: 'Variable products Cart',
-        description: 'A test description for Variable products Cart.',
+        name: 'Apparel products Cart',
+        description: 'A test description for Apparel products Cart.',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '£24.26',
