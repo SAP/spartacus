@@ -2,6 +2,7 @@
 
 <ng-container *ngIf="isExternalUrl(); else isLocalUrl">
   <a
+    (click)="triggerLink()"
     [href]="url"
     [attr.target]="target"
     [attr.rel]="rel"
@@ -16,6 +17,7 @@
 
 <ng-template #isLocalUrl>
   <a
+    (click)="triggerLink()"
     [routerLink]="routerUrl"
     [queryParams]="queryParams"
     [fragment]="fragment"

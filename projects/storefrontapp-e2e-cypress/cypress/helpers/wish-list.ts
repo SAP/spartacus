@@ -41,12 +41,12 @@ export const WishListUser = {
   },
 };
 
-function registerWishListUser() {
+export function registerWishListUser() {
   register({ ...WishListUser.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
-function loginWishListUser() {
+export function loginWishListUser() {
   login(
     WishListUser.registrationData.email,
     WishListUser.registrationData.password
@@ -68,11 +68,7 @@ export function waitForGetWishList() {
 }
 
 export function addToWishListAnonymous(product: TestProduct) {
-  const productPage = waitForProductPage(product.code, 'productPage');
-
-  cy.visit(`/product/${product.code}`);
-
-  cy.wait(`@${productPage}`);
+  visitProduct(product);
 
   cy.get('cx-add-to-wishlist .button-add-link').click();
 
@@ -85,6 +81,14 @@ export function addToWishListAnonymous(product: TestProduct) {
   loginWishListUser();
 
   cy.get('cx-product-intro > .code').should('contain', `${product.code}`);
+}
+
+export function visitProduct(product: TestProduct) {
+  const productPage = waitForProductPage(product.code, 'productPage');
+
+  cy.visit(`/product/${product.code}`);
+
+  cy.wait(`@${productPage}`);
 }
 
 export function addToWishListFromPage() {
@@ -104,7 +108,7 @@ export function addToWishList(product: TestProduct) {
 
   waitForGetWishList();
 
-  cy.get('cx-add-to-wishlist .button-add').click();
+  cy.get('cx-add-to-wishlist .button-add').should('not.be.disabled').click();
 
   cy.wait('@get_wish_list');
 }
@@ -148,6 +152,13 @@ export function removeProductFromPdp() {
   verifyProductNotInWishListPdp();
 }
 
+export function removeProductFromCart() {
+  cy.get('cx-mini-cart').click();
+  cy.get('.cx-item-list-items').within(() => {
+    cy.findByText(/Remove/i).click();
+  });
+}
+
 export function addProductToCart(product: TestProduct) {
   cy.intercept(
     'POST',
@@ -186,12 +197,19 @@ export function checkWishListPersisted(product: TestProduct) {
 
   verifyProductInWishList(product);
 
-  goToProductPage(product);
+  goToProductPageFromWishList(product);
 
   verifyProductInWishListPdp();
 }
 
-export function goToProductPage(product: TestProduct) {
+export function goToWishList() {
+  cy.selectUserMenuOption({
+    option: 'Wish List',
+  });
+  waitForGetWishList();
+}
+
+export function goToProductPageFromWishList(product: TestProduct) {
   const productPage = waitForProductPage(product.code, 'productPage');
   cy.get('cx-wish-list').should('be.visible');
   cy.get('cx-wish-list')

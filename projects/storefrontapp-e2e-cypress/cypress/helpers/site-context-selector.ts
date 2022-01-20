@@ -1,6 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -86,7 +87,7 @@ export function doPlaceOrder() {
 }
 
 export function addressBookNextStep() {
-  cy.get('cx-shipping-address .cx-card-link').click({ force: true });
+  cy.get('cx-shipping-address .link').click({ force: true });
 
   const deliveryPage = waitForPage(
     CHECKOUT_DELIVERY_MODE_PATH,
@@ -114,7 +115,7 @@ export function deliveryModeNextStep() {
 }
 
 export function paymentDetailsNextStep() {
-  cy.get('cx-payment-method .cx-card-link').click({
+  cy.get('cx-payment-method .link').click({
     force: true,
   });
 
@@ -194,4 +195,64 @@ export function verifySiteContextChangeUrl(
 ): void {
   siteContextChange(pagePath, alias, selectedOption, label);
   assertSiteContextChange(testPath);
+}
+
+export function testLangSwitchOrderPage() {
+  describe('order page', () => {
+    const orderPath = ORDER_PATH;
+    const deutschName = MONTH_DE;
+
+    before(() => {
+      doPlaceOrder();
+      waitForOrderToBePlacedRequest();
+    });
+
+    it('should change language in the url', () => {
+      verifySiteContextChangeUrl(
+        orderPath,
+        LANGUAGES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL,
+        FULL_BASE_URL_DE_USD + orderPath
+      );
+    });
+
+    it('should change language in the page', () => {
+      siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
+
+      cy.get(
+        'cx-order-history .cx-order-history-placed .cx-order-history-value'
+      ).should('contain', deutschName);
+    });
+  });
+}
+
+export function testPersonalDetailsPage() {
+  describe('personal details page', () => {
+    const personalDetailsPath = PERSONAL_DETAILS_PATH;
+    const deutschName = TITLE_DE;
+
+    it('should change language in the url', () => {
+      verifySiteContextChangeUrl(
+        personalDetailsPath,
+        LANGUAGES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL,
+        FULL_BASE_URL_DE_USD + personalDetailsPath
+      );
+    });
+
+    it('should change language in the page', () => {
+      siteContextChange(
+        personalDetailsPath,
+        TITLES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL
+      );
+
+      cy.get('cx-update-profile form select')
+        .select(deutschName)
+        .should('have.value', 'mr');
+    });
+  });
 }
