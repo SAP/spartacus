@@ -28,12 +28,8 @@
             | cxTranslate
               : { value: value.valueDisplay, attribute: attribute.label })
       "
-      [attr.aria-describedby]="
-        createAttributeUiKey('label', attribute.name) +
-        ' ' +
-        createAttributeUiKey('attribute-msg', attribute.name)
-      "
-      [attr.aria-checked]="attributeCheckBoxForms[i].value"
+      [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
+      [attr.checked]="attributeCheckBoxForms[i].value ? 'checked' : null"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
     />
     <div class="cx-label-container">

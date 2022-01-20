@@ -206,6 +206,7 @@ describe('ConfigProductTitleComponent', () => {
     changeDetectorRef = fixture.componentRef.injector.get(ChangeDetectorRef);
     htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
+    component.ghostStyle = false;
 
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>

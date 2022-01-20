@@ -8,12 +8,21 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Address, I18nTestingModule, User } from '@spartacus/core';
+import {
+  Address,
+  GlobalMessageService,
+  I18nTestingModule,
+  User,
+} from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CardModule } from '../../../shared/components/card';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
 import { AddressBookComponent } from './address-book.component';
 import { AddressBookComponentService } from './address-book.component.service';
+
+class MockGlobalMessageService {
+  add = jasmine.createSpy();
+}
 
 const mockAddress: Address = {
   id: '123',
@@ -102,6 +111,7 @@ describe('AddressBookComponent', () => {
             provide: AddressBookComponentService,
             useClass: MockComponentService,
           },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
         declarations: [AddressBookComponent, MockAddressFormComponent],
       }).compileComponents();
@@ -208,10 +218,10 @@ describe('AddressBookComponent', () => {
 
   describe('setAddressAsDefault', () => {
     it('should set Address as default', () => {
-      component.setAddressAsDefault(mockAddress[0]);
+      component.setAddressAsDefault(mockAddress);
       expect(
         addressBookComponentService.setAddressAsDefault
-      ).toHaveBeenCalledWith(mockAddress[0]);
+      ).toHaveBeenCalledWith(mockAddress.id);
     });
   });
 

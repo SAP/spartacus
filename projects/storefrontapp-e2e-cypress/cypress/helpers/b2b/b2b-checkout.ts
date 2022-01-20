@@ -127,7 +127,7 @@ export function selectAccountShippingAddress() {
 
   cy.get('cx-card').within(() => {
     cy.get('.cx-card-label-bold').should('not.be.empty');
-    cy.get('.cx-card-actions .cx-card-link').click({ force: true });
+    cy.get('.cx-card-actions .link').click({ force: true });
   });
 
   cy.wait('@updateAddress').its('response.statusCode').should('eq', 200);
@@ -164,22 +164,18 @@ export function selectAccountDeliveryMode() {
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
   ).then(() => {
     // Accessibility
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.deliveryMode
-    );
-  });
-  const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+    if (getViewport() === 'desktop') {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        config.deliveryMode
+        );
+      }
+      
+      cy.get('.cx-checkout-btns button.btn-primary')
+      .should('be.enabled')
+      .click({ force: true });
 
-  // Accessibility
-  if (getViewport() === 'desktop') {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.deliveryMode
-    );
-  }
-
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+      const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
   cy.wait(`@${orderReview}`, { timeout: 30000 })
