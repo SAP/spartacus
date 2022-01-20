@@ -12,12 +12,12 @@ export class ClearCartService {
 
   constructor(
     protected globalMessageService: GlobalMessageService,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade
   ) {}
 
   clearActiveCart(): void {
     this.isClearing$.next(true);
-    this.activeCartService
+    this.activeCartFacade
       .clearActiveCart()
       .pipe(take(1))
       .subscribe(() => {
