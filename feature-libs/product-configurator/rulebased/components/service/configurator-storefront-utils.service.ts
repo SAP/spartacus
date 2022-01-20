@@ -132,9 +132,8 @@ export class ConfiguratorStorefrontUtilsService {
           'cx-configurator-form'
         );
         if (form) {
-          const focusableElements: HTMLElement[] = this.keyboardFocusService.findFocusable(
-            form
-          );
+          const focusableElements: HTMLElement[] =
+            this.keyboardFocusService.findFocusable(form);
           if (focusableElements && focusableElements.length > 0) {
             focusableElements[0].focus();
           }

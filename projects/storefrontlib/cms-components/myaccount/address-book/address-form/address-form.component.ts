@@ -229,7 +229,8 @@ export class AddressFormComponent implements OnInit, OnDestroy {
         SuggestedAddressDialogComponent,
         { centered: true, size: 'lg' }
       );
-      this.suggestedAddressModalRef.componentInstance.enteredAddress = this.addressForm.value;
+      this.suggestedAddressModalRef.componentInstance.enteredAddress =
+        this.addressForm.value;
       this.suggestedAddressModalRef.componentInstance.suggestedAddresses =
         results.suggestedAddresses;
       this.suggestedAddressModalRef.result

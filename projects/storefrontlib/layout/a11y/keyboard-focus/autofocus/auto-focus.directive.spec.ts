@@ -77,8 +77,9 @@ describe('AutoFocusDirective', () => {
 
   describe('default', () => {
     it('should focus host element by default if autofocus is not provided', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#a'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#a')
+      ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {
@@ -92,8 +93,9 @@ describe('AutoFocusDirective', () => {
 
   describe('autofocus = true', () => {
     it('should mimic focus if autofocus is required', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#b'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#b')
+      ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {
@@ -105,8 +107,9 @@ describe('AutoFocusDirective', () => {
     });
 
     it('should handle focus when autofocus is a selector', () => {
-      const host: HTMLElement = fixture.debugElement.query(By.css('#d'))
-        .nativeElement;
+      const host: HTMLElement = fixture.debugElement.query(
+        By.css('#d')
+      ).nativeElement;
       spyOn(service, 'findFirstFocusable');
       fixture.detectChanges();
       expect(service.findFirstFocusable).toHaveBeenCalledWith(host, {

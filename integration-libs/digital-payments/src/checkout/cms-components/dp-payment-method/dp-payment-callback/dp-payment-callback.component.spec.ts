@@ -19,7 +19,8 @@ import { Observable, of } from 'rxjs';
 import { Component } from '@angular/core';
 
 class MockDpCheckoutPaymentService
-  implements Partial<DpCheckoutPaymentService> {
+  implements Partial<DpCheckoutPaymentService>
+{
   createPaymentDetails(): Observable<PaymentDetails> {
     return of({});
   }

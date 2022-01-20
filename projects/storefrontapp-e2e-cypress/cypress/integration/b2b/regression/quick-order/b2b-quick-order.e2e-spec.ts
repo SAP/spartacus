@@ -1,19 +1,22 @@
 import * as quickOrder from '../../../../helpers/b2b/b2b-quick-order';
+import * as alerts from '../../../../helpers/global-message';
 import { viewportContext } from '../../../../helpers/viewport-context';
 import * as sampleData from '../../../../sample-data/b2b-checkout';
-import * as alerts from '../../../../helpers/global-message';
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 
 context('B2B - Quick Order', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.window().then((win) => win.localStorage.clear());
-      cy.clearLocalStorageMemory();
+      clearAllStorage();
     });
 
     describe('Quick Order Page', () => {
       beforeEach(() => {
         quickOrder.visitQuickOrderPage();
+      });
+
+      it('should show result box with 5 products', () => {
+        quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code, 5);
       });
 
       it('should add product to the cart', () => {
@@ -40,6 +43,23 @@ context('B2B - Quick Order', () => {
         quickOrder.addManyProductsToTheList(sampleData.products);
         quickOrder.removeFirstRow();
         quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+      });
+
+      it('should close deletion message after 5s after removal', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        cy.wait(5000);
+        quickOrder.verifyQuickOrderPageHasNotDeletionMessage();
+      });
+
+      it('should remove 5 products and get 5 deletion messages', () => {
+        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
+        quickOrder.removeManyRows(5);
+        quickOrder.verifyQuickOrderListQuantity(5);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(5);
       });
 
       it('should clear the list', () => {
@@ -51,25 +71,26 @@ context('B2B - Quick Order', () => {
           .should('contain', `Quick order list has been cleared`);
       });
 
-      it('should show message if product code is invalid', () => {
-        const invalidProductCode = 'invalidCode';
-
-        quickOrder.addWrongProductToTheList(invalidProductCode);
-        alerts
-          .getErrorAlert()
-          .should(
-            'contain',
-            `Product with code '${invalidProductCode}' not found!`
-          );
+      it('should limit the list and show error message', () => {
+        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
+        quickOrder.verifyQuickOrderReachedListLimit();
       });
 
-      it('should limit the list and block form for adding more products', () => {
-        quickOrder.addManyProductsToTheList(sampleData.b2bProducts);
-        quickOrder.verifyQuickOrderFormIsDisabled();
+      it('should show info message to add product to the list before clicking add to cart', () => {
+        quickOrder.addToCartClick();
+        quickOrder.verifyQuickOrderPageShowInfoMessageToAddProductBeforeClickingAddToCart();
       });
 
       it('should hide "Empty List" button if list has no entries', () => {
         quickOrder.verifyEmptyListButtonIsHidden();
+      });
+
+      it('should show error message after trying to add non purchasable product to the list', () => {
+        quickOrder.addProductToTheList(
+          sampleData.b2bNonPurchasableProduct.code
+        );
+        quickOrder.verifyQuickOrderListQuantity(0);
+        quickOrder.verifyQuickOrderPageShowErrorMessageNonPurchasableProduct();
       });
 
       it('should show error message after adding to cart with out of stock information', () => {
@@ -112,6 +133,21 @@ context('B2B - Quick Order', () => {
         quickOrder.addToCart();
         quickOrder.verifyQuickOrderPageShowErrorMessageOutOfStock();
         quickOrder.verifyQuickOrderPageShowSuccessMessageWasAdded();
+      });
+
+      it('should fill the form with random string and get empty results information', () => {
+        quickOrder.addWrongProductQuery('xxxxxxxxxxxxxxxxxx');
+        quickOrder.verifyQuickOrderFormResultsBoxIsEmpty();
+      });
+
+      it('should delete entry and after that restore it', () => {
+        quickOrder.addManyProductsToTheList(sampleData.products);
+        quickOrder.removeFirstRow();
+        quickOrder.verifyQuickOrderListQuantity(1);
+        quickOrder.verifyQuickOrderPageShowEntryDeletionMessages(1);
+        quickOrder.restoreDeletedEntry();
+        quickOrder.verifyQuickOrderListQuantity(2);
+        quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
       });
     });
 

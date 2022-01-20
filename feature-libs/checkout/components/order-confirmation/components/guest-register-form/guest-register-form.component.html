@@ -15,6 +15,7 @@
             'register.password.label' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             class="form-control"
             type="password"
             name="password"
@@ -22,6 +23,8 @@
             formControlName="password"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="guestRegisterForm.get('password')"
           ></cx-form-errors>
         </label>
@@ -33,6 +36,7 @@
             'register.confirmPassword.label' | cxTranslate
           }}</span>
           <input
+            aria-required="true"
             class="form-control"
             type="password"
             name="passwordconf"
@@ -42,6 +46,8 @@
             formControlName="passwordconf"
           />
           <cx-form-errors
+            aria-live="assertive"
+            aria-atomic="true"
             [control]="guestRegisterForm.get('passwordconf')"
           ></cx-form-errors>
         </label>

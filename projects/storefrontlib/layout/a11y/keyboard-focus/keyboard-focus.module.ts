@@ -18,6 +18,10 @@ const directives = [
   FocusDirective,
 ];
 
+/**
+ * @deprecated since 4.2, refer to spartacus issues (#13762)
+ * Remove the router module as well as it was part of the old initiative for scroll positiioning
+ */
 @NgModule({
   imports: [
     CommonModule,
@@ -39,6 +43,7 @@ const directives = [
 export class KeyboardFocusModule {}
 
 /**
+ *  @deprecated since 4.2, refer to spartacus issues (#13762)
  *  Start keyboard focus services on app initialization.
  */
 export function keyboardFocusFactory(

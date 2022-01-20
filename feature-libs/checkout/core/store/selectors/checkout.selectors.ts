@@ -46,10 +46,8 @@ export const getCheckoutSteps: MemoizedSelector<
   StateUtils.loaderValueSelector(state)
 );
 
-export const getDeliveryAddress: MemoizedSelector<
-  StateWithCheckout,
-  Address
-> = createSelector(getCheckoutSteps, getDeliveryAddressSelector);
+export const getDeliveryAddress: MemoizedSelector<StateWithCheckout, Address> =
+  createSelector(getCheckoutSteps, getDeliveryAddressSelector);
 
 export const getDeliveryMode: MemoizedSelector<
   StateWithCheckout,
@@ -110,12 +108,10 @@ export const getCheckoutDetailsLoaded: MemoizedSelector<
     !StateUtils.loaderLoadingSelector(state)
 );
 
-export const getCheckoutLoading: MemoizedSelector<
-  StateWithCheckout,
-  boolean
-> = createSelector(getCheckoutStepsState, (state) =>
-  StateUtils.loaderLoadingSelector(state)
-);
+export const getCheckoutLoading: MemoizedSelector<StateWithCheckout, boolean> =
+  createSelector(getCheckoutStepsState, (state) =>
+    StateUtils.loaderLoadingSelector(state)
+  );
 
 export const getPoNumer: MemoizedSelector<
   StateWithCheckout,

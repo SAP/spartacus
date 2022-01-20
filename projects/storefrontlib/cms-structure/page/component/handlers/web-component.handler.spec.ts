@@ -80,9 +80,10 @@ describe('WebComponentHandler', () => {
       .unsubscribe();
 
     // get last added script
-    const scripts = fixture.debugElement.nativeElement.parentElement.querySelectorAll(
-      'script'
-    );
+    const scripts =
+      fixture.debugElement.nativeElement.parentElement.querySelectorAll(
+        'script'
+      );
     const script = scripts[scripts.length - 1];
     expect(script.src).toContain('test.js');
   });

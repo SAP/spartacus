@@ -31,6 +31,7 @@
       [target]="node.target"
       [style]="node.styleAttributes"
       [class]="node.styleClasses"
+      [isNavLink]="true"
     >
       {{ node.title }}
       <cx-icon
@@ -40,10 +41,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <span
-        [attr.aria-label]="node.title"
-        [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1"
-      >
+      <span [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1">
         {{ node.title }}
         <cx-icon
           *ngIf="flyout && node.children?.length > 0"
@@ -58,6 +56,7 @@
         *ngIf="node.url"
         [url]="node.url"
         [target]="node.target"
+        [isNavLink]="true"
         class="all"
       >
         {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}

@@ -78,10 +78,11 @@ describe('ProductService', () => {
 
   describe('isLoading(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          loading: true,
-        })
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            loading: true,
+          })
       );
       let isLoading: boolean | undefined;
       service.isLoading('testId').subscribe((value) => {
@@ -93,10 +94,11 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          error: true,
-        })
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            error: true,
+          })
       );
       let hasError: boolean | undefined;
       service.hasError('testId').subscribe((value) => {
@@ -108,10 +110,11 @@ describe('ProductService', () => {
 
   describe('hasError(productCode)', () => {
     it('should be able to get loading flag by code', () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({
-          success: true,
-        })
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () =>
+          of({
+            success: true,
+          })
       );
       let isSuccess: boolean | undefined;
       service.isSuccess('testId').subscribe((value) => {
@@ -123,8 +126,8 @@ describe('ProductService', () => {
 
   describe('isProductLoaded(productCode)', () => {
     it('should be true that the product is loaded when a product is returned by the store', async () => {
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of({ value: mockedProduct })
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of({ value: mockedProduct })
       );
       const result: Product = await service.get('existingProduct').toPromise();
       expect(result).toBeTruthy();

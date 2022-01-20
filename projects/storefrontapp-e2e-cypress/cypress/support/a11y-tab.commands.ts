@@ -18,17 +18,17 @@ declare global {
       /**
        * Verifies use of the TAB key to iterate through elements on the page at the state this command is called.
        *
-       * When this command is first called, it will fail the test and create a draft config file as indicated by the error message.
+       * When this command is first called, it will fail the test and create a draft snapshot file as indicated by the error message.
        *
        * It is up to the developer to verify elements of the page at the current state are accessible by the TAB key.
        *
-       * Once verified, the developer can move the generated draft config file into the config folder for the test to pass this assertation.
+       * Once verified, the developer can move the generated draft snapshot file into the snapshot folder for the test to pass this assertation.
        *
-       * Upon any DOM change that might affect the accessibility of the keyboard at the asserted state, the test will fail and a new draft config will be generated to be verified once again.
+       * Upon any DOM change that might affect the accessibility of the keyboard at the asserted state, the test will fail and a new draft snapshot will be generated to be verified once again.
        *
        * @memberof Cypress.Chainable
        */
-      tabScreenshot: (config?: TabScreenshotConfig) => void;
+      domSnapshot: (config?: DomSnapshotConfig) => void;
     }
   }
 }
@@ -49,28 +49,28 @@ Cypress.Commands.add('pressTab', () => {
   });
 });
 
-export interface TabScreenshotConfig {
+export interface DomSnapshotConfig {
   /**
-   * Tag name for element in which to perform screenshot within.
+   * Tag name for element in which to perform snapshots within.
    * @default 'body'
    */
   container: string;
   /**
-   * Appended to file name to identify unique states in a test with multiple screenshots.
+   * Appended to file name to identify unique states in a test with multiple snapshots.
    */
   scenario?: string;
 }
 
 Cypress.Commands.add(
-  'tabScreenshot',
-  (config: TabScreenshotConfig = { container: 'body' }) => {
+  'domSnapshot',
+  (config: DomSnapshotConfig = { container: 'body' }) => {
     const FILE_NAME = `${getViewport()}/${Cypress.spec.name}${
       config.scenario ? `-${config.scenario}` : ''
     }.json`;
-    const DRAFT_FILE = `cypress/fixtures/a11y/tab/drafts/${FILE_NAME}`;
-    const CONFIG_FILE = `cypress/fixtures/a11y/tab/configs/${FILE_NAME}`;
-    const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify with screenshots that keyboard accessibility is correct and move to '${CONFIG_FILE}' to pass assertion.`;
-    
+    const DRAFT_FILE = `cypress/fixtures/a11y/snapshots/drafts/${FILE_NAME}`;
+    const SNAPSHOT_FILE = `cypress/fixtures/a11y/snapshots/${FILE_NAME}`;
+    const GENERATION_MESSAGE = `Draft generated at '${DRAFT_FILE}'. Verify that keyboard accessibility is correct and move to '${SNAPSHOT_FILE}' to pass assertion.`;
+
     cy.document().then((document) => {
       const focusable = Array.from(
         <NodeListOf<HTMLElement>>(
@@ -85,20 +85,22 @@ Cypress.Commands.add(
           child: el.innerHTML,
         }));
 
-      cy.task('readFile', CONFIG_FILE).then((file: string) => {
+      cy.task('readFile', SNAPSHOT_FILE).then((file: string) => {
         if (file?.length) {
           const json = JSON.parse(file);
           if (JSON.stringify(json) === JSON.stringify(focusable)) {
-            console.log(`Tab screenshot verified for: '${FILE_NAME}''`);
+            console.log(`DOM Snapshot verified for: '${FILE_NAME}''`);
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
-              throw new Error(`DOM not matching config. ${GENERATION_MESSAGE}`);
+              throw new Error(
+                `DOM not matching snapshot. ${GENERATION_MESSAGE}`
+              );
             });
           }
         } else {
           cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
             throw new Error(
-              `No a11y keyboard config found. ${GENERATION_MESSAGE}`
+              `No a11y keyboard snapshot found. ${GENERATION_MESSAGE}`
             );
           });
         }

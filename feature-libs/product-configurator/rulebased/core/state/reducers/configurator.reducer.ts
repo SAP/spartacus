@@ -8,6 +8,7 @@ import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
+  productCode: '',
   groups: [],
   flatGroups: [],
   interactionState: {
@@ -165,7 +166,7 @@ function setInitialCurrentGroup(
     return state;
   }
   let initialCurrentGroup;
-  const flatGroups = state?.flatGroups;
+  const flatGroups = state.flatGroups;
   if (flatGroups && flatGroups.length > 0) {
     initialCurrentGroup = flatGroups[0]?.id;
   }

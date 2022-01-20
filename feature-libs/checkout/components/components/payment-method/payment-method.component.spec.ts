@@ -397,6 +397,7 @@ describe('PaymentMethodComponent', () => {
         img: 'CREDIT_CARD',
         actions: [{ name: 'Use this payment', event: 'send' }],
         header: 'Selected',
+        label: 'paymentCard.defaultPaymentLabel',
       });
     });
 
@@ -428,7 +429,7 @@ describe('PaymentMethodComponent', () => {
       fixture.detectChanges();
       fixture.debugElement
         .queryAll(By.css('cx-card'))[1]
-        .query(By.css('.btn-link'))
+        .query(By.css('.link'))
         .nativeElement.click();
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(

@@ -45,9 +45,8 @@ export function skipLinkFactory(
   outletService: OutletService
 ) {
   const isReady = () => {
-    const factory = componentFactoryResolver.resolveComponentFactory(
-      SkipLinkComponent
-    );
+    const factory =
+      componentFactoryResolver.resolveComponentFactory(SkipLinkComponent);
     outletService.add('cx-storefront', <any>factory, OutletPosition.BEFORE);
   };
   return isReady;

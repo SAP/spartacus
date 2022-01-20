@@ -81,13 +81,12 @@ context('Auxiliary Keys', () => {
     });
 
     it('should make search suggestions', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/products/search?**`
-      ).as('query');
+        )}/products/search`,
+      }).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
@@ -170,10 +169,12 @@ context('Auxiliary Keys', () => {
 });
 
 function loadPageWithComponenents(pageUrl: string) {
-  cy.server();
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
-  ).as('getComponents');
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components`,
+  }).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

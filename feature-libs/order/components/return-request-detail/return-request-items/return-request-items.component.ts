@@ -11,5 +11,6 @@ import { ReturnRequestService } from '../return-request.service';
 export class ReturnRequestItemsComponent {
   constructor(protected returnRequestService: ReturnRequestService) {}
 
-  returnRequest$: Observable<ReturnRequest> = this.returnRequestService.getReturnRequest();
+  returnRequest$: Observable<ReturnRequest> =
+    this.returnRequestService.getReturnRequest();
 }

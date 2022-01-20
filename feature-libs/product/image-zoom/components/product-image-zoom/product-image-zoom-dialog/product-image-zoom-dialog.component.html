@@ -1,0 +1,21 @@
+<div class="cx-image-zoom-dialog" [cxFocus]="focusConfig">
+  <div class="cx-dialog-content">
+    <div class="cx-dialog-header">
+      <button
+        type="button"
+        class="close"
+        [attr.aria-label]="'productImageZoomDialog.close' | cxTranslate"
+        (click)="close('cross click')"
+      >
+        <span aria-hidden="true">
+          <cx-icon [type]="iconType.CLOSE"></cx-icon>
+        </span>
+      </button>
+    </div>
+    <div class="cx-dialog-body">
+      <cx-product-image-zoom-view
+        [galleryIndex]="galleryIndex"
+      ></cx-product-image-zoom-view>
+    </div>
+  </div>
+</div>

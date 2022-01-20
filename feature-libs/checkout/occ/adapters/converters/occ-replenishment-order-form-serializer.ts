@@ -9,7 +9,8 @@ import {
 @Injectable()
 export class OccReplenishmentOrderFormSerializer
   implements
-    Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm> {
+    Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm>
+{
   convert(
     source: Occ.ScheduleReplenishmentForm,
     target?: ScheduleReplenishmentForm

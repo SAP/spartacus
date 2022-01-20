@@ -16,6 +16,8 @@ export * from './payment-method/payment-form/payment-form.component';
 export * from './payment-method/payment-form/payment-form.module';
 export * from './payment-method/payment-method.component';
 export * from './payment-method/payment-method.module';
+export * from './payment-type/payment-type.component';
+export * from './payment-type/payment-type.module';
 export * from './place-order/place-order.component';
 export * from './place-order/place-order.module';
 export * from './review-submit/review-submit.component';

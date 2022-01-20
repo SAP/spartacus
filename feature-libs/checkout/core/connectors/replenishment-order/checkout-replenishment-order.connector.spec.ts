@@ -16,7 +16,8 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
 };
 
 class MockCheckoutReplenishmentOrderAdapter
-  implements CheckoutReplenishmentOrderAdapter {
+  implements CheckoutReplenishmentOrderAdapter
+{
   scheduleReplenishmentOrder(
     _cartId: string,
     _scheduleReplenishmentForm: ScheduleReplenishmentForm,

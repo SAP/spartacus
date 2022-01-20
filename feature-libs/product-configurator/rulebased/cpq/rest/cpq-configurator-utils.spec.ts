@@ -23,9 +23,8 @@ describe('CpqConfiguratorUtils', () => {
 
   describe('findFirstChangedAttribute', () => {
     it('should find first attribute correctly', () => {
-      const attribute: Configurator.Attribute = CpqConfiguratorUtils.findFirstChangedAttribute(
-        productConfiguration
-      );
+      const attribute: Configurator.Attribute =
+        CpqConfiguratorUtils.findFirstChangedAttribute(productConfiguration);
       expect(attribute).toBe(attributeCheckbox);
     });
 
@@ -39,9 +38,8 @@ describe('CpqConfiguratorUtils', () => {
 
   describe('getUpdateInformation', () => {
     it('should get attribute fields we need to do the CPQ update', () => {
-      const updateInformation = CpqConfiguratorUtils.getUpdateInformation(
-        attributeCheckbox
-      );
+      const updateInformation =
+        CpqConfiguratorUtils.getUpdateInformation(attributeCheckbox);
       expect(updateInformation.standardAttributeCode).toBe(
         attributeCheckbox.attrCode?.toString()
       );
