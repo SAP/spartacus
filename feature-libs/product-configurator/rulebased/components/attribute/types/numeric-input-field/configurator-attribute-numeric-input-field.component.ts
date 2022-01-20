@@ -8,6 +8,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
 import { debounce } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
@@ -27,9 +28,11 @@ class DefaultSettings {
 })
 export class ConfiguratorAttributeNumericInputFieldComponent
   extends ConfiguratorAttributeInputFieldComponent
-  implements OnInit, OnDestroy {
+  implements OnInit, OnDestroy
+{
   numericFormatPattern: string;
   locale: string;
+  iconType = ICON_TYPE;
 
   @Input() language: string;
 
@@ -87,12 +90,13 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       ),
     ]);
 
-    this.numericFormatPattern = this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
-      numDecimalPlaces,
-      numTotalLength,
-      negativeAllowed,
-      this.locale
-    );
+    this.numericFormatPattern =
+      this.configAttributeNumericInputFieldService.getPatternForValidationMessage(
+        numDecimalPlaces,
+        numTotalLength,
+        negativeAllowed,
+        this.locale
+      );
     if (this.attribute.userInput) {
       this.attributeInputForm.setValue(this.attribute.userInput);
     }
@@ -101,7 +105,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       .pipe(
         debounce(() =>
           timer(
-            this.config?.productConfigurator?.updateDebounceTime?.input ??
+            this.config.productConfigurator?.updateDebounceTime?.input ??
               this.FALLBACK_DEBOUNCE_TIME
           )
         )

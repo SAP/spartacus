@@ -19,19 +19,17 @@ import { Store } from '@ngrx/store';
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  protected registerCommand: Command<
-    { user: UserSignUp },
-    User
-  > = this.command.create(({ user }) =>
-    this.userConnector.register(user).pipe(
-      tap(() => {
-        // this is a compatibility mechanism only, to make anonymous consents
-        // management work properly in transitional period (when we move logic
-        // to separate libraries)
-        this.store.dispatch(new UserActions.RegisterUserSuccess());
-      })
-    )
-  );
+  protected registerCommand: Command<{ user: UserSignUp }, User> =
+    this.command.create(({ user }) =>
+      this.userConnector.register(user).pipe(
+        tap(() => {
+          // this is a compatibility mechanism only, to make anonymous consents
+          // management work properly in transitional period (when we move logic
+          // to separate libraries)
+          this.store.dispatch(new UserActions.RegisterUserSuccess());
+        })
+      )
+    );
 
   protected registerGuestCommand: Command<
     {

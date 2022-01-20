@@ -25,7 +25,9 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
 
   @Input('entry') set entry(value: OrderEntry) {
     this._entry = value;
-    this.quantityControl = new FormControl(this.entry.quantity);
+    this.quantityControl = new FormControl(this.entry.quantity, {
+      updateOn: 'blur',
+    });
   }
 
   @Input()
@@ -35,7 +37,7 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   loading: boolean = false;
 
   protected _entry: OrderEntry;
-  private subscription = new Subscription();
+  protected subscription = new Subscription();
 
   constructor(
     protected cd: ChangeDetectorRef,
@@ -56,7 +58,8 @@ export class QuickOrderItemComponent implements OnInit, OnDestroy {
   }
 
   removeEntry(): void {
-    this.quickOrderService.removeEntry(this.index);
+    this.quickOrderService.softDeleteEntry(this.index);
+    this.cd.detectChanges();
   }
 
   protected watchProductAdd(): Subscription {

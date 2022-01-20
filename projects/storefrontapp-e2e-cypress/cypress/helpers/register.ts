@@ -1,13 +1,15 @@
 import * as alerts from './global-message';
 
 export function signOut() {
-  cy.server();
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?*/logout*`
-  ).as('logOut');
+    )}/cms/pages`,
+    query: {
+      pageLabelOrId: '/logout',
+    },
+  }).as('logOut');
   cy.selectUserMenuOption({
     option: 'Sign Out',
   });

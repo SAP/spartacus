@@ -163,10 +163,8 @@ export class PositioningService {
     placement: string,
     appendToBody?: boolean
   ): boolean {
-    const [
-      placementPrimary = 'top',
-      placementSecondary = 'center',
-    ] = placement.split('-');
+    const [placementPrimary = 'top', placementSecondary = 'center'] =
+      placement.split('-');
 
     const hostElPosition = appendToBody
       ? this.offset(hostElement, false)

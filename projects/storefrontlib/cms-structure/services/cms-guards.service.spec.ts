@@ -43,8 +43,10 @@ describe('CmsGuardsService', () => {
     }
   }
 
-  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = 'ActivatedRouteSnapshot ' as any;
-  const mockRouterStateSnapshot: RouterStateSnapshot = 'RouterStateSnapshot' as any;
+  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot =
+    'ActivatedRouteSnapshot ' as any;
+  const mockRouterStateSnapshot: RouterStateSnapshot =
+    'RouterStateSnapshot' as any;
 
   beforeEach(() => {
     guards = [];

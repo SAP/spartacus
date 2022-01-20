@@ -268,12 +268,10 @@ describe('CpqConfiguratorSerializer', () => {
   });
 
   it('should convert user input attribute types correctly', () => {
-    const updateAttributeString: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeString, configId);
-    const updateAttributeNumeric: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeNumeric, configId);
+    const updateAttributeString: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](attributeString, configId);
+    const updateAttributeNumeric: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](attributeNumeric, configId);
 
     verifyUpdateAttributeUserInput(updateAttributeString);
     verifyUpdateAttributeUserInput(updateAttributeNumeric);
@@ -284,33 +282,34 @@ describe('CpqConfiguratorSerializer', () => {
       ...attributeString,
       userInput: '',
     };
-    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeWithEmptyUserInput, configId);
+    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](
+        attributeWithEmptyUserInput,
+        configId
+      );
     expect(
       updateAttributeWithEmptyUserInput.changeAttributeValue.userInput
     ).toBe(' ');
   });
 
   it('should process single selected value correctly', () => {
-    const processedValue: string = cpqConfiguratorSerializer[
-      'processSelectedSingleValue'
-    ](selectedSingleValue);
+    const processedValue: string =
+      cpqConfiguratorSerializer['processSelectedSingleValue'](
+        selectedSingleValue
+      );
     expect(processedValue).toBe(selectedSingleValue);
   });
 
   it('should process single selected value correctly when no value is selected', () => {
     const singleValue = undefined;
-    const processedValue: string = cpqConfiguratorSerializer[
-      'processSelectedSingleValue'
-    ](singleValue);
+    const processedValue: string =
+      cpqConfiguratorSerializer['processSelectedSingleValue'](singleValue);
     expect(processedValue).toBe(expectedProcessedSingleValueNoValue);
   });
 
   it('should prepare value ids correctly', () => {
-    const valueIds: string = cpqConfiguratorSerializer['prepareValueIds'](
-      attributeCBList
-    );
+    const valueIds: string =
+      cpqConfiguratorSerializer['prepareValueIds'](attributeCBList);
     expect(valueIds).toBe(expectedValueIdsMulti);
   });
 
@@ -322,9 +321,8 @@ describe('CpqConfiguratorSerializer', () => {
   });
 
   it('should convert configuration correctly', () => {
-    const updateAttribute: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convert(
-      configuration
-    );
+    const updateAttribute: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer.convert(configuration);
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(
       attrCodeFirst.toString()

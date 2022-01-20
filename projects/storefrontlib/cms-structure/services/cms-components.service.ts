@@ -38,10 +38,8 @@ export class CmsComponentsService {
   protected staticCmsConfig: CMSComponentConfig | undefined;
 
   // Contains already initialized resolvers for specified component typez
-  protected mappingResolvers: Map<
-    string,
-    Observable<CmsComponentMapping>
-  > = new Map();
+  protected mappingResolvers: Map<string, Observable<CmsComponentMapping>> =
+    new Map();
 
   constructor(
     protected config: CmsConfig,

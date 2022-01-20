@@ -38,6 +38,7 @@ export enum ICON_TYPE {
   ON = 'ON',
   OFF = 'OFF',
   LINK_OUT = 'LINK_OUT',
+  EXPAND_ARROWS = 'EXPAND_ARROWS',
 }
 
 @Injectable({

@@ -5,14 +5,23 @@ import {
   ActiveCartService,
   Address,
   DeliveryMode,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
   StateUtils,
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { pluck, shareReplay, tap, withLatestFrom } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import {
+  filter,
+  pluck,
+  shareReplay,
+  take,
+  tap,
+  withLatestFrom,
+  map,
+} from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_DELIVERY_ADDRESS_PROCESS_ID,
@@ -21,6 +30,7 @@ import {
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { CheckoutService } from './checkout.service';
 
 @Injectable()
 export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
@@ -28,7 +38,8 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -116,6 +127,22 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     );
   }
 
+  /**
+   * return info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * True means at least one quest is still in process, false means all three requests are done
+   */
+  isSetDeliveryModeBusy(): Observable<boolean> {
+    return combineLatest([
+      this.activeCartService.isStable(),
+      this.checkoutService.isLoading(),
+      this.getSetDeliveryModeProcess(),
+    ]).pipe(
+      map(
+        ([isStable, isLoading, setDeliveryProcess]) =>
+          !isStable || isLoading || (setDeliveryProcess.loading ?? false)
+      )
+    );
+  }
   /**
    * Clear info about process of setting Delivery Mode
    */
@@ -220,25 +247,27 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
    */
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
-      let userId;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
 
-      let cartId;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
       if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetDeliveryMode({
-            userId,
-            cartId,
-            selectedModeId: mode,
-          })
-        );
+        combineLatest([
+          this.activeCartService.isStable(),
+          this.checkoutService.isLoading(),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) => isStable && !isLoading),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetDeliveryMode({
+                userId,
+                cartId,
+                selectedModeId: mode,
+              })
+            );
+          });
       }
     }
   }

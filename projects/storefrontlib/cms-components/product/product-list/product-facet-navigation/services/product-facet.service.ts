@@ -31,20 +31,21 @@ export class ProductFacetService {
   /**
    * Returns the search results for the current page.
    */
-  protected readonly searchResult$: Observable<ProductSearchPage> = this.routeState$.pipe(
-    switchMap((state) =>
-      this.productListComponentService.model$.pipe(
-        filter((page) => this.filterForPage(state, page)),
-        map((page) => ({
-          ...page,
-          breadcrumbs: this.filterBreadcrumbs(
-            page?.breadcrumbs ?? [],
-            state.params
-          ),
-        }))
+  protected readonly searchResult$: Observable<ProductSearchPage> =
+    this.routeState$.pipe(
+      switchMap((state) =>
+        this.productListComponentService.model$.pipe(
+          filter((page) => this.filterForPage(state, page)),
+          map((page) => ({
+            ...page,
+            breadcrumbs: this.filterBreadcrumbs(
+              page?.breadcrumbs ?? [],
+              state.params
+            ),
+          }))
+        )
       )
-    )
-  );
+    );
 
   /**
    * Observes the facets and active facets for the given page. The facet data

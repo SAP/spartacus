@@ -55,9 +55,8 @@ export class CmsRoutesImplService {
       return true;
     }
 
-    const childRoutesConfig = this.cmsComponentsService.getChildRoutes(
-      componentTypes
-    );
+    const childRoutesConfig =
+      this.cmsComponentsService.getChildRoutes(componentTypes);
 
     if (childRoutesConfig?.children?.length) {
       if (

@@ -34,15 +34,15 @@ export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
-  savedCart$: Observable<
-    Cart | undefined
-  > = this.savedCartDetailsService.getCartDetails().pipe(
-    tap((cart) => {
-      if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
-        this.savedCartService.deleteSavedCart(cart.code);
-      }
-    })
-  );
+  savedCart$: Observable<Cart | undefined> = this.savedCartDetailsService
+    .getCartDetails()
+    .pipe(
+      tap((cart) => {
+        if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
+          this.savedCartService.deleteSavedCart(cart.code);
+        }
+      })
+    );
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

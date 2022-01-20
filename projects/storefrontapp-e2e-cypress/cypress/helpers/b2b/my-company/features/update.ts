@@ -14,7 +14,9 @@ export function updateTest(config: MyCompanyConfig) {
     before(() => {
       loginAsMyCompanyAdmin();
 
-      cy.route('GET', `**${config.apiEndpoint}**`).as('getEntity');
+      cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+        'getEntity'
+      );
       if (config.preserveCookies) {
         cy.getCookie(codeRow.useCookie).then((cookie) => {
           entityId = cookie.value;
@@ -30,7 +32,7 @@ export function updateTest(config: MyCompanyConfig) {
     it(`should update`, () => {
       if (config.selectOptionsEndpoint) {
         config.selectOptionsEndpoint.forEach((endpoint) => {
-          cy.route(endpoint).as(`getSelectOptionsFor${endpoint}`);
+          cy.intercept(endpoint).as(`getSelectOptionsFor${endpoint}`);
         });
       }
 
@@ -47,8 +49,10 @@ export function updateTest(config: MyCompanyConfig) {
         });
       }
 
-      cy.route('PATCH', `**`).as('saveEntityData');
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntityData');
+      cy.intercept({ method: 'PATCH', path: `**` }).as('saveEntityData');
+      cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+        'loadEntityData'
+      );
       completeForm(config.rows, FormType.UPDATE);
       cy.get('div.header button').contains('Save').click();
       cy.wait('@saveEntityData');

@@ -12,8 +12,8 @@
   "repository": "https://github.com/SAP/spartacus/tree/develop/feature-libs/checkout",
   "license": "Apache-2.0",
   "scripts": {
-    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "build:schematics": "yarn clean:schematics && ../../node_modules/.bin/tsc -p ./tsconfig.schematics.json",
+    "clean:schematics": "../../node_modules/.bin/rimraf \"schematics/**/*.js\" \"schematics/**/*.js.map\" \"schematics/**/*.d.ts\"",
     "test:schematics": "yarn --cwd ../../projects/schematics/ run clean && yarn clean:schematics && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {

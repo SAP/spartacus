@@ -19,7 +19,8 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeSingleSelectionImageComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeRadioButtonForm = new FormControl('');
 
   @Input() attribute: Configurator.Attribute;

@@ -54,7 +54,7 @@ export class UserConsentService {
         filter(([_templates, loading, _success]) => !loading),
         tap(([templates, _loading, success]) => {
           if (!templates || templates.length === 0) {
-            // avoid infite loop - if we've already attempted to load templates and we got an empty array as the response
+            // avoid infinite loop - if we've already attempted to load templates and we got an empty array as the response
             if (!success) {
               this.loadConsents();
             }
@@ -105,7 +105,7 @@ export class UserConsentService {
   getConsent(templateId: string): Observable<Consent> {
     return this.authService.isUserLoggedIn().pipe(
       filter(Boolean),
-      tap(() => this.getConsents(true)),
+      switchMap(() => this.getConsents(true)),
       switchMap(() =>
         this.store.pipe(
           select(UsersSelectors.getConsentByTemplateId(templateId))

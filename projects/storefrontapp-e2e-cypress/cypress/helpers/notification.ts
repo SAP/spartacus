@@ -176,8 +176,7 @@ export function navigateToPDPInCustomerInterest(productCode: string) {
 }
 
 export function stubForPaginableMyInterests(jsonfile: string, url: string) {
-  cy.server();
-  cy.route('GET', url, `fixture:${jsonfile}`);
+  cy.intercept({ method: 'GET', path: url }, { fixture: jsonfile });
 }
 
 export function verifyPagingAndSorting() {
@@ -212,5 +211,15 @@ export function verifyPagingAndSorting() {
 export function navigateToMyInterestsPage() {
   cy.selectUserMenuOption({
     option: 'My Interests',
+  });
+}
+
+export function testEnableDisableNotification() {
+  it('should enable/disable notification preference', () => {
+    enableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('be.checked');
+
+    disableNotificationChannel();
+    cy.get('[type="checkbox"]').first().should('not.be.checked');
   });
 }

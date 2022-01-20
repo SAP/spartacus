@@ -8,11 +8,7 @@ export const getOrderDetailState: MemoizedSelector<
   StateUtils.LoaderState<Order>
 > = createSelector(getOrderState, (state: OrderState) => state.orderDetail);
 
-export const getOrderDetails: MemoizedSelector<
-  StateWithOrder,
-  Order
-> = createSelector(
-  getOrderDetailState,
-  (state: StateUtils.LoaderState<Order>) =>
+export const getOrderDetails: MemoizedSelector<StateWithOrder, Order> =
+  createSelector(getOrderDetailState, (state: StateUtils.LoaderState<Order>) =>
     StateUtils.loaderValueSelector(state)
-);
+  );

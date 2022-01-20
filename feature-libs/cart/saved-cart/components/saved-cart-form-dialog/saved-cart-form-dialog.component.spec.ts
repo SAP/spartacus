@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
@@ -14,7 +15,12 @@ import {
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { LaunchDialogService } from '@spartacus/storefront';
+import {
+  FormErrorsModule,
+  LaunchDialogService,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+} from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   SavedCartFormDialogComponent,
@@ -117,7 +123,15 @@ describe('SavedCartFormDialogComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, I18nTestingModule],
+      imports: [
+        CommonModule,
+        I18nTestingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        FormErrorsModule,
+        KeyboardFocusTestingModule,
+        IconTestingModule,
+      ],
       declarations: [SavedCartFormDialogComponent],
       providers: [
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -248,14 +262,36 @@ describe('SavedCartFormDialogComponent', () => {
   it('should provide default value to saveCartDescription when empty', () => {
     spyOn(savedCartService, 'editSavedCart');
 
-    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+    mockDialogData$.next({
+      cart: {
+        code: '123456789',
+        name: 'testCartName',
+      },
+      layoutOption: 'edit',
+    });
 
     component.saveOrEditCart(mockCartId);
 
     expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
       cartId: mockCartId,
-      saveCartName: '',
+      saveCartName: mockCart.name,
       saveCartDescription: '-',
+    });
+  });
+
+  it('should not trigger saveOrEditCart when empty cart name is empty', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    component.form?.get('name')?.setValue('');
+
+    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).not.toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: '',
+      saveCartDescription: '',
     });
   });
 
