@@ -9,7 +9,7 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
@@ -17,11 +17,12 @@ import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
 import { CheckoutService } from './checkout.service';
 
+const isCheckoutLoading$ = new BehaviorSubject<boolean>(false);
+
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
   let activeCartService: ActiveCartService;
   let userIdService: UserIdService;
-  let checkoutService: CheckoutService;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -54,7 +55,7 @@ describe('CheckoutDeliveryService', () => {
 
   class mockCheckoutService {
     isLoading() {
-      return of(false);
+      return isCheckoutLoading$.asObservable();
     }
   }
 
@@ -89,7 +90,6 @@ describe('CheckoutDeliveryService', () => {
     service = TestBed.inject(CheckoutDeliveryService);
     activeCartService = TestBed.inject(ActiveCartService);
     userIdService = TestBed.inject(UserIdService);
-    checkoutService = TestBed.inject(CheckoutService);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
@@ -260,7 +260,7 @@ describe('CheckoutDeliveryService', () => {
     });
   });
 
-  it('should return set delivery mode in process flag as true during loading state', () => {
+  it('should return isSetDeliveryModeBusy flag as true during loading state', () => {
     const modeId = 'testId';
     service.setDeliveryMode(modeId);
 
@@ -274,7 +274,7 @@ describe('CheckoutDeliveryService', () => {
     expect(setDeliveryModeInProcess).toEqual(true);
   });
 
-  it('should return set delivery mode in process flag as true when cart is not stable', () => {
+  it('should return isSetDeliveryModeBusy flag as true when cart is not stable', () => {
     spyOn(activeCartService, 'isStable').and.returnValue(of(false));
 
     let setDeliveryModeInProcess = false;
@@ -287,9 +287,8 @@ describe('CheckoutDeliveryService', () => {
     expect(setDeliveryModeInProcess).toEqual(true);
   });
 
-  it('should return set delivery mode in process flag as true when checkout is loading', () => {
-    spyOn(checkoutService, 'isLoading').and.returnValue(of(true));
-
+  it('should return isSetDeliveryModeBusy flag as true when checkout is loading', () => {
+    isCheckoutLoading$.next(true);
     let setDeliveryModeInProcess = false;
     service
       .isSetDeliveryModeBusy()
@@ -300,10 +299,11 @@ describe('CheckoutDeliveryService', () => {
     expect(setDeliveryModeInProcess).toEqual(true);
   });
 
-  it('should return set delivery mode in process flag as false when set delivery mode request has finished', () => {
+  it('should return isSetDeliveryModeBusy flag as false when set delivery mode request has finished', () => {
     const modeId = 'testId';
     let setDeliveryModeInProcess = true;
 
+    isCheckoutLoading$.next(false);
     store.dispatch(new CheckoutActions.SetDeliveryModeSuccess(modeId));
     service
       .isSetDeliveryModeBusy()

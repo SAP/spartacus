@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
@@ -39,8 +39,13 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
     protected processStateStore: Store<StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected checkoutService: CheckoutService
+    @Optional() protected checkoutService?: CheckoutService
   ) {}
+
+  protected isCheckoutDetailsLoading$: Observable<boolean> = this
+    .checkoutService
+    ? this.checkoutService.isLoading()
+    : this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading));
 
   /**
    * Get supported delivery modes
@@ -134,7 +139,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   isSetDeliveryModeBusy(): Observable<boolean> {
     return combineLatest([
       this.activeCartService.isStable(),
-      this.checkoutService.isLoading(),
+      this.isCheckoutDetailsLoading$,
       this.getSetDeliveryModeProcess(),
     ]).pipe(
       map(
@@ -253,7 +258,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       if (userId && cartId) {
         combineLatest([
           this.activeCartService.isStable(),
-          this.checkoutService.isLoading(),
+          this.isCheckoutDetailsLoading$,
         ])
           .pipe(
             filter(([isStable, isLoading]) => isStable && !isLoading),
