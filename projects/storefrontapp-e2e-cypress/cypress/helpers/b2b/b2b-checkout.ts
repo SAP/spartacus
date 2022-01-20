@@ -168,19 +168,20 @@ export function selectAccountDeliveryMode() {
       verifyTabbingOrder(
         'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
         config.deliveryMode
-        );
-      }
-      
-      cy.get('.cx-checkout-btns button.btn-primary')
+      );
+    }
+
+    cy.get('.cx-checkout-btns button.btn-primary')
       .should('be.enabled')
       .click({ force: true });
 
-      const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
+    const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
-  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${orderReview}`, { timeout: 30000 })
-    .its('response.statusCode')
-    .should('eq', 200);
+    cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+    cy.wait(`@${orderReview}`, { timeout: 30000 })
+      .its('response.statusCode')
+      .should('eq', 200);
+  });
 }
 
 export function reviewB2bReviewOrderPage(
