@@ -52,7 +52,7 @@ function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
   index: number
 ): boolean | undefined {
-  const values = component?.attribute?.values;
+  const values = component.attribute.values;
   return values ? values[index].selected : false;
 }
 

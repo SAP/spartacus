@@ -46,6 +46,20 @@ const mockCartAddEntrySuccessEvent: CartAddEntrySuccessEvent = {
   quantityAdded: 1,
   userId: mockUserId,
 };
+const mockCartAddEntrySuccessEvent2: CartAddEntrySuccessEvent = {
+  cartCode: mockCartId,
+  cartId: mockCartId,
+  deliveryModeChanged: false,
+  entry: {
+    product: {
+      name: 'test-product',
+    },
+  },
+  productCode: '123456789',
+  quantity: 2,
+  quantityAdded: 2,
+  userId: mockUserId,
+};
 
 const cart$ = new BehaviorSubject<Cart>(mockCart);
 
@@ -124,6 +138,13 @@ describe('CartQuickOrderFormComponent', () => {
     expect(component.quickOrderForm.controls['quantity'].value).toBe(1);
   });
 
+  it('should do nothing on applyQuickOrder if form is invalid', () => {
+    spyOn(activeCartService, 'addEntry').and.callThrough();
+    component.quickOrderForm.setErrors({ invalid: true });
+    component.applyQuickOrder();
+    expect(activeCartService.addEntry).not.toHaveBeenCalled();
+  });
+
   it('should add entry on form submit', () => {
     spyOn(activeCartService, 'addEntry').and.callThrough();
 
@@ -141,25 +162,47 @@ describe('CartQuickOrderFormComponent', () => {
     expect(component.quickOrderForm.controls['quantity'].value).toEqual(3);
   });
 
-  it('should show global confirmation message on add entry success event', () => {
-    spyOn(globalMessageService, 'add').and.callThrough();
-    spyOn(eventService, 'get').and.callThrough();
+  describe('should show global confirmation message on add entry success event', () => {
+    beforeEach(() => {
+      spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(eventService, 'get').and.callThrough();
 
-    component.ngOnInit();
-    component.quickOrderForm.controls['productCode'].setValue('test');
-    component.applyQuickOrder();
-    addEntryCartEvent$.next(mockCartAddEntrySuccessEvent);
+      component.ngOnInit();
+      component.quickOrderForm.controls['productCode'].setValue('test');
+    });
 
-    expect(globalMessageService.add).toHaveBeenCalledWith(
-      {
-        key: 'quickOrderCartForm.entryWasAdded',
-        params: {
-          product: mockCartAddEntrySuccessEvent.entry?.product?.name,
-          quantity: mockCartAddEntrySuccessEvent.quantityAdded,
+    it('with 1 quantity', () => {
+      component.applyQuickOrder();
+      addEntryCartEvent$.next(mockCartAddEntrySuccessEvent);
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'quickOrderCartForm.entryWasAdded',
+          params: {
+            product: mockCartAddEntrySuccessEvent.entry?.product?.name,
+            quantity: mockCartAddEntrySuccessEvent.quantityAdded,
+          },
         },
-      },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
+
+    it('with 2 quantity', () => {
+      component.quickOrderForm.controls['quantity'].setValue(2);
+      component.applyQuickOrder();
+      addEntryCartEvent$.next(mockCartAddEntrySuccessEvent2);
+
+      expect(globalMessageService.add).toHaveBeenCalledWith(
+        {
+          key: 'quickOrderCartForm.entriesWereAdded',
+          params: {
+            product: mockCartAddEntrySuccessEvent2.entry?.product?.name,
+            quantity: mockCartAddEntrySuccessEvent2.quantityAdded,
+          },
+        },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    });
   });
 
   it('should show global error message on add entry fail event', () => {

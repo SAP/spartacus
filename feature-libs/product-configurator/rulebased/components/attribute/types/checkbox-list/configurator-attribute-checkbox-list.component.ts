@@ -19,7 +19,8 @@ import { ConfiguratorAttributeMultiSelectionBaseComponent } from '../base/config
 })
 export class ConfiguratorAttributeCheckBoxListComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeCheckBoxForms = new Array<FormControl>();
 
   @Input() group: string;
@@ -34,34 +35,31 @@ export class ConfiguratorAttributeCheckBoxListComponent
   ngOnInit(): void {
     const disabled = !this.allowZeroValueQuantity;
 
-    if (this.attribute.values) {
-      for (const value of this.attribute.values) {
-        let attributeCheckBoxForm;
+    for (const value of this.attribute.values ?? []) {
+      let attributeCheckBoxForm;
 
-        if (value.selected) {
-          attributeCheckBoxForm = new FormControl({
-            value: true,
-            disabled: disabled,
-          });
-        } else {
-          attributeCheckBoxForm = new FormControl(false);
-        }
-        this.attributeCheckBoxForms.push(attributeCheckBoxForm);
+      if (value.selected) {
+        attributeCheckBoxForm = new FormControl({
+          value: true,
+          disabled: disabled,
+        });
+      } else {
+        attributeCheckBoxForm = new FormControl(false);
       }
+      this.attributeCheckBoxForms.push(attributeCheckBoxForm);
     }
   }
 
   get allowZeroValueQuantity(): boolean {
-    return (
-      this.quantityService?.allowZeroValueQuantity(this.attribute) ?? false
-    );
+    return this.quantityService.allowZeroValueQuantity(this.attribute);
   }
 
   onSelect(): void {
-    const selectedValues = this.configUtilsService.assembleValuesForMultiSelectAttributes(
-      this.attributeCheckBoxForms,
-      this.attribute
-    );
+    const selectedValues =
+      this.configUtilsService.assembleValuesForMultiSelectAttributes(
+        this.attributeCheckBoxForms,
+        this.attribute
+      );
 
     const event: ConfigFormUpdateEvent = {
       changedAttribute: {
@@ -86,9 +84,7 @@ export class ConfiguratorAttributeCheckBoxListComponent
       return;
     }
 
-    const value:
-      | Configurator.Value
-      | undefined = this.configUtilsService
+    const value: Configurator.Value | undefined = this.configUtilsService
       .assembleValuesForMultiSelectAttributes(
         this.attributeCheckBoxForms,
         this.attribute

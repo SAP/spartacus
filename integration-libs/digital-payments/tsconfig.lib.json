@@ -21,6 +21,15 @@
       "@spartacus/checkout/root": ["dist/checkout/root"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
       "@spartacus/cart": ["dist/cart"],
       "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
       "@spartacus/cart/quick-order/components": [

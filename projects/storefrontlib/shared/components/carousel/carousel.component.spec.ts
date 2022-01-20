@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Product } from '@spartacus/core';
+import { I18nTestingModule, Product } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { CarouselComponent } from './carousel.component';
@@ -30,6 +30,17 @@ class MockCxIconComponent {
 })
 class MockTemplateComponent {}
 
+function checkIndicatorAriaLabels(
+  fixture: ComponentFixture<CarouselComponent>
+) {
+  const els = fixture.debugElement.queryAll(By.css('div.indicators button'));
+  let currentSlide = 1;
+  els.forEach((el) => {
+    expect(el.nativeNode.ariaLabel).toContain(currentSlide);
+    currentSlide++;
+  });
+}
+
 describe('Carousel Component', () => {
   let component: CarouselComponent;
   let fixture: ComponentFixture<CarouselComponent>;
@@ -40,7 +51,7 @@ describe('Carousel Component', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [RouterTestingModule],
+        imports: [RouterTestingModule, I18nTestingModule],
         declarations: [
           CarouselComponent,
           MockCxIconComponent,
@@ -275,6 +286,10 @@ describe('Carousel Component', () => {
         );
         expect(el.length).toEqual(2);
       });
+
+      it('should have the correct indicator labels', () => {
+        checkIndicatorAriaLabels(fixture);
+      });
     });
 
     describe('carousel with 7 items divided by 3 slides', () => {
@@ -308,6 +323,10 @@ describe('Carousel Component', () => {
           By.css('div.indicators button')
         );
         expect(el.length).toEqual(3);
+      });
+
+      it('should have the correct indicator labels', () => {
+        checkIndicatorAriaLabels(fixture);
       });
     });
 
@@ -373,6 +392,20 @@ describe('Carousel Component', () => {
         component.setItems = mockProductArr;
         expect(component.activeSlide).toEqual(0);
       });
+    });
+  });
+
+  describe('getSlideNumber', () => {
+    it('should return the 3rd slide', () => {
+      expect(component.getSlideNumber(1, 2)).toBe(3);
+    });
+
+    it('should return the 1st slide', () => {
+      expect(component.getSlideNumber(4, 3)).toBe(1);
+    });
+
+    it('should return the 6th slide', () => {
+      expect(component.getSlideNumber(5, 27)).toBe(6);
     });
   });
 });

@@ -100,7 +100,8 @@ class TestWrapperComponent {
 }
 
 class MockConfigInitializerService
-  implements Partial<ConfigInitializerService> {
+  implements Partial<ConfigInitializerService>
+{
   getStable = () => of(MockCmsModuleConfig);
 }
 
@@ -311,9 +312,8 @@ describe('ComponentWrapperDirective', () => {
 
         // run in next runloop (to process async tasks)
         setTimeout(() => {
-          const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
-            'cms-component'
-          );
+          const cmsComponentElement =
+            fixture.debugElement.nativeElement.querySelector('cms-component');
           expect(cmsComponentElement).toBeTruthy();
           const componentData = cmsComponentElement.cxApi.cmsComponentData;
           expect(componentData.uid).toEqual('test_uid');
@@ -326,9 +326,8 @@ describe('ComponentWrapperDirective', () => {
 
         // run in next runloop (to process async tasks)
         setTimeout(() => {
-          const cmsComponentElement = fixture.debugElement.nativeElement.querySelector(
-            'cms-component'
-          );
+          const cmsComponentElement =
+            fixture.debugElement.nativeElement.querySelector('cms-component');
           const cxApi = cmsComponentElement.cxApi as CxApiService;
           expect(cxApi.cms).toBeTruthy();
           expect(cxApi.auth).toBeTruthy();

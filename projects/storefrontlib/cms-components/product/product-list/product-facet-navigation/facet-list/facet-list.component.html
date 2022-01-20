@@ -1,7 +1,9 @@
-<div
+<section
   class="inner"
   *ngIf="(facetList$ | async)?.facets as facets"
+  [attr.aria-label]="'productFacetNavigation.filterBy.facet' | cxTranslate"
   [cxFocus]="isDialog ? dialogFocusConfig : {}"
+  tabindex="-1"
   (esc)="close($event)"
   (click)="block($event)"
 >
@@ -30,4 +32,4 @@
     [class.expanded]="isExpanded(facet) | async"
     [class.collapsed]="isCollapsed(facet) | async"
   ></cx-facet>
-</div>
+</section>

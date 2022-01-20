@@ -22,12 +22,22 @@ import { TextfieldConfiguratorRoutingModule } from './textfield-configurator-rou
     TextfieldConfiguratorRoutingModule.forRoot(),
     RouterModule.forChild([
       {
-        // We can neither omit the patch nor set to undefined
+        // We can neither omit the path nor set to undefined
         // @ts-ignore
         path: null,
         component: PageLayoutComponent,
         data: {
           cxRoute: 'configureTEXTFIELD',
+        },
+        canActivate: [CmsPageGuard],
+      },
+      {
+        // We can neither omit the path nor set to undefined
+        // @ts-ignore
+        path: null,
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'configureOverviewTEXTFIELD',
         },
         canActivate: [CmsPageGuard],
       },

@@ -7,7 +7,8 @@ import { OccDpPaymentRequest } from './occ.models';
   providedIn: 'root',
 })
 export class OccDpRequestNormalizer
-  implements Converter<OccDpPaymentRequest, DpPaymentRequest> {
+  implements Converter<OccDpPaymentRequest, DpPaymentRequest>
+{
   convert(
     source: OccDpPaymentRequest,
     target: DpPaymentRequest

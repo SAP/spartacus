@@ -224,9 +224,8 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
   });
 
   it('should retrieve line items', () => {
-    const lineItems: LineItem[] = configuratorCartEntryBundleInfoService.retrieveLineItems(
-      orderEntry
-    );
+    const lineItems: LineItem[] =
+      configuratorCartEntryBundleInfoService.retrieveLineItems(orderEntry);
     expect(lineItems.length).toBe(4);
     expect(lineItems[0]).toEqual(expectedLineItem1);
     expect(lineItems[1]).toEqual(expectedLineItem2);
@@ -460,9 +459,8 @@ describe('ConfiguratorCartEntryBundleInfoService', () => {
     });
 
     it('should retrieve line items', () => {
-      const lineItems: LineItem[] = configuratorCartEntryBundleInfoService.retrieveLineItems(
-        v2_orderEntry
-      );
+      const lineItems: LineItem[] =
+        configuratorCartEntryBundleInfoService.retrieveLineItems(v2_orderEntry);
       expect(lineItems.length).toBe(2);
       expect(lineItems[0]).toEqual(v2_expectedLineItem0);
       expect(lineItems[1]).toEqual(v2_expectedLineItem1);

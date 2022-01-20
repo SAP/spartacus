@@ -166,10 +166,11 @@ export class CheckoutEffects {
   );
 
   @Effect()
-  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> = this.actions$.pipe(
-    ofType(SiteContextActions.CURRENCY_CHANGE),
-    map(() => new CheckoutActions.ClearSupportedDeliveryModes())
-  );
+  clearDeliveryModesOnCurrencyChange$: Observable<CheckoutActions.ClearSupportedDeliveryModes> =
+    this.actions$.pipe(
+      ofType(SiteContextActions.CURRENCY_CHANGE),
+      map(() => new CheckoutActions.ClearSupportedDeliveryModes())
+    );
 
   @Effect()
   clearCheckoutDataOnLogout$: Observable<

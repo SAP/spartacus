@@ -28,16 +28,21 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
     overflow: hidden;
     text-overflow: ellipsis;
 
-    span {
-      color: var(--cx-color-secondary);
+    ol {
+      list-style: none;
+      padding-inline-start: 0;
+      li {
+        display: inline;
+        color: var(--cx-color-secondary);
 
-      &:not(:last-child):after {
-        content: '/';
-      }
-      a {
-        text-transform: capitalize;
-        color: inherit;
-        padding: 5px 5px;
+        &:not(:last-child):after {
+          content: '/';
+        }
+        a {
+          text-transform: capitalize;
+          color: inherit;
+          padding: 5px 5px;
+        }
       }
     }
   }

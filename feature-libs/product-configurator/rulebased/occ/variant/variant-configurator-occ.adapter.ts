@@ -27,7 +27,8 @@ import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -204,6 +205,7 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          productCode: overview.productCode,
           groups: [],
           flatGroups: [],
           interactionState: {},

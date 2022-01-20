@@ -26,12 +26,10 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const shouldCatchError = this.authHttpHeaderService.shouldCatchError(
-      request
-    );
-    const shouldAddAuthorizationHeader = this.authHttpHeaderService.shouldAddAuthorizationHeader(
-      request
-    );
+    const shouldCatchError =
+      this.authHttpHeaderService.shouldCatchError(request);
+    const shouldAddAuthorizationHeader =
+      this.authHttpHeaderService.shouldAddAuthorizationHeader(request);
 
     const token$ = shouldAddAuthorizationHeader
       ? // emits sync, unless there is refresh or logout in progress, in which case it emits async

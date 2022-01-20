@@ -43,11 +43,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   hasStock: boolean = false;
   inventoryThreshold: boolean = false;
 
-  showInventory$:
-    | Observable<boolean | undefined>
-    | undefined = this.component?.data$.pipe(
-    map((data) => data.inventoryDisplay)
-  );
+  showInventory$: Observable<boolean | undefined> | undefined =
+    this.component?.data$.pipe(map((data) => data.inventoryDisplay));
 
   quantity = 1;
   protected numberOfEntriesBeforeAdd = 0;

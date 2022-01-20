@@ -237,9 +237,8 @@ describe('OutletService', () => {
     beforeEach(() => {
       componentFactoryResolver = TestBed.inject(ComponentFactoryResolver);
       factory = componentFactoryResolver.resolveComponentFactory(AnyComponent);
-      factory2 = componentFactoryResolver.resolveComponentFactory(
-        Any2Component
-      );
+      factory2 =
+        componentFactoryResolver.resolveComponentFactory(Any2Component);
     });
 
     it('should remove all instance of the provided value', () => {

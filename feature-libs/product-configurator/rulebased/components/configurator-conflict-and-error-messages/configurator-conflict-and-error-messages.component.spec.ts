@@ -46,6 +46,11 @@ const configWOMessages: Configurator.Configuration = {
     configuratorType: ConfiguratorType.VARIANT,
   }),
 };
+const errorMessage1 = 'test error message 1';
+const errorMessage2 = 'test error message 2';
+const warningMessage1 = 'test warning message 1';
+const warningMessage2 = 'test warning message 2';
+const warningMessage3 = 'test warning message 3';
 const configWithMessages: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
     id: PRODUCT_CODE,
@@ -56,12 +61,8 @@ const configWithMessages: Configurator.Configuration = {
     ),
     configuratorType: ConfiguratorType.VARIANT,
   }),
-  errorMessages: ['test error message 1', 'test error message 2'],
-  warningMessages: [
-    'test warning message 1',
-    'test warning message 2',
-    'test warning message 3',
-  ],
+  errorMessages: [errorMessage1, errorMessage2],
+  warningMessages: [warningMessage1, warningMessage2, warningMessage3],
 };
 const configWithOnlyOneMessage: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, {
@@ -142,13 +143,13 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
     configuratorUtils = TestBed.inject(
       CommonConfiguratorUtilsService as Type<CommonConfiguratorUtilsService>
     );
-    if (configWOMessages?.owner) {
+    if (configWOMessages.owner) {
       configuratorUtils.setOwnerKey(configWOMessages.owner);
     }
-    if (configWithMessages?.owner) {
+    if (configWithMessages.owner) {
       configuratorUtils.setOwnerKey(configWithMessages.owner);
     }
-    if (configWithOnlyOneMessage?.owner) {
+    if (configWithOnlyOneMessage.owner) {
       configuratorUtils.setOwnerKey(configWithOnlyOneMessage.owner);
     }
   });
@@ -216,31 +217,31 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       expect,
       htmlElem,
       '.cx-error-message:nth-child(1)',
-      configWithMessages.errorMessages[0]
+      errorMessage1
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-error-message:nth-child(2)',
-      configWithMessages.errorMessages[1]
+      errorMessage2
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(1)',
-      configWithMessages.warningMessages[0]
+      warningMessage1
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(2)',
-      configWithMessages.warningMessages[1]
+      warningMessage2
     );
     CommonConfiguratorTestUtilsService.expectElementToContainText(
       expect,
       htmlElem,
       '.cx-warning-message:nth-child(3)',
-      configWithMessages.warningMessages[2]
+      warningMessage3
     );
   });
 
@@ -272,5 +273,60 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       htmlElem,
       '.cx-warning-message.open'
     );
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      configuration = configWithMessages;
+      fixture.detectChanges();
+    });
+
+    it("should contain div element with class name 'alert-message-invalid-warning' and 'aria-live' attribute that indicates that an element will be updated, and describes the types of updates a user can expect from the live region", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-invalid-warning',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-invalid-warning' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-invalid-warning',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-error' and 'aria-live' attribute that indicates that an element will be updated, and describes the types of updates a user can expect from the live region", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-error',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    });
+
+    it("should contain div element with class name 'alert-message-error' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'alert-message-error',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    });
   });
 });

@@ -132,3 +132,63 @@ export function selectProductSizeVariantWithoutStock() {
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
 }
+
+export function productDetailsTest() {
+  it('should contain correct product details', () => {
+    verifyProductDetails();
+    verifyCorrectTabs();
+    verifyTextInTabs();
+    verifyContentInReviewTab();
+  });
+
+  it('should submit a review', () => {
+    verifyReviewForm();
+  });
+
+  it('should be able to add different quantities of product to cart', () => {
+    verifyQuantityInCart();
+  });
+}
+
+export function apparelProductDetailsTest() {
+  it('should be able to select style / size variant', () => {
+    selectProductStyleVariant();
+    selectProductSizeVariant();
+  });
+
+  it('should show out of stock label when size variant without stock was selected', () => {
+    selectProductSizeVariantWithoutStock();
+  });
+}
+
+export function configureDefaultProduct() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['electronics-spa'],
+      currency: ['USD'],
+    },
+  });
+
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ProductPage**`
+  ).as('productPage');
+
+  cy.visit('/product/266685');
+
+  cy.wait(`@productPage`);
+}
+
+export function configureApparelProduct() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+  cy.visit('/product/100191');
+}

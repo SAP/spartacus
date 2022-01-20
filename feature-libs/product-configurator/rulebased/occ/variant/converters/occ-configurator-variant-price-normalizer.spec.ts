@@ -56,11 +56,8 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
 
   describe('convertAttributeSupplements', () => {
     it('should return a list with one attribute supplements', () => {
-      const source: OccConfigurator.Supplements = OccConfiguratorTestUtils.createSupplements(
-        1,
-        'attribute',
-        3
-      );
+      const source: OccConfigurator.Supplements =
+        OccConfiguratorTestUtils.createSupplements(1, 'attribute', 3);
       const result: Configurator.AttributeSupplement[] = [];
       classUnderTest.convertAttributeSupplements(source, result);
       expect(result?.length).toBe(1);
@@ -90,13 +87,8 @@ describe('OccConfiguratorVariantPriceNormalizer', () => {
     });
 
     it('should return a configuration with a list of price supplements', () => {
-      const source: OccConfigurator.Prices = OccConfiguratorTestUtils.createOccConfiguratorPrices(
-        false,
-        1,
-        0,
-        3,
-        3
-      );
+      const source: OccConfigurator.Prices =
+        OccConfiguratorTestUtils.createOccConfiguratorPrices(false, 1, 0, 3, 3);
       const result: Configurator.Configuration = classUnderTest.convert(source);
       expect(result.priceSupplements.length).toBe(3);
       expect(result.priceSupplements[0].attributeUiKey).toBe(

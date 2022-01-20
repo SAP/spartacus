@@ -5,20 +5,28 @@
 >
   <label>
     <input
+      aria-required="true"
       type="text"
       formControlName="userId"
       placeholder="{{ 'asm.loginForm.userId.label' | cxTranslate }}"
     />
-    <cx-form-errors [control]="csAgentLoginForm.get('userId')"></cx-form-errors>
+    <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
+      [control]="csAgentLoginForm.get('userId')"
+    ></cx-form-errors>
   </label>
 
   <label>
     <input
+      aria-required="true"
       type="password"
       placeholder="{{ 'asm.loginForm.password.label' | cxTranslate }}"
       formControlName="password"
     />
     <cx-form-errors
+      aria-live="assertive"
+      aria-atomic="true"
       [control]="csAgentLoginForm.get('password')"
     ></cx-form-errors>
   </label>

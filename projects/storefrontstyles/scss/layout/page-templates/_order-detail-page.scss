@@ -87,6 +87,7 @@
           .cx-card-title {
             @include type('4');
             font-weight: bold;
+            margin-bottom: 0.5rem;
           }
         }
       }

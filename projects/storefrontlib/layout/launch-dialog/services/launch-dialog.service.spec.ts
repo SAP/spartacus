@@ -105,8 +105,9 @@ describe('LaunchDialogService', () => {
     }).compileComponents();
 
     service = TestBed.inject(LaunchDialogService);
-    component = TestBed.createComponent(TestContainerComponent)
-      .componentInstance;
+    component = TestBed.createComponent(
+      TestContainerComponent
+    ).componentInstance;
     componentRef = TestBed.createComponent(TestContainerComponent).componentRef;
     routingRenderStrategy = TestBed.inject(MockRoutingRenderStrategy);
     inlineRenderStrategy = TestBed.inject(MockInlineRenderStrategy);
@@ -225,9 +226,7 @@ describe('LaunchDialogService', () => {
         { test: 123 }
       );
 
-      expect(
-        service.openDialog
-      ).toHaveBeenCalledWith(
+      expect(service.openDialog).toHaveBeenCalledWith(
         'TEST_DIALOG' as LAUNCH_CALLER,
         undefined,
         undefined,

@@ -54,9 +54,8 @@ export class PermissionFormComponent implements OnInit {
     })
   );
 
-  types$: Observable<
-    OrderApprovalPermissionType[]
-  > = this.permissionService.getTypes();
+  types$: Observable<OrderApprovalPermissionType[]> =
+    this.permissionService.getTypes();
 
   periods = Object.keys(Period);
 

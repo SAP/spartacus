@@ -2,7 +2,11 @@ import {
   CURRENCY_USD,
   LANGUAGE_EN,
 } from '../../../helpers/site-context-selector';
-import { waitForPage } from '../../checkout-flow';
+import {
+  waitForCategoryPage,
+  waitForPage,
+  waitForProductPage,
+} from '../../checkout-flow';
 
 interface StrategyRequestContext {
   language?: string;
@@ -179,9 +183,9 @@ export function verifyRequestToStrategyService(
   requestAlias: string,
   strategyRequestContext: StrategyRequestContext
 ): void {
-  cy.wait(`@${requestAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${requestAlias}`).its('response.statusCode').should('eq', 200);
 
-  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then((request) => {
+  cy.get<Cypress.WaitXHR>(`@${requestAlias}`).then(({ request }: any) => {
     expect(request.url).to.contain(`site=${site}`);
     expect(request.url).to.contain(
       `language=${
@@ -217,10 +221,8 @@ export function verifyRequestToStrategyService(
     }
 
     strategyRequestContext.containsConsentReference
-      ? expect(request.requestHeaders).to.have.property('consent-reference')
-      : expect(request.requestHeaders).to.not.have.property(
-          'consent-reference'
-        );
+      ? expect(request.headers).to.have.property('consent-reference')
+      : expect(request.headers).to.not.have.property('consent-reference');
   });
 }
 
@@ -322,9 +324,9 @@ export function clickOnCarouselItem(
     .parent()
     .within(() => {
       cy.root().should('be.visible');
-      const productPage = waitForPage('ProductPage', 'getProductPage');
+      const productPage = waitForProductPage(productId, 'getProductPage');
       cy.get('a').click();
-      cy.wait(`@${productPage}`).its('status').should('eq', 200);
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
     });
 
   if (checkForCarouselEvent) {
@@ -337,15 +339,18 @@ export function clickOnCarouselItem(
 export function navigateToHomepage(): void {
   const homePage = waitForPage('homepage', 'getHomePage');
   cy.get('cx-page-slot.SiteLogo').click();
-  cy.wait(`@${homePage}`).its('status').should('eq', 200);
+  cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
 }
 
-export function navigateToCategory(categoryName: string): void {
-  const categoryPage = waitForPage('CategoryPage', 'getCategory');
+export function navigateToCategory(
+  categoryName: string,
+  categoryCode: string
+): void {
+  const categoryPage = waitForCategoryPage(categoryCode, 'getCategory');
   cy.get('cx-category-navigation cx-generic-link a')
     .contains(categoryName)
     .click({ force: true });
-  cy.wait(`@${categoryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function waitForCarouselViewEvent(): void {

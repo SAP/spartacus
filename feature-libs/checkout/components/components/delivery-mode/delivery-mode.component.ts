@@ -31,6 +31,8 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
+  isSetDeliveryModeBusy$ = this.checkoutDeliveryService.isSetDeliveryModeBusy();
+
   deliveryModeSub: Subscription;
 
   mode: FormGroup = this.fb.group({
@@ -88,9 +90,10 @@ export class DeliveryModeComponent implements OnInit, OnDestroy {
               !!deliveryModes.find((deliveryMode) => deliveryMode.code === code)
             )
           ) {
-            code = this.checkoutConfigService.getPreferredDeliveryMode(
-              deliveryModes
-            );
+            code =
+              this.checkoutConfigService.getPreferredDeliveryMode(
+                deliveryModes
+              );
           }
           if (code) {
             this.mode.controls['deliveryModeId'].setValue(code);

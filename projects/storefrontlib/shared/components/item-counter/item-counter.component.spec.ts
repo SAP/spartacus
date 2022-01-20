@@ -39,8 +39,9 @@ describe('ItemCounterComponent', () => {
   });
 
   it('should update the input value when the control value is changed', () => {
-    const input: HTMLInputElement = fixture.debugElement.query(By.css('input'))
-      .nativeElement;
+    const input: HTMLInputElement = fixture.debugElement.query(
+      By.css('input')
+    ).nativeElement;
     component.control.setValue(5);
     fixture.detectChanges();
     expect(input.value).toEqual('5');

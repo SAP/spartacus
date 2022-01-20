@@ -21,9 +21,8 @@ export class SavedCartDetailsActionComponent implements OnDestroy {
   savedCartFormType = SavedCartFormType;
 
   @ViewChild('element') element: ElementRef;
-  savedCart$: Observable<
-    Cart | undefined
-  > = this.savedCartDetailsService.getCartDetails();
+  savedCart$: Observable<Cart | undefined> =
+    this.savedCartDetailsService.getCartDetails();
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

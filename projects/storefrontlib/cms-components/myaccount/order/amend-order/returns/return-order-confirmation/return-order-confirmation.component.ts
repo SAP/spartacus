@@ -20,9 +20,8 @@ export class ReturnOrderConfirmationComponent {
     .getForm()
     .pipe(tap((form) => (this.orderCode = form.value.orderCode)));
 
-  entries$: Observable<
-    OrderEntry[]
-  > = this.orderAmendService.getAmendedEntries();
+  entries$: Observable<OrderEntry[]> =
+    this.orderAmendService.getAmendedEntries();
 
   constructor(protected orderAmendService: OrderAmendService) {}
 

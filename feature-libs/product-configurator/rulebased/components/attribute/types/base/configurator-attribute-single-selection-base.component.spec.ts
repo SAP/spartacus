@@ -300,9 +300,8 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
     it('should return price formula parameters', () => {
       const value = createTestValue(100, 100, true);
-      const priceFormulaParameters = component.extractValuePriceFormulaParameters(
-        value
-      );
+      const priceFormulaParameters =
+        component.extractValuePriceFormulaParameters(value);
       expect(priceFormulaParameters?.price?.value).toBe(
         value?.valuePrice?.value
       );

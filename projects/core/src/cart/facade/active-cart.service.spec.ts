@@ -49,6 +49,7 @@ class MultiCartServiceStub {
   createCart() {}
   mergeToCurrentCart() {}
   addEntry() {}
+  addEntries() {}
   isStable() {}
 }
 
@@ -516,14 +517,27 @@ describe('ActiveCartService', () => {
   });
 
   describe('addEntries', () => {
-    it('should add each entry one by one', () => {
-      spyOn(service, 'addEntry').and.callThrough();
+    it('should add multiple entries at once', () => {
+      spyOn(multiCartService, 'addEntries').and.callThrough();
+      spyOn<any>(service, 'requireLoadedCart').and.returnValue(
+        of({ value: { code: 'someCode', guid: 'guid' } })
+      );
+      userId$.next('someUserId');
 
       service.addEntries([mockCartEntry, mockCartEntry]);
-      expect(service['addEntry']).toHaveBeenCalledTimes(2);
-      expect(service['addEntry']).toHaveBeenCalledWith(
-        mockCartEntry.product.code,
-        mockCartEntry.quantity
+      expect(multiCartService['addEntries']).toHaveBeenCalledWith(
+        'someUserId',
+        'someCode',
+        [
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+          {
+            productCode: mockCartEntry.product?.code,
+            quantity: mockCartEntry.quantity,
+          },
+        ]
       );
     });
   });
