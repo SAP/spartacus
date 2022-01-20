@@ -2,29 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActiveCartService,
-  I18nTestingModule,
-  OrderEntry,
-} from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { ProgressButtonModule } from '@spartacus/storefront';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { CartProceedToCheckoutComponent } from './cart-proceed-to-checkout.component';
-
-const entriesMock: OrderEntry[] = [
-  {
-    entryNumber: 1,
-  },
-  {
-    entryNumber: 2,
-  },
-];
-
-class MockActiveCartService {
-  getEntries(): Observable<OrderEntry[]> {
-    return of(entriesMock);
-  }
-}
 
 @Pipe({
   name: 'cxUrl',
@@ -50,10 +31,6 @@ describe('CartProceedToCheckoutComponent', () => {
         declarations: [CartProceedToCheckoutComponent, MockUrlPipe],
         providers: [
           {
-            provide: ActiveCartService,
-            useClass: MockActiveCartService,
-          },
-          {
             provide: Router,
             useClass: MockRouter,
           },
@@ -65,16 +42,6 @@ describe('CartProceedToCheckoutComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CartProceedToCheckoutComponent);
     component = fixture.componentInstance;
-  });
-
-  it('should get entries on ngOnInit()', () => {
-    let entries: OrderEntry[];
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    component.entries$.subscribe((data: OrderEntry[]) => (entries = data));
-    expect(entries).toEqual(entriesMock);
   });
 
   it('should disable button when checkout routing with cart validation is active and enable once navigation is over', () => {

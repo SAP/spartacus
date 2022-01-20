@@ -4,9 +4,7 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { ActiveCartService, OrderEntry } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import {
   Event,
   NavigationCancel,
@@ -20,21 +18,13 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CartProceedToCheckoutComponent implements OnInit, OnDestroy {
-  entries$: Observable<OrderEntry[]>;
   cartValidationInProgress = false;
 
   protected subscription = new Subscription();
 
-  constructor(
-    protected activeCartService: ActiveCartService,
-    protected router: Router
-  ) {}
+  constructor(protected router: Router) {}
 
   ngOnInit(): void {
-    this.entries$ = this.activeCartService
-      .getEntries()
-      .pipe(filter((entries) => entries.length > 0));
-
     this.subscription.add(
       this.router.events.subscribe((event: Event) => {
         if (

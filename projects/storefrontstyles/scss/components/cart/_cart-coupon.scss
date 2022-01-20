@@ -6,8 +6,13 @@
   padding-top: 0;
   padding-bottom: 1rem;
 
+  @include media-breakpoint-down(md) {
+    padding-top: 2rem;
+  }
+
   @include media-breakpoint-down(sm) {
     padding-inline-start: 0;
+    padding-top: 0;
   }
 
   .form-group .col-md-4 {

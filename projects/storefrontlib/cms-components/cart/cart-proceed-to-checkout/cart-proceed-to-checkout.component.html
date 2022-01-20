@@ -1,14 +1,12 @@
-<ng-container *ngIf="entries$ | async as entries">
-  <cx-progress-button
-    (clickEvent)="disableButtonWhileNavigation()"
-    [class]="'btn btn-primary btn-block'"
-    [disabled]="cartValidationInProgress"
-    [loading]="cartValidationInProgress"
-    [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
-  >
-    {{
-      (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
-        | cxTranslate
-    }}
-  </cx-progress-button>
-</ng-container>
+<cx-progress-button
+  (clickEvent)="disableButtonWhileNavigation()"
+  [class]="'btn btn-primary btn-block'"
+  [disabled]="cartValidationInProgress"
+  [loading]="cartValidationInProgress"
+  [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+>
+  {{
+    (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
+      | cxTranslate
+  }}
+</cx-progress-button>
