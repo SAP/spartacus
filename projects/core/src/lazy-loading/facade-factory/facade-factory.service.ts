@@ -1,4 +1,4 @@
-import { AbstractType, Injectable, InjectionToken, Type } from '@angular/core';
+import { AbstractType, Injectable, Injector } from '@angular/core';
 import {
   ConnectableObservable,
   EMPTY,
@@ -8,17 +8,13 @@ import {
 } from 'rxjs';
 import {
   delay,
-  distinctUntilChanged,
   map,
   publishReplay,
   shareReplay,
   switchMap,
 } from 'rxjs/operators';
 import { FeatureModulesService } from '../feature-modules.service';
-import { UnifiedInjector } from '../unified-injector';
 import { FacadeDescriptor } from './facade-descriptor';
-
-const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 
 /**
  * Service that can create proxy facade, which is a service that will expose
@@ -33,7 +29,7 @@ const PROXY_FACADE_INSTANCE_PROP = 'proxyFacadeInstance';
 export class FacadeFactoryService {
   constructor(
     protected featureModules: FeatureModulesService,
-    protected unifiedInjector: UnifiedInjector
+    protected injector: Injector
   ) {}
 
   protected getResolver<T>(
@@ -123,36 +119,6 @@ export class FacadeFactoryService {
       result[property] = this.get(resolver$, property as string);
     });
 
-    result[PROXY_FACADE_INSTANCE_PROP] = true;
-
     return result;
-  }
-
-  /**
-   * isProxyFacadeInstance tests if the provided facade is labeled as a proxy instance.
-   * Facade proxy instances contain an object key to label them as such.
-   * @param facade The facade object to evaluate
-   */
-  private isProxyFacadeInstance(facade: any) {
-    return !!facade?.[PROXY_FACADE_INSTANCE_PROP];
-  }
-
-  /**
-   * When lazy loading is used, a facade is implemented
-   * with a proxy class.  When the code chunk with the facade imiplementation
-   * is lazy loaded, the facade proxy is replaced with the actual
-   * facade implementation.  This is why we can use this to evaluate
-   * if the library chunk that contains the facade imiplementation has be
-   * loaded already or not.
-   */
-  isFacadeImplProvided<T>(
-    token: Type<T> | InjectionToken<T> | AbstractType<T>
-  ): Observable<boolean> {
-    return this.unifiedInjector.get(token).pipe(
-      map(
-        (facade) => facade !== undefined && !this.isProxyFacadeInstance(facade)
-      ),
-      distinctUntilChanged()
-    );
   }
 }

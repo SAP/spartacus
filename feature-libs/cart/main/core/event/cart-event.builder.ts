@@ -10,6 +10,9 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
+  CreateCartEvent,
+  CreateCartFailEvent,
+  CreateCartSuccessEvent,
 } from '@spartacus/cart/main/root';
 import {
   ActionToEventMapping,
@@ -79,6 +82,21 @@ export class CartEventBuilder {
     this.registerMapped({
       action: CartActions.CART_UPDATE_ENTRY_FAIL,
       event: CartUpdateEntryFailEvent,
+    });
+  }
+
+  protected registerCreateCart(): void {
+    this.registerMapped({
+      action: CartActions.CREATE_CART,
+      event: CreateCartEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CREATE_CART_SUCCESS,
+      event: CreateCartSuccessEvent,
+    });
+    this.registerMapped({
+      action: CartActions.CREATE_CART_FAIL,
+      event: CreateCartFailEvent,
     });
   }
 

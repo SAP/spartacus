@@ -12,6 +12,29 @@ export abstract class CartEvent extends CxEvent {
 
 // =====================================================================
 
+export class CreateCartEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CreateCartEvent';
+}
+
+export class CreateCartSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CreateCartSuccessEvent';
+  cartId: string;
+}
+
+export class CreateCartFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'CreateCartFailEvent';
+  error: any;
+}
+
 export class CartAddEntryEvent extends CartEvent {
   /**
    * Event's type
