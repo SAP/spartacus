@@ -1,11 +1,9 @@
 on:
   push:
     branches:
-      - 'feature/GH-13889'
-      - 'release/3.**'
-      - 'release/4.**'
+      - 'release/*'
       - 'develop'
-name: Installation
+name: Install spartacus from sources
 jobs:
   install:
     name: Build libs and install
