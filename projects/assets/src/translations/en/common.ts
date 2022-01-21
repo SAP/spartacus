@@ -48,7 +48,8 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    shopAll: 'Shop all {{ navNode}} >',
+    categoryNavLabel: 'Main menu',
+    footerNavLabel: 'Footer links',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',

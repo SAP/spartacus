@@ -1,4 +1,4 @@
-<nav>
+<nav [attr.aria-label]="navAriaLabel">
   <ul>
     <li *ngIf="flyout && node?.children.length > 1" class="back is-open">
       <button (click)="back()">

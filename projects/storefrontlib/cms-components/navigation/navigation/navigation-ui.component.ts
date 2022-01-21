@@ -40,6 +40,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
    */
   @Input() resetMenuOnClose: boolean;
 
+  @Input() navAriaLabel: string;
   /**
    * the icon type that will be used for navigation nodes
    * with children.
