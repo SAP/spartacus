@@ -17,18 +17,13 @@
     [formControl]="attributeDropDownForm"
     [cxFocus]="{ key: attribute.name }"
     (change)="onSelect(attributeDropDownForm.value)"
-    [attr.aria-describedby]="
-      createAttributeUiKey('label', attribute.name) +
-      ' ' +
-      createAttributeUiKey('attribute-msg', attribute.name)
-    "
+    [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
   >
     <option
       *ngFor="let item of attribute.values"
       [label]="item.valueDisplay"
       [selected]="item.selected"
       [value]="item.valueCode"
-      [attr.aria-selected]="item.selected"
       [attr.aria-label]="
         item.valueCode == 0
           ? ('configurator.a11y.forAttribute'
