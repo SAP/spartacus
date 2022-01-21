@@ -53,3 +53,7 @@ title: Changes to Styles in 5.0
 ### AddressFormComponent
 
 - Changed `justify-content` to `center` for `.cx-address-form-btns` in `%cx-address-form`
+
+### NavigationUIComponent, NavigationComponent, FooterNavigationComponent, CategoryNavigationComponent
+
+- Styles has been aligned to the new structure of navigation, see more in template changes of [NavigationUIComponent](./5_0.md#NavigationUIComponent)
