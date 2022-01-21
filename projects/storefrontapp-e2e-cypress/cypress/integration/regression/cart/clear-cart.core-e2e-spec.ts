@@ -1,6 +1,7 @@
 import * as cart from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+//import * as alerts from '../../../helpers/global-message';
 
 describe('Clear Cart', () => {
   viewportContext(['desktop'], () => {
@@ -57,10 +58,15 @@ describe('Clear Cart', () => {
         cart.verifyCartNotEmpty();
       });
 
-      it('should clear cart for registered user', () => {
+      it('should clear cart for registered user and have same cartId', () => {
         cart.goToCart();
+        cart.saveCartId();
         cart.clearActiveCart();
+        // alerts
+        //   .getSuccessAlert()
+        //   .should('contain', `Active cart cleared successfully.`);
         cart.validateEmptyCart();
+        cart.verifyCartIdAfterClearCart();
       });
     });
   });

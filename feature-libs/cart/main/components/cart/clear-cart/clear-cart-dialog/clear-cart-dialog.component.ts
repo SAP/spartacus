@@ -6,7 +6,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ClearCartService } from '../clear-cart.service';
+import { ClearCartService } from './clear-cart.service';
 import { BehaviorSubject } from 'rxjs';
 import { ICON_TYPE } from '@spartacus/storefront';
 

@@ -7,8 +7,8 @@ import {
   provideConfig,
 } from '@spartacus/core';
 import { ClearCartComponent } from './clear-cart.component';
-import { ClearCartDialogModule } from '../clear-cart/clear-cart-dialog/clear-cart-dialog.module';
-import { defaultClearCartLayoutConfig } from '../clear-cart/clear-cart-dialog';
+import { ClearCartDialogModule } from '../clear-cart-dialog/clear-cart-dialog.module';
+import { defaultClearCartLayoutConfig } from '../clear-cart-dialog/default-clear-cart-layout.config';
 
 @NgModule({
   declarations: [ClearCartComponent],

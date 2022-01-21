@@ -5,14 +5,6 @@ import { PRODUCT_LISTING } from './data-configuration';
 import { waitForHomePage } from './homepage';
 import { createProductQuery, QUERY_ALIAS } from './product-search';
 import { generateMail, randomString } from './user';
-import * as alerts from '../helpers/global-message';
-import * as sampleData from '../sample-data/b2b-saved-cart';
-import {
-  clickSavedCartButtonsFromCartPage,
-  interceptSaveCartEndpoint,
-  visitSavedCartListingPage,
-  interceptRestoreSavedCartEndpoint,
-} from './b2b/b2b-saved-cart';
 
 interface TestProduct {
   code: string;
@@ -549,69 +541,4 @@ export function verifyCartIdAfterClearCart() {
   cy.get('@cartId').then((cartId) => {
     expect(cartId).to.eq(_cartId);
   });
-}
-
-export function saveActiveCart() {
-  clickSavedCartButtonsFromCartPage(1);
-
-  cy.window()
-    .then((win) =>
-      JSON.parse(win.localStorage.getItem('spartacus⚿electronics-spa⚿cart'))
-    )
-    .then(({ active }) => {
-      const alias = interceptSaveCartEndpoint(active);
-
-      // open modal to save the cart
-
-      cy.get('cx-saved-cart-form-dialog').within(() => {
-        cy.get('[formcontrolname="name"]').type(
-          sampleData.savedActiveCartForm[0].name
-        );
-        cy.get('[formcontrolname="description"]').type(
-          sampleData.savedActiveCartForm[0].description
-        );
-
-        cy.get('button[aria-label="Save"]').click();
-      });
-
-      cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
-
-      alerts
-        .getSuccessAlert()
-        .should(
-          'contain',
-          `Your cart items have been successfully saved for later in the "${sampleData.savedActiveCartForm[0].name}" cart`
-        );
-
-      cy.get('cx-paragraph').should('contain', 'Your shopping cart is empty');
-    });
-}
-
-export function restoreCart() {
-  let cartId: string;
-  let restoreSavedCartAlias: any;
-
-  visitSavedCartListingPage();
-  cy.window()
-    .then((win) =>
-      JSON.parse(win.localStorage.getItem('spartacus⚿electronics-spa⚿cart'))
-    )
-    .then(() => {
-      cy.get('td.cx-saved-cart-list-cart-id > a.cx-saved-cart-list-value')
-        .then(($cartId) => {
-          cartId = $cartId.text();
-          restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(cartId);
-        })
-        .then(() => {
-          cy.get('cx-saved-cart-list button:first').should('exist').click();
-
-          cy.get('cx-saved-cart-form-dialog').within(() => {
-            cy.get('button[aria-label="Restore"]').click();
-          });
-
-          cy.wait(`@${restoreSavedCartAlias}`)
-            .its('response.statusCode')
-            .should('eq', 200);
-        });
-    });
 }

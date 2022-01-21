@@ -495,25 +495,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
       .subscribe();
   }
 
-  /**
-   * Clears active cart
-   */
-  clearActiveCart(): Observable<boolean> {
-    return this.getEntries().pipe(
-      take(1),
-      tap((entries) => {
-        // Make copy and reverse entries[] to start at end of array
-        // since cart entries are shifted downwards with removeEntry()
-        entries
-          .slice()
-          .reverse()
-          .forEach((entry) => this.removeEntry(entry));
-      }),
-      switchMap(() => this.isStable()),
-      filter((data) => Boolean(data))
-    );
-  }
-
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
-import { take } from 'rxjs/operators';
-import { BehaviorSubject, combineLatest } from 'rxjs';
+import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
@@ -19,21 +19,38 @@ export class ClearCartService {
 
   clearActiveCart(): void {
     this.isClearing$.next(true);
-    combineLatest([
-      this.activeCartFacade.clearActiveCart(),
-      this.activeCartFacade.getEntries(),
-    ])
+    this.clearCart()
       .pipe(take(1))
-      .subscribe(([_, entries]) => {
+      .subscribe(() => {
         this.isClearing$.next(false);
-        entries.length === 0 ? this.onComplete(true) : this.onComplete(false);
       });
+  }
+
+  clearCart(): Observable<boolean> {
+    return this.activeCartFacade.getEntries().pipe(
+      take(1),
+      tap((entries) => {
+        // Make copy and reverse entries[] to start at end of array
+        // since cart entries are shifted downwards with removeEntry()
+        entries
+          .slice()
+          .reverse()
+          .forEach((entry) => this.activeCartFacade.removeEntry(entry));
+      }),
+      switchMap(() => this.activeCartFacade.isStable()),
+      filter((data) => Boolean(data))
+    );
   }
 
   getClearingCartProgess(): BehaviorSubject<boolean> {
     return this.isClearing$;
   }
 
+  /**
+   * Determine if these global messages are really needed
+   *
+   * @param success
+   */
   onComplete(success: boolean): void {
     this.closeDialog('Close dialog');
     if (success) {
