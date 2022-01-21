@@ -109,7 +109,7 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkGroupFormDisplayed();
   configuration.checkPreviousAndNextBtnsDispalyed();
   configuration.checkPriceSummaryDisplayed();
-  configuration.checkAddToCartBtnDisplayed();
+  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlayed by the cookies button. The caller has to check that the add to cart button is visible.
   checkProductTitleDisplayed();
   configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
