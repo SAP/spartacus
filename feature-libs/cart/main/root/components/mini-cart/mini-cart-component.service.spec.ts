@@ -59,7 +59,7 @@ const mockBrowserCartStateNoCart = {
 
 const mockBaseSite = 'mockBaseSite';
 
-fdescribe('MiniCartComponentService', () => {
+describe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
   let activeCartFacade: ActiveCartFacade;
   let statePersistenceService: StatePersistenceService;

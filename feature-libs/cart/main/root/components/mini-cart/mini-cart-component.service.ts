@@ -91,8 +91,8 @@ export class MiniCartComponentService {
       this.cartCreated(),
     ]).pipe(
       map(
-        ([hasCartInStorage, isUserLoggedIn, newCartCrated]) =>
-          hasCartInStorage || isUserLoggedIn || newCartCrated
+        ([hasCartInStorage, isUserLoggedIn, cartCreated]) =>
+          hasCartInStorage || isUserLoggedIn || cartCreated
       ),
       distinctUntilChanged(),
       takeWhile((hasCart) => !hasCart, true)

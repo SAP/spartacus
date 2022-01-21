@@ -43,6 +43,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerCreateCart();
   }
 
   /**
