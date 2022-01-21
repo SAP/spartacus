@@ -34,7 +34,7 @@ export interface CardWithAddress {
 }
 
 @Component({
-  selector: 'cx-shipping-address',
+  selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

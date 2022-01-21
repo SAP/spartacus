@@ -5,9 +5,9 @@ import {
   CheckoutStepsSetGuard,
 } from '@spartacus/checkout/base/components';
 import { CheckoutCostCenterModule } from './checkout-cost-center/checkout-cost-center.module';
+import { B2BCheckoutDeliveryAddressModule } from './checkout-delivery-address/checkout-delivery-address.module';
 import { CheckoutPaymentTypeModule } from './checkout-payment-type/checkout-payment-type.module';
 import { B2BCheckoutReviewSubmitModule } from './checkout-review-submit/checkout-review-submit.module';
-import { B2BCheckoutDeliveryAddressModule } from './checkout-shipping-address/checkout-delivery-address.module';
 import { CheckoutB2BAuthGuard } from './guards/checkout-b2b-auth.guard';
 import { CheckoutB2BStepsSetGuard } from './guards/checkout-b2b-steps-set.guard';
 

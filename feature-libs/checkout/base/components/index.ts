@@ -1,4 +1,6 @@
 export * from './checkout-components.module';
+export * from './checkout-delivery-address/checkout-delivery-address.component';
+export * from './checkout-delivery-address/checkout-delivery-address.module';
 export * from './checkout-delivery-mode/checkout-delivery-mode.component';
 export * from './checkout-delivery-mode/checkout-delivery-mode.module';
 export * from './checkout-login/checkout-login.component';
@@ -22,8 +24,6 @@ export * from './checkout-progress/checkout-progress.component';
 export * from './checkout-progress/checkout-progress.module';
 export * from './checkout-review-submit/checkout-review-submit.component';
 export * from './checkout-review-submit/checkout-review-submit.module';
-export * from './checkout-shipping-address/checkout-delivery-address.component';
-export * from './checkout-shipping-address/checkout-delivery-address.module';
 export * from './guards/index';
 export * from './page-context/index';
 export * from './services/index';

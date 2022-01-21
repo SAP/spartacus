@@ -45,12 +45,12 @@ export class CheckoutPaymentFormComponent implements OnInit {
   years: number[] = [];
 
   cardTypes$: Observable<CardType[]>;
-  shippingAddress$: Observable<Address | undefined>;
+  deliveryAddress$: Observable<Address | undefined>;
   countries$: Observable<Country[]>;
-  sameAsShippingAddress = true;
+  sameAsDeliveryAddress = true;
   regions$: Observable<Region[]>;
   selectedCountry$: BehaviorSubject<string> = new BehaviorSubject<string>('');
-  showSameAsShippingAddressCheckbox$: Observable<boolean>;
+  showSameAsDeliveryAddressCheckbox$: Observable<boolean>;
 
   @Input()
   loading: boolean;
@@ -120,16 +120,16 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
     this.cardTypes$ = this.checkoutPaymentFacade.getCardTypes();
 
-    this.shippingAddress$ = this.checkoutDeliveryAddressFacade
+    this.deliveryAddress$ = this.checkoutDeliveryAddressFacade
       .getDeliveryAddressState()
       .pipe(
         filter((state) => !state.loading),
         map((state) => state.data)
       );
 
-    this.showSameAsShippingAddressCheckbox$ = combineLatest([
+    this.showSameAsDeliveryAddressCheckbox$ = combineLatest([
       this.countries$,
-      this.shippingAddress$,
+      this.deliveryAddress$,
     ]).pipe(
       map(([countries, address]) => {
         return (
@@ -142,7 +142,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
         );
       }),
       tap((shouldShowCheckbox) => {
-        this.sameAsShippingAddress = shouldShowCheckbox;
+        this.sameAsDeliveryAddress = shouldShowCheckbox;
       })
     );
 
@@ -182,8 +182,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
       !this.paymentForm.value.defaultPayment;
   }
 
-  toggleSameAsShippingAddress(): void {
-    this.sameAsShippingAddress = !this.sameAsShippingAddress;
+  toggleSameAsDeliveryAddress(): void {
+    this.sameAsDeliveryAddress = !this.sameAsDeliveryAddress;
   }
 
   getAddressCardContent(address: Address): Card {
@@ -234,7 +234,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
   }
 
   verifyAddress(): void {
-    if (this.sameAsShippingAddress) {
+    if (this.sameAsDeliveryAddress) {
       this.next();
     } else {
       this.userAddressService
@@ -265,7 +265,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
 
   next(): void {
     if (this.paymentForm.valid) {
-      if (this.sameAsShippingAddress) {
+      if (this.sameAsDeliveryAddress) {
         this.setPaymentDetails.emit({
           paymentDetails: this.paymentForm.value,
           billingAddress: null,
@@ -283,7 +283,7 @@ export class CheckoutPaymentFormComponent implements OnInit {
     } else {
       this.paymentForm.markAllAsTouched();
 
-      if (!this.sameAsShippingAddress) {
+      if (!this.sameAsDeliveryAddress) {
         this.billingAddressForm.markAllAsTouched();
       }
     }

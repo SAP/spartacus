@@ -8,7 +8,7 @@
       <ng-container
         *ngIf="
           (supportedDeliveryModes$ | async)?.length &&
-            !(changeDeliveryModeInProgress$ | async);
+            !(isSetDeliveryModeBusy$ | async);
           else loading
         "
       >
@@ -41,26 +41,22 @@
     </div>
   </div>
 
-  <ng-container *ngIf="!continueButtonPressed; else loading">
-    <div class="row cx-checkout-btns">
-      <div class="col-md-12 col-lg-6">
-        <button class="btn btn-block btn-action" (click)="back()">
-          {{ backBtnText | cxTranslate }}
-        </button>
-      </div>
-      <div class="col-md-12 col-lg-6">
-        <button
-          class="btn btn-block btn-primary"
-          [disabled]="
-            deliveryModeInvalid || (changeDeliveryModeInProgress$ | async)
-          "
-          (click)="next()"
-        >
-          {{ 'common.continue' | cxTranslate }}
-        </button>
-      </div>
+  <div class="row cx-checkout-btns">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ backBtnText | cxTranslate }}
+      </button>
     </div>
-  </ng-container>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="deliveryModeInvalid || (isSetDeliveryModeBusy$ | async)"
+        (click)="next()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
+  </div>
 </div>
 
 <ng-template #loading>

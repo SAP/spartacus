@@ -36,20 +36,23 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
+  protected deliveryAddress: Address | undefined;
+  protected busy$ = new BehaviorSubject<boolean>(false);
 
   iconTypes = ICON_TYPE;
   existingPaymentMethods$: Observable<PaymentDetails[]>;
-  isLoading$: Observable<boolean>;
   cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   selectedMethod$: Observable<PaymentDetails | undefined>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
-  paymentSavingInProgress$ = new BehaviorSubject<boolean>(false);
-  shouldRedirect: boolean;
+  shouldRedirect: boolean = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
-  protected deliveryAddress: Address | undefined;
+  isUpdated$: Observable<boolean> = combineLatest([
+    this.busy$,
+    this.userPaymentService.getPaymentMethodsLoading(),
+  ]).pipe(map(([busy, loading]) => busy || loading));
 
   constructor(
     protected userPaymentService: UserPaymentService,
@@ -63,9 +66,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.shouldRedirect = false;
-    this.isLoading$ = this.userPaymentService.getPaymentMethodsLoading();
-
     if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {
       this.userPaymentService.loadPaymentMethods();
     } else {
@@ -176,16 +176,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.savePaymentMethod(paymentDetails);
   }
 
-  protected savePaymentMethod(paymentDetails: PaymentDetails): void {
-    this.paymentSavingInProgress$.next(true);
-    this.subscriptions.add(
-      this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
-        complete: () => this.paymentSavingInProgress$.next(false),
-        error: () => this.paymentSavingInProgress$.next(false),
-      })
-    );
-  }
-
   showNewPaymentForm(): void {
     this.newPaymentFormManuallyOpened = true;
   }
@@ -203,17 +193,35 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   }): void {
     const details: PaymentDetails = { ...paymentDetails };
     details.billingAddress = billingAddress || this.deliveryAddress;
-    this.paymentSavingInProgress$.next(true);
+    this.busy$.next(true);
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
         complete: () => {
-          this.paymentSavingInProgress$.next(false);
+          this.onSuccess();
           this.shouldRedirect = true;
         },
         error: () => {
-          this.paymentSavingInProgress$.next(false);
+          this.onError();
           this.shouldRedirect = false;
         },
+      })
+    );
+  }
+
+  next(): void {
+    this.checkoutStepService.next(this.activatedRoute);
+  }
+
+  back(): void {
+    this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected savePaymentMethod(paymentDetails: PaymentDetails): void {
+    this.busy$.next(true);
+    this.subscriptions.add(
+      this.checkoutPaymentFacade.setPaymentDetails(paymentDetails).subscribe({
+        complete: () => this.onSuccess(),
+        error: () => this.onError(),
       })
     );
   }
@@ -260,16 +268,15 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     };
   }
 
-  next(): void {
-    this.checkoutStepService.next(this.activatedRoute);
+  protected onSuccess(): void {
+    this.busy$.next(false);
   }
 
-  back(): void {
-    this.checkoutStepService.back(this.activatedRoute);
+  protected onError(): void {
+    this.busy$.next(false);
   }
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-    this.paymentSavingInProgress$.next(false);
   }
 }

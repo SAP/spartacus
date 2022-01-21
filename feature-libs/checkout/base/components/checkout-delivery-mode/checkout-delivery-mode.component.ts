@@ -28,7 +28,6 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   selectedDeliveryModeCode$: Observable<string | undefined>;
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
-  continueButtonPressed = false;
 
   backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
 
@@ -36,9 +35,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     deliveryModeId: ['', Validators.required],
   });
 
-  changeDeliveryModeInProgress$: Observable<boolean> = new BehaviorSubject(
-    false
-  );
+  isSetDeliveryModeBusy$: Observable<boolean> = new BehaviorSubject(false);
 
   constructor(
     protected fb: FormBuilder,
@@ -90,7 +87,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   changeMode(code: string): void {
-    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(true);
+    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(true);
 
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
       complete: () => this.onSuccess(),
@@ -99,20 +96,15 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(): void {
-    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
-      false
-    );
+    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
   }
 
   protected onError(): void {
-    (this.changeDeliveryModeInProgress$ as BehaviorSubject<boolean>).next(
-      false
-    );
+    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
   }
 
   next(): void {
     if (this.mode.valid && this.mode.value) {
-      this.continueButtonPressed = true;
       this.checkoutStepService.next(this.activatedRoute);
     }
   }
