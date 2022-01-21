@@ -262,8 +262,7 @@
     "@spartacus/storefront": "4.3.0-RC.0",
     "@spartacus/styles": "4.3.0-RC.0",
     "bootstrap": "^4.3.1",
-    "rxjs": "^6.6.0",
-    "@spartacus/assets": "4.3.0-RC.0"
+    "rxjs": "^6.6.0"
   },
   "storefrontapp": {
     "@angular/animations": "^12.0.5",
