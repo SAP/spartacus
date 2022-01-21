@@ -6,7 +6,7 @@
   "numTestsKeptInMemory": 1,
   "video": true,
   "retries": {
-    "runMode": 1
+    "runMode": 3
   },
   "videoUploadOnPasses": false,
   "env": {
