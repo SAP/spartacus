@@ -24,6 +24,8 @@ const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
+const configurationModulePath =
+  'src/app/spartacus/spartacus-configuration.module.ts';
 
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -45,10 +47,11 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     projectRoot: '',
   };
 
-  const spartacusDefaultOptions: SpartacusOptions = {
+  const spartacusOptions: SpartacusOptions = {
     project: 'schematics-test',
     lazy: true,
     features: [],
+    baseSite: 'powertools-epdvisualization-spa', // simulate --baseSite=powertools-epdvisualization-spa
   };
 
   const libraryNoFeaturesOptions: SpartacusEpdVisualizationOptions = {
@@ -92,7 +95,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       .runExternalSchematicAsync(
         SPARTACUS_SCHEMATICS,
         'ng-add',
-        { ...spartacusDefaultOptions, name: 'schematics-test' },
+        { ...spartacusOptions, name: 'schematics-test' },
         appTree
       )
       .toPromise();
@@ -121,6 +124,13 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should add b2b configuration', async () => {
+        const configurationModule = appTree.readContent(
+          configurationModulePath
+        );
+        expect(configurationModule).toMatchSnapshot();
       });
 
       describe('styling', () => {
@@ -178,6 +188,13 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
       });
+
+      it('should add b2b configuration', async () => {
+        const configurationModule = appTree.readContent(
+          configurationModulePath
+        );
+        expect(configurationModule).toMatchSnapshot();
+      });
     });
   });
 
@@ -231,6 +248,13 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       it('should import appropriate modules', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should add b2b configuration', async () => {
+        const configurationModule = appTree.readContent(
+          configurationModulePath
+        );
+        expect(configurationModule).toMatchSnapshot();
       });
     });
   });

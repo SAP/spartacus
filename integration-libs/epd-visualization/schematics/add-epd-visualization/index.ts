@@ -9,6 +9,7 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_EPD_VISUALIZATION_FEATURE,
+  configureB2bFeatures,
   CustomConfig,
   EPD_VISUALIZATION_CONFIG,
   readPackageJson,
@@ -42,7 +43,10 @@ export function addEpdVisualizationFeature(
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_EPD_VISUALIZATION_FEATURE, options.features)
-        ? chain([addEpdVisualization(options)])
+        ? chain([
+            addEpdVisualization(options),
+            configureB2bFeatures(options, packageJson),
+          ])
         : noop(),
     ]);
   };
