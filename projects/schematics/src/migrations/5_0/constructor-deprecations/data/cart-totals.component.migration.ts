@@ -17,6 +17,10 @@ export const CART_TOTALS_COMPONENT_MIGRATION: ConstructorDeprecation = {
       className: ACTIVE_CART_SERVICE,
       importPath: SPARTACUS_CORE,
     },
+    {
+      className: ROUTER,
+      importPath: ANGULAR_ROUTER,
+    },
   ],
   removeParams: [
     {

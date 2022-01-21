@@ -32,7 +32,7 @@
       flex-direction: row;
 
       cx-cart-totals,
-      x-cart-coupon,
+      cx-cart-coupon,
       cx-cart-proceed-to-checkout {
         max-width: 50%;
       }
@@ -47,8 +47,8 @@
       }
 
       cx-cart-quick-form,
-      x-cart-coupon,
-      x-cart-proceed-to-checkout {
+      cx-cart-coupon,
+      cx-cart-proceed-to-checkout {
         max-width: 100%;
         padding-inline-end: 0;
         padding-inline-start: 0;

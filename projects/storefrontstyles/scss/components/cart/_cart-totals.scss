@@ -9,6 +9,10 @@
     padding-inline-start: 0rem;
   }
 
+  @include media-breakpoint-down(sm) {
+    padding-inline-end: 0;
+  }
+
   cx-order-summary {
     padding: 0 0 1rem;
 

@@ -90,14 +90,4 @@
       text-decoration: underline;
     }
   }
-
-  cx-applied-coupons {
-    .row {
-      width: calc(100% + 15px);
-
-      @include media-breakpoint-down(sm) {
-        width: auto;
-      }
-    }
-  }
 }

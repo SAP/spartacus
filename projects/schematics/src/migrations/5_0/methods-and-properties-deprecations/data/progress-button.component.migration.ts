@@ -6,6 +6,7 @@ import {
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
 
+// projects/storefrontlib/shared/components/progress-button/progress-button.component.ts
 export const PROGRESS_BUTTON_COMPONENT_MIGRATION: MethodPropertyDeprecation[] =
   [
     {
