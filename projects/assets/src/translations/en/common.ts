@@ -48,7 +48,7 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    categoryNavLabel: 'Main menu',
+    categoryNavLabel: 'Category menu',
     footerNavLabel: 'Footer links',
   },
   searchBox: {
