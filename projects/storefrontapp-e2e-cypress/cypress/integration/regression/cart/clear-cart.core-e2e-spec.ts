@@ -2,7 +2,7 @@ import * as cart from '../../../helpers/cart';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('Cart', () => {
+describe('Clear Cart', () => {
   viewportContext(['desktop'], () => {
     context('Clear cart of anonymous user', () => {
       before(() => {

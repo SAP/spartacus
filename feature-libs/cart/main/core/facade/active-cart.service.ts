@@ -502,10 +502,12 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.getEntries().pipe(
       take(1),
       tap((entries) => {
-        // Remove the 0th entry n-times
-        entries.forEach(() => {
-          this.removeEntry(entries[0]);
-        });
+        // Make copy and reverse entries[] to start at end of array
+        // since cart entries are shifted downwards with removeEntry()
+        entries
+          .slice()
+          .reverse()
+          .forEach((entry) => this.removeEntry(entry));
       }),
       switchMap(() => this.isStable()),
       filter((data) => Boolean(data))

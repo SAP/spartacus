@@ -25,7 +25,7 @@ describe('ClearCartService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        { useClass: MockActiveCartFacade, provide: ActiveCartFacade },
+        { provide: ActiveCartFacade, useClass: MockActiveCartFacade },
         {
           provide: GlobalMessageService,
           useClass: MockGlobalMessageService,

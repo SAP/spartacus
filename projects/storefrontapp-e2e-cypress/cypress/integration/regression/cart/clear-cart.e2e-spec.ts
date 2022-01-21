@@ -1,10 +1,12 @@
 import * as cart from '../../../helpers/cart';
+import * as alerts from '../../../helpers/global-message';
+import * as quickOrder from '../../../helpers/b2b/b2b-quick-order';
 import { visitHomePage } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 
-describe('Cart', () => {
+describe('Clear Cart', () => {
   viewportContext(['desktop'], () => {
-    describe('Clear Cart for registered user', () => {
+    describe('Clear cart for registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
         cart.registerCartUser();
@@ -26,7 +28,24 @@ describe('Cart', () => {
         cart.goToCart();
         cart.saveCartId();
         cart.clearActiveCart();
+        alerts
+          .getSuccessAlert()
+          .should('contain', `Active cart cleared successfully.`);
         cart.verifyCartIdAfterClearCart();
+      });
+
+      it('should clear cart after adding products to cart from quick order', () => {
+        quickOrder.visitQuickOrderPage();
+        quickOrder.addProductToTheList('1934793');
+        quickOrder.addToCart();
+        cart.verifyCartNotEmpty();
+        quickOrder.verifyQuickOrderListQuantity(0);
+        alerts
+          .getSuccessAlert()
+          .should('contain', `Quick order list has been added to the cart`);
+        cart.goToCart();
+        cart.clearActiveCart();
+        cart.validateEmptyCart();
       });
 
       describe('Clear Cart - Saved Cart', () => {
@@ -45,10 +64,6 @@ describe('Cart', () => {
           cart.validateEmptyCart();
         });
       });
-
-      it('should clear cart after importing products to cart', () => {});
-
-      it('should clear cart after importing products to cart', () => {});
     });
   });
 });

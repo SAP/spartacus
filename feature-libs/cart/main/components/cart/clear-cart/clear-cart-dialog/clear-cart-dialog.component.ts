@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnDestroy,
   OnInit,
 } from '@angular/core';
 import { ClearCartService } from '../clear-cart.service';
@@ -15,7 +14,7 @@ import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
   templateUrl: './clear-cart-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClearCartDialogComponent implements OnInit, OnDestroy {
+export class ClearCartDialogComponent implements OnInit {
   iconTypes = ICON_TYPE;
   isClearing$: BehaviorSubject<boolean>;
 
@@ -43,9 +42,5 @@ export class ClearCartDialogComponent implements OnInit, OnDestroy {
 
   close(reason: string): void {
     this.launchDialogService.closeDialog(reason);
-  }
-
-  ngOnDestroy(): void {
-    this.close('close dialog');
   }
 }
