@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
 import { CartType } from '@spartacus/cart/main/root';
-import { isNotUndefined } from '@spartacus/core';
+import { isNotUndefined, OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { isSelectiveCart } from '../../utils/utils';
@@ -42,12 +42,22 @@ export class MultiCartEffects {
   setActiveCartId$: Observable<CartActions.SetCartTypeIndex> = this.actions$.pipe(
     ofType(
       CartActions.LOAD_CART_SUCCESS,
+      CartActions.LOAD_CART,
       CartActions.CREATE_CART_SUCCESS,
       CartActions.CREATE_CART,
       CartActions.SET_ACTIVE_CART_ID
     ),
     map((action: any) => {
       switch (action.type) {
+        case CartActions.LOAD_CART: {
+          if (action?.payload?.cartId === OCC_CART_ID_CURRENT) {
+            return new CartActions.SetCartTypeIndex({
+              cartType: CartType.ACTIVE,
+              cartId: '',
+            });
+          }
+          break;
+        }
         case CartActions.LOAD_CART_SUCCESS:
         // point to `temp-${uuid}` when we are creating/merging cart
         case CartActions.CREATE_CART: {
