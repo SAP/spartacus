@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { take } from 'rxjs/operators';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, combineLatest } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -17,12 +17,14 @@ export class ClearCartService {
 
   clearActiveCart(): void {
     this.isClearing$.next(true);
-    this.activeCartFacade
-      .clearActiveCart()
+    combineLatest([
+      this.activeCartFacade.clearActiveCart(),
+      this.activeCartFacade.getEntries(),
+    ])
       .pipe(take(1))
-      .subscribe(() => {
+      .subscribe(([_, entries]) => {
         this.isClearing$.next(false);
-        this.onComplete();
+        entries.length === 0 ? this.onComplete(true) : this.onComplete(false);
       });
   }
 
@@ -30,10 +32,17 @@ export class ClearCartService {
     return this.isClearing$;
   }
 
-  onComplete(): void {
-    this.globalMessageService.add(
-      { key: 'clearCart.cartClearedSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
+  onComplete(success: boolean): void {
+    if (success) {
+      this.globalMessageService.add(
+        { key: 'clearCart.cartClearedSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    } else {
+      this.globalMessageService.add(
+        { key: 'clearCart.cartClearedError' },
+        GlobalMessageType.MSG_TYPE_ERROR
+      );
+    }
   }
 }
