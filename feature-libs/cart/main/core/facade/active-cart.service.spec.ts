@@ -561,7 +561,7 @@ describe('ActiveCartService', () => {
   });
 
   describe('requireLoadedCart', () => {
-    let cartState;
+    let cartState: any;
 
     beforeEach(() => {
       cartState = {
