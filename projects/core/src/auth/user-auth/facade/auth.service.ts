@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
+import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -43,13 +44,26 @@ export class AuthService {
    */
   async checkOAuthParamsInUrl(): Promise<void> {
     try {
+      const tokenReceived = getLastValueSync(
+        this.oAuthLibWrapperService.events$.pipe(
+          filter((e) => e.type === 'token_received')
+        )
+      );
+
       const result = await this.oAuthLibWrapperService.tryLogin();
+
       const token = this.authStorageService.getItem('access_token');
+
       // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
       if (result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
-        this.authRedirectService.redirect();
+
+        // Only redirect if we have received a token,
+        // otherwise we are not returning from authentication server.
+        if (tokenReceived) {
+          this.authRedirectService.redirect();
+        }
       }
     } catch {}
   }

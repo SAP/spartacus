@@ -40,6 +40,7 @@ const configInitial: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(configId, owner),
   overview: {
     configId: ConfigurationTestData.CONFIG_ID,
+    productCode: '',
     groups: [],
   },
 };
@@ -214,7 +215,10 @@ describe('ConfigurationOverviewFormComponent', () => {
         configId,
         ConfiguratorModelUtils.createInitialOwner()
       ),
-      overview: { configId: ConfigurationTestData.CONFIG_ID },
+      overview: {
+        configId: ConfigurationTestData.CONFIG_ID,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
+      },
     };
     expect(component.hasAttributes(configWOOverviewGroups)).toBe(false);
   });
@@ -228,6 +232,7 @@ describe('ConfigurationOverviewFormComponent', () => {
       ),
       overview: {
         configId: ConfigurationTestData.CONFIG_ID,
+        productCode: ConfigurationTestData.PRODUCT_CODE,
         groups: [{ id: 'GROUP1' }],
       },
     };

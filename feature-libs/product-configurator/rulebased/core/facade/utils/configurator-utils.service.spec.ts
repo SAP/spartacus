@@ -188,7 +188,7 @@ describe('ConfiguratorUtilsService', () => {
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
