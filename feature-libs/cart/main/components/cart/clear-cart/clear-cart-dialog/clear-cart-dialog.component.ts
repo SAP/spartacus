@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { ClearCartService } from '../clear-cart.service';
 import { BehaviorSubject } from 'rxjs';
-import { LaunchDialogService, ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-clear-cart-dialog',
@@ -28,7 +28,6 @@ export class ClearCartDialogComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    protected launchDialogService: LaunchDialogService,
     protected el: ElementRef,
     protected clearCartService: ClearCartService
   ) {}
@@ -42,7 +41,7 @@ export class ClearCartDialogComponent implements OnInit, OnDestroy {
   }
 
   close(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
+    this.clearCartService.closeDialog(reason);
   }
 
   ngOnDestroy(): void {
