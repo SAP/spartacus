@@ -19,7 +19,7 @@ export function testAllowViewStoreDetails() {
     cy.get(resultListItem)
       .first()
       .within(() => {
-        cy.get('.cx-store-name a').click();
+        cy.get('a').first().click();
       });
 
     cy.get(storeAddressDescription).should('not.to.be.empty');
