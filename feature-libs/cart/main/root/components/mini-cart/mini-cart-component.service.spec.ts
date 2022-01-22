@@ -147,18 +147,18 @@ describe('MiniCartComponentService', () => {
     });
   });
 
-  describe('cartCreated', () => {
+  describe('isCartCreated', () => {
     it('should return flase if no event is caught', () => {
       spyOn(eventService, 'get').and.returnValue(cold('-'));
 
-      expect((service as any)['cartCreated']()).toBeObservable(
+      expect((service as any)['isCartCreated']()).toBeObservable(
         cold('f', { f: false, t: true })
       );
     });
     it('should return true when the CreateCart event is caught', () => {
       spyOn(eventService, 'get').and.returnValue(cold('e', { e: {} }));
 
-      expect((service as any)['cartCreated']()).toBeObservable(
+      expect((service as any)['isCartCreated']()).toBeObservable(
         cold('(ft|)', { f: false, t: true })
       );
     });
@@ -172,7 +172,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f', { f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f', { f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -187,7 +187,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f', { f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f', { f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -202,7 +202,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('t', { t: true })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f', { f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -217,7 +217,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f', { f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('t', { t: true })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -232,7 +232,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f', { f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f', { f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -247,7 +247,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f--f--t', { t: true, f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f', { f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
@@ -262,7 +262,7 @@ describe('MiniCartComponentService', () => {
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
         cold('f', { f: false })
       );
-      spyOn(service as any, 'cartCreated').and.returnValue(
+      spyOn(service as any, 'isCartCreated').and.returnValue(
         cold('f--t', { t: true, f: false })
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(

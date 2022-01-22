@@ -88,11 +88,11 @@ export class MiniCartComponentService {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
-      this.cartCreated(),
+      this.isCartCreated(),
     ]).pipe(
       map(
-        ([hasCartInStorage, isUserLoggedIn, cartCreated]) =>
-          hasCartInStorage || isUserLoggedIn || cartCreated
+        ([hasCartInStorage, isUserLoggedIn, isCartCreated]) =>
+          hasCartInStorage || isUserLoggedIn || isCartCreated
       ),
       distinctUntilChanged(),
       takeWhile((hasCart) => !hasCart, true)
@@ -105,7 +105,7 @@ export class MiniCartComponentService {
     );
   }
 
-  protected cartCreated(): Observable<boolean> {
+  protected isCartCreated(): Observable<boolean> {
     return this.eventService.get(CreateCartEvent).pipe(
       map((_) => true),
       take(1),
