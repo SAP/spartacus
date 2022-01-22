@@ -18,6 +18,7 @@ import {
   ActionToEventMapping,
   createFrom,
   EventService,
+  StateEventService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
@@ -31,7 +32,8 @@ export class CartEventBuilder {
   constructor(
     protected actionsSubject: ActionsSubject,
     protected event: EventService,
-    protected activeCartService: ActiveCartFacade
+    protected activeCartService: ActiveCartFacade,
+    protected stateEventService: StateEventService
   ) {
     this.register();
   }
@@ -87,15 +89,15 @@ export class CartEventBuilder {
   }
 
   protected registerCreateCart(): void {
-    this.registerMapped({
+    this.stateEventService.register({
       action: CartActions.CREATE_CART,
       event: CreateCartEvent,
     });
-    this.registerMapped({
+    this.stateEventService.register({
       action: CartActions.CREATE_CART_SUCCESS,
       event: CreateCartSuccessEvent,
     });
-    this.registerMapped({
+    this.stateEventService.register({
       action: CartActions.CREATE_CART_FAIL,
       event: CreateCartFailEvent,
     });
