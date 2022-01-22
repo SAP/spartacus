@@ -42,10 +42,10 @@ export class CartEventBuilder {
    * Registers events for the active cart
    */
   protected register() {
+    this.registerCreateCart();
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
-    this.registerCreateCart();
   }
 
   /**
