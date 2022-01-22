@@ -24,7 +24,6 @@ export class CreateCartSuccessEvent extends CartEvent {
    * Event's type
    */
   static readonly type = 'CreateCartSuccessEvent';
-  cartId: string;
 }
 
 export class CreateCartFailEvent extends CartEvent {
