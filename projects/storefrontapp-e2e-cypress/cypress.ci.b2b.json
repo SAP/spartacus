@@ -1,5 +1,5 @@
 {
-  "defaultCommandTimeout": 15000,
+  "defaultCommandTimeout": 30000,
   "baseUrl": "http://localhost:4200",
   "requestTimeout": 60000,
   "projectId": "k3nmep",
@@ -16,6 +16,8 @@
     "OCC_PREFIX": "/occ/v2",
     "OCC_PREFIX_USER_ENDPOINT": "orgUsers",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",
-    "BASE_SITE": "powertools-spa"
+    "BASE_SITE": "powertools-spa",
+    "BASE_LANG": "en",
+    "BASE_CURRENCY": "USD"
   }
 }
