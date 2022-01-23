@@ -1,7 +1,7 @@
 {
   "defaultCommandTimeout": 15000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 45000,
+  "requestTimeout": 60000,
   "projectId": "k3nmep",
   "video": true,
   "retries": {
