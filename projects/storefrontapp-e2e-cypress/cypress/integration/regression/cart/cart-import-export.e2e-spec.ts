@@ -1,26 +1,19 @@
 import * as cart from '../../../helpers/cart';
 import * as importExport from '../../../helpers/cart-import-export';
-import { APPAREL_BASESITE } from '../../../helpers/variants/apparel-checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 context('Cart Import/Export', () => {
-  viewportContext(['mobile'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     before(() => {
       Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
     });
+
     // Core test. Repeat in mobile viewport.
     importExport.testImportExportSingleProduct();
 
     // Core test. Repeat in mobile viewport.
     importExport.testImportExportLargerQuantity();
-  });
-  viewportContext(['mobile', 'desktop'], () => {
-    before(() => {
-      cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
-    });
 
     describe('Multiple products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n300938,1,Photosmart E317 Digital Camera,$114.12\r\n3470545,1,EASYSHARE M381,$370.72\r\n`;
@@ -150,37 +143,6 @@ context('Cart Import/Export', () => {
       });
     });
 
-    describe('Variable products', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
-      const variableProductCode = '300785814';
-
-      beforeEach(() => {
-        cy.cxConfig({
-          context: {
-            baseSite: [APPAREL_BASESITE],
-            currency: ['GBP'],
-          },
-        });
-      });
-
-      it('should export cart', () => {
-        importExport.addProductToCart(variableProductCode);
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Variable products Cart',
-          description: 'A test description for Variable products Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 1,
-          total: '£24.26',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
-
     describe('Malformed CSVs', () => {
       it('should NOT import empty csv file', () => {
         const CSV = 'empty.csv';
@@ -206,8 +168,12 @@ context('Cart Import/Export', () => {
         const toImport = `Code,Quantity\r\n325234,999\r\n`;
         const CSV = 'limited-quantity.csv';
         cy.writeFile(`cypress/downloads/${CSV}`, toImport);
+
+        cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
+          'import'
+        );
         importExport.attemptUpload(`../downloads/${CSV}`);
-        cy.wait('@import');
+        cy.wait('@import').its('response.statusCode').should('eq', 200);
 
         cy.get('.cx-import-entries-summary-warnings p').contains(
           `1 product was not imported totally.`

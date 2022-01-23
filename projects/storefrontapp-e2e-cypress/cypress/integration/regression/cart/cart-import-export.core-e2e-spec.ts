@@ -6,7 +6,6 @@ context('Cart Import/Export', () => {
     before(() => {
       Cypress.config('requestTimeout', 30000);
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
     });
     importExport.testImportExportSingleProduct();
     importExport.testImportExportLargerQuantity();
