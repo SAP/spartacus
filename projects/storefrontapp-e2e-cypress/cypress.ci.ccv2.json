@@ -16,6 +16,8 @@
     "OCC_PREFIX": "/rest/v2",
     "OCC_PREFIX_USER_ENDPOINT": "users",
     "OCC_PREFIX_ORDER_ENDPOINT": "orders",
-    "BASE_SITE": "electronics-spa"
+    "BASE_SITE": "electronics-spa",
+    "BASE_LANG": "en",
+    "BASE_CURRENCY": "USD"
   }
 }
