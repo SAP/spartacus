@@ -27,11 +27,11 @@ export class BadCartRequestHandler extends HttpErrorHandler {
   }
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
-    this.handleBadCartRequest(request, response);
-    this.handleCartError(request, response);
+    this.handleCartNotFoundError(request, response);
+    this.handleOtherCartErrors(request, response);
   }
 
-  protected handleBadCartRequest(
+  protected handleCartNotFoundError(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
@@ -45,12 +45,12 @@ export class BadCartRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected handleCartError(
+  protected handleOtherCartErrors(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {
     this.getErrors(response)
-      .filter((e) => !isCartNotFoundError(e))
+      .filter((e) => e.reason !== 'notFound' || e.subjectType !== 'cart')
       .forEach((error) => {
         this.globalMessageService.add(
           error.message

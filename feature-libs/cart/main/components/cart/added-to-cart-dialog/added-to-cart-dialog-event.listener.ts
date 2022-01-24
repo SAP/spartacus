@@ -51,9 +51,8 @@ export class AddedToCartDialogEventListener implements OnDestroy {
   }
 
   protected closeModal(event: CartAddEntryFailEvent): void {
-    let modalInstance;
     if (this.modalService.getActiveModal() === this.modalRef) {
-      modalInstance = this.modalRef.componentInstance;
+      const modalInstance = this.modalRef.componentInstance;
       modalInstance.dismissModal(event.error);
     }
   }
