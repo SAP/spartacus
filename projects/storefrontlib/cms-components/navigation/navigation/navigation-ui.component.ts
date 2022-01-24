@@ -107,7 +107,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     );
   }
 
-  closeIfClickedTheSameLink(navNode: NavigationNode) {
+  closeIfClickedTheSameLink(navNode: NavigationNode): void {
     if (
       typeof navNode.url === 'string' &&
       this.winRef.nativeWindow.location.href.includes(navNode.url)
@@ -131,7 +131,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
     }
   }
 
-  protected ariaCollapseNodes() {
+  protected ariaCollapseNodes(): void {
     this.openNodes.forEach((parentNode) => {
       Array.from(parentNode.children)
         .filter((childNode) => childNode?.tagName === 'BUTTON')
