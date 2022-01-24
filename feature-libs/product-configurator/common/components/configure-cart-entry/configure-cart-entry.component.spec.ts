@@ -215,7 +215,7 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component.getResolveIssuesA11yDescription()).toBeUndefined();
     });
 
-    it("should return 'cx-error-msg' ID for a HTML element if the expected conditions are met", () => {
+    it('should return ID for error message containing cart entry number for a HTML element if the expected conditions are met', () => {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -224,13 +224,13 @@ describe('ConfigureCartEntryComponent', () => {
       };
       fixture.detectChanges();
       expect(component.getResolveIssuesA11yDescription()).toEqual(
-        'cx-error-msg'
+        'cx-error-msg-0'
       );
     });
   });
 
   describe('Accessibility', () => {
-    it("should contain link element with ID 'cx-error-msg' and aria-describedby attribute that refers to the corresponding resolve issue message", function () {
+    it('should contain link element with ID for error message containing cart entry number and aria-describedby attribute that refers to the corresponding resolve issue message', function () {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -246,7 +246,7 @@ describe('ConfigureCartEntryComponent', () => {
         'cx-action-link',
         undefined,
         'aria-describedby',
-        'cx-error-msg'
+        'cx-error-msg-0'
       );
     });
   });

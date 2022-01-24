@@ -33,8 +33,16 @@ title: Changes to Styles in 5.0
 
 - `cx-configurator-error-msg` mixin has been defined on `%cx-configurator-required-error-msg` mixin to achieve a consistent styling for rendering an error and validation messages.
 
+
 ## Changes in styles
 
+## Change in _order-summary.scss
+
+- `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes 
+
+## Change in store-finder-list-item.scss
+
+- obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name` for screen reader improvements. 
 ### Mixins
 - `padding-block-end` was deleted on `@mixin cx-configurator-template` to enable floating add to cart button styling. 
 
