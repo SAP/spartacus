@@ -7,7 +7,7 @@ import {
   HttpResponseStatus,
   Priority,
 } from '@spartacus/core';
-import { isCartNotFoundError } from '../../utils/utils';
+import { isCartError, isCartNotFoundError } from '../../utils/utils';
 
 @Injectable({
   providedIn: 'root',
@@ -22,12 +22,13 @@ export class BadCartRequestHandler extends HttpErrorHandler {
   hasMatch(errorResponse: HttpErrorResponse): boolean {
     return (
       super.hasMatch(errorResponse) &&
-      this.getErrors(errorResponse).some(isCartNotFoundError)
+      this.getErrors(errorResponse).some(isCartError)
     );
   }
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadCartRequest(request, response);
+    this.handleCartError(request, response);
   }
 
   protected handleBadCartRequest(
@@ -39,6 +40,22 @@ export class BadCartRequestHandler extends HttpErrorHandler {
       .forEach(() => {
         this.globalMessageService.add(
           { key: 'httpHandlers.cartNotFound' },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleCartError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => !isCartNotFoundError(e))
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message
+            ? error.message
+            : { key: 'httpHandlers.otherCartErrors' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
