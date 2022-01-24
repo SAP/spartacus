@@ -309,7 +309,7 @@ describe('CheckoutShippingAddressComponent', () => {
     });
 
     it('should not display if existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
+      component.isUpdating$ = of(true);
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
@@ -365,7 +365,7 @@ describe('CheckoutShippingAddressComponent', () => {
     });
 
     it('should not render when existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
+      component.isUpdating$ = of(true);
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
@@ -377,7 +377,7 @@ describe('CheckoutShippingAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
+      component.isUpdating$ = of(true);
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();

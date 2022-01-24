@@ -33,7 +33,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
-  isUpdated$: Observable<boolean> = combineLatest([
+  isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
