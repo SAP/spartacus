@@ -32,7 +32,7 @@
     </cx-generic-link>
 
     <ng-template #heading>
-      <ng-container *ngIf="flyout && node.children?.length > 0; else span">
+      <ng-container *ngIf="flyout && node.children?.length > 0; else title">
         <cx-generic-link
           *ngIf="node.url"
           [url]="node.url"
@@ -57,7 +57,7 @@
           <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
         </button>
       </ng-container>
-      <ng-template #span>
+      <ng-template #title>
         <span [attr.tabindex]="-1">
           {{ node.title }}
         </span>
