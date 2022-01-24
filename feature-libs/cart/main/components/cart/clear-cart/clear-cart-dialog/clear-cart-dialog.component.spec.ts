@@ -2,7 +2,6 @@ import { ClearCartService } from './clear-cart.service';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
-  LaunchDialogService,
 } from '@spartacus/storefront';
 import { I18nTestingModule } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
@@ -21,15 +20,10 @@ class MockClearCartService implements Partial<ClearCartService> {
   }
 }
 
-class MockLaunchDialogService implements Partial<LaunchDialogService> {
-  closeDialog(_reason: string): void {}
-}
-
 describe('ClearCartDialogComponent', () => {
   let component: ClearCartDialogComponent;
   let fixture: ComponentFixture<ClearCartDialogComponent>;
   let clearCartService: ClearCartService;
-  let launchDialogService: LaunchDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -41,13 +35,11 @@ describe('ClearCartDialogComponent', () => {
       ],
       declarations: [ClearCartDialogComponent],
       providers: [
-        { provide: LaunchDialogService, useClass: MockLaunchDialogService },
         { provide: ClearCartService, useClass: MockClearCartService },
       ],
     }).compileComponents();
 
     clearCartService = TestBed.inject(ClearCartService);
-    launchDialogService = TestBed.inject(LaunchDialogService);
   });
 
   beforeEach(() => {
@@ -68,11 +60,9 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should close dialog on close method', () => {
-    spyOn(launchDialogService, 'closeDialog');
+    spyOn(clearCartService, 'closeDialog');
     component.close(mockCloseReason);
 
-    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
-      mockCloseReason
-    );
+    expect(clearCartService.closeDialog).toHaveBeenCalledWith(mockCloseReason);
   });
 });
