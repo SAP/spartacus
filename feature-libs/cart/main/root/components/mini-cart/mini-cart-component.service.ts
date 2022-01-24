@@ -14,7 +14,6 @@ import {
   map,
   startWith,
   switchMap,
-  take,
   takeWhile,
 } from 'rxjs/operators';
 import { CreateCartEvent } from '../../events/cart.events';
@@ -108,7 +107,6 @@ export class MiniCartComponentService {
   protected isCartCreated(): Observable<boolean> {
     return this.eventService.get(CreateCartEvent).pipe(
       map((_) => true),
-      take(1),
       startWith(false)
     );
   }
