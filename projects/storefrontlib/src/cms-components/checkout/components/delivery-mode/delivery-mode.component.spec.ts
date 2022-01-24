@@ -223,6 +223,11 @@ describe('DeliveryModeComponent', () => {
     const setDeliveryModeId = (value: string) => {
       component.mode.controls['deliveryModeId'].setValue(value);
     };
+    const enableContinueButton = () => {
+      component.continueButtonPressed = false;
+      isSetDeliveryModeBusy$.next(false);
+      setDeliveryModeId(mockDeliveryMode1.code);
+    };
 
     it('should be disabled when delivery mode is not selected', () => {
       selectedDeliveryMode$.next({});
@@ -234,10 +239,13 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be enabled when delivery mode is selected', () => {
+      spyOn(
+        mockCheckoutConfigService,
+        'getPreferredDeliveryMode'
+      ).and.returnValue(mockDeliveryMode1.code);
+
       component.ngOnInit();
-      component.continueButtonPressed = false;
-      isSetDeliveryModeBusy$.next(false);
-      setDeliveryModeId(mockDeliveryMode1.code);
+      enableContinueButton();
 
       fixture.detectChanges();
 
@@ -246,10 +254,13 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
+      spyOn(
+        mockCheckoutConfigService,
+        'getPreferredDeliveryMode'
+      ).and.returnValue(mockDeliveryMode1.code);
 
       component.ngOnInit();
-      isSetDeliveryModeBusy$.next(false);
-      setDeliveryModeId(mockDeliveryMode1.code);
+      enableContinueButton();
 
       fixture.detectChanges();
 
