@@ -5,7 +5,6 @@ context('Cart Import/Export', () => {
   viewportContext(['desktop'], () => {
     before(() => {
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
     });
     importExport.testImportExportSingleProduct();
     importExport.testImportExportLargerQuantity();
