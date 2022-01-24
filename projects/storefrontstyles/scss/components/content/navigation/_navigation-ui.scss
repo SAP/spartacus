@@ -284,6 +284,9 @@
         width: 100%;
         ul {
           flex-direction: column;
+          li > cx-generic-link + button {
+            border-inline-start: 1px solid var(--cx-color-light);
+          }
         }
       }
       color: #000;
