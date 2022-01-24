@@ -226,6 +226,7 @@ describe('DeliveryModeComponent', () => {
     const enableContinueButton = () => {
       component.continueButtonPressed = false;
       isSetDeliveryModeBusy$.next(false);
+      selectedDeliveryMode$.next({ code: mockDeliveryMode1.code });
       setDeliveryModeId(mockDeliveryMode1.code);
     };
 
@@ -239,11 +240,6 @@ describe('DeliveryModeComponent', () => {
     });
 
     it('should be enabled when delivery mode is selected', () => {
-      spyOn(
-        mockCheckoutConfigService,
-        'getPreferredDeliveryMode'
-      ).and.returnValue(mockDeliveryMode1.code);
-
       component.ngOnInit();
       enableContinueButton();
 
@@ -254,10 +250,6 @@ describe('DeliveryModeComponent', () => {
 
     it('should call "next" function after being clicked', () => {
       spyOn(component, 'next');
-      spyOn(
-        mockCheckoutConfigService,
-        'getPreferredDeliveryMode'
-      ).and.returnValue(mockDeliveryMode1.code);
 
       component.ngOnInit();
       enableContinueButton();
