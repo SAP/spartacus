@@ -2,16 +2,24 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.service.migration';
+<<<<<<< HEAD
 import { CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-multi-selection-bundle.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-single-selection-bundle.component.migration';
+=======
+import { CONFIGURATOR_COMMONS_SERVICE_MIGRATION } from './data/configurator-commons-service.migration';
+>>>>>>> develop
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 
 export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation[] =
   [
     ...AUTH_HTTP_HEADER_SERVICE_MIGRATION,
     ...QUICK_ORDER_SERVICE_MIGRATION,
+<<<<<<< HEAD
     ...CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION,
     ...CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION,
+=======
+    ...CONFIGURATOR_COMMONS_SERVICE_MIGRATION,
+>>>>>>> develop
   ];
 
 export function migrate(): Rule {
