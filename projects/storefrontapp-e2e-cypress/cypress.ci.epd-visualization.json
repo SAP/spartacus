@@ -1,7 +1,7 @@
 {
-  "defaultCommandTimeout": 15000,
+  "defaultCommandTimeout": 60000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 15000,
+  "requestTimeout": 60000,
   "projectId": "k3nmep",
   "numTestsKeptInMemory": 1,
   "chromeWebSecurity": false,
