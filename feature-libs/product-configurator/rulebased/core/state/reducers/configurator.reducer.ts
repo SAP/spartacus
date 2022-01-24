@@ -8,6 +8,7 @@ import { ConfiguratorStateUtils } from '../configurator-state-utils';
 
 export const initialState: Configurator.Configuration = {
   configId: '',
+  productCode: '',
   groups: [],
   flatGroups: [],
   interactionState: {

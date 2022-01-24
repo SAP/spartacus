@@ -71,7 +71,7 @@ export namespace Configurator {
     consistent?: boolean;
     complete?: boolean;
     totalNumberOfIssues?: number;
-    productCode?: string;
+    productCode: string;
     groups: Group[];
     flatGroups: Group[];
     priceSupplements?: AttributeSupplement[];
@@ -100,7 +100,7 @@ export namespace Configurator {
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
-    productCode?: string;
+    productCode: string;
   }
 
   export interface GroupOverview {

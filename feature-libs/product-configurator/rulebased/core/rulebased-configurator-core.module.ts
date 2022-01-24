@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RulebasedConfiguratorConnector } from './connectors/rulebased-configurator.connector';
-import { RulebasedConfiguratorEventModule } from './events/rulebased-configurator-event.module';
+import { ConfiguratorRouterModule } from './facade/routing/configurator-router.module';
 import { RulebasedConfiguratorPersistenceModule } from './persistence/rulebased-configurator-persistence.module';
 import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator-state.module';
 
@@ -11,7 +11,8 @@ import { RulebasedConfiguratorStateModule } from './state/rulebased-configurator
 @NgModule({
   imports: [
     RulebasedConfiguratorStateModule,
-    RulebasedConfiguratorEventModule,
+    ConfiguratorRouterModule,
+    RulebasedConfiguratorStateModule,
     RulebasedConfiguratorPersistenceModule.forRoot(),
   ],
   providers: [RulebasedConfiguratorConnector],
