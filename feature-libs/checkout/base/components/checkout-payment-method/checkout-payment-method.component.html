@@ -57,22 +57,25 @@
   </ng-container>
 </ng-container>
 
-<div class="row cx-checkout-btns">
-  <div class="col-md-12 col-lg-6">
-    <button class="btn btn-block btn-action" (click)="back()">
-      {{ backBtnText | cxTranslate }}
-    </button>
+<!-- probably not, but will bring this up regarding buttons hiding from address and paymentmethod -->
+<ng-container *ngIf="(cards$ | async)?.length && !newPaymentFormManuallyOpened">
+  <div class="row cx-checkout-btns">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ backBtnText | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="!(selectedMethod$ | async)?.id || (isUpdated$ | async)"
+        (click)="next()"
+      >
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
   </div>
-  <div class="col-md-12 col-lg-6">
-    <button
-      class="btn btn-block btn-primary"
-      [disabled]="!(selectedMethod$ | async)?.id || (isUpdated$ | async)"
-      (click)="next()"
-    >
-      {{ 'common.continue' | cxTranslate }}
-    </button>
-  </div>
-</div>
+</ng-container>
 
 <ng-template #loading>
   <div class="cx-spinner">

@@ -1,5 +1,5 @@
 <!-- FORM -->
-<ng-container *ngIf="!loading; else loading">
+<ng-container *ngIf="!loading; else spinner">
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
@@ -432,6 +432,6 @@
   </form>
 </ng-container>
 
-<ng-template #loading>
+<ng-template #spinner>
   <cx-spinner></cx-spinner>
 </ng-template>
