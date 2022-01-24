@@ -7,7 +7,6 @@ import {
   EventService,
   OrderEntry,
   Product,
-  ProductAdapter,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
@@ -73,12 +72,6 @@ const mockProductSearchPage: ProductSearchPage = {
   products: [mockProduct1, mockProduct2],
 };
 
-class MockProductAdapter implements Partial<ProductAdapter> {
-  load(_productCode: any, _scope?: string): Observable<Product> {
-    return of(mockProduct1);
-  }
-}
-
 class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   search(
     _query: string,
@@ -106,7 +99,6 @@ class MockEventService implements Partial<EventService> {
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
-  let productAdapter: ProductAdapter;
   let productSearchConnector: ProductSearchConnector;
   let activeCartService: ActiveCartService;
 
@@ -114,7 +106,6 @@ describe('QuickOrderService', () => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
-        ProductAdapter,
         {
           provide: ActiveCartService,
           useClass: MockActiveCartService,
@@ -123,7 +114,6 @@ describe('QuickOrderService', () => {
           provide: EventService,
           useClass: MockEventService,
         },
-        { provide: ProductAdapter, useClass: MockProductAdapter },
         {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
@@ -132,7 +122,6 @@ describe('QuickOrderService', () => {
     });
 
     service = TestBed.inject(QuickOrderService);
-    productAdapter = TestBed.inject(ProductAdapter);
     productSearchConnector = TestBed.inject(ProductSearchConnector);
     activeCartService = TestBed.inject(ActiveCartService);
   });
@@ -184,13 +173,6 @@ describe('QuickOrderService', () => {
         expect(entries).toEqual([]);
         done();
       });
-  });
-
-  it('should trigger search', () => {
-    spyOn(productAdapter, 'load');
-
-    service.search(mockProduct1Code);
-    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
   });
 
   describe('should trigger search products', () => {
@@ -449,13 +431,6 @@ describe('QuickOrderService', () => {
         expect(result).toBe(false);
       });
     });
-  });
-
-  it('should trigger soft deletion entry on removeEntry method', () => {
-    spyOn(service, 'softDeleteEntry').and.callThrough();
-    service.loadEntries([mockEntry1]);
-    service.removeEntry(1);
-    expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
 
   describe('Non purchasable product', () => {

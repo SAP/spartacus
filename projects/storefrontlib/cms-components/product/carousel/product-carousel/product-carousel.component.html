@@ -1,4 +1,8 @@
 <cx-carousel
+  role="region"
+  [attr.aria-label]="
+    'productCarousel.carouselLabel' | cxTranslate: { title: title$ | async }
+  "
   [items]="items$ | async"
   [title]="title$ | async"
   [template]="carouselItem"
