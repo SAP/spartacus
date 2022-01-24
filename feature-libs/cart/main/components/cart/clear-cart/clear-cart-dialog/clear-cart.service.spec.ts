@@ -19,7 +19,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 
 describe('ClearCartService', () => {
   let service: ClearCartService;
-  let activeCartService: ActiveCartFacade;
+  //let activeCartService: ActiveCartFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(() => {
@@ -34,7 +34,7 @@ describe('ClearCartService', () => {
     }).compileComponents();
 
     service = TestBed.inject(ClearCartService);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    //activeCartService = TestBed.inject(ActiveCartFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
   });
 

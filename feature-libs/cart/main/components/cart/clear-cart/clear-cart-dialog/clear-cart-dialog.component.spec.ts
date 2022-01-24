@@ -1,4 +1,4 @@
-import { ClearCartService } from '../clear-cart.service';
+import { ClearCartService } from './clear-cart.service';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
