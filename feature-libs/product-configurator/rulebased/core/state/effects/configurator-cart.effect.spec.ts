@@ -66,6 +66,7 @@ const productConfiguration: Configurator.Configuration = {
   consistent: true,
   overview: {
     configId: CONFIG_ID,
+    productCode: productCode,
     groups: [
       {
         id: 'a',
