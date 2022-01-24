@@ -505,6 +505,10 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT =
+  'ConfiguratorAttributeProductCardComponent';
+export const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT =
+  'ConfiguratorOverviewBundleAttributeComponent';
 export const DIRECTION_SERVICE = 'DirectionService';
 export const QUICK_ORDER_SERVICE = 'QuickOrderService';
 
