@@ -105,7 +105,10 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
-                      // TODO:#checkout - check this
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
                       cartCode: cartId,
                     },
                     LoadCartEvent
@@ -139,7 +142,10 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
-                      // TODO:#checkout - check this
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
                       cartCode: cartId,
                     },
                     LoadCartEvent
@@ -150,7 +156,10 @@ export class CheckoutDeliveryModesService
                     {
                       userId,
                       cartId,
-                      // TODO:#checkout - check this
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
                       cartCode: cartId,
                     },
                     LoadCartEvent
