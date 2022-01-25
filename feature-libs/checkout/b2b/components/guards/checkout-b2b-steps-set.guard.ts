@@ -49,7 +49,6 @@ export class CheckoutB2BStepsSetGuard
       checkoutDeliveryModesFacade,
       router
     );
-    console.log('B2B steps guard');
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {
