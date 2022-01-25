@@ -133,7 +133,7 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
-    unknownIdentifier: 'Item not found',
+    unknownIdentifier: 'Item not found.',
     otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
