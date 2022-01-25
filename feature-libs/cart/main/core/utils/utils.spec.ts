@@ -2,6 +2,7 @@ import { Cart } from '@spartacus/cart/main/root';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/core';
 import {
   getCartIdByUserId,
+  isCartError,
   isCartNotFoundError,
   isEmail,
   isEmpty,
@@ -95,6 +96,28 @@ describe('Cart utils', () => {
           subjectType: 'cart',
         })
       ).toEqual(false);
+    });
+  });
+
+  describe('isCartError', () => {
+    it('should return true when error type is CartError', () => {
+      expect(isCartError({ type: 'CartError' })).toEqual(true);
+    });
+
+    it('should return true when error type is CartAddressError', () => {
+      expect(isCartError({ type: 'CartAddressError' })).toEqual(true);
+    });
+
+    it('should return true when error type is CartEntryError', () => {
+      expect(isCartError({ type: 'CartEntryError' })).toEqual(true);
+    });
+
+    it('should return true when error type is CartEntryGroupError', () => {
+      expect(isCartError({ type: 'CartEntryGroupError' })).toEqual(true);
+    });
+
+    it('should return false on different error reason', () => {
+      expect(isCartError({ type: 'otherError' })).toEqual(false);
     });
   });
 

@@ -33,12 +33,23 @@ const MockCartNotFoundResponse = {
   },
 } as HttpErrorResponse;
 
-const MockOtherCartErrorResponse = {
+const MockNonCartErrorResponse = {
   error: {
     errors: [
       {
         subjectType: 'cart',
         reason: 'other',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
+const MockCartErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'CartError',
+        message: 'cart error occur.',
       },
     ],
   },
@@ -51,6 +62,7 @@ const MockCartNotFoundResponseForSelectiveCart = {
         subjectType: 'cart',
         subject: 'selectivecart-electronics-12345',
         reason: 'notFound',
+        type: 'CartError',
       },
     ],
   },
@@ -90,25 +102,18 @@ describe('BadCartRequestHandler', () => {
     expect(service.responseStatus).toEqual(HttpResponseStatus.BAD_REQUEST);
   });
 
-  it('should match cart not found error', () => {
+  it('should match cart  error', () => {
     spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
-    expect(service.hasMatch(MockCartNotFoundResponse)).toBe(true);
+    expect(service.hasMatch(MockCartErrorResponse)).toBe(true);
   });
 
   it('should not have a match when super.hasMatch() is false', () => {
     spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(false);
-    expect(service.hasMatch(MockCartNotFoundResponse)).toBe(false);
-  });
-
-  it('should NOT match cart not found error for selectiive cart', () => {
-    spyOn(HttpErrorHandler.prototype, 'hasMatch').and.returnValue(true);
-    expect(service.hasMatch(MockCartNotFoundResponseForSelectiveCart)).toBe(
-      false
-    );
+    expect(service.hasMatch(MockCartErrorResponse)).toBe(false);
   });
 
   it('should NOT match other errors', () => {
-    expect(service.hasMatch(MockOtherCartErrorResponse)).toBe(false);
+    expect(service.hasMatch(MockNonCartErrorResponse)).toBe(false);
   });
 
   it('should not handle response without errors', () => {
@@ -126,10 +131,18 @@ describe('BadCartRequestHandler', () => {
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
-  it('should handle bad cart error', () => {
+  it('should handle cart not found error', () => {
     service.handleError(MockRequest, MockCartNotFoundResponse);
     expect(globalMessageService.add).toHaveBeenCalledWith(
       { key: 'httpHandlers.cartNotFound' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle other cart errors', () => {
+    service.handleError(MockRequest, MockCartErrorResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'cart error occur.',
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });
