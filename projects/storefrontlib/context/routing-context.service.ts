@@ -1,4 +1,4 @@
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, ProviderToken } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -23,7 +23,7 @@ export class RoutingContextService {
    * The context token mapping is read from each Route's property `data.cxContext`.
    */
   protected readonly contextTokenMapping$: Observable<
-    Record<ContextToken, any>
+    Record<ContextToken, ProviderToken<any>>
   > = this.activatedRoutesService.routes$.pipe(
     map((routes) => this.getRoutesContextTokenMapping(routes)),
     shareReplay({ refCount: true, bufferSize: 1 })
@@ -35,7 +35,7 @@ export class RoutingContextService {
    */
   protected getRoutesContextTokenMapping(
     routes: ActivatedRouteSnapshot[]
-  ): Record<ContextToken, any> {
+  ): Record<ContextToken, ProviderToken<any>> {
     return Object.assign({}, ...routes.map((route) => route?.data?.cxContext));
   }
 
