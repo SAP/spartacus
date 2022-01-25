@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryAddressClearedEvent,
@@ -14,9 +13,9 @@ import {
   CommandService,
   CommandStrategy,
   EventService,
+  LoadUserAddressesEvent,
   OCC_USER_ID_ANONYMOUS,
   QueryState,
-  UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -37,13 +36,9 @@ export class CheckoutDeliveryAddressService
               .pipe(
                 tap(() => {
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    /**
-                     * TODO:#deprecation-checkout We have to keep this here, since the user address feature is still ngrx-based.
-                     * Remove once it is switched from ngrx to c&q.
-                     * We should dispatch an event, which will reload the userAddress$ query.
-                     */
-                    this.store.dispatch(
-                      new UserActions.LoadUserAddresses(userId)
+                    this.eventService.dispatch(
+                      { userId },
+                      LoadUserAddressesEvent
                     );
                   }
                 }),
@@ -131,8 +126,6 @@ export class CheckoutDeliveryAddressService
     );
 
   constructor(
-    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<unknown>,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected eventService: EventService,

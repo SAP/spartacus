@@ -1,7 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/main/root';
 import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import {
   EventService,
@@ -42,13 +40,11 @@ describe(`CheckoutService`, () => {
   let service: CheckoutService;
   let connector: CheckoutConnector;
   let eventService: EventService;
-  let store: MockStore;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         CheckoutService,
-        provideMockStore(),
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         {
@@ -62,7 +58,6 @@ describe(`CheckoutService`, () => {
     service = TestBed.inject(CheckoutService);
     connector = TestBed.inject(CheckoutConnector);
     eventService = TestBed.inject(EventService);
-    store = TestBed.inject(MockStore);
   });
 
   it(`should inject CheckoutService`, inject(
@@ -83,14 +78,12 @@ describe(`CheckoutService`, () => {
       );
     });
 
-    // TODO:#deprecation-checkout Replace with event testing once we remove ngrx store.
-    it(`should dispatch CartActions.RemoveCart`, () => {
-      spyOn(store, 'dispatch').and.stub();
-
+    it(`should dispatch RemoveCartEvent`, () => {
       service.placeOrder(termsChecked);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        new CartActions.RemoveCart({ cartId: mockCartId })
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        RemoveCartEvent
       );
     });
 

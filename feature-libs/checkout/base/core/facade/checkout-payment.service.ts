@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   ActiveCartFacade,
   CardType,
@@ -18,12 +17,12 @@ import {
   CurrencySetEvent,
   EventService,
   LanguageSetEvent,
+  LoadUserPaymentMethodsEvent,
   OCC_USER_ID_ANONYMOUS,
   Query,
   QueryNotifier,
   QueryService,
   QueryState,
-  UserActions,
   UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
@@ -63,13 +62,9 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
                     CheckoutPaymentDetailsCreatedEvent
                   );
                   if (userId !== OCC_USER_ID_ANONYMOUS) {
-                    this.store.dispatch(
-                      /**
-                       * TODO:#deprecation-checkout We have to keep this here, since the user payment feature is still ngrx-based.
-                       * Remove once it is switched from ngrx to c&q.
-                       * We should dispatch an event, which will load the userPayment$ query.
-                       */
-                      new UserActions.LoadUserPaymentMethods(userId)
+                    this.eventService.dispatch(
+                      { userId },
+                      LoadUserPaymentMethodsEvent
                     );
                   }
                 })
@@ -113,8 +108,6 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
     );
 
   constructor(
-    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<unknown>,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected queryService: QueryService,

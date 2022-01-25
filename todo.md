@@ -95,7 +95,9 @@
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
 9. check the bundle size of checkout (maybe using webpack analyzer)
-10. query debounce - `feature/query-debounce`
+10. query debounce
+    1.  see `feature/query-debounce` branch
+    2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 
 ### Future
 

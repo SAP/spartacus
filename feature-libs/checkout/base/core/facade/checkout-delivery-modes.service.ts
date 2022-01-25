@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
+import {
+  ActiveCartFacade,
+  DeliveryMode,
+  LoadCartEvent,
+} from '@spartacus/cart/main/root';
 import {
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
@@ -99,16 +101,17 @@ export class CheckoutDeliveryModesService
                     },
                     CheckoutDeliveryModeSetEvent
                   );
-                  /**
-                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-                   * Remove once it is switched from ngrx to c&q.
-                   * We should dispatch an event, which will load the cart$ query.
-                   */
-                  this.store.dispatch(
-                    new CartActions.LoadCart({
+                  this.eventService.dispatch(
+                    {
                       userId,
                       cartId,
-                    })
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
+                      cartCode: cartId,
+                    },
+                    LoadCartEvent
                   );
                 })
               )
@@ -135,29 +138,31 @@ export class CheckoutDeliveryModesService
                     },
                     CheckoutDeliveryModeClearedEvent
                   );
-                  /**
-                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-                   * Remove once it is switched from ngrx to c&q.
-                   * We should dispatch an event, which will reload the cart$ query.
-                   */
-                  this.store.dispatch(
-                    new CartActions.LoadCart({
-                      cartId,
+                  this.eventService.dispatch(
+                    {
                       userId,
-                    })
+                      cartId,
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
+                      cartCode: cartId,
+                    },
+                    LoadCartEvent
                   );
                 }),
                 catchError((error) => {
-                  /**
-                   * TODO:#deprecation-checkout We have to keep this here, since the cart feature is still ngrx-based.
-                   * Remove once it is switched from ngrx to c&q.
-                   * We should dispatch an event, which will reload the cart$ query.
-                   */
-                  this.store.dispatch(
-                    new CartActions.LoadCart({
-                      cartId,
+                  this.eventService.dispatch(
+                    {
                       userId,
-                    })
+                      cartId,
+                      /**
+                       * As we know the cart is not anonymous (precondition checked),
+                       * we can safely use the cartId, which is actually the cart.code.
+                       */
+                      cartCode: cartId,
+                    },
+                    LoadCartEvent
                   );
                   return throwError(error);
                 })
@@ -170,8 +175,6 @@ export class CheckoutDeliveryModesService
     );
 
   constructor(
-    // TODO:#deprecation-checkout remove once all the occurrences are replaced with events
-    protected store: Store<unknown>,
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected eventService: EventService,
