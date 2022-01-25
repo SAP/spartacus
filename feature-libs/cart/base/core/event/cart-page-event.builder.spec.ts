@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CartPageEvent } from '@spartacus/cart/main/root';
+import { CartPageEvent } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import { take } from 'rxjs/operators';

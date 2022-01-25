@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { CartVoucherFacade, Voucher } from '@spartacus/cart/main/root';
+import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { AppliedCouponsComponent } from './applied-coupons.component';

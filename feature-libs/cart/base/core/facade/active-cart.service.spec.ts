@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
-  getLastValueSync,
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-  OCC_USER_ID_GUEST,
-  PROCESS_FEATURE,
-  StateUtils,
-  UserIdService,
+    getLastValueSync,
+    OCC_CART_ID_CURRENT,
+    OCC_USER_ID_ANONYMOUS,
+    OCC_USER_ID_CURRENT,
+    OCC_USER_ID_GUEST,
+    PROCESS_FEATURE,
+    StateUtils,
+    UserIdService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

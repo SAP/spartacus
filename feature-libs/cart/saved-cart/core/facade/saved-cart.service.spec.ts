@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/main/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  ProcessModule,
-  StateUtils,
-  User,
-  UserIdService,
-  UserService,
+    ProcessModule,
+    StateUtils,
+    User,
+    UserIdService,
+    UserService
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';

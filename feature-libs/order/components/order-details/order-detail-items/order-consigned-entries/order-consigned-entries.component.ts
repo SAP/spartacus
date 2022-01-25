@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
 import {
-  CartOutlets,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+    CartOutlets,
+    OrderEntry,
+    PromotionLocation
+} from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
 
 @Component({

@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PromotionResult } from '@spartacus/cart/main/root';
+import { PromotionResult } from '@spartacus/cart/base/root';
 import { ConverterService } from '@spartacus/core';
 import { OrderEntryPromotionsNormalizer } from './order-entry-promotions-normalizer';
 

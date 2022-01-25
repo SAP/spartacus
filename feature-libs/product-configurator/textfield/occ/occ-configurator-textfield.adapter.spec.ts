@@ -1,19 +1,19 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/main/root';
+import { CART_MODIFICATION_NORMALIZER } from '@spartacus/cart/base/root';
 import {
-  BaseOccUrlProperties,
-  ConverterService,
-  DynamicAttributes,
-  OccEndpointsService,
+    BaseOccUrlProperties,
+    ConverterService,
+    DynamicAttributes,
+    OccEndpointsService
 } from '@spartacus/core';
 import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
+    CommonConfigurator,
+    ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
 import { OccConfiguratorTextfieldAdapter } from '.';
 import { CONFIGURATION_TEXTFIELD_NORMALIZER } from '../core/connectors/converters';

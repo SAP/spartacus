@@ -1,21 +1,21 @@
 import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
-  QuickOrderAddEntryEvent,
-  QuickOrderFacade,
+    QuickOrderAddEntryEvent,
+    QuickOrderFacade
 } from '@spartacus/cart/quick-order/root';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nTestingModule,
-  Product,
-  Translatable,
+    GlobalMessageService,
+    GlobalMessageType,
+    I18nTestingModule,
+    Product,
+    Translatable
 } from '@spartacus/core';
 import {
-  CmsComponentData,
-  MessageComponentModule,
+    CmsComponentData,
+    MessageComponentModule
 } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';

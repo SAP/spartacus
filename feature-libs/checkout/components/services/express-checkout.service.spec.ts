@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
-  CheckoutDeliveryFacade,
-  CheckoutPaymentFacade,
-  ClearCheckoutFacade,
+    CheckoutDeliveryFacade,
+    CheckoutPaymentFacade,
+    ClearCheckoutFacade
 } from '@spartacus/checkout/root';
 import {
-  Address,
-  PaymentDetails,
-  StateUtils,
-  UserAddressService,
-  UserPaymentService,
+    Address,
+    PaymentDetails,
+    StateUtils,
+    UserAddressService,
+    UserPaymentService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, Subscription } from 'rxjs';
 import { CheckoutConfigService } from '../services/checkout-config.service';

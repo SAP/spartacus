@@ -1,16 +1,16 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  Output,
-  SimpleChanges,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    OnChanges,
+    Output,
+    SimpleChanges
 } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-  ProductListItemContext,
-  ProductListItemContextSource,
+    ProductListItemContext,
+    ProductListItemContextSource
 } from '@spartacus/storefront';
 
 @Component({

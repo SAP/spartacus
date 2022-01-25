@@ -2,7 +2,7 @@ import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { Observable, of, Subject } from 'rxjs';
 import { CartCouponModule } from '../cart-coupon/cart-coupon.module';

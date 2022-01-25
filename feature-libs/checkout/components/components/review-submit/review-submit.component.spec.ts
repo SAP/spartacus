@@ -3,28 +3,28 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ActiveCartFacade,
-  Cart,
-  DeliveryMode,
-  OrderEntry,
-  PaymentType,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    DeliveryMode,
+    OrderEntry,
+    PaymentType
+} from '@spartacus/cart/base/root';
 import {
-  CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
-  CheckoutPaymentFacade,
-  CheckoutStep,
-  CheckoutStepType,
-  PaymentTypeFacade,
+    CheckoutCostCenterFacade,
+    CheckoutDeliveryFacade,
+    CheckoutPaymentFacade,
+    CheckoutStep,
+    CheckoutStepType,
+    PaymentTypeFacade
 } from '@spartacus/checkout/root';
 import {
-  Address,
-  CostCenter,
-  Country,
-  I18nTestingModule,
-  PaymentDetails,
-  UserAddressService,
-  UserCostCenterService,
+    Address,
+    CostCenter,
+    Country,
+    I18nTestingModule,
+    PaymentDetails,
+    UserAddressService,
+    UserCostCenterService
 } from '@spartacus/core';
 import { Card, PromotionsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';

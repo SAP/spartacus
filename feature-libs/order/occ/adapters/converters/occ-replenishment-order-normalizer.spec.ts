@@ -1,8 +1,8 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
-  PromotionResult,
-} from '@spartacus/cart/main/root';
+    ORDER_ENTRY_PROMOTIONS_NORMALIZER,
+    PromotionResult
+} from '@spartacus/cart/base/root';
 import { ConverterService, PRODUCT_NORMALIZER } from '@spartacus/core';
 import { OccReplenishmentOrderNormalizer } from './occ-replenishment-order-normalizer';
 

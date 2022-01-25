@@ -1,33 +1,33 @@
 import {
-  Component,
-  DebugElement,
-  Directive,
-  Input,
-  Pipe,
-  PipeTransform,
+    Component,
+    DebugElement,
+    Directive,
+    Input,
+    Pipe,
+    PipeTransform
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  ActiveCartFacade,
-  Cart,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    OrderEntry,
+    PromotionLocation
+} from '@spartacus/cart/base/root';
 import {
-  FeaturesConfig,
-  FeaturesConfigModule,
-  I18nTestingModule,
-  RouterState,
-  RoutingService,
+    FeaturesConfig,
+    FeaturesConfigModule,
+    I18nTestingModule,
+    RouterState,
+    RoutingService
 } from '@spartacus/core';
 import {
-  ICON_TYPE,
-  ModalDirective,
-  PromotionsModule,
-  SpinnerModule,
+    ICON_TYPE,
+    ModalDirective,
+    PromotionsModule,
+    SpinnerModule
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';

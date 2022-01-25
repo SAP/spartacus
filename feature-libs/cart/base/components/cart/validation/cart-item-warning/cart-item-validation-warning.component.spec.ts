@@ -1,18 +1,18 @@
 import {
-  Component,
-  DebugElement,
-  Input,
-  Pipe,
-  PipeTransform,
+    Component,
+    DebugElement,
+    Input,
+    Pipe,
+    PipeTransform
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  CartModification,
-  CartValidationFacade,
-  CartValidationStatusCode,
-} from '@spartacus/cart/main/root';
+    CartModification,
+    CartValidationFacade,
+    CartValidationStatusCode
+} from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { ReplaySubject } from 'rxjs';
 import { CartItemValidationWarningComponent } from './cart-item-validation-warning.component';

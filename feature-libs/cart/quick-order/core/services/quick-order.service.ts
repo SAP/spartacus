@@ -1,30 +1,30 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-  ActiveCartFacade,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
-  OrderEntry,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    CartAddEntryFailEvent,
+    CartAddEntrySuccessEvent,
+    OrderEntry
+} from '@spartacus/cart/base/root';
 import {
-  defaultQuickOrderConfig,
-  QuickOrderAddEntryEvent,
-  QuickOrderFacade,
+    defaultQuickOrderConfig,
+    QuickOrderAddEntryEvent,
+    QuickOrderFacade
 } from '@spartacus/cart/quick-order/root';
 import {
-  EventService,
-  HttpErrorModel,
-  Product,
-  ProductSearchConnector,
-  ProductSearchPage,
-  SearchConfig,
+    EventService,
+    HttpErrorModel,
+    Product,
+    ProductSearchConnector,
+    ProductSearchPage,
+    SearchConfig
 } from '@spartacus/core';
 import {
-  BehaviorSubject,
-  Observable,
-  of,
-  Subject,
-  Subscription,
-  timer,
+    BehaviorSubject,
+    Observable,
+    of,
+    Subject,
+    Subscription,
+    timer
 } from 'rxjs';
 import { filter, first, map, switchMap, take, tap } from 'rxjs/operators';
 

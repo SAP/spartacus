@@ -1,13 +1,13 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-  ViewContainerRef,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    OnDestroy,
+    OnInit,
+    ViewChild,
+    ViewContainerRef
 } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { AuthService, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';

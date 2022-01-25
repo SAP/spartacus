@@ -1,42 +1,42 @@
 import { Injectable } from '@angular/core';
 import {
-  CartAddEntrySuccessEvent,
-  CartPageEvent,
-  CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+    CartAddEntrySuccessEvent,
+    CartPageEvent,
+    CartRemoveEntrySuccessEvent,
+    CartUpdateEntrySuccessEvent
+} from '@spartacus/cart/base/root';
 import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import { Category, EventService } from '@spartacus/core';
 import {
-  CategoryPageResultsEvent,
-  HomePageEvent,
-  PageEvent,
-  ProductDetailsPageEvent,
-  SearchPageResultsEvent,
+    CategoryPageResultsEvent,
+    HomePageEvent,
+    PageEvent,
+    ProductDetailsPageEvent,
+    SearchPageResultsEvent
 } from '@spartacus/storefront';
 import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
 import {
-  distinctUntilChanged,
-  distinctUntilKeyChanged,
-  map,
-  mapTo,
-  pairwise,
-  startWith,
-  withLatestFrom,
+    distinctUntilChanged,
+    distinctUntilKeyChanged,
+    map,
+    mapTo,
+    pairwise,
+    startWith,
+    withLatestFrom
 } from 'rxjs/operators';
 import {
-  AddedToCartPushEvent,
-  CartViewPushEvent,
-  CategoryViewPushEvent,
-  HomePageViewPushEvent,
-  KeywordSearchPushEvent,
-  ModifiedCartPushEvent,
-  NavigatedPushEvent,
-  OrderConfirmationPushEvent,
-  ProductViewPushEvent,
-  ProfileTagPushEvent,
-  RemovedFromCartPushEvent,
+    AddedToCartPushEvent,
+    CartViewPushEvent,
+    CategoryViewPushEvent,
+    HomePageViewPushEvent,
+    KeywordSearchPushEvent,
+    ModifiedCartPushEvent,
+    NavigatedPushEvent,
+    OrderConfirmationPushEvent,
+    ProductViewPushEvent,
+    ProfileTagPushEvent,
+    RemovedFromCartPushEvent
 } from '../model/profile-tag.model';
 
 /**

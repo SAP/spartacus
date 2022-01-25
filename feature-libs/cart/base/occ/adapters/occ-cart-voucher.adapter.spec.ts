@@ -1,17 +1,17 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart, CART_VOUCHER_NORMALIZER } from '@spartacus/cart/main/root';
+import { Cart, CART_VOUCHER_NORMALIZER } from '@spartacus/cart/base/root';
 import {
-  ConverterService,
-  OccConfig,
-  OccEndpointsService,
+    ConverterService,
+    OccConfig,
+    OccEndpointsService
 } from '@spartacus/core';
 import {
-  MockOccEndpointsService,
-  mockOccModuleConfig,
+    MockOccEndpointsService,
+    mockOccModuleConfig
 } from '../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccCartVoucherAdapter } from './occ-cart-voucher.adapter';
 

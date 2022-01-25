@@ -2,28 +2,28 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 import {
-  CartActions,
-  CartConnector,
-  getCartIdByUserId,
-  MultiCartSelectors,
-  StateWithMultiCart,
-} from '@spartacus/cart/main/core';
-import { CartType } from '@spartacus/cart/main/root';
+    CartActions,
+    CartConnector,
+    getCartIdByUserId,
+    MultiCartSelectors,
+    StateWithMultiCart
+} from '@spartacus/cart/base/core';
+import { CartType } from '@spartacus/cart/base/root';
 import {
-  isNotUndefined,
-  normalizeHttpError,
-  SiteContextActions,
-  StateUtils,
-  UserIdService,
+    isNotUndefined,
+    normalizeHttpError,
+    SiteContextActions,
+    StateUtils,
+    UserIdService
 } from '@spartacus/core';
 import { EMPTY, from, Observable } from 'rxjs';
 import {
-  catchError,
-  concatMap,
-  filter,
-  map,
-  switchMap,
-  withLatestFrom,
+    catchError,
+    concatMap,
+    filter,
+    map,
+    switchMap,
+    withLatestFrom
 } from 'rxjs/operators';
 import { WishListActions } from '../actions';
 

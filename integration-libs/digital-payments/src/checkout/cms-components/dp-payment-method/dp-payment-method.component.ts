@@ -1,20 +1,20 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent,
+    CheckoutStepService,
+    PaymentMethodComponent as CorePaymentMethodComponent
 } from '@spartacus/checkout/components';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
+    CheckoutDeliveryService,
+    CheckoutPaymentService,
+    CheckoutService
 } from '@spartacus/checkout/core';
 import {
-  GlobalMessageService,
-  PaymentDetails,
-  TranslationService,
-  UserPaymentService,
+    GlobalMessageService,
+    PaymentDetails,
+    TranslationService,
+    UserPaymentService
 } from '@spartacus/core';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 

@@ -1,18 +1,18 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { DELIVERY_MODE_NORMALIZER } from '@spartacus/checkout/core';
 import {
-  Address,
-  ADDRESS_NORMALIZER,
-  ADDRESS_SERIALIZER,
-  ConverterService,
-  Occ,
-  OccConfig,
-  OccEndpoints,
+    Address,
+    ADDRESS_NORMALIZER,
+    ADDRESS_SERIALIZER,
+    ConverterService,
+    Occ,
+    OccConfig,
+    OccEndpoints
 } from '@spartacus/core';
 import { OccCheckoutDeliveryAdapter } from './occ-checkout-delivery.adapter';
 

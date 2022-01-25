@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { Cart, CartType } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import { MultiCartSelectors } from '.';
 import { CartActions } from '../actions';
 import { MULTI_CART_FEATURE, StateWithMultiCart } from '../multi-cart-state';

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { CartConfigService, isEmpty } from '@spartacus/cart/main/core';
+import { CartConfigService, isEmpty } from '@spartacus/cart/base/core';
 import {
-  ActiveCartFacade,
-  Cart,
-  SelectiveCartFacade,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    SelectiveCartFacade
+} from '@spartacus/cart/base/root';
 import { PageLayoutHandler } from '@spartacus/storefront';
 import { combineLatest, Observable, of } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';

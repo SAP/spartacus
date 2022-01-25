@@ -2,15 +2,15 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  CartActions,
-  CartConnector,
-  getCartIdByUserId,
-  MULTI_CART_FEATURE,
-  StateWithMultiCart,
-} from '@spartacus/cart/main/core';
-import { Cart, CartType } from '@spartacus/cart/main/root';
+    CartActions,
+    CartConnector,
+    getCartIdByUserId,
+    MULTI_CART_FEATURE,
+    StateWithMultiCart
+} from '@spartacus/cart/base/core';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';
-import { getMultiCartReducers } from 'feature-libs/cart/main/core/store';
+import { getMultiCartReducers } from 'feature-libs/cart/base/core/store';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { getWishlistName } from '../../utils/utils';

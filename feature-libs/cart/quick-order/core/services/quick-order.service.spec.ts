@@ -1,17 +1,17 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-  ActiveCartFacade,
-  CartAddEntrySuccessEvent,
-  OrderEntry,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    CartAddEntrySuccessEvent,
+    OrderEntry
+} from '@spartacus/cart/base/root';
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
-  EventService,
-  Product,
-  ProductSearchConnector,
-  ProductSearchPage,
-  SearchConfig,
+    EventService,
+    Product,
+    ProductSearchConnector,
+    ProductSearchPage,
+    SearchConfig
 } from '@spartacus/core';
 import { Observable, of, queueScheduler } from 'rxjs';
 import { delay, observeOn, switchMap, take, tap } from 'rxjs/operators';

@@ -1,14 +1,14 @@
 import {
-  createFeatureSelector,
-  createSelector,
-  MemoizedSelector,
+    createFeatureSelector,
+    createSelector,
+    MemoizedSelector
 } from '@ngrx/store';
-import { Cart, OrderEntry } from '@spartacus/cart/main/root';
+import { Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import {
-  MultiCartState,
-  MULTI_CART_FEATURE,
-  StateWithMultiCart,
+    MultiCartState,
+    MULTI_CART_FEATURE,
+    StateWithMultiCart
 } from '../multi-cart-state';
 
 export const getMultiCartState: MemoizedSelector<

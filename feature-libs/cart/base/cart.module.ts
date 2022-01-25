@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
-import { CartComponentsModule } from '@spartacus/cart/main/components';
-import { CartCoreModule } from '@spartacus/cart/main/core';
-import { CartOccModule } from '@spartacus/cart/main/occ';
+import { CartComponentsModule } from '@spartacus/cart/base/components';
+import { CartCoreModule } from '@spartacus/cart/base/core';
+import { CartOccModule } from '@spartacus/cart/base/occ';
 
 @NgModule({
   imports: [CartCoreModule, CartOccModule, CartComponentsModule],

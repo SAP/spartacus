@@ -1,14 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  ActiveCartFacade,
-  Cart,
-  CartVoucherFacade,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    CartVoucherFacade
+} from '@spartacus/cart/base/root';
 import {
-  CustomerCoupon,
-  CustomerCouponSearchResult,
-  CustomerCouponService,
+    CustomerCoupon,
+    CustomerCouponSearchResult,
+    CustomerCouponService
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

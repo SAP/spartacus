@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/main/root';
+import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/base/root';
 import {
-  PaymentTypeAdapter,
-  PAYMENT_TYPE_NORMALIZER,
+    PaymentTypeAdapter,
+    PAYMENT_TYPE_NORMALIZER
 } from '@spartacus/checkout/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
 import { Observable } from 'rxjs';

@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import {
-  Cart,
-  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
-} from '@spartacus/cart/main/root';
+    Cart,
+    ORDER_ENTRY_PROMOTIONS_NORMALIZER
+} from '@spartacus/cart/base/root';
 import {
-  Converter,
-  ConverterService,
-  Occ,
-  PRODUCT_NORMALIZER,
+    Converter,
+    ConverterService,
+    Occ,
+    PRODUCT_NORMALIZER
 } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })

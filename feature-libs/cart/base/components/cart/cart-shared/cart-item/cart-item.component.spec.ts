@@ -1,29 +1,29 @@
 import {
-  Component,
-  DebugElement,
-  Directive,
-  Injector,
-  Input,
-  Pipe,
-  PipeTransform,
-  SimpleChange,
+    Component,
+    DebugElement,
+    Directive,
+    Injector,
+    Input,
+    Pipe,
+    PipeTransform,
+    SimpleChange
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-  ControlContainer,
-  FormControl,
-  ReactiveFormsModule,
+    ControlContainer,
+    FormControl,
+    ReactiveFormsModule
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CartItemContextSource } from './model/cart-item-context-source.model';
-import { CartItemContext, PromotionLocation } from '@spartacus/cart/main/root';
+import { CartItemContext, PromotionLocation } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { OutletModule } from '@spartacus/storefront';
 import { OutletDirective } from 'projects/storefrontlib/cms-structure/outlet/outlet.directive';
 import { ModalDirective } from 'projects/storefrontlib/shared/components/modal/modal.directive';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CartItemComponent } from './cart-item.component';
+import { CartItemContextSource } from './model/cart-item-context-source.model';
 
 @Pipe({
   name: 'cxUrl',

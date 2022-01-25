@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Action } from '@ngrx/store';
-import { CartType } from '@spartacus/cart/main/root';
+import { CartType } from '@spartacus/cart/base/root';
 import { isNotUndefined, OCC_CART_ID_CURRENT } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

@@ -1,11 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/cart/main/root';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
-  ConfiguratorType,
+    CommonConfigurator,
+    ConfiguratorModelUtils,
+    ConfiguratorType
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';

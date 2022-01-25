@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
-  Product,
-  SiteContextParamsService,
-  StatePersistenceService,
+    Product,
+    SiteContextParamsService,
+    StatePersistenceService
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, Subscription } from 'rxjs';
 import { QuickOrderStatePersistenceService } from './quick-order-state-persistance.service';

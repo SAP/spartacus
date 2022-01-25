@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  BasePageMetaResolver,
-  CmsService,
-  I18nTestingModule,
-  PageMetaResolver,
-  PageMetaService,
-  PageRobotsMeta,
+    BasePageMetaResolver,
+    CmsService,
+    I18nTestingModule,
+    PageMetaResolver,
+    PageMetaService,
+    PageRobotsMeta
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutPageMetaResolver } from './checkout-page-meta.resolver';

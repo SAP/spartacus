@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartValidationConnector } from '../connectors/validation/cart-validation.connector';

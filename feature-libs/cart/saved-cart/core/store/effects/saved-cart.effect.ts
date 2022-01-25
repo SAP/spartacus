@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions, CartConnector } from '@spartacus/cart/main/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { CartActions, CartConnector } from '@spartacus/cart/base/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  GlobalMessageService,
-  GlobalMessageType,
-  normalizeHttpError,
+    GlobalMessageService,
+    GlobalMessageType,
+    normalizeHttpError
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, withLatestFrom } from 'rxjs/operators';

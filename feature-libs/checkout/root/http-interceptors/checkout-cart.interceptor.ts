@@ -1,12 +1,12 @@
 import {
-  HttpErrorResponse,
-  HttpEvent,
-  HttpHandler,
-  HttpInterceptor,
-  HttpRequest,
+    HttpErrorResponse,
+    HttpEvent,
+    HttpHandler,
+    HttpInterceptor,
+    HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MultiCartFacade } from '@spartacus/cart/main/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { RouterState, RoutingService } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, switchMap, take } from 'rxjs/operators';

@@ -1,16 +1,16 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/core';
 import {
-  ConverterService,
-  Occ,
-  OccConfig,
-  OccEndpoints,
+    ConverterService,
+    Occ,
+    OccConfig,
+    OccEndpoints
 } from '@spartacus/core';
 import { OccCheckoutPaymentTypeAdapter } from './occ-checkout-payment-type.adapter';
 

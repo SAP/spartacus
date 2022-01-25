@@ -1,31 +1,31 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostListener,
-  OnDestroy,
-  OnInit,
+    ChangeDetectionStrategy,
+    Component,
+    ElementRef,
+    HostListener,
+    OnDestroy,
+    OnInit
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
-  SavedCartFacade,
-  SavedCartFormType,
+    DeleteSavedCartEvent,
+    DeleteSavedCartFailEvent,
+    DeleteSavedCartSuccessEvent,
+    SavedCartFacade,
+    SavedCartFormType
 } from '@spartacus/cart/saved-cart/root';
 import {
-  EventService,
-  GlobalMessageService,
-  GlobalMessageType,
-  RoutingService,
+    EventService,
+    GlobalMessageService,
+    GlobalMessageType,
+    RoutingService
 } from '@spartacus/core';
 import {
-  FocusConfig,
-  FormUtils,
-  ICON_TYPE,
-  LaunchDialogService,
+    FocusConfig,
+    FormUtils,
+    ICON_TYPE,
+    LaunchDialogService
 } from '@spartacus/storefront';
 import { combineLatest, merge, Observable, Subscription } from 'rxjs';
 import { map, mapTo, take } from 'rxjs/operators';

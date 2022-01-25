@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { ProductImportStatus } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { ProductImportStatus } from '@spartacus/cart/base/root';
 import { Subject } from 'rxjs';
 import { ProductImportInfoService } from './product-import-info.service';
 

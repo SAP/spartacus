@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import {
-  AuthGuard,
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
+    AuthGuard,
+    CmsConfig,
+    provideDefaultConfig,
+    provideDefaultConfigFactory
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';

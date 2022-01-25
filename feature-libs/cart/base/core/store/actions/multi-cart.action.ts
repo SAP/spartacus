@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart, CartType } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 

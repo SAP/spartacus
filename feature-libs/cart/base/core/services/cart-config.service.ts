@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartConfig } from '@spartacus/cart/main/root';
+import { CartConfig } from '@spartacus/cart/base/root';
 
 @Injectable({
   providedIn: 'root',

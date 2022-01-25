@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CartConfig } from '@spartacus/cart/main/root';
+import { CartConfig } from '@spartacus/cart/base/root';
 import { CartConfigService } from './cart-config.service';
 
 describe('CartConfigService', () => {

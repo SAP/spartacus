@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  OCC_USER_ID_CURRENT,
-  StateUtils,
-  UserIdService,
+    OCC_USER_ID_CURRENT,
+    StateUtils,
+    UserIdService
 } from '@spartacus/core';
 import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
+    CommonConfigurator,
+    CommonConfiguratorUtilsService
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';

@@ -1,20 +1,20 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
+    ChangeDetectionStrategy,
+    Component,
+    OnDestroy,
+    OnInit
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {
-  ActiveCartFacade,
-  Cart,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    CartAddEntryFailEvent,
+    CartAddEntrySuccessEvent
+} from '@spartacus/cart/base/root';
 import {
-  EventService,
-  GlobalMessageService,
-  GlobalMessageType,
+    EventService,
+    GlobalMessageService,
+    GlobalMessageType
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { first, map } from 'rxjs/operators';

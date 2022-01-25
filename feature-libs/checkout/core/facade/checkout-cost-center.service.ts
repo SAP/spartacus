@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutCostCenterFacade } from '@spartacus/checkout/root';
 import { UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';

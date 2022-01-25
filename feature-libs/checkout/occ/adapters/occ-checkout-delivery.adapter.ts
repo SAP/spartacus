@@ -1,17 +1,17 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
-  CheckoutDeliveryAdapter,
-  DELIVERY_MODE_NORMALIZER,
+    CheckoutDeliveryAdapter,
+    DELIVERY_MODE_NORMALIZER
 } from '@spartacus/checkout/core';
 import {
-  Address,
-  ADDRESS_NORMALIZER,
-  ADDRESS_SERIALIZER,
-  ConverterService,
-  Occ,
-  OccEndpointsService,
+    Address,
+    ADDRESS_NORMALIZER,
+    ADDRESS_SERIALIZER,
+    ConverterService,
+    Occ,
+    OccEndpointsService
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';

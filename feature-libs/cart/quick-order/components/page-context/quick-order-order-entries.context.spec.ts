@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry, ProductData } from '@spartacus/cart/main/root';
+import { OrderEntry, ProductData } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { ProductConnector } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';

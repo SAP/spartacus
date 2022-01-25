@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/main/core';
+import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
-  ActiveCartFacade,
-  AddOrderEntriesContext,
-  GetOrderEntriesContext,
-  OrderEntriesSource,
-  OrderEntry,
-  ProductData,
-  ProductImportInfo,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    AddOrderEntriesContext,
+    GetOrderEntriesContext,
+    OrderEntriesSource,
+    OrderEntry,
+    ProductData,
+    ProductImportInfo
+} from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 

@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/main/root';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
-  IconModule,
-  OutletPosition,
-  provideOutlet,
+    IconModule,
+    OutletPosition,
+    provideOutlet
 } from '@spartacus/storefront';
 import { ConfiguratorIssuesNotificationModule } from '../configurator-issues-notification/configurator-issues-notification.module';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';

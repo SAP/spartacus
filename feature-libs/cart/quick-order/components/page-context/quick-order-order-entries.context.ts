@@ -1,14 +1,14 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import {
-  AddOrderEntriesContext,
-  GetOrderEntriesContext,
-  OrderEntriesSource,
-  OrderEntry,
-  ProductData,
-  ProductImportInfo,
-  ProductImportStatus,
-} from '@spartacus/cart/main/root';
+    AddOrderEntriesContext,
+    GetOrderEntriesContext,
+    OrderEntriesSource,
+    OrderEntry,
+    ProductData,
+    ProductImportInfo,
+    ProductImportStatus
+} from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Product, ProductConnector } from '@spartacus/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';

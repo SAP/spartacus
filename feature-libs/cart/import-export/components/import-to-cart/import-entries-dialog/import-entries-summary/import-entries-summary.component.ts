@@ -1,14 +1,14 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Input,
+    Output
 } from '@angular/core';
 import {
-  OrderEntriesSource,
-  ProductImportSummary,
-} from '@spartacus/cart/main/root';
+    OrderEntriesSource,
+    ProductImportSummary
+} from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({

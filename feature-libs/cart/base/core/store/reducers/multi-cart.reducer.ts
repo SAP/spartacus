@@ -1,4 +1,4 @@
-import { Cart, CartType } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { CartActions } from '../actions/index';
 

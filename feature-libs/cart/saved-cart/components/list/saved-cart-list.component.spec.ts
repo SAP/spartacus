@@ -1,16 +1,16 @@
 import {
-  ElementRef,
-  Pipe,
-  PipeTransform,
-  ViewContainerRef,
+    ElementRef,
+    Pipe,
+    PipeTransform,
+    ViewContainerRef
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
-  SavedCartFacade,
-  SavedCartFormType,
+    SavedCartFacade,
+    SavedCartFormType
 } from '@spartacus/cart/saved-cart/root';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';

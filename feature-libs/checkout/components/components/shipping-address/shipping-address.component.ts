@@ -1,24 +1,24 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  OnDestroy,
-  OnInit,
+    ChangeDetectionStrategy,
+    Component,
+    OnDestroy,
+    OnInit
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutCostCenterFacade,
-  CheckoutDeliveryFacade,
-  PaymentTypeFacade,
+    CheckoutCostCenterFacade,
+    CheckoutDeliveryFacade,
+    PaymentTypeFacade
 } from '@spartacus/checkout/root';
 import {
-  Address,
-  getLastValueSync,
-  GlobalMessageService,
-  GlobalMessageType,
-  TranslationService,
-  UserAddressService,
-  UserCostCenterService,
+    Address,
+    getLastValueSync,
+    GlobalMessageService,
+    GlobalMessageType,
+    TranslationService,
+    UserAddressService,
+    UserCostCenterService
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { combineLatest, Observable, Subscription } from 'rxjs';

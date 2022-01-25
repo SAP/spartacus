@@ -1,25 +1,25 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutDeliveryFacade,
-  CheckoutFacade,
-  CheckoutPaymentFacade,
+    CheckoutDeliveryFacade,
+    CheckoutFacade,
+    CheckoutPaymentFacade
 } from '@spartacus/checkout/root';
 import {
-  Address,
-  EMAIL_PATTERN,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_GUEST,
-  PaymentDetails,
+    Address,
+    EMAIL_PATTERN,
+    OCC_USER_ID_ANONYMOUS,
+    OCC_USER_ID_GUEST,
+    PaymentDetails
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-  filter,
-  map,
-  shareReplay,
-  skipWhile,
-  switchMap,
-  tap,
+    filter,
+    map,
+    shareReplay,
+    skipWhile,
+    switchMap,
+    tap
 } from 'rxjs/operators';
 
 @Injectable({

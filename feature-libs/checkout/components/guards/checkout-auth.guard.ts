@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  AuthRedirectService,
-  AuthService,
-  B2BUser,
-  B2BUserRole,
-  GlobalMessageService,
-  GlobalMessageType,
-  SemanticPathService,
+    AuthRedirectService,
+    AuthService,
+    B2BUser,
+    B2BUserRole,
+    GlobalMessageService,
+    GlobalMessageType,
+    SemanticPathService
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';

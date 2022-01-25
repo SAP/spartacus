@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/main/root';
+import { ActiveCartOrderEntriesContextToken } from '@spartacus/cart/base/root';
 import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { AddedToCartDialogModule } from './cart/added-to-cart-dialog/added-to-cart-dialog.module';
 import { CartDetailsModule } from './cart/cart-details/cart-details.module';

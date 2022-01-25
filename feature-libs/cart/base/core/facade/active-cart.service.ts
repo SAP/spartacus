@@ -1,41 +1,41 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import {
-  ActiveCartFacade,
-  Cart,
-  CartType,
-  MultiCartFacade,
-  OrderEntry,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    CartType,
+    MultiCartFacade,
+    OrderEntry
+} from '@spartacus/cart/base/root';
 import {
-  getLastValueSync,
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_GUEST,
-  StateUtils,
-  User,
-  UserIdService,
+    getLastValueSync,
+    OCC_CART_ID_CURRENT,
+    OCC_USER_ID_ANONYMOUS,
+    OCC_USER_ID_GUEST,
+    StateUtils,
+    User,
+    UserIdService
 } from '@spartacus/core';
 import { combineLatest, Observable, of, Subscription, using } from 'rxjs';
 import {
-  distinctUntilChanged,
-  filter,
-  map,
-  pairwise,
-  shareReplay,
-  switchMap,
-  switchMapTo,
-  take,
-  tap,
-  withLatestFrom,
+    distinctUntilChanged,
+    filter,
+    map,
+    pairwise,
+    shareReplay,
+    switchMap,
+    switchMapTo,
+    take,
+    tap,
+    withLatestFrom
 } from 'rxjs/operators';
 import { StateWithMultiCart } from '../store/multi-cart-state';
 import {
-  getCartIdByUserId,
-  isEmail,
-  isEmpty,
-  isJustLoggedIn,
-  isTempCartId,
+    getCartIdByUserId,
+    isEmail,
+    isEmpty,
+    isJustLoggedIn,
+    isTempCartId
 } from '../utils/utils';
 
 @Injectable()

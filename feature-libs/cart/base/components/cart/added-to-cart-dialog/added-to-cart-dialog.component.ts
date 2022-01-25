@@ -1,21 +1,21 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  ActiveCartFacade,
-  Cart,
-  OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    OrderEntry,
+    PromotionLocation
+} from '@spartacus/cart/base/root';
 import { ICON_TYPE, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import {
-  filter,
-  map,
-  shareReplay,
-  startWith,
-  switchMap,
-  switchMapTo,
-  tap,
+    filter,
+    map,
+    shareReplay,
+    startWith,
+    switchMap,
+    switchMapTo,
+    tap
 } from 'rxjs/operators';
 
 @Component({

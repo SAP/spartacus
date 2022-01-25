@@ -1,4 +1,4 @@
-import { CartModification } from '@spartacus/cart/main/root';
+import { CartModification } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import { MULTI_CART_DATA } from '../multi-cart-state';
 import { CartActions } from './index';

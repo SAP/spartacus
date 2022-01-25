@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/main/root';
+import { Cart, CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { OutletContextData, PromotionsModule } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { CartVoucherFacade, Voucher } from '@spartacus/cart/main/root';
+import { CartVoucherFacade, Voucher } from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({

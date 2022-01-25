@@ -2,14 +2,14 @@ import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  AddOrderEntriesContext,
-  GetOrderEntriesContext,
-  OrderEntriesSource,
-  OrderEntry,
-  ProductData,
-  ProductImportInfo,
-  ProductImportStatus,
-} from '@spartacus/cart/main/root';
+    AddOrderEntriesContext,
+    GetOrderEntriesContext,
+    OrderEntriesSource,
+    OrderEntry,
+    ProductData,
+    ProductImportInfo,
+    ProductImportStatus
+} from '@spartacus/cart/base/root';
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';

@@ -1,11 +1,11 @@
 import { Provider } from '@angular/core';
 import {
-  ActiveCartFacade,
-  CartValidationFacade,
-  CartVoucherFacade,
-  MultiCartFacade,
-  SelectiveCartFacade,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    CartValidationFacade,
+    CartVoucherFacade,
+    MultiCartFacade,
+    SelectiveCartFacade
+} from '@spartacus/cart/base/root';
 import { ActiveCartService } from './active-cart.service';
 import { CartValidationService } from './cart-validation.service';
 import { CartVoucherService } from './cart-voucher.service';

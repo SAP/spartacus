@@ -1,15 +1,15 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { CartAdapter } from '@spartacus/cart/main/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/main/root';
+import { CartAdapter } from '@spartacus/cart/base/core';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import {
-  ConverterService,
-  InterceptorUtil,
-  Occ,
-  OccEndpointsService,
-  OCC_CART_ID_CURRENT,
-  OCC_USER_ID_ANONYMOUS,
-  USE_CLIENT_TOKEN,
+    ConverterService,
+    InterceptorUtil,
+    Occ,
+    OccEndpointsService,
+    OCC_CART_ID_CURRENT,
+    OCC_USER_ID_ANONYMOUS,
+    USE_CLIENT_TOKEN
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map, pluck } from 'rxjs/operators';

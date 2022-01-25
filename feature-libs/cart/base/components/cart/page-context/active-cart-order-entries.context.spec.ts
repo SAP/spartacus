@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductImportInfoService } from '@spartacus/cart/main/core';
+import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
-  ActiveCartFacade,
-  OrderEntry,
-  ProductData,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    OrderEntry,
+    ProductData
+} from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { ActiveCartOrderEntriesContext } from './active-cart-order-entries.context';
 import createSpy = jasmine.createSpy;

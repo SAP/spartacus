@@ -1,15 +1,15 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_VALIDATION_NORMALIZER } from '@spartacus/cart/main/core';
-import { CartModificationList } from '@spartacus/cart/main/root';
+import { CART_VALIDATION_NORMALIZER } from '@spartacus/cart/base/core';
+import { CartModificationList } from '@spartacus/cart/base/root';
 import {
-  BaseOccUrlProperties,
-  ConverterService,
-  DynamicAttributes,
-  OccEndpointsService,
+    BaseOccUrlProperties,
+    ConverterService,
+    DynamicAttributes,
+    OccEndpointsService
 } from '@spartacus/core';
 import { OccCartValidationAdapter } from './occ-cart-validation.adapter';
 

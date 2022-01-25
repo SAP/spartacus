@@ -2,22 +2,22 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-  OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_CURRENT,
-  UserIdService,
+    OCC_USER_ID_ANONYMOUS,
+    OCC_USER_ID_CURRENT,
+    UserIdService
 } from '@spartacus/core';
 import {
-  CommonConfigurator,
-  ConfiguratorModelUtils,
+    CommonConfigurator,
+    ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import {
-  ConfigurationTextfieldState,
-  StateWithConfigurationTextfield,
+    ConfigurationTextfieldState,
+    StateWithConfigurationTextfield
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 import createSpy = jasmine.createSpy;

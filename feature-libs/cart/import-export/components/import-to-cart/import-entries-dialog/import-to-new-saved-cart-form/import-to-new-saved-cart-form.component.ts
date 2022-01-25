@@ -1,26 +1,26 @@
 import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Output,
+    ChangeDetectionStrategy,
+    Component,
+    EventEmitter,
+    Output
 } from '@angular/core';
 import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    Validators
 } from '@angular/forms';
+import { ProductData } from '@spartacus/cart/base/root';
 import {
-  CartNameGeneration,
-  CartNameSource,
-  ImportExportConfig,
+    CartNameGeneration,
+    CartNameSource,
+    ImportExportConfig
 } from '@spartacus/cart/import-export/core';
-import { ProductData } from '@spartacus/cart/main/root';
 import { CxDatePipe } from '@spartacus/core';
 import {
-  FilesFormValidators,
-  ImportCsvFileService,
-  LaunchDialogService,
+    FilesFormValidators,
+    ImportCsvFileService,
+    LaunchDialogService
 } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';

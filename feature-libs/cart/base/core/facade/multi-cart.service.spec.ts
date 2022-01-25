@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { Cart, CartType } from '@spartacus/cart/main/root';
+import { Cart, CartType } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
 import {
-  MULTI_CART_FEATURE,
-  StateWithMultiCart,
+    MULTI_CART_FEATURE,
+    StateWithMultiCart
 } from '../store/multi-cart-state';
 import * as fromReducers from '../store/reducers/index';
 import { MultiCartService } from './multi-cart.service';

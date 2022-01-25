@@ -1,15 +1,15 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-  ActiveCartFacade,
-  Cart,
-  DeliveryMode,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    DeliveryMode
+} from '@spartacus/cart/base/root';
 import {
-  Address,
-  PROCESS_FEATURE,
-  StateUtils,
-  UserIdService,
+    Address,
+    PROCESS_FEATURE,
+    StateUtils,
+    UserIdService
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import * as fromProcessReducers from '../../../../projects/core/src/process/store/reducers/index';

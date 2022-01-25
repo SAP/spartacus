@@ -2,12 +2,12 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 import {
-  CommonConfigurator,
-  CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils,
+    CommonConfigurator,
+    CommonConfiguratorUtilsService,
+    ConfiguratorModelUtils
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -16,9 +16,9 @@ import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
-  ConfiguratorState,
-  CONFIGURATOR_FEATURE,
-  StateWithConfigurator,
+    ConfiguratorState,
+    CONFIGURATOR_FEATURE,
+    StateWithConfigurator
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';

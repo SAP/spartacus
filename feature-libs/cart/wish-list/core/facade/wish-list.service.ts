@@ -1,27 +1,27 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/main/core';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
 import {
-  Cart,
-  CartType,
-  MultiCartFacade,
-  OrderEntry,
-} from '@spartacus/cart/main/root';
+    Cart,
+    CartType,
+    MultiCartFacade,
+    OrderEntry
+} from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
-  OCC_USER_ID_ANONYMOUS,
-  UserIdService,
-  UserService,
+    OCC_USER_ID_ANONYMOUS,
+    UserIdService,
+    UserService
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-  withLatestFrom,
+    distinctUntilChanged,
+    filter,
+    map,
+    switchMap,
+    take,
+    tap,
+    withLatestFrom
 } from 'rxjs/operators';
 import { WishListActions } from '../store/actions/index';
 import { getWishlistName } from '../utils/utils';

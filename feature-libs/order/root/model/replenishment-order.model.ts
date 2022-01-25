@@ -1,20 +1,20 @@
 import {
-  DeliveryMode,
-  DeliveryOrderEntryGroup,
-  OrderEntry,
-  PaymentType,
-  PickupOrderEntryGroup,
-  PromotionResult,
-  Voucher,
-} from '@spartacus/cart/main/root';
+    DeliveryMode,
+    DeliveryOrderEntryGroup,
+    OrderEntry,
+    PaymentType,
+    PickupOrderEntryGroup,
+    PromotionResult,
+    Voucher
+} from '@spartacus/cart/base/root';
 import {
-  Address,
-  CostCenter,
-  PaginationModel,
-  PaymentDetails,
-  Price,
-  Principal,
-  SortModel,
+    Address,
+    CostCenter,
+    PaginationModel,
+    PaymentDetails,
+    Price,
+    Principal,
+    SortModel
 } from '@spartacus/core';
 
 export interface ReplenishmentOrder {

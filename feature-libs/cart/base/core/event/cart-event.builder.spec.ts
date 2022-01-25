@@ -2,16 +2,16 @@ import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { Action, ActionsSubject } from '@ngrx/store';
 import {
-  ActiveCartFacade,
-  Cart,
-  CartAddEntryEvent,
-  CartAddEntryFailEvent,
-  CartAddEntrySuccessEvent,
-  CartRemoveEntryFailEvent,
-  CartRemoveEntrySuccessEvent,
-  CartUpdateEntryFailEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+    ActiveCartFacade,
+    Cart,
+    CartAddEntryEvent,
+    CartAddEntryFailEvent,
+    CartAddEntrySuccessEvent,
+    CartRemoveEntryFailEvent,
+    CartRemoveEntrySuccessEvent,
+    CartUpdateEntryFailEvent,
+    CartUpdateEntrySuccessEvent
+} from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';

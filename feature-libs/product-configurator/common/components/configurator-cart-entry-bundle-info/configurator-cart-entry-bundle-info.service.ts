@@ -1,9 +1,9 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-  ConfigurationInfo,
-  ConfigurationInfoFields,
-  ConfigurationInfoSpecialFields,
+    ConfigurationInfo,
+    ConfigurationInfoFields,
+    ConfigurationInfoSpecialFields
 } from '../../core/model/common-configurator.model';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 

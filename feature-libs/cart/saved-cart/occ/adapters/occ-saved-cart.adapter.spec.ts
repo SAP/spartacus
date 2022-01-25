@@ -1,9 +1,9 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { CART_NORMALIZER } from '@spartacus/cart/main/root';
+import { CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
 import { OccSavedCartAdapter } from './occ-saved-cart.adapter';

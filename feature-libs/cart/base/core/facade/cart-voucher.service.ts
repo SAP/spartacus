@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, CartVoucherFacade } from '@spartacus/cart/base/root';
 import {
-  ProcessSelectors,
-  StateWithProcess,
-  UserIdService,
+    ProcessSelectors,
+    StateWithProcess,
+    UserIdService
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';

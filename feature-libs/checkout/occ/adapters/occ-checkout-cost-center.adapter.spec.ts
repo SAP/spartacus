@@ -1,9 +1,9 @@
 import {
-  HttpClientTestingModule,
-  HttpTestingController,
+    HttpClientTestingModule,
+    HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { ConverterService, OccConfig, OccEndpoints } from '@spartacus/core';
 import { OccCheckoutCostCenterAdapter } from './occ-checkout-cost-center.adapter';
 

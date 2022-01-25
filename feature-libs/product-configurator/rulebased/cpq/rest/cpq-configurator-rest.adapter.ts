@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { CartModification } from '@spartacus/cart/main/root';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
-  CommonConfigurator,
-  ConfiguratorType,
+    CommonConfigurator,
+    ConfiguratorType
 } from '@spartacus/product-configurator/common';
 import {
-  Configurator,
-  RulebasedConfiguratorAdapter,
+    Configurator,
+    RulebasedConfiguratorAdapter
 } from '@spartacus/product-configurator/rulebased';
 import { Observable, of } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';

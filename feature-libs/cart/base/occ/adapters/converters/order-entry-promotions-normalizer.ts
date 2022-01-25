@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-  PromotionOrderEntryConsumed,
-  PromotionResult,
-} from '@spartacus/cart/main/root';
+    PromotionOrderEntryConsumed,
+    PromotionResult
+} from '@spartacus/cart/base/root';
 import { Converter, Occ } from '@spartacus/core';
 
 @Injectable({ providedIn: 'root' })

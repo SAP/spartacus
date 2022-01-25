@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CartModificationList } from '@spartacus/cart/main/root';
+import { CartModificationList } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { CartValidationAdapter } from './cart-validation.adapter';
 

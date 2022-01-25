@@ -2,19 +2,19 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-  CheckoutDeliveryFacade,
-  CheckoutFacade,
-  CheckoutPaymentFacade,
+    CheckoutDeliveryFacade,
+    CheckoutFacade,
+    CheckoutPaymentFacade
 } from '@spartacus/checkout/root';
 import {
-  Address,
-  GlobalMessageService,
-  GlobalMessageType,
-  I18nTestingModule,
-  PaymentDetails,
-  UserPaymentService,
+    Address,
+    GlobalMessageService,
+    GlobalMessageType,
+    I18nTestingModule,
+    PaymentDetails,
+    UserPaymentService
 } from '@spartacus/core';
 import { CardComponent, ICON_TYPE } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';

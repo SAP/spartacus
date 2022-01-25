@@ -1,8 +1,8 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { MultiCartFacade } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
@@ -18,13 +18,13 @@ import {
   RestoreSavedCartSuccessEvent,
   SaveCartEvent,
   SaveCartFailEvent,
-  SaveCartSuccessEvent,
+  SaveCartSuccessEvent
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
   createFrom,
   EventService,
-  StateEventService,
+  StateEventService
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';

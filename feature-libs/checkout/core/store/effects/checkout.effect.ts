@@ -1,23 +1,23 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/cart/main/core';
+import { CartActions } from '@spartacus/cart/base/core';
 import {
-  AuthActions,
-  GlobalMessageActions,
-  normalizeHttpError,
-  OCC_USER_ID_ANONYMOUS,
-  SiteContextActions,
-  UserActions,
-  withdrawOn,
+    AuthActions,
+    GlobalMessageActions,
+    normalizeHttpError,
+    OCC_USER_ID_ANONYMOUS,
+    SiteContextActions,
+    UserActions,
+    withdrawOn
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
-  catchError,
-  concatMap,
-  filter,
-  map,
-  mergeMap,
-  switchMap,
+    catchError,
+    concatMap,
+    filter,
+    map,
+    mergeMap,
+    switchMap
 } from 'rxjs/operators';
 import { CheckoutConnector } from '../../connectors/checkout/checkout.connector';
 import { CheckoutCostCenterConnector } from '../../connectors/cost-center/checkout-cost-center.connector';

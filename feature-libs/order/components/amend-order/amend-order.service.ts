@@ -1,12 +1,12 @@
 import { formatCurrency, getCurrencySymbol } from '@angular/common';
 import { Injectable } from '@angular/core';
 import {
-  AbstractControl,
-  FormControl,
-  FormGroup,
-  Validators,
+    AbstractControl,
+    FormControl,
+    FormGroup,
+    Validators
 } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { Price } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';

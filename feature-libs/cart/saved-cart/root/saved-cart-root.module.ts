@@ -1,21 +1,21 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import {
-  AuthGuard,
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-  RoutingConfig,
+    AuthGuard,
+    CmsConfig,
+    provideDefaultConfig,
+    provideDefaultConfigFactory,
+    RoutingConfig
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import {
-  CART_SAVED_CART_CORE_FEATURE,
-  CART_SAVED_CART_FEATURE,
+    CART_SAVED_CART_CORE_FEATURE,
+    CART_SAVED_CART_FEATURE
 } from './feature-name';
 import {
-  NewSavedCartOrderEntriesContextToken,
-  SavedCartOrderEntriesContextToken,
+    NewSavedCartOrderEntriesContextToken,
+    SavedCartOrderEntriesContextToken
 } from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries

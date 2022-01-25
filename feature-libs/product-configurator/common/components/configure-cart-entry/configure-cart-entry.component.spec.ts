@@ -2,7 +2,7 @@ import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { ModalDirective } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
