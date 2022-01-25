@@ -9,8 +9,9 @@
         >
           <cx-media
             [container]="entry?.product?.images?.PRIMARY"
-            [alt]="entry.product.summary ?? entry.product.name"
+            [alt]="entry?.product?.name"
             format="cartIcon"
+            role="presentation"
           ></cx-media>
         </a>
       </div>

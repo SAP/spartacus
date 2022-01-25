@@ -70,7 +70,7 @@
         >
           <cx-media
             *ngIf="config?.quickOrder?.searchForm?.displayProductImages"
-            [alt]="product.summary ?? product.name"
+            [alt]="product.name"
             [container]="product.images?.PRIMARY"
             class="media"
             format="thumbnail"
