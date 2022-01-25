@@ -18,6 +18,7 @@ class MockClearCartService implements Partial<ClearCartService> {
   getClearingCartProgess(): BehaviorSubject<boolean> {
     return clearProgress$;
   }
+  closeDialog(): void {}
 }
 
 describe('ClearCartDialogComponent', () => {

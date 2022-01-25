@@ -23,6 +23,7 @@ export class ClearCartService {
       .pipe(take(1))
       .subscribe(() => {
         this.isClearing$.next(false);
+        this.onComplete();
       });
   }
 
@@ -47,11 +48,11 @@ export class ClearCartService {
   }
 
   /**
-   * Determine if these global messages are really needed
+   * Display global message based on success or failure.
    *
    * @param success
    */
-  onComplete(success: boolean): void {
+  addGlobalMessage(success: boolean): void {
     this.closeDialog('Close dialog');
     if (success) {
       this.globalMessageService.add(
@@ -64,6 +65,17 @@ export class ClearCartService {
         GlobalMessageType.MSG_TYPE_ERROR
       );
     }
+  }
+
+  onComplete(): void {
+    this.activeCartFacade
+      .getEntries()
+      .pipe(take(1))
+      .subscribe((entries) =>
+        entries.length === 0
+          ? this.addGlobalMessage(true)
+          : this.addGlobalMessage(false)
+      );
   }
 
   closeDialog(reason: string): void {
