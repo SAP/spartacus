@@ -1,8 +1,7 @@
-import { AbstractType, InjectionToken, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   AuthService,
-  FacadeFactoryService,
+  EventService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
@@ -27,11 +26,9 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-class MockFacadeFactoryService implements Partial<FacadeFactoryService> {
-  isFacadeImplProvided<T>(
-    _token: Type<T> | InjectionToken<T> | AbstractType<T>
-  ): Observable<boolean> {
-    return of(true);
+class MockEventService implements Partial<EventService> {
+  get(): Observable<any> {
+    return of();
   }
 }
 
@@ -62,13 +59,15 @@ const mockBrowserCartStateNoCart = {
 
 const mockBaseSite = 'mockBaseSite';
 
+const booleanValues = { f: false, t: true };
+
 describe('MiniCartComponentService', () => {
   let service: MiniCartComponentService;
   let activeCartFacade: ActiveCartFacade;
   let statePersistenceService: StatePersistenceService;
   let siteContextParamsService: SiteContextParamsService;
   let authService: AuthService;
-  let facadeFactoryService: FacadeFactoryService;
+  let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -84,7 +83,7 @@ describe('MiniCartComponentService', () => {
           provide: SiteContextParamsService,
           useClass: MockSiteContextParamsService,
         },
-        { provide: FacadeFactoryService, useClass: MockFacadeFactoryService },
+        { provide: EventService, useClass: MockEventService },
       ],
     });
     service = TestBed.inject(MiniCartComponentService);
@@ -92,7 +91,7 @@ describe('MiniCartComponentService', () => {
     statePersistenceService = TestBed.inject(StatePersistenceService);
     siteContextParamsService = TestBed.inject(SiteContextParamsService);
     authService = TestBed.inject(AuthService);
-    facadeFactoryService = TestBed.inject(FacadeFactoryService);
+    eventService = TestBed.inject(EventService);
   });
 
   it('should be created', () => {
@@ -122,7 +121,7 @@ describe('MiniCartComponentService', () => {
         })
       );
       expect((service as any)['hasActiveCartInStorage']()).toBeObservable(
-        cold('t', { t: true })
+        cold('t', booleanValues)
       );
     });
 
@@ -133,7 +132,7 @@ describe('MiniCartComponentService', () => {
         })
       );
       expect((service as any)['hasActiveCartInStorage']()).toBeObservable(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
     });
 
@@ -145,114 +144,131 @@ describe('MiniCartComponentService', () => {
         })
       );
       expect((service as any)['hasActiveCartInStorage']()).toBeObservable(
-        cold('f---t', { f: false, t: true })
+        cold('f---t', booleanValues)
+      );
+    });
+  });
+
+  describe('isCartCreated', () => {
+    it('should return flase if no event is caught', () => {
+      spyOn(eventService, 'get').and.returnValue(cold('-'));
+
+      expect((service as any)['isCartCreated']()).toBeObservable(
+        cold('f', booleanValues)
+      );
+    });
+    it('should return true when the CreateCart event is caught', () => {
+      spyOn(eventService, 'get').and.returnValue(cold('e', { e: {} }));
+
+      expect((service as any)['isCartCreated']()).toBeObservable(
+        cold('(ft)', booleanValues)
       );
     });
   });
 
   describe('activeCartRequired', () => {
-    it('should return false if no user is logged in and no cart in browser storage and cart facade chunk is not yet loaded', () => {
+    it('should return false if no user is logged in and no cart in browser storage and no new cart created', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f', { f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
     });
 
     it('should return true if there is a cart in browser storage', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('t', { t: true })
+        cold('t', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f', { f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('(t|)', { t: true })
+        cold('(t|)', booleanValues)
       );
     });
 
     it('should return true if a user is logged in.', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('t', { t: true })
+        cold('t', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f', { f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('(t|)', { t: true })
+        cold('(t|)', booleanValues)
       );
     });
 
-    it('should return true if the cart facade is already loaded', () => {
+    it('should return true if a cart iis created', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('t', { t: true })
+        cold('t', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('t', { t: true })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('(t|)', { t: true })
+        cold('(t|)', booleanValues)
       );
     });
 
     it('should eventually return true if ther is a cart in browser storage', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('f--t', { t: true, f: false })
+        cold('f--t', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f', { f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('f--(t|)', { t: true, f: false })
+        cold('f--(t|)', booleanValues)
       );
     });
 
     it('should eventually return true if a user eventually logs in.', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f--f--t', { t: true, f: false })
+        cold('f--f--t', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f', { f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('f-----(t|)', { t: true, f: false })
+        cold('f-----(t|)', booleanValues)
       );
     });
 
-    it('should eventually return true if the cart facade chunk is loaded.', () => {
+    it('should eventually return true if a cart is eventually created.', () => {
       spyOn(service as any, 'hasActiveCartInStorage').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(authService, 'isUserLoggedIn').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
-      spyOn(facadeFactoryService, 'isFacadeImplProvided').and.returnValue(
-        cold('f--t', { t: true, f: false })
+      spyOn(service as any, 'isCartCreated').and.returnValue(
+        cold('f--t', booleanValues)
       );
       expect((service as any)['activeCartRequired']()).toBeObservable(
-        cold('f--(t|)', { t: true, f: false })
+        cold('f--(t|)', booleanValues)
       );
     });
   });
@@ -260,7 +276,7 @@ describe('MiniCartComponentService', () => {
   describe('getTotalPrice', () => {
     it('should return default value when user has no cart', () => {
       spyOn(service as any, 'activeCartRequired').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(activeCartFacade, 'getActive').and.stub();
       expect(service.getTotalPrice()).toBeObservable(cold('a', { a: '' }));
@@ -269,7 +285,7 @@ describe('MiniCartComponentService', () => {
 
     it('should return value from activeCartFacade when user has a cart', () => {
       spyOn(service as any, 'activeCartRequired').and.returnValue(
-        cold('(t|)', { t: true })
+        cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
         totalPrice: {
@@ -287,7 +303,7 @@ describe('MiniCartComponentService', () => {
   describe('getQuantity', () => {
     it('should return default value when user has no cart', () => {
       spyOn(service as any, 'activeCartRequired').and.returnValue(
-        cold('f', { f: false })
+        cold('f', booleanValues)
       );
       spyOn(activeCartFacade, 'getActive').and.stub();
       expect(service.getQuantity()).toBeObservable(cold('a', { a: 0 }));
@@ -296,7 +312,7 @@ describe('MiniCartComponentService', () => {
 
     it('should return value from activeCartFacade when user has a cart', () => {
       spyOn(service as any, 'activeCartRequired').and.returnValue(
-        cold('(t|)', { t: true })
+        cold('(t|)', booleanValues)
       );
       const mockActiveCart = {
         deliveryItemsQuantity: 7,

@@ -13,8 +13,8 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
 
 @NgModule({
   imports: [
-    MultiCartStoreModule,
     CartEventModule,
+    MultiCartStoreModule,
     CartPersistenceModule,
     CartPageEventModule,
   ],
