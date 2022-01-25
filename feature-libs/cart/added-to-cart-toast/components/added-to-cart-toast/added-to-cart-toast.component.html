@@ -3,10 +3,9 @@
     <div class="added-to-cart-toast-title">
       {{
         toast.quantity > 1
-          ? ('addedToCartToast.entriesAdded'
+          ? ('cartToast.entriesAdded'
             | cxTranslate: { quantity: toast.quantity })
-          : ('addedToCartToast.entryAdded'
-            | cxTranslate: { quantity: toast.quantity })
+          : ('cartToast.entryAdded' | cxTranslate: { quantity: toast.quantity })
       }}
     </div>
     <div class="added-to-cart-toast-content">
@@ -19,21 +18,21 @@
       <div class="added-to-cart-toast-product">
         <h3>{{ toast.productName }}</h3>
         <span>
-          {{ 'addedToCartToast.quantity' | cxTranslate }}: {{ toast.quantity }}
+          {{ 'cartToast.quantity' | cxTranslate }}: {{ toast.quantity }}
         </span>
         <span>
-          {{ 'addedToCartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
+          {{ 'cartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
         </span>
       </div>
       <span class="continue-shopping" (click)="closeToast(toast)">
-        {{ 'addedToCartToast.continueShopping' | cxTranslate }}
+        {{ 'cartToast.continueShopping' | cxTranslate }}
       </span>
       <a
         [routerLink]="{ cxRoute: 'cart' } | cxUrl"
         (click)="closeToast(toast)"
         class="btn btn-primary btn-block"
       >
-        {{ 'addedToCartToast.goToCart' | cxTranslate }}
+        {{ 'cartToast.goToCart' | cxTranslate }}
       </a>
     </div>
   </div>

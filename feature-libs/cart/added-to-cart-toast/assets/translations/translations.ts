@@ -6,5 +6,5 @@ export const addedToCartToastTranslations: TranslationResources = {
 };
 
 export const addedToCartToastTranslationChunksConfig: TranslationChunksConfig = {
-  addedToCartToast: ['addedToCartToast'],
+  addedToCartToast: ['addedToCartToast', 'cartToast'],
 };
