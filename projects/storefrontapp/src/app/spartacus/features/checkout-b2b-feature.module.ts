@@ -3,22 +3,12 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
-import {
-  CheckoutB2BAuthGuard,
-  CheckoutB2BStepsSetGuard,
-} from '@spartacus/checkout/b2b/components';
-import {
-  CheckoutB2BRootModule,
-  CHECKOUT_B2B_FEATURE,
-} from '@spartacus/checkout/b2b/root';
+import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
-import {
-  CheckoutAuthGuard,
-  CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
+import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -36,19 +26,9 @@ import { provideConfig } from '@spartacus/core';
         chunks: checkoutB2BTranslationChunksConfig,
       },
     }),
-
-    {
-      provide: CheckoutAuthGuard,
-      useExisting: CheckoutB2BAuthGuard,
-    },
-    {
-      provide: CheckoutStepsSetGuard,
-      useExisting: CheckoutB2BStepsSetGuard,
-    },
-
     provideConfig({
       featureModules: {
-        [CHECKOUT_B2B_FEATURE]: {
+        [CHECKOUT_FEATURE]: {
           module: () =>
             import('./checkout-b2b-feature-custom.module').then(
               (m) => m.CheckoutB2BFeatureCustomModule

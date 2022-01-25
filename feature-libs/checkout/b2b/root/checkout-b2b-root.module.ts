@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
 import {
   CheckoutRootModule,
   CHECKOUT_BASE_CMS_COMPONENTS,
@@ -10,13 +9,8 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { ORDER_FEATURE } from '@spartacus/order/root';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
 import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';
-import {
-  CHECKOUT_B2B_CORE_FEATURE,
-  CHECKOUT_B2B_FEATURE,
-} from './feature-name';
 
 export const CHECKOUT_B2B_CMS_COMPONENTS: string[] = [
   /**
@@ -31,14 +25,9 @@ export const CHECKOUT_B2B_CMS_COMPONENTS: string[] = [
 export function defaultCheckoutComponentsConfig() {
   const config: CmsConfig = {
     featureModules: {
-      [CHECKOUT_B2B_FEATURE]: {
+      [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_B2B_CMS_COMPONENTS,
-        // TODO:#checkout - remove ORDER_FEATURE once we move the order placing functionality to the order lib
-        dependencies: [CART_FEATURE, ORDER_FEATURE],
       },
-      [CHECKOUT_FEATURE]: CHECKOUT_B2B_FEATURE,
-      // by default core is bundled together with components
-      [CHECKOUT_B2B_CORE_FEATURE]: CHECKOUT_B2B_FEATURE,
     },
   };
   return config;

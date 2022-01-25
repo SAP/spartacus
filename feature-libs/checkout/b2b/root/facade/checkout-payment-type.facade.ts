@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import { PaymentType } from '@spartacus/cart/main/root';
+import { CHECKOUT_CORE_FEATURE } from '@spartacus/checkout/base/root';
 import { facadeFactory, QueryState } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CHECKOUT_B2B_CORE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: CheckoutPaymentTypeFacade,
-      feature: CHECKOUT_B2B_CORE_FEATURE,
+      feature: CHECKOUT_CORE_FEATURE,
       methods: [
         'getPaymentTypes',
         'getPaymentTypesState',
