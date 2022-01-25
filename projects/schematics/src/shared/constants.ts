@@ -556,6 +556,8 @@ export const REMOVE_ENTRY = 'removeEntry';
 export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
+export const REINITALIZE_MENU = 'reinitalizeMenu';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
