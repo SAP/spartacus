@@ -13,15 +13,17 @@ import { provideConfig } from '@spartacus/core';
   imports: [CheckoutRootModule],
   providers: [
     provideConfig({
+      i18n: {
+        resources: checkoutTranslations,
+        chunks: checkoutTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
       featureModules: {
         [CHECKOUT_FEATURE]: {
           module: () =>
             import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
         },
-      },
-      i18n: {
-        resources: checkoutTranslations,
-        chunks: checkoutTranslationChunksConfig,
       },
     }),
   ],

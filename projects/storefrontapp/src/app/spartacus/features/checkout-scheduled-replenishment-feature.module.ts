@@ -33,6 +33,12 @@ import { provideConfig } from '@spartacus/core';
       },
     }),
     provideConfig({
+      i18n: {
+        resources: checkoutScheduledReplenishmentTranslations,
+        chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
+      },
+    }),
+    provideConfig({
       featureModules: {
         [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
           module: () =>
@@ -40,10 +46,6 @@ import { provideConfig } from '@spartacus/core';
               (m) => m.CheckoutScheduledReplenishmentModule
             ),
         },
-      },
-      i18n: {
-        resources: checkoutScheduledReplenishmentTranslations,
-        chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     }),
   ],
