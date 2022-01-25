@@ -38,6 +38,15 @@ export function isCartNotFoundError(error: ErrorModel): boolean {
   );
 }
 
+export function isCartError(error: ErrorModel): boolean {
+  return (
+    error.type === 'CartError' ||
+    error.type === 'CartAddressError' ||
+    error.type === 'CartEntryError' ||
+    error.type === 'CartEntryGroupError'
+  );
+}
+
 /**
  * What is a temporary cart?
  * - frontend only cart entity!

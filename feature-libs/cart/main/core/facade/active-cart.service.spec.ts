@@ -1,11 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
-import {
-  Cart,
-  CartType,
-  MultiCartFacade,
-  OrderEntry,
-} from '@spartacus/cart/main/root';
+import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/main/root';
 import {
   getLastValueSync,
   OCC_CART_ID_CURRENT,
@@ -155,17 +150,28 @@ describe('ActiveCartService', () => {
   });
 
   describe('getActiveCartId', () => {
-    it('should return active cart id', () => {
-      spyOn(multiCartFacade, 'getCartIdByType').and.returnValue(of('testCode'));
+    it('should return active cart id as guid for anonymous user', () => {
+      userId$.next(OCC_USER_ID_ANONYMOUS);
+      service['activeCart$'] = of({ code: 'code', guid: 'guid' });
+
       let result;
       service
         .getActiveCartId()
-        .subscribe((value) => (result = value))
+        .subscribe((val) => (result = val))
         .unsubscribe();
-      expect(multiCartFacade['getCartIdByType']).toHaveBeenCalledWith(
-        CartType.ACTIVE
-      );
-      expect(result).toBe('testCode');
+      expect(result).toBe('guid');
+    });
+
+    it('should return active cart id as guid for non anonymous user', () => {
+      userId$.next(OCC_USER_ID_CURRENT);
+      service['activeCart$'] = of({ code: 'code', guid: 'guid' });
+
+      let result;
+      service
+        .getActiveCartId()
+        .subscribe((val) => (result = val))
+        .unsubscribe();
+      expect(result).toBe('code');
     });
   });
 

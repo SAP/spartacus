@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
-  FacadeFactoryService,
+  EventService,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
@@ -16,6 +16,7 @@ import {
   switchMap,
   takeWhile,
 } from 'rxjs/operators';
+import { CreateCartEvent } from '../../events/cart.events';
 import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Injectable({
@@ -27,7 +28,7 @@ export class MiniCartComponentService {
     protected authService: AuthService,
     protected statePersistenceService: StatePersistenceService,
     protected siteContextParamsService: SiteContextParamsService,
-    protected facadeFactoryService: FacadeFactoryService
+    protected eventService: EventService
   ) {}
 
   /**
@@ -86,11 +87,11 @@ export class MiniCartComponentService {
     return combineLatest([
       this.hasActiveCartInStorage(),
       this.authService.isUserLoggedIn(),
-      this.facadeFactoryService.isFacadeImplProvided(ActiveCartFacade),
+      this.isCartCreated(),
     ]).pipe(
       map(
-        ([hasCartInStorage, isUserLoggedIn, isActiveCartFacadeImplProvided]) =>
-          hasCartInStorage || isUserLoggedIn || isActiveCartFacadeImplProvided
+        ([hasCartInStorage, isUserLoggedIn, isCartCreated]) =>
+          hasCartInStorage || isUserLoggedIn || isCartCreated
       ),
       distinctUntilChanged(),
       takeWhile((hasCart) => !hasCart, true)
@@ -100,6 +101,13 @@ export class MiniCartComponentService {
   protected hasActiveCartInStorage(): Observable<boolean> {
     return this.getCartStateFromBrowserStorage().pipe(
       map((state) => Boolean(state?.active))
+    );
+  }
+
+  protected isCartCreated(): Observable<boolean> {
+    return this.eventService.get(CreateCartEvent).pipe(
+      map((_) => true),
+      startWith(false)
     );
   }
 

@@ -139,7 +139,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
-    return this.multiCartFacade.getCartIdByType(CartType.ACTIVE);
+    return this.activeCart$.pipe(
+      withLatestFrom(this.userIdService.getUserId()),
+      map(([cart, userId]) => getCartIdByUserId(cart, userId)),
+      distinctUntilChanged()
+    );
   }
 
   /**
@@ -319,7 +323,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
         this.checkInitLoad = false;
       }),
       switchMapTo(cartSelector$),
-      // create cart can happen to anonymous user if it is not empty or to any other user if it is loaded and empty
+      // create cart can happen to anonymous user if it is empty or to any other user if it is loaded and empty
       withLatestFrom(this.userIdService.getUserId()),
       filter(([cartState, userId]) =>
         Boolean(
