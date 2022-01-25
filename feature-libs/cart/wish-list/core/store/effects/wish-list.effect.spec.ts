@@ -2,11 +2,11 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-    CartActions,
-    CartConnector,
-    getCartIdByUserId,
-    MULTI_CART_FEATURE,
-    StateWithMultiCart
+  CartActions,
+  CartConnector,
+  getCartIdByUserId,
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
 } from '@spartacus/cart/base/core';
 import { Cart, CartType } from '@spartacus/cart/base/root';
 import { SiteContextActions, UserIdService } from '@spartacus/core';

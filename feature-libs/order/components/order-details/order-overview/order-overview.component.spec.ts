@@ -2,10 +2,10 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
-    Address,
-    I18nTestingModule,
-    PaymentDetails,
-    TranslationService
+  Address,
+  I18nTestingModule,
+  PaymentDetails,
+  TranslationService,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Card } from '@spartacus/storefront';

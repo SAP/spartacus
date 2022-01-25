@@ -1,17 +1,17 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    ViewChild
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import {
-    OrderEntriesContext,
-    ORDER_ENTRIES_CONTEXT
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/cart/base/root';
 import {
-    ContextService,
-    LaunchDialogService,
-    LAUNCH_CALLER
+  ContextService,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 

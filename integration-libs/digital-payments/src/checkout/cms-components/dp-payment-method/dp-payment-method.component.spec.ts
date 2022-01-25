@@ -1,21 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-    ActivatedRoute,
-    convertToParamMap,
-    RouterModule
+  ActivatedRoute,
+  convertToParamMap,
+  RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/components';
 import {
-    CheckoutDeliveryService,
-    CheckoutPaymentService,
-    CheckoutService
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  CheckoutService,
 } from '@spartacus/checkout/core';
 import {
-    PaymentDetails,
-    TranslationService,
-    UserPaymentService
+  PaymentDetails,
+  TranslationService,
+  UserPaymentService,
 } from '@spartacus/core';
 import { CheckoutPaymentFacade } from 'feature-libs/checkout/root';
 import { Observable, of } from 'rxjs';

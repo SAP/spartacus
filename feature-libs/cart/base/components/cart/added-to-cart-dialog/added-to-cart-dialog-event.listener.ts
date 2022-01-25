@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
-    CartAddEntryFailEvent,
-    CartUiEventAddToCart
+  CartAddEntryFailEvent,
+  CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';

@@ -2,23 +2,23 @@ import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
-    ActiveCartFacade,
-    CartAddEntryEvent,
-    CartAddEntryFailEvent,
-    CartAddEntrySuccessEvent,
-    CartRemoveEntryFailEvent,
-    CartRemoveEntrySuccessEvent,
-    CartUpdateEntryFailEvent,
-    CartUpdateEntrySuccessEvent,
-    CreateCartEvent,
-    CreateCartFailEvent,
-    CreateCartSuccessEvent
+  ActiveCartFacade,
+  CartAddEntryEvent,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
+  CartRemoveEntryFailEvent,
+  CartRemoveEntrySuccessEvent,
+  CartUpdateEntryFailEvent,
+  CartUpdateEntrySuccessEvent,
+  CreateCartEvent,
+  CreateCartFailEvent,
+  CreateCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
-    ActionToEventMapping,
-    createFrom,
-    EventService,
-    StateEventService
+  ActionToEventMapping,
+  createFrom,
+  EventService,
+  StateEventService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';

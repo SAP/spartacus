@@ -1,14 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-    CartValidationAdapter,
-    CART_VALIDATION_NORMALIZER
+  CartValidationAdapter,
+  CART_VALIDATION_NORMALIZER,
 } from '@spartacus/cart/base/core';
 import { CartModificationList } from '@spartacus/cart/base/root';
 import {
-    ConverterService,
-    normalizeHttpError,
-    OccEndpointsService
+  ConverterService,
+  normalizeHttpError,
+  OccEndpointsService,
 } from '@spartacus/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

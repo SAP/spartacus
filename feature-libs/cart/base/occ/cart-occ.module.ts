@@ -1,14 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {
-    CartAdapter,
-    CartEntryAdapter,
-    CartValidationAdapter,
-    CartVoucherAdapter
+  CartAdapter,
+  CartEntryAdapter,
+  CartValidationAdapter,
+  CartVoucherAdapter,
 } from '@spartacus/cart/base/core';
 import {
-    CART_NORMALIZER,
-    ORDER_ENTRY_PROMOTIONS_NORMALIZER
+  CART_NORMALIZER,
+  ORDER_ENTRY_PROMOTIONS_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import { provideDefaultConfig } from '@spartacus/core';
 import { OccCartNormalizer } from './adapters/converters/occ-cart-normalizer';

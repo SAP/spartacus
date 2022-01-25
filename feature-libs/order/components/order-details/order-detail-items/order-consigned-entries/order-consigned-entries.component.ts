@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 import {
-    CartOutlets,
-    OrderEntry,
-    PromotionLocation
+  CartOutlets,
+  OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
 

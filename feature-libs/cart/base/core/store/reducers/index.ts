@@ -4,8 +4,8 @@ import { Cart } from '@spartacus/cart/base/root';
 import { AuthActions, StateUtils } from '@spartacus/core';
 import { MultiCartState, MULTI_CART_DATA } from '../multi-cart-state';
 import {
-    cartEntitiesReducer,
-    cartTypeIndexReducer
+  cartEntitiesReducer,
+  cartTypeIndexReducer,
 } from './multi-cart.reducer';
 
 export function clearMultiCartState(

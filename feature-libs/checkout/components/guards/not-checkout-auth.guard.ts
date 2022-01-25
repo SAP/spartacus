@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-    AuthService,
-    getLastValueSync,
-    SemanticPathService
+  AuthService,
+  getLastValueSync,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

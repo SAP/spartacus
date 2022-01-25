@@ -1,10 +1,10 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnDestroy,
-    OnInit
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { OrderEntry } from '@spartacus/cart/base/root';

@@ -3,22 +3,22 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-    isNotUndefined,
-    normalizeHttpError,
-    OCC_CART_ID_CURRENT,
-    SiteContextActions,
-    withdrawOn
+  isNotUndefined,
+  normalizeHttpError,
+  OCC_CART_ID_CURRENT,
+  SiteContextActions,
+  withdrawOn,
 } from '@spartacus/core';
 import { from, Observable, of } from 'rxjs';
 import {
-    catchError,
-    concatMap,
-    filter,
-    groupBy,
-    map,
-    mergeMap,
-    switchMap,
-    withLatestFrom
+  catchError,
+  concatMap,
+  filter,
+  groupBy,
+  map,
+  mergeMap,
+  switchMap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CartConnector } from '../../connectors/cart/cart.connector';
 import { getCartIdByUserId, isCartNotFoundError } from '../../utils/utils';

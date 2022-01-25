@@ -3,30 +3,30 @@ import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
-    Address,
-    getLastValueSync,
-    OCC_USER_ID_ANONYMOUS,
-    ProcessSelectors,
-    StateUtils,
-    StateWithProcess,
-    UserIdService
+  Address,
+  getLastValueSync,
+  OCC_USER_ID_ANONYMOUS,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-    filter,
-    map,
-    pluck,
-    shareReplay,
-    take,
-    tap,
-    withLatestFrom
+  filter,
+  map,
+  pluck,
+  shareReplay,
+  take,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
-    SET_DELIVERY_ADDRESS_PROCESS_ID,
-    SET_DELIVERY_MODE_PROCESS_ID,
-    SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
-    StateWithCheckout
+  SET_DELIVERY_ADDRESS_PROCESS_ID,
+  SET_DELIVERY_MODE_PROCESS_ID,
+  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
+  StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { CheckoutService } from './checkout.service';

@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import {
-    CartAddEntryFailEvent,
-    CartUiEventAddToCart
+  CartAddEntryFailEvent,
+  CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import { ModalService } from '@spartacus/storefront';

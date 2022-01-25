@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import {
-    GetOrderEntriesContext,
-    OrderEntriesSource,
-    OrderEntry
+  GetOrderEntriesContext,
+  OrderEntriesSource,
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order } from '@spartacus/order/root';

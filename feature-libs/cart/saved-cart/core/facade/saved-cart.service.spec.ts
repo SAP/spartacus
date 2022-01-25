@@ -3,11 +3,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { StateWithMultiCart } from '@spartacus/cart/base/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-    ProcessModule,
-    StateUtils,
-    User,
-    UserIdService,
-    UserService
+  ProcessModule,
+  StateUtils,
+  User,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
 import { of } from 'rxjs';
 import { SavedCartActions } from '../store/actions/index';

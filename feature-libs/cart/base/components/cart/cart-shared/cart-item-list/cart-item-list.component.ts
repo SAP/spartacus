@@ -1,21 +1,21 @@
 import {
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    Component,
-    Input,
-    OnDestroy,
-    OnInit,
-    Optional
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-    ActiveCartFacade,
-    CartItemComponentOptions,
-    ConsignmentEntry,
-    MultiCartFacade,
-    OrderEntry,
-    PromotionLocation,
-    SelectiveCartFacade
+  ActiveCartFacade,
+  CartItemComponentOptions,
+  ConsignmentEntry,
+  MultiCartFacade,
+  OrderEntry,
+  PromotionLocation,
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';

@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import {
-    getCartIdByUserId,
-    MULTI_CART_FEATURE,
-    StateWithMultiCart
+  getCartIdByUserId,
+  MULTI_CART_FEATURE,
+  StateWithMultiCart,
 } from '@spartacus/cart/base/core';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
-    OCC_USER_ID_ANONYMOUS,
-    User,
-    UserIdService,
-    UserService
+  OCC_USER_ID_ANONYMOUS,
+  User,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
 import { getMultiCartReducers } from 'feature-libs/cart/base/core/store/reducers';
 import { Observable, of } from 'rxjs';

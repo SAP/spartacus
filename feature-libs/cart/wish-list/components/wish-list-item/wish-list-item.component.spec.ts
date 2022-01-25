@@ -1,12 +1,12 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    DebugElement,
-    Injector,
-    Input,
-    Pipe,
-    PipeTransform,
-    SimpleChange
+  ChangeDetectionStrategy,
+  Component,
+  DebugElement,
+  Injector,
+  Input,
+  Pipe,
+  PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
@@ -14,8 +14,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-    ProductListItemContext,
-    ProductListItemContextSource
+  ProductListItemContext,
+  ProductListItemContextSource,
 } from '@spartacus/storefront';
 import { WishListItemComponent } from './wish-list-item.component';
 

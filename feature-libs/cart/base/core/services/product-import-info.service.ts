@@ -2,8 +2,8 @@ import { Injectable, isDevMode } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
 import {
-    ProductImportInfo,
-    ProductImportStatus
+  ProductImportInfo,
+  ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';

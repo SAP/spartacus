@@ -1,8 +1,8 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';

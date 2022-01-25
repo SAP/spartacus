@@ -5,12 +5,12 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import {
-    CONFIG_ID,
-    GROUP_ID_1,
-    GROUP_ID_2,
-    GROUP_ID_4,
-    productConfiguration,
-    productConfigurationWithConflicts
+  CONFIG_ID,
+  GROUP_ID_1,
+  GROUP_ID_2,
+  GROUP_ID_4,
+  productConfiguration,
+  productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';

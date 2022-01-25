@@ -4,17 +4,17 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ProductData } from '@spartacus/cart/base/root';
 import {
-    CartNameSource,
-    defaultImportExportConfig,
-    ImportExportConfig
+  CartNameSource,
+  defaultImportExportConfig,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
-    FilesFormValidators,
-    FileUploadModule,
-    FormErrorsModule,
-    ImportCsvFileService,
-    LaunchDialogService
+  FilesFormValidators,
+  FileUploadModule,
+  FormErrorsModule,
+  ImportCsvFileService,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { ImportProductsFromCsvService } from '../../import-products-from-csv.service';

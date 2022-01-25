@@ -9,9 +9,9 @@ import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import {
-    CommonConfigurator,
-    ConfiguratorModelUtils,
-    ConfiguratorType
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';

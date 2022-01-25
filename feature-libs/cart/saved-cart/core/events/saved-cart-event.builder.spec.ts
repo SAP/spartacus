@@ -17,7 +17,7 @@ import {
   RestoreSavedCartSuccessEvent,
   SaveCartEvent,
   SaveCartFailEvent,
-  SaveCartSuccessEvent
+  SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import { EventService } from '@spartacus/core';
 import { of, Subject } from 'rxjs';

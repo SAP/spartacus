@@ -3,12 +3,12 @@ import { UrlTree } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
-    AuthRedirectService,
-    AuthService,
-    B2BUserRole,
-    GlobalMessageService,
-    GlobalMessageType,
-    SemanticPathService
+  AuthRedirectService,
+  AuthService,
+  B2BUserRole,
+  GlobalMessageService,
+  GlobalMessageType,
+  SemanticPathService,
 } from '@spartacus/core';
 import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { Observable, of } from 'rxjs';

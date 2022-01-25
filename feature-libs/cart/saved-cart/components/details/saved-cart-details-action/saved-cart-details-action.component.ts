@@ -1,9 +1,9 @@
 import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    ViewChild,
-    ViewContainerRef
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFormType } from '@spartacus/cart/saved-cart/root';

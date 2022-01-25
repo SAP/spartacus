@@ -2,13 +2,13 @@ import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-    ORDER_TYPE,
-    ScheduleReplenishmentForm
+  ORDER_TYPE,
+  ScheduleReplenishmentForm,
 } from '@spartacus/checkout/root';
 import {
-    PROCESS_FEATURE,
-    StateWithProcess,
-    UserIdService
+  PROCESS_FEATURE,
+  StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';

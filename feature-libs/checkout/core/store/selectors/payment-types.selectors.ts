@@ -1,9 +1,9 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
 import { PaymentType } from '@spartacus/cart/base/root';
 import {
-    CheckoutState,
-    PaymentTypesState,
-    StateWithCheckout
+  CheckoutState,
+  PaymentTypesState,
+  StateWithCheckout,
 } from '../checkout-state';
 import * as fromReducer from './../reducers/payment-types.reducer';
 import { getCheckoutState } from './checkout.selectors';

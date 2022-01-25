@@ -2,13 +2,13 @@ import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
 import { MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
-    BaseSiteService,
-    OCC_USER_ID_ANONYMOUS,
-    OCC_USER_ID_CURRENT,
-    StateWithProcess,
-    User,
-    UserIdService,
-    UserService
+  BaseSiteService,
+  OCC_USER_ID_ANONYMOUS,
+  OCC_USER_ID_CURRENT,
+  StateWithProcess,
+  User,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';

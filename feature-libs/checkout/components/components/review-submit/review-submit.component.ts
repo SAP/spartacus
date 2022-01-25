@@ -1,30 +1,30 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-    ActiveCartFacade,
-    Cart,
-    CartOutlets,
-    DeliveryMode,
-    OrderEntry,
-    PromotionLocation
+  ActiveCartFacade,
+  Cart,
+  CartOutlets,
+  DeliveryMode,
+  OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-    CheckoutCostCenterFacade,
-    CheckoutDeliveryFacade,
-    CheckoutPaymentFacade,
-    checkoutPaymentSteps,
-    checkoutShippingSteps,
-    CheckoutStep,
-    CheckoutStepType,
-    PaymentTypeFacade
+  CheckoutCostCenterFacade,
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+  checkoutPaymentSteps,
+  checkoutShippingSteps,
+  CheckoutStep,
+  CheckoutStepType,
+  PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-    Address,
-    CostCenter,
-    Country,
-    PaymentDetails,
-    TranslationService,
-    UserAddressService,
-    UserCostCenterService
+  Address,
+  CostCenter,
+  Country,
+  PaymentDetails,
+  TranslationService,
+  UserAddressService,
+  UserCostCenterService,
 } from '@spartacus/core';
 import { Card, ICON_TYPE } from '@spartacus/storefront';
 import { combineLatest, Observable } from 'rxjs';

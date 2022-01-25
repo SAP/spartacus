@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
 import {
-    cancelledValues,
-    completedValues
+  cancelledValues,
+  completedValues,
 } from './order-consigned-entries/order-consigned-entries.model';
 
 @Component({

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-    Converter,
-    ConverterService,
-    Occ,
-    PRODUCT_NORMALIZER
+  Converter,
+  ConverterService,
+  Occ,
+  PRODUCT_NORMALIZER,
 } from '@spartacus/core';
 import { ReturnRequest } from '@spartacus/order/root';
 

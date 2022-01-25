@@ -1,14 +1,14 @@
 import { Cart } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, OCC_USER_ID_CURRENT } from '@spartacus/core';
 import {
-    getCartIdByUserId,
-    isCartError,
-    isCartNotFoundError,
-    isEmail,
-    isEmpty,
-    isJustLoggedIn,
-    isSelectiveCart,
-    isTempCartId
+  getCartIdByUserId,
+  isCartError,
+  isCartNotFoundError,
+  isEmail,
+  isEmpty,
+  isJustLoggedIn,
+  isSelectiveCart,
+  isTempCartId,
 } from './utils';
 
 describe('Cart utils', () => {

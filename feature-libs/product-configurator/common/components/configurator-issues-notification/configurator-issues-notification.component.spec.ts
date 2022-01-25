@@ -3,17 +3,17 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
-    CartItemContext,
-    OrderEntry,
-    PromotionLocation
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import {
-    ConfigurationInfo,
-    OrderEntryStatus,
-    StatusSummary
+  ConfigurationInfo,
+  OrderEntryStatus,
+  StatusSummary,
 } from './../../core/model/common-configurator.model';
 import { ConfiguratorIssuesNotificationComponent } from './configurator-issues-notification.component';
 

@@ -5,19 +5,19 @@ import { Action } from '@ngrx/store';
 import { CartActions } from '@spartacus/cart/base/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
-    Address,
-    AuthActions,
-    PaymentDetails,
-    SiteContextActions,
-    UserActions
+  Address,
+  AuthActions,
+  PaymentDetails,
+  SiteContextActions,
+  UserActions,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import {
-    CheckoutCostCenterConnector,
-    CheckoutDeliveryConnector,
-    CheckoutPaymentConnector
+  CheckoutCostCenterConnector,
+  CheckoutDeliveryConnector,
+  CheckoutPaymentConnector,
 } from '../../connectors';
 import { CheckoutConnector } from '../../connectors/checkout';
 import { CheckoutDetails } from '../../models/checkout.model';

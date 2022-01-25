@@ -2,17 +2,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {
-    ActiveCartFacade,
-    Cart,
-    CartAddEntryFailEvent,
-    CartAddEntrySuccessEvent
+  ActiveCartFacade,
+  Cart,
+  CartAddEntryFailEvent,
+  CartAddEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
-    EventService,
-    GlobalMessageService,
-    GlobalMessageType,
-    I18nTestingModule,
-    Translatable
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  Translatable,
 } from '@spartacus/core';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';

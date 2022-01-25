@@ -1,17 +1,17 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
-    AddOrderEntriesContext,
-    OrderEntriesSource,
-    ProductData,
-    ProductImportInfo,
-    ProductImportStatus
+  AddOrderEntriesContext,
+  OrderEntriesSource,
+  ProductData,
+  ProductImportInfo,
+  ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-    IconTestingModule,
-    KeyboardFocusTestingModule,
-    LaunchDialogService
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ImportEntriesDialogComponent } from './import-entries-dialog.component';

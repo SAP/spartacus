@@ -2,16 +2,16 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import {
-    ActiveCartFacade,
-    Cart,
-    CartItemComponentOptions,
-    OrderEntry,
-    SelectiveCartFacade
+  ActiveCartFacade,
+  Cart,
+  CartItemComponentOptions,
+  OrderEntry,
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-    CmsService,
-    FeaturesConfigModule,
-    I18nTestingModule
+  CmsService,
+  FeaturesConfigModule,
+  I18nTestingModule,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SaveForLaterComponent } from './save-for-later.component';

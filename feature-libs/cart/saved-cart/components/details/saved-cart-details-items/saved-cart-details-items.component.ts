@@ -1,23 +1,23 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import {
-    Cart,
-    CartOutlets,
-    PromotionLocation
+  Cart,
+  CartOutlets,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import {
-    DeleteSavedCartSuccessEvent,
-    SavedCartFacade
+  DeleteSavedCartSuccessEvent,
+  SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-    EventService,
-    GlobalMessageService,
-    GlobalMessageType,
-    RoutingService
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
 import { mapTo, switchMap, take, tap } from 'rxjs/operators';

@@ -6,9 +6,9 @@ import { CartActions } from '@spartacus/cart/base/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import {
-    CommonConfigurator,
-    CommonConfiguratorUtilsService,
-    ConfiguratorModelUtils
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, take } from 'rxjs/operators';

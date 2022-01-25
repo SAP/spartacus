@@ -1,30 +1,30 @@
 import {
-    HttpClientTestingModule,
-    HttpTestingController
+  HttpClientTestingModule,
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
-    CartModification,
-    CART_MODIFICATION_NORMALIZER
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import {
-    BaseOccUrlProperties,
-    ConverterService,
-    DynamicAttributes,
-    OccEndpointsService,
-    TranslationService
+  BaseOccUrlProperties,
+  ConverterService,
+  DynamicAttributes,
+  OccEndpointsService,
+  TranslationService,
 } from '@spartacus/core';
 import {
-    CommonConfigurator,
-    CommonConfiguratorUtilsService,
-    ConfiguratorModelUtils,
-    ConfiguratorType
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { of } from 'rxjs';
 import {
-    VariantConfiguratorOccAdapter,
-    VARIANT_CONFIGURATOR_PRICE_NORMALIZER
+  VariantConfiguratorOccAdapter,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
 } from '.';
 import { Configurator } from '../../core/model/configurator.model';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
@@ -33,9 +33,9 @@ import { OccConfiguratorVariantNormalizer } from './converters/occ-configurator-
 import { OccConfiguratorVariantOverviewNormalizer } from './converters/occ-configurator-variant-overview-normalizer';
 import { OccConfiguratorVariantPriceNormalizer } from './converters/occ-configurator-variant-price-normalizer';
 import {
-    VARIANT_CONFIGURATOR_NORMALIZER,
-    VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-    VARIANT_CONFIGURATOR_SERIALIZER
+  VARIANT_CONFIGURATOR_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 

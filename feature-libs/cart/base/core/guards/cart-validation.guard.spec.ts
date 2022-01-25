@@ -1,16 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-    ActiveCartFacade,
-    CartModification,
-    CartModificationList,
-    CartValidationFacade
+  ActiveCartFacade,
+  CartModification,
+  CartModificationList,
+  CartValidationFacade,
 } from '@spartacus/cart/base/root';
 import {
-    GlobalMessageService,
-    GlobalMessageType,
-    RouterState,
-    SemanticPathService
+  GlobalMessageService,
+  GlobalMessageType,
+  RouterState,
+  SemanticPathService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import { CartConfigService } from '../services/cart-config.service';

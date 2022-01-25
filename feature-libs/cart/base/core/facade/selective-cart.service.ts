@@ -1,26 +1,26 @@
 import { Injectable } from '@angular/core';
 import {
-    Cart,
-    CartType,
-    MultiCartFacade,
-    OrderEntry,
-    SelectiveCartFacade
+  Cart,
+  CartType,
+  MultiCartFacade,
+  OrderEntry,
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-    BaseSiteService,
-    OCC_USER_ID_ANONYMOUS,
-    UserIdService,
-    UserService
+  BaseSiteService,
+  OCC_USER_ID_ANONYMOUS,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-    distinctUntilChanged,
-    filter,
-    shareReplay,
-    switchMap,
-    take,
-    tap,
-    withLatestFrom
+  distinctUntilChanged,
+  filter,
+  shareReplay,
+  switchMap,
+  take,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 
 @Injectable()

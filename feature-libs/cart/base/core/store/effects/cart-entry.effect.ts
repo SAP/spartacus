@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
-    normalizeHttpError,
-    SiteContextActions,
-    withdrawOn
+  normalizeHttpError,
+  SiteContextActions,
+  withdrawOn,
 } from '@spartacus/core';
 import { from, Observable } from 'rxjs';
 import { catchError, concatMap, map } from 'rxjs/operators';

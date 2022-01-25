@@ -3,9 +3,9 @@ import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import {
-    CommonConfigurator,
-    CommonConfiguratorUtilsService,
-    ConfiguratorModelUtils
+  CommonConfigurator,
+  CommonConfiguratorUtilsService,
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';

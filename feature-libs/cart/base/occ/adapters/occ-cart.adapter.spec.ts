@@ -1,21 +1,21 @@
 import { HttpHeaders } from '@angular/common/http';
 import {
-    HttpClientTestingModule,
-    HttpTestingController
+  HttpClientTestingModule,
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import {
-    BaseOccUrlProperties,
-    ConverterService,
-    DynamicAttributes,
-    InterceptorUtil,
-    Occ,
-    OccEndpointsService,
-    OCC_CART_ID_CURRENT,
-    OCC_USER_ID_ANONYMOUS,
-    ProductImageNormalizer,
-    USE_CLIENT_TOKEN
+  BaseOccUrlProperties,
+  ConverterService,
+  DynamicAttributes,
+  InterceptorUtil,
+  Occ,
+  OccEndpointsService,
+  OCC_CART_ID_CURRENT,
+  OCC_USER_ID_ANONYMOUS,
+  ProductImageNormalizer,
+  USE_CLIENT_TOKEN,
 } from '@spartacus/core';
 import { OccCartAdapter } from './occ-cart.adapter';
 

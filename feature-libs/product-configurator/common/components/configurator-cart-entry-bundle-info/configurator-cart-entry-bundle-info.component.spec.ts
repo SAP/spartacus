@@ -1,25 +1,25 @@
 import {
-    ChangeDetectorRef,
-    Component,
-    Input,
-    Pipe,
-    PipeTransform,
-    Type
+  ChangeDetectorRef,
+  Component,
+  Input,
+  Pipe,
+  PipeTransform,
+  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import {
-    CartItemContext,
-    OrderEntry,
-    PromotionLocation
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
-    CommonConfiguratorUtilsService,
-    ConfigurationInfo,
-    ConfiguratorCartEntryBundleInfoService,
-    ConfiguratorType,
-    LineItem
+  CommonConfiguratorUtilsService,
+  ConfigurationInfo,
+  ConfiguratorCartEntryBundleInfoService,
+  ConfiguratorType,
+  LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';

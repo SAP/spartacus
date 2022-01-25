@@ -4,9 +4,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-    AuthService,
-    I18nTestingModule,
-    RoutingService
+  AuthService,
+  I18nTestingModule,
+  RoutingService,
 } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';

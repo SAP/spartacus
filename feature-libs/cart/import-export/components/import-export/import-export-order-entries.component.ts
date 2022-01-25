@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import {
-    OrderEntriesContext,
-    ORDER_ENTRIES_CONTEXT
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';

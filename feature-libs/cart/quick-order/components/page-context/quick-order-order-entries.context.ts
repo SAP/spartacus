@@ -1,13 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, isDevMode } from '@angular/core';
 import {
-    AddOrderEntriesContext,
-    GetOrderEntriesContext,
-    OrderEntriesSource,
-    OrderEntry,
-    ProductData,
-    ProductImportInfo,
-    ProductImportStatus
+  AddOrderEntriesContext,
+  GetOrderEntriesContext,
+  OrderEntriesSource,
+  OrderEntry,
+  ProductData,
+  ProductImportInfo,
+  ProductImportStatus,
 } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Product, ProductConnector } from '@spartacus/core';

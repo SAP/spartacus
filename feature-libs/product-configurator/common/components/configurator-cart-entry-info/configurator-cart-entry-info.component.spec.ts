@@ -1,15 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-    ControlContainer,
-    FormControl,
-    ReactiveFormsModule
+  ControlContainer,
+  FormControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-    CartItemContext,
-    OrderEntry,
-    PromotionLocation
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';

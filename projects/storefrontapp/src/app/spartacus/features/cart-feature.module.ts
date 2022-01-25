@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import {
-    cartTranslationChunksConfig,
-    cartTranslations
+  cartTranslationChunksConfig,
+  cartTranslations,
 } from '@spartacus/cart/base/assets';
 import { CartRootModule, CART_FEATURE } from '@spartacus/cart/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';

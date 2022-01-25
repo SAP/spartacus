@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-    ActiveCartFacade,
-    Cart,
-    OrderEntry,
-    PromotionLocation,
-    SelectiveCartFacade
+  ActiveCartFacade,
+  Cart,
+  OrderEntry,
+  PromotionLocation,
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import { CmsParagraphComponent, CmsService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';

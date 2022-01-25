@@ -1,19 +1,19 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-    defaultImportExportConfig,
-    ImportExportConfig
+  defaultImportExportConfig,
+  ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
 import {
-    GlobalMessageService,
-    I18nTestingModule,
-    ImageType,
-    PriceType,
-    TranslationService
+  GlobalMessageService,
+  I18nTestingModule,
+  ImageType,
+  PriceType,
+  TranslationService,
 } from '@spartacus/core';
 import {
-    ExportCsvFileService,
-    PageComponentModule
+  ExportCsvFileService,
+  PageComponentModule,
 } from '@spartacus/storefront';
 import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.service';
 

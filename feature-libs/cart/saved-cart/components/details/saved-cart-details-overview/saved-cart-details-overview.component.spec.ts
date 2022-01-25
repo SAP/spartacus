@@ -4,10 +4,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule, TranslationService } from '@spartacus/core';
 import {
-    CardModule,
-    IconTestingModule,
-    LaunchDialogService,
-    LAUNCH_CALLER
+  CardModule,
+  IconTestingModule,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CartConfig } from '@spartacus/cart/base/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
-    defaultCmsContentProviders,
-    layoutConfig,
-    mediaConfig,
-    PWAModuleConfig
+  defaultCmsContentProviders,
+  layoutConfig,
+  mediaConfig,
+  PWAModuleConfig,
 } from '@spartacus/storefront';
 
 @NgModule({

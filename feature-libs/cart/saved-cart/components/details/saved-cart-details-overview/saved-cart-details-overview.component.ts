@@ -1,17 +1,17 @@
 import {
-    Component,
-    ElementRef,
-    OnDestroy,
-    ViewChild,
-    ViewContainerRef
+  Component,
+  ElementRef,
+  OnDestroy,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import { TranslationService } from '@spartacus/core';
 import {
-    Card,
-    ICON_TYPE,
-    LaunchDialogService,
-    LAUNCH_CALLER
+  Card,
+  ICON_TYPE,
+  LaunchDialogService,
+  LAUNCH_CALLER,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';

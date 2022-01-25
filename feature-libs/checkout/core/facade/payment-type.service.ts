@@ -2,27 +2,27 @@ import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
-    B2BPaymentTypeEnum,
-    PaymentTypeFacade
+  B2BPaymentTypeEnum,
+  PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-    ProcessSelectors,
-    StateWithProcess,
-    UserIdService
+  ProcessSelectors,
+  StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import {
-    map,
-    pluck,
-    shareReplay,
-    take,
-    tap,
-    withLatestFrom
+  map,
+  pluck,
+  shareReplay,
+  take,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
-    GET_PAYMENT_TYPES_PROCESS_ID,
-    StateWithCheckout
+  GET_PAYMENT_TYPES_PROCESS_ID,
+  StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 

@@ -3,35 +3,35 @@ import { select, Store } from '@ngrx/store';
 import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
 import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-    DeleteSavedCartEvent,
-    SavedCartFacade
+  DeleteSavedCartEvent,
+  SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-    EventService,
-    ProcessSelectors,
-    StateUtils,
-    StateWithProcess,
-    UserIdService,
-    UserService
+  EventService,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
+  UserService,
 } from '@spartacus/core';
 import { combineLatest, EMPTY, Observable, queueScheduler } from 'rxjs';
 import {
-    distinctUntilChanged,
-    filter,
-    map,
-    observeOn,
-    pluck,
-    shareReplay,
-    startWith,
-    tap,
-    withLatestFrom
+  distinctUntilChanged,
+  filter,
+  map,
+  observeOn,
+  pluck,
+  shareReplay,
+  startWith,
+  tap,
+  withLatestFrom,
 } from 'rxjs/operators';
 import { SavedCartActions } from '../store/actions/index';
 import {
-    SAVED_CART_CLONE_CART_PROCESS_ID,
-    SAVED_CART_LIST_PROCESS_ID,
-    SAVED_CART_RESTORE_CART_PROCESS_ID,
-    SAVED_CART_SAVE_CART_PROCESS_ID
+  SAVED_CART_CLONE_CART_PROCESS_ID,
+  SAVED_CART_LIST_PROCESS_ID,
+  SAVED_CART_RESTORE_CART_PROCESS_ID,
+  SAVED_CART_SAVE_CART_PROCESS_ID,
 } from '../store/saved-cart-constants';
 
 @Injectable()

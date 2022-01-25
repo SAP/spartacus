@@ -1,24 +1,24 @@
 import { Injectable } from '@angular/core';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
-    AddOrderEntriesContext,
-    Cart,
-    MultiCartFacade,
-    OrderEntriesSource,
-    ProductData,
-    ProductImportInfo
+  AddOrderEntriesContext,
+  Cart,
+  MultiCartFacade,
+  OrderEntriesSource,
+  ProductData,
+  ProductImportInfo,
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { Observable, queueScheduler } from 'rxjs';
 import {
-    delayWhen,
-    filter,
-    map,
-    observeOn,
-    switchMap,
-    take,
-    tap
+  delayWhen,
+  filter,
+  map,
+  observeOn,
+  switchMap,
+  take,
+  tap,
 } from 'rxjs/operators';
 
 @Injectable({

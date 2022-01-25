@@ -18,13 +18,13 @@ import {
   RestoreSavedCartSuccessEvent,
   SaveCartEvent,
   SaveCartFailEvent,
-  SaveCartSuccessEvent
+  SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
   createFrom,
   EventService,
-  StateEventService
+  StateEventService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
-    BasePageMetaResolver,
-    PageDescriptionResolver,
-    PageMetaResolver,
-    PageRobotsMeta,
-    PageRobotsResolver,
-    PageTitleResolver,
-    PageType,
-    TranslationService
+  BasePageMetaResolver,
+  PageDescriptionResolver,
+  PageMetaResolver,
+  PageRobotsMeta,
+  PageRobotsResolver,
+  PageTitleResolver,
+  PageType,
+  TranslationService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

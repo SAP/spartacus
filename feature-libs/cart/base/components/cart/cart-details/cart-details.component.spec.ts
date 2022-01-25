@@ -4,17 +4,17 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CartConfigService } from '@spartacus/cart/base/core';
 import {
-    ActiveCartFacade,
-    Cart,
-    OrderEntry,
-    PromotionLocation,
-    SelectiveCartFacade
+  ActiveCartFacade,
+  Cart,
+  OrderEntry,
+  PromotionLocation,
+  SelectiveCartFacade,
 } from '@spartacus/cart/base/root';
 import {
-    AuthService,
-    FeaturesConfigModule,
-    I18nTestingModule,
-    RoutingService
+  AuthService,
+  FeaturesConfigModule,
+  I18nTestingModule,
+  RoutingService,
 } from '@spartacus/core';
 import { PromotionsModule } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';

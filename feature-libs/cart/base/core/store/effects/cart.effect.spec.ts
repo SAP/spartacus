@@ -5,12 +5,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-    CLIENT_AUTH_FEATURE,
-    normalizeHttpError,
-    OccConfig,
-    OCC_CART_ID_CURRENT,
-    SiteContextActions,
-    USER_FEATURE
+  CLIENT_AUTH_FEATURE,
+  normalizeHttpError,
+  OccConfig,
+  OCC_CART_ID_CURRENT,
+  SiteContextActions,
+  USER_FEATURE,
 } from '@spartacus/core';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';

@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
-    Cart,
-    MultiCartFacade,
-    OrderEntry,
-    ProductData
+  Cart,
+  MultiCartFacade,
+  OrderEntry,
+  ProductData,
 } from '@spartacus/cart/base/root';
-import { } from '@spartacus/cart/import-export/core';
+import {} from '@spartacus/cart/import-export/core';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RouterState, RoutingService, UserIdService } from '@spartacus/core';
 import { BehaviorSubject, of } from 'rxjs';

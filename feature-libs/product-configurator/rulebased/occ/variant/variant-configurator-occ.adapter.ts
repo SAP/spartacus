@@ -1,26 +1,26 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-    CartModification,
-    CART_MODIFICATION_NORMALIZER
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
-    CommonConfigurator,
-    ConfiguratorModelUtils,
-    ConfiguratorType
+  CommonConfigurator,
+  ConfiguratorModelUtils,
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { RulebasedConfiguratorAdapter } from '../../core/connectors/rulebased-configurator.adapter';
 import { Configurator } from '../../core/model/configurator.model';
 import {
-    VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
-    VARIANT_CONFIGURATOR_NORMALIZER,
-    VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
-    VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
-    VARIANT_CONFIGURATOR_SERIALIZER,
-    VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+  VARIANT_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
+  VARIANT_CONFIGURATOR_NORMALIZER,
+  VARIANT_CONFIGURATOR_OVERVIEW_NORMALIZER,
+  VARIANT_CONFIGURATOR_PRICE_NORMALIZER,
+  VARIANT_CONFIGURATOR_SERIALIZER,
+  VARIANT_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './variant-configurator-occ.converters';
 import { OccConfigurator } from './variant-configurator-occ.models';
 

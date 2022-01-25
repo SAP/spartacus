@@ -3,28 +3,28 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-    DeleteSavedCartEvent,
-    DeleteSavedCartFailEvent,
-    SavedCartFacade
+  DeleteSavedCartEvent,
+  DeleteSavedCartFailEvent,
+  SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-    EventService,
-    GlobalMessageService,
-    GlobalMessageType,
-    I18nTestingModule,
-    RoutingService,
-    Translatable
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  RoutingService,
+  Translatable,
 } from '@spartacus/core';
 import {
-    FormErrorsModule,
-    IconTestingModule,
-    KeyboardFocusTestingModule,
-    LaunchDialogService
+  FormErrorsModule,
+  IconTestingModule,
+  KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
-    SavedCartFormDialogComponent,
-    SavedCartFormDialogOptions
+  SavedCartFormDialogComponent,
+  SavedCartFormDialogOptions,
 } from './saved-cart-form-dialog.component';
 
 const mockDescriptionMaxLength = 250;

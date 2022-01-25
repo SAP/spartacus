@@ -3,13 +3,13 @@ import { StoreModule } from '@ngrx/store';
 import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
-    EventService,
-    GlobalMessageService,
-    GlobalMessageType,
-    I18nTestingModule,
-    Product,
-    RoutingService,
-    Translatable
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  Product,
+  RoutingService,
+  Translatable,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';

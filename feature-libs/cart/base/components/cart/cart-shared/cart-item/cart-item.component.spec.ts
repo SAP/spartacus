@@ -1,18 +1,18 @@
 import {
-    Component,
-    DebugElement,
-    Directive,
-    Injector,
-    Input,
-    Pipe,
-    PipeTransform,
-    SimpleChange
+  Component,
+  DebugElement,
+  Directive,
+  Injector,
+  Input,
+  Pipe,
+  PipeTransform,
+  SimpleChange,
 } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
-    ControlContainer,
-    FormControl,
-    ReactiveFormsModule
+  ControlContainer,
+  FormControl,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';

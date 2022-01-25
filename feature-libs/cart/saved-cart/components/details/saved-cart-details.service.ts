@@ -4,12 +4,12 @@ import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import {
-    distinctUntilChanged,
-    filter,
-    map,
-    shareReplay,
-    switchMap,
-    tap
+  distinctUntilChanged,
+  filter,
+  map,
+  shareReplay,
+  switchMap,
+  tap,
 } from 'rxjs/operators';
 
 @Injectable({

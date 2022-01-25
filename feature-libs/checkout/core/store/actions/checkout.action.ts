@@ -2,21 +2,21 @@ import { Action } from '@ngrx/store';
 import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
-    Address,
-    PaymentDetails,
-    PROCESS_FEATURE,
-    StateUtils
+  Address,
+  PaymentDetails,
+  PROCESS_FEATURE,
+  StateUtils,
 } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { CheckoutDetails } from '../../models/checkout.model';
 import {
-    CHECKOUT_DETAILS,
-    PLACED_ORDER_PROCESS_ID,
-    SET_COST_CENTER_PROCESS_ID,
-    SET_DELIVERY_ADDRESS_PROCESS_ID,
-    SET_DELIVERY_MODE_PROCESS_ID,
-    SET_PAYMENT_DETAILS_PROCESS_ID,
-    SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID
+  CHECKOUT_DETAILS,
+  PLACED_ORDER_PROCESS_ID,
+  SET_COST_CENTER_PROCESS_ID,
+  SET_DELIVERY_ADDRESS_PROCESS_ID,
+  SET_DELIVERY_MODE_PROCESS_ID,
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  SET_SUPPORTED_DELIVERY_MODE_PROCESS_ID,
 } from '../checkout-state';
 
 export const CLEAR_CHECKOUT_DELIVERY_ADDRESS =

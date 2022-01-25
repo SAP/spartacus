@@ -1,15 +1,15 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    ViewChild
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  ViewChild,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
 import {
-    B2BPaymentTypeEnum,
-    CheckoutStepType,
-    PaymentTypeFacade
+  B2BPaymentTypeEnum,
+  CheckoutStepType,
+  PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import { isNotUndefined } from '@spartacus/core';
 import { Observable } from 'rxjs';

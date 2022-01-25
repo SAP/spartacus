@@ -1,14 +1,14 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    OnDestroy,
-    OnInit
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+  OnInit,
 } from '@angular/core';
 import {
-    Event,
-    NavigationCancel,
-    NavigationEnd,
-    Router
+  Event,
+  NavigationCancel,
+  NavigationEnd,
+  Router,
 } from '@angular/router';
 import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable, Subscription } from 'rxjs';

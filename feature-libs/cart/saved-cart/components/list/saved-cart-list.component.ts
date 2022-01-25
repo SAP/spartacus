@@ -1,16 +1,16 @@
 import {
-    ChangeDetectionStrategy,
-    Component,
-    ElementRef,
-    OnDestroy,
-    OnInit,
-    ViewChild,
-    ViewContainerRef
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+  ViewContainerRef,
 } from '@angular/core';
 import { Cart } from '@spartacus/cart/base/root';
 import {
-    SavedCartFacade,
-    SavedCartFormType
+  SavedCartFacade,
+  SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';
 import { RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';

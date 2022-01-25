@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-    CartModification,
-    CART_MODIFICATION_NORMALIZER
+  CartModification,
+  CART_MODIFICATION_NORMALIZER,
 } from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
@@ -10,8 +10,8 @@ import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
-    CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
-    CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
+  CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
+  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
 } from './converters/cpq-configurator-occ.converters';
 
 @Injectable({ providedIn: 'root' })

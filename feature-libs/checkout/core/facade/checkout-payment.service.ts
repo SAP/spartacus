@@ -3,21 +3,21 @@ import { select, Store } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
-    CardType,
-    getLastValueSync,
-    OCC_USER_ID_ANONYMOUS,
-    PaymentDetails,
-    ProcessSelectors,
-    StateUtils,
-    StateWithProcess,
-    UserIdService
+  CardType,
+  getLastValueSync,
+  OCC_USER_ID_ANONYMOUS,
+  PaymentDetails,
+  ProcessSelectors,
+  StateUtils,
+  StateWithProcess,
+  UserIdService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
-    SET_PAYMENT_DETAILS_PROCESS_ID,
-    StateWithCheckout
+  SET_PAYMENT_DETAILS_PROCESS_ID,
+  StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
 import { CheckoutService } from './checkout.service';
