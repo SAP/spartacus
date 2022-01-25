@@ -4,9 +4,17 @@ import {
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
 import {
+  CheckoutB2BAuthGuard,
+  CheckoutB2BStepsSetGuard,
+} from '@spartacus/checkout/b2b/components';
+import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
+import {
+  CheckoutAuthGuard,
+  CheckoutStepsSetGuard,
+} from '@spartacus/checkout/base/components';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
   checkoutScheduledReplenishmentTranslations,
@@ -33,17 +41,29 @@ import { provideConfig } from '@spartacus/core';
       },
     }),
     provideConfig({
-      featureModules: {
-        [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
-          module: () =>
-            import('@spartacus/checkout/scheduled-replenishment').then(
-              (m) => m.CheckoutScheduledReplenishmentModule
-            ),
-        },
-      },
       i18n: {
         resources: checkoutScheduledReplenishmentTranslations,
         chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
+      },
+    }),
+
+    {
+      provide: CheckoutAuthGuard,
+      useExisting: CheckoutB2BAuthGuard,
+    },
+    {
+      provide: CheckoutStepsSetGuard,
+      useExisting: CheckoutB2BStepsSetGuard,
+    },
+
+    provideConfig({
+      featureModules: {
+        [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE]: {
+          module: () =>
+            import(
+              './checkout-scheduled-replenishment-feature-custom.module'
+            ).then((m) => m.CheckoutScheduledReplenishmentFeatureCustomModule),
+        },
       },
     }),
   ],

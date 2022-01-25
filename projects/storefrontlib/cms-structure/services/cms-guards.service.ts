@@ -1,10 +1,6 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { CanActivate, RouterStateSnapshot, UrlTree } from '@angular/router';
-import {
-  CmsActivatedRouteSnapshot,
-  getLastValueSync,
-  UnifiedInjector,
-} from '@spartacus/core';
+import { CmsActivatedRouteSnapshot } from '@spartacus/core';
 import { concat, from, isObservable, Observable, of } from 'rxjs';
 import { endWith, first, skipWhile } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
@@ -15,8 +11,7 @@ import { CmsComponentsService } from './cms-components.service';
 export class CmsGuardsService {
   constructor(
     protected cmsComponentsService: CmsComponentsService,
-    // TODO:#checkout - handle breaking changes in schematics
-    protected unifiedInjector: UnifiedInjector
+    protected injector: Injector
   ) {}
 
   cmsPageCanActivate(
@@ -28,9 +23,7 @@ export class CmsGuardsService {
 
     if (guards.length) {
       const canActivateObservables = guards.map((guardClass) => {
-        const guard = getLastValueSync(
-          this.unifiedInjector.get<CanActivate>(guardClass)
-        );
+        const guard = this.injector.get<CanActivate>(guardClass, undefined);
         if (isCanActivate(guard)) {
           return wrapIntoObservable(guard.canActivate(route, state)).pipe(
             first()
