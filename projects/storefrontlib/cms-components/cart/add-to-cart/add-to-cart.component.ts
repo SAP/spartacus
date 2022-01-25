@@ -59,27 +59,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
     quantity: new FormControl(1, { updateOn: 'blur' }),
   });
 
-  // TODO(#13041): Remove deprecated constructors
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService,
-    addedToCartToastConfig?: AddedToCartToastConfig,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    component?: CmsComponentData<CmsAddToCartComponent>
-  );
-
-  /**
-   * @deprecated since 4.1
-   */
-  constructor(
-    modalService: ModalService,
-    currentProductService: CurrentProductService,
-    cd: ChangeDetectorRef,
-    activeCartService: ActiveCartService
-  );
-
   constructor(
     protected modalService: ModalService,
     protected currentProductService: CurrentProductService,
