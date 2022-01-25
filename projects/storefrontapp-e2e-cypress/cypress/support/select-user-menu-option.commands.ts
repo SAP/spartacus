@@ -1,18 +1,18 @@
 declare namespace Cypress {
   interface Chainable {
     /**
-       * Selects an option from the user menu (top navigation)
-       * This command is Viewport aware (desktop and mobile)
-       *
-       * @memberof Cypress.Chainable
-       *
-       * @example
+     * Selects an option from the user menu (top navigation)
+     * This command is Viewport aware (desktop and mobile)
+     *
+     * @memberof Cypress.Chainable
+     *
+     * @example
         ```
         cy.selectUserMenuOption({
           option: 'Sign out'
         })
         ```
-       */
+     */
     selectUserMenuOption: ({
       option,
       isMobile,
@@ -34,7 +34,7 @@ Cypress.Commands.add(
     }
 
     cy.get(
-      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > ul > li > div > ul'
     )
       .findByText(new RegExp(option, 'i'))
       .click({ force: true });
