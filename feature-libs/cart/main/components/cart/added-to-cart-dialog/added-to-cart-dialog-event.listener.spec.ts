@@ -107,5 +107,14 @@ describe('AddToCartDialogEventListener', () => {
         mockFailEvent.error
       );
     });
+
+    it('Should do nothing if the active modal is not the cart dialog', () => {
+      spyOn(modalService, 'getActiveModal').and.returnValue(null);
+      spyOn(mockInstance, 'dismissModal').and.stub();
+      listener['closeModal'](mockFailEvent);
+      expect(mockInstance.dismissModal).not.toHaveBeenCalledWith(
+        mockFailEvent.error
+      );
+    });
   });
 });
