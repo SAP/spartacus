@@ -40,11 +40,12 @@ describe(`CheckoutPaymentEventListener`, () => {
 
     TestBed.inject(CheckoutLegacyStoreEventListener);
     store = TestBed.inject(MockStore);
+
+    spyOn(store, 'dispatch').and.stub();
   });
 
   describe(`onUserAddressAction`, () => {
     it(`should dispatch UserActions.LoadUserAddresses`, () => {
-      spyOn(store, 'dispatch').and.stub();
       mockEventStream$.next(
         createFrom(LoadUserAddressesEvent, { userId: mockUserId })
       );
@@ -57,7 +58,6 @@ describe(`CheckoutPaymentEventListener`, () => {
 
   describe(`onUserPaymentAction`, () => {
     it(`should dispatch UserActions.LoadUserPaymentMethods`, () => {
-      spyOn(store, 'dispatch').and.stub();
       mockEventStream$.next(
         createFrom(LoadUserPaymentMethodsEvent, { userId: mockUserId })
       );
@@ -70,7 +70,6 @@ describe(`CheckoutPaymentEventListener`, () => {
 
   describe(`onCartAction`, () => {
     it(`should dispatch CartActions.LoadCart`, () => {
-      spyOn(store, 'dispatch').and.stub();
       mockEventStream$.next(
         createFrom(LoadCartEvent, {
           userId: mockUserId,
@@ -85,7 +84,6 @@ describe(`CheckoutPaymentEventListener`, () => {
     });
 
     it(`should dispatch CartActions.RemoveCartEvent`, () => {
-      spyOn(store, 'dispatch').and.stub();
       mockEventStream$.next(
         createFrom(RemoveCartEvent, {
           userId: mockUserId,
