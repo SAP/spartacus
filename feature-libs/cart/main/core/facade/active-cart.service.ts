@@ -139,7 +139,11 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
    * Returns active cart id
    */
   getActiveCartId(): Observable<string> {
-    return this.multiCartFacade.getCartIdByType(CartType.ACTIVE);
+    return this.activeCart$.pipe(
+      withLatestFrom(this.userIdService.getUserId()),
+      map(([cart, userId]) => getCartIdByUserId(cart, userId)),
+      distinctUntilChanged()
+    );
   }
 
   /**
