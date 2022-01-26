@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,

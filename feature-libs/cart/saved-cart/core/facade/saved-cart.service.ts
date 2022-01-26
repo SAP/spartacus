@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/main/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
+import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   DeleteSavedCartEvent,
   SavedCartFacade,

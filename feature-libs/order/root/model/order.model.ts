@@ -6,7 +6,7 @@ import {
   PickupOrderEntryGroup,
   PromotionResult,
   Voucher,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   Address,
   B2BUser,

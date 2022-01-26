@@ -1,5 +1,5 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,

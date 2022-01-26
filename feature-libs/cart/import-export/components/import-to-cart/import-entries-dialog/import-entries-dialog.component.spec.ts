@@ -6,7 +6,7 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   IconTestingModule,

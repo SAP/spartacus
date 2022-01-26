@@ -4,7 +4,7 @@ import {
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
   OrderEntry,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   defaultQuickOrderConfig,
   QuickOrderAddEntryEvent,

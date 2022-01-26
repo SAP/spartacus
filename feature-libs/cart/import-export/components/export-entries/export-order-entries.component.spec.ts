@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StoreModule } from '@ngrx/store';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { I18nTestingModule, ImageType, PriceType } from '@spartacus/core';
 import { ContextService } from '@spartacus/storefront';
 import { of } from 'rxjs';

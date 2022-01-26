@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Cart, PaymentType } from '@spartacus/cart/main/root';
+import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import { GET_PAYMENT_TYPES_PROCESS_ID } from '../checkout-state';
 

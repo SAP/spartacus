@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/main/core';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
 import {
   Cart,
   CartType,
   MultiCartFacade,
   OrderEntry,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import {
   OCC_USER_ID_ANONYMOUS,

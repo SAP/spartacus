@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,

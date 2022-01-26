@@ -1,10 +1,10 @@
 // We need this import for augmentation of OccEndpoints to pick up
-import { CartOccEndpoints } from '@spartacus/cart/main/occ';
+import { CartOccEndpoints } from '@spartacus/cart/base/occ';
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
+import { OrderOccEndpoints } from '@spartacus/order/occ';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
-import { OrderOccEndpoints } from '@spartacus/order/occ';
 
 // While it is not strictly required to define checkout endpoints in a separate `CheckoutOccEndpoints`
 // variable, type augmentation does require that this file imports `CheckoutOccEndpoints`.

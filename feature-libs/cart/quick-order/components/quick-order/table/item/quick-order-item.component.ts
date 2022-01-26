@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Subscription } from 'rxjs';
 

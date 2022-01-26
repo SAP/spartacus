@@ -4,7 +4,7 @@ import {
   ActiveCartFacade,
   Cart,
   DeliveryMode,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   Address,
   PROCESS_FEATURE,

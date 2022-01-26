@@ -570,7 +570,6 @@ export const CART_SELECTORS = 'CartSelectors';
 export const CART_DATA_CONST = 'CART_DATA';
 export const STATE_WITH_CART = 'StateWithCart';
 export const CARTS_STATE = 'CartsState';
-export const CART_FEATURE_CONST = 'CART_FEATURE';
 export const CART_STATE = 'CartState';
 
 export const GET_REDUCERS = 'getReducers';
@@ -1124,7 +1123,7 @@ export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 
 export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
 
-export const CLI_CART_MAIN_FEATURE = 'Cart';
+export const CLI_CART_BASE_FEATURE = 'Cart';
 
 export const CLI_CART_WISHLIST_FEATURE = 'WishList';
 

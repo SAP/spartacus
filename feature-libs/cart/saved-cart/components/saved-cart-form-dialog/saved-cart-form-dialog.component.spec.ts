@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,

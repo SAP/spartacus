@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { CartActions } from '@spartacus/cart/main/core';
+import { CartActions } from '@spartacus/cart/base/core';
 import {
   AuthActions,
   GlobalMessageActions,

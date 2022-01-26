@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { AuthService, isNotNullable, Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';

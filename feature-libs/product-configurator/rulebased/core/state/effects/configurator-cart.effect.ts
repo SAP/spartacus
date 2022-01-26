@@ -2,8 +2,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { CartModification } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import { normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,

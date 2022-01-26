@@ -12,7 +12,7 @@ import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   CommonConfiguratorUtilsService,
