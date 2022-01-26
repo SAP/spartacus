@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_BASE_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
+import {
+  CART_BASE_FEATURE,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
 import {
   AuthGuard,
   CmsConfig,
