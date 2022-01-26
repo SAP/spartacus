@@ -11,7 +11,6 @@ import {
   CmsService,
   CMSTabParagraphContainer,
   WindowRef,
-  TranslationService,
 } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
@@ -24,11 +23,6 @@ import { BREAKPOINT } from '../../../layout/config/layout-config';
   selector: 'cx-tab-paragraph-container',
   templateUrl: './tab-paragraph-container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    role: 'region',
-    tabIndex: '-1',
-    '[attr.aria-label]': 'tabPanelContainerRegion',
-  },
 })
 export class TabParagraphContainerComponent
   implements AfterViewInit, OnInit, OnDestroy
@@ -40,8 +34,6 @@ export class TabParagraphContainerComponent
 
   tabTitleParams: (Observable<any> | null)[] = [];
 
-  tabPanelContainerRegion: string;
-
   // TODO: it is not used any more, so can be removed in 5.0
   subscription: Subscription;
 
@@ -49,8 +41,7 @@ export class TabParagraphContainerComponent
     public componentData: CmsComponentData<CMSTabParagraphContainer>,
     protected cmsService: CmsService,
     protected winRef: WindowRef,
-    protected breakpointService: BreakpointService,
-    protected translationService?: TranslationService
+    protected breakpointService: BreakpointService
   ) {}
 
   components$: Observable<any[]> = this.componentData.data$.pipe(
@@ -102,7 +93,6 @@ export class TabParagraphContainerComponent
   }
 
   ngOnInit(): void {
-    this.getRegionLabel();
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
   }
@@ -113,15 +103,6 @@ export class TabParagraphContainerComponent
     if (this.children.length > 0) {
       this.getTitleParams(this.children);
     }
-  }
-
-  getRegionLabel(): void {
-    this.translationService
-      ?.translate('TabPanelContainer.tabPanelContainerRegion')
-      .subscribe((tabPanelLabel: string) => {
-        this.tabPanelContainerRegion = tabPanelLabel;
-      })
-      .unsubscribe();
   }
 
   tabCompLoaded(componentRef: any): void {
