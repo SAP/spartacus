@@ -3,7 +3,10 @@ import {
   cartBaseTranslationChunksConfig,
   cartBaseTranslations,
 } from '@spartacus/cart/base/assets';
-import { CartBaseRootModule, CART_BASE_FEATURE } from '@spartacus/cart/base/root';
+import {
+  CartBaseRootModule,
+  CART_BASE_FEATURE,
+} from '@spartacus/cart/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
