@@ -10,8 +10,8 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  CLI_CART_BASE_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_MAIN_FEATURE,
   CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   LibraryOptions as SpartacusCartOptions,
@@ -71,7 +71,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
 
   const cartMainFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CART_MAIN_FEATURE],
+    features: [CLI_CART_BASE_FEATURE],
   };
 
   const quickOrderFeatureOptions: SpartacusCartOptions = {
