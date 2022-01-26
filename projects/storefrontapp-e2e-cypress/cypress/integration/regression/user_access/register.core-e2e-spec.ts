@@ -20,7 +20,7 @@ describe('Register', () => {
 
       // Check keyboard Accessibility
       cy.get('cx-register form');
-      cy.tabScreenshot({ container: 'cx-register' });
+      cy.domSnapshot({ container: 'cx-register' });
 
       register(user);
       registerHelpers.verifyGlobalMessageAfterRegistration();
