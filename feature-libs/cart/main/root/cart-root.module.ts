@@ -29,17 +29,9 @@ export function defaultCartComponentsConfig() {
       },
       [MINI_CART]: {
         cmsComponents: ['MiniCartComponent'],
-        module: () =>
-          import('@spartacus/cart/main/components/cart/mini-cart').then(
-            (m) => m.MiniCartModule
-          ),
       },
       [ADD_TO_CART]: {
         cmsComponents: ['ProductAddToCartComponent'],
-        module: () =>
-          import('@spartacus/cart/main/components/cart/add-to-cart').then(
-            (m) => m.AddToCartModule
-          ),
       },
       // by default core is bundled together with components
       [CART_CORE_FEATURE]: CART_FEATURE,

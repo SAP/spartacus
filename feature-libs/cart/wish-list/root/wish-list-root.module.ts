@@ -16,10 +16,6 @@ export function defaultCartWishListComponentsConfig() {
       },
       [ADD_TO_WISHLIST]: {
         cmsComponents: ['AddToWishListComponent'],
-        module: () =>
-          import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
-            (m) => m.AddToWishListModule
-          ),
       },
       // by default core is bundled together with components
       [CART_WISH_LIST_CORE_FEATURE]: CART_WISH_LIST_FEATURE,

@@ -4,6 +4,7 @@ import {
   wishListTranslations,
 } from '@spartacus/cart/wish-list/assets';
 import {
+  ADD_TO_WISHLIST,
   CART_WISH_LIST_FEATURE,
   WishListRootModule,
 } from '@spartacus/cart/wish-list/root';
@@ -17,6 +18,13 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
         [CART_WISH_LIST_FEATURE]: {
           module: () =>
             import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
+        },
+        [ADD_TO_WISHLIST]: {
+          cmsComponents: ['AddToWishListComponent'],
+          module: () =>
+            import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
+              (m) => m.AddToWishListModule
+            ),
         },
       },
     }),
