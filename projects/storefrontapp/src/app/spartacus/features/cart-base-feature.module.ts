@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import {
-  cartTranslationChunksConfig,
-  cartTranslations,
+  cartBaseTranslationChunksConfig,
+  cartBaseTranslations,
 } from '@spartacus/cart/base/assets';
-import { CartRootModule, CART_FEATURE } from '@spartacus/cart/base/root';
+import { CartRootModule, CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -11,7 +11,7 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
   providers: [
     provideConfig({
       featureModules: {
-        [CART_FEATURE]: {
+        [CART_BASE_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base').then((m) => m.CartModule),
         },
@@ -19,11 +19,11 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
     }),
     provideConfig(<I18nConfig>{
       i18n: {
-        resources: cartTranslations,
-        chunks: cartTranslationChunksConfig,
+        resources: cartBaseTranslations,
+        chunks: cartBaseTranslationChunksConfig,
         fallbackLang: 'en',
       },
     }),
   ],
 })
-export class CartFeatureModule {}
+export class CartBaseFeatureModule {}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory, User } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CART_CORE_FEATURE } from '../feature-name';
+import { CART_BASE_CORE_FEATURE } from '../feature-name';
 import { Cart, OrderEntry } from '../models/cart.model';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { Cart, OrderEntry } from '../models/cart.model';
   useFactory: () =>
     facadeFactory({
       facade: ActiveCartFacade,
-      feature: CART_CORE_FEATURE,
+      feature: CART_BASE_CORE_FEATURE,
       methods: [
         'getActive',
         'getActiveCartId',

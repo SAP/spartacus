@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { CART_CORE_FEATURE } from '../feature-name';
+import { CART_BASE_CORE_FEATURE } from '../feature-name';
 
 @Injectable({
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
       facade: CartVoucherFacade,
-      feature: CART_CORE_FEATURE,
+      feature: CART_BASE_CORE_FEATURE,
       methods: [
         'addVoucher',
         'removeVoucher',

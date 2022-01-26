@@ -10,13 +10,13 @@ import { MiniCartModule } from './components/mini-cart/mini-cart.module';
 import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';
-import { CART_CORE_FEATURE, CART_FEATURE } from './feature-name';
+import { CART_BASE_CORE_FEATURE, CART_BASE_FEATURE } from './feature-name';
 import { ActiveCartOrderEntriesContextToken } from './tokens/context';
 
 export function defaultCartComponentsConfig() {
   const config = {
     featureModules: {
-      [CART_FEATURE]: {
+      [CART_BASE_FEATURE]: {
         cmsComponents: [
           'CartApplyCouponComponent',
           'CartComponent',
@@ -25,7 +25,7 @@ export function defaultCartComponentsConfig() {
         ],
       },
       // by default core is bundled together with components
-      [CART_CORE_FEATURE]: CART_FEATURE,
+      [CART_BASE_CORE_FEATURE]: CART_BASE_FEATURE,
     },
   };
   return config;

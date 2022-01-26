@@ -4,7 +4,7 @@ export const CART_FOLDER_NAME = 'cart';
 export const SCSS_FILE_NAME = 'cart.scss';
 
 export const CART_BASE_FEATURE_MODULE_NAME = 'Cart';
-export const CART_BASE_FEATURE_NAME_CONSTANT = 'CART_FEATURE';
+export const CART_BASE_FEATURE_NAME_CONSTANT = 'CART_BASE_FEATURE';
 export const CART_BASE_MODULE = 'CartModule';
 export const CART_BASE_ROOT_MODULE = 'CartRootModule';
 export const SPARTACUS_CART_BASE = `${SPARTACUS_CART}/base`;
