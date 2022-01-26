@@ -20,7 +20,6 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
             import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
         },
         [ADD_TO_WISHLIST]: {
-          cmsComponents: ['AddToWishListComponent'],
           module: () =>
             import('@spartacus/cart/wish-list/components/add-to-wishlist').then(
               (m) => m.AddToWishListModule
