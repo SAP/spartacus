@@ -40,66 +40,45 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   iconTypes = ICON_TYPE;
-  existingPaymentMethods$: Observable<PaymentDetails[]>;
-  cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
-  selectedMethod$: Observable<PaymentDetails | undefined>;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   shouldRedirect: boolean = false;
 
-  backBtnText = this.checkoutStepService.getBackBntText(this.activatedRoute);
-
-  isUpdated$: Observable<boolean> = combineLatest([
+  isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userPaymentService.getPaymentMethodsLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected globalMessageService: GlobalMessageService
-  ) {}
+  state$: Observable<{
+    cards: { content: Card; paymentMethod: PaymentDetails }[];
+    shouldRedirect: boolean;
+    isUpdating: boolean;
+  }>;
 
-  ngOnInit(): void {
-    if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {
-      this.userPaymentService.loadPaymentMethods();
-    } else {
-      this.isGuestCheckout = true;
-    }
+  get backBtnText() {
+    return this.checkoutStepService.getBackBntText(this.activatedRoute);
+  }
 
-    this.checkoutDeliveryAddressFacade
-      .getDeliveryAddressState()
-      .pipe(
-        filter((state) => !state.loading),
-        take(1),
-        map((state) => state.data)
-      )
-      .subscribe((address) => {
-        this.deliveryAddress = address;
-      });
+  get existingPaymentMethods$(): Observable<PaymentDetails[]> {
+    return this.userPaymentService.getPaymentMethods();
+  }
 
-    this.existingPaymentMethods$ = this.userPaymentService.getPaymentMethods();
-
-    this.selectedMethod$ = this.checkoutPaymentFacade
-      .getPaymentDetailsState()
-      .pipe(
-        filter((state) => !state.loading),
-        map((state) => state.data),
-        tap((paymentInfo) => {
-          if (paymentInfo && !!Object.keys(paymentInfo).length) {
-            if (this.shouldRedirect) {
-              this.next();
-            }
+  get selectedMethod$(): Observable<PaymentDetails | undefined> {
+    return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      tap((paymentInfo) => {
+        if (paymentInfo && !!Object.keys(paymentInfo).length) {
+          if (this.shouldRedirect) {
+            this.next();
           }
-        })
-      );
+        }
+      })
+    );
+  }
 
-    this.cards$ = combineLatest([
+  get cards$(): Observable<{ content: Card; paymentMethod: PaymentDetails }[]> {
+    return combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
           return !methods?.length
@@ -162,6 +141,48 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
           }));
         }
       )
+    );
+  }
+
+  constructor(
+    protected userPaymentService: UserPaymentService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected checkoutPaymentFacade: CheckoutPaymentFacade,
+    protected activatedRoute: ActivatedRoute,
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
+  ) {}
+
+  ngOnInit(): void {
+    if (!getLastValueSync(this.activeCartFacade.isGuestCart())) {
+      this.userPaymentService.loadPaymentMethods();
+    } else {
+      this.isGuestCheckout = true;
+    }
+
+    this.checkoutDeliveryAddressFacade
+      .getDeliveryAddressState()
+      .pipe(
+        filter((state) => !state.loading),
+        take(1),
+        map((state) => state.data)
+      )
+      .subscribe((address) => {
+        this.deliveryAddress = address;
+      });
+
+    this.state$ = combineLatest([
+      this.cards$,
+      of(this.shouldRedirect),
+      this.isUpdating$,
+    ]).pipe(
+      map(([cards, shouldRedirect, isUpdating]) => ({
+        cards,
+        shouldRedirect,
+        isUpdating,
+      }))
     );
   }
 

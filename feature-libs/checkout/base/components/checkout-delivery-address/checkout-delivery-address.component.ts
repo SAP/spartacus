@@ -12,7 +12,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -27,26 +27,22 @@ export interface CardWithAddress {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected busy$ = new BehaviorSubject<boolean>(false);
+
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
-
-  protected busy$ = new BehaviorSubject<boolean>(false);
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {}
+  state$: Observable<{
+    cards: CardWithAddress[];
+    shouldRedirect: boolean;
+    isUpdating: boolean;
+  }>;
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -96,6 +92,34 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected activatedRoute: ActivatedRoute,
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.isGuestCheckout) {
+      this.userAddressService.loadAddresses();
+    }
+
+    this.state$ = combineLatest([
+      this.cards$,
+      of(this.shouldRedirect),
+      this.isUpdating$,
+    ]).pipe(
+      map(([cards, shouldRedirect, isUpdating]) => ({
+        cards,
+        shouldRedirect,
+        isUpdating,
+      }))
+    );
+  }
+
   getSupportedAddresses(): Observable<Address[]> {
     return this.userAddressService.getAddresses();
   }
@@ -116,20 +140,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       }
       this.doneAutoSelect = true;
     }
-  }
-
-  ngOnInit(): void {
-    if (!this.isGuestCheckout) {
-      this.userAddressService.loadAddresses();
-    }
-  }
-
-  protected onSuccess(): void {
-    this.busy$.next(false);
-  }
-
-  protected onError(): void {
-    this.busy$.next(false);
   }
 
   getCardContent(
@@ -216,5 +226,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected onSuccess(): void {
+    this.busy$.next(false);
+  }
+
+  protected onError(): void {
+    this.busy$.next(false);
   }
 }

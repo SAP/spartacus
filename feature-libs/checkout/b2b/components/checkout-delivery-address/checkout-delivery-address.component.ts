@@ -25,7 +25,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -42,8 +42,14 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
-  isAccountPayment = false;
   protected subscriptions = new Subscription();
+  isAccountPayment = false;
+
+  state$: Observable<{
+    cards: CardWithAddress[];
+    shouldRedirect: boolean;
+    isUpdating: boolean;
+  }>;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -68,29 +74,60 @@ export class B2BCheckoutDeliveryAddressComponent
     );
   }
 
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.checkoutPaymentTypeFacade
+        .isAccountPayment()
+        .pipe(distinctUntilChanged())
+        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
+    );
+
+    // TODO: Brian ask
+    this.state$ = combineLatest([
+      this.cards$,
+      of(this.shouldRedirect),
+      this.isUpdating$,
+    ]).pipe(
+      map(([cards, shouldRedirect, isUpdating]) => ({
+        cards,
+        shouldRedirect,
+        isUpdating,
+      }))
+    );
+
+    if (!this.isAccountPayment) {
+      super.ngOnInit();
+    }
+  }
+
   getSupportedAddresses(): Observable<Address[]> {
     return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
       switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                this.doneAutoSelect = false;
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super.getSupportedAddresses();
+        return iif(
+          () => isAccountPayment,
+          this.checkoutCostCenterFacade.getCostCenterState().pipe(
+            filter((state) => !state.loading),
+            map((state) => state.data),
+            distinctUntilChanged(),
+            switchMap((costCenter) => {
+              this.doneAutoSelect = false;
+              return costCenter?.code
+                ? this.userCostCenterService.getCostCenterAddresses(
+                    costCenter.code
+                  )
+                : of([]);
+            })
+          ),
+          super.getSupportedAddresses()
+        );
       })
     );
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
+  selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
     if (
       !this.doneAutoSelect &&
       addresses &&
@@ -108,20 +145,7 @@ export class B2BCheckoutDeliveryAddressComponent
     }
   }
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
-    );
-
-    if (!this.isAccountPayment) {
-      super.ngOnInit();
-    }
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }
