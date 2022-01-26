@@ -1,11 +1,11 @@
 {
   "defaultCommandTimeout": 30000,
   "baseUrl": "http://localhost:4200",
-  "requestTimeout": 60001,
+  "requestTimeout": 45000,
   "projectId": "k3nmep",
   "video": true,
   "retries": {
-    "runMode": 3
+    "runMode": 2
   },
   "videoUploadOnPasses": false,
   "chromeWebSecurity": false,

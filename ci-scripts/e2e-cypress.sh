@@ -50,21 +50,22 @@ done
 
 set -- "${POSITIONAL[@]}"
 
-
-# if traffic flag, sed change ip address of .env-cmdrc, cypress.ci.json and cypress.ci.b2b, etc. 
-# Pending verification with b2b
 if [[ "${SPLIT}" = true ]]; then
     echo "Swtiching to different load balancer"
     
     CYPRESS_JSON="projects/storefrontapp-e2e-cypress/cypress.json"
     CYPRESS_CI_JSON="projects/storefrontapp-e2e-cypress/cypress.ci.json"
     CYPRESS_CI_B2B_JSON="projects/storefrontapp-e2e-cypress/cypress.ci.b2b.json"
+
+    # modify BASE URL in spartacus instance
     sed 's/20.83.184.244/20.83.178.185/' .env-cmdrc > .tmp && mv .tmp .env-cmdrc || true
+    
+    # modify API URL in cypress config files.
     sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_JSON} > tmp0.json && mv tmp0.json ${CYPRESS_JSON} || true
     sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_CI_JSON}  > tmp1.json && mv tmp1.json ${CYPRESS_CI_JSON} || true
     sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_CI_B2B_JSON}  > tmp2.json && mv tmp2.json ${CYPRESS_CI_B2B_JSON} || true
 
-    sleep 10
+    sleep 5
 fi
 
 echo '-----'
