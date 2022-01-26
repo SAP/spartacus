@@ -81,7 +81,7 @@ export class B2BCheckoutReviewSubmitComponent extends CheckoutReviewSubmitCompon
     return [
       CheckoutStepType.PAYMENT_DETAILS,
       CheckoutStepType.PAYMENT_TYPE,
-      CheckoutStepType.SHIPPING_ADDRESS,
+      CheckoutStepType.DELIVERY_ADDRESS,
     ];
   }
 

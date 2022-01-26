@@ -182,7 +182,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         cards,
         shouldRedirect,
         isUpdating,
-      }))
+      })),
+      tap(console.log)
     );
   }
 

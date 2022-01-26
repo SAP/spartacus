@@ -1,5 +1,5 @@
 export const enum CheckoutStepType {
-  SHIPPING_ADDRESS = 'shippingAddress',
+  DELIVERY_ADDRESS = 'deliveryAddress',
   DELIVERY_MODE = 'deliveryMode',
   PAYMENT_DETAILS = 'paymentDetails',
   REVIEW_ORDER = 'reviewOrder',

@@ -58,7 +58,7 @@ export class CheckoutCartInterceptor implements HttpInterceptor {
    * Checkout semantic routes:
    * checkout
    * checkoutPaymentType
-   * CheckoutShippingAddress
+   * CheckoutDeliveryAddress
    * checkoutDeliveryMode
    * checkoutPaymentDetails
    * checkoutReviewOrder

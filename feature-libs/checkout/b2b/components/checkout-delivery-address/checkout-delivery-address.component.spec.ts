@@ -142,7 +142,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('B2BCheckoutShippingAddressComponent', () => {
+describe('B2BCheckoutDeliveryAddressComponent', () => {
   let component: B2BCheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<B2BCheckoutDeliveryAddressComponent>;
   let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
@@ -326,7 +326,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
 
   describe('selectDefaultAddress', () => {
     describe('Account Payment', () => {
-      it('should automatically select default shipping address when there is ONLY ONE', () => {
+      it('should automatically select default delivery address when there is ONLY ONE', () => {
         component.ngOnInit();
         component.selectDefaultAddress([mockAddress1], undefined);
         expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
@@ -334,7 +334,7 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     describe('Credit Card Payment', () => {
-      it('should automatically select default shipping address when there is no current selection', () => {
+      it('should automatically select default delivery address when there is no current selection', () => {
         component.doneAutoSelect = false;
         component.selectDefaultAddress(mockAddresses, undefined);
         expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);

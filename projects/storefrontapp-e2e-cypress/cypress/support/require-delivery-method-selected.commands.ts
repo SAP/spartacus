@@ -4,8 +4,8 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Selects a default shipping method for a cart.
-       * Returns shipping method object.
+       * Selects a default delivery method for a cart.
+       * Returns delivery method object.
        *
        * @memberof Cypress.Chainable
        *
@@ -25,7 +25,7 @@ declare global {
 Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
   const cartCode = cartId || 'current';
 
-  function setShippingMethod(deliveryMode) {
+  function setDeliveryMethod(deliveryMode) {
     return cy.request({
       method: 'PUT',
       url: `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -39,6 +39,6 @@ Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
   }
 
   getDefaultDeliveryModeCode(token.access_token, cartId).then((code) =>
-    setShippingMethod(code).then((resp) => cy.wrap(resp))
+    setDeliveryMethod(code).then((resp) => cy.wrap(resp))
   );
 });

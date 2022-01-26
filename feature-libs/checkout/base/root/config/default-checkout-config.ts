@@ -8,7 +8,7 @@ export const defaultCheckoutConfig: CheckoutConfig = {
         id: 'shippingAddress',
         name: 'checkoutProgress.shippingAddress',
         routeName: 'checkoutShippingAddress',
-        type: [CheckoutStepType.SHIPPING_ADDRESS],
+        type: [CheckoutStepType.DELIVERY_ADDRESS],
       },
       {
         id: 'deliveryMode',

@@ -103,7 +103,7 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('CheckoutShippingAddressComponent', () => {
+describe('CheckoutDeliveryAddressComponent', () => {
   let component: CheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
   let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
@@ -223,7 +223,7 @@ describe('CheckoutShippingAddressComponent', () => {
     ).toHaveBeenCalledWith({});
   });
 
-  it('should automatically select default shipping address when there is no current selection for a credit card payment', () => {
+  it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
     component.doneAutoSelect = false;
     component.selectDefaultAddress(mockAddresses, undefined);
     expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);

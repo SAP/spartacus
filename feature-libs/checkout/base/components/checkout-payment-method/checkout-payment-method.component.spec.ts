@@ -188,9 +188,7 @@ describe('CheckoutPaymentMethodComponent', () => {
 
   describe('component behavior', () => {
     it('should show loader during existing payment methods loading', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(true)
-      );
+      component.isUpdating$ = of(true);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
@@ -255,9 +253,7 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should show form to add new payment method, when there are no existing methods', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
+      component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([])
       );
@@ -322,9 +318,7 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should show form for creating new method after clicking new payment method button', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
+      component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
@@ -367,9 +361,8 @@ describe('CheckoutPaymentMethodComponent', () => {
         error: false,
         data: undefined,
       });
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
+
+      component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );
@@ -516,9 +509,7 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should go to previous step after clicking back', () => {
-      spyOn(mockUserPaymentService, 'getPaymentMethodsLoading').and.returnValue(
-        of(false)
-      );
+      component.isUpdating$ = of(false);
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of([mockPaymentDetails])
       );

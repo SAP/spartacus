@@ -116,7 +116,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         cards,
         shouldRedirect,
         isUpdating,
-      }))
+      })),
+      tap(console.log)
     );
   }
 

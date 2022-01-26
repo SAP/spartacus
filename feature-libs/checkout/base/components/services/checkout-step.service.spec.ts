@@ -21,7 +21,7 @@ const checkoutConfig: CheckoutConfig = {
         id: 'step0',
         name: 'step 0',
         routeName: 'route0',
-        type: [CheckoutStepType.SHIPPING_ADDRESS],
+        type: [CheckoutStepType.DELIVERY_ADDRESS],
       },
       {
         id: 'step1',
@@ -131,7 +131,7 @@ describe('CheckoutStepService', () => {
   it('should be able to reset the steps', () => {
     let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    service.disableEnableStep(CheckoutStepType.DELIVERY_ADDRESS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     // reset
@@ -144,13 +144,13 @@ describe('CheckoutStepService', () => {
   it('should be able to disable/enable step', () => {
     let steps: CheckoutStep[] = [];
     // disable the first step
-    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, true);
+    service.disableEnableStep(CheckoutStepType.DELIVERY_ADDRESS, true);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(2);
     expect(steps[0].id).toEqual('step1');
 
     // enable the first setp
-    service.disableEnableStep(CheckoutStepType.SHIPPING_ADDRESS, false);
+    service.disableEnableStep(CheckoutStepType.DELIVERY_ADDRESS, false);
     service.steps$.subscribe((value) => (steps = value)).unsubscribe();
     expect(steps.length).toEqual(3);
     expect(steps[0].id).toEqual('step0');

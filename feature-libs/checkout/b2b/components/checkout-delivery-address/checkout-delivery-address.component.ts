@@ -58,10 +58,10 @@ export class B2BCheckoutDeliveryAddressComponent
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected userCostCenterService: UserCostCenterService
   ) {
     super(
       userAddressService,

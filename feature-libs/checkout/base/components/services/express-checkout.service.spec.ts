@@ -180,7 +180,7 @@ describe('ExpressCheckoutService', () => {
         });
     });
 
-    describe('shippingAddressSet$', () => {
+    describe('deliveryAddressSet$', () => {
       it('should load addresses if they are not loaded', (done) => {
         mockGetAddressesLoadedSuccess.next(false);
 

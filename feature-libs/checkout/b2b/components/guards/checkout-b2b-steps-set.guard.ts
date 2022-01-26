@@ -102,8 +102,8 @@ export class CheckoutB2BStepsSetGuard
         case CheckoutStepType.PAYMENT_TYPE: {
           return this.isPaymentTypeSet(step);
         }
-        case CheckoutStepType.SHIPPING_ADDRESS: {
-          return this.isShippingAddressAndCostCenterSet(step, isAccountPayment);
+        case CheckoutStepType.DELIVERY_ADDRESS: {
+          return this.isDeliveryAddressAndCostCenterSet(step, isAccountPayment);
         }
         case CheckoutStepType.DELIVERY_MODE: {
           return this.isDeliveryModeSet(step);
@@ -135,7 +135,7 @@ export class CheckoutB2BStepsSetGuard
     );
   }
 
-  protected isShippingAddressAndCostCenterSet(
+  protected isDeliveryAddressAndCostCenterSet(
     step: CheckoutStep,
     isAccountPayment: boolean
   ): Observable<boolean | UrlTree> {
