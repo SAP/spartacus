@@ -48,34 +48,27 @@ export class ClearCartService {
   }
 
   /**
-   * Display global message based on success or failure.
+   * Display global message.
    *
    * @param success
    */
-  addGlobalMessage(success: boolean): void {
-    this.closeDialog('Close dialog');
-    if (success) {
-      this.globalMessageService.add(
-        { key: 'clearCart.cartClearedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    } else {
-      this.globalMessageService.add(
-        { key: 'clearCart.cartClearedError' },
-        GlobalMessageType.MSG_TYPE_ERROR
-      );
-    }
+  addGlobalMessage(): void {
+    this.globalMessageService.add(
+      { key: 'clearCart.cartClearedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   onComplete(): void {
+    this.closeDialog('Close dialog');
     this.activeCartFacade
       .getEntries()
       .pipe(take(1))
-      .subscribe((entries) =>
-        entries.length === 0
-          ? this.addGlobalMessage(true)
-          : this.addGlobalMessage(false)
-      );
+      .subscribe((entries) => {
+        if (entries.length === 0) {
+          this.addGlobalMessage();
+        }
+      });
   }
 
   closeDialog(reason: string): void {
