@@ -24,8 +24,8 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const savedCartFeatureModulePath =
   'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
-const mainCartFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-feature.module.ts';
+const cartBaseFeatureModulePath =
+  'src/app/spartacus/features/cart/cart-base-feature.module.ts';
 const quickOrderFeatureModulePath =
   'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
 const importExportFeatureModulePath =
@@ -69,7 +69,7 @@ describe('Spartacus Cart schematics: ng-add', () => {
     features: [CLI_CART_SAVED_CART_FEATURE],
   };
 
-  const cartMainFeatureOptions: SpartacusCartOptions = {
+  const cartBaseFeatureOptions: SpartacusCartOptions = {
     ...libraryNoFeaturesOptions,
     features: [CLI_CART_BASE_FEATURE],
   };
@@ -202,16 +202,16 @@ describe('Spartacus Cart schematics: ng-add', () => {
     });
   });
 
-  describe('Cart Main feature', () => {
+  describe('Cart Base feature', () => {
     describe('general setup', () => {
       beforeEach(async () => {
         appTree = await schematicRunner
-          .runSchematicAsync('ng-add', cartMainFeatureOptions, appTree)
+          .runSchematicAsync('ng-add', cartBaseFeatureOptions, appTree)
           .toPromise();
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(mainCartFeatureModulePath);
+        const module = appTree.readContent(cartBaseFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -233,14 +233,14 @@ describe('Spartacus Cart schematics: ng-add', () => {
         appTree = await schematicRunner
           .runSchematicAsync(
             'ng-add',
-            { ...cartMainFeatureOptions, lazy: false },
+            { ...cartBaseFeatureOptions, lazy: false },
             appTree
           )
           .toPromise();
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(mainCartFeatureModulePath);
+        const module = appTree.readContent(cartBaseFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

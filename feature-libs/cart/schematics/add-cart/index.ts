@@ -69,7 +69,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CART_BASE_FEATURE, options.features)
-        ? addMainCartFeature(options)
+        ? addCartBaseFeature(options)
         : noop(),
 
       shouldAddFeature(CLI_CART_SAVED_CART_FEATURE, options.features)
@@ -87,7 +87,7 @@ export function addCartFeatures(options: SpartacusCartOptions): Rule {
   };
 }
 
-function addMainCartFeature(options: SpartacusCartOptions): Rule {
+function addCartBaseFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
     moduleName: CART_BASE_FEATURE_MODULE_NAME,
