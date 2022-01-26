@@ -11,10 +11,10 @@ declare global {
        *
        * @example
         ```
-        cy.requireShippingMethodSelected(token, cartId);
+        cy.requireDeliveryMethodSelected(token, cartId);
         ```
        */
-      requireShippingMethodSelected: (
+      requireDeliveryMethodSelected: (
         auth: {},
         cartId?: string
       ) => Cypress.Chainable<{}>;
@@ -22,7 +22,7 @@ declare global {
   }
 }
 
-Cypress.Commands.add('requireShippingMethodSelected', (token, cartId) => {
+Cypress.Commands.add('requireDeliveryMethodSelected', (token, cartId) => {
   const cartCode = cartId || 'current';
 
   function setShippingMethod(deliveryMode) {

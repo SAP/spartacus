@@ -10,6 +10,7 @@ const paymentTypeRadio = {
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
+// TODO:#checkout to update sample data to /delivery-address
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
   { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },

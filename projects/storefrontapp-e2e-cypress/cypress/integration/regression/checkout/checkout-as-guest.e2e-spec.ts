@@ -1,14 +1,11 @@
 import { CheckoutConfig } from '@spartacus/storefront';
-import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import { login } from '../../../helpers/auth-forms';
+import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
 import { waitForPage } from '../../../helpers/checkout-flow';
 import * as loginHelper from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
-import {
-  cheapProduct,
-  getSampleUser,
-} from '../../../sample-data/checkout-flow';
+import { cheapProduct } from '../../../sample-data/checkout-flow';
 context('Checkout as guest', () => {
   viewportContext(['mobile', 'desktop'], () => {
     before(() => {
@@ -32,6 +29,7 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
+      // TODO:#checkout to update sample data to /delivery-address
       const shippingPage = waitForPage(
         '/checkout/shipping-address',
         'getShippingPage'

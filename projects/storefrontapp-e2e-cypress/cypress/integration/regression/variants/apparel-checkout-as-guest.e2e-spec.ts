@@ -1,6 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as checkoutVariants from '../../../helpers/checkout-variants';
 import * as loginHelper from '../../../helpers/login';
 import {
   APPAREL_BASESITE,
@@ -12,7 +13,6 @@ import {
   products,
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
-import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout as guest', () => {
   viewportContext(['mobile'], () => {
@@ -66,6 +66,7 @@ context('Apparel - checkout as guest', () => {
         cartWithSingleVariantProduct
       );
 
+      // TODO:#checkout to update sample data to /delivery-address
       const shippingPage = checkout.waitForPage(
         '/checkout/shipping-address',
         'getShippingPage'

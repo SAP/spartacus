@@ -18,7 +18,7 @@ context('Checkout back-off test', () => {
       waitForCartPageData(sampleData.product);
       visitCartPage();
 
-      checkoutBackoff.waitForShippingAddressdata();
+      checkoutBackoff.waitForDeliveryAddressdata();
       checkoutBackoff.visitCheckoutDeliveryModePage();
     });
 

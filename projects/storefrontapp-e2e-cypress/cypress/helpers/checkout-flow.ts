@@ -330,6 +330,7 @@ export function addCheapProductToCartAndLogin(
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -354,6 +355,8 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
+
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'

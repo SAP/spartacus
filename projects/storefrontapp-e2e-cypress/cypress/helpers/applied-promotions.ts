@@ -1,8 +1,7 @@
 import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { registerCartPageRoute } from './cart';
 import { verifyAndPlaceOrder } from './checkout-as-persistent-user';
-import { waitForPage } from './checkout-flow';
-import { waitForProductPage } from './checkout-flow';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 export const eosCameraProductName = 'EOS450D';
 
@@ -97,7 +96,7 @@ export function checkAppliedPromotions() {
         .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
         .then(({ token }) => {
           const stateAuth = token;
-          cy.requireShippingAddressAdded(defaultAddress, stateAuth, cartId);
+          cy.requireDeliveryAddressAdded(defaultAddress, stateAuth, cartId);
           cy.requirePaymentMethodAdded(cartId);
         });
       selectShippingAddress();

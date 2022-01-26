@@ -19,6 +19,7 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
     .click();
   cy.wait(`@${guestLoginPage}`).its('response.statusCode').should('eq', 200);
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = checkout.waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'

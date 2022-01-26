@@ -11,10 +11,10 @@ declare global {
        *
        * @example
         ```
-        cy.requireShippingAddressAdded(address, token, cartCode);
+        cy.requireDeliveryAddressAdded(address, token, cartCode);
         ```
        */
-      requireShippingAddressAdded: (
+      requireDeliveryAddressAdded: (
         address: {},
         token: {},
         cartId?: string
@@ -24,10 +24,10 @@ declare global {
 }
 
 Cypress.Commands.add(
-  'requireShippingAddressAdded',
+  'requireDeliveryAddressAdded',
   (address, token, cartId) => {
     Cypress.log({
-      displayName: 'requireShippingAddressAdded',
+      displayName: 'requireDeliveryAddressAdded',
       message: [`Adding shipping address with token ${token.access_token}`],
     });
 

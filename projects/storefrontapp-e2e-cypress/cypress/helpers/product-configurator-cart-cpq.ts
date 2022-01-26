@@ -1,6 +1,6 @@
 import { navigation } from './navigation';
-import Chainable = Cypress.Chainable;
 import * as configurationCart from './product-configurator-cart';
+import Chainable = Cypress.Chainable;
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -139,9 +139,10 @@ export function checkoutB2B(): void {
     .contains('Continue')
     .click()
     .then(() => {
+      // TODO:#checkout to update sample data to /delivery-address
       cy.location('pathname').should('contain', '/checkout/shipping-address');
       cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
+      cy.get('cx-delivery-address').should('be.visible');
       cy.log("Click to the link 'Ship to this address'");
       cy.contains('Ship to this address').click();
     });

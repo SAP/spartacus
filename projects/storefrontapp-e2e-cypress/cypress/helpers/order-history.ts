@@ -1,4 +1,4 @@
-import { SampleUser, user } from '../sample-data/checkout-flow';
+import { product, SampleUser, user } from '../sample-data/checkout-flow';
 import { login } from './auth-forms';
 import {
   replenishmentOrderHistoryHeaderValue,
@@ -7,7 +7,6 @@ import {
 import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
-import { product } from '../sample-data/checkout-flow';
 
 const orderHistoryLink = '/my-account/orders';
 
@@ -22,8 +21,8 @@ export function doPlaceOrder(productData?: any) {
       return cy.requireProductAddedToCart(stateAuth, productData);
     })
     .then(({ cartId }) => {
-      cy.requireShippingAddressAdded(user.address, stateAuth, cartId);
-      cy.requireShippingMethodSelected(stateAuth, cartId);
+      cy.requireDeliveryAddressAdded(user.address, stateAuth, cartId);
+      cy.requireDeliveryMethodSelected(stateAuth, cartId);
       cy.requirePaymentDone(stateAuth, cartId);
 
       return cy.requirePlacedOrder(stateAuth, cartId);

@@ -253,6 +253,7 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
 }
 
 function proceedToCheckout() {
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddressPage'

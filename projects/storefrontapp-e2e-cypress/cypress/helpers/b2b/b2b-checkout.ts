@@ -101,6 +101,7 @@ export function selectAccountPayment() {
     )}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -115,6 +116,7 @@ export function selectCreditCardPayment() {
     cy.findByText('Credit Card').click({ force: true });
   });
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
