@@ -36,6 +36,10 @@ title: Changes to Styles in 5.0
 
 ## Changes in styles
 
+## Change in _order-summary.scss
+
+- `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes 
+
 ## Change in store-finder-list-item.scss
 
 - obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name` for screen reader improvements. 
@@ -49,3 +53,7 @@ title: Changes to Styles in 5.0
 ### AddressFormComponent
 
 - Changed `justify-content` to `center` for `.cx-address-form-btns` in `%cx-address-form`
+
+### NavigationUIComponent, NavigationComponent, FooterNavigationComponent, CategoryNavigationComponent
+
+- Styles has been aligned to the new structure of navigation, see more in template changes of [NavigationUIComponent](./5_0.md#NavigationUIComponent)
