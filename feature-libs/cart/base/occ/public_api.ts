@@ -1,3 +1,3 @@
 export * from './adapters/index';
-export * from './cart-occ.module';
+export * from './cart-base-occ.module';
 export * from './model/index';

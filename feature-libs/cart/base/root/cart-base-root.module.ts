@@ -56,4 +56,4 @@ export function defaultCartComponentsConfig() {
     provideDefaultConfig(defaultCartRoutingConfig),
   ],
 })
-export class CartRootModule {}
+export class CartBaseRootModule {}

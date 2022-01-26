@@ -2,16 +2,16 @@
 
 exports[`Spartacus Cart schematics: ng-add Cart Base feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CartModule } from \\"@spartacus/cart/base\\";
+import { CartBaseModule } from \\"@spartacus/cart/base\\";
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
-import { CartRootModule } from \\"@spartacus/cart/base/root\\";
+import { CartBaseRootModule } from \\"@spartacus/cart/base/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    CartRootModule,
-    CartModule
+    CartBaseRootModule,
+    CartBaseModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -27,19 +27,19 @@ export class CartBaseFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
-import { CartRootModule, CART_BASE_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { CartBaseRootModule, CART_BASE_FEATURE } from \\"@spartacus/cart/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    CartRootModule
+    CartBaseRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
       [CART_BASE_FEATURE]: {
         module: () =>
-          import('@spartacus/cart/base').then((m) => m.CartModule),
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
       },
     }
   }),

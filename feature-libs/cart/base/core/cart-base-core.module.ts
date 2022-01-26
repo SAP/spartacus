@@ -31,4 +31,4 @@ import { MultiCartStoreModule } from './store/multi-cart-store.module';
     },
   ],
 })
-export class CartCoreModule {}
+export class CartBaseCoreModule {}

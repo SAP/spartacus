@@ -1,4 +1,4 @@
-export * from './cart-core.module';
+export * from './cart-base-core.module';
 export * from './cart-persistence.module';
 export * from './connectors/index';
 export * from './event/index';

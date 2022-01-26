@@ -40,4 +40,4 @@ import { SaveForLaterModule } from './cart/save-for-later/save-for-later.module'
     },
   ],
 })
-export class CartComponentsModule {}
+export class CartBaseComponentsModule {}

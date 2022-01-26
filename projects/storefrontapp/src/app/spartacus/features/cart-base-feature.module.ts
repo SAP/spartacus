@@ -3,17 +3,17 @@ import {
   cartBaseTranslationChunksConfig,
   cartBaseTranslations,
 } from '@spartacus/cart/base/assets';
-import { CartRootModule, CART_BASE_FEATURE } from '@spartacus/cart/base/root';
+import { CartBaseRootModule, CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
 @NgModule({
-  imports: [CartRootModule],
+  imports: [CartBaseRootModule],
   providers: [
     provideConfig({
       featureModules: {
         [CART_BASE_FEATURE]: {
           module: () =>
-            import('@spartacus/cart/base').then((m) => m.CartModule),
+            import('@spartacus/cart/base').then((m) => m.CartBaseModule),
         },
       },
     }),

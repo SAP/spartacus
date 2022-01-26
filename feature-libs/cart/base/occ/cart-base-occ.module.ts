@@ -51,4 +51,4 @@ import { OccCartAdapter } from './adapters/occ-cart.adapter';
     },
   ],
 })
-export class CartOccModule {}
+export class CartBaseOccModule {}
