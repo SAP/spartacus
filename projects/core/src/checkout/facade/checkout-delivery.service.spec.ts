@@ -4,8 +4,9 @@ import {
   ActiveCartService,
   PROCESS_FEATURE,
   StateUtils,
+  CheckoutService,
 } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, BehaviorSubject } from 'rxjs';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { Address, AddressValidation } from '../../model/address.model';
 import { Cart } from '../../model/cart.model';
@@ -15,6 +16,8 @@ import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutDeliveryService } from './checkout-delivery.service';
+
+const isCheckoutLoading$ = new BehaviorSubject<boolean>(false);
 
 describe('CheckoutDeliveryService', () => {
   let service: CheckoutDeliveryService;
@@ -50,6 +53,12 @@ describe('CheckoutDeliveryService', () => {
     }
   }
 
+  class mockCheckoutService {
+    isLoading() {
+      return isCheckoutLoading$.asObservable();
+    }
+  }
+
   const address: Address = {
     firstName: 'John',
     lastName: 'Doe',
@@ -74,6 +83,7 @@ describe('CheckoutDeliveryService', () => {
         CheckoutDeliveryService,
         { provide: UserIdService, useClass: UserIdServiceStub },
         { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: CheckoutService, useClass: mockCheckoutService },
       ],
     });
 
@@ -248,6 +258,60 @@ describe('CheckoutDeliveryService', () => {
       success: false,
       value: undefined,
     });
+  });
+
+  it('should return isSetDeliveryModeBusy flag as true during loading state', () => {
+    const modeId = 'testId';
+    service.setDeliveryMode(modeId);
+
+    let setDeliveryModeInProcess = false;
+    service
+      .isSetDeliveryModeBusy()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return isSetDeliveryModeBusy flag as true when cart is not stable', () => {
+    spyOn(activeCartService, 'isStable').and.returnValue(of(false));
+
+    let setDeliveryModeInProcess = false;
+    service
+      .isSetDeliveryModeBusy()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return isSetDeliveryModeBusy flag as true when checkout is loading', () => {
+    isCheckoutLoading$.next(true);
+    let setDeliveryModeInProcess = false;
+    service
+      .isSetDeliveryModeBusy()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(true);
+  });
+
+  it('should return isSetDeliveryModeBusy flag as false when set delivery mode request has finished', () => {
+    const modeId = 'testId';
+    let setDeliveryModeInProcess = true;
+
+    isCheckoutLoading$.next(false);
+    store.dispatch(new CheckoutActions.SetDeliveryModeSuccess(modeId));
+    service
+      .isSetDeliveryModeBusy()
+      .subscribe((data) => {
+        setDeliveryModeInProcess = data;
+      })
+      .unsubscribe();
+    expect(setDeliveryModeInProcess).toEqual(false);
   });
 
   it('should be able to reset set delivery mode process', () => {

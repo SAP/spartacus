@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import {
@@ -37,8 +37,13 @@ export class CheckoutDeliveryService {
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
     protected userIdService: UserIdService,
-    protected checkoutService: CheckoutService
+    @Optional() protected checkoutService?: CheckoutService
   ) {}
+
+  protected isCheckoutDetailsLoading$: Observable<boolean> = this
+    .checkoutService
+    ? this.checkoutService.isLoading()
+    : this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading));
 
   /**
    * Get supported delivery modes
@@ -133,7 +138,7 @@ export class CheckoutDeliveryService {
   isSetDeliveryModeBusy(): Observable<boolean> {
     return combineLatest([
       this.activeCartService.isStable(),
-      this.checkoutService.isLoading(),
+      this.isCheckoutDetailsLoading$,
       this.getSetDeliveryModeProcess(),
     ]).pipe(
       map(
@@ -248,7 +253,7 @@ export class CheckoutDeliveryService {
       if (userId && cartId) {
         combineLatest([
           this.activeCartService.isStable(),
-          this.checkoutService.isLoading(),
+          this.isCheckoutDetailsLoading$,
         ])
           .pipe(
             filter(([isStable, isLoading]) => isStable && !isLoading),
