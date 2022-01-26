@@ -9,6 +9,12 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
+  ActiveCartFacade,
+  Cart,
+  CartUiEventAddToCart,
+  OrderEntry,
+} from '@spartacus/cart/main/root';
+import {
   CmsAddToCartComponent,
   EventService,
   I18nTestingModule,
@@ -21,9 +27,6 @@ import {
   SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { CartUiEventAddToCart } from '../../events/cart.events';
-import { ActiveCartFacade } from '../../facade/active-cart.facade';
-import { Cart, OrderEntry } from '../../models/cart.model';
 import { AddToCartComponent } from './add-to-cart.component';
 
 const config$ = new BehaviorSubject<CmsAddToCartComponent>({

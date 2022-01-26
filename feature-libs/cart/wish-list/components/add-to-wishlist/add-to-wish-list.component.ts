@@ -1,10 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { OrderEntry } from '@spartacus/cart/main/root';
+import { WishListFacade } from '@spartacus/cart/wish-list/root';
 import { AuthService, isNotNullable, Product } from '@spartacus/core';
 import { CurrentProductService, ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
-import { WishListFacade } from '../../facade/wish-list.facade';
 
 @Component({
   selector: 'cx-add-to-wishlist',

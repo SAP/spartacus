@@ -34,6 +34,12 @@
       "@spartacus/cart/main/assets": [
         "../../feature-libs/cart/main/assets/public_api"
       ],
+      "@spartacus/cart/main/components/cart/add-to-cart": [
+        "../../feature-libs/cart/main/components/cart/add-to-cart/public_api"
+      ],
+      "@spartacus/cart/main/components/cart/mini-cart": [
+        "../../feature-libs/cart/main/components/cart/mini-cart/public_api"
+      ],
       "@spartacus/cart/main/components": [
         "../../feature-libs/cart/main/components/public_api"
       ],
@@ -83,6 +89,9 @@
       ],
       "@spartacus/cart/wish-list/assets": [
         "../../feature-libs/cart/wish-list/assets/public_api"
+      ],
+      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+        "../../feature-libs/cart/wish-list/components/add-to-wishlist/public_api"
       ],
       "@spartacus/cart/wish-list/components": [
         "../../feature-libs/cart/wish-list/components/public_api"

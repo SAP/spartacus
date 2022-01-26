@@ -15,6 +15,12 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
           module: () =>
             import('@spartacus/cart/main').then((m) => m.CartModule),
         },
+        /*[MINI_CART]: {
+          module: () =>
+            import('@spartacus/cart/main/components/cart/mini-cart').then(
+              (m) => m.MiniCartModule
+            ),
+        },*/
       },
     }),
     provideConfig(<I18nConfig>{
