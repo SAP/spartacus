@@ -9,9 +9,10 @@ import { DigitalPaymentsAdapter } from './adapters/digital-payments.adapter';
 import { OccDpDetailsNormalizer } from './adapters/occ-digital-payment-details.normalizer';
 import { OccDpRequestNormalizer } from './adapters/occ-digital-payment-request.normalizer';
 import { OccDigitalPaymentsAdapter } from './adapters/occ-digital-payments.adapter';
+import { DpPaymentMethodModule } from './cms-components/dp-payment-method/dp-payment-method.module';
 
 @NgModule({
-  //imports: [DpPaymentMethodModule],
+  imports: [DpPaymentMethodModule],
   providers: [
     {
       provide: DigitalPaymentsAdapter,
