@@ -11,8 +11,10 @@ import {
   PageType,
   TranslationService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { CheckoutStepService } from '../../components/services/checkout-step.service';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { CheckoutStep } from '@spartacus/checkout/root';
 
 /**
  * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`
@@ -30,10 +32,17 @@ export class CheckoutPageMetaResolver
 {
   protected cart$: Observable<Cart> = this.activeCartService.getActive();
 
+  private _steps$: BehaviorSubject<CheckoutStep[]> =
+    this.checkoutStepService.steps$;
+
+  private activeStepIndex$: Observable<number> =
+    this.checkoutStepService.activeStepIndex$;
+
   constructor(
     protected translation: TranslationService,
     protected activeCartService: ActiveCartService,
-    protected basePageMetaResolver: BasePageMetaResolver
+    protected basePageMetaResolver: BasePageMetaResolver,
+    protected checkoutStepService: CheckoutStepService
   ) {
     super();
     this.pageType = PageType.CONTENT_PAGE;
@@ -48,11 +57,19 @@ export class CheckoutPageMetaResolver
    * The title from the page data is ignored for this page title.
    */
   resolveTitle(): Observable<string> {
-    return this.cart$.pipe(
-      switchMap((c) =>
-        this.translation.translate('pageMetaResolver.checkout.title', {
-          count: c.totalItems,
-        })
+    return combineLatest([
+      this.cart$,
+      this._steps$,
+      this.activeStepIndex$,
+    ]).pipe(
+      switchMap(([_, steps, index]) =>
+        this.translation.translate(steps[index].name).pipe(
+          switchMap((step) =>
+            this.translation.translate('pageMetaResolver.checkout.title', {
+              step: step,
+            })
+          )
+        )
       )
     );
   }
