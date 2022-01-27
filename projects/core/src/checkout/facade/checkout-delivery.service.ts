@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Optional } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { combineLatest, Observable } from 'rxjs';
 import {
@@ -8,6 +8,7 @@ import {
   take,
   tap,
   withLatestFrom,
+  map,
 } from 'rxjs/operators';
 import { UserIdService } from '../../auth/user-auth/facade/user-id.service';
 import { ActiveCartService } from '../../cart/facade/active-cart.service';
@@ -26,6 +27,7 @@ import {
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { CheckoutService } from './checkout.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,8 +36,14 @@ export class CheckoutDeliveryService {
   constructor(
     protected checkoutStore: Store<StateWithCheckout | StateWithProcess<void>>,
     protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    @Optional() protected checkoutService?: CheckoutService
   ) {}
+
+  protected isCheckoutDetailsLoading$: Observable<boolean> = this
+    .checkoutService
+    ? this.checkoutService.isLoading()
+    : this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading));
 
   /**
    * Get supported delivery modes
@@ -120,6 +128,23 @@ export class CheckoutDeliveryService {
   resetSetDeliveryModeProcess(): void {
     this.checkoutStore.dispatch(
       new CheckoutActions.ResetSetDeliveryModeProcess()
+    );
+  }
+
+  /**
+   * return info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * True means at least one quest is still in process, false means all three requests are done
+   */
+  isSetDeliveryModeBusy(): Observable<boolean> {
+    return combineLatest([
+      this.activeCartService.isStable(),
+      this.isCheckoutDetailsLoading$,
+      this.getSetDeliveryModeProcess(),
+    ]).pipe(
+      map(
+        ([isStable, isLoading, setDeliveryProcess]) =>
+          !isStable || isLoading || (setDeliveryProcess.loading ?? false)
+      )
     );
   }
 
@@ -228,7 +253,7 @@ export class CheckoutDeliveryService {
       if (userId && cartId) {
         combineLatest([
           this.activeCartService.isStable(),
-          this.checkoutStore.pipe(select(CheckoutSelectors.getCheckoutLoading)),
+          this.isCheckoutDetailsLoading$,
         ])
           .pipe(
             filter(([isStable, isLoading]) => isStable && !isLoading),
