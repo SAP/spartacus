@@ -141,7 +141,7 @@ export function checkoutB2B(): void {
     .then(() => {
       // TODO:#checkout to update sample data to /delivery-address
       cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Delviery Address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
       cy.get('cx-delivery-address').should('be.visible');
       cy.log("Click to the link 'Ship to this address'");
       cy.contains('Ship to this address').click();
@@ -154,7 +154,7 @@ export function checkoutB2B(): void {
     .then(() => {
       cy.wait('@deliveryMode');
       cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('.cx-checkout-title').should('contain', 'Delviery Method');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
       cy.get('cx-delivery-mode').should('be.visible');
     });
 
