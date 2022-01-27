@@ -15,16 +15,17 @@
     </label>
   </div>
 </div>
-<div class="row">
-  <div class="col-md-12 col-lg-6">
-    <ng-container
-      *ngIf="
-        (paymentTypes$ | async)?.length &&
-          (typeSelected$ | async) &&
-          !(changeSelectedPaymentTypeInProgress$ | async);
-        else loading
-      "
-    >
+
+<ng-container
+  *ngIf="
+    (paymentTypes$ | async)?.length &&
+      (typeSelected$ | async) &&
+      !(changeSelectedPaymentTypeInProgress$ | async);
+    else loading
+  "
+>
+  <div class="row">
+    <div class="col-md-12 col-lg-6">
       <label class="cx-payment-type-container">
         <span class="label-content">{{
           'paymentTypes.title' | cxTranslate
@@ -51,26 +52,22 @@
           </label>
         </div>
       </label>
-    </ng-container>
+    </div>
   </div>
-</div>
 
-<div class="cx-checkout-btns row">
-  <div class="col-md-12 col-lg-6">
-    <button class="btn btn-block btn-action" (click)="back()">
-      {{ 'checkout.backToCart' | cxTranslate }}
-    </button>
+  <div class="cx-checkout-btns row">
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-action" (click)="back()">
+        {{ 'checkout.backToCart' | cxTranslate }}
+      </button>
+    </div>
+    <div class="col-md-12 col-lg-6">
+      <button class="btn btn-block btn-primary" (click)="next()">
+        {{ 'common.continue' | cxTranslate }}
+      </button>
+    </div>
   </div>
-  <div class="col-md-12 col-lg-6">
-    <button
-      class="btn btn-block btn-primary"
-      (click)="next()"
-      [disabled]="changeSelectedPaymentTypeInProgress$ | async"
-    >
-      {{ 'common.continue' | cxTranslate }}
-    </button>
-  </div>
-</div>
+</ng-container>
 
 <ng-template #loading>
   <div class="cx-spinner">
