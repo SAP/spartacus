@@ -86,9 +86,9 @@ else
     echo "Running Cypress end to end tests"
 
     if [ -n "${TRAVIS_PULL_REQUEST}" ]; then
-        yarn e2e:run:ci:core"${SUITE}"
-    else
         yarn e2e:run:ci"${SUITE}"
         # yarn e2e:run:ci:core"${SUITE}"
+    else
+        yarn e2e:run:ci"${SUITE}"
     fi
 fi
