@@ -122,7 +122,7 @@ export function paymentDetailsNextStep() {
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click();
+  cy.get('cx-payment-method .btn-primary').should('be.enabled').click();
 
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }

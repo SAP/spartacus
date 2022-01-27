@@ -14,9 +14,9 @@ export const payment = {
     saveAsDefault: 'Save as default',
     setAsDefault: 'Set as default payment method',
     billingAddress: 'Billing address',
-    sameAsDeliveryAddress: 'Same as shipping address',
+    sameAsDeliveryAddress: 'Same as delivery address',
     billingAddressSameAsShipping:
-      'Billing address is the same as shipping address',
+      'Billing address is the same as delivery address',
     selectOne: 'Select One...',
     monthMask: 'MM',
     yearMask: 'YYYY',

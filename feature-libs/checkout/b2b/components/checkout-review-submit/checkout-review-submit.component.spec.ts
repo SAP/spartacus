@@ -394,7 +394,7 @@ describe('B2BCheckoutReviewSubmitComponent', () => {
       },
     };
     component.getDeliveryModeCard(selectedMode).subscribe((card) => {
-      expect(card.title).toEqual('checkoutShipping.shippingMethod');
+      expect(card.title).toEqual('checkoutMode.deliveryMethod');
       expect(card.textBold).toEqual('Standard gross');
       expect(card.text).toEqual(['Standard Delivery description', '$9.99']);
     });

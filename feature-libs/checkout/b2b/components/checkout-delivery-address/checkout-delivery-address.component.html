@@ -1,23 +1,21 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
+  {{ 'checkoutAddress.deliveryAddress' | cxTranslate }}
 </h2>
 
-<ng-container *ngIf="state$ | async as state">
-  <ng-container
-    *ngIf="!state.shouldRedirect && !state.isUpdating; else loading"
-  >
+<ng-container *ngIf="cards$ | async as cards; else loading">
+  <ng-container *ngIf="!shouldRedirect && !(isUpdating$ | async); else loading">
     <ng-container
       *ngIf="
-        isAccountPayment || (state.cards?.length && !addressFormOpened);
-        then hasExistingAddresses;
+        isAccountPayment || (cards?.length && !addressFormOpened);
+        then showExistingAddresses;
         else newAddressForm
       "
     >
     </ng-container>
 
-    <ng-template #hasExistingAddresses>
+    <ng-template #showExistingAddresses>
       <p class="cx-checkout-text">
-        {{ 'checkoutAddress.selectYourShippingAddress' | cxTranslate }}
+        {{ 'checkoutAddress.selectYourDeliveryAddress' | cxTranslate }}
       </p>
       <div class="cx-checkout-btns row" *ngIf="!isAccountPayment">
         <div class="col-sm-12 col-md-12 col-lg-6">
@@ -33,7 +31,7 @@
       <div class="cx-checkout-body row">
         <div
           class="cx-delivery-address-card col-md-12 col-lg-6"
-          *ngFor="let card of state.cards; let i = index"
+          *ngFor="let card of cards; let i = index"
         >
           <div
             class="cx-delivery-address-card-inner"
@@ -48,11 +46,28 @@
           </div>
         </div>
       </div>
+
+      <div class="cx-checkout-btns row">
+        <div class="col-md-12 col-lg-6">
+          <button class="cx-btn btn btn-block btn-action" (click)="back()">
+            {{ backBtnText | cxTranslate }}
+          </button>
+        </div>
+        <div class="col-md-12 col-lg-6">
+          <button
+            class="cx-btn btn btn-block btn-primary"
+            [disabled]="!(selectedAddress$ | async)?.id"
+            (click)="next()"
+          >
+            {{ 'common.continue' | cxTranslate }}
+          </button>
+        </div>
+      </div>
     </ng-template>
 
     <ng-template #newAddressForm>
       <cx-address-form
-        *ngIf="state.cards.length; else initialAddressForm"
+        *ngIf="cards.length; else initialAddressForm"
         [showTitleCode]="true"
         (backToAddress)="hideNewAddressForm(false)"
         (submitAddress)="addAddress($event)"
@@ -68,26 +83,6 @@
       </ng-template>
     </ng-template>
   </ng-container>
-
-  <div
-    *ngIf="isAccountPayment || (state.cards?.length && !addressFormOpened)"
-    class="cx-checkout-btns row"
-  >
-    <div class="col-md-12 col-lg-6">
-      <button class="cx-btn btn btn-block btn-action" (click)="back()">
-        {{ backBtnText | cxTranslate }}
-      </button>
-    </div>
-    <div class="col-md-12 col-lg-6">
-      <button
-        class="cx-btn btn btn-block btn-primary"
-        [disabled]="!(selectedAddress$ | async)?.id || state.isUpdating"
-        (click)="next()"
-      >
-        {{ 'common.continue' | cxTranslate }}
-      </button>
-    </div>
-  </div>
 </ng-container>
 
 <ng-template #loading>

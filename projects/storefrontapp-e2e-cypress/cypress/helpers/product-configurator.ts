@@ -499,7 +499,7 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .then(() => {
       // TODO:#checkout to update sample data to /delivery-address
       cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
       cy.get('cx-delivery-address').should('be.visible');
     });
 }

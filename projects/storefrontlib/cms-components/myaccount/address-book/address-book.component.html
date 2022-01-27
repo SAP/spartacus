@@ -41,7 +41,7 @@
   <ng-container *ngIf="!(addresses$ | async).length || showAddAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.addNewShippingAddress' | cxTranslate }}
+        {{ 'addressBook.addNewDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
         class="cx-form"
@@ -60,7 +60,7 @@
   <ng-container *ngIf="showEditAddressForm">
     <section>
       <p class="cx-section-msg">
-        {{ 'addressBook.editShippingAddress' | cxTranslate }}
+        {{ 'addressBook.editDeliveryAddress' | cxTranslate }}
       </p>
       <cx-address-form
         showTitleCode="true"

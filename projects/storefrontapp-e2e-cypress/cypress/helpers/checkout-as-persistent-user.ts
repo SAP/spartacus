@@ -126,12 +126,12 @@ export function selectShippingAddress() {
   cy.findByText(/proceed to checkout/i).click();
   cy.wait('@getShippingPage');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('not.be.empty');
-  cy.get('.cx-card-title').should('contain', 'Default Shipping Address');
+  cy.get('.cx-card-title').should('contain', 'Default Delivery Address');
   cy.get('.card-header').should('contain', 'Selected');
 
   cy.intercept({
@@ -164,7 +164,7 @@ export function selectDeliveryMethod() {
       pageLabelOrId: '/checkout/payment-details',
     },
   }).as('getPaymentPage');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
   cy.get('cx-delivery-mode input').first().should('be.checked');
   cy.get('button.btn-primary').click();
   cy.wait('@getPaymentPage').its('response.statusCode').should('eq', 200);
@@ -187,7 +187,7 @@ export function verifyAndPlaceOrder() {
     .find('.cx-card-container')
     .should('not.be.empty');
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-label-bold')
     .should('contain', 'Standard Delivery');
   cy.get('cx-order-summary .cx-summary-total .cx-summary-amount').should(

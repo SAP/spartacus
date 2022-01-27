@@ -120,7 +120,7 @@ export class CheckoutReviewSubmitComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('checkoutShipping.shippingMethod'),
+      this.translationService.translate('checkoutMode.deliveryMethod'),
     ]).pipe(
       map(([textTitle]) => {
         return {

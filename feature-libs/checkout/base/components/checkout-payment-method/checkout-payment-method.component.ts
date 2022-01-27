@@ -49,12 +49,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.userPaymentService.getPaymentMethodsLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  state$: Observable<{
-    cards: { content: Card; paymentMethod: PaymentDetails }[];
-    shouldRedirect: boolean;
-    isUpdating: boolean;
-  }>;
-
   get backBtnText() {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
@@ -172,19 +166,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       .subscribe((address) => {
         this.deliveryAddress = address;
       });
-
-    this.state$ = combineLatest([
-      this.cards$,
-      of(this.shouldRedirect),
-      this.isUpdating$,
-    ]).pipe(
-      map(([cards, shouldRedirect, isUpdating]) => ({
-        cards,
-        shouldRedirect,
-        isUpdating,
-      })),
-      tap(console.log)
-    );
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {

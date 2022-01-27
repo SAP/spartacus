@@ -25,7 +25,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, iif, Observable, of, Subscription } from 'rxjs';
+import { Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -44,12 +44,6 @@ export class B2BCheckoutDeliveryAddressComponent
 {
   protected subscriptions = new Subscription();
   isAccountPayment = false;
-
-  state$: Observable<{
-    cards: CardWithAddress[];
-    shouldRedirect: boolean;
-    isUpdating: boolean;
-  }>;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -82,19 +76,6 @@ export class B2BCheckoutDeliveryAddressComponent
         .subscribe((isAccount) => (this.isAccountPayment = isAccount))
     );
 
-    // TODO: Brian ask
-    this.state$ = combineLatest([
-      this.cards$,
-      of(this.shouldRedirect),
-      this.isUpdating$,
-    ]).pipe(
-      map(([cards, shouldRedirect, isUpdating]) => ({
-        cards,
-        shouldRedirect,
-        isUpdating,
-      }))
-    );
-
     if (!this.isAccountPayment) {
       super.ngOnInit();
     }
@@ -103,23 +84,21 @@ export class B2BCheckoutDeliveryAddressComponent
   getSupportedAddresses(): Observable<Address[]> {
     return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
       switchMap((isAccountPayment) => {
-        return iif(
-          () => isAccountPayment,
-          this.checkoutCostCenterFacade.getCostCenterState().pipe(
-            filter((state) => !state.loading),
-            map((state) => state.data),
-            distinctUntilChanged(),
-            switchMap((costCenter) => {
-              this.doneAutoSelect = false;
-              return costCenter?.code
-                ? this.userCostCenterService.getCostCenterAddresses(
-                    costCenter.code
-                  )
-                : of([]);
-            })
-          ),
-          super.getSupportedAddresses()
-        );
+        return isAccountPayment
+          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
+              filter((state) => !state.loading),
+              map((state) => state.data),
+              distinctUntilChanged(),
+              switchMap((costCenter) => {
+                this.doneAutoSelect = false;
+                return costCenter?.code
+                  ? this.userCostCenterService.getCostCenterAddresses(
+                      costCenter.code
+                    )
+                  : of([]);
+              })
+            )
+          : super.getSupportedAddresses();
       })
     );
   }

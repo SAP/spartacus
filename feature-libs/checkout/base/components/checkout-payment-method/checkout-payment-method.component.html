@@ -2,13 +2,11 @@
   {{ 'paymentForm.payment' | cxTranslate }}
 </h2>
 
-<ng-container *ngIf="state$ | async as state">
-  <ng-container
-    *ngIf="!state.shouldRedirect && !state.isUpdating; else loading"
-  >
+<ng-container *ngIf="cards$ | async as cards; else loading">
+  <ng-container *ngIf="!shouldRedirect && !(isUpdating$ | async); else loading">
     <ng-container
       *ngIf="
-        state.cards?.length && !newPaymentFormManuallyOpened;
+        cards?.length && !newPaymentFormManuallyOpened;
         then hasExistingPaymentMethods;
         else newPaymentForm
       "
@@ -31,7 +29,7 @@
     <div class="cx-checkout-body row">
       <div
         class="cx-payment-card col-md-12 col-lg-6"
-        *ngFor="let card of state.cards; let i = index"
+        *ngFor="let card of cards; let i = index"
       >
         <div
           class="cx-payment-card-inner"
@@ -46,6 +44,23 @@
         </div>
       </div>
     </div>
+
+    <div class="row cx-checkout-btns">
+      <div class="col-md-12 col-lg-6">
+        <button class="btn btn-block btn-action" (click)="back()">
+          {{ backBtnText | cxTranslate }}
+        </button>
+      </div>
+      <div class="col-md-12 col-lg-6">
+        <button
+          class="btn btn-block btn-primary"
+          [disabled]="!(selectedMethod$ | async)?.id"
+          (click)="next()"
+        >
+          {{ 'common.continue' | cxTranslate }}
+        </button>
+      </div>
+    </div>
   </ng-template>
 
   <ng-template #newPaymentForm>
@@ -53,31 +68,11 @@
       (setPaymentDetails)="setPaymentDetails($event)"
       (closeForm)="hideNewPaymentForm()"
       (goBack)="back()"
-      [paymentMethodsCount]="state.cards?.length || 0"
+      [paymentMethodsCount]="cards?.length || 0"
       [setAsDefaultField]="!isGuestCheckout"
       [loading]="isSetPaymentMethodBusy$ | async"
     ></cx-payment-form>
   </ng-template>
-
-  <div
-    *ngIf="state.cards?.length && !newPaymentFormManuallyOpened"
-    class="row cx-checkout-btns"
-  >
-    <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-action" (click)="back()">
-        {{ backBtnText | cxTranslate }}
-      </button>
-    </div>
-    <div class="col-md-12 col-lg-6">
-      <button
-        class="btn btn-block btn-primary"
-        [disabled]="!(selectedMethod$ | async)?.id || state.isUpdating"
-        (click)="next()"
-      >
-        {{ 'common.continue' | cxTranslate }}
-      </button>
-    </div>
-  </div>
 </ng-container>
 
 <ng-template #loading>

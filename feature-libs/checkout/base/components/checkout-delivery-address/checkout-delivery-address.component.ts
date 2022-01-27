@@ -12,7 +12,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable, of } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -37,12 +37,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
-
-  state$: Observable<{
-    cards: CardWithAddress[];
-    shouldRedirect: boolean;
-    isUpdating: boolean;
-  }>;
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -69,7 +63,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.getSupportedAddresses(),
       this.selectedAddress$,
       this.translationService.translate(
-        'checkoutAddress.defaultShippingAddress'
+        'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
@@ -106,19 +100,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
-
-    this.state$ = combineLatest([
-      this.cards$,
-      of(this.shouldRedirect),
-      this.isUpdating$,
-    ]).pipe(
-      map(([cards, shouldRedirect, isUpdating]) => ({
-        cards,
-        shouldRedirect,
-        isUpdating,
-      })),
-      tap(console.log)
-    );
   }
 
   getSupportedAddresses(): Observable<Address[]> {
@@ -146,7 +127,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   getCardContent(
     address: Address,
     selected: any,
-    textDefaultShippingAddress: string,
+    textDefaultDeliveryAddress: string,
     textShipToThisAddress: string,
     textSelected: string
   ): Card {
@@ -156,7 +137,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
 
     return {
-      title: address.defaultAddress ? textDefaultShippingAddress : '',
+      title: address.defaultAddress ? textDefaultDeliveryAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,

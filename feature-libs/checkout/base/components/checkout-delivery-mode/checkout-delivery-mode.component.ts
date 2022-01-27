@@ -37,6 +37,10 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
 
   isSetDeliveryModeBusy$: Observable<boolean> = new BehaviorSubject(false);
 
+  get deliveryModeInvalid(): boolean {
+    return this.mode.controls['deliveryModeId'].invalid;
+  }
+
   constructor(
     protected fb: FormBuilder,
     protected checkoutConfigService: CheckoutConfigService,
@@ -95,14 +99,6 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     });
   }
 
-  protected onSuccess(): void {
-    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
-  }
-
-  protected onError(): void {
-    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
-  }
-
   next(): void {
     if (this.mode.valid && this.mode.value) {
       this.checkoutStepService.next(this.activatedRoute);
@@ -113,8 +109,12 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     this.checkoutStepService.back(this.activatedRoute);
   }
 
-  get deliveryModeInvalid(): boolean {
-    return this.mode.controls['deliveryModeId'].invalid;
+  protected onSuccess(): void {
+    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
+  }
+
+  protected onError(): void {
+    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
   }
 
   ngOnDestroy(): void {

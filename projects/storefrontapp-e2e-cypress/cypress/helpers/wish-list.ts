@@ -277,7 +277,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
     )}/**/deliverymode?deliveryModeId=*`,
   }).as('putDeliveryMode');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
