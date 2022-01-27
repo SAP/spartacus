@@ -1,5 +1,5 @@
-import { loginAsMyCompanyAdmin } from './b2b/my-company/my-company.utils';
 import * as cart from './cart';
+import { waitForPage, waitForProductPage } from './checkout-flow';
 
 const DOWNLOADS_FOLDER = Cypress.config('downloadsFolder');
 const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
@@ -148,7 +148,9 @@ export function verifyCart(config: ImportConfig) {
   const rowLength = config.headers.length;
   const rowCount = (config.expectedData.length - 1 - rowLength) / rowLength;
 
-  cy.visit('cart');
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   for (let i = 0; i < rowCount; i++) {
     cy.get('cx-cart-item')
@@ -204,9 +206,14 @@ export function restoreCart(cart) {
     .get('td.cx-saved-cart-list-make-cart-active')
     .contains('Make cart active')
     .click();
+  cy.intercept(
+    'PATCH',
+    /\.*\/users\/current\/carts\/(\d*)\/restoresavedcart.*/
+  ).as('restoreSavedCart');
   cy.get('cx-saved-cart-form-dialog div.cx-saved-cart-form-footer button')
     .contains('Restore')
     .click();
+  cy.wait('@restoreSavedCart').its('response.statusCode').should('eq', 200);
   cy.get('cx-global-message').contains(
     `Existing cart is activated by ${cart.code} successfully.`
   );
@@ -235,11 +242,13 @@ export function verifyImportedData(config: ImportConfig, cart) {
  * @param productCode identifies the unique product to add.
  */
 export function addProductToCart(productCode: string = cart.products[1].code) {
-  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
+  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refreshCart');
   cy.intercept('POST', `**/users/*/carts/*/entries?**`).as('addToCart');
+  const productPage = waitForProductPage(productCode, 'getProductPage');
   cy.visit(`/product/${productCode}`);
+  cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
   cart.clickAddToCart();
-  cy.wait(['@refresh_cart', '@addToCart']);
+  cy.wait(['@refreshCart', '@addToCart']);
 }
 
 /**
@@ -247,7 +256,9 @@ export function addProductToCart(productCode: string = cart.products[1].code) {
  * @param expectedData will compare the data of the downloaded .csv to the parsed string.
  */
 export function exportCart(expectedData?: string) {
-  cy.visit('cart');
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-export-order-entries button').contains('Export to CSV').click();
   if (expectedData) {
     cy.readFile(TEST_DOWNLOAD_FILE).should('contain', expectedData);
@@ -274,6 +285,7 @@ export function removeProductsFromActiveCart() {
  * Standardized E2E Test for import cart scenarios.
  */
 export function importCartTestFromConfig(config: ImportConfig) {
+
   loginAsMyCompanyAdmin();
 
   cy.visit(config.importButtonPath);
@@ -281,6 +293,15 @@ export function importCartTestFromConfig(config: ImportConfig) {
   if (config.context === ImportExportContext.ACTIVE_CART) {
     removeProductsFromActiveCart();
   }
+
+
+  cy.requireLoggedIn();
+  const savedCartPage = waitForPage(
+    '/my-account/saved-carts',
+    'getSavedCartsPage'
+  );
+  cy.visit('/my-account/saved-carts');
+  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
@@ -299,10 +320,14 @@ export function importCartTestFromConfig(config: ImportConfig) {
     ).type(config.savedCartConfig?.description);
   }
 
-  cy.intercept('GET', '**/users/current/carts/*?**').as('import');
+  cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
+    'import'
+  );
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 
-  cy.wait('@import').then((xhr) => {
+  cy.wait('@import').its('response.statusCode').should('eq', 200);
+
+  cy.get('@import').then((xhr: any) => {
     cy.get(
       'cx-import-entries-summary div.cx-import-entries-summary-status'
     ).contains(
@@ -330,9 +355,13 @@ export function importCartTestFromConfig(config: ImportConfig) {
  * Attempt to upload a csv by filling out import cart form and clicking "Upload".
  */
 export function attemptUpload(csvPath: string) {
-  loginAsMyCompanyAdmin();
-
-  cy.visit('my-account/saved-carts');
+  cy.requireLoggedIn();
+  const savedCartPage = waitForPage(
+    '/my-account/saved-carts',
+    'getSavedCartsPage'
+  );
+  cy.visit('/my-account/saved-carts');
+  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
@@ -344,7 +373,6 @@ export function attemptUpload(csvPath: string) {
     'cx-import-entries-dialog textarea[formcontrolname="description"]'
   ).type('A test description.');
 
-  cy.intercept('GET', '**/users/current/carts/*?**').as('import');
   cy.get('cx-import-entries-dialog button').contains('Upload').click();
 }
 
@@ -433,6 +461,33 @@ export function testImportExportLargerQuantity() {
           name: 'Single Product (Lg Qty) Cart',
           description: 'A test description for Single Product (Lg Qty) Cart.',
         },
+      });
+    });
+  });
+}
+
+/**
+ * Test import / export with apparel products
+ */
+export function testImportExportWithApparelProducts() {
+  describe('Apparel products', () => {
+    const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
+    const apparelProductCode = '300785814';
+
+    it('should export cart', () => {
+      addProductToCart(apparelProductCode);
+      exportCart(EXPECTED_CSV);
+    });
+
+    it('should import cart', () => {
+      importCartTestFromConfig({
+        name: 'Apparel products Cart',
+        description: 'A test description for Apparel products Cart.',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '£24.26',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
       });
     });
   });
