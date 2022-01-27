@@ -1,44 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature - No compilerOptions in tsconfig eager loading should add b2b configuration 1`] = `
-"import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-      baseSite: ['powertools-epdvisualization-spa'],
-    },
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '4.3'
-    }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
-})
-export class SpartacusConfigurationModule { }
-"
-`;
-
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature - No compilerOptions in tsconfig eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
@@ -75,45 +36,6 @@ export class EpdVisualizationFeatureModule { }
 "
 `;
 
-exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature eager loading should add b2b configuration 1`] = `
-"import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-      baseSite: ['powertools-epdvisualization-spa'],
-    },
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '4.3'
-    }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
-})
-export class SpartacusConfigurationModule { }
-"
-`;
-
 exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
@@ -147,45 +69,6 @@ import { EpdVisualizationConfig, EpdVisualizationRootModule } from \\"@spartacus
   ]
 })
 export class EpdVisualizationFeatureModule { }
-"
-`;
-
-exports[`Spartacus SAP EPD Visualization integration schematics: ng-add SAP EPD Visualization feature general setup should add b2b configuration 1`] = `
-"import { NgModule } from '@angular/core';
-import { translationChunksConfig, translations } from \\"@spartacus/assets\\";
-import { FeaturesConfig, I18nConfig, OccConfig, provideConfig, SiteContextConfig } from \\"@spartacus/core\\";
-import { defaultB2bCheckoutConfig, defaultB2bOccConfig } from \\"@spartacus/setup\\";
-import { defaultCmsContentProviders, layoutConfig, mediaConfig } from \\"@spartacus/storefront\\";
-
-@NgModule({
-  declarations: [],
-  imports: [
-  ],
-  providers: [provideConfig(layoutConfig), provideConfig(mediaConfig), ...defaultCmsContentProviders, provideConfig(<OccConfig>{
-    backend: {
-      occ: {
-        baseUrl: 'https://localhost:9002',
-      }
-    },
-  }), provideConfig(<SiteContextConfig>{
-    context: {
-      currency: ['USD'],
-      language: ['en'],
-      baseSite: ['powertools-epdvisualization-spa'],
-    },
-  }), provideConfig(<I18nConfig>{
-    i18n: {
-      resources: translations,
-      chunks: translationChunksConfig,
-      fallbackLang: 'en'
-    },
-  }), provideConfig(<FeaturesConfig>{
-    features: {
-      level: '4.3'
-    }
-  }), provideConfig(defaultB2bOccConfig), provideConfig(defaultB2bCheckoutConfig)]
-})
-export class SpartacusConfigurationModule { }
 "
 `;
 
