@@ -5,7 +5,7 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { MultiCartFacade } from '@spartacus/cart/main/root';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import { RoutingService } from '@spartacus/core';
 import { of, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';

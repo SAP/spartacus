@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CART_FEATURE } from '@spartacus/cart/main/root';
+import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import { provideDefaultConfigFactory } from '@spartacus/core';
 import {
   ADD_TO_WISHLIST,
@@ -12,7 +12,7 @@ export function defaultCartWishListComponentsConfig() {
     featureModules: {
       [CART_WISH_LIST_FEATURE]: {
         cmsComponents: ['WishListComponent'],
-        dependencies: [CART_FEATURE],
+        dependencies: [CART_BASE_FEATURE],
       },
       [ADD_TO_WISHLIST]: {
         cmsComponents: ['AddToWishListComponent'],

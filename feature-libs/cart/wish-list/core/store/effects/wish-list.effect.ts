@@ -7,8 +7,8 @@ import {
   getCartIdByUserId,
   MultiCartSelectors,
   StateWithMultiCart,
-} from '@spartacus/cart/main/core';
-import { CartType } from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/core';
+import { CartType } from '@spartacus/cart/base/root';
 import {
   isNotUndefined,
   normalizeHttpError,

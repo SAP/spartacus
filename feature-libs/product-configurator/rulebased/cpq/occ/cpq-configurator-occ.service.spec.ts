@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,

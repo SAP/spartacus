@@ -5,7 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,

@@ -8,7 +8,7 @@ import {
   Cart,
   CartOutlets,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   DeleteSavedCartSuccessEvent,
   SavedCartFacade,

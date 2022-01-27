@@ -51,6 +51,30 @@
       "@spartacus/asm/root": [
         "feature-libs/asm/root/public_api"
       ],
+      "@spartacus/cart/base/assets": [
+        "feature-libs/cart/base/assets/public_api"
+      ],
+      "@spartacus/cart/base/components/add-to-cart": [
+        "feature-libs/cart/base/components/add-to-cart/public_api"
+      ],
+      "@spartacus/cart/base/components/mini-cart": [
+        "feature-libs/cart/base/components/mini-cart/public_api"
+      ],
+      "@spartacus/cart/base/components": [
+        "feature-libs/cart/base/components/public_api"
+      ],
+      "@spartacus/cart/base/core": [
+        "feature-libs/cart/base/core/public_api"
+      ],
+      "@spartacus/cart/base": [
+        "feature-libs/cart/base/public_api"
+      ],
+      "@spartacus/cart/base/occ": [
+        "feature-libs/cart/base/occ/public_api"
+      ],
+      "@spartacus/cart/base/root": [
+        "feature-libs/cart/base/root/public_api"
+      ],
       "@spartacus/cart/import-export/assets": [
         "feature-libs/cart/import-export/assets/public_api"
       ],
@@ -65,30 +89,6 @@
       ],
       "@spartacus/cart/import-export/root": [
         "feature-libs/cart/import-export/root/public_api"
-      ],
-      "@spartacus/cart/main/assets": [
-        "feature-libs/cart/main/assets/public_api"
-      ],
-      "@spartacus/cart/main/components/cart/add-to-cart": [
-        "feature-libs/cart/main/components/cart/add-to-cart/public_api"
-      ],
-      "@spartacus/cart/main/components/cart/mini-cart": [
-        "feature-libs/cart/main/components/cart/mini-cart/public_api"
-      ],
-      "@spartacus/cart/main/components": [
-        "feature-libs/cart/main/components/public_api"
-      ],
-      "@spartacus/cart/main/core": [
-        "feature-libs/cart/main/core/public_api"
-      ],
-      "@spartacus/cart/main": [
-        "feature-libs/cart/main/public_api"
-      ],
-      "@spartacus/cart/main/occ": [
-        "feature-libs/cart/main/occ/public_api"
-      ],
-      "@spartacus/cart/main/root": [
-        "feature-libs/cart/main/root/public_api"
       ],
       "@spartacus/cart": [
         "feature-libs/cart/public_api"

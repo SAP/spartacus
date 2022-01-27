@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ProductImportInfoService } from '@spartacus/cart/main/core';
+import { ProductImportInfoService } from '@spartacus/cart/base/core';
 import {
   AddOrderEntriesContext,
   Cart,
@@ -9,7 +9,7 @@ import {
   OrderEntry,
   ProductData,
   ProductImportInfo,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { RoutingService, UserIdService } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';

@@ -1,9 +1,9 @@
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
   I18nTestingModule,

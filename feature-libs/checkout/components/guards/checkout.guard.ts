@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepType } from '@spartacus/checkout/root';
 import { getLastValueSync, RoutingConfigService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';

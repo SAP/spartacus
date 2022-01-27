@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/main/root';
+import { Cart, CART_NORMALIZER, PaymentType } from '@spartacus/cart/base/root';
 import {
   PaymentTypeAdapter,
   PAYMENT_TYPE_NORMALIZER,

@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   BASE_SITE_CONTEXT_ID,

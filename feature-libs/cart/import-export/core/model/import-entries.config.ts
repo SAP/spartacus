@@ -1,4 +1,4 @@
-import { OrderEntriesSource } from '@spartacus/cart/main/root';
+import { OrderEntriesSource } from '@spartacus/cart/base/root';
 
 /**
  * Indicates from which source the new saved cart name

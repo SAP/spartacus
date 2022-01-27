@@ -10,12 +10,12 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { ProductData } from '@spartacus/cart/base/root';
 import {
   CartNameGeneration,
   CartNameSource,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { ProductData } from '@spartacus/cart/main/root';
 import { CxDatePipe } from '@spartacus/core';
 import {
   FilesFormValidators,

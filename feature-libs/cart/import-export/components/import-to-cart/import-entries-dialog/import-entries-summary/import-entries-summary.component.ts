@@ -8,7 +8,7 @@ import {
 import {
   OrderEntriesSource,
   ProductImportSummary,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
