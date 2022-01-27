@@ -89,5 +89,6 @@ else
         yarn e2e:run:ci:core"${SUITE}"
     else
         yarn e2e:run:ci"${SUITE}"
+        # yarn e2e:run:ci:core"${SUITE}"
     fi
 fi
