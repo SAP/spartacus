@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   Event as NgRouterEvent,
   NavigationStart,
-  Router
+  Router,
 } from '@angular/router';
 import { Action, ActionsSubject } from '@ngrx/store';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';

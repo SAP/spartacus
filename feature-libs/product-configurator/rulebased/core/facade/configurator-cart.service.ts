@@ -5,11 +5,11 @@ import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,
   StateUtils,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { delayWhen, filter, map, take, tap } from 'rxjs/operators';

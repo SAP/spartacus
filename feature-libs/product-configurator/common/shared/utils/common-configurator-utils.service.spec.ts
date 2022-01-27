@@ -6,7 +6,7 @@ import {
   Cart,
   CartItemContext,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
@@ -14,7 +14,7 @@ import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';
 import {
   CommonConfigurator,
   ConfiguratorType,
-  OrderEntryStatus
+  OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorUtilsService } from './common-configurator-utils.service';
 import { ConfiguratorModelUtils } from './configurator-model-utils';

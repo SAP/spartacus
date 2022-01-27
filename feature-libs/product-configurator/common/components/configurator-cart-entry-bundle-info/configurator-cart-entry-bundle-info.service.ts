@@ -3,7 +3,7 @@ import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
-  ConfigurationInfoSpecialFields
+  ConfigurationInfoSpecialFields,
 } from '../../core/model/common-configurator.model';
 import { LineItem } from './configurator-cart-entry-bundle-info.model';
 

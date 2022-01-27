@@ -7,7 +7,7 @@ import {
   ProductModule,
   ProductOccModule,
   UserModule,
-  UserOccModule
+  UserOccModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -47,7 +47,7 @@ import {
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
-  TabParagraphContainerModule
+  TabParagraphContainerModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';

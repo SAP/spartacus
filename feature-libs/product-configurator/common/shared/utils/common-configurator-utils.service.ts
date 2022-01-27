@@ -3,7 +3,7 @@ import {
   Cart,
   CartItemContext,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import {
@@ -11,14 +11,14 @@ import {
   LayoutConfig,
   LayoutSlotConfig,
   SlotConfig,
-  SlotGroup
+  SlotGroup,
 } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import {
   CommonConfigurator,
   ConfiguratorType,
-  OrderEntryStatus
+  OrderEntryStatus,
 } from '../../core/model/common-configurator.model';
 import { ConfiguratorModelUtils } from './configurator-model-utils';
 

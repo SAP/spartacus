@@ -5,7 +5,7 @@ import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   IconModule,
   OutletPosition,
-  provideOutlet
+  provideOutlet,
 } from '@spartacus/storefront';
 import { ConfiguratorIssuesNotificationModule } from '../configurator-issues-notification/configurator-issues-notification.module';
 import { ConfigureCartEntryModule } from '../configure-cart-entry/configure-cart-entry.module';

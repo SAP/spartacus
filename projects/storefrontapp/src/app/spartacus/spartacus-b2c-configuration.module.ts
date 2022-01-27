@@ -5,7 +5,7 @@ import {
   defaultCmsContentProviders,
   layoutConfig,
   mediaConfig,
-  PWAModuleConfig
+  PWAModuleConfig,
 } from '@spartacus/storefront';
 
 @NgModule({

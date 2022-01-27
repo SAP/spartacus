@@ -2,24 +2,24 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import {
   ActivatedRoute,
   convertToParamMap,
-  RouterModule
+  RouterModule,
 } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import {
   CheckoutDeliveryAddressService,
-  CheckoutPaymentService
+  CheckoutPaymentService,
 } from '@spartacus/checkout/base/core';
 import {
   CheckoutDeliveryAddressFacade,
-  CheckoutPaymentFacade
+  CheckoutPaymentFacade,
 } from '@spartacus/checkout/base/root';
 import {
   Address,
   QueryState,
   TranslationService,
-  UserPaymentService
+  UserPaymentService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';

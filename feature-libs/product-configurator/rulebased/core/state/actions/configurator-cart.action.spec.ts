@@ -2,7 +2,7 @@ import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';

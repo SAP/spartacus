@@ -6,18 +6,18 @@ import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
-  UserIdService
+  UserIdService,
 } from '@spartacus/core';
 import {
   CommonConfigurator,
-  ConfiguratorModelUtils
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { Observable, of } from 'rxjs';
 import { ConfiguratorTextfield } from '../model/configurator-textfield.model';
 import { ConfiguratorTextfieldActions } from '../state/actions/index';
 import {
   ConfigurationTextfieldState,
-  StateWithConfigurationTextfield
+  StateWithConfigurationTextfield,
 } from '../state/configuration-textfield-state';
 import { ConfiguratorTextfieldService } from './configurator-textfield.service';
 import createSpy = jasmine.createSpy;

@@ -12,20 +12,20 @@ import {
   recurrencePeriod,
   recurrencePeriodMap,
   replenishmentDate,
-  replenishmentDay
+  replenishmentDay,
 } from '../../sample-data/b2b-checkout';
 import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user
+  user,
 } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
   visitHomePage,
   waitForPage,
-  waitForProductPage
+  waitForProductPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 

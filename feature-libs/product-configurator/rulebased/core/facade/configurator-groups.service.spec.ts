@@ -10,7 +10,7 @@ import {
   GROUP_ID_2,
   GROUP_ID_4,
   productConfiguration,
-  productConfigurationWithConflicts
+  productConfigurationWithConflicts,
 } from '../../testing/configurator-test-data';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorActions } from '../state/actions/index';

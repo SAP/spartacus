@@ -7,7 +7,7 @@ import { StateUtils } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
-  ConfiguratorModelUtils
+  ConfiguratorModelUtils,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
@@ -18,7 +18,7 @@ import { ConfiguratorActions } from '../state/actions/index';
 import {
   ConfiguratorState,
   CONFIGURATOR_FEATURE,
-  StateWithConfigurator
+  StateWithConfigurator,
 } from '../state/configurator-state';
 import { getConfiguratorReducers } from '../state/reducers/index';
 import { ConfiguratorCartService } from './configurator-cart.service';

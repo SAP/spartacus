@@ -4,7 +4,7 @@ import {
   GlobalMessageType,
   PaymentDetails,
   TranslationService,
-  UserPaymentService
+  UserPaymentService,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';

@@ -2,7 +2,7 @@ import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService
+  CommonConfiguratorUtilsService,
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { Configurator } from '../model/configurator.model';

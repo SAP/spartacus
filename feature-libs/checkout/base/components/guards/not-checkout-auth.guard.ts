@@ -4,7 +4,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   AuthService,
   getLastValueSync,
-  SemanticPathService
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

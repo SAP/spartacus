@@ -11,7 +11,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';

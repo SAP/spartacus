@@ -4,14 +4,14 @@ import {
   Input,
   Pipe,
   PipeTransform,
-  Type
+  Type,
 } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ControlContainer, FormControl } from '@angular/forms';
 import {
   CartItemContext,
   OrderEntry,
-  PromotionLocation
+  PromotionLocation,
 } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import {
@@ -19,7 +19,7 @@ import {
   ConfigurationInfo,
   ConfiguratorCartEntryBundleInfoService,
   ConfiguratorType,
-  LineItem
+  LineItem,
 } from '@spartacus/product-configurator/common';
 import { BreakpointService } from '@spartacus/storefront';
 import { BehaviorSubject, of, ReplaySubject } from 'rxjs';

@@ -5,7 +5,7 @@ import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-  ConfiguratorType
+  ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { of } from 'rxjs';
