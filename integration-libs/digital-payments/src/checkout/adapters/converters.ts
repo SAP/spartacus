@@ -1,5 +1,5 @@
 import { InjectionToken } from '@angular/core';
-import { PaymentDetails } from '@spartacus/cart/main/root';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { Converter } from '@spartacus/core';
 import { DpPaymentRequest } from '../models';
 

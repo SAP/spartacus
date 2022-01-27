@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutState } from '@spartacus/checkout/base/root';
 import {
   OCC_USER_ID_CURRENT,

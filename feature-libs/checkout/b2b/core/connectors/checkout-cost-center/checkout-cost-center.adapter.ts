@@ -1,4 +1,4 @@
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { Observable } from 'rxjs';
 
 export abstract class CheckoutCostCenterAdapter {

@@ -1,29 +1,29 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController,
+  HttpTestingController
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import {
   CartModification,
-  CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/main/root';
+  CART_MODIFICATION_NORMALIZER
+} from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
   DynamicAttributes,
-  OccEndpointsService,
+  OccEndpointsService
 } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
-  ConfiguratorType,
+  ConfiguratorType
 } from '@spartacus/product-configurator/common';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
   CPQ_CONFIGURATOR_ADD_TO_CART_SERIALIZER,
-  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER,
+  CPQ_CONFIGURATOR_UPDATE_CART_ENTRY_SERIALIZER
 } from './converters/cpq-configurator-occ.converters';
 import { CpqConfiguratorOccService } from './cpq-configurator-occ.service';
 

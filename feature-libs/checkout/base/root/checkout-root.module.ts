@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CART_FEATURE, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import {
+  CART_BASE_FEATURE,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
@@ -39,7 +42,7 @@ export function defaultCheckoutComponentsConfig() {
       [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
         // TODO:#checkout - remove ORDER_FEATURE once we move the order placing functionality to the order lib
-        dependencies: [CART_FEATURE, ORDER_FEATURE],
+        dependencies: [CART_BASE_FEATURE, ORDER_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,

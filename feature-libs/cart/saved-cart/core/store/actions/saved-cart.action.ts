@@ -1,4 +1,4 @@
-import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
+import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
 import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,

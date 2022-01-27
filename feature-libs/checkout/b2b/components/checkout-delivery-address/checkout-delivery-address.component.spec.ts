@@ -2,10 +2,10 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
-  CheckoutPaymentTypeFacade,
+  CheckoutPaymentTypeFacade
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
@@ -15,7 +15,7 @@ import {
   I18nTestingModule,
   QueryState,
   UserAddressService,
-  UserCostCenterService,
+  UserCostCenterService
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';

@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PromotionLocation } from '@spartacus/cart/main/root';
+import { PromotionLocation } from '@spartacus/cart/base/root';
 import {
   FeaturesConfig,
   FeaturesConfigModule,

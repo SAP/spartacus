@@ -3,7 +3,7 @@ import {
   ActiveCartFacade,
   CardType,
   PaymentDetails,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,

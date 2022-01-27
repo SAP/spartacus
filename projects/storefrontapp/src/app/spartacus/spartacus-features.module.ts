@@ -7,7 +7,7 @@ import {
   ProductModule,
   ProductOccModule,
   UserModule,
-  UserOccModule,
+  UserOccModule
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -47,13 +47,13 @@ import {
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
-  TabParagraphContainerModule,
+  TabParagraphContainerModule
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
-import { CartFeatureModule } from './features/cart-feature.module';
+import { CartBaseFeatureModule } from './features/cart-base-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
@@ -181,8 +181,9 @@ if (environment.digitalPayments) {
 
     /************************* Feature libraries *************************/
     UserFeatureModule,
-    CartFeatureModule,
+    CartBaseFeatureModule,
     WishListFeatureModule,
+    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,

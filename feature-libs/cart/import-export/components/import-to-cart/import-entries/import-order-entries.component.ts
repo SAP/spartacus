@@ -7,7 +7,7 @@ import {
 import {
   OrderEntriesContext,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   ContextService,
   LaunchDialogService,

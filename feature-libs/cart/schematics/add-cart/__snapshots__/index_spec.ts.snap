@@ -1,63 +1,63 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Spartacus Cart schematics: ng-add Cart Main feature eager loading should import appropriate modules 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Base feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CartModule } from \\"@spartacus/cart/main\\";
-import { cartTranslationChunksConfig, cartTranslations } from \\"@spartacus/cart/main/assets\\";
-import { CartRootModule } from \\"@spartacus/cart/main/root\\";
+import { CartBaseModule } from \\"@spartacus/cart/base\\";
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { CartBaseRootModule } from \\"@spartacus/cart/base/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    CartRootModule,
-    CartModule
+    CartBaseRootModule,
+    CartBaseModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
-      resources: cartTranslations,
-      chunks: cartTranslationChunksConfig,
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
     },
   })]
 })
-export class CartFeatureModule { }
+export class CartBaseFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Main feature general setup should add the feature using the lazy loading syntax 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { cartTranslationChunksConfig, cartTranslations } from \\"@spartacus/cart/main/assets\\";
-import { CartRootModule, CART_FEATURE } from \\"@spartacus/cart/main/root\\";
+import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { CartBaseRootModule, CART_BASE_FEATURE } from \\"@spartacus/cart/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
   declarations: [],
   imports: [
-    CartRootModule
+    CartBaseRootModule
   ],
   providers: [provideConfig(<CmsConfig>{
     featureModules: {
-      [CART_FEATURE]: {
+      [CART_BASE_FEATURE]: {
         module: () =>
-          import('@spartacus/cart/main').then((m) => m.CartModule),
+          import('@spartacus/cart/base').then((m) => m.CartBaseModule),
       },
     }
   }),
   provideConfig(<I18nConfig>{
     i18n: {
-      resources: cartTranslations,
-      chunks: cartTranslationChunksConfig,
+      resources: cartBaseTranslations,
+      chunks: cartBaseTranslationChunksConfig,
     },
   })
   ]
 })
-export class CartFeatureModule { }
+export class CartBaseFeatureModule { }
 "
 `;
 
-exports[`Spartacus Cart schematics: ng-add Cart Main feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
+exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should create a proper scss file 1`] = `"@import \\"@spartacus/cart\\";"`;
 
-exports[`Spartacus Cart schematics: ng-add Cart Main feature general setup styling should update angular.json 1`] = `
+exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup styling should update angular.json 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

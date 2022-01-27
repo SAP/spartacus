@@ -49,7 +49,7 @@ export const payment = {
     paymentType_CARD: 'Credit Card',
     paymentType_ACCOUNT: 'Account',
   },
-  messages: {
-    setAsDefaultSuccessfully: 'New payment was successfully set as default',
+  paymentMessages: {
+    setAsDefaultSucessfully: 'New payment was sucessfully set as default',
   },
 };

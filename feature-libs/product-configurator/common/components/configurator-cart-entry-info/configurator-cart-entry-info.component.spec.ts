@@ -3,14 +3,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   ControlContainer,
   FormControl,
-  ReactiveFormsModule,
+  ReactiveFormsModule
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   CartItemContext,
   OrderEntry,
-  PromotionLocation,
-} from '@spartacus/cart/main/root';
+  PromotionLocation
+} from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';

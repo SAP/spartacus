@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
   Address,
@@ -127,10 +127,10 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * return info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
    * True means at least one quest is still in process, false means all three requests are done
    */
-  getSetDeliveryModeInProcess(): Observable<boolean> {
+  isSetDeliveryModeBusy(): Observable<boolean> {
     return combineLatest([
       this.activeCartFacade.isStable(),
       this.checkoutService.isLoading(),

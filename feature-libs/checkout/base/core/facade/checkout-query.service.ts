@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   ActiveCartFacade,
   MergeCartSuccessEvent,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,

@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
-import { CartOutlets } from '@spartacus/cart/main/root';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';

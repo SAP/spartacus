@@ -1,9 +1,9 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
-  CommonConfiguratorUtilsService,
+  CommonConfiguratorUtilsService
 } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { filter, map, switchMap, switchMapTo, take, tap } from 'rxjs/operators';
@@ -212,28 +212,10 @@ export class ConfiguratorCommonsService {
       )
     );
   }
-  protected removeObsoleteProductBoundConfiguration(
-    owner: CommonConfigurator.Owner
-  ): void {
-    this.store
-      .pipe(
-        select(ConfiguratorSelectors.getConfigurationFactory(owner.key)),
-        take(1)
-      )
-      .subscribe((configuration) => {
-        if (
-          this.configuratorUtils.isConfigurationCreated(configuration) &&
-          configuration.nextOwner
-        ) {
-          this.removeConfiguration(owner);
-        }
-      });
-  }
 
   protected getOrCreateConfigurationForProduct(
     owner: CommonConfigurator.Owner
   ): Observable<Configurator.Configuration> {
-    this.removeObsoleteProductBoundConfiguration(owner);
     return this.store.pipe(
       select(
         ConfiguratorSelectors.getConfigurationProcessLoaderStateFactory(

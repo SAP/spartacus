@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   CheckoutPaymentTypeFacade,
-  PaymentTypeSetEvent,
+  PaymentTypeSetEvent
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
@@ -20,7 +20,7 @@ import {
   QueryNotifier,
   QueryService,
   QueryState,
-  UserIdService,
+  UserIdService
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';

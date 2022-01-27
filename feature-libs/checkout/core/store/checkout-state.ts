@@ -1,4 +1,4 @@
-import { DeliveryMode, PaymentType } from '@spartacus/cart/main/root';
+import { DeliveryMode, PaymentType } from '@spartacus/cart/base/root';
 import { ORDER_TYPE } from '@spartacus/checkout/root';
 import { Address, CardType, PaymentDetails, StateUtils } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';

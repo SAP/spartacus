@@ -2,8 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   AuthActions,

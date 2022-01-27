@@ -4,8 +4,8 @@ import {
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+  CartUpdateEntrySuccessEvent
+} from '@spartacus/cart/base/root';
 import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import {
@@ -13,11 +13,11 @@ import {
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
-  SearchPageResultsEvent,
+  SearchPageResultsEvent
 } from '@spartacus/storefront';
 import {
   PersonalizationContext,
-  PersonalizationContextService,
+  PersonalizationContextService
 } from '@spartacus/tracking/personalization/core';
 import { ReplaySubject } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';

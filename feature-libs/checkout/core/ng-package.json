@@ -8,8 +8,8 @@
       "@ngrx/effects": "effects",
       "@ngrx/store": "store",
       "@spartacus/cart/saved-cart/root": "savedCartRoot",
-      "@spartacus/cart/main/core": "cartCore",
-      "@spartacus/cart/main/root": "cartRoot"
+      "@spartacus/cart/base/core": "cartCore",
+      "@spartacus/cart/base/root": "cartRoot"
     }
   }
 }

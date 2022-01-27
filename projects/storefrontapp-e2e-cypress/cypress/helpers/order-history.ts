@@ -51,7 +51,7 @@ export const orderHistoryTest = {
           replenishmentOrderHistoryHeaderValue
         );
       } else {
-        cy.get('.cx-order-history-header h3').should(
+        cy.get('.cx-order-history-header h2').should(
           'contain',
           'Order history'
         );
@@ -81,7 +81,7 @@ export const orderHistoryTest = {
             orderData.body.code
           );
           cy.visit('/my-account/orders');
-          cy.get('cx-order-history h3').should('contain', 'Order history');
+          cy.get('cx-order-history h2').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
             orderData.body.code

@@ -20,6 +20,7 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
+    this.handleUnknownIdentifierError(request, response);
   }
 
   protected handleBadPassword(
@@ -107,6 +108,22 @@ export class BadRequestHandler extends HttpErrorHandler {
               errorMessage: error.message || '',
             },
           },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleUnknownIdentifierError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'UnknownIdentifierError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message
+            ? error.message
+            : { key: 'httpHandlers.unknownIdentifier' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

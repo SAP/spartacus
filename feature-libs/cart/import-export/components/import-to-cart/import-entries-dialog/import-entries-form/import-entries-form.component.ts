@@ -7,8 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
-import { OrderEntriesSource, ProductData } from '@spartacus/cart/main/root';
 import {
   FilesFormValidators,
   FormUtils,

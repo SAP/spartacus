@@ -3,12 +3,11 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
-import { MockFeatureLevelDirective } from '../../../../../projects/storefrontlib/shared/test/mock-feature-level-directive';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
 import { DeliveryModeComponent } from './delivery-mode.component';
@@ -44,7 +43,7 @@ const mockActivatedRoute = {
   },
 };
 
-const setDeliveryModeInProcess$ = new BehaviorSubject<boolean>(false);
+const isSetDeliveryModeBusy$ = new BehaviorSubject<boolean>(false);
 
 const selectedDeliveryMode$ = new BehaviorSubject<DeliveryMode>({});
 
@@ -64,8 +63,8 @@ class MockCheckoutDeliveryService {
   getSetDeliveryModeProcess(): Observable<LoaderState<void>> {
     return of({});
   }
-  getSetDeliveryModeInProcess(): Observable<boolean> {
-    return setDeliveryModeInProcess$.asObservable();
+  isSetDeliveryModeBusy(): Observable<boolean> {
+    return isSetDeliveryModeBusy$.asObservable();
   }
 }
 
@@ -94,11 +93,7 @@ describe('DeliveryModeComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [ReactiveFormsModule, I18nTestingModule, FeaturesConfigModule],
-        declarations: [
-          DeliveryModeComponent,
-          MockSpinnerComponent,
-          MockFeatureLevelDirective,
-        ],
+        declarations: [DeliveryModeComponent, MockSpinnerComponent],
         providers: [
           {
             provide: CheckoutDeliveryFacade,
@@ -124,7 +119,7 @@ describe('DeliveryModeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(DeliveryModeComponent);
     component = fixture.componentInstance;
-    setDeliveryModeInProcess$.next(false);
+    isSetDeliveryModeBusy$.next(false);
     selectedDeliveryMode$.next({});
   });
 
@@ -199,26 +194,26 @@ describe('DeliveryModeComponent', () => {
     ).toHaveBeenCalledTimes(1);
   });
 
-  describe('Shipping method fieldset', () => {
-    const getShippingMethodFieldSet = () =>
-      fixture.debugElement.query(By.css('fieldset'));
+  describe('Shipping method radio input', () => {
+    const getShippingMethodRadioInput = () =>
+      fixture.debugElement.query(By.css('.form-check .form-check-input'));
 
-    it('should be enabled after supported delivery modes are loaded', () => {
+    it('should be displayed after supported delivery modes are loaded', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
 
       fixture.detectChanges();
 
-      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeFalsy();
+      expect(getShippingMethodRadioInput().nativeElement).toBeTruthy();
     });
 
-    it('should be disabled when there is another ongoing request', () => {
+    it('should be hidden by spinner when there is another ongoing request', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(true);
+      isSetDeliveryModeBusy$.next(true);
 
       fixture.detectChanges();
 
-      expect(getShippingMethodFieldSet().nativeElement.disabled).toBeTruthy();
+      expect(getShippingMethodRadioInput()).toBeFalsy();
     });
   });
 
@@ -240,7 +235,7 @@ describe('DeliveryModeComponent', () => {
 
     it('should be enabled when delivery mode is selected', () => {
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -252,7 +247,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'next');
 
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
       setDeliveryModeId(mockDeliveryMode1.code);
 
       fixture.detectChanges();
@@ -273,7 +268,7 @@ describe('DeliveryModeComponent', () => {
       spyOn(component, 'back');
 
       component.ngOnInit();
-      setDeliveryModeInProcess$.next(false);
+      isSetDeliveryModeBusy$.next(false);
 
       fixture.detectChanges();
 

@@ -1,0 +1,52 @@
+%cx-order-summary {
+  display: block;
+  padding-top: 16px;
+  padding-inline-end: 15px;
+  padding-bottom: 0;
+  padding-inline-start: 15px;
+  margin: 0;
+
+  .cx-summary-heading {
+    text-transform: uppercase;
+    @include type('4');
+    font-weight: var(--cx-font-weight-semi);
+  }
+
+  .cx-summary-label {
+    text-align: start;
+    padding: 0;
+  }
+  .cx-summary-amount {
+    text-align: end;
+    padding: 0;
+  }
+  .cx-summary-row {
+    padding: 0.5rem 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .cx-summary-savings {
+    color: var(--cx-color-success);
+  }
+  .cx-summary-total {
+    font-weight: var(--cx-font-weight-bold);
+  }
+  .cx-coupon-code-pill {
+    background: var(--cx-g-color-light);
+    padding-top: 7px;
+    padding-inline-end: 15px;
+    padding-bottom: 7px;
+    padding-inline-start: 13px;
+    margin-top: 10px;
+    margin-inline-end: 10px;
+    margin-bottom: 5px;
+    margin-inline-start: 0;
+    display: inline-flex;
+    align-items: flex-start;
+    border-radius: 4px;
+    word-break: break-all;
+  }
+  .cx-coupon-code--pill-value {
+    line-height: 1.7;
+  }
+}

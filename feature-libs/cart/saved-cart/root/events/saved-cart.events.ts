@@ -1,4 +1,4 @@
-import { CartEvent } from '@spartacus/cart/main/root';
+import { CartEvent } from '@spartacus/cart/base/root';
 
 /**
  * Base saved cart event. Most cart events should have these properties.

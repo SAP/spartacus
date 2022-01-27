@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/main/root';
+import { Cart } from '@spartacus/cart/base/root';
 import { BehaviorSubject, of, ReplaySubject, Subject } from 'rxjs';
 import { CdsBackendConnector } from '../connectors/cds-backend-connector';
 import {
   ConsentChangedPushEvent,
-  ProfileTagPushEvent,
+  ProfileTagPushEvent
 } from '../model/profile-tag.model';
 import { ProfileTagLifecycleService } from './profile-tag-lifecycle.service';
 import { ProfileTagPushEventsService } from './profile-tag-push-events.service';

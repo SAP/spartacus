@@ -4,7 +4,7 @@ import {
   GlobalMessageType,
   PaymentDetails,
   TranslationService,
-  UserPaymentService,
+  UserPaymentService
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
@@ -110,7 +110,7 @@ export class PaymentMethodsComponent implements OnInit {
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
     this.globalMessageService?.add(
-      { key: 'messages.setAsDefaultSuccessfully' },
+      { key: 'paymentMessages.setAsDefaultSucessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }

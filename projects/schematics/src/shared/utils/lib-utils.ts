@@ -8,25 +8,24 @@ import {
   SchematicContext,
   SchematicsException,
   TaskId,
-  Tree,
+  Tree
 } from '@angular-devkit/schematics';
 import {
   NodePackageInstallTask,
-  RunSchematicTask,
+  RunSchematicTask
 } from '@angular-devkit/schematics/tasks';
 import { RunSchematicTaskOptions } from '@angular-devkit/schematics/tasks/run-schematic/options';
 import {
   addPackageJsonDependency,
   NodeDependency,
-  NodeDependencyType,
+  NodeDependencyType
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   CLI_ASM_FEATURE,
-  CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_MAIN_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
+  CLI_CART_BASE_FEATURE,
+  CLI_CART_IMPORT_EXPORT_FEATURE, CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CART_WISHLIST_FEATURE,
   CLI_CDC_FEATURE,
@@ -73,7 +72,7 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
-  UTF_8,
+  UTF_8
 } from '../constants';
 import { getB2bConfiguration } from './config-utils';
 import { isImportedFrom } from './import-utils';
@@ -81,13 +80,13 @@ import {
   addModuleImport,
   addModuleProvider,
   ensureModuleExists,
-  Import,
+  Import
 } from './new-module-utils';
 import {
   createDependencies,
   createSpartacusDependencies,
   getPrefixedSpartacusSchematicsVersion,
-  readPackageJson,
+  readPackageJson
 } from './package-utils';
 import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
@@ -95,7 +94,7 @@ import {
   getDefaultProjectNameFromWorkspace,
   getSourceRoot,
   getWorkspace,
-  scaffoldStructure,
+  scaffoldStructure
 } from './workspace-utils';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
@@ -196,7 +195,7 @@ export interface AssetsConfig {
 export const packageSubFeaturesMapping: Record<string, string[]> = {
   [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
   [SPARTACUS_CART]: [
-    CLI_CART_MAIN_FEATURE,
+    CLI_CART_BASE_FEATURE,
     CLI_CART_WISHLIST_FEATURE,
     CLI_CART_IMPORT_EXPORT_FEATURE,
     CLI_CART_QUICK_ORDER_FEATURE,

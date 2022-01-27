@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Cart, CART_NORMALIZER } from '@spartacus/cart/main/root';
+import { Cart, CART_NORMALIZER } from '@spartacus/cart/base/root';
 import { CheckoutCostCenterAdapter } from '@spartacus/checkout/b2b/core';
 import {
   backOff,

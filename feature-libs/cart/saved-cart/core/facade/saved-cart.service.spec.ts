@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { StateWithMultiCart } from '@spartacus/cart/main/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/main/root';
+import { StateWithMultiCart } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   ProcessModule,
   StateUtils,

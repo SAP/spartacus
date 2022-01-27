@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ProductImportInfoService } from '@spartacus/cart/main/core';
-import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/main/root';
+import { ProductImportInfoService } from '@spartacus/cart/base/core';
+import { Cart, MultiCartFacade, ProductData } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';

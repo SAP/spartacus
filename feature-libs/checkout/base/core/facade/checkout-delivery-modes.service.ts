@@ -3,7 +3,7 @@ import {
   ActiveCartFacade,
   DeliveryMode,
   LoadCartEvent,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,

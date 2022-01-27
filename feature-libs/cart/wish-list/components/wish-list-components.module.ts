@@ -14,13 +14,11 @@ import {
   PageComponentModule,
   StarRatingModule,
 } from '@spartacus/storefront';
-import { AddToWishListModule } from './add-to-wishlist/add-to-wish-list.module';
 import { WishListItemComponent } from './wish-list-item/wish-list-item.component';
 import { WishListComponent } from './wish-list/wish-list.component';
 
 @NgModule({
   imports: [
-    AddToWishListModule,
     CommonModule,
     I18nModule,
     MediaModule,

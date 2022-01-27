@@ -8,7 +8,7 @@ import {
   DeliveryMode,
   OrderEntry,
   PaymentDetails,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,

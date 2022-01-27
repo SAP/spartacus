@@ -12,20 +12,20 @@ import {
   recurrencePeriod,
   recurrencePeriodMap,
   replenishmentDate,
-  replenishmentDay,
+  replenishmentDay
 } from '../../sample-data/b2b-checkout';
 import {
   SampleCartProduct,
   SampleProduct,
   SampleUser,
-  user,
+  user
 } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder } from '../accessibility/tabbing-order';
 import {
   addCheapProductToCart,
   visitHomePage,
   waitForPage,
-  waitForProductPage,
+  waitForProductPage
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
 
@@ -196,7 +196,9 @@ export function selectAccountDeliveryMode() {
 
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
-  cy.get('.cx-checkout-btns button.btn-primary').should('be.enabled').click();
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
 
   cy.wait(`@${orderReview}`, { timeout: 30000 })
     .its('response.statusCode')

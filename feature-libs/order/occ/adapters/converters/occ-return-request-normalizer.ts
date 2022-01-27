@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Converter,
   ConverterService,

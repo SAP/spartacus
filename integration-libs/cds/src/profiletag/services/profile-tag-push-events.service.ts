@@ -3,8 +3,8 @@ import {
   CartAddEntrySuccessEvent,
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
-  CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+  CartUpdateEntrySuccessEvent
+} from '@spartacus/cart/base/root';
 import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { Category, EventService } from '@spartacus/core';
 import {
@@ -12,7 +12,7 @@ import {
   HomePageEvent,
   PageEvent,
   ProductDetailsPageEvent,
-  SearchPageResultsEvent,
+  SearchPageResultsEvent
 } from '@spartacus/storefront';
 import { PersonalizationContextService } from '@spartacus/tracking/personalization/core';
 import { merge, Observable, of } from 'rxjs';
@@ -23,7 +23,7 @@ import {
   mapTo,
   pairwise,
   startWith,
-  withLatestFrom,
+  withLatestFrom
 } from 'rxjs/operators';
 import {
   AddedToCartPushEvent,
@@ -36,7 +36,7 @@ import {
   OrderConfirmationPushEvent,
   ProductViewPushEvent,
   ProfileTagPushEvent,
-  RemovedFromCartPushEvent,
+  RemovedFromCartPushEvent
 } from '../model/profile-tag.model';
 
 /**

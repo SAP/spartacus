@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { SemanticPathService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CartNotEmptyGuard } from './cart-not-empty.guard';

@@ -2,8 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   CartModification,
-  CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/main/root';
+  CART_MODIFICATION_NORMALIZER
+} from '@spartacus/cart/base/root';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
@@ -12,7 +12,7 @@ import { ConfiguratorTextfieldAdapter } from '../core/connectors/configurator-te
 import {
   CONFIGURATION_TEXTFIELD_ADD_TO_CART_SERIALIZER,
   CONFIGURATION_TEXTFIELD_NORMALIZER,
-  CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER,
+  CONFIGURATION_TEXTFIELD_UPDATE_CART_ENTRY_SERIALIZER
 } from '../core/connectors/converters';
 import { ConfiguratorTextfield } from '../core/model/configurator-textfield.model';
 import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';

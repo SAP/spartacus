@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CartOutlets, PromotionLocation } from '@spartacus/cart/main/root';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
