@@ -1,7 +1,12 @@
 <ng-container *ngIf="components$ | async as components">
   <ng-container *ngFor="let component of components; let i = index">
     <ng-container *ngIf="component">
-      <button [class.active]="i === activeTabNum" (click)="select(i, $event)">
+      <button
+        [class.active]="i === activeTabNum"
+        (click)="select(i, $event)"
+        [attr.aria-expanded]="i === activeTabNum"
+        [attr.aria-controls]="'tab-' + i"
+      >
         {{
           component.title | cxTranslate: { param: tabTitleParams[i] | async }
         }}
@@ -11,7 +16,12 @@
 
   <ng-container *ngFor="let component of components; let i = index">
     <ng-container *ngIf="component">
-      <div [class.active]="i === activeTabNum">
+      <div
+        [class.active]="i === activeTabNum"
+        [attr.id]="'tab-' + i"
+        role="region"
+        [attr.aria-labelledby]="'tab-' + i + '-id'"
+      >
         <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
           <ng-container
             [cxComponentWrapper]="component"
