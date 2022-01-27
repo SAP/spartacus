@@ -1,0 +1,2142 @@
+commit a32dea3c81c4079ded5c28aa3de37e8d9d0afa61
+Author: pla <plabadie@users.noreply.github.com>
+Date:   Wed Jan 26 17:16:45 2022 -0500
+
+    GH-13071: Rename cart/main to cart/base (#14873)
+
+core-libs/setup/recipes/b2b/config/default-b2b-occ-config.ts
+core-libs/setup/tsconfig.lib.json
+feature-libs/cart/_index.scss
+feature-libs/cart/base/_index.scss
+feature-libs/cart/base/assets/ng-package.json
+feature-libs/cart/base/assets/public_api.ts
+feature-libs/cart/base/assets/translations/en/cart.i18n.ts
+feature-libs/cart/base/assets/translations/en/index.ts
+feature-libs/cart/base/assets/translations/translations.ts
+feature-libs/cart/base/cart-base.module.ts
+feature-libs/cart/base/components/cart-base-components.module.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.spec.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.html
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.spec.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/added-to-cart-dialog.module.ts
+feature-libs/cart/base/components/cart/added-to-cart-dialog/index.ts
+feature-libs/cart/base/components/cart/cart-coupon/applied-coupons/applied-coupons.component.html
+feature-libs/cart/base/components/cart/cart-coupon/applied-coupons/applied-coupons.component.spec.ts
+feature-libs/cart/base/components/cart/cart-coupon/applied-coupons/applied-coupons.component.ts
+feature-libs/cart/base/components/cart/cart-coupon/cart-coupon.component.html
+feature-libs/cart/base/components/cart/cart-coupon/cart-coupon.component.spec.ts
+feature-libs/cart/base/components/cart/cart-coupon/cart-coupon.component.ts
+feature-libs/cart/base/components/cart/cart-coupon/cart-coupon.module.ts
+feature-libs/cart/base/components/cart/cart-coupon/index.ts
+feature-libs/cart/base/components/cart/cart-details/cart-details.component.html
+feature-libs/cart/base/components/cart/cart-details/cart-details.component.spec.ts
+feature-libs/cart/base/components/cart/cart-details/cart-details.component.ts
+feature-libs/cart/base/components/cart/cart-details/cart-details.module.ts
+feature-libs/cart/base/components/cart/cart-page-layout-handler.spec.ts
+feature-libs/cart/base/components/cart/cart-page-layout-handler.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item-list/cart-item-list.component.html
+feature-libs/cart/base/components/cart/cart-shared/cart-item-list/cart-item-list.component.spec.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/cart-item.component.html
+feature-libs/cart/base/components/cart/cart-shared/cart-item/cart-item.component.spec.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/cart-item.component.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/index.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/model/cart-item-context-source.model.spec.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-item/model/index.ts
+feature-libs/cart/base/components/cart/cart-shared/cart-shared.module.ts
+feature-libs/cart/base/components/cart/cart-shared/index.ts
+feature-libs/cart/base/components/cart/cart-shared/order-summary/order-summary.component.html
+feature-libs/cart/base/components/cart/cart-shared/order-summary/order-summary.component.spec.ts
+feature-libs/cart/base/components/cart/cart-shared/order-summary/order-summary.component.ts
+feature-libs/cart/base/components/cart/cart-totals/cart-totals.component.html
+feature-libs/cart/base/components/cart/cart-totals/cart-totals.component.spec.ts
+feature-libs/cart/base/components/cart/cart-totals/cart-totals.component.ts
+feature-libs/cart/base/components/cart/cart-totals/cart-totals.module.ts
+feature-libs/cart/base/components/cart/index.ts
+feature-libs/cart/base/components/cart/page-context/active-cart-order-entries.context.spec.ts
+feature-libs/cart/base/components/cart/page-context/active-cart-order-entries.context.ts
+feature-libs/cart/base/components/cart/page-context/index.ts
+feature-libs/cart/base/components/cart/save-for-later/save-for-later.component.html
+feature-libs/cart/base/components/cart/save-for-later/save-for-later.component.spec.ts
+feature-libs/cart/base/components/cart/save-for-later/save-for-later.component.ts
+feature-libs/cart/base/components/cart/save-for-later/save-for-later.module.ts
+feature-libs/cart/base/components/cart/validation/cart-item-warning/cart-item-validation-warning.component.html
+feature-libs/cart/base/components/cart/validation/cart-item-warning/cart-item-validation-warning.component.spec.ts
+feature-libs/cart/base/components/cart/validation/cart-item-warning/cart-item-validation-warning.component.ts
+feature-libs/cart/base/components/cart/validation/cart-item-warning/cart-item-validation-warning.module.ts
+feature-libs/cart/base/components/cart/validation/cart-validation-components.module.ts
+feature-libs/cart/base/components/cart/validation/cart-warnings/cart-validation-warnings.component.html
+feature-libs/cart/base/components/cart/validation/cart-warnings/cart-validation-warnings.component.spec.ts
+feature-libs/cart/base/components/cart/validation/cart-warnings/cart-validation-warnings.component.ts
+feature-libs/cart/base/components/cart/validation/cart-warnings/cart-validation-warnings.module.ts
+feature-libs/cart/base/components/index.ts
+feature-libs/cart/base/components/ng-package.json
+feature-libs/cart/base/components/public_api.ts
+feature-libs/cart/base/core/cart-base-core.module.ts
+feature-libs/cart/base/core/cart-persistence.module.ts
+feature-libs/cart/base/core/connectors/cart/cart-connector.spec.ts
+feature-libs/cart/base/core/connectors/cart/cart.adapter.ts
+feature-libs/cart/base/core/connectors/cart/cart.connector.ts
+feature-libs/cart/base/core/connectors/cart/index.ts
+feature-libs/cart/base/core/connectors/entry/cart-entry.adapter.ts
+feature-libs/cart/base/core/connectors/entry/cart-entry.connector.spec.ts
+feature-libs/cart/base/core/connectors/entry/cart-entry.connector.ts
+feature-libs/cart/base/core/connectors/entry/index.ts
+feature-libs/cart/base/core/connectors/index.ts
+feature-libs/cart/base/core/connectors/validation/cart-validation.adapter.ts
+feature-libs/cart/base/core/connectors/validation/cart-validation.connector.spec.ts
+feature-libs/cart/base/core/connectors/validation/cart-validation.connector.ts
+feature-libs/cart/base/core/connectors/validation/converters.ts
+feature-libs/cart/base/core/connectors/validation/index.ts
+feature-libs/cart/base/core/connectors/voucher/cart-voucher.adapter.ts
+feature-libs/cart/base/core/connectors/voucher/cart-voucher.connector.spec.ts
+feature-libs/cart/base/core/connectors/voucher/cart-voucher.connector.ts
+feature-libs/cart/base/core/connectors/voucher/index.ts
+feature-libs/cart/base/core/event/cart-event.builder.spec.ts
+feature-libs/cart/base/core/event/cart-event.builder.ts
+feature-libs/cart/base/core/event/cart-event.module.spec.ts
+feature-libs/cart/base/core/event/cart-event.module.ts
+feature-libs/cart/base/core/event/cart-page-event.builder.spec.ts
+feature-libs/cart/base/core/event/cart-page-event.builder.ts
+feature-libs/cart/base/core/event/cart-page-event.module.ts
+feature-libs/cart/base/core/event/index.ts
+feature-libs/cart/base/core/facade/active-cart.service.spec.ts
+feature-libs/cart/base/core/facade/active-cart.service.ts
+feature-libs/cart/base/core/facade/cart-validation.service.spec.ts
+feature-libs/cart/base/core/facade/cart-validation.service.ts
+feature-libs/cart/base/core/facade/cart-voucher.service.spec.ts
+feature-libs/cart/base/core/facade/cart-voucher.service.ts
+feature-libs/cart/base/core/facade/facade-providers.ts
+feature-libs/cart/base/core/facade/index.ts
+feature-libs/cart/base/core/facade/multi-cart.service.spec.ts
+feature-libs/cart/base/core/facade/multi-cart.service.ts
+feature-libs/cart/base/core/facade/selective-cart.service.spec.ts
+feature-libs/cart/base/core/facade/selective-cart.service.ts
+feature-libs/cart/base/core/guards/cart-validation.guard.spec.ts
+feature-libs/cart/base/core/guards/cart-validation.guard.ts
+feature-libs/cart/base/core/guards/index.ts
+feature-libs/cart/base/core/http-interceptors/handlers/bad-cart-request.handler.spec.ts
+feature-libs/cart/base/core/http-interceptors/handlers/bad-cart-request.handler.ts
+feature-libs/cart/base/core/index.ts
+feature-libs/cart/base/core/ng-package.json
+feature-libs/cart/base/core/public_api.ts
+feature-libs/cart/base/core/services/cart-config.service.spec.ts
+feature-libs/cart/base/core/services/cart-config.service.ts
+feature-libs/cart/base/core/services/cart-validation-state.service.spec.ts
+feature-libs/cart/base/core/services/cart-validation-state.service.ts
+feature-libs/cart/base/core/services/index.ts
+feature-libs/cart/base/core/services/multi-cart-state-persistence.service.spec.ts
+feature-libs/cart/base/core/services/multi-cart-state-persistence.service.ts
+feature-libs/cart/base/core/services/product-import-info.service.spec.ts
+feature-libs/cart/base/core/services/product-import-info.service.ts
+feature-libs/cart/base/core/store/actions/cart-entry.action.spec.ts
+feature-libs/cart/base/core/store/actions/cart-entry.action.ts
+feature-libs/cart/base/core/store/actions/cart-group.actions.ts
+feature-libs/cart/base/core/store/actions/cart-voucher.action.spec.ts
+feature-libs/cart/base/core/store/actions/cart-voucher.action.ts
+feature-libs/cart/base/core/store/actions/cart.action.spec.ts
+feature-libs/cart/base/core/store/actions/cart.action.ts
+feature-libs/cart/base/core/store/actions/index.ts
+feature-libs/cart/base/core/store/actions/multi-cart.action.spec.ts
+feature-libs/cart/base/core/store/actions/multi-cart.action.ts
+feature-libs/cart/base/core/store/effects/cart-entry.effect.spec.ts
+feature-libs/cart/base/core/store/effects/cart-entry.effect.ts
+feature-libs/cart/base/core/store/effects/cart-voucher.effect.spec.ts
+feature-libs/cart/base/core/store/effects/cart-voucher.effect.ts
+feature-libs/cart/base/core/store/effects/cart.effect.spec.ts
+feature-libs/cart/base/core/store/effects/cart.effect.ts
+feature-libs/cart/base/core/store/effects/index.ts
+feature-libs/cart/base/core/store/effects/multi-cart.effect.spec.ts
+feature-libs/cart/base/core/store/effects/multi-cart.effect.ts
+feature-libs/cart/base/core/store/index.ts
+feature-libs/cart/base/core/store/multi-cart-state.ts
+feature-libs/cart/base/core/store/multi-cart-store.module.ts
+feature-libs/cart/base/core/store/reducers/index.ts
+feature-libs/cart/base/core/store/reducers/multi-cart.reducer.spec.ts
+feature-libs/cart/base/core/store/reducers/multi-cart.reducer.ts
+feature-libs/cart/base/core/store/selectors/index.ts
+feature-libs/cart/base/core/store/selectors/multi-cart-group.selectors.ts
+feature-libs/cart/base/core/store/selectors/multi-cart.selector.spec.ts
+feature-libs/cart/base/core/store/selectors/multi-cart.selector.ts
+feature-libs/cart/base/core/utils/utils.spec.ts
+feature-libs/cart/base/core/utils/utils.ts
+feature-libs/cart/base/index.ts
+feature-libs/cart/base/ng-package.json
+feature-libs/cart/base/occ/adapters/converters/index.ts
+feature-libs/cart/base/occ/adapters/converters/occ-cart-normalizer.spec.ts
+feature-libs/cart/base/occ/adapters/converters/occ-cart-normalizer.ts
+feature-libs/cart/base/occ/adapters/converters/order-entry-promotions-normalizer.spec.ts
+feature-libs/cart/base/occ/adapters/converters/order-entry-promotions-normalizer.ts
+feature-libs/cart/base/occ/adapters/default-occ-cart-config.ts
+feature-libs/cart/base/occ/adapters/index.ts
+feature-libs/cart/base/occ/adapters/occ-cart-entry.adapter.spec.ts
+feature-libs/cart/base/occ/adapters/occ-cart-entry.adapter.ts
+feature-libs/cart/base/occ/adapters/occ-cart-validation.adapter.spec.ts
+feature-libs/cart/base/occ/adapters/occ-cart-validation.adapter.ts
+feature-libs/cart/base/occ/adapters/occ-cart-voucher.adapter.spec.ts
+feature-libs/cart/base/occ/adapters/occ-cart-voucher.adapter.ts
+feature-libs/cart/base/occ/adapters/occ-cart.adapter.spec.ts
+feature-libs/cart/base/occ/adapters/occ-cart.adapter.ts
+feature-libs/cart/base/occ/cart-base-occ.module.ts
+feature-libs/cart/base/occ/model/index.ts
+feature-libs/cart/base/occ/model/occ-cart-endpoints.model.ts
+feature-libs/cart/base/occ/ng-package.json
+feature-libs/cart/base/occ/public_api.ts
+feature-libs/cart/base/public_api.ts
+feature-libs/cart/base/root/cart-base-root.module.ts
+feature-libs/cart/base/root/components/add-to-cart/add-to-cart.component.html
+feature-libs/cart/base/root/components/add-to-cart/add-to-cart.component.spec.ts
+feature-libs/cart/base/root/components/add-to-cart/add-to-cart.component.ts
+feature-libs/cart/base/root/components/add-to-cart/add-to-cart.module.ts
+feature-libs/cart/base/root/components/add-to-cart/index.ts
+feature-libs/cart/base/root/components/index.ts
+feature-libs/cart/base/root/components/mini-cart/index.ts
+feature-libs/cart/base/root/components/mini-cart/mini-cart-component.service.spec.ts
+feature-libs/cart/base/root/components/mini-cart/mini-cart-component.service.ts
+feature-libs/cart/base/root/components/mini-cart/mini-cart.component.html
+feature-libs/cart/base/root/components/mini-cart/mini-cart.component.spec.ts
+feature-libs/cart/base/root/components/mini-cart/mini-cart.component.ts
+feature-libs/cart/base/root/components/mini-cart/mini-cart.module.ts
+feature-libs/cart/base/root/config/cart-config.ts
+feature-libs/cart/base/root/config/default-cart-config.ts
+feature-libs/cart/base/root/config/default-cart-routing-config.ts
+feature-libs/cart/base/root/context/add-order-entries.context.ts
+feature-libs/cart/base/root/context/get-order-entries.context.ts
+feature-libs/cart/base/root/context/index.ts
+feature-libs/cart/base/root/context/order-entires.context.ts
+feature-libs/cart/base/root/events/cart-page.events.ts
+feature-libs/cart/base/root/events/cart.events.ts
+feature-libs/cart/base/root/events/index.ts
+feature-libs/cart/base/root/facade/active-cart.facade.ts
+feature-libs/cart/base/root/facade/cart-validation.facade.ts
+feature-libs/cart/base/root/facade/cart-voucher.facade.ts
+feature-libs/cart/base/root/facade/index.ts
+feature-libs/cart/base/root/facade/multi-cart.facade.ts
+feature-libs/cart/base/root/facade/selective-cart.facade.ts
+feature-libs/cart/base/root/feature-name.ts
+feature-libs/cart/base/root/index.ts
+feature-libs/cart/base/root/models/cart-item-context.model.ts
+feature-libs/cart/base/root/models/cart-outlets.model.ts
+feature-libs/cart/base/root/models/cart.model.ts
+feature-libs/cart/base/root/models/import-export.model.ts
+feature-libs/cart/base/root/models/import-to-cart.model.ts
+feature-libs/cart/base/root/models/index.ts
+feature-libs/cart/base/root/ng-package.json
+feature-libs/cart/base/root/public_api.ts
+feature-libs/cart/base/root/tokens/context.ts
+feature-libs/cart/base/root/tokens/converters.ts
+feature-libs/cart/base/root/tokens/index.ts
+feature-libs/cart/base/styles/_index.scss
+feature-libs/cart/base/styles/components/_add-to-cart.scss
+feature-libs/cart/base/styles/components/_added-to-cart-dialog.scss
+feature-libs/cart/base/styles/components/_applied-coupons.scss
+feature-libs/cart/base/styles/components/_cart-coupon.scss
+feature-libs/cart/base/styles/components/_cart-details.scss
+feature-libs/cart/base/styles/components/_cart-item-list.scss
+feature-libs/cart/base/styles/components/_cart-item-validation-warning.scss
+feature-libs/cart/base/styles/components/_cart-item.scss
+feature-libs/cart/base/styles/components/_cart-totals.scss
+feature-libs/cart/base/styles/components/_cart-validation-warnings.scss
+feature-libs/cart/base/styles/components/_index.scss
+feature-libs/cart/base/styles/components/_item-counter.scss
+feature-libs/cart/base/styles/components/_mini-cart.scss
+feature-libs/cart/base/styles/components/_order-summary.scss
+feature-libs/cart/base/styles/components/_save-for-later.scss
+feature-libs/cart/base/styles/layout/_cart-page.scss
+feature-libs/cart/base/styles/layout/_index.scss
+feature-libs/cart/import-export/components/export-entries/export-order-entries-to-csv.service.spec.ts
+feature-libs/cart/import-export/components/export-entries/export-order-entries-to-csv.service.ts
+feature-libs/cart/import-export/components/export-entries/export-order-entries.component.spec.ts
+feature-libs/cart/import-export/components/export-entries/export-order-entries.component.ts
+feature-libs/cart/import-export/components/import-export/import-export-order-entries.component.spec.ts
+feature-libs/cart/import-export/components/import-export/import-export-order-entries.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-dialog.component.spec.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-dialog.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-form/import-entries-form.component.spec.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-form/import-entries-form.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-summary/import-entries-summary.component.spec.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-entries-summary/import-entries-summary.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component.spec.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries-dialog/import-to-new-saved-cart-form/import-to-new-saved-cart-form.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-entries/import-order-entries.component.ts
+feature-libs/cart/import-export/components/import-to-cart/import-products-from-csv.service.spec.ts
+feature-libs/cart/import-export/components/import-to-cart/import-products-from-csv.service.ts
+feature-libs/cart/import-export/core/config/default-import-export-config.ts
+feature-libs/cart/import-export/core/model/import-entries.config.ts
+feature-libs/cart/main/cart.module.ts
+feature-libs/cart/main/components/index.ts
+feature-libs/cart/main/index.ts
+feature-libs/cart/main/root/feature-name.ts
+feature-libs/cart/quick-order/components/cart-quick-order-form/cart-quick-order-form.component.spec.ts
+feature-libs/cart/quick-order/components/cart-quick-order-form/cart-quick-order-form.component.ts
+feature-libs/cart/quick-order/components/page-context/quick-order-order-entries.context.spec.ts
+feature-libs/cart/quick-order/components/page-context/quick-order-order-entries.context.ts
+feature-libs/cart/quick-order/components/quick-order/quick-order.component.spec.ts
+feature-libs/cart/quick-order/components/quick-order/quick-order.component.ts
+feature-libs/cart/quick-order/components/quick-order/table/item/quick-order-item.component.spec.ts
+feature-libs/cart/quick-order/components/quick-order/table/item/quick-order-item.component.ts
+feature-libs/cart/quick-order/components/quick-order/table/quick-order-table.component.spec.ts
+feature-libs/cart/quick-order/components/quick-order/table/quick-order-table.component.ts
+feature-libs/cart/quick-order/core/services/quick-order-state-persistance.service.ts
+feature-libs/cart/quick-order/core/services/quick-order-state-persistence.service.spec.ts
+feature-libs/cart/quick-order/core/services/quick-order.service.spec.ts
+feature-libs/cart/quick-order/core/services/quick-order.service.ts
+feature-libs/cart/quick-order/root/facade/quick-order.facade.ts
+feature-libs/cart/quick-order/root/models/quick-order.model.ts
+feature-libs/cart/quick-order/root/quick-order-root.module.ts
+feature-libs/cart/saved-cart/components/add-to-saved-cart/add-to-saved-cart.component.spec.ts
+feature-libs/cart/saved-cart/components/add-to-saved-cart/add-to-saved-cart.component.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-action/saved-cart-details-action.component.spec.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-action/saved-cart-details-action.component.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-items/saved-cart-details-items.component.spec.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-items/saved-cart-details-items.component.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-overview/saved-cart-details-overview.component.spec.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details-overview/saved-cart-details-overview.component.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details.service.spec.ts
+feature-libs/cart/saved-cart/components/details/saved-cart-details.service.ts
+feature-libs/cart/saved-cart/components/list/saved-cart-list.component.spec.ts
+feature-libs/cart/saved-cart/components/list/saved-cart-list.component.ts
+feature-libs/cart/saved-cart/components/page-context/saved-cart-details-page/saved-cart-order-entries.context.spec.ts
+feature-libs/cart/saved-cart/components/page-context/saved-cart-details-page/saved-cart-order-entries.context.ts
+feature-libs/cart/saved-cart/components/page-context/saved-carts-page/new-saved-cart-order-entries.context.spec.ts
+feature-libs/cart/saved-cart/components/page-context/saved-carts-page/new-saved-cart-order-entries.context.ts
+feature-libs/cart/saved-cart/components/saved-cart-form-dialog/saved-cart-form-dialog.component.spec.ts
+feature-libs/cart/saved-cart/components/saved-cart-form-dialog/saved-cart-form-dialog.component.ts
+feature-libs/cart/saved-cart/core/connectors/saved-cart.adapter.ts
+feature-libs/cart/saved-cart/core/connectors/saved-cart.connector.spec.ts
+feature-libs/cart/saved-cart/core/connectors/saved-cart.connector.ts
+feature-libs/cart/saved-cart/core/events/saved-cart-event.builder.spec.ts
+feature-libs/cart/saved-cart/core/events/saved-cart-event.builder.ts
+feature-libs/cart/saved-cart/core/facade/saved-cart.service.spec.ts
+feature-libs/cart/saved-cart/core/facade/saved-cart.service.ts
+feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.spec.ts
+feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts
+feature-libs/cart/saved-cart/core/store/effects/saved-cart.effect.spec.ts
+feature-libs/cart/saved-cart/core/store/effects/saved-cart.effect.ts
+feature-libs/cart/saved-cart/occ/adapters/occ-saved-cart.adapter.spec.ts
+feature-libs/cart/saved-cart/occ/adapters/occ-saved-cart.adapter.ts
+feature-libs/cart/saved-cart/root/events/saved-cart.events.ts
+feature-libs/cart/saved-cart/root/facade/saved-cart.facade.ts
+feature-libs/cart/saved-cart/root/saved-cart-root.module.ts
+feature-libs/cart/schematics/add-cart/__snapshots__/index_spec.ts.snap
+feature-libs/cart/schematics/add-cart/index.ts
+feature-libs/cart/schematics/add-cart/index_spec.ts
+feature-libs/cart/schematics/constants.ts
+feature-libs/cart/wish-list/components/wish-list-item/wish-list-item.component.spec.ts
+feature-libs/cart/wish-list/components/wish-list-item/wish-list-item.component.ts
+feature-libs/cart/wish-list/components/wish-list/wish-list.component.spec.ts
+feature-libs/cart/wish-list/components/wish-list/wish-list.component.ts
+feature-libs/cart/wish-list/core/facade/wish-list.service.spec.ts
+feature-libs/cart/wish-list/core/facade/wish-list.service.ts
+feature-libs/cart/wish-list/core/store/actions/wish-list.action.spec.ts
+feature-libs/cart/wish-list/core/store/actions/wish-list.action.ts
+feature-libs/cart/wish-list/core/store/effects/wish-list.effect.spec.ts
+feature-libs/cart/wish-list/core/store/effects/wish-list.effect.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.component.spec.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.component.ts
+feature-libs/cart/wish-list/root/facade/wish-list.facade.ts
+feature-libs/cart/wish-list/root/wish-list-root.module.ts
+feature-libs/checkout/components/components/checkout-login/checkout-login.component.spec.ts
+feature-libs/checkout/components/components/checkout-login/checkout-login.component.ts
+feature-libs/checkout/components/components/checkout-order-summary/checkout-order-summary.component.spec.ts
+feature-libs/checkout/components/components/checkout-order-summary/checkout-order-summary.component.ts
+feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.component.spec.ts
+feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-top/checkout-progress-mobile-top.component.ts
+feature-libs/checkout/components/components/cost-center/cost-center.module.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.spec.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.ts
+feature-libs/checkout/components/components/payment-method/payment-method.component.spec.ts
+feature-libs/checkout/components/components/payment-method/payment-method.component.ts
+feature-libs/checkout/components/components/payment-type/payment-type.component.spec.ts
+feature-libs/checkout/components/components/payment-type/payment-type.component.ts
+feature-libs/checkout/components/components/payment-type/payment-type.module.ts
+feature-libs/checkout/components/components/review-submit/review-submit.component.spec.ts
+feature-libs/checkout/components/components/review-submit/review-submit.component.ts
+feature-libs/checkout/components/components/shipping-address/shipping-address.component.spec.ts
+feature-libs/checkout/components/components/shipping-address/shipping-address.component.ts
+feature-libs/checkout/components/components/shipping-address/shipping-address.module.ts
+feature-libs/checkout/components/guards/cart-not-empty.guard.spec.ts
+feature-libs/checkout/components/guards/cart-not-empty.guard.ts
+feature-libs/checkout/components/guards/checkout-auth.guard.spec.ts
+feature-libs/checkout/components/guards/checkout-auth.guard.ts
+feature-libs/checkout/components/guards/checkout.guard.spec.ts
+feature-libs/checkout/components/guards/checkout.guard.ts
+feature-libs/checkout/components/guards/not-checkout-auth.guard.spec.ts
+feature-libs/checkout/components/guards/not-checkout-auth.guard.ts
+feature-libs/checkout/components/order-confirmation/components/order-confirmation-items/order-confirmation-items.component.ts
+feature-libs/checkout/components/order-confirmation/components/order-confirmation-totals/order-confirmation-totals.component.ts
+feature-libs/checkout/components/order-confirmation/page-context/order-confirmation-order-entries.context.spec.ts
+feature-libs/checkout/components/order-confirmation/page-context/order-confirmation-order-entries.context.ts
+feature-libs/checkout/components/services/checkout-config.service.ts
+feature-libs/checkout/components/services/checkout-details.service.spec.ts
+feature-libs/checkout/components/services/checkout-details.service.ts
+feature-libs/checkout/components/services/express-checkout.service.spec.ts
+feature-libs/checkout/components/services/express-checkout.service.ts
+feature-libs/checkout/core/connectors/cost-center/checkout-cost-center.adapter.ts
+feature-libs/checkout/core/connectors/cost-center/checkout-cost-center.connector.ts
+feature-libs/checkout/core/connectors/delivery/checkout-delivery.adapter.ts
+feature-libs/checkout/core/connectors/delivery/checkout-delivery.connector.ts
+feature-libs/checkout/core/connectors/delivery/converters.ts
+feature-libs/checkout/core/connectors/payment-type/converters.ts
+feature-libs/checkout/core/connectors/payment-type/payment-type.adapter.ts
+feature-libs/checkout/core/connectors/payment-type/payment-type.connector.ts
+feature-libs/checkout/core/facade/checkout-cost-center.service.spec.ts
+feature-libs/checkout/core/facade/checkout-cost-center.service.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.ts
+feature-libs/checkout/core/facade/checkout-payment.service.spec.ts
+feature-libs/checkout/core/facade/checkout-payment.service.ts
+feature-libs/checkout/core/facade/checkout.service.spec.ts
+feature-libs/checkout/core/facade/checkout.service.ts
+feature-libs/checkout/core/facade/payment-type.service.spec.ts
+feature-libs/checkout/core/facade/payment-type.service.ts
+feature-libs/checkout/core/models/checkout.model.ts
+feature-libs/checkout/core/services/checkout-page-meta.resolver.spec.ts
+feature-libs/checkout/core/services/checkout-page-meta.resolver.ts
+feature-libs/checkout/core/store/actions/checkout.action.spec.ts
+feature-libs/checkout/core/store/actions/checkout.action.ts
+feature-libs/checkout/core/store/actions/payment-types.action.ts
+feature-libs/checkout/core/store/checkout-state.ts
+feature-libs/checkout/core/store/effects/checkout.effect.spec.ts
+feature-libs/checkout/core/store/effects/checkout.effect.ts
+feature-libs/checkout/core/store/effects/payment-types.effect.spec.ts
+feature-libs/checkout/core/store/effects/payment-types.effect.ts
+feature-libs/checkout/core/store/effects/replenishment-order.effect.spec.ts
+feature-libs/checkout/core/store/effects/replenishment-order.effect.ts
+feature-libs/checkout/core/store/reducers/checkout.reducer.spec.ts
+feature-libs/checkout/core/store/reducers/checkout.reducer.ts
+feature-libs/checkout/core/store/reducers/payment-types.reducer.spec.ts
+feature-libs/checkout/core/store/reducers/payment-types.reducer.ts
+feature-libs/checkout/core/store/selectors/checkout.selectors.spec.ts
+feature-libs/checkout/core/store/selectors/checkout.selectors.ts
+feature-libs/checkout/core/store/selectors/payment-types.selectors.spec.ts
+feature-libs/checkout/core/store/selectors/payment-types.selectors.ts
+feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.spec.ts
+feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.ts
+feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.spec.ts
+feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts
+feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.spec.ts
+feature-libs/checkout/occ/adapters/occ-checkout-payment-type.adapter.ts
+feature-libs/checkout/occ/adapters/occ-checkout-payment.adapter.spec.ts
+feature-libs/checkout/root/checkout-root.module.ts
+feature-libs/checkout/root/facade/checkout-delivery.facade.ts
+feature-libs/checkout/root/facade/payment-type.facade.ts
+feature-libs/checkout/root/http-interceptors/checkout-cart.interceptor.spec.ts
+feature-libs/checkout/root/http-interceptors/checkout-cart.interceptor.ts
+feature-libs/checkout/tsconfig.lib.json
+feature-libs/order/components/amend-order/amend-order-items/amend-order-items.component.ts
+feature-libs/order/components/amend-order/amend-order.service.ts
+feature-libs/order/components/amend-order/cancellations/cancel-order-confirmation/cancel-order-confirmation.component.spec.ts
+feature-libs/order/components/amend-order/cancellations/cancel-order-confirmation/cancel-order-confirmation.component.ts
+feature-libs/order/components/amend-order/cancellations/cancel-order/cancel-order.component.spec.ts
+feature-libs/order/components/amend-order/cancellations/cancel-order/cancel-order.component.ts
+feature-libs/order/components/amend-order/cancellations/order-cancellation.service.ts
+feature-libs/order/components/amend-order/returns/order-return.service.ts
+feature-libs/order/components/amend-order/returns/return-order-confirmation/return-order-confirmation.component.spec.ts
+feature-libs/order/components/amend-order/returns/return-order-confirmation/return-order-confirmation.component.ts
+feature-libs/order/components/amend-order/returns/return-order/return-order.component.spec.ts
+feature-libs/order/components/amend-order/returns/return-order/return-order.component.ts
+feature-libs/order/components/order-details/order-detail-items/order-consigned-entries/order-consigned-entries.component.spec.ts
+feature-libs/order/components/order-details/order-detail-items/order-consigned-entries/order-consigned-entries.component.ts
+feature-libs/order/components/order-details/order-detail-items/order-detail-items.component.ts
+feature-libs/order/components/order-details/order-detail-totals/order-detail-totals.component.ts
+feature-libs/order/components/order-details/order-overview/order-overview.component.spec.ts
+feature-libs/order/components/order-details/order-overview/order-overview.component.ts
+feature-libs/order/components/page-context/order-details-order-entries.context.spec.ts
+feature-libs/order/components/page-context/order-details-order-entries.context.ts
+feature-libs/order/occ/adapters/converters/occ-order-normalizer.spec.ts
+feature-libs/order/occ/adapters/converters/occ-order-normalizer.ts
+feature-libs/order/occ/adapters/converters/occ-replenishment-order-normalizer.spec.ts
+feature-libs/order/occ/adapters/converters/occ-replenishment-order-normalizer.ts
+feature-libs/order/occ/adapters/converters/occ-return-request-normalizer.ts
+feature-libs/order/root/model/order.model.ts
+feature-libs/order/root/model/replenishment-order.model.ts
+feature-libs/order/root/order-root.module.ts
+feature-libs/order/tsconfig.lib.json
+feature-libs/organization/tsconfig.lib.json
+feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.component.spec.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.component.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.module.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.spec.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-bundle-info/configurator-cart-entry-bundle-info.service.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-info/configurator-cart-entry-info.component.spec.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-info/configurator-cart-entry-info.component.ts
+feature-libs/product-configurator/common/components/configurator-cart-entry-info/configurator-cart-entry-info.module.ts
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.spec.ts
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.ts
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.module.ts
+feature-libs/product-configurator/common/components/configure-cart-entry/configure-cart-entry.component.spec.ts
+feature-libs/product-configurator/common/components/configure-cart-entry/configure-cart-entry.component.ts
+feature-libs/product-configurator/common/core/model/augmented-core.model.ts
+feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.spec.ts
+feature-libs/product-configurator/common/shared/utils/common-configurator-utils.service.ts
+feature-libs/product-configurator/rulebased/core/connectors/rulebased-configurator.adapter.ts
+feature-libs/product-configurator/rulebased/core/connectors/rulebased-configurator.connector.spec.ts
+feature-libs/product-configurator/rulebased/core/connectors/rulebased-configurator.connector.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-cart.service.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-groups.service.spec.ts
+feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.spec.ts
+feature-libs/product-configurator/rulebased/core/state/actions/configurator-cart.action.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.spec.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts
+feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.spec.ts
+feature-libs/product-configurator/rulebased/cpq/occ/cpq-configurator-occ.service.ts
+feature-libs/product-configurator/rulebased/cpq/rest/cpq-configurator-rest.adapter.spec.ts
+feature-libs/product-configurator/rulebased/cpq/rest/cpq-configurator-rest.adapter.ts
+feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.adapter.spec.ts
+feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.adapter.ts
+feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.adapter.ts
+feature-libs/product-configurator/textfield/core/connectors/configurator-textfield.connector.ts
+feature-libs/product-configurator/textfield/core/facade/configurator-textfield.service.spec.ts
+feature-libs/product-configurator/textfield/core/facade/configurator-textfield.service.ts
+feature-libs/product-configurator/textfield/core/state/effects/configurator-textfield.effect.spec.ts
+feature-libs/product-configurator/textfield/core/state/effects/configurator-textfield.effect.ts
+feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.spec.ts
+feature-libs/product-configurator/textfield/occ/occ-configurator-textfield.adapter.ts
+feature-libs/product-configurator/tsconfig.lib.json
+integration-libs/cds/src/profiletag/services/profile-tag-lifecycle.service.spec.ts
+integration-libs/cds/src/profiletag/services/profile-tag-push-events.service.spec.ts
+integration-libs/cds/src/profiletag/services/profile-tag-push-events.service.ts
+integration-libs/cds/src/profiletag/services/profile-tag.injector.service.spec.ts
+integration-libs/cds/tsconfig.lib.json
+integration-libs/digital-payments/src/checkout/cms-components/dp-payment-method/dp-payment-method.component.spec.ts
+integration-libs/digital-payments/src/checkout/cms-components/dp-payment-method/dp-payment-method.component.ts
+integration-libs/digital-payments/tsconfig.lib.json
+projects/schematics/src/shared/constants.ts
+projects/schematics/src/shared/utils/lib-utils.ts
+projects/storefrontapp/src/app/spartacus/features/cart-base-feature.module.ts
+projects/storefrontapp/src/app/spartacus/features/cart-feature.module.ts
+projects/storefrontapp/src/app/spartacus/features/tracking-feature.module.ts
+projects/storefrontapp/src/app/spartacus/spartacus-b2c-configuration.module.ts
+projects/storefrontapp/src/app/spartacus/spartacus-features.module.ts
+projects/storefrontapp/tsconfig.app.prod.json
+projects/storefrontapp/tsconfig.server.json
+projects/storefrontapp/tsconfig.server.prod.json
+tsconfig.compodoc.json
+tsconfig.json
+
+commit cc9809a4f516c8b01e0ce58eb805b18514dc1bd2
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Tue Jan 25 17:37:58 2022 -0500
+
+    Trigger ci
+
+commit 3e4e7351c381ee37982915a832a0f0b726b890a0
+Merge: 8872a1bf7c 11e3134e18
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Tue Jan 25 17:00:53 2022 -0500
+
+    Merge branch 'develop' into epic/cart-lib
+
+commit 8872a1bf7cd9cf1ccdf33f21bab39ebb2a075c19
+Author: Weizheng Gao <44440575+WeizhengSap@users.noreply.github.com>
+Date:   Tue Jan 25 17:13:04 2022 -0400
+
+    refactor: Handle add to cart errors (#14859)
+
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.spec.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.ts
+feature-libs/cart/main/core/http-interceptors/handlers/bad-cart-request.handler.spec.ts
+feature-libs/cart/main/core/http-interceptors/handlers/bad-cart-request.handler.ts
+feature-libs/cart/main/core/utils/utils.spec.ts
+feature-libs/cart/main/core/utils/utils.ts
+projects/assets/src/translations/en/common.ts
+projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.spec.ts
+projects/core/src/global-message/http-interceptors/handlers/bad-request/bad-request.handler.ts
+
+commit 723085128b659b90e9401a95950cc46e3b5522f8
+Author: pla <plabadie@users.noreply.github.com>
+Date:   Tue Jan 25 14:52:12 2022 -0500
+
+    GH-14833: Replace isFacadeImplProvided with CreateCartEvent (#14839)
+
+feature-libs/cart/main/core/cart-core.module.ts
+feature-libs/cart/main/core/event/cart-event.builder.ts
+feature-libs/cart/main/root/components/mini-cart/mini-cart-component.service.spec.ts
+feature-libs/cart/main/root/components/mini-cart/mini-cart-component.service.ts
+feature-libs/cart/main/root/events/cart.events.ts
+projects/core/src/lazy-loading/facade-factory/facade-factory.service.spec.ts
+projects/core/src/lazy-loading/facade-factory/facade-factory.service.ts
+
+commit 11e3134e18cfaf0d168e90ea983efbd8b3c1dd07
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Tue Jan 25 14:05:26 2022 -0500
+
+    chore(deps): bump node-fetch in /.github/api-extractor-action (#14867)
+    
+    Bumps [node-fetch](https://github.com/node-fetch/node-fetch) from 2.6.1 to 2.6.7.
+    - [Release notes](https://github.com/node-fetch/node-fetch/releases)
+    - [Commits](https://github.com/node-fetch/node-fetch/compare/v2.6.1...v2.6.7)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: node-fetch
+      dependency-type: indirect
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+    Co-authored-by: Giancarlo Cordero Ortiz <46171897+giancorderoortiz@users.noreply.github.com>
+
+.github/api-extractor-action/yarn.lock
+
+commit 302eab95337eb2fce87894753f0eeb8870ee0292
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Tue Jan 25 13:27:45 2022 -0500
+
+    chore(deps): bump node-fetch in /.github/hs-deploy-action (#14869)
+    
+    Bumps [node-fetch](https://github.com/node-fetch/node-fetch) from 2.6.1 to 2.6.7.
+    - [Release notes](https://github.com/node-fetch/node-fetch/releases)
+    - [Commits](https://github.com/node-fetch/node-fetch/compare/v2.6.1...v2.6.7)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: node-fetch
+      dependency-type: indirect
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+.github/hs-deploy-action/yarn.lock
+
+commit d88b3121d0103dab5a4ebfe8d02e6eb9042a06f8
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Tue Jan 25 09:48:07 2022 -0500
+
+    fix: modify tag in order-history-component to fix tabbing for screen readers (#14094)
+    
+    Modified element tag from h3 to h2 in Order History Component to fix tabbing when using screen readers
+    
+    BREAKING CHANGE:
+    
+    Modified `<h3 *ngIf="!type.replenishmentOrder"></h3>` to be `<h2 *ngIf="!type.replenishmentOrder"></h2>` in Order History Component
+    
+    Closes: #13436
+
+docs/migration/5_0.md
+feature-libs/order/components/order-history/order-history.component.html
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-flow.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/coupons/cart-coupon.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/order-history.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator-cart-cpq.ts
+
+commit f843cfabe83a117064be33057a06eefba793c703
+Author: Weizheng Gao <44440575+WeizhengSap@users.noreply.github.com>
+Date:   Tue Jan 25 10:37:42 2022 -0400
+
+    refactor: Revert getActiveCartId to previous behaviour (#14860)
+
+feature-libs/cart/main/core/facade/active-cart.service.spec.ts
+feature-libs/cart/main/core/facade/active-cart.service.ts
+
+commit 8ab5450ae3076ee43a4d5044035381dc812558e1
+Author: Michał Gruca <pucek9@gmail.com>
+Date:   Tue Jan 25 09:44:11 2022 +0100
+
+    fix: No indication if a menu is collapsed or expanded for Main Menus + Reduce and label navigation landmarks for Header and Footer  (#14422)
+    
+    closes #14422
+
+docs/migration/5_0.md
+docs/migration/css-changes-in-version-5.md
+projects/assets/src/translations/en/common.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/constructor-deprecations.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/navigation-ui.component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/data/navigation-ui.component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/methods-and-properties-deprecations.ts
+projects/schematics/src/shared/constants.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/tabbing-order/header.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/b2b-order-approval.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/aux-key.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/aux-key.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/homepage/homepage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/support/select-user-menu-option.commands.ts
+projects/storefrontlib/cms-components/navigation/category-navigation/category-navigation.component.html
+projects/storefrontlib/cms-components/navigation/category-navigation/category-navigation.component.spec.ts
+projects/storefrontlib/cms-components/navigation/category-navigation/category-navigation.module.ts
+projects/storefrontlib/cms-components/navigation/footer-navigation/footer-navigation.component.html
+projects/storefrontlib/cms-components/navigation/footer-navigation/footer-navigation.component.spec.ts
+projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.html
+projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.spec.ts
+projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.ts
+projects/storefrontlib/cms-components/navigation/navigation/navigation.component.html
+projects/storefrontlib/cms-components/navigation/navigation/navigation.component.spec.ts
+projects/storefrontlib/cms-components/navigation/navigation/navigation.component.ts
+projects/storefrontlib/shared/components/generic-link/generic-link.component.html
+projects/storefrontlib/shared/components/generic-link/generic-link.component.spec.ts
+projects/storefrontlib/shared/components/generic-link/generic-link.component.ts
+projects/storefrontstyles/scss/components/content/navigation/_category-navigation.scss
+projects/storefrontstyles/scss/components/content/navigation/_footer-navigation.scss
+projects/storefrontstyles/scss/components/content/navigation/_navigation-ui.scss
+projects/storefrontstyles/scss/components/layout/header/_header.scss
+projects/storefrontstyles/scss/cxbase/_variables.scss
+projects/storefrontstyles/scss/theme/santorini.scss
+
+commit 0735a36dd47048aa7cd90769945e49fcbe78918c
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Jan 24 07:27:05 2022 -0500
+
+    chore(deps): bump nanoid from 3.1.23 to 3.2.0 (#14846)
+    
+    Bumps [nanoid](https://github.com/ai/nanoid) from 3.1.23 to 3.2.0.
+    - [Release notes](https://github.com/ai/nanoid/releases)
+    - [Changelog](https://github.com/ai/nanoid/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/ai/nanoid/compare/3.1.23...3.2.0)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: nanoid
+      dependency-type: indirect
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+yarn.lock
+
+commit 1e937365e774088eed36cb588eac2e87cfa3478d
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Jan 24 06:45:13 2022 -0500
+
+    chore(deps): bump log4js from 6.3.0 to 6.4.1 (#14845)
+    
+    Bumps [log4js](https://github.com/log4js-node/log4js-node) from 6.3.0 to 6.4.1.
+    - [Release notes](https://github.com/log4js-node/log4js-node/releases)
+    - [Changelog](https://github.com/log4js-node/log4js-node/blob/master/CHANGELOG.md)
+    - [Commits](https://github.com/log4js-node/log4js-node/compare/v6.3.0...v6.4.1)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: log4js
+      dependency-type: indirect
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+yarn.lock
+
+commit 6d37c8982383737bebdeb322df49dd2ad1bee0b0
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Mon Jan 24 09:50:20 2022 +0100
+
+    chore: migration schematics for configurator floating addToCart (#14755)
+    
+    Adds migration schematics for new dependencies of the configurator addToCart button.
+    
+    Closes #14738
+
+docs/migration/5_0.md
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/configurator-add-to-cart-button.component.migration.ts
+
+commit 7f90048704f0362a1c4dcf44f20480d67ec661e4
+Author: LarisaStar <61147963+Larisa-Staroverova@users.noreply.github.com>
+Date:   Mon Jan 24 08:25:18 2022 +0100
+
+    chore: migration schematics for configurator a11y  (#14737)
+    
+    Covers breaking changes that we needed to introduce for a11y support
+    
+    Closes #14612
+
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/data/configurator-attribute-multi-selection-bundle.component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/data/configurator-attribute-single-selection-bundle.component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/methods-and-properties-deprecations.ts
+projects/schematics/src/shared/constants.ts
+
+commit 085ca2efbce218c2dd168645ed9cbd48a3612772
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Mon Jan 24 07:39:46 2022 +0100
+
+    chore: migration schematics for configurator loading animation (#14731)
+    
+    The loading animation for configurators required breaking changes in dependencies and component methods, which we need to cover for the 5.0 migration
+    
+    Closes #14352
+
+docs/migration/5_0.md
+projects/schematics/src/migrations/5_0/constructor-deprecations/constructor-deprecations.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/configurator-tab-bar.component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/data/configurator-commons-service.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/data/configurator-group-title-component.migration.ts
+projects/schematics/src/migrations/5_0/methods-and-properties-deprecations/methods-and-properties-deprecations.ts
+projects/schematics/src/migrations/5_0/removed-public-api-deprecations/removed-public-api-deprecations.ts
+projects/schematics/src/shared/constants.ts
+
+commit 5a57e08cef731d75a468e74bf4a68c9ea8bf476f
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Jan 21 12:34:59 2022 -0500
+
+    fix: add error cx-message in CancelOrder form (#14756)
+
+docs/migration/5_0.md
+feature-libs/order/components/amend-order/cancellations/cancel-order/cancel-order.component.html
+feature-libs/order/components/amend-order/cancellations/cancel-order/cancel-order.component.ts
+feature-libs/order/components/amend-order/cancellations/cancel-order/cancel-order.module.ts
+
+commit e103bcbcf9492b6b598623b6d8af2843691e2ad3
+Author: Weizheng Gao <44440575+WeizhengSap@users.noreply.github.com>
+Date:   Fri Jan 21 12:05:30 2022 -0400
+
+    refactor: Make adding to cart work stable (#14811)
+
+feature-libs/cart/main/core/facade/active-cart.service.ts
+feature-libs/cart/main/core/store/effects/multi-cart.effect.spec.ts
+feature-libs/cart/main/core/store/effects/multi-cart.effect.ts
+
+commit f2a4f83880e976d7f37218ac0781d21ae8a300c8
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Fri Jan 21 10:53:44 2022 -0500
+
+    test: fix flaky import/export e2e (#14370)
+    
+    Fix flaky import/export e2e by stabilizing test components
+    
+    closes: #14327
+
+projects/storefrontapp-e2e-cypress/cypress.ci.b2b.json
+projects/storefrontapp-e2e-cypress/cypress.ci.ccv2.json
+projects/storefrontapp-e2e-cypress/cypress.cpq.json
+projects/storefrontapp-e2e-cypress/cypress/helpers/cart-import-export.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-import-export.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-import-export.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/variants/apparel-cart-import-export.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/support/utils/login.ts
+
+commit 9e9eac6936e2c2753077e12ba4c682f0398d0a20
+Author: LarisaStar <61147963+Larisa-Staroverova@users.noreply.github.com>
+Date:   Fri Jan 21 15:39:47 2022 +0100
+
+    chore: migration schematics for a11y constructor changes (#14730)
+    
+    Closes #14613
+
+projects/schematics/src/migrations/5_0/constructor-deprecations/constructor-deprecations.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/configurator-attribute-product-card.component.migration.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/configurator-group-menu.component.migration.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/configurator-overview-bundle-attribute.component.migration.ts
+projects/schematics/src/shared/constants.ts
+
+commit 241a327714961bf8f263e1918c6d9e71326cfb57
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Thu Jan 20 17:36:30 2022 -0500
+
+    chore: fix e2e tests for store-finder (#14827)
+    
+    * modify selection of element
+    
+    * rename file name
+    
+    Co-authored-by: Brian Gamboc-Javiniar <brian_javiniar@hotmail.com>
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/store-finder.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/storefinder/store-finder.core-e2e-spec.ts
+
+commit 3c9f151c682b7b55d1225e0eb83ca2be253d4669
+Author: Saad M <saad.mohiuddin@sap.com>
+Date:   Thu Jan 20 15:36:26 2022 -0600
+
+    fix: checkout pages headings structure optimization (#14549)
+
+docs/migration/5_0.md
+docs/migration/css-changes-in-version-5.md
+feature-libs/checkout/components/components/review-submit/review-submit.component.html
+projects/storefrontlib/cms-components/cart/cart-shared/order-summary/order-summary.component.html
+projects/storefrontstyles/scss/components/cart/_order-summary.scss
+
+commit cb5208669a76ea8a70ffe4691b02fc7c6373787a
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Wed Jan 19 17:51:19 2022 -0500
+
+    Trigger ci
+
+commit ccd66eb3323a5f3851ad49e5f29e4dad2a440737
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Wed Jan 19 15:53:38 2022 -0500
+
+    Trigger ci
+
+commit a6c0ccedd4db1b579e42ad22ea384fc46c2398b3
+Author: Saad M <saad.mohiuddin@sap.com>
+Date:   Wed Jan 19 14:40:28 2022 -0600
+
+    fix: store name link with rotor links navigation for screen reader (#14102)
+
+docs/migration/5_0.md
+docs/migration/css-changes-in-version-5.md
+feature-libs/storefinder/components/store-finder-list-item/store-finder-list-item.component.html
+feature-libs/storefinder/components/store-finder-list-item/store-finder-list-item.component.spec.ts
+feature-libs/storefinder/styles/components/_store-finder-list-item.scss
+
+commit ab03863ba4f42bf7b0ccb007debffb548654a6bd
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Wed Jan 19 14:17:54 2022 -0500
+
+    Fix merge from develop issue.
+
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.spec.ts
+
+commit da551e5b2f03adbca3b21e66d69584262c4d347d
+Merge: 43532a9668 cd8c5fb8b2
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Wed Jan 19 12:00:43 2022 -0500
+
+    Merge branch 'develop' into epic/cart-lib
+
+commit cd8c5fb8b2acdbfecfdf3b7b637110b9916f35db
+Author: MichaelBoeser <54353128+MichaelBoeser@users.noreply.github.com>
+Date:   Wed Jan 19 12:31:27 2022 +0100
+
+    fix: add more suitable aria roles (#14797)
+    
+    Adapt aria roles attributes for image attributes to more suitable ones.
+    
+    Closes #14683
+
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-image/configurator-attribute-single-selection-image.component.html
+
+commit a192264af3f63842555d411ea155e076a975c547
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Wed Jan 19 09:22:49 2022 +0100
+
+    fix: ID of error message not unique (#14796)
+    
+    The IDs of error messages for configurable products in the cart were not unique. Therefore screen-readers have read the wrong message for the "Resolve Issues" link.
+    
+    Closes #14675
+
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.html
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.spec.ts
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.ts
+feature-libs/product-configurator/common/components/configure-cart-entry/configure-cart-entry.component.spec.ts
+feature-libs/product-configurator/common/components/configure-cart-entry/configure-cart-entry.component.ts
+
+commit 43532a966850e13eeb797b5916f1798a8cd93568
+Author: pla <plabadie@users.noreply.github.com>
+Date:   Tue Jan 18 17:32:24 2022 -0500
+
+    GH-14416: Optimize cart lib lazy loading - PDP (#14643)
+
+feature-libs/cart/main/components/cart-components.module.ts
+feature-libs/cart/main/components/cart/add-to-cart/add-to-cart.module.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.spec.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog-event.listener.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.html
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.spec.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog.component.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/added-to-cart-dialog.module.ts
+feature-libs/cart/main/components/cart/added-to-cart-dialog/index.ts
+feature-libs/cart/main/components/cart/index.ts
+feature-libs/cart/main/core/facade/active-cart.service.spec.ts
+feature-libs/cart/main/core/facade/active-cart.service.ts
+feature-libs/cart/main/root/cart-root.module.ts
+feature-libs/cart/main/root/components/add-to-cart/add-to-cart.component.html
+feature-libs/cart/main/root/components/add-to-cart/add-to-cart.component.spec.ts
+feature-libs/cart/main/root/components/add-to-cart/add-to-cart.component.ts
+feature-libs/cart/main/root/components/add-to-cart/add-to-cart.module.ts
+feature-libs/cart/main/root/components/add-to-cart/index.ts
+feature-libs/cart/main/root/components/index.ts
+feature-libs/cart/main/root/components/mini-cart/mini-cart-component.service.spec.ts
+feature-libs/cart/main/root/components/mini-cart/mini-cart-component.service.ts
+feature-libs/cart/main/root/events/cart.events.ts
+feature-libs/cart/wish-list/components/index.ts
+feature-libs/cart/wish-list/components/wish-list-components.module.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.component.html
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.component.spec.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.component.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/add-to-wish-list.module.ts
+feature-libs/cart/wish-list/root/components/add-to-wishlist/index.ts
+feature-libs/cart/wish-list/root/components/index.ts
+feature-libs/cart/wish-list/root/index.ts
+feature-libs/cart/wish-list/root/wish-list-root.module.ts
+projects/core/src/lazy-loading/facade-factory/facade-factory.service.spec.ts
+projects/core/src/lazy-loading/facade-factory/facade-factory.service.ts
+
+commit 1daf6918ff31dea343e443c566f5ffb20a270a64
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Tue Jan 18 14:18:18 2022 +0100
+
+    refactor: AMP issue: remove invalid role attribute (#14782)
+    
+    Closes #14680
+
+feature-libs/product-configurator/rulebased/components/attribute/types/input-field/configurator-attribute-input-field.component.html
+
+commit e5df013598fe2661c0977ec6cbcf842909b5bb53
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Tue Jan 18 12:53:13 2022 +0100
+
+    refactor: AMP issue: invalid id in aria-controls (#14781)
+    
+    The ids in attribute aria-controls have to point to currently visible elements.
+    
+    Closes #14677
+
+feature-libs/product-configurator/rulebased/components/group-menu/configurator-group-menu.component.html
+
+commit 9e2f2543848fc7f4f610d78ff3d95401844cce32
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Tue Jan 18 10:15:26 2022 +0100
+
+    refactor: Fix AMP issue: aria-selected not allowed (#14780)
+    
+    For some occasions aria-selected attribute is not allowed.
+    
+    Closes #14679
+    Closes #14682
+
+feature-libs/product-configurator/rulebased/components/attribute/product-card/configurator-attribute-product-card.component.html
+feature-libs/product-configurator/rulebased/components/attribute/product-card/configurator-attribute-product-card.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/drop-down/configurator-attribute-drop-down.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/drop-down/configurator-attribute-drop-down.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component.spec.ts
+
+commit ed1091f71a3523880d47bd011967e4f78bef6b8f
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Mon Jan 17 06:52:13 2022 -0500
+
+    chore(deps-dev): bump shelljs from 0.8.4 to 0.8.5 (#14783)
+    
+    Bumps [shelljs](https://github.com/shelljs/shelljs) from 0.8.4 to 0.8.5.
+    - [Release notes](https://github.com/shelljs/shelljs/releases)
+    - [Changelog](https://github.com/shelljs/shelljs/blob/master/CHANGELOG.md)
+    - [Commits](https://github.com/shelljs/shelljs/compare/v0.8.4...v0.8.5)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: shelljs
+      dependency-type: direct:development
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+    Co-authored-by: Giancarlo Cordero Ortiz <46171897+giancorderoortiz@users.noreply.github.com>
+
+package.json
+yarn.lock
+
+commit e44d97f2cfcc95b042204d9f6e01f7f52e2672e9
+Author: Kornkanok Changsuwan (Sia) <79838431+Changsuwan@users.noreply.github.com>
+Date:   Mon Jan 17 11:17:59 2022 +0100
+
+    feat: introduce floating add to cart button (#14452)
+    
+    The styling of the add to cart button has been changed. The container where the button is in now requires the entire length of the window. Its position has been set to 'fixed'. When users scroll up, the button follows. It will stick to the bottom section of the screen, just under price summary once the price summary is in the view port.
+    
+    Closes #14390
+
+docs/migration/css-changes-in-version-5.md
+feature-libs/product-configurator/rulebased/components/add-to-cart-button/configurator-add-to-cart-button.component.spec.ts
+feature-libs/product-configurator/rulebased/components/add-to-cart-button/configurator-add-to-cart-button.component.ts
+feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.spec.ts
+feature-libs/product-configurator/rulebased/components/service/configurator-storefront-utils.service.ts
+feature-libs/product-configurator/rulebased/styles/_configurator-add-to-cart-button.scss
+feature-libs/product-configurator/rulebased/styles/mixins/_configurator-template.scss
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator-vc.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/product-configurator-tabbing.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/mobile/product-configurator-mobile.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-cart.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-interactive.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cpq/cpq-configuration.core-e2e-spec.ts
+projects/storefrontlib/layout/loading/intersection.service.ts
+
+commit 70cb0606764b895acaa25b55caf4ce05c5434c5c
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Sun Jan 16 21:50:25 2022 -0500
+
+    chore(deps): bump follow-redirects from 1.13.0 to 1.14.7 (#14784)
+    
+    Bumps [follow-redirects](https://github.com/follow-redirects/follow-redirects) from 1.13.0 to 1.14.7.
+    - [Release notes](https://github.com/follow-redirects/follow-redirects/releases)
+    - [Commits](https://github.com/follow-redirects/follow-redirects/compare/v1.13.0...v1.14.7)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: follow-redirects
+      dependency-type: indirect
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+    Co-authored-by: Giancarlo Cordero Ortiz <46171897+giancorderoortiz@users.noreply.github.com>
+
+yarn.lock
+
+commit 9e1bc3a60de3ca35f79b3e3f2d897dc61b5e8ce1
+Author: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+Date:   Sun Jan 16 19:29:29 2022 -0500
+
+    chore(deps-dev): bump postcss from 8.2.10 to 8.2.13 (#14785)
+    
+    Bumps [postcss](https://github.com/postcss/postcss) from 8.2.10 to 8.2.13.
+    - [Release notes](https://github.com/postcss/postcss/releases)
+    - [Changelog](https://github.com/postcss/postcss/blob/main/CHANGELOG.md)
+    - [Commits](https://github.com/postcss/postcss/compare/8.2.10...8.2.13)
+    
+    ---
+    updated-dependencies:
+    - dependency-name: postcss
+      dependency-type: direct:development
+    ...
+    
+    Signed-off-by: dependabot[bot] <support@github.com>
+    
+    Co-authored-by: dependabot[bot] <49699333+dependabot[bot]@users.noreply.github.com>
+
+package.json
+yarn.lock
+
+commit c184a73a5da8370cb12809593b7052aebce02044
+Author: morganm58 <mikel.morgan@sap.com>
+Date:   Fri Jan 14 14:24:41 2022 -0500
+
+    fix: Santorini Theme minimum contrast adjustments (#14538)
+    
+    * feature/GH-13499
+    changed santorini blue and spartacus success green variable colors
+    
+    * feature/GH-13499
+    changed cart proceed to checkout button to bold and 19px
+    
+    * feature/GH-13499
+    fix prettier formate issue
+
+projects/storefrontstyles/scss/components/misc/progress-button/_progress-button.scss
+projects/storefrontstyles/scss/theme/santorini.scss
+projects/storefrontstyles/scss/theme/sparta/_variables.scss
+
+commit 7c2fdfe69a025d5f398928acc3d784f760260c18
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Fri Jan 14 09:25:21 2022 -0500
+
+    modify translation message use (#14776)
+
+projects/assets/src/translations/en/address.ts
+projects/assets/src/translations/en/payment.ts
+projects/assets/src/translations/translation-chunks-config.ts
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.ts
+projects/storefrontlib/cms-components/myaccount/payment-methods/payment-methods.component.ts
+
+commit cf3a47524d9240466082746e5fae6a89732758f2
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Fri Jan 14 11:43:28 2022 +0100
+
+    refactor: Fix AMP issue aria-checked not allowed (#14778)
+    
+    Attribute aria-checked is not allowed for some occasions.
+    
+    closes #14684
+    closes #14678
+
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/radio-button/configurator-attribute-radio-button.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-image/configurator-attribute-single-selection-image.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-image/configurator-attribute-single-selection-image.component.spec.ts
+feature-libs/product-configurator/rulebased/styles/mixins/_configurator-attribute-selection-image.scss
+
+commit d080a5016dd2b7071ae0b1dc280d9470cecdeb9a
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Fri Jan 14 08:39:38 2022 +0100
+
+    refactor: Fix AMP issues with invalid IDs (#14767)
+    
+    Fix AMP issues with invalid IDs
+    
+    Closes #14676
+
+feature-libs/product-configurator/rulebased/components/attribute/product-card/configurator-attribute-product-card.component.html
+feature-libs/product-configurator/rulebased/components/attribute/product-card/configurator-attribute-product-card.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox/configurator-attribute-checkbox.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox/configurator-attribute-checkbox.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/drop-down/configurator-attribute-drop-down.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/drop-down/configurator-attribute-drop-down.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/input-field/configurator-attribute-input-field.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/input-field/configurator-attribute-input-field.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-image/configurator-attribute-multi-selection-image.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/numeric-input-field/configurator-attribute-numeric-input-field.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/radio-button/configurator-attribute-radio-button.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/radio-button/configurator-attribute-radio-button.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle-dropdown/configurator-attribute-single-selection-bundle-dropdown.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-image/configurator-attribute-single-selection-image.component.html
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-image/configurator-attribute-single-selection-image.component.spec.ts
+
+commit f288a4f84f56ca015f44d7670242852752333739
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Thu Jan 13 10:39:30 2022 -0500
+
+    feature: add global success message when settings address as default (#14117)
+    
+    * add translation message
+    
+    * use translation message when address is set as default
+    
+    * change translation text
+    
+    * add e2e test
+    
+    * add address to success message
+    
+    * add to migration doc
+    
+    * Fix wrong commit
+    
+    * Trigger checks
+    
+    * make globalmessageservice required
+    
+    * modify migration docs
+    
+    * Update docs/migration/5_0.md
+    
+    Co-authored-by: Patryk Smul <psmul@divante.pl>
+    
+    * fix unit tests
+    
+    * fix linting
+    
+    * add null check
+    
+    Co-authored-by: Michał D <mdydo@divante.pl>
+    Co-authored-by: Patryk Smul <psmul@divante.pl>
+    Co-authored-by: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+
+docs/migration/5_0.md
+projects/assets/src/translations/en/address.ts
+projects/assets/src/translations/translation-chunks-config.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/constructor-deprecations.ts
+projects/schematics/src/migrations/5_0/constructor-deprecations/data/address-book.component.migration.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/address-book.core-e2e-spec.ts
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.html
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.spec.ts
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.ts
+
+commit ed31dc1c736dd55d585d1316359c3c412f8e2b1d
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Thu Jan 13 09:39:04 2022 -0500
+
+    Removing codeowners
+
+.github/CODEOWNERS
+
+commit fabf3970d3ac99c999ec7636ae1cbebae618ee50
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Thu Jan 13 08:59:27 2022 -0500
+
+    Fixing team name
+
+.github/CODEOWNERS
+
+commit 9a010e84f2b8615e5a071cd068e1e113147c0b95
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Thu Jan 13 13:53:44 2022 +0100
+
+    test: remove un-needed e2e duplicate and typing (#14766)
+    
+    Closes #14765
+
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-cart.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-interactive.core-e2e-spec.ts
+
+commit 51f270c761c70e19f6b302e425af65cd31234d51
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Wed Jan 12 15:11:42 2022 -0500
+
+    fix: improve screen reader a11y of shipping addresses during checkout (#14749)
+
+feature-libs/checkout/components/components/shipping-address/shipping-address.component.html
+feature-libs/checkout/components/components/shipping-address/shipping-address.component.ts
+
+commit 091661574f1d47c5b924e0cabbb0ce7e886c65a3
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Wed Jan 12 10:59:02 2022 -0500
+
+    fix: correct aria-describedby value of card action (#14759)
+
+projects/storefrontlib/shared/components/card/card.component.html
+
+commit 90a2fff505c1b1b30915b20495c6ee348ba971eb
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Tue Jan 11 16:41:38 2022 -0500
+
+    Adding missing flag for cypress dashboard
+
+projects/storefrontapp-e2e-cypress/package.json
+
+commit 0d389af210848d95968e5493be8c23690a7a8ca7
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Tue Jan 11 15:12:26 2022 -0500
+
+    Issues with CI build on develop branch (#14758)
+    
+    * Removing travis build ID from e2e runs
+    
+    * Removing extra tags
+    
+    * Moving 'flaky' suffix at the end of the file to make regex work and skip flaky tests
+
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/tabbing-order.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/anonymous-consents/anonymous-consents-flow.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/image-zoom/image-zoom.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-cart.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-textfield-order.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-cart.e2e-spec-flaky.ts
+projects/storefrontapp-e2e-cypress/package.json
+
+commit 99e754ba71c690f94616adf81cd862017bb8dcc1
+Author: Caine Rotherham <rotherham.c@gmail.com>
+Date:   Tue Jan 11 14:15:58 2022 +0100
+
+    fix: Incorrect redirection when using code flow for auth (#14703)
+    
+    Co-authored-by: Nikola Zarić <nikola.zaric.ns@gmail.com>
+
+projects/core/src/auth/user-auth/facade/auth.service.spec.ts
+projects/core/src/auth/user-auth/facade/auth.service.ts
+projects/core/src/auth/user-auth/services/oauth-lib-wrapper.service.ts
+
+commit be4f30b0121b5372f02a4ae32925c6ce486eb115
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Mon Jan 10 18:19:58 2022 -0500
+
+    Fixing condition to run all e2e tests
+
+ci-scripts/e2e-cypress.sh
+
+commit 8775c910f9621a280ea99983353c55bf56f81b4f
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Fri Jan 7 13:43:47 2022 +0100
+
+    chore: turn productCode into mandatory attribute for configurator models (#14743)
+    
+    closes #14742
+
+feature-libs/product-configurator/rulebased/components/exit-button/configurator-exit-button.component.ts
+feature-libs/product-configurator/rulebased/components/group-menu/configurator-group-menu.component.spec.ts
+feature-libs/product-configurator/rulebased/components/overview-form/configurator-overview-form.component.spec.ts
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.spec.ts
+feature-libs/product-configurator/rulebased/core/model/configurator.model.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.spec.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.spec.ts
+feature-libs/product-configurator/rulebased/core/state/reducers/configurator.reducer.spec.ts
+feature-libs/product-configurator/rulebased/core/state/reducers/configurator.reducer.ts
+feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-price-normalizer.ts
+feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-serializer.spec.ts
+feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-serializer.ts
+feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.adapter.spec.ts
+feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.adapter.ts
+feature-libs/product-configurator/rulebased/occ/variant/variant-configurator-occ.models.ts
+feature-libs/product-configurator/rulebased/testing/configurator-test-data.ts
+feature-libs/product-configurator/rulebased/testing/configurator-test-utils.ts
+
+commit 29fd884589fada02707ace2f371d303067f8efad
+Author: Kornkanok Changsuwan (Sia) <79838431+Changsuwan@users.noreply.github.com>
+Date:   Fri Jan 7 09:58:28 2022 +0100
+
+    GH-14721: introduce an additional name for exit button for the case where user comes from cart  (#124)
+    
+    When navigating from cart to the configuration, users will now see "cancel configuration" button instead of "exit configuration"
+    
+    BREAKING CHANGE:
+    
+    The button now has addition navigation, which is back to cart instead of back to product details. This is the case when users navigate to the configuration from cart and want to leave the configuration
+    
+    Closes #14723
+
+docs/migration/5_0.md
+feature-libs/product-configurator/common/assets/translations/en/configurator-common.ts
+feature-libs/product-configurator/rulebased/components/exit-button/configurator-exit-button.component.html
+feature-libs/product-configurator/rulebased/components/exit-button/configurator-exit-button.component.spec.ts
+feature-libs/product-configurator/rulebased/components/exit-button/configurator-exit-button.component.ts
+
+commit ba38f57e9eaea8a87fc9c9afdd97db6a167226f1
+Author: Jerry Wang <58975336+wangzixi-diablo@users.noreply.github.com>
+Date:   Fri Jan 7 14:12:39 2022 +0800
+
+    fix: use spinner to hide delivery mode radio input when there's ongoing HTTP put request (#14714)
+    
+    Every time the delivery mode radio input is switched in shipping mode page during checkout process, there's a HTTP put request sent to backend to set the mode. If switching the mode rapidly in a short time, there will be multiple HTT put request sent parallelly and backend cannot handle this situation. In this fix, a spinner is introduced to hide the radio input when there's ongoing HTTP put request.
+    
+    BREAKING CHANGE:
+    
+    - the condition to show a spinner was changed to: `supportedDeliveryModes$ | async)?.length && !(isSetDeliveryModeBusy$ | async) && !continueButtonPressed`.
+    - the `*ngIf` directive of wrapper `ng-container` which holds `div.row.cx-checkout-btns` is removed.
+    - the `disabled` property binding of continue `button` was changed to: `deliveryModeInvalid || continueButtonPressed || (isSetDeliveryModeBusy$ | async)`.
+    
+    Closes #14714
+
+docs/migration/5_0.md
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.spec.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.module.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.ts
+feature-libs/checkout/root/facade/checkout-delivery.facade.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/b2b-checkout.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-flow.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/group-skipping.core-e2e-spec.ts
+projects/storefrontapp/src/app/app.module.ts
+
+commit d9d1764c5110246c901d25dd6f717eaa72f3ae3c
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Thu Jan 6 13:10:37 2022 -0500
+
+    fix: align action buttons in address book form (#14729)
+
+docs/migration/5_0.md
+docs/migration/css-changes-in-version-5.md
+projects/storefrontlib/cms-components/myaccount/address-book/address-form/address-form.component.html
+projects/storefrontstyles/scss/components/myaccount/_address-form.scss
+
+commit 91617905aaea9684b4df29a3677e82604fc9f1fa
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Thu Jan 6 11:03:04 2022 -0500
+
+    style: add shadow to navigation drop-down (#14740)
+
+projects/storefrontstyles/scss/components/content/navigation/_navigation-ui.scss
+
+commit 49e81458f1e9c7f9bc7a29ce50375716cc8ca0dd
+Author: LarisaStar <61147963+Larisa-Staroverova@users.noreply.github.com>
+Date:   Wed Jan 5 14:07:46 2022 +0100
+
+    docs: Document 5.0 migration changes for product configuration (#14736)
+    
+    Document 5.0 migration changes for product configuration
+    
+    Closes #14614
+
+docs/migration/5_0.md
+
+commit bedb0550f819f0cb62bf5882095db0e3a8ae7cb3
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Wed Jan 5 13:25:29 2022 +0100
+
+    test: fix strict mode issue in test and increase coverage (#14735)
+    
+    Fixes strict mode issues in component test.
+    Closes #14734
+
+feature-libs/product-configurator/common/components/configurator-issues-notification/configurator-issues-notification.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/checkbox-list/configurator-attribute-checkbox-list.component.ts
+
+commit 1b7ea9340104ab04640124262aa95e9668853481
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Tue Jan 4 14:27:15 2022 -0500
+
+    fix: add screen reader context to PaymentMethod (#14123)
+
+feature-libs/checkout/components/components/payment-method/payment-method.component.html
+feature-libs/checkout/components/components/payment-method/payment-method.component.spec.ts
+feature-libs/checkout/components/components/payment-method/payment-method.component.ts
+projects/storefrontlib/shared/components/card/card.component.html
+
+commit d9b48f3e9c29904ffec36b0aa64afe6ada5affd4
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Tue Jan 4 10:42:41 2022 -0500
+
+    fix: add SR and autofocus to card component actions (#14073)
+
+projects/storefrontlib/shared/components/card/card.component.html
+projects/storefrontlib/shared/components/card/card.module.ts
+
+commit cb4bc01a27bace460a039e07f743c6194cc4daca
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Tue Jan 4 06:26:18 2022 +0100
+
+    test: remove obsolete code in configurator OV issues notification (#14707)
+    
+    Removes obsolete code and increases test coverage.
+    Closes #14706
+
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.spec.ts
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.ts
+
+commit c46d512c1c8d55333bc5b99fef002a9e11904d25
+Author: schuppell <51401884+schuppell@users.noreply.github.com>
+Date:   Mon Jan 3 13:51:22 2022 +0100
+
+    feat: loading animation for rulebased configurators (#14211)
+    
+    Introduces a loading animation for the configurator pages. Includes changes to the views ('ghost' part), provides additional styling, and also contains changes to the facade layer, because the lifecycle handling of the cart related configurations needed to be adjusted. Breaking changes will be covered with #14352.
+    
+    
+    Closes #14048
+    
+    Co-authored-by: D054488 <lukas.schuppel@sap.com>
+    Co-authored-by: Christoph Hinssen <christoph.hinssen@sap.com>
+    Co-authored-by: Kornkanok Changsuwan <kornkanok.changsuwan@sap.com>
+    Co-authored-by: Larisa Staroverova <larisa.staroverova@sap.com>
+
+feature-libs/product-configurator/rulebased/components/add-to-cart-button/configurator-add-to-cart-button.component.spec.ts
+feature-libs/product-configurator/rulebased/components/add-to-cart-button/configurator-add-to-cart-button.component.ts
+feature-libs/product-configurator/rulebased/components/configurator-conflict-and-error-messages/configurator-conflict-and-error-messages.component.ts
+feature-libs/product-configurator/rulebased/components/exit-button/configurator-exit-button.component.spec.ts
+feature-libs/product-configurator/rulebased/components/form/configurator-form.component.html
+feature-libs/product-configurator/rulebased/components/form/configurator-form.component.spec.ts
+feature-libs/product-configurator/rulebased/components/form/configurator-form.component.ts
+feature-libs/product-configurator/rulebased/components/group-menu/configurator-group-menu.component.html
+feature-libs/product-configurator/rulebased/components/group-menu/configurator-group-menu.component.spec.ts
+feature-libs/product-configurator/rulebased/components/group-title/configurator-group-title.component.html
+feature-libs/product-configurator/rulebased/components/group-title/configurator-group-title.component.spec.ts
+feature-libs/product-configurator/rulebased/components/group-title/configurator-group-title.component.ts
+feature-libs/product-configurator/rulebased/components/overview-form/configurator-overview-form.component.html
+feature-libs/product-configurator/rulebased/components/overview-form/configurator-overview-form.component.spec.ts
+feature-libs/product-configurator/rulebased/components/overview-form/configurator-overview-form.component.ts
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.html
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.spec.ts
+feature-libs/product-configurator/rulebased/components/overview-notification-banner/configurator-overview-notification-banner.component.ts
+feature-libs/product-configurator/rulebased/components/previous-next-buttons/configurator-previous-next-buttons.component.spec.ts
+feature-libs/product-configurator/rulebased/components/product-title/configurator-product-title.component.html
+feature-libs/product-configurator/rulebased/components/product-title/configurator-product-title.component.spec.ts
+feature-libs/product-configurator/rulebased/components/product-title/configurator-product-title.component.ts
+feature-libs/product-configurator/rulebased/components/tab-bar/configurator-tab-bar.component.html
+feature-libs/product-configurator/rulebased/components/tab-bar/configurator-tab-bar.component.spec.ts
+feature-libs/product-configurator/rulebased/components/tab-bar/configurator-tab-bar.component.ts
+feature-libs/product-configurator/rulebased/components/update-message/configurator-update-message.component.spec.ts
+feature-libs/product-configurator/rulebased/components/update-message/configurator-update-message.component.ts
+feature-libs/product-configurator/rulebased/core/events/index.ts
+feature-libs/product-configurator/rulebased/core/events/rulebased-configurator-event.listener.spec.ts
+feature-libs/product-configurator/rulebased/core/events/rulebased-configurator-event.listener.ts
+feature-libs/product-configurator/rulebased/core/events/rulebased-configurator-event.module.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-commons.service.ts
+feature-libs/product-configurator/rulebased/core/facade/configurator-groups.service.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/index.ts
+feature-libs/product-configurator/rulebased/core/facade/routing/configurator-router.listener.spec.ts
+feature-libs/product-configurator/rulebased/core/facade/routing/configurator-router.listener.ts
+feature-libs/product-configurator/rulebased/core/facade/routing/configurator-router.module.ts
+feature-libs/product-configurator/rulebased/core/facade/routing/index.ts
+feature-libs/product-configurator/rulebased/core/index.ts
+feature-libs/product-configurator/rulebased/core/rulebased-configurator-core.module.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.spec.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-cart.effect.ts
+feature-libs/product-configurator/rulebased/styles/_configurator-form.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-group-menu.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-group-title.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-overview-form.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-price-summary.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-product-title.scss
+feature-libs/product-configurator/rulebased/styles/_configurator-tab-bar.scss
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator-cpq.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator-overview-vc.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator-vc.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/product-configurator-tabbing.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-textfield-order.flaky-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-cart.flaky-e2e-spec.ts
+
+commit 8c70fec611e050c6f0add13f8a7c6b3e7febfb1a
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Dec 31 11:02:12 2021 -0500
+
+    test: remove standardUser from applied-promotions e2e (#14726)
+
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/promotions/applied-promotions.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/promotions/applied-promotions.e2e-spec.ts
+
+commit ce0c7962edba6276ca0ebf76b90ca7892c34407c
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Dec 31 09:03:07 2021 -0500
+
+    fix: improve screen reader narration for AddressBook (#14336)
+
+projects/assets/src/translations/en/address.ts
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.html
+projects/storefrontlib/cms-components/myaccount/address-book/address-book.component.ts
+
+commit 419be03e20aebbedbc4ab6600c2d638f5a57844b
+Author: Jonathan Hsu <36024638+bit172@users.noreply.github.com>
+Date:   Thu Dec 30 14:00:03 2021 -0500
+
+    fix: Add region landmark to checkout process (#13519)
+    
+    BREAKING CHANGE:
+    
+    HTML section element changed to nav in CheckoutProgressComponent
+    
+    Closes #13519
+
+docs/migration/5_0.md
+feature-libs/checkout/assets/translations/en/checkout.i18n.ts
+feature-libs/checkout/components/components/checkout-progress/checkout-progress.component.html
+
+commit 4fc94b65291a36c831ee99fbe0bba0a1bdc9d234
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Thu Dec 30 10:20:06 2021 -0500
+
+    fix: improve a11y narration of search boxes (#14497)
+
+docs/migration/5_0.md
+feature-libs/cart/quick-order/assets/translations/en/quick-order.i18n.ts
+feature-libs/cart/quick-order/components/quick-order/form/quick-order-form.component.html
+feature-libs/storefinder/assets/translations/en/store-finder.ts
+feature-libs/storefinder/components/store-finder-search/store-finder-search.component.html
+projects/assets/src/translations/en/common.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-product-type-flow.core-e2e-spec.ts
+projects/storefrontlib/cms-components/navigation/search-box/search-box.component.html
+
+commit 593ac9f8c252955525db7e23815a656b3728567e
+Author: Michał D <mdydo@divante.pl>
+Date:   Thu Dec 30 14:15:38 2021 +0100
+
+    fix: Change date pipe to cxDate pipe in MyInterestsComponent (#13477)
+
+projects/storefrontlib/cms-components/myaccount/my-interests/my-interests.component.html
+
+commit c7aaec7aabf2d2c3d97b73a0e891a22d04859b36
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Wed Dec 29 14:07:43 2021 -0500
+
+    move loop to create multiple list items (#14606)
+
+projects/storefrontlib/cms-components/misc/promotions/promotions.component.html
+
+commit cee2b7bbb7095c67cab1491b7ad2cc27bc5a79df
+Author: Jonathan Hsu <36024638+bit172@users.noreply.github.com>
+Date:   Wed Dec 29 11:43:28 2021 -0500
+
+    fix: Alt text is missing or not meaningful in describing the image (#11319)
+
+projects/storefrontlib/cms-components/product/product-list/product-list-item/product-list-item.component.html
+
+commit 958beba96b7cce569307c5c8d500ab58ddc6d85e
+Author: Michał D <mdydo@divante.pl>
+Date:   Wed Dec 29 13:19:30 2021 +0100
+
+    feat: Enable submit button for saved cart dialog form (#13478)
+
+feature-libs/cart/saved-cart/components/saved-cart-form-dialog/saved-cart-form-dialog.component.html
+feature-libs/cart/saved-cart/components/saved-cart-form-dialog/saved-cart-form-dialog.component.spec.ts
+feature-libs/cart/saved-cart/components/saved-cart-form-dialog/saved-cart-form-dialog.component.ts
+
+commit c2d3a75978a7827bb8414f0dd3741791666724d8
+Author: Michał D <mdydo@divante.pl>
+Date:   Tue Dec 28 09:32:39 2021 +0100
+
+    fix: Close menu on clicking current path nav link (#13638)
+
+docs/migration/5_0.md
+projects/storefrontlib/cms-components/navigation/navigation/navigation-ui.component.html
+projects/storefrontlib/shared/components/generic-link/generic-link.component.html
+projects/storefrontlib/shared/components/generic-link/generic-link.component.spec.ts
+projects/storefrontlib/shared/components/generic-link/generic-link.component.ts
+
+commit 71a9bedae8ca5962d56fb539160f73bfd3bb5ffd
+Author: LarisaStar <61147963+Larisa-Staroverova@users.noreply.github.com>
+Date:   Mon Dec 27 11:22:10 2021 +0100
+
+    chore: Adjust cy:run:cpq script cypress package.json (#14717)
+    
+    CPQ cypress test has been renamed, therefore cy:run:cpq script in the cypress package.json should be adjusted
+    
+    Closes #14716
+
+projects/storefrontapp-e2e-cypress/package.json
+
+commit be34298a38a8a7bb3d45485f0c47a65cd4f17ecc
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Sun Dec 26 14:22:55 2021 -0500
+
+    Fix merge.
+
+feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.ts
+
+commit ac45c705eb5bd7b144bd3ff277013db38d602de8
+Merge: 86330fd9cf bbe3ed597e
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Sun Dec 26 13:39:27 2021 -0500
+
+    Merge branch 'develop' into epic/cart-lib
+
+commit 86330fd9cf7e91e81f1967a4800c5f3590cf5445
+Author: Patrick Labadie <patrick.labadie@sap.com>
+Date:   Sun Dec 26 09:51:32 2021 -0500
+
+    Trigger ci
+
+commit bbe3ed597e4af163d260b402e0780fcd6b9d026f
+Author: Giancarlo Cordero Ortiz <46171897+giancorderoortiz@users.noreply.github.com>
+Date:   Thu Dec 23 15:11:04 2021 -0500
+
+    Reshuffle e2e. Pend optimization per TIA (#14438)
+    
+    * Reshuffle e2e. Pend optimization per TIA
+    
+    * split
+    
+    * add cmd options to run core tests only
+    
+    * split up expensive tests
+    
+    * modify files to run in travis
+    
+    * additional splitting of expensive tests
+    
+    * fix imports throughout
+    
+    * split b2b save cart test
+    
+    * rename test files identified as core
+    
+    * identifying core tests in b2c
+    
+    * further splitting. Gather timing data
+    
+    * Split b2b tests where applicable
+    
+    * fix broken tests
+    
+    * fix broken tests
+    
+    * run b2b in parallel as well
+    
+    * force run b2b core tests
+    
+    * temp modifications to coupons test
+    
+    * minor optimizations
+    
+    * splitting b2b e2e tests
+    
+    * default to b2c in pipeline
+    
+    * attempt run b2b tests in ci in parallel
+    
+    * retry b2b parallel run
+    
+    * clean up asm test
+    
+    * Use devci2 for backend. Avoid collisions with ci
+    
+    * removing duplication of core tests
+    
+    * remove duplication in express and guest checkout core tests
+    
+    * remove duplication from my account core tests
+    
+    * remove redundancy in core my-account and order cancellation e2e tests
+    
+    * Remove redundancy in product details, promotions and save for later
+    
+    * Remove redundancy site-context and inifinite scroll
+    
+    * Remove redundancy in store finder e2e test
+    
+    * remove redundancy from variants e2e tests
+    
+    * clean up
+    
+    * fix redirect core tests
+    
+    * fix variants test
+    
+    * revert config change
+    
+    * Use lb as default backend
+    
+    * Running only core e2es for PRs
+    
+    * add core tag to targets in package.json
+    
+    * Fixing travis PR flag logic
+    
+    * Fixing all tests regex
+    
+    * prettier
+    
+    * improve checkout as guest e2e tests
+    
+    * test with devci1
+    
+    * quick attempt, reduce failures
+    
+    * fix failing guest checkout tests
+    
+    * additional fixes to guest checkout e2e tests
+    
+    * Fixes to express checkout
+    
+    * disable guest and express checkout. Conflict with promotions
+    
+    * fix apparel guest checkout test
+    
+    * run prettier
+    
+    * removing duplication of core tests execution
+    
+    * remove duplication of e2e core tests
+    
+    * remove duplication core tests where possible
+    
+    * prettier
+    
+    * fix attempts
+    
+    * revert changes for asm test. minor changes
+    
+    * merge latest changes from develop, mark cart-validation as flaky
+    
+    * temporary test cart validation
+    
+    * revert changes cart validation
+    
+    * incorporate changes from feature/GH-14701
+    
+    * run prettier
+    
+    Co-authored-by: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+
+.env-cmdrc
+.travis.yml
+ci-scripts/e2e-cypress.sh
+package.json
+projects/storefrontapp-e2e-cypress/cypress.ci.ccv2.json
+projects/storefrontapp-e2e-cypress/cypress.ci.cdc.json
+projects/storefrontapp-e2e-cypress/cypress.ci.digital-payments.json
+projects/storefrontapp-e2e-cypress/cypress/helpers/anonymous-consents.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/applied-promotions.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/asm.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/auth-redirects.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/budget.config.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/cost-center.config.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/purchase-limit.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/unit.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/user-group.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/config/user.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/models/my-company.config.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/my-company-features.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/my-company.utils.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/cart-import-export.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/cart-validation.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-as-guest.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-variants.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/coupons/my-coupons.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/express-checkout.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/infinite-scroll.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/notification.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/order-cancellations-returns.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/order-history.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/payment-methods.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-details.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/save-for-later.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/site-context-selector.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/store-finder.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/update-email.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/update-password.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/update-profile.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/aux-key.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/group-skipping.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/product-configurator-tabbing.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/bulk-pricing/bulk-pricing.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/checkout/b2b-account-checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/inventory-display/inventory-display.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/budgets.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/cost-centers.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/purchase-limits.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/units.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/user-groups.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/my-company/users.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/order-approval/b2b-order-approval.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/quick-order/b2b-quick-order.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/replenishment/b2b-replenishment-checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/replenishment/b2b-replenishment-order-details-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/saved-cart/b2b-saved-cart.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/mobile/my-account/consent-management-mobile.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/mobile/product-configurator-mobile.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/anonymous-consents/anonymous-consents-config-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/anonymous-consents/anonymous-consents-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/anonymous-consents/anonymous-consents-flow.flaky-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/applied-promotions.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/asm/asm.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/asm/asm.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/added-to-cart-modal.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/added-to-cart-modal.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-import-export.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-import-export.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-validation.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart-validation.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart/cart.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/billing-address.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-as-guest.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-as-guest.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/express-checkout.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/express-checkout.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/consignment-tracking/consignment-tracking.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/coupons.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/coupons.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/my-coupons.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/my-coupons.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/homepage/homepage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/infinite-scroll.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/inventory-display/inventory-display.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/miscellaneous/outlets.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/miscellaneous/routing.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/address-book.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/close-account.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/consent-management.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/consent-management.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/order-history-no-orders-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/order-history-orders-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/order-history-orders-flow.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/payment-methods.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/payment-methods.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-email.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-email.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-password.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-password.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-profile.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/update-profile.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/my-interests.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/my-interests.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/notification-preference.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/notification-preference.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/stock-notification.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/orders/order-cancellations-returns.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/orders/order-cancellations-returns.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-details.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-pricing-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-product-type-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-rating-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search-store-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product-search/product-search.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-cart.flaky-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-textfield-order.flaky-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-textfield.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-cart.flaky-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_configurator/product-configurator-vc-interactive.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/product_details/product-details.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/promotions/applied-promotions.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/promotions/applied-promotions.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/qualtrics/qualtrics.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/redirects/auth-redirects.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/redirects/auth-redirects.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/reset-password/forgot-password.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/reset-password/reset-password.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/save-for-later/save-for-later.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/save-for-later/save-for-later.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/scrolling/infinite-scroll.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/scrolling/infinite-scroll.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/currency/currency-cart-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/currency/currency-checkout-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/currency/currency-product-details-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/currency/currency-product-search.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/currency/currency.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-cart-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-checkout-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-my-account-pages.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-my-account-pages.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-product-details-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-product-search-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-registration-page.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/store-finder.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/storefinder/store-finder.core-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/storefinder/store-finder.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/user_access/early-login.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/user_access/login.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/user_access/register.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/variants/apparel-checkout-as-guest.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/variants/apparel-checkout-as-guest.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/variants/apparel-checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/variants/apparel-checkout-flow.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/wishlist/wish-list.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/ssr/pages.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cdc/b2c/b2c-scenarios.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/merchandising-carousel/merchandising-carousel-brandpage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/merchandising-carousel/merchandising-carousel-categorypage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/merchandising-carousel/merchandising-carousel-events.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/merchandising-carousel/merchandising-carousel-homepage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/merchandising-carousel/merchandising-carousel-productpage.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/default-events.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cds/profile-tag/login-notification.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/cpq/cpq-configuration.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/vendor/digital-payments/digital-payments.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/sample-data/checkout-flow.ts
+projects/storefrontapp-e2e-cypress/package.json
+
+commit f5f412abd2aa2cf65990be99dcb21401800d9e0e
+Author: Jonathan Hsu <36024638+bit172@users.noreply.github.com>
+Date:   Thu Dec 23 10:46:17 2021 -0500
+
+    fix: Payment method card doesn't vocalize the fact that it contains the "default" payment (#13718)
+    
+    Co-authored-by: BenjaminEmiliani <benjaminemi129@gmail.com>
+
+docs/migration/5_0.md
+feature-libs/checkout/components/components/payment-method/payment-method.component.spec.ts
+projects/assets/src/translations/en/payment.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/b2b/tabbing-order.config.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/b2b-checkout.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/site-context-selector.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/my-account/address-book.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/site-context/language/language-my-account-pages.e2e-spec.ts
+projects/storefrontlib/cms-components/myaccount/payment-methods/payment-methods.component.html
+projects/storefrontlib/cms-components/myaccount/payment-methods/payment-methods.component.spec.ts
+projects/storefrontlib/cms-components/myaccount/payment-methods/payment-methods.component.ts
+projects/storefrontlib/shared/components/card/card.component.html
+projects/storefrontlib/shared/components/card/card.component.spec.ts
+projects/storefrontlib/shared/components/card/card.component.ts
+projects/storefrontstyles/scss/components/misc/card/_card.scss
+
+commit e75f64b196cf20cd9e1d12ad92b5811f12d21fe4
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Thu Dec 23 08:55:57 2021 -0500
+
+    Fixing test by using a new user every run
+    
+    Co-authored-by: Giancarlo Cordero Ortiz <46171897+giancorderoortiz@users.noreply.github.com>
+
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart-validation.e2e-spec.ts
+
+commit 7cfe348bc354bc527a7dca8079e994a901551f40
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Thu Dec 23 12:03:44 2021 +0100
+
+    test: improve test coverage for configurator effects (#14705)
+    
+    Previously, the tests did not cover the updateSuccessAction for a multilevel configuration properly.
+    
+    closes #14704
+
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic-effect.service.ts
+feature-libs/product-configurator/rulebased/core/state/effects/configurator-basic.effect.spec.ts
+
+commit 9ff439a0e62b2b9cbcd6730e8b7fcfe95a80c0b6
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Wed Dec 22 17:06:24 2021 -0500
+
+    Marking test as flaky
+
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/cart-validation.flaky-e2e-spec.ts
+
+commit bd177c891ef32d123cf4e24e8e3be0c05fed2d91
+Author: Gilberto Alvarado <gilberto.alvarado.jimenez@sap.com>
+Date:   Wed Dec 22 16:57:55 2021 -0500
+
+    Fixing warnings in travis configuration
+
+.travis.yml
+
+commit 7ac41f2d9a1eac8091d0855390bb9a9ae2dd1945
+Author: LarisaStar <61147963+Larisa-Staroverova@users.noreply.github.com>
+Date:   Wed Dec 22 10:44:58 2021 +0100
+
+    test: Fix failing CPQ cypress tests (#14670)
+    
+    Fix failing CPQ cypress tests caused by accessibility enhancement
+    
+    Closes #14669
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator.ts
+
+commit ccdb51175eec7c775425a288e5b62b355480b614
+Author: Jerry Wang <58975336+wangzixi-diablo@users.noreply.github.com>
+Date:   Tue Dec 21 15:16:16 2021 +0800
+
+    feat: disable shipping method radio input when there is ongoing delivery mode request (#14401)
+    
+    * add spinner when there is onging delivery mode request
+    
+    * disable radio input instead of using spinner
+    
+    * fix regression error: only retrieve enabled radio input
+    
+    * fix broken a18y test
+    
+    * when loading shipping methods, continue button hiden by spinner
+    
+    * remove unused flag
+    
+    * Michal's improvement
+    
+    * fix broken e2e test
+    
+    * fix prettier issue
+    
+    * disable fieldset
+    
+    * add feature level
+    
+    * fix unit test after feature level is introduced
+    
+    * small refactor
+    
+    * remove log
+    
+    * add doc for breaking change
+    
+    * up
+    
+    * fix disable delay issue
+    
+    * remove console.log
+    
+    * add unit test
+    
+    * add space in comment
+    
+    * update migration document
+    
+    * fix build error
+    
+    * remove duplicate spyOn code
+    
+    * use BehaviorSubject to improve test
+    
+    * emit default data in beforeEach
+    
+    Co-authored-by: Michał Gruca <pucek9@gmail.com>
+
+docs/migration/5_0.md
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.html
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.spec.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.component.ts
+feature-libs/checkout/components/components/delivery-mode/delivery-mode.module.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.spec.ts
+feature-libs/checkout/core/facade/checkout-delivery.service.ts
+feature-libs/checkout/root/facade/checkout-delivery.facade.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/tabbing-order.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/b2b-checkout.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/accessibility/group-skipping.e2e-spec.ts
+projects/storefrontapp/src/app/app.module.ts
+
+commit 717e18a0767617ec3818a319cb0de3e963168e89
+Author: Caine Rotherham <rotherham.c@gmail.com>
+Date:   Mon Dec 20 16:03:39 2021 +0100
+
+    test: Add tabScreenshot() method for a11y tab e2e testing (#13818)
+    
+    Closes: #13686
+
+projects/storefrontapp-e2e-cypress/.gitignore
+projects/storefrontapp-e2e-cypress/cypress/helpers/viewport-context.ts
+projects/storefrontapp-e2e-cypress/cypress/plugins/index.js
+projects/storefrontapp-e2e-cypress/cypress/support/a11y-tab.commands.ts
