@@ -461,7 +461,10 @@ export const CONFIGURATOR_UI_SETTINGS_CONFIG = 'ConfiguratorUISettingsConfig';
 export const CONFIGURATOR_STOREFRONT_UTILS_SERVICE =
   'ConfiguratorStorefrontUtilsService';
 export const CONFIGURATOR_GROUPS_SERVICE = 'ConfiguratorGroupsService';
+export const CONFIGURATOR_EVENT_LISTENER = 'RulebasedConfiguratorEventListener';
 export const CONFIGURATOR_COMMONS_SERVICE = 'ConfiguratorCommonsService';
+export const CONFIGURATOR_REMOVE_OBSOLETE_PRODUCT_BOUND_CONFIGURATION =
+  'removeObsoleteProductBoundConfiguration';
 export const CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE =
   'ConfiguratorRouterExtractorService';
 export const CONFIGURATOR_CART_ENTRY_INFO_COMPONENT =
@@ -484,8 +487,12 @@ export const CONFIGURATOR_ATTRIBUTE_RADIO_BUTTON_COMPONENT =
   'ConfiguratorAttributeRadioButtonComponent';
 export const CONFIGURATOR_PRODUCT_TITLE_COMPONENT =
   'ConfiguratorProductTitleComponent';
+export const CONFIGURATOR_GROUP_TITLE_COMPONENT =
+  'ConfiguratorGroupTitleComponent';
+export const CONFIGURATOR_CONFIGURATION_OBS = 'configuration$';
 export const CONFIGURATOR_GROUP_MENU_COMPONENT =
   'ConfiguratorGroupMenuComponent';
+export const CONFIGURATOR_TAB_BAR_COMPONENT = 'ConfiguratorTabBarComponent';
 export const CONFIGURATOR_GROUP_MENU_SERVICE = 'ConfiguratorGroupMenuService';
 export const MESSAGE_CONFIG = 'MessageConfig';
 export const CONFIGURATOR_MESSAGE_CONFIG = 'ConfiguratorMessageConfig';
@@ -498,6 +505,10 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeMultiSelectionBundleComponent';
+export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
+  'ConfiguratorAttributeSingleSelectionBundleComponent';
 export const CONFIGURATOR_ATTRIBUTE_PRODUCT_CARD_COMPONENT =
   'ConfiguratorAttributeProductCardComponent';
 export const CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT =
@@ -544,6 +555,8 @@ export const SEARCH = 'search';
 export const REMOVE_ENTRY = 'removeEntry';
 export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
+
+export const REINITALIZE_MENU = 'reinitalizeMenu';
 
 /***** Classes end *****/
 
@@ -1071,6 +1084,7 @@ export const RESET_CHECKOUT_PROCESSES = 'resetCheckoutProcesses';
 export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
+export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
 
 /***** APIs end *****/
 
