@@ -189,19 +189,6 @@ describe('CheckoutPaymentTypeComponent', () => {
       expect(el.query(By.css('div.cx-spinner'))).toBeFalsy();
     });
 
-    it('should disable continue button when type selected is in progress', () => {
-      (
-        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-      ).next(true);
-
-      fixture.detectChanges();
-
-      expect(
-        el.query(By.css('.cx-checkout-btns .btn-primary')).nativeElement
-          .disabled
-      ).toBe(true);
-    });
-
     it('should enable continue button when the payment is selected', () => {
       (
         component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>

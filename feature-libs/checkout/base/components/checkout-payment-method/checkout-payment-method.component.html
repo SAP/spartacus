@@ -70,7 +70,7 @@
       (goBack)="back()"
       [paymentMethodsCount]="cards?.length || 0"
       [setAsDefaultField]="!isGuestCheckout"
-      [loading]="busy$ | async"
+      [loading]="isUpdating$ | async"
     ></cx-payment-form>
   </ng-template>
 </ng-container>

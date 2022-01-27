@@ -80,18 +80,6 @@ export class CheckoutPaymentTypeComponent {
     });
   }
 
-  protected onSuccess(): void {
-    (
-      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-    ).next(false);
-  }
-
-  protected onError(): void {
-    (
-      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-    ).next(false);
-  }
-
   next(): void {
     // set po number to cart
     const poNumInput = this._poNumberInput.nativeElement.value;
@@ -107,5 +95,17 @@ export class CheckoutPaymentTypeComponent {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected onSuccess(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
+  }
+
+  protected onError(): void {
+    (
+      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
+    ).next(false);
   }
 }
