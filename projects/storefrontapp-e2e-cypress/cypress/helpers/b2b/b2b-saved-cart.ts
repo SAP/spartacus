@@ -5,6 +5,7 @@ import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
+import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -637,4 +638,23 @@ export function updateSavedCartAndRestore(
         verifyCartDetails(cart);
       });
     });
+}
+
+export function proceedToCheckout() {
+  const checkoutPageAlias = waitForPage(
+    `/checkout/payment-type`,
+    'checkoutPage'
+  );
+
+  cy.get('cx-cart-totals').find('cx-progress-button button').click();
+
+  cy.wait(`@${checkoutPageAlias}`).its('response.statusCode').should('eq', 200);
+}
+
+export function executeCheckout() {
+  b2bCheckout.enterPONumber();
+  b2bCheckout.selectAccountPayment();
+  b2bCheckout.selectAccountShippingAddress();
+  b2bCheckout.selectAccountDeliveryMode();
+  b2bCheckout.placeOrder('/order-confirmation');
 }

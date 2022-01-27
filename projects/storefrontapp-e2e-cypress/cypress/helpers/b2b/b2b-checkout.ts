@@ -28,6 +28,7 @@ import {
   waitForProductPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
+import { getViewport } from '../../helpers/viewport-context';
 
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
@@ -138,10 +139,12 @@ export function selectAccountShippingAddress() {
   );
 
   // Accessibility
-  verifyTabbingOrder(
-    'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-    config.shippingAddressAccount
-  );
+  if (getViewport() === 'desktop') {
+    verifyTabbingOrder(
+      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+      config.shippingAddressAccount
+    );
+  }
 
   cy.get('button.btn-primary').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
@@ -161,10 +164,12 @@ export function selectAccountDeliveryMode() {
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
   ).then(() => {
     // Accessibility
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.deliveryMode
-    );
+    if (getViewport() === 'desktop') {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        config.deliveryMode
+      );
+    }
   });
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
@@ -303,6 +308,7 @@ export function placeOrder(orderUrl: string) {
     'getOrderConfirmationPage'
   );
 
+  cy.get('cx-place-order input').click();
   cy.get('cx-place-order button.btn-primary').click();
   // temporary solution for very slow backend response while placing order
   cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
