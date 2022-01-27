@@ -160,34 +160,36 @@ $useTabsOnPDP: false !default;
 }
 
 %pdpFlat {
-  margin: auto;
-
-  @include media-breakpoint-down(xl) {
-    max-width: var(--cx-page-width-max);
-  }
-  // make a small header with links
-  display: grid;
-  grid-template-columns: repeat(4, auto) auto;
-  justify-content: start;
-  > button {
-    @include button-reset();
-    order: 2;
-    color: var(--cx-color-primary);
-    font-weight: normal;
-    font-size: 0.9em;
-    cursor: pointer;
-    margin: 10px 15px;
-    &:hover {
-      text-decoration: underline;
-    }
-    &:focus {
-      z-index: 1;
-    }
-  }
-
   > div {
-    order: 4;
-    grid-column: 1 / span 5;
+    margin: auto;
+
+    @include media-breakpoint-down(xl) {
+      max-width: var(--cx-page-width-max);
+    }
+    // make a small header with links
+    display: grid;
+    grid-template-columns: repeat(4, auto) auto;
+    justify-content: start;
+    > button {
+      @include button-reset();
+      order: 2;
+      color: var(--cx-color-primary);
+      font-weight: normal;
+      font-size: 0.9em;
+      cursor: pointer;
+      margin: 10px 15px;
+      &:hover {
+        text-decoration: underline;
+      }
+      &:focus {
+        z-index: 1;
+      }
+    }
+
+    > div {
+      order: 4;
+      grid-column: 1 / span 5;
+    }
   }
 }
 

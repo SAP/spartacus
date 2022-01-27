@@ -1,11 +1,10 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import {
   CurrentProductService,
   ProductImagesComponent,
 } from '@spartacus/storefront';
-import { isNotNullable, Product } from '@spartacus/core';
+import { Product } from '@spartacus/core';
 
 @Component({
   selector: 'cx-product-images',
@@ -16,12 +15,10 @@ export class ProductImageZoomProductImagesComponent extends ProductImagesCompone
   expandImage = new BehaviorSubject(false);
   selectedIndex: number | undefined;
 
+  product$: Observable<Product> = this.product$;
+
   constructor(protected currentProductService: CurrentProductService) {
     super(currentProductService);
-  }
-
-  getProduct(): Observable<Product> {
-    return this.currentProductService.getProduct().pipe(filter(isNotNullable));
   }
 
   openImage(item: any): void {

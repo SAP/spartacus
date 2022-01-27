@@ -8,7 +8,7 @@
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
-  <ng-container *ngIf="getProduct() | async as product">
+  <ng-container *ngIf="product$ | async as product">
     <cx-carousel
       role="region"
       [attr.aria-label]="
