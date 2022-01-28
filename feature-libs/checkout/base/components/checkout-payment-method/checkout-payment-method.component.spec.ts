@@ -417,6 +417,7 @@ describe('CheckoutPaymentMethodComponent', () => {
         img: 'CREDIT_CARD',
         actions: [{ name: 'Use this payment', event: 'send' }],
         header: 'Selected',
+        label: 'paymentCard.defaultPaymentLabel',
       });
     });
 

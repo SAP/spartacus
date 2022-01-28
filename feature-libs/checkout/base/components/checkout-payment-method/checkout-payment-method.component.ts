@@ -268,6 +268,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         selected?.id === paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
+      label: paymentDetails.defaultPayment
+        ? 'paymentCard.defaultPaymentLabel'
+        : 'paymentCard.additionalPaymentLabel',
     };
   }
 
