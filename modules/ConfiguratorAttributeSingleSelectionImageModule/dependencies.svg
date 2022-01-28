@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorAttributeSingleSelectionImageModule_declarations</title>
 <polygon fill="none" stroke="black" points="470,-40.8 470,-92.8 814,-92.8 814,-40.8 470,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorAttributeSingleSelectionImageModule_exports</title>
-<polygon fill="none" stroke="black" points="130,-170.8 130,-222.8 476,-222.8 476,-170.8 130,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorAttributeSingleSelectionImageModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 462,-92.8 462,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorAttributeSingleSelectionImageModule_exports</title>
+<polygon fill="none" stroke="black" points="130,-170.8 130,-222.8 476,-222.8 476,-170.8 130,-170.8"/>
 </g>
 <!-- ConfiguratorAttributeSingleSelectionImageComponent -->
 <g id="node1" class="node">

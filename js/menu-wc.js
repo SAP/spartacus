@@ -1250,13 +1250,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/CompactAddToCartModule.html" data-type="entity-link" >CompactAddToCartModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-CompactAddToCartModule-b85286f26a411e4be612e3b7065fff96"' : 'data-target="#xs-components-links-module-CompactAddToCartModule-b85286f26a411e4be612e3b7065fff96"' }>
+                                            'data-target="#components-links-module-CompactAddToCartModule-3d07715fff6f75122291621fb4035741"' : 'data-target="#xs-components-links-module-CompactAddToCartModule-3d07715fff6f75122291621fb4035741"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CompactAddToCartModule-b85286f26a411e4be612e3b7065fff96"' :
-                                            'id="xs-components-links-module-CompactAddToCartModule-b85286f26a411e4be612e3b7065fff96"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-CompactAddToCartModule-3d07715fff6f75122291621fb4035741"' :
+                                            'id="xs-components-links-module-CompactAddToCartModule-3d07715fff6f75122291621fb4035741"' }>
                                             <li class="link">
                                                 <a href="components/CompactAddToCartComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >CompactAddToCartComponent</a>
                                             </li>
@@ -4401,7 +4401,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReturnOrderConfirmationModule-ffca48dfd92a2b494c4ee973d36e7678-1"' :
                                             'id="xs-components-links-module-ReturnOrderConfirmationModule-ffca48dfd92a2b494c4ee973d36e7678-1"' }>
                                             <li class="link">
-                                                <a href="components/ReturnOrderConfirmationComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReturnOrderConfirmationComponent</a>
+                                                <a href="components/ReturnOrderConfirmationComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReturnOrderConfirmationComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -4435,7 +4435,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                         <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-ReturnOrderModule-2034cd0465cee211655b74cdc02f502e-1"' :
                                             'id="xs-components-links-module-ReturnOrderModule-2034cd0465cee211655b74cdc02f502e-1"' }>
                                             <li class="link">
-                                                <a href="components/ReturnOrderComponent-1.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" class="deprecated-name">ReturnOrderComponent</a>
+                                                <a href="components/ReturnOrderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >ReturnOrderComponent</a>
                                             </li>
                                         </ul>
                                     </li>
@@ -6041,13 +6041,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/VisualPickingProductFilterModule.html" data-type="entity-link" >VisualPickingProductFilterModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' : 'data-target="#xs-components-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' }>
+                                            'data-target="#components-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' : 'data-target="#xs-components-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' :
-                                            'id="xs-components-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' :
+                                            'id="xs-components-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' }>
                                             <li class="link">
                                                 <a href="components/VisualPickingProductFilterComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualPickingProductFilterComponent</a>
                                             </li>
@@ -6055,13 +6055,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                     </li>
                                 <li class="chapter inner">
                                     <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                        'data-target="#injectables-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' : 'data-target="#xs-injectables-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' }>
+                                        'data-target="#injectables-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' : 'data-target="#xs-injectables-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' }>
                                         <span class="icon ion-md-arrow-round-down"></span>
                                         <span>Injectables</span>
                                         <span class="icon ion-ios-arrow-down"></span>
                                     </div>
-                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' :
-                                        'id="xs-injectables-links-module-VisualPickingProductFilterModule-378f47e25e2d9e1114d561443c5671c2"' }>
+                                    <ul class="links collapse" ${ isNormalMode ? 'id="injectables-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' :
+                                        'id="xs-injectables-links-module-VisualPickingProductFilterModule-d9e1cea399030cbffa3be959c542e897"' }>
                                         <li class="link">
                                             <a href="injectables/VisualPickingProductFilterService.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualPickingProductFilterService</a>
                                         </li>
@@ -6072,13 +6072,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/VisualPickingProductListModule.html" data-type="entity-link" >VisualPickingProductListModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-VisualPickingProductListModule-0b79fcfdd46a6f6a4d40a8e09ec00c37"' : 'data-target="#xs-components-links-module-VisualPickingProductListModule-0b79fcfdd46a6f6a4d40a8e09ec00c37"' }>
+                                            'data-target="#components-links-module-VisualPickingProductListModule-545a7c5462214674f900e2d6e848c7d2"' : 'data-target="#xs-components-links-module-VisualPickingProductListModule-545a7c5462214674f900e2d6e848c7d2"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualPickingProductListModule-0b79fcfdd46a6f6a4d40a8e09ec00c37"' :
-                                            'id="xs-components-links-module-VisualPickingProductListModule-0b79fcfdd46a6f6a4d40a8e09ec00c37"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualPickingProductListModule-545a7c5462214674f900e2d6e848c7d2"' :
+                                            'id="xs-components-links-module-VisualPickingProductListModule-545a7c5462214674f900e2d6e848c7d2"' }>
                                             <li class="link">
                                                 <a href="components/VisualPickingProductListComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualPickingProductListComponent</a>
                                             </li>
@@ -6106,13 +6106,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/VisualViewerAnimationSliderModule.html" data-type="entity-link" >VisualViewerAnimationSliderModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-VisualViewerAnimationSliderModule-64c8b20720753f3e5aee9404192352d0"' : 'data-target="#xs-components-links-module-VisualViewerAnimationSliderModule-64c8b20720753f3e5aee9404192352d0"' }>
+                                            'data-target="#components-links-module-VisualViewerAnimationSliderModule-d47208a35b924b61b6b1f2414b84a7db"' : 'data-target="#xs-components-links-module-VisualViewerAnimationSliderModule-d47208a35b924b61b6b1f2414b84a7db"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerAnimationSliderModule-64c8b20720753f3e5aee9404192352d0"' :
-                                            'id="xs-components-links-module-VisualViewerAnimationSliderModule-64c8b20720753f3e5aee9404192352d0"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerAnimationSliderModule-d47208a35b924b61b6b1f2414b84a7db"' :
+                                            'id="xs-components-links-module-VisualViewerAnimationSliderModule-d47208a35b924b61b6b1f2414b84a7db"' }>
                                             <li class="link">
                                                 <a href="components/VisualViewerAnimationSliderComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualViewerAnimationSliderComponent</a>
                                             </li>
@@ -6123,13 +6123,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/VisualViewerModule.html" data-type="entity-link" >VisualViewerModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-VisualViewerModule-ee6643a07d1b05c98e141cf9d79742f9"' : 'data-target="#xs-components-links-module-VisualViewerModule-ee6643a07d1b05c98e141cf9d79742f9"' }>
+                                            'data-target="#components-links-module-VisualViewerModule-dbfc7b0e604ba3bffc5ca7266f47dbd0"' : 'data-target="#xs-components-links-module-VisualViewerModule-dbfc7b0e604ba3bffc5ca7266f47dbd0"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerModule-ee6643a07d1b05c98e141cf9d79742f9"' :
-                                            'id="xs-components-links-module-VisualViewerModule-ee6643a07d1b05c98e141cf9d79742f9"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerModule-dbfc7b0e604ba3bffc5ca7266f47dbd0"' :
+                                            'id="xs-components-links-module-VisualViewerModule-dbfc7b0e604ba3bffc5ca7266f47dbd0"' }>
                                             <li class="link">
                                                 <a href="components/VisualViewerComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualViewerComponent</a>
                                             </li>
@@ -6140,13 +6140,13 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="modules/VisualViewerToolbarButtonModule.html" data-type="entity-link" >VisualViewerToolbarButtonModule</a>
                                     <li class="chapter inner">
                                         <div class="simple menu-toggler" data-toggle="collapse" ${ isNormalMode ?
-                                            'data-target="#components-links-module-VisualViewerToolbarButtonModule-f7d981a7127d4fe8ba73d10f1216caeb"' : 'data-target="#xs-components-links-module-VisualViewerToolbarButtonModule-f7d981a7127d4fe8ba73d10f1216caeb"' }>
+                                            'data-target="#components-links-module-VisualViewerToolbarButtonModule-69cffd4b085fe6b637d7314644a477b1"' : 'data-target="#xs-components-links-module-VisualViewerToolbarButtonModule-69cffd4b085fe6b637d7314644a477b1"' }>
                                             <span class="icon ion-md-cog"></span>
                                             <span>Components</span>
                                             <span class="icon ion-ios-arrow-down"></span>
                                         </div>
-                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerToolbarButtonModule-f7d981a7127d4fe8ba73d10f1216caeb"' :
-                                            'id="xs-components-links-module-VisualViewerToolbarButtonModule-f7d981a7127d4fe8ba73d10f1216caeb"' }>
+                                        <ul class="links collapse" ${ isNormalMode ? 'id="components-links-module-VisualViewerToolbarButtonModule-69cffd4b085fe6b637d7314644a477b1"' :
+                                            'id="xs-components-links-module-VisualViewerToolbarButtonModule-69cffd4b085fe6b637d7314644a477b1"' }>
                                             <li class="link">
                                                 <a href="components/VisualViewerToolbarButtonComponent.html" data-type="entity-link" data-context="sub-entity" data-context-id="modules" >VisualViewerToolbarButtonComponent</a>
                                             </li>
@@ -6232,7 +6232,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                                 <a href="components/ReplenishmentOrderCancellationComponent-1.html" data-type="entity-link" class="deprecated-name">ReplenishmentOrderCancellationComponent</a>
                             </li>
                             <li class="link">
-                                <a href="components/ReturnOrderConfirmationComponent-1.html" data-type="entity-link" class="deprecated-name">ReturnOrderConfirmationComponent</a>
+                                <a href="components/ReturnOrderComponent-1.html" data-type="entity-link" class="deprecated-name">ReturnOrderComponent</a>
                             </li>
                             <li class="link">
                                 <a href="components/ReturnRequestItemsComponent.html" data-type="entity-link" >ReturnRequestItemsComponent</a>

@@ -183,6 +183,7 @@
   Injectable,
   OnDestroy,
 } from &#x27;@angular/core&#x27;;
+import { WindowRef } from &#x27;@spartacus/core&#x27;;
 import {
   SceneNodeToProductLookupService,
   VisualizationLookupService,
@@ -228,6 +229,7 @@ import { ZoomTo } from &#x27;./models/zoom-to&#x27;;
 
 type ViewManager &#x3D; any;
 type NodeRef &#x3D; any;
+type ViewInfo &#x3D; any;
 
 interface VisualContentChangesFinishedEvent {
   content: any;
@@ -245,8 +247,12 @@ export class VisualViewerService implements OnDestroy {
     protected _sceneNodeToProductLookupService: SceneNodeToProductLookupService,
     protected visualizationLookupService: VisualizationLookupService,
     protected elementRef: ElementRef,
-    protected changeDetectorRef: ChangeDetectorRef
+    protected changeDetectorRef: ChangeDetectorRef,
+    protected windowRef: WindowRef
   ) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     const ui5BootStrapped$: Observable&lt;void&gt; &#x3D;
       this.bootstrapUi5(&#x27;ui5bootstrap&#x27;);
     const ui5Initialized$: Observable&lt;void&gt; &#x3D; ui5BootStrapped$.pipe(
@@ -354,11 +360,11 @@ export class VisualViewerService implements OnDestroy {
     this._contentType &#x3D; value;
   }
 
-  private _initialViewInfo: any;
-  private get initialViewInfo(): any {
+  private _initialViewInfo: ViewInfo;
+  private get initialViewInfo(): ViewInfo {
     return this._initialViewInfo;
   }
-  private set initialViewInfo(value: any) {
+  private set initialViewInfo(value: ViewInfo) {
     this._initialViewInfo &#x3D; value;
   }
 
@@ -387,17 +393,17 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private _selectedNodeIds$ &#x3D; new BehaviorSubject&lt;string[]&gt;([]);
-  private get selectedNodeIds$() {
+  private get selectedNodeIds$(): BehaviorSubject&lt;string[]&gt; {
     return this._selectedNodeIds$;
   }
-  private set selectedNodeIds$(value) {
+  private set selectedNodeIds$(value: BehaviorSubject&lt;string[]&gt;) {
     this._selectedNodeIds$ &#x3D; value;
   }
 
   private _sceneLoadInfo$ &#x3D; new BehaviorSubject&lt;SceneLoadInfo&gt;({
     sceneLoadState: SceneLoadState.NotStarted,
   });
-  public get sceneLoadInfo$() {
+  public get sceneLoadInfo$(): BehaviorSubject&lt;SceneLoadInfo&gt; {
     return this._sceneLoadInfo$;
   }
 
@@ -434,6 +440,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-background&#x27; with the quotes.
    */
   public set backgroundTopColor(backgroundTopColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._backgroundTopColor &#x3D;&#x3D;&#x3D; backgroundTopColor) {
       return;
     }
@@ -452,6 +461,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-background&#x27; with the quotes.
    */
   public set backgroundBottomColor(backgroundBottomColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._backgroundBottomColor &#x3D;&#x3D;&#x3D; backgroundBottomColor) {
       return;
     }
@@ -472,6 +484,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
    */
   public set hotspotSelectionColor(hotspotSelectionColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._hotspotSelectionColor &#x3D;&#x3D;&#x3D; hotspotSelectionColor) {
       return;
     }
@@ -491,6 +506,9 @@ export class VisualViewerService implements OnDestroy {
    * Highlights all hotspots in 2D content that are included in the includedProductCodes property using the colour specified by the showAllHotspotsColor property.
    */
   public set showAllHotspotsEnabled(showAllHotspotsEnabled: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._showAllHotspotsEnabled &#x3D;&#x3D;&#x3D; showAllHotspotsEnabled) {
       return;
     }
@@ -509,6 +527,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
    */
   public set showAllHotspotsColor(showAllHotspotsColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._showAllHotspotsColor &#x3D;&#x3D;&#x3D; showAllHotspotsColor) {
       return;
     }
@@ -528,6 +549,9 @@ export class VisualViewerService implements OnDestroy {
    * Can be passed in the CSS color format or as a Spartacus theme color i.e. &#x27;--cx-color-primary&#x27; with the quotes.
    */
   public set outlineColor(outlineColor: string) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._outlineColor &#x3D;&#x3D;&#x3D; outlineColor) {
       return;
     }
@@ -545,6 +569,9 @@ export class VisualViewerService implements OnDestroy {
    * The width of the outline used to indicate selected objects in 3D content.
    */
   public set outlineWidth(outlineWidth: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._outlineWidth &#x3D;&#x3D;&#x3D; outlineWidth) {
       return;
     }
@@ -565,6 +592,9 @@ export class VisualViewerService implements OnDestroy {
    * Sticky - A multiple selection mode in which clicking/tapping on an object that is not part of the current selection will toggle its selection state without modifying the selection state of the currently selected objects.
    */
   public set selectionMode(selectionMode: SelectionMode) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._selectionMode &#x3D;&#x3D;&#x3D; selectionMode) {
       return;
     }
@@ -584,6 +614,9 @@ export class VisualViewerService implements OnDestroy {
    * Sets the selection set based on the set of supplied product codes.
    */
   public set selectedProductCodes(selectedProductCodes: string[]) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._selectedProductCodes &#x3D; selectedProductCodes;
     this.sceneNodeToProductLookupService
       .lookupNodeIds(selectedProductCodes)
@@ -609,6 +642,9 @@ export class VisualViewerService implements OnDestroy {
    * - hotspots that are not included will not be selectable or visible
    */
   public set includedProductCodes(includedProductCodes: string[]) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._includedProductCodes &#x3D; includedProductCodes;
     this.executeWhenSceneLoaded(() &#x3D;&gt; {
       this.applyInclusionStyle(includedProductCodes);
@@ -623,6 +659,9 @@ export class VisualViewerService implements OnDestroy {
    * Gets/sets the opacity to apply to 3D objects that are not in the set specified by the includedProductCodes property.
    */
   public set excludedOpacity(excludedOpacity: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._excludedOpacity &#x3D; excludedOpacity;
   }
   public get excludedOpacity(): number {
@@ -634,6 +673,9 @@ export class VisualViewerService implements OnDestroy {
    * The current time position in seconds in the animation (if there is one).
    */
   public set animationTime(animationTime: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this._animationTime &#x3D; animationTime;
   }
   public get animationTime(): number {
@@ -657,6 +699,9 @@ export class VisualViewerService implements OnDestroy {
    * The animation playback position as a fractional value between 0 (start) and 1 (end).
    */
   public set animationPosition(position: number) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._animationPosition &#x3D;&#x3D;&#x3D; position) {
       return;
     }
@@ -676,6 +721,9 @@ export class VisualViewerService implements OnDestroy {
    * Gets/sets whether the animation (if there is one) is currently playing.
    */
   public set animationPlaying(animationPlaying: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._animationPlaying &#x3D;&#x3D;&#x3D; animationPlaying) {
       return;
     }
@@ -705,6 +753,9 @@ export class VisualViewerService implements OnDestroy {
    * Zoom: A left mouse drag zooms the camera in the viewport in or out
    */
   public set navigationMode(navigationMode: NavigationMode) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._navigationMode &#x3D;&#x3D;&#x3D; navigationMode) {
       return;
     }
@@ -729,6 +780,9 @@ export class VisualViewerService implements OnDestroy {
    * Isolate mode allows a single object to be viewed in isolation.
    */
   public set isolateModeEnabled(isolateModeEnabled: boolean) {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this._isolateModeEnabled &#x3D;&#x3D;&#x3D; isolateModeEnabled) {
       return;
     }
@@ -800,6 +854,9 @@ export class VisualViewerService implements OnDestroy {
    * Returns the user to the initial camera position used when a scene was first loaded.
    */
   public activateHomeView(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     if (this.is2D) {
       this.viewport.zoomTo(
         ZoomTo.All,
@@ -826,6 +883,9 @@ export class VisualViewerService implements OnDestroy {
    * Plays the animation (if one exists).
    */
   public playAnimation(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this.animationPlaying &#x3D; true;
   }
 
@@ -833,6 +893,9 @@ export class VisualViewerService implements OnDestroy {
    * Pauses animation playback.
    */
   public pauseAnimation(): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
     this.animationPlaying &#x3D; false;
   }
 
@@ -892,7 +955,7 @@ export class VisualViewerService implements OnDestroy {
     }
   }
 
-  protected executeWhenSceneLoaded(
+  private executeWhenSceneLoaded(
     callback: (loadedSceneInfo: LoadedSceneInfo) &#x3D;&gt; void
   ): void {
     this.sceneLoadInfo$
@@ -920,52 +983,80 @@ export class VisualViewerService implements OnDestroy {
       .lookupNodeIds(productCodes)
       .pipe(first())
       .subscribe((sceneNodeIds: string[]) &#x3D;&gt; {
-        const nodeRefsToInclude: NodeRef[] &#x3D; this.persistentIdToNodeRef(
-          sceneNodeIds,
-          true
-        );
         if (this.is2D) {
-          const hotspotNodeRefs: NodeRef[] &#x3D;
-            this.nodeHierarchy.getHotspotNodeIds();
-          if (this._showAllHotspotsEnabled) {
-            const nodeRefsToIncludeSet &#x3D; new Set();
-            nodeRefsToInclude.forEach((nodeRef: NodeRef) &#x3D;&gt;
-              nodeRefsToIncludeSet.add(nodeRef)
-            );
-            const nodeRefsToExclude: NodeRef[] &#x3D; hotspotNodeRefs.filter(
-              (nodeRef: NodeRef) &#x3D;&gt; !nodeRefsToIncludeSet.has(nodeRef)
-            );
-            this.viewport.showHotspots(nodeRefsToExclude, false, null);
-            this.viewport.showHotspots(
-              nodeRefsToInclude,
-              true,
-              this.getCSSColor(this._showAllHotspotsColor)
-            );
-          } else {
-            this.viewport.showHotspots(hotspotNodeRefs, false, null);
-          }
+          this.applyInclusionStyle2D(sceneNodeIds);
         } else {
-          if (!this.leafNodeRefs) {
-            this.leafNodeRefs &#x3D; this.getAllLeafNodeRefs();
-          }
-
-          const leafNodeRefsToInclude &#x3D; nodeRefsToInclude.flatMap(
-            (nodeRef: NodeRef) &#x3D;&gt; this.getLeafDescendants(nodeRef, [])
-          );
-          const leafNodeRefsToIncludeSet &#x3D; new Set(leafNodeRefsToInclude);
-          const leafNodeRefsToExclude &#x3D; this.leafNodeRefs.filter(
-            (leafNodeRef: NodeRef) &#x3D;&gt; !leafNodeRefsToIncludeSet.has(leafNodeRef)
-          );
-
-          this.viewStateManager.setOpacity(
-            leafNodeRefsToExclude,
-            this.excludedOpacity
-          );
-          leafNodeRefsToInclude.forEach((nodeRef: NodeRef) &#x3D;&gt;
-            this.viewStateManager.restoreRestOpacity(nodeRef)
-          );
+          this.applyInclusionStyle3D(sceneNodeIds);
         }
       });
+  }
+
+  private applyInclusionStyle2D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] &#x3D; this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+    const hotspotNodeRefs: NodeRef[] &#x3D; this.nodeHierarchy.getHotspotNodeIds();
+    const hotspotNodeRefsSet: Set&lt;NodeRef&gt; &#x3D; new Set(hotspotNodeRefs);
+    // Hotspot nodes can have descendants that are also Hotspot nodes.
+    // Ignore the descendant nodes and apply modifications at the highest level only.
+    const topLevelHotspotNodeRefs: NodeRef[] &#x3D; hotspotNodeRefs.filter(
+      (hotspotNodeRef: NodeRef) &#x3D;&gt;
+        this.isTopLevelHotspotNode(hotspotNodeRef, hotspotNodeRefsSet)
+    );
+    if (this._showAllHotspotsEnabled) {
+      const nodeRefsToIncludeSet &#x3D; new Set(nodeRefsToInclude);
+      const nodeRefsToExclude: NodeRef[] &#x3D; topLevelHotspotNodeRefs.filter(
+        (nodeRef: NodeRef) &#x3D;&gt; !nodeRefsToIncludeSet.has(nodeRef)
+      );
+      this.viewport.showHotspots(nodeRefsToExclude, false, null);
+      this.viewport.showHotspots(
+        nodeRefsToInclude,
+        true,
+        this.getCSSColor(this._showAllHotspotsColor)
+      );
+    } else {
+      this.viewport.showHotspots(topLevelHotspotNodeRefs, false, null);
+    }
+  }
+
+  private applyInclusionStyle3D(sceneNodeIds: string[]): void {
+    const nodeRefsToInclude: NodeRef[] &#x3D; this.persistentIdToNodeRef(
+      sceneNodeIds,
+      true
+    );
+
+    if (!this.leafNodeRefs) {
+      this.leafNodeRefs &#x3D; this.getAllLeafNodeRefs();
+    }
+
+    const leafNodeRefsToInclude &#x3D; nodeRefsToInclude.flatMap(
+      (nodeRef: NodeRef) &#x3D;&gt; this.getLeafDescendants(nodeRef, [])
+    );
+    const leafNodeRefsToIncludeSet &#x3D; new Set(leafNodeRefsToInclude);
+    const leafNodeRefsToExclude &#x3D; this.leafNodeRefs.filter(
+      (leafNodeRef: NodeRef) &#x3D;&gt; !leafNodeRefsToIncludeSet.has(leafNodeRef)
+    );
+
+    this.viewStateManager.setOpacity(
+      leafNodeRefsToExclude,
+      this.excludedOpacity
+    );
+    leafNodeRefsToInclude.forEach((nodeRef: NodeRef) &#x3D;&gt;
+      this.viewStateManager.setOpacity(
+        nodeRef,
+        this.viewStateManager.getRestOpacity(nodeRef)
+      )
+    );
+  }
+
+  private isTopLevelHotspotNode(
+    hotspotNodeRef: NodeRef,
+    hotspotNodeRefs: Set&lt;NodeRef&gt;
+  ): boolean {
+    return !this.nodeHierarchy
+      .getAncestors(hotspotNodeRef)
+      .some((ancestor: NodeRef) &#x3D;&gt; hotspotNodeRefs.has(ancestor));
   }
 
   private isReferenceNode(nodeRef: NodeRef): boolean {
@@ -982,12 +1073,12 @@ export class VisualViewerService implements OnDestroy {
     if (!this.isReferenceNode(nodeRef)) {
       const children &#x3D; this.nodeHierarchy
         .getChildren(nodeRef, false)
-        .filter((childNodeRef) &#x3D;&gt; !this.isReferenceNode(childNodeRef));
+        .filter((childNodeRef: NodeRef) &#x3D;&gt; !this.isReferenceNode(childNodeRef));
 
       if (children.length &#x3D;&#x3D;&#x3D; 0) {
         leafNodeRefs.push(nodeRef);
       } else {
-        children.forEach((childNodeRef) &#x3D;&gt;
+        children.forEach((childNodeRef: NodeRef) &#x3D;&gt;
           this.getLeafDescendants(childNodeRef, leafNodeRefs)
         );
       }
@@ -998,7 +1089,7 @@ export class VisualViewerService implements OnDestroy {
   private getAllLeafNodeRefs(): NodeRef[] {
     return this.nodeHierarchy
       .getChildren(undefined)
-      .flatMap((nodeRef) &#x3D;&gt; this.getLeafDescendants(nodeRef, []));
+      .flatMap((nodeRef: NodeRef) &#x3D;&gt; this.getLeafDescendants(nodeRef, []));
   }
 
   private isolateNodes(nodeRefsToIsolate: object[]): void {
@@ -1096,6 +1187,13 @@ export class VisualViewerService implements OnDestroy {
   public loadVisualization(
     productCode: string
   ): Observable&lt;VisualizationLoadInfo&gt; {
+    if (!this.windowRef.isBrowser()) {
+      return of({
+        lookupResult: VisualizationLookupResult.UnexpectedError,
+        loadStatus: VisualizationLoadStatus.UnexpectedError,
+        errorMessage: &#x27;Should not call loadVisualization in server side code&#x27;,
+      });
+    }
     this.selectedNodeIdsSubscription?.unsubscribe();
 
     return this.viewportAdded$.pipe(
@@ -1149,7 +1247,10 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private isUi5BootStrapped(): boolean {
-    return !!window.sap;
+    return (
+      !!this.windowRef.nativeWindow &amp;&amp;
+      !!(this.windowRef.nativeWindow as any).sap
+    );
   }
 
   private getCore(): Core {
@@ -1161,55 +1262,49 @@ export class VisualViewerService implements OnDestroy {
       .epdVisualization as EpdVisualizationInnerConfig;
     const ui5Config &#x3D; epdVisualization.ui5 as Ui5Config;
 
-    return new Observable(
-      (subscriber: {
-        next: () &#x3D;&gt; void;
-        complete: () &#x3D;&gt; void;
-        error: (error: any) &#x3D;&gt; void;
-      }) &#x3D;&gt; {
-        if (this.isUi5BootStrapped()) {
-          subscriber.next();
-          subscriber.complete();
-          return;
-        }
-
-        const script &#x3D; document.createElement(&#x27;script&#x27;);
-        script.setAttribute(&#x27;id&#x27;, scriptElementId);
-        document.getElementsByTagName(&#x27;head&#x27;)[0].appendChild(script);
-        script.onload &#x3D; () &#x3D;&gt; {
-          subscriber.next();
-          subscriber.complete();
-        };
-        script.onerror &#x3D; (error: any) &#x3D;&gt; {
-          subscriber.error(error);
-          subscriber.complete();
-        };
-        script.id &#x3D; &#x27;sap-ui-bootstrap&#x27;;
-        script.type &#x3D; &#x27;text/javascript&#x27;;
-        script.setAttribute(&#x27;data-sap-ui-compatVersion&#x27;, &#x27;edge&#x27;);
-        script.src &#x3D; ui5Config.bootstrapUrl;
+    return new Observable((subscriber) &#x3D;&gt; {
+      if (this.isUi5BootStrapped()) {
+        subscriber.next();
+        subscriber.complete();
+        return;
       }
-    );
+
+      const script &#x3D; this.windowRef.document.createElement(&#x27;script&#x27;);
+      script.setAttribute(&#x27;id&#x27;, scriptElementId);
+      this.windowRef.document
+        .getElementsByTagName(&#x27;head&#x27;)[0]
+        .appendChild(script);
+      script.onload &#x3D; () &#x3D;&gt; {
+        subscriber.next();
+        subscriber.complete();
+      };
+      script.onerror &#x3D; (error: any) &#x3D;&gt; {
+        subscriber.error(error);
+        subscriber.complete();
+      };
+      script.id &#x3D; &#x27;sap-ui-bootstrap&#x27;;
+      script.type &#x3D; &#x27;text/javascript&#x27;;
+      script.setAttribute(&#x27;data-sap-ui-compatVersion&#x27;, &#x27;edge&#x27;);
+      script.src &#x3D; ui5Config.bootstrapUrl;
+    });
   }
 
   private initializeUi5(): Observable&lt;void&gt; {
-    return new Observable(
-      (subscriber: { next: () &#x3D;&gt; void; complete: () &#x3D;&gt; void }) &#x3D;&gt; {
-        const core: Core &#x3D; this.getCore();
-        core.attachInit(() &#x3D;&gt; {
-          const loadLibraryOptions &#x3D; { async: true };
-          Promise.all([
-            core.loadLibrary(&#x27;sap.m&#x27;, loadLibraryOptions),
-            core.loadLibrary(&#x27;sap.ui.layout&#x27;, loadLibraryOptions),
-            core.loadLibrary(&#x27;sap.ui.vk&#x27;, loadLibraryOptions),
-            core.loadLibrary(&#x27;sap.ui.richtexteditor&#x27;, loadLibraryOptions),
-          ]).then(() &#x3D;&gt; {
-            subscriber.next();
-            subscriber.complete();
-          });
+    return new Observable((subscriber) &#x3D;&gt; {
+      const core: Core &#x3D; this.getCore();
+      core.attachInit(() &#x3D;&gt; {
+        const loadLibraryOptions &#x3D; { async: true };
+        Promise.all([
+          core.loadLibrary(&#x27;sap.m&#x27;, loadLibraryOptions),
+          core.loadLibrary(&#x27;sap.ui.layout&#x27;, loadLibraryOptions),
+          core.loadLibrary(&#x27;sap.ui.vk&#x27;, loadLibraryOptions),
+          core.loadLibrary(&#x27;sap.ui.richtexteditor&#x27;, loadLibraryOptions),
+        ]).then(() &#x3D;&gt; {
+          subscriber.next();
+          subscriber.complete();
         });
-      }
-    );
+      });
+    });
   }
 
   private destroyViewportAssociations(viewport: Viewport): void {
@@ -1350,95 +1445,88 @@ export class VisualViewerService implements OnDestroy {
   }
 
   private addViewport(): Observable&lt;void&gt; {
-    return new Observable(
-      (subscriber: { next: () &#x3D;&gt; void; complete: () &#x3D;&gt; void }) &#x3D;&gt; {
-        sap.ui.require(
-          [
-            &#x27;sap/ui/vk/ViewManager&#x27;,
-            &#x27;sap/ui/vk/Viewport&#x27;,
-            &#x27;sap/ui/vk/ViewStateManager&#x27;,
-            &#x27;sap/ui/vk/AnimationPlayer&#x27;,
-            &#x27;sap/ui/vk/ContentConnector&#x27;,
-            &#x27;sap/ui/vk/DrawerToolbar&#x27;,
-          ],
-          (
-            sap_ui_vk_ViewManager: any,
-            sap_ui_vk_Viewport: any,
-            sap_ui_vk_ViewStateManager: any,
-            sap_ui_vk_AnimationPlayer: any,
-            sap_ui_vk_ContentConnector: any,
-            sap_ui_vk_DrawerToolbar: any
-          ) &#x3D;&gt; {
-            const core: Core &#x3D; this.getCore();
-            const uiArea: UIArea &#x3D; core.getUIArea(
-              this.elementRef.nativeElement
-            );
-            if (uiArea) {
-              const oldViewport &#x3D; uiArea.getContent()[0] as Viewport;
-              this.destroyViewportAssociations(oldViewport);
-              uiArea.destroyContent();
-            }
-
-            this.viewport &#x3D; new sap_ui_vk_Viewport({ visible: false });
-            this.viewport.placeAt(this.elementRef.nativeElement);
-
-            this.contentConnector &#x3D; new sap_ui_vk_ContentConnector();
-            this.contentConnector.attachContentChangesStarted(
-              this.onContentChangesStarted,
-              this
-            );
-            this.contentConnector.attachContentChangesFinished(
-              this.onContentChangesFinished,
-              this
-            );
-            this.contentConnector.attachContentLoadingFinished(
-              this.onContentLoadingFinished,
-              this
-            );
-
-            this.viewStateManager &#x3D; new sap_ui_vk_ViewStateManager({
-              contentConnector: this.contentConnector,
-            });
-
-            this.viewport.setContentConnector(this.contentConnector);
-            this.viewport.setViewStateManager(this.viewStateManager);
-
-            this.animationPlayer &#x3D; new sap_ui_vk_AnimationPlayer();
-            this.animationPlayer.setViewStateManager(this.viewStateManager);
-
-            this.animationPlayer.attachViewActivated(
-              this.onViewActivated,
-              this
-            );
-            this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
-
-            this.viewManager &#x3D; new sap_ui_vk_ViewManager({
-              contentConnector: this.contentConnector,
-              animationPlayer: this.animationPlayer,
-            });
-
-            this.viewStateManager.setViewManager(this.viewManager);
-            this.viewStateManager.attachSelectionChanged(
-              this.onSelectionChanged,
-              this
-            );
-            this.viewStateManager.attachOutliningChanged(
-              this.onOutliningChanged,
-              this
-            );
-
-            this.drawerToolbar &#x3D; new sap_ui_vk_DrawerToolbar({
-              viewport: this.viewport,
-              visible: false,
-            });
-
-            this.viewport.addDependent(this.drawerToolbar);
-            subscriber.next();
-            subscriber.complete();
+    return new Observable((subscriber) &#x3D;&gt; {
+      sap.ui.require(
+        [
+          &#x27;sap/ui/vk/ViewManager&#x27;,
+          &#x27;sap/ui/vk/Viewport&#x27;,
+          &#x27;sap/ui/vk/ViewStateManager&#x27;,
+          &#x27;sap/ui/vk/AnimationPlayer&#x27;,
+          &#x27;sap/ui/vk/ContentConnector&#x27;,
+          &#x27;sap/ui/vk/DrawerToolbar&#x27;,
+        ],
+        (
+          sap_ui_vk_ViewManager: any,
+          sap_ui_vk_Viewport: any,
+          sap_ui_vk_ViewStateManager: any,
+          sap_ui_vk_AnimationPlayer: any,
+          sap_ui_vk_ContentConnector: any,
+          sap_ui_vk_DrawerToolbar: any
+        ) &#x3D;&gt; {
+          const core: Core &#x3D; this.getCore();
+          const uiArea: UIArea &#x3D; core.getUIArea(this.elementRef.nativeElement);
+          if (uiArea) {
+            const oldViewport &#x3D; uiArea.getContent()[0] as Viewport;
+            this.destroyViewportAssociations(oldViewport);
+            uiArea.destroyContent();
           }
-        );
-      }
-    );
+
+          this.viewport &#x3D; new sap_ui_vk_Viewport({ visible: false });
+          this.viewport.placeAt(this.elementRef.nativeElement);
+
+          this.contentConnector &#x3D; new sap_ui_vk_ContentConnector();
+          this.contentConnector.attachContentChangesStarted(
+            this.onContentChangesStarted,
+            this
+          );
+          this.contentConnector.attachContentChangesFinished(
+            this.onContentChangesFinished,
+            this
+          );
+          this.contentConnector.attachContentLoadingFinished(
+            this.onContentLoadingFinished,
+            this
+          );
+
+          this.viewStateManager &#x3D; new sap_ui_vk_ViewStateManager({
+            contentConnector: this.contentConnector,
+          });
+
+          this.viewport.setContentConnector(this.contentConnector);
+          this.viewport.setViewStateManager(this.viewStateManager);
+
+          this.animationPlayer &#x3D; new sap_ui_vk_AnimationPlayer();
+          this.animationPlayer.setViewStateManager(this.viewStateManager);
+
+          this.animationPlayer.attachViewActivated(this.onViewActivated, this);
+          this.animationPlayer.attachTimeChanged(this.onTimeChanged, this);
+
+          this.viewManager &#x3D; new sap_ui_vk_ViewManager({
+            contentConnector: this.contentConnector,
+            animationPlayer: this.animationPlayer,
+          });
+
+          this.viewStateManager.setViewManager(this.viewManager);
+          this.viewStateManager.attachSelectionChanged(
+            this.onSelectionChanged,
+            this
+          );
+          this.viewStateManager.attachOutliningChanged(
+            this.onOutliningChanged,
+            this
+          );
+
+          this.drawerToolbar &#x3D; new sap_ui_vk_DrawerToolbar({
+            viewport: this.viewport,
+            visible: false,
+          });
+
+          this.viewport.addDependent(this.drawerToolbar);
+          subscriber.next();
+          subscriber.complete();
+        }
+      );
+    });
   }
 
   private getCSSPropertyValue(cssPropertyName: string): string {
@@ -1598,74 +1686,66 @@ export class VisualViewerService implements OnDestroy {
 
     this.setIs2D(this.is2DContentType(contentType));
 
-    return new Observable(
-      (subscriber: {
-        next: (sceneLoadInfo: SceneLoadInfo) &#x3D;&gt; void;
-        complete: () &#x3D;&gt; void;
-      }) &#x3D;&gt; {
-        sap.ui.require(
-          [&#x27;sap/ui/vk/ContentResource&#x27;],
-          (ContentResource: any) &#x3D;&gt; {
-            this.sceneLoadInfo$.next({
-              sceneLoadState: SceneLoadState.Loading,
-            });
+    return new Observable((subscriber) &#x3D;&gt; {
+      sap.ui.require([&#x27;sap/ui/vk/ContentResource&#x27;], (ContentResource: any) &#x3D;&gt; {
+        this.sceneLoadInfo$.next({
+          sceneLoadState: SceneLoadState.Loading,
+        });
 
-            this.viewport.setSelectionDisplayMode(
-              this.is2D ? &#x27;Highlight&#x27; : &#x27;Outline&#x27;
-            );
-
-            const baseUrl: string &#x3D; visualizationApiConfig.baseUrl;
-
-            const contentResource: ContentResource &#x3D; new ContentResource({
-              useSecureConnection: false,
-              sourceType: this.is2D ? &#x27;stream2d&#x27; : &#x27;stream&#x27;,
-              source: &#x60;${baseUrl}/vis/public/storage/v1&#x60;,
-              veid: sceneId,
-            });
-
-            this.contentChangesFinished
-              .pipe(first())
-              .subscribe(
-                (visualContentLoadFinished: {
-                  content: any;
-                  failureReason: any;
-                }) &#x3D;&gt; {
-                  const succeeded &#x3D; !!visualContentLoadFinished.content;
-                  const sceneLoadInfo: SceneLoadInfo &#x3D; succeeded
-                    ? {
-                        sceneLoadState: SceneLoadState.Loaded,
-                        loadedSceneInfo: {
-                          sceneId: sceneId,
-                          contentType: contentType,
-                        },
-                      }
-                    : {
-                        sceneLoadState: SceneLoadState.Failed,
-                        errorMessage: visualContentLoadFinished.failureReason,
-                      };
-
-                  this.sceneLoadInfo$.next(sceneLoadInfo);
-                  subscriber.next(sceneLoadInfo);
-                  subscriber.complete();
-                }
-              );
-
-            this.contentLoadFinished.pipe(first()).subscribe(() &#x3D;&gt; {
-              const sceneLoadInfo &#x3D; this.sceneLoadInfo$.value;
-              if (sceneLoadInfo.sceneLoadState &#x3D;&#x3D;&#x3D; SceneLoadState.Loaded) {
-                this.setViewportReady(true);
-                // Ensure that the spinner is hidden before the viewport becomes visible.
-                // Otherwise the position of the spinner changes
-                this.changeDetectorRef.detectChanges();
-                this.viewport.setVisible(true);
-              }
-            });
-
-            this.contentConnector.addContentResource(contentResource);
-          }
+        this.viewport.setSelectionDisplayMode(
+          this.is2D ? &#x27;Highlight&#x27; : &#x27;Outline&#x27;
         );
-      }
-    );
+
+        const baseUrl: string &#x3D; visualizationApiConfig.baseUrl;
+
+        const contentResource: ContentResource &#x3D; new ContentResource({
+          useSecureConnection: false,
+          sourceType: this.is2D ? &#x27;stream2d&#x27; : &#x27;stream&#x27;,
+          source: &#x60;${baseUrl}/vis/public/storage/v1&#x60;,
+          veid: sceneId,
+        });
+
+        this.contentChangesFinished
+          .pipe(first())
+          .subscribe(
+            (visualContentLoadFinished: {
+              content: any;
+              failureReason: any;
+            }) &#x3D;&gt; {
+              const succeeded &#x3D; !!visualContentLoadFinished.content;
+              const sceneLoadInfo: SceneLoadInfo &#x3D; succeeded
+                ? {
+                    sceneLoadState: SceneLoadState.Loaded,
+                    loadedSceneInfo: {
+                      sceneId: sceneId,
+                      contentType: contentType,
+                    },
+                  }
+                : {
+                    sceneLoadState: SceneLoadState.Failed,
+                    errorMessage: visualContentLoadFinished.failureReason,
+                  };
+
+              this.sceneLoadInfo$.next(sceneLoadInfo);
+              subscriber.next(sceneLoadInfo);
+              subscriber.complete();
+            }
+          );
+
+        this.contentLoadFinished.pipe(first()).subscribe(() &#x3D;&gt; {
+          const sceneLoadInfo &#x3D; this.sceneLoadInfo$.value;
+          if (sceneLoadInfo.sceneLoadState &#x3D;&#x3D;&#x3D; SceneLoadState.Loaded) {
+            this.setViewportReady(true);
+            // Ensure that the spinner is hidden before the viewport becomes visible.
+            // Otherwise the position of the spinner changes
+            this.changeDetectorRef.detectChanges();
+            this.viewport.setVisible(true);
+          }
+        });
+
+        this.contentConnector.addContentResource(contentResource);
+      });
+    });
   }
 
   private onSelectionChanged(): void {

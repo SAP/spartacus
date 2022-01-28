@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/user/profile/occ/adapters/config/occ-user-profile-endpoint.model.ts</code>
+            <code>integration-libs/digital-payments/src/checkout/adapters/config/occ-digital-payments-endpoint.model.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../interfaces/UserProfileOccEndpoints.html" target="_self" >UserProfileOccEndpoints</a></code>
+                        <code><a href="../interfaces/DigitalPaymentsOccEndpoints.html" target="_self" >DigitalPaymentsOccEndpoints</a></code>
             </p>
 
 
@@ -85,49 +85,12 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OccEndpoint } from &#x27;@spartacus/core&#x27;;
 
-export interface UserProfileOccEndpoints {
-  /**
-   * Titles used for user&#x27;s personal info.
-   */
-  titles?: string | OccEndpoint;
-
-  /**
-   * Register a new user.
-   */
-  userRegister?: string | OccEndpoint;
-
-  /**
-   * Request an email to reset the password
-   */
-  userForgotPassword?: string | OccEndpoint;
-
-  /**
-   * Reset the password once the email is received.
-   */
-  userResetPassword?: string | OccEndpoint;
-
-  /**
-   * Update the user id with which the user authenticates.
-   */
-  userUpdateLoginId?: string | OccEndpoint;
-
-  /**
-   * Update the user&#x27;s password
-   */
-  userUpdatePassword?: string | OccEndpoint;
-
-  /**
-   * Update the user&#x27;s profile
-   */
-  userUpdateProfile?: string | OccEndpoint;
-
-  /**
-   * Close user account
-   */
-  userCloseAccount?: string | OccEndpoint;
+export interface DigitalPaymentsOccEndpoints {
+  paymentRequest?: string | OccEndpoint;
+  paymentDetails?: string | OccEndpoint;
 }
 declare module &#x27;@spartacus/core&#x27; {
-  interface OccEndpoints extends UserProfileOccEndpoints {}
+  interface OccEndpoints extends DigitalPaymentsOccEndpoints {}
 }
 </code></pre>
     </div>

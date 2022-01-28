@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="324" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:324</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="326" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:326</a></div>
                             </td>
                         </tr>
 
@@ -262,7 +262,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="257" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:257</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="259" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:259</a></div>
                         </td>
                     </tr>
 
@@ -293,7 +293,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="28" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:28</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -377,7 +377,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="126" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:126</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:127</a></div>
                         </td>
                     </tr>
 
@@ -440,7 +440,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="297" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:297</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="299" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:299</a></div>
                         </td>
                     </tr>
 
@@ -563,7 +563,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:37</a></div>
                         </td>
                     </tr>
 
@@ -592,19 +592,20 @@
                         <i>Default value : </i><code>this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) &#x3D;&gt; action.payload),
-    mergeMap((payload) &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        mergeMap((currentCart) &#x3D;&gt; {
-          return [
-            new CartActions.CreateCart({
+        map((currentCart) &#x3D;&gt; {
+          if (currentCart?.code !&#x3D;&#x3D; payload.cartId) {
+            return new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
               tempCartId: payload.tempCartId,
-            }),
-          ];
-        })
+            });
+          }
+        }),
+        filter(isNotUndefined)
       );
     }),
     withdrawOn(this.contextChange$)
@@ -622,7 +623,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="178" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:178</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="179" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:179</a></div>
                         </td>
                     </tr>
 
@@ -674,7 +675,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="201" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:201</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="203" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:203</a></div>
                         </td>
                     </tr>
 
@@ -737,7 +738,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="219" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:219</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="221" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:221</a></div>
                         </td>
                     </tr>
 
@@ -785,7 +786,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="245" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:245</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="247" class="link-to-prism">projects/core/src/cart/store/effects/cart.effect.ts:247</a></div>
                         </td>
                     </tr>
 
@@ -817,6 +818,7 @@ import { OCC_CART_ID_CURRENT } from &#x27;../../../occ/utils/occ-constants&#x27;
 import { SiteContextActions } from &#x27;../../../site-context/store/actions/index&#x27;;
 import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { withdrawOn } from &#x27;../../../util/rxjs/withdraw-on&#x27;;
+import { isNotUndefined } from &#x27;../../../util/type-guards&#x27;;
 import { CartConnector } from &#x27;../../connectors/cart/cart.connector&#x27;;
 import { getCartIdByUserId, isCartNotFoundError } from &#x27;../../utils/utils&#x27;;
 import { CartActions } from &#x27;../actions/index&#x27;;
@@ -978,19 +980,20 @@ export class CartEffects {
   mergeCart$: Observable&lt;CartActions.CreateCart&gt; &#x3D; this.actions$.pipe(
     ofType(CartActions.MERGE_CART),
     map((action: CartActions.MergeCart) &#x3D;&gt; action.payload),
-    mergeMap((payload) &#x3D;&gt; {
+    switchMap((payload) &#x3D;&gt; {
       return this.cartConnector.load(payload.userId, OCC_CART_ID_CURRENT).pipe(
-        mergeMap((currentCart) &#x3D;&gt; {
-          return [
-            new CartActions.CreateCart({
+        map((currentCart) &#x3D;&gt; {
+          if (currentCart?.code !&#x3D;&#x3D; payload.cartId) {
+            return new CartActions.CreateCart({
               userId: payload.userId,
               oldCartId: payload.cartId,
               toMergeCartGuid: currentCart ? currentCart.guid : undefined,
               extraData: payload.extraData,
               tempCartId: payload.tempCartId,
-            }),
-          ];
-        })
+            });
+          }
+        }),
+        filter(isNotUndefined)
       );
     }),
     withdrawOn(this.contextChange$)

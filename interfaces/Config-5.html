@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/smartedit/root/config/smart-edit-config.ts</code>
+            <code>integration-libs/cdc/root/config/cdc-config.ts</code>
         </p>
 
 
@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../injectables/SmartEditConfig.html" target="_self" >SmartEditConfig</a></code>
+                        <code><a href="../injectables/CdcConfig.html" target="_self" >CdcConfig</a></code>
             </p>
 
 
@@ -90,15 +90,16 @@ import { Config } from &#x27;@spartacus/core&#x27;;
   providedIn: &#x27;root&#x27;,
   useExisting: Config,
 })
-export abstract class SmartEditConfig {
-  smartEdit?: {
-    storefrontPreviewRoute?: string;
-    allowOrigin?: string;
-  };
+export abstract class CdcConfig {
+  cdc?: {
+    baseSite: string;
+    javascriptUrl: string;
+    sessionExpiration: number;
+  }[];
 }
 
 declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends SmartEditConfig {}
+  interface Config extends CdcConfig {}
 }
 </code></pre>
     </div>

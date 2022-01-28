@@ -323,13 +323,7 @@
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
-import {
-  CmsConfig,
-  FeaturesConfigModule,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from &#x27;@spartacus/core&#x27;;
+import { FeaturesConfigModule, I18nModule, UrlModule } from &#x27;@spartacus/core&#x27;;
 import {
   AddToCartModule,
   CartSharedModule,
@@ -356,18 +350,6 @@ import { CompactAddToCartComponent } from &#x27;./compact-add-to-cart.component&
     ItemCounterModule,
     ModalModule,
     AddToCartModule,
-  ],
-  providers: [
-    provideDefaultConfig(&lt;CmsConfig&gt;{
-      cmsComponents: {
-        CompactAddToCartComponent: {
-          component: CompactAddToCartComponent,
-          data: {
-            inventoryDisplay: false,
-          },
-        },
-      },
-    }),
   ],
   declarations: [CompactAddToCartComponent],
   exports: [CompactAddToCartComponent],

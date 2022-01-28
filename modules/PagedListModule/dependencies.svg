@@ -14,13 +14,13 @@
 <title>cluster_PagedListModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 496,-230.8 496,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_PagedListModule_declarations</title>
-<polygon fill="none" stroke="black" points="334,-40.8 334,-92.8 488,-92.8 488,-40.8 334,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_PagedListModule_exports</title>
 <polygon fill="none" stroke="black" points="144,-170.8 144,-222.8 300,-222.8 300,-170.8 144,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_PagedListModule_declarations</title>
+<polygon fill="none" stroke="black" points="334,-40.8 334,-92.8 488,-92.8 488,-40.8 334,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_PagedListModule_imports</title>

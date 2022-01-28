@@ -244,8 +244,13 @@ export class SceneNodeToProductLookupService {
       .getNodes(
         sceneId,
         undefined,
-        [&#x27;hotspot&#x27;, &#x60;meta.${this.usageId.category}.${this.usageId.keyName}&#x60;],
-        [&#x60;metadata.${this.usageId.category}.${this.usageId.keyName}&#x60;],
+        [
+          &#x27;hotspot&#x27;,
+          &#x60;metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}&#x60;,
+        ],
+        [
+          &#x60;metadata[${this.usageId.source}].${this.usageId.category}.${this.usageId.keyName}&#x60;,
+        ],
         &#x27;*&#x27;
       )
       .pipe(

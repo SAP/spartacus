@@ -18,13 +18,13 @@
 <title>cluster_UnitCostCenterCreateModule_declarations</title>
 <polygon fill="none" stroke="black" points="231,-152.39 231,-204.39 453,-204.39 453,-152.39 231,-152.39"/>
 </g>
+<g id="clust4" class="cluster">
+<title>cluster_UnitCostCenterCreateModule_imports</title>
+<polygon fill="none" stroke="black" points="461,-152.39 461,-204.39 629,-204.39 629,-152.39 461,-152.39"/>
+</g>
 <g id="clust3" class="cluster">
 <title>cluster_UnitCostCenterCreateModule_UnitCostCenterCreateComponent_providers</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-139.39 668,-139.39 668,-40.8 16,-40.8"/>
-</g>
-<g id="clust4" class="cluster">
-<title>cluster_UnitCostCenterCreateModule_imports</title>
-<polygon fill="none" stroke="black" points="55,-152.39 55,-204.39 223,-204.39 223,-152.39 55,-152.39"/>
 </g>
 <!-- UnitCostCenterCreateComponent -->
 <g id="node1" class="node">
@@ -35,14 +35,14 @@
 <!-- UnitCostCenterCreateModule -->
 <g id="node2" class="node">
 <title>UnitCostCenterCreateModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="331.96,-261.39 328.96,-265.39 307.96,-265.39 304.96,-261.39 148.04,-261.39 148.04,-225.39 331.96,-225.39 331.96,-261.39"/>
-<text text-anchor="middle" x="240" y="-239.19" font-family="Times,serif" font-size="14.00">UnitCostCenterCreateModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="534.96,-261.39 531.96,-265.39 510.96,-265.39 507.96,-261.39 351.04,-261.39 351.04,-225.39 534.96,-225.39 534.96,-261.39"/>
+<text text-anchor="middle" x="443" y="-239.19" font-family="Times,serif" font-size="14.00">UnitCostCenterCreateModule</text>
 </g>
 <!-- UnitCostCenterCreateComponent&#45;&gt;UnitCostCenterCreateModule -->
 <g id="edge1" class="edge">
 <title>UnitCostCenterCreateComponent&#45;&gt;UnitCostCenterCreateModule</title>
-<path fill="none" stroke="black" d="M285.55,-196.5C285.55,-196.5 285.55,-215.38 285.55,-215.38"/>
-<polygon fill="black" stroke="black" points="282.05,-215.38 285.55,-225.38 289.05,-215.38 282.05,-215.38"/>
+<path fill="none" stroke="black" d="M397.95,-196.5C397.95,-196.5 397.95,-215.38 397.95,-215.38"/>
+<polygon fill="black" stroke="black" points="394.45,-215.38 397.95,-225.38 401.45,-215.38 394.45,-215.38"/>
 </g>
 <!-- {
  &#160;&#160;&#160;provide: CostCenterItemService, useExisting: UnitCostCenterItemService,
@@ -69,14 +69,14 @@
 <!-- CostCenterFormModule -->
 <g id="node4" class="node">
 <title>CostCenterFormModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="215.37,-196.39 212.37,-200.39 191.37,-200.39 188.37,-196.39 62.63,-196.39 62.63,-160.39 215.37,-160.39 215.37,-196.39"/>
-<text text-anchor="middle" x="139" y="-174.19" font-family="Times,serif" font-size="14.00">CostCenterFormModule</text>
+<polygon fill="#8dd3c7" stroke="black" points="621.37,-196.39 618.37,-200.39 597.37,-200.39 594.37,-196.39 468.63,-196.39 468.63,-160.39 621.37,-160.39 621.37,-196.39"/>
+<text text-anchor="middle" x="545" y="-174.19" font-family="Times,serif" font-size="14.00">CostCenterFormModule</text>
 </g>
 <!-- CostCenterFormModule&#45;&gt;UnitCostCenterCreateModule -->
 <g id="edge3" class="edge">
 <title>CostCenterFormModule&#45;&gt;UnitCostCenterCreateModule</title>
-<path fill="none" stroke="black" d="M181.73,-196.5C181.73,-196.5 181.73,-215.38 181.73,-215.38"/>
-<polygon fill="black" stroke="black" points="178.23,-215.38 181.73,-225.38 185.23,-215.38 178.23,-215.38"/>
+<path fill="none" stroke="black" d="M501.77,-196.5C501.77,-196.5 501.77,-215.38 501.77,-215.38"/>
+<polygon fill="black" stroke="black" points="498.27,-215.38 501.77,-225.38 505.27,-215.38 498.27,-215.38"/>
 </g>
 </g>
 </svg>

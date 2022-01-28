@@ -134,6 +134,8 @@
                                 <td class="col-md-4">
                                     <div class="io-description"><p>This is the URL that SAPUI5 is bootstrapped from.
 The value that is configured by default in a given Spartacus release is the SAPUI5 version supported for that Spartacus release.</p>
+<p>Important: Please check the <em>End of Cloud Provisioning</em> column in <a href="https://sapui5.hana.ondemand.com/versionoverview.html">https://sapui5.hana.ondemand.com/versionoverview.html</a>
+When the Cloud Provisioning period ends for a particular SAPUI5 version, that version will no longer be available on <a href="https://sapui5.hana.ondemand.com">https://sapui5.hana.ondemand.com</a></p>
 </div>
                                 </td>
                             </tr>
@@ -154,6 +156,9 @@ import { UsageIdDefinition } from &#x27;../models/usage-ids/usage-id-definition&
   useExisting: Config,
 })
 export abstract class EpdVisualizationConfig implements Config {
+  /**
+   * This field introduces a namespace for EPD Visualization to avoid collisions when configuration merging occurs.
+   */
   public epdVisualization?: EpdVisualizationInnerConfig;
 }
 
@@ -180,6 +185,9 @@ export interface Ui5Config {
   /**
    * This is the URL that SAPUI5 is bootstrapped from.
    * The value that is configured by default in a given Spartacus release is the SAPUI5 version supported for that Spartacus release.
+   *
+   * Important: Please check the *End of Cloud Provisioning* column in https://sapui5.hana.ondemand.com/versionoverview.html
+   * When the Cloud Provisioning period ends for a particular SAPUI5 version, that version will no longer be available on https://sapui5.hana.ondemand.com
    */
   bootstrapUrl: string;
 }

@@ -14,13 +14,13 @@
 <title>cluster_VisualViewerModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-295.8 945,-295.8 945,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_VisualViewerModule_exports</title>
-<polygon fill="none" stroke="black" points="473,-235.8 473,-287.8 651,-287.8 651,-235.8 473,-235.8"/>
-</g>
 <g id="clust3" class="cluster">
 <title>cluster_VisualViewerModule_VisualViewerComponent_providers</title>
 <polygon fill="none" stroke="black" points="733,-40.8 733,-157.8 937,-157.8 937,-40.8 733,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_VisualViewerModule_exports</title>
+<polygon fill="none" stroke="black" points="473,-235.8 473,-287.8 651,-287.8 651,-235.8 473,-235.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_VisualViewerModule_imports</title>

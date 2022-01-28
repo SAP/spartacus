@@ -60,13 +60,13 @@
 <title>cluster_VisualPickingProductListModule_imports</title>
 <polygon fill="none" stroke="black" points="320,-105.8 320,-157.8 1511,-157.8 1511,-105.8 320,-105.8"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_VisualPickingProductListModule_VisualPickingProductListComponent_providers</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-157.8 312,-157.8 312,-40.8 16,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_VisualPickingProductListModule_exports</title>
 <polygon fill="none" stroke="black" points="719,-235.8 719,-287.8 965,-287.8 965,-235.8 719,-235.8"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_VisualPickingProductListModule_VisualPickingProductListComponent_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-157.8 312,-157.8 312,-40.8 16,-40.8"/>
 </g>
 <!-- VisualPickingProductListComponent -->
 <g id="node1" class="node">
@@ -328,12 +328,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from &#x27;@spartacus/core&#x27;;
+import { I18nModule, UrlModule } from &#x27;@spartacus/core&#x27;;
 import {
   AddToCartModule,
   CarouselModule,
@@ -358,15 +353,6 @@ import { PagedListModule } from &#x27;./paged-list/paged-list.module&#x27;;
     UrlModule,
     I18nModule,
     CompactAddToCartModule,
-  ],
-  providers: [
-    provideDefaultConfig({
-      cmsComponents: {
-        VisualPickingProductListComponent: {
-          component: VisualPickingProductListComponent,
-        },
-      },
-    } as CmsConfig),
   ],
   declarations: [VisualPickingProductListComponent],
   exports: [VisualPickingProductListComponent],
