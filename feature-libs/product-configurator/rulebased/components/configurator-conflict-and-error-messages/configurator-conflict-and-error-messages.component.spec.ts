@@ -329,4 +329,31 @@ describe('ConfiguratorConflictAndErrorMessagesComponent', () => {
       );
     });
   });
+  it("should contain button element with class name 'cx-error-toggle' and initially 'aria-expanded' attribute set to false.", () => {
+    configuration = configWithMessages;
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      htmlElem,
+      'button',
+      'cx-error-toggle',
+      0,
+      'aria-expanded',
+      'false'
+    );
+  });
+  it("should contain button element with class name 'cx-error-toggle' and 'aria-expanded' attribute set to true because toggle was triggered.", () => {
+    configuration = configWithMessages;
+    component.toggleErrors();
+    fixture.detectChanges();
+    CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+      expect,
+      htmlElem,
+      'button',
+      'cx-error-toggle',
+      0,
+      'aria-expanded',
+      'true'
+    );
+  });
 });
