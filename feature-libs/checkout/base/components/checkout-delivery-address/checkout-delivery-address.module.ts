@@ -2,17 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CartValidationGuard } from '@spartacus/cart/main/core';
-import {
-  CartNotEmptyGuard,
-  CheckoutAuthGuard,
-} from '@spartacus/checkout/base/components';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   AddressFormModule,
   CardModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { CartNotEmptyGuard } from '../guards/cart-not-empty.guard';
+import { CheckoutAuthGuard } from '../guards/checkout-auth.guard';
+import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 
 @NgModule({
   imports: [
@@ -26,14 +24,15 @@ import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
+        // TODO:#checkout - Update to CheckoutDeliveryAddress cms mapping
         CheckoutShippingAddress: {
-          component: B2BCheckoutDeliveryAddressComponent,
+          component: CheckoutDeliveryAddressComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
       },
     }),
   ],
-  declarations: [B2BCheckoutDeliveryAddressComponent],
-  exports: [B2BCheckoutDeliveryAddressComponent],
+  declarations: [CheckoutDeliveryAddressComponent],
+  exports: [CheckoutDeliveryAddressComponent],
 })
-export class B2BCheckoutDeliveryAddressModule {}
+export class CheckoutDeliveryAddressModule {}

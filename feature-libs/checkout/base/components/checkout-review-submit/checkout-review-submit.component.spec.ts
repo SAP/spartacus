@@ -109,7 +109,7 @@ const mockCheckoutStep: CheckoutStep = {
   id: 'step',
   name: 'name',
   routeName: '/route',
-  type: [CheckoutStepType.SHIPPING_ADDRESS],
+  type: [CheckoutStepType.DELIVERY_ADDRESS],
 };
 
 class MockCheckoutStepService {
@@ -250,9 +250,9 @@ describe('CheckoutReviewSubmitComponent', () => {
     expect(deliveryMode).toEqual(mockDeliveryMode);
   });
 
-  it('should call getShippingAddressCard(deliveryAddress, countryName) to get address card data', () => {
+  it('should call getDeliveryAddressCard(deliveryAddress, countryName) to get address card data', () => {
     component
-      .getShippingAddressCard(mockAddress, 'Canada')
+      .getDeliveryAddressCard(mockAddress, 'Canada')
       .subscribe((card) => {
         expect(card.title).toEqual('addressCard.shipTo');
         expect(card.textBold).toEqual('John Doe');
@@ -276,7 +276,7 @@ describe('CheckoutReviewSubmitComponent', () => {
       },
     };
     component.getDeliveryModeCard(selectedMode).subscribe((card) => {
-      expect(card.title).toEqual('checkoutShipping.shippingMethod');
+      expect(card.title).toEqual('checkoutMode.deliveryMethod');
       expect(card.textBold).toEqual('Standard gross');
       expect(card.text).toEqual(['Standard Delivery description', '$9.99']);
     });
@@ -295,7 +295,7 @@ describe('CheckoutReviewSubmitComponent', () => {
 
   it('should get checkout step url', () => {
     expect(
-      component.getCheckoutStepUrl(CheckoutStepType.SHIPPING_ADDRESS)
+      component.getCheckoutStepUrl(CheckoutStepType.DELIVERY_ADDRESS)
     ).toEqual(mockCheckoutStep.routeName);
   });
 

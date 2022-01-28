@@ -66,8 +66,8 @@ export class CheckoutStepsSetGuard implements CanActivate {
   protected isStepSet(step: CheckoutStep): Observable<boolean | UrlTree> {
     if (step && !step.disabled) {
       switch (step.type[0]) {
-        case CheckoutStepType.SHIPPING_ADDRESS: {
-          return this.isShippingAddress(step);
+        case CheckoutStepType.DELIVERY_ADDRESS: {
+          return this.isDeliveryAddress(step);
         }
         case CheckoutStepType.DELIVERY_MODE: {
           return this.isDeliveryModeSet(step);
@@ -83,7 +83,7 @@ export class CheckoutStepsSetGuard implements CanActivate {
     return of(true);
   }
 
-  protected isShippingAddress(
+  protected isDeliveryAddress(
     step: CheckoutStep
   ): Observable<boolean | UrlTree> {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(

@@ -184,7 +184,7 @@ export function loginUser(sampleUser: SampleUser = user) {
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -218,7 +218,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
 export function verifyDeliveryMethod() {
   cy.log('🛒 Selecting delivery method');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
 
@@ -256,7 +256,7 @@ export function placeOrder() {
       cy.findByText(user.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -330,6 +330,7 @@ export function addCheapProductToCartAndLogin(
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -354,6 +355,8 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
+
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -379,7 +382,7 @@ export function fillAddressFormWithCheapProduct(
 ) {
   cy.log('🛒 Filling shipping address form');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -441,7 +444,7 @@ export function placeOrderWithCheapProduct(
       cy.findByText(sampleUser.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');

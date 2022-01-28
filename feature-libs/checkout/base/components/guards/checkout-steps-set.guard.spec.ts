@@ -37,7 +37,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step1',
     name: 'step 1',
     routeName: 'route1',
-    type: [CheckoutStepType.SHIPPING_ADDRESS],
+    type: [CheckoutStepType.DELIVERY_ADDRESS],
   },
   {
     id: 'step2',
@@ -125,7 +125,7 @@ describe(`CheckoutStepsSetGuard`, () => {
   });
 
   describe('there is no checkout data set yet', () => {
-    it('go to step1 (shipping address), should return true (no need cost center for CARD)', (done) => {
+    it('go to step1 (delivery address), should return true (no need cost center for CARD)', (done) => {
       guard
         .canActivate(<any>{ url: ['checkout', 'route1'] })
         .subscribe((result) => {
@@ -162,7 +162,7 @@ describe(`CheckoutStepsSetGuard`, () => {
     });
   });
 
-  describe('step1 (shipping address) data set', () => {
+  describe('step1 (delivery address) data set', () => {
     beforeEach(() => {
       checkoutDeliveryAddressFacade.getDeliveryAddressState =
         createSpy().and.returnValue(

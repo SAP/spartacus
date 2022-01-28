@@ -58,6 +58,7 @@ export const groupSkippingConfigMyAccount: GroupSkippingConfig = {
   },
 };
 
+// TODO:#checkout to update sample data to /delivery-address
 export const groupSkippingConfigCheckout: GroupSkippingConfig = {
   shippingAddress: {
     pageUrl: '/checkout/shipping-address',

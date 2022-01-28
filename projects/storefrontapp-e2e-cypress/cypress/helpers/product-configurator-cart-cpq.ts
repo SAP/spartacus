@@ -1,6 +1,6 @@
 import { navigation } from './navigation';
-import Chainable = Cypress.Chainable;
 import * as configurationCart from './product-configurator-cart';
+import Chainable = Cypress.Chainable;
 
 const resolveIssuesLinkSelector =
   'cx-configure-cart-entry button.cx-action-link';
@@ -134,14 +134,15 @@ export function checkoutB2B(): void {
   cy.log('Complete B2B checkout process');
   cy.log('Select Account Payment Method');
   cy.get(`#paymentType-ACCOUNT`).click({ force: true });
-  cy.log("Navigate to the next step 'Shipping Address' tab");
+  cy.log("Navigate to the next step 'Delivery Address' tab");
   cy.get('button.btn-primary')
     .contains('Continue')
     .click()
     .then(() => {
+      // TODO:#checkout to update sample data to /delivery-address
       cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('cx-delivery-address').should('be.visible');
       cy.log("Click to the link 'Ship to this address'");
       cy.contains('Ship to this address').click();
     });
@@ -153,7 +154,7 @@ export function checkoutB2B(): void {
     .then(() => {
       cy.wait('@deliveryMode');
       cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
       cy.get('cx-delivery-mode').should('be.visible');
     });
 

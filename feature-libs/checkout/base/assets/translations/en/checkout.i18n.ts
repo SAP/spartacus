@@ -1,10 +1,36 @@
 export const checkout = {
+  checkout: {
+    backToCart: 'Back to cart',
+  },
+  checkoutProgress: {
+    deliveryAddress: 'Delivery Address',
+    deliveryMode: 'Delivery Mode',
+    paymentDetails: 'Payment Details',
+    reviewOrder: 'Review Order',
+  },
   checkoutAddress: {
-    shippingAddress: 'Shipping Address',
-    selectYourShippingAddress: 'Select your Shipping Address',
-    defaultShippingAddress: 'Default Shipping Address',
+    deliveryAddress: 'Delivery Address',
+    selectYourDeliveryAddress: 'Select your Delivery Address',
+    defaultDeliveryAddress: 'Default Delivery Address',
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
+  },
+  checkoutMode: {
+    deliveryMethod: 'Delivery Method',
+    standardDelivery: 'Standard Delivery',
+    premiumDelivery: 'Premium Delivery',
+  },
+  checkoutReview: {
+    review: 'Review',
+    orderItems: 'Order Items',
+    confirmThatRead: 'I am confirming that I have read and agreed with the',
+    placeOrder: 'Place Order',
+    termsAndConditions: 'Terms & Conditions',
+    editDeliveryAddressDetails:
+      'Edit delivery address details, opens Delivery Address page',
+    editPaymentDetails: 'Edit payment details, opens Payment Details page',
+    editPaymentType: 'Edit payment method, opens Method of Payment page',
+    editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
@@ -16,32 +42,5 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
-  },
-  checkoutReview: {
-    review: 'Review',
-    orderItems: 'Order Items',
-    confirmThatRead: 'I am confirming that I have read and agreed with the',
-    placeOrder: 'Place Order',
-    termsAndConditions: 'Terms & Conditions',
-    editShippingAddress: 'Edit shipping address',
-    editShippingAddressDetails:
-      'Edit shipping address details, opens Shipping Address page',
-    editPaymentDetails: 'Edit payment details, opens Payment Details page',
-    editPaymentType: 'Edit payment method, opens Method of Payment page',
-    editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
-  },
-  checkoutShipping: {
-    shippingMethod: 'Shipping Method',
-    standardDelivery: 'Standard Delivery',
-    premiumDelivery: 'Premium Delivery',
-  },
-  checkout: {
-    backToCart: 'Back to cart',
-  },
-  checkoutProgress: {
-    shippingAddress: 'Shipping Address',
-    deliveryMode: 'Delivery Mode',
-    paymentDetails: 'Payment Details',
-    reviewOrder: 'Review Order',
   },
 };

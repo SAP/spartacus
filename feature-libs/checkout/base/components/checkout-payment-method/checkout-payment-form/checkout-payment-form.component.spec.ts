@@ -272,7 +272,7 @@ describe('CheckoutPaymentFormComponent', () => {
     component.cardTypes$.subscribe((cardTypes: CardType[]) => {
       expect(cardTypes).toBe(mockCardTypes);
     });
-    component.shippingAddress$.subscribe((address) => {
+    component.deliveryAddress$.subscribe((address) => {
       expect(address).toBe(mockAddress);
     });
   });
@@ -360,14 +360,14 @@ describe('CheckoutPaymentFormComponent', () => {
     ]);
   });
 
-  it('should call toggleSameAsShippingAddress()', () => {
-    spyOn(component, 'toggleSameAsShippingAddress').and.callThrough();
-    component.sameAsShippingAddress = true;
+  it('should call toggleSameAsDeliveryAddress()', () => {
+    spyOn(component, 'toggleSameAsDeliveryAddress').and.callThrough();
+    component.sameAsDeliveryAddress = true;
 
-    component.toggleSameAsShippingAddress();
+    component.toggleSameAsDeliveryAddress();
 
-    expect(component.toggleSameAsShippingAddress).toHaveBeenCalled();
-    expect(component.sameAsShippingAddress).toBeFalsy();
+    expect(component.toggleSameAsDeliveryAddress).toHaveBeenCalled();
+    expect(component.sameAsDeliveryAddress).toBeFalsy();
   });
 
   it('should call verifyAddress() when billing address not same as shipping', () => {
@@ -378,13 +378,13 @@ describe('CheckoutPaymentFormComponent', () => {
       })
     );
 
-    component.sameAsShippingAddress = true;
+    component.sameAsDeliveryAddress = true;
 
     component.verifyAddress();
 
     expect(component.next).toHaveBeenCalled();
 
-    component.sameAsShippingAddress = false;
+    component.sameAsDeliveryAddress = false;
     component.verifyAddress();
     expect(userAddressService.verifyAddress).toHaveBeenCalled();
   });
@@ -405,8 +405,8 @@ describe('CheckoutPaymentFormComponent', () => {
         createSpy().and.returnValue(of(mockBillingCountries));
       spyOn(component, 'next');
 
-      component.showSameAsShippingAddressCheckbox$ = of(false);
-      component.sameAsShippingAddress = false;
+      component.showSameAsDeliveryAddressCheckbox$ = of(false);
+      component.sameAsDeliveryAddress = false;
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();
@@ -458,7 +458,7 @@ describe('CheckoutPaymentFormComponent', () => {
       spyOn(component, 'next');
 
       // hide billing address
-      component.sameAsShippingAddress = true;
+      component.sameAsDeliveryAddress = true;
 
       fixture.detectChanges();
       getContinueBtn().nativeElement.click();

@@ -1,16 +1,21 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
-  {{ 'checkoutAddress.shippingAddress' | cxTranslate }}
+  {{ 'checkoutAddress.deliveryAddress' | cxTranslate }}
 </h2>
+
 <ng-container *ngIf="cards$ | async as cards; else loading">
-  <ng-container *ngIf="!shouldRedirect && !(isUpdated$ | async); else loading">
+  <ng-container *ngIf="!shouldRedirect && !(isUpdating$ | async); else loading">
     <ng-container
       *ngIf="
         isAccountPayment || (cards?.length && !addressFormOpened);
+        then showExistingAddresses;
         else newAddressForm
       "
     >
+    </ng-container>
+
+    <ng-template #showExistingAddresses>
       <p class="cx-checkout-text">
-        {{ 'checkoutAddress.selectYourShippingAddress' | cxTranslate }}
+        {{ 'checkoutAddress.selectYourDeliveryAddress' | cxTranslate }}
       </p>
       <div class="cx-checkout-btns row" *ngIf="!isAccountPayment">
         <div class="col-sm-12 col-md-12 col-lg-6">
@@ -25,11 +30,11 @@
 
       <div class="cx-checkout-body row">
         <div
-          class="cx-shipping-address-card col-md-12 col-lg-6"
+          class="cx-delivery-address-card col-md-12 col-lg-6"
           *ngFor="let card of cards; let i = index"
         >
           <div
-            class="cx-shipping-address-card-inner"
+            class="cx-delivery-address-card-inner"
             (click)="selectAddress(card.address)"
           >
             <cx-card
@@ -58,7 +63,7 @@
           </button>
         </div>
       </div>
-    </ng-container>
+    </ng-template>
 
     <ng-template #newAddressForm>
       <cx-address-form

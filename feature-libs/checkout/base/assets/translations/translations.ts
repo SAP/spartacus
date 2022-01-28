@@ -8,10 +8,10 @@ export const checkoutTranslations: TranslationResources = {
 export const checkoutTranslationChunksConfig: TranslationChunksConfig = {
   checkout: [
     'checkout',
-    'checkoutAddress',
-    'checkoutOrderConfirmation',
-    'checkoutReview',
-    'checkoutShipping',
     'checkoutProgress',
+    'checkoutAddress',
+    'checkoutMode',
+    'checkoutReview',
+    'checkoutOrderConfirmation',
   ],
 };

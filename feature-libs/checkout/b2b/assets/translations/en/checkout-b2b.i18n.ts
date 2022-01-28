@@ -5,7 +5,7 @@ export const checkoutB2B = {
     costCenter: 'Cost Center',
     placeholder: 'Enter P.O',
     availableLabel:
-      "Shipping addresses available to you depend on the cost center's unit",
+      "Delivery addresses available to you depend on the cost center's unit",
     invalid: {
       accountType: 'Your account does not allow you to checkout here.',
     },

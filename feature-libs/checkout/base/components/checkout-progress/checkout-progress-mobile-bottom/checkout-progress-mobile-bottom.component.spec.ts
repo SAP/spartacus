@@ -19,7 +19,7 @@ const mockCheckoutSteps: Array<CheckoutStep> = [
     id: 'step1',
     name: 'step 1',
     routeName: 'route1',
-    type: [CheckoutStepType.SHIPPING_ADDRESS],
+    type: [CheckoutStepType.DELIVERY_ADDRESS],
   },
   {
     id: 'step2',

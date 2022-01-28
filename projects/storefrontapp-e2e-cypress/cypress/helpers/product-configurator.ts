@@ -497,9 +497,10 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .contains('proceed to checkout')
     .click()
     .then(() => {
+      // TODO:#checkout to update sample data to /delivery-address
       cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('cx-delivery-address').should('be.visible');
     });
 }
 

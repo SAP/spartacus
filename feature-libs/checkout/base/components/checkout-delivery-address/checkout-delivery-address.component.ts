@@ -22,31 +22,21 @@ export interface CardWithAddress {
 }
 
 @Component({
-  selector: 'cx-shipping-address',
+  selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CheckoutDeliveryAddressComponent implements OnInit {
+  protected busy$ = new BehaviorSubject<boolean>(false);
+
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
-  protected busy$ = new BehaviorSubject<boolean>(false);
-
-  isUpdated$: Observable<boolean> = combineLatest([
+  isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
-
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
-  ) {}
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -73,7 +63,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       this.getSupportedAddresses(),
       this.selectedAddress$,
       this.translationService.translate(
-        'checkoutAddress.defaultShippingAddress'
+        'checkoutAddress.defaultDeliveryAddress'
       ),
       this.translationService.translate('checkoutAddress.shipToThisAddress'),
       this.translationService.translate('addressCard.selected'),
@@ -94,6 +84,22 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         }))
       )
     );
+  }
+
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected activatedRoute: ActivatedRoute,
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.isGuestCheckout) {
+      this.userAddressService.loadAddresses();
+    }
   }
 
   getSupportedAddresses(): Observable<Address[]> {
@@ -118,24 +124,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    if (!this.isGuestCheckout) {
-      this.userAddressService.loadAddresses();
-    }
-  }
-
-  protected onSuccess(): void {
-    this.busy$.next(false);
-  }
-
-  protected onError(): void {
-    this.busy$.next(false);
-  }
-
   getCardContent(
     address: Address,
     selected: any,
-    textDefaultShippingAddress: string,
+    textDefaultDeliveryAddress: string,
     textShipToThisAddress: string,
     textSelected: string
   ): Card {
@@ -145,7 +137,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
 
     return {
-      title: address.defaultAddress ? textDefaultShippingAddress : '',
+      title: address.defaultAddress ? textDefaultDeliveryAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
         address.line1,
@@ -216,5 +208,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected onSuccess(): void {
+    this.busy$.next(false);
+  }
+
+  protected onError(): void {
+    this.busy$.next(false);
   }
 }

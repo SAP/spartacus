@@ -4,17 +4,17 @@ declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Adds a shipping address to the given cart of the current user.
+       * Adds a delivery address to the given cart of the current user.
        * Returns address object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         ```
-        cy.requireShippingAddressAdded(address, token, cartCode);
+        cy.requireDeliveryAddressAdded(address, token, cartCode);
         ```
        */
-      requireShippingAddressAdded: (
+      requireDeliveryAddressAdded: (
         address: {},
         token: {},
         cartId?: string
@@ -24,11 +24,11 @@ declare global {
 }
 
 Cypress.Commands.add(
-  'requireShippingAddressAdded',
+  'requireDeliveryAddressAdded',
   (address, token, cartId) => {
     Cypress.log({
-      displayName: 'requireShippingAddressAdded',
-      message: [`Adding shipping address with token ${token.access_token}`],
+      displayName: 'requireDeliveryAddressAdded',
+      message: [`Adding delivery address with token ${token.access_token}`],
     });
 
     const _address = {

@@ -101,6 +101,7 @@ export function selectAccountPayment() {
     )}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -115,6 +116,7 @@ export function selectCreditCardPayment() {
     cy.findByText('Credit Card').click({ force: true });
   });
 
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingPage'
@@ -124,7 +126,7 @@ export function selectCreditCardPayment() {
 }
 
 export function selectAccountShippingAddress() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
@@ -178,7 +180,7 @@ export function selectAccountShippingAddress() {
 }
 
 export function selectAccountDeliveryMode() {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
 
   cy.get('cx-delivery-mode input').first().should('be.checked');
 
@@ -242,7 +244,7 @@ export function reviewB2bReviewOrderPage(
     });
 
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');

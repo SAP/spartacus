@@ -30,7 +30,7 @@ export class CheckoutReviewSubmitComponent {
   readonly cartOutlets = CartOutlets;
   iconTypes = ICON_TYPE;
 
-  checkoutStepTypeShippingAddress = CheckoutStepType.SHIPPING_ADDRESS;
+  checkoutStepTypeDeliveryAddress = CheckoutStepType.DELIVERY_ADDRESS;
   checkoutStepTypePaymentDetails = CheckoutStepType.PAYMENT_DETAILS;
   checkoutStepTypeDeliveryMode = CheckoutStepType.DELIVERY_MODE;
 
@@ -53,14 +53,14 @@ export class CheckoutReviewSubmitComponent {
     return this.activeCartFacade.getEntries();
   }
 
-  protected getCheckoutShippingSteps(): Array<CheckoutStepType | string> {
-    return [CheckoutStepType.SHIPPING_ADDRESS, CheckoutStepType.DELIVERY_MODE];
+  protected getCheckoutDeliverySteps(): Array<CheckoutStepType | string> {
+    return [CheckoutStepType.DELIVERY_ADDRESS, CheckoutStepType.DELIVERY_MODE];
   }
 
   protected getCheckoutPaymentSteps(): Array<CheckoutStepType | string> {
     return [
       CheckoutStepType.PAYMENT_DETAILS,
-      CheckoutStepType.SHIPPING_ADDRESS,
+      CheckoutStepType.DELIVERY_ADDRESS,
     ];
   }
 
@@ -84,7 +84,7 @@ export class CheckoutReviewSubmitComponent {
       map((state) => state.data)
     );
 
-  getShippingAddressCard(
+  getDeliveryAddressCard(
     deliveryAddress: Address,
     countryName?: string
   ): Observable<Card> {
@@ -120,7 +120,7 @@ export class CheckoutReviewSubmitComponent {
 
   getDeliveryModeCard(deliveryMode: DeliveryMode): Observable<Card> {
     return combineLatest([
-      this.translationService.translate('checkoutShipping.shippingMethod'),
+      this.translationService.translate('checkoutMode.deliveryMethod'),
     ]).pipe(
       map(([textTitle]) => {
         return {
@@ -182,9 +182,9 @@ export class CheckoutReviewSubmitComponent {
     return step?.routeName;
   }
 
-  shippingSteps(steps: CheckoutStep[]): CheckoutStep[] {
+  deliverySteps(steps: CheckoutStep[]): CheckoutStep[] {
     return steps.filter((step) =>
-      this.getCheckoutShippingSteps().includes(step.type[0])
+      this.getCheckoutDeliverySteps().includes(step.type[0])
     );
   }
 

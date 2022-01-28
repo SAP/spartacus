@@ -2,82 +2,43 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
-import {
-  CheckoutCostCenterFacade,
-  CheckoutPaymentTypeFacade,
-} from '@spartacus/checkout/b2b/root';
-import { CheckoutStepService } from '@spartacus/checkout/base/components';
+import { ActiveCartFacade } from '@spartacus/cart/main/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
-  CostCenter,
   I18nTestingModule,
-  QueryState,
   UserAddressService,
-  UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
-import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
+import { of } from 'rxjs';
+import { CheckoutStepService } from '../services/checkout-step.service';
+import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
 class MockUserAddressService implements Partial<UserAddressService> {
-  getAddresses(): Observable<Address[]> {
-    return of(mockAddresses);
-  }
-  getAddressesLoading(): Observable<boolean> {
-    return of(false);
-  }
-  loadAddresses(): void {}
+  getAddresses = createSpy().and.returnValue(of(mockAddresses));
+  getAddressesLoading = createSpy().and.returnValue(of(false));
+  loadAddresses = createSpy();
 }
 
 class MockActiveCartService implements Partial<ActiveCartFacade> {
-  isGuestCart(_cart?: Cart): Observable<boolean> {
-    return of(false);
-  }
+  isGuestCart = createSpy().and.returnValue(of(false));
 }
 
-class MockCheckoutDeliveryFacade
+class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
   createAndSetAddress = createSpy().and.returnValue(of());
   setDeliveryAddress = createSpy().and.returnValue(of());
-  getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
-    return of({ loading: false, error: false, data: undefined });
-  }
+  getDeliveryAddressState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: undefined })
+  );
 }
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
-  getBackBntText(): string {
-    return 'common.back';
-  }
-}
-
-class MockPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
-  isAccountPayment(): Observable<boolean> {
-    return of(true);
-  }
-}
-
-class MockUserCostCenterService implements Partial<UserCostCenterService> {
-  getCostCenterAddresses(): Observable<Address[]> {
-    return of(mockAddresses);
-  }
-}
-
-class MockCheckoutCostCenterService
-  implements Partial<CheckoutCostCenterFacade>
-{
-  getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
-    return of({
-      loading: false,
-      error: false,
-      data: { code: 'test-cost-center' },
-    });
-  }
+  getBackBntText = createSpy().and.returnValue('common.back');
 }
 
 const mockAddress1: Address = {
@@ -142,22 +103,20 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
-describe('B2BCheckoutShippingAddressComponent', () => {
-  let component: B2BCheckoutDeliveryAddressComponent;
-  let fixture: ComponentFixture<B2BCheckoutDeliveryAddressComponent>;
-  let checkoutDeliveryFacade: CheckoutDeliveryAddressFacade;
+describe('CheckoutDeliveryAddressComponent', () => {
+  let component: CheckoutDeliveryAddressComponent;
+  let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
+  let checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade;
   let userAddressService: UserAddressService;
   let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
-  let userCostCenterService: UserCostCenterService;
-  let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          B2BCheckoutDeliveryAddressComponent,
+          CheckoutDeliveryAddressComponent,
           MockAddressFormComponent,
           MockCardComponent,
           MockSpinnerComponent,
@@ -167,42 +126,30 @@ describe('B2BCheckoutShippingAddressComponent', () => {
           { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CheckoutDeliveryAddressFacade,
-            useClass: MockCheckoutDeliveryFacade,
+            useClass: MockCheckoutDeliveryAddressFacade,
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
-          {
-            provide: CheckoutPaymentTypeFacade,
-            useClass: MockPaymentTypeService,
-          },
-          {
-            provide: UserCostCenterService,
-            useClass: MockUserCostCenterService,
-          },
-          {
-            provide: CheckoutCostCenterFacade,
-            useClass: MockCheckoutCostCenterService,
-          },
         ],
       })
-        .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
+        .overrideComponent(CheckoutDeliveryAddressComponent, {
           set: { changeDetection: ChangeDetectionStrategy.Default },
         })
         .compileComponents();
 
-      checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryAddressFacade);
+      checkoutDeliveryAddressFacade = TestBed.inject(
+        CheckoutDeliveryAddressFacade
+      );
       activeCartFacade = TestBed.inject(ActiveCartFacade);
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
       userAddressService = TestBed.inject(UserAddressService);
-      userCostCenterService = TestBed.inject(UserCostCenterService);
-      checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(B2BCheckoutDeliveryAddressComponent);
+    fixture = TestBed.createComponent(CheckoutDeliveryAddressComponent);
     component = fixture.componentInstance;
 
     spyOn(component, 'addAddress').and.callThrough();
@@ -217,44 +164,9 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     expect(component.isGuestCheckout).toBeFalsy();
   });
 
-  it('should get isAccountPayment', () => {
-    spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValues(
-      of(false),
-      of(true)
-    );
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeFalsy();
-
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeTruthy();
-  });
-
   describe('should call ngOnInit', () => {
-    it('for login user, should load user addresses if payment type is card', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
-      spyOn(userAddressService, 'loadAddresses').and.stub();
-
-      component.ngOnInit();
-      expect(component.isAccountPayment).toBeFalsy();
-      expect(userAddressService.loadAddresses).toHaveBeenCalled();
-    });
-
-    it('for login user, should not load user addresses if payment type is account', () => {
-      spyOn(userAddressService, 'loadAddresses').and.stub();
-
-      component.ngOnInit();
-      expect(component.isAccountPayment).toBeTruthy();
-      expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
-    });
-
     it('for guest user, should not load user addresses', () => {
-      spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(true));
-      spyOn(userAddressService, 'loadAddresses').and.stub();
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      activeCartFacade.isGuestCart = createSpy().and.returnValue(of(true));
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -262,7 +174,9 @@ describe('B2BCheckoutShippingAddressComponent', () => {
 
     it('should not invoke addAddress when address is undefined/ not modified.', () => {
       component.addAddress(undefined);
-      expect(checkoutDeliveryFacade.createAndSetAddress).not.toHaveBeenCalled();
+      expect(
+        checkoutDeliveryAddressFacade.createAndSetAddress
+      ).not.toHaveBeenCalled();
     });
   });
 
@@ -296,13 +210,23 @@ describe('B2BCheckoutShippingAddressComponent', () => {
 
   it('should be able to select address', () => {
     component.selectAddress({});
-    expect(checkoutDeliveryFacade.setDeliveryAddress).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryAddressFacade.setDeliveryAddress
+    ).toHaveBeenCalledWith({});
   });
 
   it('should be able to add address', () => {
     component.addAddress({});
     expect(component.shouldRedirect).toBeTruthy();
-    expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryAddressFacade.createAndSetAddress
+    ).toHaveBeenCalledWith({});
+  });
+
+  it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
+    component.doneAutoSelect = false;
+    component.selectDefaultAddress(mockAddresses, undefined);
+    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
   });
 
   it('should be able to get card content', () => {
@@ -324,56 +248,6 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     ]);
   });
 
-  describe('selectDefaultAddress', () => {
-    describe('Account Payment', () => {
-      it('should automatically select default shipping address when there is ONLY ONE', () => {
-        component.ngOnInit();
-        component.selectDefaultAddress([mockAddress1], undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
-      });
-    });
-
-    describe('Credit Card Payment', () => {
-      it('should automatically select default shipping address when there is no current selection', () => {
-        component.doneAutoSelect = false;
-        component.selectDefaultAddress(mockAddresses, undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
-      });
-    });
-  });
-
-  describe('should be able to get supported address', () => {
-    it('for ACCOUNT payment', (done) => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(true)
-      );
-      spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
-        of([])
-      );
-
-      component.ngOnInit();
-      component.getSupportedAddresses().subscribe(() => {
-        expect(
-          userCostCenterService.getCostCenterAddresses
-        ).toHaveBeenCalledWith('test-cost-center');
-        done();
-      });
-    });
-
-    it('for CARD payment', (done) => {
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
-
-      component.ngOnInit();
-      component.getSupportedAddresses().subscribe(() => {
-        expect(userAddressService.getAddresses).toHaveBeenCalled();
-        done();
-      });
-    });
-  });
-
   describe('UI continue button', () => {
     const getContinueBtn = () =>
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-primary'));
@@ -384,18 +258,20 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('should be enabled when address is selected', () => {
-      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
-        of({ loading: false, error: false, data: mockAddress1 })
-      );
+      checkoutDeliveryAddressFacade.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockAddress1 })
+        );
 
       fixture.detectChanges();
       expect(getContinueBtn().nativeElement.disabled).toEqual(false);
     });
 
     it('should call "next" function after being clicked', () => {
-      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
-        of({ loading: false, error: false, data: mockAddress1 })
-      );
+      checkoutDeliveryAddressFacade.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockAddress1 })
+        );
       spyOn(component, 'next');
 
       fixture.detectChanges();
@@ -426,15 +302,15 @@ describe('B2BCheckoutShippingAddressComponent', () => {
       expect(getCards().length).toEqual(2);
     });
 
-    it('should not display if there are no existing addresses', () => {
-      spyOn(component, 'getSupportedAddresses').and.returnValue(of([]));
+    it('should not display if there are no existng addresses', () => {
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      component.isUpdating$ = of(true);
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
@@ -451,13 +327,10 @@ describe('B2BCheckoutShippingAddressComponent', () => {
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 
@@ -470,23 +343,20 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('should render on init if there are no existing addresses', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
-        of(false)
-      );
-      spyOn(component, 'getSupportedAddresses').and.returnValue(of([]));
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeTruthy();
     });
 
     it('should not render on init if there are some existing addresses', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 
@@ -495,8 +365,8 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     });
 
     it('should not render when existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      component.isUpdating$ = of(true);
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
@@ -507,18 +377,18 @@ describe('B2BCheckoutShippingAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      component.isUpdated$ = of(true);
-      spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
+      component.isUpdating$ = of(true);
+      userAddressService.getAddresses = createSpy().and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
     });
 
     it('should NOT render when existing addresses are NOT loading', () => {
-      spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
+      userAddressService.getAddressesLoading = createSpy().and.returnValue(
         of(false)
       );
-      spyOn(userAddressService, 'getAddresses').and.returnValue(
+      userAddressService.getAddresses = createSpy().and.returnValue(
         of(mockAddresses)
       );
 

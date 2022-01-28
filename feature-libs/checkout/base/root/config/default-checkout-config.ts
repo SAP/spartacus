@@ -5,10 +5,10 @@ export const defaultCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {
-        id: 'shippingAddress',
-        name: 'checkoutProgress.shippingAddress',
-        routeName: 'checkoutShippingAddress',
-        type: [CheckoutStepType.SHIPPING_ADDRESS],
+        id: 'deliveryAddress',
+        name: 'checkoutProgress.deliveryAddress',
+        routeName: 'checkoutDeliveryAddress',
+        type: [CheckoutStepType.DELIVERY_ADDRESS],
       },
       {
         id: 'deliveryMode',

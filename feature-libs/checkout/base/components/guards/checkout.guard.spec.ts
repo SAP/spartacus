@@ -24,7 +24,7 @@ class MockCheckoutConfigService implements Partial<CheckoutConfigService> {
 
 class MockCheckoutStepService implements Partial<CheckoutStepService> {
   getFirstCheckoutStepRoute = createSpy().and.returnValue(
-    'checkoutShippingAddress'
+    'checkoutDeliveryAddress'
   );
   getCheckoutStepRoute = createSpy().and.returnValue('checkoutReviewOrder');
 }

@@ -175,15 +175,16 @@ describe('CheckoutDeliveryModeComponent', () => {
       component.mode.controls['deliveryModeId'].setValue(value);
     };
 
-    it('should be disabled when delivery mode is not selected', () => {
-      setDeliveryModeId(undefined);
-      fixture.detectChanges();
-
-      expect(getContinueBtn().nativeElement.disabled).toBe(true);
+    beforeEach(() => {
+      checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+        createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+      component.isSetDeliveryModeBusy$ = of(false);
     });
 
     it('should be enabled when delivery mode is selected', () => {
       setDeliveryModeId(mockDeliveryMode1.code);
+
+      component.ngOnInit();
       fixture.detectChanges();
 
       expect(getContinueBtn().nativeElement.disabled).toBe(false);
@@ -206,6 +207,10 @@ describe('CheckoutDeliveryModeComponent', () => {
       fixture.debugElement.query(By.css('.cx-checkout-btns .btn-action'));
 
     it('should call "back" function after being clicked', () => {
+      checkoutDeliveryModesFacade.getSupportedDeliveryModes =
+        createSpy().and.returnValue(of(mockSupportedDeliveryModes));
+      component.isSetDeliveryModeBusy$ = of(false);
+
       spyOn(component, 'back');
 
       fixture.detectChanges();

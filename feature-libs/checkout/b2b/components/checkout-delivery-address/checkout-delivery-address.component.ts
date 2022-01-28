@@ -34,7 +34,7 @@ export interface CardWithAddress {
 }
 
 @Component({
-  selector: 'cx-shipping-address',
+  selector: 'cx-delivery-address',
   templateUrl: './checkout-delivery-address.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,8 +42,8 @@ export class B2BCheckoutDeliveryAddressComponent
   extends CheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
-  isAccountPayment = false;
   protected subscriptions = new Subscription();
+  isAccountPayment = false;
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -52,10 +52,10 @@ export class B2BCheckoutDeliveryAddressComponent
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected userCostCenterService: UserCostCenterService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected userCostCenterService: UserCostCenterService
   ) {
     super(
       userAddressService,
@@ -66,6 +66,19 @@ export class B2BCheckoutDeliveryAddressComponent
       checkoutStepService,
       checkoutDeliveryModesFacade
     );
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.add(
+      this.checkoutPaymentTypeFacade
+        .isAccountPayment()
+        .pipe(distinctUntilChanged())
+        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
+    );
+
+    if (!this.isAccountPayment) {
+      super.ngOnInit();
+    }
   }
 
   getSupportedAddresses(): Observable<Address[]> {
@@ -90,7 +103,10 @@ export class B2BCheckoutDeliveryAddressComponent
     );
   }
 
-  selectDefaultAddress(addresses: Address[], selected: Address | undefined) {
+  selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
     if (
       !this.doneAutoSelect &&
       addresses &&
@@ -108,20 +124,7 @@ export class B2BCheckoutDeliveryAddressComponent
     }
   }
 
-  ngOnInit(): void {
-    this.subscriptions.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
-    );
-
-    if (!this.isAccountPayment) {
-      super.ngOnInit();
-    }
-  }
-
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
   }
 }

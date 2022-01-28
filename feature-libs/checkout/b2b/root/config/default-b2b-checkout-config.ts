@@ -14,10 +14,10 @@ export const defaultB2bCheckoutConfig: CheckoutConfig = {
         type: [CheckoutStepType.PAYMENT_TYPE],
       },
       {
-        id: 'shippingAddress',
-        name: 'checkoutProgress.shippingAddress',
-        routeName: 'checkoutShippingAddress',
-        type: [CheckoutStepType.SHIPPING_ADDRESS],
+        id: 'deliveryAddress',
+        name: 'checkoutProgress.deliveryAddress',
+        routeName: 'checkoutDeliveryAddress',
+        type: [CheckoutStepType.DELIVERY_ADDRESS],
       },
       {
         id: 'deliveryMode',

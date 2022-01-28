@@ -148,8 +148,8 @@ export function placeOrder(token: any) {
       cy.log('Placing order asynchronously');
       const cartId = $cart.text().match(/[0-9]+/)[0];
       // Need to pass numeric CartId explicitly to avoid using the wrong cart for checkout
-      cy.requireShippingAddressAdded(user.address, token, cartId);
-      cy.requireShippingMethodSelected(token, cartId);
+      cy.requireDeliveryAddressAdded(user.address, token, cartId);
+      cy.requireDeliveryMethodSelected(token, cartId);
       cy.requirePaymentDone(token, cartId);
       return cy.requirePlacedOrder(token, cartId);
     });

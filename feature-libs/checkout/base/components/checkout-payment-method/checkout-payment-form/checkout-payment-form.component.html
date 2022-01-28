@@ -173,21 +173,21 @@
           </div>
 
           <!-- SAME AS SHIPPING CHECKBOX -->
-          <ng-container *ngIf="showSameAsShippingAddressCheckbox$ | async">
+          <ng-container *ngIf="showSameAsDeliveryAddressCheckbox$ | async">
             <div class="form-group">
               <div class="form-check">
                 <label>
                   <input
                     type="checkbox"
                     class="form-check-input"
-                    [checked]="sameAsShippingAddress"
-                    (change)="toggleSameAsShippingAddress()"
+                    [checked]="sameAsDeliveryAddress"
+                    (change)="toggleSameAsDeliveryAddress()"
                     [attr.aria-label]="
                       'paymentForm.billingAddressSameAsShipping' | cxTranslate
                     "
                   />
                   <span class="form-check-label">{{
-                    'paymentForm.sameAsShippingAddress' | cxTranslate
+                    'paymentForm.sameAsDeliveryAddress' | cxTranslate
                   }}</span>
                 </label>
               </div>
@@ -197,16 +197,17 @@
           <!-- BILLING INFO COMPONENT -->
           <ng-container
             *ngIf="
-              sameAsShippingAddress &&
-                (shippingAddress$ | async) as shippingAddress;
+              sameAsDeliveryAddress &&
+                (deliveryAddress$ | async) as deliveryAddress;
               else billingAddress
             "
           >
             <cx-card
-              [content]="getAddressCardContent(shippingAddress)"
+              [content]="getAddressCardContent(deliveryAddress)"
             ></cx-card>
           </ng-container>
 
+          <!-- TODO:#checkout do we really want this? We can always pass more inputs to the copied address form component to make it more modular -->
           <ng-template #billingAddress>
             <div [formGroup]="billingAddressForm">
               <div class="form-group" formGroupName="country">

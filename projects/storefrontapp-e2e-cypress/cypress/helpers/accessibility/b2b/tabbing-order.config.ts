@@ -10,9 +10,10 @@ const paymentTypeRadio = {
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
+// TODO:#checkout to update sample data to /delivery-address
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -109,7 +110,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
@@ -117,7 +118,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   paymentDetailsCard: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
@@ -133,7 +134,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Same as shipping address',
+      value: 'Same as delivery address',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     backButton,
@@ -152,7 +153,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   checkoutReviewOrder: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
     {

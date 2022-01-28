@@ -22,7 +22,7 @@ import { CheckoutConfigService } from '../services/checkout-config.service';
   providedIn: 'root',
 })
 export class ExpressCheckoutService {
-  private shippingAddressSet$: Observable<boolean>;
+  private deliveryAddressSet$: Observable<boolean>;
   private deliveryModeSet$: Observable<boolean>;
   private paymentMethodSet$: Observable<boolean>;
 
@@ -34,13 +34,13 @@ export class ExpressCheckoutService {
     protected checkoutConfigService: CheckoutConfigService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {
-    this.setShippingAddress();
+    this.setDeliveryAddress();
     this.setDeliveryMode();
     this.setPaymentMethod();
   }
 
-  protected setShippingAddress(): void {
-    this.shippingAddressSet$ = combineLatest([
+  protected setDeliveryAddress(): void {
+    this.deliveryAddressSet$ = combineLatest([
       this.userAddressService.getAddresses(),
       this.userAddressService.getAddressesLoadedSuccess(),
     ]).pipe(
@@ -76,7 +76,7 @@ export class ExpressCheckoutService {
 
   protected setDeliveryMode(): void {
     this.deliveryModeSet$ = combineLatest([
-      this.shippingAddressSet$,
+      this.deliveryAddressSet$,
       this.checkoutDeliveryModesFacade.getSupportedDeliveryModesState(),
     ]).pipe(
       debounceTime(0),

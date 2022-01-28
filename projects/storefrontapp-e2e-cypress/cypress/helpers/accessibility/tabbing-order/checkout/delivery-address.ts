@@ -6,11 +6,15 @@ import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
+// TODO:#checkout to update sample data to /delivery-address
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddress'
   );
+
+  // TODO:#checkout to update sample data to /delivery-address
   cy.visit('/checkout/shipping-address');
   cy.wait(`@${shippingAddressPage}`)
     .its('response.statusCode')
@@ -27,10 +31,13 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddress'
   );
+
+  // TODO:#checkout to update sample data to /delivery-address
   cy.visit('/checkout/shipping-address');
   cy.wait(`@${shippingAddressPage}`)
     .its('response.statusCode')
@@ -48,6 +55,7 @@ export function checkoutShippingAddressExistingTabbingOrder(
 }
 
 export function checkoutShippingAddressAccount(config: TabElement[]) {
+  // TODO:#checkout to update sample data to /delivery-address
   const shippingAddressPage = waitForPage(
     '/checkout/shipping-address',
     'getShippingAddress'
@@ -60,6 +68,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
     )}/**/addresses/delivery*`,
   }).as('setAddress');
 
+  // TODO:#checkout to update sample data to /delivery-address
   cy.visit('/checkout/shipping-address');
   cy.wait(`@${shippingAddressPage}`)
     .its('response.statusCode')
@@ -67,7 +76,7 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
 
   cy.wait('@setAddress').its('response.statusCode').should('eq', 200);
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
