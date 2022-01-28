@@ -453,7 +453,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return cart
       ? of(this.isCartUserGuest(cart))
       : this.activeCart$.pipe(
-          map((activeCart) => this.isCartUserGuest(activeCart))
+          map((activeCart) => this.isCartUserGuest(activeCart)),
+          distinctUntilChanged()
         );
   }
 
