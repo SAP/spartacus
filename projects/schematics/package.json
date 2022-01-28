@@ -47,6 +47,7 @@
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
+      "@spartacus/chatbot",
       "@spartacus/checkout",
       "@spartacus/asm",
       "@spartacus/smartedit",

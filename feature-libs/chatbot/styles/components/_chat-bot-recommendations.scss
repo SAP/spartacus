@@ -1,0 +1,46 @@
+%cx-chat-bot-recommendations {
+  z-index: 99999;
+  .chat-window-recommendations {
+    position: relative;
+    top: 0;
+    right: 500px;
+    z-index: 12;
+    width: 942px;
+    max-height: 100vh;
+    overflow-y: hidden;
+    box-shadow: 0 0 80px rgb(0 0 0 / 20%);
+    @media (min-width: 1200px) and (max-width: 1460px) {
+      width: 680px;
+    }
+    @include media-breakpoint-down(lg) {
+      right: 0;
+      width: 100%;
+    }
+
+    main {
+      min-height: 430px;
+      border: 1px solid #ccc;
+      border-right: none;
+      padding: 10px;
+      width: 100%;
+      max-height: calc(100vh - 71px);
+      overflow-x: hidden;
+      overflow-y: hidden;
+      display: flex;
+      flex-wrap: wrap;
+      position: relative;
+      background-color: #fff;
+      h3 {
+        font-size: 18px;
+        margin-top: 10px;
+        font-weight: 500;
+      }
+      cx-media.is-missing {
+        height: 270px;
+      }
+      cx-carousel .item.active {
+        padding: 10px;
+      }
+    }
+  }
+}

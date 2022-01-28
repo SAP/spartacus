@@ -23,6 +23,7 @@
           "CDC",
           "CDS",
           "Checkout",
+          "ChatBot",
           "Order",
           "Digital-Payments",
           "Administration",
@@ -90,6 +91,10 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "ChatBot",
+            "label": "ChatBot"
           },
           {
             "value": "Order",
