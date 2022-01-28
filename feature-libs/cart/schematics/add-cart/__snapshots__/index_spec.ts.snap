@@ -4,6 +4,8 @@ exports[`Spartacus Cart schematics: ng-add Cart Base feature eager loading shoul
 "import { NgModule } from '@angular/core';
 import { CartBaseModule } from \\"@spartacus/cart/base\\";
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
+import { AddToCartModule } from \\"@spartacus/cart/base/components/add-to-cart\\";
+import { MiniCartModule } from \\"@spartacus/cart/base/components/mini-cart\\";
 import { CartBaseRootModule } from \\"@spartacus/cart/base/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
@@ -11,7 +13,9 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
   declarations: [],
   imports: [
     CartBaseRootModule,
-    CartBaseModule
+    CartBaseModule,
+    MiniCartModule,
+    AddToCartModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -27,7 +31,7 @@ export class CartBaseFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
-import { CartBaseRootModule, CART_BASE_FEATURE } from \\"@spartacus/cart/base/root\\";
+import { ADD_TO_CART, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART } from \\"@spartacus/cart/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -40,6 +44,12 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
+      }, [MINI_CART]: {
+        module: () =>
+          import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
+      }, [ADD_TO_CART]: {
+        module: () =>
+          import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
     }
   }),

@@ -91,17 +91,31 @@ function addCartBaseFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
     moduleName: CART_BASE_FEATURE_MODULE_NAME,
-    featureModule: {
-      name: CART_BASE_MODULE,
-      importPath: SPARTACUS_CART_BASE,
-    },
+    featureModule: [
+      {
+        name: CART_BASE_MODULE,
+        importPath: SPARTACUS_CART_BASE,
+      },
+      {
+        name: 'MiniCartModule',
+        importPath: '@spartacus/cart/base/components/mini-cart',
+      },
+      {
+        name: 'AddToCartModule',
+        importPath: '@spartacus/cart/base/components/add-to-cart',
+      },
+    ],
     rootModule: {
       name: CART_BASE_ROOT_MODULE,
       importPath: SPARTACUS_CART_BASE_ROOT,
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_CART_BASE_ROOT,
-      namedImports: [CART_BASE_FEATURE_NAME_CONSTANT],
+      namedImports: [
+        CART_BASE_FEATURE_NAME_CONSTANT,
+        'MINI_CART',
+        'ADD_TO_CART',
+      ],
     },
     i18n: {
       resources: CART_BASE_TRANSLATIONS,
