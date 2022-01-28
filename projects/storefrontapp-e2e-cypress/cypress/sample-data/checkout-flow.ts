@@ -1,6 +1,7 @@
 import { generateMail, randomString } from '../helpers/user';
 
 export interface SampleUser {
+  titleCode?: string;
   firstName?: string;
   lastName?: string;
   fullName?: string;
@@ -45,6 +46,7 @@ export const user = getSampleUser();
 
 export function getSampleUser() {
   return {
+    titleCode: 'Mr',
     firstName: 'Cypress',
     lastName: 'customer',
     fullName: 'Cypress customer',

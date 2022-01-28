@@ -196,11 +196,24 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
+      label: address.defaultAddress
+        ? 'addressBook.defaultShippingAddress'
+        : 'addressBook.additionalShippingAddress',
     } as Card;
   }
 
   selectAddress(address: Address): void {
     this.checkoutDeliveryService.setDeliveryAddress(address);
+  }
+
+  onAddressCardSelect(address: Address): void {
+    this.selectAddress(address);
+    this.globalMessageService.add(
+      {
+        key: 'checkoutAddress.selectShippingAddressSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   addAddress(address: Address): void {

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry, GlobalMessageType } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { OrderAmendService } from '../../amend-order.service';
@@ -12,6 +12,7 @@ import { OrderAmendService } from '../../amend-order.service';
 })
 export class CancelOrderComponent {
   orderCode: string;
+  globalMessageType = GlobalMessageType;
 
   form$: Observable<FormGroup> = this.orderAmendService
     .getForm()
