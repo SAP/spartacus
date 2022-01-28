@@ -6,6 +6,12 @@ import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-ord
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
 import * as b2bCheckout from '../../helpers/b2b/b2b-checkout';
+import {
+  b2bAccountShipToUser,
+  cartWithB2bProduct,
+  order_type,
+  products,
+} from '../../sample-data/b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
@@ -656,5 +662,11 @@ export function executeCheckout() {
   b2bCheckout.selectAccountPayment();
   b2bCheckout.selectAccountShippingAddress();
   b2bCheckout.selectAccountDeliveryMode();
+  b2bCheckout.reviewB2bReviewOrderPage(
+    b2bAccountShipToUser,
+    cartWithB2bProduct,
+    true,
+    order_type.PLACE_ORDER
+  );
   b2bCheckout.placeOrder('/order-confirmation');
 }

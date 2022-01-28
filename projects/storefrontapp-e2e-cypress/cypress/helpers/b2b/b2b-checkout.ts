@@ -258,16 +258,20 @@ export function reviewB2bReviewOrderPage(
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 
   // Accessibility
-  if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.replenishmentOrderAccountCheckoutReviewOrder
-    );
-  } else {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      isAccount ? config.checkoutReviewOrderAccount : config.checkoutReviewOrder
-    );
+  if (getViewport() === 'desktop') {
+    if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        config.replenishmentOrderAccountCheckoutReviewOrder
+      );
+    } else {
+      verifyTabbingOrder(
+        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+        isAccount
+          ? config.checkoutReviewOrderAccount
+          : config.checkoutReviewOrder
+      );
+    }
   }
 }
 
@@ -308,7 +312,6 @@ export function placeOrder(orderUrl: string) {
     'getOrderConfirmationPage'
   );
 
-  cy.get('cx-place-order input').click();
   cy.get('cx-place-order button.btn-primary').click();
   // temporary solution for very slow backend response while placing order
   cy.wait(`@${orderConfirmationPage}`, { timeout: 60000 })
