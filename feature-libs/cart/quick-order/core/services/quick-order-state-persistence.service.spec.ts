@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   Product,

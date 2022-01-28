@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, PaymentType } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentType } from '@spartacus/cart/base/root';
 import {
   B2BPaymentTypeEnum,
   PaymentTypeSetEvent,

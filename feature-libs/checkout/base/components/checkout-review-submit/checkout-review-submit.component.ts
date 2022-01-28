@@ -7,7 +7,7 @@ import {
   OrderEntry,
   PaymentDetails,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutDeliveryModesFacade,

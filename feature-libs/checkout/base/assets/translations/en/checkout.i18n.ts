@@ -3,6 +3,7 @@ export const checkout = {
     backToCart: 'Back to cart',
   },
   checkoutProgress: {
+    label: 'Checkout Progress',
     deliveryAddress: 'Delivery Address',
     deliveryMode: 'Delivery Mode',
     paymentDetails: 'Payment Details',

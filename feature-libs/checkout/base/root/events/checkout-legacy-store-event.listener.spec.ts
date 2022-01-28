@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { CartActions } from '@spartacus/cart/main/core';
-import { LoadCartEvent, RemoveCartEvent } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { LoadCartEvent, RemoveCartEvent } from '@spartacus/cart/base/root';
 import {
   createFrom,
   CxEvent,

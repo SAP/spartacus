@@ -1,5 +1,5 @@
 // We need this import for augmentation of OccEndpoints to pick up
-import { CartOccEndpoints } from '@spartacus/cart/main/occ';
+import { CartOccEndpoints } from '@spartacus/cart/base/occ';
 import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
 import { OrderOccEndpoints } from '@spartacus/order/occ';

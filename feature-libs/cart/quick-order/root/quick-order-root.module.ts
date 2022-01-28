@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/main/root';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,

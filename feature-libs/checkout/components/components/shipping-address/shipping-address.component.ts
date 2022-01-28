@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -54,7 +54,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     protected globalMessageService: GlobalMessageService,
     protected paymentTypeFacade?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
@@ -115,10 +115,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   getSupportedAddresses(): Observable<Address[]> {
     if (
       this.isAccountPayment &&
-      this.checkoutCostCenterService &&
+      this.checkoutCostCenterFacade &&
       this.userCostCenterService
     ) {
-      return this.checkoutCostCenterService.getCostCenter().pipe(
+      return this.checkoutCostCenterFacade.getCostCenter().pipe(
         distinctUntilChanged(),
         switchMap((selected) => {
           this.doneAutoSelect = false;
@@ -158,7 +158,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     if (
       this.paymentTypeFacade &&
       this.userCostCenterService &&
-      this.checkoutCostCenterService
+      this.checkoutCostCenterFacade
     ) {
       this.subscriptions.add(
         this.paymentTypeFacade
@@ -197,6 +197,9 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
+      label: address.defaultAddress
+        ? 'addressBook.defaultShippingAddress'
+        : 'addressBook.additionalShippingAddress',
     } as Card;
   }
 

@@ -1,7 +1,7 @@
 import { Component, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { PaymentType } from '@spartacus/cart/main/root';
+import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutStepType, PaymentTypeFacade } from '@spartacus/checkout/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';

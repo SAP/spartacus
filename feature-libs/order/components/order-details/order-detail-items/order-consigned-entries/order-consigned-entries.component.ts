@@ -3,7 +3,7 @@ import {
   CartOutlets,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { Consignment, Order } from '@spartacus/order/root';
 
 @Component({

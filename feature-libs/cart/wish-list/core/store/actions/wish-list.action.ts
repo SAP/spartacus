@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
-import { MULTI_CART_DATA } from '@spartacus/cart/main/core';
-import { Cart } from '@spartacus/cart/main/root';
+import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { StateUtils } from '@spartacus/core';
 
 export const CREATE_WISH_LIST = '[Wish List] Create Wish List';

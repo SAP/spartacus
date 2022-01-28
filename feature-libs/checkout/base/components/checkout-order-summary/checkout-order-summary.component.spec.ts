@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
-} from '@spartacus/cart/main/components';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/components';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { MockFeatureLevelDirective } from 'projects/storefrontlib/shared/test/mock-feature-level-directive';

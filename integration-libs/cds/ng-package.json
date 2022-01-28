@@ -11,7 +11,7 @@
       "@spartacus/checkout/base/root": "checkoutRoot",
       "@ngrx/store": "store",
       "rxjs": "rxjs",
-      "@spartacus/cart/main/root": "cartRoot"
+      "@spartacus/cart/base/root": "cartRoot"
     }
   },
   "assets": [

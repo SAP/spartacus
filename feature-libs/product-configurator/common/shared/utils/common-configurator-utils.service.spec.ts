@@ -1,13 +1,13 @@
 import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { CartItemContextSource } from '@spartacus/cart/main/components';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
 import {
   Cart,
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import { BREAKPOINT, LayoutConfig } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of, ReplaySubject } from 'rxjs';

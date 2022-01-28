@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { PaymentDetails } from '@spartacus/cart/main/root';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';

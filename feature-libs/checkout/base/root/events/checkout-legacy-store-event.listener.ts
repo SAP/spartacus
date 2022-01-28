@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { CartActions } from '@spartacus/cart/main/core';
-import { LoadCartEvent, RemoveCartEvent } from '@spartacus/cart/main/root';
+import { CartActions } from '@spartacus/cart/base/core';
+import { LoadCartEvent, RemoveCartEvent } from '@spartacus/cart/base/root';
 import {
   EventService,
   LoadUserAddressesEvent,

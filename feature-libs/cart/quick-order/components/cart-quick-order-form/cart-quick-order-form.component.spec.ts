@@ -6,7 +6,7 @@ import {
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   EventService,
   GlobalMessageService,

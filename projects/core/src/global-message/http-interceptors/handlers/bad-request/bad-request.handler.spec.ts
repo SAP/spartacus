@@ -67,6 +67,17 @@ const MockVoucherOperationErrorResponse = {
   },
 } as HttpErrorResponse;
 
+const MockUnknownIdentifierErrorResponse = {
+  error: {
+    errors: [
+      {
+        type: 'UnknownIdentifierError',
+        message: 'item not found',
+      },
+    ],
+  },
+} as HttpErrorResponse;
+
 class MockGlobalMessageService {
   add() {}
   remove() {}
@@ -171,6 +182,14 @@ describe('BadRequestHandler', () => {
             MockBadGuestDuplicateEmailResponse.error.errors[0].message,
         },
       },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
+  });
+
+  it('should handle unknown identifier error', () => {
+    service.handleError(MockRequest, MockUnknownIdentifierErrorResponse);
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      'item not found',
       GlobalMessageType.MSG_TYPE_ERROR
     );
   });

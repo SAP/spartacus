@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   AppliedCouponsComponent,
   OrderSummaryComponent,
-} from '@spartacus/cart/main/components';
+} from '@spartacus/cart/base/components';
 import {
   ActiveCartFacade,
   Cart,
   CartVoucherFacade,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { PromotionsComponent } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';

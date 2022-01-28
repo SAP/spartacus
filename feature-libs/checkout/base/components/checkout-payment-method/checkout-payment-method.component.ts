@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -268,6 +268,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         selected?.id === paymentDetails.id
           ? cardLabels.textSelected
           : undefined,
+      label: paymentDetails.defaultPayment
+        ? 'paymentCard.defaultPaymentLabel'
+        : 'paymentCard.additionalPaymentLabel',
     };
   }
 

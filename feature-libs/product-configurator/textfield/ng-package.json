@@ -9,8 +9,8 @@
       "@ngrx/effects": "effects",
       "@ngrx/store": "store",
       "rxjs": "rxjs",
-      "@spartacus/cart/main/root": "cartRoot",
-      "@spartacus/cart/main/core": "cartCore"
+      "@spartacus/cart/base/root": "cartRoot",
+      "@spartacus/cart/base/core": "cartCore"
     }
   }
 }

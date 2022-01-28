@@ -2,7 +2,7 @@ import { Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
@@ -397,6 +397,7 @@ describe('PaymentMethodComponent', () => {
         img: 'CREDIT_CARD',
         actions: [{ name: 'Use this payment', event: 'send' }],
         header: 'Selected',
+        label: 'paymentCard.defaultPaymentLabel',
       });
     });
 

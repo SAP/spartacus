@@ -9,7 +9,7 @@ import {
   OrderEntry,
   PaymentDetails,
   PaymentType,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,

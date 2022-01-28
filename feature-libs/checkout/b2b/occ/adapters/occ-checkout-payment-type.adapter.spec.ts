@@ -5,7 +5,7 @@ import {
 } from '@angular/common/http/testing';
 import { Type } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Cart, PaymentType } from '@spartacus/cart/main/root';
+import { Cart, PaymentType } from '@spartacus/cart/base/root';
 import { CHECKOUT_PAYMENT_TYPE_NORMALIZER } from '@spartacus/checkout/b2b/core';
 import {
   ConverterService,

@@ -3,7 +3,7 @@ import {
   OrderEntriesContext,
   OrderEntry,
   ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';

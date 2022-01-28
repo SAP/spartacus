@@ -101,16 +101,16 @@
 
   <!-- CART ITEM SECTION -->
   <ng-container *ngIf="cart$ | async as cart">
-    <h4 class="cx-review-cart-total d-none d-lg-block d-xl-block">
+    <div class="cx-review-cart-total d-none d-lg-block d-xl-block">
       {{
         'cartItems.cartTotal'
           | cxTranslate: { count: cart.deliveryItemsQuantity }
       }}:
       {{ cart.totalPrice?.formattedValue }}
-    </h4>
-    <h4 class="cx-review-cart-heading d-block d-lg-none d-xl-none">
+    </div>
+    <div class="cx-review-cart-heading d-block d-lg-none d-xl-none">
       {{ 'checkoutReview.placeOrder' | cxTranslate }}
-    </h4>
+    </div>
     <div
       class="cx-review-cart-item col-md-12"
       *ngIf="entries$ | async as entries"

@@ -3,7 +3,7 @@ import {
   OrderEntry,
   ORDER_ENTRY_PROMOTIONS_NORMALIZER,
   PromotionResult,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   Converter,
   ConverterService,

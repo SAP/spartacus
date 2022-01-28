@@ -1,5 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { MergeCartSuccessEvent } from '@spartacus/cart/main/root';
+import { MergeCartSuccessEvent } from '@spartacus/cart/base/root';
 import {
   RestoreSavedCartSuccessEvent,
   SaveCartSuccessEvent,

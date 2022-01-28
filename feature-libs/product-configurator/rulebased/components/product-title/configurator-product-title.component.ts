@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { Product, ProductScope, ProductService } from '@spartacus/core';
 import {
   CommonConfigurator,
@@ -6,7 +6,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { EMPTY, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 
 @Component({
@@ -15,6 +15,8 @@ import { ConfiguratorCommonsService } from '../../core/facade/configurator-commo
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ConfiguratorProductTitleComponent {
+  @HostBinding('class.ghost') ghostStyle = true;
+
   product$: Observable<Product> = this.configRouterExtractorService
     .extractRouterData()
     .pipe(
@@ -35,6 +37,11 @@ export class ConfiguratorProductTitleComponent {
           ? this.productService.get(productCode, ProductScope.LIST)
           : EMPTY
       )
+    )
+    .pipe(
+      tap(() => {
+        this.ghostStyle = false;
+      })
     );
   showMore = false;
   iconTypes = ICON_TYPE;

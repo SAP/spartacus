@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { CardType, Cart, PaymentDetails } from '@spartacus/cart/main/root';
+import { CardType, Cart, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CARD_TYPE_NORMALIZER,
   PAYMENT_DETAILS_SERIALIZER,

@@ -1,5 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
-import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   ReplenishmentOrderScheduledEvent,

@@ -8,7 +8,7 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import { Product, ProductConnector } from '@spartacus/core';
 import { forkJoin, from, Observable, of, Subject } from 'rxjs';

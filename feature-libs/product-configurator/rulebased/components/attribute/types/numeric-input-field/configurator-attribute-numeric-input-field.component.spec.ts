@@ -1,8 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  Component,
   Directive,
   Input,
-  Component,
 } from '@angular/core';
 import {
   ComponentFixture,
@@ -12,7 +12,7 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LanguageService, I18nTestingModule } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
@@ -320,7 +320,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       );
     }));
 
-    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the IDs of the elements that describe the elements", fakeAsync(() => {
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
       component.ngOnInit();
@@ -332,7 +332,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         'form-control',
         0,
         'aria-describedby',
-        'cx-configurator--label--attributeName cx-configurator--attribute-msg--attributeName'
+        'cx-configurator--label--attributeName'
       );
     }));
 

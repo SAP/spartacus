@@ -5,7 +5,7 @@ import {
   CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
 import {

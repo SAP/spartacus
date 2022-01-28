@@ -4,7 +4,7 @@ import {
   CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { OCC_USER_ID_ANONYMOUS, UserIdService } from '@spartacus/core';
 import {
   BREAKPOINT,

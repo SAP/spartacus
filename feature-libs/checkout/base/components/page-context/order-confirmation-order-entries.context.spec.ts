@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { OrderEntry } from '@spartacus/cart/main/root';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { of } from 'rxjs';
 import { OrderConfirmationOrderEntriesContext } from './order-confirmation-order-entries.context';

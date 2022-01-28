@@ -24,8 +24,8 @@ import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
 import {
   ANGULAR_CORE,
   CLI_ASM_FEATURE,
+  CLI_CART_BASE_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_MAIN_FEATURE,
   CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CART_WISHLIST_FEATURE,
@@ -196,7 +196,7 @@ export interface AssetsConfig {
 export const packageSubFeaturesMapping: Record<string, string[]> = {
   [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
   [SPARTACUS_CART]: [
-    CLI_CART_MAIN_FEATURE,
+    CLI_CART_BASE_FEATURE,
     CLI_CART_WISHLIST_FEATURE,
     CLI_CART_IMPORT_EXPORT_FEATURE,
     CLI_CART_QUICK_ORDER_FEATURE,

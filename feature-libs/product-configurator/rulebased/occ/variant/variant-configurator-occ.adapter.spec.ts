@@ -7,7 +7,7 @@ import { TestBed } from '@angular/core/testing';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   BaseOccUrlProperties,
   ConverterService,
@@ -82,6 +82,7 @@ const configuration: Configurator.Configuration = {
 
 const productConfigurationOcc: OccConfigurator.Configuration = {
   configId: configId,
+  rootProduct: productCode,
 };
 
 const pricesOcc: OccConfigurator.Prices =
@@ -98,7 +99,10 @@ const productConfigurationForCartEntry: Configurator.Configuration = {
   productCode: productCode,
 };
 
-const overviewOcc: OccConfigurator.Overview = { id: configId };
+const overviewOcc: OccConfigurator.Overview = {
+  id: configId,
+  productCode: productCode,
+};
 
 const cartModification: CartModification = { quantity: 1 };
 

@@ -1,4 +1,4 @@
-import { PaymentType } from '@spartacus/cart/main/root';
+import { PaymentType } from '@spartacus/cart/base/root';
 import '@spartacus/checkout/base/root';
 import { CostCenter } from '@spartacus/core';
 

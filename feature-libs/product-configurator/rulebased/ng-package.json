@@ -10,8 +10,8 @@
       "@ng-select/ng-select": "ngSelect",
       "@ngrx/store": "store",
       "@ngrx/effects": "effects",
-      "@spartacus/cart/main/core": "cartCore",
-      "@spartacus/cart/main/root": "cartRoot",
+      "@spartacus/cart/base/core": "cartCore",
+      "@spartacus/cart/base/root": "cartRoot",
       "@spartacus/checkout/base/root": "checkoutRoot",
       "@spartacus/order/root": "orderRoot"
     }

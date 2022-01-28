@@ -39,6 +39,7 @@
             [border]="true"
             [fitToContainer]="true"
             [content]="card.content"
+            [index]="i"
             (sendCard)="selectPaymentMethod(card.paymentMethod)"
           ></cx-card>
         </div>

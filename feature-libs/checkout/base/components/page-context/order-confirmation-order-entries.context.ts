@@ -3,7 +3,7 @@ import {
   GetOrderEntriesContext,
   OrderEntriesSource,
   OrderEntry,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';

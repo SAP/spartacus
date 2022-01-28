@@ -5,7 +5,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "@spartacus/cart/main/root": "cartRoot",
+      "@spartacus/cart/base/root": "cartRoot",
       "@spartacus/order/root": "orderRoot"
     }
   }
