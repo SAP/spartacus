@@ -10,11 +10,13 @@ shell app, lazy-loading, schematics
 ## 4. Context
 _Explain why the decision is being taken_
 
-We need a way to extend a service which is provided a in Spartacus module, while this module is imported dynamically (lazy loaded) in the customer's app. The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service that is provided in the lazy-loaded module. 
+We need a way to extend a service which is provided a in Spartacus module, while this module is imported dynamically (lazy loaded) in the customer's app. The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't work. The original service provided in the lazy-loaded module still takes precedence.
 
-The reason is that the dynamically instantiated lazy-loaded module gets its own, fresh child-injector, which derives from the root injector, but has a higher priority than the root one. And because the original service implementation is provided in the child-injector, it shadows any providers from the root injector.
+The reason is that the lazy-loaded modules instantiate its own, fresh child-injector, which derives from the root injector, but has a higher priority than the root one. And because the original service implementation is provided in the child-injector, it shadows any providers from the root injector.
 
-Until now, when generating the app's code via schematics, we've written the dynamic imports pointing directly to the main `public_api.ts` entry point of a Spartacus library (e.g. `()=>import('@spartacus/user/profile')`). 
+For details on the child injector, see the implementation of Spartacus' [LazyModulesService#resolveModuleInstance](https://github.com/SAP/spartacus/blob/a1421cf95481c6f2b59926a91f4e9380ff10f70b/projects/core/src/lazy-loading/lazy-modules.service.ts#L86). 
+
+Until now, when generating the app's code via schematics, we've written the dynamic imports pointing directly module from Spartacus library (e.g. `()=>import('@spartacus/user/profile').then(m=>m.UserProfileService)`). 
 
 ## 5. Decision
 _Elaborate the decision_
