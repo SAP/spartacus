@@ -50,9 +50,8 @@
 1. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
 2. Schematics and deprecations
    1. Write migration schematics
-   2. Deprecate the current classes / APIs / functions
-   3. Check and add js doc comments
-   4. Write installation schematics
+   2. Check and add js doc comments
+   3. Write installation schematics
 3. Migration schematics
    1. Facades / services - import paths; some classes have been renamed
    2. adapters / connectors - import paths; some classes have been renamed
@@ -63,7 +62,7 @@
    1. Update the current installation schematics for the new lib
    2. create a prompt for each of the checkout entry points? (base, b2b, repl)
    3. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
-5. move everything from `docs/migration/5_0-checkout.md` to the main 5_0.md
+5. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
 6. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
 7. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
@@ -78,11 +77,14 @@
       ```
    4. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
    5. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
-   6.  if using old components:
+   6. if using old components:
       1. you can consider using our new components. 
       2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
-   7.  go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
-   8.  Mention the available events - e.g. CheckoutReloadDeliveryModesEvent and ReloadCheckoutQueryEvent
+   7. go through triggers - mention how to do a single step checkout and what to keep an eye for. i.e. remove redundant events, in order to not trigger the query too many times.
+   8. Mention the available events - e.g. `CheckoutReloadDeliveryModesEvent` and `ReloadCheckoutQueryEvent`
+   9. Go through the old checkout's changes in `5_0.md`:
+      1. add missing stuff
+      2. remove unnecessary / non-relevant parts
 8. check LL:
    1. check the chunks: base, b2b, replenishment
    2. check if and when those are loaded
