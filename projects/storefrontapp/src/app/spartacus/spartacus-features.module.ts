@@ -183,7 +183,6 @@ if (environment.digitalPayments) {
     UserFeatureModule,
     CartBaseFeatureModule,
     WishListFeatureModule,
-    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
