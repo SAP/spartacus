@@ -11,7 +11,7 @@ import {
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
 import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
 import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
