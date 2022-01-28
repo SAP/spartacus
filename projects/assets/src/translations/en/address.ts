@@ -67,7 +67,7 @@ export const address = {
     saveAddress: 'Save address',
   },
   addressMessages: {
-    setAsDefaultSucessfully:
-      'Address {{ streetAddress }} was sucessfully set as default',
+    setAsDefaultSuccessfully:
+      'Address {{ streetAddress }} was successfully set as default',
   },
 };

@@ -50,6 +50,6 @@ export const payment = {
     paymentType_ACCOUNT: 'Account',
   },
   paymentMessages: {
-    setAsDefaultSucessfully: 'New payment was sucessfully set as default',
+    setAsDefaultSuccessfully: 'New payment was successfully set as default',
   },
 };
