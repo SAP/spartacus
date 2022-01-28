@@ -148,6 +148,9 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       ],
       actions: [{ name: textShipToThisAddress, event: 'send' }],
       header: selected && selected.id === address.id ? textSelected : '',
+      label: address.defaultAddress
+        ? 'addressBook.defaultDeliveryAddress'
+        : 'addressBook.additionalDeliveryAddress',
     } as Card;
   }
 

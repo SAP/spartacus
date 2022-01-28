@@ -107,8 +107,8 @@ export class AddressBookComponent implements OnInit {
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
             label: address.defaultAddress
-              ? 'addressBook.defaultShippingAddress'
-              : 'addressBook.additionalShippingAddress',
+              ? 'addressBook.defaultDeliveryAddress'
+              : 'addressBook.additionalDeliveryAddress',
           };
         }
       )
