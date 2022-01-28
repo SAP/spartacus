@@ -18,8 +18,7 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('not.be.visible');
-            cy.get('nav > ul > li')
-              .contains('Brands')
+            cy.get('nav > ul > li > button[aria-label="Brands"]')
               .focus()
               .trigger('keydown', {
                 key: ' ',
