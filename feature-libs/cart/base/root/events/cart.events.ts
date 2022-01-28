@@ -5,8 +5,23 @@ import { OrderEntry } from '../models/cart.model';
  * Base cart event. Most cart events should have these properties.
  */
 export abstract class CartEvent extends CxEvent {
+  /**
+   * Usually set via `getCartIdByUserId()` util method,
+   * It is an abstraction over the different properties
+   * used for anonymous and logged-in users' carts:
+   * - `code` for logged-in users
+   * - `guid` for anonymous users
+   */
   cartId: string;
+  /**
+   * All carts have the `code` property assigned to them,
+   * regardless of whether they are anonymous or logged-in.
+   * In case of logged-in users, the `cartCode` and `cartId` are the same.
+   */
   cartCode: string;
+  /**
+   * User ID.
+   */
   userId: string;
 }
 
