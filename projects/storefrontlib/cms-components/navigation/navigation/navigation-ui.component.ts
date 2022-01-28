@@ -117,6 +117,7 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
         .forEach((el) => {
           this.renderer.removeClass(el, 'is-open');
         });
+      this.reinitializeMenu();
       this.hamburgerMenuService.toggle();
     }
   }
