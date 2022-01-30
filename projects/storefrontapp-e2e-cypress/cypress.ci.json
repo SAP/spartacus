@@ -11,7 +11,7 @@
   },
   "videoUploadOnPasses": false,
   "env": {
-    "API_URL": "https://api.cg79x9wuu9-eccommerc1-p5-public.model-t.myhybris.cloud",
+    "API_URL": "https://20.127.192.33:9002",
     "BASE_SITE": "electronics-spa",
     "BASE_LANG": "en",
     "BASE_CURRENCY": "USD",
