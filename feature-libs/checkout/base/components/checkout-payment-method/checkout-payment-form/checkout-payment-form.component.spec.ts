@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CardType } from '@spartacus/cart/base/root';
+import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -235,6 +235,28 @@ describe('CheckoutPaymentFormComponent', () => {
 
   it('should be created', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('it should patch the form if the payment details is provided', () => {
+    const mockPaymentDetails: PaymentDetails = {
+      id: 'test',
+    };
+    component.paymentDetails = mockPaymentDetails;
+    spyOn(component.paymentForm, 'patchValue').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(component.paymentForm.patchValue).toHaveBeenCalledWith(
+      mockPaymentDetails
+    );
+  });
+
+  it('it should NOT patch the form if the payment details is NOT provided', () => {
+    spyOn(component.paymentForm, 'patchValue').and.callThrough();
+
+    component.ngOnInit();
+
+    expect(component.paymentForm.patchValue).not.toHaveBeenCalled();
   });
 
   it('should call ngOnInit to get billing countries', () => {
