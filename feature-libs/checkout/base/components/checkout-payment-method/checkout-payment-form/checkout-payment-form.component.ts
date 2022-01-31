@@ -61,6 +61,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Input()
   paymentMethodsCount: number;
 
+  @Input()
+  paymentDetailsData: any;
+
   @Output()
   goBack = new EventEmitter<any>();
 
@@ -108,6 +111,8 @@ export class CheckoutPaymentFormComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.paymentForm.patchValue(this.paymentDetailsData);
+
     this.expMonthAndYear();
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {
