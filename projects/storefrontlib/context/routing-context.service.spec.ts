@@ -29,7 +29,7 @@ const mockActivatedRoute2: ActivatedRouteSnapshot = {
   data: { cxContext: { [contextToken2]: providerToken2 } },
 } as unknown as ActivatedRouteSnapshot;
 
-describe('RoutingContextService', () => {
+fdescribe('RoutingContextService', () => {
   let service: RoutingContextService;
   let mockActivatedRoutes$: BehaviorSubject<ActivatedRouteSnapshot[]>;
 
