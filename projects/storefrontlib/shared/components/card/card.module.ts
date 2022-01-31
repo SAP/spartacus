@@ -5,6 +5,7 @@ import { IconModule } from '../../../cms-components/misc/icon/icon.module';
 import { TruncateTextPopoverModule } from '../truncate-text-popover/truncate-text-popover.module';
 import { CardComponent } from './card.component';
 import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboard-focus.module';
+import { AtMessageModule } from '../assistive-technology-message/assistive-technology-message.module';
 
 @NgModule({
   imports: [
@@ -12,6 +13,7 @@ import { KeyboardFocusModule } from '../../../layout/a11y/keyboard-focus/keyboar
     I18nModule,
     IconModule,
     TruncateTextPopoverModule,
+    AtMessageModule,
     KeyboardFocusModule,
   ],
   declarations: [CardComponent],

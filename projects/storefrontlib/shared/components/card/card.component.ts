@@ -1,7 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ICON_TYPE } from '../../../cms-components/misc/icon/icon.model';
-import { GlobalMessageService } from 'projects/core/src/global-message/facade/global-message.service';
-import { GlobalMessageType } from 'projects/core/src/global-message/models/global-message.model';
 
 export interface CardAction {
   event: string;
@@ -74,10 +72,6 @@ export class CardComponent implements OnInit {
   }
 
   cancelEdit(): void {
-    this.globalMessageService.add(
-      { key: 'common.cancel' },
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
-    );
     this.editMode = false;
     this.cancelCard.emit(5);
   }
@@ -99,7 +93,7 @@ export class CardComponent implements OnInit {
     this.editCard.emit(4);
   }
 
-  constructor(private globalMessageService: GlobalMessageService) {}
+  constructor() {}
 
   ngOnInit() {}
 }
