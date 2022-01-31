@@ -7,7 +7,7 @@ import { waitForPage } from '../checkout-flow';
 export const ADD_TO_CART_ENDPOINT_ALIAS = 'addEntry';
 export const SEARCH_PRODUCTS_ENDPOINT_ALIAS = 'searchProducts';
 
-export function interceptAddToCartEndpoint() {
+function interceptAddToCartEndpoint() {
   cy.intercept(
     'POST',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -18,7 +18,7 @@ export function interceptAddToCartEndpoint() {
   return ADD_TO_CART_ENDPOINT_ALIAS;
 }
 
-export function interceptSearchProductsEndpoint(query: string) {
+function interceptSearchProductsEndpoint() {
   cy.intercept(
     'GET',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -47,7 +47,7 @@ export function visitQuickOrderPage() {
 }
 
 export function addProductToTheList(query: string) {
-  const alias = this.interceptSearchProductsEndpoint(query);
+  const alias = interceptSearchProductsEndpoint();
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
@@ -56,7 +56,7 @@ export function addProductToTheList(query: string) {
 }
 
 export function addWrongProductQuery(query: string) {
-  const alias = this.interceptSearchProductsEndpoint(query);
+  const alias = interceptSearchProductsEndpoint();
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
@@ -66,7 +66,7 @@ export function addProductToTheListAndModifyQuantity(
   query: string,
   quantity: number
 ) {
-  const alias = this.interceptSearchProductsEndpoint(query);
+  const alias = interceptSearchProductsEndpoint();
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
@@ -199,7 +199,7 @@ export function addProductToCartWithQuickForm(
   productCode: string,
   quantity?: number
 ) {
-  const alias = this.interceptAddToCartEndpoint();
+  const alias = interceptAddToCartEndpoint();
 
   cy.get('cx-cart-quick-order-form .input-product-code').type(`${productCode}`);
 
@@ -213,7 +213,7 @@ export function addProductToCartWithQuickForm(
 }
 
 export function prepareCartWithProduct() {
-  const alias = this.interceptAddToCartEndpoint();
+  const alias = interceptAddToCartEndpoint();
 
   this.visitQuickOrderPage();
   this.addProductToTheList(sampleData.b2bProduct.code);
@@ -226,7 +226,7 @@ export function prepareCartWithProduct() {
 }
 
 export function getQuickOrderResultBox(query: string, resultBoxLength: number) {
-  const alias = this.interceptSearchProductsEndpoint(query);
+  const alias = interceptSearchProductsEndpoint();
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);

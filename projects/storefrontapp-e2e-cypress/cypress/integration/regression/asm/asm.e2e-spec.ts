@@ -218,7 +218,7 @@ function assertCustomerIsSignedIn() {
 }
 
 export function deleteFirstAddress() {
-  
+
   //interceptDelete('deleteAddresses', '/users/?lang=en&curr=USD');
   //interceptGet('fetchAddresses', '/users/?lang=en&curr=USD');
 

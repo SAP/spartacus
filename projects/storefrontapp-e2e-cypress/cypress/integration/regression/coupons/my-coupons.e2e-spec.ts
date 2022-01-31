@@ -37,8 +37,6 @@ viewportContext(['mobile', 'desktop'], () => {
     });
 
     // Core Test
-    //myCoupons.testClaimCustomerCoupon();
-
     it('should claim customer coupon, switch notification button and find products', () => {
       visitHomePage();
       cy.selectUserMenuOption({

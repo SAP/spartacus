@@ -19,9 +19,21 @@ context('Checkout flow', () => {
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndLogin(user);
-      checkout.fillAddressFormWithCheapProduct(user);
+      checkout.proceedWithEmptyShippingAdressForm();
+      checkout.proceedWithIncorrectShippingAddressForm({
+        ...user,
+        firstName: '',
+      });
+      checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
       checkout.verifyDeliveryMethod();
-      checkout.fillPaymentFormWithCheapProduct(user);
+      checkout.proceedWithEmptyPaymentForm();
+      checkout.proceedWithIncorrectPaymentForm({
+        ...user,
+        payment: { ...user.payment, number: null },
+      });
+      checkout.fillPaymentFormWithCheapProduct({
+        payment: { number: user.payment.number },
+      });
       checkout.placeOrderWithCheapProduct(user);
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
