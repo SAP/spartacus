@@ -6,6 +6,7 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import {
+  addFeatureTranslations,
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CLI_CART_BASE_FEATURE,
@@ -13,6 +14,7 @@ import {
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_ORDER_FEATURE,
+  FeatureConfig,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
   shouldAddFeature,
@@ -52,6 +54,105 @@ import {
   SCSS_FILE_NAME,
 } from '../constants';
 
+const checkoutBaseFeatureConfig: FeatureConfig = {
+  folderName: CHECKOUT_FOLDER_NAME,
+  moduleName: CHECKOUT_BASE_MODULE_NAME,
+  featureModule: {
+    name: CHECKOUT_BASE_MODULE,
+    importPath: SPARTACUS_CHECKOUT_BASE,
+  },
+  rootModule: {
+    name: CHECKOUT_BASE_ROOT_MODULE,
+    importPath: SPARTACUS_CHECKOUT_BASE_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
+    namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: CHECKOUT_BASE_TRANSLATIONS,
+    chunks: CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CHECKOUT_BASE_ASSETS,
+  },
+  styles: {
+    scssFileName: SCSS_FILE_NAME,
+    importStyle: SPARTACUS_CHECKOUT,
+  },
+  dependencyManagement: {
+    featureName: CLI_CHECKOUT_BASE_FEATURE,
+    featureDependencies: {
+      [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+      [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+    },
+  },
+};
+
+const checkoutB2bFeatureConfig: FeatureConfig = {
+  folderName: CHECKOUT_FOLDER_NAME,
+  moduleName: CHECKOUT_BASE_MODULE_NAME,
+  featureModule: {
+    name: CHECKOUT_B2B_MODULE,
+    importPath: SPARTACUS_CHECKOUT_B2B,
+  },
+  rootModule: {
+    name: CHECKOUT_B2B_ROOT_MODULE,
+    importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_CHECKOUT_B2B_ROOT,
+    namedImports: [CHECKOUT_B2B_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: CHECKOUT_B2B_TRANSLATIONS,
+    chunks: CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CHECKOUT_B2B_ASSETS,
+  },
+  styles: {
+    scssFileName: SCSS_FILE_NAME,
+    importStyle: SPARTACUS_CHECKOUT,
+  },
+  dependencyManagement: {
+    featureName: CLI_CHECKOUT_B2B_FEATURE,
+    featureDependencies: {
+      [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+      [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+    },
+  },
+};
+
+const checkoutScheduleReplenishmentFeatureConfig: FeatureConfig = {
+  folderName: CHECKOUT_FOLDER_NAME,
+  moduleName: CHECKOUT_BASE_MODULE_NAME,
+  featureModule: {
+    name: CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
+    importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
+  },
+  rootModule: {
+    name: CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
+    importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
+    namedImports: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS,
+    chunks: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS,
+  },
+  styles: {
+    scssFileName: SCSS_FILE_NAME,
+    importStyle: SPARTACUS_CHECKOUT,
+  },
+  dependencyManagement: {
+    featureName: CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
+    featureDependencies: {
+      [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+      [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+    },
+  },
+};
+
 export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
   return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
@@ -60,135 +161,35 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      addCheckoutFeature(options),
+      determineCheckoutFeatures(options),
     ]);
   };
 }
 
-function addCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
+function determineCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
   if (
     shouldAddFeature(
       CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
       options.features
     )
   ) {
-    return addCheckoutScheduledReplenishmentFeature(options);
+    return chain([
+      addLibraryFeature(options, checkoutScheduleReplenishmentFeatureConfig),
+      addFeatureTranslations(options, checkoutBaseFeatureConfig),
+      addFeatureTranslations(options, checkoutB2bFeatureConfig),
+    ]);
   }
 
   if (shouldAddFeature(CLI_CHECKOUT_B2B_FEATURE, options.features)) {
-    return addCheckoutB2BFeature(options);
+    return chain([
+      addLibraryFeature(options, checkoutB2bFeatureConfig),
+      addFeatureTranslations(options, checkoutBaseFeatureConfig),
+    ]);
   }
 
   if (shouldAddFeature(CLI_CHECKOUT_BASE_FEATURE, options.features)) {
-    return addCheckoutBaseFeature(options);
+    return addLibraryFeature(options, checkoutBaseFeatureConfig);
   }
 
   return noop();
-}
-
-function addCheckoutBaseFeature(options: SpartacusCheckoutOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: CHECKOUT_FOLDER_NAME,
-    moduleName: CHECKOUT_BASE_MODULE_NAME,
-    featureModule: {
-      name: CHECKOUT_BASE_MODULE,
-      importPath: SPARTACUS_CHECKOUT_BASE,
-    },
-    rootModule: {
-      name: CHECKOUT_BASE_ROOT_MODULE,
-      importPath: SPARTACUS_CHECKOUT_BASE_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
-      namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: CHECKOUT_BASE_TRANSLATIONS,
-      chunks: CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_CHECKOUT_BASE_ASSETS,
-    },
-    styles: {
-      scssFileName: SCSS_FILE_NAME,
-      importStyle: SPARTACUS_CHECKOUT,
-    },
-    dependencyManagement: {
-      featureName: CLI_CHECKOUT_BASE_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
-        [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-      },
-    },
-  });
-}
-
-function addCheckoutB2BFeature(options: SpartacusCheckoutOptions): Rule {
-  return addLibraryFeature(options, {
-    folderName: CHECKOUT_FOLDER_NAME,
-    moduleName: CHECKOUT_BASE_MODULE_NAME,
-    featureModule: {
-      name: CHECKOUT_B2B_MODULE,
-      importPath: SPARTACUS_CHECKOUT_B2B,
-    },
-    rootModule: {
-      name: CHECKOUT_B2B_ROOT_MODULE,
-      importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_B2B_ROOT,
-      namedImports: [CHECKOUT_B2B_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: CHECKOUT_B2B_TRANSLATIONS,
-      chunks: CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_CHECKOUT_B2B_ASSETS,
-    },
-    styles: {
-      scssFileName: SCSS_FILE_NAME,
-      importStyle: SPARTACUS_CHECKOUT,
-    },
-    dependencyManagement: {
-      featureName: CLI_CHECKOUT_B2B_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
-        [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-      },
-    },
-  });
-}
-
-function addCheckoutScheduledReplenishmentFeature(
-  options: SpartacusCheckoutOptions
-): Rule {
-  return addLibraryFeature(options, {
-    folderName: CHECKOUT_FOLDER_NAME,
-    moduleName: CHECKOUT_BASE_MODULE_NAME,
-    featureModule: {
-      name: CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
-      importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
-    },
-    rootModule: {
-      name: CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
-      importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
-      namedImports: [CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS,
-      chunks: CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS,
-    },
-    styles: {
-      scssFileName: SCSS_FILE_NAME,
-      importStyle: SPARTACUS_CHECKOUT,
-    },
-    dependencyManagement: {
-      featureName: CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-      featureDependencies: {
-        [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
-        [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-      },
-    },
-  });
 }
