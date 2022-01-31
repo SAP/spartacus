@@ -7,7 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CardType } from '@spartacus/cart/base/root';
+import { CardType, PaymentDetails } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -61,6 +61,9 @@ export class CheckoutPaymentFormComponent implements OnInit {
   @Input()
   paymentMethodsCount: number;
 
+  @Input()
+  paymentDetails?: PaymentDetails;
+
   @Output()
   goBack = new EventEmitter<any>();
 
@@ -107,7 +110,11 @@ export class CheckoutPaymentFormComponent implements OnInit {
     protected userAddressService: UserAddressService
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    if (this.paymentDetails) {
+      this.paymentForm.patchValue(this.paymentDetails);
+    }
+
     this.expMonthAndYear();
     this.countries$ = this.userPaymentService.getAllBillingCountries().pipe(
       tap((countries) => {

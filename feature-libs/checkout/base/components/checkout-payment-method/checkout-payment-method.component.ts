@@ -43,6 +43,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   shouldRedirect: boolean = false;
+  paymentDetails?: PaymentDetails;
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
@@ -194,8 +195,10 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     paymentDetails: PaymentDetails;
     billingAddress?: Address;
   }): void {
+    this.paymentDetails = paymentDetails;
+
     const details: PaymentDetails = { ...paymentDetails };
-    details.billingAddress = billingAddress || this.deliveryAddress;
+    details.billingAddress = billingAddress ?? this.deliveryAddress;
     this.busy$.next(true);
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
