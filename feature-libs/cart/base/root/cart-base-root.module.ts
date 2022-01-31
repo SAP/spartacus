@@ -5,12 +5,15 @@ import {
   provideDefaultConfigFactory,
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
-import { AddToCartModule } from './components/add-to-cart/add-to-cart.module';
-import { MiniCartModule } from './components/mini-cart/mini-cart.module';
 import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';
-import { CART_BASE_CORE_FEATURE, CART_BASE_FEATURE } from './feature-name';
+import {
+  ADD_TO_CART_FEATURE,
+  CART_BASE_CORE_FEATURE,
+  CART_BASE_FEATURE,
+  MINI_CART_FEATURE,
+} from './feature-name';
 import { ActiveCartOrderEntriesContextToken } from './tokens/context';
 
 export function defaultCartComponentsConfig() {
@@ -24,6 +27,12 @@ export function defaultCartComponentsConfig() {
           'SaveForLaterComponent',
         ],
       },
+      [MINI_CART_FEATURE]: {
+        cmsComponents: ['MiniCartComponent'],
+      },
+      [ADD_TO_CART_FEATURE]: {
+        cmsComponents: ['ProductAddToCartComponent'],
+      },
       // by default core is bundled together with components
       [CART_BASE_CORE_FEATURE]: CART_BASE_FEATURE,
     },
@@ -33,8 +42,6 @@ export function defaultCartComponentsConfig() {
 
 @NgModule({
   imports: [
-    MiniCartModule,
-    AddToCartModule,
     RouterModule.forChild([
       {
         // @ts-ignore

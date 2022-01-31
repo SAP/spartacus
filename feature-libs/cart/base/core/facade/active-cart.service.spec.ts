@@ -1,5 +1,4 @@
 import { TestBed } from '@angular/core/testing';
-import { StoreModule } from '@ngrx/store';
 import { Cart, MultiCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   getLastValueSync,
@@ -7,15 +6,11 @@ import {
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   OCC_USER_ID_GUEST,
-  PROCESS_FEATURE,
   StateUtils,
   UserIdService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import * as fromProcessReducers from '../../../../../projects/core/src/process/store/reducers/index';
-import { MULTI_CART_FEATURE } from '../store/multi-cart-state';
-import * as fromReducers from '../store/reducers/index';
 import { ActiveCartService } from './active-cart.service';
 
 const userId$ = new BehaviorSubject<string>(OCC_USER_ID_ANONYMOUS);
@@ -67,17 +62,6 @@ describe('ActiveCartService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot({}),
-        StoreModule.forFeature(
-          MULTI_CART_FEATURE,
-          fromReducers.getMultiCartReducers()
-        ),
-        StoreModule.forFeature(
-          PROCESS_FEATURE,
-          fromProcessReducers.getReducers()
-        ),
-      ],
       providers: [
         ActiveCartService,
         { provide: MultiCartFacade, useClass: MultiCartFacadStub },

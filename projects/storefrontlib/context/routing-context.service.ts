@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot } from '@angular/router';
 import { ActivatedRoutesService, UnifiedInjector } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ContextToken } from './context.model';
 
@@ -54,7 +54,9 @@ export class RoutingContextService {
             // See: https://github.com/Microsoft/TypeScript/issues/24587
             contextToken as any
           ];
-        return !!providerToken ? this.injector.get(providerToken) : undefined;
+        return !!providerToken
+          ? this.injector.get<T>(providerToken)
+          : of(undefined);
       })
     );
   }
