@@ -24,6 +24,9 @@ import {
   ADD_TO_CART_ENTRY_POINT,
   ADD_TO_CART_MODULE,
   ADD_TO_CART_NAME_CONSTANT,
+  ADD_TO_WISHLIST_ENTRY_POINT,
+  ADD_TO_WISHLIST_MODULE,
+  ADD_TO_WISHLIST_NAME_CONSTANT,
   CART_BASE_FEATURE_MODULE_NAME,
   CART_BASE_FEATURE_NAME_CONSTANT,
   CART_BASE_MODULE,
@@ -153,17 +156,26 @@ function addWishListFeature(options: SpartacusCartOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CART_FOLDER_NAME,
     moduleName: CART_WISHLIST_FEATURE_MODULE_NAME,
-    featureModule: {
-      name: CART_WISHLIST_MODULE,
-      importPath: SPARTACUS_CART_WISHLIST,
-    },
+    featureModule: [
+      {
+        name: CART_WISHLIST_MODULE,
+        importPath: SPARTACUS_CART_WISHLIST,
+      },
+      {
+        name: ADD_TO_WISHLIST_MODULE,
+        importPath: ADD_TO_WISHLIST_ENTRY_POINT,
+      },
+    ],
     rootModule: {
       name: CART_WISHLIST_ROOT_MODULE,
       importPath: SPARTACUS_CART_WISHLIST_ROOT,
     },
     lazyLoadingChunk: {
       moduleSpecifier: SPARTACUS_CART_WISHLIST_ROOT,
-      namedImports: [CART_WISHLIST_FEATURE_NAME_CONSTANT],
+      namedImports: [
+        CART_WISHLIST_FEATURE_NAME_CONSTANT,
+        ADD_TO_WISHLIST_NAME_CONSTANT,
+      ],
     },
     i18n: {
       resources: CART_WISHLIST_TRANSLATIONS,

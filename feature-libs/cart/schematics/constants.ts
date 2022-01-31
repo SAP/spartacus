@@ -30,6 +30,9 @@ export const SPARTACUS_CART_WISHLIST_ASSETS = `${SPARTACUS_CART_WISHLIST}/assets
 export const CART_WISHLIST_TRANSLATIONS = 'wishListTranslations';
 export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
   'wishListTranslationChunksConfig';
+export const ADD_TO_WISHLIST_NAME_CONSTANT = 'ADD_TO_WISHLIST';
+export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
+export const ADD_TO_WISHLIST_ENTRY_POINT = `${SPARTACUS_CART_WISHLIST}/components/add-to-wishlist`;
 
 export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
 export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';

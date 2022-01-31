@@ -706,6 +706,7 @@ exports[`Spartacus Cart schematics: ng-add Wish List feature eager loading shoul
 "import { NgModule } from '@angular/core';
 import { WishListModule } from \\"@spartacus/cart/wish-list\\";
 import { wishListTranslationChunksConfig, wishListTranslations } from \\"@spartacus/cart/wish-list/assets\\";
+import { AddToWishListModule } from \\"@spartacus/cart/wish-list/components/add-to-wishlist\\";
 import { WishListRootModule } from \\"@spartacus/cart/wish-list/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
@@ -713,7 +714,8 @@ import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
   declarations: [],
   imports: [
     WishListRootModule,
-    WishListModule
+    WishListModule,
+    AddToWishListModule
   ],
   providers: [provideConfig(<I18nConfig>{
     i18n: {
@@ -729,7 +731,7 @@ export class WishListFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Wish List feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { wishListTranslationChunksConfig, wishListTranslations } from \\"@spartacus/cart/wish-list/assets\\";
-import { CART_WISH_LIST_FEATURE, WishListRootModule } from \\"@spartacus/cart/wish-list/root\\";
+import { ADD_TO_WISHLIST, CART_WISH_LIST_FEATURE, WishListRootModule } from \\"@spartacus/cart/wish-list/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -742,6 +744,9 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_WISH_LIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
+      }, [ADD_TO_WISHLIST]: {
+        module: () =>
+          import('@spartacus/cart/wish-list/components/add-to-wishlist').then((m) => m.AddToWishListModule),
       },
     }
   }),
