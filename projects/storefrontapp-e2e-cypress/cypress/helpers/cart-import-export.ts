@@ -454,18 +454,19 @@ export function testImportExportWithApparelProducts() {
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import to active cart', () => {
-      importCartTestFromConfig({
-        fileName: 'cart-variants',
-        context: ImportExportContext.ACTIVE_CART,
-        importButtonPath: 'cart',
-        saveTime: getSavedDate(),
-        quantity: 1,
-        total: '£24.26',
-        headers: getCsvHeaders(EXPECTED_CSV),
-        expectedData: convertCsvToArray(EXPECTED_CSV),
-      });
-    });
+    // TODO: Disabled because missing sample-data for import button in active cart (apparel)
+    // it('should import to active cart', () => {
+    //   importCartTestFromConfig({
+    //     fileName: 'cart-variants',
+    //     context: ImportExportContext.ACTIVE_CART,
+    //     importButtonPath: 'cart',
+    //     saveTime: getSavedDate(),
+    //     quantity: 1,
+    //     total: '£24.26',
+    //     headers: getCsvHeaders(EXPECTED_CSV),
+    //     expectedData: convertCsvToArray(EXPECTED_CSV),
+    //   });
+    // });
 
     it('should import to saved cart', () => {
       importCartTestFromConfig({
