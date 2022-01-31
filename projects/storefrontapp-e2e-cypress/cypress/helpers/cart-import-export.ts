@@ -321,8 +321,9 @@ export function importCartTestFromConfig(config: ImportConfig) {
     if (config.context === ImportExportContext.SAVED_CART) {
       verifyImportedData(config, importedCart);
       restoreCart(importedCart);
-      verifyCart(config);
     }
+
+    verifyCart(config);
   });
 }
 
