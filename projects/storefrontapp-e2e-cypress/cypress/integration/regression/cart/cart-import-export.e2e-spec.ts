@@ -42,7 +42,7 @@ context('Cart Import/Export', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-multiple-products',
           context: ImportExportContext.SAVED_CART,
-          importButtonPath: 'my-account/saved-carts',
+          importButtonPath: '/my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 3,
           total: '$564.69',
@@ -85,7 +85,7 @@ context('Cart Import/Export', () => {
         importExport.importCartTestFromConfig({
           context: ImportExportContext.SAVED_CART,
           fileName: 'cart-multi-product',
-          importButtonPath: 'my-account/saved-carts',
+          importButtonPath: '/my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 5,
           total: '$522.06',
@@ -130,7 +130,7 @@ context('Cart Import/Export', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-normal-product',
           context: ImportExportContext.SAVED_CART,
-          importButtonPath: 'my-account/saved-carts',
+          importButtonPath: '/my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 6,
           total: '$621.91',
@@ -175,7 +175,7 @@ context('Cart Import/Export', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-non-default',
           context: ImportExportContext.SAVED_CART,
-          importButtonPath: 'my-account/saved-carts',
+          importButtonPath: '/my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 2,
           total: '$193.97',
@@ -206,7 +206,7 @@ context('Cart Import/Export', () => {
         importExport.importCartTestFromConfig({
           fileName: 'cart-configurable-products',
           context: ImportExportContext.SAVED_CART,
-          importButtonPath: 'my-account/saved-carts',
+          importButtonPath: '/my-account/saved-carts',
           saveTime: importExport.getSavedDate(),
           quantity: 1,
           total: '$99.85',

@@ -265,43 +265,19 @@ export function exportCart(expectedData?: string) {
   }
 }
 
-export function removeProductsFromActiveCart() {
-  cy.intercept('GET', `**/users/*/carts/*?fields=**`).as('refresh_cart');
-  cy.wait(['@refresh_cart']);
-
-  cy.get('cx-cart-item').then(($items) => {
-    for (let i = 0; i < $items.length; i++) {
-      cy.get('.link:contains("Remove")')
-        .first()
-        .click()
-        .then(() => {
-          cy.wait(['@refresh_cart']);
-        });
-    }
-  });
-}
-
 /**
  * Standardized E2E Test for import cart scenarios.
  */
 export function importCartTestFromConfig(config: ImportConfig) {
-
-  loginAsMyCompanyAdmin();
-
+  cy.requireLoggedIn();
   cy.visit(config.importButtonPath);
 
-  if (config.context === ImportExportContext.ACTIVE_CART) {
-    removeProductsFromActiveCart();
-  }
-
-
-  cy.requireLoggedIn();
-  const savedCartPage = waitForPage(
-    '/my-account/saved-carts',
-    'getSavedCartsPage'
+  const cartPage = waitForPage(
+    config.importButtonPath,
+    `get${config.context}age`
   );
-  cy.visit('/my-account/saved-carts');
-  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
+  cy.visit(config.importButtonPath);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
@@ -345,9 +321,8 @@ export function importCartTestFromConfig(config: ImportConfig) {
     if (config.context === ImportExportContext.SAVED_CART) {
       verifyImportedData(config, importedCart);
       restoreCart(importedCart);
+      verifyCart(config);
     }
-
-    verifyCart(config);
   });
 }
 
@@ -405,7 +380,7 @@ export function testImportExportSingleProduct() {
       importCartTestFromConfig({
         fileName: 'cart-single',
         context: ImportExportContext.SAVED_CART,
-        importButtonPath: 'my-account/saved-carts',
+        importButtonPath: '/my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '$114.12',
@@ -451,7 +426,7 @@ export function testImportExportLargerQuantity() {
       importCartTestFromConfig({
         fileName: 'cart-lg-qty',
         context: ImportExportContext.SAVED_CART,
-        importButtonPath: 'my-account/saved-carts',
+        importButtonPath: '/my-account/saved-carts',
         saveTime: getSavedDate(),
         quantity: 3,
         total: '$322.36',
@@ -479,15 +454,33 @@ export function testImportExportWithApparelProducts() {
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import cart', () => {
+    it('should import to active cart', () => {
       importCartTestFromConfig({
-        name: 'Apparel products Cart',
-        description: 'A test description for Apparel products Cart.',
+        fileName: 'cart-variants',
+        context: ImportExportContext.ACTIVE_CART,
+        importButtonPath: 'cart',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '£24.26',
         headers: getCsvHeaders(EXPECTED_CSV),
         expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+
+    it('should import to saved cart', () => {
+      importCartTestFromConfig({
+        fileName: 'cart-variants',
+        context: ImportExportContext.SAVED_CART,
+        importButtonPath: '/my-account/saved-carts',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '£24.26',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+        savedCartConfig: {
+          name: 'Apparel products Cart',
+          description: 'A test description for Apparel products Cart.',
+        },
       });
     });
   });
