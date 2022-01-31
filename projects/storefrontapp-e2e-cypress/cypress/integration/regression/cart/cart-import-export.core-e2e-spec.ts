@@ -10,7 +10,6 @@ context('Cart Import/Export', () => {
         Number(Cypress.config('requestTimeout')) * 2
       );
       cy.window().then((win) => win.sessionStorage.clear());
-      cy.visit('/');
     });
     importExport.testImportExportSingleProduct();
     importExport.testImportExportLargerQuantity();
