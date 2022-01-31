@@ -25,6 +25,8 @@
           "Cart",
           "WishList",
           "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment",
           "Order",
           "Digital-Payments",
           "Administration",
@@ -94,6 +96,14 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Checkout-B2B",
+            "label": "Checkout (b2b features)"
+          },
+          {
+            "value": "Checkout-Scheduled-Replenishment",
+            "label": "Checkout Scheduled Replenishment (b2b feature)"
           },
           {
             "value": "Cart",

@@ -10,7 +10,6 @@ export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
 export const CHECKOUT_B2B_FEATURE_NAME_CONSTANT = 'CHECKOUT_B2B_FEATURE';
-export const CHECKOUT_B2B_MODULE_NAME = 'CheckoutB2B';
 export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
 export const CHECKOUT_B2B_ROOT_MODULE = 'CheckoutB2BRootModule';
 export const CHECKOUT_B2B_TRANSLATIONS = 'checkoutB2BTranslations';
@@ -19,8 +18,6 @@ export const CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG =
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE_NAME_CONSTANT =
   'CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE';
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE_NAME =
-  'CheckoutScheduledReplenishment';
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
   'CheckoutScheduledReplenishmentModule';
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE =
