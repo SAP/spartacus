@@ -113,9 +113,10 @@ export class NavigationUIComponent implements OnInit, OnDestroy {
       this.winRef.nativeWindow.location.href.includes(navNode.url)
     ) {
       this.elemRef.nativeElement
-        .querySelectorAll('li.is-open:not(.back)')
+        .querySelectorAll('li.is-open:not(.back), li.is-opened')
         .forEach((el) => {
           this.renderer.removeClass(el, 'is-open');
+          this.renderer.removeClass(el, 'is-opened');
         });
       this.reinitializeMenu();
       this.hamburgerMenuService.toggle();
