@@ -41,18 +41,18 @@ export interface ImportConfig {
    */
   expectedData: string[];
   /**
-   * Addiitonal config for saved cart details.
+   * Additional config for saved cart details.
    */
   savedCartConfig?: SavedCartConfig;
 }
 
 export interface SavedCartConfig {
   /**
-   * Speciies name for saved cart.
+   * Specifies name for saved cart.
    */
   name: string;
   /**
-   * Speciies description for saved cart.
+   * Specifies description for saved cart.
    */
   description?: string;
 }
@@ -455,7 +455,7 @@ export function testImportExportWithApparelProducts() {
       exportCart(EXPECTED_CSV);
     });
 
-    // TODO: Disabled because missing sample-data for import button in active cart (apparel)
+    // TODO: Disabled because of missing sample-data for import button in active cart (apparel)
     // it('should import to active cart', () => {
     //   importCartTestFromConfig({
     //     fileName: 'cart-variants',
