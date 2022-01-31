@@ -445,14 +445,13 @@ function addFeatureModule(
         }
 
         if (options.lazy) {
-          let index = -1;
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
-          for (let featureModule of configFeatures) {
-            index++;
+          for (let i = 0; i < configFeatures.length; i++) {
+            const featureModule = configFeatures[i];
             let lazyLoadingChunkName = config.moduleName;
             if (config.lazyLoadingChunk) {
-              const content = config.lazyLoadingChunk.namedImports[index];
+              const content = config.lazyLoadingChunk.namedImports[i];
               lazyLoadingChunkName = `[${content}]`;
               sourceFile.addImportDeclaration(config.lazyLoadingChunk);
             }

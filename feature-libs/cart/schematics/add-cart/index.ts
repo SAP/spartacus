@@ -21,6 +21,9 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
+  ADD_TO_CART_ENTRY_POINT,
+  ADD_TO_CART_MODULE,
+  ADD_TO_CART_NAME_CONSTANT,
   CART_BASE_FEATURE_MODULE_NAME,
   CART_BASE_FEATURE_NAME_CONSTANT,
   CART_BASE_MODULE,
@@ -44,6 +47,9 @@ import {
   CART_WISHLIST_ROOT_MODULE,
   CART_WISHLIST_TRANSLATIONS,
   CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG,
+  MINI_CART_ENTRY_POINT,
+  MINI_CART_MODULE,
+  MINI_CART_NAME_CONSTANT,
   QUICK_ORDER_MODULE,
   QUICK_ORDER_ROOT_MODULE,
   QUICK_ORDER_TRANSLATIONS,
@@ -111,12 +117,12 @@ function addCartBaseFeature(options: SpartacusCartOptions): Rule {
         importPath: SPARTACUS_CART_BASE,
       },
       {
-        name: 'MiniCartModule',
-        importPath: '@spartacus/cart/base/components/mini-cart',
+        name: MINI_CART_MODULE,
+        importPath: MINI_CART_ENTRY_POINT,
       },
       {
-        name: 'AddToCartModule',
-        importPath: '@spartacus/cart/base/components/add-to-cart',
+        name: ADD_TO_CART_MODULE,
+        importPath: ADD_TO_CART_ENTRY_POINT,
       },
     ],
     rootModule: {
@@ -127,8 +133,8 @@ function addCartBaseFeature(options: SpartacusCartOptions): Rule {
       moduleSpecifier: SPARTACUS_CART_BASE_ROOT,
       namedImports: [
         CART_BASE_FEATURE_NAME_CONSTANT,
-        'MINI_CART',
-        'ADD_TO_CART',
+        MINI_CART_NAME_CONSTANT,
+        ADD_TO_CART_NAME_CONSTANT,
       ],
     },
     i18n: {

@@ -13,6 +13,12 @@ export const SPARTACUS_CART_BASE_ASSETS = `${SPARTACUS_CART_BASE}/assets`;
 export const CART_BASE_TRANSLATIONS = 'cartBaseTranslations';
 export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
   'cartBaseTranslationChunksConfig';
+export const MINI_CART_NAME_CONSTANT = 'MINI_CART';
+export const MINI_CART_MODULE = 'MiniCartModule';
+export const MINI_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/mini-cart`;
+export const ADD_TO_CART_NAME_CONSTANT = 'ADD_TO_CART';
+export const ADD_TO_CART_MODULE = 'AddToCartModule';
+export const ADD_TO_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/add-to-cart`;
 
 export const CART_WISHLIST_FEATURE_MODULE_NAME = 'WishList';
 export const CART_WISHLIST_FEATURE_NAME_CONSTANT = 'CART_WISH_LIST_FEATURE';
