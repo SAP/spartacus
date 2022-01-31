@@ -110,7 +110,7 @@
     "@angular/platform-browser": "^13.2.0",
     "@angular/platform-browser-dynamic": "^13.2.0",
     "@angular/platform-server": "^13.2.0",
-    "@angular/pwa": "^13.0.1",
+    "@angular/pwa": "^13.2.0",
     "@angular/router": "^13.2.0",
     "@angular/service-worker": "^13.2.0",
     "@ng-bootstrap/ng-bootstrap": "^11.0.0",
