@@ -1,11 +1,10 @@
 ## TODO: before merge
 
-1. BUG - after entering invalid credit card number, the form is cleared
-2. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-3. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
+1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+2. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
    1. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200) - related to waiting for Wei and Patrick PR to be merged 
    - (related to above) sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
-4. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+3. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
     - ```ts
       const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
         user: 'orgUsers/${userId}',
@@ -38,10 +37,11 @@
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
-5. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
-6. remove old checkout
-7. Remove `checkout-git-check.sh` and `todo.md` 
-8. Check how do various checkouts work:
+4. converters and any - https://github.com/SAP/spartacus/pull/14165#discussion_r751912800
+5. remove old checkout
+   1. remove the setup lib?
+6. Remove `checkout-git-check.sh` and `todo.md` 
+7. Check how do various checkouts work:
     1.  base only (without b2b and repl)
     2.  b2b (without repl)
 
