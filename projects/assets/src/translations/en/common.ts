@@ -29,7 +29,7 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout | {{step}}',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
