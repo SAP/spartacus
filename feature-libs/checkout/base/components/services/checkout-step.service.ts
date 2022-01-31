@@ -6,7 +6,7 @@ import {
   CheckoutStepType,
 } from '@spartacus/checkout/base/root';
 import { RoutingConfigService, RoutingService } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap } from 'rxjs/operators';
 
 @Injectable({
@@ -42,6 +42,11 @@ export class CheckoutStepService {
         );
       })
     );
+
+  readonly currentStep$: Observable<CheckoutStep> = combineLatest([
+    this.steps$,
+    this.activeStepIndex$,
+  ]).pipe(map(([steps, activeIndex]) => steps[activeIndex]));
 
   constructor(
     protected routingService: RoutingService,

@@ -10,8 +10,9 @@ import {
   PageType,
   TranslationService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { map, switchMap } from 'rxjs/operators';
+import { CheckoutStepService } from '../../base/components/services/checkout-step.service';
 
 /**
  * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`
@@ -30,6 +31,7 @@ export class CheckoutPageMetaResolver
   protected cart$: Observable<Cart> = this.activeCartService.getActive();
 
   constructor(
+    protected checkoutStepService: CheckoutStepService,
     protected translation: TranslationService,
     protected activeCartService: ActiveCartFacade,
     protected basePageMetaResolver: BasePageMetaResolver
@@ -47,13 +49,18 @@ export class CheckoutPageMetaResolver
    * The title from the page data is ignored for this page title.
    */
   resolveTitle(): Observable<string> {
-    return this.cart$.pipe(
-      switchMap((c) =>
-        this.translation.translate('pageMetaResolver.checkout.title', {
-          count: c.totalItems,
-        })
-      )
-    );
+    return combineLatest([
+      this.cart$.pipe(
+        switchMap((c) =>
+          this.translation.translate('pageMetaResolver.checkout.title', {
+            count: c.totalItems,
+          })
+        )
+      ),
+      this.checkoutStepService.currentStep$.pipe(
+        switchMap((step) => this.translation.translate(step.name))
+      ),
+    ]).pipe(map(([cartTitle, stepTitle]) => `${cartTitle} | ${stepTitle}`));
   }
 
   resolveDescription(): Observable<string | undefined> {
