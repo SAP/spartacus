@@ -29,11 +29,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {boolean} - Display quantity picker?
    */
   get withQuantity(): boolean {
-    return (
-      this.quantityService.withQuantity(
-        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
+    return this.quantityService.withQuantity(
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -43,10 +41,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    * @return {boolean} - Disable quantity picker?
    */
   get disableQuantityActions(): boolean {
-    return (
-      this.quantityService.disableQuantityActions(
-        this.attribute.selectedSingleValue
-      ) ?? true
+    return this.quantityService.disableQuantityActions(
+      this.attribute.selectedSingleValue
     );
   }
 
@@ -157,6 +153,6 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute.values?.find((value) => value?.selected)?.valuePrice;
+    return this.attribute.values?.find((value) => value.selected)?.valuePrice;
   }
 }
