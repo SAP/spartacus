@@ -43,7 +43,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
   shouldRedirect: boolean = false;
-  paymentDetailsData: any;
+  paymentDetailsData?: PaymentDetails;
 
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
