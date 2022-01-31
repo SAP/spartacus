@@ -50,7 +50,7 @@ describe('RoutingContextService', () => {
   });
 
   afterEach(() => {
-    (mockInjector.get as jasmine.Spy).calls.reset();
+    mockInjector.get.calls.reset();
   });
 
   describe('get', () => {
