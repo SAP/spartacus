@@ -13,10 +13,10 @@ export const SPARTACUS_CART_BASE_ASSETS = `${SPARTACUS_CART_BASE}/assets`;
 export const CART_BASE_TRANSLATIONS = 'cartBaseTranslations';
 export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
   'cartBaseTranslationChunksConfig';
-export const MINI_CART_NAME_CONSTANT = 'MINI_CART';
+export const MINI_CART_FEATURE_NAME_CONSTANT = 'MINI_CART_FEATURE';
 export const MINI_CART_MODULE = 'MiniCartModule';
 export const MINI_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/mini-cart`;
-export const ADD_TO_CART_NAME_CONSTANT = 'ADD_TO_CART';
+export const ADD_TO_CART_FEATURE_NAME_CONSTANT = 'ADD_TO_CART_FEATURE';
 export const ADD_TO_CART_MODULE = 'AddToCartModule';
 export const ADD_TO_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/add-to-cart`;
 
@@ -30,7 +30,7 @@ export const SPARTACUS_CART_WISHLIST_ASSETS = `${SPARTACUS_CART_WISHLIST}/assets
 export const CART_WISHLIST_TRANSLATIONS = 'wishListTranslations';
 export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
   'wishListTranslationChunksConfig';
-export const ADD_TO_WISHLIST_NAME_CONSTANT = 'ADD_TO_WISHLIST';
+export const ADD_TO_WISHLIST_FEATURE_NAME_CONSTANT = 'ADD_TO_WISHLIST_FEATURE';
 export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
 export const ADD_TO_WISHLIST_ENTRY_POINT = `${SPARTACUS_CART_WISHLIST}/components/add-to-wishlist`;
 

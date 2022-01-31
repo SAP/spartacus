@@ -31,7 +31,7 @@ export class CartBaseFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Cart Base feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { cartBaseTranslationChunksConfig, cartBaseTranslations } from \\"@spartacus/cart/base/assets\\";
-import { ADD_TO_CART, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART } from \\"@spartacus/cart/base/root\\";
+import { ADD_TO_CART_FEATURE, CartBaseRootModule, CART_BASE_FEATURE, MINI_CART_FEATURE } from \\"@spartacus/cart/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -44,10 +44,10 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_BASE_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base').then((m) => m.CartBaseModule),
-      }, [MINI_CART]: {
+      }, [MINI_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/mini-cart').then((m) => m.MiniCartModule),
-      }, [ADD_TO_CART]: {
+      }, [ADD_TO_CART_FEATURE]: {
         module: () =>
           import('@spartacus/cart/base/components/add-to-cart').then((m) => m.AddToCartModule),
       },
@@ -731,7 +731,7 @@ export class WishListFeatureModule { }
 exports[`Spartacus Cart schematics: ng-add Wish List feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { wishListTranslationChunksConfig, wishListTranslations } from \\"@spartacus/cart/wish-list/assets\\";
-import { ADD_TO_WISHLIST, CART_WISH_LIST_FEATURE, WishListRootModule } from \\"@spartacus/cart/wish-list/root\\";
+import { ADD_TO_WISHLIST_FEATURE, CART_WISH_LIST_FEATURE, WishListRootModule } from \\"@spartacus/cart/wish-list/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -744,7 +744,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
       [CART_WISH_LIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list').then((m) => m.WishListModule),
-      }, [ADD_TO_WISHLIST]: {
+      }, [ADD_TO_WISHLIST_FEATURE]: {
         module: () =>
           import('@spartacus/cart/wish-list/components/add-to-wishlist').then((m) => m.AddToWishListModule),
       },

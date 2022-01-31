@@ -9,10 +9,10 @@ import { defaultCartConfig } from './config/default-cart-config';
 import { defaultCartRoutingConfig } from './config/default-cart-routing-config';
 import { ORDER_ENTRIES_CONTEXT } from './context/order-entires.context';
 import {
-  ADD_TO_CART,
+  ADD_TO_CART_FEATURE,
   CART_BASE_CORE_FEATURE,
   CART_BASE_FEATURE,
-  MINI_CART,
+  MINI_CART_FEATURE,
 } from './feature-name';
 import { ActiveCartOrderEntriesContextToken } from './tokens/context';
 
@@ -27,10 +27,10 @@ export function defaultCartComponentsConfig() {
           'SaveForLaterComponent',
         ],
       },
-      [MINI_CART]: {
+      [MINI_CART_FEATURE]: {
         cmsComponents: ['MiniCartComponent'],
       },
-      [ADD_TO_CART]: {
+      [ADD_TO_CART_FEATURE]: {
         cmsComponents: ['ProductAddToCartComponent'],
       },
       // by default core is bundled together with components

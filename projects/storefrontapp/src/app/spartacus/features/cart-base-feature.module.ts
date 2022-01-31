@@ -4,10 +4,10 @@ import {
   cartBaseTranslations,
 } from '@spartacus/cart/base/assets';
 import {
-  ADD_TO_CART,
+  ADD_TO_CART_FEATURE,
   CartBaseRootModule,
   CART_BASE_FEATURE,
-  MINI_CART,
+  MINI_CART_FEATURE,
 } from '@spartacus/cart/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 
@@ -20,13 +20,13 @@ import { I18nConfig, provideConfig } from '@spartacus/core';
           module: () =>
             import('@spartacus/cart/base').then((m) => m.CartBaseModule),
         },
-        [MINI_CART]: {
+        [MINI_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/mini-cart').then(
               (m) => m.MiniCartModule
             ),
         },
-        [ADD_TO_CART]: {
+        [ADD_TO_CART_FEATURE]: {
           module: () =>
             import('@spartacus/cart/base/components/add-to-cart').then(
               (m) => m.AddToCartModule
