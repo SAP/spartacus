@@ -6,6 +6,6 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^13.1.1"
+    "@angular/core": "^13.2.0"
   }
 }

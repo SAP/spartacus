@@ -16,13 +16,13 @@
     "tslib": "^2.3.0"
   },
   "peerDependencies": {
-    "@angular/core": "^13.1.1",
+    "@angular/core": "^13.2.0",
     "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/user": "4.1.0-next.0"
   },
   "optionalDependencies": {
-    "@nguniversal/express-engine": "^13.0.0",
+    "@nguniversal/express-engine": "^13.1.0-next.1",
     "express": "^4.15.2"
   },
   "publishConfig": {
