@@ -16,8 +16,8 @@
     "test": "yarn clean && ../../node_modules/.bin/jest --config ./jest.schematics.config.js"
   },
   "dependencies": {
-    "@angular/pwa": "^13.0.1",
-    "@nguniversal/express-engine": "^13.0.0",
+    "@angular/pwa": "^13.2.0",
+    "@nguniversal/express-engine": "^13.1.0-next.1",
     "semver": "^6.3.0",
     "ts-morph": "^9.1.0",
     "tslib": "^2.3.0"
