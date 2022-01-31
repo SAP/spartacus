@@ -74,9 +74,7 @@
 /ci-scripts/**                                      @SAP/spartacus-codeowners
 /scripts/**                                         @SAP/spartacus-codeowners
 /tools/**                                           @SAP/spartacus-codeowners
-tsconfig.*                                          @SAP/spartacus-codeowners
-package.json                                        @SAP/spartacus-codeowners
-yarn.lock                                           @SAP/spartacus-codeowners
+/*                                                  @SAP/spartacus-codeowners
 
 
 # ================================================
