@@ -33,7 +33,14 @@ export function defaultCartComponentsConfig() {
       [ADD_TO_CART_FEATURE]: {
         cmsComponents: ['ProductAddToCartComponent'],
       },
-      // by default core is bundled together with components
+      // By default core is bundled together with components.
+      // The cart lib should keep using this default.
+      //
+      // While the lazy loading configurations make it possible to
+      // split the core part and the components part, it is required that
+      // they stay together for the cart lib.  This compromise is required to
+      // optimize performances by delaying the moment the cart lib is loaded and
+      // making sure cart lib is loaded when needed.
       [CART_BASE_CORE_FEATURE]: CART_BASE_FEATURE,
     },
   };

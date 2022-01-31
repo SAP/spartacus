@@ -24,10 +24,6 @@ export class PageLayoutService {
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
-    // TODO: need doc this in 5.0
-    //@Optional()
-    //@Inject(PAGE_LAYOUT_HANDLER)
-    //private handlers: PageLayoutHandler[],
     private unifiedInjector: UnifiedInjector
   ) {}
 
