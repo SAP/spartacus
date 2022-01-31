@@ -8,27 +8,30 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_CART_BASE_FEATURE,
   CLI_CHECKOUT_BASE_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
+  CLI_ORDER_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
   shouldAddFeature,
+  SPARTACUS_CART,
   SPARTACUS_CHECKOUT,
-  SPARTACUS_USER,
+  SPARTACUS_CHECKOUT_BASE,
+  SPARTACUS_CHECKOUT_BASE_ASSETS,
+  SPARTACUS_CHECKOUT_BASE_ROOT,
+  SPARTACUS_ORDER,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CHECKOUT_FEATURE_NAME_CONSTANT,
+  CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
+  CHECKOUT_BASE_MODULE,
+  CHECKOUT_BASE_MODULE_NAME,
+  CHECKOUT_BASE_ROOT_MODULE,
+  CHECKOUT_BASE_TRANSLATIONS,
+  CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG,
   CHECKOUT_FOLDER_NAME,
-  CHECKOUT_MODULE,
-  CHECKOUT_MODULE_NAME,
-  CHECKOUT_ROOT_MODULE,
-  CHECKOUT_TRANSLATIONS,
-  CHECKOUT_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,
-  SPARTACUS_CHECKOUT_ASSETS,
-  SPARTACUS_CHECKOUT_ROOT,
 } from '../constants';
 
 export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
@@ -40,32 +43,32 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_CHECKOUT_BASE_FEATURE, options.features)
-        ? addCheckoutFeature(options)
+        ? addCheckoutBaseFeature(options)
         : noop(),
     ]);
   };
 }
 
-function addCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
+function addCheckoutBaseFeature(options: SpartacusCheckoutOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CHECKOUT_FOLDER_NAME,
-    moduleName: CHECKOUT_MODULE_NAME,
+    moduleName: CHECKOUT_BASE_MODULE_NAME,
     featureModule: {
-      name: CHECKOUT_MODULE,
-      importPath: SPARTACUS_CHECKOUT,
+      name: CHECKOUT_BASE_MODULE,
+      importPath: SPARTACUS_CHECKOUT_BASE,
     },
     rootModule: {
-      name: CHECKOUT_ROOT_MODULE,
-      importPath: SPARTACUS_CHECKOUT_ROOT,
+      name: CHECKOUT_BASE_ROOT_MODULE,
+      importPath: SPARTACUS_CHECKOUT_BASE_ROOT,
     },
     lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_CHECKOUT_ROOT,
-      namedImports: [CHECKOUT_FEATURE_NAME_CONSTANT],
+      moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
+      namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
     },
     i18n: {
-      resources: CHECKOUT_TRANSLATIONS,
-      chunks: CHECKOUT_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_CHECKOUT_ASSETS,
+      resources: CHECKOUT_BASE_TRANSLATIONS,
+      chunks: CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG,
+      importPath: SPARTACUS_CHECKOUT_BASE_ASSETS,
     },
     styles: {
       scssFileName: SCSS_FILE_NAME,
@@ -74,7 +77,8 @@ function addCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
     dependencyManagement: {
       featureName: CLI_CHECKOUT_BASE_FEATURE,
       featureDependencies: {
-        [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+        [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+        [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
       },
     },
   });
