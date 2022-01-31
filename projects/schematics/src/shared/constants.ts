@@ -1169,6 +1169,9 @@ export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
 export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
 
-export const CLI_CHECKOUT_FEATURE = 'Checkout';
+export const CLI_CHECKOUT_BASE_FEATURE = 'Checkout';
+export const CLI_CHECKOUT_B2B_FEATURE = 'Checkout-B2B';
+export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
+  'Checkout-Scheduled-Replenishment';
 export const CLI_ORDER_FEATURE = 'Order';
 /******* CLI end *******/

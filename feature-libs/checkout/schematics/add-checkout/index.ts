@@ -8,7 +8,7 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
-  CLI_CHECKOUT_FEATURE,
+  CLI_CHECKOUT_BASE_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
@@ -39,14 +39,14 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      shouldAddFeature(CLI_CHECKOUT_FEATURE, options.features)
-        ? addSavedCheckoutFeature(options)
+      shouldAddFeature(CLI_CHECKOUT_BASE_FEATURE, options.features)
+        ? addCheckoutFeature(options)
         : noop(),
     ]);
   };
 }
 
-function addSavedCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
+function addCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
   return addLibraryFeature(options, {
     folderName: CHECKOUT_FOLDER_NAME,
     moduleName: CHECKOUT_MODULE_NAME,
@@ -72,7 +72,7 @@ function addSavedCheckoutFeature(options: SpartacusCheckoutOptions): Rule {
       importStyle: SPARTACUS_CHECKOUT,
     },
     dependencyManagement: {
-      featureName: CLI_CHECKOUT_FEATURE,
+      featureName: CLI_CHECKOUT_BASE_FEATURE,
       featureDependencies: {
         [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
       },

@@ -10,7 +10,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_FEATURE,
+  CLI_CHECKOUT_BASE_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
@@ -57,7 +57,7 @@ describe('Spartacus Checkout schematics: ng-add', () => {
 
   const checkoutFeatureOptions: SpartacusCheckoutOptions = {
     ...libraryNoFeaturesOptions,
-    features: [CLI_CHECKOUT_FEATURE],
+    features: [CLI_CHECKOUT_BASE_FEATURE],
   };
 
   beforeEach(async () => {
