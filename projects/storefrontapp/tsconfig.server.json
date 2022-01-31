@@ -81,22 +81,6 @@
       "@spartacus/cart/saved-cart/root": [
         "../../feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/checkout/assets": [
-        "../../feature-libs/checkout/assets/public_api"
-      ],
-      "@spartacus/checkout/b2b/assets": [
-        "../../feature-libs/checkout/b2b/assets/public_api"
-      ],
-      "@spartacus/checkout/b2b/components": [
-        "../../feature-libs/checkout/b2b/components/public_api"
-      ],
-      "@spartacus/checkout/b2b/core": [
-        "../../feature-libs/checkout/b2b/core/public_api"
-      ],
-      "@spartacus/checkout/b2b": ["../../feature-libs/checkout/b2b/public_api"],
-      "@spartacus/checkout/b2b/occ": [
-        "../../feature-libs/checkout/b2b/occ/public_api"
-      ],
       "@spartacus/cart/wish-list/assets": [
         "../../feature-libs/cart/wish-list/assets/public_api"
       ],
@@ -111,6 +95,25 @@
       ],
       "@spartacus/cart/wish-list/root": [
         "../../feature-libs/cart/wish-list/root/public_api"
+      ],
+      "@spartacus/checkout/assets": [
+        "../../feature-libs/checkout/assets/public_api"
+      ],
+      "@spartacus/checkout/b2b/assets": [
+        "../../feature-libs/checkout/b2b/assets/public_api"
+      ],
+      "@spartacus/checkout/b2b/components": [
+        "../../feature-libs/checkout/b2b/components/public_api"
+      ],
+      "@spartacus/checkout/b2b/core": [
+        "../../feature-libs/checkout/b2b/core/public_api"
+      ],
+      "@spartacus/checkout/b2b/extensions": [
+        "../../feature-libs/checkout/b2b/extensions/public_api"
+      ],
+      "@spartacus/checkout/b2b": ["../../feature-libs/checkout/b2b/public_api"],
+      "@spartacus/checkout/b2b/occ": [
+        "../../feature-libs/checkout/b2b/occ/public_api"
       ],
       "@spartacus/checkout/b2b/root": [
         "../../feature-libs/checkout/b2b/root/public_api"

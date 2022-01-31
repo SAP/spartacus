@@ -4,17 +4,9 @@ import {
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
 import {
-  CheckoutB2BAuthGuard,
-  CheckoutB2BStepsSetGuard,
-} from '@spartacus/checkout/b2b/components';
-import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
-import {
-  CheckoutAuthGuard,
-  CheckoutStepsSetGuard,
-} from '@spartacus/checkout/base/components';
 import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import {
   checkoutScheduledReplenishmentTranslationChunksConfig,
@@ -44,16 +36,6 @@ import { provideConfig } from '@spartacus/core';
         chunks: checkoutScheduledReplenishmentTranslationChunksConfig,
       },
     }),
-
-    {
-      provide: CheckoutAuthGuard,
-      useExisting: CheckoutB2BAuthGuard,
-    },
-    {
-      provide: CheckoutStepsSetGuard,
-      useExisting: CheckoutB2BStepsSetGuard,
-    },
-
     provideConfig({
       featureModules: {
         [CHECKOUT_FEATURE]: {

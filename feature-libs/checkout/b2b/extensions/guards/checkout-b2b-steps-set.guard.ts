@@ -24,9 +24,7 @@ import { RoutingConfigService } from '@spartacus/core';
 import { combineLatest, Observable, of } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutB2BStepsSetGuard
   extends CheckoutStepsSetGuard
   implements CanActivate
@@ -49,6 +47,7 @@ export class CheckoutB2BStepsSetGuard
       checkoutDeliveryModesFacade,
       router
     );
+    console.log('B2B CheckoutB2BStepsSetGuard');
   }
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> {

@@ -18,9 +18,7 @@ import { User, UserAccountFacade } from '@spartacus/user/account/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class CheckoutB2BAuthGuard
   extends CheckoutAuthGuard
   implements CanActivate
@@ -43,6 +41,7 @@ export class CheckoutB2BAuthGuard
       semanticPathService,
       router
     );
+    console.log('B2B CheckoutB2BAuthGuard');
   }
 
   canActivate(): Observable<boolean | UrlTree> {

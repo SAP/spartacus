@@ -30,7 +30,7 @@ import { provideConfig } from '@spartacus/core';
       featureModules: {
         [CHECKOUT_FEATURE]: {
           module: () =>
-            import('./checkout-b2b-feature-custom.module').then(
+            import('./checkout-b2b-custom-feature.module').then(
               (m) => m.CheckoutB2BFeatureCustomModule
             ),
         },
