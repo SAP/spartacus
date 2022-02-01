@@ -6,8 +6,8 @@ import {
   Page,
   PageContext,
   PageType,
-  SemanticPathService,
   RoutingService,
+  SemanticPathService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import {

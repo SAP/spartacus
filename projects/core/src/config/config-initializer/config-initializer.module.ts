@@ -1,16 +1,17 @@
+import { LOCATION_INITIALIZED } from '@angular/common';
 import {
   APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   Optional,
 } from '@angular/core';
-import { ConfigInitializerService } from './config-initializer.service';
+import { Config } from '../config-tokens';
 import {
+  ConfigInitializer,
   CONFIG_INITIALIZER,
   CONFIG_INITIALIZER_FORROOT_GUARD,
-  ConfigInitializer,
 } from './config-initializer';
-import { LOCATION_INITIALIZED } from '@angular/common';
+import { ConfigInitializerService } from './config-initializer.service';
 
 export function configInitializerFactory(
   configInitializer: ConfigInitializerService,
@@ -22,7 +23,7 @@ export function configInitializerFactory(
 
 export function locationInitializedFactory(
   configInitializer: ConfigInitializerService
-) {
+): Promise<Config> {
   return configInitializer.getStable().toPromise();
 }
 
