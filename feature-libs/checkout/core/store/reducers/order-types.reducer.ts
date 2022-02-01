@@ -1,4 +1,4 @@
-import { ORDER_TYPE } from '@spartacus/core';
+import { ORDER_TYPE } from '@spartacus/checkout/root';
 import { CheckoutActions } from '../actions/index';
 import { OrderTypesState } from '../checkout-state';
 

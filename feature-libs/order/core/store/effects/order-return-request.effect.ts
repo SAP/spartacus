@@ -1,10 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  normalizeHttpError,
-  ReturnRequest,
-  ReturnRequestList,
-} from '@spartacus/core';
+import { normalizeHttpError } from '@spartacus/core';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import { OrderConnector } from '../../connectors/order.connector';

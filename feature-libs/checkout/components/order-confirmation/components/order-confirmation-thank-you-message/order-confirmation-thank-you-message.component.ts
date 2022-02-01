@@ -4,8 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { CheckoutFacade } from '@spartacus/checkout/root';
-import { ORDER_TYPE } from '@spartacus/core';
+import { CheckoutFacade, ORDER_TYPE } from '@spartacus/checkout/root';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
