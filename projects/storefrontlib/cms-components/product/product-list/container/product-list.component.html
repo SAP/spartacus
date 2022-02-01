@@ -26,6 +26,7 @@
                   [attr.aria-label]="
                     'productList.productSearchPagination' | cxTranslate
                   "
+                  [cxPlpPrefetchNextPage]="'onHover'"
                 >
                   <cx-pagination
                     [pagination]="model.pagination"
@@ -73,7 +74,7 @@
               ></cx-product-scroll>
             </ng-template>
           </div>
-          <div class="cx-sorting bottom">
+          <div class="cx-sorting bottom" [cxPlpPrefetchNextPage]="'inViewport'">
             <div class="row">
               <label
                 class="form-group cx-sort-dropdown col-12 col-lg-4 mr-auto"

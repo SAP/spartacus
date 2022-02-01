@@ -14,6 +14,9 @@ export * from './shared/index';
 export * from './utils/index';
 export * from './base-storefront.module';
 
+// Spartacon
+export * from './spartacon/index';
+
 /** AUGMENTABLE_TYPES_START */
 export { BREAKPOINT } from './layout/config/layout-config';
 export { LAUNCH_CALLER } from './layout/launch-dialog/config/launch-config';
