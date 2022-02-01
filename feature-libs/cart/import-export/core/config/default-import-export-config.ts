@@ -1,4 +1,4 @@
-import { OrderEntriesSource } from '@spartacus/storefront';
+import { OrderEntriesSource } from '@spartacus/cart/base/root';
 import { CartNameSource } from '../model/import-entries.config';
 import { ImportExportConfig } from './import-export-config';
 

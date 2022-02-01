@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { ReturnRequest } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/order/root';
 import { Observable, Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ReturnRequestService } from '../return-request.service';

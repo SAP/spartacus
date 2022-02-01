@@ -7,13 +7,13 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
+  CheckoutFacade,
   ORDER_TYPE,
   recurrencePeriod,
-  RoutingService,
   ScheduleReplenishmentForm,
-} from '@spartacus/core';
+} from '@spartacus/checkout/root';
+import { RoutingService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../../services/checkout-replenishment-form-service';
