@@ -187,7 +187,9 @@ export function verifyDeliveryMethod() {
     '/checkout/payment-details',
     'getPaymentPage'
   );
-  cy.get('.cx-checkout-btns button.btn-primary').click();
+  cy.get('.cx-checkout-btns button.btn-primary')
+    .should('be.enabled')
+    .click({ force: true });
   cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
@@ -246,7 +248,7 @@ export function viewOrderHistory() {
   cy.selectUserMenuOption({
     option: 'Order History',
   });
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
@@ -474,7 +476,7 @@ export function viewOrderHistoryWithCheapProduct(
     option: 'Order History',
   });
   cy.wait(`@${orderHistoryPage}`).its('response.statusCode').should('eq', 200);
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-table tr')
     .first()
     .find('.cx-order-history-total .cx-order-history-value')

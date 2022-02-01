@@ -123,6 +123,12 @@ export interface MyCompanyConfig {
   features?: MY_COMPANY_FEATURE[];
 
   /**
+   * Indicates which core features should be tested in the current suite.
+   * @example features: [MY_COMPANY_FEATURE.CREATE]
+   */
+  coreFeatures?: MY_COMPANY_FEATURE[];
+
+  /**
    * SUBCATEGORY: Config for updating entities from submenu.
    */
   editConfig?: MyCompanyConfig;
