@@ -2601,38 +2601,38 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-13.2.0.tgz#9e1b9f66007033cf1fd58345b364773ce090cb10"
   integrity sha512-dQKPsEsST/HSBYtC75E0ARI1zVsW65h/NYzcAwtOd8DKFmlj8EZMqKC4KwcJ/EKlwR1PN12nBZhuQ1HUVH8Vtg==
 
-"@nguniversal/builders@^13.1.0-next.1":
-  version "13.1.0-next.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/builders/-/builders-13.1.0-next.1.tgz#dd63ddfa471e709b31463c459ae16cab45088d6d"
-  integrity sha512-BnzBNbwfUKC6OF6MLw3gu2X7QgNX/nrvjEXe9Ll85h4mri0Ed+zxKw0QtG6X1ZLnEQBAwy1uuedJI5vrUXHTOA==
+"@nguniversal/builders@^13.0.2":
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/@nguniversal/builders/-/builders-13.0.2.tgz#735913203f800dbe108e9a07d9d9d5ded885be79"
+  integrity sha512-ydmR+JzZvhgFiqxOT5mIfCJH//LfFCaud6tPugvj/EHI+kVWFhEurR8wDHRMHGv2t+nYYtNFzTXt5EWGCMB/vA==
   dependencies:
     "@angular-devkit/architect" "^0.1301.0"
     "@angular-devkit/core" "^13.1.0"
-    "@nguniversal/common" "13.1.0-next.1"
+    "@nguniversal/common" "13.0.2"
     browser-sync "^2.26.7"
     express "^4.17.1"
     guess-parser "^0.4.12"
     http-proxy-middleware "^2.0.0"
     ora "^5.1.0"
-    piscina "~3.2.0"
+    piscina "~3.1.0"
     rxjs "^6.5.5"
     tree-kill "^1.2.2"
 
-"@nguniversal/common@13.1.0-next.1":
-  version "13.1.0-next.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-13.1.0-next.1.tgz#d2ba85fd0f857b54b14a638c2aa9891987b96627"
-  integrity sha512-IFvTWp7ngjd0+cSYFFY0AcVqosM+DVLsw2+3ZDlZHLfiT2GraZEOAI/9inVQjLrN/FZO2e/ZcYtwYr4tejPc+w==
+"@nguniversal/common@13.0.2":
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/@nguniversal/common/-/common-13.0.2.tgz#a7923b9c3c3d469d4e1bb6804ac2f64f11251f28"
+  integrity sha512-HtjtPFmz/GhW2TnvxqdFdewL5NpTXYBA51U7RUjJtLs78xsW4rG3kfZEG20y6E3xn+++B0jJMfAx6Q+2cuRdig==
   dependencies:
     critters "0.0.16"
     jsdom "19.0.0"
     tslib "^2.3.0"
 
-"@nguniversal/express-engine@^13.1.0-next.1":
-  version "13.1.0-next.1"
-  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-13.1.0-next.1.tgz#9f1dba8eb03c1c66f58cf7c048166308d89c9980"
-  integrity sha512-L6GpmVEnUtCPlji7Gp6nqBpfWRGrh7ON03tmMH7A8B2AGhnnDscA+ZqdIo3RK11JGbe8V29d2o7AEpuOIWF7dw==
+"@nguniversal/express-engine@^13.0.2":
+  version "13.0.2"
+  resolved "https://registry.yarnpkg.com/@nguniversal/express-engine/-/express-engine-13.0.2.tgz#cf9483a13fc81380569286af3bab938a9cdc3ce4"
+  integrity sha512-4CUBAYeatF8hl01hNdt372ANHjFFuaZ8rAYX64LWJSrlnt5a33NAbbHzMnAESbeo4LOkdG0XFQPB9IGG1MN5qw==
   dependencies:
-    "@nguniversal/common" "13.1.0-next.1"
+    "@nguniversal/common" "13.0.2"
     tslib "^2.3.0"
 
 "@nodelib/fs.scandir@2.1.3":
@@ -11692,7 +11692,7 @@ pirates@^4.0.1:
   dependencies:
     node-modules-regexp "^1.0.0"
 
-piscina@3.1.0:
+piscina@3.1.0, piscina@~3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/piscina/-/piscina-3.1.0.tgz#2333636865b6cb69c5a370bbc499a98cabcf3e04"
   integrity sha512-KTW4sjsCD34MHrUbx9eAAbuUSpVj407hQSgk/6Epkg0pbRBmv4a3UX7Sr8wxm9xYqQLnsN4mFOjqGDzHAdgKQg==
@@ -11703,7 +11703,7 @@ piscina@3.1.0:
   optionalDependencies:
     nice-napi "^1.0.2"
 
-piscina@3.2.0, piscina@~3.2.0:
+piscina@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/piscina/-/piscina-3.2.0.tgz#f5a1dde0c05567775690cccefe59d9223924d154"
   integrity sha512-yn/jMdHRw+q2ZJhFhyqsmANcbF6V2QwmD84c6xRau+QpQOmtrBCoRGdvTfeuFDYXB5W2m6MfLkjkvQa9lUSmIA==
