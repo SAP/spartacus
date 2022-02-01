@@ -268,11 +268,11 @@ export function assignmentsTest(config: MyCompanyConfig) {
     function clickManage(waitForAssignable = true) {
       if (waitForAssignable) {
         cy.intercept({ method: 'GET', path: `**` }).as('getAssignable');
-        cy.wait(2000);
+        // cy.wait(2000);
+        cy.wait('@getAssignable');
         cy.get('cx-org-card .header a')
           .contains(ASSIGNMENT_LABELS.MANAGE)
           .click();
-        cy.wait('@getAssignable');
       } else {
         cy.wait(2000);
         cy.get('cx-org-card .header a')
