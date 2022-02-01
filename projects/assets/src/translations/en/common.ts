@@ -52,7 +52,7 @@ export const common = {
     footerNavLabel: 'Footer links',
   },
   assistiveMessage: {
-    actionCancelled: 'Action cancelled, nothing changed'
+    actionCancelled: 'Action cancelled, nothing changed',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',
