@@ -33,6 +33,7 @@ $text: #212738 !default;
 $transparent: transparent !default;
 $visual-focus: #6d9df7 !default;
 $background-focus: rgba(80, 176, 244, 0.1);
+$secondary-alt: #6C7079 !default;
 
 $theme-colors: (
   'primary': $primary,
@@ -49,6 +50,7 @@ $theme-colors: (
   'transparent': $transparent,
   'visual-focus': $visual-focus,
   'background-focus': $background-focus,
+  'secondary-alt': $secondary-alt,
 );
 
 //type — https://github.com/twbs/bootstrap/blob/v4-dev/scss/_variables.scss#L225
