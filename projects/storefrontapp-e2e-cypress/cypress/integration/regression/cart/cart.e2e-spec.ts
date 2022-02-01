@@ -26,7 +26,6 @@ describe('Cart', () => {
         cart.loginRegisteredUser();
         visitHomePage();
       });
-
       it('should merge carts when user is authenticated', () => {
         cart.registerCreateCartRoute();
         cart.registerSaveCartRoute();

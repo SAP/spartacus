@@ -1,5 +1,5 @@
 import { Inject, Injectable, InjectionToken } from '@angular/core';
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,

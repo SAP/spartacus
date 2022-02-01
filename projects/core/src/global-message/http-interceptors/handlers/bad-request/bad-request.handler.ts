@@ -1,6 +1,5 @@
 import { HttpErrorResponse, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { isCartNotFoundError } from '../../../../cart/utils/utils';
 import { ErrorModel } from '../../../../model/misc.model';
 import { Priority } from '../../../../util/applicable';
 import { GlobalMessageType } from '../../../models/global-message.model';
@@ -18,10 +17,10 @@ export class BadRequestHandler extends HttpErrorHandler {
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
-    this.handleBadCartRequest(request, response);
     this.handleValidationError(request, response);
     this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
+    this.handleUnknownIdentifierError(request, response);
   }
 
   protected handleBadPassword(
@@ -77,20 +76,6 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected handleBadCartRequest(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter((e) => isCartNotFoundError(e))
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.cartNotFound' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
   protected handleVoucherOperationError(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
@@ -123,6 +108,22 @@ export class BadRequestHandler extends HttpErrorHandler {
               errorMessage: error.message || '',
             },
           },
+          GlobalMessageType.MSG_TYPE_ERROR
+        );
+      });
+  }
+
+  protected handleUnknownIdentifierError(
+    _request: HttpRequest<any>,
+    response: HttpErrorResponse
+  ): void {
+    this.getErrors(response)
+      .filter((e) => e.type === 'UnknownIdentifierError')
+      .forEach((error) => {
+        this.globalMessageService.add(
+          error.message
+            ? error.message
+            : { key: 'httpHandlers.unknownIdentifier' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });

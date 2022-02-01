@@ -3,13 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
-import {
-  DeliveryMode,
-  I18nTestingModule,
-  FeaturesConfigModule,
-} from '@spartacus/core';
-import { Observable, of, BehaviorSubject } from 'rxjs';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LoaderState } from '../../../../../projects/core/src/state/utils/loader';
 import { CheckoutConfigService } from '../../services/checkout-config.service';
 import { CheckoutStepService } from '../../services/checkout-step.service';
