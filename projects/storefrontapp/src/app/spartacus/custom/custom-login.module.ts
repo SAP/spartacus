@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { CmsConfig, provideConfig } from '@spartacus/core';
+import {
+  CmsConfig,
+  DeferLoadingStrategy,
+  provideConfig,
+} from '@spartacus/core';
 
 @NgModule({
   providers: [
@@ -10,6 +14,7 @@ import { CmsConfig, provideConfig } from '@spartacus/core';
             import('./custom-login-form.component').then(
               (m) => m.CustomLoginFormComponent
             ),
+          deferLoading: DeferLoadingStrategy.INSTANT,
         },
       },
     }),
