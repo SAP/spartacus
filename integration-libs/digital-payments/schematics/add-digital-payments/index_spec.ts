@@ -11,11 +11,12 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_DIGITAL_PAYMENTS_FEATURE,
   CLI_CHECKOUT_FEATURE,
+  CLI_DIGITAL_PAYMENTS_FEATURE,
   LibraryOptions,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   SpartacusOptions,
+  SPARTACUS_CART,
   SPARTACUS_CHECKOUT,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -148,9 +149,15 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           .map(
             (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
           );
-        expect(tasks.length).toEqual(2);
+        expect(tasks.length).toEqual(3);
 
-        const checkoutTask = tasks[0];
+        const cartTask = tasks[0];
+        expect(cartTask).toBeTruthy();
+        expect(cartTask.name).toEqual('add-spartacus-library');
+        expect(cartTask.options).toHaveProperty('collection', SPARTACUS_CART);
+        expect(cartTask.options.options?.features).toEqual([]);
+
+        const checkoutTask = tasks[1];
         expect(checkoutTask).toBeTruthy();
         expect(checkoutTask.name).toEqual('add-spartacus-library');
         expect(checkoutTask.options).toHaveProperty(
@@ -159,7 +166,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
         );
         expect(checkoutTask.options.options?.features).toEqual([]);
 
-        const checkoutTaskWithSubFeatures = tasks[1];
+        const checkoutTaskWithSubFeatures = tasks[2];
         expect(checkoutTaskWithSubFeatures).toBeTruthy();
         expect(checkoutTaskWithSubFeatures.name).toEqual(
           'add-spartacus-library'

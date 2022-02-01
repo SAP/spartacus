@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
-  CancelOrReturnRequestEntryInput,
   GlobalMessageService,
   GlobalMessageType,
-  OrderEntry,
   RoutingService,
 } from '@spartacus/core';
-import { OrderReturnRequestFacade } from '@spartacus/order/root';
+import {
+  CancelOrReturnRequestEntryInput,
+  OrderReturnRequestFacade,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
 import { OrderDetailsService } from '../../order-details/order-details.service';
