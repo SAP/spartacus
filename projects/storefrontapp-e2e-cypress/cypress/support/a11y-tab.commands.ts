@@ -93,7 +93,8 @@ Cypress.Commands.add(
           } else {
             cy.writeFile(DRAFT_FILE, JSON.stringify(focusable)).then(() => {
               throw new Error(
-                `DOM not matching snapshot. ${GENERATION_MESSAGE}`
+                `DOM not matching snapshot. ${GENERATION_MESSAGE}\n\n
+                Current DOM: ${JSON.stringify(focusable)}`
               );
             });
           }
