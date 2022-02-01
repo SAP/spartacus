@@ -6,8 +6,7 @@ import {
   Optional,
   TemplateRef,
 } from '@angular/core';
-import { GlobalMessageService } from '../../../../core/src/global-message/facade/global-message.service';
-import { GlobalMessageType } from '../../../../core/src/global-message/models/global-message.model';
+import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 
 @Directive({
   selector: '[cxAtMessage]',
