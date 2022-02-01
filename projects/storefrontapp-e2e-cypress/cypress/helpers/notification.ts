@@ -33,7 +33,6 @@ export function enableNotificationChannel() {
 }
 
 export function disableNotificationChannel() {
-  navigateToNotificationPreferencePage();
   interceptNotificationPreferencesChange();
   cy.get('[type="checkbox"]').first().uncheck();
   cy.wait('@notificationPreferencesChange')
