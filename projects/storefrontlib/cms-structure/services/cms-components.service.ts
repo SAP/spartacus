@@ -19,6 +19,7 @@ import {
 } from '@spartacus/core';
 import { defer, forkJoin, Observable, of } from 'rxjs';
 import { mapTo, share, tap } from 'rxjs/operators';
+import { ComponentHandlerService } from '../page/component/services/component-handler.service';
 import { CmsFeaturesService } from './cms-features.service';
 
 /**
@@ -45,7 +46,8 @@ export class CmsComponentsService {
     protected config: CmsConfig,
     @Inject(PLATFORM_ID) protected platformId: Object,
     protected featureModules: CmsFeaturesService,
-    protected configInitializer: ConfigInitializerService
+    protected configInitializer: ConfigInitializerService,
+    protected componentHandlerService: ComponentHandlerService
   ) {
     this.configInitializer
       .getStable('cmsComponents')
@@ -70,7 +72,8 @@ export class CmsComponentsService {
       // we use defer, to be sure the logic below used to compose final observable
       // will be executed at subscription time (with up to date state at the time,
       // when it will be needed)
-      const featureResolvers = [];
+      const featureResolvers: Observable<CmsComponentMapping>[] = [];
+      const componentResolvers: Observable<unknown>[] = [];
 
       for (const componentType of componentTypes) {
         if (!this.mappings[componentType]) {
@@ -84,14 +87,25 @@ export class CmsComponentsService {
               this.getFeatureMappingResolver(componentType, staticConfig)
             );
           } else {
+            const handler = this.componentHandlerService.resolve(
+              staticConfig ?? {}
+            );
+            const resolvedComponent = handler?.resolveComponent(
+              staticConfig ?? {}
+            );
+            if (resolvedComponent) {
+              componentResolvers.push(resolvedComponent);
+            }
+
             // simply use only static config
             this.mappings[componentType] = staticConfig;
           }
         }
       }
 
-      if (featureResolvers.length) {
-        return forkJoin(featureResolvers).pipe(mapTo(componentTypes));
+      const resolvers = [...featureResolvers, ...componentResolvers];
+      if (resolvers.length) {
+        return forkJoin(resolvers).pipe(mapTo(componentTypes));
       } else {
         return of(componentTypes);
       }

@@ -5,8 +5,8 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Applicable, CmsComponentMapping, Priority } from '@spartacus/core';
+import { Observable } from 'rxjs';
 
 /**
  * ComponentHandler implementations can be used for instantiating and launching
@@ -36,4 +36,8 @@ export abstract class ComponentHandler implements Applicable {
 
   abstract hasMatch(componentMapping: CmsComponentMapping): boolean;
   abstract getPriority?(): Priority;
+
+  abstract resolveComponent(
+    componentMapping: CmsComponentMapping
+  ): Observable<unknown> | undefined;
 }

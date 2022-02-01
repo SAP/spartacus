@@ -6,11 +6,15 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
+import {
+  CmsComponentMapping,
+  DeferLoadingStrategy,
+  Priority,
+} from '@spartacus/core';
 import { from, Observable } from 'rxjs';
-import { DefaultComponentHandler } from './default-component.handler';
 import { switchMap } from 'rxjs/operators';
 import { ComponentHandler } from './component-handler';
+import { DefaultComponentHandler } from './default-component.handler';
 
 /**
  * Lazy component handler used for launching lazy loaded cms components implemented
@@ -57,5 +61,13 @@ export class LazyComponentHandler implements ComponentHandler {
         )
       )
     );
+  }
+
+  resolveComponent(
+    componentMapping: CmsComponentMapping
+  ): Observable<unknown> | undefined {
+    return componentMapping.deferLoading === DeferLoadingStrategy.INSTANT
+      ? from(componentMapping.component())
+      : undefined;
   }
 }

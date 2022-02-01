@@ -7,7 +7,7 @@ import {
   NgModuleRef,
   ViewContainerRef,
 } from '@angular/core';
-import { CmsComponentMapping, Priority } from '@spartacus/core';
+import { CmsComponent, CmsComponentMapping, Priority } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { ComponentHandler } from './component-handler';
 
@@ -76,5 +76,11 @@ export class DefaultComponentHandler implements ComponentHandler {
       .resolveComponentFactory(component);
 
     return factory;
+  }
+
+  resolveComponent(
+    _componentMapping: CmsComponentMapping<CmsComponent>
+  ): Observable<unknown> | undefined {
+    return undefined;
   }
 }
