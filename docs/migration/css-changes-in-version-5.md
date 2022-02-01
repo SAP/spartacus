@@ -36,6 +36,11 @@ title: Changes to Styles in 5.0
 
 ## Changes in styles
 
+## Changes in _tab-paragraph-container.scss
+
+- wrapped everything in `%pdpTabs`inside a `> div {...}` to restore styling after template changes
+- wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
+
 ## Change in _order-summary.scss
 
 - `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes 

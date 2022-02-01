@@ -54,7 +54,7 @@ export class RoutingContextService {
             // See: https://github.com/Microsoft/TypeScript/issues/24587
             contextToken as any
           ];
-        return this.injector.get(providerToken, undefined);
+        return !!providerToken ? this.injector.get(providerToken) : undefined;
       })
     );
   }
