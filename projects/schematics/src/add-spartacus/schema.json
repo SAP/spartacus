@@ -22,6 +22,8 @@
           "Quick-Order",
           "CDC",
           "CDS",
+          "Cart",
+          "WishList",
           "Checkout",
           "Order",
           "Digital-Payments",
@@ -46,6 +48,8 @@
       },
       "default": [
         "ASM",
+        "Cart",
+        "WishList",
         "Checkout",
         "Order",
         "Import-Export",
@@ -90,6 +94,14 @@
           {
             "value": "Checkout",
             "label": "Checkout"
+          },
+          {
+            "value": "Cart",
+            "label": "Cart"
+          },
+          {
+            "value": "WishList",
+            "label": "WishList"
           },
           {
             "value": "Order",

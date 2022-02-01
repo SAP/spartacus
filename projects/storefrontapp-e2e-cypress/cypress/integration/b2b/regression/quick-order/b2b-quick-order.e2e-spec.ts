@@ -9,7 +9,6 @@ context('B2B - Quick Order', () => {
     beforeEach(() => {
       clearAllStorage();
     });
-
     describe('Quick Order Page', () => {
       beforeEach(() => {
         quickOrder.visitQuickOrderPage();
@@ -150,7 +149,6 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
       });
     });
-
     describe('Cart Page', () => {
       beforeEach(() => {
         quickOrder.prepareCartWithProduct();

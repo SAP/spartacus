@@ -1,23 +1,25 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import {
+  CART_BASE_FEATURE,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
+import {
   AuthGuard,
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import {
   CART_SAVED_CART_CORE_FEATURE,
   CART_SAVED_CART_FEATURE,
 } from './feature-name';
-import { SavedCartOrderEntriesContext } from './pages/saved-cart-details-page/saved-cart-order-entries-context';
-import { NewSavedCartOrderEntriesContext } from './pages/saved-carts-page/new-saved-cart-order-entries-context';
+import {
+  NewSavedCartOrderEntriesContextToken,
+  SavedCartOrderEntriesContextToken,
+} from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultCartSavedCartComponentsConfig(): CmsConfig {
@@ -31,7 +33,9 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
           'SavedCartDetailsItemsComponent',
           'SavedCartDetailsActionComponent',
         ],
+        dependencies: [CART_BASE_FEATURE],
       },
+
       // by default core is bundled together with components
       [CART_SAVED_CART_CORE_FEATURE]: CART_SAVED_CART_FEATURE,
     },
@@ -50,7 +54,7 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'savedCartsDetails',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: SavedCartOrderEntriesContextToken,
           },
         },
       },
@@ -62,7 +66,7 @@ export function defaultCartSavedCartComponentsConfig(): CmsConfig {
         data: {
           cxRoute: 'savedCarts',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: NewSavedCartOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: NewSavedCartOrderEntriesContextToken,
           },
         },
       },

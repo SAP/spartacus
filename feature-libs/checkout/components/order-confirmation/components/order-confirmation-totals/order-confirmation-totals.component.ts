@@ -4,8 +4,9 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { CartOutlets } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -15,6 +16,8 @@ import { Observable } from 'rxjs';
 })
 export class OrderConfirmationTotalsComponent implements OnInit, OnDestroy {
   order$: Observable<Order>;
+
+  readonly CartOutlets = CartOutlets;
 
   constructor(protected checkoutService: CheckoutFacade) {}
 

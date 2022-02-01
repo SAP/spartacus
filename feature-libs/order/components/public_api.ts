@@ -3,6 +3,7 @@ export * from './order-components.module';
 export * from './order-details/index';
 export * from './order-history/order-history.component';
 export * from './order-history/order-history.module';
+export * from './page-context/index';
 export * from './replenishment-order-cancellation-dialog/index';
 export * from './replenishment-order-details/index';
 export * from './replenishment-order-history/index';

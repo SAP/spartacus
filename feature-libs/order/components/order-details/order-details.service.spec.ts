@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { Order, RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { RoutingService } from '@spartacus/core';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
