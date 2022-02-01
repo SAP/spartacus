@@ -3,18 +3,14 @@
     class="heading"
     (click)="toggleGroup($event)"
     [attr.aria-expanded]="isExpanded"
-    [attr.aria-controls]="facet.name + ' Facet'"
+    [attr.aria-label]="facet.name + '-facet'"
   >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
     <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
   </button>
 
-  <div
-    role="region"
-    [attr.id]="facet.name + ' Facet'"
-    [attr.aria-labelledby]="facet.name + ' Facet'"
-  >
+  <div role="region" [attr.aria-labelledby]="facet.name + '-facet'">
     <a
       *ngFor="let value of facet.values | slice: 0:state.topVisible"
       #facetValue
