@@ -82,7 +82,7 @@ Cypress.Commands.add(
         .filter((element) => element.offsetParent !== null)
         .map((el) => ({
           element: el.outerHTML,
-          child: el.innerHTML,
+          // child: el.innerHTML,
         }));
 
       cy.task('readFile', SNAPSHOT_FILE).then((file: string) => {
