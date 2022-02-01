@@ -93,12 +93,13 @@ export class CmsComponentsService {
             const resolvedComponent = handler?.resolveComponent(
               staticConfig ?? {}
             );
+
             if (resolvedComponent) {
               componentResolvers.push(resolvedComponent);
+            } else {
+              // simply use only static config
+              this.mappings[componentType] = staticConfig;
             }
-
-            // simply use only static config
-            this.mappings[componentType] = staticConfig;
           }
         }
       }
