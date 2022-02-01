@@ -1,7 +1,7 @@
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
-export const tabsHeaderList = `${tabsContainer} > button`;
+export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
