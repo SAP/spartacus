@@ -22,7 +22,7 @@
     "@spartacus/user": "4.1.0-next.0"
   },
   "optionalDependencies": {
-    "@nguniversal/express-engine": "^13.1.0-next.1",
+    "@nguniversal/express-engine": "^13.0.2",
     "express": "^4.15.2"
   },
   "publishConfig": {

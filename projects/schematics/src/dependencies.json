@@ -268,7 +268,7 @@
     "@ngrx/effects": "^13.0.2",
     "@ngrx/router-store": "^13.0.2",
     "@ngrx/store": "^13.0.2",
-    "@nguniversal/express-engine": "^13.1.0-next.1",
+    "@nguniversal/express-engine": "^13.0.2",
     "@types/googlemaps": "^3.37.5",
     "angular-oauth2-oidc": "^13.0.1",
     "bootstrap": "^4.6.1",
