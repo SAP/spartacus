@@ -83,6 +83,7 @@ export const product = {
       deliveryTab: 'Shipping',
       SparePartsTabComponent: ' Spare Parts',
     },
+    tabPanelContainerRegion: 'Tab group with more product details',
   },
   addToWishList: {
     add: 'Add to Wish List',
