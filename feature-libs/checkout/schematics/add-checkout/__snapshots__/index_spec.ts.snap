@@ -2,9 +2,9 @@
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature eager loading should import appropriate modules 1`] = `
 "import { NgModule } from '@angular/core';
-import { CheckoutModule } from \\"@spartacus/checkout\\";
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/assets\\";
-import { CheckoutRootModule } from \\"@spartacus/checkout/root\\";
+import { CheckoutModule } from \\"@spartacus/checkout/base\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule } from \\"@spartacus/checkout/base/root\\";
 import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -26,8 +26,8 @@ export class CheckoutFeatureModule { }
 
 exports[`Spartacus Checkout schematics: ng-add Checkout feature general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
-import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/assets\\";
-import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/root\\";
+import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CheckoutRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -39,7 +39,7 @@ import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
     featureModules: {
       [CHECKOUT_FEATURE]: {
         module: () =>
-          import('@spartacus/checkout').then((m) => m.CheckoutModule),
+          import('@spartacus/checkout/base').then((m) => m.CheckoutModule),
       },
     }
   }),
