@@ -4,11 +4,12 @@
    1. Rename the URL / route paths
    2. The CMS component name
    3. The CMS component mapping in Spartacus
-2. Installation schematics (PR ready)
+2. One FEATURE_NAME (CHECKOUT-FEATURE), and remove B2B_FEATURE and REPL_FEATURE
+3. Installation schematics (PR ready)
    1. Make sure to configure b2b Spartacus when installing b2b / repl checkout?
    2. Check if any other b2b feature do this (i.e. Bulk Pricing)
-3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-4. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+4. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+5. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
     - ```ts
       const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
         user: 'orgUsers/${userId}',
@@ -42,9 +43,9 @@
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
       };
       ```
-5. remove old checkout
+6. remove old checkout
    1. what to do with the setup lib and b2b configs?
-6. Remove `checkout-git-check.sh` and `todo.md` 
+7. Remove `checkout-git-check.sh` and `todo.md` 
 
 ## Second phase
 
