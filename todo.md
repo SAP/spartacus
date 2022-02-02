@@ -51,20 +51,15 @@
 2. Schematics and deprecations
    1. Write migration schematics
    2. Check and add js doc comments
-   3. Write installation schematics
 3. Migration schematics
    1. Facades / services - import paths; some classes have been renamed
    2. adapters / connectors - import paths; some classes have been renamed
    3. components - import paths; some classes have been renamed
    4. modules? import paths; some classes have been renamed
    5. Check the existing schematics written before the checkout was merged!
-4. Installation schematics
-   1. Update the current installation schematics for the new lib
-   2. create a prompt for each of the checkout entry points? (base, b2b, repl)
-   3. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
-5. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
-6. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
-7. Docs
+4. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
+5. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+6. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    2. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
    3. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
@@ -85,7 +80,7 @@
    9. Go through the old checkout's changes in `5_0.md`:
       1. add missing stuff
       2. remove unnecessary / non-relevant parts
-8. check LL:
+7. check LL:
    1. check the chunks: base, b2b, replenishment
    2. check if and when those are loaded
    3. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
@@ -93,8 +88,8 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-9. check the bundle size of checkout (maybe using webpack analyzer)
-10. query debounce
+8. check the bundle size of checkout (maybe using webpack analyzer)
+9.  query debounce
     1.  see `feature/query-debounce` branch
     2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 
