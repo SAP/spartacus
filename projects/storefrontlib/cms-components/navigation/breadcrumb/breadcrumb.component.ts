@@ -20,9 +20,9 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService,
-    private translation: TranslationService
+    public translation: TranslationService
   ) {
-    super(component, pageMetaService);
+    super(translation, component, pageMetaService);
   }
 
   ngOnInit(): void {
