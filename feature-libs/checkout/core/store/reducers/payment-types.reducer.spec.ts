@@ -1,4 +1,4 @@
-import { PaymentType } from '@spartacus/core';
+import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutActions } from '../actions/index';
 import * as fromReducer from './payment-types.reducer';
 

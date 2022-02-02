@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { select, Store, StoreModule } from '@ngrx/store';
-import { OrderHistoryList, StateUtils } from '@spartacus/core';
+import { StateUtils } from '@spartacus/core';
+import { OrderHistoryList } from '@spartacus/order/root';
 import { OrderActions } from '../actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../order-state';
 import * as fromReducers from '../reducers/index';
