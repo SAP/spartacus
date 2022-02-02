@@ -19,7 +19,9 @@ export class AuthGuard implements CanActivate {
     protected authRedirectService: AuthRedirectService,
     protected router: Router,
     protected semanticPathService: SemanticPathService
-  ) {}
+  ) {
+    console.log('old auth');
+  }
 
   canActivate(): Observable<boolean | UrlTree> {
     return this.authService.isUserLoggedIn().pipe(
