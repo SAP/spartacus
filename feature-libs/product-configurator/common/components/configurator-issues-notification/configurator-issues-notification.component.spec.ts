@@ -1,8 +1,12 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
-import { OrderEntry, PromotionLocation } from '@spartacus/core';
-import { CartItemContext, CartItemContextSource } from '@spartacus/storefront';
+import { CartItemContextSource } from '@spartacus/cart/base/components';
+import {
+  CartItemContext,
+  OrderEntry,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
 import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -64,6 +68,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
       statusSummaryList: testData.statusSummary,
       configurationInfos: testData.configurationInfos,
       product: { configurable: testData.productConfigurable ?? true },
+      entryNumber: 0,
     });
     mockCartItemContext.readonly$?.next(testData.readOnly);
     mockCartItemContext.quantityControl$?.next(new FormControl());
@@ -211,7 +216,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
     });
 
     describe('Notification banner', () => {
-      it('should contain div element with ID cx-error-msg', function () {
+      it('should contain div element with ID for error message containing cart entry number', function () {
         emitNewContextValue({
           statusSummary: [
             { numberOfIssues: 2, status: OrderEntryStatus.Error },
@@ -226,7 +231,7 @@ describe('ConfigureIssuesNotificationComponent', () => {
         CommonConfiguratorTestUtilsService.expectElementPresent(
           expect,
           htmlElem,
-          '#cx-error-msg'
+          '#cx-error-msg-0'
         );
       });
     });

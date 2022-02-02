@@ -1,7 +1,7 @@
 <div
   id="{{ createAttributeIdForConfigurator(attribute) }}"
   class="cx-row"
-  role="listbox"
+  role="radiogroup"
 >
   <div
     *ngFor="let value of attribute.values"
@@ -25,6 +25,9 @@
       [attr.checked]="
         attributeRadioButtonForm.value === value.valueCode ? 'checked' : null
       "
+      [attr.aria-checked]="
+        attributeRadioButtonForm.value === value.valueCode ? 'true' : 'false'
+      "
       [attr.aria-label]="
         value.valuePrice && value.valuePrice?.value !== 0
           ? ('configurator.a11y.valueOfAttributeFullWithPrice'
@@ -41,7 +44,7 @@
       [attr.aria-describedby]="createAttributeUiKey('label', attribute.name)"
       (click)="onClick(value.valueCode)"
       [cxFocus]="{ key: attribute.name + '-' + value.name }"
-      role="option"
+      role="radio"
     />
     <div class="cx-label-container">
       <label
