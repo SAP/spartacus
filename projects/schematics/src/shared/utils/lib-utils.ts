@@ -150,6 +150,11 @@ export interface FeatureConfig {
    * Dependency management for the library
    */
   dependencyManagement?: DependencyManagement;
+  /**
+   * If set to true, instead of appending the configuration to the existing module,
+   * it will recreate the feature module with the new configuration.
+   */
+  recreate?: boolean;
 }
 
 /**
@@ -383,6 +388,10 @@ function handleFeature<T extends LibraryOptions>(
   return (_tree: Tree, _context: SchematicContext) => {
     const rules: Rule[] = [];
 
+    if (config.recreate) {
+      rules.push(deleteFeatureModuleFile(options, config));
+    }
+
     rules.push(
       ensureModuleExists({
         name: `${dasherize(config.moduleName)}-feature`,
@@ -397,6 +406,30 @@ function handleFeature<T extends LibraryOptions>(
     rules.push(addCustomConfig(options, config));
 
     return chain(rules);
+  };
+}
+
+function deleteFeatureModuleFile<T extends LibraryOptions>(
+  options: T,
+  config: FeatureConfig
+): Rule {
+  return (tree: Tree): Tree => {
+    const basePath = process.cwd();
+
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      const moduleFileName = createModuleFileName(config);
+      for (const sourceFile of appSourceFiles) {
+        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          sourceFile.deleteImmediatelySync();
+          break;
+        }
+      }
+    }
+
+    return tree;
   };
 }
 

@@ -85,6 +85,7 @@ const checkoutBaseFeatureConfig: FeatureConfig = {
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
     },
   },
+  recreate: true,
 };
 
 const checkoutB2bFeatureConfig: FeatureConfig = {
@@ -118,6 +119,7 @@ const checkoutB2bFeatureConfig: FeatureConfig = {
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
     },
   },
+  recreate: true,
 };
 
 const checkoutScheduleReplenishmentFeatureConfig: FeatureConfig = {
@@ -151,6 +153,7 @@ const checkoutScheduleReplenishmentFeatureConfig: FeatureConfig = {
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
     },
   },
+  recreate: true,
 };
 
 export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
