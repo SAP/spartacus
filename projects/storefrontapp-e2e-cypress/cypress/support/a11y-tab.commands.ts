@@ -81,7 +81,7 @@ Cypress.Commands.add(
       )
         .filter((element) => element.offsetParent !== null)
         .map((el) => ({
-          element: el.outerHTML,
+          element: el.tagName,
           // child: el.innerHTML,
         }));
 
