@@ -10,7 +10,7 @@ export const firstProductDescending = '898520';
 export const NOTIFICATION_PREFERENCES_CHANGE_ENDPOINT_ALIAS =
   'notificationPreferencesChange';
 
-export function navigateToNotificationPreferencePage() {
+function navigateToNotificationPreferencePage() {
   const alias = waitForPage(
     '/my-account/notification-preference',
     'notificationPreferencePage'
@@ -22,7 +22,7 @@ export function navigateToNotificationPreferencePage() {
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
-export function navigateToMyInterestsPage() {
+function navigateToMyInterestsPage() {
   const alias = waitForPage('/my-account/my-interests', 'myInterestsPage');
 
   cy.selectUserMenuOption({
@@ -31,7 +31,7 @@ export function navigateToMyInterestsPage() {
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
-export function navigateToUpdateEmailPage() {
+function navigateToUpdateEmailPage() {
   const alias = waitForPage('/my-account/update-email', 'updateEmailPage');
 
   cy.selectUserMenuOption({
@@ -40,7 +40,7 @@ export function navigateToUpdateEmailPage() {
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
-export function interceptNotificationPreferencesChange() {
+function interceptNotificationPreferencesChange() {
   cy.intercept(
     'PATCH',
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
