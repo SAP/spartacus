@@ -1,1 +1,114 @@
-[{"element":"SELECT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"INPUT"},{"element":"A"},{"element":"BUTTON"},{"element":"A"}]
+[
+    {
+        "element": {
+            "tagName": "SELECT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-valid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-control",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "form-check-input",
+                "1": "ng-untouched",
+                "2": "ng-pristine",
+                "3": "ng-valid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "INPUT",
+            "classList": {
+                "0": "ng-untouched",
+                "1": "ng-pristine",
+                "2": "ng-invalid"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "A",
+            "classList": {}
+        }
+    },
+    {
+        "element": {
+            "tagName": "BUTTON",
+            "classList": {
+                "0": "btn",
+                "1": "btn-block",
+                "2": "btn-primary"
+            }
+        }
+    },
+    {
+        "element": {
+            "tagName": "A",
+            "classList": {
+                "0": "cx-login-link",
+                "1": "btn-link"
+            }
+        }
+    }
+]
