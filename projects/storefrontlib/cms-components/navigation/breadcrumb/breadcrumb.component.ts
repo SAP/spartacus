@@ -20,7 +20,7 @@ export class BreadcrumbComponent extends PageTitleComponent implements OnInit {
   constructor(
     public component: CmsComponentData<CmsBreadcrumbsComponent>,
     protected pageMetaService: PageMetaService,
-    public translation: TranslationService
+    protected translation: TranslationService
   ) {
     super(translation, component, pageMetaService);
   }
