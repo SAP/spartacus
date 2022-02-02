@@ -22,8 +22,6 @@
                 >
                 </ng-select>
                 <cx-form-errors
-                  aria-live="assertive"
-                  aria-atomic="true"
                   [control]="paymentForm.get('cardType.code')"
                 ></cx-form-errors>
               </label>
@@ -46,8 +44,6 @@
               formControlName="accountHolderName"
             />
             <cx-form-errors
-              aria-live="assertive"
-              aria-atomic="true"
               [control]="paymentForm.get('accountHolderName')"
             ></cx-form-errors>
           </label>
@@ -65,8 +61,6 @@
               formControlName="cardNumber"
             />
             <cx-form-errors
-              aria-live="assertive"
-              aria-atomic="true"
               [control]="paymentForm.get('cardNumber')"
             ></cx-form-errors>
           </label>
@@ -94,8 +88,6 @@
                 >
                 </ng-select>
                 <cx-form-errors
-                  aria-live="assertive"
-                  aria-atomic="true"
                   [control]="paymentForm.get('expiryMonth')"
                 ></cx-form-errors>
               </label>
@@ -115,8 +107,6 @@
                 >
                 </ng-select>
                 <cx-form-errors
-                  aria-live="assertive"
-                  aria-atomic="true"
                   [control]="paymentForm.get('expiryYear')"
                 ></cx-form-errors>
               </label>
@@ -143,8 +133,6 @@
                 formControlName="cvn"
               />
               <cx-form-errors
-                aria-live="assertive"
-                aria-atomic="true"
                 [control]="paymentForm.get('cvn')"
               ></cx-form-errors>
             </label>
@@ -182,6 +170,9 @@
                     class="form-check-input"
                     [checked]="sameAsShippingAddress"
                     (change)="toggleSameAsShippingAddress()"
+                    [attr.aria-label]="
+                      'paymentForm.billingAddressSameAsShipping' | cxTranslate
+                    "
                   />
                   <span class="form-check-label">{{
                     'paymentForm.sameAsShippingAddress' | cxTranslate
@@ -228,8 +219,6 @@
                       >
                       </ng-select>
                       <cx-form-errors
-                        aria-live="assertive"
-                        aria-atomic="true"
                         [control]="billingAddressForm.get('country.isocode')"
                       ></cx-form-errors>
                     </label>
@@ -251,8 +240,6 @@
                     formControlName="firstName"
                   />
                   <cx-form-errors
-                    aria-live="assertive"
-                    aria-atomic="true"
                     [control]="billingAddressForm.get('firstName')"
                   ></cx-form-errors>
                 </label>
@@ -272,8 +259,6 @@
                     formControlName="lastName"
                   />
                   <cx-form-errors
-                    aria-live="assertive"
-                    aria-atomic="true"
                     [control]="billingAddressForm.get('lastName')"
                   ></cx-form-errors>
                 </label>
@@ -293,8 +278,6 @@
                     formControlName="line1"
                   />
                   <cx-form-errors
-                    aria-live="assertive"
-                    aria-atomic="true"
                     [control]="billingAddressForm.get('line1')"
                   ></cx-form-errors>
                 </label>
@@ -328,8 +311,6 @@
                       formControlName="town"
                     />
                     <cx-form-errors
-                      aria-live="assertive"
-                      aria-atomic="true"
                       [control]="billingAddressForm.get('town')"
                     ></cx-form-errors>
                   </label>
@@ -349,8 +330,6 @@
                       formControlName="postalCode"
                     />
                     <cx-form-errors
-                      aria-live="assertive"
-                      aria-atomic="true"
                       [control]="billingAddressForm.get('postalCode')"
                     ></cx-form-errors>
                   </label>
@@ -384,8 +363,6 @@
                         >
                         </ng-select>
                         <cx-form-errors
-                          aria-live="assertive"
-                          aria-atomic="true"
                           [control]="
                             billingAddressForm.get('region.isocodeShort')
                           "

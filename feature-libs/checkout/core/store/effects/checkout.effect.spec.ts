@@ -2,16 +2,16 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/base/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   Address,
   AuthActions,
-  CartActions,
-  DeliveryMode,
-  Order,
   PaymentDetails,
   SiteContextActions,
   UserActions,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import {

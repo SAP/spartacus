@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutPaymentFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   CardType,
+  getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   PaymentDetails,
   ProcessSelectors,
@@ -11,21 +12,24 @@ import {
   StateWithProcess,
   UserIdService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
   SET_PAYMENT_DETAILS_PROCESS_ID,
   StateWithCheckout,
 } from '../store/checkout-state';
 import { CheckoutSelectors } from '../store/selectors/index';
+import { CheckoutService } from './checkout.service';
 
 @Injectable()
 export class CheckoutPaymentService implements CheckoutPaymentFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
-    protected userIdService: UserIdService
+    protected activeCartFacade: ActiveCartFacade,
+    protected userIdService: UserIdService,
+    protected checkoutService: CheckoutService
   ) {}
 
   /**
@@ -84,7 +88,7 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -107,25 +111,27 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
    */
   setPaymentDetails(paymentDetails: PaymentDetails): void {
     if (this.actionAllowed()) {
-      let userId: string | undefined;
-      this.userIdService
-        .getUserId()
-        .subscribe((occUserId) => (userId = occUserId))
-        .unsubscribe();
+      const userId = getLastValueSync(this.userIdService.getUserId());
+      const cartId = getLastValueSync(this.activeCartFacade.getActiveCartId());
 
-      let cartId: string | undefined;
-      this.activeCartService
-        .getActiveCartId()
-        .subscribe((activeCartId) => (cartId = activeCartId))
-        .unsubscribe();
       if (userId && cartId) {
-        this.checkoutStore.dispatch(
-          new CheckoutActions.SetPaymentDetails({
-            userId,
-            cartId,
-            paymentDetails: paymentDetails,
-          })
-        );
+        combineLatest([
+          this.activeCartFacade.isStable(),
+          this.checkoutService.isLoading(),
+        ])
+          .pipe(
+            filter(([isStable, isLoading]) => isStable && !isLoading),
+            take(1)
+          )
+          .subscribe(() => {
+            this.checkoutStore.dispatch(
+              new CheckoutActions.SetPaymentDetails({
+                userId,
+                cartId,
+                paymentDetails: paymentDetails,
+              })
+            );
+          });
       }
     }
   }
@@ -138,14 +144,11 @@ export class CheckoutPaymentService implements CheckoutPaymentFacade {
   }
 
   protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
+    const userId = getLastValueSync(this.userIdService.getUserId());
+
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
+      Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     );
   }
 }

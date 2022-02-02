@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Cart } from '@spartacus/cart/base/root';
 import {
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  LaunchDialogService,
   IconTestingModule,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -262,14 +262,36 @@ describe('SavedCartFormDialogComponent', () => {
   it('should provide default value to saveCartDescription when empty', () => {
     spyOn(savedCartService, 'editSavedCart');
 
-    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+    mockDialogData$.next({
+      cart: {
+        code: '123456789',
+        name: 'testCartName',
+      },
+      layoutOption: 'edit',
+    });
 
     component.saveOrEditCart(mockCartId);
 
     expect(savedCartService.editSavedCart).toHaveBeenCalledWith({
       cartId: mockCartId,
-      saveCartName: '',
+      saveCartName: mockCart.name,
       saveCartDescription: '-',
+    });
+  });
+
+  it('should not trigger saveOrEditCart when empty cart name is empty', () => {
+    spyOn(savedCartService, 'editSavedCart');
+
+    component.form?.get('name')?.setValue('');
+
+    mockDialogData$.next({ cart: {}, layoutOption: 'edit' });
+
+    component.saveOrEditCart(mockCartId);
+
+    expect(savedCartService.editSavedCart).not.toHaveBeenCalledWith({
+      cartId: mockCartId,
+      saveCartName: '',
+      saveCartDescription: '',
     });
   });
 

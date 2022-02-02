@@ -9,8 +9,8 @@ import { filter, switchMap, take } from 'rxjs/operators';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
-import { ConfigFormUpdateEvent } from './configurator-form.event';
 import { ConfiguratorStorefrontUtilsService } from '../service/configurator-storefront-utils.service';
+import { ConfigFormUpdateEvent } from './configurator-form.event';
 
 @Component({
   selector: 'cx-configurator-form',
@@ -56,14 +56,6 @@ export class ConfiguratorFormComponent implements OnInit {
       .extractRouterData()
       .pipe(take(1))
       .subscribe((routingData) => {
-        //In case the 'forceReload' is set (means the page is launched from the cart),
-        //we need to initialise the cart configuration
-        if (routingData.forceReload) {
-          this.configuratorCommonsService.removeConfiguration(
-            routingData.owner
-          );
-        }
-
         //In case of resolving issues, check if the configuration contains conflicts,
         //if not, check if the configuration contains missing mandatory fields and show the group
         if (routingData.resolveIssues) {

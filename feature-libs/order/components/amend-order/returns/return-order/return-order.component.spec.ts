@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
-import { OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { FormErrorsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { OrderAmendService } from '../../amend-order.service';

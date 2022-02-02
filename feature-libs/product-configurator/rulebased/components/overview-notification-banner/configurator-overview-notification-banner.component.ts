@@ -20,15 +20,22 @@ export class ConfiguratorOverviewNotificationBannerComponent {
   routerData$: Observable<ConfiguratorRouter.Data> =
     this.configRouterExtractorService.extractRouterData();
 
-  numberOfIssues$: Observable<number> = this.routerData$.pipe(
-    filter(
-      (routerData) =>
-        routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
-        routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
-    ),
-    switchMap((routerData) =>
-      this.configuratorCommonsService.getConfiguration(routerData.owner)
-    ),
+  configuration$: Observable<Configurator.Configuration> =
+    this.routerData$.pipe(
+      filter(
+        (routerData) =>
+          routerData.owner.type === CommonConfigurator.OwnerType.PRODUCT ||
+          routerData.owner.type === CommonConfigurator.OwnerType.CART_ENTRY
+      ),
+      switchMap((routerData) =>
+        this.configuratorCommonsService.getConfiguration(routerData.owner)
+      )
+    );
+
+  configurationOverview$: Observable<Configurator.Overview | undefined> =
+    this.configuration$.pipe(map((configuration) => configuration.overview));
+
+  numberOfIssues$: Observable<number> = this.configuration$.pipe(
     map((configuration) => {
       //In case overview carries number of issues: We take it from there.
       //otherwise configuration's number will be accurate
@@ -48,14 +55,4 @@ export class ConfiguratorOverviewNotificationBannerComponent {
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
-
-  protected countIssuesInGroup(group: Configurator.Group): number {
-    let numberOfIssues = 0;
-
-    group.attributes?.forEach((attribute) => {
-      numberOfIssues =
-        numberOfIssues + (attribute.incomplete && attribute.required ? 1 : 0);
-    });
-    return numberOfIssues;
-  }
 }

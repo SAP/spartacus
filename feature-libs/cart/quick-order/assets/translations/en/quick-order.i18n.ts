@@ -18,10 +18,16 @@ export const quickOrderCartForm = {
 
 export const quickOrderForm = {
   placeholder: 'Enter Product name or SKU',
+  searchBoxLabel:
+    'Enter Product name or SKU for quick order. You can add up to {{ limit }} products per order.',
   listLimitReached: 'The product limit has been reached.',
   id: 'ID {{ id }}',
   noResults: 'We could not find any results',
   addProduct: 'Add product {{ product }}',
+  initialDescription:
+    'When autocomplete results are available use up and down arrows to review and enter to select.',
+  productsResults: '{{ count }} products are available.',
+  quickOrderSearch: 'Find product for quick order',
 };
 
 export const quickOrderList = {

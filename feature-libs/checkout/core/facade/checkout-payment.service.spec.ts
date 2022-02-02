@@ -1,22 +1,18 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import {
-  ActiveCartService,
-  CardType,
-  Cart,
-  PaymentDetails,
-  UserIdService,
-} from '@spartacus/core';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { CardType, PaymentDetails, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutActions } from '../store/actions/index';
 import { CheckoutState } from '../store/checkout-state';
 import * as fromCheckoutReducers from '../store/reducers/index';
 import { CheckoutPaymentService } from './checkout-payment.service';
+import { CheckoutService } from './checkout.service';
 
 describe('CheckoutPaymentService', () => {
   let service: CheckoutPaymentService;
   let userIdService: UserIdService;
-  let activeCartService: ActiveCartService;
+  let activeCartFacade: ActiveCartFacade;
   let store: Store<CheckoutState>;
   const userId = 'testUserId';
   const cart: Cart = { code: 'testCartId', guid: 'testGuid' };
@@ -28,7 +24,7 @@ describe('CheckoutPaymentService', () => {
   class ActiveCartServiceStub {
     cart;
     isGuestCart() {
-      return true;
+      return of(true);
     }
 
     getActiveCartId() {
@@ -38,12 +34,22 @@ describe('CheckoutPaymentService', () => {
     getActive() {
       return of(cart);
     }
+
+    isStable() {
+      return of(true);
+    }
   }
 
   class UserIdServiceStub {
     userId;
     getUserId() {
       return of(userId);
+    }
+  }
+
+  class mockCheckoutService {
+    isLoading() {
+      return of(false);
     }
   }
 
@@ -55,18 +61,19 @@ describe('CheckoutPaymentService', () => {
       ],
       providers: [
         CheckoutPaymentService,
-        { provide: ActiveCartService, useClass: ActiveCartServiceStub },
+        { provide: ActiveCartFacade, useClass: ActiveCartServiceStub },
         { provide: UserIdService, useClass: UserIdServiceStub },
+        { provide: CheckoutService, useClass: mockCheckoutService },
       ],
     });
 
     service = TestBed.inject(CheckoutPaymentService);
     userIdService = TestBed.inject(UserIdService);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     store = TestBed.inject(Store);
 
     userIdService['userId'] = userId;
-    activeCartService['cart'] = cart;
+    activeCartFacade['cart'] = cart;
 
     spyOn(store, 'dispatch').and.callThrough();
   });

@@ -7,14 +7,13 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { OrderEntriesSource, ProductData } from '@spartacus/cart/base/root';
 import { ImportExportConfig } from '@spartacus/cart/import-export/core';
 import {
-  OrderEntriesSource,
   FilesFormValidators,
   FormUtils,
   ImportCsvFileService,
   LaunchDialogService,
-  ProductData,
 } from '@spartacus/storefront';
 import { of, Subject } from 'rxjs';
 import { filter, startWith, switchMap, take, tap } from 'rxjs/operators';

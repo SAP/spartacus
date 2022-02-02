@@ -114,7 +114,7 @@ function mergeChangesAndGetFirstGroup(
   return groupForUpdateRequest;
 }
 
-describe('ConfiguratorGroupUtilsService', () => {
+describe('ConfiguratorUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
   beforeEach(
@@ -146,12 +146,10 @@ describe('ConfiguratorGroupUtilsService', () => {
   });
 
   it('should check if subgroups exist', () => {
-    expect(classUnderTest.hasSubGroups(productConfiguration.groups[0])).toBe(
-      false
-    );
-    expect(classUnderTest.hasSubGroups(productConfiguration.groups[2])).toBe(
-      true
-    );
+    const groupWithoutSubgroups = productConfiguration.groups[1];
+    expect(classUnderTest.hasSubGroups(groupWithoutSubgroups)).toBe(false);
+    const groupWithSubgroups = productConfiguration.groups[3];
+    expect(classUnderTest.hasSubGroups(groupWithSubgroups)).toBe(true);
   });
 
   describe('isConfigurationCreated', () => {
@@ -190,7 +188,7 @@ describe('ConfiguratorGroupUtilsService', () => {
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });

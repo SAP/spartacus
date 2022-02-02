@@ -1,16 +1,12 @@
 import { TestBed } from '@angular/core/testing';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CheckoutDetails } from '@spartacus/checkout/core';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
   CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
-import {
-  ActiveCartService,
-  Address,
-  Cart,
-  PaymentDetails,
-} from '@spartacus/core';
+import { Address, PaymentDetails } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from './checkout-details.service';
 
@@ -53,17 +49,20 @@ class MockActiveCartService {
   getActive(): Observable<Cart> {
     return of({ code: cartId, guid: 'guid', user: { uid: 'test-user' } });
   }
-  isGuestCart(): Boolean {
-    return false;
+  isGuestCart(): Observable<Boolean> {
+    return of(false);
+  }
+  isStable() {
+    return of(true);
   }
 }
 
 describe('CheckoutDetailsService', () => {
   let service: CheckoutDetailsService;
-  let checkoutService: CheckoutFacade;
+  let checkoutFacade: CheckoutFacade;
   let checkoutDeliveryFacade: CheckoutDeliveryFacade;
-  let checkoutPaymentService: CheckoutPaymentFacade;
-  let activeCartService: ActiveCartService;
+  let checkoutPaymentFacade: CheckoutPaymentFacade;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -82,17 +81,17 @@ describe('CheckoutDetailsService', () => {
           useClass: MockCheckoutPaymentService,
         },
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
       ],
     });
 
     service = TestBed.inject(CheckoutDetailsService);
-    checkoutService = TestBed.inject(CheckoutFacade);
+    checkoutFacade = TestBed.inject(CheckoutFacade);
     checkoutDeliveryFacade = TestBed.inject(CheckoutDeliveryFacade);
-    checkoutPaymentService = TestBed.inject(CheckoutPaymentFacade);
-    activeCartService = TestBed.inject(ActiveCartService);
+    checkoutPaymentFacade = TestBed.inject(CheckoutPaymentFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
   });
 
   it('should be created', () => {
@@ -100,8 +99,8 @@ describe('CheckoutDetailsService', () => {
   });
 
   it(`should load details data and call getDeliveryAddress`, () => {
-    spyOn(activeCartService, 'getActive');
-    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(activeCartFacade, 'getActive');
+    spyOn(checkoutFacade, 'loadCheckoutDetails');
     spyOn(checkoutDeliveryFacade, 'getDeliveryAddress').and.returnValue(
       of(mockDetails.deliveryAddress)
     );
@@ -111,14 +110,14 @@ describe('CheckoutDetailsService', () => {
       .getDeliveryAddress()
       .subscribe((data) => (checkoutDetails = data))
       .unsubscribe();
-    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(checkoutFacade.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(checkoutDeliveryFacade.getDeliveryAddress).toHaveBeenCalled();
     expect(checkoutDetails).toBe(mockDetails.deliveryAddress);
   });
 
   it(`should load details data and call getSelectedDeliveryModeCode`, () => {
-    spyOn(activeCartService, 'getActive');
-    spyOn(checkoutService, 'loadCheckoutDetails');
+    spyOn(activeCartFacade, 'getActive');
+    spyOn(checkoutFacade, 'loadCheckoutDetails');
     spyOn(
       checkoutDeliveryFacade,
       'getSelectedDeliveryModeCode'
@@ -129,7 +128,7 @@ describe('CheckoutDetailsService', () => {
       .getSelectedDeliveryModeCode()
       .subscribe((data) => (checkoutDetails = data))
       .unsubscribe();
-    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(checkoutFacade.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
     expect(
       checkoutDeliveryFacade.getSelectedDeliveryModeCode
     ).toHaveBeenCalled();
@@ -137,9 +136,9 @@ describe('CheckoutDetailsService', () => {
   });
 
   it(`should load details data and call getPaymentDetails`, () => {
-    spyOn(activeCartService, 'getActive');
-    spyOn(checkoutService, 'loadCheckoutDetails');
-    spyOn(checkoutPaymentService, 'getPaymentDetails').and.returnValue(
+    spyOn(activeCartFacade, 'getActive');
+    spyOn(checkoutFacade, 'loadCheckoutDetails');
+    spyOn(checkoutPaymentFacade, 'getPaymentDetails').and.returnValue(
       of(mockDetails.paymentInfo)
     );
 
@@ -148,8 +147,8 @@ describe('CheckoutDetailsService', () => {
       .getPaymentDetails()
       .subscribe((data) => (paymentInfo = data))
       .unsubscribe();
-    expect(checkoutService.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
-    expect(checkoutPaymentService.getPaymentDetails).toHaveBeenCalled();
+    expect(checkoutFacade.loadCheckoutDetails).toHaveBeenCalledWith(cartId);
+    expect(checkoutPaymentFacade.getPaymentDetails).toHaveBeenCalled();
     expect(paymentInfo).toBe(mockDetails.paymentInfo);
   });
 });

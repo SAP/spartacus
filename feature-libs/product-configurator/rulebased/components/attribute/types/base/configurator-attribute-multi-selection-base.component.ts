@@ -28,9 +28,7 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Display quantity picker on attribute level?
    */
   get withQuantityOnAttributeLevel(): boolean {
-    return (
-      this.quantityService.withQuantityOnAttributeLevel(this.attribute) ?? false
-    );
+    return this.quantityService.withQuantityOnAttributeLevel(this.attribute);
   }
 
   /**
@@ -40,11 +38,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Display quantity picker?
    */
   get withQuantity(): boolean {
-    return (
-      this.quantityService.withQuantity(
-        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
-      ) ?? false
+    return this.quantityService.withQuantity(
+      this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+      this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
     );
   }
 
@@ -54,10 +50,8 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
    * @return {boolean} - Disable quantity picker?
    */
   get disableQuantityActions(): boolean {
-    return (
-      this.quantityService?.disableQuantityActionsMultiSelection(
-        this.attribute
-      ) ?? true
+    return this.quantityService.disableQuantityActionsMultiSelection(
+      this.attribute
     );
   }
 
@@ -129,9 +123,9 @@ export abstract class ConfiguratorAttributeMultiSelectionBaseComponent extends C
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
     return {
-      quantity: value?.quantity,
-      price: value?.valuePrice,
-      priceTotal: value?.valuePriceTotal,
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
   }
