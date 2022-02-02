@@ -1,160 +1,144 @@
 [
-    {
-        "element": {
-            "tagName": "SELECT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-valid"
-                ],
-                "formcontrolname": "titleCode"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "firstName",
-                "name": "firstname",
-                "type": "text"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "lastName",
-                "name": "lastname",
-                "type": "text"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "email",
-                "name": "email",
-                "type": "email"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "password",
-                "name": "password",
-                "type": "password"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-control",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "passwordconf",
-                "name": "confirmpassword",
-                "type": "password"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "form-check-input",
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-valid"
-                ],
-                "formcontrolname": "newsletter",
-                "name": "newsletter",
-                "type": "checkbox"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "INPUT",
-            "attributes": {
-                "classes": [
-                    "ng-untouched",
-                    "ng-pristine",
-                    "ng-invalid"
-                ],
-                "formcontrolname": "termsandconditions",
-                "name": "termsandconditions",
-                "type": "checkbox"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "A",
-            "attributes": {
-                "href": "/electronics-spa/en/USD/terms-and-conditions"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "BUTTON",
-            "attributes": {
-                "classes": [
-                    "btn",
-                    "btn-block",
-                    "btn-primary"
-                ],
-                "type": "submit"
-            }
-        }
-    },
-    {
-        "element": {
-            "tagName": "A",
-            "attributes": {
-                "classes": [
-                    "cx-login-link",
-                    "btn-link"
-                ],
-                "href": "/electronics-spa/en/USD/login"
-            }
-        }
+  {
+    "element": {
+      "tagName": "SELECT",
+      "attributes": {
+        "classes": ["form-control", "ng-untouched", "ng-pristine", "ng-valid"],
+        "formcontrolname": "titleCode"
+      }
     }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-control",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-invalid"
+        ],
+        "formcontrolname": "firstName",
+        "name": "firstname",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-control",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-invalid"
+        ],
+        "formcontrolname": "lastName",
+        "name": "lastname",
+        "type": "text"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-control",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-invalid"
+        ],
+        "formcontrolname": "email",
+        "name": "email",
+        "type": "email"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-control",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-invalid"
+        ],
+        "formcontrolname": "password",
+        "name": "password",
+        "type": "password"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-control",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-invalid"
+        ],
+        "formcontrolname": "passwordconf",
+        "name": "confirmpassword",
+        "type": "password"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": [
+          "form-check-input",
+          "ng-untouched",
+          "ng-pristine",
+          "ng-valid"
+        ],
+        "formcontrolname": "newsletter",
+        "name": "newsletter",
+        "type": "checkbox"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "INPUT",
+      "attributes": {
+        "classes": ["ng-untouched", "ng-pristine", "ng-invalid"],
+        "formcontrolname": "termsandconditions",
+        "name": "termsandconditions",
+        "type": "checkbox"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "A",
+      "attributes": {
+        "href": "/electronics-spa/en/USD/terms-and-conditions"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "BUTTON",
+      "attributes": {
+        "classes": ["btn", "btn-block", "btn-primary"],
+        "type": "submit"
+      }
+    }
+  },
+  {
+    "element": {
+      "tagName": "A",
+      "attributes": {
+        "classes": ["cx-login-link", "btn-link"],
+        "href": "/electronics-spa/en/USD/login"
+      }
+    }
+  }
 ]
