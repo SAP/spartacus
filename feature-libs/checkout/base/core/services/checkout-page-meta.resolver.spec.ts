@@ -58,6 +58,10 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve page title`, () => {
     let result: string | undefined;
 
+    basePageMetaResolver.resolveTitle = createSpy().and.returnValue(
+      of('Checkout Delivery Mode')
+    );
+
     service
       .resolveTitle()
       .subscribe((meta) => {
@@ -65,7 +69,7 @@ describe('CheckoutPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result).toEqual('pageMetaResolver.checkout.title count:5');
+    expect(result).toEqual('Checkout Delivery Mode');
   });
 
   it(`should resolve 'Page description' for resolveDescription()`, () => {
