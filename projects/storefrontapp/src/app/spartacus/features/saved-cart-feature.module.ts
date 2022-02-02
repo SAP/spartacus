@@ -27,6 +27,10 @@ import { CmsConfig, I18nConfig, provideConfig } from '@spartacus/core';
         fallbackLang: 'en',
       },
     }),
+    // {
+    //   provide: AuthGuard,
+    //   useExisting: AnotherAuthGuard,
+    // },
   ],
 })
 export class SavedCartFeatureModule {}
