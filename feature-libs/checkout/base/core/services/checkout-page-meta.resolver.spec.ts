@@ -72,6 +72,17 @@ describe('CheckoutPageMetaResolver', () => {
     expect(result).toEqual('Checkout Delivery Mode');
   });
 
+  it('should resolve checkout heading', () => {
+    let result!: string;
+
+    service
+      .resolveHeading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual('pageMetaResolver.checkout.title');
+  });
+
   it(`should resolve 'Page description' for resolveDescription()`, () => {
     let result: string | undefined;
 
