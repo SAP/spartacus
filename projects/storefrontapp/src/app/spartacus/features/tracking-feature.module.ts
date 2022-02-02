@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import {
   CartAddEntrySuccessEvent,
   CartRemoveEntrySuccessEvent,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { CmsConfig, provideConfig } from '@spartacus/core';
 import { NavigationEvent } from '@spartacus/storefront';
 import {

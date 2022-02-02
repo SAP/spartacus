@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import {
   CheckoutDeliveryAdapter,
   DELIVERY_MODE_NORMALIZER,

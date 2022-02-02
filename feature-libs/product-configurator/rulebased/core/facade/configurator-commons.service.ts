@@ -1,6 +1,6 @@
 import { Injectable, isDevMode } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,

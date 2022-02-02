@@ -1,6 +1,6 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { Store, StoreModule } from '@ngrx/store';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/main/root';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { CardType, PaymentDetails, UserIdService } from '@spartacus/core';
 import { of } from 'rxjs';
 import { CheckoutActions } from '../store/actions/index';

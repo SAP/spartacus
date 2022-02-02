@@ -5,7 +5,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -205,6 +205,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   selectAddress(address: Address): void {
     this.checkoutDeliveryFacade.setDeliveryAddress(address);
+  }
+
+  onAddressCardSelect(address: Address): void {
+    this.selectAddress(address);
+    this.globalMessageService.add(
+      {
+        key: 'checkoutAddress.selectShippingAddressSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 
   addAddress(address: Address): void {

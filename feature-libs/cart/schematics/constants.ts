@@ -3,16 +3,36 @@ import { SPARTACUS_CART } from '@spartacus/schematics';
 export const CART_FOLDER_NAME = 'cart';
 export const SCSS_FILE_NAME = 'cart.scss';
 
-export const CART_MAIN_FEATURE_MODULE_NAME = 'Cart';
-export const CART_MAIN_FEATURE_NAME_CONSTANT = 'CART_FEATURE';
-export const CART_MAIN_MODULE = 'CartModule';
-export const CART_MAIN_ROOT_MODULE = 'CartRootModule';
-export const SPARTACUS_CART_MAIN = `${SPARTACUS_CART}/main`;
-export const SPARTACUS_CART_MAIN_ROOT = `${SPARTACUS_CART_MAIN}/root`;
-export const SPARTACUS_CART_MAIN_ASSETS = `${SPARTACUS_CART_MAIN}/assets`;
-export const CART_MAIN_TRANSLATIONS = 'cartTranslations';
-export const CART_MAIN_TRANSLATION_CHUNKS_CONFIG =
-  'cartTranslationChunksConfig';
+export const CART_BASE_FEATURE_MODULE_NAME = 'CartBase';
+export const CART_BASE_FEATURE_NAME_CONSTANT = 'CART_BASE_FEATURE';
+export const CART_BASE_MODULE = 'CartBaseModule';
+export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
+export const SPARTACUS_CART_BASE = `${SPARTACUS_CART}/base`;
+export const SPARTACUS_CART_BASE_ROOT = `${SPARTACUS_CART_BASE}/root`;
+export const SPARTACUS_CART_BASE_ASSETS = `${SPARTACUS_CART_BASE}/assets`;
+export const CART_BASE_TRANSLATIONS = 'cartBaseTranslations';
+export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
+  'cartBaseTranslationChunksConfig';
+export const MINI_CART_FEATURE_NAME_CONSTANT = 'MINI_CART_FEATURE';
+export const MINI_CART_MODULE = 'MiniCartModule';
+export const MINI_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/mini-cart`;
+export const ADD_TO_CART_FEATURE_NAME_CONSTANT = 'ADD_TO_CART_FEATURE';
+export const ADD_TO_CART_MODULE = 'AddToCartModule';
+export const ADD_TO_CART_ENTRY_POINT = `${SPARTACUS_CART_BASE}/components/add-to-cart`;
+
+export const CART_WISHLIST_FEATURE_MODULE_NAME = 'WishList';
+export const CART_WISHLIST_FEATURE_NAME_CONSTANT = 'CART_WISH_LIST_FEATURE';
+export const CART_WISHLIST_MODULE = 'WishListModule';
+export const CART_WISHLIST_ROOT_MODULE = 'WishListRootModule';
+export const SPARTACUS_CART_WISHLIST = `${SPARTACUS_CART}/wish-list`;
+export const SPARTACUS_CART_WISHLIST_ROOT = `${SPARTACUS_CART_WISHLIST}/root`;
+export const SPARTACUS_CART_WISHLIST_ASSETS = `${SPARTACUS_CART_WISHLIST}/assets`;
+export const CART_WISHLIST_TRANSLATIONS = 'wishListTranslations';
+export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
+  'wishListTranslationChunksConfig';
+export const ADD_TO_WISHLIST_FEATURE_NAME_CONSTANT = 'ADD_TO_WISHLIST_FEATURE';
+export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
+export const ADD_TO_WISHLIST_ENTRY_POINT = `${SPARTACUS_CART_WISHLIST}/components/add-to-wishlist`;
 
 export const CART_SAVED_CART_MODULE_NAME = 'CartSavedCart';
 export const CART_SAVED_CART_FEATURE_NAME_CONSTANT = 'CART_SAVED_CART_FEATURE';

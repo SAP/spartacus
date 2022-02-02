@@ -92,4 +92,7 @@ export class FormErrorsComponent {
   @HostBinding('class.control-touched') get touched() {
     return this.control?.touched;
   }
+
+  @HostBinding('attr.aria-live') ariaLive = 'assertive';
+  @HostBinding('attr.aria-atomic') ariaAtomic = true;
 }

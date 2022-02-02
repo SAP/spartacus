@@ -1,4 +1,4 @@
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Address } from '@spartacus/core';
 import { Observable } from 'rxjs';
 

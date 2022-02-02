@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '@spartacus/cart/main/root';
+import { ORDER_ENTRY_PROMOTIONS_NORMALIZER } from '@spartacus/cart/base/root';
 import {
   Converter,
   ConverterService,

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Input, Type } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/main/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
@@ -147,6 +147,7 @@ describe('ShippingAddressComponent', () => {
   let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -191,6 +192,7 @@ describe('ShippingAddressComponent', () => {
       );
       userAddressService = TestBed.inject(UserAddressService);
       userCostCenterService = TestBed.inject(UserCostCenterService);
+      globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
 
@@ -291,6 +293,12 @@ describe('ShippingAddressComponent', () => {
     component.addAddress({});
     expect(component.forceLoader).toBeTruthy();
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
+  });
+
+  it('should send a global message when a new default address is selected', () => {
+    component.onAddressCardSelect({});
+    expect(component.selectAddress).toHaveBeenCalledWith({});
+    expect(globalMessageService.add).toHaveBeenCalled();
   });
 
   it('should be able to get card content', () => {

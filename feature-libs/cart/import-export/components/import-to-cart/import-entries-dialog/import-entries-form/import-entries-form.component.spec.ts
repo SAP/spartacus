@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ProductData } from '@spartacus/cart/base/root';
 import {
   defaultImportExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { ProductData } from '@spartacus/cart/main/root';
 import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import {
   FilesFormValidators,

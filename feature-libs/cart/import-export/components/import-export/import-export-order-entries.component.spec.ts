@@ -9,7 +9,7 @@ import {
   ProductData,
   ProductImportInfo,
   ProductImportStatus,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import { ContextService, PageComponentModule } from '@spartacus/storefront';
 import { BehaviorSubject } from 'rxjs';
 import { ImportExportOrderEntriesComponent } from './import-export-order-entries.component';

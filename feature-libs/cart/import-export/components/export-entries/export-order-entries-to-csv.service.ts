@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ExportColumn,
   ExportConfig,
   ImportExportConfig,
 } from '@spartacus/cart/import-export/core';
-import { OrderEntry } from '@spartacus/cart/main/root';
 import {
   GlobalMessageService,
   GlobalMessageType,

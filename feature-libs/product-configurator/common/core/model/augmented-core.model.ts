@@ -5,7 +5,7 @@ declare module '@spartacus/core' {
     configuratorType?: string;
   }
 }
-declare module '@spartacus/cart/main/root' {
+declare module '@spartacus/cart/base/root' {
   interface OrderEntry {
     statusSummaryList?: StatusSummary[];
     configurationInfos?: ConfigurationInfo[];

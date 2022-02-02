@@ -1,4 +1,4 @@
-import { PaymentType } from '@spartacus/cart/main/root';
+import { PaymentType } from '@spartacus/cart/base/root';
 import { CheckoutActions } from '../actions/index';
 import { PaymentTypesState } from '../checkout-state';
 

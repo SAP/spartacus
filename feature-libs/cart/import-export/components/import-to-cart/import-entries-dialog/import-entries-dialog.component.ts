@@ -6,7 +6,7 @@ import {
   ProductImportInfo,
   ProductImportStatus,
   ProductImportSummary,
-} from '@spartacus/cart/main/root';
+} from '@spartacus/cart/base/root';
 import {
   FocusConfig,
   ICON_TYPE,

@@ -3,7 +3,7 @@ import {
   createSelector,
   MemoizedSelector,
 } from '@ngrx/store';
-import { DeliveryMode } from '@spartacus/cart/main/root';
+import { DeliveryMode } from '@spartacus/cart/base/root';
 import { Address, PaymentDetails, StateUtils } from '@spartacus/core';
 import { Order, ReplenishmentOrder } from '@spartacus/order/root';
 import {
