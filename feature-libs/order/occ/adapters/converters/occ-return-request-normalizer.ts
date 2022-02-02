@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   Converter,
   ConverterService,
   Occ,
-  OrderEntry,
   PRODUCT_NORMALIZER,
-  ReturnRequest,
 } from '@spartacus/core';
+import { ReturnRequest } from '@spartacus/order/root';
 
 @Injectable({ providedIn: 'root' })
 export class OccReturnRequestNormalizer

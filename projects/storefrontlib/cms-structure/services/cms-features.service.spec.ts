@@ -1,12 +1,12 @@
+import { InjectionToken, NgModule } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CmsFeaturesService } from './cms-features.service';
 import {
   CmsConfig,
   FeatureModulesService,
   provideConfig,
   provideDefaultConfig,
 } from '@spartacus/core';
-import { InjectionToken, NgModule } from '@angular/core';
+import { CmsFeaturesService } from './cms-features.service';
 
 const mockCmsConfig: CmsConfig = {
   featureModules: {
