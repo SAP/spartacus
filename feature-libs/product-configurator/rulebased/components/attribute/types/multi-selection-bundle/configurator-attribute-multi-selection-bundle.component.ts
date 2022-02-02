@@ -26,6 +26,13 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
   multipleSelectionValues: SelectionValue[] = [];
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  /**
+   * Initializes selection values and peventAction observable
+   */
+  protected initialize(): void {
     if (this.attribute.values && this.attribute.values.length > 0) {
       this.multipleSelectionValues = this.attribute.values.map(
         ({ name, quantity, selected, valueCode }) => ({
@@ -180,14 +187,14 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean | null,
-    hideRemoveButton: boolean | null,
+    disableAllButtons: boolean,
+    hideRemoveButton: boolean,
     value: Configurator.Value,
     index: number
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      disableAllButtons: disableAllButtons ? disableAllButtons : false,
-      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
+      disableAllButtons: disableAllButtons,
+      hideRemoveButton: hideRemoveButton,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
@@ -196,9 +203,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       attributeLabel: this.attribute.label,
       attributeName: this.attribute.name,
       itemCount: this.attribute.values?.length
-        ? this.attribute.values?.length
+        ? this.attribute.values.length
         : 0,
-      itemIndex: index ? index : 0,
+      itemIndex: index,
     };
   }
 }
