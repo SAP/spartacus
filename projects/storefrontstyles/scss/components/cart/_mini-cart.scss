@@ -31,7 +31,10 @@
       color: currentColor;
       align-self: center;
       padding-inline-start: 7px;
+      font-size: var(--cx-font-size, 1.188rem);
+      font-weight: var(--cx-font-weight-bold);
     }
+
     .total {
       display: none;
     }

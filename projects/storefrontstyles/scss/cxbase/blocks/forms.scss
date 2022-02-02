@@ -327,3 +327,24 @@ input {
     appearance: none;
   }
 }
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+    color: var(--cx-color-secondary-alt);
+  }
+
+
+.form-group {
+  input[type='text']::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: var(--cx-color-secondary-alt);
+    opacity: 1; /* Firefox */
+  }
+  
+  input[type='text']:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: var(--cx-color-secondary-alt);
+  }
+  
+  input[type='text']::-ms-input-placeholder { /* Microsoft Edge */
+    color: var(--cx-color-secondary-alt);
+  }
+
+}
