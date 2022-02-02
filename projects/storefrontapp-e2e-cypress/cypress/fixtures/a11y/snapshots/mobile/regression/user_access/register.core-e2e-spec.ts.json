@@ -2,112 +2,158 @@
     {
         "element": {
             "tagName": "SELECT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-valid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-valid"
+                ],
+                "formcontrolname": "titleCode"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "firstName",
+                "name": "firstname",
+                "type": "text"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "lastName",
+                "name": "lastname",
+                "type": "text"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "email",
+                "name": "email",
+                "type": "email"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "password",
+                "name": "password",
+                "type": "password"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-control",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "form-control",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "passwordconf",
+                "name": "confirmpassword",
+                "type": "password"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "form-check-input",
-                "1": "ng-untouched",
-                "2": "ng-pristine",
-                "3": "ng-valid"
+            "attributes": {
+                "classes": [
+                    "form-check-input",
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-valid"
+                ],
+                "formcontrolname": "newsletter",
+                "name": "newsletter",
+                "type": "checkbox"
             }
         }
     },
     {
         "element": {
             "tagName": "INPUT",
-            "classList": {
-                "0": "ng-untouched",
-                "1": "ng-pristine",
-                "2": "ng-invalid"
+            "attributes": {
+                "classes": [
+                    "ng-untouched",
+                    "ng-pristine",
+                    "ng-invalid"
+                ],
+                "formcontrolname": "termsandconditions",
+                "name": "termsandconditions",
+                "type": "checkbox"
             }
         }
     },
     {
         "element": {
             "tagName": "A",
-            "classList": {}
+            "attributes": {
+                "href": "/electronics-spa/en/USD/terms-and-conditions"
+            }
         }
     },
     {
         "element": {
             "tagName": "BUTTON",
-            "classList": {
-                "0": "btn",
-                "1": "btn-block",
-                "2": "btn-primary"
+            "attributes": {
+                "classes": [
+                    "btn",
+                    "btn-block",
+                    "btn-primary"
+                ],
+                "type": "submit"
             }
         }
     },
     {
         "element": {
             "tagName": "A",
-            "classList": {
-                "0": "cx-login-link",
-                "1": "btn-link"
+            "attributes": {
+                "classes": [
+                    "cx-login-link",
+                    "btn-link"
+                ],
+                "href": "/electronics-spa/en/USD/login"
             }
         }
     }

@@ -80,12 +80,24 @@ Cypress.Commands.add(
         )
       )
         .filter((element) => element.offsetParent !== null)
-        .map((el) => ({
-          element: {
-            tagName: el.tagName,
-            classList: el.classList,
-          },
-        }));
+        .map((el) => {
+          return {
+            element: {
+              tagName: el.tagName,
+              attributes: {
+                classes: el.classList?.length
+                  ? Object.values(el.classList)
+                  : undefined,
+                formcontrolname:
+                  el.getAttribute('formcontrolname') ?? undefined,
+                href: el.getAttribute('href') ?? undefined,
+                id: el.id?.length ? el.id : undefined,
+                name: el.getAttribute('name') ?? undefined,
+                type: el.getAttribute('type') ?? undefined,
+              },
+            },
+          };
+        });
 
       cy.task('readFile', SNAPSHOT_FILE).then((file: string) => {
         if (file?.length) {
