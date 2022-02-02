@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { ListNavigationModule, SpinnerModule } from '@spartacus/storefront';
 import { SavedCartListComponent } from './saved-cart-list.component';
+import { TestGuard } from './test.guard';
 
 @NgModule({
   imports: [
@@ -25,7 +26,7 @@ import { SavedCartListComponent } from './saved-cart-list.component';
       cmsComponents: {
         AccountSavedCartHistoryComponent: {
           component: SavedCartListComponent,
-          guards: [AuthGuard],
+          guards: [AuthGuard, TestGuard],
         },
       },
     }),

@@ -13,6 +13,7 @@ import { StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { translationChunksConfig, translations } from '@spartacus/assets';
 import {
+  AuthGuard,
   FeaturesConfig,
   I18nConfig,
   OccConfig,
@@ -23,6 +24,7 @@ import {
 import { AppRoutingModule, StorefrontComponent } from '@spartacus/storefront';
 import { environment } from '../environments/environment';
 import { TestOutletModule } from '../test-outlets/test-outlet.module';
+import { NewAuthGuard } from './new-auth-guard';
 import { SpartacusModule } from './spartacus/spartacus.module';
 
 registerLocaleData(localeDe);
@@ -49,6 +51,10 @@ if (!environment.production) {
     ...devImports,
   ],
   providers: [
+    {
+      provide: AuthGuard,
+      useExisting: NewAuthGuard,
+    },
     provideConfig(<OccConfig>{
       backend: {
         occ: {
