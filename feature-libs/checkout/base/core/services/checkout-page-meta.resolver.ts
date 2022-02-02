@@ -40,13 +40,22 @@ export class CheckoutPageMetaResolver
 
   /**
    * @override
-   * Resolves the page title from the translation `pageMetaResolver.checkout.title`. The
-   * cart total item `count` is passed to the translation, so it can be used in the title.
+   * Resolves the page title for the Checkout Page to include checkout step.
+   * The page title used by the browser (history, tabs) and crawlers.
    *
    * The title from the page data is ignored for this page title.
    */
   resolveTitle(): Observable<string | undefined> {
     return this.basePageMetaResolver.resolveTitle();
+  }
+
+  /**
+   * Resolves the page heading for the Checkout Page.
+   * The page heading is used in the UI (`<h1>`), where as the page
+   * title is used by the browser and crawlers.
+   */
+  resolveHeading(): Observable<string> {
+    return this.translationService.translate('pageMetaResolver.checkout.title');
   }
 
   resolveDescription(): Observable<string | undefined> {
