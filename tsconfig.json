@@ -69,6 +69,9 @@
       "@spartacus/cart/added-to-cart-toast/assets": [
         "feature-libs/cart/added-to-cart-toast/assets/public_api"
       ],
+      "@spartacus/cart/added-to-cart-toast/components": [
+        "feature-libs/cart/added-to-cart-toast/components/public_api"
+      ],
       "@spartacus/checkout/assets": ["feature-libs/checkout/assets/public_api"],
       "@spartacus/checkout/components": [
         "feature-libs/checkout/components/public_api"
