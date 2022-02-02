@@ -1,8 +1,9 @@
 import * as notification from '../../../helpers/notification';
+import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('Stock Notification for Guest', () => {
   before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
+    clearAllStorage();
     cy.visit('/');
   });
   it('should login first when guest want to subscribe notification', () => {
@@ -11,18 +12,10 @@ describe('Stock Notification for Guest', () => {
 });
 
 describe('Stock Notification for Customer', () => {
-  before(() => {
-    cy.window().then((win) => win.sessionStorage.clear());
+  beforeEach(() => {
+    clearAllStorage();
     cy.requireLoggedIn();
     cy.visit('/');
-  });
-
-  beforeEach(() => {
-    cy.restoreLocalStorage();
-  });
-
-  afterEach(() => {
-    cy.saveLocalStorage();
   });
 
   it('should navigate to notification preference page through product detail page', () => {
