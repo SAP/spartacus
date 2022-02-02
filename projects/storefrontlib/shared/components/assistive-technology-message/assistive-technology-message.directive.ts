@@ -13,7 +13,7 @@ import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 })
 export class AtMessageDirective {
   /**
-   * Usage [cxAtMEssage]="'translatableKey' | cxTranslate"
+   * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
   @Input() cxAtMessage: string;
 
@@ -37,7 +37,7 @@ export class AtMessageDirective {
   handleClick(event: MouseEvent): void {
     event?.preventDefault();
 
-    if (event?.target === this.host) {
+    if (event?.target === this.host && this.cxAtMessage) {
       this.globalMessageService.add(
         this.cxAtMessage,
         GlobalMessageType.MSG_TYPE_ASSISTIVE
