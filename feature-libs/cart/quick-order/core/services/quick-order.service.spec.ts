@@ -1,13 +1,14 @@
 import { AbstractType } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import {
+  ActiveCartFacade,
+  CartAddEntrySuccessEvent,
+  OrderEntry,
+} from '@spartacus/cart/base/root';
 import { defaultQuickOrderConfig } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
-  CartAddEntrySuccessEvent,
   EventService,
-  OrderEntry,
   Product,
-  ProductAdapter,
   ProductSearchConnector,
   ProductSearchPage,
   SearchConfig,
@@ -73,12 +74,6 @@ const mockProductSearchPage: ProductSearchPage = {
   products: [mockProduct1, mockProduct2],
 };
 
-class MockProductAdapter implements Partial<ProductAdapter> {
-  load(_productCode: any, _scope?: string): Observable<Product> {
-    return of(mockProduct1);
-  }
-}
-
 class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   search(
     _query: string,
@@ -88,7 +83,7 @@ class MockProductSearchConnector implements Partial<ProductSearchConnector> {
   }
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   isStable(): Observable<boolean> {
     return of(true);
   }
@@ -106,24 +101,21 @@ class MockEventService implements Partial<EventService> {
 
 describe('QuickOrderService', () => {
   let service: QuickOrderService;
-  let productAdapter: ProductAdapter;
   let productSearchConnector: ProductSearchConnector;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         QuickOrderService,
-        ProductAdapter,
         {
-          provide: ActiveCartService,
+          provide: ActiveCartFacade,
           useClass: MockActiveCartService,
         },
         {
           provide: EventService,
           useClass: MockEventService,
         },
-        { provide: ProductAdapter, useClass: MockProductAdapter },
         {
           provide: ProductSearchConnector,
           useClass: MockProductSearchConnector,
@@ -132,9 +124,8 @@ describe('QuickOrderService', () => {
     });
 
     service = TestBed.inject(QuickOrderService);
-    productAdapter = TestBed.inject(ProductAdapter);
     productSearchConnector = TestBed.inject(ProductSearchConnector);
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
   });
 
   beforeEach(() => {
@@ -184,13 +175,6 @@ describe('QuickOrderService', () => {
         expect(entries).toEqual([]);
         done();
       });
-  });
-
-  it('should trigger search', () => {
-    spyOn(productAdapter, 'load');
-
-    service.search(mockProduct1Code);
-    expect(productAdapter.load).toHaveBeenCalledWith(mockProduct1Code);
   });
 
   describe('should trigger search products', () => {
@@ -449,13 +433,6 @@ describe('QuickOrderService', () => {
         expect(result).toBe(false);
       });
     });
-  });
-
-  it('should trigger soft deletion entry on removeEntry method', () => {
-    spyOn(service, 'softDeleteEntry').and.callThrough();
-    service.loadEntries([mockEntry1]);
-    service.removeEntry(1);
-    expect(service.softDeleteEntry).toHaveBeenCalledWith(1);
   });
 
   describe('Non purchasable product', () => {

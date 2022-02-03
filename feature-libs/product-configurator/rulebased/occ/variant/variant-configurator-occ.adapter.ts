@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -205,6 +204,7 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          productCode: overview.productCode,
           groups: [],
           flatGroups: [],
           interactionState: {},
