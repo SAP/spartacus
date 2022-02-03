@@ -19,6 +19,7 @@ context('Checkout flow', () => {
       checkout.registerUser(false, user);
       checkout.goToCheapProductDetailsPage();
       checkout.addCheapProductToCartAndLogin(user);
+      checkout.checkSummaryAmount();
       checkout.proceedWithEmptyShippingAdressForm();
       checkout.proceedWithIncorrectShippingAddressForm({
         ...user,

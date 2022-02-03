@@ -134,7 +134,7 @@ export function fillPaymentDetails(
   billingAddress?: AddressData,
   submitForm: boolean = true
 ) {
-  cy.get('cx-payment-form', { timeout: 1000 }).within(() => {
+  cy.get('cx-payment-form').within(() => {
     if (paymentDetails) {
       paymentDetails?.payment?.card &&
         cy.get('[bindValue="code"]').ngSelect(paymentDetails.payment.card);

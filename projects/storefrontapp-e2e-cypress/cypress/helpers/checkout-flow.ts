@@ -341,7 +341,7 @@ export function proceedWithEmptyShippingAdressForm() {
   cy.log('🛒 Trying to proceed with empty address form');
 
   fillShippingAddress(null);
-  cy.get('cx-form-errors').should('have.length', 6);
+  cy.get('cx-form-errors').should('exist');
 }
 
 export function proceedWithIncorrectShippingAddressForm(
@@ -350,30 +350,21 @@ export function proceedWithIncorrectShippingAddressForm(
   cy.log('🛒 Trying to proceed with incorrect address form');
 
   fillShippingAddress(shippingAddressData);
-  cy.get('[formcontrolname="firstName"]')
-    .next('cx-form-errors')
-    .should('exist');
+  cy.get('cx-form-errors').should('exist');
 }
 
 export function checkSummaryAmount(
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total', {
-    timeout: 1000,
-  })
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartData.total);
 }
 
 export function fillAddressFormWithCheapProduct(
-  shippingAddressData: Partial<AddressData> = user,
-  cartData: SampleCartProduct = cartWithCheapProduct
+  shippingAddressData: Partial<AddressData> = user
 ) {
   cy.log('🛒 Filling shipping address form');
-
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
-    .find('.cx-summary-amount')
-    .should('contain', cartData.total);
 
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
@@ -387,7 +378,7 @@ export function proceedWithEmptyPaymentForm() {
   cy.log('🛒 Trying to proceed with empty payment method form');
 
   fillPaymentDetails(null);
-  cy.get('button.btn.btn-block.btn-primary').contains('Continue').click();
+  cy.get('cx-form-errors').should('exist');
 }
 
 export function proceedWithIncorrectPaymentForm(
@@ -396,9 +387,7 @@ export function proceedWithIncorrectPaymentForm(
   cy.log('🛒 Trying to proceed with incorrect payment method form');
 
   fillPaymentDetails(paymentDetailsData);
-  cy.get('[formcontrolname="cardNumber"]')
-    .next('cx-form-errors')
-    .should('exist');
+  cy.get('cx-form-errors').should('exist');
 }
 
 export function fillPaymentFormWithCheapProduct(

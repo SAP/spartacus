@@ -35,7 +35,7 @@ context('B2B - Credit Card Checkout flow', () => {
     b2bCheckout.selectCreditCardPayment();
   });
 
-  it('should chech total in order summary', () => {
+  it('should check total in order summary', () => {
     checkout.checkSummaryAmount(cartWithB2bProduct);
   });
 
@@ -51,10 +51,7 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should enter shipping address', () => {
-    checkout.fillAddressFormWithCheapProduct(
-      { firstName: user.firstName },
-      cartWithB2bProduct
-    );
+    checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
   });
 
   it('should select delivery mode', () => {
