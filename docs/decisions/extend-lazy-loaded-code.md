@@ -22,24 +22,33 @@ Until now, when generating the app's code via schematics, we've written the dyna
 ()=>import('@spartacus/user/profile').then(m=>m.UserProfileService)
 ```
 
+Side note: importing dynamically directly from the path of Spartacus library, e.g. `()=>import('@spartacus/user/profile')`) prevents Webpack from tree shaking any unused public API members. 
+
 ## 5. Alternatives considered
 _List the alternative options you considered with their pros and cons_
 
-### Option 1: Wrapper lazy-loaded modules in app
+### Option 1: Introduce wrapper lazy-loaded modules in the app
 
 We can introduce a wrapper module in the app and import it dynamically (lazily) instead of the original Spartacus module:
-```ts
-()=>import('./wrapper-user-profile.module').then(m=>WrapperUserProfileModule)
+```diff
+- ()=>import('@spartacus/user/profile').then(m=>m.UserProfileService)
++ ()=>import('./wrapper-user-profile.module').then(m=>WrapperUserProfileModule)
 ```
 
-Then Inside the wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) any other extension modules. Because the wrapper module owns the child-injector, and both the original and the extension modules live inside the wrapper module, they share the same injector. So the extension service can overwrite the original service in this injector.
+Then inside the wrapper module we primarily import (statically) the original Spartacus module, but also allow for importing (statically) any other extension modules. Because the child-injector belongs to the wrapper module (becaus it's lazy-loaded), and both the original and the extension modules live inside the wrapper module, they share the same injector. Therefore the extension service can overwrite the original service inside the boundaries of this injector. See below the example implementation of the wrapper module:
 
 ```ts
 import { UserProfileModule } from '@spartacus/user/profile';
 import { ExtensionUserProfileModule } from '@spartacus/some-extension-library';
 
 @NgModule({
-  imports: [UserProfileModule, ExtensionUserProfileModule]
+  imports: [
+     // original module providing original service
+    UserProfileModule,
+
+    // extension module with providers overwriting the original service
+    ExtensionUserProfileModule 
+  ]
 })
 export class WrapperUserProfileModule {}
 ```
@@ -47,28 +56,170 @@ export class WrapperUserProfileModule {}
 The working example can be found in the PoC PR: https://github.com/SAP/spartacus/pull/14871
 
 #### Pros
-- it allows for extending Spartacus services in lazy-loaded modules
-- it's a convention for adding new extension libraries to existing lazy-loaded modules
-- it shows the straightforward extensibility path for customers - they can write their own extensions directly in the wrapper modules
+- this approach allows for extending Spartacus services from other Spartacus libraries  in lazy-loaded modules
+- by the way, it improves the customer's developer experience - it shows the straightforward place where customers they can overwrite our OOTB services in a lazy-loaded feature (nowadays the [documentation says customers need to create wrapper modules themselves manually](https://sap.github.io/spartacus-docs/lazy-loading-guide/#customizing-lazy-loaded-modules))
+- additionally, it allows for tree-shaking any unused public API of the feature library entrypoint (which was not the case previously, when importing dynamically module from the direct path of the library)
 
 #### Cons
 - we add more modules in customer's app
 - wrapper modules for non-customized features are just a redundant boilerplate
-- it introduces an coding convention in customer's app, that customers might not follow
-- negligible increase in the production built JS bundle of the lazy-loaded feature: 100-200 bytes (depending on the length of the class name). Note that the OOTB `UserProfileModule` feature is 42.15 kB heavy. So the increase in this case is 0.3%. 
+- to install an extension, you need to know the filename of the wrapper module - so it requires naming conventions
+  - when customers don't follow the conventions, we're not able to install automatically the extension
+  - if in the future we change the suggested the name of the feature (e.g. because of changing our vision of dividing the code into chunks), the customer app's code requires moving around and renaming the wrapper modules. Otherwise new extensions for those features won't be able to install automatically
+- negligible increase in the production built JS bundle of the lazy-loaded feature: 100-200 bytes (depending on the length of the class name).
+  - Note that the OOTB `UserProfileModule` feature has 42.15 kB at the moment of writing. So the increase in this case is 0.3% and it affects only the lazy-loaded chunk, but not the main JS chunk. 
+
 
 #### Interesting
-- does it increase the production built main JS bundle size?
+
+- does it increase the production built MAIN JS bundle size?
   - NO
 - does it cause creating any new JS chunks?
-  - NO 
-- how will we need to change our installation schematics to adapt wrapper modules? 
-  - TODO ?
-- should we force customers migrating to 5.0 to introduce the wrapper modules?
-  - TODO ?
+  - NO
+- will importing statically the original module in the wrapper module break the lazy loading?
+  - NO
+- should we change our installation schematics to create wrapper modules? 
+  - YES, to allow for automated installation of any extension modules inside wrapper modules
+- should we automate the migration from old dynamic imports to new wrapper imports?
+  - Ideally YES. But might not have time for it. Instead just document how customers should do it themselves.
+  - TODO?
+- how do we install automatically the extension which contributes to other lazy-laoded feature, if customer doesn't have the wrapper module of the expected name for that feature?  
+- how will we migrate customer's code, when we decide in future to change the structure of the lazy-loaded chunks?
+  - TODO? 
+- should we force (or strongly recommend) customers  who migrate to 5.0 to introduce the wrapper modules?
+  - YES, for sure with documentation and maybe with schematics
+- how do we name the wrapper modules?
+  - TBD: how to name new wrapper lazy-laoded modules in customer's app, so it's obvious that customer's customizations should go there as well. Options: for example UserProfileModule: LazyUserProfileModule, WrapperUserProfileModule, ... ?
+- it might seriously complicate the future automated migrations in case we will change in the future the suggested division of the features in to lazy-laoded chunks (e.g. we propose more fine-grained or reorganized chunks).
+  - TBD: in the end of the day, it's up to customers to decide how to optimize their code. But it would be good to provide nice OOTB experience.
+- how does the shell app look files structure look like if every feature is blown into many modules (main feature module with configs, and one or more lazy-loaded wrapper feature modules)
+  - TBD
+- can we have one library entry point for multiple lazy-loaded modules? if yes, how do we enforce boundaries?
+  - TODO 
+  
 
-### Option 2: configure a dependency of original module on an extension module
+### Option 2: Configure the extension module as `dependencies` of the lazy-loaded feature module
+Spartacus allows for configuring `dependencies` for a feature module, for example:
+
+```ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      module: () =>
+        import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+
+      dependencies: [
+        () =>
+          import('@spartacus/some-extension-library').then(
+            (m) => m.ExtensionUserProfileModule
+          ),
+      ],
+    },
+  },
+}),
+```
+This allows for injecting services from the dependency module.
+
+Unfortunately for us, the dependency module's injector has lower priority than the original feature module). It's because the instantiated feature module has it's own injector. So the extension services cannot overwrite the original services.
+
+So this this option is disqualified as it's not solving our problem.
+
+*Note*: why the dependency module's injector cannot have higher priority than the feature module's injector? It's because the Angular's public API allows only for setting a *parent injector* for the dynamically instantiated module: `NgModuleFactory<any>.create(parentInjector: Injector | null): NgModuleRef<any>`. And the parent injector, by definition has a lower priority than the injector of the instantiated module. 
+
+### Option 3: Configure the feature module as `dependencies` of the extension feature module (tweaked Option 2)
+We could tweak the Option (2), and set the extension module as the main feature `module`, while setting the original feature module only as `dependencies`. Then the injector of the extension module should have higher priority than the original feature module, when resolving services. See example:
+
+```ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      module: () =>
+        import('@spartacus/some-extension-library').then(
+          (m) => m.ExtensionUserProfileModule
+        ),
+      
+      dependencies: [
+        () => import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+      ],
+    },
+  },
+}),
+```
+We're hoping that this configuration should promote injecting services from the extension module over the services from the original feature module.
+
+Unfortunately, then we get an error:
+```
+core.js:6456 ERROR TypeError: Cannot read properties of undefined (reading 'pipe')
+    at ComponentWrapperDirective.launchComponent (component-wrapper.directive.ts:121:8)
+```
+
+It's because the implementation of the method `CmsComponentsService#determineMappings` picks the CMS component mappings only from the pointed `module`, but not from its `dependencies`. And in our case the extension module doesn't contain all those component mappings, instead they live in the original feature module (which is now set as `dependencies`).
+
+As a next step we could possibly change the behavior of `CmsComponentsService#determineMappings` to pick also cms mappings from the dependency modules.
+
+### Pros
+- It doesn't require creating a new wrapper module in customer's app
+
+#### Cons
+- it doesn't work OOTB
+- even if we make it work (e.g. by changing behavior of `CmsComponentsService#determineMappings`):
+  - it doesn't allow for plugging many independent extensions to a single feature feature (because the config allows for only one main feature `module`)
+  - it would require changing at least a core service `CmsComponentsService`, that most of the application depends on (indirectly)
+
+#### Interesting
+- will it solve our problem, if we change the behavior of `CmsComponentsService#determineMappings` to pick  mappings also from the `dependencies` modules?
+  - how much complexity will it introduce to the code?
+  - if it works, what will be the consequences of picking cms mappings not only from the main feature `module`, but also from `dependencies` modules?
+    - what if a single dependency module is reused as a dependency of more than one feature module? Should it then populate its mappings to more than one feature module?
+    - does it even make sense (semantically) to provide the cms mappings in a dependency module?
+    
+
+###
+
+
+
+### Option 4: Introduce a config `plugins` for lazy-loaded feature modules
+We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
+
+```ts
+// user-feature.module.ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      module: () =>
+        import('@spartacus/user/profile').then((m) => m.UserProfileModule),
+    },
+  },
+}),
+```
+
+```ts
+// some-extension-feature.module.ts
+provideConfig(<CmsConfig>{
+  featureModules: {
+    [USER_PROFILE_FEATURE]: {
+      plugins: [
+        () =>
+          import('@spartacus/some-extension-library').then((m) => m.UserProfileModule),
+      ]
+    },
+  },
+}),
+```
+
+#### Pros
+- it doesn't require relying on wrapper modules
+  - to install an extension, you don't need to know the filename of the wrapper module, but only the feature name, e.g. `USER_PROFILE_FEATURE` 
+
 > TODO
+
+### Interesting
+- won't it create 2 instances of any of those modules?
+- is it acceptable (no!?) that default User depends on CDC intragration
+- CDC depends on user? to be checked -> circular dep?
+
+
+
 
 ### Option 2
 
