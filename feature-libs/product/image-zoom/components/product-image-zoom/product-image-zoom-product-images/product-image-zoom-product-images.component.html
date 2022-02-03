@@ -8,14 +8,21 @@
 </ng-container>
 
 <ng-container *ngIf="thumbs$ | async as thumbs">
-  <cx-carousel
-    *ngIf="thumbs.length"
-    class="thumbs"
-    [items]="thumbs"
-    itemWidth="120px"
-    [hideIndicators]="false"
-    [template]="thumb"
-  ></cx-carousel>
+  <ng-container *ngIf="product$ | async as product">
+    <cx-carousel
+      role="region"
+      [attr.aria-label]="
+        'carousel.carouselForProduct' | cxTranslate: { product: product.name }
+      "
+      tabindex="-1"
+      *ngIf="thumbs.length"
+      class="thumbs"
+      [items]="thumbs"
+      itemWidth="120px"
+      [hideIndicators]="false"
+      [template]="thumb"
+    ></cx-carousel>
+  </ng-container>
 </ng-container>
 
 <ng-template #thumb let-item="item">

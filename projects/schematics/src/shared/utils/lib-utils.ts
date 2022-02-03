@@ -121,7 +121,7 @@ export interface FeatureConfig {
   /**
    * The feature module configuration.
    */
-  featureModule: Module;
+  featureModule: Module | Module[];
   /**
    * The root module configuration.
    */
@@ -482,14 +482,26 @@ function addFeatureModule<T extends LibraryOptions>(
 
       for (const sourceFile of appSourceFiles) {
         if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          if (options.lazy) {
-            let lazyLoadingChunkName = config.moduleName;
-            if (config.lazyLoadingChunk) {
-              const content = config.lazyLoadingChunk.namedImports[0];
-              lazyLoadingChunkName = `[${content}]`;
-              sourceFile.addImportDeclaration(config.lazyLoadingChunk);
-            }
+          const configFeatures = ([] as Module[]).concat(config.featureModule);
 
+          if (options.lazy) {
+            let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
+            featureModules: {`;
+            for (let i = 0; i < configFeatures.length; i++) {
+              const featureModule = configFeatures[i];
+              let lazyLoadingChunkName = config.moduleName;
+              if (config.lazyLoadingChunk) {
+                const content = config.lazyLoadingChunk.namedImports[i];
+                lazyLoadingChunkName = `[${content}]`;
+                sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+              }
+              content =
+                content +
+                `${lazyLoadingChunkName}: {
+              module: () =>
+                import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
+            },`;
+            }
             addModuleProvider(sourceFile, {
               import: [
                 {
@@ -497,24 +509,18 @@ function addFeatureModule<T extends LibraryOptions>(
                   namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
                 },
               ],
-              content: `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
-              featureModules: {
-                ${lazyLoadingChunkName}: {
-                  module: () =>
-                    import('${config.featureModule.importPath}').then((m) => m.${config.featureModule.name}),
-                },
-              }
-            })`,
+              content: content + `}})`,
             });
           } else {
-            addModuleImport(sourceFile, {
-              import: {
-                moduleSpecifier: config.featureModule.importPath,
-                namedImports: [config.featureModule.name],
-              },
-              content:
-                config.featureModule.content || config.featureModule.name,
-            });
+            for (let featureModule of configFeatures) {
+              addModuleImport(sourceFile, {
+                import: {
+                  moduleSpecifier: featureModule.importPath,
+                  namedImports: [featureModule.name],
+                },
+                content: featureModule.content || featureModule.name,
+              });
+            }
           }
           saveAndFormat(sourceFile);
           break;

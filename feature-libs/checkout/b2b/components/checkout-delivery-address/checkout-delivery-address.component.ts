@@ -20,6 +20,7 @@ import {
 } from '@spartacus/checkout/base/root';
 import {
   Address,
+  GlobalMessageService,
   TranslationService,
   UserAddressService,
   UserCostCenterService,
@@ -53,8 +54,9 @@ export class B2BCheckoutDeliveryAddressComponent
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    protected globalMessageService: GlobalMessageService,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected userCostCenterService: UserCostCenterService
   ) {
     super(
@@ -64,7 +66,8 @@ export class B2BCheckoutDeliveryAddressComponent
       translationService,
       activeCartFacade,
       checkoutStepService,
-      checkoutDeliveryModesFacade
+      checkoutDeliveryModesFacade,
+      globalMessageService
     );
   }
 
@@ -115,7 +118,7 @@ export class B2BCheckoutDeliveryAddressComponent
     ) {
       if (this.isAccountPayment) {
         if (addresses.length === 1) {
-          this.selectAddress(addresses[0]);
+          this.setAddress(addresses[0]);
         }
       } else {
         super.selectDefaultAddress(addresses, selected);

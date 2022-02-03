@@ -9,6 +9,10 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
+  ActiveCartFacade,
+  CartUiEventAddToCart,
+} from '@spartacus/cart/base/root';
+import {
   CmsAddToCartComponent,
   EventService,
   isNotNullable,
@@ -21,8 +25,6 @@ import {
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
-import { CartUiEventAddToCart } from '../../events/cart.events';
-import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Component({
   selector: 'cx-add-to-cart',
@@ -137,8 +139,8 @@ export class AddToCartComponent implements OnInit, OnDestroy {
       .subscribe((cartEntries) => {
         this.activeCartService.addEntry(this.productCode, quantity);
 
-        // A CartUiEventAddToCart is dispatched.  Thiis event is intended for the UI
-        // responsible to proviide feedback aboout what was added to the cart, like
+        // A CartUiEventAddToCart is dispatched.  This event is intended for the UI
+        // responsible to provide feedback about what was added to the cart, like
         // the added to cart dialog.
         //
         // Because we call activeCartService.getEntries() before, we can be sure the

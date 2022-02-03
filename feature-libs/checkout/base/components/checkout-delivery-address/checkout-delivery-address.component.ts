@@ -8,6 +8,8 @@ import {
 import {
   Address,
   getLastValueSync,
+  GlobalMessageService,
+  GlobalMessageType,
   TranslationService,
   UserAddressService,
 } from '@spartacus/core';
@@ -93,7 +95,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected globalMessageService: GlobalMessageService
   ) {}
 
   ngOnInit(): void {
@@ -118,7 +121,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     ) {
       selected = addresses.find((address) => address.defaultAddress);
       if (selected) {
-        this.selectAddress(selected);
+        this.setAddress(selected);
       }
       this.doneAutoSelect = true;
     }
@@ -155,15 +158,14 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
-    this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
-      complete: () => {
-        this.onSuccess();
+    this.globalMessageService.add(
+      {
+        key: 'checkoutAddress.deliveryAddressSelected',
       },
-      error: () => {
-        this.onError();
-      },
-    });
+      GlobalMessageType.MSG_TYPE_INFO
+    );
+
+    this.setAddress(address);
   }
 
   addAddress(address: Address | undefined): void {
@@ -211,6 +213,18 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected setAddress(address: Address): void {
+    this.busy$.next(true);
+    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
+      complete: () => {
+        this.onSuccess();
+      },
+      error: () => {
+        this.onError();
+      },
+    });
   }
 
   protected onSuccess(): void {
