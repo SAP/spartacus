@@ -5,6 +5,7 @@
     [attr.aria-label]="
       'TabPanelContainer.tabPanelContainerRegion' | cxTranslate
     "
+    class="container"
   >
     <ng-container *ngFor="let component of components; let i = index">
       <ng-container *ngIf="component">
@@ -18,16 +19,13 @@
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
         </button>
-      </ng-container>
-    </ng-container>
 
-    <ng-container *ngFor="let component of components; let i = index">
-      <ng-container *ngIf="component">
         <div
           [class.active]="i === activeTabNum"
           [attr.id]="'tab-' + i"
           role="region"
           [attr.aria-labelledby]="'tab-' + i + '-id'"
+          tabindex="0"
         >
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container
