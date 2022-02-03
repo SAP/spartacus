@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   BasePageMetaResolver,
   PageDescriptionResolver,
@@ -26,8 +26,6 @@ export class CheckoutPageMetaResolver
   extends PageMetaResolver
   implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver
 {
-  protected cart$: Observable<Cart> = this.activeCartFacade.getActive();
-
   constructor(
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,

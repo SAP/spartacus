@@ -73,7 +73,7 @@ describe('CheckoutPageMetaResolver', () => {
   });
 
   it('should resolve checkout heading', () => {
-    let result!: string;
+    let result: string | undefined;
 
     service
       .resolveHeading()
