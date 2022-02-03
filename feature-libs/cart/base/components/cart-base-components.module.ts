@@ -6,6 +6,7 @@ import { OutletModule, PAGE_LAYOUT_HANDLER } from '@spartacus/storefront';
 import { AddedToCartDialogModule } from './added-to-cart-dialog/added-to-cart-dialog.module';
 import { CartDetailsModule } from './cart-details/cart-details.module';
 import { CartPageLayoutHandler } from './cart-page-layout-handler';
+import { CartProceedToCheckoutModule } from './cart-proceed-to-checkout/cart-proceed-to-checkout.module';
 import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { ActiveCartOrderEntriesContext } from './page-context/active-cart-order-entries.context';
@@ -16,6 +17,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
     CommonModule,
     NgbModule,
     CartDetailsModule,
+    CartProceedToCheckoutModule,
     CartTotalsModule,
     CartSharedModule,
     SaveForLaterModule,
@@ -23,6 +25,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
   ],
   exports: [
     CartDetailsModule,
+    CartProceedToCheckoutModule,
     CartTotalsModule,
     CartSharedModule,
     AddedToCartDialogModule,
