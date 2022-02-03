@@ -1,12 +1,13 @@
 ## TODO: before merge
 
 1. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
-2. Shipping address to delivery address sample data PR
+2. BUG - "double spinner" on the payment step in b2b / repl checkout.
+3. Shipping address to delivery address sample data PR
    1. Rename the URL / route paths
    2. The CMS component name
    3. The CMS component mapping in Spartacus
-3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-4. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
+4. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+5. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
     - ```ts
       const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
         user: 'orgUsers/${userId}',
