@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 
 export abstract class UserPaymentAdapter {
   abstract loadAll(userId: string): Observable<PaymentDetails[]>;
