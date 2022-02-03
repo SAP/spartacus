@@ -1,4 +1,4 @@
-import { Order } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { CheckoutDetails } from '../../models/checkout.model';
 
