@@ -98,7 +98,7 @@ const checkoutB2bFeatureConfig: FeatureConfig = {
     importPath: SPARTACUS_CHECKOUT_B2B_ROOT,
   },
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_CHECKOUT_B2B_ROOT,
+    moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
     namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
   },
   i18n: {
@@ -132,7 +132,7 @@ const checkoutScheduleReplenishmentFeatureConfig: FeatureConfig = {
     importPath: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
   },
   lazyLoadingChunk: {
-    moduleSpecifier: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT,
+    moduleSpecifier: SPARTACUS_CHECKOUT_BASE_ROOT,
     namedImports: [CHECKOUT_BASE_FEATURE_NAME_CONSTANT],
   },
   i18n: {

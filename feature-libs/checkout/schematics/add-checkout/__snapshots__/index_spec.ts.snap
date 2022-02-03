@@ -35,8 +35,9 @@ export class CheckoutFeatureModule { }
 exports[`Spartacus Checkout schematics: ng-add Checkout feature b2b general setup should add the feature using the lazy loading syntax 1`] = `
 "import { NgModule } from '@angular/core';
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
-import { CheckoutB2BRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/b2b/root\\";
+import { CheckoutB2BRootModule } from \\"@spartacus/checkout/b2b/root\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
@@ -404,8 +405,9 @@ exports[`Spartacus Checkout schematics: ng-add Checkout feature scheduled replen
 "import { NgModule } from '@angular/core';
 import { checkoutB2BTranslationChunksConfig, checkoutB2BTranslations } from \\"@spartacus/checkout/b2b/assets\\";
 import { checkoutTranslationChunksConfig, checkoutTranslations } from \\"@spartacus/checkout/base/assets\\";
+import { CHECKOUT_FEATURE } from \\"@spartacus/checkout/base/root\\";
 import { checkoutScheduledReplenishmentTranslationChunksConfig, checkoutScheduledReplenishmentTranslations } from \\"@spartacus/checkout/scheduled-replenishment/assets\\";
-import { CheckoutScheduledReplenishmentRootModule, CHECKOUT_FEATURE } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
+import { CheckoutScheduledReplenishmentRootModule } from \\"@spartacus/checkout/scheduled-replenishment/root\\";
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 
 @NgModule({
