@@ -437,13 +437,7 @@ function addFeatureModule(
     const moduleFileName = createModuleFileName(config);
     for (const sourceFile of appSourceFiles) {
       if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-        let configFeatures = [];
-        if (config.featureModule instanceof Array) {
-          configFeatures = config.featureModule;
-        } else {
-          configFeatures.push(config.featureModule);
-        }
-
+        const configFeatures = ([] as Module[]).concat(config.featureModule);
         if (options.lazy) {
           let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
