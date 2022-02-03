@@ -28,7 +28,7 @@ describe('ClearCartComponent', () => {
   let component: ClearCartComponent;
   let fixture: ComponentFixture<ClearCartComponent>;
   let launchDialogService: LaunchDialogService;
-  let activeCartService: ActiveCartFacade;
+  let activeCartFacade: ActiveCartFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,7 +43,7 @@ describe('ClearCartComponent', () => {
 
   beforeEach(() => {
     launchDialogService = TestBed.inject(LaunchDialogService);
-    activeCartService = TestBed.inject(ActiveCartFacade);
+    activeCartFacade = TestBed.inject(ActiveCartFacade);
     fixture = TestBed.createComponent(ClearCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -59,7 +59,7 @@ describe('ClearCartComponent', () => {
   });
 
   it('should render clear cart button if cart has item(s)', () => {
-    activeCartService.addEntry('123456', 1);
+    activeCartFacade.addEntry('123456', 1);
     fixture.detectChanges();
     expect(fixture.debugElement.query(By.css('.clear-cart-btn'))).toBeDefined();
   });

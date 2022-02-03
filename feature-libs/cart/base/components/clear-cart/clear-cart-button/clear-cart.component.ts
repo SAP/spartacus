@@ -2,8 +2,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  OnDestroy,
   ViewChild,
-  OnInit,
   ViewContainerRef,
 } from '@angular/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -16,20 +16,18 @@ import { take } from 'rxjs/operators';
   templateUrl: './clear-cart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ClearCartComponent implements OnInit {
-  cart$: Observable<Cart>;
-  private subscription = new Subscription();
+export class ClearCartComponent implements OnDestroy {
+  cart$: Observable<Cart> = this.activeCartFacade.getActive();
+
+  protected subscription = new Subscription();
+
   @ViewChild('element') element: ElementRef;
 
   constructor(
-    protected activeCartService: ActiveCartFacade,
+    protected activeCartFacade: ActiveCartFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}
-
-  ngOnInit(): void {
-    this.cart$ = this.activeCartService.getActive();
-  }
 
   openDialog(event: Event): void {
     const dialog = this.launchDialogService.openDialog(
@@ -41,5 +39,11 @@ export class ClearCartComponent implements OnInit {
       this.subscription.add(dialog.pipe(take(1)).subscribe());
     }
     event.stopPropagation();
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
   }
 }

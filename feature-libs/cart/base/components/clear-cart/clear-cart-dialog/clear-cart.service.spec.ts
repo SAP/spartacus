@@ -1,35 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
-import { takeLast, take } from 'rxjs/operators';
 import { ClearCartService } from './clear-cart.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
-
-const entry: OrderEntry = {
-  basePrice: {
-    currencyIso: 'USD',
-    formattedValue: '$23.50',
-    value: 23.5,
-  },
-  entryNumber: 1,
-  product: {
-    code: '3803058',
-    name: 'PC Service Set Professional',
-    purchasable: true,
-    stock: {
-      stockLevel: 365,
-      stockLevelStatus: 'inStock',
-    },
-  },
-  quantity: 2,
-  updateable: true,
-};
-
-const entries: OrderEntry[] = [entry, entry];
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
@@ -80,17 +57,8 @@ describe('ClearCartService', () => {
 
   it('should call clearActiveCart and display global message', () => {
     spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of(entries));
+    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([]));
     service.clearActiveCart();
-
-    // Clearing cart progress: false -> true -> false
-    service
-      .getClearingCartProgess()
-      .pipe(takeLast(2), take(1))
-      .subscribe((inProgress) => {
-        expect(activeCartFacade['isStable']).not.toHaveBeenCalled();
-        expect(inProgress).toEqual(true);
-      });
 
     expect(activeCartFacade['getEntries']).toHaveBeenCalled();
     expect(globalMessageService.add).toHaveBeenCalled();
