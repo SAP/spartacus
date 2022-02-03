@@ -28,7 +28,6 @@ import {
   waitForProductPage,
 } from '../checkout-flow';
 import { generateMail, randomString } from '../user';
-import { getViewport } from '../../helpers/viewport-context';
 
 export function loginB2bUser() {
   b2bUser.registrationData.email = generateMail(randomString(), true);
@@ -139,12 +138,11 @@ export function selectAccountShippingAddress() {
   );
 
   // Accessibility
-  if (getViewport() === 'desktop') {
-    verifyTabbingOrder(
-      'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-      config.shippingAddressAccount
-    );
-  }
+  // TODO: Should be migrate to new tabbing order testing #14945
+  // verifyTabbingOrder(
+  //   'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+  //   config.shippingAddressAccount
+  // );
 
   cy.get('button.btn-primary').click();
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
@@ -164,12 +162,11 @@ export function selectAccountDeliveryMode() {
     'input[type=radio][formcontrolname=deliveryModeId]:not(:disabled)'
   ).then(() => {
     // Accessibility
-    if (getViewport() === 'desktop') {
-      verifyTabbingOrder(
-        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-        config.deliveryMode
-      );
-    }
+    // TODO:` Should be migrate to new tabbing order testing #14945
+    // verifyTabbingOrder(
+    //   'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+    //   config.deliveryMode
+    // );`
   });
   const orderReview = waitForPage('/checkout/review-order', 'getReviewOrder');
 
@@ -258,21 +255,20 @@ export function reviewB2bReviewOrderPage(
   cy.get('input[formcontrolname="termsAndConditions"]').check();
 
   // Accessibility
-  if (getViewport() === 'desktop') {
-    if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
-      verifyTabbingOrder(
-        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-        config.replenishmentOrderAccountCheckoutReviewOrder
-      );
-    } else {
-      verifyTabbingOrder(
-        'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
-        isAccount
-          ? config.checkoutReviewOrderAccount
-          : config.checkoutReviewOrder
-      );
-    }
-  }
+  // TODO: Should be migrate to new tabbing order testing #14945
+  //   if (orderType === order_type.SCHEDULE_REPLENISHMENT) {
+  //     verifyTabbingOrder(
+  //       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+  //       config.replenishmentOrderAccountCheckoutReviewOrder
+  //     );
+  //   } else {
+  //     verifyTabbingOrder(
+  //       'cx-page-layout.MultiStepCheckoutSummaryPageTemplate',
+  //       isAccount
+  //         ? config.checkoutReviewOrderAccount
+  //         : config.checkoutReviewOrder
+  //     );
+  // }
 }
 
 export function completeReplenishmentForm(replenishmentPeriod: string) {
