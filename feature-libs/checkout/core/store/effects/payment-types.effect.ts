@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { CartActions, normalizeHttpError } from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/base/core';
+import { normalizeHttpError } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { catchError, map, mergeMap, switchMap } from 'rxjs/operators';
 import { PaymentTypeConnector } from '../../connectors/payment-type/payment-type.connector';
 import { CheckoutActions } from '../actions/index';
-
 @Injectable()
 export class PaymentTypesEffects {
   loadPaymentTypes$: Observable<

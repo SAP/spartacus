@@ -1,6 +1,6 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { CartModification } from '@spartacus/core';
+import { CartModification } from '@spartacus/cart/base/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,

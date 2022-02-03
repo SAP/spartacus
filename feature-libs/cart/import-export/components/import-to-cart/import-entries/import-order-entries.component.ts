@@ -5,11 +5,13 @@ import {
   ViewChild,
 } from '@angular/core';
 import {
+  OrderEntriesContext,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
+import {
   ContextService,
   LaunchDialogService,
   LAUNCH_CALLER,
-  OrderEntriesContext,
-  ORDER_ENTRIES_CONTEXT,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 
