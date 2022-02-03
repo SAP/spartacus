@@ -411,11 +411,24 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
       component.attribute.values = undefined;
       const options = component.extractProductCardParameters(
         false,
-        false,
+        true,
         { valueCode: 'A' },
         1
       );
       expect(options.itemCount).toBe(0);
+      expect(options.disableAllButtons).toBe(false);
+      expect(options.hideRemoveButton).toBe(true);
+    });
+
+    it('should be able to handle null values for boolean attributes', () => {
+      const options = component.extractProductCardParameters(
+        null,
+        null,
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.disableAllButtons).toBe(false);
+      expect(options.hideRemoveButton).toBe(false);
     });
   });
 
