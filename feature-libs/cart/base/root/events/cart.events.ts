@@ -25,8 +25,6 @@ export abstract class CartEvent extends CxEvent {
   userId: string;
 }
 
-// =====================================================================
-
 export class CreateCartEvent extends CartEvent {
   /**
    * Event's type
