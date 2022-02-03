@@ -144,6 +144,15 @@ legend {
 
   input + .form-check-label {
     color: var(--cx-color-text);
+    
+    a {
+      color: var(--cx-color-text);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
 
     &::after {
       content: none;

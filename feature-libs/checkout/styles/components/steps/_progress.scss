@@ -5,8 +5,11 @@
     @include media-breakpoint-only(lg) {
       @include type('5', 'semi');
     }
-    @include type('4', 'semi');
+
+    font-size: $font-size-base * 1.188;
+    font-weight: var(--cx-font-weight-bold);
     margin: 0;
+    line-height: 26px;
 
     .cx-list {
       display: flex;
