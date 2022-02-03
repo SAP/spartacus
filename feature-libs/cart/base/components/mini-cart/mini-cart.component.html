@@ -1,0 +1,16 @@
+<a
+  [attr.aria-label]="
+    'miniCart.item' | cxTranslate: { count: quantity$ | async }
+  "
+  [routerLink]="{ cxRoute: 'cart' } | cxUrl"
+>
+  <cx-icon [type]="iconTypes.CART"></cx-icon>
+
+  <span class="total">
+    {{ 'miniCart.total' | cxTranslate: { total: total$ | async } }}
+  </span>
+
+  <span class="count">
+    {{ 'miniCart.count' | cxTranslate: { count: quantity$ | async } }}
+  </span>
+</a>

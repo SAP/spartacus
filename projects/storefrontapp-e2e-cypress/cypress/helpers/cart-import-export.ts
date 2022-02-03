@@ -9,13 +9,17 @@ const TEST_DOWNLOAD_FILE = `${DOWNLOADS_FOLDER}/cart.csv`;
  */
 export interface ImportConfig {
   /**
-   * Name of cart.
+   * File name of imported file.
    */
-  name: string;
+  fileName: string;
   /**
-   * Description of cart.
+   * Detemrines the context for the import data.
    */
-  description: string;
+  context: ImportExportContext;
+  /**
+   * Path to the page which contains import button.
+   */
+  importButtonPath: string;
   /**
    * Time of cart being saved.
    */
@@ -36,6 +40,26 @@ export interface ImportConfig {
    * CSV data as an array (use `convertCsvToArray()`)
    */
   expectedData: string[];
+  /**
+   * Additional config for saved cart details.
+   */
+  savedCartConfig?: SavedCartConfig;
+}
+
+export interface SavedCartConfig {
+  /**
+   * Specifies name for saved cart.
+   */
+  name: string;
+  /**
+   * Specifies description for saved cart.
+   */
+  description?: string;
+}
+
+export enum ImportExportContext {
+  ACTIVE_CART = 'cart',
+  SAVED_CART = 'savedCart',
 }
 
 /**
@@ -204,7 +228,9 @@ export function verifyImportedData(config: ImportConfig, cart) {
     .parentsUntil('tr')
     .parent()
     .within(() => {
-      cy.get(`td.cx-saved-cart-list-cart-name`).contains(config.name);
+      cy.get(`td.cx-saved-cart-list-cart-name`).contains(
+        config.savedCartConfig?.name
+      );
       cy.get(`td.cx-saved-cart-list-date-saved`).contains(config.saveTime);
       cy.get(`td.cx-saved-cart-list-quantity`).contains(config.quantity);
       cy.get(`td.cx-saved-cart-list-total`).contains(config.total);
@@ -244,22 +270,31 @@ export function exportCart(expectedData?: string) {
  */
 export function importCartTestFromConfig(config: ImportConfig) {
   cy.requireLoggedIn();
-  const savedCartPage = waitForPage(
-    '/my-account/saved-carts',
-    'getSavedCartsPage'
+  cy.visit(config.importButtonPath);
+
+  const cartPage = waitForPage(
+    config.importButtonPath,
+    `get${config.context}age`
   );
-  cy.visit('/my-account/saved-carts');
-  cy.wait(`@${savedCartPage}`).its('response.statusCode').should('eq', 200);
+  cy.visit(config.importButtonPath);
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+
   cy.get('cx-import-order-entries button').contains('Import Products').click();
   cy.readFile(TEST_DOWNLOAD_FILE).then((file) => {
-    cy.writeFile(`cypress/downloads/${config.name}.csv`, file);
+    cy.writeFile(`cypress/downloads/${config.fileName}.csv`, file);
   });
   cy.get(
     'cx-import-entries-dialog cx-file-upload input[type="file"]'
-  ).attachFile({ filePath: `../downloads/${config.name}.csv` });
-  cy.get(
-    'cx-import-entries-dialog textarea[formcontrolname="description"]'
-  ).type(config.description);
+  ).attachFile({ filePath: `../downloads/${config.fileName}.csv` });
+
+  if (config.savedCartConfig) {
+    cy.get('cx-import-entries-dialog input[formcontrolname="name"]')
+      .clear()
+      .type(config.savedCartConfig?.name);
+    cy.get(
+      'cx-import-entries-dialog textarea[formcontrolname="description"]'
+    ).type(config.savedCartConfig?.description);
+  }
 
   cy.intercept('GET', /\.*\/users\/current\/carts\/(\d*)\?fields=.*/).as(
     'import'
@@ -271,7 +306,9 @@ export function importCartTestFromConfig(config: ImportConfig) {
   cy.get('@import').then((xhr: any) => {
     cy.get(
       'cx-import-entries-summary div.cx-import-entries-summary-status'
-    ).contains(`Products has been loaded to cart ${config.name}`);
+    ).contains(
+      `Products has been loaded to cart ${config.savedCartConfig?.name || ''}`
+    );
 
     const importedCart = xhr.response.body;
 
@@ -281,8 +318,11 @@ export function importCartTestFromConfig(config: ImportConfig) {
       .contains('Close')
       .click();
 
-    verifyImportedData(config, importedCart);
-    restoreCart(importedCart);
+    if (config.context === ImportExportContext.SAVED_CART) {
+      verifyImportedData(config, importedCart);
+      restoreCart(importedCart);
+    }
+
     verifyCart(config);
   });
 }
@@ -324,15 +364,33 @@ export function testImportExportSingleProduct() {
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import cart', () => {
+    it('should import to active cart', () => {
       importCartTestFromConfig({
-        name: 'Single Product Cart',
-        description: 'A test description for Single Product Cart.',
+        fileName: 'cart-single',
+        context: ImportExportContext.ACTIVE_CART,
+        importButtonPath: 'cart',
         saveTime: getSavedDate(),
         quantity: 1,
         total: '$114.12',
         headers: getCsvHeaders(EXPECTED_CSV),
         expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+
+    it('should import to saved cart', () => {
+      importCartTestFromConfig({
+        fileName: 'cart-single',
+        context: ImportExportContext.SAVED_CART,
+        importButtonPath: '/my-account/saved-carts',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '$114.12',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+        savedCartConfig: {
+          name: 'Single Product Cart',
+          description: 'A test description for Single Product Cart.',
+        },
       });
     });
   });
@@ -352,15 +410,79 @@ export function testImportExportLargerQuantity() {
       exportCart(EXPECTED_CSV);
     });
 
-    it('should import cart', () => {
+    it('should import to active cart', () => {
       importCartTestFromConfig({
-        name: 'Single Product (Lg Qty) Cart',
-        description: 'A test description for Single Product (Lg Qty) Cart.',
+        fileName: 'cart-lg-qty',
+        context: ImportExportContext.ACTIVE_CART,
+        importButtonPath: 'cart',
         saveTime: getSavedDate(),
         quantity: 3,
         total: '$322.36',
         headers: getCsvHeaders(EXPECTED_CSV),
         expectedData: convertCsvToArray(EXPECTED_CSV),
+      });
+    });
+
+    it('should import to saved cart', () => {
+      importCartTestFromConfig({
+        fileName: 'cart-lg-qty',
+        context: ImportExportContext.SAVED_CART,
+        importButtonPath: '/my-account/saved-carts',
+        saveTime: getSavedDate(),
+        quantity: 3,
+        total: '$322.36',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+        savedCartConfig: {
+          name: 'Single Product (Lg Qty) Cart',
+          description: 'A test description for Single Product (Lg Qty) Cart.',
+        },
+      });
+    });
+  });
+}
+
+/**
+ * Test import / export with apparel products
+ */
+export function testImportExportWithApparelProducts() {
+  describe('Apparel products', () => {
+    const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
+    const apparelProductCode = '300785814';
+
+    it('should export cart', () => {
+      addProductToCart(apparelProductCode);
+      exportCart(EXPECTED_CSV);
+    });
+
+    // TODO: Disabled because of missing sample-data for import button in active cart (apparel)
+    // it('should import to active cart', () => {
+    //   importCartTestFromConfig({
+    //     fileName: 'cart-variants',
+    //     context: ImportExportContext.ACTIVE_CART,
+    //     importButtonPath: 'cart',
+    //     saveTime: getSavedDate(),
+    //     quantity: 1,
+    //     total: '£24.26',
+    //     headers: getCsvHeaders(EXPECTED_CSV),
+    //     expectedData: convertCsvToArray(EXPECTED_CSV),
+    //   });
+    // });
+
+    it('should import to saved cart', () => {
+      importCartTestFromConfig({
+        fileName: 'cart-variants',
+        context: ImportExportContext.SAVED_CART,
+        importButtonPath: '/my-account/saved-carts',
+        saveTime: getSavedDate(),
+        quantity: 1,
+        total: '£24.26',
+        headers: getCsvHeaders(EXPECTED_CSV),
+        expectedData: convertCsvToArray(EXPECTED_CSV),
+        savedCartConfig: {
+          name: 'Apparel products Cart',
+          description: 'A test description for Apparel products Cart.',
+        },
       });
     });
   });

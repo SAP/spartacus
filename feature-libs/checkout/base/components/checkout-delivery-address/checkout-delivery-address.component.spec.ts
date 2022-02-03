@@ -6,6 +6,7 @@ import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
+  GlobalMessageService,
   I18nTestingModule,
   UserAddressService,
 } from '@spartacus/core';
@@ -39,6 +40,10 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   next = createSpy();
   back = createSpy();
   getBackBntText = createSpy().and.returnValue('common.back');
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 const mockAddress1: Address = {
@@ -110,6 +115,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let userAddressService: UserAddressService;
   let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -130,6 +136,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         ],
       })
         .overrideComponent(CheckoutDeliveryAddressComponent, {
@@ -145,6 +152,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         CheckoutStepService as Type<CheckoutStepService>
       );
       userAddressService = TestBed.inject(UserAddressService);
+      globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
 
@@ -154,6 +162,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
+    spyOn<any>(component, 'setAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -226,7 +235,13 @@ describe('CheckoutDeliveryAddressComponent', () => {
   it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
     component.doneAutoSelect = false;
     component.selectDefaultAddress(mockAddresses, undefined);
-    expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
+    expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
+  });
+
+  it('should show a global message when a new default address is selected', () => {
+    component.selectAddress({});
+    expect(component.selectAddress).toHaveBeenCalledWith({});
+    expect(globalMessageService.add).toHaveBeenCalled();
   });
 
   it('should be able to get card content', () => {

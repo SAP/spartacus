@@ -1,0 +1,48 @@
+<ng-container *ngIf="product$ | async as product">
+  <ng-container *ngIf="userLoggedIn$ | async; else loginPrompt">
+    <ng-container *ngIf="wishListEntries$ | async as entries">
+      <ng-container *ngIf="hasStock">
+        <div
+          *ngIf="getProductInWishList(product, entries) as entry; else addItem"
+        >
+          <button
+            class="btn btn-link button-remove cx-action-link"
+            (click)="remove(entry)"
+            [disabled]="loading$ | async"
+          >
+            <cx-icon [type]="iconTypes.HEART"></cx-icon>
+            <span class="button-text">{{
+              'addToWishList.remove' | cxTranslate
+            }}</span>
+          </button>
+        </div>
+        <ng-template #addItem>
+          <button
+            class="btn btn-link button-add cx-action-link"
+            (click)="add(product)"
+            [disabled]="loading$ | async"
+          >
+            <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+            <span class="button-text">{{
+              'addToWishList.add' | cxTranslate
+            }}</span>
+          </button>
+        </ng-template>
+      </ng-container>
+    </ng-container>
+  </ng-container>
+</ng-container>
+
+<ng-template #loginPrompt>
+  <ng-container *ngIf="hasStock">
+    <a
+      class="btn btn-link button-add-link cx-action-link"
+      [routerLink]="{ cxRoute: 'login' } | cxUrl"
+    >
+      <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
+      <span class="button-text">{{
+        'addToWishList.anonymous' | cxTranslate
+      }}</span>
+    </a>
+  </ng-container>
+</ng-template>
