@@ -3,16 +3,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
 import { I18nTestingModule } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
-import { of, Observable } from 'rxjs';
+import { of } from 'rxjs';
 import { ClearCartComponent } from './clear-cart.component';
 import { By } from '@angular/platform-browser';
-
-class MockActiveCartService implements Partial<ActiveCartFacade> {
-  addEntry(_productCode: string, _quantity: number): void {}
-  getActive(): Observable<Cart> {
-    return of({});
-  }
-}
 
 class MockLaunchDialogService implements Partial<LaunchDialogService> {
   openDialog(
@@ -28,14 +21,17 @@ describe('ClearCartComponent', () => {
   let component: ClearCartComponent;
   let fixture: ComponentFixture<ClearCartComponent>;
   let launchDialogService: LaunchDialogService;
-  let activeCartFacade: ActiveCartFacade;
+
+  const mockActiveCartService = jasmine.createSpyObj('ActiveCartService', [
+    'getActive',
+  ]);
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [I18nTestingModule],
       declarations: [ClearCartComponent],
       providers: [
-        { provide: ActiveCartFacade, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useValue: mockActiveCartService },
         { provide: LaunchDialogService, useClass: MockLaunchDialogService },
       ],
     }).compileComponents();
@@ -43,7 +39,6 @@ describe('ClearCartComponent', () => {
 
   beforeEach(() => {
     launchDialogService = TestBed.inject(LaunchDialogService);
-    activeCartFacade = TestBed.inject(ActiveCartFacade);
     fixture = TestBed.createComponent(ClearCartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -54,20 +49,29 @@ describe('ClearCartComponent', () => {
   });
 
   it('should not render clear cart button if cart is empty', () => {
-    fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('.clear-cart-btn'))).toBeNull();
+    expect(fixture.debugElement.query(By.css('.clear-cart-btn'))).toBeFalsy();
+    mockActiveCartService.getActive.and.returnValue(
+      of<Cart>({ code: '123', totalItems: 2 })
+    );
   });
 
   it('should render clear cart button if cart has item(s)', () => {
-    activeCartFacade.addEntry('123456', 1);
     fixture.detectChanges();
-    expect(fixture.debugElement.query(By.css('.clear-cart-btn'))).toBeDefined();
+    expect(fixture.debugElement.query(By.css('.clear-cart-btn'))).toBeTruthy();
   });
 
   it('should open service dialog', () => {
     spyOn(launchDialogService, 'openDialog').and.stub();
 
-    component.openDialog(new Event(''));
+    fixture.detectChanges();
+
+    const clearBtn = fixture.debugElement.query(
+      By.css('.clear-cart-btn')
+    ).nativeElement;
+
+    clearBtn.click();
+
+    fixture.detectChanges();
 
     expect(launchDialogService.openDialog).toHaveBeenCalledWith(
       LAUNCH_CALLER.CLEAR_CART,

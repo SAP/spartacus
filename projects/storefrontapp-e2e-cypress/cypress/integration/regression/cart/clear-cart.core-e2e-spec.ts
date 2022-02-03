@@ -4,7 +4,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import * as alerts from '../../../helpers/global-message';
 
 describe('Clear Cart', () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['desktop', 'mobile'], () => {
     context('Clear cart of anonymous user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
