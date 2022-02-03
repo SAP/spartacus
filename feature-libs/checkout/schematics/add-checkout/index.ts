@@ -14,6 +14,7 @@ import {
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_ORDER_FEATURE,
+  configureB2bFeatures,
   FeatureConfig,
   LibraryOptions as SpartacusCheckoutOptions,
   readPackageJson,
@@ -162,12 +163,15 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      determineCheckoutFeatures(options),
+      determineCheckoutFeatures(options, packageJson),
     ]);
   };
 }
 
-function determineCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
+function determineCheckoutFeatures(
+  options: SpartacusCheckoutOptions,
+  packageJson: any
+): Rule {
   if (
     shouldAddFeature(
       CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
@@ -178,6 +182,8 @@ function determineCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
       addLibraryFeature(options, checkoutScheduleReplenishmentFeatureConfig),
       addFeatureTranslations(options, checkoutBaseFeatureConfig),
       addFeatureTranslations(options, checkoutB2bFeatureConfig),
+
+      configureB2bFeatures(options, packageJson),
     ]);
   }
 
@@ -185,6 +191,8 @@ function determineCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
     return chain([
       addLibraryFeature(options, checkoutB2bFeatureConfig),
       addFeatureTranslations(options, checkoutBaseFeatureConfig),
+
+      configureB2bFeatures(options, packageJson),
     ]);
   }
 

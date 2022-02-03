@@ -15,6 +15,7 @@ import {
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   LibraryOptions as SpartacusCheckoutOptions,
   SpartacusOptions,
+  SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
 import * as path from 'path';
@@ -214,6 +215,15 @@ describe('Spartacus Checkout schematics: ng-add', () => {
             expect(content).toMatchSnapshot();
           });
         });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
+          });
+        });
       });
 
       describe('eager loading', () => {
@@ -260,6 +270,15 @@ describe('Spartacus Checkout schematics: ng-add', () => {
           it('should update angular.json', async () => {
             const content = appTree.readContent('/angular.json');
             expect(content).toMatchSnapshot();
+          });
+        });
+
+        describe('b2b features', () => {
+          it('configuration should be added', () => {
+            const configurationModule = appTree.readContent(
+              `src/app/spartacus/${SPARTACUS_CONFIGURATION_MODULE}.module.ts`
+            );
+            expect(configurationModule).toMatchSnapshot();
           });
         });
       });
