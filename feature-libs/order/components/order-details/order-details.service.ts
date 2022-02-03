@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Order, RoutingService } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { RoutingService } from '@spartacus/core';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
