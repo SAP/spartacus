@@ -55,8 +55,8 @@ export class B2BCheckoutDeliveryAddressComponent
     protected checkoutStepService: CheckoutStepService,
     protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
     protected globalMessageService: GlobalMessageService,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
     protected userCostCenterService: UserCostCenterService
   ) {
     super(

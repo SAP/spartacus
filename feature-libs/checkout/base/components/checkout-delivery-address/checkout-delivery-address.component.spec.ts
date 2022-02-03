@@ -238,7 +238,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });
 
-  it('should send a global message when a new default address is selected', () => {
+  it('should show a global message when a new default address is selected', () => {
     component.selectAddress({});
     expect(component.selectAddress).toHaveBeenCalledWith({});
     expect(globalMessageService.add).toHaveBeenCalled();
