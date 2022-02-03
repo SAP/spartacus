@@ -422,10 +422,12 @@ function deleteFeatureModuleFile<T extends LibraryOptions>(
 
       const moduleFileName = createModuleFileName(config);
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          sourceFile.deleteImmediatelySync();
-          break;
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
         }
+
+        sourceFile.deleteImmediatelySync();
+        break;
       }
     }
 
@@ -450,17 +452,20 @@ function addRootModule<T extends LibraryOptions>(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          addModuleImport(sourceFile, {
-            import: {
-              moduleSpecifier: config.rootModule.importPath,
-              namedImports: [config.rootModule.name],
-            },
-            content: config.rootModule.content || config.rootModule.name,
-          });
-          saveAndFormat(sourceFile);
-          break;
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
         }
+
+        addModuleImport(sourceFile, {
+          import: {
+            moduleSpecifier: config.rootModule.importPath,
+            namedImports: [config.rootModule.name],
+          },
+          content: config.rootModule.content || config.rootModule.name,
+        });
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
 
@@ -481,50 +486,53 @@ function addFeatureModule<T extends LibraryOptions>(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          const configFeatures = ([] as Module[]).concat(config.featureModule);
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
+        }
 
-          if (options.lazy) {
-            let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
+        const configFeatures = ([] as Module[]).concat(config.featureModule);
+
+        if (options.lazy) {
+          let content = `${PROVIDE_CONFIG_FUNCTION}(<${CMS_CONFIG}>{
             featureModules: {`;
-            for (let i = 0; i < configFeatures.length; i++) {
-              const featureModule = configFeatures[i];
-              let lazyLoadingChunkName = config.moduleName;
-              if (config.lazyLoadingChunk) {
-                const content = config.lazyLoadingChunk.namedImports[i];
-                lazyLoadingChunkName = `[${content}]`;
-                sourceFile.addImportDeclaration(config.lazyLoadingChunk);
-              }
-              content =
-                content +
-                `${lazyLoadingChunkName}: {
+          for (let i = 0; i < configFeatures.length; i++) {
+            const featureModule = configFeatures[i];
+            let lazyLoadingChunkName = config.moduleName;
+            if (config.lazyLoadingChunk) {
+              const content = config.lazyLoadingChunk.namedImports[i];
+              lazyLoadingChunkName = `[${content}]`;
+              sourceFile.addImportDeclaration(config.lazyLoadingChunk);
+            }
+            content =
+              content +
+              `${lazyLoadingChunkName}: {
               module: () =>
                 import('${featureModule.importPath}').then((m) => m.${featureModule.name}),
             },`;
-            }
-            addModuleProvider(sourceFile, {
-              import: [
-                {
-                  moduleSpecifier: SPARTACUS_CORE,
-                  namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
-                },
-              ],
-              content: content + `}})`,
-            });
-          } else {
-            for (let featureModule of configFeatures) {
-              addModuleImport(sourceFile, {
-                import: {
-                  moduleSpecifier: featureModule.importPath,
-                  namedImports: [featureModule.name],
-                },
-                content: featureModule.content || featureModule.name,
-              });
-            }
           }
-          saveAndFormat(sourceFile);
-          break;
+          addModuleProvider(sourceFile, {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CORE,
+                namedImports: [PROVIDE_CONFIG_FUNCTION, CMS_CONFIG],
+              },
+            ],
+            content: content + `}})`,
+          });
+        } else {
+          for (let featureModule of configFeatures) {
+            addModuleImport(sourceFile, {
+              import: {
+                moduleSpecifier: featureModule.importPath,
+                namedImports: [featureModule.name],
+              },
+              content: featureModule.content || featureModule.name,
+            });
+          }
         }
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
     return tree;
@@ -536,6 +544,10 @@ export function addFeatureTranslations<T extends LibraryOptions>(
   config: FeatureConfig
 ): Rule {
   return (tree: Tree): Tree => {
+    if (!config.i18n) {
+      return tree;
+    }
+
     const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
 
@@ -544,30 +556,31 @@ export function addFeatureTranslations<T extends LibraryOptions>(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          if (config.i18n) {
-            addModuleProvider(sourceFile, {
-              import: [
-                {
-                  moduleSpecifier: SPARTACUS_CORE,
-                  namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
-                },
-                {
-                  moduleSpecifier: config.i18n.importPath,
-                  namedImports: [config.i18n.chunks, config.i18n.resources],
-                },
-              ],
-              content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
+        }
+
+        addModuleProvider(sourceFile, {
+          import: [
+            {
+              moduleSpecifier: SPARTACUS_CORE,
+              namedImports: [PROVIDE_CONFIG_FUNCTION, I18N_CONFIG],
+            },
+            {
+              moduleSpecifier: config.i18n.importPath,
+              namedImports: [config.i18n.chunks, config.i18n.resources],
+            },
+          ],
+          content: `${PROVIDE_CONFIG_FUNCTION}(<${I18N_CONFIG}>{
               i18n: {
                 resources: ${config.i18n.resources},
                 chunks: ${config.i18n.chunks},
               },
             })`,
-            });
-            saveAndFormat(sourceFile);
-          }
-          break;
-        }
+        });
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
     return tree;
@@ -579,6 +592,10 @@ function addCustomConfig<T extends LibraryOptions>(
   config: FeatureConfig
 ): Rule {
   return (tree: Tree): Tree => {
+    if (!config.customConfig) {
+      return tree;
+    }
+
     const basePath = process.cwd();
     const moduleFileName = createModuleFileName(config);
 
@@ -587,27 +604,28 @@ function addCustomConfig<T extends LibraryOptions>(
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
       for (const sourceFile of appSourceFiles) {
-        if (sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
-          if (config.customConfig) {
-            const customConfigs = ([] as CustomConfig[]).concat(
-              config.customConfig
-            );
-            customConfigs.forEach((customConfig) => {
-              addModuleProvider(sourceFile, {
-                import: [
-                  {
-                    moduleSpecifier: SPARTACUS_CORE,
-                    namedImports: [PROVIDE_CONFIG_FUNCTION],
-                  },
-                  ...customConfig.import,
-                ],
-                content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
-              });
-            });
-            saveAndFormat(sourceFile);
-          }
-          break;
+        if (!sourceFile.getFilePath().endsWith('/' + moduleFileName)) {
+          continue;
         }
+
+        const customConfigs = ([] as CustomConfig[]).concat(
+          config.customConfig
+        );
+        customConfigs.forEach((customConfig) => {
+          addModuleProvider(sourceFile, {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CORE,
+                namedImports: [PROVIDE_CONFIG_FUNCTION],
+              },
+              ...customConfig.import,
+            ],
+            content: `${PROVIDE_CONFIG_FUNCTION}(${customConfig.content})`,
+          });
+        });
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
     return tree;
