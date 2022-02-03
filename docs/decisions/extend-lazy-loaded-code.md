@@ -9,20 +9,19 @@ shell app, lazy-loading, schematics
 
 ## 4. Context
 _Explain why the decision is being taken_
+Spartacus extension/integration library should be able to extend default services in a lazy-loaded feature modules coming from other libraries. We didn't have a need for it yet, but now we have a big need. It’s because we extract more-and-more code to lazy-loaded modules and we decouple more-and-more code into independent, composable “plugin-like” libraries. And the usual techniques for extending services, don't work in the case of lazy-loaded modules.
 
-We need a way to extend a service which is provided a in Spartacus module, when this module is lazy-loaded in the customer's app. The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service. The service provided in the original lazy-loaded module takes precedence.
+The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but has a higher priority than the parent one. And because the original service implementation is provided in the module that has its own child-injector, the original service shadows any extensions provided in the root injector.
 
-The reason is that the lazy-loaded modules instantiate its own, fresh child-injector, which derives from the root injector, but has a higher priority than the root one. And because the original service implementation is provided in the module that has its own child-injector, the original service shadows any extensions provided in the root injector.
+So wee need to find a way to allow extension libraries for extending services in the lazy-loaded feature modules of other libraries. Moreover we should find an optimal, future-proof solution, because it might be used very often in OOTB Spartacus soon.
 
-For details on creating the child injector (aka. `CombinedInjector`), see the implementation of Spartacus' [LazyModulesService#resolveModuleInstance](https://github.com/SAP/spartacus/blob/a1421cf95481c6f2b59926a91f4e9380ff10f70b/projects/core/src/lazy-loading/lazy-modules.service.ts#L86). 
+For details on instantiating the lazy-loaded modules and setting the parent injector, see the implementation of Spartacus' [LazyModulesService#resolveModuleInstance](https://github.com/SAP/spartacus/blob/a1421cf95481c6f2b59926a91f4e9380ff10f70b/projects/core/src/lazy-loading/lazy-modules.service.ts#L86). 
 
-Until now, when generating the app's code via schematics, we've written the dynamic imports pointing directly module from Spartacus library, for example:
+Note: at the time of writing, our schematics create in the app the dynamic imports pointing directly to the feature module imported from Spartacus library,  see for example:
 
 ```ts
 ()=>import('@spartacus/user/profile').then(m=>m.UserProfileService)
 ```
-
-Side note: importing dynamically directly from the path of Spartacus library, e.g. `()=>import('@spartacus/user/profile')`) prevents Webpack from tree shaking any unused public API members. 
 
 ## 5. Alternatives considered
 _List the alternative options you considered with their pros and cons_
@@ -126,7 +125,7 @@ So this this option is disqualified as it's not solving our problem.
 
 *Note*: why the dependency module's injector cannot have higher priority than the feature module's injector? It's because the Angular's public API allows only for setting a *parent injector* for the dynamically instantiated module: `NgModuleFactory<any>.create(parentInjector: Injector | null): NgModuleRef<any>`. And the parent injector, by definition has a lower priority than the injector of the instantiated module. 
 
-### Option 3: Configure the feature module as `dependencies` of the extension feature module (tweaked Option 2)
+### Option 3: Configure the original module as `dependencies` of the extension module (tweaked Option 2)
 We could tweak the Option (2), and set the extension module as the main feature `module`, while setting the original feature module only as `dependencies`. Then the injector of the extension module should have higher priority than the original feature module, when resolving services. See example:
 
 ```ts
@@ -180,9 +179,13 @@ As a next step we could possibly change the behavior of `CmsComponentsService#de
 
 ### Option 4: Introduce a config `plugins` for lazy-loaded feature modules
 We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
+```
+|- user-feature.module.ts
+|- some-extension.module.ts
+```
 
 ```ts
-// user-feature.module.ts
+// user-feature.module.ts - unchanged, created by schematics as of today
 provideConfig(<CmsConfig>{
   featureModules: {
     [USER_PROFILE_FEATURE]: {
@@ -194,11 +197,11 @@ provideConfig(<CmsConfig>{
 ```
 
 ```ts
-// some-extension-feature.module.ts
+// some-extension.module.ts
 provideConfig(<CmsConfig>{
   featureModules: {
     [USER_PROFILE_FEATURE]: {
-      plugins: [
+      plugins: [ // PROPOSAL OF THE NEW CONFIG PROPERTY
         () =>
           import('@spartacus/some-extension-library').then((m) => m.UserProfileModule),
       ]
