@@ -6,7 +6,7 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ClearCartService } from './clear-cart.service';
-import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ICON_TYPE } from '@spartacus/storefront';
 
 @Component({
@@ -16,7 +16,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 })
 export class ClearCartDialogComponent implements OnDestroy {
   iconTypes = ICON_TYPE;
-  isClearing$: BehaviorSubject<boolean> =
+  isClearing$: Observable<boolean> =
     this.clearCartService.getClearingCartProgess();
 
   @HostListener('click', ['$event'])

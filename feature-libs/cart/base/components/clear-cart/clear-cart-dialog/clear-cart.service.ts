@@ -43,16 +43,16 @@ export class ClearCartService {
     );
   }
 
-  getClearingCartProgess(): BehaviorSubject<boolean> {
-    return this.isClearing$;
+  getClearingCartProgess(): Observable<boolean> {
+    return this.isClearing$.asObservable();
   }
 
   /**
-   * Display global message.
+   * Display succesful global message after clearing cart.
    *
    * @param success
    */
-  addGlobalMessage(): void {
+   addSuccessGlobalMessage(): void {
     this.globalMessageService.add(
       { key: 'clearCart.cartClearedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -66,7 +66,7 @@ export class ClearCartService {
       .pipe(take(1))
       .subscribe((entries) => {
         if (entries.length === 0) {
-          this.addGlobalMessage();
+          this.addSuccessGlobalMessage();
         }
       });
   }
