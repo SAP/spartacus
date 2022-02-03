@@ -5,6 +5,7 @@ export const checkout = {
     defaultShippingAddress: 'Default Shipping Address',
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
+    selectShippingAddressSuccess: 'Shipping address changed successfully',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',

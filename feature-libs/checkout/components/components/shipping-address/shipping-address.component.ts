@@ -207,6 +207,16 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
     this.checkoutDeliveryFacade.setDeliveryAddress(address);
   }
 
+  onAddressCardSelect(address: Address): void {
+    this.selectAddress(address);
+    this.globalMessageService.add(
+      {
+        key: 'checkoutAddress.selectShippingAddressSuccess',
+      },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  }
+
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {
