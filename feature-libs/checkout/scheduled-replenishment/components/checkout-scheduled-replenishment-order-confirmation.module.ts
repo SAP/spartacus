@@ -71,7 +71,6 @@ const orderConfirmationComponents: Type<any>[] = [
           ],
           guards: [OrderConfirmationGuard],
         },
-        // TODO:#checkout - do we need to duplicate these components?
         ReplenishmentConfirmationItemsComponent: {
           component: CheckoutOrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],

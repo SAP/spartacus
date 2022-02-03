@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { ActiveCartFacade, CreateCartEvent } from '@spartacus/cart/base/root';
 import {
   AuthService,
   BASE_SITE_CONTEXT_ID,
@@ -16,8 +17,6 @@ import {
   switchMap,
   takeWhile,
 } from 'rxjs/operators';
-import { CreateCartEvent } from '../../events/cart.events';
-import { ActiveCartFacade } from '../../facade/active-cart.facade';
 
 @Injectable({
   providedIn: 'root',

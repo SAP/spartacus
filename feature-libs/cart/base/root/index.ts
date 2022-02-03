@@ -1,5 +1,4 @@
 export * from './cart-base-root.module';
-export * from './components/index';
 export * from './config/cart-config';
 export * from './context/index';
 export * from './events/index';

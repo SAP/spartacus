@@ -1,5 +1,4 @@
 import { Injectable, OnDestroy } from '@angular/core';
-import { Store } from '@ngrx/store';
 import {
   ActiveCartFacade,
   Cart,
@@ -29,7 +28,6 @@ import {
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
-import { StateWithMultiCart } from '../store/multi-cart-state';
 import {
   getCartIdByUserId,
   isEmail,
@@ -61,7 +59,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
   );
 
   constructor(
-    protected store: Store<StateWithMultiCart>,
     protected multiCartFacade: MultiCartFacade,
     protected userIdService: UserIdService
   ) {
