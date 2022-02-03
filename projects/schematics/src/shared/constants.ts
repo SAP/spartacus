@@ -557,6 +557,7 @@ export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
+export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 
 /***** Classes end *****/
 
