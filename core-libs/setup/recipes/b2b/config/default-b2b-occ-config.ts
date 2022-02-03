@@ -41,10 +41,6 @@ const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
     'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
 };
 
-/**
- * Use 'defaultB2bOccConfig' from '@spartacus/checkout/b2b/root' instead.
- * @deprecated since version 5.0
- */
 export const defaultB2bOccConfig: OccConfig = {
   backend: {
     occ: {

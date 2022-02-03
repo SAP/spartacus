@@ -9,6 +9,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { defaultB2bCheckoutConfig } from './config/default-b2b-checkout-config';
 import { defaultCheckoutB2BRoutingConfig } from './config/default-checkout-b2b-routing-config';
 import { CheckoutB2BEventModule } from './events/checkout-b2b-event.module';
 
@@ -38,6 +39,7 @@ export function defaultCheckoutComponentsConfig() {
   providers: [
     provideDefaultConfig(defaultCheckoutB2BRoutingConfig),
     provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
+    provideDefaultConfig(defaultB2bCheckoutConfig),
   ],
 })
 export class CheckoutB2BRootModule {}
