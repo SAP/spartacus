@@ -118,7 +118,7 @@ export class B2BCheckoutDeliveryAddressComponent
     ) {
       if (this.isAccountPayment) {
         if (addresses.length === 1) {
-          this.savingAddress(addresses[0]);
+          this.setAddress(addresses[0]);
         }
       } else {
         super.selectDefaultAddress(addresses, selected);

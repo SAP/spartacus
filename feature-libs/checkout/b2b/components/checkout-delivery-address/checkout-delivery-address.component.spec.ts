@@ -215,7 +215,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
-    spyOn<any>(component, 'savingAddress').and.callThrough();
+    spyOn<any>(component, 'setAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -344,7 +344,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       it('should automatically select default delivery address when there is ONLY ONE', () => {
         component.ngOnInit();
         component.selectDefaultAddress([mockAddress1], undefined);
-        expect(component['savingAddress']).toHaveBeenCalledWith(mockAddress1);
+        expect(component['setAddress']).toHaveBeenCalledWith(mockAddress1);
       });
     });
 
@@ -352,7 +352,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       it('should automatically select default delivery address when there is no current selection', () => {
         component.doneAutoSelect = false;
         component.selectDefaultAddress(mockAddresses, undefined);
-        expect(component['savingAddress']).toHaveBeenCalledWith(mockAddress2);
+        expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
       });
     });
   });

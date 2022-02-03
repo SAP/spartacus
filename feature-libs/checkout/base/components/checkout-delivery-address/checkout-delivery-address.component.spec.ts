@@ -162,7 +162,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
 
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
-    spyOn<any>(component, 'savingAddress').and.callThrough();
+    spyOn<any>(component, 'setAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -235,7 +235,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
     component.doneAutoSelect = false;
     component.selectDefaultAddress(mockAddresses, undefined);
-    expect(component['savingAddress']).toHaveBeenCalledWith(mockAddress2);
+    expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });
 
   it('should send a global message when a new default address is selected', () => {

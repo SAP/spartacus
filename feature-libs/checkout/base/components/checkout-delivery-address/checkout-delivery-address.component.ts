@@ -121,7 +121,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     ) {
       selected = addresses.find((address) => address.defaultAddress);
       if (selected) {
-        this.savingAddress(selected);
+        this.setAddress(selected);
       }
       this.doneAutoSelect = true;
     }
@@ -165,7 +165,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       GlobalMessageType.MSG_TYPE_INFO
     );
 
-    this.savingAddress(address);
+    this.setAddress(address);
   }
 
   addAddress(address: Address | undefined): void {
@@ -215,7 +215,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.checkoutStepService.back(this.activatedRoute);
   }
 
-  protected savingAddress(address: Address): void {
+  protected setAddress(address: Address): void {
     this.busy$.next(true);
     this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
       complete: () => {
