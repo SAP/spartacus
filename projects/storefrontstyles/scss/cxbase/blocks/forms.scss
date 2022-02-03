@@ -144,7 +144,7 @@ legend {
 
   input + .form-check-label {
     color: var(--cx-color-text);
-    
+
     a {
       color: var(--cx-color-text);
       text-decoration: underline;
@@ -338,22 +338,20 @@ input {
 }
 
 .ng-select .ng-select-container .ng-value-container .ng-placeholder {
-    color: var(--cx-color-secondary-alt);
-  }
-
+  color: var(--cx-color-secondary-alt);
+}
 
 .form-group {
-  input[type='text']::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  input[type='text']::placeholder {
     color: var(--cx-color-secondary-alt);
-    opacity: 1; /* Firefox */
+    opacity: 1; 
   }
-  
-  input[type='text']:-ms-input-placeholder { /* Internet Explorer 10-11 */
-    color: var(--cx-color-secondary-alt);
-  }
-  
-  input[type='text']::-ms-input-placeholder { /* Microsoft Edge */
+
+  input[type='text']:-ms-input-placeholder {
     color: var(--cx-color-secondary-alt);
   }
 
+  input[type='text']::-ms-input-placeholder {
+    color: var(--cx-color-secondary-alt);
+  }
 }
