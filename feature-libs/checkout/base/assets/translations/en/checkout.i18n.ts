@@ -15,6 +15,7 @@ export const checkout = {
     defaultDeliveryAddress: 'Default Delivery Address',
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
+    deliveryAddressSelected: 'Delivery address selected',
   },
   checkoutMode: {
     deliveryMethod: 'Delivery Method',

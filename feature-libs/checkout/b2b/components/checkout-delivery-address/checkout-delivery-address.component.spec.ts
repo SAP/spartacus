@@ -12,6 +12,7 @@ import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
+  GlobalMessageService,
   I18nTestingModule,
   QueryState,
   UserAddressService,
@@ -78,6 +79,10 @@ class MockCheckoutCostCenterService
       data: { code: 'test-cost-center' },
     });
   }
+}
+
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add = createSpy();
 }
 
 const mockAddress1: Address = {
@@ -151,6 +156,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -171,6 +177,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
           },
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
             provide: CheckoutPaymentTypeFacade,
             useClass: MockPaymentTypeService,
@@ -198,6 +205,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       userAddressService = TestBed.inject(UserAddressService);
       userCostCenterService = TestBed.inject(UserCostCenterService);
       checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
+      globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
 
@@ -207,6 +215,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
+    spyOn<any>(component, 'savingAddress').and.callThrough();
   });
 
   it('should be created', () => {
@@ -305,6 +314,12 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
   });
 
+  it('should send a global message when a new default address is selected', () => {
+    component.selectAddress({});
+    expect(component.selectAddress).toHaveBeenCalledWith({});
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
   it('should be able to get card content', () => {
     const card = component.getCardContent(
       mockAddress1,
@@ -329,7 +344,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       it('should automatically select default delivery address when there is ONLY ONE', () => {
         component.ngOnInit();
         component.selectDefaultAddress([mockAddress1], undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress1);
+        expect(component['savingAddress']).toHaveBeenCalledWith(mockAddress1);
       });
     });
 
@@ -337,7 +352,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       it('should automatically select default delivery address when there is no current selection', () => {
         component.doneAutoSelect = false;
         component.selectDefaultAddress(mockAddresses, undefined);
-        expect(component.selectAddress).toHaveBeenCalledWith(mockAddress2);
+        expect(component['savingAddress']).toHaveBeenCalledWith(mockAddress2);
       });
     });
   });
