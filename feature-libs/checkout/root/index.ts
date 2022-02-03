@@ -4,4 +4,4 @@ export * from './events/index';
 export * from './facade/index';
 export * from './feature-name';
 export * from './model/index';
-export * from './pages/index';
+export * from './tokens/index';
