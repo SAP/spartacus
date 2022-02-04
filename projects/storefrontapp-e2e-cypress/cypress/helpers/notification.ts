@@ -94,17 +94,37 @@ export function subscribeStockNotification(productCode: string) {
 
 export function unsubscribeStockNotification(productCode: string) {
   navigateToPDP(productCode);
+
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields*`
+  ).as('getStockNotification');
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'STOP NOTIFICATION')
     .click();
+
+  cy.wait('@getStockNotification').its('response.statusCode').should('eq', 200);
 }
 
 export function clickNotifyMeBtn(productCode: string) {
   navigateToPDP(productCode);
+
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/productinterests?fields*`
+  ).as('getStockNotification');
+
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
     .click();
+
+  cy.wait('@getStockNotification').its('response.statusCode').should('eq', 200);
 }
 
 export function verifyStockNotification() {
