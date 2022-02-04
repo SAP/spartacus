@@ -95,7 +95,7 @@
           },
           {
             "value": "Checkout",
-            "label": "Checkout"
+            "label": "Checkout base"
           },
           {
             "value": "Checkout-B2B",
