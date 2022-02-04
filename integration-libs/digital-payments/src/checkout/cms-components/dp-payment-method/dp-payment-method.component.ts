@@ -1,21 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import {
-  CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent,
-} from '@spartacus/checkout/components';
-import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
-import {
-  GlobalMessageService,
-  PaymentDetails,
-  TranslationService,
-  UserPaymentService,
-} from '@spartacus/core';
+import { PaymentMethodComponent as CorePaymentMethodComponent } from '@spartacus/checkout/components';
+import { PaymentDetails } from '@spartacus/core';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
@@ -33,11 +18,8 @@ export class DpPaymentMethodComponent
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
       DP_CARD_REGISTRATION_STATUS
     );
-    if (queryParams) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return Boolean(queryParams);
   }
 
   hideCallbackScreen(): void {
@@ -49,29 +31,8 @@ export class DpPaymentMethodComponent
     this.next();
   }
 
-  constructor(
-    protected userPaymentService: UserPaymentService,
-    protected checkoutFacade: CheckoutService,
-    protected checkoutDeliveryFacade: CheckoutDeliveryService,
-    protected checkoutPaymentFacade: CheckoutPaymentService,
-    protected globalMessageService: GlobalMessageService,
-    protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService
-  ) {
-    super(
-      userPaymentService,
-      checkoutFacade,
-      checkoutDeliveryFacade,
-      checkoutPaymentFacade,
-      globalMessageService,
-      activatedRoute,
-      translation,
-      activeCartFacade,
-      checkoutStepService
-    );
-
+  ngOnInit() {
     this.showCallbackScreen = this.isDpCallback();
+    super.ngOnInit();
   }
 }
