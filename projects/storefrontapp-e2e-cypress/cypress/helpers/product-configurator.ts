@@ -307,7 +307,8 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          checkValueSelected(uiType, attributeName, valueName);
+          //Here we cannot check if the value is selected, as this method is also used
+          //for de-selecting items
         });
       break;
     default:
