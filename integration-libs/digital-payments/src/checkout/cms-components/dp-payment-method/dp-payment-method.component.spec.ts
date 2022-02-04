@@ -10,13 +10,13 @@ import { CheckoutStepService } from '@spartacus/checkout/components';
 import {
   CheckoutDeliveryFacade,
   CheckoutFacade,
+  CheckoutPaymentFacade,
 } from '@spartacus/checkout/root';
 import {
   PaymentDetails,
   TranslationService,
   UserPaymentService,
 } from '@spartacus/core';
-import { CheckoutPaymentFacade } from 'feature-libs/checkout/root';
 import { Observable, of } from 'rxjs';
 import { DpPaymentMethodComponent } from './dp-payment-method.component';
 
