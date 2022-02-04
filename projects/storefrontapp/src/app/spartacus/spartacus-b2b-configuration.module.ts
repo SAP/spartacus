@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { defaultB2bCheckoutConfig } from '@spartacus/checkout/b2b/root';
+import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultB2bCheckoutConfig as oldDefaultB2bCheckoutConfig,
@@ -13,7 +13,7 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 
-let checkoutConfig = defaultB2bCheckoutConfig;
+let checkoutConfig = defaultB2BCheckoutConfig;
 if (environment.oldCheckout) {
   checkoutConfig = oldDefaultB2bCheckoutConfig;
 }
