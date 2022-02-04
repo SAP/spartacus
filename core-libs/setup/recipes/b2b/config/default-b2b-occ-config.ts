@@ -12,7 +12,6 @@ import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
 // `CheckoutOccEndpoints` in the code.
 const defaultB2bCheckoutOccEndpoints: CheckoutOccEndpoints = {
   setDeliveryAddress: 'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-  placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
 };
 
 const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
