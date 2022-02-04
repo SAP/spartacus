@@ -8,7 +8,7 @@ import { LaunchDialogService } from '@spartacus/storefront';
 @Injectable({
   providedIn: 'root',
 })
-export class ClearCartService {
+export class ClearCartDialogComponentService {
   isClearing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(

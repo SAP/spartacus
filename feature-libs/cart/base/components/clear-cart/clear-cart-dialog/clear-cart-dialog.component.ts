@@ -5,7 +5,7 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
-import { ClearCartService } from './clear-cart.service';
+import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { Observable } from 'rxjs';
 import { ICON_TYPE } from '@spartacus/storefront';
 
@@ -17,7 +17,7 @@ import { ICON_TYPE } from '@spartacus/storefront';
 export class ClearCartDialogComponent implements OnDestroy {
   iconTypes = ICON_TYPE;
   isClearing$: Observable<boolean> =
-    this.clearCartService.getClearingCartProgess();
+    this.clearCartDialogComponentService.getClearingCartProgess();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
@@ -29,15 +29,15 @@ export class ClearCartDialogComponent implements OnDestroy {
 
   constructor(
     protected el: ElementRef,
-    protected clearCartService: ClearCartService
+    protected clearCartDialogComponentService: ClearCartDialogComponentService
   ) {}
 
   clear(): void {
-    this.clearCartService.clearActiveCart();
+    this.clearCartDialogComponentService.clearActiveCart();
   }
 
   close(reason: string): void {
-    this.clearCartService.closeDialog(reason);
+    this.clearCartDialogComponentService.closeDialog(reason);
   }
 
   ngOnDestroy(): void {

@@ -1,4 +1,4 @@
-import { ClearCartService } from './clear-cart.service';
+import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import {
   IconTestingModule,
   KeyboardFocusTestingModule,
@@ -8,12 +8,13 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
 import { BehaviorSubject } from 'rxjs';
+import { By } from '@angular/platform-browser';
 
-const mockCloseReason = 'Close Dialog';
+const mockCloseReason = 'Cancel Clear Cart';
 const clearProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
   false
 );
-class MockClearCartService implements Partial<ClearCartService> {
+class MockClearCartService implements Partial<ClearCartDialogComponentService> {
   clearActiveCart(): void {}
   getClearingCartProgess(): BehaviorSubject<boolean> {
     return clearProgress$;
@@ -24,7 +25,7 @@ class MockClearCartService implements Partial<ClearCartService> {
 describe('ClearCartDialogComponent', () => {
   let component: ClearCartDialogComponent;
   let fixture: ComponentFixture<ClearCartDialogComponent>;
-  let clearCartService: ClearCartService;
+  let clearCartService: ClearCartDialogComponentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -36,11 +37,14 @@ describe('ClearCartDialogComponent', () => {
       ],
       declarations: [ClearCartDialogComponent],
       providers: [
-        { provide: ClearCartService, useClass: MockClearCartService },
+        {
+          provide: ClearCartDialogComponentService,
+          useClass: MockClearCartService,
+        },
       ],
     }).compileComponents();
 
-    clearCartService = TestBed.inject(ClearCartService);
+    clearCartService = TestBed.inject(ClearCartDialogComponentService);
   });
 
   beforeEach(() => {
@@ -56,14 +60,33 @@ describe('ClearCartDialogComponent', () => {
 
   it('should trigger clear cart', () => {
     spyOn(clearCartService, 'clearActiveCart');
-    component.clear();
+
+    const clearBtn = fixture.debugElement.query(
+      By.css('.btn-primary')
+    ).nativeElement;
+
+    clearBtn.click();
+
     expect(clearCartService.clearActiveCart).toHaveBeenCalled();
   });
 
-  it('should close dialog on close method', () => {
+  it('should close dialog on cancel', () => {
     spyOn(clearCartService, 'closeDialog');
-    component.close(mockCloseReason);
+    const clearBtn = fixture.debugElement.query(
+      By.css('.btn-action')
+    ).nativeElement;
+
+    clearBtn.click();
 
     expect(clearCartService.closeDialog).toHaveBeenCalledWith(mockCloseReason);
+  });
+
+  it('should close dialog on cross click', () => {
+    spyOn(clearCartService, 'closeDialog');
+    const clearBtn = fixture.debugElement.query(By.css('.close')).nativeElement;
+
+    clearBtn.click();
+
+    expect(clearCartService.closeDialog).toHaveBeenCalled();
   });
 });

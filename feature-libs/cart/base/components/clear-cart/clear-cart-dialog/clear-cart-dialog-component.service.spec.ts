@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import { Observable, of } from 'rxjs';
-import { ClearCartService } from './clear-cart.service';
+import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService } from '@spartacus/core';
 import createSpy = jasmine.createSpy;
@@ -28,7 +28,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
 }
 
 describe('ClearCartService', () => {
-  let service: ClearCartService;
+  let service: ClearCartDialogComponentService;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
   let globalMessageService: GlobalMessageService;
@@ -45,7 +45,7 @@ describe('ClearCartService', () => {
       ],
     }).compileComponents();
 
-    service = TestBed.inject(ClearCartService);
+    service = TestBed.inject(ClearCartDialogComponentService);
     launchDialogService = TestBed.inject(LaunchDialogService);
     activeCartFacade = TestBed.inject(ActiveCartFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
