@@ -1,51 +1,17 @@
 ## TODO: before merge
 
-1. Shipping address to delivery address sample data PR
+1. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
+2. BUG - "double spinner" on the payment step in b2b / repl checkout.
+3. Shipping address to delivery address sample data PR
    1. Rename the URL / route paths
    2. The CMS component name
    3. The CMS component mapping in Spartacus
-2. One FEATURE_NAME (CHECKOUT-FEATURE), and remove B2B_FEATURE and REPL_FEATURE
-3. Installation schematics (PR ready)
-   1. Make sure to configure b2b Spartacus when installing b2b / repl checkout?
-   2. Check if any other b2b feature do this (i.e. Bulk Pricing)
 4. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-5. When using b2b (organization), we should do the following ( feature-libs/checkout/b2b/occ/config/default-occ-checkout-b2b-config.ts ):
-    - ```ts
-      const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
-        user: 'orgUsers/${userId}',
-      };
-      ```
-
-    - ```ts
-      const defaultB2bUserProfileOccEndpoints: UserProfileOccEndpoints = {
-        userUpdateProfile: 'users/${userId}',
-        userCloseAccount: 'users/${userId}',
-      };
-      ```
-
-    - ```ts
-      const defaultB2bCartOccEndpoints: CartOccEndpoints = {
-        addEntries: 'orgUsers/${userId}/carts/${cartId}/entries?quantity=${quantity}',
-      };
-      ```
-
-    - ```ts
-      const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
-        scheduleReplenishmentOrder:
-          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
-        replenishmentOrderDetails:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-        replenishmentOrderDetailsHistory:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
-        cancelReplenishmentOrder:
-          'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-        replenishmentOrderHistory:
-          'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
-      };
-      ```
+5. B2B OCC endpoints
 6. remove old checkout
-   1. what to do with the setup lib and b2b configs?
-7. Remove `checkout-git-check.sh` and `todo.md` 
+   1. remove `core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts`
+   2. Remove `checkout-git-check.sh`
+   3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
 
 ## Second phase
 
@@ -56,20 +22,15 @@
 3. Schematics and deprecations
    1. Write migration schematics
    2. Check and add js doc comments
-   3. Write installation schematics
 4. Migration schematics
    1. Facades / services - import paths; some classes have been renamed
    2. adapters / connectors - import paths; some classes have been renamed
    3. components - import paths; some classes have been renamed
    4. modules? import paths; some classes have been renamed
    5. Check the existing schematics written before the checkout was merged!
-5. Installation schematics
-   1. Update the current installation schematics for the new lib
-   2. create a prompt for each of the checkout entry points? (base, b2b, repl)
-   3. If we decide to have dependency on the cart _in the feature module_, then reflect this in the schematics as well.
-6. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
-7. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
-8. Docs
+5. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
+6. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+7. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    2. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
    3. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
@@ -90,16 +51,16 @@
    9. Go through the old checkout's changes in `5_0.md`:
       1. add missing stuff
       2. remove unnecessary / non-relevant parts
-9. check LL:
-   1. check the chunks: base, b2b, replenishment
-   2. check if and when those are loaded
-   3. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
-   4. Check the transitive LL after we create a dependency on the cart:
+8.  check LL:
+   10. check the chunks: base, b2b, replenishment
+   11. check if and when those are loaded
+   12. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
+   13. Check the transitive LL after we create a dependency on the cart:
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-10. check the bundle size of checkout (maybe using webpack analyzer)
-11. query debounce
+9.  check the bundle size of checkout (maybe using webpack analyzer)
+10. query debounce
     1.  see `feature/query-debounce` branch
     2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 

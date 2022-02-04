@@ -4,7 +4,7 @@ import {
   DeliveryModePreferences,
 } from '@spartacus/checkout/base/root';
 
-export const defaultB2bCheckoutConfig: CheckoutConfig = {
+export const defaultB2BCheckoutConfig: CheckoutConfig = {
   checkout: {
     steps: [
       {

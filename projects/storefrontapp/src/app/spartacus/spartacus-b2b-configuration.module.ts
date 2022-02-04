@@ -1,12 +1,9 @@
 import { NgModule } from '@angular/core';
-import {
-  defaultB2bCheckoutConfig,
-  defaultB2bOccConfig,
-} from '@spartacus/checkout/b2b/root';
+import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
 import {
   defaultB2bCheckoutConfig as oldDefaultB2bCheckoutConfig,
-  defaultB2bOccConfig as oldDefaultB2bOccConfig,
+  defaultB2bOccConfig,
 } from '@spartacus/setup';
 import {
   defaultCmsContentProviders,
@@ -16,12 +13,9 @@ import {
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 
-let checkoutConfig = defaultB2bCheckoutConfig;
-let checkoutOccConfig = defaultB2bOccConfig;
-
+let checkoutConfig = defaultB2BCheckoutConfig;
 if (environment.oldCheckout) {
   checkoutConfig = oldDefaultB2bCheckoutConfig;
-  checkoutOccConfig = oldDefaultB2bOccConfig;
 }
 
 @NgModule({
@@ -31,7 +25,7 @@ if (environment.oldCheckout) {
     provideConfig(mediaConfig),
     ...defaultCmsContentProviders,
     // b2b
-    provideConfig(checkoutOccConfig),
+    provideConfig(defaultB2bOccConfig),
     provideConfig(checkoutConfig),
     provideConfig(<SiteContextConfig>{
       context: {
