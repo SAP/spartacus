@@ -23,6 +23,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveDescription = createSpy().and.returnValue(of());
   resolveRobots = createSpy().and.returnValue(of());
+  resolveTitle = createSpy().and.returnValue(of());
 }
 
 describe('CheckoutPageMetaResolver', () => {

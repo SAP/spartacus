@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  PageHeadingResolver,
   BasePageMetaResolver,
   PageDescriptionResolver,
   PageMetaResolver,
@@ -24,7 +25,11 @@ import { Observable } from 'rxjs';
 })
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver
+  implements
+    PageHeadingResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageRobotsResolver
 {
   constructor(
     protected translationService: TranslationService,
