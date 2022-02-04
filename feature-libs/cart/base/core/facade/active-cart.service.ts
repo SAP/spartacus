@@ -139,7 +139,6 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.activeCart$.pipe(
       withLatestFrom(this.userIdService.getUserId()),
       map(([cart, userId]) => getCartIdByUserId(cart, userId)),
-      filter((cartId) => !!cartId),
       distinctUntilChanged()
     );
   }
@@ -148,6 +147,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.isStable().pipe(
       filter((isStable) => isStable),
       switchMap(() => this.getActiveCartId()),
+      filter((cartId) => !!cartId),
       take(1)
     );
   }
