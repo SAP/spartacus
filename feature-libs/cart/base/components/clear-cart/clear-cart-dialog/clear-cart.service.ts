@@ -52,7 +52,7 @@ export class ClearCartService {
    *
    * @param success
    */
-   addSuccessGlobalMessage(): void {
+  addSuccessGlobalMessage(): void {
     this.globalMessageService.add(
       { key: 'clearCart.cartClearedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
@@ -60,7 +60,7 @@ export class ClearCartService {
   }
 
   onComplete(): void {
-    this.closeDialog('Close dialog');
+    this.closeDialog('Close dialog after cart cleared successfully');
     this.activeCartFacade
       .getEntries()
       .pipe(take(1))

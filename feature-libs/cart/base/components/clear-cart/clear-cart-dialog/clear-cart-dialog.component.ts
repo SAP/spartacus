@@ -41,6 +41,6 @@ export class ClearCartDialogComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.close('close dialog');
+    this.close('close dialog on component destroy');
   }
 }

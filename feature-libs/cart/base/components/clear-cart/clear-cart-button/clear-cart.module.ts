@@ -1,11 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import {
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  provideConfig,
-} from '@spartacus/core';
+import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import { ClearCartComponent } from './clear-cart.component';
 import { ClearCartDialogModule } from '../clear-cart-dialog/clear-cart-dialog.module';
 import { defaultClearCartLayoutConfig } from '../clear-cart-dialog/default-clear-cart-layout.config';
@@ -22,7 +17,7 @@ import { defaultClearCartLayoutConfig } from '../clear-cart-dialog/default-clear
         },
       },
     }),
-    provideConfig(defaultClearCartLayoutConfig),
+    provideDefaultConfig(defaultClearCartLayoutConfig),
   ],
 })
 export class ClearCartModule {}
