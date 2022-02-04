@@ -139,6 +139,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.activeCart$.pipe(
       withLatestFrom(this.userIdService.getUserId()),
       map(([cart, userId]) => getCartIdByUserId(cart, userId)),
+      filter((cartId) => !!cartId),
       distinctUntilChanged()
     );
   }
