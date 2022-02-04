@@ -8,10 +8,9 @@ import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/components';
 import {
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  CheckoutService,
-} from '@spartacus/checkout/core';
+  CheckoutDeliveryFacade,
+  CheckoutFacade,
+} from '@spartacus/checkout/root';
 import {
   PaymentDetails,
   TranslationService,
@@ -34,19 +33,18 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
-class MockCheckoutService {}
-class MockCheckoutDeliveryService {
+class MockCheckoutFacade {}
+class MockCheckoutDeliveryFacade {
   getDeliveryAddress(): Observable<PaymentDetails> {
     return of({});
   }
 }
-class MockCheckoutPaymentService {
+class MockCheckoutPaymentFacade {
   getPaymentDetails(): Observable<PaymentDetails> {
     return of(mockPaymentDetails);
   }
   setPaymentDetails() {}
 }
-class MockCheckoutPaymentFacade {}
 class MockTranslationService {
   translate(): Observable<string> {
     return of('');
@@ -100,24 +98,20 @@ describe('DpPaymentMethodComponent', () => {
           useClass: MockTranslationService,
         },
         {
-          provide: CheckoutService,
-          useClass: MockCheckoutService,
+          provide: CheckoutFacade,
+          useClass: MockCheckoutFacade,
         },
         {
           provide: CheckoutStepService,
           useClass: MockCheckoutStepService,
         },
         {
-          provide: CheckoutDeliveryService,
-          useClass: MockCheckoutDeliveryService,
+          provide: CheckoutDeliveryFacade,
+          useClass: MockCheckoutDeliveryFacade,
         },
         {
           provide: CheckoutPaymentFacade,
           useClass: MockCheckoutPaymentFacade,
-        },
-        {
-          provide: CheckoutPaymentService,
-          useClass: MockCheckoutPaymentService,
         },
         {
           provide: ActivatedRoute,
