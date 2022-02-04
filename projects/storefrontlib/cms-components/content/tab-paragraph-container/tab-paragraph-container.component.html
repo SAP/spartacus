@@ -23,8 +23,6 @@
         <div
           [class.active]="i === activeTabNum"
           [attr.id]="'tab-' + i"
-          role="region"
-          [attr.aria-labelledby]="'tab-' + i + '-id'"
           tabindex="0"
         >
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
