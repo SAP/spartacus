@@ -7,6 +7,7 @@ describe('My interests', () => {
     describe('Stock Notification for Guest', () => {
       before(() => {
         clearAllStorage();
+        cy.visit('/');
       });
       it('should login first when guest want to subscribe notification', () => {
         notification.verifyStockNotificationAsGuest();
@@ -17,6 +18,7 @@ describe('My interests', () => {
       beforeEach(() => {
         clearAllStorage();
         cy.requireLoggedIn();
+        cy.visit('/');
       });
 
       it('should navigate to notification preference page through product detail page', () => {
