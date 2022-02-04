@@ -211,6 +211,9 @@ provideConfig(<CmsConfig>{
 }),
 ```
 
+TODO:
+- plugins should be able to populate the CMS mappings and services. and should overwrite default CMS maapings and services
+
 #### Pros
 - it doesn't require relying on wrapper modules
   - to install an extension, you don't need to know the filename of the wrapper module, but only the feature name, e.g. `USER_PROFILE_FEATURE` 
