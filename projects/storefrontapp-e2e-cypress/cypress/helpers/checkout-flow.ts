@@ -332,14 +332,13 @@ export function addCheapProductToCartAndLogin(
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`);
 
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryPage'
   );
   loginUser(sampleUser);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
-  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+  cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -358,13 +357,14 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
 ) {
   addCheapProductToCart(sampleProduct);
 
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCart(

@@ -6,17 +6,14 @@ import { TabElement } from '../../tabbing-order.model';
 
 const containerSelector = 'cx-page-layout.MultiStepCheckoutSummaryPageTemplate';
 
-// TODO:#checkout to update sample data to /delivery-address
 export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddress'
   );
 
-  // TODO:#checkout to update sample data to /delivery-address
-  cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`)
+  cy.visit('/checkout/delivery-address');
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 
@@ -31,15 +28,13 @@ export function checkoutShippingAddressNewTabbingOrder(config: TabElement[]) {
 export function checkoutShippingAddressExistingTabbingOrder(
   config: TabElement[]
 ) {
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddress'
   );
 
-  // TODO:#checkout to update sample data to /delivery-address
-  cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`)
+  cy.visit('/checkout/delivery-address');
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 
@@ -55,10 +50,9 @@ export function checkoutShippingAddressExistingTabbingOrder(
 }
 
 export function checkoutShippingAddressAccount(config: TabElement[]) {
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddress'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddress'
   );
 
   cy.intercept({
@@ -68,9 +62,8 @@ export function checkoutShippingAddressAccount(config: TabElement[]) {
     )}/**/addresses/delivery*`,
   }).as('setAddress');
 
-  // TODO:#checkout to update sample data to /delivery-address
-  cy.visit('/checkout/shipping-address');
-  cy.wait(`@${shippingAddressPage}`)
+  cy.visit('/checkout/delivery-address');
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 

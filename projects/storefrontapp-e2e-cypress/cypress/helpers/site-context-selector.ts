@@ -69,8 +69,7 @@ export const UPDATE_PASSWORD_PATH = `/${myAccount}/update-password`;
 export const PRODUCT_SEARCH_PATH =
   '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
 export const REGISTRATION_PATH = '/login/register';
-// TODO:#checkout to update sample data to /delivery-address
-export const CHECKOUT_SHIPPING_ADDRESS_PATH = '/checkout/shipping-address';
+export const CHECKOUT_DELIVERY_ADDRESS_PATH = '/checkout/delivery-address';
 export const CHECKOUT_DELIVERY_MODE_PATH = '/checkout/delivery-mode';
 export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';

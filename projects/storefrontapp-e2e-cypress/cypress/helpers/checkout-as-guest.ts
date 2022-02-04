@@ -19,10 +19,9 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
     .click();
   cy.wait(`@${guestLoginPage}`).its('response.statusCode').should('eq', 200);
 
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingPage = checkout.waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = checkout.waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
 
   cy.get('cx-checkout-login').within(() => {
@@ -32,7 +31,9 @@ export function loginAsGuest(sampleUser: SampleUser = user) {
       .type(sampleUser.email);
     cy.get('button[type=submit]').click();
   });
-  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function testCheckoutAsGuest() {
