@@ -1,19 +1,14 @@
 // We need this import for augmentation of OccEndpoints to pick up
 import { CartOccEndpoints } from '@spartacus/cart/base/occ';
-import { CheckoutOccEndpoints } from '@spartacus/checkout/occ';
 import { OccConfig } from '@spartacus/core';
 import { OrderOccEndpoints } from '@spartacus/order/occ';
 import { UserAccountOccEndpoints } from '@spartacus/user/account/occ';
 import { UserProfileOccEndpoints } from '@spartacus/user/profile/occ';
 
-// While it is not strictly required to define checkout endpoints in a separate `CheckoutOccEndpoints`
-// variable, type augmentation does require that this file imports `CheckoutOccEndpoints`.
-// A good way to make sure the `CheckoutOccEndpoints` import is not removed by mistake is to use
-// `CheckoutOccEndpoints` in the code.
-const defaultB2bCheckoutOccEndpoints: CheckoutOccEndpoints = {
-  setDeliveryAddress: 'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
-};
-
+// While it is not strictly required to define checkout endpoints in a separate `UserAccountOccEndpoints`
+// variable, type augmentation does require that this file imports `UserAccountOccEndpoints`.
+// A good way to make sure the `UserAccountOccEndpoints` import is not removed by mistake is to use
+// `UserAccountOccEndpoints` in the code.
 const defaultB2bUserAccountOccEndpoints: UserAccountOccEndpoints = {
   user: 'orgUsers/${userId}',
 };
@@ -42,7 +37,6 @@ export const defaultB2bOccConfig: OccConfig = {
   backend: {
     occ: {
       endpoints: {
-        ...defaultB2bCheckoutOccEndpoints,
         ...defaultB2bUserAccountOccEndpoints,
         ...defaultB2bUserProfileOccEndpoints,
         ...defaultB2bCartOccEndpoints,
