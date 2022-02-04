@@ -943,17 +943,19 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
 
       for (const sourceFile of appSourceFiles) {
         if (
-          sourceFile
+          !sourceFile
             .getFilePath()
             .includes(`${SPARTACUS_CONFIGURATION_MODULE}.module.ts`)
         ) {
-          getB2bConfiguration().forEach((provider) =>
-            addModuleProvider(sourceFile, provider)
-          );
-          saveAndFormat(sourceFile);
-
-          break;
+          continue;
         }
+
+        getB2bConfiguration().forEach((provider) =>
+          addModuleProvider(sourceFile, provider)
+        );
+
+        saveAndFormat(sourceFile);
+        break;
       }
     }
 
