@@ -225,11 +225,12 @@ TODO:
 - is it acceptable (no!?) that default User depends on CDC intragration
 - CDC depends on user? to be checked -> circular dep?
 
+## Option 5: export pre-baked wrapper modules from our libs
+TODO: explain it
 
-
-
-### Option 2
-
+Cons:
+- doesn't allow for many composable extensions
+- 
 ## 5. Decision
 _Elaborate the decision_
 
