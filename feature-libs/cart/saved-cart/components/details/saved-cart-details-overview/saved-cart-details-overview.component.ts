@@ -5,7 +5,8 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { Cart, TranslationService } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
+import { TranslationService } from '@spartacus/core';
 import {
   Card,
   ICON_TYPE,
