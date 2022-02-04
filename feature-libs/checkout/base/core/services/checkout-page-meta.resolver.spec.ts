@@ -23,6 +23,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 class MockBasePageMetaResolver implements Partial<BasePageMetaResolver> {
   resolveDescription = createSpy().and.returnValue(of());
   resolveRobots = createSpy().and.returnValue(of());
+  resolveTitle = createSpy().and.returnValue(of());
 }
 
 describe('CheckoutPageMetaResolver', () => {
@@ -58,6 +59,10 @@ describe('CheckoutPageMetaResolver', () => {
   it(`should resolve page title`, () => {
     let result: string | undefined;
 
+    basePageMetaResolver.resolveTitle = createSpy().and.returnValue(
+      of('Checkout Delivery Mode')
+    );
+
     service
       .resolveTitle()
       .subscribe((meta) => {
@@ -65,7 +70,18 @@ describe('CheckoutPageMetaResolver', () => {
       })
       .unsubscribe();
 
-    expect(result).toEqual('pageMetaResolver.checkout.title count:5');
+    expect(result).toEqual('Checkout Delivery Mode');
+  });
+
+  it('should resolve checkout heading', () => {
+    let result: string | undefined;
+
+    service
+      .resolveHeading()
+      .subscribe((value) => (result = value))
+      .unsubscribe();
+
+    expect(result).toEqual('pageMetaResolver.checkout.title');
   });
 
   it(`should resolve 'Page description' for resolveDescription()`, () => {
