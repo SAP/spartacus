@@ -13,7 +13,7 @@
    2. Remove `checkout-git-check.sh`
    3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
 
-## After merge
+## Second phase
 
 1. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
 2. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
@@ -21,6 +21,7 @@
    - (related to above) sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
 3. Schematics and deprecations
    1. Write migration schematics
+   2. Check and add js doc comments
 4. Migration schematics
    1. Facades / services - import paths; some classes have been renamed
    2. adapters / connectors - import paths; some classes have been renamed
