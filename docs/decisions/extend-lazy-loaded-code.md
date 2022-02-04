@@ -5,10 +5,11 @@ Extend lazy loaded code
 Proposed
 
 ## 3. Involved areas
-shell app, lazy-loading, schematics
+lazy-loading, dependency injection
 
 ## 4. Context
 _Explain why the decision is being taken_
+
 Spartacus extension/integration library should be able to extend default services in a lazy-loaded feature modules coming from other libraries. We didn't have a need for it yet, but now we have a big need. It’s because we extract more-and-more code to lazy-loaded modules and we decouple more-and-more code into independent, composable “plugin-like” libraries. And the usual techniques for extending services, don't work in the case of lazy-loaded modules.
 
 The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but has a higher priority than the parent one. And because the original service implementation is provided in the module that has its own child-injector, the original service shadows any extensions provided in the root injector.
