@@ -14,7 +14,7 @@ export const cart = {
       'The quantity represents the total number of this item in your cart.',
     total: 'Total',
     cartTotal: 'Cart total ({{count}} item)',
-    cartTotal_plural: 'Cart total ({{count}} items)',
+    cartTotal_other: 'Cart total ({{count}} items)',
   },
   orderCost: {
     orderSummary: 'Order Summary',
@@ -30,7 +30,7 @@ export const cart = {
   },
   voucher: {
     coupon: 'Have a coupon?',
-    coupon_plural: 'Coupon codes',
+    coupon_other: 'Coupon codes',
     couponLabel: 'Enter a promo code here',
     apply: 'Apply',
     placeholder: 'Promo code',
@@ -43,7 +43,7 @@ export const cart = {
   },
   saveForLaterItems: {
     itemTotal: 'Saved for later ({{count}} item)',
-    itemTotal_plural: 'Saved for later ({{count}} items)',
+    itemTotal_other: 'Saved for later ({{count}} items)',
     cartTitle: 'Cart',
     saveForLater: 'Save For Later',
     moveToCart: 'Move To Cart',
