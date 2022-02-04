@@ -34,15 +34,15 @@
         "items": [
           {
             "value": "Checkout",
-            "label": "Checkout"
+            "label": "Checkout base"
           },
           {
             "value": "Checkout-B2B",
-            "label": "Checkout (b2b features)"
+            "label": "Checkout (b2b feature, includes Base Checkout)"
           },
           {
             "value": "Checkout-Scheduled-Replenishment",
-            "label": "Checkout Scheduled Replenishment (b2b feature)"
+            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
           }
         ]
       }
