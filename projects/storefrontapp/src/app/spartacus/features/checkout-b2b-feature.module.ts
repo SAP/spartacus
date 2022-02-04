@@ -3,14 +3,12 @@ import {
   checkoutB2BTranslationChunksConfig,
   checkoutB2BTranslations,
 } from '@spartacus/checkout/b2b/assets';
-import {
-  CheckoutB2BRootModule,
-  CHECKOUT_B2B_FEATURE,
-} from '@spartacus/checkout/b2b/root';
+import { CheckoutB2BRootModule } from '@spartacus/checkout/b2b/root';
 import {
   checkoutTranslationChunksConfig,
   checkoutTranslations,
 } from '@spartacus/checkout/base/assets';
+import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { provideConfig } from '@spartacus/core';
 
 @NgModule({
@@ -24,7 +22,7 @@ import { provideConfig } from '@spartacus/core';
     }),
     provideConfig({
       featureModules: {
-        [CHECKOUT_B2B_FEATURE]: {
+        [CHECKOUT_FEATURE]: {
           module: () =>
             import('@spartacus/checkout/b2b').then((m) => m.CheckoutB2BModule),
         },
