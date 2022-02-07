@@ -177,6 +177,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
       type: TabbingOrderTypes.LINK,
     },
     {
@@ -271,6 +275,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -289,11 +297,17 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
   replenishmentOrderAccountCheckoutReviewOrder: [
     ...accountReviewOrderGeneral,
+    { type: TabbingOrderTypes.CX_MEDIA },
+    { type: TabbingOrderTypes.LINK },
     { value: '1', type: TabbingOrderTypes.SELECT },
     { value: 'Day(s)', type: TabbingOrderTypes.SELECT },
     { type: TabbingOrderTypes.GENERIC_INPUT },
@@ -424,6 +438,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Save Cart For Later',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: savedCartSampleData.products[0].name,
