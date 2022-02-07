@@ -70,6 +70,7 @@
 # ================================================
 /projects/core/**                                   @SAP/spartacus-codeowners
 /projects/storefrontlib/**                          @SAP/spartacus-codeowners
+/feature-libs/**                                    @SAP/spartacus-codeowners
 /core-libs/**                                       @SAP/spartacus-codeowners
 /ci-scripts/**                                      @SAP/spartacus-codeowners
 /scripts/**                                         @SAP/spartacus-codeowners
@@ -87,6 +88,7 @@
 # ================================================
 /projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-codeowners
 
+
 # ================================================
 #  Schematics
 # ================================================
@@ -97,3 +99,9 @@
 # ================================================
 /.github/**                                         @SAP/spartacus-codeowners
 
+######################################################################################################
+
+# ================================================
+#  Product configurator feature and CPQ integration
+# ================================================
+/feature-libs/product-configurator/**               @SAP/spartacus-codeowners @SAP/spartacus-CPQ
