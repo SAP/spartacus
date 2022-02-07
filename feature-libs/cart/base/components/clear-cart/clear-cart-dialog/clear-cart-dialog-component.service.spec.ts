@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { tap } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
@@ -24,7 +24,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-describe('ClearCartDialogComponentService', () => {
+fdescribe('ClearCartDialogComponentService', () => {
   let service: ClearCartDialogComponentService;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
@@ -52,16 +52,19 @@ describe('ClearCartDialogComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get and change clearing cart progess', () => {
+  it('should get and change clearing cart progess', (done) => {
     expect(service.isClearing$.value).toBeFalsy();
     service.clearActiveCart();
     service
       .getClearingCartProgess()
-      .pipe(tap())
-      .subscribe((clearing) => expect(clearing).toBeTruthy());
+      .pipe(take(1))
+      .subscribe((clearing) => {
+        expect(clearing).toBeTruthy();
+        done();
+      });
   });
 
-  it('should call clearActiveCart', () => {
+  it('should call clearCart', () => {
     spyOn(service, 'clearCart').and.returnValue(of(true));
     spyOn(activeCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
 
@@ -83,6 +86,15 @@ describe('ClearCartDialogComponentService', () => {
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
+  });
+
+  it('should not display global message if cart remains non empty', () => {
+    spyOn(service, 'addSuccessGlobalMessage').and.callThrough();
+    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
+
+    service.onComplete();
+
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should close dialog on close method', () => {
