@@ -29,10 +29,9 @@ context('Checkout as guest', () => {
 
       checkout.fillAddressFormWithCheapProduct();
 
-      // TODO:#checkout to update sample data to /delivery-address
-      const shippingPage = waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
+      const deliveryAddressPage = waitForPage(
+        '/checkout/delivery-address',
+        'getDeliveryPage'
       );
 
       checkout.clickHamburger();
@@ -42,7 +41,9 @@ context('Checkout as guest', () => {
       cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
       login(guestCheckout.guestUser.email, guestCheckout.guestUser.password);
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${deliveryAddressPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 

@@ -113,14 +113,13 @@ export function addPaymentMethod() {
 }
 
 export function selectShippingAddress() {
-  // TODO:#checkout to update sample data to /delivery-address
   cy.intercept({
     method: 'GET',
     pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/cms/pages`,
     query: {
-      pageLabelOrId: '/checkout/shipping-address',
+      pageLabelOrId: '/checkout/delivery-address',
     },
   }).as('getShippingPage');
   cy.findByText(/proceed to checkout/i).click();

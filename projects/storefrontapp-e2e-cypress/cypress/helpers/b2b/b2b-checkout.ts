@@ -101,13 +101,14 @@ export function selectAccountPayment() {
     )}/users/current/carts/*?fields=DEFAULT*`
   ).as('getCart');
 
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryPage'
   );
   cy.get('button.btn-primary').should('be.enabled').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait('@getCart').its('response.statusCode').should('eq', 200);
 }
 
@@ -116,13 +117,14 @@ export function selectCreditCardPayment() {
     cy.findByText('Credit Card').click({ force: true });
   });
 
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryPage'
   );
   cy.get('button.btn-primary').click({ force: true });
-  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function selectAccountShippingAddress() {

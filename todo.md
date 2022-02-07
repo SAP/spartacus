@@ -2,16 +2,17 @@
 
 1. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
 2. BUG - "double spinner" on the payment step in b2b / repl checkout.
-3. Shipping address to delivery address sample data PR
-   1. Rename the URL / route paths
-   2. The CMS component name
-   3. The CMS component mapping in Spartacus
-4. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-5. B2B OCC endpoints
-6. remove old checkout
+3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+4. B2B OCC endpoints
+5. remove old checkout
    1. remove `core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts`
    2. Remove `checkout-git-check.sh`
    3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
+6. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
+   1. .env-cmdrc
+   2. cypress.ci.json
+   3. cypress.ci.b2b.json
+   4. cypress.json
 
 ## Second phase
 

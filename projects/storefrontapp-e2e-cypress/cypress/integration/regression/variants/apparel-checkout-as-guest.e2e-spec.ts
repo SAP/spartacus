@@ -66,10 +66,9 @@ context('Apparel - checkout as guest', () => {
         cartWithSingleVariantProduct
       );
 
-      // TODO:#checkout to update sample data to /delivery-address
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
+      const deliveryAddressPage = checkout.waitForPage(
+        '/checkout/delivery-address',
+        'getDeliveryPage'
       );
 
       checkout.clickHamburger();
@@ -82,7 +81,9 @@ context('Apparel - checkout as guest', () => {
         checkoutVariants.variantUser.email,
         checkoutVariants.variantUser.password
       );
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${deliveryAddressPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
 
       cy.get('cx-mini-cart .count').contains('1');
 
