@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
 import {
   CmsQuickOrderComponent,
   QuickOrderStatePersistenceService,
@@ -14,10 +15,8 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
-  ActiveCartService,
   GlobalMessageService,
   GlobalMessageType,
-  OrderEntry,
   Product,
 } from '@spartacus/core';
 import { CmsComponentData } from '@spartacus/storefront';
@@ -61,7 +60,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   );
 
   constructor(
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected component: CmsComponentData<CmsQuickOrderComponent>,
     protected globalMessageService: GlobalMessageService,
     protected quickOrderService: QuickOrderFacade,
