@@ -14,6 +14,7 @@ import { map } from 'rxjs/operators';
 import { FocusConfig } from '../../../../../layout/a11y/keyboard-focus/index';
 import { ICON_TYPE } from '../../../../misc/icon/icon.model';
 import { FacetGroupCollapsedState, FacetList } from '../facet.model';
+import { FacetComponent } from '../facet/facet.component';
 import { FacetService } from '../services/facet.service';
 
 @Component({
@@ -62,6 +63,15 @@ export class FacetListComponent {
     protected elementRef: ElementRef,
     protected renderer: Renderer2
   ) {}
+
+  /**
+   * Toggles the facet group in case it is not expanded.
+   */
+  expandFacetGroup(facet: Facet, ref: FacetComponent) {
+    if (!ref.isExpanded) {
+      this.facetService.toggle(facet, ref.isExpanded);
+    }
+  }
 
   /**
    * Indicates that the facet group has been expanded.
