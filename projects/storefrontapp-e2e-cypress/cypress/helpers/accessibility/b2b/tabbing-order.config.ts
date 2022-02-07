@@ -36,6 +36,10 @@ const accountReviewOrderGeneral = [
   },
   {
     value: 'Cordless screwdriver 2436',
+    type: TabbingOrderTypes.CX_MEDIA,
+  },
+  {
+    value: 'Cordless screwdriver 2436',
     type: TabbingOrderTypes.LINK,
   },
   {
@@ -306,8 +310,6 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   replenishmentOrderAccountCheckoutReviewOrder: [
     ...accountReviewOrderGeneral,
-    { type: TabbingOrderTypes.CX_MEDIA },
-    { type: TabbingOrderTypes.LINK },
     { value: '1', type: TabbingOrderTypes.SELECT },
     { value: 'Day(s)', type: TabbingOrderTypes.SELECT },
     { type: TabbingOrderTypes.GENERIC_INPUT },
