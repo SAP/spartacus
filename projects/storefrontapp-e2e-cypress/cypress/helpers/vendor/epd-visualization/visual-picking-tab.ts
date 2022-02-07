@@ -23,7 +23,7 @@ export function configureDefaultProduct() {
 
 export function verifyTabbingOrder() {
   // Ensure the spare parts tab is active
-  cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
+  cy.get('cx-tab-paragraph-container button').contains('Spare Parts').click();
 
   cy.get('cx-epd-visualization-viewer', { timeout: 50000 }).should(
     'be.visible'
@@ -32,7 +32,7 @@ export function verifyTabbingOrder() {
     timeout: 50000,
   }).should('be.visible');
 
-  cy.get('cx-tab-paragraph-container > button').contains('Spare Parts').click();
+  cy.get('cx-tab-paragraph-container button').contains('Spare Parts').click();
 
   cy.get('cx-icon.fa-home').parent().parent('button').focus();
 

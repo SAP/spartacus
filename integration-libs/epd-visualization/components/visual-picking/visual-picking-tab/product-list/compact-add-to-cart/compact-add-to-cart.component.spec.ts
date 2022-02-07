@@ -4,21 +4,23 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
-  ActiveCartService,
-  Cart,
-  I18nTestingModule,
-  OrderEntry,
-  Product,
-} from '@spartacus/core';
-import {
+  CmsComponentData,
   CurrentProductService,
   IconModule,
   ModalService,
   SpinnerModule,
 } from '@spartacus/storefront';
+import { AddedToCartDialogEventListener } from 'feature-libs/cart/base/components/added-to-cart-dialog';
 import { Observable, of } from 'rxjs';
 import { CompactAddToCartComponent } from './compact-add-to-cart.component';
+
+const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
+  data$: of({}),
+  uid: 'test',
+};
 
 const productCode = '1234';
 
@@ -76,11 +78,11 @@ class MockItemCounterComponent {
 describe('CompactAddToCartComponent', () => {
   let addToCartComponent: CompactAddToCartComponent;
   let fixture: ComponentFixture<CompactAddToCartComponent>;
-  let service: ActiveCartService;
+  let service: ActiveCartFacade;
   let currentProductService: CurrentProductService;
   let el: DebugElement;
+  let listener: AddedToCartDialogEventListener;
 
-  let modalInstance: any;
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
   beforeEach(
@@ -100,11 +102,16 @@ describe('CompactAddToCartComponent', () => {
             provide: ModalService,
             useValue: { open: () => ({ componentInstance: {} }) },
           },
-          { provide: ActiveCartService, useClass: MockActiveCartService },
+          { provide: ActiveCartFacade, useClass: MockActiveCartService },
           {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
           },
+          {
+            provide: CmsComponentData,
+            useValue: MockCmsComponentData,
+          },
+          AddedToCartDialogEventListener,
         ],
       }).compileComponents();
     })
@@ -113,12 +120,13 @@ describe('CompactAddToCartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CompactAddToCartComponent);
     addToCartComponent = fixture.componentInstance;
-    service = TestBed.inject(ActiveCartService);
-    modalInstance = TestBed.inject(ModalService);
+    service = TestBed.inject(ActiveCartFacade);
     currentProductService = TestBed.inject(CurrentProductService);
+    listener = TestBed.inject(AddedToCartDialogEventListener);
     el = fixture.debugElement;
 
-    spyOn(modalInstance, 'open').and.callThrough();
+    spyOn(listener as any, 'openModal').and.stub();
+
     fixture.detectChanges();
   });
 
@@ -154,11 +162,8 @@ describe('CompactAddToCartComponent', () => {
 
     addToCartComponent.addToCart();
 
-    expect(modalInstance.open).toHaveBeenCalled();
     expect(service.addEntry).toHaveBeenCalledWith(productCode, 1);
-    expect(
-      addToCartComponent.modalRef.componentInstance.numberOfEntriesBeforeAdd
-    ).toBe(1);
+    expect(listener['openModal']).toHaveBeenCalledTimes(1);
   });
 
   describe('UI', () => {
