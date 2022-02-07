@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
-import {
-  Address,
-  DeliveryMode,
-  facadeFactory,
-  StateUtils,
-} from '@spartacus/core';
+import { DeliveryMode } from '@spartacus/cart/base/root';
+import { Address, facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CHECKOUT_CORE_FEATURE } from '../feature-name';
 
@@ -22,7 +18,7 @@ import { CHECKOUT_CORE_FEATURE } from '../feature-name';
         'getSetDeliveryAddressProcess',
         'resetSetDeliveryAddressProcess',
         'getSetDeliveryModeProcess',
-        'getSetDeliveryModeInProcess',
+        'isSetDeliveryModeBusy',
         'resetSetDeliveryModeProcess',
         'resetLoadSupportedDeliveryModesProcess',
         'getLoadSupportedDeliveryModeProcess',
@@ -81,10 +77,10 @@ export abstract class CheckoutDeliveryFacade {
   >;
 
   /**
-   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * return info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
    * True means at least one quest is still in process, false means all three requests are done
    */
-  abstract getSetDeliveryModeInProcess(): Observable<boolean>;
+  abstract isSetDeliveryModeBusy(): Observable<boolean>;
   /**
    * Clear info about process of setting Delivery Mode
    */

@@ -5,11 +5,9 @@ import { TestBed } from '@angular/core/testing';
 import { provideMockActions } from '@ngrx/effects/testing';
 import * as ngrxStore from '@ngrx/store';
 import { StoreModule } from '@ngrx/store';
-import {
-  CartActions,
-  CartModification,
-  normalizeHttpError,
-} from '@spartacus/core';
+import { CartActions } from '@spartacus/cart/base/core';
+import { CartModification } from '@spartacus/cart/base/root';
+import { normalizeHttpError } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -66,6 +64,7 @@ const productConfiguration: Configurator.Configuration = {
   consistent: true,
   overview: {
     configId: CONFIG_ID,
+    productCode: productCode,
     groups: [
       {
         id: 'a',

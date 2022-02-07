@@ -150,7 +150,10 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
     const productConfigurationWithIssuesAndConflicts: Configurator.Configuration =
       {
         ...productConfigurationWithConflicts,
-        overview: { configId: productConfigurationWithConflicts.configId },
+        overview: {
+          configId: productConfigurationWithConflicts.configId,
+          productCode: productConfigurationWithoutIssues.productCode,
+        },
       };
     configurationObs = of(productConfigurationWithIssuesAndConflicts);
     initialize(routerData);
@@ -172,6 +175,7 @@ describe('ConfigOverviewNotificationBannerComponent', () => {
         ...productConfigurationWithoutIssues,
         overview: {
           configId: CONFIG_ID,
+          productCode: productConfigurationWithoutIssues.productCode,
           totalNumberOfIssues: 5,
         },
       };

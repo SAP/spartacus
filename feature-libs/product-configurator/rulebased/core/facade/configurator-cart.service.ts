@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   OCC_USER_ID_CURRENT,
   StateUtils,
   UserIdService,
@@ -23,7 +23,7 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 export class ConfiguratorCartService {
   constructor(
     protected store: Store<StateWithConfigurator>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
     protected checkoutFacade: CheckoutFacade,
     protected userIdService: UserIdService,
@@ -57,7 +57,7 @@ export class ConfiguratorCartService {
           this.activeCartService
             .requireLoadedCart()
             .pipe(take(1))
-            .subscribe((cartState) => {
+            .subscribe((cart) => {
               this.userIdService
                 .getUserId()
                 .pipe(take(1))
@@ -65,9 +65,7 @@ export class ConfiguratorCartService {
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
                     {
                       userId: userId,
-                      cartId: this.commonConfigUtilsService.getCartId(
-                        cartState.value
-                      ),
+                      cartId: this.commonConfigUtilsService.getCartId(cart),
                       cartEntryNumber: owner.id,
                       owner: owner,
                     };
@@ -155,14 +153,14 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
               quantity: 1,
               configId: configId,
@@ -186,7 +184,7 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
@@ -194,9 +192,7 @@ export class ConfiguratorCartService {
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters =
               {
                 userId: userId,
-                cartId: this.commonConfigUtilsService.getCartId(
-                  cartState.value
-                ),
+                cartId: this.commonConfigUtilsService.getCartId(cart),
                 cartEntryNumber: configuration.owner.id,
                 configuration: configuration,
               };
@@ -213,8 +209,8 @@ export class ConfiguratorCartService {
    */
   activeCartHasIssues(): Observable<boolean> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => {
-        return cartState.value ? cartState.value.entries : [];
+      map((cart) => {
+        return cart ? cart.entries : [];
       }),
       map((entries) =>
         entries

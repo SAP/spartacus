@@ -89,6 +89,10 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
     it('should allow quantity', () => {
       expect(component.withQuantity).toBe(true);
     });
+    it('should be able to handle empty UI type', () => {
+      component.attribute.uiType = undefined;
+      expect(component.withQuantity).toBe(false);
+    });
   });
 
   describe('withQuantityOnAttributeLevel', () => {
@@ -125,6 +129,16 @@ describe('ConfiguratorAttributeMultiSelectionBaseComponent', () => {
       const quantityOptions: ConfiguratorAttributeQuantityComponentOptions =
         component.extractQuantityParameters(1);
       expect(quantityOptions.allowZero).toBe(false);
+    });
+
+    it('should take over loading observable into result ', () => {
+      component.loading$.next(false);
+      const quantityOptions: ConfiguratorAttributeQuantityComponentOptions =
+        component.extractQuantityParameters(1);
+      expect(quantityOptions.allowZero).toBe(false);
+      quantityOptions.disableQuantityActions$?.subscribe((disable) =>
+        expect(disable).toBe(false)
+      );
     });
   });
 

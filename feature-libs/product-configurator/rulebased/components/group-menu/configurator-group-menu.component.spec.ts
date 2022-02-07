@@ -58,7 +58,8 @@ const typeCPQ = ConfiguratorType.CPQ;
 const typeVariant = ConfiguratorType.VARIANT;
 
 const simpleConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
+  ...mockProductConfiguration,
+
   groups: [
     {
       id: GROUP_ID_1,
@@ -85,9 +86,8 @@ const simpleConfig: Configurator.Configuration = {
 };
 
 const inconsistentConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: false,
   complete: true,
   interactionState: {
@@ -97,9 +97,8 @@ const inconsistentConfig: Configurator.Configuration = {
 };
 
 const incompleteConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: true,
   complete: false,
   interactionState: {

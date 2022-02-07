@@ -101,8 +101,8 @@ function configureSpartacusModules(
 
       [
         `// User Core,
-        UserTransitional_4_2_Module,`,
-        'UserOccTransitional_4_2_Module,',
+        UserModule,`,
+        'UserOccModule,',
         `// User UI,
         AddressBookModule,`,
         'PaymentMethodsModule,',
@@ -116,10 +116,7 @@ function configureSpartacusModules(
           import: [
             {
               moduleSpecifier: SPARTACUS_CORE,
-              namedImports: [
-                'UserTransitional_4_2_Module',
-                'UserOccTransitional_4_2_Module',
-              ],
+              namedImports: ['UserModule', 'UserOccModule'],
             },
             {
               moduleSpecifier: SPARTACUS_STOREFRONTLIB,
@@ -208,29 +205,6 @@ function configureSpartacusModules(
         });
       });
 
-      [
-        `// Cart Core,
-        CartModule.forRoot(),`,
-        'CartOccModule,',
-        `// Cart UI,
-        CartComponentModule,`,
-        'WishListModule,',
-      ].forEach((content) => {
-        addModuleImport(sourceFile, {
-          import: [
-            {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: ['CartModule', 'CartOccModule'],
-            },
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: ['CartComponentModule', 'WishListModule'],
-            },
-          ],
-          content,
-        });
-      });
-
       ['CostCenterOccModule,'].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
@@ -244,25 +218,9 @@ function configureSpartacusModules(
       });
 
       [
-        `// Order,
-        OrderOccModule`,
-      ].forEach((content) => {
-        addModuleImport(sourceFile, {
-          import: [
-            {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: ['OrderOccModule'],
-            },
-          ],
-          content,
-        });
-      });
-
-      [
         `// Page Events,
         NavigationEventModule,`,
         'HomePageEventModule,',
-        'CartPageEventModule,',
         'ProductPageEventModule,',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
@@ -272,7 +230,6 @@ function configureSpartacusModules(
               namedImports: [
                 'NavigationEventModule',
                 'HomePageEventModule',
-                'CartPageEventModule',
                 'ProductPageEventModule',
               ],
             },
