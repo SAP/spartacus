@@ -360,8 +360,7 @@ export function fillAddressFormWithCheapProduct(
 
 export function fillPaymentFormWithCheapProduct(
   paymentDetailsData: PaymentDetails = user,
-  billingAddress?: AddressData,
-  cartData: SampleCartProduct = cartWithCheapProduct
+  billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -425,7 +424,6 @@ export function placeOrderWithCheapProduct(
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-  cartData: SampleCartProduct = cartWithCheapProduct,
   isApparel: boolean = false
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
