@@ -15,7 +15,10 @@
     "lib": ["dom", "esnext"],
     "paths": {
       "@spartacus/core": ["dist/core"],
-      "@spartacus/storefront": ["dist/storefrontlib"]
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/base/components/add-to-cart": [
+        "dist/cart/base/components/add-to-cart"
+      ]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

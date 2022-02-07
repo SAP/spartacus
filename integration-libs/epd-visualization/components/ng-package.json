@@ -5,7 +5,7 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
-      "@spartacus/cart": "cart"
+      "@spartacus/cart/base/components/add-to-cart": "addToCart"
     }
   }
 }
