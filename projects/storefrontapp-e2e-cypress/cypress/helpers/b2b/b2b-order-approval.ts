@@ -110,7 +110,7 @@ export function getStubbedApprovedOrderApprovalDetail() {
 
 export function checkApprovalDashboardMenuOptionExistence(exists: boolean) {
   cy.get('cx-navigation > cx-navigation-ui').within(() => {
-    cy.get('nav > cx-generic-link')
+    cy.get('nav > ul > li > .wrapper > ul > li > cx-generic-link')
       .contains('Approval Dashboard')
       .should(exists ? 'exist' : 'not.exist');
   });

@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
-import { Cart, RoutingService } from '@spartacus/core';
+import { RoutingService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from './saved-cart-details.service';
 
