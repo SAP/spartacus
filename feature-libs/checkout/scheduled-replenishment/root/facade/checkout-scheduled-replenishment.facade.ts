@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { CHECKOUT_CORE_FEATURE } from '@spartacus/checkout/base/root';
 import { facadeFactory } from '@spartacus/core';
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE } from '../feature-name';
 import { ScheduleReplenishmentForm } from '../models/scheduled-replenishment.model';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { ScheduleReplenishmentForm } from '../models/scheduled-replenishment.mod
   useFactory: () =>
     facadeFactory({
       facade: CheckoutScheduledReplenishmentFacade,
-      feature: CHECKOUT_SCHEDULED_REPLENISHMENT_CORE_FEATURE,
+      feature: CHECKOUT_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder'],
       // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,

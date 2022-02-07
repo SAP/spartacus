@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
+  PageHeadingResolver,
   BasePageMetaResolver,
   PageDescriptionResolver,
   PageMetaResolver,
@@ -11,7 +12,6 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
 
 /**
  * Resolves the page data for all Content Pages based on the `PageType.CONTENT_PAGE`
@@ -25,10 +25,12 @@ import { switchMap } from 'rxjs/operators';
 })
 export class CheckoutPageMetaResolver
   extends PageMetaResolver
-  implements PageTitleResolver, PageDescriptionResolver, PageRobotsResolver
+  implements
+    PageHeadingResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageRobotsResolver
 {
-  protected cart$: Observable<Cart> = this.activeCartFacade.getActive();
-
   constructor(
     protected translationService: TranslationService,
     protected activeCartFacade: ActiveCartFacade,
@@ -41,19 +43,22 @@ export class CheckoutPageMetaResolver
 
   /**
    * @override
-   * Resolves the page title from the translation `pageMetaResolver.checkout.title`. The
-   * cart total item `count` is passed to the translation, so it can be used in the title.
+   * Resolves the page title for the Checkout Page to include checkout step.
+   * The page title used by the browser (history, tabs) and crawlers.
    *
    * The title from the page data is ignored for this page title.
    */
-  resolveTitle(): Observable<string> {
-    return this.cart$.pipe(
-      switchMap((c) =>
-        this.translationService.translate('pageMetaResolver.checkout.title', {
-          count: c.totalItems,
-        })
-      )
-    );
+  resolveTitle(): Observable<string | undefined> {
+    return this.basePageMetaResolver.resolveTitle();
+  }
+
+  /**
+   * Resolves the page heading for the Checkout Page.
+   * The page heading is used in the UI (`<h1>`), where as the page
+   * title is used by the browser and crawlers.
+   */
+  resolveHeading(): Observable<string> {
+    return this.translationService.translate('pageMetaResolver.checkout.title');
   }
 
   resolveDescription(): Observable<string | undefined> {
