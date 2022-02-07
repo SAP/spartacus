@@ -273,6 +273,7 @@ describe('Navigation UI Component', () => {
 
     it('should close hamburger and every LI element when click on link to current route', () => {
       spyOn(navigationComponent, 'closeIfClickedTheSameLink').and.callThrough();
+      spyOn(navigationComponent, 'reinitializeMenu').and.callThrough();
       spyOn(hamburgerMenuService, 'toggle').and.stub();
       fixture.detectChanges();
 
@@ -287,6 +288,7 @@ describe('Navigation UI Component', () => {
         .nativeElement.click();
 
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(1);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(2);
 
       element
         .query(By.css('cx-generic-link[ng-reflect-url="/sub-sub-child-1a"]'))
@@ -298,6 +300,9 @@ describe('Navigation UI Component', () => {
         url: '/sub-sub-child-1a',
       });
       expect(element.queryAll(By.css('li.is-open:not(.back)')).length).toBe(0);
+      expect(element.queryAll(By.css('li.is-opened')).length).toBe(0);
+
+      expect(navigationComponent.reinitializeMenu).toHaveBeenCalledWith();
       expect(hamburgerMenuService.toggle).toHaveBeenCalledWith();
     });
   });

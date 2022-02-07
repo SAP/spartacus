@@ -1,8 +1,11 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, ReturnRequestList } from '@spartacus/core';
-import { OrderReturnRequestFacade } from '@spartacus/order/root';
+import { I18nTestingModule } from '@spartacus/core';
+import {
+  OrderReturnRequestFacade,
+  ReturnRequestList,
+} from '@spartacus/order/root';
 import { ListNavigationModule } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { OrderReturnRequestListComponent } from './order-return-request-list.component';

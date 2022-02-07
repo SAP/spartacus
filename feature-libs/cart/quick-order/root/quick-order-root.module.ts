@@ -1,21 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
-import {
-  CmsPageGuard,
-  ORDER_ENTRIES_CONTEXT,
-  PageLayoutComponent,
-} from '@spartacus/storefront';
+import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultQuickOrderConfig } from './config/default-quick-order.config';
 import {
   CART_QUICK_ORDER_CORE_FEATURE,
   CART_QUICK_ORDER_FEATURE,
 } from './feature-name';
-import { QuickOrderOrderEntriesContext } from './pages/quick-order-order-entries-context';
+import { QuickOrderOrderEntriesContextToken } from './tokens/context';
 
 export function defaultQuickOrderComponentsConfig() {
   const config = {
@@ -51,7 +48,7 @@ export const defaultQuickOrderRoutingConfig: RoutingConfig = {
         data: {
           cxRoute: 'quickOrder',
           cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: QuickOrderOrderEntriesContext,
+            [ORDER_ENTRIES_CONTEXT]: QuickOrderOrderEntriesContextToken,
           },
         },
       },

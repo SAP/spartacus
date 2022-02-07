@@ -10,6 +10,7 @@ import {
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import {
   ItemCounterModule,
@@ -18,7 +19,6 @@ import {
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
@@ -32,7 +32,6 @@ import { ProductViewComponent } from './product-view/product-view.component';
     CommonModule,
     RouterModule,
     MediaModule,
-    AddToCartModule,
     ItemCounterModule,
     ListNavigationModule,
     UrlModule,
@@ -43,6 +42,7 @@ import { ProductViewComponent } from './product-view/product-view.component';
     InfiniteScrollModule,
     FeaturesConfigModule,
     OutletModule,
+    PageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),
@@ -50,12 +50,27 @@ import { ProductViewComponent } from './product-view/product-view.component';
       cmsComponents: {
         CMSProductListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         ProductGridComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         SearchResultsListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
       },
     }),
