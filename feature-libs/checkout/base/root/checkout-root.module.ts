@@ -18,7 +18,6 @@ import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
 import { OrderConfirmationOrderEntriesContextToken } from './tokens/index';
 
-// TODO:#checkout - Update to CheckoutDeliveryAddress cms mapping
 export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutOrchestrator',
   'CheckoutOrderSummary',
@@ -29,7 +28,7 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutPaymentDetails',
   'CheckoutPlaceOrder',
   'CheckoutReviewOrder',
-  'CheckoutShippingAddress',
+  'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
   'OrderConfirmationThankMessageComponent',
   'OrderConfirmationItemsComponent',

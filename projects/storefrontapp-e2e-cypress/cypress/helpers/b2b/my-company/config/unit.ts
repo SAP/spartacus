@@ -74,7 +74,6 @@ export const userRolesConfig: MyCompanyConfig = {
   ],
 };
 
-// TODO:#checkout update later my company?       name: 'Shipping Addresses',
 export const unitConfig: MyCompanyConfig = {
   name: 'Unit',
   baseUrl: `${FULL_BASE_URL_EN_USD}/organization/units`,
@@ -210,7 +209,7 @@ export const unitConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
     {
-      name: 'Shipping Addresses',
+      name: 'Delivery Addresses',
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',

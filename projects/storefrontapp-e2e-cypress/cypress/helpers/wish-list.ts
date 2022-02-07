@@ -253,13 +253,12 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
 }
 
 function proceedToCheckout() {
-  // TODO:#checkout to update sample data to /delivery-address
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddressPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`)
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 }

@@ -10,7 +10,6 @@ const paymentTypeRadio = {
 const backButton = { value: 'Back', type: TabbingOrderTypes.BUTTON };
 const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
-// TODO:#checkout to update sample data to /delivery-address
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
@@ -24,11 +23,11 @@ const accountReviewOrderGeneral = [
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
@@ -169,7 +168,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
-      value: '/powertools-spa/en/USD/checkout/shipping-address',
+      value: '/powertools-spa/en/USD/checkout/delivery-address',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {

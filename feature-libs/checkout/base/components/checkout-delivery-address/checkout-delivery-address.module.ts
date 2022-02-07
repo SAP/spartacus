@@ -24,8 +24,7 @@ import { CheckoutDeliveryAddressComponent } from './checkout-delivery-address.co
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        // TODO:#checkout - Update to CheckoutDeliveryAddress cms mapping
-        CheckoutShippingAddress: {
+        CheckoutDeliveryAddress: {
           component: CheckoutDeliveryAddressComponent,
           guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
         },
