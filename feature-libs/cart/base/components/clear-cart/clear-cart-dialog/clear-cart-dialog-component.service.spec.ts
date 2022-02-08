@@ -57,12 +57,12 @@ describe('ClearCartDialogComponentService', () => {
     expect(service.isClearing$.value).toBeFalsy();
     service.clearActiveCart();
     service
-    .getClearingCartProgess()
-    .pipe(take(1))
-    .subscribe((clearing) => {
-      expect(clearing).toBeTruthy();
-      done();
-    });
+      .getClearingCartProgess()
+      .pipe(take(1))
+      .subscribe((clearing) => {
+        expect(clearing).toBeTruthy();
+        done();
+      });
   });
 
   it('should change clearing cart progess to false when done', (done) => {
