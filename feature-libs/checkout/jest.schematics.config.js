@@ -1,7 +1,8 @@
-const { pathsToModuleNameMapper } = require('ts-jest/utils');
+const { pathsToModuleNameMapper } = require('ts-jest');
 const { compilerOptions } = require('./tsconfig.schematics');
 
 module.exports = {
+  preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/jest.ts'],
   transform: {
     '^.+\\.ts?$': 'ts-jest',
