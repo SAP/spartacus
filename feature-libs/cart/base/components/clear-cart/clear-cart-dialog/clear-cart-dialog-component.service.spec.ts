@@ -24,7 +24,7 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   }
 }
 
-fdescribe('ClearCartDialogComponentService', () => {
+describe('ClearCartDialogComponentService', () => {
   let service: ClearCartDialogComponentService;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
