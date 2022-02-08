@@ -1,10 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import { Observable, of } from 'rxjs';
+import { EMPTY, Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { take } from 'rxjs/operators';
+import { skip, take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
@@ -53,15 +53,28 @@ fdescribe('ClearCartDialogComponentService', () => {
   });
 
   it('should get and change clearing cart progess', (done) => {
+    spyOn(service, 'clearCart').and.returnValue(EMPTY);
     expect(service.isClearing$.value).toBeFalsy();
     service.clearActiveCart();
     service
+    .getClearingCartProgess()
+    .pipe(take(1))
+    .subscribe((clearing) => {
+      expect(clearing).toBeTruthy();
+      done();
+    });
+  });
+
+  it('should change clearing cart progess to false when done', (done) => {
+    spyOn(service, 'clearCart').and.returnValue(of(true));
+    service
       .getClearingCartProgess()
-      .pipe(take(1))
+      .pipe(skip(2))
       .subscribe((clearing) => {
-        expect(clearing).toBeTruthy();
+        expect(clearing).toBeFalsy();
         done();
       });
+    service.clearActiveCart();
   });
 
   it('should call clearCart', () => {
