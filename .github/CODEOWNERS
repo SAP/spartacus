@@ -68,8 +68,9 @@
 # ================================================
 #  Core
 # ================================================
-/projects/core/**                                   @SAP/spartacus-codeowners
+/projects/core/**                                   @SAP/spartacus-core-owners
 /projects/storefrontlib/**                          @SAP/spartacus-codeowners
+/projects/storefrontapp/**                          @SAP/spartacus-codeowners
 /feature-libs/**                                    @SAP/spartacus-codeowners
 /core-libs/**                                       @SAP/spartacus-codeowners
 /ci-scripts/**                                      @SAP/spartacus-codeowners
@@ -81,17 +82,17 @@
 # ================================================
 #  Styles
 # ================================================
-/projects/storefrontstyles/**                       @SAP/spartacus-codeowners
+/projects/storefrontstyles/**                       @SAP/spartacus-style-owners
 
 # ================================================
 #  Cart
 # ================================================
-/projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-codeowners
+/projects/storefrontlib/cms-components/cart/**      @SAP/spartacus-cart-owners
 
 # ================================================
 #  Schematics
 # ================================================
-/projects/schematics/**                             @SAP/spartacus-codeowners
+/projects/schematics/**                             @SAP/spartacus-schematics-owners
 
 # ================================================
 #  CODEOWNERS and workflows
@@ -104,3 +105,8 @@
 #  Product configurator feature and CPQ integration
 # ================================================
 /feature-libs/product-configurator/**               @SAP/spartacus-codeowners @SAP/spartacus-CPQ
+
+# ================================================
+#  Import and export feature
+# ================================================
+/feature-libs/cart/import-export/**                 @SAP/spartacus-import-export-owners
