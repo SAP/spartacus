@@ -63,11 +63,11 @@
     text-align: start;
 
     &.disabled {
-      color: var(--cx-color-light);
+      color: var(--cx-color-secondary);
       cursor: not-allowed;
       pointer-events: none;
       &::after {
-        color: var(--cx-color-light);
+        color: var(--cx-color-secondary);
       }
     }
 

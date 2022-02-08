@@ -338,20 +338,20 @@ input {
 }
 
 .ng-select .ng-select-container .ng-value-container .ng-placeholder {
-  color: var(--cx-color-secondary-alt);
+  color: var(--cx-color-secondary);
 }
 
 .form-group {
   input[type='text']::placeholder {
-    color: var(--cx-color-secondary-alt);
-    opacity: 1; 
+    color: var(--cx-color-secondary);
+    opacity: 1;
   }
 
   input[type='text']:-ms-input-placeholder {
-    color: var(--cx-color-secondary-alt);
+    color: var(--cx-color-secondary);
   }
 
   input[type='text']::-ms-input-placeholder {
-    color: var(--cx-color-secondary-alt);
+    color: var(--cx-color-secondary);
   }
 }
