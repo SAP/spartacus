@@ -16,6 +16,7 @@ import {
   CmsAddToCartComponent,
   EventService,
   isNotNullable,
+  isNotUndefined,
   Product,
 } from '@spartacus/core';
 import {
@@ -52,6 +53,7 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   quantity = 1;
 
   subscription: Subscription;
+  lastEntrySub: Subscription;
 
   addToCartForm = new FormGroup({
     quantity: new FormControl(1, { updateOn: 'blur' }),
@@ -153,6 +155,17 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           )
         );
       });
+
+    if (this.lastEntrySub === undefined) {
+      this.lastEntrySub = this.activeCartService
+        .getLastEntry(this.productCode)
+        .pipe(filter(isNotUndefined))
+        .subscribe((entry) => {
+          if (entry.quantity && entry.quantity < quantity) {
+            this.addToCartForm.get('quantity')?.setValue(entry.quantity);
+          }
+        });
+    }
   }
 
   protected createCartUiEventAddToCart(
@@ -170,6 +183,10 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
+    }
+
+    if (this.lastEntrySub) {
+      this.lastEntrySub.unsubscribe();
     }
   }
 }
