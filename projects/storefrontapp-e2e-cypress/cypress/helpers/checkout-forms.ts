@@ -1,9 +1,4 @@
-//TODO: find better place for this type
-export type DeepPartial<T> = T extends object
-  ? {
-      [P in keyof T]?: DeepPartial<T[P]>;
-    }
-  : T;
+import { DeepPartial } from './form';
 
 export interface Address {
   line1: string;

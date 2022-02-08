@@ -12,11 +12,11 @@ import {
 import { login, register } from './auth-forms';
 import {
   AddressData,
-  DeepPartial,
   fillPaymentDetails,
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { DeepPartial } from './form';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -365,7 +365,6 @@ export function fillAddressFormWithCheapProduct(
   shippingAddressData: Partial<AddressData> = user
 ) {
   cy.log('🛒 Filling shipping address form');
-  cy.log(JSON.stringify(shippingAddressData));
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
