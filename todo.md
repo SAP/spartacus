@@ -1,14 +1,13 @@
 ## TODO: before merge
 
-1. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
-2. BUG - "double spinner" on the payment step in b2b / repl checkout.
-3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-4. B2B OCC endpoints
-5. remove old checkout
+1. BUG - "double spinner" on the payment step in b2b / repl checkout.
+2. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+3. B2B OCC endpoints
+4. remove old checkout
    1. remove `core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts`
    2. Remove `checkout-git-check.sh`
    3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
-6. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
+5. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
    1. .env-cmdrc
    2. cypress.ci.json
    3. cypress.ci.b2b.json
@@ -31,7 +30,8 @@
    5. Check the existing schematics written before the checkout was merged!
 5. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
 6. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
-7. Docs
+7. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
+8. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    2. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
    3. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
@@ -52,7 +52,7 @@
    9. Go through the old checkout's changes in `5_0.md`:
       1. add missing stuff
       2. remove unnecessary / non-relevant parts
-8.  check LL:
+9.  check LL:
    10. check the chunks: base, b2b, replenishment
    11. check if and when those are loaded
    12. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
@@ -60,8 +60,8 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-9.  check the bundle size of checkout (maybe using webpack analyzer)
-10. query debounce
+10.  check the bundle size of checkout (maybe using webpack analyzer)
+11. query debounce
     1.  see `feature/query-debounce` branch
     2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 
