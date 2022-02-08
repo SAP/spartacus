@@ -147,6 +147,7 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return this.isStable().pipe(
       filter((isStable) => isStable),
       switchMap(() => this.getActiveCartId()),
+      filter((cartId) => !!cartId),
       take(1)
     );
   }
