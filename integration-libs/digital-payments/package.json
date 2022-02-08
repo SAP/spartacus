@@ -25,6 +25,7 @@
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0",
     "@angular/forms": "^13.2.0",
+    "@angular/platform-browser-dynamic": "^13.2.0",
     "@angular/router": "^13.2.0",
     "@ng-select/ng-select": "^8.0.0",
     "@spartacus/cart": "4.1.0-next.0",
@@ -32,7 +33,8 @@
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
-    "rxjs": "^6.6.0"
+    "rxjs": "^6.6.0",
+    "zone.js": "~0.11.4"
   },
   "publishConfig": {
     "access": "public"
