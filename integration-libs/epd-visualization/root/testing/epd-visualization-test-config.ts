@@ -9,7 +9,7 @@ export function getTestConfig(): EpdVisualizationConfig {
       },
       ui5: {
         bootstrapUrl:
-          'https://sapui5.hana.ondemand.com/1.97.0/resources/sap-ui-core.js',
+          'https://sapui5.hana.ondemand.com/1.98.0/resources/sap-ui-core.js',
       },
     },
   };
