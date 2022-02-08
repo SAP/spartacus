@@ -1,4 +1,8 @@
-<form *ngIf="productCode" [formGroup]="addToCartForm" (submit)="addToCart()">
+<form
+  *ngIf="!!productCode && requiredFeaturesEnabled"
+  [formGroup]="addToCartForm"
+  (submit)="addToCart()"
+>
   <button
     *ngIf="hasStock"
     class="btn btn-sm btn-primary btn-block"
