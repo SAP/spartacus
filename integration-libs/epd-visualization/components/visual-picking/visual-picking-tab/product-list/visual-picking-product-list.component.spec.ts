@@ -8,15 +8,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Actions } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import {
+  CmsComponent,
   I18nTestingModule,
   Product,
   ProductReference,
   UrlModule,
 } from '@spartacus/core';
 import {
-  AddToCartModule,
   CarouselModule,
+  CmsComponentData,
   IconModule,
   MediaModule,
 } from '@spartacus/storefront';
@@ -26,6 +28,11 @@ import { VisualPickingProductListItem } from './model/visual-picking-product-lis
 import { PagedListModule } from './paged-list/paged-list.module';
 import { VisualPickingProductListComponent } from './visual-picking-product-list.component';
 import { VisualPickingProductListService } from './visual-picking-product-list.service';
+
+const MockCmsComponentData = <CmsComponentData<CmsComponent>>{
+  data$: of({}),
+  uid: 'test',
+};
 
 const productReferences: ProductReference[] = [
   {
@@ -153,7 +160,13 @@ describe('VisualPickingProductListComponent', () => {
         CompactAddToCartModule,
       ],
       declarations: [VisualPickingProductListComponent],
-      providers: [Actions],
+      providers: [
+        Actions,
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+      ],
     })
       .overrideComponent(VisualPickingProductListComponent, {
         set: {
@@ -161,6 +174,10 @@ describe('VisualPickingProductListComponent', () => {
             {
               provide: VisualPickingProductListService,
               useValue: mockVisualPickingProductListService,
+            },
+            {
+              provide: CmsComponentData,
+              useValue: MockCmsComponentData,
             },
           ],
         },

@@ -12,7 +12,6 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_EPD_VISUALIZATION_FEATURE,
-  LibraryOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -154,11 +153,13 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
 
       it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
+        const tasks = schematicRunner.tasks.filter(
+          (task) =>
+            task.name === 'run-schematic' &&
+            (task.options as RunSchematicTaskOptions<{}>).collection ===
+              '@sap/epd-visualization'
+        );
+
         expect(tasks.length).toEqual(0);
       });
     });
@@ -208,11 +209,13 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
 
       it('should run the proper installation tasks', async () => {
-        const tasks = schematicRunner.tasks
-          .filter((task) => task.name === 'run-schematic')
-          .map(
-            (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
-          );
+        const tasks = schematicRunner.tasks.filter(
+          (task) =>
+            task.name === 'run-schematic' &&
+            (task.options as RunSchematicTaskOptions<{}>).collection ===
+              '@sap/epd-visualization'
+        );
+
         expect(tasks.length).toEqual(0);
       });
     });
