@@ -756,7 +756,7 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         ).toBe(0);
       });
 
-      it("should return 'configurator.a11y.cartEntryBundleInfo_plural' if there are more than one line item", () => {
+      it("should return 'configurator.a11y.cartEntryBundleInfo_other' if there are more than one line item", () => {
         let numberOfItems: number = 4;
         expect(
           component
