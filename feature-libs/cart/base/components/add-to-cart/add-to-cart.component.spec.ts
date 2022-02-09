@@ -89,7 +89,10 @@ class MockActiveCartService {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of();
+    return of({
+      quantity: 5,
+      entryNumber: 0,
+    } as OrderEntry);
   }
 }
 
@@ -298,6 +301,21 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCart();
 
         expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
+      });
+
+      it('should set the real quanity to counter', () => {
+        spyOn(activeCartFacade, 'getEntries').and.returnValue(
+          of([{}, {}] as OrderEntry[])
+        );
+        spyOn(eventService, 'dispatch').and.callThrough();
+
+        addToCartComponent.addToCartForm.get('quantity')?.setValue(10);
+        addToCartComponent.productCode = mockProductCode;
+
+        addToCartComponent.addToCart();
+
+        const qty = addToCartComponent.addToCartForm.get('quantity');
+        expect(qty?.value).toBe(5);
       });
     });
 
