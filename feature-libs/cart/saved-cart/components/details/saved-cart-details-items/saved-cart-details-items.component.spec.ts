@@ -1,20 +1,16 @@
-import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StoreModule } from '@ngrx/store';
+import { Cart } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
   I18nTestingModule,
-  OrderEntry,
   Product,
-  PromotionLocation,
   RoutingService,
   Translatable,
 } from '@spartacus/core';
-import { CartItemComponentOptions } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { SavedCartDetailsService } from '../saved-cart-details.service';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items.component';
@@ -40,23 +36,6 @@ const mockDeleteSavedCartEvent = {
 };
 
 const cart$ = new BehaviorSubject<Cart>(mockSavedCart);
-
-@Component({
-  selector: 'cx-cart-item-list',
-  template: '',
-})
-class MockCartItemListComponent {
-  @Input() readonly = false;
-  @Input() items: OrderEntry[];
-  @Input() cartIsLoading: Observable<boolean>;
-  @Input() options: CartItemComponentOptions = {
-    isSaveForLater: false,
-    optionalBtn: null,
-  };
-  @Input() cart: { cartId: string; userId: string };
-  @Input() cartId: string;
-  @Input() promotionLocation: PromotionLocation;
-}
 
 class MockSavedCartDetailsService implements Partial<SavedCartDetailsService> {
   getCartDetails(): Observable<Cart> {
@@ -103,10 +82,7 @@ describe('SavedCartDetailsItemsComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [StoreModule.forRoot({}), I18nTestingModule],
-        declarations: [
-          SavedCartDetailsItemsComponent,
-          MockCartItemListComponent,
-        ],
+        declarations: [SavedCartDetailsItemsComponent],
         providers: [
           {
             provide: SavedCartFacade,
