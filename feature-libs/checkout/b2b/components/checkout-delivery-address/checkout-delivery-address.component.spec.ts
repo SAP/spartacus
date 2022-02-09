@@ -350,7 +350,6 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     describe('Credit Card Payment', () => {
       it('should automatically select default delivery address when there is no current selection', () => {
-        component.doneAutoSelect = false;
         component.selectDefaultAddress(mockAddresses, undefined);
         expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
       });

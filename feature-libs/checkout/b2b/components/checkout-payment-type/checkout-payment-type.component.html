@@ -62,7 +62,11 @@
       </button>
     </div>
     <div class="col-md-12 col-lg-6">
-      <button class="btn btn-block btn-primary" (click)="next()">
+      <button
+        class="btn btn-block btn-primary"
+        [disabled]="!(typeSelected$ | async)?.code"
+        (click)="next()"
+      >
         {{ 'common.continue' | cxTranslate }}
       </button>
     </div>

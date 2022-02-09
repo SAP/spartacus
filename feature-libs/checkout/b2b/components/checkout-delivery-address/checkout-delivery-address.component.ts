@@ -93,7 +93,6 @@ export class B2BCheckoutDeliveryAddressComponent
               map((state) => state.data),
               distinctUntilChanged(),
               switchMap((costCenter) => {
-                this.doneAutoSelect = false;
                 return costCenter?.code
                   ? this.userCostCenterService.getCostCenterAddresses(
                       costCenter.code
@@ -110,12 +109,7 @@ export class B2BCheckoutDeliveryAddressComponent
     addresses: Address[],
     selected: Address | undefined
   ): void {
-    if (
-      !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
-      (!selected || Object.keys(selected).length === 0)
-    ) {
+    if (addresses.length && (!selected || Object.keys(selected).length === 0)) {
       if (this.isAccountPayment) {
         if (addresses.length === 1) {
           this.setAddress(addresses[0]);
@@ -123,7 +117,6 @@ export class B2BCheckoutDeliveryAddressComponent
       } else {
         super.selectDefaultAddress(addresses, selected);
       }
-      this.doneAutoSelect = true;
     }
   }
 

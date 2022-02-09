@@ -233,7 +233,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
-    component.doneAutoSelect = false;
     component.selectDefaultAddress(mockAddresses, undefined);
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
   });

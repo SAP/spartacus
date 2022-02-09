@@ -40,16 +40,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  get isGuestCheckout(): boolean {
-    return !!getLastValueSync(this.activeCartFacade.isGuestCart());
-  }
-
-  get backBtnText(): string {
-    return this.checkoutStepService.getBackBntText(this.activatedRoute);
-  }
-
-  get selectedAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+  selectedAddress$: Observable<Address | undefined> =
+    this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -58,34 +50,69 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         }
       })
     );
+
+  cards$: Observable<CardWithAddress[]> = combineLatest([
+    this.getSupportedAddresses(),
+    this.selectedAddress$,
+    this.translationService.translate('checkoutAddress.defaultDeliveryAddress'),
+    this.translationService.translate('checkoutAddress.shipToThisAddress'),
+    this.translationService.translate('addressCard.selected'),
+  ]).pipe(
+    // tap(([addresses, selected]) => {
+    //   if (
+    //     addresses.length &&
+    //     (!selected || Object.keys(selected).length === 0)
+    //   ) {
+    //     const defaultSelectedAddress = addresses.find(
+    //       (address) => address.defaultAddress
+    //     );
+
+    //     if (defaultSelectedAddress) {
+    //       selected = defaultSelectedAddress;
+    //       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    //       this.setAddress(selected!);
+    //     }
+    //   }
+
+    //   // this.selectDefaultAddress(addresses, selected);
+    // }),
+    map(([addresses, selected, textDefault, textShipTo, textSelected]) => {
+      // if (
+      //   addresses.length &&
+      //   (!selected || Object.keys(selected).length === 0)
+      // ) {
+      //   const defaultSelectedAddress = addresses.find(
+      //     (address) => address.defaultAddress
+      //   );
+
+      //   if (defaultSelectedAddress) {
+      //     selected = defaultSelectedAddress;
+      //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      //     this.setAddress(selected!);
+      //   }
+      // }
+
+      this.selectDefaultAddress(addresses, selected);
+
+      return addresses.map((address) => ({
+        address,
+        card: this.getCardContent(
+          address,
+          selected,
+          textDefault,
+          textShipTo,
+          textSelected
+        ),
+      }));
+    })
+  );
+
+  get isGuestCheckout(): boolean {
+    return !!getLastValueSync(this.activeCartFacade.isGuestCart());
   }
 
-  get cards$(): Observable<CardWithAddress[]> {
-    return combineLatest([
-      this.getSupportedAddresses(),
-      this.selectedAddress$,
-      this.translationService.translate(
-        'checkoutAddress.defaultDeliveryAddress'
-      ),
-      this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
-        this.selectDefaultAddress(addresses, selected)
-      ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
-            address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
-      )
-    );
+  get backBtnText(): string {
+    return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
 
   constructor(
@@ -113,6 +140,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     addresses: Address[],
     selected: Address | undefined
   ): void {
+    // this.busy$.next(true);
+
     if (
       !this.doneAutoSelect &&
       addresses &&

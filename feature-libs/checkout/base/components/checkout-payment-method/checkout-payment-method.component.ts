@@ -50,16 +50,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.userPaymentService.getPaymentMethodsLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  get backBtnText() {
-    return this.checkoutStepService.getBackBntText(this.activatedRoute);
-  }
-
-  get existingPaymentMethods$(): Observable<PaymentDetails[]> {
-    return this.userPaymentService.getPaymentMethods();
-  }
-
-  get selectedMethod$(): Observable<PaymentDetails | undefined> {
-    return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
+  selectedMethod$: Observable<PaymentDetails | undefined> =
+    this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((paymentInfo) => {
@@ -70,10 +62,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         }
       })
     );
-  }
 
-  get cards$(): Observable<{ content: Card; paymentMethod: PaymentDetails }[]> {
-    return combineLatest([
+  cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]> =
+    combineLatest([
       this.existingPaymentMethods$.pipe(
         switchMap((methods) => {
           return !methods?.length
@@ -137,6 +128,13 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
         }
       )
     );
+
+  get backBtnText() {
+    return this.checkoutStepService.getBackBntText(this.activatedRoute);
+  }
+
+  get existingPaymentMethods$(): Observable<PaymentDetails[]> {
+    return this.userPaymentService.getPaymentMethods();
   }
 
   constructor(
