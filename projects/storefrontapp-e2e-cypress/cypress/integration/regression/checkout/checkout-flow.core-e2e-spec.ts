@@ -41,62 +41,7 @@ context('Checkout flow', () => {
       checkout.registerUser(false, user);
       searchResult();
       filterUsingFacetFiltering();
-
-      cy.intercept(
-        'POST',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/*/carts/*/entries?lang=en&curr=USD`
-      ).as('addToCart');
-
-      cy.intercept(
-        'POST',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-          'BASE_SITE'
-        )}/users/current/carts?fields*`
-      ).as('carts');
-
-      checkout.addFirstResultToCartFromSearchAndLogin(user);
-
-      cy.wait('@addToCart').its('response.statusCode').should('eq', 200);
-      cy.wait('@carts').its('response.statusCode').should('eq', 201);
-
-      cy.get('@carts').then((xhr: any) => {
-        const cartData = { total: xhr.response.body.totalPrice.formattedValue };
-        const code = xhr.response.body.code;
-
-        checkout.fillAddressFormWithCheapProduct(user as AddressData, cartData);
-
-        cy.intercept(
-          'GET',
-          `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/current/carts/${code}?fields=DEFAULT*`
-        ).as('userCart');
-      });
-
-      checkout.verifyDeliveryMethod();
-      checkout.fillPaymentFormWithCheapProduct(user as PaymentDetails);
-
-      cy.wait('@userCart').its('response.statusCode').should('eq', 200);
-
-      cy.get('@userCart').then((xhr: any) => {
-        const cart = xhr.response.body;
-        const cartData = {
-          total: cart.subTotal.formattedValue,
-          estimatedShipping: cart.deliveryCost.formattedValue,
-        };
-        checkout.placeOrderWithCheapProduct(user, cartData);
-      });
-
-      cy.get('@addToCart').then((xhr: any) => {
-        const responseProduct = xhr.response.body.entry.product;
-        const sampleProduct = { code: responseProduct.code };
-        checkout.verifyOrderConfirmationPageWithCheapProduct(
-          user,
-          sampleProduct
-        );
-      });
+      checkout.checkoutFirstDisplayedProduct(user);
     });
   });
 });
