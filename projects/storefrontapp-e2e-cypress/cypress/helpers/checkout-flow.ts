@@ -16,11 +16,8 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import {
-  filterUsingFacetFiltering,
-  productItemSelector,
-  searchResult,
-} from './product-search';
+import { productItemSelector } from './product-search';
+import { DeepPartial } from './form';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
@@ -141,7 +138,7 @@ export function signInUser(sampleUser: SampleUser = user) {
   login(sampleUser.email, sampleUser.password);
 }
 
-export function signOutUser(sampleUser: SampleUser = user) {
+export function signOutUser() {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
@@ -298,7 +295,7 @@ export function addCheapProductToCartAndLogin(
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
   const shippingPage = waitForPage(
     '/checkout/shipping-address',
@@ -343,17 +340,34 @@ export function addCheapProductToCart(
   });
 }
 
-export function fillAddressFormWithCheapProduct(
-  shippingAddressData: AddressData = user,
+export function proceedWithEmptyShippingAdressForm() {
+  cy.log('🛒 Trying to proceed with empty address form');
+
+  fillShippingAddress(null);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function proceedWithIncorrectShippingAddressForm(
+  shippingAddressData: Partial<AddressData> = user
+) {
+  cy.log('🛒 Trying to proceed with incorrect address form');
+
+  fillShippingAddress(shippingAddressData);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function checkSummaryAmount(
   cartData: SampleCartProduct = cartWithCheapProduct
 ) {
-  cy.log('🛒 Filling shipping address form');
-
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
     .find('.cx-summary-amount')
     .should('contain', cartData.total);
+}
+
+export function fillAddressFormWithCheapProduct(
+  shippingAddressData: Partial<AddressData> = user
+) {
+  cy.log('🛒 Filling shipping address form');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -362,8 +376,24 @@ export function fillAddressFormWithCheapProduct(
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
+export function proceedWithEmptyPaymentForm() {
+  cy.log('🛒 Trying to proceed with empty payment method form');
+
+  fillPaymentDetails(null);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function proceedWithIncorrectPaymentForm(
+  paymentDetailsData: Partial<PaymentDetails> = user
+) {
+  cy.log('🛒 Trying to proceed with incorrect payment method form');
+
+  fillPaymentDetails(paymentDetailsData);
+  cy.get('cx-form-errors').should('exist');
+}
+
 export function fillPaymentFormWithCheapProduct(
-  paymentDetailsData: PaymentDetails = user,
+  paymentDetailsData: DeepPartial<PaymentDetails> = user,
   billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
@@ -470,9 +500,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
-export function viewOrderHistoryWithCheapProduct(
-  cartData: SampleCartProduct = cartWithCheapProduct
-) {
+export function viewOrderHistoryWithCheapProduct() {
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
     'getOrderHistoryPage'
