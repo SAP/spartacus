@@ -34,6 +34,11 @@
   }
 
   cx-site-context-selector {
+    label {
+      span {
+        color: var(--cx-color-text);
+      }
+    }
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
