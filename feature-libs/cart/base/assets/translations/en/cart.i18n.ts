@@ -35,6 +35,7 @@ export const cart = {
     apply: 'Apply',
     placeholder: 'Promo code',
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
+    applyVoucherFail: 'Error, {{voucherCode}} could not be applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
     anchorLabel: 'Enter or remove your coupon code',
     vouchersApplied: 'Applied coupons',

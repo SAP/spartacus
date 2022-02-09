@@ -40,8 +40,13 @@ export class CartVoucherEffects {
               ...payload,
             });
           }),
-          catchError((error) =>
-            from([
+          catchError((error) => {
+            this.showGlobalMessage(
+              'voucher.applyVoucherFail',
+              payload.voucherId,
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            return from([
               new CartActions.CartAddVoucherFail({
                 ...payload,
                 error: normalizeHttpError(error),
@@ -51,8 +56,8 @@ export class CartVoucherEffects {
                 userId: payload.userId,
                 cartId: payload.cartId,
               }),
-            ])
-          )
+            ]);
+          })
         );
     })
   );
