@@ -6,8 +6,6 @@ import {
 } from '../../../helpers/product-search';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
-import { AddressData, PaymentDetails } from '../../../helpers/checkout-forms';
-
 context('Checkout flow', () => {
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
@@ -45,7 +43,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it('should filter with faceting and perform checkout', () => {
+    it.only('should filter with faceting and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 

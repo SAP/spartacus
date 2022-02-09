@@ -522,8 +522,16 @@ export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
     .click();
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+  const shippingPage = waitForPage(
+    '/checkout/shipping-address',
+    'getShippingPage'
+  );
   loginUser(sampleUser);
+  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function checkoutFirstDisplayedProduct(user: SampleUser) {
@@ -549,8 +557,13 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
   cy.get('@carts').then((xhr: any) => {
     const cartData = { total: xhr.response.body.totalPrice.formattedValue };
     const code = xhr.response.body.code;
-
-    fillAddressFormWithCheapProduct(user as AddressData, cartData);
+    checkSummaryAmount(cartData);
+    proceedWithEmptyShippingAdressForm();
+    proceedWithIncorrectShippingAddressForm({
+      ...user,
+      firstName: '',
+    });
+    fillAddressFormWithCheapProduct({ firstName: user.firstName });
 
     cy.intercept(
       'GET',
