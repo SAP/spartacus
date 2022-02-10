@@ -2,7 +2,7 @@ import { AddedToCartToastConfig } from './added-to-cart-toast-config';
 
 export const defaultAddedToCartToastConfig: AddedToCartToastConfig = {
   addedToCartToast: {
-    enabled: true,
+    enabled: false,
     timeout: 5000,
   },
 };
