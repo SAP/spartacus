@@ -46,25 +46,21 @@ export class B2BCheckoutDeliveryAddressComponent
   protected subscriptions = new Subscription();
   isAccountPayment = false;
 
-  getSupportedAddresses$: Observable<Address[]> = this.checkoutPaymentTypeFacade
+  isAccountPayment$: Observable<boolean> = this.checkoutPaymentTypeFacade
     .isAccountPayment()
+    .pipe(distinctUntilChanged());
+
+  costCenterAddresses$: Observable<Address[]> = this.checkoutCostCenterFacade
+    .getCostCenterState()
     .pipe(
-      switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super['getSupportedAddresses$'];
-      })
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      switchMap((costCenter) =>
+        costCenter?.code
+          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          : of([])
+      ),
+      distinctUntilChanged(this.addressesComparator)
     );
 
   constructor(
@@ -94,15 +90,24 @@ export class B2BCheckoutDeliveryAddressComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
+      this.isAccountPayment$.subscribe(
+        (isAccount) => (this.isAccountPayment = isAccount)
+      )
     );
 
     if (!this.isAccountPayment) {
       super.ngOnInit();
     }
+  }
+
+  getSupportedAddresses(): Observable<Address[]> {
+    return this.isAccountPayment$.pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.costCenterAddresses$
+          : super.getSupportedAddresses()
+      )
+    );
   }
 
   selectDefaultAddress(

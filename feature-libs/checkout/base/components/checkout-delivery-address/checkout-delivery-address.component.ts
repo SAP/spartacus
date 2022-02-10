@@ -46,14 +46,15 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
-  getSupportedAddresses$: Observable<Address[]> =
-    this.userAddressService.getAddresses();
+  userAddresses$: Observable<Address[]> = this.userAddressService
+    .getAddresses()
+    .pipe(distinctUntilChanged(this.addressesComparator));
 
   selectedAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
+      distinctUntilChanged(this.addressComparator),
       tap((address) => {
         if (address && this.shouldRedirect) {
           this.next();
@@ -61,28 +62,32 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       })
     );
 
-  cards$: Observable<CardWithAddress[]> = combineLatest([
-    this.getSupportedAddresses$,
-    this.selectedAddress$,
-    this.translationService.translate('checkoutAddress.defaultDeliveryAddress'),
-    this.translationService.translate('checkoutAddress.shipToThisAddress'),
-    this.translationService.translate('addressCard.selected'),
-  ]).pipe(
-    map(([addresses, selected, textDefault, textShipTo, textSelected]) => {
-      selected = this.selectDefaultAddress(addresses, selected);
+  get cards$(): Observable<CardWithAddress[]> {
+    return combineLatest([
+      this.getSupportedAddresses(),
+      this.selectedAddress$,
+      this.translationService.translate(
+        'checkoutAddress.defaultDeliveryAddress'
+      ),
+      this.translationService.translate('checkoutAddress.shipToThisAddress'),
+      this.translationService.translate('addressCard.selected'),
+    ]).pipe(
+      map(([addresses, selected, textDefault, textShipTo, textSelected]) => {
+        selected = this.selectDefaultAddress(addresses, selected);
 
-      return addresses.map((address) => ({
-        address,
-        card: this.getCardContent(
+        return addresses.map((address) => ({
           address,
-          selected,
-          textDefault,
-          textShipTo,
-          textSelected
-        ),
-      }));
-    })
-  );
+          card: this.getCardContent(
+            address,
+            selected,
+            textDefault,
+            textShipTo,
+            textSelected
+          ),
+        }));
+      })
+    );
+  }
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -107,6 +112,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
+  }
+
+  getSupportedAddresses(): Observable<Address[]> {
+    return this.userAddresses$;
   }
 
   selectDefaultAddress(
@@ -234,5 +243,16 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected onError(): void {
     this.busy$.next(false);
+  }
+
+  protected addressComparator(
+    prev: Address | undefined,
+    curr: Address | undefined
+  ): boolean {
+    return prev?.id === curr?.id;
+  }
+
+  protected addressesComparator(prev: Address[], curr: Address[]): boolean {
+    return JSON.stringify(prev) === JSON.stringify(curr);
   }
 }
