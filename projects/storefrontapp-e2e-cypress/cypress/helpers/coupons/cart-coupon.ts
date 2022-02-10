@@ -118,33 +118,6 @@ export function applyMyCouponAsAnonymous() {
   cy.get('cx-global-message .alert').should('exist');
 }
 
-function registerProductDetailsRoute(productCode: string) {
-  const exp1 = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-    'BASE_SITE'
-  )}/products/${productCode}?fields=*&lang=en&curr=USD`;
-
-  cy.intercept('GET', exp1).as('product_details');
-}
-
-function registerCartRefreshRoute() {
-  // When adding a coupon to the cart, this route matches Selective carts first
-  //TODO matchers don't have proper regex (digits only). This might fail with a lot of carts in the system.
-  const exp1 = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-    'BASE_SITE'
-  )}/users/current/carts/0*?fields=*&lang=en&curr=USD`;
-
-  cy.intercept('GET', exp1).as('refresh_cart');
-}
-
-function registerReviewOrderRoute(cartId: string) {
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}//users/current/carts/${cartId}?fields=DEFAULT*`
-  ).as('review_order');
-}
-
 export function removeCoupon(couponCode: string) {
   cy.get('.cx-coupon-apply > .close').click();
   getCouponItemFromCart(couponCode).should('not.exist');
@@ -181,7 +154,7 @@ export function goTroughCheckout(token: any, placeOrder = false) {
 export function verifyOrderHistory(orderData: any, couponCode?: string) {
   waitForOrderToBePlacedRequest(orderData.body.code);
   registerOrderDetailsRoute(orderData.body.code);
-  cy.visit('my-account/orders');
+  visitOrdersPage();
   cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
@@ -202,12 +175,7 @@ export function verifyOrderHistory(orderData: any, couponCode?: string) {
 }
 
 export function verifyCouponInReviewOrder(couponCode?: string) {
-  const reviewOrderPage = waitForPage(
-    '/checkout/review-order',
-    'getReviewOrder'
-  );
-  cy.visit('/checkout/review-order');
-  cy.wait(`@${reviewOrderPage}`).its('response.statusCode').should('eq', 200);
+  visitReviewOrderPage();
   cy.wait('@review_order').then((xhr) => {
     const subtotal = xhr.response.body.subTotal.formattedValue;
     const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
@@ -298,10 +266,6 @@ export function navigateToCheckoutPage() {
     .click();
 }
 
-export function navigateToCartPage() {
-  cy.visit('cart');
-}
-
 export function registerOrderDetailsRoute(orderCode: string) {
   cy.intercept(
     'GET',
@@ -313,7 +277,7 @@ export function registerOrderDetailsRoute(orderCode: string) {
 
 export function navigateToOrderHistoryPage(orderData: any, couponCode: string) {
   registerOrderDetailsRoute(orderData.body.code);
-  cy.visit('my-account/orders');
+  visitOrdersPage();
   cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
@@ -359,7 +323,7 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   claimCoupon(springFestivalCoupon);
   claimCoupon(midAutumnCoupon);
 
-  navigateToCartPage();
+  visitCartPage();
   verifyMyCoupons();
   ApplyMyCoupons(midAutumnCoupon, true);
   applyCoupon(couponForCart);
@@ -385,4 +349,54 @@ export function verifyCustomerCouponRemoving() {
   placeOrder(stateAuth).then((orderData: any) => {
     verifyOrderHistory(orderData);
   });
+}
+
+function registerProductDetailsRoute(productCode: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${productCode}?fields=*&lang=en&curr=USD`,
+  }).as('product_details');
+}
+
+function registerCartRefreshRoute() {
+  // When adding a coupon to the cart, this route matches Selective carts first
+  //TODO matchers don't have proper regex (digits only). This might fail with a lot of carts in the system.
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/0*?fields=*&lang=en&curr=USD`,
+  }).as('refresh_cart');
+}
+
+function registerReviewOrderRoute(cartId: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}//users/current/carts/${cartId}?fields=DEFAULT*`,
+  }).as('review_order');
+}
+
+function visitReviewOrderPage() {
+  const reviewOrderPage = waitForPage(
+    '/checkout/review-order',
+    'getReviewOrder'
+  );
+  cy.visit('/checkout/review-order');
+  cy.wait(`@${reviewOrderPage}`).its('response.statusCode').should('eq', 200);
+}
+
+function visitOrdersPage() {
+  const ordersPage = waitForPage('/my-account/orders', 'getOrders');
+  cy.visit('my-account/orders');
+  cy.wait(`@${ordersPage}`).its('response.statusCode').should('eq', 200);
+}
+
+function visitCartPage() {
+  const cartPage = waitForPage('cart', 'cartPage');
+  cy.visit('cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
 }
