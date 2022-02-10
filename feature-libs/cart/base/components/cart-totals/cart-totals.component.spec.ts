@@ -9,7 +9,7 @@ const cartMock: Cart = {
 
 class MockActiveCartService {
   getActive(): Observable<Cart> {
-    return of(cartMock);
+    return of<Cart>(cartMock);
   }
 }
 
@@ -20,6 +20,7 @@ describe('CartTotalsComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
+        declarations: [CartTotalsComponent],
         providers: [
           {
             provide: ActiveCartFacade,
