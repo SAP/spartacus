@@ -103,19 +103,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    @include media-breakpoint-down(sm) {
-      .readonly-value {
-        display: flex;
-        justify-content: space-between;
-
-        //psuedo-element to create space between cx-label and cx-value
-        &::before {
-          content: '';
-          width: 110px;
-        }
-      }
-    }
   }
 
   .cx-total {
@@ -166,23 +153,6 @@
     }
   }
 
-  .cx-price,
-  .cx-quantity,
-  .cx-actions,
-  .cx-total {
-    @include media-breakpoint-down(sm) {
-      width: 255px;
-      justify-content: space-between;
-    }
-  }
-
-  .cx-price,
-  .cx-quantity {
-    @include media-breakpoint-down(sm) {
-      padding-bottom: 10px;
-    }
-  }
-
   // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
   .cx-compact {
@@ -197,13 +167,6 @@
       display: flex;
       flex-direction: column;
       margin: 0;
-    }
-
-    .cx-price,
-    .cx-quantity {
-      @include media-breakpoint-down(sm) {
-        padding-bottom: 10px;
-      }
     }
 
     .cx-price,
@@ -225,6 +188,20 @@
       button.link {
         @include type('7');
       }
+    }
+
+    .cx-price,
+    .cx-quantity,
+    .cx-total {
+      .cx-value {
+        left: 120px;
+        position: absolute;
+      }
+    }
+
+    .cx-price,
+    .cx-quantity {
+      padding: 0 0 20px 0;
     }
   }
 }
