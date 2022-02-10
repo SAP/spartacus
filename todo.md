@@ -1,11 +1,11 @@
 ## TODO: before merge
 
 1. BUG - "double spinner" on the payment step in b2b / repl checkout.
-2. TO IMPROVE: Changing the address selection causes a certain delay (check if this is the case for the payments):
-   1. click on a different address than the one that's currently selected
-   2. the global message will say the address was selected successfully
+2. TO IMPROVE: Changing the payment / address selection causes a certain delay
+   1. click on a different payment / address than the one that's currently selected
+   2. the global message will say the payment / address was selected successfully
    3. the spinner will disappear
-   4. however, the newly selected address won't be selected for a fraction of a second, and then it'll appear selected on UI
+   4. however, the newly selected payment / address won't be selected for a fraction of a second, and then it'll appear selected on UI
 3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
 4. B2B OCC endpoints
 5. remove old checkout
