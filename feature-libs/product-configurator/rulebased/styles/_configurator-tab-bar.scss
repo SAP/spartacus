@@ -1,19 +1,5 @@
 %cx-configurator-tab-bar {
   &:not(:empty) {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    padding-inline-start: 0px;
-    padding-inline-end: 0px;
-    justify-content: flex-end;
-
-    @include media-breakpoint-up(lg) {
-      border-width: 0 0 1px 0;
-      border-style: solid;
-      border-color: var(--cx-color-light);
-      margin-block-end: 2rem;
-    }
-
     @include media-breakpoint-up(xl) {
       max-width: 1140px;
     }
@@ -22,60 +8,92 @@
       width: 100%;
     }
 
-    a {
-      color: black;
-      cursor: pointer;
-      padding: 0.5rem 0 0 0;
-      text-align: center;
+    .cx-tab-bar,
+    .cx-ghost-tab-bar {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      padding-inline-start: 0px;
+      padding-inline-end: 0px;
+      justify-content: flex-end;
 
-      @include media-breakpoint-up(md) {
-        flex-basis: 200px;
+      @include media-breakpoint-up(lg) {
+        margin-block-end: 32px;
+      }
+    }
+
+    .cx-tab-bar {
+      @include media-breakpoint-up(lg) {
+        border-width: 0 0 1px 0;
+        border-style: solid;
+        border-color: var(--cx-color-light);
       }
 
-      @include media-breakpoint-down(sm) {
-        inline-size: 50%;
+      a {
+        color: black;
+        cursor: pointer;
+        padding: 0.5rem 0 0 0;
+        text-align: center;
+
+        @include media-breakpoint-up(md) {
+          flex-basis: 200px;
+        }
+
+        @include media-breakpoint-down(sm) {
+          inline-size: 50%;
+        }
+
+        @include media-breakpoint-down(sm) {
+          inline-size: 50%;
+        }
+
+        // border effect
+        &:after {
+          content: '';
+          display: block;
+          block-size: 5px;
+          background: var(--cx-color-primary);
+          margin-inline-start: auto;
+          margin-inline-end: auto;
+          margin-block-start: 7px;
+          margin-block-end: auto;
+
+          // the tab hover effect uses a border in the :after pseudo
+          // that is animated from 0% to 100% width
+          inline-size: 0;
+          opacity: 0;
+          transition: all 0.6s;
+        }
+
+        &.active,
+        &:hover {
+          color: var(--cx-color-primary);
+          text-decoration: none;
+        }
+
+        &.active:after,
+        &:hover:after {
+          inline-size: 100%;
+        }
+
+        &.active:after,
+        &.active:hover:after {
+          opacity: 1;
+        }
+
+        &:not(.active):hover:after {
+          opacity: 0.5;
+        }
       }
+    }
 
-      @include media-breakpoint-down(sm) {
-        inline-size: 50%;
-      }
+    .cx-ghost-tab-bar {
+      width: 100%;
+      height: 46px;
+      background-color: var(--cx-color-ghost);
 
-      // border effect
-      &:after {
-        content: '';
-        display: block;
-        block-size: 5px;
-        background: var(--cx-color-primary);
-        margin-inline-start: auto;
-        margin-inline-end: auto;
-        margin-block-start: 7px;
-        margin-block-end: auto;
-
-        // the tab hover effect uses a border in the :after pseudo
-        // that is animated from 0% to 100% width
-        inline-size: 0;
-        opacity: 0;
-        transition: all 0.6s;
-      }
-
-      &.active,
-      &:hover {
-        color: var(--cx-color-primary);
-        text-decoration: none;
-      }
-
-      &.active:after,
-      &:hover:after {
-        inline-size: 100%;
-      }
-
-      &.active:after,
-      &.active:hover:after {
-        opacity: 1;
-      }
-
-      &:not(.active):hover:after {
-        opacity: 0.5;
+      @include media-breakpoint-down(lg) {
+        margin-block-end: 15px;
       }
     }
   }

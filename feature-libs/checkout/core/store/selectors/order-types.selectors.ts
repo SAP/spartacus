@@ -1,5 +1,5 @@
 import { createSelector, MemoizedSelector } from '@ngrx/store';
-import { ORDER_TYPE } from '@spartacus/core';
+import { ORDER_TYPE } from '@spartacus/checkout/root';
 import {
   CheckoutState,
   OrderTypesState,

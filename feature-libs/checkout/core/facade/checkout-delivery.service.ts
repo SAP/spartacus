@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
+import { ActiveCartFacade, DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
-  DeliveryMode,
   getLastValueSync,
   OCC_USER_ID_ANONYMOUS,
   ProcessSelectors,
@@ -15,12 +14,12 @@ import {
 import { combineLatest, Observable } from 'rxjs';
 import {
   filter,
+  map,
   pluck,
   shareReplay,
   take,
   tap,
   withLatestFrom,
-  map,
 } from 'rxjs/operators';
 import { CheckoutActions } from '../store/actions/index';
 import {
@@ -37,7 +36,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   constructor(
     protected checkoutStore: Store<StateWithCheckout>,
     protected processStateStore: Store<StateWithProcess<void>>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected checkoutService: CheckoutService
   ) {}
@@ -128,12 +127,12 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   /**
-   * Get info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
+   * return info about process of setting Delivery Mode, which is done by a HTTP PUT request followed by two HTTP GET request.
    * True means at least one quest is still in process, false means all three requests are done
    */
-  getSetDeliveryModeInProcess(): Observable<boolean> {
+  isSetDeliveryModeBusy(): Observable<boolean> {
     return combineLatest([
-      this.activeCartService.isStable(),
+      this.activeCartFacade.isStable(),
       this.checkoutService.isLoading(),
       this.getSetDeliveryModeProcess(),
     ]).pipe(
@@ -198,7 +197,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -226,7 +225,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -248,11 +247,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   setDeliveryMode(mode: string): void {
     if (this.actionAllowed()) {
       const userId = getLastValueSync(this.userIdService.getUserId());
-      const cartId = getLastValueSync(this.activeCartService.getActiveCartId());
+      const cartId = getLastValueSync(this.activeCartFacade.getActiveCartId());
 
       if (userId && cartId) {
         combineLatest([
-          this.activeCartService.isStable(),
+          this.activeCartFacade.isStable(),
           this.checkoutService.isLoading(),
         ])
           .pipe(
@@ -285,7 +284,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
         .unsubscribe();
 
       let cartId;
-      this.activeCartService
+      this.activeCartFacade
         .getActiveCartId()
         .subscribe((activeCartId) => (cartId = activeCartId))
         .unsubscribe();
@@ -312,7 +311,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       .unsubscribe();
 
     let cartId;
-    this.activeCartService
+    this.activeCartFacade
       .getActiveCartId()
       .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
@@ -337,7 +336,7 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
       .unsubscribe();
 
     let cartId;
-    this.activeCartService
+    this.activeCartFacade
       .getActiveCartId()
       .subscribe((activeCartId) => (cartId = activeCartId))
       .unsubscribe();
@@ -361,14 +360,11 @@ export class CheckoutDeliveryService implements CheckoutDeliveryFacade {
   }
 
   protected actionAllowed(): boolean {
-    let userId;
-    this.userIdService
-      .getUserId()
-      .subscribe((occUserId) => (userId = occUserId))
-      .unsubscribe();
+    const userId = getLastValueSync(this.userIdService.getUserId());
+
     return (
       (userId && userId !== OCC_USER_ID_ANONYMOUS) ||
-      this.activeCartService.isGuestCart()
+      Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()))
     );
   }
 }

@@ -105,7 +105,7 @@ $space: 0.5rem;
 
   .NavigationBar {
     flex: 100%;
-    min-height: 67px;
+    min-height: $header-height;
 
     @include media-breakpoint-down(md) {
       background-color: var(--cx-color-background);
