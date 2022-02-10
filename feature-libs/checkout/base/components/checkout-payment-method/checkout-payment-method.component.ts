@@ -26,7 +26,14 @@ import {
   of,
   Subscription,
 } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
@@ -54,6 +61,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
       tap((paymentInfo) => {
         if (paymentInfo && !!Object.keys(paymentInfo).length) {
           if (this.shouldRedirect) {

@@ -46,6 +46,27 @@ export class B2BCheckoutDeliveryAddressComponent
   protected subscriptions = new Subscription();
   isAccountPayment = false;
 
+  getSupportedAddresses$: Observable<Address[]> = this.checkoutPaymentTypeFacade
+    .isAccountPayment()
+    .pipe(
+      switchMap((isAccountPayment) => {
+        return isAccountPayment
+          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
+              filter((state) => !state.loading),
+              map((state) => state.data),
+              distinctUntilChanged(),
+              switchMap((costCenter) => {
+                return costCenter?.code
+                  ? this.userCostCenterService.getCostCenterAddresses(
+                      costCenter.code
+                    )
+                  : of([]);
+              })
+            )
+          : super['getSupportedAddresses$'];
+      })
+    );
+
   constructor(
     protected userAddressService: UserAddressService,
     protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
@@ -84,31 +105,10 @@ export class B2BCheckoutDeliveryAddressComponent
     }
   }
 
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
-      switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super.getSupportedAddresses();
-      })
-    );
-  }
-
   selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
-  ): void {
+  ): Address | undefined {
     if (addresses.length && (!selected || Object.keys(selected).length === 0)) {
       if (this.isAccountPayment) {
         if (addresses.length === 1) {
@@ -118,6 +118,8 @@ export class B2BCheckoutDeliveryAddressComponent
         super.selectDefaultAddress(addresses, selected);
       }
     }
+
+    return selected;
   }
 
   ngOnDestroy(): void {

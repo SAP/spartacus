@@ -15,7 +15,13 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -40,10 +46,14 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.userAddressService.getAddressesLoading(),
   ]).pipe(map(([busy, loading]) => busy || loading));
 
+  getSupportedAddresses$: Observable<Address[]> =
+    this.userAddressService.getAddresses();
+
   selectedAddress$: Observable<Address | undefined> =
     this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
       tap((address) => {
         if (address && this.shouldRedirect) {
           this.next();
@@ -52,47 +62,14 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
 
   cards$: Observable<CardWithAddress[]> = combineLatest([
-    this.getSupportedAddresses(),
+    this.getSupportedAddresses$,
     this.selectedAddress$,
     this.translationService.translate('checkoutAddress.defaultDeliveryAddress'),
     this.translationService.translate('checkoutAddress.shipToThisAddress'),
     this.translationService.translate('addressCard.selected'),
   ]).pipe(
-    // tap(([addresses, selected]) => {
-    //   if (
-    //     addresses.length &&
-    //     (!selected || Object.keys(selected).length === 0)
-    //   ) {
-    //     const defaultSelectedAddress = addresses.find(
-    //       (address) => address.defaultAddress
-    //     );
-
-    //     if (defaultSelectedAddress) {
-    //       selected = defaultSelectedAddress;
-    //       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    //       this.setAddress(selected!);
-    //     }
-    //   }
-
-    //   // this.selectDefaultAddress(addresses, selected);
-    // }),
     map(([addresses, selected, textDefault, textShipTo, textSelected]) => {
-      // if (
-      //   addresses.length &&
-      //   (!selected || Object.keys(selected).length === 0)
-      // ) {
-      //   const defaultSelectedAddress = addresses.find(
-      //     (address) => address.defaultAddress
-      //   );
-
-      //   if (defaultSelectedAddress) {
-      //     selected = defaultSelectedAddress;
-      //     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      //     this.setAddress(selected!);
-      //   }
-      // }
-
-      this.selectDefaultAddress(addresses, selected);
+      selected = this.selectDefaultAddress(addresses, selected);
 
       return addresses.map((address) => ({
         address,
@@ -132,28 +109,23 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
   }
 
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.userAddressService.getAddresses();
-  }
-
   selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
-  ): void {
-    // this.busy$.next(true);
+  ): Address | undefined {
+    if (addresses.length && (!selected || Object.keys(selected).length === 0)) {
+      const defaultSelectedAddress = addresses.find(
+        (address) => address.defaultAddress
+      );
 
-    if (
-      !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
-      (!selected || Object.keys(selected).length === 0)
-    ) {
-      selected = addresses.find((address) => address.defaultAddress);
-      if (selected) {
-        this.setAddress(selected);
+      if (defaultSelectedAddress) {
+        selected = defaultSelectedAddress;
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        this.setAddress(selected!);
       }
-      this.doneAutoSelect = true;
     }
+
+    return selected;
   }
 
   getCardContent(
