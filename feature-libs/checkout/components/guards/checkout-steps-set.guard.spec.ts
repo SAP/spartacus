@@ -6,7 +6,7 @@ import {
   CheckoutStepType,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
-import { Address, Order, RoutingConfigService } from '@spartacus/core';
+import { Address, PaymentDetails, RoutingConfigService } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutDetailsService } from '../services/checkout-details.service';
 import { CheckoutStepService } from '../services/checkout-step.service';
@@ -86,7 +86,7 @@ class MockCheckoutDetailsService {
   getSelectedDeliveryModeCode(): Observable<string> {
     return of(null);
   }
-  getPaymentDetails(): Observable<Order> {
+  getPaymentDetails(): Observable<PaymentDetails> {
     return of(null);
   }
 }

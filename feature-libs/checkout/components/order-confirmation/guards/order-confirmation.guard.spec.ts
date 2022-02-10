@@ -1,7 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CheckoutFacade } from '@spartacus/checkout/root';
-import { Order, RoutingService, SemanticPathService } from '@spartacus/core';
+import { RoutingService, SemanticPathService } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 

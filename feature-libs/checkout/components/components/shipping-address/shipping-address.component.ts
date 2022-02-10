@@ -5,14 +5,15 @@ import {
   OnInit,
 } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutDeliveryFacade,
   PaymentTypeFacade,
 } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
   Address,
+  getLastValueSync,
   GlobalMessageService,
   GlobalMessageType,
   TranslationService,
@@ -45,19 +46,19 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   constructor(
     protected userAddressService: UserAddressService,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
     protected activatedRoute: ActivatedRoute,
     protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
+    protected activeCartFacade: ActiveCartFacade,
     protected checkoutStepService: CheckoutStepService,
     protected globalMessageService: GlobalMessageService,
-    protected paymentTypeService?: PaymentTypeFacade,
+    protected paymentTypeFacade?: PaymentTypeFacade,
     protected userCostCenterService?: UserCostCenterService,
-    protected checkoutCostCenterService?: CheckoutCostCenterFacade
+    protected checkoutCostCenterFacade?: CheckoutCostCenterFacade
   ) {}
 
   get isGuestCheckout(): boolean {
-    return this.activeCartService.isGuestCart();
+    return Boolean(getLastValueSync(this.activeCartFacade.isGuestCart()));
   }
 
   get backBtnText(): string {
@@ -69,7 +70,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   get selectedAddress$(): Observable<Address> {
-    return this.checkoutDeliveryService.getDeliveryAddress().pipe(
+    return this.checkoutDeliveryFacade.getDeliveryAddress().pipe(
       tap((address) => {
         if (
           address &&
@@ -114,10 +115,10 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   getSupportedAddresses(): Observable<Address[]> {
     if (
       this.isAccountPayment &&
-      this.checkoutCostCenterService &&
+      this.checkoutCostCenterFacade &&
       this.userCostCenterService
     ) {
-      return this.checkoutCostCenterService.getCostCenter().pipe(
+      return this.checkoutCostCenterFacade.getCostCenter().pipe(
         distinctUntilChanged(),
         switchMap((selected) => {
           this.doneAutoSelect = false;
@@ -155,12 +156,12 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (
-      this.paymentTypeService &&
+      this.paymentTypeFacade &&
       this.userCostCenterService &&
-      this.checkoutCostCenterService
+      this.checkoutCostCenterFacade
     ) {
       this.subscriptions.add(
-        this.paymentTypeService
+        this.paymentTypeFacade
           .isAccountPayment()
           .pipe(distinctUntilChanged())
           .subscribe((isAccount) => (this.isAccountPayment = isAccount))
@@ -203,7 +204,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   }
 
   selectAddress(address: Address): void {
-    this.checkoutDeliveryService.setDeliveryAddress(address);
+    this.checkoutDeliveryFacade.setDeliveryAddress(address);
   }
 
   onAddressCardSelect(address: Address): void {
@@ -219,7 +220,7 @@ export class ShippingAddressComponent implements OnInit, OnDestroy {
   addAddress(address: Address): void {
     this.forceLoader = true;
     if (Boolean(address)) {
-      this.checkoutDeliveryService.createAndSetAddress(address);
+      this.checkoutDeliveryFacade.createAndSetAddress(address);
       this.globalMessageService.add(
         { key: 'addressForm.userAddressAddSuccess' },
         GlobalMessageType.MSG_TYPE_CONFIRMATION
