@@ -2,7 +2,7 @@ import * as cartCoupon from '../../../helpers/coupons/cart-coupon';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 describe('Cart Coupon', () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
@@ -16,7 +16,9 @@ describe('Cart Coupon', () => {
       //TODO products can be added to cart asynchronously
       cartCoupon.addProductToCart(cartCoupon.productCode1);
       cartCoupon.applyCoupon(cartCoupon.couponForCart);
-      cartCoupon.placeOrder(stateAuth.token);
+      cartCoupon.goTroughCheckout(stateAuth.token).then(() => {
+        cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForCart);
+      });
     });
   });
 });
