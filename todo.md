@@ -1,13 +1,18 @@
 ## TODO: before merge
 
 1. BUG - "double spinner" on the payment step in b2b / repl checkout.
-2. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-3. B2B OCC endpoints
-4. remove old checkout
+2. TO IMPROVE: Changing the address selection causes a certain delay
+   1. click on a different address than the one that's currently selected
+   2. the global message will say the address was selected successfully
+   3. the spinner will disappear
+   4. however, the newly selected address won't be selected for a fraction of a second, and then it'll appear selected on UI
+3. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+4. B2B OCC endpoints
+5. remove old checkout
    1. remove `core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts`
    2. Remove `checkout-git-check.sh`
    3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
-5. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
+6. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
    1. .env-cmdrc
    2. cypress.ci.json
    3. cypress.ci.b2b.json
@@ -78,4 +83,4 @@
 3. search for `TODO:#deprecation-checkout`
 4. search for `TODO:#future-checkout`
 5. When selecting the default address, we do not wait for the http 'setAddress' call's result.
-   5.1. Check payment method step as well.
+   1. Check payment method step as well.
