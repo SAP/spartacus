@@ -77,3 +77,5 @@
    2. if we decide to do it, we should align the selector names with the component names - i.e. `cx-shipping-address` should be renamed to contain the checkout prefix, _and_ to instead of `shipping` we should use `delivery`.
 3. search for `TODO:#deprecation-checkout`
 4. search for `TODO:#future-checkout`
+5. When selecting the default address, we do not wait for the http 'setAddress' call's result.
+   5.1. Check payment method step as well.
