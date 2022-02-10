@@ -2,6 +2,7 @@ import { HttpHeaders, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
+  AuthRedirectService,
   AuthService,
   AuthStorageService,
   AuthToken,
@@ -25,6 +26,7 @@ class MockCsAgentAuthService implements Partial<CsAgentAuthService> {
 }
 
 class MockAuthService implements Partial<AuthService> {
+  setLogoutProgress(_progress: boolean): void {}
   coreLogout() {
     return Promise.resolve();
   }
@@ -39,7 +41,7 @@ class MockAuthStorageService implements Partial<AuthStorageService> {
 class MockOAuthLibWrapperService implements Partial<OAuthLibWrapperService> {}
 
 class MockRoutingService implements Partial<RoutingService> {
-  go() {}
+  go = () => Promise.resolve(true);
 }
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
@@ -52,12 +54,17 @@ class MockOccEndpointsService implements Partial<OccEndpointsService> {
   }
 }
 
+class MockAuthRedirectService implements Partial<AuthRedirectService> {
+  saveCurrentNavigationUrl = jasmine.createSpy('saveCurrentNavigationUrl');
+}
+
 describe('AsmAuthHttpHeaderService', () => {
   let service: AsmAuthHttpHeaderService;
   let authService: AuthService;
   let routingService: RoutingService;
   let csAgentAuthService: CsAgentAuthService;
   let globalMessageService: GlobalMessageService;
+  let authRedirectService: AuthRedirectService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -74,6 +81,7 @@ describe('AsmAuthHttpHeaderService', () => {
         { provide: GlobalMessageService, useClass: MockGlobalMessageService },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
         { provide: AuthStorageService, useClass: MockAuthStorageService },
+        { provide: AuthRedirectService, useClass: MockAuthRedirectService },
       ],
     });
 
@@ -82,6 +90,7 @@ describe('AsmAuthHttpHeaderService', () => {
     routingService = TestBed.inject(RoutingService);
     csAgentAuthService = TestBed.inject(CsAgentAuthService);
     globalMessageService = TestBed.inject(GlobalMessageService);
+    authRedirectService = TestBed.inject(AuthRedirectService);
   });
 
   it('should be created', () => {
@@ -147,13 +156,17 @@ describe('AsmAuthHttpHeaderService', () => {
   });
 
   describe('handleExpiredRefreshToken', () => {
-    it('should work the same as in AuthHeaderService when there is normally logged user', () => {
+    it('should work the same as in AuthHeaderService when there is normally logged user', async () => {
       spyOn(authService, 'coreLogout').and.callThrough();
       spyOn(routingService, 'go').and.callThrough();
 
       service.handleExpiredRefreshToken();
+      await Promise.resolve();
 
       expect(authService.coreLogout).toHaveBeenCalled();
+      expect(
+        authRedirectService.saveCurrentNavigationUrl
+      ).toHaveBeenCalledBefore(routingService.go);
       expect(routingService.go).toHaveBeenCalledWith({ cxRoute: 'login' });
     });
 
@@ -165,9 +178,11 @@ describe('AsmAuthHttpHeaderService', () => {
       ).and.returnValue(of(true));
       spyOn(csAgentAuthService, 'logoutCustomerSupportAgent').and.callThrough();
       spyOn(globalMessageService, 'add').and.callThrough();
+      spyOn(authService, 'setLogoutProgress').and.stub();
 
       service.handleExpiredRefreshToken();
 
+      expect(authService.setLogoutProgress).toHaveBeenCalledWith(true);
       expect(authService.coreLogout).not.toHaveBeenCalled();
       expect(csAgentAuthService.logoutCustomerSupportAgent).toHaveBeenCalled();
       expect(globalMessageService.add).toHaveBeenCalledWith(

@@ -2,16 +2,12 @@ import { NgModule } from '@angular/core';
 import {
   AnonymousConsentsModule,
   AuthModule,
-  CartModule,
-  CartOccModule,
-  CheckoutModule,
-  CheckoutOccModule,
   CostCenterOccModule,
   ExternalRoutesModule,
   ProductModule,
   ProductOccModule,
-  UserOccTransitionalModule,
-  UserTransitionalModule,
+  UserModule,
+  UserOccModule,
 } from '@spartacus/core';
 import {
   AddressBookModule,
@@ -20,11 +16,7 @@ import {
   BannerCarouselModule,
   BannerModule,
   BreadcrumbModule,
-  CartComponentModule,
-  CartPageEventModule,
   CategoryNavigationModule,
-  CheckoutComponentModule,
-  CheckoutLoginModule,
   CmsParagraphModule,
   ConsentManagementModule,
   FooterNavigationModule,
@@ -39,11 +31,7 @@ import {
   NavigationEventModule,
   NavigationModule,
   NotificationPreferenceModule,
-  OrderCancellationModule,
-  OrderConfirmationModule,
-  OrderDetailsModule,
-  OrderHistoryModule,
-  OrderReturnModule,
+  PageTitleModule,
   PaymentMethodsModule,
   ProductCarouselModule,
   ProductDetailsPageModule,
@@ -56,41 +44,44 @@ import {
   ProductReferencesModule,
   ProductSummaryModule,
   ProductTabsModule,
-  ReplenishmentOrderConfirmationModule,
-  ReplenishmentOrderDetailsModule,
-  ReplenishmentOrderHistoryModule,
-  ReturnRequestDetailModule,
-  ReturnRequestListModule,
   SearchBoxModule,
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
-  WishListModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
+import { CartBaseFeatureModule } from './features/cart-base-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
-import { CpqFeatureModule } from './features/cpq-feature.module';
+import { CheckoutFeatureModule } from './features/checkout-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
+import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
+import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
+import { OrderFeatureModule } from './features/order-feature.module';
+import { ProductConfiguratorRulebasedCpqFeatureModule } from './features/product-configurator-rulebased-cpq-feature.module';
+import { ProductConfiguratorRulebasedFeatureModule } from './features/product-configurator-rulebased-feature.module';
+import { ProductConfiguratorTextfieldFeatureModule } from './features/product-configurator-textfield-feature.module';
 import { QualtricsFeatureModule } from './features/qualtrics-feature.module';
+import { QuickOrderFeatureModule } from './features/quick-order-feature.module';
 import { SavedCartFeatureModule } from './features/saved-cart-feature.module';
 import { SmartEditFeatureModule } from './features/smartedit-feature.module';
 import { StorefinderFeatureModule } from './features/storefinder-feature.module';
 import { TrackingFeatureModule } from './features/tracking-feature.module';
 import { UserFeatureModule } from './features/user-feature.module';
 import { VariantsFeatureModule } from './features/variants-feature.module';
+import { WishListFeatureModule } from './features/wish-list-feature.module';
 
 const featureModules = [];
 
 if (environment.b2b) {
   featureModules.push(
     AdministrationFeatureModule,
-    OrderApprovalFeatureModule,
-
-    BulkPricingFeatureModule
+    BulkPricingFeatureModule,
+    OrderApprovalFeatureModule
   );
 }
 if (environment.cdc) {
@@ -100,7 +91,12 @@ if (environment.cds) {
   featureModules.push(CdsFeatureModule);
 }
 if (environment.cpq) {
-  featureModules.push(CpqFeatureModule);
+  featureModules.push(ProductConfiguratorRulebasedCpqFeatureModule);
+} else {
+  featureModules.push(ProductConfiguratorRulebasedFeatureModule);
+}
+if (environment.digitalPayments) {
+  featureModules.push(DigitalPaymentsFeatureModule);
 }
 
 @NgModule({
@@ -121,11 +117,12 @@ if (environment.cpq) {
     CategoryNavigationModule,
     NavigationModule,
     FooterNavigationModule,
+    PageTitleModule,
     BreadcrumbModule,
 
     // User Core
-    UserTransitionalModule,
-    UserOccTransitionalModule,
+    UserModule,
+    UserOccModule,
     // User UI
     AddressBookModule,
     PaymentMethodsModule,
@@ -158,37 +155,12 @@ if (environment.cpq) {
     ProductSummaryModule,
     ProductIntroModule,
 
-    // Cart Core
-    CartModule.forRoot(),
-    CartOccModule,
-    // Cart UI
-    CartComponentModule,
-    WishListModule,
-
-    // Checkout Core
-    CheckoutModule.forRoot(),
-    CheckoutOccModule,
+    // Cost Center
     CostCenterOccModule,
-    // Checkout UI
-    CheckoutLoginModule,
-    CheckoutComponentModule,
-    OrderConfirmationModule,
-
-    // Order
-    OrderHistoryModule,
-    OrderDetailsModule,
-    OrderCancellationModule,
-    OrderReturnModule,
-    ReturnRequestListModule,
-    ReturnRequestDetailModule,
-    ReplenishmentOrderHistoryModule,
-    ReplenishmentOrderDetailsModule,
-    ReplenishmentOrderConfirmationModule,
 
     // Page Events
     NavigationEventModule,
     HomePageEventModule,
-    CartPageEventModule,
     ProductPageEventModule,
 
     /************************* Opt-in features *************************/
@@ -196,8 +168,11 @@ if (environment.cpq) {
     ExternalRoutesModule.forRoot(), // to opt-in explicitly, is added by default schematics
     JsonLdBuilderModule,
 
-    /************************* External features *************************/
+    /************************* Feature libraries *************************/
     UserFeatureModule,
+    CartBaseFeatureModule,
+    WishListFeatureModule,
+    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
@@ -205,6 +180,11 @@ if (environment.cpq) {
     TrackingFeatureModule,
     VariantsFeatureModule,
     SavedCartFeatureModule,
+    OrderFeatureModule,
+    QuickOrderFeatureModule,
+    ImportExportFeatureModule,
+    ProductConfiguratorTextfieldFeatureModule,
+    ImageZoomFeatureModule,
     ...featureModules,
   ],
 })

@@ -10,6 +10,7 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
+  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusProductConfiguratorOptions,
   readPackageJson,
@@ -50,7 +51,10 @@ export function addProductConfiguratorFeatures(
     return chain([
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
-      addProductConfiguratorRulebasedFeature(options),
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_VC_FEATURE, options.features) ||
+      shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
+        ? addProductConfiguratorRulebasedFeature(options)
+        : noop(),
 
       shouldAddFeature(CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE, options.features)
         ? chain([

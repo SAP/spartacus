@@ -4,6 +4,7 @@ export const common = {
     delete: 'Delete',
     remove: 'Remove',
     edit: 'Edit',
+    restore: 'Restore',
     back: 'Back',
     submit: 'Submit',
     continue: 'Continue',
@@ -13,6 +14,14 @@ export const common = {
     noData: 'No data.',
     confirm: 'Confirm',
     more: 'more',
+    close: 'Close',
+    loading: 'Loading',
+    menu: 'Menu',
+    reset: 'Reset',
+    search: 'Search',
+    add: 'Add',
+    breadcrumbs: 'breadcrumbs',
+    selectFile: 'Select file',
   },
   pageMetaResolver: {
     category: {
@@ -20,8 +29,7 @@ export const common = {
       title_plural: '{{count}} results for {{query}}',
     },
     checkout: {
-      title: 'Checkout {{count}} item',
-      title_plural: 'Checkout {{count}} items',
+      title: 'Checkout',
     },
     search: {
       title: '{{count}} result for "{{query}}"',
@@ -40,10 +48,22 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    shopAll: 'Shop all {{ navNode}} >',
+    categoryNavLabel: 'Category menu',
+    footerNavLabel: 'Footer links',
   },
   searchBox: {
-    placeholder: 'Search here...',
+    placeholder: 'Enter product name or SKU',
+    productSearch: 'Find a product',
+    ariaLabelInput: 'Search here...',
+    ariaLabelSuggestions: 'typing suggestions',
+    ariaLabelProducts: 'product results',
+    initialDescription:
+      'When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures.',
+    suggestionsResult: '{{ count }} suggestion and ',
+    suggestionsResult_plural: '{{ count }} suggestions and ',
+    productsResult: '{{ count }} product is available.',
+    productsResult_plural: '{{ count }} products are available.',
+    resetLabel: 'Reset Search',
     help: {
       insufficientChars: 'Please type more characters',
       noMatch: 'We could not find any results',
@@ -114,6 +134,8 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    unknownIdentifier: 'Item not found.',
+    otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -130,6 +152,12 @@ export const common = {
       productFacets: 'Product Facets',
       productList: 'Product List',
     },
+  },
+  carousel: {
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
+    slideNumber: 'Slide {{currentSlideNumber}}',
+    carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
@@ -148,6 +176,14 @@ export const common = {
       max: 'Date cannot be after {{max}}',
       pattern: 'Use dateformat yyyy-mm-dd',
       invalid: 'Use a valid date',
+    },
+    file: {
+      required: 'File is required',
+      empty: 'File should not be empty',
+      invalidExtension: 'File extension is not valid',
+      tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
+      notParsable: 'File is not parsable',
     },
   },
   errorHandlers: {

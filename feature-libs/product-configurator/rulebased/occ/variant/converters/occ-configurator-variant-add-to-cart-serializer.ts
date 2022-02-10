@@ -9,7 +9,8 @@ export class OccConfiguratorVariantAddToCartSerializer
     Converter<
       Configurator.AddToCartParameters,
       OccConfigurator.AddToCartParameters
-    > {
+    >
+{
   constructor() {}
 
   convert(

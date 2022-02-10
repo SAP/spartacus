@@ -6,14 +6,14 @@
           [pagination]="locations.pagination"
         ></cx-store-finder-pagination-details>
       </div>
-      <div class="col-md-2 text-left cx-back-wrapper">
+      <div class="text-left cx-back-wrapper">
         <button
-          class="btn btn-block btn-action"
+          class="btn btn-block btn-action cx-back"
           *ngIf="isDetailsModeVisible"
           (click)="hideStoreDetails()"
         >
           <cx-icon [type]="iconTypes.CARET_LEFT"></cx-icon>
-          {{ 'storeFinder.clickBack' | cxTranslate }}
+          {{ 'storeFinder.back' | cxTranslate }}
         </button>
       </div>
     </div>

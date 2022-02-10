@@ -47,7 +47,8 @@ export class CustomerSelectionComponent implements OnInit, OnDestroy {
       searchTerm: ['', Validators.required],
     });
     this.asmService.customerSearchReset();
-    this.searchResultsLoading$ = this.asmService.getCustomerSearchResultsLoading();
+    this.searchResultsLoading$ =
+      this.asmService.getCustomerSearchResultsLoading();
     this.searchResults = this.asmService.getCustomerSearchResults();
 
     this.subscription.add(

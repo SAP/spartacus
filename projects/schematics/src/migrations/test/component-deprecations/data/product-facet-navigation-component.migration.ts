@@ -1,7 +1,7 @@
 import { PRODUCT_FACET_NAVIGATION_COMPONENT } from '../../../../shared/constants';
 import { ComponentData } from '../../../../shared/utils/file-utils';
 
-// /projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/product-facet-navigation.component.ts
+// /projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/product-facet-navigation.component.ts
 export const PRODUCT_FACET_NAVIGATION_COMPONENT_MIGRATION: ComponentData = {
   selector: 'cx-product-facet-navigation',
   componentClassName: PRODUCT_FACET_NAVIGATION_COMPONENT,

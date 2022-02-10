@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
-import { ConfiguratorPriceComponent } from './configurator-price.component';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { Pipe, PipeTransform } from '@angular/core';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
+import { ConfiguratorPriceComponent } from './configurator-price.component';
 
 @Pipe({
   name: 'cxNumeric',
@@ -41,6 +42,7 @@ describe('ConfiguratorPriceComponent', () => {
     waitForAsync(() => {
       TestBed.configureTestingModule({
         declarations: [ConfiguratorPriceComponent, MockNumericPipe],
+        imports: [I18nTestingModule],
       }).compileComponents();
     })
   );
@@ -176,10 +178,12 @@ describe('ConfiguratorPriceComponent', () => {
         htmlElem,
         '.cx-price-total'
       );
-
-      expect(
-        component.quantityWithPrice(component.formula.quantity.toString())
-      ).toEqual('2x($10)');
+      const qty = component.formula.quantity;
+      if (qty) {
+        expect(component.quantityWithPrice(qty.toString())).toEqual('2x($10)');
+      } else {
+        fail();
+      }
       expect(component.priceTotal).toEqual('+ $20');
     });
   });
@@ -206,6 +210,36 @@ describe('ConfiguratorPriceComponent', () => {
         '.cx-greyed-out'
       );
       expect(component.priceTotal).toEqual('+ $10');
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain div element with 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      component.formula = createTestData(0, 0, 150, true);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.valueSurcharge'
+      );
+    });
+
+    it("should contain div element with class name 'cx-quantity-price' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      component.formula = createTestData(2, 10, 20);
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-quantity-price',
+        0,
+        'aria-label',
+        'configurator.a11y.valueSurcharge'
+      );
     });
   });
 });

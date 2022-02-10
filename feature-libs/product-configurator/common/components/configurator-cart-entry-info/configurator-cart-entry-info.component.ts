@@ -1,8 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { OrderEntry } from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
-import { Observable } from 'rxjs';
+import { CartItemContext, OrderEntry } from '@spartacus/cart/base/root';
+import { EMPTY, Observable } from 'rxjs';
 import { CommonConfiguratorUtilsService } from '../../shared/utils/common-configurator-utils.service';
 
 @Component({
@@ -11,21 +10,22 @@ import { CommonConfiguratorUtilsService } from '../../shared/utils/common-config
 })
 export class ConfiguratorCartEntryInfoComponent {
   constructor(
-    protected cartItemContext: CartItemContext,
+    @Optional() protected cartItemContext: CartItemContext,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService
   ) {}
 
-  readonly orderEntry$: Observable<OrderEntry> = this.cartItemContext.item$;
+  readonly orderEntry$: Observable<OrderEntry> =
+    this.cartItemContext?.item$ ?? EMPTY;
 
-  readonly quantityControl$: Observable<FormControl> = this.cartItemContext
-    .quantityControl$;
+  readonly quantityControl$: Observable<FormControl> =
+    this.cartItemContext?.quantityControl$ ?? EMPTY;
 
-  readonly readonly$: Observable<boolean> = this.cartItemContext.readonly$;
+  readonly readonly$: Observable<boolean> =
+    this.cartItemContext?.readonly$ ?? EMPTY;
 
   // TODO: remove the logic below when configurable products support "Saved Cart" and "Save For Later"
-  readonly shouldShowButton$: Observable<boolean> = this.commonConfigUtilsService.isActiveCartContext(
-    this.cartItemContext
-  );
+  readonly shouldShowButton$: Observable<boolean> =
+    this.commonConfigUtilsService.isActiveCartContext(this.cartItemContext);
 
   /**
    * Verifies whether the configuration infos have any entries and the first entry has a status.
@@ -35,7 +35,7 @@ export class ConfiguratorCartEntryInfoComponent {
    * @returns {boolean} - whether the status of configuration infos entry has status
    */
   hasStatus(item: OrderEntry): boolean {
-    const configurationInfos = item?.configurationInfos;
+    const configurationInfos = item.configurationInfos;
 
     return configurationInfos
       ? configurationInfos.length > 0 &&
@@ -58,5 +58,9 @@ export class ConfiguratorCartEntryInfoComponent {
         )
       : false;
     return attributeBased ? attributeBased : false;
+  }
+
+  getHiddenConfigurationInfoId(index: number): string {
+    return 'cx-configuration-hidden-info-' + index.toString();
   }
 }

@@ -39,19 +39,6 @@ describe('OccEndpointsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return base endpoint + added endpoint', () => {
-    expect(service.getEndpoint('test-endpoint')).toEqual(
-      baseEndpoint + '/test-endpoint'
-    );
-  });
-
-  it('should return raw endpoint', () => {
-    const occ = mockOccConfig.backend.occ;
-    expect(service.getRawEndpoint('regions')).toEqual(
-      occ.baseUrl + occ.endpoints['regions']
-    );
-  });
-
   it('should return raw endpoint value', () => {
     const occ = mockOccConfig.backend.occ;
     expect(service.getRawEndpointValue('regions')).toEqual(

@@ -6,7 +6,7 @@ import {
 } from '../../../../shared/constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-// projects/storefrontlib/src/cms-components/product/carousel/product-carousel.service.ts
+// projects/storefrontlib/cms-components/product/carousel/product-carousel.service.ts
 export const PRODUCT_CAROUSEL_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [
   {
     class: PRODUCT_CAROUSEL_SERVICE,

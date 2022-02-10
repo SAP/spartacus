@@ -13,8 +13,11 @@ export function createTest(config: MyCompanyConfig) {
     beforeEach(() => {
       loginAsMyCompanyAdmin();
 
+      cy.intercept({
+        method: 'GET',
+        path: `**${config.apiEndpoint}**`,
+      }).as('loadEntity');
       cy.visit(`${config.baseUrl}${entityId ? '/' + entityId : ''}`);
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntity');
       cy.get('cx-storefront').contains('Loading...').should('not.exist');
       cy.wait('@loadEntity');
     });
@@ -25,7 +28,9 @@ export function createTest(config: MyCompanyConfig) {
 
     it(`should create`, () => {
       if (config.selectOptionsEndpoint) {
-        cy.route(config.selectOptionsEndpoint).as('getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.intercept(endpoint).as(`getSelectOptionsFor${endpoint}`);
+        });
       }
 
       cy.get(`cx-org-list a`).contains('Add').click();
@@ -37,12 +42,18 @@ export function createTest(config: MyCompanyConfig) {
       );
 
       if (config.selectOptionsEndpoint) {
-        cy.wait('@getSelectOptions');
+        config.selectOptionsEndpoint.forEach((endpoint) => {
+          cy.wait(`@getSelectOptionsFor${endpoint}`);
+        });
       }
       completeForm(config.rows, FormType.CREATE);
 
-      cy.route('POST', `**${config.apiEndpoint}**`).as('saveEntityData');
-      cy.route('GET', `**${config.apiEndpoint}**`).as('loadEntityData');
+      cy.intercept({ method: 'POST', path: `**${config.apiEndpoint}**` }).as(
+        'saveEntityData'
+      );
+      cy.intercept({ method: 'GET', path: `**${config.apiEndpoint}**` }).as(
+        'loadEntityData'
+      );
       cy.get('div.header button').contains('Save').click();
       cy.wait('@saveEntityData').then((xhr) => {
         entityUId = xhr.response.body[config.entityIdField];

@@ -3,6 +3,7 @@ import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import {
   GlobalMessageService,
   GlobalMessageType,
+  HttpErrorModel,
   I18nTestingModule,
   RoutingService,
 } from '@spartacus/core';
@@ -162,10 +163,10 @@ describe('ResetPasswordComponentService', () => {
         });
 
         it('should show error message', () => {
+          const error = new HttpErrorModel();
+          error.details = [{ message: 'error message' }];
           spyOn(userPasswordService, 'reset').and.returnValue(
-            throwError({
-              details: [{ message: 'error message' }],
-            })
+            throwError(error)
           );
           service.resetPassword(resetToken);
           expect(globalMessageService.add).toHaveBeenCalledWith(

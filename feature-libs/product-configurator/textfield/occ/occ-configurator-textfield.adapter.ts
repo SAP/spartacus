@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -20,7 +19,8 @@ import { OccConfiguratorTextfield } from './occ-configurator-textfield.models';
 
 @Injectable()
 export class OccConfiguratorTextfieldAdapter
-  implements ConfiguratorTextfieldAdapter {
+  implements ConfiguratorTextfieldAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -44,9 +44,7 @@ export class OccConfiguratorTextfieldAdapter
         map((resultConfiguration) => {
           return {
             ...resultConfiguration,
-            owner: {
-              ...owner,
-            },
+            owner: owner,
           };
         })
       );
@@ -85,6 +83,32 @@ export class OccConfiguratorTextfieldAdapter
           userId: parameters.userId,
           cartId: parameters.cartId,
           cartEntryNumber: parameters.cartEntryNumber,
+        },
+      }
+    );
+
+    return this.http.get<ConfiguratorTextfield.Configuration>(url).pipe(
+      this.converterService.pipeable(CONFIGURATION_TEXTFIELD_NORMALIZER),
+      map((resultConfiguration) => {
+        return {
+          ...resultConfiguration,
+          owner: {
+            ...parameters.owner,
+          },
+        };
+      })
+    );
+  }
+  readConfigurationForOrderEntry(
+    parameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const url = this.occEndpointsService.buildUrl(
+      'readTextfieldConfigurationForOrderEntry',
+      {
+        urlParams: {
+          userId: parameters.userId,
+          orderId: parameters.orderId,
+          orderEntryNumber: parameters.orderEntryNumber,
         },
       }
     );

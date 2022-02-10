@@ -30,9 +30,6 @@ class CmsStructureConfigServiceMock {}
 const endpoint = '/cms';
 
 class OccEndpointsServiceMock {
-  getEndpoint(): string {
-    return endpoint;
-  }
   buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }

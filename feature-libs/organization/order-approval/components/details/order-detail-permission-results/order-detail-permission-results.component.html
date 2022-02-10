@@ -38,9 +38,8 @@
                 }}
               </div>
               {{
-                'orderApprovalDetails.permissionResults.permissionType'
-                  | cxTranslate
-                    : { context: permissionResult.permissionType.code }
+                'orderApprovalDetails.permissionResults.permissionType_' +
+                  permissionResult?.permissionType?.code | cxTranslate
               }}
             </td>
             <td class="cx-approval-approverName">

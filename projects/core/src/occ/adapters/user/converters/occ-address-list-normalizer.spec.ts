@@ -10,7 +10,7 @@ import { OccAddressListNormalizer } from './occ-address-list-normalizer';
 import createSpy = jasmine.createSpy;
 
 class MockOccEndpointsService {
-  buildUrl = createSpy('MockOccEndpointsService.getEndpoint').and.callFake(
+  buildUrl = createSpy('MockOccEndpointsService.buildUrl').and.callFake(
     // eslint-disable-next-line no-shadow
     (url, { orgUnitId }) => (url === 'orgUnit' ? url + orgUnitId : url)
   );

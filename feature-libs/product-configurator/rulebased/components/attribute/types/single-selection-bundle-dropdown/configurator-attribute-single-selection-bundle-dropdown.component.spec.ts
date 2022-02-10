@@ -9,8 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
@@ -185,6 +185,7 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
     component.selectionValue = values[0];
 
     component.attribute = {
+      label: 'Label of attribute',
       uiType: Configurator.UiType.DROPDOWN_PRODUCT,
       attrCode,
       groupId,
@@ -256,5 +257,48 @@ describe('ConfiguratorAttributeSingleSelectionBundleDropdownComponent', () => {
         'cx-configurator-attribute-quantity'
       );
     }
+
+    describe('Accessibility', () => {
+      it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'label',
+          'cx-visually-hidden',
+          0,
+          undefined,
+          undefined,
+          'configurator.a11y.listbox count:' + component.attribute.values.length
+        );
+      });
+
+      it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'select',
+          'form-control',
+          0,
+          'aria-describedby',
+          'cx-configurator--label--nameAttribute'
+        );
+      });
+
+      it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+        CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+          expect,
+          htmlElem,
+          'option',
+          undefined,
+          1,
+          'aria-label',
+          'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+            component.attribute.label +
+            ' value:' +
+            component.attribute.values[1].valueDisplay,
+          component.attribute.values[1].valueDisplay
+        );
+      });
+    });
   });
 });

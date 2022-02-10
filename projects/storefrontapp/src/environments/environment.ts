@@ -10,7 +10,7 @@
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-import 'zone.js/dist/zone-error'; // Included with Angular CLI.
+import 'zone.js/plugins/zone-error'; // Included with Angular CLI.
 import { Environment } from './models/environment.model';
 
 export const environment: Environment = {
@@ -21,4 +21,5 @@ export const environment: Environment = {
   b2b: buildProcess.env.CX_B2B ?? false,
   cdc: buildProcess.env.CX_CDC ?? false,
   cpq: buildProcess.env.CX_CPQ ?? false,
+  digitalPayments: buildProcess.env.CX_DIGITAL_PAYMENTS ?? false,
 };

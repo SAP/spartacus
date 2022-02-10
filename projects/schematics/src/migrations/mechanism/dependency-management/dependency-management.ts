@@ -5,16 +5,25 @@ import {
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
-import { NodeDependency } from '@schematics/angular/utility/dependencies';
+import {
+  addPackageJsonDependency,
+  NodeDependency,
+} from '@schematics/angular/utility/dependencies';
+import semver from 'semver';
 import collectedDependencies from '../../../dependencies.json';
-import { SPARTACUS_SCOPE } from '../../../shared/constants';
+import {
+  SPARTACUS_SCHEMATICS,
+  SPARTACUS_SCOPE,
+} from '../../../shared/constants';
 import {
   addPackageJsonDependencies,
+  dependencyExists,
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
 import {
+  cleanSemverVersion,
+  CORE_SPARTACUS_SCOPES,
   createDependencies,
-  FEATURES_LIBS_SKIP_SCOPES,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -24,49 +33,101 @@ export function migrateDependencies(
   removedDependencies: string[]
 ): Rule {
   const packageJson = readPackageJson(tree);
-  const installedSpartacusLibs = collectSpartacusLibraryDependencies(
-    packageJson
-  );
-  const dependencies = createSpartacusLibraryDependencies(
-    installedSpartacusLibs
-  );
+  const { spartacusPeerDeps, installedLibs } =
+    collectSpartacusLibraryDependencies(packageJson);
+  const allSpartacusDeps = installedLibs.concat(spartacusPeerDeps);
 
   checkAndLogRemovedDependencies(
     packageJson,
-    installedSpartacusLibs,
+    allSpartacusDeps,
     removedDependencies,
     context.logger
   );
 
+  const dependencies = createSpartacusLibraryDependencies(
+    allSpartacusDeps,
+    installedLibs
+  )
+    .filter((d) => d.name !== SPARTACUS_SCHEMATICS)
+    .sort((d1, d2) => d1.name.localeCompare(d2.name));
   return chain([
-    addPackageJsonDependencies(dependencies),
+    updatePackageJsonDependencies(dependencies, packageJson),
     installPackageJsonDependencies(),
   ]);
 }
 
-function collectSpartacusLibraryDependencies(packageJson: any): string[] {
+function collectSpartacusLibraryDependencies(packageJson: any): {
+  installedLibs: string[];
+  spartacusPeerDeps: string[];
+} {
   const dependencies =
     (packageJson.dependencies as Record<string, string>) ?? {};
-  return Object.keys(dependencies).filter((d) => d.startsWith(SPARTACUS_SCOPE));
+  const installedLibs = Object.keys(dependencies).filter((dep) =>
+    dep.startsWith(SPARTACUS_SCOPE)
+  );
+
+  let spartacusPeerDeps: string[] = [];
+  for (const spartacusLib of installedLibs) {
+    spartacusPeerDeps = collectSpartacusPeerDeps(
+      spartacusPeerDeps,
+      spartacusLib
+    );
+  }
+
+  // remove the duplicates
+  spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
+  return {
+    installedLibs,
+    spartacusPeerDeps,
+  };
+}
+
+function collectSpartacusPeerDeps(
+  collectedDeps: string[],
+  name: string
+): string[] {
+  const peerDepsWithVersions = (
+    collectedDependencies as Record<string, Record<string, string>>
+  )[name];
+  const peerDeps = Object.keys(peerDepsWithVersions)
+    .filter((d) => d.startsWith(SPARTACUS_SCOPE))
+    .filter((d) => !CORE_SPARTACUS_SCOPES.includes(d))
+    .filter((d) => !collectedDeps.includes(d));
+
+  collectedDeps = collectedDeps.concat(peerDeps);
+  for (const peerDep of peerDeps) {
+    collectedDeps = collectSpartacusPeerDeps(collectedDeps, peerDep);
+  }
+
+  return collectedDeps;
 }
 
 function createSpartacusLibraryDependencies(
-  installedSpartacusLibs: string[]
+  allSpartacusLibraries: string[],
+  skipScopes: string[]
 ): NodeDependency[] {
   const dependenciesToAdd: NodeDependency[] = [];
 
-  for (const libraryName of installedSpartacusLibs) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+  for (const libraryName of allSpartacusLibraries) {
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
 
-    dependenciesToAdd.push(
-      ...createDependencies(spartacusLibrary, {
-        skipScopes: FEATURES_LIBS_SKIP_SCOPES,
-        overwrite: true,
-      })
-    );
+    const newDependencies = createDependencies(spartacusLibrary, {
+      skipScopes,
+      overwrite: true,
+    });
+
+    // ensure no duplicates are created
+    newDependencies.forEach((newDependency) => {
+      if (
+        !dependenciesToAdd.some(
+          (existingDependency) => existingDependency.name === newDependency.name
+        )
+      ) {
+        dependenciesToAdd.push(newDependency);
+      }
+    });
   }
 
   return dependenciesToAdd;
@@ -83,10 +144,9 @@ function checkAndLogRemovedDependencies(
 
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
-    const spartacusLibrary = (collectedDependencies as Record<
-      string,
-      Record<string, string>
-    >)[libraryName];
+    const spartacusLibrary = (
+      collectedDependencies as Record<string, Record<string, string>>
+    )[libraryName];
     allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
   }
 
@@ -107,4 +167,57 @@ function checkAndLogRemovedDependencies(
       )}. If you don't use these dependencies in your application, you might want to consider removing them from your dependencies list.`
     );
   }
+}
+
+function updatePackageJsonDependencies(
+  dependencies: NodeDependency[],
+  packageJson: any
+): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const dependenciesToAdd: NodeDependency[] = [];
+
+    for (const dependency of dependencies) {
+      const currentVersion = getCurrentDependencyVersion(
+        dependency,
+        packageJson
+      );
+      if (!currentVersion) {
+        dependenciesToAdd.push(dependency);
+        continue;
+      }
+
+      if (semver.satisfies(currentVersion, dependency.version)) {
+        continue;
+      }
+
+      const versionToUpdate = semver.parse(
+        cleanSemverVersion(dependency.version)
+      );
+      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
+        continue;
+      }
+
+      addPackageJsonDependency(tree, dependency);
+      const change = semver.gt(versionToUpdate, currentVersion)
+        ? 'Upgrading'
+        : 'Downgrading';
+      context.logger.info(
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+      );
+    }
+
+    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
+  };
+}
+
+function getCurrentDependencyVersion(
+  dependency: NodeDependency,
+  packageJson: any
+): semver.SemVer | null {
+  if (!dependencyExists(dependency, packageJson)) {
+    return null;
+  }
+  const dependencies = packageJson[dependency.type];
+  const currentVersion = dependencies[dependency.name];
+  return semver.parse(cleanSemverVersion(currentVersion));
 }

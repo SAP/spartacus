@@ -1,4 +1,7 @@
-@import '~@spartacus/styles';
+$useLatestStyles: true;
+
+@import '~@spartacus/styles/scss/core';
+@import '~@spartacus/styles/scss/app';
 
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
@@ -12,4 +15,8 @@
   transition: none;
 }
 
+@import './base/index';
 @import './saved-cart/index';
+@import './quick-order/index';
+@import './wish-list/index';
+@import './import-export/index';

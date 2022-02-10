@@ -1,10 +1,8 @@
 import { Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
-import { ConfiguratorModelUtils } from 'feature-libs/product-configurator/common';
+import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Cpq } from '../cpq.models';
 import { CpqConfiguratorSerializer } from './cpq-configurator-serializer';
 
@@ -36,6 +34,7 @@ const attributeRB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.RADIOBUTTON,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeRB_PRODUCT: Configurator.Attribute = {
@@ -43,6 +42,7 @@ const attributeRB_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.RADIOBUTTON_PRODUCT,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeDDLB: Configurator.Attribute = {
@@ -50,6 +50,7 @@ const attributeDDLB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.DROPDOWN,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeDDLB_PRODUCT: Configurator.Attribute = {
@@ -57,6 +58,7 @@ const attributeDDLB_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.DROPDOWN_PRODUCT,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeSSI: Configurator.Attribute = {
@@ -64,6 +66,7 @@ const attributeSSI: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.SINGLE_SELECTION_IMAGE,
   selectedSingleValue: selectedSingleValue,
+  groupId: firstGroupId,
 };
 
 const attributeCB: Configurator.Attribute = {
@@ -71,6 +74,7 @@ const attributeCB: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOX,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeCBList: Configurator.Attribute = {
@@ -78,6 +82,7 @@ const attributeCBList: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeCBListNoSelection: Configurator.Attribute = {
@@ -85,6 +90,7 @@ const attributeCBListNoSelection: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST,
   values: [],
+  groupId: firstGroupId,
 };
 
 const attributeCBList_PRODUCT: Configurator.Attribute = {
@@ -92,6 +98,7 @@ const attributeCBList_PRODUCT: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.CHECKBOXLIST_PRODUCT,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeMSI: Configurator.Attribute = {
@@ -99,6 +106,7 @@ const attributeMSI: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.MULTI_SELECTION_IMAGE,
   values: [value1, value2, value3],
+  groupId: firstGroupId,
 };
 
 const attributeString: Configurator.Attribute = {
@@ -106,6 +114,7 @@ const attributeString: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.STRING,
   userInput: userInput,
+  groupId: firstGroupId,
 };
 
 const attributeNumeric: Configurator.Attribute = {
@@ -113,15 +122,18 @@ const attributeNumeric: Configurator.Attribute = {
   name: attributeName,
   uiType: Configurator.UiType.NUMERIC,
   userInput: userInput,
+  groupId: firstGroupId,
 };
 
 const groups: Configurator.Group[] = [
   {
+    ...ConfiguratorTestUtils.createGroup('1'),
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [firstAttribute, attributeRB],
   },
   {
+    ...ConfiguratorTestUtils.createGroup('2'),
     configurable: true,
     groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
     attributes: [attributeDDLB, attributeCB],
@@ -256,12 +268,10 @@ describe('CpqConfiguratorSerializer', () => {
   });
 
   it('should convert user input attribute types correctly', () => {
-    const updateAttributeString: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeString, configId);
-    const updateAttributeNumeric: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeNumeric, configId);
+    const updateAttributeString: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](attributeString, configId);
+    const updateAttributeNumeric: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](attributeNumeric, configId);
 
     verifyUpdateAttributeUserInput(updateAttributeString);
     verifyUpdateAttributeUserInput(updateAttributeNumeric);
@@ -272,33 +282,34 @@ describe('CpqConfiguratorSerializer', () => {
       ...attributeString,
       userInput: '',
     };
-    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute = cpqConfiguratorSerializer[
-      'convertAttribute'
-    ](attributeWithEmptyUserInput, configId);
+    const updateAttributeWithEmptyUserInput: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer['convertAttribute'](
+        attributeWithEmptyUserInput,
+        configId
+      );
     expect(
       updateAttributeWithEmptyUserInput.changeAttributeValue.userInput
     ).toBe(' ');
   });
 
   it('should process single selected value correctly', () => {
-    const processedValue: string = cpqConfiguratorSerializer[
-      'processSelectedSingleValue'
-    ](selectedSingleValue);
+    const processedValue: string =
+      cpqConfiguratorSerializer['processSelectedSingleValue'](
+        selectedSingleValue
+      );
     expect(processedValue).toBe(selectedSingleValue);
   });
 
   it('should process single selected value correctly when no value is selected', () => {
     const singleValue = undefined;
-    const processedValue: string = cpqConfiguratorSerializer[
-      'processSelectedSingleValue'
-    ](singleValue);
+    const processedValue: string =
+      cpqConfiguratorSerializer['processSelectedSingleValue'](singleValue);
     expect(processedValue).toBe(expectedProcessedSingleValueNoValue);
   });
 
   it('should prepare value ids correctly', () => {
-    const valueIds: string = cpqConfiguratorSerializer['prepareValueIds'](
-      attributeCBList
-    );
+    const valueIds: string =
+      cpqConfiguratorSerializer['prepareValueIds'](attributeCBList);
     expect(valueIds).toBe(expectedValueIdsMulti);
   });
 
@@ -309,17 +320,9 @@ describe('CpqConfiguratorSerializer', () => {
     expect(valueIds).toBe(expectedValueIdsMultiNoSelection);
   });
 
-  it('should find first updated attribute correctly', () => {
-    const attribute: Configurator.Attribute = cpqConfiguratorSerializer[
-      'findFirstChangedAttribute'
-    ](configuration);
-    expect(attribute).toBe(firstAttribute);
-  });
-
   it('should convert configuration correctly', () => {
-    const updateAttribute: Cpq.UpdateAttribute = cpqConfiguratorSerializer.convert(
-      configuration
-    );
+    const updateAttribute: Cpq.UpdateAttribute =
+      cpqConfiguratorSerializer.convert(configuration);
     expect(updateAttribute.configurationId).toBe(configId);
     expect(updateAttribute.standardAttributeCode).toBe(
       attrCodeFirst.toString()

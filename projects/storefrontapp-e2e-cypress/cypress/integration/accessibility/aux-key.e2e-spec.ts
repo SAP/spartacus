@@ -6,7 +6,9 @@ context('Auxiliary Keys', () => {
 
     it('should open and close menu with space key', () => {
       cy.get('cx-category-navigation').within(() => {
-        cy.get('cx-navigation-ui').find('nav').should('have.length', 30);
+        cy.get('cx-navigation-ui')
+          .find('li:not(.back)')
+          .should('have.length', 30);
         cy.get('cx-navigation-ui')
           .first()
           .should('contain.text', 'Brands')
@@ -16,11 +18,13 @@ context('Auxiliary Keys', () => {
               .should('have.length', 7)
               .first()
               .should('not.be.visible');
-            cy.get('nav h5').contains('Brands').focus().trigger('keydown', {
-              key: ' ',
-              code: 'Space',
-              force: true,
-            });
+            cy.get('nav > ul > li > button[aria-label="Brands"]')
+              .focus()
+              .trigger('keydown', {
+                key: ' ',
+                code: 'Space',
+                force: true,
+              });
             cy.get('div.wrapper')
               .should('have.length', 7)
               .first()
@@ -54,11 +58,14 @@ context('Auxiliary Keys', () => {
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('not.be.visible');
-            cy.get('nav h5').first().focus().trigger('keydown', {
-              key: ' ',
-              code: 'Space',
-              force: true,
-            });
+            cy.get('nav > ul > li > button')
+              .first()
+              .focus()
+              .trigger('keydown', {
+                key: ' ',
+                code: 'Space',
+                force: true,
+              });
             cy.get('cx-generic-link')
               .contains('Order History')
               .should('be.visible');
@@ -81,13 +88,12 @@ context('Auxiliary Keys', () => {
     });
 
     it('should make search suggestions', () => {
-      cy.server();
-      cy.route(
-        'GET',
-        `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      cy.intercept({
+        method: 'GET',
+        pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
           'BASE_SITE'
-        )}/products/search?**`
-      ).as('query');
+        )}/products/search`,
+      }).as('query');
       cy.get('cx-searchbox input').type('dsa');
       cy.wait('@query');
       cy.get('cx-searchbox a').should('have.length', 6);
@@ -170,10 +176,12 @@ context('Auxiliary Keys', () => {
 });
 
 function loadPageWithComponenents(pageUrl: string) {
-  cy.server();
-  cy.route(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}/cms/components*`
-  ).as('getComponents');
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components`,
+  }).as('getComponents');
   cy.visit(pageUrl);
   cy.wait('@getComponents');
 }

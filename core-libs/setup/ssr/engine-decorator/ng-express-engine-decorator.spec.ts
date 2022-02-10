@@ -1,20 +1,18 @@
+import { SERVER_REQUEST_URL } from '@spartacus/core';
 import {
   decorateExpressEngine,
   NgExpressEngine,
   NgExpressEngineDecorator,
   NgExpressEngineInstance,
-  NgSetupOptions,
-  RenderOptions,
 } from './ng-express-engine-decorator';
-import { SERVER_REQUEST_URL } from '@spartacus/core';
 
 describe('NgExpressEngineDecorator', () => {
   describe('get', () => {
     let originalEngine: NgExpressEngine;
     let originalEngineInstance: NgExpressEngineInstance;
-    let mockEngineOptions: NgSetupOptions;
+    let mockEngineOptions;
 
-    let mockOptions: RenderOptions;
+    let mockOptions;
     const mockPath = 'testPath';
     const mockCallback = () => {};
 
@@ -81,21 +79,29 @@ describe('NgExpressEngineDecorator', () => {
 describe('decorateExpressEngine', () => {
   let originalEngine: NgExpressEngine;
   let originalEngineInstance: NgExpressEngineInstance;
-  let mockEngineOptions: NgSetupOptions;
+  let mockEngineOptions;
 
-  let mockOptions: RenderOptions;
+  let mockOptions;
   const mockPath = 'testPath';
   const mockCallback = () => {};
   let engineInstance;
 
   beforeEach(() => {
+    const app = {
+      get:
+        (_name: string): any =>
+        (_connectionRemoteAddress: string) => {},
+    };
+
     mockOptions = {
       req: {
         protocol: 'https',
         originalUrl: '/electronics/en/USD/cart',
         get: jasmine.createSpy('req.get').and.returnValue('site.com'),
+        app,
+        connection: {},
       },
-      res: {
+      res: <Partial<Response>>{
         set: jasmine.createSpy('req.set'),
       },
     } as any;

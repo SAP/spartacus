@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Converter } from '@spartacus/core';
 import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { Cpq } from '../cpq.models';
+import { CpqConfiguratorUtils } from './../cpq-configurator-utils';
 
 @Injectable()
 export class CpqConfiguratorValueSerializer
-  implements Converter<Configurator.Configuration, Cpq.UpdateValue> {
+  implements Converter<Configurator.Configuration, Cpq.UpdateValue>
+{
   convert(source: Configurator.Configuration): Cpq.UpdateValue {
-    const attribute: Configurator.Attribute = this.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute =
+      CpqConfiguratorUtils.findFirstChangedAttribute(source);
     const updateValue: Cpq.UpdateValue = this.convertAttribute(
       attribute,
       source.configId
@@ -17,23 +18,18 @@ export class CpqConfiguratorValueSerializer
     return updateValue;
   }
 
-  protected findFirstChangedAttribute(
-    source: Configurator.Configuration
-  ): Configurator.Attribute {
-    return source.groups[0].attributes[0];
-  }
-
   protected convertAttribute(
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateValue {
+    const updateInfo = CpqConfiguratorUtils.getUpdateInformation(attribute);
     const value = this.findFirstChangedValue(attribute);
     const updateAttribute: Cpq.UpdateValue = {
       configurationId: configurationId,
-      standardAttributeCode: attribute.attrCode.toString(),
+      standardAttributeCode: updateInfo.standardAttributeCode,
       attributeValueId: value.valueCode,
-      quantity: value.quantity,
-      tabId: attribute.groupId,
+      quantity: value.quantity ?? 1,
+      tabId: updateInfo.tabId,
     };
 
     return updateAttribute;
@@ -42,6 +38,8 @@ export class CpqConfiguratorValueSerializer
   protected findFirstChangedValue(
     attribute: Configurator.Attribute
   ): Configurator.Value {
-    return attribute.values[0];
+    if (attribute.values && attribute.values.length > 0) {
+      return attribute.values[0];
+    } else throw new Error('No values present');
   }
 }

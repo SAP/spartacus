@@ -14,10 +14,14 @@ $font-family-sans-serif: 'Open Sans', -apple-system, BlinkMacSystemFont,
   'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji',
   'Segoe UI Emoji', 'Segoe UI Symbol';
 
+// TODO: Replace `$font-url` with swap url in 5.0 to use swap strategy by default.
+// $font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&display=swap' !default;
+$font-url: 'https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' !default;
+
 // change theme-colors here
 $primary: #fe5757 !default;
-$secondary: #747881 !default;
-$success: #5dac06 !default;
+$secondary: #6c7079 !default;
+$success: #38871f !default;
 $danger: #db0002 !default;
 $warning: #ffc107 !default;
 $info: #17a2b8 !default;

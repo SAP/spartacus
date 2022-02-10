@@ -14,12 +14,11 @@ export function normalizeHttpError(
   error: HttpErrorResponse | any
 ): HttpErrorModel | undefined {
   if (error instanceof HttpErrorResponse) {
-    const normalizedError: HttpErrorModel = {
-      message: error.message,
-      status: error.status,
-      statusText: error.statusText,
-      url: error.url,
-    };
+    const normalizedError = new HttpErrorModel();
+    normalizedError.message = error.message;
+    normalizedError.status = error.status;
+    normalizedError.statusText = error.statusText;
+    normalizedError.url = error.url;
 
     // include backend's error details
     if (Array.isArray(error.error.errors)) {

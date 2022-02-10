@@ -10,14 +10,14 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { NgSelectModule } from '@ng-select/ng-select';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorGroupsService } from '../../../../core/facade/configurator-groups.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorStorefrontUtilsService } from '../../../service/configurator-storefront-utils.service';
-import {
-  ConfiguratorAttributeQuantityComponentOptions,
-  ConfiguratorAttributeQuantityService,
-} from '../../quantity';
+import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
+import { ConfiguratorAttributeQuantityService } from '../../quantity/configurator-attribute-quantity.service';
 import { ConfiguratorAttributeCheckBoxListComponent } from './configurator-attribute-checkbox-list.component';
 
 class MockGroupService {}
@@ -38,6 +38,17 @@ class MockConfiguratorAttributeQuantityComponent {
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
+const VALUE_1 = 'val1';
+const VALUE_2 = 'val2';
+
 describe('ConfigAttributeCheckBoxListComponent', () => {
   let component: ConfiguratorAttributeCheckBoxListComponent;
   let fixture: ComponentFixture<ConfiguratorAttributeCheckBoxListComponent>;
@@ -50,8 +61,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           ConfiguratorAttributeCheckBoxListComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
         providers: [
           ConfiguratorStorefrontUtilsService,
           {
@@ -73,6 +85,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   function createValue(code: string, name: string, isSelected: boolean) {
     const value: Configurator.Value = {
       valueCode: code,
+      valueDisplay: name,
       name: name,
       selected: isSelected,
     };
@@ -80,8 +93,8 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   }
   let values: Configurator.Value[];
   beforeEach(() => {
-    const value1 = createValue('1', 'val1', true);
-    const value2 = createValue('2', 'val2', false);
+    const value1 = createValue('1', VALUE_1, true);
+    const value2 = createValue('2', VALUE_2, false);
     const value3 = createValue('3', 'val3', true);
     values = [value1, value2, value3];
 
@@ -96,6 +109,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     component.attribute = {
       dataType: Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL,
       name: 'attributeName',
+      label: 'attributeName',
       attrCode: 444,
       uiType: Configurator.UiType.CHECKBOXLIST,
       values: values,
@@ -106,6 +120,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should cope with no attribute values in onInit', () => {
+    component.attributeCheckBoxForms = [];
+    component.attribute.values = undefined;
+    component.ngOnInit();
+    expect(component.attributeCheckBoxForms.length).toBe(0);
   });
 
   it('should have 3 entries after init with first and last value filled', () => {
@@ -121,8 +142,9 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
       component.attribute.name +
       '--' +
       values[1].valueCode;
-    const valueToSelect = fixture.debugElement.query(By.css(checkboxId))
-      .nativeElement;
+    const valueToSelect = fixture.debugElement.query(
+      By.css(checkboxId)
+    ).nativeElement;
     expect(valueToSelect.checked).toBeFalsy();
     // select value
     valueToSelect.click();
@@ -134,7 +156,7 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     expect(valueToSelect.checked).toBeFalsy();
   });
 
-  it('should call emit of selectionChange onChangeValueQuantity', () => {
+  it('should deselect value onChangeValueQuantity if quantity is set to zero', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
 
     component.onChangeValueQuantity(0, '1', 0);
@@ -145,13 +167,13 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
           ...component.attribute,
           values: [
             {
-              name: 'val1',
+              name: VALUE_1,
               quantity: undefined,
               selected: false,
               valueCode: '1',
             },
             {
-              name: 'val2',
+              name: VALUE_2,
               quantity: undefined,
               selected: false,
               valueCode: '2',
@@ -170,6 +192,38 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
+  it('should call emit of selectionChange onChangeValueQuantity if quantity is set to 1', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeValueQuantity(1, '1', 0);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledWith(
+      jasmine.objectContaining({
+        changedAttribute: jasmine.objectContaining({
+          ...component.attribute,
+          values: [
+            {
+              name: VALUE_1,
+              quantity: 1,
+              selected: true,
+              valueCode: '1',
+            },
+          ],
+        }),
+        ownerKey: component.ownerKey,
+        updateType: Configurator.UpdateType.VALUE_QUANTITY,
+      })
+    );
+  });
+
+  it('should not call emit of selectionChange onChangeValueQuantity if value does not exist', () => {
+    spyOn(component.selectionChange, 'emit').and.callThrough();
+
+    component.onChangeValueQuantity(1, 'NOT_EXISTING', 0);
+
+    expect(component.selectionChange.emit).toHaveBeenCalledTimes(0);
+  });
+
   it('should call onHandleAttributeQuantity of event onChangeQuantity', () => {
     spyOn(component.selectionChange, 'emit').and.callThrough();
     component.onChangeQuantity(2);
@@ -183,7 +237,6 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
   });
 
   // HTML
-
   it('should not display attribute quantity when dataType is no quantity', () => {
     component.attribute.dataType = Configurator.DataType.USER_SELECTION_NO_QTY;
 
@@ -208,39 +261,166 @@ describe('ConfigAttributeCheckBoxListComponent', () => {
     );
   });
 
-  it('should display attribute quantity when dataType is with attribute quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
-  it('should display value quantity when dataType is with value quantity', () => {
-    component.attribute.dataType =
-      Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
-
-    fixture.detectChanges();
-
-    CommonConfiguratorTestUtilsService.expectElementPresent(
-      expect,
-      htmlElem,
-      'cx-configurator-attribute-quantity'
-    );
-  });
-
   it('should allow zero value quantity', () => {
     expect(component.allowZeroValueQuantity).toBe(true);
   });
 
-  // TODO(#11681):remove this test when the quantityService will be a required dependency
-  it('should not allow zero value quantity when service is missing ', () => {
-    component['quantityService'] = undefined;
-    expect(component.allowZeroValueQuantity).toBe(false);
+  describe('attribute level', () => {
+    it('should display attribute quantity when dataType is with attribute quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '250.00$',
+        value: 250,
+      };
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should display value quantity when dataType is with value quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_QTY_VALUE_LEVEL;
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+
+      if (value) {
+        value = {
+          valueCode: 'a',
+          selected: true,
+          quantity: 5,
+          valuePrice: {
+            currencyIso: '$',
+            formattedValue: '100.00$',
+            value: 250,
+          },
+          valuePriceTotal: {
+            currencyIso: '$',
+            formattedValue: '$500.0',
+            value: 500,
+          },
+        };
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        1,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          VALUE_2
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      const formattedValue = '$100.00';
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: formattedValue,
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          formattedValue +
+          ' value:' +
+          VALUE_1
+      );
+    });
+
+    it("should contain input element with class name 'form-check-input' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-check-input',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName'
+      );
+    });
+
+    it("should contain label element with class name 'form-check-label' and 'aria-hidden' attribute that removes label from the accessibility tree", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'form-check-label',
+        1,
+        'aria-hidden',
+        'true',
+        VALUE_2
+      );
+    });
   });
 });

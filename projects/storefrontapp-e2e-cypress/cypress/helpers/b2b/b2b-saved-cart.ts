@@ -3,14 +3,15 @@ import * as alerts from '../../helpers/global-message';
 import * as sampleData from '../../sample-data/b2b-saved-cart';
 import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
-import { waitForPage } from '../checkout-flow';
+import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
 
 export const SAVE_CART_ENDPOINT_ALIAS = 'saveCart';
 export const GET_ALL_SAVED_CART_ENDPOINT_ALIAS = 'getAllSavedCart';
 export const RESTORE_SAVED_CART_ENDPOINT_ALIAS = 'restoreCart';
 export const GET_SAVED_CART_ENDPOINT_ALIAS = 'getSavedCart';
-export const DELETE_CART_ENDPOINT = 'deleteCart';
+export const CLONE_SAVED_CART_ENDPOINT_ALIAS = 'cloneSavedCart';
+export const DELETE_CART_ENDPOINT_ALIAS = 'deleteCart';
 
 export function verifyCartPageTabbingOrder() {
   addProductToCart(sampleData.products[0], 1);
@@ -103,16 +104,27 @@ export function interceptDeleteCartEndpoint(cartCode: string) {
     `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/current/carts/${cartCode}?*`
-  ).as(DELETE_CART_ENDPOINT);
+  ).as(DELETE_CART_ENDPOINT_ALIAS);
 
-  return DELETE_CART_ENDPOINT;
+  return DELETE_CART_ENDPOINT_ALIAS;
+}
+
+export function interceptCloneSavedCartEndpoint(cartCode: string) {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts/${cartCode}/clonesavedcart?*`
+  ).as(CLONE_SAVED_CART_ENDPOINT_ALIAS);
+
+  return CLONE_SAVED_CART_ENDPOINT_ALIAS;
 }
 
 export function visitCartPage() {
   const alias = waitForPage('/cart', 'cartPage');
 
   cy.visit(`/cart`);
-  cy.wait(`@${alias}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 }
 
 export function visitSavedCartListingPage() {
@@ -123,7 +135,9 @@ export function visitSavedCartListingPage() {
   );
 
   cy.visit(`/my-account/saved-carts`);
-  cy.wait(`@${savedCartListingPageAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${savedCartListingPageAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${getAllSavedCartAlias}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -138,7 +152,9 @@ export function visitSavedCartDetailsPage(cartCode: string) {
   );
 
   cy.visit(`/my-account/saved-cart/${cartCode}`);
-  cy.wait(`@${savedCartDetailsPageAlias}`).its('status').should('eq', 200);
+  cy.wait(`@${savedCartDetailsPageAlias}`)
+    .its('response.statusCode')
+    .should('eq', 200);
   cy.wait(`@${getSavedCartAlias}`).its('response.statusCode').should('eq', 200);
 }
 
@@ -147,11 +163,11 @@ export function loginB2bUser() {
 }
 
 export function addProductToCart(product: SampleProduct, quantity: number) {
-  const alis = waitForPage(`code=${product.code}`, 'getProductPage');
+  const alias = waitForProductPage(product.code, 'getProductPage');
 
   cy.visit(`/product/${product.code}`);
 
-  cy.wait(`@${alis}`).its('status').should('eq', 200);
+  cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
   cy.get('cx-add-to-cart')
@@ -289,7 +305,10 @@ export function verifyCartDetails(cart: any) {
 export function restoreCart(
   product: SampleProduct,
   savedCartForm: any,
-  isEmptyCart: boolean = false
+  isEmptyCart: boolean = false,
+  cloneSavedCart: { isCloneCartActive: boolean; cloneName?: string } = {
+    isCloneCartActive: false,
+  }
 ) {
   cy.window()
     .then((win) => JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth')))
@@ -324,6 +343,8 @@ export function restoreCart(
           sampleData.savedCarts.carts[0].totalPrice.formattedValue
         );
 
+        const cloneSavedCartAlias = interceptCloneSavedCartEndpoint(cart.code);
+
         const restoreSavedCartAlias = interceptRestoreSavedCartEndpoint(
           cart.code
         );
@@ -338,6 +359,24 @@ export function restoreCart(
           )
           .then(({ active }) => {
             cy.get('cx-saved-cart-list button:first').should('exist').click();
+
+            cy.get('cx-saved-cart-form-dialog').within(() => {
+              if (cloneSavedCart.isCloneCartActive) {
+                cy.get('input[type="checkbox"]').check();
+
+                if (cloneSavedCart?.cloneName) {
+                  cy.get('input[type="text"]').type(cloneSavedCart.cloneName);
+                }
+              }
+
+              cy.get('button[aria-label="Restore"]').click();
+            });
+
+            if (cloneSavedCart.isCloneCartActive) {
+              cy.wait(`@${cloneSavedCartAlias}`)
+                .its('response.statusCode')
+                .should('eq', 200);
+            }
 
             cy.wait(`@${restoreSavedCartAlias}`)
               .its('response.statusCode')
@@ -361,6 +400,18 @@ export function restoreCart(
           });
 
         verifyMiniCartQuantity(1);
+
+        if (cloneSavedCart.isCloneCartActive) {
+          if (cloneSavedCart?.cloneName) {
+            cy.get(
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+            ).should('contain', cloneSavedCart.cloneName);
+          } else {
+            cy.get(
+              'cx-saved-cart-list .cx-saved-cart-list-cart-name > .cx-saved-cart-list-value'
+            ).should('contain', 'Copy of');
+          }
+        }
 
         // assert that the cart was properly swapped / made active
         visitCartPage();
@@ -457,7 +508,7 @@ export function updateSavedCartAndDelete(
               sampleData.savedActiveCartForm[4].description
             );
 
-            cy.get('button[aria-label="delete"]').click();
+            cy.get('button[aria-label="Delete"]').click();
           });
         }
 
@@ -547,6 +598,10 @@ export function updateSavedCartAndRestore(
         const getAllSavedCartAlias = interceptGetAllSavedCartEndpoint();
 
         cy.get('cx-saved-cart-details-action .btn-primary').click();
+
+        cy.get('cx-saved-cart-form-dialog').within(() => {
+          cy.get('button[aria-label="Restore"]').click();
+        });
 
         cy.wait(`@${restoreSavedCartAlias}`)
           .its('response.statusCode')

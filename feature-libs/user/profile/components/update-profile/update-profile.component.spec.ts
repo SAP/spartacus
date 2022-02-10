@@ -20,7 +20,8 @@ class MockCxSpinnerComponent {}
 const isBusySubject = new BehaviorSubject(false);
 
 class MockUpdateProfileService
-  implements Partial<UpdateProfileComponentService> {
+  implements Partial<UpdateProfileComponentService>
+{
   user$ = of({});
   titles$ = of([]);
   form: FormGroup = new FormGroup({
@@ -80,8 +81,9 @@ describe('UpdateProfileComponent', () => {
     it('should disable the submit button when form is disabled', () => {
       component.form.disable();
       fixture.detectChanges();
-      const submitBtn: HTMLButtonElement = el.query(By.css('button'))
-        .nativeElement;
+      const submitBtn: HTMLButtonElement = el.query(
+        By.css('button')
+      ).nativeElement;
       expect(submitBtn.disabled).toBeTruthy();
     });
 

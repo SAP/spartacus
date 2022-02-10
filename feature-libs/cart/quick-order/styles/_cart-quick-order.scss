@@ -1,0 +1,70 @@
+cx-cart-quick-order-form {
+  padding-bottom: 2rem;
+  padding-inline-end: 0;
+  padding-inline-start: 3rem;
+
+  @include media-breakpoint-down(md) {
+    max-width: 50%;
+    padding-bottom: 2rem;
+    padding-inline-start: 3rem;
+    padding-top: 0;
+  }
+
+  @include media-breakpoint-down(sm) {
+    max-width: 100%;
+    padding-inline-start: 0;
+  }
+
+  .cx-cart-quick-order-form-title {
+    @include type('5');
+    margin: 1.125rem 0 0.5rem;
+  }
+
+  .cx-cart-quick-order-form-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .cx-cart-quick-order-form-label {
+      @include type('8');
+    }
+
+    .cx-cart-quick-order-form-productID {
+      width: 65%;
+
+      @include media-breakpoint-down(md) {
+        width: 70%;
+      }
+    }
+
+    .cx-cart-quick-order-form-qty {
+      text-align: center;
+      width: 30%;
+
+      .input-quantity {
+        text-align: center;
+      }
+
+      @include media-breakpoint-down(md) {
+        width: 25%;
+      }
+    }
+
+    button {
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    input {
+      // avoid native increase/decrease buttons on the numeric field
+      &[type='number']::-webkit-inner-spin-button,
+      &[type='number']::-webkit-outer-spin-button {
+        appearance: none;
+      }
+      &[type='number'] {
+        -moz-appearance: textfield;
+      }
+    }
+  }
+}

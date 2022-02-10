@@ -2,10 +2,9 @@ import { Type } from '@angular/core';
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import * as ngrxStore from '@ngrx/store';
 import { Store, StoreModule } from '@ngrx/store';
+import { ActiveCartFacade, Cart } from '@spartacus/cart/base/root';
+import { CheckoutFacade } from '@spartacus/checkout/root';
 import {
-  ActiveCartService,
-  Cart,
-  CheckoutService,
   OCC_USER_ID_ANONYMOUS,
   OCC_USER_ID_CURRENT,
   StateUtils,
@@ -20,7 +19,7 @@ import {
 } from '@spartacus/product-configurator/common';
 import { cold } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
 import {
@@ -66,22 +65,19 @@ const productConfiguration: Configurator.Configuration = {
   ...ConfiguratorTestUtils.createConfiguration(CONFIG_ID, OWNER_CART_ENTRY),
 };
 
-const cartState: StateUtils.ProcessesLoaderState<Cart> = {
-  value: cart,
-};
-let cartStateObs = null;
-let isStableObs = null;
-let checkoutLoadingObs = null;
+let cartObs: Observable<Cart>;
+let isStableObs: Observable<boolean>;
+let checkoutLoadingObs: Observable<boolean>;
 class MockActiveCartService {
-  requireLoadedCart(): Observable<StateUtils.ProcessesLoaderState<Cart>> {
-    return cartStateObs;
+  requireLoadedCart(): Observable<Cart> {
+    return cartObs;
   }
   isStable(): Observable<boolean> {
     return isStableObs;
   }
 }
 
-class MockCheckoutService {
+class MockCheckoutFacade {
   isLoading(): Observable<boolean> {
     return checkoutLoadingObs;
   }
@@ -100,7 +96,7 @@ describe('ConfiguratorCartService', () => {
 
   beforeEach(
     waitForAsync(() => {
-      cartStateObs = of(cartState);
+      cartObs = of(cart);
       isStableObs = of(true);
       checkoutLoadingObs = of(true);
       TestBed.configureTestingModule({
@@ -112,12 +108,12 @@ describe('ConfiguratorCartService', () => {
           ConfiguratorCartService,
 
           {
-            provide: ActiveCartService,
+            provide: ActiveCartFacade,
             useClass: MockActiveCartService,
           },
           {
-            provide: CheckoutService,
-            useClass: MockCheckoutService,
+            provide: CheckoutFacade,
+            useClass: MockCheckoutFacade,
           },
           {
             provide: UserIdService,
@@ -161,12 +157,13 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForCartEntry', () => {
     it('should not dispatch ReadCartEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -179,23 +176,25 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadCartEntryConfiguration action in case configuration is not present so far', () => {
-      const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters = {
-        owner: OWNER_CART_ENTRY,
-        cartEntryNumber: OWNER_CART_ENTRY.id,
-        cartId: CART_GUID,
-        userId: OCC_USER_ID_ANONYMOUS,
-      };
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const params: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
+        {
+          owner: OWNER_CART_ENTRY,
+          cartEntryNumber: OWNER_CART_ENTRY.id,
+          cartId: CART_GUID,
+          userId: OCC_USER_ID_ANONYMOUS,
+        };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -218,17 +217,18 @@ describe('ConfiguratorCartService', () => {
         a: false,
       });
 
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
 
       expect(
@@ -245,17 +245,18 @@ describe('ConfiguratorCartService', () => {
         y: false,
       });
 
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
 
       expect(
@@ -266,12 +267,13 @@ describe('ConfiguratorCartService', () => {
 
   describe('readConfigurationForOrderEntry', () => {
     it('should not dispatch ReadOrderEntryConfiguration action in case configuration is present', () => {
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
 
@@ -284,23 +286,25 @@ describe('ConfiguratorCartService', () => {
     });
 
     it('should dispatch ReadOrderEntryConfiguration action in case configuration is not present so far', () => {
-      const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters = {
-        owner: OWNER_ORDER_ENTRY,
-        orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
-        orderId: ORDER_ID,
-        userId: OCC_USER_ID_CURRENT,
-      };
-      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> = {
-        value: {
-          ...ConfiguratorTestUtils.createConfiguration(
-            '',
-            ConfiguratorModelUtils.createInitialOwner()
-          ),
-        },
-      };
+      const params: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+        {
+          owner: OWNER_ORDER_ENTRY,
+          orderEntryNumber: '' + ORDER_ENTRY_NUMBER,
+          orderId: ORDER_ID,
+          userId: OCC_USER_ID_CURRENT,
+        };
+      const productConfigurationLoaderState: StateUtils.LoaderState<Configurator.Configuration> =
+        {
+          value: {
+            ...ConfiguratorTestUtils.createConfiguration(
+              '',
+              ConfiguratorModelUtils.createInitialOwner()
+            ),
+          },
+        };
 
-      spyOnProperty(ngrxStore, 'select').and.returnValue(() => () =>
-        of(productConfigurationLoaderState)
+      spyOnProperty(ngrxStore, 'select').and.returnValue(
+        () => () => of(productConfigurationLoaderState)
       );
       spyOn(store, 'dispatch').and.callThrough();
       serviceUnderTest
@@ -355,8 +359,8 @@ describe('ConfiguratorCartService', () => {
 
   describe('activeCartHasIssues', () => {
     it('should tell that cart has no issues in case status summary contain no errors for all cart entries', () => {
-      cartStateObs = cold('xx', {
-        x: cartState,
+      cartObs = cold('xx', {
+        x: cart,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
@@ -374,12 +378,9 @@ describe('ConfiguratorCartService', () => {
           },
         ],
       };
-      const cartStateIssues: StateUtils.ProcessesLoaderState<Cart> = {
-        value: cartIssues,
-      };
-      cartStateObs = cold('xy', {
-        x: cartState,
-        y: cartStateIssues,
+      cartObs = cold('xy', {
+        x: cart,
+        y: cartIssues,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('ab', { a: false, b: true })
@@ -390,15 +391,23 @@ describe('ConfiguratorCartService', () => {
         ...cart,
         entries: undefined,
       };
-      const cartStateEmpty: StateUtils.ProcessesLoaderState<Cart> = {
-        value: cartEmpty,
-      };
-      cartStateObs = cold('xy', {
-        x: cartState,
-        y: cartStateEmpty,
+      cartObs = cold('xy', {
+        x: cart,
+        y: cartEmpty,
       });
       expect(serviceUnderTest.activeCartHasIssues()).toBeObservable(
         cold('aa', { a: false })
+      );
+    });
+  });
+
+  describe('removeCartBoundConfigurations', () => {
+    it('should fire respective action', () => {
+      spyOn(store, 'dispatch').and.callThrough();
+      serviceUnderTest.removeCartBoundConfigurations();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        new ConfiguratorActions.RemoveCartBoundConfigurations()
       );
     });
   });

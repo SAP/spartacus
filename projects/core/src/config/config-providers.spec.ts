@@ -6,6 +6,7 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
+import { Config } from './config-tokens';
 
 describe('Config Providers', () => {
   const testConfig = { test: 'test' };
@@ -15,7 +16,7 @@ describe('Config Providers', () => {
 
   describe('provideConfig', () => {
     it('should return ConfigChunk provider', () => {
-      const provider = provideConfig(testConfig);
+      const provider = provideConfig(testConfig as Config);
       expect(provider.provide).toBe(ConfigChunk);
       expect(provider.multi).toBeTruthy();
       expect(provider.useValue).toBe(testConfig);
@@ -31,7 +32,7 @@ describe('Config Providers', () => {
   });
   describe('provideDefaultConfig', () => {
     it('should return DefaultConfigChunk provider', () => {
-      const provider = provideDefaultConfig(testConfig);
+      const provider = provideDefaultConfig(testConfig as Config);
       expect(provider.provide).toBe(DefaultConfigChunk);
       expect(provider.multi).toBeTruthy();
       expect(provider.useValue).toBe(testConfig);

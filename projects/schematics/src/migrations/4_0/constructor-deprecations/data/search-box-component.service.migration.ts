@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SEARCH_BOX_COMPONENT_SERVICE_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/navigation/search-box/search-box-component.service.ts
+  // projects/storefrontlib/cms-components/navigation/search-box/search-box-component.service.ts
   class: SEARCH_BOX_COMPONENT_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

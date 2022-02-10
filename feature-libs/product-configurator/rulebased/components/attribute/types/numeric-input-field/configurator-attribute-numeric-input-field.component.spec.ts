@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy,
+  Component,
   Directive,
   Input,
-  Pipe,
-  PipeTransform,
 } from '@angular/core';
 import {
   ComponentFixture,
@@ -13,19 +12,14 @@ import {
   waitForAsync,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { LanguageService } from '@spartacus/core';
+import { I18nTestingModule, LanguageService } from '@spartacus/core';
 import { of } from 'rxjs';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
-
-@Pipe({
-  name: 'cxTranslate',
-})
-class MockTranslateUrlPipe implements PipeTransform {
-  transform(): any {}
-}
+import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
 
 @Directive({
   selector: '[cxFocus]',
@@ -34,7 +28,33 @@ export class MockFocusDirective {
   @Input('cxFocus') protected config: any;
 }
 
+@Component({
+  selector: 'cx-icon',
+  template: '',
+})
+class MockCxIconComponent {
+  @Input() type: any;
+}
+
 let DEBOUNCE_TIME: number;
+
+const userInput = '345.00';
+
+const attribute: Configurator.Attribute = {
+  name: 'attributeName',
+  label: 'attributeName',
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+  numDecimalPlaces: 2,
+  numTotalLength: 10,
+  negativeAllowed: false,
+};
+
+const attributeWoNumericalMetadata: Configurator.Attribute = {
+  name: 'attributeName',
+  uiType: Configurator.UiType.NUMERIC,
+  userInput: userInput,
+};
 
 function checkForValidationMessage(
   component: ConfiguratorAttributeNumericInputFieldComponent,
@@ -52,11 +72,12 @@ function checkForValidationMessage(
 
 describe('ConfigAttributeNumericInputFieldComponent', () => {
   let component: ConfiguratorAttributeNumericInputFieldComponent;
-  const userInput = '345.00';
+
   let fixture: ComponentFixture<ConfiguratorAttributeNumericInputFieldComponent>;
   let mockLanguageService;
   const locale = 'en';
   let htmlElem: HTMLElement;
+  let configuratorAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService;
 
   beforeEach(
     waitForAsync(() => {
@@ -68,10 +89,10 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       TestBed.configureTestingModule({
         declarations: [
           ConfiguratorAttributeNumericInputFieldComponent,
-          MockTranslateUrlPipe,
           MockFocusDirective,
+          MockCxIconComponent,
         ],
-        imports: [ReactiveFormsModule],
+        imports: [ReactiveFormsModule, I18nTestingModule],
         providers: [
           { provide: LanguageService, useValue: mockLanguageService },
           {
@@ -93,19 +114,20 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     fixture = TestBed.createComponent(
       ConfiguratorAttributeNumericInputFieldComponent
     );
+    configuratorAttributeNumericInputFieldService = TestBed.inject(
+      ConfiguratorAttributeNumericInputFieldService
+    );
+
     component = fixture.componentInstance;
-    component.attribute = {
-      name: 'attributeName',
-      uiType: Configurator.UiType.STRING,
-      userInput: userInput,
-      numDecimalPlaces: 2,
-      numTotalLength: 10,
-      negativeAllowed: false,
-    };
+    component.attribute = attribute;
     component.language = locale;
     fixture.detectChanges();
     htmlElem = fixture.nativeElement;
     spyOn(component.inputChange, 'emit');
+    spyOn(
+      configuratorAttributeNumericInputFieldService,
+      'getPatternForValidationMessage'
+    );
     DEBOUNCE_TIME =
       defaultConfiguratorUISettingsConfig.productConfigurator
         ?.updateDebounceTime?.input ?? component['FALLBACK_DEBOUNCE_TIME'];
@@ -129,6 +151,32 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   it('should set value on init', () => {
     component.ngOnInit();
     expect(component.attributeInputForm.value).toEqual(userInput);
+  });
+
+  it('should call service for pattern generation with meta data from attribute', () => {
+    component.ngOnInit();
+    expect(
+      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+    ).toHaveBeenCalledWith(
+      component.attribute.numDecimalPlaces,
+      component.attribute.numTotalLength,
+      component.attribute.negativeAllowed,
+      'en'
+    );
+  });
+
+  it('should call service for pattern generation with defaults in case attribute does not carry meta data', () => {
+    component.attribute = attributeWoNumericalMetadata;
+    component.ngOnInit();
+    const defaultSettings = component['getDefaultSettings']();
+    expect(
+      configuratorAttributeNumericInputFieldService.getPatternForValidationMessage
+    ).toHaveBeenCalledWith(
+      defaultSettings.numDecimalPlaces,
+      defaultSettings.numTotalLength,
+      defaultSettings.negativeAllowed,
+      'en'
+    );
   });
 
   it('should display no validation issue if input is fine, an unknown locale was requested, and we fall back to en locale', () => {
@@ -199,16 +247,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     expect(component.inputChange.emit).toHaveBeenCalled();
   }));
 
-  it('should delay emit inputValue for debounce period with fallback config', fakeAsync(() => {
-    component['config'] = undefined;
-    component.attributeInputForm.setValue('123');
-    fixture.detectChanges();
-    tick(1); //in case undefined is passed as debounce time it will fire almost immediately
-    expect(component.inputChange.emit).not.toHaveBeenCalled();
-    tick(DEBOUNCE_TIME);
-    expect(component.inputChange.emit).toHaveBeenCalled();
-  }));
-
   it('should only emit once with last value if inputValue is changed within debounce period', fakeAsync(() => {
     component.attributeInputForm.setValue('123');
     fixture.detectChanges();
@@ -244,4 +282,98 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
     tick(DEBOUNCE_TIME);
     expect(component.inputChange.emit).not.toHaveBeenCalled();
   }));
+
+  describe('Accessibility', () => {
+    it("should contain input element with class name 'form-control' without set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
+      component.attribute.userInput = '';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeBlank attribute:' +
+          component.attribute.label
+      );
+    }));
+
+    it("should contain input element with class name 'form-control' with set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-label',
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.userInput
+      );
+    }));
+
+    it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'input',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-live' attribute that enables the screen reader to read out a error as soon as it occurs", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-live',
+        'assertive'
+      );
+    }));
+
+    it("should contain div element with class name 'cx-validation-msg' and 'aria-atomic' attribute that indicates whether a screen reader will present a changed region based on the change notifications defined by the aria-relevant attribute", fakeAsync(() => {
+      component.attribute.userInput = '123';
+      component.attributeInputForm.markAsTouched({ onlySelf: true });
+      component.attributeInputForm.setErrors({
+        wrongFormat: true,
+      });
+      fixture.detectChanges();
+      component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'div',
+        'cx-validation-msg',
+        0,
+        'aria-atomic',
+        'true'
+      );
+    }));
+  });
 });

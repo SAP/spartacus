@@ -17,9 +17,6 @@ import { OccCmsComponentAdapter } from './occ-cms-component.adapter';
 const ids = ['comp_uid1', 'comp_uid2'];
 
 class OccEndpointsServiceMock {
-  getEndpoint(): string {
-    return '/cms';
-  }
   buildUrl(_endpoint: string, _urlParams?: any, _queryParams?: any): string {
     return '';
   }

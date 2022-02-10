@@ -1,21 +1,18 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import { CartActions } from '@spartacus/cart/base/core';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  ActionToEventMapping,
-  CartActions,
-  createFrom,
-  EventService,
-  MultiCartService,
-  StateEventService,
-} from '@spartacus/core';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
-import { SavedCartActions } from '../store/actions/index';
-import {
+  CloneSavedCartEvent,
+  CloneSavedCartFailEvent,
+  CloneSavedCartSuccessEvent,
   DeleteSavedCartEvent,
   DeleteSavedCartFailEvent,
   DeleteSavedCartSuccessEvent,
+  EditSavedCartEvent,
+  EditSavedCartFailEvent,
+  EditSavedCartSuccessEvent,
   RestoreSavedCartEvent,
   RestoreSavedCartFailEvent,
   RestoreSavedCartSuccessEvent,
@@ -23,6 +20,15 @@ import {
   SaveCartFailEvent,
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
+import {
+  ActionToEventMapping,
+  createFrom,
+  EventService,
+  StateEventService,
+} from '@spartacus/core';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap, withLatestFrom } from 'rxjs/operators';
+import { SavedCartActions } from '../store/actions/index';
 
 @Injectable({ providedIn: 'root' })
 export class SavedCartEventBuilder {
@@ -30,7 +36,7 @@ export class SavedCartEventBuilder {
     protected actionsSubject: ActionsSubject,
     protected eventService: EventService,
     protected stateEventService: StateEventService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {
     this.register();
   }
@@ -42,6 +48,8 @@ export class SavedCartEventBuilder {
     this.registerRestoreSavedCartEvents();
     this.registerDeleteSavedCartEvents();
     this.registerSaveCartEvents();
+    this.registerEditSavedCartEvents();
+    this.registerCloneSavedCartEvents();
   }
 
   /**
@@ -127,6 +135,57 @@ export class SavedCartEventBuilder {
           cartCode: action.payload.cartId,
         });
       },
+    });
+  }
+
+  /**
+   * Registers edit saved cart events
+   */
+  protected registerEditSavedCartEvents(): void {
+    this.buildSaveCartSuccessEvent({
+      action: SavedCartActions.EDIT_SAVED_CART_SUCCESS,
+      event: EditSavedCartSuccessEvent,
+    });
+
+    this.stateEventService.register({
+      action: SavedCartActions.EDIT_SAVED_CART_FAIL,
+      event: EditSavedCartFailEvent,
+      factory: (action: SavedCartActions.EditSavedCartFail) =>
+        createFrom(EditSavedCartFailEvent, {
+          ...action.payload,
+          cartCode: action.payload.cartId,
+        }),
+    });
+
+    this.stateEventService.register({
+      action: SavedCartActions.EDIT_SAVED_CART,
+      event: EditSavedCartEvent,
+      factory: (action: SavedCartActions.EditSavedCart) => {
+        return createFrom(EditSavedCartEvent, {
+          ...action.payload,
+          cartCode: action.payload.cartId,
+        });
+      },
+    });
+  }
+
+  /**
+   * Registers clone saved cart events
+   */
+  protected registerCloneSavedCartEvents(): void {
+    this.buildRestoreSavedCartEvents({
+      action: SavedCartActions.CLONE_SAVED_CART,
+      event: CloneSavedCartEvent,
+    });
+
+    this.buildRestoreSavedCartEvents({
+      action: SavedCartActions.CLONE_SAVED_CART_SUCCESS,
+      event: CloneSavedCartSuccessEvent,
+    });
+
+    this.buildRestoreSavedCartEvents({
+      action: SavedCartActions.CLONE_SAVED_CART_FAIL,
+      event: CloneSavedCartFailEvent,
     });
   }
 

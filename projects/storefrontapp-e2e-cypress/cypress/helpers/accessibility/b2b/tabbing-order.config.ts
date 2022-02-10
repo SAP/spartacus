@@ -36,6 +36,10 @@ const accountReviewOrderGeneral = [
   },
   {
     value: 'Cordless screwdriver 2436',
+    type: TabbingOrderTypes.CX_MEDIA,
+  },
+  {
+    value: 'Cordless screwdriver 2436',
     type: TabbingOrderTypes.LINK,
   },
   {
@@ -99,9 +103,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   shippingAddressAccount: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
+    { type: TabbingOrderTypes.GENERIC_ELEMENT },
     {
       value: 'Ship to this address',
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     backButton,
     continueButton,
@@ -173,6 +178,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: '/powertools-spa/en/USD/checkout/delivery-mode',
       type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: 'Cordless screwdriver 2436',
@@ -270,6 +279,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -285,6 +298,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Reject',
       type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: 'Angle Grinder RT-AG 115',
@@ -312,7 +329,11 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
     {
       value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
@@ -323,6 +344,15 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Apply',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -369,6 +399,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       value: 'Make Cart Active',
       type: TabbingOrderTypes.LINK,
     },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
   ],
   savedCartDetails: [
     {
@@ -379,8 +410,71 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
     { value: 'Delete Saved Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Make cart active', type: TabbingOrderTypes.BUTTON },
+  ],
+  quickOrder: [
+    {
+      value: 'product',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Empty list', type: TabbingOrderTypes.BUTTON },
+    { value: 'Add', type: TabbingOrderTypes.BUTTON },
+  ],
+  quickOrderCart: [
+    {
+      value: 'Saved Carts',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: 'Save Cart For Later',
+      type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.LINK,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    { value: '+', type: TabbingOrderTypes.BUTTON },
+    { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Import Products', type: TabbingOrderTypes.LINK },
+    { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
+    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
+    {
+      value: 'Proceed to Checkout',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'couponCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    {
+      value: 'Apply',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'productCode',
+      type: TabbingOrderTypes.FORM_FIELD,
+    },
+    { type: TabbingOrderTypes.GENERIC_INPUT },
+    {
+      value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
   ],
 };

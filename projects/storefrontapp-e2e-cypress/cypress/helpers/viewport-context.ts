@@ -18,7 +18,7 @@ interface Viewport {
 }
 
 function capitalize(str: string) {
-  return str[0].toUpperCase() + str.substr(1);
+  return str[0].toUpperCase() + str.substring(1);
 }
 
 /**
@@ -48,4 +48,13 @@ export function viewportContext(
       }
     );
   });
+}
+
+/**
+ * Gets the current viewport of the test.
+ */
+export function getViewport(): Viewports | undefined {
+  return viewportConfigs.find(
+    (config) => config.width === Cypress.config('viewportWidth')
+  )?.viewport;
 }

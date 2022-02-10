@@ -102,4 +102,72 @@ describe('UrlParsingService', () => {
       ).toEqual(['test', 'path']);
     });
   });
+
+  describe('matchPath', () => {
+    it('should match URL string with path string', () => {
+      expect(service.matchPath('test/url/123', 'test/url/:param')).toBe(true);
+    });
+
+    it('should match URL string with path array', () => {
+      expect(service.matchPath('test/url/123', ['test', 'url', ':param'])).toBe(
+        true
+      );
+    });
+
+    it('should match URL array with path string', () => {
+      expect(service.matchPath(['test', 'url', '123'], 'test/url/:param')).toBe(
+        true
+      );
+    });
+
+    it('should match URL array with path array', () => {
+      expect(
+        service.matchPath(['test', 'url', '123'], ['test', 'url', ':param'])
+      ).toBe(true);
+    });
+
+    it('should not match URL array with path array', () => {
+      expect(
+        service.matchPath(['test', '123'], ['test', 'url', ':param'])
+      ).toBe(false);
+    });
+
+    it('should not match URL string with path array', () => {
+      expect(service.matchPath('test/url/123', ['test', 'url'])).toBe(false);
+    });
+
+    it('should not match URL string with path string', () => {
+      expect(service.matchPath('test/url', 'test/url/:param')).toBe(false);
+    });
+
+    it('should not match empty URL string with path string', () => {
+      expect(service.matchPath('', 'test')).toBe(false);
+    });
+
+    it('should match empty URL string with empty path string', () => {
+      expect(service.matchPath('', '')).toBe(true);
+    });
+
+    it('should match empty URL string with empty array', () => {
+      expect(service.matchPath('', [])).toBe(true);
+    });
+
+    it('should match empty URL array with empty path array', () => {
+      expect(service.matchPath([], [])).toBe(true);
+    });
+
+    it('should match empty URL array with empty path string', () => {
+      expect(service.matchPath([], '')).toBe(true);
+    });
+
+    it('should match URL string with path string not containing params', () => {
+      expect(service.matchPath('test/url/123', 'test/url/123')).toBe(true);
+    });
+
+    it('should match URL string with path string containing many params', () => {
+      expect(service.matchPath('test/url/123', ':param1/url/:param2')).toBe(
+        true
+      );
+    });
+  });
 });

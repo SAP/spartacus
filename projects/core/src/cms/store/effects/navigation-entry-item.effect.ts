@@ -70,9 +70,11 @@ export class NavigationEntryItemEffects {
   );
 
   // We only consider 3 item types: cms page, cms component, and media.
-  getIdListByItemType(
-    itemList: any[]
-  ): { pageIds: string[]; componentIds: string[]; mediaIds: string[] } {
+  getIdListByItemType(itemList: any[]): {
+    pageIds: string[];
+    componentIds: string[];
+    mediaIds: string[];
+  } {
     const pageIds: string[] = [];
     const componentIds: string[] = [];
     const mediaIds: string[] = [];

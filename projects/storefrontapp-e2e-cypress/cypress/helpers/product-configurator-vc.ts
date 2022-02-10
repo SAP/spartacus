@@ -4,7 +4,7 @@ const addToCartButtonSelector = 'cx-configurator-add-to-cart-button button';
 
 const conflictDetectedMsgSelector = '.cx-conflict-msg';
 const conflictHeaderGroupSelector =
-  'cx-configurator-group-menu li.cx-menu-conflict';
+  'cx-configurator-group-menu .cx-menu-conflict';
 
 /**
  * Navigates to the product configuration page.
@@ -90,9 +90,18 @@ export function clickOnConfigureBtnInCatalog(): void {
 }
 
 /**
+ * Verifies whether the ghost animation is not displayed.
+ */
+export function checkGhostAnimationNotDisplayed(): void {
+  cy.log('Wait until the ghost animation is not displayed anymore');
+  cy.get('.ghost').should('not.exist');
+}
+
+/**
  * Verifies whether the configuration page is displayed.
  */
 export function checkConfigPageDisplayed(): void {
+  checkGhostAnimationNotDisplayed();
   checkLoadingMsgNotDisplayed();
   checkGlobalMessageNotDisplayed();
   configuration.checkTabBarDisplayed();
@@ -100,7 +109,7 @@ export function checkConfigPageDisplayed(): void {
   configuration.checkGroupFormDisplayed();
   configuration.checkPreviousAndNextBtnsDispalyed();
   configuration.checkPriceSummaryDisplayed();
-  configuration.checkAddToCartBtnDisplayed();
+  //configuration.checkAddToCartBtnDisplayed(); //the add to cart button could be overlayed by the cookies button. The caller has to check that the add to cart button is visible.
   checkProductTitleDisplayed();
   configuration.checkShowMoreLinkAtProductTitleDisplayed();
 }
@@ -121,13 +130,15 @@ export function checkProductTitleDisplayed(): void {
  * @param {string} groupName - Group name
  */
 export function checkStatusIconNotDisplayed(groupName: string): void {
-  cy.get(
-    '.' + `${'ERROR'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
-  ).should('not.exist');
+  cy.get('button:contains(' + `${groupName}` + ')').should(
+    'not.have.class',
+    'ERROR'
+  );
 
-  cy.get(
-    '.' + `${'COMPLETE'}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
-  ).should('not.exist');
+  cy.get('button:contains(' + `${groupName}` + ')').should(
+    'not.have.class',
+    'COMPLETE'
+  );
 }
 
 /**
@@ -140,9 +151,10 @@ export function checkStatusIconDisplayed(
   groupName: string,
   status: string
 ): void {
-  cy.get(
-    '.' + `${status}` + '.cx-menu-item>a:contains(' + `${groupName}` + ')'
-  ).should('exist');
+  cy.get('button:contains(' + `${groupName}` + ')').should(
+    'have.class',
+    `${status}`
+  );
 }
 
 /**
@@ -270,18 +282,14 @@ export function deselectConflictingValue(
  * @param {number} groupIndex - Group index
  */
 export function clickOnGroup(groupIndex: number): void {
-  cy.get('cx-configurator-group-menu ul>li.cx-menu-item')
+  cy.get('cx-configurator-group-menu .cx-menu-item')
     .not('.cx-menu-conflict')
     .eq(groupIndex)
     .within(() => {
-      cy.get('a')
-        .children()
-        .within(() => {
-          cy.get('div.subGroupIndicator').within(($list) => {
-            cy.log('$list.children().length: ' + $list.children().length);
-            cy.wrap($list.children().length).as('subGroupIndicator');
-          });
-        });
+      cy.get('div.subGroupIndicator').within(($list) => {
+        cy.log('$list.children().length: ' + $list.children().length);
+        cy.wrap($list.children().length).as('subGroupIndicator');
+      });
     });
 
   cy.get('@subGroupIndicator').then((subGroupIndicator) => {

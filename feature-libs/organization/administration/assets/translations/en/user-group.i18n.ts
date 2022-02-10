@@ -7,12 +7,14 @@ export const orgUserGroup = {
   orgUnit: 'Unit',
   actions: '',
 
-  byName: 'Sort by name',
-  byUnitName: 'Sort by unit',
-  byGroupID: 'Sort by group',
+  sortBy: 'Sort by',
+  sort: {
+    byName: 'Name',
+    byUnitName: 'Unit',
+    byGroupID: 'Group',
+  },
 
-  hint:
-    'User groups allow you to combine users together in one group, for the purposes of assigning purchase limits for many users at once.',
+  hint: 'User groups allow you to combine users together in one group, for the purposes of assigning purchase limits for many users at once.',
 
   details: {
     title: 'User group Details',

@@ -7,6 +7,7 @@ import {
 import { waitForPage } from './checkout-flow';
 import { checkBanner, clickHamburger } from './homepage';
 import { switchLanguage } from './language';
+import { product } from '../sample-data/checkout-flow';
 
 const orderHistoryLink = '/my-account/orders';
 
@@ -51,7 +52,7 @@ export const orderHistoryTest = {
           replenishmentOrderHistoryHeaderValue
         );
       } else {
-        cy.get('.cx-order-history-header h3').should(
+        cy.get('.cx-order-history-header h2').should(
           'contain',
           'Order history'
         );
@@ -66,7 +67,7 @@ export const orderHistoryTest = {
         .findByText('Start Shopping')
         .click();
 
-      cy.wait(`@${homePage}`).its('status').should('eq', 200);
+      cy.wait(`@${homePage}`).its('response.statusCode').should('eq', 200);
       checkBanner();
     });
   },
@@ -81,7 +82,7 @@ export const orderHistoryTest = {
             orderData.body.code
           );
           cy.visit('/my-account/orders');
-          cy.get('cx-order-history h3').should('contain', 'Order history');
+          cy.get('cx-order-history h2').should('contain', 'Order history');
           cy.get('.cx-order-history-code > .cx-order-history-value').should(
             'contain',
             orderData.body.code
@@ -153,6 +154,19 @@ export const orderHistoryTest = {
         clickHamburger();
       });
       switchLanguage('en'); // switch language back
+    });
+  },
+  checkOrderDetailsUnconsignedEntries() {
+    it('should display order details page with unconsigned entries', () => {
+      doPlaceOrder().then((orderData: any) => {
+        cy.visit(`/my-account/order/${orderData.body.code}`);
+        cy.get('.cx-item-list-row .cx-link').should('contain', product.name);
+        cy.get('.cx-item-list-row .cx-code').should('contain', product.code);
+        cy.get('.cx-summary-total > .cx-summary-amount').should(
+          'contain',
+          orderData.body.totalPrice.formattedValue
+        );
+      });
     });
   },
 };

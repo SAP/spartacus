@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../model/configurator.model';
 import { ConfiguratorActions } from '../state/actions/index';
@@ -33,12 +33,10 @@ export class ConfiguratorGroupsService {
   getCurrentGroupId(owner: CommonConfigurator.Owner): Observable<string> {
     return this.configuratorCommonsService.getConfiguration(owner).pipe(
       map((configuration) => {
-        if (configuration?.interactionState?.currentGroup) {
+        if (configuration?.interactionState.currentGroup) {
           return configuration.interactionState.currentGroup;
         } else {
-          return configuration?.flatGroups?.length > 0
-            ? configuration.flatGroups[0].id
-            : null;
+          return configuration?.groups[0]?.id;
         }
       })
     );
@@ -53,7 +51,7 @@ export class ConfiguratorGroupsService {
    */
   getFirstConflictGroup(
     configuration: Configurator.Configuration
-  ): Configurator.Group {
+  ): Configurator.Group | undefined {
     return configuration.flatGroups.find(
       (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
     );
@@ -62,7 +60,8 @@ export class ConfiguratorGroupsService {
   /**
    * Navigates to the first non-conflict group of the configuration which is not completed.
    * This method assumes that the configuration has incomplete groups,
-   * the caller has to verify this prior to calling this method.
+   * the caller has to verify this prior to calling this method. In case no incomplete group is
+   * present, nothing will happen
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
    */
@@ -70,21 +69,22 @@ export class ConfiguratorGroupsService {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
-      .subscribe((configuration) =>
-        this.navigateToGroup(
-          configuration,
+      .subscribe((configuration) => {
+        const groupId =
           this.configuratorGroupStatusService.getFirstIncompleteGroup(
             configuration
-          )?.id,
-          true
-        )
-      );
+          )?.id;
+        if (groupId) {
+          this.navigateToGroup(configuration, groupId, true);
+        }
+      });
   }
 
   /**
    * Navigates to the first conflict group and sets the conflict header as parent group.
    * This method assumes that the configuration has conflicts,
-   * the caller has to verify this prior to calling this method.
+   * the caller has to verify this prior to calling this method. In case no conflict group
+   * is present, nothing will happen
    *
    * @param {CommonConfigurator.Owner} owner Configuration Owner
    */
@@ -92,13 +92,12 @@ export class ConfiguratorGroupsService {
     this.configuratorCommonsService
       .getConfiguration(owner)
       .pipe(take(1))
-      .subscribe((configuration) =>
-        this.navigateToGroup(
-          configuration,
-          this.getFirstConflictGroup(configuration)?.id,
-          true
-        )
-      );
+      .subscribe((configuration) => {
+        const groupId = this.getFirstConflictGroup(configuration)?.id;
+        if (groupId) {
+          this.navigateToGroup(configuration, groupId, true);
+        }
+      });
   }
 
   /**
@@ -109,26 +108,27 @@ export class ConfiguratorGroupsService {
    */
   getMenuParentGroup(
     owner: CommonConfigurator.Owner
-  ): Observable<Configurator.Group> {
-    return this.configuratorCommonsService
-      .getConfiguration(owner)
-      .pipe(
-        map((configuration) =>
-          this.configuratorUtilsService.getGroupById(
-            configuration.groups,
-            configuration.interactionState.menuParentGroup
-          )
-        )
-      );
+  ): Observable<Configurator.Group | undefined> {
+    return this.configuratorCommonsService.getConfiguration(owner).pipe(
+      map((configuration) => {
+        const menuParentGroup = configuration.interactionState.menuParentGroup;
+        return menuParentGroup
+          ? this.configuratorUtilsService.getOptionalGroupById(
+              configuration.groups,
+              menuParentGroup
+            )
+          : undefined;
+      })
+    );
   }
 
   /**
    * Set the parent group, specified by the group ID, which is displayed in the group menu.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @param {string} groupId - Group ID
+   * @param {string} groupId - Group ID. Can be ommitted, in this case parent group will be cleared, in case we are on root level
    */
-  setMenuParentGroup(owner: CommonConfigurator.Owner, groupId: string): void {
+  setMenuParentGroup(owner: CommonConfigurator.Owner, groupId?: string): void {
     this.store.dispatch(
       new ConfiguratorActions.SetMenuParentGroup({
         entityKey: owner.key,
@@ -148,9 +148,6 @@ export class ConfiguratorGroupsService {
   ): Observable<Configurator.Group> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
-        if (!currentGroupId) {
-          return null;
-        }
         return this.configuratorCommonsService
           .getConfiguration(owner)
           .pipe(
@@ -222,7 +219,7 @@ export class ConfiguratorGroupsService {
       new ConfiguratorActions.ChangeGroup({
         configuration: configuration,
         groupId: groupId,
-        parentGroupId: parentGroup ? parentGroup.id : null,
+        parentGroupId: parentGroup ? parentGroup.id : undefined,
       })
     );
   }
@@ -231,9 +228,11 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is coming after the current one in a sequential order.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @return {Observable<string>} ID of next group
+   * @return {Observable<string> | undefined} ID of next group
    */
-  getNextGroupId(owner: CommonConfigurator.Owner): Observable<string> {
+  getNextGroupId(
+    owner: CommonConfigurator.Owner
+  ): Observable<string | undefined> {
     return this.getNeighboringGroupId(owner, 1);
   }
 
@@ -241,9 +240,11 @@ export class ConfiguratorGroupsService {
    * Returns the group ID of the group that is preceding the current one in a sequential order.
    *
    * @param {CommonConfigurator.Owner} owner - Configuration owner
-   * @return {Observable<string>} ID of previous group
+   * @return {Observable<string | undefined >} ID of previous group
    */
-  getPreviousGroupId(owner: CommonConfigurator.Owner): Observable<string> {
+  getPreviousGroupId(
+    owner: CommonConfigurator.Owner
+  ): Observable<string | undefined> {
     return this.getNeighboringGroupId(owner, -1);
   }
 
@@ -266,12 +267,12 @@ export class ConfiguratorGroupsService {
    *
    * @param {Configurator.Group[]} groups - List of groups where we search for the parent group
    * @param {Configurator.Group} group - Given group
-   * @return {Configurator.Group} Parent group or null if group is a top-level group
+   * @return {Configurator.Group} Parent group or undefined if group is a top-level group
    */
   getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group
-  ): Configurator.Group {
+  ): Configurator.Group | undefined {
     return this.configuratorUtilsService.getParentGroup(groups, group);
   }
 
@@ -295,23 +296,20 @@ export class ConfiguratorGroupsService {
   protected getNeighboringGroupId(
     owner: CommonConfigurator.Owner,
     neighboringIndex: number
-  ): Observable<string> {
+  ): Observable<string | undefined> {
     return this.getCurrentGroupId(owner).pipe(
       switchMap((currentGroupId) => {
-        if (!currentGroupId) {
-          return of(null);
-        }
-
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
-            let nextGroup = null;
-            configuration.flatGroups.forEach((group, index) => {
+            let nextGroup;
+            configuration?.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
-                configuration.flatGroups[index + neighboringIndex] //Check if neighboring group exists
+                configuration?.flatGroups &&
+                configuration?.flatGroups[index + neighboringIndex] //Check if neighboring group exists
               ) {
                 nextGroup =
-                  configuration.flatGroups[index + neighboringIndex].id;
+                  configuration?.flatGroups[index + neighboringIndex].id;
               }
             });
             return nextGroup;

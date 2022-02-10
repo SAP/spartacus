@@ -1,7 +1,7 @@
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
-export const tabsHeaderList = `${tabsContainer} > button`;
+export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
@@ -12,7 +12,7 @@ export const addToCartButton = `cx-add-to-cart`;
 export const atcModal = `cx-added-to-cart-dialog`;
 export const atcModalTitle = `${atcModal} .cx-dialog-title`;
 export const atcModalItem = `${atcModal} cx-cart-item`;
-export const atcModalCloseButton = `${atcModal} [aria-label="Close"]`;
+export const atcModalCloseButton = `${atcModal} [aria-label="Close Modal"]`;
 export const header = `cx-page-layout[section="header"]`;
 export const headerCartButton = `${header} cx-mini-cart .count`;
 export const itemCounter = 'cx-item-counter';
@@ -105,6 +105,7 @@ export function verifyQuantityInCart() {
   cy.get(addToCartButton)
     .findByText(/Add To Cart/i)
     .click();
+  cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');
 }
@@ -130,4 +131,64 @@ export function selectProductSizeVariantWithoutStock() {
   cy.get('.variant-selector select').select('L');
 
   cy.get('cx-add-to-cart .quantity .info').should('contain', 'Out of stock');
+}
+
+export function productDetailsTest() {
+  it('should contain correct product details', () => {
+    verifyProductDetails();
+    verifyCorrectTabs();
+    verifyTextInTabs();
+    verifyContentInReviewTab();
+  });
+
+  it('should submit a review', () => {
+    verifyReviewForm();
+  });
+
+  it('should be able to add different quantities of product to cart', () => {
+    verifyQuantityInCart();
+  });
+}
+
+export function apparelProductDetailsTest() {
+  it('should be able to select style / size variant', () => {
+    selectProductStyleVariant();
+    selectProductSizeVariant();
+  });
+
+  it('should show out of stock label when size variant without stock was selected', () => {
+    selectProductSizeVariantWithoutStock();
+  });
+}
+
+export function configureDefaultProduct() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['electronics-spa'],
+      currency: ['USD'],
+    },
+  });
+
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/pages?pageType=ProductPage**`
+  ).as('productPage');
+
+  cy.visit('/product/266685');
+
+  cy.wait(`@productPage`);
+}
+
+export function configureApparelProduct() {
+  cy.window().then((win) => win.sessionStorage.clear());
+  cy.cxConfig({
+    context: {
+      baseSite: ['apparel-uk-spa'],
+      currency: ['GBP'],
+    },
+  });
+  cy.visit('/product/100191');
 }

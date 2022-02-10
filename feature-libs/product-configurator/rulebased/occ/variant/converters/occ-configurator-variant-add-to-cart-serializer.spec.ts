@@ -42,13 +42,12 @@ describe('OccConfiguratorVariantAddToCartSerializer', () => {
   });
 
   it('should convert addToCart parameters to occAddToCartParameters', () => {
-    const convertedParameters = occConfiguratorVariantAddToCartSerializer.convert(
-      sourceParameters
-    );
+    const convertedParameters =
+      occConfiguratorVariantAddToCartSerializer.convert(sourceParameters);
     expect(convertedParameters.userId).toEqual(targetParameters.userId);
     expect(convertedParameters.configId).toEqual(targetParameters.configId);
-    expect(convertedParameters.product.code).toEqual(
-      targetParameters.product.code
+    expect(convertedParameters.product?.code).toEqual(
+      targetParameters.product?.code
     );
   });
 });

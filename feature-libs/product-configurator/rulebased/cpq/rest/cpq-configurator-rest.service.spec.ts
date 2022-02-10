@@ -5,11 +5,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import { ConfiguratorModelUtils } from '@spartacus/product-configurator/common';
-import {
-  Configurator,
-  ConfiguratorTestUtils,
-} from '@spartacus/product-configurator/rulebased';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
 import { MockOccEndpointsService } from 'projects/core/src/occ/adapters/user/unit-test.helper';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import {
   CPQ_CONFIGURATOR_NORMALIZER,
   CPQ_CONFIGURATOR_OVERVIEW_NORMALIZER,
@@ -30,16 +28,21 @@ const configId = '1234-56-7890';
 const configCreatedResponse: Cpq.ConfigurationCreatedResponseData = {
   configurationId: configId,
 };
+const tabId1SelectedTrue = { id: 1, isSelected: true };
+const tabId2SelectedTrue = { id: 2, isSelected: true };
+const tabId3SelectedTrue = { id: 3, isSelected: true };
 
 const configResponseOnlyOneTab: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
-  tabs: [{ id: 1, isSelected: true }],
+  tabs: [tabId1SelectedTrue],
   attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
 };
 
 const configResponseNoTab: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   tabs: [],
   attributes: [{ pA_ID: 11, stdAttrCode: 111 }],
@@ -47,10 +50,11 @@ const configResponseNoTab: Cpq.Configuration = {
 
 const configResponseTab1: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   errorMessages: [],
   tabs: [
-    { id: 1, isSelected: true },
+    tabId1SelectedTrue,
     { id: 2, isSelected: false },
     { id: 3, isSelected: false },
   ],
@@ -59,34 +63,32 @@ const configResponseTab1: Cpq.Configuration = {
 
 const configResponseTab2: Cpq.Configuration = {
   productSystemId: productCode,
+  currencyISOCode: 'USD',
   completed: false,
   errorMessages: [],
   tabs: [
     { id: 1, isSelected: false },
-    { id: 2, isSelected: true },
+    tabId2SelectedTrue,
     { id: 3, isSelected: false },
   ],
   attributes: [{ pA_ID: 21, stdAttrCode: 211 }],
 };
 
 const configResponseTab3: Cpq.Configuration = {
-  productSystemId: productCode,
-  completed: false,
-  errorMessages: [],
+  ...configResponseTab2,
   tabs: [
     { id: 1, isSelected: false },
     { id: 2, isSelected: false },
-    { id: 3, isSelected: true },
+    tabId3SelectedTrue,
   ],
   attributes: [{ pA_ID: 31, stdAttrCode: 311 }],
 };
 
-const configResponsesByTab = {
-  1: configResponseTab1,
-  2: configResponseTab2,
-  3: configResponseTab3,
-};
-
+const configResponsesByTab = [
+  configResponseTab1,
+  configResponseTab2,
+  configResponseTab3,
+];
 const configUpdateResponse = {};
 const attrCode = '111';
 const attrValueId = 'abc';
@@ -185,15 +187,15 @@ describe('CpqConfiguratorRestService', () => {
         attributes: undefined,
         tabs: [
           {
-            ...configResponseTab1.tabs[0],
+            ...tabId1SelectedTrue,
             attributes: configResponseTab1.attributes,
           },
           {
-            ...configResponseTab2.tabs[1],
+            ...tabId2SelectedTrue,
             attributes: configResponseTab2.attributes,
           },
           {
-            ...configResponseTab3.tabs[2],
+            ...tabId3SelectedTrue,
             attributes: configResponseTab3.attributes,
           },
         ],
@@ -215,7 +217,7 @@ describe('CpqConfiguratorRestService', () => {
         attributes: undefined,
         tabs: [
           {
-            ...configResponseOnlyOneTab.tabs[0],
+            ...tabId1SelectedTrue,
             attributes: configResponseOnlyOneTab.attributes,
           },
         ],
@@ -233,7 +235,7 @@ describe('CpqConfiguratorRestService', () => {
     serviceUnderTest['getConfigurationWithAllTabsAndAttributes'](
       configId
     ).subscribe((mergedConfig) => {
-      expect(mergedConfig.errorMessages.length).toEqual(1);
+      expect(mergedConfig.errorMessages?.length).toEqual(1);
     });
 
     mockDisplayConfig();
@@ -357,6 +359,7 @@ describe('CpqConfiguratorRestService', () => {
           `/api/configuration/v1/configurations/${configId}/display?tabId=${currentTabId}`
       );
     });
-    mockReq.flush(configResponsesByTab[currentTabId]);
+    const index: number = parseInt(currentTabId, 10) - 1;
+    mockReq.flush(configResponsesByTab[index]);
   }
 });

@@ -46,25 +46,6 @@ export class OccEndpointsService {
   }
 
   /**
-   * @Deprecated since 3.2 - use "getRawEndpointValue" or "buildUrl" instead
-   *
-   * Returns an endpoint starting from the OCC baseUrl (no baseSite)
-   * @param endpoint Endpoint suffix
-   */
-  getRawEndpoint(endpoint: string): string {
-    if (!this.config?.backend?.occ) {
-      return '';
-    }
-    endpoint = this.config.backend.occ.endpoints?.[endpoint];
-
-    if (!endpoint.startsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-
-    return this.config.backend.occ.baseUrl + endpoint;
-  }
-
-  /**
    * Returns the value configured for a specific endpoint
    *
    * @param endpointKey the configuration key for the endpoint to return
@@ -86,24 +67,6 @@ export class OccEndpointsService {
     return !(
       typeof this.getEndpointFromConfig(endpoint, scope) === 'undefined'
     );
-  }
-
-  /**
-   * @Deprecated since 3.2 - use "buildUrl" with configurable endpoints instead
-   *
-   * Returns an OCC endpoint including baseUrl and baseSite
-   *
-   * @param endpoint Endpoint suffix
-   * @param propertiesToOmit Specify properties to not add to the url (baseUrl, prefix, baseSite)
-   */
-  getEndpoint(
-    endpoint: string,
-    propertiesToOmit?: BaseOccUrlProperties
-  ): string {
-    if (!endpoint.startsWith('/') && !this.getPrefix().endsWith('/')) {
-      endpoint = '/' + endpoint;
-    }
-    return this.buildUrlFromEndpointString(endpoint, propertiesToOmit);
   }
 
   /**

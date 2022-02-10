@@ -9,13 +9,17 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { I18nTestingModule } from '@spartacus/core';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
+import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorAttributeQuantityComponentOptions } from '../../quantity/configurator-attribute-quantity.component';
 import { ConfiguratorAttributeDropDownComponent } from './configurator-attribute-drop-down.component';
 
 function createValue(code: string, name: string, isSelected: boolean) {
   const value: Configurator.Value = {
     valueCode: code,
+    valueDisplay: name,
     name: name,
     selected: isSelected,
   };
@@ -38,12 +42,21 @@ class MockConfiguratorAttributeQuantityComponent {
   @Output() changeQuantity = new EventEmitter<number>();
 }
 
+@Component({
+  selector: 'cx-configurator-price',
+  template: '',
+})
+class MockConfiguratorPriceComponent {
+  @Input() formula: ConfiguratorPriceComponentOptions;
+}
+
 describe('ConfigAttributeDropDownComponent', () => {
   let component: ConfiguratorAttributeDropDownComponent;
+  let htmlElem: HTMLElement;
   let fixture: ComponentFixture<ConfiguratorAttributeDropDownComponent>;
 
   const ownerKey = 'theOwnerKey';
-  const name = 'theName';
+  const name = 'attributeName';
   const groupId = 'theGroupId';
   const selectedValue = 'selectedValue';
 
@@ -60,8 +73,9 @@ describe('ConfigAttributeDropDownComponent', () => {
           ConfiguratorAttributeDropDownComponent,
           MockFocusDirective,
           MockConfiguratorAttributeQuantityComponent,
+          MockConfiguratorPriceComponent,
         ],
-        imports: [ReactiveFormsModule, NgSelectModule],
+        imports: [ReactiveFormsModule, NgSelectModule, I18nTestingModule],
       })
         .overrideComponent(ConfiguratorAttributeDropDownComponent, {
           set: {
@@ -74,10 +88,11 @@ describe('ConfigAttributeDropDownComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfiguratorAttributeDropDownComponent);
-
+    htmlElem = fixture.nativeElement;
     component = fixture.componentInstance;
     component.attribute = {
       name: name,
+      label: name,
       attrCode: 444,
       dataType: Configurator.DataType.USER_SELECTION_QTY_ATTRIBUTE_LEVEL,
       uiType: Configurator.UiType.DROPDOWN,
@@ -100,7 +115,7 @@ describe('ConfigAttributeDropDownComponent', () => {
   it('should call emit of selectionChange onSelect', () => {
     component.ownerKey = ownerKey;
     spyOn(component.selectionChange, 'emit').and.callThrough();
-    component.onSelect(component.attributeDropDownForm?.value);
+    component.onSelect(component.attributeDropDownForm.value);
     expect(component.selectionChange.emit).toHaveBeenCalledWith(
       jasmine.objectContaining({
         ownerKey: ownerKey,
@@ -112,5 +127,198 @@ describe('ConfigAttributeDropDownComponent', () => {
         }),
       })
     );
+  });
+
+  describe('attribute level', () => {
+    it('should not display quantity and no price', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        '.cx-attribute-level-quantity-price'
+      );
+    });
+
+    it('should display quantity and price', () => {
+      component.attribute.quantity = 5;
+      component.attribute.attributePriceTotal = {
+        currencyIso: '$',
+        formattedValue: '500.00$',
+        value: 500,
+      };
+
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('value level', () => {
+    it('should not display quantity', () => {
+      component.attribute.dataType =
+        Configurator.DataType.USER_SELECTION_NO_QTY;
+      fixture.detectChanges();
+      CommonConfiguratorTestUtilsService.expectElementNotPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-attribute-quantity'
+      );
+    });
+
+    it('should display price formula', () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'cx-configurator-price'
+      );
+    });
+  });
+
+  describe('Accessibility', () => {
+    it("should contain label element with class name 'cx-visually-hidden' that hides label content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'label',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listbox count:' + component.attribute.values.length
+      );
+    });
+
+    it("should contain select element with class name 'form-control' and 'aria-describedby' attribute that indicates the ID of the element that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'select',
+        'form-control',
+        0,
+        'aria-describedby',
+        'cx-configurator--label--attributeName'
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value without price that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        1,
+        'aria-label',
+        'configurator.a11y.selectedValueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' value:' +
+          component.attribute.values[1].valueDisplay,
+        component.attribute.values[1].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePrice = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay,
+        component.attribute.values[0].valueDisplay
+      );
+    });
+
+    it("should contain option elements with 'aria-label' attribute for value with total price that defines an accessible name to label the current element", () => {
+      let value = component.attribute.values
+        ? component.attribute.values[0]
+        : undefined;
+      if (value) {
+        value.valuePriceTotal = {
+          currencyIso: '$',
+          formattedValue: '$100.00',
+          value: 100,
+        };
+      } else {
+        fail('Value not available');
+      }
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'option',
+        undefined,
+        0,
+        'aria-label',
+        'configurator.a11y.selectedValueOfAttributeFullWithPrice attribute:' +
+          component.attribute.label +
+          ' price:' +
+          component.attribute.values[0].valuePrice.formattedValue +
+          ' value:' +
+          component.attribute.values[0].valueDisplay,
+        component.attribute.values[0].valueDisplay
+      );
+    });
   });
 });
