@@ -49,11 +49,12 @@
       ></cx-date-picker>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('currency')">
+    <label [formGroup]="form.get('currency')">
       <span class="label-content required">{{
         'orgBudget.currency' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
@@ -71,7 +72,7 @@
     <label>
       <span class="label-content">{{ 'orgBudget.amount' | cxTranslate }}</span>
       <input
-        aria-required="true"
+        required="true"
         type="number"
         class="form-control"
         placeholder="{{ 'orgBudget.amount' | cxTranslate }}"
@@ -82,7 +83,7 @@
     </label>
 
     <label
-      aria-required="true"
+      required="true"
       *ngIf="units$ | async as units"
       [formGroup]="form.get('orgUnit')"
     >
@@ -90,6 +91,7 @@
         'orgBudget.businessUnits' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
