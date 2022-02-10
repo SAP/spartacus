@@ -37,6 +37,7 @@ export class ProductIntroComponent implements AfterContentChecked {
         const reviewsTab = this.getTabByLabel(reviewsTabLabel, tabsComponent);
         const reviewsComponent = this.getReviewsComponent();
         if (reviewsTab && reviewsComponent) {
+          reviewsTab.focus();
           this.clickTabIfInactive(reviewsTab);
           setTimeout(
             () => reviewsComponent.scrollIntoView({ behavior: 'smooth' }),
