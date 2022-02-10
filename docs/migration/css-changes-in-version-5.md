@@ -62,7 +62,3 @@ title: Changes to Styles in 5.0
 ### NavigationUIComponent, NavigationComponent, FooterNavigationComponent, CategoryNavigationComponent
 
 - Styles has been aligned to the new structure of navigation, see more in template changes of [NavigationUIComponent](./5_0.md#NavigationUIComponent)
-
-### CartItemComponent
-
-- Changed `justify-content` from `flex-start` to `space-between` for classes `cx-price, cx-quantity, cx-actions, cx-total` in mobile view
