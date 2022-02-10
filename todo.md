@@ -1,7 +1,7 @@
 ## TODO: before merge
 
 1. BUG - "double spinner" on the payment step in b2b / repl checkout.
-2. TO IMPROVE: Changing the address selection causes a certain delay
+2. TO IMPROVE: Changing the address selection causes a certain delay (check if this is the case for the payments):
    1. click on a different address than the one that's currently selected
    2. the global message will say the address was selected successfully
    3. the spinner will disappear
