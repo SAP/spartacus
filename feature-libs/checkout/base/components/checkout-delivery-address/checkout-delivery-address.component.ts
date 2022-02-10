@@ -122,16 +122,17 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     addresses: Address[],
     selected: Address | undefined
   ): Address | undefined {
-    if (addresses.length && (!selected || Object.keys(selected).length === 0)) {
-      const defaultSelectedAddress = addresses.find(
-        (address) => address.defaultAddress
-      );
+    if (selected) {
+      return selected;
+    }
 
-      if (defaultSelectedAddress) {
-        selected = defaultSelectedAddress;
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        this.setAddress(selected!);
-      }
+    const defaultSelectedAddress = addresses?.find(
+      (address) => address.defaultAddress
+    );
+
+    if (defaultSelectedAddress) {
+      selected = defaultSelectedAddress;
+      this.setAddress(defaultSelectedAddress);
     }
 
     return selected;

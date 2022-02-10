@@ -114,17 +114,19 @@ export class B2BCheckoutDeliveryAddressComponent
     addresses: Address[],
     selected: Address | undefined
   ): Address | undefined {
-    if (addresses.length && (!selected || Object.keys(selected).length === 0)) {
-      if (this.isAccountPayment) {
-        if (addresses.length === 1) {
-          this.setAddress(addresses[0]);
-        }
-      } else {
-        super.selectDefaultAddress(addresses, selected);
+    if (selected) {
+      return selected;
+    }
+
+    if (this.isAccountPayment) {
+      if (addresses?.length === 1) {
+        selected = addresses[0];
+        this.setAddress(selected);
+        return selected;
       }
     }
 
-    return selected;
+    return super.selectDefaultAddress(addresses, selected);
   }
 
   ngOnDestroy(): void {
