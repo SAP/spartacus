@@ -1,5 +1,6 @@
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
+import { waitForPage } from '../checkout-flow';
 
 export const productCode1 = '300938';
 export const couponForCart = 'CouponForCart'; //Get $10 off your order
@@ -33,7 +34,9 @@ export function addProductToCart(productCode: string) {
 export function verifyPrice(subtotal: string, discount: string) {
   cy.get('.cx-summary-partials').within(() => {
     cy.get('.cx-summary-amount').should('contain', subtotal);
-    cy.get(':nth-child(5)').should('contain', `You saved: ${discount}`);
+    cy.get('.cx-summary-row')
+      .contains(/you saved/i)
+      .should('contain', `${discount}`);
   });
 }
 
@@ -199,7 +202,12 @@ export function verifyOrderHistory(orderData: any, couponCode?: string) {
 }
 
 export function verifyCouponInReviewOrder(couponCode?: string) {
-  cy.visit('checkout/review-order');
+  const reviewOrderPage = waitForPage(
+    '/checkout/review-order',
+    'getReviewOrder'
+  );
+  cy.visit('/checkout/review-order');
+  cy.wait(`@${reviewOrderPage}`).its('response.statusCode').should('eq', 200);
   cy.wait('@review_order').then((xhr) => {
     const subtotal = xhr.response.body.subTotal.formattedValue;
     const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
