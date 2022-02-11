@@ -39,19 +39,19 @@ See the [Release documentation](https://sap.github.io/spartacus-docs/release-inf
 
 If you are working with Spartacus 4.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **12.0** or later.
+- [Angular CLI](https://angular.io/): **12.0** or later, < 13.
 - node.js: 12 (12.16.1 or later) or 14.x.
 - yarn: v1.15 or later
 
 If you are working with Spartacus 3.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **10.1** or later.
+- [Angular CLI](https://angular.io/): **10.1** or later, < 11.
 - node.js: 12.16.1 or later, < 13.0. The most recent 12.x version is recommended.
 - yarn: v1.15 or later
 
 If you are working with Spartacus 2.x, your Angular development environment should include the following:
 
-- [Angular CLI](https://angular.io/): **9.1** or later.
+- [Angular CLI](https://angular.io/): **9.1** or later, < 10.
 - node.js: 10.14.1 or later, < 13.0. The most recent 12.x version is recommended.
 - yarn: v1.15 or later
 
