@@ -83,7 +83,7 @@ const MockBadGuestDuplicateEmailResponse = {
   },
 } as HttpErrorResponse;
 
-fdescribe('BadRequestHandler', () => {
+describe('BadRequestHandler', () => {
   let service: BadRequestHandler;
   let globalMessageService: GlobalMessageService;
 
