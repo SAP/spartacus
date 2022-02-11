@@ -143,5 +143,13 @@ cx-quick-order-table {
 
   .cx-quick-order-table-item {
     margin: 0;
+
+    .cx-quick-order-table-item-product-image {
+      .img-missing {
+        display: block;
+        width: 63.5px;
+        height: 63.5px;
+      }
+    }
   }
 }
