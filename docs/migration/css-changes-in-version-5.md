@@ -51,7 +51,7 @@ title: Changes to Styles in 5.0
 ### Mixins
 - `padding-block-end` was deleted on `@mixin cx-configurator-template` to enable floating add to cart button styling. 
 
-### BreadcrumbComponent 
+### Breadcrumb component 
 
 - Style structure changed from `span > a` to `ol > li > a` to account for the changes in template markup. 
 
