@@ -32,9 +32,9 @@
     [type]="iconTypes.WARNING"
     aria-hidden="true"
   ></cx-icon>
-  <div class="cx-conflict-msg">
+  <a class="cx-conflict-msg">
     {{ getConflictMessageKey(groupType) | cxTranslate }}
-  </div>
+  </a>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"

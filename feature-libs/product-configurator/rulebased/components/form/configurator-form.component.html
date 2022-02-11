@@ -25,7 +25,18 @@
           [owner]="configuration.owner"
           [groupId]="currentGroup.id"
           [groupType]="currentGroup.groupType"
-        ></cx-configurator-attribute-header>
+        >
+        </cx-configurator-attribute-header>
+
+        <ng-container *ngIf="isConflictGroupType(currentGroup.groupType)">
+          <a
+            class="cx-conflict-msg"
+            (click)="
+              navigateToConflictedGroupInConfiguration(configuration.owner)
+            "
+            >View In Configuration</a
+          >
+        </ng-container>
 
         <!-- Single Selection Radio Button -->
         <cx-configurator-attribute-radio-button

@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LanguageService } from '@spartacus/core';
 import {
+  CommonConfigurator,
   ConfiguratorRouter,
   ConfiguratorRouterExtractorService,
 } from '@spartacus/product-configurator/common';
@@ -99,5 +100,11 @@ export class ConfiguratorFormComponent implements OnInit {
    */
   createGroupId(groupId?: string): string | undefined {
     return this.configUtils.createGroupId(groupId);
+  }
+
+  navigateToConflictedGroupInConfiguration(
+    owner: CommonConfigurator.Owner
+  ): void {
+    this.configuratorGroupsService.navigateToFirstGroup(owner);
   }
 }
