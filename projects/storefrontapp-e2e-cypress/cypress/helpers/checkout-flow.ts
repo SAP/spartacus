@@ -583,12 +583,12 @@ export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   loginUser(sampleUser);
-  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+  cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
