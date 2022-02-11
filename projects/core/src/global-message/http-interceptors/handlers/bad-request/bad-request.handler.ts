@@ -18,7 +18,6 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
     this.handleValidationError(request, response);
-    this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
   }
@@ -71,24 +70,6 @@ export class BadRequestHandler extends HttpErrorHandler {
           {
             key: `httpHandlers.validationErrors.${error.reason}.${error.subject}`,
           },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
-  protected handleVoucherOperationError(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter(
-        (e) =>
-          e.message === 'coupon.invalid.code.provided' &&
-          e.type === 'VoucherOperationError'
-      )
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.invalidCodeProvided' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
