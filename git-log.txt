@@ -3,7 +3,6 @@ Checkout lib file changes since 2022-02-02
 ==============================================
 
 feature-libs/checkout/components/components/payment-method/payment-method.component.html
-feature-libs/checkout/styles/components/steps/_progress.scss
 
 ==============================================
 Checkout lib file changes - end
