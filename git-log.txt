@@ -1,13 +1,3 @@
-==============================================
-Checkout lib file changes since 2022-02-02
-==============================================
-
-feature-libs/checkout/components/components/payment-method/payment-method.component.html
-
-==============================================
-Checkout lib file changes - end
-==============================================
-
 commit dcdcc4c833afcf87c0ed5de2e24446170a3b02d5
 Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
 Date:   Fri Feb 11 06:07:07 2022 -0500

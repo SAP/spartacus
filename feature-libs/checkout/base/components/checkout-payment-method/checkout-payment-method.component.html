@@ -69,7 +69,7 @@
       (closeForm)="hideNewPaymentForm()"
       (goBack)="back()"
       [paymentMethodsCount]="cards?.length || 0"
-      [setAsDefaultField]="!isGuestCheckout"
+      [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
       [loading]="isUpdating$ | async"
       [paymentDetails]="paymentDetails"
     ></cx-payment-form>
