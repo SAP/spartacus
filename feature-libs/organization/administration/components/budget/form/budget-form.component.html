@@ -36,7 +36,7 @@
       <cx-date-picker
         [control]="form.get('startDate')"
         [max]="form.get('endDate').value"
-        [required]="'true'"
+        [required]="true"
         (update)="form.get('endDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
@@ -46,7 +46,7 @@
       <cx-date-picker
         [control]="form.get('endDate')"
         [min]="form.get('startDate').value"
-        [required]="'true'"
+        [required]="true"
         (update)="form.get('startDate').updateValueAndValidity()"
       ></cx-date-picker>
     </label>
