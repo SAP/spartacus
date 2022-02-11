@@ -22,7 +22,7 @@ git pull
 # =========================================================
 # since_date: Update the date accordingly. How far back to check for changes
 # =========================================================
-since_date=2022-02-01
+since_date=2022-02-02
 
 git log --since=${since_date} --name-only > git-log.txt
 
