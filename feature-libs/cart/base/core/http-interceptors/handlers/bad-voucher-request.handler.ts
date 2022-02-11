@@ -32,7 +32,7 @@ export class BadVoucherRequestHandler extends HttpErrorHandler {
 
   handleError(request: HttpRequest<any>, response: HttpErrorResponse): void {
     this.handleVoucherExceededError(request, response);
-    this.handleInvalidVoucherError(request, response);
+    this.handleVoucherInvalidError(request, response);
   }
 
   protected handleVoucherExceededError(
@@ -43,13 +43,13 @@ export class BadVoucherRequestHandler extends HttpErrorHandler {
       .filter((e) => voucherExceededError(e))
       .forEach(() => {
         this.globalMessageService.add(
-          { key: 'voucher.voucherExceeded' },
+          { key: 'httpHandlers.voucherExceeded' },
           GlobalMessageType.MSG_TYPE_ERROR
         );
       });
   }
 
-  protected handleInvalidVoucherError(
+  protected handleVoucherInvalidError(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
   ): void {

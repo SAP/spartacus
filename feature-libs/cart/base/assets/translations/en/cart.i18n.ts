@@ -37,8 +37,6 @@ export const cart = {
     applyVoucherSuccess: '{{voucherCode}} has been applied.',
     removeVoucherSuccess: '{{voucherCode}} has been removed.',
     anchorLabel: 'Enter or remove your coupon code',
-    voucherExceeded:
-      'This coupon has exceeded the number of times it can be used',
     vouchersApplied: 'Applied coupons',
     availableCoupons: 'Available coupons',
     availableCouponsLabel: 'You can add these coupons to this order.',
