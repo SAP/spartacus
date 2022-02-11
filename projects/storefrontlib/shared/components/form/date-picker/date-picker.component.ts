@@ -23,6 +23,7 @@ export class DatePickerComponent {
   @Input() control: FormControl;
   @Input() min?: string;
   @Input() max?: string;
+  @Input() required?: string;
 
   @Output() update: EventEmitter<void> = new EventEmitter();
 

@@ -31,7 +31,6 @@
         'orgUnitAddress.titles' | cxTranslate
       }}</span>
       <ng-select
-        [inputAttrs]="{ required: 'true' }"
         formControlName="titleCode"
         [searchable]="false"
         [clearable]="false"
@@ -114,6 +113,7 @@
         'orgUnitAddress.city' | cxTranslate
       }}</span>
       <input
+        required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
