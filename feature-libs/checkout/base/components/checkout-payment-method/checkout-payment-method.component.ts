@@ -42,7 +42,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
-  shouldRedirect: boolean = false;
+  shouldRedirect = false;
+  doneAutoSelect = false;
   paymentDetails?: PaymentDetails;
 
   isUpdating$: Observable<boolean> = combineLatest([
@@ -110,6 +111,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
           textSelected,
         ]) => {
           if (
+            !this.doneAutoSelect &&
             paymentMethods.length &&
             (!selectedMethod || Object.keys(selectedMethod).length === 0)
           ) {
@@ -120,6 +122,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
               selectedMethod = defaultPaymentMethod.payment;
               this.savePaymentMethod(selectedMethod);
             }
+            this.doneAutoSelect = true;
           }
           return paymentMethods.map((payment) => ({
             content: this.createCard(
