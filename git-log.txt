@@ -1,0 +1,219 @@
+==============================================
+Checkout lib file changes since 2022-02-02
+==============================================
+
+feature-libs/checkout/components/components/payment-method/payment-method.component.html
+feature-libs/checkout/styles/components/steps/_progress.scss
+
+==============================================
+Checkout lib file changes - end
+==============================================
+
+commit dcdcc4c833afcf87c0ed5de2e24446170a3b02d5
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Feb 11 06:07:07 2022 -0500
+
+    style: Display default image if primary image is missing on Quick Order list (#14979)
+
+feature-libs/cart/quick-order/components/quick-order/table/item/quick-order-item.component.html
+feature-libs/cart/quick-order/styles/_quick-order-table.scss
+
+commit 0ffa91809e61e26feedb86eff35f867696e24af9
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Feb 11 04:38:47 2022 -0500
+
+    fix: Modify input setAsDefaultField in payment step (#14513)
+
+feature-libs/checkout/components/components/payment-method/payment-method.component.html
+
+commit 86acbcbe3ca0afe5914ccc68195adbe49fd3e94f
+Author: Jonathan Hsu <36024638+bit172@users.noreply.github.com>
+Date:   Fri Feb 11 04:04:30 2022 -0500
+
+    fix: Paragraph Component wraps any content with a P tag  (#11350)
+
+docs/migration/5_0.md
+projects/storefrontlib/cms-components/content/paragraph/paragraph.component.html
+projects/storefrontlib/cms-components/content/paragraph/paragraph.component.spec.ts
+
+commit e69a69e7a1848104358f3f479a6fbdae6832cab9
+Author: RadhepS <34665674+RadhepS@users.noreply.github.com>
+Date:   Thu Feb 10 10:20:09 2022 -0500
+
+    test: stabilize users core e2e test
+    
+    Modified cy.waits to only complete when a 200 status is resolved
+    
+    Closes: #14511
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/features/create.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/features/disable.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/b2b/my-company/features/update.ts
+
+commit fbd4d95f62e7943d71b1f4e0905592c2300564f5
+Author: pawelfras <fras.pawel@yahoo.com>
+Date:   Thu Feb 10 14:25:30 2022 +0100
+
+    test: Refactor of coupon E2E tests to avoid unnecessary delays (#14500)
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/coupons/cart-coupon.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/coupons.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/coupons/coupons.e2e-spec.ts
+
+commit 5d8584f762fa3ff520a6d9c341a4c570d20f7fbf
+Author: morganm58 <mikel.morgan@sap.com>
+Date:   Wed Feb 9 20:20:34 2022 -0500
+
+    fix: Sparta Theme minimum contrast adjustments (#14855)
+    
+    * feature/GH-13498
+    change button font-size and weight for sparta theme
+    
+    * feature/GH-13498
+    added sparta theme alt color
+    
+    * feature/GH-13498
+    updated styles to meet the contrast requirements
+    
+    * feature/GH-13498
+    added contrast styling in checkout
+    
+    * feature/GH-13498
+    fixed some formatting issues
+    
+    * feature/GH-13498
+    updated secondary color
+    
+    * feature/GH-13498
+    fixes santorini breadcrumb color
+    
+    * feature/GH-13498
+    added color to currency and language color
+
+feature-libs/cart/base/styles/components/_mini-cart.scss
+feature-libs/checkout/styles/components/steps/_progress.scss
+projects/storefrontstyles/scss/components/content/navigation/_breadcrumb.scss
+projects/storefrontstyles/scss/cxbase/blocks/buttons.scss
+projects/storefrontstyles/scss/cxbase/blocks/forms.scss
+projects/storefrontstyles/scss/theme/santorini.scss
+projects/storefrontstyles/scss/theme/sparta/_variables.scss
+
+commit adf93c595b3b22f2244409e43e7e83026fa17d58
+Author: Jonathan Hsu <36024638+bit172@users.noreply.github.com>
+Date:   Wed Feb 9 13:17:09 2022 -0500
+
+    test: Add E2E Faceting + Checkout (#12013)
+    
+    Closes #12013
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-flow.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts
+
+commit 59ff7a5b16311620d13cf1b6d4bd633d03d06aa7
+Author: pawelfras <pawel.fras@sap.com>
+Date:   Wed Feb 9 13:33:24 2022 +0100
+
+    test: Add missing E2E tests for B2B/B2C Checkout Flow (#2478)
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-flow.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-forms.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/checkout-variants.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/form.ts
+projects/storefrontapp-e2e-cypress/cypress/helpers/viewport-context.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/b2b/regression/checkout/b2b-credit-card-checkout-flow.core-e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts
+
+commit 5280ece8ed676188962bc85d2443e970ac65f77e
+Author: pawelfras <pawel.fras@sap.com>
+Date:   Wed Feb 9 11:31:14 2022 +0100
+
+    test: Fix error in logs for order and storefront libs (#14981)
+
+feature-libs/order/components/order-details/order-detail-items/consignment-tracking/consignment-tracking.component.spec.ts
+projects/storefrontlib/cms-components/myaccount/my-coupons/coupon-card/coupon-card.component.spec.ts
+
+commit 760580c144cb2d9f09367b7dcf877e23a6d36109
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Tue Feb 8 16:36:16 2022 -0500
+
+    fix: make cart item img and name focusable (#14965)
+
+docs/migration/5_0.md
+feature-libs/cart/base/components/cart-shared/cart-item/cart-item.component.html
+feature-libs/cart/base/styles/components/_cart-item.scss
+projects/storefrontapp-e2e-cypress/cypress/helpers/accessibility/b2b/tabbing-order.config.ts
+
+commit 7f2ba4559670f3917d46bc6ffa48cc7c97a3d4b8
+Author: Krzysztof Platis <platonn.git@gmail.com>
+Date:   Mon Feb 7 22:06:39 2022 +0100
+
+    chore: add codeowners for feature-libs and product-configurator/CPQ
+
+.github/CODEOWNERS
+
+commit c86dd1c63db35c1dd0bc38df83d1022a71caa247
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Mon Feb 7 07:55:20 2022 +0100
+
+    fix: improve sanitization of product text in show more component (#14951)
+    
+    Changes view in order to properly sanitize product text. Adds tests that validate sanitization.
+    Closes #14943
+
+feature-libs/product-configurator/rulebased/components/show-more/configurator-show-more.component.html
+feature-libs/product-configurator/rulebased/components/show-more/configurator-show-more.component.spec.ts
+
+commit 1239834b21be546e9fe03f46cb8ca4c6fd33300f
+Author: Benjamin Emiliani <49131189+BenjaminEmiliani@users.noreply.github.com>
+Date:   Fri Feb 4 16:03:29 2022 -0500
+
+    chore: add breaking changes of FacetList to 5.0md (#14934)
+
+docs/migration/5_0.md
+
+commit 8b3c69b002245853892580306aedd05d403b4909
+Author: Michał D <mdydo@divante.pl>
+Date:   Fri Feb 4 09:49:03 2022 +0100
+
+    fix: Fix for stock notification e2e test, merge two test in one with viewport context way (#14904)
+
+projects/storefrontapp-e2e-cypress/cypress/integration/mobile/notification/stock-notification-mobile.e2e-spec.ts
+projects/storefrontapp-e2e-cypress/cypress/integration/regression/notification/stock-notification.core-e2e-spec.ts
+
+commit 27e1addc5fee29021ad87ca1dbaacc27545b3124
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Fri Feb 4 09:06:15 2022 +0100
+
+    test: fix failing CPQ configurator e2e test (#14944)
+    
+    Closes #14941
+
+projects/storefrontapp-e2e-cypress/cypress/helpers/product-configurator.ts
+
+commit d67e4406da45ff0216f0f0c2e0a67008d4e802c2
+Author: steinsebastian <54309425+steinsebastian@users.noreply.github.com>
+Date:   Thu Feb 3 14:55:55 2022 +0100
+
+    fix: Add live region for status message (#14897)
+    
+    Adds aria-live region for configuration update status message to be read by screen-readers.
+    
+    Closes #14862
+
+feature-libs/product-configurator/rulebased/components/update-message/configurator-update-message.component.html
+feature-libs/product-configurator/rulebased/components/update-message/configurator-update-message.component.spec.ts
+
+commit 2c7732826c79509c47bf2214d462b41cd37d4ea9
+Author: Christoph Hinssen <33626130+ChristophHi@users.noreply.github.com>
+Date:   Thu Feb 3 07:51:26 2022 +0100
+
+    refactor: clean up components and increase test coverage (#14929)
+    
+    Cleans up multi and single select bundle components.
+    
+    Closes #14928
+
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/multi-selection-bundle/configurator-attribute-multi-selection-bundle.component.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component.spec.ts
+feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component.ts
