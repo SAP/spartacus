@@ -70,14 +70,10 @@ context('B2B - Credit Card Checkout flow', () => {
   });
 
   it('should enter payment method', () => {
-<<<<<<< HEAD
-    checkout.fillPaymentFormWithCheapProduct(user, undefined);
-=======
     checkout.fillPaymentFormWithCheapProduct(
       { payment: { number: user.payment.number } },
       undefined
     );
->>>>>>> origin/develop
   });
 
   it('should review and place order', () => {

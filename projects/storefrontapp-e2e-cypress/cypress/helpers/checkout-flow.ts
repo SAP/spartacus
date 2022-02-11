@@ -16,14 +16,14 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
-import { productItemSelector } from './product-search';
 import { DeepPartial } from './form';
+import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
 
-<<<<<<< HEAD
 export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
+export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
 
 export function interceptCheckoutB2CDetailsEndpoint() {
   cy.intercept(
@@ -35,9 +35,6 @@ export function interceptCheckoutB2CDetailsEndpoint() {
 
   return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
 }
-=======
-export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
->>>>>>> origin/develop
 
 /**
  * Clicks the main menu (on mobile only)
@@ -396,26 +393,6 @@ export function proceedWithIncorrectShippingAddressForm(
 ) {
   cy.log('🛒 Trying to proceed with incorrect address form');
 
-<<<<<<< HEAD
-  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
-    .find('.cx-summary-amount')
-    .should('contain', cartData.total);
-
-  /**
-   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
-   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
-   */
-  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
-  cy.intercept({
-    method: 'PUT',
-    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-      'BASE_SITE'
-    )}/**/deliverymode?deliveryModeId=*`,
-  }).as('putDeliveryMode');
-
-=======
   fillShippingAddress(shippingAddressData);
   cy.get('cx-form-errors').should('exist');
 }
@@ -432,7 +409,19 @@ export function fillAddressFormWithCheapProduct(
   shippingAddressData: Partial<AddressData> = user
 ) {
   cy.log('🛒 Filling shipping address form');
->>>>>>> origin/develop
+
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
@@ -463,11 +452,7 @@ export function proceedWithIncorrectPaymentForm(
 }
 
 export function fillPaymentFormWithCheapProduct(
-<<<<<<< HEAD
-  paymentDetailsData: PaymentDetails = user,
-=======
   paymentDetailsData: DeepPartial<PaymentDetails> = user,
->>>>>>> origin/develop
   billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
@@ -532,10 +517,6 @@ export function placeOrderWithCheapProduct(
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-<<<<<<< HEAD
-  _cartData: SampleCartProduct = cartWithCheapProduct,
-=======
->>>>>>> origin/develop
   isApparel: boolean = false
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');

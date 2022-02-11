@@ -141,14 +141,9 @@ export function goTroughCheckout(token: any, placeOrder = false) {
       cy.log('Placing order asynchronously');
       const cartId = $cart.text().match(/[0-9]+/)[0];
       // Need to pass numeric CartId explicitly to avoid using the wrong cart for checkout
-<<<<<<< HEAD
+      registerReviewOrderRoute(cartId);
       cy.requireDeliveryAddressAdded(user.address, token, cartId);
       cy.requireDeliveryMethodSelected(token, cartId);
-=======
-      registerReviewOrderRoute(cartId);
-      cy.requireShippingAddressAdded(user.address, token, cartId);
-      cy.requireShippingMethodSelected(token, cartId);
->>>>>>> origin/develop
       cy.requirePaymentDone(token, cartId);
       if (placeOrder) {
         return cy.requirePlacedOrder(token, cartId);
