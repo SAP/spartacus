@@ -27,11 +27,9 @@
     "@angular-devkit/schematics": "^13.2.0",
     "@angular/common": "^13.2.0",
     "@angular/core": "^13.2.0",
-    "@angular/platform-browser-dynamic": "^13.2.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/schematics": "4.1.0-next.0",
-    "rxjs": "^6.6.0",
-    "zone.js": "~0.11.4"
+    "rxjs": "^6.6.0"
   },
   "publishConfig": {
     "access": "public"
