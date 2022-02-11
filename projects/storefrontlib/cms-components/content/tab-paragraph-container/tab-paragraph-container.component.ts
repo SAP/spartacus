@@ -83,6 +83,14 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
         } else {
           this.activeTabNum = tabNum;
         }
+        setTimeout(() => {
+          const firstFocusableElement = this.winRef.document
+            .querySelectorAll('cx-tab-paragraph-container > div > div')
+            [tabNum].querySelectorAll(
+              'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+            )[0] as HTMLElement;
+          firstFocusableElement?.focus();
+        }, 0);
       });
   }
 
