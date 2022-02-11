@@ -85,6 +85,7 @@ export class B2BCheckoutDeliveryAddressComponent
   }
 
   getSupportedAddresses(): Observable<Address[]> {
+    console.log('b2b getSupportedAddresses');
     return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
       switchMap((isAccountPayment) => {
         return isAccountPayment

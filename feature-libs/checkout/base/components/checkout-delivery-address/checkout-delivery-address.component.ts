@@ -49,6 +49,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
+    console.log('selectedAddress$');
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -60,8 +61,25 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-  get cards$(): Observable<CardWithAddress[]> {
-    return combineLatest([
+  cards$: Observable<CardWithAddress[]>;
+
+  constructor(
+    protected userAddressService: UserAddressService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
+    protected activatedRoute: ActivatedRoute,
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
+    protected globalMessageService: GlobalMessageService
+  ) {}
+
+  ngOnInit(): void {
+    if (!this.isGuestCheckout) {
+      this.userAddressService.loadAddresses();
+    }
+
+    this.cards$ = combineLatest([
       this.getSupportedAddresses(),
       this.selectedAddress$,
       this.translationService.translate(
@@ -84,28 +102,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
             textSelected
           ),
         }))
-      )
+      ),
+      tap((x) => console.log('CARDS', x))
     );
   }
 
-  constructor(
-    protected userAddressService: UserAddressService,
-    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressFacade,
-    protected activatedRoute: ActivatedRoute,
-    protected translationService: TranslationService,
-    protected activeCartFacade: ActiveCartFacade,
-    protected checkoutStepService: CheckoutStepService,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade,
-    protected globalMessageService: GlobalMessageService
-  ) {}
-
-  ngOnInit(): void {
-    if (!this.isGuestCheckout) {
-      this.userAddressService.loadAddresses();
-    }
-  }
-
   getSupportedAddresses(): Observable<Address[]> {
+    console.log('getSupportedAddresses');
     return this.userAddressService.getAddresses();
   }
 
