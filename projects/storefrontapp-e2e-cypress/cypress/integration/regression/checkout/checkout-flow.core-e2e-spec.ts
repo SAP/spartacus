@@ -43,7 +43,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it('should filter with faceting and perform checkout', () => {
+    it.only('should filter with faceting and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 
