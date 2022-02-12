@@ -622,7 +622,6 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
       ...user,
       firstName: '',
     });
-    fillAddressFormWithCheapProduct({ firstName: user.firstName });
 
     cy.intercept(
       'GET',
@@ -630,25 +629,27 @@ export function checkoutFirstDisplayedProduct(user: SampleUser) {
         'BASE_SITE'
       )}/users/current/carts/${code}?fields=DEFAULT*`
     ).as('userCart');
-  });
 
-  verifyDeliveryMethod();
-  fillPaymentFormWithCheapProduct(user as PaymentDetails);
+    fillAddressFormWithCheapProduct({ firstName: user.firstName });
 
-  cy.wait('@userCart').its('response.statusCode').should('eq', 200);
+    cy.wait('@userCart').its('response.statusCode').should('eq', 200);
 
-  cy.get('@userCart').then((xhr: any) => {
-    const cart = xhr.response.body;
-    const cartData = {
-      total: cart.subTotal.formattedValue,
-      estimatedShipping: cart.deliveryCost.formattedValue,
-    };
-    placeOrderWithCheapProduct(user, cartData);
-  });
+    verifyDeliveryMethod();
+    fillPaymentFormWithCheapProduct(user as PaymentDetails);
 
-  cy.get('@addToCart').then((xhr: any) => {
-    const responseProduct = xhr.response.body.entry.product;
-    const sampleProduct = { code: responseProduct.code };
-    verifyOrderConfirmationPageWithCheapProduct(user, sampleProduct);
+    cy.get('@userCart').then((xhr: any) => {
+      const cart = xhr.response.body;
+      const cartData = {
+        total: cart.subTotal.formattedValue,
+        estimatedShipping: cart.deliveryCost.formattedValue,
+      };
+      placeOrderWithCheapProduct(user, cartData);
+    });
+
+    cy.get('@addToCart').then((xhr: any) => {
+      const responseProduct = xhr.response.body.entry.product;
+      const sampleProduct = { code: responseProduct.code };
+      verifyOrderConfirmationPageWithCheapProduct(user, sampleProduct);
+    });
   });
 }
