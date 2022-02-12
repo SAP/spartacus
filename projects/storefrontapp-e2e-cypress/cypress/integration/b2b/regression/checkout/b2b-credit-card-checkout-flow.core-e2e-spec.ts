@@ -35,16 +35,45 @@ context('B2B - Credit Card Checkout flow', () => {
     b2bCheckout.selectCreditCardPayment();
   });
 
+  it('should check total in order summary', () => {
+    checkout.checkSummaryAmount(cartWithB2bProduct);
+  });
+
+  it('should prevent navigation to payment method if shipping address form is empty', () => {
+    checkout.proceedWithEmptyShippingAdressForm();
+  });
+
+  it('should prevent navigation to payment method if shipping address for has errors', () => {
+    checkout.proceedWithIncorrectShippingAddressForm({
+      ...user,
+      firstName: '',
+    });
+  });
+
   it('should enter shipping address', () => {
-    checkout.fillAddressFormWithCheapProduct(user, cartWithB2bProduct);
+    checkout.fillAddressFormWithCheapProduct({ firstName: user.firstName });
   });
 
   it('should select delivery mode', () => {
     checkout.verifyDeliveryMethod();
   });
 
+  it('should prevent navigation to review order if payment form is empty', () => {
+    checkout.proceedWithEmptyPaymentForm();
+  });
+
+  it('should prevent navigation to review order if payment form has errors', () => {
+    checkout.proceedWithIncorrectPaymentForm({
+      ...user,
+      payment: { ...user.payment, number: '' },
+    });
+  });
+
   it('should enter payment method', () => {
-    checkout.fillPaymentFormWithCheapProduct(user, undefined);
+    checkout.fillPaymentFormWithCheapProduct(
+      { payment: { number: user.payment.number } },
+      undefined
+    );
   });
 
   it('should review and place order', () => {

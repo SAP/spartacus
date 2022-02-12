@@ -145,6 +145,15 @@ legend {
   input + .form-check-label {
     color: var(--cx-color-text);
 
+    a {
+      color: var(--cx-color-text);
+      text-decoration: underline;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+
     &::after {
       content: none;
     }
@@ -325,5 +334,24 @@ input {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+  }
+}
+
+.ng-select .ng-select-container .ng-value-container .ng-placeholder {
+  color: var(--cx-color-secondary);
+}
+
+.form-group {
+  input[type='text']::placeholder {
+    color: var(--cx-color-secondary);
+    opacity: 1;
+  }
+
+  input[type='text']:-ms-input-placeholder {
+    color: var(--cx-color-secondary);
+  }
+
+  input[type='text']::-ms-input-placeholder {
+    color: var(--cx-color-secondary);
   }
 }
