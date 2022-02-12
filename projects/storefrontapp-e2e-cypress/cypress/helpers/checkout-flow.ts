@@ -213,9 +213,7 @@ export function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutDetailsAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 export function verifyDeliveryMethod() {
@@ -430,9 +428,7 @@ export function fillAddressFormWithCheapProduct(
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutDetailsAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 export function proceedWithEmptyPaymentForm() {
