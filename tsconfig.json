@@ -140,9 +140,6 @@
       "@spartacus/checkout/base/root": [
         "feature-libs/checkout/base/root/public_api"
       ],
-      "@spartacus/checkout/components": [
-        "feature-libs/checkout/components/public_api"
-      ],
       "@spartacus/checkout/scheduled-replenishment/assets": [
         "feature-libs/checkout/scheduled-replenishment/assets/public_api"
       ],
