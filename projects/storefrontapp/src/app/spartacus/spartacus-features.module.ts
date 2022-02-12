@@ -57,7 +57,6 @@ import { CartBaseFeatureModule } from './features/cart-base-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
-import { CheckoutOldFeatureModule } from './features/checkout-old-feature.module';
 import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
 import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
@@ -88,10 +87,8 @@ if (environment.b2b) {
 }
 
 let CheckoutFeature = CheckoutFeatureModule;
-if (environment.oldCheckout) {
-  CheckoutFeature = CheckoutOldFeatureModule;
-}
-if (environment.b2b && !environment.oldCheckout) {
+
+if (environment.b2b) {
   CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
 }
 

@@ -1,6 +1,6 @@
 <form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
   <div class="row">
-    <div class="col-md-12 col-lg-9">
+    <div class="col-md-12 col-xl-10">
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">

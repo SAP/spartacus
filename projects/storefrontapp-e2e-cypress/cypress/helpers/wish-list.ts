@@ -285,9 +285,7 @@ function fillAddressForm(shippingAddressData: AddressData = user) {
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 
   cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
-  cy.wait(`@${getCheckoutDetailsAlias}`)
-    .its('response.statusCode')
-    .should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 function fillPaymentForm(
