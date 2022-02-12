@@ -1,37 +1,34 @@
 ## TODO: before merge
 
-1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
-2. remove old checkout
-   1. remove `core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts`
-   2. Remove `checkout-git-check.sh`
-   3. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
-3. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
+1. Before merging to develop, make sure to change the server back to the original ones after GC updates the dev, CI, and other servers with new sample data:
    1. .env-cmdrc
    2. cypress.ci.json
    3. cypress.ci.b2b.json
    4. cypress.json
+2. Remove `todo.md`, but copy paste its content to a temp file. After the merge, start a new branch, and add the `todo.md` back.
 
 ## Second phase
 
-1. B2B OCC core-setup library (architectural discussion)
-2. Try to use ngOnInit for double spinners - https://github.com/SAP/spartacus/pull/15000
-3. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
-4. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
+1. search for "// TODO:#checkout" (leftovers that can't be done until cart is merged)
+2. B2B OCC core-setup library (architectural discussion)
+3. Try to use ngOnInit for double spinners - https://github.com/SAP/spartacus/pull/15000
+4. Test the checkout with slow network. It could yield some racing condition issues (remember the spinner on the checkout payment type).
+5. Is the checkout properly using the new cart lib? (still waiting for cart-lib PR to be merged)
    1. order and repl order confirmation page context: https://github.com/SAP/spartacus/pull/14466/files (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638282843004200) - related to waiting for Wei and Patrick PR to be merged 
    - (related to above) sample data changes: https://github.tools.sap/cx-commerce/spartacussampledata/pull/211 (source: https://sap-cx.slack.com/archives/C02L8BUATM5/p1638283007005900)
-5. Schematics and deprecations
+6. Schematics and deprecations
    1. Write migration schematics
    2. Check and add js doc comments
-6. Migration schematics
+7. Migration schematics
    1. Facades / services - import paths; some classes have been renamed
    2. adapters / connectors - import paths; some classes have been renamed
    3. components - import paths; some classes have been renamed
    4. modules? import paths; some classes have been renamed
    5. Check the existing schematics written before the checkout was merged!
-7. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
-8. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
-9. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
-10. Docs
+8. move everything from `docs/migration/5_0-checkout.md` to the main `5_0.md`
+9. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+10. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
+11. Docs
    1. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    2. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
    3. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
@@ -52,7 +49,7 @@
    9. Go through the old checkout's changes in `5_0.md`:
       1. add missing stuff
       2. remove unnecessary / non-relevant parts
-11. check LL:
+12. check LL:
    10. check the chunks: base, b2b, replenishment
    11. check if and when those are loaded
    12. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
@@ -60,8 +57,8 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-12.  check the bundle size of checkout (maybe using webpack analyzer)
-13. query debounce
+13.  check the bundle size of checkout (maybe using webpack analyzer)
+14. query debounce
     1.  see `feature/query-debounce` branch
     2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 
