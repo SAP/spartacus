@@ -151,24 +151,74 @@ describe('ConfigUtilsService', () => {
     expect(values.length).toBe(1);
   });
 
-  describe('focusFirstAttribute', () => {
-    it('should delegate to focus service', () => {
-      const theElement = document.createElement('form');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
-      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+  describe('Focused elements', () => {
+    function createElement(id: string): HTMLElement {
+      const element = document.createElement('attribute');
+      element.id = id;
+      return element;
+    }
+
+    function createFocusedElements(
+      attribute: string,
+      amountOfAttributes: number,
+      amountOfValues: number
+    ): HTMLElement[] {
+      const focusedElements: HTMLElement[] = [];
+      for (let i = 1; i <= amountOfAttributes; i++) {
+        let attrId = attribute + '_' + i;
+        for (let j = 1; j <= amountOfValues; j++) {
+          let valueId = 'value_' + j;
+          const value = createElement(attrId + '--' + valueId);
+          focusedElements.push(value);
+        }
+      }
+      return focusedElements;
+    }
+
+    describe('focusFirstAttribute', () => {
+      it('should delegate to focus service', () => {
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not delegate to focus service if form is not available', () => {
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(null);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
     });
 
-    it('should not delegate to focus service if form is not available', () => {
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(null);
-      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    describe('focusAttribute', () => {
+      it('should delegate to focus service', () => {
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not delegate to focus service if form is not available', () => {
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(null);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
     });
   });
 
