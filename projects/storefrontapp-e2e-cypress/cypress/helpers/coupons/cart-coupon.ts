@@ -394,7 +394,6 @@ function visitOrdersPage() {
   cy.visit('my-account/orders');
   cy.wait(`@${ordersPage}`).its('response.statusCode').should('eq', 200);
 }
-
 function visitCartPage() {
   const cartPage = waitForPage('cart', 'cartPage');
   cy.visit('cart');
