@@ -153,6 +153,51 @@
     }
   }
 
+  .cx-price,
+  .cx-quantity,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+
+      .cx-label {
+        width: 100px;
+      }
+    }
+  }
+
+  .cx-price,
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      .cx-value {
+        margin-left: 20px;
+      }
+
+      .readonly-value {
+        background-color: rgb(230, 230, 230);
+      }
+    }
+  }
+
+  .cx-actions {
+    @include media-breakpoint-down(sm) {
+      .link {
+        display: block;
+        text-align: left;
+      }
+
+      .cx-sfl-btn {
+        text-align: left;
+        padding-inline-start: 0;
+      }
+    }
+  }
+
   // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
   .cx-compact {
@@ -190,18 +235,10 @@
       }
     }
 
-    .cx-price,
-    .cx-quantity,
-    .cx-total {
-      .cx-value {
-        left: 120px;
-        position: absolute;
-      }
-    }
-
-    .cx-price,
     .cx-quantity {
-      padding: 0 0 20px 0;
+      .cx-value {
+        margin-left: 0;
+      }
     }
   }
 }
