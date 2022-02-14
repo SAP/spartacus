@@ -39,7 +39,7 @@ cx-added-to-cart-toast {
       background: var(--cx-color-secondary);
     }
 
-    h3 {
+    .product-name {
       font-weight: 600;
     }
 
@@ -54,7 +54,7 @@ cx-added-to-cart-toast {
       }
 
       .added-to-cart-toast-product {
-        span {
+        .product-row {
           display: block;
         }
       }
