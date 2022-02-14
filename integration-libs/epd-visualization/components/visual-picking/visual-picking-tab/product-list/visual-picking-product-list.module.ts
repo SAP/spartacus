@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { AddToCartModule } from '@spartacus/cart/base/components/add-to-cart';
 import { I18nModule, UrlModule } from '@spartacus/core';
 import {
   CarouselModule,
@@ -22,11 +21,9 @@ import { VisualPickingProductListComponent } from './visual-picking-product-list
     IconModule,
     CarouselModule,
     PagedListModule,
-    AddToCartModule,
     UrlModule,
     I18nModule,
     CompactAddToCartModule,
-    AddToCartModule,
   ],
   declarations: [VisualPickingProductListComponent],
   exports: [VisualPickingProductListComponent],
