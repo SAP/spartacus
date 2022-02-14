@@ -141,6 +141,12 @@
     justify-content: flex-end;
     padding: 0;
 
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
     button.link {
       @include type('7');
       color: var(--cx-color-text);
