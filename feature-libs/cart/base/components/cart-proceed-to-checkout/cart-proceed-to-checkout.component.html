@@ -6,7 +6,7 @@
   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
 >
   {{
-    (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : '')
+    (!cartValidationInProgress ? 'cartDetails.proceedToCheckout' : 'validation.inProgress')
       | cxTranslate
   }}
 </cx-progress-button>
