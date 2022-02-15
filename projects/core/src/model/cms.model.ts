@@ -175,3 +175,28 @@ export interface CmsProductFacetNavigationComponent extends CmsComponent {
 export interface CmsAddToCartComponent extends CmsComponent {
   inventoryDisplay?: boolean;
 }
+
+export interface CmsVideoComponent extends CmsComponent {
+  overlayTitle?: string;
+  autoPlay?: string;
+  loop?: string;
+  mute?: string;
+  containerSize?: ContainerSizeOptions;
+  containerBackground?: ContainerBackgroundOptions;
+  videoContainerHeight?: number;
+  video?: CmsBannerComponentMedia;
+  url?: string;
+  container?: boolean;
+  // videoMedia is not exposed in API
+  // videoMedia?:CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia;
+}
+
+export enum ContainerBackgroundOptions {
+  NO_BACKGROUND,
+  UPLOAD_RESPONSIVE_IMAGE,
+}
+
+export enum ContainerSizeOptions {
+  FIT_TO_CONTENT_SIZE,
+  DEFINE_CONTAINER_HEIGHT,
+}

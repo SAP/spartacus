@@ -1,11 +1,22 @@
-<div class="video" *ngIf="data$ | async as data">
+<cx-generic-link *ngIf="data$ | async as data" [url]="data.url">
+  <div>
+    {{ data.overlayTitle }}
+  </div>
   <video
-    width="640px"
-    height="267px"
+    *ngIf="source"
     controls
+    [height]="
+      data.containerSize === 'DEFINE_CONTAINER_HEIGHT'
+        ? data.videoContainerHeight
+        : '200'
+    "
+    [width]="600"
+    [loop]="data.loop === 'true'"
+    [autoplay]="data.autoPlay === 'true'"
+    [muted]="data.mute === 'true' ? 'muted' : null"
     (click)="toggleVideo()"
     #videoPlayer
   >
-    <source src="{{ source }}" type="video/mp4" />
+    <source src="{{ source }}" type="{{ data.video.mime }}" />
   </video>
-</div>
+</cx-generic-link>

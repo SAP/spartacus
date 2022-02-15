@@ -5,9 +5,11 @@ import {
   HostBinding,
   ViewChild,
 } from '@angular/core';
-import { Config } from '@spartacus/core';
+import { CmsVideoComponent } from '@spartacus/core';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { MediaService } from '../../../shared/components/media/media.service';
 
 @Component({
   selector: 'cx-video',
@@ -15,36 +17,27 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoComponent {
-  @HostBinding('class') styleClasses: string;
+  @HostBinding('class') styleClasses: string | undefined;
 
-  source = '';
+  @ViewChild('videoPlayer', { read: ElementRef }) videoplayer: ElementRef;
 
-  data$ = this.component.data$.pipe(
-    tap((data) => (this.source = this.resolveAbsoluteUrl(data.video.url)))
+  source: string | undefined;
+
+  data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
+    tap((data) => {
+      this.styleClasses = data.styleClasses;
+      if (data.video) {
+        this.source = this.mediaService.getMedia(data.video)?.src;
+      }
+    })
   );
 
   constructor(
-    protected component: CmsComponentData<any>,
-    protected config: Config
+    protected component: CmsComponentData<CmsVideoComponent>,
+    protected mediaService: MediaService
   ) {}
-
-  @ViewChild('videoPlayer', { static: false }) videoplayer: ElementRef;
 
   toggleVideo() {
     this.videoplayer.nativeElement.play();
-  }
-
-  protected resolveAbsoluteUrl(url: string): string {
-    return !url || url.startsWith('http') || url.startsWith('//')
-      ? url
-      : this.getBaseUrl() + url;
-  }
-
-  protected getBaseUrl(): string {
-    return (
-      this.config.backend?.media?.baseUrl ??
-      this.config.backend?.occ?.baseUrl ??
-      ''
-    );
   }
 }
