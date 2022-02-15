@@ -121,6 +121,19 @@ describe('OrderService', () => {
     });
   });
 
+  it('should be able to get order list loaded false flag', () => {
+    store.dispatch(new OrderActions.LoadUserOrdersFail('error'));
+
+    let orderListLoaded: boolean;
+    userOrderService
+      .getOrderHistoryListLoaded()
+      .subscribe((data) => {
+        orderListLoaded = data;
+      })
+      .unsubscribe();
+    expect(orderListLoaded).toEqual(false);
+  });
+
   it('should be able to get order list loaded flag', () => {
     store.dispatch(new OrderActions.LoadUserOrdersSuccess({}));
 

@@ -1,5 +1,5 @@
 import { DebugElement, Pipe, PipeTransform } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
@@ -29,8 +29,18 @@ const mockConsignment: Consignment = {
 class MockTranslateUrlPipe implements PipeTransform {
   transform(): any {}
 }
+
+class MockModalRef {
+  get componentInstance() {
+    return {
+      tracking$: null,
+      shipDate: null,
+      consignmentCode: null,
+    };
+  }
+}
 class MockModalService {
-  open = createSpy('open');
+  open = createSpy('open').and.returnValue(new MockModalRef());
 }
 
 describe('ConsignmentTrackingComponent', () => {
@@ -50,24 +60,23 @@ describe('ConsignmentTrackingComponent', () => {
     }
     return equals;
   };
+
   const userOrderService = jasmine.createSpyObj('UserOrderService', [
     'loadConsignmentTracking',
     'getConsignmentTracking',
     'clearConsignmentTracking',
   ]);
 
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [NgbModule, SpinnerModule, I18nTestingModule],
-        declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
-        providers: [
-          { provide: ModalService, useClass: MockModalService },
-          { provide: OrderFacade, useValue: userOrderService },
-        ],
-      }).compileComponents();
-    })
-  );
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [NgbModule, SpinnerModule, I18nTestingModule],
+      declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
+      providers: [
+        { provide: ModalService, useClass: MockModalService },
+        { provide: OrderFacade, useValue: userOrderService },
+      ],
+    }).compileComponents();
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConsignmentTrackingComponent);
