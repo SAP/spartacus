@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, iif, Observable, of } from 'rxjs';
+import { defer, EMPTY, Observable, of } from 'rxjs';
 import {
   concatMap,
   delay,
@@ -61,39 +61,39 @@ export class GlobalMessageEffect {
 
   hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> =
     createEffect(() =>
-      iif(
-        () => isPlatformBrowser(this.platformId), // we don't want to run this logic when doing SSR
-        this.actions$.pipe(
-          ofType(GlobalMessageActions.ADD_MESSAGE),
-          pluck('payload'),
-          concatMap((message: GlobalMessage) => {
-            const config = this.config.globalMessages[message.type];
-            return this.store.pipe(
-              select(
-                GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
-              ),
-              take(1),
-              filter(
-                (count: number) =>
-                  ((config && config.timeout !== undefined) ||
-                    message.timeout) &&
-                  count &&
-                  count > 0
-              ),
-              delay(message.timeout || config.timeout),
-              switchMap(() =>
-                of(
-                  new GlobalMessageActions.RemoveMessage({
-                    type: message.type,
-                    index: 0,
-                  })
+      isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+        ? this.actions$.pipe(
+            ofType(GlobalMessageActions.ADD_MESSAGE),
+            pluck('payload'),
+            concatMap((message: GlobalMessage) => {
+              const config = this.config.globalMessages[message.type];
+              return this.store.pipe(
+                select(
+                  GlobalMessageSelectors.getGlobalMessageCountByType(
+                    message.type
+                  )
+                ),
+                take(1),
+                filter(
+                  (count: number) =>
+                    ((config && config.timeout !== undefined) ||
+                      message.timeout) &&
+                    count &&
+                    count > 0
+                ),
+                delay(message.timeout || config.timeout),
+                switchMap(() =>
+                  of(
+                    new GlobalMessageActions.RemoveMessage({
+                      type: message.type,
+                      index: 0,
+                    })
+                  )
                 )
-              )
-            );
-          })
-        ),
-        EMPTY
-      )
+              );
+            })
+          )
+        : defer(() => EMPTY)
     );
 
   constructor(
