@@ -1,5 +1,9 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
+import {
+  filterUsingFacetFiltering,
+  searchResult,
+} from '../../../helpers/product-search';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
@@ -37,6 +41,18 @@ context('Checkout flow', () => {
       });
       checkout.placeOrderWithCheapProduct(user);
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
+    });
+
+    it.only('should filter with faceting and perform checkout', () => {
+      const user = getSampleUser();
+      checkout.visitHomePage();
+
+      checkout.clickHamburger();
+
+      checkout.registerUser(false, user);
+      searchResult();
+      filterUsingFacetFiltering();
+      checkout.checkoutFirstDisplayedProduct(user);
     });
   });
 });

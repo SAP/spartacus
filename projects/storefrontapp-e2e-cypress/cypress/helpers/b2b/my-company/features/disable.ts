@@ -21,7 +21,7 @@ export function disableTest(config: MyCompanyConfig) {
         entityId = codeRow.createValue;
         cy.visit(`${config.baseUrl}/${entityId}`);
       }
-      cy.wait(`@getEntity`);
+      cy.wait(`@getEntity`).its('response.statusCode').should('eq', 200);
     });
 
     it('should disable/enable', () => {
@@ -47,7 +47,7 @@ export function disableTest(config: MyCompanyConfig) {
         .contains(CONFIRMATION_LABELS.DISABLE)
         .click();
       cy.wait('@saveEntity');
-      cy.wait('@loadEntity');
+      cy.wait('@loadEntity').its('response.statusCode').should('eq', 200);
 
       cy.get('cx-org-confirmation').should('not.exist');
       cy.get('cx-org-notification').should('not.exist');
@@ -62,7 +62,7 @@ export function disableTest(config: MyCompanyConfig) {
 
       cy.get('div.header button').contains('Enable').click();
       cy.wait('@saveEntity');
-      cy.wait('@loadEntity');
+      cy.wait('@loadEntity').its('response.statusCode').should('eq', 200);
       cy.get('cx-org-notification').should('not.exist');
 
       cy.get('div.header button').contains('Enable').should('not.exist');
