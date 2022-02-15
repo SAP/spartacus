@@ -58,7 +58,7 @@ class MockConfiguratorCommonsService {
 }
 
 class MockConfiguratorGroupsService {
-  navigateToGroup() {}
+  navigateToGroup(): void {}
 }
 
 describe('ConfigAttributeHeaderComponent', () => {
@@ -66,6 +66,7 @@ describe('ConfigAttributeHeaderComponent', () => {
   let fixture: ComponentFixture<ConfiguratorAttributeHeaderComponent>;
   let configurationGroupsService: ConfiguratorGroupsService;
   let configuratorStorefrontUtilsService: ConfiguratorStorefrontUtilsService;
+  let configuratorCommonsService: ConfiguratorCommonsService;
 
   const owner = ConfiguratorModelUtils.createOwner(
     CommonConfigurator.OwnerType.CART_ENTRY,
@@ -108,14 +109,6 @@ describe('ConfigAttributeHeaderComponent', () => {
             provide: ConfiguratorGroupsService,
             useClass: MockConfiguratorGroupsService,
           },
-          {
-            provide: ConfiguratorCommonsService,
-            useClass: MockConfiguratorCommonsService,
-          },
-          {
-            provide: ConfiguratorStorefrontUtilsService,
-            useClass: MockConfigUtilsService,
-          },
         ],
       })
         .overrideComponent(ConfiguratorAttributeHeaderComponent, {
@@ -148,10 +141,9 @@ describe('ConfigAttributeHeaderComponent', () => {
     configuratorStorefrontUtilsService = TestBed.inject(
       ConfiguratorStorefrontUtilsService as Type<ConfiguratorStorefrontUtilsService>
     );
-    spyOn(
-      configuratorStorefrontUtilsService,
-      'focusAttribute'
-    ).and.callThrough();
+    configuratorCommonsService = TestBed.inject(
+      ConfiguratorCommonsService as Type<ConfiguratorCommonsService>
+    );
   });
 
   it('should create', () => {
@@ -724,16 +716,18 @@ describe('ConfigAttributeHeaderComponent', () => {
   });
 
   describe('Navigate to corresponding group', () => {
-    it("should navigate nowhere because a group type is 'ATTRIBUTE_GROUP'", () => {
+    it("should navigate nowhere because group type is 'ATTRIBUTE_GROUP'", () => {
       component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_1;
       const group = cold('-a-b|', {
         a: ConfigurationTestData.GROUP_ID_1,
         b: ConfigurationTestData.GROUP_ID_2,
       });
-      fixture.detectChanges();
-      component.navigateToGroup();
 
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
       group.subscribe({
         complete: () => {
           expect(
@@ -743,7 +737,7 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
     });
 
-    it('should navigate from a conflict group to a regular group that contains an attribute which is involved in a conflict', () => {
+    it('should navigate from conflict group to regular group that contains attribute which is involved in conflict', () => {
       component.groupType = Configurator.GroupType.CONFLICT_GROUP;
       component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
 
@@ -751,9 +745,11 @@ describe('ConfigAttributeHeaderComponent', () => {
         a: ConfigurationTestData.GROUP_ID_1,
         b: ConfigurationTestData.GROUP_ID_2,
       });
-      fixture.detectChanges();
-      component.navigateToGroup();
 
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
       group.subscribe({
         complete: () => {
           expect(
@@ -763,23 +759,34 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
     });
 
-    xit('should call focusAttribute', () => {
-      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
-      component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
-      fixture.detectChanges();
-
+    it('should call focusAttribute', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
       });
       //we need to run the test in a test scheduler
       //because of the delay() in method focusAttribute
       testScheduler.run(() => {
+        component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+        component.attribute.groupId = ConfigurationTestData.GROUP_ID_2;
+
+        const configurationLoading = cold('-a-b', {
+          a: true,
+          b: false,
+        });
+        spyOn(
+          configuratorCommonsService,
+          'isConfigurationLoading'
+        ).and.returnValue(configurationLoading);
+
+        spyOn(configuratorStorefrontUtilsService, 'focusAttribute');
+
+        fixture.detectChanges();
+
         component['focusAttribute'](ConfigurationTestData.GROUP_ID_2);
       });
+
       expect(
-        configuratorStorefrontUtilsService.focusAttribute(
-          ConfigurationTestData.GROUP_ID_2
-        )
+        configuratorStorefrontUtilsService.focusAttribute
       ).toHaveBeenCalledTimes(1);
     });
   });
