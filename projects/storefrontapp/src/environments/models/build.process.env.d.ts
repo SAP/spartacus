@@ -11,5 +11,4 @@ interface Env {
   CX_B2B: boolean;
   CX_CPQ: boolean;
   CX_DIGITAL_PAYMENTS: boolean;
-  CX_OLD_CHECKOUT: boolean;
 }

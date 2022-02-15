@@ -33,10 +33,9 @@ export function testCheckoutVariantAsGuest() {
 
     guestCheckout.loginAsGuest(variantUser);
 
-    checkout.fillAddressFormWithCheapProduct(
-      variantUser,
-      cartWithTotalVariantProduct
-    );
+    checkout.checkSummaryAmount(cartWithTotalVariantProduct);
+
+    checkout.fillAddressFormWithCheapProduct(variantUser);
 
     checkout.verifyDeliveryMethod();
 
@@ -51,7 +50,6 @@ export function testCheckoutVariantAsGuest() {
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       variantUser,
       variantProduct,
-      cartWithTotalVariantProduct,
       true
     );
     guestCheckout.createAccountFromGuest(variantUser.password);
@@ -109,10 +107,8 @@ export function testCheckoutRegisteredUser() {
     addMutipleProductWithoutVariantToCart();
     checkout.goToCheapProductDetailsPage(products[0]);
     checkout.addCheapProductToCartAndLogin(regVariantUser, products[0]);
-    checkout.fillAddressFormWithCheapProduct(
-      regVariantUser,
-      cartWithTotalVariantProduct
-    );
+    checkout.checkSummaryAmount(cartWithTotalVariantProduct);
+    checkout.fillAddressFormWithCheapProduct(regVariantUser);
     checkout.verifyDeliveryMethod();
     checkout.fillPaymentFormWithCheapProduct(regVariantUser, undefined);
     checkout.placeOrderWithCheapProduct(
@@ -123,7 +119,6 @@ export function testCheckoutRegisteredUser() {
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       regVariantUser,
       products[0],
-      cartWithTotalVariantProduct,
       true
     );
   });
