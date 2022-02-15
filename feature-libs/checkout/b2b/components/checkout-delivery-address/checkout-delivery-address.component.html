@@ -2,7 +2,7 @@
   {{ 'checkoutAddress.deliveryAddress' | cxTranslate }}
 </h2>
 
-<ng-container *ngIf="cards$ | async as cards; else loading">
+<ng-container *ngIf="cards$ | async as cards">
   <ng-container *ngIf="!shouldRedirect && !(isUpdating$ | async); else loading">
     <ng-container
       *ngIf="
