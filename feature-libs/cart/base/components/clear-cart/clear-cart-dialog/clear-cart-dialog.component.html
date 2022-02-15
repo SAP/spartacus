@@ -1,4 +1,8 @@
-<div (esc)="close('Escape clicked')" class="cx-clear-cart-dialog">
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-clear-cart-dialog"
+>
   <div class="cx-clear-cart-container">
     <ng-container *ngIf="!(isClearing$ | async); else loading">
       <!-- Modal Header -->
@@ -36,12 +40,7 @@
             >
               {{ 'common.cancel' | cxTranslate }}
             </button>
-            <button
-              [cxFocus]="{ autofocus: true }"
-              (click)="clear()"
-              class="btn btn-primary"
-              type="button"
-            >
+            <button (click)="clear()" class="btn btn-primary" type="button">
               {{ 'clearCart.clearCart' | cxTranslate }}
             </button>
           </div>

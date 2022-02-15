@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { Observable } from 'rxjs';
-import { ICON_TYPE } from '@spartacus/storefront';
+import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
 
 @Component({
   selector: 'cx-clear-cart-dialog',
@@ -15,6 +15,13 @@ import { ICON_TYPE } from '@spartacus/storefront';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ClearCartDialogComponent implements OnDestroy {
+  focusConfig: FocusConfig = {
+    trap: true,
+    block: true,
+    autofocus: 'button.btn-primary',
+    focusOnEscape: true,
+  };
+
   iconTypes = ICON_TYPE;
   isClearing$: Observable<boolean> =
     this.clearCartDialogComponentService.getClearingCartProgess();
