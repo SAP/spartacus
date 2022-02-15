@@ -21,6 +21,7 @@ export const variantSelectorContainer = '.variant-selector';
 export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
 
 export const PRODUCT_NAME = 'Battery Video Light';
+export const GET_PRODUCT_DETAILS_ENDPOINT_ALIAS = 'getProductDetails';
 
 export function verifyProductDetails() {
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
@@ -191,4 +192,15 @@ export function configureApparelProduct() {
     },
   });
   cy.visit('/product/100191');
+}
+
+export function interceptProductDetails(productCode: string) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${productCode}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
+  ).as(GET_PRODUCT_DETAILS_ENDPOINT_ALIAS);
+
+  return GET_PRODUCT_DETAILS_ENDPOINT_ALIAS;
 }
