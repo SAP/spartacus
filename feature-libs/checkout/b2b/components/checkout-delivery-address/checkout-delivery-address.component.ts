@@ -26,8 +26,14 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
-import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 
 export interface CardWithAddress {
   card: Card;
@@ -44,6 +50,9 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
+
+  cards$: Observable<CardWithAddress[]>;
+
   isAccountPayment = false;
 
   constructor(
@@ -81,6 +90,33 @@ export class B2BCheckoutDeliveryAddressComponent
 
     if (!this.isAccountPayment) {
       super.ngOnInit();
+    } else {
+      this.cards$ = combineLatest([
+        this.getSupportedAddresses(),
+        this.selectedAddress$,
+        this.translationService.translate(
+          'checkoutAddress.defaultDeliveryAddress'
+        ),
+        this.translationService.translate('checkoutAddress.shipToThisAddress'),
+        this.translationService.translate('addressCard.selected'),
+      ]).pipe(
+        tap(([addresses, selected]) =>
+          this.selectDefaultAddress(addresses, selected)
+        ),
+        map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+          addresses.map((address) => ({
+            address,
+            card: this.getCardContent(
+              address,
+              selected,
+              textDefault,
+              textShipTo,
+              textSelected
+            ),
+          }))
+        ),
+        tap((x) => console.log('ACCOUNT', x))
+      );
     }
   }
 

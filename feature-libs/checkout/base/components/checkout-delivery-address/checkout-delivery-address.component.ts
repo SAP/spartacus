@@ -31,6 +31,8 @@ export interface CardWithAddress {
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
+  cards$: Observable<CardWithAddress[]>;
+
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
@@ -60,8 +62,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       })
     );
   }
-
-  cards$: Observable<CardWithAddress[]>;
 
   constructor(
     protected userAddressService: UserAddressService,
