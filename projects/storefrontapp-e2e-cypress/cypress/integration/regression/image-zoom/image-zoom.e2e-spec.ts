@@ -1,3 +1,5 @@
+import { waitForProductPage } from '../../../helpers/checkout-flow';
+import { interceptProductDetails } from '../../../helpers/product-details';
 import { viewportContext } from '../../../helpers/viewport-context';
 
 const productId = '1990255';
@@ -8,7 +10,14 @@ describe('Image zoom', () => {
       cy.window().then((win) => {
         win.sessionStorage.clear();
       });
+      const productPage = waitForProductPage(productId, 'getProductPage');
       cy.visit(`/product/${productId}`);
+      const productDetailsAlias = interceptProductDetails(productId);
+
+      cy.wait(`@${productPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${productDetailsAlias}`)
+        .its('response.statusCode')
+        .should('eq', 200);
     });
 
     it('should display image zoom trigger', () => {
