@@ -48,6 +48,7 @@ import {
   SiteContextSelectorModule,
   StockNotificationModule,
   TabParagraphContainerModule,
+  VideoModule,
 } from '@spartacus/storefront';
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
@@ -119,6 +120,7 @@ if (environment.digitalPayments) {
     FooterNavigationModule,
     PageTitleModule,
     BreadcrumbModule,
+    VideoModule,
 
     // User Core
     UserModule,

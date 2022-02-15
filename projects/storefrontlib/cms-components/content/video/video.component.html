@@ -1,0 +1,11 @@
+<div class="video" *ngIf="data$ | async as data">
+  <video
+    width="640px"
+    height="267px"
+    controls
+    (click)="toggleVideo()"
+    #videoPlayer
+  >
+    <source src="{{ source }}" type="video/mp4" />
+  </video>
+</div>
