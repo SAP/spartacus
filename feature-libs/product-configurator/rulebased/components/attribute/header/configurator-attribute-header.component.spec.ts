@@ -390,6 +390,32 @@ describe('ConfigAttributeHeaderComponent', () => {
     });
   });
 
+  describe('Conflict text in a conflict group and in configuration', () => {
+    it('should display a conflict text as a link to a configuration group that contains an attribute involved in conflict', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'a.cx-conflict-msg'
+      );
+    });
+
+    it('should display a simple conflict text without link to conflict group', () => {
+      component.attribute.hasConflicts = true;
+      component.groupType = Configurator.GroupType.ATTRIBUTE_GROUP;
+      fixture.detectChanges();
+
+      CommonConfiguratorTestUtilsService.expectElementPresent(
+        expect,
+        htmlElem,
+        'div .cx-conflict-msg'
+      );
+    });
+  });
+
   describe('Conflict text at the attribute level', () => {
     it('should render conflict icon with corresponding message and corresponding aria-attributes if attribute has conflicts.', () => {
       component.attribute.hasConflicts = true;
