@@ -2,7 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
-import { EMPTY, Observable, of } from 'rxjs';
+import { defer, EMPTY, Observable, of } from 'rxjs';
 import {
   concatMap,
   delay,
@@ -93,7 +93,7 @@ export class GlobalMessageEffect {
               );
             })
           )
-        : EMPTY
+        : defer(() => EMPTY)
     );
 
   constructor(
