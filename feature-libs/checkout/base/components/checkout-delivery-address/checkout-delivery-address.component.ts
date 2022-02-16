@@ -48,7 +48,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
 
-  get selectedAddress$(): Observable<Address | undefined> {
+  selectedAddress(): Observable<Address | undefined> {
+    console.log('base selectedAddress');
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -60,33 +61,29 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     );
   }
 
-  get cards$(): Observable<CardWithAddress[]> {
-    return combineLatest([
-      this.getSupportedAddresses(),
-      this.selectedAddress$,
-      this.translationService.translate(
-        'checkoutAddress.defaultDeliveryAddress'
-      ),
-      this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
-        this.selectDefaultAddress(addresses, selected)
-      ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
+  cards$: Observable<CardWithAddress[]> = combineLatest([
+    this.getSupportedAddresses(),
+    this.selectedAddress(),
+    this.translationService.translate('checkoutAddress.defaultDeliveryAddress'),
+    this.translationService.translate('checkoutAddress.shipToThisAddress'),
+    this.translationService.translate('addressCard.selected'),
+  ]).pipe(
+    tap(([addresses, selected]) =>
+      this.selectDefaultAddress(addresses, selected)
+    ),
+    map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+      addresses.map((address) => ({
+        address,
+        card: this.getCardContent(
           address,
-          card: this.getCardContent(
-            address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
-      )
-    );
-  }
+          selected,
+          textDefault,
+          textShipTo,
+          textSelected
+        ),
+      }))
+    )
+  );
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -106,6 +103,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   getSupportedAddresses(): Observable<Address[]> {
+    console.log('base getSupportedAddresses');
     return this.userAddressService.getAddresses();
   }
 
