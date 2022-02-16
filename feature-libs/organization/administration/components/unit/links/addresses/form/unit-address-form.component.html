@@ -6,11 +6,12 @@
   "
 >
   <ng-container *ngIf="form" [formGroup]="form" main>
-    <label aria-required="true" formGroupName="country">
+    <label formGroupName="country">
       <span class="label-content required">{{
         'orgUnitAddress.country' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         class="country-select"
         formControlName="isocode"
         [searchable]="true"
@@ -25,7 +26,7 @@
       <cx-form-errors [control]="form.get('country.isocode')"></cx-form-errors>
     </label>
 
-    <label aria-required="true">
+    <label>
       <span class="label-content required">{{
         'orgUnitAddress.titles' | cxTranslate
       }}</span>
@@ -47,7 +48,7 @@
         'orgUnitAddress.firstName' | cxTranslate
       }}</span>
       <input
-        aria-required="true"
+        required="true"
         class="form-control"
         type="text"
         placeholder="{{ 'orgUnitAddress.firstName' | cxTranslate }}"
@@ -60,7 +61,7 @@
         'orgUnitAddress.lastName' | cxTranslate
       }}</span>
       <input
-        aria-required="true"
+        required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.lastName' | cxTranslate }}"
@@ -74,7 +75,7 @@
         'orgUnitAddress.address1' | cxTranslate
       }}</span>
       <input
-        aria-required="true"
+        required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.streetAddress' | cxTranslate }}"
@@ -112,6 +113,7 @@
         'orgUnitAddress.city' | cxTranslate
       }}</span>
       <input
+        required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.city' | cxTranslate }}"
@@ -125,7 +127,7 @@
         'orgUnitAddress.zipCode' | cxTranslate
       }}</span>
       <input
-        aria-required="true"
+        required="true"
         type="text"
         class="form-control"
         placeholder="{{ 'orgUnitAddress.zipCode' | cxTranslate }}"
@@ -139,7 +141,6 @@
     <ng-container *ngIf="regions$ | async as regions">
       <label
         class="full-width"
-        aria-required="true"
         formGroupName="region"
         *ngIf="regions.length > 0"
       >
@@ -147,6 +148,7 @@
           'orgUnitAddress.state' | cxTranslate
         }}</span>
         <ng-select
+          [inputAttrs]="{ required: 'true' }"
           class="region-select"
           formControlName="isocode"
           [searchable]="true"
