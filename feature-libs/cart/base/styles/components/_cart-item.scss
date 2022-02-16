@@ -181,7 +181,7 @@
   .cx-quantity {
     @include media-breakpoint-down(sm) {
       .cx-value {
-        margin-left: 20px;
+        margin: 0 0 0 20px;
       }
 
       .readonly-value {
@@ -194,11 +194,11 @@
     @include media-breakpoint-down(sm) {
       .link {
         display: block;
-        text-align: left;
+        text-align: start;
       }
 
       .cx-sfl-btn {
-        text-align: left;
+        text-align: start;
         padding-inline-start: 0;
       }
     }
@@ -243,7 +243,7 @@
 
     .cx-quantity {
       .cx-value {
-        margin-left: 0;
+        margin: 0;
       }
     }
   }
