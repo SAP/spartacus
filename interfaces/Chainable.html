@@ -162,6 +162,8 @@ declare namespace Cypress {
 Cypress.Commands.add(
   &#x27;addToCart&#x27;,
   (productCode: string, quantity: string, accessToken: string) &#x3D;&gt; {
+    cy.server();
+
     createCart(accessToken).then((response) &#x3D;&gt; {
       const cartId &#x3D; response.body.code;
       addToCart(cartId, productCode, quantity, accessToken).then(() &#x3D;&gt; {

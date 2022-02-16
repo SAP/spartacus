@@ -107,9 +107,6 @@
                                 <a href="#extractQuantityParameters" >extractQuantityParameters</a>
                             </li>
                             <li>
-                                <a href="#extractValuePriceFormulaParameters" >extractValuePriceFormulaParameters</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#getInitialQuantity" >getInitialQuantity</a>
                             </li>
@@ -192,7 +189,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(quantityService: <a href="../injectables/ConfiguratorAttributeQuantityService.html" target="_self">ConfiguratorAttributeQuantityService</a>)</code>
+<code>constructor(quantityService?: <a href="../injectables/ConfiguratorAttributeQuantityService.html" target="_self">ConfiguratorAttributeQuantityService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -222,7 +219,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            No
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -247,7 +244,7 @@
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
 
                     </td>
                 </tr>
@@ -331,22 +328,21 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="132"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:132</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="133"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:133</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Extract corresponding price formula parameters.
-For the single-selection attribute types the complete price formula should be displayed at the attribute level.</p>
+                    <div class="io-description"><p>Extract corresponding price formula parameters</p>
 </div>
 
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorPriceComponentOptions</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/ConfiguratorPriceComponentOptions.html" target="_self" >ConfiguratorPriceComponentOptions</a></code>
 
                     </div>
                     <div class="io-description">
@@ -379,8 +375,8 @@ For the single-selection attribute types the complete price formula should be di
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="109"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:109</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:111</a></div>
                 </td>
             </tr>
 
@@ -426,93 +422,12 @@ For the single-selection attribute types the complete price formula should be di
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorAttributeQuantityComponentOptions</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/ConfiguratorAttributeQuantityComponentOptions.html" target="_self" >ConfiguratorAttributeQuantityComponentOptions</a></code>
 
                     </div>
                     <div class="io-description">
                         <ul>
 <li>New quantity options</li>
-</ul>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="extractValuePriceFormulaParameters"></a>
-                    <span class="name">
-                        <span ><b>extractValuePriceFormulaParameters</b></span>
-                        <a href="#extractValuePriceFormulaParameters"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>extractValuePriceFormulaParameters(value?: <a href="../injectables/Config.html" target="_self">Configurator.Value</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="148"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:148</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Extract corresponding value price formula parameters.
-For the single-selection attribute types only value price should be displayed at the value level.</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>value</td>
-                                    <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Value</a></code>
-                                    </td>
-
-                                    <td>
-                                        Yes
-                                    </td>
-
-
-                                    <td>
-                                        <ul>
-<li>Configurator value</li>
-</ul>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ConfiguratorPriceComponentOptions | undefined</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <ul>
-<li>New price formula</li>
 </ul>
 
                     </div>
@@ -542,8 +457,8 @@ For the single-selection attribute types only value price should be displayed at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="94"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:94</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="96"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:96</a></div>
                 </td>
             </tr>
 
@@ -612,8 +527,8 @@ For the single-selection attribute types only value price should be displayed at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="159"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:159</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="142"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:142</a></div>
                 </td>
             </tr>
 
@@ -622,7 +537,7 @@ For the single-selection attribute types only value price should be displayed at
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceDetails | undefined</a></code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceDetails | undefined</a></code>
 
                     </div>
                 </td>
@@ -649,8 +564,8 @@ For the single-selection attribute types only value price should be displayed at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:85</a></div>
                 </td>
             </tr>
 
@@ -729,8 +644,8 @@ For the single-selection attribute types only value price should be displayed at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:70</a></div>
                 </td>
             </tr>
 
@@ -797,8 +712,8 @@ For the single-selection attribute types only value price should be displayed at
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="53"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:53</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="55"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:55</a></div>
                 </td>
             </tr>
 
@@ -864,7 +779,7 @@ For the single-selection attribute types only value price should be displayed at
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
 
                     </td>
                 </tr>
@@ -1002,7 +917,7 @@ For the single-selection attribute types only value price should be displayed at
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:31</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:33</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1038,7 +953,7 @@ can be derived from the attribute meta data</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="45" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:45</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/product-configurator/rulebased/components/attribute/types/base/configurator-attribute-single-selection-base.component.ts:47</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -1063,16 +978,16 @@ can be derived from the attribute meta data</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Directive, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
-import { FormControl } from &#x27;@angular/forms&#x27;;
-import { BehaviorSubject } from &#x27;rxjs&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ConfiguratorAttributeBaseComponent } from &#x27;./configurator-attribute-base.component&#x27;;
+import { Directive, EventEmitter, Input, Output } from &#x27;@angular/core&#x27;;
 import { map } from &#x27;rxjs/operators&#x27;;
+import { BehaviorSubject } from &#x27;rxjs&#x27;;
+import { FormControl } from &#x27;@angular/forms&#x27;;
 import { Configurator } from &#x27;../../../../core/model/configurator.model&#x27;;
 import { ConfigFormUpdateEvent } from &#x27;../../../form/configurator-form.event&#x27;;
-import { ConfiguratorPriceComponentOptions } from &#x27;../../../price/configurator-price.component&#x27;;
 import { ConfiguratorAttributeQuantityComponentOptions } from &#x27;../../quantity/configurator-attribute-quantity.component&#x27;;
 import { ConfiguratorAttributeQuantityService } from &#x27;../../quantity/configurator-attribute-quantity.service&#x27;;
-import { ConfiguratorAttributeBaseComponent } from &#x27;./configurator-attribute-base.component&#x27;;
+import { ConfiguratorPriceComponentOptions } from &#x27;../../../price/configurator-price.component&#x27;;
 
 @Directive()
 // eslint-disable-next-line @angular-eslint/directive-class-suffix
@@ -1083,7 +998,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   @Input() ownerKey: string;
   @Output() selectionChange &#x3D; new EventEmitter&lt;ConfigFormUpdateEvent&gt;();
 
-  constructor(protected quantityService: ConfiguratorAttributeQuantityService) {
+  constructor(
+    protected quantityService?: ConfiguratorAttributeQuantityService
+  ) {
     super();
   }
 
@@ -1095,9 +1012,9 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   get withQuantity(): boolean {
     return (
-      this.quantityService.withQuantity(
-        this.attribute.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
-        this.attribute.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
+      this.quantityService?.withQuantity(
+        this.attribute?.dataType ?? Configurator.DataType.NOT_IMPLEMENTED,
+        this.attribute?.uiType ?? Configurator.UiType.NOT_IMPLEMENTED
       ) ?? false
     );
   }
@@ -1109,8 +1026,8 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
    */
   get disableQuantityActions(): boolean {
     return (
-      this.quantityService.disableQuantityActions(
-        this.attribute.selectedSingleValue
+      this.quantityService?.disableQuantityActions(
+        this.attribute?.selectedSingleValue
       ) ?? true
     );
   }
@@ -1157,11 +1074,11 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
   }
 
   protected getInitialQuantity(form?: FormControl): number {
-    const quantity: number &#x3D; this.attribute.quantity ?? 0;
+    const quantity: number &#x3D; this.attribute?.quantity ?? 0;
     if (form) {
-      return form.value !&#x3D;&#x3D; &#x27;0&#x27; ? quantity : 0;
+      return form?.value !&#x3D;&#x3D; &#x27;0&#x27; ? quantity : 0;
     } else {
-      return this.attribute.selectedSingleValue ? quantity : 0;
+      return this.attribute?.selectedSingleValue ? quantity : 0;
     }
   }
 
@@ -1182,47 +1099,28 @@ export abstract class ConfiguratorAttributeSingleSelectionBaseComponent extends 
     );
 
     return {
-      allowZero: !this.attribute.required,
+      allowZero: !this.attribute?.required,
       initialQuantity: initialQuantity,
       disableQuantityActions$: disableQuantityActions$,
     };
   }
 
   /**
-   * Extract corresponding price formula parameters.
-   * For the single-selection attribute types the complete price formula should be displayed at the attribute level.
+   * Extract corresponding price formula parameters
    *
    * @return {ConfiguratorPriceComponentOptions} - New price formula
    */
   extractPriceFormulaParameters(): ConfiguratorPriceComponentOptions {
     return {
-      quantity: this.attribute.quantity,
+      quantity: this.attribute?.quantity,
       price: this.getSelectedValuePrice(),
-      priceTotal: this.attribute.attributePriceTotal,
+      priceTotal: this.attribute?.attributePriceTotal,
       isLightedUp: true,
     };
   }
 
-  /**
-   * Extract corresponding value price formula parameters.
-   * For the single-selection attribute types only value price should be displayed at the value level.
-   *
-   * @param {Configurator.Value} value - Configurator value
-   * @return {ConfiguratorPriceComponentOptions} - New price formula
-   */
-  extractValuePriceFormulaParameters(
-    value?: Configurator.Value
-  ): ConfiguratorPriceComponentOptions | undefined {
-    if (value) {
-      return {
-        price: value.valuePrice,
-        isLightedUp: value.selected,
-      };
-    }
-  }
-
   protected getSelectedValuePrice(): Configurator.PriceDetails | undefined {
-    return this.attribute.values?.find((value) &#x3D;&gt; value?.selected)?.valuePrice;
+    return this.attribute?.values?.find((value) &#x3D;&gt; value?.selected)?.valuePrice;
   }
 }
 </code></pre>

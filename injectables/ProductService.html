@@ -89,6 +89,9 @@
                             <li>
                                 <a href="#isSuccess" >isSuccess</a>
                             </li>
+                            <li>
+                                <a href="#reload" >reload</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -112,7 +115,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">projects/core/src/product/facade/product.service.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/product/facade/product.service.ts:15</a></div>
                             </td>
                         </tr>
 
@@ -187,8 +190,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:34</a></div>
                 </td>
             </tr>
 
@@ -289,8 +292,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -377,8 +380,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:46</a></div>
                 </td>
             </tr>
 
@@ -465,8 +468,8 @@ the data if not needed. You can provide more than one scope.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="59"
-                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:59</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:60</a></div>
                 </td>
             </tr>
 
@@ -533,6 +536,96 @@ the data if not needed. You can provide more than one scope.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="reload"></a>
+                    <span class="name">
+                        <span ><b>reload</b></span>
+                        <a href="#reload"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>reload(productCode: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, scope: ProductScope | string)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="90"
+                            class="link-to-prism">projects/core/src/product/facade/product.service.ts:90</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Reloads the product. The product is loaded implicetly
+whenever selected by the <code>get</code>, but in some cases an
+explicit reload might be needed.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>productCode</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                </tr>
+                                <tr>
+                                    <td>scope</td>
+                                    <td>
+                                            <code>ProductScope | string</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>&#x27;&#x27;</code>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
 
     </div>
@@ -546,6 +639,7 @@ import { Product } from &#x27;../../model/product.model&#x27;;
 import { DEFAULT_SCOPE } from &#x27;../../occ/occ-models/occ-endpoints.model&#x27;;
 import { ProductScope } from &#x27;../model/product-scope&#x27;;
 import { ProductLoadingService } from &#x27;../services/product-loading.service&#x27;;
+import { ProductActions } from &#x27;../store/actions/index&#x27;;
 import { StateWithProduct } from &#x27;../store/product-state&#x27;;
 import { ProductSelectors } from &#x27;../store/selectors/index&#x27;;
 
@@ -620,6 +714,15 @@ export class ProductService {
         ProductSelectors.getSelectedProductErrorFactory(productCode, scope)
       )
     );
+  }
+
+  /**
+   * Reloads the product. The product is loaded implicetly
+   * whenever selected by the &#x60;get&#x60;, but in some cases an
+   * explicit reload might be needed.
+   */
+  reload(productCode: string, scope: ProductScope | string &#x3D; &#x27;&#x27;): void {
+    this.store.dispatch(new ProductActions.LoadProduct(productCode, scope));
   }
 }
 </code></pre>

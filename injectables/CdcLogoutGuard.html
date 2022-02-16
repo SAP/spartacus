@@ -116,12 +116,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html" target="_self">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html" target="_self">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -210,18 +210,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>authRedirectService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/AuthRedirectService.html" target="_self" >AuthRedirectService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            No
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -258,8 +246,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="54"
-                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:54</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:45</a></div>
                 </td>
             </tr>
 
@@ -303,8 +291,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="44"
-                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:44</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">integration-libs/cdc/root/guards/cdc-logout.guard.ts:35</a></div>
                 </td>
             </tr>
 
@@ -331,7 +319,6 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
 import {
-  AuthRedirectService,
   AuthService,
   CmsService,
   ProtectedRoutesService,
@@ -355,17 +342,9 @@ export class CdcLogoutGuard extends LogoutGuard {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected winRef: WindowRef,
-    protected authRedirectService: AuthRedirectService
+    protected winRef: WindowRef
   ) {
-    super(
-      auth,
-      cms,
-      semanticPathService,
-      protectedRoutes,
-      router,
-      authRedirectService
-    );
+    super(auth, cms, semanticPathService, protectedRoutes, router);
   }
 
   /**

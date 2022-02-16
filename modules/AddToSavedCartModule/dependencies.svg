@@ -18,13 +18,13 @@
 <title>cluster_AddToSavedCartModule_declarations</title>
 <polygon fill="none" stroke="black" points="338,-40.8 338,-92.8 534,-92.8 534,-40.8 338,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_AddToSavedCartModule_exports</title>
-<polygon fill="none" stroke="black" points="119,-170.8 119,-222.8 317,-222.8 317,-170.8 119,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_AddToSavedCartModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 330,-92.8 330,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_AddToSavedCartModule_exports</title>
+<polygon fill="none" stroke="black" points="119,-170.8 119,-222.8 317,-222.8 317,-170.8 119,-170.8"/>
 </g>
 <!-- AddToSavedCartComponent -->
 <g id="node1" class="node">

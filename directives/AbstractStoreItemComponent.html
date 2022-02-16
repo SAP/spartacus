@@ -129,7 +129,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(storeFinderService: <a href="../injectables/StoreFinderService.html" target="_self">StoreFinderService</a>)</code>
+<code>constructor(storeDataService: <a href="../injectables/StoreDataService.html" target="_self">StoreDataService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -152,10 +152,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>storeFinderService</td>
+                                                        <td>storeDataService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/StoreFinderService.html" target="_self" >StoreFinderService</a></code>
+                                                                        <code><a href="../injectables/StoreDataService.html" target="_self" >StoreDataService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -383,7 +383,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Input, Directive } from &#x27;@angular/core&#x27;;
-import { StoreFinderService } from &#x27;@spartacus/storefinder/core&#x27;;
+import { StoreDataService } from &#x27;@spartacus/storefinder/core&#x27;;
 
 /* eslint-disable @angular-eslint/directive-class-suffix */
 @Directive()
@@ -391,12 +391,12 @@ export class AbstractStoreItemComponent {
   @Input()
   location;
 
-  constructor(protected storeFinderService: StoreFinderService) {}
+  constructor(protected storeDataService: StoreDataService) {}
 
   getDirections(location: any): string {
     const google_map_url &#x3D; &#x27;https://www.google.com/maps/dir/Current+Location/&#x27;;
-    const latitude &#x3D; this.storeFinderService.getStoreLatitude(location);
-    const longitude &#x3D; this.storeFinderService.getStoreLongitude(location);
+    const latitude &#x3D; this.storeDataService.getStoreLatitude(location);
+    const longitude &#x3D; this.storeDataService.getStoreLongitude(location);
     return google_map_url + latitude + &#x27;,&#x27; + longitude;
   }
 

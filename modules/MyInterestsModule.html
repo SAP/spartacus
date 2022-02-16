@@ -56,13 +56,13 @@
 <title>cluster_MyInterestsModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 789,-230.8 789,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_MyInterestsModule_exports</title>
-<polygon fill="none" stroke="black" points="342,-170.8 342,-222.8 510,-222.8 510,-170.8 342,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_MyInterestsModule_declarations</title>
 <polygon fill="none" stroke="black" points="617,-40.8 617,-92.8 781,-92.8 781,-40.8 617,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_MyInterestsModule_exports</title>
+<polygon fill="none" stroke="black" points="342,-170.8 342,-222.8 510,-222.8 510,-170.8 342,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_MyInterestsModule_imports</title>
@@ -194,7 +194,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-components/myaccount/my-interests/my-interests.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/myaccount/my-interests/my-interests.module.ts</code>
         </p>
 
 
@@ -206,6 +206,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/MyInterestsComponent.html">MyInterestsComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/MyInterestsComponent.html">MyInterestsComponent</a>
@@ -291,6 +300,7 @@ import {
     }),
   ],
   exports: [MyInterestsComponent],
+  entryComponents: [MyInterestsComponent],
 })
 export class MyInterestsModule {}
 </code></pre>

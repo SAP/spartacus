@@ -59,7 +59,7 @@
             <h3>File</h3>
             </p>
             <p class="comment">
-                <code>projects/storefrontlib/cms-components/user/logout/logout.guard.ts</code>
+                <code>projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts</code>
             </p>
 
 
@@ -119,12 +119,12 @@ to the login route instead.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html" target="_self">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>)</code>
+<code>constructor(auth: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, cms: <a href="../injectables/CmsService.html" target="_self">CmsService</a>, semanticPathService: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, protectedRoutes: <a href="../injectables/ProtectedRoutesService.html" target="_self">ProtectedRoutesService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authRedirectService?: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/cms-components/user/logout/logout.guard.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -209,7 +209,7 @@ to the login route instead.</p>
                                                         </td>
                                                   
                                                     <td>
-                                                            No
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -247,8 +247,8 @@ to the login route instead.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/storefrontlib/cms-components/user/logout/logout.guard.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:35</a></div>
                 </td>
             </tr>
 
@@ -286,8 +286,8 @@ to the login route instead.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="72"
-                            class="link-to-prism">projects/storefrontlib/cms-components/user/logout/logout.guard.ts:72</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:74</a></div>
                 </td>
             </tr>
 
@@ -330,8 +330,8 @@ we redirect after the user is logged out.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="61"
-                            class="link-to-prism">projects/storefrontlib/cms-components/user/logout/logout.guard.ts:61</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="63"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/user/logout/logout.guard.ts:63</a></div>
                 </td>
             </tr>
 
@@ -382,12 +382,14 @@ export class LogoutGuard implements CanActivate {
     protected semanticPathService: SemanticPathService,
     protected protectedRoutes: ProtectedRoutesService,
     protected router: Router,
-    protected authRedirectService: AuthRedirectService
+    // TODO(#11380): Make service required
+    protected authRedirectService?: AuthRedirectService
   ) {}
 
   canActivate(): Observable&lt;boolean | UrlTree&gt; {
+    // TODO(#11380): Remove the optional chaining
     // Logout route should never be remembered as a redirect url after login (that would cause logout right after login).
-    this.authRedirectService.reportNotAuthGuard();
+    this.authRedirectService?.reportNotAuthGuard();
     /**
      * First we want to complete logout process before redirecting to logout page
      * We want to avoid errors like &#x60;token is no longer valid&#x60;

@@ -79,7 +79,6 @@ import {
   provideDefaultConfigFactory,
 } from &#x27;@spartacus/core&#x27;;
 import { LogoutGuard } from &#x27;@spartacus/storefront&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
 import { CDC_CORE_FEATURE, CDC_FEATURE } from &#x27;./feature-name&#x27;;
 import { CdcLogoutGuard } from &#x27;./guards/cdc-logout.guard&#x27;;
 import { CdcJsService } from &#x27;./service/cdc-js.service&#x27;;
@@ -89,14 +88,9 @@ export function cdcJsFactory(
   configInit: ConfigInitializerService
 ) {
   const func &#x3D; () &#x3D;&gt;
-    configInit
-      .getStable(&#x27;context&#x27;, &#x27;cdc&#x27;)
-      .pipe(
-        tap(() &#x3D;&gt; {
-          cdcJsService.initialize();
-        })
-      )
-      .toPromise();
+    configInit.getStableConfig(&#x27;context&#x27;, &#x27;cdc&#x27;).then(() &#x3D;&gt; {
+      cdcJsService.initialize();
+    });
   return func;
 }
 

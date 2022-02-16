@@ -112,6 +112,10 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#getStableConfig" class="deprecated-name">getStableConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#initialize" >initialize</a>
                             </li>
                             <li>
@@ -150,7 +154,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(config: <a href="../injectables/Config.html" target="_self">Config</a>, initializerGuard: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, rootConfig: <a href="../injectables/Config.html" target="_self">Config</a>)</code>
+<code>constructor(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, initializerGuard, rootConfig: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -176,7 +180,7 @@
                                                         <td>config</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -188,7 +192,6 @@
                                                         <td>initializerGuard</td>
                                                   
                                                         <td>
-                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -200,7 +203,7 @@
                                                         <td>rootConfig</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -244,8 +247,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -328,8 +331,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -398,8 +401,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:50</a></div>
                 </td>
             </tr>
 
@@ -448,7 +451,82 @@ string describing config part, e.g.:
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Observable&lt;Config&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;any&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStableConfig"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span class="deprecated-name"><b>getStableConfig</b></span>
+                        <a href="#getStableConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 3.0, use getStable() instead
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getStableConfig(...scopes: string[])</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:66</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scopes</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;any&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -473,15 +551,15 @@ string describing config part, e.g.:
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>initialize(initializers?: <a href="../injectables/Config.html" target="_self">ConfigInitializer[]</a>)</code>
+                    <code>initialize(initializers?: <a href="../interfaces/ConfigInitializer.html" target="_self">ConfigInitializer[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="121"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:121</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:128</a></div>
                 </td>
             </tr>
 
@@ -505,7 +583,7 @@ string describing config part, e.g.:
                                 <tr>
                                     <td>initializers</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >ConfigInitializer[]</a></code>
+                                                <code><a href="../interfaces/ConfigInitializer.html" target="_self" >ConfigInitializer[]</a></code>
                                     </td>
 
                                     <td>
@@ -552,8 +630,8 @@ string describing config part, e.g.:
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="108"
-                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:108</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="115"
+                            class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:115</a></div>
                 </td>
             </tr>
 
@@ -647,9 +725,7 @@ string describing config part, e.g.:
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;string[] | undefined&gt;(
-    undefined
-  )</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;string[]&gt;(undefined)</code>
                     </td>
                 </tr>
                     <tr>
@@ -683,7 +759,7 @@ string describing config part, e.g.:
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:33</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/core/src/config/config-initializer/config-initializer.service.ts:31</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -706,14 +782,14 @@ string describing config part, e.g.:
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Inject, Injectable, isDevMode, Optional } from &#x27;@angular/core&#x27;;
+import {
+  CONFIG_INITIALIZER_FORROOT_GUARD,
+  ConfigInitializer,
+} from &#x27;./config-initializer&#x27;;
 import { BehaviorSubject, Observable, of } from &#x27;rxjs&#x27;;
 import { filter, mapTo, take } from &#x27;rxjs/operators&#x27;;
-import { Config, RootConfig } from &#x27;../config-tokens&#x27;;
 import { deepMerge } from &#x27;../utils/deep-merge&#x27;;
-import {
-  ConfigInitializer,
-  CONFIG_INITIALIZER_FORROOT_GUARD,
-} from &#x27;./config-initializer&#x27;;
+import { Config, RootConfig } from &#x27;../config-tokens&#x27;;
 
 /**
  * Provides support for CONFIG_INITIALIZERS
@@ -723,22 +799,23 @@ import {
 })
 export class ConfigInitializerService {
   constructor(
-    protected config: Config,
+    @Inject(Config) protected config: any,
     @Optional()
     @Inject(CONFIG_INITIALIZER_FORROOT_GUARD)
-    protected initializerGuard: any,
-    @Inject(RootConfig) protected rootConfig: Config
+    protected initializerGuard,
+    @Inject(RootConfig) protected rootConfig: any
   ) {}
 
-  protected ongoingScopes$ &#x3D; new BehaviorSubject&lt;string[] | undefined&gt;(
-    undefined
-  );
+  protected ongoingScopes$ &#x3D; new BehaviorSubject&lt;string[]&gt;(undefined);
 
   /**
    * Returns true if config is stable, i.e. all CONFIG_INITIALIZERS resolved correctly
    */
   get isStable(): boolean {
-    return !this.initializerGuard || this.ongoingScopes$.value?.length &#x3D;&#x3D;&#x3D; 0;
+    return (
+      !this.initializerGuard ||
+      (this.ongoingScopes$.value &amp;&amp; this.ongoingScopes$.value.length &#x3D;&#x3D;&#x3D; 0)
+    );
   }
 
   /**
@@ -753,18 +830,24 @@ export class ConfigInitializerService {
    *
    * @param scopes String describing parts of the config we want to be sure are stable
    */
-  getStable(...scopes: string[]): Observable&lt;Config&gt; {
+  getStable(...scopes: string[]): Observable&lt;any&gt; {
     if (this.isStable) {
       return of(this.config);
     }
     return this.ongoingScopes$.pipe(
       filter(
-        (ongoingScopes) &#x3D;&gt;
-          !!ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
+        (ongoingScopes) &#x3D;&gt; ongoingScopes &amp;&amp; this.areReady(scopes, ongoingScopes)
       ),
       take(1),
       mapTo(this.config)
     );
+  }
+
+  /**
+   * @deprecated since 3.0, use getStable() instead
+   */
+  async getStableConfig(...scopes: string[]): Promise&lt;any&gt; {
+    return this.getStable(...scopes).toPromise();
   }
 
   /**
@@ -773,7 +856,7 @@ export class ConfigInitializerService {
    * @param scopes
    */
   protected finishScopes(scopes: string[]) {
-    const newScopes &#x3D; [...(this.ongoingScopes$.value ?? [])];
+    const newScopes &#x3D; [...this.ongoingScopes$.value];
     for (const scope of scopes) {
       newScopes.splice(newScopes.indexOf(scope), 1);
     }
@@ -855,12 +938,9 @@ export class ConfigInitializerService {
         (async () &#x3D;&gt; {
           const initializerConfig &#x3D; await initializer.configFactory();
           // contribute configuration to rootConfig
-          deepMerge(
-            this.rootConfig as Record&lt;string, unknown&gt;,
-            initializerConfig
-          );
+          deepMerge(this.rootConfig, initializerConfig);
           // contribute configuration to global config
-          deepMerge(this.config as Record&lt;string, unknown&gt;, initializerConfig);
+          deepMerge(this.config, initializerConfig);
           this.finishScopes(initializer.scopes);
         })()
       );

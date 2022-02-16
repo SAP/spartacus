@@ -110,6 +110,9 @@ and slot elements.</p>
                             <li>
                                 <a href="#addAttributesToSlot" >addAttributesToSlot</a>
                             </li>
+                            <li>
+                                <a href="#addDynamicAttributes" class="deprecated-name">addDynamicAttributes</a>
+                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -128,12 +131,12 @@ and slot elements.</p>
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(unifiedInjector: <a href="../injectables/UnifiedInjector.html" target="_self">UnifiedInjector</a>)</code>
+<code>constructor(smartEditService?: <a href="../injectables/SmartEditService.html" target="_self">SmartEditService</a>, unifiedInjector?: <a href="../injectables/UnifiedInjector.html" target="_self">UnifiedInjector</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -151,6 +154,18 @@ and slot elements.</p>
                                         </thead>
                                         <tbody>
                                                 <tr>
+                                                        <td>smartEditService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/SmartEditService.html" target="_self" >SmartEditService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
                                                         <td>unifiedInjector</td>
                                                   
                                                         <td>
@@ -158,7 +173,7 @@ and slot elements.</p>
                                                         </td>
                                                   
                                                     <td>
-                                                            No
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -196,8 +211,8 @@ and slot elements.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="89"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:89</a></div>
                 </td>
             </tr>
 
@@ -301,8 +316,8 @@ and slot elements.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="50"
-                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:50</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:110</a></div>
                 </td>
             </tr>
 
@@ -386,6 +401,118 @@ and slot elements.</p>
             </tr>
         </tbody>
     </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="addDynamicAttributes"></a>
+                    <span class="name">
+                        <span class="deprecated-name"><b>addDynamicAttributes</b></span>
+                        <a href="#addDynamicAttributes"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 3.2, use functions addAttributesToComponent and addAttributesToSlot instead
+
+Add dynamic attributes to DOM.
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>addDynamicAttributes(element: Element, renderer: <a href="https://angular.io/api/core/Renderer2" target="_blank">Renderer2</a>, cmsRenderingContext: literal type)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:41</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Add dynamic attributes to DOM.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>element</td>
+                                    <td>
+                                            <code>Element</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>: slot or cms component element</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>renderer</td>
+                                    <td>
+                                                <code><a href="https://angular.io/api/core/Renderer2" target="_blank" >Renderer2</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>cmsRenderingContext</td>
+                                    <td>
+                                            <code>literal type</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>: an object containing properties in each cms item response data</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </section>
             <section>
     
@@ -413,7 +540,7 @@ and slot elements.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -441,7 +568,7 @@ and slot elements.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:22</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">projects/core/src/cms/services/dynamic-attribute.service.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -457,6 +584,7 @@ and slot elements.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Renderer2 } from &#x27;@angular/core&#x27;;
 import { shareReplay } from &#x27;rxjs/operators&#x27;;
 import { UnifiedInjector } from &#x27;../../lazy-loading/unified-injector&#x27;;
+import { SmartEditService } from &#x27;../../smart-edit/services/smart-edit.service&#x27;;
 import { getLastValueSync } from &#x27;../../util/rxjs/get-last-value-sync&#x27;;
 import { ComponentDecorator } from &#x27;../decorators/component-decorator&#x27;;
 import { SlotDecorator } from &#x27;../decorators/slot-decorator&#x27;;
@@ -479,7 +607,61 @@ export class DynamicAttributeService {
     .getMulti(SlotDecorator)
     .pipe(shareReplay(1));
 
-  constructor(protected unifiedInjector: UnifiedInjector) {}
+  constructor(
+    // TODO: remove this SmartEditService in 4.0
+    protected smartEditService?: SmartEditService,
+    protected unifiedInjector?: UnifiedInjector
+  ) {}
+
+  /**
+   * @deprecated since 3.2, use functions addAttributesToComponent and addAttributesToSlot instead
+   *
+   * Add dynamic attributes to DOM.
+   * @param element: slot or cms component element
+   * @param renderer
+   * @param cmsRenderingContext: an object containing properties in each cms item response data
+   */
+  addDynamicAttributes(
+    element: Element,
+    renderer: Renderer2,
+    cmsRenderingContext: {
+      componentData?: ContentSlotComponentData;
+      slotData?: ContentSlotData;
+    }
+  ): void {
+    const properties &#x3D;
+      cmsRenderingContext.componentData?.properties ||
+      cmsRenderingContext.slotData?.properties;
+
+    if (properties &amp;&amp; this.smartEditService.isLaunchedInSmartEdit()) {
+      // check each group of properties, e.g. smartedit
+      Object.keys(properties).forEach((group) &#x3D;&gt; {
+        const name &#x3D; &#x27;data-&#x27; + group + &#x27;-&#x27;;
+        const groupProps &#x3D; properties[group];
+
+        // check each property in the group
+        Object.keys(groupProps).forEach((propName) &#x3D;&gt; {
+          const propValue &#x3D; groupProps[propName];
+          if (propName &#x3D;&#x3D;&#x3D; &#x27;classes&#x27;) {
+            const classes &#x3D; propValue.split(&#x27; &#x27;);
+            classes.forEach((classItem) &#x3D;&gt; {
+              element.classList.add(classItem);
+            });
+          } else {
+            renderer.setAttribute(
+              element,
+              name +
+                propName
+                  .split(/(?&#x3D;[A-Z])/)
+                  .join(&#x27;-&#x27;)
+                  .toLowerCase(),
+              propValue
+            );
+          }
+        });
+      });
+    }
+  }
 
   /**
    * Add dynamic attributes to CMS component element
@@ -492,6 +674,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     componentData?: ContentSlotComponentData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { componentData });
+      return;
+    }
+
     (getLastValueSync(this.componentDecorators$) || []).forEach((decorator) &#x3D;&gt;
       decorator.decorate(element, renderer, componentData)
     );
@@ -508,6 +695,11 @@ export class DynamicAttributeService {
     renderer: Renderer2,
     slotData?: ContentSlotData
   ) {
+    if (this.smartEditService.isLaunchedInSmartEdit()) {
+      this.addDynamicAttributes(element, renderer, { slotData });
+      return;
+    }
+
     (getLastValueSync(this.slotDecorators$) || []).forEach((decorator) &#x3D;&gt;
       decorator.decorate(element, renderer, slotData)
     );

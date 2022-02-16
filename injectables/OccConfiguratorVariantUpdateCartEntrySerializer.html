@@ -111,15 +111,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: <a href="../injectables/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>, target?: OccConfigurator.UpdateConfigurationForCartEntryParameters)</code>
+<code>convert(source: <a href="../s/Config.html" target="_self">Configurator.UpdateConfigurationForCartEntryParameters</a>, target?: <a href="../injectables/OccConfig.html" target="_self">OccConfigurator.UpdateConfigurationForCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/occ/variant/converters/occ-configurator-variant-update-cart-entry-serializer.ts:14</a></div>
                 </td>
             </tr>
 
@@ -141,7 +141,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -153,7 +153,7 @@
                                 <tr>
                                     <td>target</td>
                                     <td>
-                                            <code>OccConfigurator.UpdateConfigurationForCartEntryParameters</code>
+                                                <code><a href="../injectables/OccConfig.html" target="_self" >OccConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -168,7 +168,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>OccConfigurator.UpdateConfigurationForCartEntryParameters</code>
+                        <b>Returns : </b>        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfigurator.UpdateConfigurationForCartEntryParameters</a></code>
 
                     </div>
                     <div class="io-description">
@@ -196,22 +196,20 @@ export class OccConfiguratorVariantUpdateCartEntrySerializer
     Converter&lt;
       Configurator.UpdateConfigurationForCartEntryParameters,
       OccConfigurator.UpdateConfigurationForCartEntryParameters
-    &gt;
-{
+    &gt; {
   convert(
     source: Configurator.UpdateConfigurationForCartEntryParameters,
     target?: OccConfigurator.UpdateConfigurationForCartEntryParameters
   ): OccConfigurator.UpdateConfigurationForCartEntryParameters {
-    const resultTarget: OccConfigurator.UpdateConfigurationForCartEntryParameters &#x3D;
-      {
-        ...target,
-        userId: source.userId,
-        cartId: source.cartId,
-        product: { code: source.configuration.productCode },
-        entryNumber: source.cartEntryNumber,
-        configId: source.configuration.configId,
-        configurationInfos: [{ configuratorType: ConfiguratorType.VARIANT }],
-      };
+    const resultTarget: OccConfigurator.UpdateConfigurationForCartEntryParameters &#x3D; {
+      ...target,
+      userId: source.userId,
+      cartId: source.cartId,
+      product: { code: source.configuration.productCode },
+      entryNumber: source.cartEntryNumber,
+      configId: source.configuration.configId,
+      configurationInfos: [{ configuratorType: ConfiguratorType.VARIANT }],
+    };
 
     return resultTarget;
   }

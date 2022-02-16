@@ -112,6 +112,10 @@ To implement custom solution provide your own implementation and customize servi
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
+                                <a href="#invokeWithUserId" class="deprecated-name">invokeWithUserId</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
                                 <a href="#isEmulated" >isEmulated</a>
                             </li>
                             <li>
@@ -162,8 +166,8 @@ To implement custom solution provide your own implementation and customize servi
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="68"
-                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:68</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="81"
+                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:81</a></div>
                 </td>
             </tr>
 
@@ -231,6 +235,90 @@ asm customer emulation session, the userId will be the customerId.</p>
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="invokeWithUserId"></a>
+                    <span class="name">
+                        <span class="modifier">Public</span>
+                        <span class="deprecated-name"><b>invokeWithUserId</b></span>
+                        <a href="#invokeWithUserId"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    Use `takeUserId` method instead.
+
+Calls provided callback with current user id.
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>invokeWithUserId(cb: (userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>) => void)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="51"
+                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:51</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Calls provided callback with current user id.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>cb</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>callback function to invoke</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Subscription</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isEmulated"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -249,8 +337,8 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="88"
+                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:88</a></div>
                 </td>
             </tr>
 
@@ -362,8 +450,8 @@ asm customer emulation session, the userId will be the customerId.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">projects/core/src/auth/user-auth/facade/user-id.service.ts:64</a></div>
                 </td>
             </tr>
 
@@ -463,7 +551,7 @@ asm customer emulation session, the userId will be the customerId.</p>
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Observable, ReplaySubject } from &#x27;rxjs&#x27;;
+import { Observable, ReplaySubject, Subscription } from &#x27;rxjs&#x27;;
 import { map, take } from &#x27;rxjs/operators&#x27;;
 import {
   OCC_USER_ID_ANONYMOUS,
@@ -503,6 +591,19 @@ export class UserIdService {
    */
   public getUserId(): Observable&lt;string&gt; {
     return this._userId;
+  }
+
+  /**
+   * @deprecated Use &#x60;takeUserId&#x60; method instead.
+   *
+   * Calls provided callback with current user id.
+   *
+   * @param cb callback function to invoke
+   */
+  public invokeWithUserId(cb: (userId: string) &#x3D;&gt; any): Subscription {
+    return this.getUserId()
+      .pipe(take(1))
+      .subscribe((id) &#x3D;&gt; cb(id));
   }
 
   /**

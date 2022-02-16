@@ -129,8 +129,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:39</a></div>
                 </td>
             </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:26</a></div>
                 </td>
             </tr>
 
@@ -242,8 +242,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="31"
-                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:31</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="34"
+                            class="link-to-prism">feature-libs/user/profile/root/facade/user-register.facade.ts:34</a></div>
                 </td>
             </tr>
 
@@ -317,14 +317,17 @@ import { Observable } from &#x27;rxjs&#x27;;
 import { Title, UserSignUp } from &#x27;../model/user-profile.model&#x27;;
 import { USER_PROFILE_CORE_FEATURE } from &#x27;../feature-name&#x27;;
 
+export function UserRegisterFacadeFactory() {
+  return facadeFactory({
+    facade: UserRegisterFacade,
+    feature: USER_PROFILE_CORE_FEATURE,
+    methods: [&#x27;register&#x27;, &#x27;registerGuest&#x27;, &#x27;getTitles&#x27;],
+  });
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
-  useFactory: () &#x3D;&gt;
-    facadeFactory({
-      facade: UserRegisterFacade,
-      feature: USER_PROFILE_CORE_FEATURE,
-      methods: [&#x27;register&#x27;, &#x27;registerGuest&#x27;, &#x27;getTitles&#x27;],
-    }),
+  useFactory: UserRegisterFacadeFactory,
 })
 export abstract class UserRegisterFacade {
   /**

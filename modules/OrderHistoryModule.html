@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/order/components/order-history/order-history.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/myaccount/order/order-history/order-history.module.ts</code>
         </p>
 
 
@@ -176,6 +176,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/OrderHistoryComponent.html">OrderHistoryComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/OrderHistoryComponent.html">OrderHistoryComponent</a>
@@ -226,12 +235,22 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { ListNavigationModule } from &#x27;@spartacus/storefront&#x27;;
+import { ListNavigationModule } from &#x27;../../../../shared/components/list-navigation/list-navigation.module&#x27;;
+import { CmsPageGuard } from &#x27;../../../../cms-structure/guards/cms-page.guard&#x27;;
+import { PageLayoutComponent } from &#x27;../../../../cms-structure/page/page-layout/page-layout.component&#x27;;
 import { OrderHistoryComponent } from &#x27;./order-history.component&#x27;;
 
 @NgModule({
   imports: [
     CommonModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: &#x27;orders&#x27; },
+      },
+    ]),
     RouterModule,
     FormsModule,
     NgSelectModule,
@@ -251,6 +270,7 @@ import { OrderHistoryComponent } from &#x27;./order-history.component&#x27;;
       },
     }),
   ],
+  entryComponents: [OrderHistoryComponent],
 })
 export class OrderHistoryModule {}
 </code></pre>

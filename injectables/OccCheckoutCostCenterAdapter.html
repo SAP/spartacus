@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.ts</code>
+            <code>projects/core/src/occ/adapters/checkout/occ-checkout-cost-center.adapter.ts</code>
         </p>
 
 
@@ -79,7 +79,7 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#getSetCartCostCenterEndpoint" >getSetCartCostCenterEndpoint</a>
+                                <a href="#getCartEndpoint" >getCartEndpoint</a>
                             </li>
                             <li>
                                 <a href="#setCostCenter" >setCostCenter</a>
@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-cost-center.adapter.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -178,26 +178,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getSetCartCostCenterEndpoint"></a>
+                    <a name="getCartEndpoint"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>getSetCartCostCenterEndpoint</b></span>
-                        <a href="#getSetCartCostCenterEndpoint"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getCartEndpoint</b></span>
+                        <a href="#getCartEndpoint"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getSetCartCostCenterEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, costCenterId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getCartEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-cost-center.adapter.ts:42</a></div>
                 </td>
             </tr>
 
@@ -218,30 +218,6 @@
                             <tbody>
                                 <tr>
                                     <td>userId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>cartId</td>
-                                    <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                                <tr>
-                                    <td>costCenterId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -288,8 +264,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="20"
-                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-cost-center.adapter.ts:20</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-cost-center.adapter.ts:18</a></div>
                 </td>
             </tr>
 
@@ -366,16 +342,14 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient } from &#x27;@angular/common/http&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpParams } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { CheckoutCostCenterAdapter } from &#x27;@spartacus/checkout/core&#x27;;
-import {
-  Cart,
-  CART_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
+import { CART_NORMALIZER } from &#x27;../../../cart/connectors/cart/converters&#x27;;
+import { CheckoutCostCenterAdapter } from &#x27;../../../checkout/connectors/cost-center/checkout-cost-center.adapter&#x27;;
+import { Cart } from &#x27;../../../model/cart.model&#x27;;
+import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
+import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
 
 @Injectable()
 export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
@@ -390,20 +364,28 @@ export class OccCheckoutCostCenterAdapter implements CheckoutCostCenterAdapter {
     cartId: string,
     costCenterId: string
   ): Observable&lt;Cart&gt; {
+    let httpParams &#x3D; new HttpParams().set(&#x27;costCenterId&#x27;, costCenterId);
+    /* eslint-disable max-len */
+    httpParams &#x3D; httpParams.set(
+      &#x27;fields&#x27;,
+      &#x27;DEFAULT,potentialProductPromotions,appliedProductPromotions,potentialOrderPromotions,appliedOrderPromotions,entries(totalPrice(formattedValue),product(images(FULL),stock(FULL)),basePrice(formattedValue,value),updateable),totalPrice(formattedValue),totalItems,totalPriceWithTax(formattedValue),totalDiscounts(value,formattedValue),subTotal(formattedValue),deliveryItemsQuantity,deliveryCost(formattedValue),totalTax(formattedValue, value),pickupItemsQuantity,net,appliedVouchers,productDiscounts(formattedValue),user&#x27;
+    );
+    // TODO(#8877): Should we improve configurable endpoints for this use case?
+
     return this.http
-      .put(this.getSetCartCostCenterEndpoint(userId, cartId, costCenterId), {})
+      .put(
+        this.getCartEndpoint(userId) + cartId + &#x27;/costcenter&#x27;,
+        {},
+        {
+          params: httpParams,
+        }
+      )
       .pipe(this.converter.pipeable(CART_NORMALIZER));
   }
 
-  protected getSetCartCostCenterEndpoint(
-    userId: string,
-    cartId: string,
-    costCenterId: string
-  ): string {
-    return this.occEndpoints.buildUrl(&#x27;setCartCostCenter&#x27;, {
-      urlParams: { userId, cartId },
-      queryParams: { costCenterId },
-    });
+  protected getCartEndpoint(userId: string): string {
+    const cartEndpoint &#x3D; &#x27;users/&#x27; + userId + &#x27;/carts/&#x27;;
+    return this.occEndpoints.getEndpoint(cartEndpoint);
   }
 }
 </code></pre>

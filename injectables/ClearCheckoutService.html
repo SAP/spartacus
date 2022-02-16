@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/facade/clear-checkout.service.ts</code>
+            <code>projects/core/src/checkout/services/clear-checkout.service.ts</code>
         </p>
 
 
@@ -98,12 +98,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutDeliveryFacade: <a href="../injectables/CheckoutDeliveryFacade.html" target="_self">CheckoutDeliveryFacade</a>, checkoutPaymentFacade: <a href="../injectables/CheckoutPaymentFacade.html" target="_self">CheckoutPaymentFacade</a>)</code>
+<code>constructor(checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html" target="_self">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html" target="_self">CheckoutPaymentService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">feature-libs/checkout/core/facade/clear-checkout.service.ts:9</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/checkout/services/clear-checkout.service.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -121,10 +121,10 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>checkoutDeliveryFacade</td>
+                                                        <td>checkoutDeliveryService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutDeliveryFacade.html" target="_self" >CheckoutDeliveryFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -133,10 +133,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>checkoutPaymentFacade</td>
+                                                        <td>checkoutPaymentService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutPaymentFacade.html" target="_self" >CheckoutPaymentFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutPaymentService.html" target="_self" >CheckoutPaymentService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -178,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="18"
-                            class="link-to-prism">feature-libs/checkout/core/facade/clear-checkout.service.ts:18</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/checkout/services/clear-checkout.service.ts:17</a></div>
                 </td>
             </tr>
 
@@ -204,26 +204,25 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  CheckoutDeliveryFacade,
-  CheckoutPaymentFacade,
-  ClearCheckoutFacade,
-} from &#x27;@spartacus/checkout/root&#x27;;
+import { CheckoutDeliveryService } from &#x27;../facade/checkout-delivery.service&#x27;;
+import { CheckoutPaymentService } from &#x27;../facade/checkout-payment.service&#x27;;
 
-@Injectable()
-export class ClearCheckoutService implements ClearCheckoutFacade {
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
+export class ClearCheckoutService {
   constructor(
-    protected checkoutDeliveryFacade: CheckoutDeliveryFacade,
-    protected checkoutPaymentFacade: CheckoutPaymentFacade
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService
   ) {}
 
   /**
    * Use it to clear checkout state
    */
   resetCheckoutProcesses(): void {
-    this.checkoutDeliveryFacade.resetSetDeliveryAddressProcess();
-    this.checkoutDeliveryFacade.resetSetDeliveryModeProcess();
-    this.checkoutPaymentFacade.resetSetPaymentDetailsProcess();
+    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
+    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
+    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
   }
 }
 </code></pre>

@@ -56,13 +56,13 @@
 <title>cluster_ProductDetailsTabModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 230,-230.8 230,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ProductDetailsTabModule_declarations</title>
-<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 220,-92.8 220,-40.8 18,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ProductDetailsTabModule_exports</title>
 <polygon fill="none" stroke="black" points="16,-170.8 16,-222.8 222,-222.8 222,-170.8 16,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ProductDetailsTabModule_declarations</title>
+<polygon fill="none" stroke="black" points="18,-40.8 18,-92.8 220,-92.8 220,-40.8 18,-40.8"/>
 </g>
 <!-- ProductDetailsTabComponent -->
 <g id="node1" class="node">
@@ -124,7 +124,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-components/product/product-tabs/product-details-tab/product-details-tab.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/product/product-tabs/product-details-tab/product-details-tab.module.ts</code>
         </p>
 
 
@@ -136,6 +136,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/ProductDetailsTabComponent.html">ProductDetailsTabComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/ProductDetailsTabComponent.html">ProductDetailsTabComponent</a>
@@ -177,6 +186,7 @@ import { ProductDetailsTabComponent } from &#x27;./product-details-tab.component
     }),
   ],
   declarations: [ProductDetailsTabComponent],
+  entryComponents: [ProductDetailsTabComponent],
   exports: [ProductDetailsTabComponent],
 })
 export class ProductDetailsTabModule {}

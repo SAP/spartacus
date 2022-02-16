@@ -121,8 +121,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">feature-libs/user/profile/root/facade/user-email.facade.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">feature-libs/user/profile/root/facade/user-email.facade.ts:25</a></div>
                 </td>
             </tr>
 
@@ -203,14 +203,17 @@ import { facadeFactory } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { USER_PROFILE_CORE_FEATURE } from &#x27;../feature-name&#x27;;
 
+export function UserEmailFacadeFactory() {
+  return facadeFactory({
+    facade: UserEmailFacade,
+    feature: USER_PROFILE_CORE_FEATURE,
+    methods: [&#x27;update&#x27;],
+  });
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
-  useFactory: () &#x3D;&gt;
-    facadeFactory({
-      facade: UserEmailFacade,
-      feature: USER_PROFILE_CORE_FEATURE,
-      methods: [&#x27;update&#x27;],
-    }),
+  useFactory: UserEmailFacadeFactory,
 })
 export abstract class UserEmailFacade {
   /**

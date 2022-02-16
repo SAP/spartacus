@@ -104,6 +104,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#valueCode" 
 >
                                             valueCode
@@ -261,6 +262,11 @@
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -284,7 +290,7 @@ interface SelectionValue {
   name?: string;
   quantity?: number;
   selected?: boolean;
-  valueCode: string;
+  valueCode?: string;
 }
 
 @Component({
@@ -294,8 +300,7 @@ interface SelectionValue {
 })
 export class ConfiguratorAttributeMultiSelectionBundleComponent
   extends ConfiguratorAttributeMultiSelectionBaseComponent
-  implements OnInit
-{
+  implements OnInit {
   preventAction$ &#x3D; new BehaviorSubject&lt;boolean&gt;(false);
   multipleSelectionValues: SelectionValue[] &#x3D; [];
 
@@ -312,7 +317,7 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     }
 
     if (
-      this.attribute.required &amp;&amp;
+      this.attribute?.required &amp;&amp;
       this.multipleSelectionValues.filter((value) &#x3D;&gt; value.selected).length &lt; 2
     ) {
       this.preventAction$.next(true);
@@ -363,10 +368,9 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
     valueCode: string;
     quantity: number;
   }): ConfigFormUpdateEvent | undefined {
-    const value: Configurator.Value | undefined &#x3D;
-      this.multipleSelectionValues.find(
-        (selectionValue) &#x3D;&gt; selectionValue.valueCode &#x3D;&#x3D;&#x3D; eventValue.valueCode
-      );
+    const value: Configurator.Value &#x3D; this.multipleSelectionValues.find(
+      (selectionValue) &#x3D;&gt; selectionValue?.valueCode &#x3D;&#x3D;&#x3D; eventValue.valueCode
+    );
 
     if (!value) return;
 
@@ -438,7 +442,6 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
       quantity: 0,
       price: {
         value: 0,
-        currencyIso: &#x27;&#x27;,
       },
       priceTotal: this.attribute.attributePriceTotal,
       isLightedUp: true,
@@ -453,18 +456,18 @@ export class ConfiguratorAttributeMultiSelectionBundleComponent
    * @return {ConfiguratorAttributeProductCardComponentOptions} - New product card options
    */
   extractProductCardParameters(
-    disableAllButtons: boolean | null,
-    hideRemoveButton: boolean | null,
+    disableAllButtons: boolean,
+    hideRemoveButton: boolean,
     value: Configurator.Value
   ): ConfiguratorAttributeProductCardComponentOptions {
     return {
-      disableAllButtons: disableAllButtons ? disableAllButtons : false,
-      hideRemoveButton: hideRemoveButton ? hideRemoveButton : false,
+      disableAllButtons: disableAllButtons,
+      hideRemoveButton: hideRemoveButton,
       productBoundValue: value,
       multiSelect: true,
       withQuantity: this.withQuantity,
       loading$: this.loading$,
-      attributeId: this.getAttributeCode(this.attribute),
+      attributeId: this.attribute.attrCode,
     };
   }
 }

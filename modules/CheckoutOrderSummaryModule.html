@@ -56,13 +56,13 @@
 <title>cluster_CheckoutOrderSummaryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 408,-230.8 408,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_CheckoutOrderSummaryModule_declarations</title>
-<polygon fill="none" stroke="black" points="162,-40.8 162,-92.8 400,-92.8 400,-40.8 162,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_CheckoutOrderSummaryModule_exports</title>
 <polygon fill="none" stroke="black" points="87,-170.8 87,-222.8 329,-222.8 329,-170.8 87,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_CheckoutOrderSummaryModule_declarations</title>
+<polygon fill="none" stroke="black" points="162,-40.8 162,-92.8 400,-92.8 400,-40.8 162,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CheckoutOrderSummaryModule_imports</title>
@@ -140,7 +140,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/components/checkout-order-summary/checkout-order-summary.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/components/checkout-order-summary/checkout-order-summary.module.ts</code>
         </p>
 
 
@@ -152,6 +152,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/CheckoutOrderSummaryComponent.html">CheckoutOrderSummaryComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/CheckoutOrderSummaryComponent.html">CheckoutOrderSummaryComponent</a>
@@ -187,7 +196,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsConfig, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { CartSharedModule } from &#x27;@spartacus/storefront&#x27;;
+import { CartSharedModule } from &#x27;../../../../cms-components/cart/cart-shared/cart-shared.module&#x27;;
 import { CheckoutOrderSummaryComponent } from &#x27;./checkout-order-summary.component&#x27;;
 
 @NgModule({
@@ -202,6 +211,7 @@ import { CheckoutOrderSummaryComponent } from &#x27;./checkout-order-summary.com
     }),
   ],
   declarations: [CheckoutOrderSummaryComponent],
+  entryComponents: [CheckoutOrderSummaryComponent],
   exports: [CheckoutOrderSummaryComponent],
 })
 export class CheckoutOrderSummaryModule {}

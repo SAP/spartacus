@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-saved-carts.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/ng-select.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireSavedCart" 
+                                        <a href="#ngSelect" 
 >
-                                            requireSavedCart
+                                            ngSelect
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireSavedCart"></a>
-                                        <span class="name "><b>requireSavedCart</b>
-                                            <a href="#requireSavedCart">
+                                        <a name="ngSelect"></a>
+                                        <span class="name "><b>ngSelect</b>
+                                            <a href="#ngSelect">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireSavedCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>ngSelect:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,8 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p> Returns Saved Cart Object.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.requireSavedCart(auth);</code></pre></div></div>
+                                    <div class="io-description"><p>Selects in ng select</p>
+<div><pre class="line-numbers"><code class="language-none">cy.get(&#39;[name=&quot;title&quot;]&#39;).ngSelect(&#39;Mr.&#39;)</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -143,66 +143,30 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { b2bProduct } from &#x27;../sample-data/b2b-checkout&#x27;;
-import { savedActiveCartForm } from &#x27;../sample-data/b2b-saved-cart&#x27;;
-
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      /**
-       *  Returns Saved Cart Object.
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare namespace Cypress {
+  interface Chainable {
+    /**
+       * Selects in ng select
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireSavedCart(auth);
+        cy.get(&#x27;[name&#x3D;&quot;title&quot;]&#x27;).ngSelect(&#x27;Mr.&#x27;)
         &#x60;&#x60;&#x60;
        */
-      requireSavedCart: (
-        auth: {},
-        productData?: {},
-        savedCartForm?: {}
-      ) &#x3D;&gt; Cypress.Chainable&lt;any&gt;;
-    }
+    ngSelect: (option: string) &#x3D;&gt; void;
   }
 }
 
 Cypress.Commands.add(
-  &#x27;requireSavedCart&#x27;,
-  (auth, productData &#x3D; b2bProduct, savedCartForm &#x3D; savedActiveCartForm[2]) &#x3D;&gt; {
-    function saveCart(cartCode: string) {
-      return cy.request({
-        method: &#x27;PATCH&#x27;,
-        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-          &#x27;OCC_PREFIX&#x27;
-        )}/${Cypress.env(
-          &#x27;BASE_SITE&#x27;
-        )}/users/current/carts/${cartCode}/save?saveCartName&#x3D;${
-          savedCartForm.name
-        }&amp;saveCartDescription&#x3D;${savedCartForm.description}&#x60;,
-        headers: {
-          Authorization: &#x60;bearer ${auth.access_token}&#x60;,
-        },
-      });
-    }
-
-    cy.requireProductAddedToCart(auth, productData).then((cart) &#x3D;&gt; {
-      saveCart(cart.cartId).then((response) &#x3D;&gt; {
-        Cypress.log({
-          name: &#x27;requireSavedCart&#x27;,
-          displayName: &#x27;Save cart (require)&#x27;,
-          message: [&#x60;🛒 Successfully saved a cart&#x60;],
-          consoleProps: () &#x3D;&gt; {
-            return {
-              &#x27;Cart ID&#x27;: cart.cartId,
-              &#x27;Saved Cart Data&#x27;: response.body,
-            };
-          },
-        });
-        cy.wrap(response.body.savedCartData);
-      });
-    });
+  &#x27;ngSelect&#x27;,
+  {
+    prevSubject: &#x27;element&#x27;,
+  },
+  (element, option) &#x3D;&gt; {
+    cy.wrap(element).click();
+    cy.get(&#x27;.ng-dropdown-panel-items&#x27;).contains(option).click({ force: true });
   }
 );
 </code></pre>

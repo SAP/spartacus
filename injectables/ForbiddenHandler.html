@@ -133,7 +133,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/global-message/http-interceptors/handlers/forbidden/forbidden.handler.ts:32</a></div>
                             </td>
                         </tr>
 
@@ -226,7 +226,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:32</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:30</a></code>
 </div>
                 </td>
             </tr>
@@ -500,9 +500,7 @@ export class ForbiddenHandler extends HttpErrorHandler {
   handleError(request) {
     if (
       request.url.endsWith(
-        this.occEndpoints.buildUrl(&#x27;user&#x27;, {
-          urlParams: { userId: &#x27;current&#x27; },
-        })
+        this.occEndpoints.getUrl(&#x27;user&#x27;, { userId: &#x27;current&#x27; })
       )
     ) {
       this.authService.logout();

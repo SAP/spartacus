@@ -56,13 +56,13 @@
 <title>cluster_TruncateTextPopoverModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 586,-230.8 586,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_TruncateTextPopoverModule_declarations</title>
-<polygon fill="none" stroke="black" points="250,-40.8 250,-92.8 578,-92.8 578,-40.8 250,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_TruncateTextPopoverModule_exports</title>
 <polygon fill="none" stroke="black" points="89,-170.8 89,-222.8 424,-222.8 424,-170.8 89,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_TruncateTextPopoverModule_declarations</title>
+<polygon fill="none" stroke="black" points="250,-40.8 250,-92.8 578,-92.8 578,-40.8 250,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_TruncateTextPopoverModule_imports</title>
@@ -176,7 +176,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/shared/components/truncate-text-popover/truncate-text-popover.module.ts</code>
+            <code>projects/storefrontlib/src/shared/components/truncate-text-popover/truncate-text-popover.module.ts</code>
         </p>
 
 
@@ -192,6 +192,15 @@
                         <li class="list-group-item">
                             <a href="../pipes/TruncatePipe.html">TruncatePipe</a>
                         </li>
+                        <li class="list-group-item">
+                            <a href="../components/TruncateTextPopoverComponent.html">TruncateTextPopoverComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/TruncateTextPopoverComponent.html">TruncateTextPopoverComponent</a>
                         </li>
@@ -239,6 +248,7 @@ import { TruncatePipe } from &#x27;./truncate.pipe&#x27;;
 @NgModule({
   imports: [CommonModule, I18nModule, PopoverModule],
   declarations: [TruncateTextPopoverComponent, TruncatePipe],
+  entryComponents: [TruncateTextPopoverComponent],
   exports: [TruncateTextPopoverComponent, TruncatePipe],
 })
 export class TruncateTextPopoverModule {}

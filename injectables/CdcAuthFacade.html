@@ -125,8 +125,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">integration-libs/cdc/root/facade/cdc-auth.facade.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">integration-libs/cdc/root/facade/cdc-auth.facade.ts:19</a></div>
                 </td>
             </tr>
 
@@ -243,8 +243,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">integration-libs/cdc/root/facade/cdc-auth.facade.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">integration-libs/cdc/root/facade/cdc-auth.facade.ts:27</a></div>
                 </td>
             </tr>
 
@@ -297,15 +297,18 @@
 import { AuthToken, facadeFactory } from &#x27;@spartacus/core&#x27;;
 import { CDC_CORE_FEATURE } from &#x27;../feature-name&#x27;;
 
+export function cdcAuthFacadeFactory() {
+  return facadeFactory({
+    facade: CdcAuthFacade,
+    feature: CDC_CORE_FEATURE,
+    methods: [&#x27;loginWithCustomCdcFlow&#x27;, &#x27;loginWithToken&#x27;],
+    async: true,
+  });
+}
+
 @Injectable({
   providedIn: &#x27;root&#x27;,
-  useFactory: () &#x3D;&gt;
-    facadeFactory({
-      facade: CdcAuthFacade,
-      feature: CDC_CORE_FEATURE,
-      methods: [&#x27;loginWithCustomCdcFlow&#x27;, &#x27;loginWithToken&#x27;],
-      async: true,
-    }),
+  useFactory: cdcAuthFacadeFactory,
 })
 export abstract class CdcAuthFacade {
   abstract loginWithCustomCdcFlow(

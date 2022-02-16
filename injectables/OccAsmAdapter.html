@@ -267,7 +267,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../classes/CustomerSearch.html" target="_self" >Observable&lt;CustomerSearchPage&gt;</a></code>
+                        <b>Returns : </b>    <code>Observable&lt;CustomerSearchPage&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -370,14 +370,7 @@ export class OccAsmAdapter implements AsmAdapter {
       params &#x3D; params.set(&#x27;pageSize&#x27;, &#x27;&#x27; + options.pageSize);
     }
 
-    const url &#x3D; this.occEndpointsService.buildUrl(
-      &#x27;asmCustomerSearch&#x27;,
-      {},
-      {
-        baseSite: false,
-        prefix: false,
-      }
-    );
+    const url &#x3D; this.occEndpointsService.getRawEndpoint(&#x27;asmCustomerSearch&#x27;);
 
     return this.http
       .get&lt;CustomerSearchPage&gt;(url, { headers, params })

@@ -327,7 +327,7 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onRead(state: <a href="../s/undefined.html" target="_self">literal type | undefined</a>)</code>
+                    <code>onRead(state: literal type)</code>
                 </td>
             </tr>
 
@@ -357,7 +357,7 @@
                                 <tr>
                                     <td>state</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >literal type | undefined</a></code>
+                                            <code>literal type</code>
                                     </td>
 
                                     <td>
@@ -468,7 +468,7 @@ export class MultiCartStatePersistenceService implements OnDestroy {
     );
   }
 
-  protected onRead(state: { active: string } | undefined) {
+  protected onRead(state: { active: string }) {
     this.store.dispatch(new CartActions.ClearCartState());
     if (state) {
       this.store.dispatch(new CartActions.SetActiveCartId(state.active));

@@ -405,7 +405,7 @@ For most cases <code>isUserLoggedIn</code> from the <code>AuthService</code> sho
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onRead(state: <a href="../s/undefined.html" target="_self">SyncedAuthState | undefined</a>)</code>
+                    <code>onRead(state: <a href="../interfaces/SyncedAuthState.html" target="_self">SyncedAuthState</a>)</code>
                 </td>
             </tr>
 
@@ -438,7 +438,7 @@ Used to update state from browser -&gt; state.</p>
                                 <tr>
                                     <td>state</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >SyncedAuthState | undefined</a></code>
+                                                <code><a href="../interfaces/SyncedAuthState.html" target="_self" >SyncedAuthState</a></code>
                                     </td>
 
                                     <td>
@@ -665,7 +665,7 @@ export class AuthStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -&gt; state.
    */
-  protected onRead(state: SyncedAuthState | undefined) {
+  protected onRead(state: SyncedAuthState) {
     if (state?.token) {
       this.authStorageService.setToken(state.token);
     }

@@ -211,8 +211,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-page.adapter.ts:69</a></div>
                 </td>
             </tr>
 
@@ -415,10 +415,8 @@ export class OccCmsPageAdapter implements CmsPageAdapter {
     const params &#x3D; this.getPagesRequestParams(pageContext);
 
     const endpoint &#x3D; !pageContext.type
-      ? this.occEndpoints.buildUrl(&#x27;page&#x27;, {
-          urlParams: { id: pageContext.id },
-        })
-      : this.occEndpoints.buildUrl(&#x27;pages&#x27;, { queryParams: params });
+      ? this.occEndpoints.getUrl(&#x27;page&#x27;, { id: pageContext.id })
+      : this.occEndpoints.getUrl(&#x27;pages&#x27;, undefined, params);
 
     return this.http
       .get(endpoint, { headers: this.headers })

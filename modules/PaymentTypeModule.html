@@ -164,7 +164,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/components/payment-type/payment-type.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/components/payment-type/payment-type.module.ts</code>
         </p>
 
 
@@ -176,6 +176,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/PaymentTypeComponent.html">PaymentTypeComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/PaymentTypeComponent.html">PaymentTypeComponent</a>
@@ -217,9 +226,9 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { CmsConfig, ConfigModule, I18nModule } from &#x27;@spartacus/core&#x27;;
-import { SpinnerModule, CartValidationGuard } from &#x27;@spartacus/storefront&#x27;;
-import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
+import { SpinnerModule } from &#x27;../../../../shared/components/spinner/spinner.module&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
+import { CartNotEmptyGuard } from &#x27;./../../../../cms-components/cart/cart-not-empty.guard&#x27;;
 import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
 
 @NgModule({
@@ -231,12 +240,13 @@ import { PaymentTypeComponent } from &#x27;./payment-type.component&#x27;;
       cmsComponents: {
         CheckoutPaymentType: {
           component: PaymentTypeComponent,
-          guards: [CheckoutAuthGuard, CartNotEmptyGuard, CartValidationGuard],
+          guards: [CheckoutAuthGuard, CartNotEmptyGuard],
         },
       },
     }),
   ],
   declarations: [PaymentTypeComponent],
+  entryComponents: [PaymentTypeComponent],
   exports: [PaymentTypeComponent],
 })
 export class PaymentTypeModule {}

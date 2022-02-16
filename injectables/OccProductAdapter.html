@@ -364,7 +364,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadMany(products: <a href="../undefineds/ProductData.html" target="_self">ScopedProductData[]</a>)</code>
+<code>loadMany(products: ScopedProductData[])</code>
                 </td>
             </tr>
 
@@ -394,7 +394,7 @@
                                 <tr>
                                     <td>products</td>
                                     <td>
-                                                <code><a href="../miscellaneous/typealiases.html#ProductData" target="_self" >ScopedProductData[]</a></code>
+                                            <code>ScopedProductData[]</code>
                                     </td>
 
                                     <td>
@@ -409,7 +409,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/typealiases.html#ProductData" target="_self" >ScopedProductData[]</a></code>
+                        <b>Returns : </b>    <code>ScopedProductData[]</code>
 
                     </div>
                     <div class="io-description">
@@ -473,10 +473,14 @@ export class OccProductAdapter implements ProductAdapter {
   }
 
   protected getEndpoint(code: string, scope?: string): string {
-    return this.occEndpoints.buildUrl(&#x27;product&#x27;, {
-      urlParams: { productCode: code },
-      scope,
-    });
+    return this.occEndpoints.getUrl(
+      &#x27;product&#x27;,
+      {
+        productCode: code,
+      },
+      undefined,
+      scope
+    );
   }
 }
 </code></pre>

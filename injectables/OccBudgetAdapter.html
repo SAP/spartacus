@@ -364,15 +364,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getBudgetsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
+                    <code>getBudgetsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="75"
-                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-budget.adapter.ts:75</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/organization/administration/occ/adapters/occ-budget.adapter.ts:73</a></div>
                 </td>
             </tr>
 
@@ -406,7 +406,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -524,7 +524,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
+<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
@@ -566,7 +566,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -758,16 +758,11 @@ export class OccBudgetAdapter implements BudgetAdapter {
   }
 
   protected getBudgetEndpoint(userId: string, budgetCode: string): string {
-    return this.occEndpoints.buildUrl(&#x27;budget&#x27;, {
-      urlParams: { userId, budgetCode },
-    });
+    return this.occEndpoints.getUrl(&#x27;budget&#x27;, { userId, budgetCode });
   }
 
   protected getBudgetsEndpoint(userId: string, params?: SearchConfig): string {
-    return this.occEndpoints.buildUrl(&#x27;budgets&#x27;, {
-      urlParams: { userId },
-      queryParams: params,
-    });
+    return this.occEndpoints.getUrl(&#x27;budgets&#x27;, { userId }, params);
   }
 }
 </code></pre>

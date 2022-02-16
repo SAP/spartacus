@@ -39,9 +39,7 @@
 
 <ol class="breadcrumb">
   <li>Injectables</li>
-  <li 
-        class="deprecated-name"
-    >OccUserOrderAdapter</li>
+  <li >OccUserOrderAdapter</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -62,12 +60,6 @@
             <code>projects/core/src/occ/adapters/user/occ-user-order.adapter.ts</code>
         </p>
 
-            <p class="comment">
-                <h3 class="deprecated">Deprecated</h3>
-            </p>
-            <p class="comment">
-                since 4.2 - use OccOrderAdapter in 
-            </p>
 
 
 
@@ -140,7 +132,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="40" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:40</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:37</a></div>
                             </td>
                         </tr>
 
@@ -229,8 +221,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="102"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:102</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:99</a></div>
                 </td>
             </tr>
 
@@ -323,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="181"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:181</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="177"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:177</a></div>
                 </td>
             </tr>
 
@@ -417,8 +409,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="119"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:119</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:117</a></div>
                 </td>
             </tr>
 
@@ -499,8 +491,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="84"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:84</a></div>
                 </td>
             </tr>
 
@@ -601,8 +593,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="44"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:44</a></div>
                 </td>
             </tr>
 
@@ -683,8 +675,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="60"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:60</a></div>
                 </td>
             </tr>
 
@@ -789,8 +781,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="168"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:168</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="163"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:163</a></div>
                 </td>
             </tr>
 
@@ -871,8 +863,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="139"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-user-order.adapter.ts:139</a></div>
                 </td>
             </tr>
 
@@ -996,9 +988,6 @@ import {
   OCC_USER_ID_CURRENT,
 } from &#x27;../../utils/occ-constants&#x27;;
 
-/**
- * @deprecated since 4.2 - use OccOrderAdapter in @spartacus/order/occ instead
- */
 @Injectable()
 export class OccUserOrderAdapter implements UserOrderAdapter {
   constructor(
@@ -1008,8 +997,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
   ) {}
 
   public load(userId: string, orderCode: string): Observable&lt;Order&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;orderDetail&#x27;, {
-      urlParams: { userId, orderId: orderCode },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;orderDetail&#x27;, {
+      userId,
+      orderId: orderCode,
     });
 
     let headers &#x3D; new HttpHeaders();
@@ -1039,10 +1029,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params[&#x27;sort&#x27;] &#x3D; sort.toString();
     }
 
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;orderHistory&#x27;, {
-      urlParams: { userId },
-      queryParams: params,
-    });
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;orderHistory&#x27;, { userId }, params);
 
     return this.http
       .get&lt;Occ.OrderHistoryList&gt;(url)
@@ -1054,8 +1041,10 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     consignmentCode: string,
     userId: string &#x3D; OCC_USER_ID_CURRENT
   ): Observable&lt;ConsignmentTracking&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;consignmentTracking&#x27;, {
-      urlParams: { userId, orderCode, consignmentCode },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;consignmentTracking&#x27;, {
+      userId,
+      orderCode,
+      consignmentCode,
     });
     return this.http
       .get&lt;ConsignmentTracking&gt;(url)
@@ -1067,8 +1056,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     orderCode: string,
     cancelRequestInput: CancellationRequestEntryInputList
   ): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;cancelOrder&#x27;, {
-      urlParams: { userId, orderId: orderCode },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;cancelOrder&#x27;, {
+      userId,
+      orderId: orderCode,
     });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
@@ -1083,8 +1073,8 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     userId: string,
     returnRequestInput: ReturnRequestEntryInputList
   ): Observable&lt;ReturnRequest&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;returnOrder&#x27;, {
-      urlParams: { userId },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;returnOrder&#x27;, {
+      userId,
     });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
@@ -1118,10 +1108,7 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
       params[&#x27;sort&#x27;] &#x3D; sort.toString();
     }
 
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;orderReturns&#x27;, {
-      urlParams: { userId },
-      queryParams: params,
-    });
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;orderReturns&#x27;, { userId }, params);
 
     return this.http
       .get&lt;ReturnRequestList&gt;(url)
@@ -1132,8 +1119,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     userId: string,
     returnRequestCode: string
   ): Observable&lt;ReturnRequest&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;orderReturnDetail&#x27;, {
-      urlParams: { userId, returnRequestCode },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;orderReturnDetail&#x27;, {
+      userId,
+      returnRequestCode,
     });
 
     return this.http
@@ -1146,8 +1134,9 @@ export class OccUserOrderAdapter implements UserOrderAdapter {
     returnRequestCode: string,
     returnRequestModification: ReturnRequestModification
   ): Observable&lt;{}&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;cancelReturn&#x27;, {
-      urlParams: { userId, returnRequestCode },
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;cancelReturn&#x27;, {
+      userId,
+      returnRequestCode,
     });
     const headers &#x3D; new HttpHeaders({
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,

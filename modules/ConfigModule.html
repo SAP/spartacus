@@ -87,15 +87,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>forRoot(config: <a href="../injectables/Config.html" target="_self">Config</a>)</code>
+                    <code>forRoot(config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="49"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:49</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="48"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:48</a></div>
                 </td>
             </tr>
 
@@ -120,7 +120,7 @@
                                 <tr>
                                     <td>config</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
                                     </td>
 
                                     <td>
@@ -138,7 +138,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -163,15 +163,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>withConfig(config: <a href="../injectables/Config.html" target="_self">Config</a>)</code>
+                    <code>withConfig(config: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank">object</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="19"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:19</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="18"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:18</a></div>
                 </td>
             </tr>
 
@@ -197,7 +197,7 @@
                                 <tr>
                                     <td>config</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >Config</a></code>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/object" target="_blank" >object</a></code>
                                     </td>
 
                                     <td>
@@ -216,7 +216,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -248,8 +248,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">projects/core/src/config/config.module.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">projects/core/src/config/config.module.ts:33</a></div>
                 </td>
             </tr>
 
@@ -310,7 +310,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Module.html" target="_self" >ModuleWithProviders&lt;ConfigModule&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -327,7 +327,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { provideConfig, provideConfigFactory } from &#x27;./config-providers&#x27;;
-import { Config } from &#x27;./config-tokens&#x27;;
 import { ConfigurationService } from &#x27;./services/configuration.service&#x27;;
 
 @NgModule({})
@@ -343,7 +342,7 @@ export class ConfigModule {
    *
    * @param config Config object to merge with the global configuration
    */
-  static withConfig(config: Config): ModuleWithProviders&lt;ConfigModule&gt; {
+  static withConfig(config: object): ModuleWithProviders&lt;ConfigModule&gt; {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)],
@@ -373,7 +372,7 @@ export class ConfigModule {
    *
    * @param config
    */
-  static forRoot(config: Config &#x3D; {}): ModuleWithProviders&lt;ConfigModule&gt; {
+  static forRoot(config: any &#x3D; {}): ModuleWithProviders&lt;ConfigModule&gt; {
     return {
       ngModule: ConfigModule,
       providers: [provideConfig(config)],

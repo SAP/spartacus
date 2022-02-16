@@ -133,11 +133,11 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;@spartacus/core&#x27;;
-import { CdsEndpoints } from &#x27;../cds-models/cds-endpoints.model&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CdsEndpoints } from &#x27;../cds-models/cds-endpoints.model&#x27;;
 import { MerchandisingConfig } from &#x27;./merchandising.config&#x27;;
 import { ProfileTagConfig } from &#x27;./profile-tag.config&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config } from &#x27;@spartacus/core&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -152,10 +152,6 @@ export abstract class CdsConfig {
     merchandising?: MerchandisingConfig;
     profileTag?: ProfileTagConfig;
   };
-}
-
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends CdsConfig {}
 }
 </code></pre>
     </div>

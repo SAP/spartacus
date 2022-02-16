@@ -210,8 +210,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="84"
-                            class="link-to-prism">feature-libs/organization/order-approval/occ/adapters/occ-order-approval.adapter.ts:84</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">feature-libs/organization/order-approval/occ/adapters/occ-order-approval.adapter.ts:79</a></div>
                 </td>
             </tr>
 
@@ -367,15 +367,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getOrderApprovalsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
+                    <code>getOrderApprovalsEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">feature-libs/organization/order-approval/occ/adapters/occ-order-approval.adapter.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/organization/order-approval/occ/adapters/occ-order-approval.adapter.ts:72</a></div>
                 </td>
             </tr>
 
@@ -409,7 +409,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -527,7 +527,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>)</code>
+<code>loadList(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, params?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>)</code>
                 </td>
             </tr>
 
@@ -569,7 +569,7 @@
                                 <tr>
                                     <td>params</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -757,11 +757,9 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
     userId: string,
     orderApprovalCode: string
   ): string {
-    return this.occEndpoints.buildUrl(&#x27;orderApproval&#x27;, {
-      urlParams: {
-        userId,
-        orderApprovalCode,
-      },
+    return this.occEndpoints.getUrl(&#x27;orderApproval&#x27;, {
+      userId,
+      orderApprovalCode,
     });
   }
 
@@ -769,21 +767,16 @@ export class OccOrderApprovalAdapter implements OrderApprovalAdapter {
     userId: string,
     params?: SearchConfig
   ): string {
-    return this.occEndpoints.buildUrl(&#x27;orderApprovals&#x27;, {
-      urlParams: { userId },
-      queryParams: params,
-    });
+    return this.occEndpoints.getUrl(&#x27;orderApprovals&#x27;, { userId }, params);
   }
 
   protected getOrderApprovalDecisionEndpoint(
     userId: string,
     orderApprovalCode: string
   ): string {
-    return this.occEndpoints.buildUrl(&#x27;orderApprovalDecision&#x27;, {
-      urlParams: {
-        userId,
-        orderApprovalCode,
-      },
+    return this.occEndpoints.getUrl(&#x27;orderApprovalDecision&#x27;, {
+      userId,
+      orderApprovalCode,
     });
   }
 }

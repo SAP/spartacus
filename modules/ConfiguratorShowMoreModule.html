@@ -56,13 +56,13 @@
 <title>cluster_ConfiguratorShowMoreModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 366,-230.8 366,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorShowMoreModule_exports</title>
-<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 305,-222.8 305,-170.8 69,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_ConfiguratorShowMoreModule_declarations</title>
 <polygon fill="none" stroke="black" points="126,-40.8 126,-92.8 358,-92.8 358,-40.8 126,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorShowMoreModule_exports</title>
+<polygon fill="none" stroke="black" points="69,-170.8 69,-222.8 305,-222.8 305,-170.8 69,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorShowMoreModule_imports</title>
@@ -159,6 +159,15 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/ConfiguratorShowMoreComponent.html">ConfiguratorShowMoreComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -193,6 +202,7 @@ import { ConfiguratorShowMoreComponent } from &#x27;./configurator-show-more.com
   imports: [CommonModule, I18nModule],
   declarations: [ConfiguratorShowMoreComponent],
   exports: [ConfiguratorShowMoreComponent],
+  entryComponents: [ConfiguratorShowMoreComponent],
 })
 export class ConfiguratorShowMoreModule {}
 </code></pre>

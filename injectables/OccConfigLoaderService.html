@@ -1,0 +1,862 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content injectable">
+                   <div class="content-data">
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Injectables</li>
+  <li 
+        class="deprecated-name"
+    >OccConfigLoaderService</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/core/src/occ/config-loader/occ-config-loader.service.ts</code>
+        </p>
+
+            <p class="comment">
+                <h3 class="deprecated">Deprecated</h3>
+            </p>
+            <p class="comment">
+                since 3.2 - use `SiteContextConfigInitializer` instead
+            </p>
+
+
+
+
+            <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#get" >get</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getConfigChunks" >getConfigChunks</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#load" >load</a>
+                            </li>
+                            <li>
+                                <a href="#loadConfig" >loadConfig</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#rehydrate" >rehydrate</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#shouldReturnI18nChunk" >shouldReturnI18nChunk</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#transfer" >transfer</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <h6><b>Accessors</b></h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <ul class="index-list">
+                                <li>
+                                    <a href="#currentUrl" >currentUrl</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(platform: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, config: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, sitesConfigLoader: <a href="../injectables/OccSitesConfigLoader.html" target="_self">OccSitesConfigLoader</a>, converter: <a href="../injectables/OccLoadedConfigConverter.html" target="_self">OccLoadedConfigConverter</a>, transferState: <a href="../interfaces/State.html" target="_self">TransferState</a>, serverRequestUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="38" class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:38</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>platform</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>document</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>config</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>sitesConfigLoader</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OccSitesConfigLoader.html" target="_self" >OccSitesConfigLoader</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>converter</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/OccLoadedConfigConverter.html" target="_self" >OccLoadedConfigConverter</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>transferState</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../interfaces/State.html" target="_self" >TransferState</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>serverRequestUrl</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            Yes
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+            <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="get"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>get</b></span>
+                        <a href="#get"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>get()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:83</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the external config</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/OccLoadedConfig.html" target="_self" >Observable&lt;OccLoadedConfig&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfigChunks"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getConfigChunks</b></span>
+                        <a href="#getConfigChunks"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getConfigChunks(externalConfig: <a href="../interfaces/OccLoadedConfig.html" target="_self">OccLoadedConfig</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="128"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:128</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>externalConfig</td>
+                                    <td>
+                                                <code><a href="../interfaces/OccLoadedConfig.html" target="_self" >OccLoadedConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>[]</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="load"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>load</b></span>
+                        <a href="#load"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>load()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:94</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Loads the external config from backend</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/OccLoadedConfig.html" target="_self" >Observable&lt;OccLoadedConfig&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="loadConfig"></a>
+                    <span class="name">
+                        <span ><b>loadConfig</b></span>
+                        <a href="#loadConfig"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>loadConfig()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="69"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:69</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initializes the Spartacus config asynchronously basing on the external config</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/SiteContext.html" target="_self" >Promise&lt;I18nConfig | SiteContextConfig&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="rehydrate"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>rehydrate</b></span>
+                        <a href="#rehydrate"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>rehydrate()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:107</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Tries to rehydrate external config in the browser from SSR</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/OccLoadedConfig.html" target="_self" >OccLoadedConfig</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="shouldReturnI18nChunk"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>shouldReturnI18nChunk</b></span>
+                        <a href="#shouldReturnI18nChunk"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>shouldReturnI18nChunk()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="140"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:140</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="transfer"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>transfer</b></span>
+                        <a href="#transfer"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>transfer(externalConfig: <a href="../interfaces/OccLoadedConfig.html" target="_self">OccLoadedConfig</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="118"
+                            class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:118</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Transfers the given external config in SSR to the browser</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>externalConfig</td>
+                                    <td>
+                                                <code><a href="../interfaces/OccLoadedConfig.html" target="_self" >OccLoadedConfig</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+            <section>
+    <h3 id="accessors">
+        Accessors
+    </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="currentUrl"></a>
+                        <span class="name"><b>currentUrl</b><a href="#currentUrl"><span class="icon ion-ios-link"></span></a></span>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <span class="accessor"><b>get</b><code>currentUrl()</code></span>
+                    </td>
+                </tr>
+                            <tr>
+                                <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/occ/config-loader/occ-config-loader.service.ts:52</a></div>
+                                </td>
+                            </tr>
+
+            </tbody>
+        </table>
+</section>
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DOCUMENT, isPlatformBrowser, isPlatformServer } from &#x27;@angular/common&#x27;;
+import {
+  Inject,
+  Injectable,
+  isDevMode,
+  Optional,
+  PLATFORM_ID,
+} from &#x27;@angular/core&#x27;;
+import {
+  makeStateKey,
+  StateKey,
+  TransferState,
+} from &#x27;@angular/platform-browser&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { map, tap } from &#x27;rxjs/operators&#x27;;
+import { Config } from &#x27;../../config/config-tokens&#x27;;
+import { deepMerge } from &#x27;../../config/utils/deep-merge&#x27;;
+import { I18nConfig } from &#x27;../../i18n/config/i18n-config&#x27;;
+import { SiteContextConfig } from &#x27;../../site-context/config/site-context-config&#x27;;
+import { SERVER_REQUEST_URL } from &#x27;../../util/ssr.tokens&#x27;;
+import { OccLoadedConfig } from &#x27;./occ-loaded-config&#x27;;
+import { OccLoadedConfigConverter } from &#x27;./occ-loaded-config-converter&#x27;;
+import { OccSitesConfigLoader } from &#x27;./occ-sites-config-loader&#x27;;
+
+/**
+ * @deprecated since 3.2, no replacement - the standard ngrx transfer state of basesites is used instead
+ */
+// TODO(#11515): drop it in 4.0
+export const EXTERNAL_CONFIG_TRANSFER_ID: StateKey&lt;string&gt; &#x3D; makeStateKey&lt;string&gt;(
+  &#x27;cx-external-config&#x27;
+);
+
+/**
+ * @deprecated since 3.2 - use &#x60;SiteContextConfigInitializer&#x60; instead
+ */
+// TODO(#11515): drop it in 4.0
+@Injectable({ providedIn: &#x27;root&#x27; })
+export class OccConfigLoaderService {
+  constructor(
+    @Inject(PLATFORM_ID) protected platform: any,
+    @Inject(DOCUMENT) protected document: any,
+    @Inject(Config) protected config: any,
+    protected sitesConfigLoader: OccSitesConfigLoader,
+    protected converter: OccLoadedConfigConverter,
+    @Optional() protected transferState: TransferState,
+
+    @Optional()
+    @Inject(SERVER_REQUEST_URL)
+    protected serverRequestUrl?: string
+  ) {}
+
+  private get currentUrl(): string {
+    if (isPlatformBrowser(this.platform)) {
+      return this.document.location.href;
+    }
+    if (this.serverRequestUrl) {
+      return this.serverRequestUrl;
+    }
+    if (isDevMode()) {
+      console.error(
+        &#x60;Please provide token &#x27;SERVER_REQUEST_URL&#x27; with the requested URL for SSR&#x60;
+      );
+    }
+  }
+
+  /**
+   * Initializes the Spartacus config asynchronously basing on the external config
+   */
+  loadConfig(): Promise&lt;I18nConfig | SiteContextConfig&gt; {
+    return this.get()
+      .pipe(
+        tap((externalConfig) &#x3D;&gt; this.transfer(externalConfig)),
+        map((externalConfig) &#x3D;&gt;
+          deepMerge({}, ...this.getConfigChunks(externalConfig))
+        )
+      )
+      .toPromise();
+  }
+
+  /**
+   * Returns the external config
+   */
+  protected get(): Observable&lt;OccLoadedConfig&gt; {
+    const rehydratedExternalConfig &#x3D; this.rehydrate();
+
+    return rehydratedExternalConfig
+      ? of(rehydratedExternalConfig)
+      : this.load();
+  }
+
+  /**
+   * Loads the external config from backend
+   */
+  protected load(): Observable&lt;OccLoadedConfig&gt; {
+    return this.sitesConfigLoader
+      .load()
+      .pipe(
+        map((baseSites) &#x3D;&gt;
+          this.converter.fromOccBaseSites(baseSites, this.currentUrl)
+        )
+      );
+  }
+
+  /**
+   * Tries to rehydrate external config in the browser from SSR
+   */
+  protected rehydrate(): OccLoadedConfig {
+    if (this.transferState &amp;&amp; isPlatformBrowser(this.platform)) {
+      return this.transferState.get(EXTERNAL_CONFIG_TRANSFER_ID, undefined);
+    }
+  }
+
+  /**
+   * Transfers the given external config in SSR to the browser
+   *
+   * @param externalConfig
+   */
+  protected transfer(externalConfig: OccLoadedConfig) {
+    if (
+      this.transferState &amp;&amp;
+      isPlatformServer(this.platform) &amp;&amp;
+      externalConfig
+    ) {
+      this.transferState.set(EXTERNAL_CONFIG_TRANSFER_ID, externalConfig);
+    }
+  }
+
+  protected getConfigChunks(
+    externalConfig: OccLoadedConfig
+  ): (I18nConfig | SiteContextConfig)[] {
+    const chunks: any[] &#x3D; [this.converter.toSiteContextConfig(externalConfig)];
+
+    if (this.shouldReturnI18nChunk()) {
+      chunks.push(this.converter.toI18nConfig(externalConfig));
+    }
+
+    return chunks;
+  }
+
+  private shouldReturnI18nChunk(): boolean {
+    const fallbackLangExists &#x3D;
+      typeof (
+        this.config &amp;&amp;
+        this.config.i18n &amp;&amp;
+        this.config.i18n.fallbackLang
+      ) !&#x3D;&#x3D; &#x27;undefined&#x27;;
+    if (fallbackLangExists &amp;&amp; isDevMode()) {
+      console.warn(
+        &#x60;There is an already provided static config for &#x27;i18n.fallbackLang&#x27;, so the value from OCC loaded config is ignored.&#x60;
+      );
+    }
+    return !fallbackLangExists;
+  }
+}
+</code></pre>
+    </div>
+
+</div>
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'OccConfigLoaderService.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

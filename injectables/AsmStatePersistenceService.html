@@ -344,7 +344,7 @@ be saved in storage.</p>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>onRead(state: <a href="../s/undefined.html" target="_self">SyncedAsmState | undefined</a>)</code>
+                    <code>onRead(state: <a href="../interfaces/SyncedAsmState.html" target="_self">SyncedAsmState</a>)</code>
                 </td>
             </tr>
 
@@ -377,7 +377,7 @@ Used to update state from browser -&gt; state.</p>
                                 <tr>
                                     <td>state</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >SyncedAsmState | undefined</a></code>
+                                                <code><a href="../interfaces/SyncedAsmState.html" target="_self" >SyncedAsmState</a></code>
                                     </td>
 
                                     <td>
@@ -565,7 +565,7 @@ export class AsmStatePersistenceService implements OnDestroy {
    * Function called on each browser storage read.
    * Used to update state from browser -&gt; state.
    */
-  protected onRead(state: SyncedAsmState | undefined) {
+  protected onRead(state: SyncedAsmState) {
     if (state) {
       if (state.ui) {
         this.store.dispatch(new AsmActions.AsmUiUpdate(state.ui));

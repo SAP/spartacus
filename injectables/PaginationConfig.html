@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/shared/components/list-navigation/pagination/config/pagination.config.ts</code>
+            <code>projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config.ts</code>
         </p>
 
 
@@ -120,7 +120,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/shared/components/list-navigation/pagination/config/pagination.config.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/storefrontlib/src/shared/components/list-navigation/pagination/config/pagination.config.ts:10</a></div>
                         </td>
                     </tr>
 
@@ -133,9 +133,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PaginationOptions } from &#x27;../pagination.model&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;@spartacus/core&#x27;;
-import { PaginationOptions } from &#x27;../pagination.model&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -143,10 +143,6 @@ import { PaginationOptions } from &#x27;../pagination.model&#x27;;
 })
 export abstract class PaginationConfig {
   pagination?: PaginationOptions;
-}
-
-declare module &#x27;@spartacus/core&#x27; {
-  interface Config extends PaginationConfig {}
 }
 </code></pre>
     </div>

@@ -186,8 +186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/site-context/site-context.module.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/site-context/site-context.module.ts:46</a></div>
                 </td>
             </tr>
 
@@ -215,6 +215,7 @@ import {
 } from &#x27;../config/config-initializer/config-initializer&#x27;;
 import { provideDefaultConfigFactory } from &#x27;../config/config-providers&#x27;;
 import { provideConfigValidator } from &#x27;../config/config-validator/config-validator&#x27;;
+import { FeatureConfigService } from &#x27;../features-config/services/feature-config.service&#x27;;
 import { StateModule } from &#x27;../state/index&#x27;;
 import { baseSiteConfigValidator } from &#x27;./config/base-site-config-validator&#x27;;
 import { SiteContextConfigInitializer } from &#x27;./config/config-loader/site-context-config-initializer&#x27;;
@@ -222,7 +223,6 @@ import { defaultSiteContextConfigFactory } from &#x27;./config/default-site-cont
 import { SiteContextConfig } from &#x27;./config/site-context-config&#x27;;
 import { SiteContextEventModule } from &#x27;./events/site-context-event.module&#x27;;
 import { BASE_SITE_CONTEXT_ID } from &#x27;./providers/context-ids&#x27;;
-import { contextInitializerProviders } from &#x27;./providers/context-initializer-providers&#x27;;
 import { contextServiceMapProvider } from &#x27;./providers/context-service-map&#x27;;
 import { contextServiceProviders } from &#x27;./providers/context-service-providers&#x27;;
 import { siteContextParamsProviders } from &#x27;./providers/site-context-params-providers&#x27;;
@@ -233,8 +233,13 @@ import { SiteContextStoreModule } from &#x27;./store/site-context-store.module&#
  */
 export function initSiteContextConfig(
   configInitializer: SiteContextConfigInitializer,
-  config: SiteContextConfig
+  config: SiteContextConfig,
+  featureConfigService: FeatureConfigService
 ): ConfigInitializer | null {
+  // TODO(#11515): remove it in 4.0
+  if (!featureConfigService.isLevel(&#x27;3.2&#x27;)) {
+    return null;
+  }
   /**
    * Load config for &#x60;context&#x60; from backend only when there is no static config for &#x60;context.baseSite&#x60;
    */
@@ -260,10 +265,13 @@ export class SiteContextModule {
         {
           provide: CONFIG_INITIALIZER,
           useFactory: initSiteContextConfig,
-          deps: [SiteContextConfigInitializer, SiteContextConfig],
+          deps: [
+            SiteContextConfigInitializer,
+            SiteContextConfig,
+            FeatureConfigService,
+          ],
           multi: true,
         },
-        ...contextInitializerProviders,
       ],
     };
   }

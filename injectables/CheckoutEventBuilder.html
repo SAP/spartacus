@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/events/checkout-event.builder.ts</code>
+            <code>projects/core/src/checkout/events/checkout-event.builder.ts</code>
         </p>
 
 
@@ -108,7 +108,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">feature-libs/checkout/core/events/checkout-event.builder.ts:7</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="9" class="link-to-prism">projects/core/src/checkout/events/checkout-event.builder.ts:9</a></div>
                             </td>
                         </tr>
 
@@ -173,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="22"
-                            class="link-to-prism">feature-libs/checkout/core/events/checkout-event.builder.ts:22</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="24"
+                            class="link-to-prism">projects/core/src/checkout/events/checkout-event.builder.ts:24</a></div>
                 </td>
             </tr>
 
@@ -214,8 +214,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">feature-libs/checkout/core/events/checkout-event.builder.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">projects/core/src/checkout/events/checkout-event.builder.ts:17</a></div>
                 </td>
             </tr>
 
@@ -240,11 +240,13 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { StateEventService } from &#x27;@spartacus/core&#x27;;
+import { StateEventService } from &#x27;../../state/event/state-event.service&#x27;;
 import { CheckoutActions } from &#x27;../store/actions/index&#x27;;
-import { OrderPlacedEvent } from &#x27;@spartacus/checkout/root&#x27;;
+import { OrderPlacedEvent } from &#x27;./checkout.events&#x27;;
 
-@Injectable()
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+})
 export class CheckoutEventBuilder {
   constructor(protected stateEventService: StateEventService) {
     this.register();

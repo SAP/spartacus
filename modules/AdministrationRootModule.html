@@ -78,19 +78,12 @@ import {
   HttpErrorHandler,
   provideDefaultConfig,
   provideDefaultConfigFactory,
-  RoutingConfig,
 } from &#x27;@spartacus/core&#x27;;
 import {
   OrganizationBadRequestHandler,
   OrganizationConflictHandler,
 } from &#x27;@spartacus/organization/administration/core&#x27;;
-import { defaultBudgetRoutingConfig } from &#x27;./config/default-budget-routing.config&#x27;;
-import { defaultCostCenterRoutingConfig } from &#x27;./config/default-cost-center-routing.config&#x27;;
 import { defaultOrganizationLayoutConfig } from &#x27;./config/default-organization-layout.config&#x27;;
-import { defaultPermissionRoutingConfig } from &#x27;./config/default-permission-routing.config&#x27;;
-import { defaultUnitsRoutingConfig } from &#x27;./config/default-units-routing.config&#x27;;
-import { defaultUserGroupRoutingConfig } from &#x27;./config/default-user-group-routing.config&#x27;;
-import { defaultUserRoutingConfig } from &#x27;./config/default-user-routing.config&#x27;;
 import { ORGANIZATION_ADMINISTRATION_FEATURE } from &#x27;./feature-name&#x27;;
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
@@ -116,17 +109,6 @@ export function defaultOrganizationAdministrationComponentsConfig(): CmsConfig {
 @NgModule({
   providers: [
     provideDefaultConfig(defaultOrganizationLayoutConfig),
-
-    provideDefaultConfig(&lt;RoutingConfig&gt;{
-      routing: { routes: { organization: { paths: [&#x27;organization&#x27;] } } },
-    }),
-    provideDefaultConfig(defaultBudgetRoutingConfig),
-    provideDefaultConfig(defaultCostCenterRoutingConfig),
-    provideDefaultConfig(defaultPermissionRoutingConfig),
-    provideDefaultConfig(defaultUnitsRoutingConfig),
-    provideDefaultConfig(defaultUserRoutingConfig),
-    provideDefaultConfig(defaultUserGroupRoutingConfig),
-
     provideDefaultConfigFactory(
       defaultOrganizationAdministrationComponentsConfig
     ),

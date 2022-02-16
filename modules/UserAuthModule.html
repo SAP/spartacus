@@ -164,8 +164,8 @@ provides authorization services and storage for tokens.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">projects/core/src/auth/user-auth/user-auth.module.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="46"
+                            class="link-to-prism">projects/core/src/auth/user-auth/user-auth.module.ts:46</a></div>
                 </td>
             </tr>
 
@@ -189,7 +189,6 @@ provides authorization services and storage for tokens.</p>
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { OAuthModule, OAuthStorage } from &#x27;angular-oauth2-oidc&#x27;;
-import { tap } from &#x27;rxjs/operators&#x27;;
 import { ConfigInitializerService } from &#x27;../../config/config-initializer/config-initializer.service&#x27;;
 import { provideDefaultConfig } from &#x27;../../config/config-providers&#x27;;
 import { provideConfigValidator } from &#x27;../../config/config-validator/config-validator&#x27;;
@@ -209,15 +208,10 @@ export function checkOAuthParamsInUrl(
   configInit: ConfigInitializerService
 ) {
   const result &#x3D; () &#x3D;&gt;
-    configInit
-      .getStable()
-      .pipe(
-        tap(() &#x3D;&gt; {
-          // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
-          authService.checkOAuthParamsInUrl();
-        })
-      )
-      .toPromise();
+    configInit.getStableConfig().then(() &#x3D;&gt; {
+      // Wait for stable config is used, because with auth redirect would kick so quickly that the page would not be loaded correctly
+      authService.checkOAuthParamsInUrl();
+    });
 
   return result;
 }

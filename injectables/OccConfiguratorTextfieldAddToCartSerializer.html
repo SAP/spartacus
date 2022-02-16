@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -133,15 +133,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.AddToCartParameters</a>, target?: OccConfiguratorTextfield.AddToCartParameters)</code>
+<code>convert(source: <a href="../s/Config.html" target="_self">ConfiguratorTextfield.AddToCartParameters</a>, target?: <a href="../injectables/OccConfig.html" target="_self">OccConfiguratorTextfield.AddToCartParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="24"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:24</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="22"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:22</a></div>
                 </td>
             </tr>
 
@@ -166,7 +166,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.AddToCartParameters</a></code>
                                     </td>
 
                                     <td>
@@ -182,7 +182,7 @@
                                 <tr>
                                     <td>target</td>
                                     <td>
-                                            <code>OccConfiguratorTextfield.AddToCartParameters</code>
+                                                <code><a href="../injectables/OccConfig.html" target="_self" >OccConfiguratorTextfield.AddToCartParameters</a></code>
                                     </td>
 
                                     <td>
@@ -201,7 +201,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>OccConfiguratorTextfield.AddToCartParameters</code>
+                        <b>Returns : </b>        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfiguratorTextfield.AddToCartParameters</a></code>
 
                     </div>
                     <div class="io-description">
@@ -227,15 +227,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>convertInfo(source: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.ConfigurationInfo</a>, occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[])</code>
+                    <code>convertInfo(source: <a href="../s/Config.html" target="_self">ConfiguratorTextfield.ConfigurationInfo</a>, occConfigurationInfos: <a href="../injectables/OccConfig.html" target="_self">OccConfiguratorTextfield.ConfigurationInfo[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="45"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:45</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="42"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-add-to-cart-serializer.ts:42</a></div>
                 </td>
             </tr>
 
@@ -257,7 +257,7 @@
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.ConfigurationInfo</a></code>
+                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.ConfigurationInfo</a></code>
                                     </td>
 
                                     <td>
@@ -269,7 +269,7 @@
                                 <tr>
                                     <td>occConfigurationInfos</td>
                                     <td>
-                                            <code>OccConfiguratorTextfield.ConfigurationInfo[]</code>
+                                                <code><a href="../injectables/OccConfig.html" target="_self" >OccConfiguratorTextfield.ConfigurationInfo[]</a></code>
                                     </td>
 
                                     <td>
@@ -302,7 +302,6 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Converter } from &#x27;@spartacus/core&#x27;;
-import { ConfigurationInfo } from &#x27;@spartacus/product-configurator/common&#x27;;
 import { ConfiguratorTextfield } from &#x27;../../core/model/configurator-textfield.model&#x27;;
 import { OccConfiguratorTextfield } from &#x27;../occ-configurator-textfield.models&#x27;;
 
@@ -314,8 +313,7 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     Converter&lt;
       ConfiguratorTextfield.AddToCartParameters,
       OccConfiguratorTextfield.AddToCartParameters
-    &gt;
-{
+    &gt; {
   constructor() {}
   /**
    * Converts addToCart parameters into the OCC format
@@ -327,19 +325,18 @@ export class OccConfiguratorTextfieldAddToCartSerializer
     source: ConfiguratorTextfield.AddToCartParameters,
     target?: OccConfiguratorTextfield.AddToCartParameters
   ): OccConfiguratorTextfield.AddToCartParameters {
-    const configurationInfos: ConfigurationInfo[] &#x3D; [];
-    source.configuration?.configurationInfos.forEach((info) &#x3D;&gt;
-      this.convertInfo(info, configurationInfos)
-    );
-
     const resultTarget: OccConfiguratorTextfield.AddToCartParameters &#x3D; {
       ...target,
       userId: source.userId,
       cartId: source.cartId,
       product: { code: source.productCode },
       quantity: source.quantity,
-      configurationInfos: configurationInfos,
+      configurationInfos: [],
     };
+
+    source.configuration.configurationInfos.forEach((info) &#x3D;&gt;
+      this.convertInfo(info, resultTarget.configurationInfos)
+    );
 
     return resultTarget;
   }

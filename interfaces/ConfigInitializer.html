@@ -197,7 +197,6 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { InjectionToken } from &#x27;@angular/core&#x27;;
-import { Config } from &#x27;../config-tokens&#x27;;
 
 export const CONFIG_INITIALIZER &#x3D; new InjectionToken(&#x27;ConfigInitializer&#x27;);
 
@@ -213,7 +212,7 @@ export interface ConfigInitializer {
   /**
    * Promise that returns config chunk
    */
-  configFactory: () &#x3D;&gt; Promise&lt;Config&gt;;
+  configFactory: () &#x3D;&gt; Promise&lt;any&gt;;
 }
 
 export const CONFIG_INITIALIZER_FORROOT_GUARD &#x3D; new InjectionToken&lt;void&gt;(

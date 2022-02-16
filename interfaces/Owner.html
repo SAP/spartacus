@@ -108,6 +108,7 @@
                                         </a>
                                 </li>
                                 <li>
+                                            <span class="modifier">Optional</span>
                                         <a href="#type" 
 >
                                             type
@@ -269,6 +270,11 @@ Can be a product code, a cart entry number, or an order code with order entry nu
                                         </td>
                                     </tr>
 
+                                    <tr>
+                                        <td class="col-md-4">
+                                            <i>Optional</i>
+                                        </td>
+                                    </tr>
 
 
 
@@ -294,7 +300,7 @@ Can be a product code, a cart entry number, or an order code with order entry nu
     /**
      * Type of the owner, can be product or document related
      */
-    type: OwnerType;
+    type?: OwnerType;
     /**
      * Specifies an owner uniquely, is used as key in the configuration store
      */

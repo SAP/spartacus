@@ -56,13 +56,13 @@
 <title>cluster_ConsentManagementModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 822,-230.8 822,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ConsentManagementModule_declarations</title>
-<polygon fill="none" stroke="black" points="350,-40.8 350,-92.8 814,-92.8 814,-40.8 350,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_ConsentManagementModule_exports</title>
 <polygon fill="none" stroke="black" points="91,-170.8 91,-222.8 563,-222.8 563,-170.8 91,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ConsentManagementModule_declarations</title>
+<polygon fill="none" stroke="black" points="350,-40.8 350,-92.8 814,-92.8 814,-40.8 350,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_ConsentManagementModule_imports</title>
@@ -188,7 +188,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/cms-components/myaccount/consent-management/consent-management.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/myaccount/consent-management/consent-management.module.ts</code>
         </p>
 
 
@@ -206,6 +206,15 @@
                         </li>
                         <li class="list-group-item">
                             <a href="../components/ConsentManagementFormComponent.html">ConsentManagementFormComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/ConsentManagementComponent.html">ConsentManagementComponent</a>
                         </li>
                     </ul>
                 </div>
@@ -279,6 +288,7 @@ import { ConsentManagementComponent } from &#x27;./components/consent-management
   ],
   declarations: [ConsentManagementComponent, ConsentManagementFormComponent],
   exports: [ConsentManagementComponent, ConsentManagementFormComponent],
+  entryComponents: [ConsentManagementComponent],
 })
 export class ConsentManagementModule {}
 </code></pre>

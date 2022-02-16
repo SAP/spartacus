@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/services/checkout-details.service.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts</code>
         </p>
 
 
@@ -121,12 +121,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(checkoutService: <a href="../injectables/CheckoutFacade.html" target="_self">CheckoutFacade</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryFacade.html" target="_self">CheckoutDeliveryFacade</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentFacade.html" target="_self">CheckoutPaymentFacade</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>)</code>
+<code>constructor(checkoutService: <a href="../injectables/CheckoutService.html" target="_self">CheckoutService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html" target="_self">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html" target="_self">CheckoutPaymentService</a>, activeCartService: <a href="../injectables/ActiveCartService.html" target="_self">ActiveCartService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:27</a></div>
                             </td>
                         </tr>
 
@@ -147,7 +147,7 @@
                                                         <td>checkoutService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutFacade.html" target="_self" >CheckoutFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutService.html" target="_self" >CheckoutService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -159,7 +159,7 @@
                                                         <td>checkoutDeliveryService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutDeliveryFacade.html" target="_self" >CheckoutDeliveryFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -171,7 +171,7 @@
                                                         <td>checkoutPaymentService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutPaymentFacade.html" target="_self" >CheckoutPaymentFacade</a></code>
+                                                                        <code><a href="../injectables/CheckoutPaymentService.html" target="_self" >CheckoutPaymentService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -225,8 +225,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:61</a></div>
                 </td>
             </tr>
 
@@ -262,8 +262,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -299,8 +299,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="67"
+                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:67</a></div>
                 </td>
             </tr>
 
@@ -341,7 +341,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="26" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:26</a></div>
                         </td>
                     </tr>
 
@@ -367,7 +367,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">feature-libs/checkout/components/services/checkout-details.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/checkout-details.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -382,20 +382,17 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
-  CheckoutDeliveryFacade,
-  CheckoutFacade,
-  CheckoutPaymentFacade,
-} from &#x27;@spartacus/checkout/root&#x27;;
-import {
   ActiveCartService,
   Address,
-  EMAIL_PATTERN,
+  CheckoutDeliveryService,
+  CheckoutPaymentService,
+  CheckoutService,
   OCC_USER_ID_ANONYMOUS,
-  OCC_USER_ID_GUEST,
   PaymentDetails,
 } from &#x27;@spartacus/core&#x27;;
 import { combineLatest, Observable } from &#x27;rxjs&#x27;;
 import {
+  distinctUntilChanged,
   filter,
   map,
   shareReplay,
@@ -412,9 +409,9 @@ export class CheckoutDetailsService {
   getCheckoutDetailsLoaded$: Observable&lt;boolean&gt;;
 
   constructor(
-    protected checkoutService: CheckoutFacade,
-    protected checkoutDeliveryService: CheckoutDeliveryFacade,
-    protected checkoutPaymentService: CheckoutPaymentFacade,
+    protected checkoutService: CheckoutService,
+    protected checkoutDeliveryService: CheckoutDeliveryService,
+    protected checkoutPaymentService: CheckoutPaymentService,
     protected activeCartService: ActiveCartService
   ) {
     this.cartId$ &#x3D; combineLatest([
@@ -423,13 +420,9 @@ export class CheckoutDetailsService {
     ]).pipe(
       filter(([, isStable]) &#x3D;&gt; isStable),
       map(([cartData]) &#x3D;&gt; {
-        const cartUser &#x3D; cartData.user;
-
         if (
-          cartUser &amp;&amp;
-          (cartUser.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS ||
-            cartUser.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_GUEST ||
-            !!cartUser.uid?.split(&#x27;|&#x27;).slice(1).join(&#x27;|&#x27;).match(EMAIL_PATTERN))
+          (cartData.user &amp;&amp; cartData.user.uid &#x3D;&#x3D;&#x3D; OCC_USER_ID_ANONYMOUS) ||
+          this.activeCartService.isGuestCart()
         ) {
           return cartData.guid as string;
         }
@@ -439,6 +432,7 @@ export class CheckoutDetailsService {
     );
 
     this.getCheckoutDetailsLoaded$ &#x3D; this.cartId$.pipe(
+      distinctUntilChanged(),
       tap((cartId) &#x3D;&gt; this.checkoutService.loadCheckoutDetails(cartId)),
       shareReplay(1),
       switchMap(() &#x3D;&gt; this.checkoutService.getCheckoutDetailsLoaded()),

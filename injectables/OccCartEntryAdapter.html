@@ -411,8 +411,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="57"
-                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:57</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">projects/core/src/occ/adapters/cart/occ-cart-entry.adapter.ts:59</a></div>
                 </td>
             </tr>
 
@@ -536,8 +536,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
     productCode: string,
     quantity: number &#x3D; 1
   ): Observable&lt;CartModification&gt; {
-    const url &#x3D; this.occEndpointsService.buildUrl(&#x27;addEntries&#x27;, {
-      urlParams: { userId, cartId, quantity },
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;addEntries&#x27;, {
+      userId,
+      cartId,
+      quantity,
     });
 
     // Handle b2b case where the x-www-form-urlencoded is still used
@@ -589,12 +591,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/json&#x27;,
     });
 
-    const url &#x3D; this.occEndpointsService.buildUrl(&#x27;updateEntries&#x27;, {
-      urlParams: {
-        userId,
-        cartId,
-        entryNumber,
-      },
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;updateEntries&#x27;, {
+      userId,
+      cartId,
+      entryNumber,
     });
 
     return this.http
@@ -611,12 +611,10 @@ export class OccCartEntryAdapter implements CartEntryAdapter {
       &#x27;Content-Type&#x27;: &#x27;application/x-www-form-urlencoded&#x27;,
     });
 
-    const url &#x3D; this.occEndpointsService.buildUrl(&#x27;removeEntries&#x27;, {
-      urlParams: {
-        userId,
-        cartId,
-        entryNumber,
-      },
+    const url &#x3D; this.occEndpointsService.getUrl(&#x27;removeEntries&#x27;, {
+      userId,
+      cartId,
+      entryNumber,
     });
 
     return this.http.delete(url, { headers });

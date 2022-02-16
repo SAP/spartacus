@@ -14,13 +14,13 @@
 <title>cluster_ProductVariantSizeSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 482,-230.8 482,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ProductVariantSizeSelectorModule_imports</title>
-<polygon fill="none" stroke="black" points="276,-40.8 276,-92.8 474,-92.8 474,-40.8 276,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ProductVariantSizeSelectorModule_exports</title>
 <polygon fill="none" stroke="black" points="195,-170.8 195,-222.8 451,-222.8 451,-170.8 195,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ProductVariantSizeSelectorModule_imports</title>
+<polygon fill="none" stroke="black" points="276,-40.8 276,-92.8 474,-92.8 474,-40.8 276,-40.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductVariantSizeSelectorModule_declarations</title>

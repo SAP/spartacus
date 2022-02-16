@@ -94,10 +94,6 @@
                                     <span class="modifier">Static</span>
                                 <a href="#getOwnerKey" >getOwnerKey</a>
                             </li>
-                            <li>
-                                    <span class="modifier">Static</span>
-                                <a href="#isInitialOwner" >isInitialOwner</a>
-                            </li>
                         </ul>
                     </td>
                 </tr>
@@ -139,8 +135,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:38</a></div>
                 </td>
             </tr>
 
@@ -153,7 +149,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 
                     </div>
                     <div class="io-description">
@@ -179,15 +175,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createOwner(ownerType: <a href="../injectables/Config.html" target="_self">CommonConfigurator.OwnerType</a>, ownerId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, configuratorType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>createOwner(ownerType: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.OwnerType</a>, ownerId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, configuratorType: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="51"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:51</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:49</a></div>
                 </td>
             </tr>
 
@@ -213,7 +209,7 @@
                                 <tr>
                                     <td>ownerType</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.OwnerType</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.OwnerType</a></code>
                                     </td>
 
                                     <td>
@@ -271,7 +267,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
+                        <b>Returns : </b>        <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.Owner</a></code>
 
                     </div>
                     <div class="io-description">
@@ -297,15 +293,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getOwnerKey(ownerType?: <a href="../injectables/Config.html" target="_self">CommonConfigurator.OwnerType</a>, ownerId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getOwnerKey(ownerType: <a href="../interfaces/Owner.html" target="_self">CommonConfigurator.OwnerType | undefined</a>, ownerId: string | undefined)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="12"
+                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:12</a></div>
                 </td>
             </tr>
 
@@ -329,11 +325,11 @@
                                 <tr>
                                     <td>ownerType</td>
                                     <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.OwnerType</a></code>
+                                                <code><a href="../interfaces/Owner.html" target="_self" >CommonConfigurator.OwnerType | undefined</a></code>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -341,11 +337,11 @@
                                 <tr>
                                     <td>ownerId</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            <code>string | undefined</code>
                                     </td>
 
                                     <td>
-                                        Yes
+                                        No
                                     </td>
 
 
@@ -367,84 +363,6 @@
             </tr>
         </tbody>
     </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="isInitialOwner"></a>
-                    <span class="name">
-                        <span class="modifier">Static</span>
-                        <span ><b>isInitialOwner</b></span>
-                        <a href="#isInitialOwner"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>isInitialOwner(owner: <a href="../injectables/Config.html" target="_self">CommonConfigurator.Owner</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">feature-libs/product-configurator/common/shared/utils/configurator-model-utils.ts:40</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Checks if an owner is an initial one</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                    <td>Description</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>owner</td>
-                                    <td>
-                                                <code><a href="../injectables/Config.html" target="_self" >CommonConfigurator.Owner</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                    <td>
-                                        <p>Owner</p>
-
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        <p>Is owner initial?</p>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
 </section>
 
 
@@ -460,7 +378,6 @@
   ConfiguratorType,
 } from &#x27;../../core/model/common-configurator.model&#x27;;
 
-const initialIndicator &#x3D; &#x27;INITIAL&#x27;;
 export class ConfiguratorModelUtils {
   /**
    * Compiles a unique key for a configuration owner from id and type
@@ -468,11 +385,23 @@ export class ConfiguratorModelUtils {
    * @returns Owner key
    */
   static getOwnerKey(
-    ownerType?: CommonConfigurator.OwnerType,
-    ownerId?: string
+    ownerType: CommonConfigurator.OwnerType | undefined,
+    ownerId: string | undefined
   ): string {
-    if (!ownerId || !ownerType) {
-      throw new Error(&#x27;We expect an owner ID and an owner type&#x27;);
+    if (ownerType &#x3D;&#x3D;&#x3D; CommonConfigurator.OwnerType.PRODUCT) {
+      if (!ownerId) {
+        throw new Error(&#x27;We expect a product code!&#x27;);
+      }
+    } else if (ownerType &#x3D;&#x3D;&#x3D; CommonConfigurator.OwnerType.CART_ENTRY) {
+      if (!ownerId) {
+        throw new Error(&#x27;We expect a document entry Id!&#x27;);
+      }
+    } else if (ownerType &#x3D;&#x3D;&#x3D; CommonConfigurator.OwnerType.ORDER_ENTRY) {
+      if (!ownerId) {
+        throw new Error(&#x27;We expect a document entry Id!&#x27;);
+      }
+    } else {
+      throw new Error(&#x27;We expect an owner type!&#x27;);
     }
     return ownerType + &#x27;/&#x27; + ownerId;
   }
@@ -482,20 +411,7 @@ export class ConfiguratorModelUtils {
    * @returns Initial owner
    */
   static createInitialOwner(): CommonConfigurator.Owner {
-    return {
-      key: initialIndicator,
-      configuratorType: initialIndicator,
-      id: initialIndicator,
-      type: CommonConfigurator.OwnerType.PRODUCT,
-    };
-  }
-  /**
-   * Checks if an owner is an initial one
-   * @param owner Owner
-   * @returns Is owner initial?
-   */
-  static isInitialOwner(owner: CommonConfigurator.Owner): boolean {
-    return owner.configuratorType &#x3D;&#x3D;&#x3D; initialIndicator;
+    return { key: &#x27;INITIAL&#x27;, configuratorType: &#x27;INITIAL&#x27;, id: &#x27;INITIAL&#x27; };
   }
 
   /**

@@ -56,13 +56,13 @@
 <title>cluster_ProductVariantSizeSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 482,-230.8 482,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ProductVariantSizeSelectorModule_imports</title>
-<polygon fill="none" stroke="black" points="276,-40.8 276,-92.8 474,-92.8 474,-40.8 276,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ProductVariantSizeSelectorModule_exports</title>
 <polygon fill="none" stroke="black" points="195,-170.8 195,-222.8 451,-222.8 451,-170.8 195,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ProductVariantSizeSelectorModule_imports</title>
+<polygon fill="none" stroke="black" points="276,-40.8 276,-92.8 474,-92.8 474,-40.8 276,-40.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductVariantSizeSelectorModule_declarations</title>
@@ -171,6 +171,15 @@
                     </ul>
                 </div>
                 <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/ProductVariantSizeSelectorComponent.html">ProductVariantSizeSelectorComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
                     <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" title="Official documentation about module imports"><span
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
@@ -208,6 +217,7 @@ import { RouterModule } from &#x27;@angular/router&#x27;;
 @NgModule({
   imports: [CommonModule, RouterModule, UrlModule, I18nModule],
   declarations: [ProductVariantSizeSelectorComponent],
+  entryComponents: [ProductVariantSizeSelectorComponent],
   exports: [ProductVariantSizeSelectorComponent],
 })
 export class ProductVariantSizeSelectorModule {}

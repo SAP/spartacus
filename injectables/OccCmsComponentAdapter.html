@@ -451,8 +451,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:72</a></div>
                 </td>
             </tr>
 
@@ -533,8 +533,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:99</a></div>
                 </td>
             </tr>
 
@@ -603,8 +603,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="77"
-                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:77</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="80"
+                            class="link-to-prism">projects/core/src/occ/adapters/cms/occ-cms-component.adapter.ts:80</a></div>
                 </td>
             </tr>
 
@@ -865,16 +865,19 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
   }
 
   protected getComponentEndPoint(id: string, pageContext: PageContext): string {
-    return this.occEndpoints.buildUrl(&#x27;component&#x27;, {
-      urlParams: { id },
-      queryParams: this.getContextParams(pageContext),
-    });
+    return this.occEndpoints.getUrl(
+      &#x27;component&#x27;,
+      { id },
+      this.getContextParams(pageContext)
+    );
   }
 
   protected getComponentsEndpoint(requestParams: any, fields: string): string {
-    return this.occEndpoints.buildUrl(&#x27;components&#x27;, {
-      queryParams: { fields, ...requestParams },
-    });
+    return this.occEndpoints.getUrl(
+      &#x27;components&#x27;,
+      {},
+      { fields, ...requestParams }
+    );
   }
 
   protected getPaginationParams(
@@ -896,9 +899,9 @@ export class OccCmsComponentAdapter implements CmsComponentAdapter {
     return requestParams;
   }
 
-  protected getContextParams(pageContext: PageContext): {
-    [key: string]: string;
-  } {
+  protected getContextParams(
+    pageContext: PageContext
+  ): { [key: string]: string } {
     let requestParams &#x3D; {};
     switch (pageContext.type) {
       case PageType.PRODUCT_PAGE: {

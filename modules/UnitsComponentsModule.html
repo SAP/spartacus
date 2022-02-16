@@ -247,13 +247,17 @@ import {
 } from &#x27;@spartacus/core&#x27;;
 import { UnitDetailsModule } from &#x27;./details/unit-details.module&#x27;;
 import { UnitFormModule } from &#x27;./form/unit-form.module&#x27;;
+import { UnitCostCenterListModule } from &#x27;./links/cost-centers/unit-cost-centers.module&#x27;;
 import { UnitAddressModule } from &#x27;./links/addresses/unit-address.module&#x27;;
 import { UnitApproverListModule } from &#x27;./links/approvers/unit-approver-list.module&#x27;;
 import { UnitChildrenModule } from &#x27;./links/children/unit-children.module&#x27;;
-import { UnitCostCenterListModule } from &#x27;./links/cost-centers/unit-cost-centers.module&#x27;;
 import { UnitUsersModule } from &#x27;./links/users/unit-user-list.module&#x27;;
 import { UnitListModule } from &#x27;./list/unit-list.module&#x27;;
-import { unitsCmsConfig, unitsTableConfigFactory } from &#x27;./units.config&#x27;;
+import {
+  unitsCmsConfig,
+  unitsRoutingConfig,
+  unitsTableConfigFactory,
+} from &#x27;./units.config&#x27;;
 
 @NgModule({
   imports: [
@@ -268,6 +272,7 @@ import { unitsCmsConfig, unitsTableConfigFactory } from &#x27;./units.config&#x2
     UnitAddressModule,
   ],
   providers: [
+    provideDefaultConfig(unitsRoutingConfig),
     provideDefaultConfig(unitsCmsConfig),
     provideDefaultConfigFactory(unitsTableConfigFactory),
   ],

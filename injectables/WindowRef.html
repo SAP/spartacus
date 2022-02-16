@@ -139,7 +139,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, platformId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, serverUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, serverOrigin?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>constructor(document: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>, platformId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank">Object</a>, serverUrl?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, serverOrigin?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -181,7 +181,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            No
+                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -243,8 +243,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/window/window-ref.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="31"
+                            class="link-to-prism">projects/core/src/window/window-ref.ts:31</a></div>
                 </td>
             </tr>
 
@@ -318,7 +318,7 @@ Use this method to check if you can access <code>window</code> and other browser
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="35" class="link-to-prism">projects/core/src/window/window-ref.ts:35</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="42" class="link-to-prism">projects/core/src/window/window-ref.ts:42</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -328,7 +328,7 @@ To detect if you can safely use <code>nativeWindow</code> use <code>isBrowser</c
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Window | undefined</a></code>
+                                    <b>Returns : </b>    <code>Window | undefined</code>
 
                                 </div>
                         </td>
@@ -352,7 +352,7 @@ To detect if you can safely use <code>nativeWindow</code> use <code>isBrowser</c
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/window/window-ref.ts:44</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="51" class="link-to-prism">projects/core/src/window/window-ref.ts:51</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -362,7 +362,7 @@ To detect if you can safely use <code>sessionStorage</code> use <code>isBrowser<
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Storage | undefined</a></code>
+                                    <b>Returns : </b>    <code>Storage | undefined</code>
 
                                 </div>
                         </td>
@@ -386,7 +386,7 @@ To detect if you can safely use <code>sessionStorage</code> use <code>isBrowser<
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="52" class="link-to-prism">projects/core/src/window/window-ref.ts:52</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="59" class="link-to-prism">projects/core/src/window/window-ref.ts:59</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -396,7 +396,7 @@ To detect if you can safely use <code>localStorage</code> use <code>isBrowser</c
 </div>
 
                                 <div class="io-description">
-                                    <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Storage | undefined</a></code>
+                                    <b>Returns : </b>    <code>Storage | undefined</code>
 
                                 </div>
                         </td>
@@ -420,7 +420,7 @@ To detect if you can safely use <code>localStorage</code> use <code>isBrowser</c
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">projects/core/src/window/window-ref.ts:64</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/window/window-ref.ts:71</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -457,7 +457,7 @@ values when we do server side rendering.</p>
                 </tr>
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-line">Defined in <a href="" data-line="91" class="link-to-prism">projects/core/src/window/window-ref.ts:91</a></div>
+                                    <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/core/src/window/window-ref.ts:98</a></div>
                                 </td>
                             </tr>
                     <tr>
@@ -493,10 +493,14 @@ import { SERVER_REQUEST_ORIGIN, SERVER_REQUEST_URL } from &#x27;../util/ssr.toke
 export class WindowRef {
   readonly document: Document;
 
+  // TODO(#11133): Make platformId required in 4.0
+  /**
+   * @deprecated since 3.2. Provide PLATFORM_ID, serverRequestUrl and serverRequestOrigin as constructor parameters
+   */
   constructor(
     // https://github.com/angular/angular/issues/20351
     @Inject(DOCUMENT) document: any,
-    @Inject(PLATFORM_ID) protected platformId: Object,
+    @Inject(PLATFORM_ID) protected platformId?: Object,
     @Optional() @Inject(SERVER_REQUEST_URL) protected serverUrl?: string,
     @Optional() @Inject(SERVER_REQUEST_ORIGIN) protected serverOrigin?: string
   ) {
@@ -508,7 +512,10 @@ export class WindowRef {
    * Use this method to check if you can access &#x60;window&#x60; and other browser globals.
    */
   isBrowser(): boolean {
-    return isPlatformBrowser(this.platformId);
+    // TODO(#11133): Remove condition when platformId will be always provided
+    return this.platformId
+      ? isPlatformBrowser(this.platformId)
+      : typeof window !&#x3D;&#x3D; &#x27;undefined&#x27;;
   }
 
   /**

@@ -55,7 +55,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/core/events/checkout-event.module.ts</code>
+            <code>projects/core/src/checkout/events/checkout-event.module.ts</code>
         </p>
 
 
@@ -74,14 +74,10 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NgModule } from &#x27;@angular/core&#x27;;
 import { CheckoutEventBuilder } from &#x27;./checkout-event.builder&#x27;;
-import { CheckoutEventListener } from &#x27;./checkout-event.listener&#x27;;
 
 @NgModule({})
 export class CheckoutEventModule {
-  constructor(
-    _checkoutEventBuilder: CheckoutEventBuilder,
-    _checkoutEventListener: CheckoutEventListener
-  ) {}
+  constructor(_checkoutEventBuilder: CheckoutEventBuilder) {}
 }
 </code></pre>
     </div>

@@ -173,7 +173,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>price:         <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceDetails</a></code>
+                                        <code>price:         <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceDetails</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -181,7 +181,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceDetails</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceDetails</a></code>
 
                                         </td>
                                     </tr>
@@ -211,7 +211,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>priceTotal:         <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceDetails</a></code>
+                                        <code>priceTotal:         <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceDetails</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -219,7 +219,7 @@
 
                                     <tr>
                                         <td class="col-md-4">
-                                            <i>Type : </i>        <code><a href="../injectables/Config.html" target="_self" >Configurator.PriceDetails</a></code>
+                                            <i>Type : </i>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.PriceDetails</a></code>
 
                                         </td>
                                     </tr>
@@ -302,10 +302,10 @@ export class ConfiguratorPriceComponent {
    * @return {string} - value price formula
    */
   get price(): string {
-    if (this.formula.priceTotal) {
+    if (this.formula?.priceTotal) {
       return this.priceTotal;
     } else {
-      return &#x27;+ &#x27; + this.formula.price?.formattedValue;
+      return &#x27;+ &#x27; + this.formula?.price?.formattedValue;
     }
   }
 
@@ -315,7 +315,7 @@ export class ConfiguratorPriceComponent {
    * @return {string} - total price formula
    */
   get priceTotal(): string {
-    return &#x27;+ &#x27; + this.formula.priceTotal?.formattedValue;
+    return &#x27;+ &#x27; + this.formula?.priceTotal?.formattedValue;
   }
 
   /**
@@ -324,8 +324,7 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - &#x27;true&#x27; if quantity and price should be displayed, otherwise &#x27;false&#x27;
    */
   displayQuantityAndPrice(): boolean {
-    const quantity &#x3D; this.formula.quantity;
-    return quantity ? this.formula.price?.value !&#x3D;&#x3D; 0 &amp;&amp; quantity &gt;&#x3D; 1 : false;
+    return this.formula?.price?.value !&#x3D;&#x3D; 0 &amp;&amp; this.formula?.quantity &gt;&#x3D; 1;
   }
 
   /**
@@ -334,10 +333,8 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - &#x27;true&#x27; if only price should be displayed, otherwise &#x27;false&#x27;
    */
   displayPriceOnly(): boolean {
-    const priceValue &#x3D; this.formula.price?.value ?? 0;
-    const priceTotalValue &#x3D; this.formula.priceTotal?.value ?? 0;
     return (
-      (priceValue !&#x3D;&#x3D; 0 || priceTotalValue !&#x3D;&#x3D; 0) &amp;&amp;
+      (this.formula?.price?.value || this.formula?.priceTotal?.value) &amp;&amp;
       !this.displayQuantityAndPrice()
     );
   }
@@ -348,11 +345,11 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - &#x27;true&#x27; if price formula should be displayed, otherwise &#x27;false&#x27;
    */
   displayFormula(): boolean {
-    const displayFormula &#x3D;
-      (this.formula.quantity &amp;&amp; this.formula.quantity !&#x3D;&#x3D; 0) ||
-      (this.formula.price &amp;&amp; this.formula.price?.value !&#x3D;&#x3D; 0) ||
-      (this.formula.priceTotal &amp;&amp; this.formula.priceTotal?.value !&#x3D;&#x3D; 0);
-    return displayFormula ?? false;
+    return (
+      (this.formula?.quantity &amp;&amp; this.formula?.quantity !&#x3D;&#x3D; 0) ||
+      (this.formula?.price &amp;&amp; this.formula?.price?.value !&#x3D;&#x3D; 0) ||
+      (this.formula?.priceTotal &amp;&amp; this.formula?.priceTotal?.value !&#x3D;&#x3D; 0)
+    );
   }
 
   /**
@@ -361,8 +358,8 @@ export class ConfiguratorPriceComponent {
    * @param {string} formattedQuantity- formatted quantity
    * @return {string} - price formula
    */
-  quantityWithPrice(formattedQuantity: string | null): string {
-    return formattedQuantity + &#x27;x(&#x27; + this.formula.price?.formattedValue + &#x27;)&#x27;;
+  quantityWithPrice(formattedQuantity: string): string {
+    return formattedQuantity + &#x27;x(&#x27; + this.formula?.price?.formattedValue + &#x27;)&#x27;;
   }
 
   /**
@@ -371,7 +368,7 @@ export class ConfiguratorPriceComponent {
    * @return {boolean} - &#x27;true&#x27; if price should be lighted up, otherwise &#x27;false&#x27;
    */
   isPriceLightedUp(): boolean {
-    return this.formula.isLightedUp ?? false;
+    return this.formula.isLightedUp;
   }
 
   /**

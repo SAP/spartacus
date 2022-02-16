@@ -140,7 +140,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userProfileFacade: <a href="../injectables/UserProfileFacade.html" target="_self">UserProfileFacade</a>)</code>
+<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userService: <a href="../injectables/UserService.html" target="_self">UserService</a>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -175,10 +175,10 @@
                                                     
                                                 </tr>
                                                 <tr>
-                                                        <td>userProfileFacade</td>
+                                                        <td>userService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserProfileFacade.html" target="_self" >UserProfileFacade</a></code>
+                                                                        <code><a href="../injectables/UserService.html" target="_self" >UserService</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -302,8 +302,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">feature-libs/organization/administration/components/unit/links/addresses/form/unit-address-form.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/organization/administration/components/unit/links/addresses/form/unit-address-form.service.ts:73</a></div>
                 </td>
             </tr>
 
@@ -636,8 +636,8 @@ import {
   Region,
   Title,
   UserAddressService,
+  UserService,
 } from &#x27;@spartacus/core&#x27;;
-import { UserProfileFacade } from &#x27;@spartacus/user/profile/root&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, switchMap, tap } from &#x27;rxjs/operators&#x27;;
 import { FormService } from &#x27;../../../../shared/form/form.service&#x27;;
@@ -648,7 +648,7 @@ import { FormService } from &#x27;../../../../shared/form/form.service&#x27;;
 export class UnitAddressFormService extends FormService&lt;Address&gt; {
   constructor(
     protected userAddressService: UserAddressService,
-    protected userProfileFacade: UserProfileFacade
+    protected userService: UserService
   ) {
     super();
   }
@@ -691,7 +691,13 @@ export class UnitAddressFormService extends FormService&lt;Address&gt; {
   }
 
   getTitles(): Observable&lt;Title[]&gt; {
-    return this.userProfileFacade.getTitles();
+    return this.userService.getTitles().pipe(
+      tap((titles) &#x3D;&gt; {
+        if (Object.keys(titles).length &#x3D;&#x3D;&#x3D; 0) {
+          this.userService.loadTitles();
+        }
+      })
+    );
   }
 
   getRegions(): Observable&lt;Region[]&gt; {

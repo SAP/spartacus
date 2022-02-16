@@ -14,13 +14,13 @@
 <title>cluster_SiteContextSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 978,-230.8 978,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_SiteContextSelectorModule_declarations</title>
-<polygon fill="none" stroke="black" points="554,-40.8 554,-92.8 970,-92.8 970,-40.8 554,-40.8"/>
-</g>
 <g id="clust6" class="cluster">
 <title>cluster_SiteContextSelectorModule_exports</title>
 <polygon fill="none" stroke="black" points="284,-170.8 284,-222.8 706,-222.8 706,-170.8 284,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_SiteContextSelectorModule_declarations</title>
+<polygon fill="none" stroke="black" points="554,-40.8 554,-92.8 970,-92.8 970,-40.8 554,-40.8"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_SiteContextSelectorModule_imports</title>

@@ -106,7 +106,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:19</a></div>
                             </td>
                         </tr>
 
@@ -193,8 +193,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="36"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:36</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="35"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:35</a></div>
                 </td>
             </tr>
 
@@ -230,8 +230,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">projects/core/src/occ/adapters/user/occ-anonymous-consent-templates.adapter.ts:26</a></div>
                 </td>
             </tr>
 
@@ -271,8 +271,7 @@ import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#
 
 @Injectable()
 export class OccAnonymousConsentTemplatesAdapter
-  implements AnonymousConsentTemplatesAdapter
-{
+  implements AnonymousConsentTemplatesAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,
@@ -280,7 +279,7 @@ export class OccAnonymousConsentTemplatesAdapter
   ) {}
 
   loadAnonymousConsentTemplates(): Observable&lt;ConsentTemplate[]&gt; {
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;anonymousConsentTemplates&#x27;);
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
     return this.http.get&lt;Occ.ConsentTemplateList&gt;(url).pipe(
       catchError((error) &#x3D;&gt; throwError(error)),
       map((consentList) &#x3D;&gt; consentList.consentTemplates),
@@ -290,7 +289,7 @@ export class OccAnonymousConsentTemplatesAdapter
 
   loadAnonymousConsents(): Observable&lt;AnonymousConsent[]&gt; {
     // using the endpoint that doesn&#x27;t set caching headers
-    const url &#x3D; this.occEndpoints.buildUrl(&#x27;anonymousConsentTemplates&#x27;);
+    const url &#x3D; this.occEndpoints.getUrl(&#x27;anonymousConsentTemplates&#x27;);
     return this.http
       .head&lt;Occ.ConsentTemplateList&gt;(url, { observe: &#x27;response&#x27; })
       .pipe(

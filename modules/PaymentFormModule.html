@@ -188,7 +188,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/checkout/components/components/payment-method/payment-form/payment-form.module.ts</code>
+            <code>projects/storefrontlib/src/cms-components/checkout/components/payment-method/payment-form/payment-form.module.ts</code>
         </p>
 
 
@@ -200,6 +200,15 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
+                    <ul class="list-group">
+                        <li class="list-group-item">
+                            <a href="../components/PaymentFormComponent.html">PaymentFormComponent</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-sm-3">
+                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
+                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/PaymentFormComponent.html">PaymentFormComponent</a>
@@ -249,13 +258,11 @@ import { NgModule } from &#x27;@angular/core&#x27;;
 import { ReactiveFormsModule } from &#x27;@angular/forms&#x27;;
 import { NgSelectModule } from &#x27;@ng-select/ng-select&#x27;;
 import { I18nModule } from &#x27;@spartacus/core&#x27;;
-import {
-  CardModule,
-  FormErrorsModule,
-  IconModule,
-  SpinnerModule,
-} from &#x27;@spartacus/storefront&#x27;;
+import { CardModule } from &#x27;../../../../../shared/components/card/card.module&#x27;;
+import { SpinnerModule } from &#x27;../../../../../shared/components/spinner/spinner.module&#x27;;
+import { IconModule } from &#x27;../../../../misc/icon/icon.module&#x27;;
 import { PaymentFormComponent } from &#x27;./payment-form.component&#x27;;
+import { FormErrorsModule } from &#x27;../../../../../shared/index&#x27;;
 
 @NgModule({
   imports: [
@@ -269,6 +276,7 @@ import { PaymentFormComponent } from &#x27;./payment-form.component&#x27;;
     FormErrorsModule,
   ],
   declarations: [PaymentFormComponent],
+  entryComponents: [PaymentFormComponent],
   exports: [PaymentFormComponent],
 })
 export class PaymentFormModule {}

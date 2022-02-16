@@ -133,9 +133,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { TranslationResources } from &#x27;../translation-resources&#x27;;
+import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;../../config/config-tokens&#x27;;
-import { TranslationResources } from &#x27;../translation-resources&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -184,10 +184,6 @@ export abstract class I18nConfig {
       [chunk: string]: string[];
     };
   };
-}
-
-declare module &#x27;../../config/config-tokens&#x27; {
-  interface Config extends I18nConfig {}
 }
 </code></pre>
     </div>

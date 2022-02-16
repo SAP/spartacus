@@ -204,6 +204,7 @@ import { SharedOrganizationModule } from &#x27;../shared/shared-organization.mod
 import { CostCenterBudgetListModule } from &#x27;./budgets/cost-center-budget-list.module&#x27;;
 import {
   costCenterCmsConfig,
+  costCenterRoutingConfig,
   costCenterTableConfigFactory,
 } from &#x27;./cost-center.config&#x27;;
 import { CostCenterDetailsModule } from &#x27;./details/cost-center-details.module&#x27;;
@@ -218,6 +219,7 @@ import { CostCenterFormModule } from &#x27;./form/cost-center-form.module&#x27;;
     BudgetDetailsCellModule,
   ],
   providers: [
+    provideDefaultConfig(costCenterRoutingConfig),
     provideDefaultConfig(costCenterCmsConfig),
     provideDefaultConfigFactory(costCenterTableConfigFactory),
   ],

@@ -14,21 +14,21 @@
 <title>cluster_PermissionFormModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-342.39 1164,-342.39 1164,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_PermissionFormModule_imports</title>
-<polygon fill="none" stroke="black" points="496,-152.39 496,-204.39 1084,-204.39 1084,-152.39 496,-152.39"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_PermissionFormModule_declarations</title>
 <polygon fill="none" stroke="black" points="298,-152.39 298,-204.39 488,-204.39 488,-152.39 298,-152.39"/>
 </g>
-<g id="clust3" class="cluster">
-<title>cluster_PermissionFormModule_PermissionFormComponent_providers</title>
-<polygon fill="none" stroke="black" points="16,-40.8 16,-139.39 1156,-139.39 1156,-40.8 16,-40.8"/>
+<g id="clust4" class="cluster">
+<title>cluster_PermissionFormModule_imports</title>
+<polygon fill="none" stroke="black" points="496,-152.39 496,-204.39 1084,-204.39 1084,-152.39 496,-152.39"/>
 </g>
 <g id="clust5" class="cluster">
 <title>cluster_PermissionFormModule_exports</title>
 <polygon fill="none" stroke="black" points="625,-282.39 625,-334.39 819,-334.39 819,-282.39 625,-282.39"/>
+</g>
+<g id="clust3" class="cluster">
+<title>cluster_PermissionFormModule_PermissionFormComponent_providers</title>
+<polygon fill="none" stroke="black" points="16,-40.8 16,-139.39 1156,-139.39 1156,-40.8 16,-40.8"/>
 </g>
 <!-- PermissionFormComponent -->
 <g id="node1" class="node">
