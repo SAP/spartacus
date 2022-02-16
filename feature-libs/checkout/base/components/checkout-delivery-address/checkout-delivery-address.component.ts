@@ -14,7 +14,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -48,9 +48,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
 
-  selectedAddress(): Observable<Address | undefined> {
-    console.log('base selectedAddress');
-    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+  selectedAddress$: Observable<Address | undefined> =
+    this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -59,29 +58,35 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         }
       })
     );
-  }
 
-  cards$: Observable<CardWithAddress[]> = combineLatest([
-    this.getSupportedAddresses(),
-    this.selectedAddress(),
-    this.translationService.translate('checkoutAddress.defaultDeliveryAddress'),
-    this.translationService.translate('checkoutAddress.shipToThisAddress'),
-    this.translationService.translate('addressCard.selected'),
-  ]).pipe(
-    tap(([addresses, selected]) =>
-      this.selectDefaultAddress(addresses, selected)
-    ),
-    map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-      addresses.map((address) => ({
-        address,
-        card: this.getCardContent(
+  getSupportedAddresses$: Observable<Address[]> =
+    this.userAddressService.getAddresses();
+
+  cards$: Observable<CardWithAddress[]> = defer(() =>
+    combineLatest([
+      this.getSupportedAddresses$,
+      this.selectedAddress$,
+      this.translationService.translate(
+        'checkoutAddress.defaultDeliveryAddress'
+      ),
+      this.translationService.translate('checkoutAddress.shipToThisAddress'),
+      this.translationService.translate('addressCard.selected'),
+    ]).pipe(
+      tap(([addresses, selected]) =>
+        this.selectDefaultAddress(addresses, selected)
+      ),
+      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+        addresses.map((address) => ({
           address,
-          selected,
-          textDefault,
-          textShipTo,
-          textSelected
-        ),
-      }))
+          card: this.getCardContent(
+            address,
+            selected,
+            textDefault,
+            textShipTo,
+            textSelected
+          ),
+        }))
+      )
     )
   );
 
@@ -100,11 +105,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
-  }
-
-  getSupportedAddresses(): Observable<Address[]> {
-    console.log('base getSupportedAddresses');
-    return this.userAddressService.getAddresses();
   }
 
   selectDefaultAddress(
