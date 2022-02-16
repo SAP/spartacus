@@ -8,7 +8,9 @@
       "@ng-select/ng-select": "ngSelect",
       "@ngrx/effects": "effects",
       "@ngrx/store": "store",
-      "rxjs": "rxjs"
+      "rxjs": "rxjs",
+      "@spartacus/cart/base/root": "cartRoot",
+      "@spartacus/cart/base/core": "cartCore"
     }
   }
 }

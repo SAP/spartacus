@@ -142,8 +142,8 @@ export function goTroughCheckout(token: any, placeOrder = false) {
       const cartId = $cart.text().match(/[0-9]+/)[0];
       // Need to pass numeric CartId explicitly to avoid using the wrong cart for checkout
       registerReviewOrderRoute(cartId);
-      cy.requireShippingAddressAdded(user.address, token, cartId);
-      cy.requireShippingMethodSelected(token, cartId);
+      cy.requireDeliveryAddressAdded(user.address, token, cartId);
+      cy.requireDeliveryMethodSelected(token, cartId);
       cy.requirePaymentDone(token, cartId);
       if (placeOrder) {
         return cy.requirePlacedOrder(token, cartId);
