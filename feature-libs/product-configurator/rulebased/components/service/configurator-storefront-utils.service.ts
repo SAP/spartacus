@@ -140,6 +140,8 @@ export class ConfiguratorStorefrontUtilsService {
 
   /**
    * Find an attribute by its name in the form and focus it.
+   *
+   * @param {string} name - Attribute name
    */
   focusAttribute(name: string): void {
     if (!this.windowRef.isBrowser()) {
@@ -149,7 +151,7 @@ export class ConfiguratorStorefrontUtilsService {
     if (form) {
       const focusableElements: HTMLElement[] =
         this.keyboardFocusService.findFocusable(form);
-      if (focusableElements && focusableElements.length > 0) {
+      if (focusableElements.length > 0) {
         const foundFocusableElement = focusableElements.find(
           (focusableElement) => {
             if (focusableElement.id.indexOf(name) !== -1) {

@@ -145,6 +145,9 @@ export class ConfiguratorAttributeHeaderComponent
     return images && this.hasImage ? images[0] : undefined;
   }
 
+  /**
+   * Navigates to the group.
+   */
   navigateToGroup(): void {
     this.configuratorCommonsService
       .getConfiguration(this.owner)
@@ -163,6 +166,14 @@ export class ConfiguratorAttributeHeaderComponent
       });
   }
 
+  /**
+   * The status of the configuration loading is retrieved twice:
+   * firstly, wait that the navigation to the corresponding group is started,
+   * secondly, wait that the navigation is completed and
+   * finally, focus a value of the in conflict involved attribute in the group.
+   *
+   * @protected
+   */
   protected focusAttribute(name: string): void {
     this.configuratorCommonsService
       .isConfigurationLoading(this.owner)

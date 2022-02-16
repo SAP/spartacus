@@ -56,21 +56,6 @@ export class ConfiguratorGroupStatusService {
   }
 
   /**
-   * Return the first group of a configuration or undefined
-   * if not present
-   *
-   * @param {Configurator.Configuration} configuration - Configuration
-   * @returns {Configurator.Group} Conflict group
-   */
-  getFirstGroup(
-    configuration: Configurator.Configuration
-  ): Configurator.Group | undefined {
-    return configuration.groups.find(
-      (group) => group.groupType === Configurator.GroupType.ATTRIBUTE_GROUP
-    );
-  }
-
-  /**
    * Determines whether the group has been visited or not.
    *
    * @param {Configurator.Configuration} configuration - Configuration

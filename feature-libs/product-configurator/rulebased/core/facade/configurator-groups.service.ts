@@ -81,27 +81,6 @@ export class ConfiguratorGroupsService {
   }
 
   /**
-   * Navigates to the first non-conflict group of the configuration which is not completed.
-   * This method assumes that the configuration has incomplete groups,
-   * the caller has to verify this prior to calling this method. In case no incomplete group is
-   * present, nothing will happen
-   *
-   * @param {CommonConfigurator.Owner} owner - Configuration owner
-   */
-  navigateToFirstGroup(owner: CommonConfigurator.Owner): void {
-    this.configuratorCommonsService
-      .getConfiguration(owner)
-      .pipe(take(1))
-      .subscribe((configuration) => {
-        const groupId =
-          this.configuratorGroupStatusService.getFirstGroup(configuration)?.id;
-        if (groupId) {
-          this.navigateToGroup(configuration, groupId, true);
-        }
-      });
-  }
-
-  /**
    * Navigates to the first conflict group and sets the conflict header as parent group.
    * This method assumes that the configuration has conflicts,
    * the caller has to verify this prior to calling this method. In case no conflict group

@@ -759,6 +759,28 @@ describe('ConfigAttributeHeaderComponent', () => {
       });
     });
 
+    it('should not navigate from conflict group to regular group because no group ID is defined', () => {
+      component.groupType = Configurator.GroupType.CONFLICT_GROUP;
+      component.attribute.groupId = undefined;
+
+      const group = cold('-a-b|', {
+        a: ConfigurationTestData.GROUP_ID_1,
+        b: ConfigurationTestData.GROUP_ID_2,
+      });
+
+      spyOn(configurationGroupsService, 'navigateToGroup');
+      fixture.detectChanges();
+
+      component.navigateToGroup();
+      group.subscribe({
+        complete: () => {
+          expect(
+            configurationGroupsService.navigateToGroup
+          ).toHaveBeenCalledTimes(0);
+        },
+      });
+    });
+
     it('should call focusAttribute', () => {
       const testScheduler = new TestScheduler((actual, expected) => {
         expect(actual).toEqual(expected);
