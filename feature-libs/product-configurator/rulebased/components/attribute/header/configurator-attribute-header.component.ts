@@ -151,7 +151,7 @@ export class ConfiguratorAttributeHeaderComponent
       .pipe(take(1))
       .subscribe((configuration) => {
         if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
-          const groupId = this.attribute?.groupId;
+          const groupId = this.attribute.groupId;
           if (groupId) {
             this.configuratorGroupsService.navigateToGroup(
               configuration,
