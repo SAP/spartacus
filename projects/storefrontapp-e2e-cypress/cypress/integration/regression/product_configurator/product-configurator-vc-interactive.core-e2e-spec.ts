@@ -80,7 +80,7 @@ context('Product Configuration', () => {
   });
 
   describe('Configure Product', () => {
-    it('should support image attribute type - single selection', () => {
+    it.only('should support image attribute type - single selection', () => {
       clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
