@@ -559,6 +559,9 @@ export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
 
+export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
+export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
+
 /***** Classes end *****/
 
 /***** Removed public api start *****/
@@ -1003,6 +1006,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
+
+export const HANDLE_VOUCHER_OPERATION_ERROR = 'handleVoucherOperationError';
 
 export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
 export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
