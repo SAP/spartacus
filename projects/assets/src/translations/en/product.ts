@@ -35,6 +35,9 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
+    ariaLabelItemsAvailable_plural:
+      '{{name}}, {{state}} {{count}} items available',
   },
   productSummary: {
     id: 'ID',

@@ -1,5 +1,9 @@
 <ng-container *ngIf="state$ | async as state">
-  <button class="heading" (click)="toggleGroup($event)">
+  <button
+    [attr.aria-expanded]="state.toggled === 'EXPANDED'"
+    class="heading"
+    (click)="toggleGroup($event)"
+  >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
     <cx-icon class="expand-icon" [type]="expandIcon"></cx-icon>
@@ -14,10 +18,16 @@
     [class.selected]="value.selected"
     [cxFocus]="value.name"
     (keydown.space)="openLink($event)"
+    [attr.role]="facet.multiSelect ? 'checkbox' : null"
+    [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+    attr.aria-label="{{
+      'productFacetNavigation.ariaLabelItemsAvailable'
+        | cxTranslate: { name: value.name, count: value.count }
+    }}"
   >
     <span>
-      <span class="label">{{ value.name }}</span>
-      <span class="count">{{ value.count }}</span>
+      <span aria-hidden="true" class="label">{{ value.name }}</span>
+      <span aria-hidden="true" class="count">{{ value.count }}</span>
     </span>
   </a>
 
@@ -33,9 +43,16 @@
       [class.selected]="value.selected"
       [cxFocus]="value.name"
       (keydown.space)="openLink($event)"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
     >
-      <span
-        >{{ value.name }}<span class="count">{{ value.count }}</span></span
+      <span aria-hidden="true"
+        >{{ value.name
+        }}<span aria-hidden="true" class="count">{{ value.count }}</span></span
       >
     </a>
 
