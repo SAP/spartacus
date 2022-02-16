@@ -39,6 +39,7 @@ class MockModalRef {
     };
   }
 }
+
 class MockModalService {
   open = createSpy('open').and.returnValue(new MockModalRef());
 }
