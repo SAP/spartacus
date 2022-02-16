@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
 import { of } from 'rxjs';
 import { SavedCartAdapter } from './saved-cart.adapter';
 import { SavedCartConnector } from './saved-cart.connector';
@@ -8,7 +8,6 @@ import createSpy = jasmine.createSpy;
 const mockCartId = 'test-cart';
 const mockUserId = 'test-user';
 const mockCartName = 'test-cart-name';
-const mockCartDescription = 'test-cart-description';
 
 const mockSavedCart: Cart = {
   name: 'test-cart-name',
@@ -20,7 +19,6 @@ class MockSavedCartAdapter implements Partial<SavedCartAdapter> {
   load = createSpy().and.returnValue(of(mockSavedCart));
   loadList = createSpy().and.returnValue(of([mockSavedCart]));
   restoreSavedCart = createSpy().and.returnValue(of(mockSavedCart));
-  saveCart = createSpy().and.returnValue(of(mockSavedCart));
   cloneSavedCart = createSpy().and.returnValue(of(mockSavedCart));
 }
 
@@ -59,21 +57,6 @@ describe('SavedCartConnector', () => {
     expect(adapter.restoreSavedCart).toHaveBeenCalledWith(
       mockUserId,
       mockCartId
-    );
-  });
-
-  it('should save or update a cart', () => {
-    connector.saveCart(
-      mockUserId,
-      mockCartId,
-      mockCartName,
-      mockCartDescription
-    );
-    expect(adapter.saveCart).toHaveBeenCalledWith(
-      mockUserId,
-      mockCartId,
-      mockCartName,
-      mockCartDescription
     );
   });
 

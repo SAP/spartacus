@@ -4,7 +4,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable, of } from 'rxjs';
 import { GlobalMessageService } from '../../../global-message/facade/global-message.service';
 import { GlobalMessageType } from '../../../global-message/models/global-message.model';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { UserPaymentAdapter } from '../../connectors/payment/user-payment.adapter';
 import { UserPaymentConnector } from '../../connectors/payment/user-payment.connector';

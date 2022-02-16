@@ -33,6 +33,7 @@
               [border]="true"
               [fitToContainer]="true"
               [content]="card.content"
+              [index]="i"
               (sendCard)="selectPaymentMethod(card.paymentMethod)"
             ></cx-card>
           </div>
@@ -63,7 +64,7 @@
         (closeForm)="hideNewPaymentForm()"
         (goBack)="back()"
         [paymentMethodsCount]="cards?.length || 0"
-        [setAsDefaultField]="!isGuestCheckout"
+        [setAsDefaultField]="!isGuestCheckout && !!cards?.length"
       ></cx-payment-form>
     </ng-template>
   </ng-container>

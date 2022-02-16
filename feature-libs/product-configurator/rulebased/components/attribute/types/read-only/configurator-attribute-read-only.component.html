@@ -6,19 +6,29 @@
     "
   >
     <ng-container *ngFor="let value of attribute.values">
-      <div
-        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
-        class="cx-read-only-label"
+      <span
         *ngIf="value.selected"
+        id="{{ createValueUiKey('label', attribute.name, value.valueCode) }}"
         tabindex="0"
+        class="cx-visually-hidden"
       >
-        {{ value.valueDisplay }}
+        {{
+          'configurator.a11y.readOnlyValueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: value.valueDisplay,
+                  attribute: attribute.label
+                }
+        }}
+      </span>
+      <div class="cx-read-only-label" *ngIf="value.selected" aria-hidden="true">
+        <span aria-hidden="true">{{ value.valueDisplay }}</span>
       </div>
     </ng-container>
   </ng-container>
   <ng-template #noStaticDomain>
-    <ng-container *ngIf="attribute.selectedSingleValue"
-      ><div
+    <ng-container *ngIf="attribute.selectedSingleValue">
+      <span
         id="{{
           createValueUiKey(
             'label',
@@ -26,21 +36,41 @@
             attribute.selectedSingleValue
           )
         }}"
-        class="cx-read-only-label"
         tabindex="0"
+        class="cx-visually-hidden"
       >
-        {{ attribute.selectedSingleValue }}
+        {{
+          'configurator.a11y.readOnlyValueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute.selectedSingleValue,
+                  attribute: attribute.label
+                }
+        }}
+      </span>
+      <div class="cx-read-only-label" aria-hidden="true">
+        <span aria-hidden="true">{{ attribute.selectedSingleValue }}</span>
       </div>
     </ng-container>
-    <ng-container *ngIf="attribute.userInput"
-      ><div
+    <ng-container *ngIf="attribute.userInput">
+      <span
         id="{{
           createValueUiKey('label', attribute.name, attribute.userInput)
         }}"
-        class="cx-read-only-label"
         tabindex="0"
+        class="cx-visually-hidden"
       >
-        {{ attribute.userInput }}
+        {{
+          'configurator.a11y.readOnlyValueOfAttributeFull'
+            | cxTranslate
+              : {
+                  value: attribute.userInput,
+                  attribute: attribute.label
+                }
+        }}
+      </span>
+      <div class="cx-read-only-label">
+        <span aria-hidden="true">{{ attribute.userInput }}</span>
       </div>
     </ng-container>
   </ng-template>

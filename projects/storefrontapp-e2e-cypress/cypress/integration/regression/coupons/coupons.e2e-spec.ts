@@ -7,19 +7,6 @@ describe('Cart Coupon', () => {
       cy.window().then((win) => win.sessionStorage.clear());
       cy.requireLoggedIn();
     });
-
-    it('should apply cart coupon', () => {
-      const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth'));
-      cartCoupon.visitProductPage(cartCoupon.productCode1);
-
-      //TODO products can be added to cart asynchronously
-      cartCoupon.addProductToCart(cartCoupon.productCode1);
-      cartCoupon.applyCoupon(cartCoupon.couponForCart);
-      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForCart);
-      });
-    });
-
     it('should show error message when applied a wrong coupon', () => {
       cartCoupon.visitProductPage(cartCoupon.productCode1);
       cartCoupon.addProductToCart(cartCoupon.productCode1);
@@ -31,8 +18,8 @@ describe('Cart Coupon', () => {
       cartCoupon.visitProductPage(cartCoupon.productCode2);
       cartCoupon.addProductToCart(cartCoupon.productCode2);
       cartCoupon.applyCoupon(cartCoupon.couponForProduct);
-      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.couponForProduct);
+      cartCoupon.goTroughCheckout(stateAuth.token).then(() => {
+        cartCoupon.verifyCouponInReviewOrder(cartCoupon.couponForProduct);
       });
     });
 
@@ -42,8 +29,8 @@ describe('Cart Coupon', () => {
       cartCoupon.addProductToCart(cartCoupon.productCode3);
       cartCoupon.applyCoupon(cartCoupon.freeGiftCoupon);
       cartCoupon.verifyGiftProductCoupon(cartCoupon.giftProductCode);
-      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData, cartCoupon.freeGiftCoupon);
+      cartCoupon.goTroughCheckout(stateAuth.token).then(() => {
+        cartCoupon.verifyCouponInReviewOrder(cartCoupon.freeGiftCoupon);
       });
     });
 
@@ -54,8 +41,8 @@ describe('Cart Coupon', () => {
       cartCoupon.applyCoupon(cartCoupon.couponForCart);
       cartCoupon.removeCoupon(cartCoupon.couponForCart);
 
-      cartCoupon.placeOrder(stateAuth.token).then((orderData) => {
-        cartCoupon.verifyOrderHistory(orderData);
+      cartCoupon.goTroughCheckout(stateAuth.token).then(() => {
+        cartCoupon.verifyCouponInReviewOrder();
       });
     });
   });

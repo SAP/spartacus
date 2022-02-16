@@ -5,8 +5,10 @@ import {
   ViewChild,
   ViewContainerRef,
 } from '@angular/core';
-import { ReplenishmentOrder } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderFacade,
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
