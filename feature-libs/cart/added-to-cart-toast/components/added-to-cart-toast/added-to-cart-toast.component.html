@@ -16,11 +16,11 @@
         [alt]="toast.productName"
       ></cx-media>
       <div class="added-to-cart-toast-product">
-        <h3>{{ toast.productName }}</h3>
-        <span>
+        <h3 class="product-name">{{ toast.productName }}</h3>
+        <span class="product-row quantity">
           {{ 'cartToast.quantity' | cxTranslate }}: {{ toast.quantity }}
         </span>
-        <span>
+        <span class="product-row price">
           {{ 'cartToast.price' | cxTranslate }}: {{ toast.unitPrice }}
         </span>
       </div>

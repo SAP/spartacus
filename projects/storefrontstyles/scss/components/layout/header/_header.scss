@@ -4,6 +4,7 @@ $space: 0.5rem;
   background-color: var(--cx-color-dark);
   color: var(--cx-color-inverse);
   display: block;
+  z-index: 2;
 
   .header {
     max-width: var(--cx-page-width-max);
