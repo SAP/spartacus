@@ -210,6 +210,24 @@ export function checkConflictDescriptionDisplayed(description: string): void {
 }
 
 /**
+ * Navigates to the configuration group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfiguration(attribute: string): void {
+  checkGhostAnimationNotDisplayed();
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('.cx-conflict-msg')
+        .click()
+        .then(() => {
+          checkGhostAnimationNotDisplayed();
+        });
+    });
+  });
+}
+
+/**
  * Verifies whether the conflict header group is displayed.
  */
 function checkConflictHeaderGroupDisplayed(): void {
