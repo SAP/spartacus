@@ -54,11 +54,11 @@ export class SortingComponent implements AfterViewInit {
    * once view is initialized.
    */
   bindAriaAttributes(): void {
-    let input = this.elRef.nativeElement.querySelector(
+    let element = this.elRef.nativeElement.querySelector(
       '[role="combobox"]'
     ) as HTMLElement;
 
-    input.setAttribute('aria-label', this.selectedLabel || this.placeholder);
-    input.setAttribute('aria-controls', this.ariaControls);
+    element.setAttribute('aria-label', this.selectedLabel || this.placeholder);
+    element.setAttribute('aria-controls', this.ariaControls);
   }
 }
