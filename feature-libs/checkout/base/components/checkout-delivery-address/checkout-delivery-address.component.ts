@@ -14,7 +14,7 @@ import {
   UserAddressService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, defer, Observable } from 'rxjs';
 import { filter, map, switchMap, tap } from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
@@ -48,8 +48,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
   }
 
-  get selectedAddress$(): Observable<Address | undefined> {
-    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+  selectedAddress$: Observable<Address | undefined> =
+    this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       tap((address) => {
@@ -58,11 +58,13 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         }
       })
     );
-  }
 
-  get cards$(): Observable<CardWithAddress[]> {
-    return combineLatest([
-      this.getSupportedAddresses(),
+  getSupportedAddresses$: Observable<Address[]> =
+    this.userAddressService.getAddresses();
+
+  cards$: Observable<CardWithAddress[]> = defer(() =>
+    combineLatest([
+      this.getSupportedAddresses$,
       this.selectedAddress$,
       this.translationService.translate(
         'checkoutAddress.defaultDeliveryAddress'
@@ -85,8 +87,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
           ),
         }))
       )
-    );
-  }
+    )
+  );
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -103,10 +105,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     if (!this.isGuestCheckout) {
       this.userAddressService.loadAddresses();
     }
-  }
-
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.userAddressService.getAddresses();
   }
 
   selectDefaultAddress(

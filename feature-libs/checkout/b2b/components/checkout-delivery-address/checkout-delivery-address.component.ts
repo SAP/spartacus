@@ -84,27 +84,32 @@ export class B2BCheckoutDeliveryAddressComponent
     }
   }
 
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
-      switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                this.doneAutoSelect = false;
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super.getSupportedAddresses();
+  costCenterAddresses$: Observable<Address[]> = this.checkoutCostCenterFacade
+    .getCostCenterState()
+    .pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      distinctUntilChanged(),
+      switchMap((costCenter) => {
+        this.doneAutoSelect = false;
+        return costCenter?.code
+          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          : of([]);
       })
     );
-  }
+
+  baseGetSupportedAddresses$: Observable<Address[]> =
+    this.getSupportedAddresses$;
+
+  getSupportedAddresses$: Observable<Address[]> = this.checkoutPaymentTypeFacade
+    .isAccountPayment()
+    .pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.costCenterAddresses$
+          : this.baseGetSupportedAddresses$
+      )
+    );
 
   selectDefaultAddress(
     addresses: Address[],
