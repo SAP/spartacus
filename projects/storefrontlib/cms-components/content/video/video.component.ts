@@ -7,6 +7,7 @@ import {
 import {
   CmsService,
   CmsVideoComponent,
+  ContainerBackgroundOptions,
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
@@ -39,7 +40,11 @@ export class VideoComponent {
       if (data.video) {
         this.source = this.mediaService.getMedia(data.video)?.src;
       }
-      if (data.videoMedia) {
+      if (
+        data.containerBackground ===
+          ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE &&
+        data.videoMedia
+      ) {
         this.videoImage = this.mediaService.getMedia(
           data.videoMedia as MediaContainer
         );
