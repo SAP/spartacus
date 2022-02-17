@@ -117,8 +117,7 @@ export class B2BCheckoutDeliveryAddressComponent
   ): void {
     if (
       !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
+      addresses?.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
       if (this.isAccountPayment) {
