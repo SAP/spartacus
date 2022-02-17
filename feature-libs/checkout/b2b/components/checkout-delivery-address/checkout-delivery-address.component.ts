@@ -45,13 +45,8 @@ export class B2BCheckoutDeliveryAddressComponent
 {
   protected subscriptions = new Subscription();
 
-  cards$: Observable<CardWithAddress[]>;
-
-  isAccountPayment = false;
-
-  costCenterAddresses$: Observable<Address[]> = this.checkoutCostCenterFacade
-    .getCostCenterState()
-    .pipe(
+  protected costCenterAddresses$: Observable<Address[]> =
+    this.checkoutCostCenterFacade.getCostCenterState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
       distinctUntilChanged(),
@@ -62,6 +57,10 @@ export class B2BCheckoutDeliveryAddressComponent
           : of([]);
       })
     );
+
+  cards$: Observable<CardWithAddress[]>;
+
+  isAccountPayment = false;
 
   constructor(
     protected userAddressService: UserAddressService,
