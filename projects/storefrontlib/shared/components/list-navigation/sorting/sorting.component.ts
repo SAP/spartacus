@@ -1,8 +1,6 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -14,7 +12,7 @@ import { SortModel } from '@spartacus/core';
   templateUrl: './sorting.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SortingComponent implements AfterViewInit {
+export class SortingComponent {
   @Input()
   sortOptions: SortModel[];
   @Input()
@@ -29,7 +27,7 @@ export class SortingComponent implements AfterViewInit {
   @Output()
   sortListEvent: EventEmitter<string>;
 
-  constructor(protected elRef: ElementRef) {
+  constructor() {
     this.sortListEvent = new EventEmitter<string>();
   }
 
@@ -42,23 +40,5 @@ export class SortingComponent implements AfterViewInit {
       this.sortOptions?.find((sort) => sort.code === this.selectedOption)
         ?.name ?? this.sortLabels?.[this.selectedOption]
     );
-  }
-
-  ngAfterViewInit(): void {
-    this.bindAriaAttributes();
-  }
-
-  /**
-   * By default, the combobox div inside the native Angular component, `ng-select`, does
-   * not contain accessible attributes (aria-label or aria-controls). So we bind these
-   * once view is initialized.
-   */
-  bindAriaAttributes(): void {
-    let element = this.elRef.nativeElement.querySelector(
-      '[role="combobox"]'
-    ) as HTMLElement;
-
-    element.setAttribute('aria-label', this.selectedLabel || this.placeholder);
-    element.setAttribute('aria-controls', this.ariaControls);
   }
 }

@@ -14,3 +14,4 @@ export * from './split-view/index';
 export * from './star-rating/index';
 export * from './table/index';
 export * from './truncate-text-popover/index';
+export * from './bind-attributes/index';
