@@ -22,6 +22,7 @@
     .cx-link {
       color: var(--cx-color-text);
       text-decoration: none;
+      display: block;
 
       &:hover {
         color: var(--cx-color-primary);

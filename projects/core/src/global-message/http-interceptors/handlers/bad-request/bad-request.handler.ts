@@ -18,7 +18,6 @@ export class BadRequestHandler extends HttpErrorHandler {
     this.handleBadPassword(request, response);
     this.handleBadLoginResponse(request, response);
     this.handleValidationError(request, response);
-    this.handleVoucherOperationError(request, response);
     this.handleGuestDuplicateEmail(request, response);
     this.handleUnknownIdentifierError(request, response);
   }
@@ -76,24 +75,6 @@ export class BadRequestHandler extends HttpErrorHandler {
       });
   }
 
-  protected handleVoucherOperationError(
-    _request: HttpRequest<any>,
-    response: HttpErrorResponse
-  ): void {
-    this.getErrors(response)
-      .filter(
-        (e) =>
-          e.message === 'coupon.invalid.code.provided' &&
-          e.type === 'VoucherOperationError'
-      )
-      .forEach(() => {
-        this.globalMessageService.add(
-          { key: 'httpHandlers.invalidCodeProvided' },
-          GlobalMessageType.MSG_TYPE_ERROR
-        );
-      });
-  }
-
   protected handleGuestDuplicateEmail(
     _request: HttpRequest<any>,
     response: HttpErrorResponse
@@ -131,7 +112,7 @@ export class BadRequestHandler extends HttpErrorHandler {
 
   protected getErrors(response: HttpErrorResponse): ErrorModel[] {
     return (response.error?.errors || []).filter(
-      (error) => error.type !== 'JaloObjectNoLongerValidError'
+      (error: ErrorModel) => error.type !== 'JaloObjectNoLongerValidError'
     );
   }
 
