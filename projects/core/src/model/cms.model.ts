@@ -1,5 +1,3 @@
-import { SrvRecord } from 'dns';
-
 export interface CmsComponent {
   modifiedTime?: Date;
   name?: string;
@@ -192,7 +190,7 @@ export interface CmsVideoComponent extends CmsComponent {
   url?: string;
   category?: string;
   product?: string;
-  contentPage?: SrvRecord;
+  contentPage?: string;
 }
 
 export enum ContainerBackgroundOptions {

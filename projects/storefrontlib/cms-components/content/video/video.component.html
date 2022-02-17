@@ -1,10 +1,11 @@
-<cx-generic-link *ngIf="data$ | async as data" [url]="data.url">
+<a *ngIf="data$ | async as data" [routerLink]="routerLink">
   <div>
     {{ data.overlayTitle }}
   </div>
   <video
     *ngIf="source"
     controls
+    [poster]="videoImage?.src"
     [height]="
       data.containerSize === 'DEFINE_CONTAINER_HEIGHT'
         ? data.videoContainerHeight
@@ -14,9 +15,8 @@
     [loop]="data.loop === 'true'"
     [autoplay]="data.autoPlay === 'true'"
     [muted]="data.mute === 'true' ? 'muted' : null"
-    (click)="toggleVideo()"
     #videoPlayer
   >
     <source src="{{ source }}" type="{{ data.video.mime }}" />
   </video>
-</cx-generic-link>
+</a>
