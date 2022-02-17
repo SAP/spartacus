@@ -96,6 +96,13 @@ export class B2BCheckoutDeliveryAddressComponent
     super.ngOnInit();
   }
 
+  protected loadAddresses(): void {
+    if (!this.isAccountPayment) {
+      super.loadAddresses();
+    }
+    // else: do nothing, as we don't need to load user addresses for account payment
+  }
+
   protected getAddressLoading(): Observable<boolean> {
     return this.checkoutPaymentTypeFacade
       .isAccountPayment()
@@ -110,7 +117,7 @@ export class B2BCheckoutDeliveryAddressComponent
       );
   }
 
-  getSupportedAddresses(): Observable<Address[]> {
+  protected getSupportedAddresses(): Observable<Address[]> {
     return this.checkoutPaymentTypeFacade
       .isAccountPayment()
       .pipe(

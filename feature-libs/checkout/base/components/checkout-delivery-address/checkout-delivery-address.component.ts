@@ -44,13 +44,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
-  protected getAddressLoading(): Observable<boolean> {
-    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
-      map((state) => state.loading),
-      distinctUntilChanged()
-    );
-  }
-
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
   }
@@ -84,52 +77,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.isGuestCheckout) {
-      this.userAddressService.loadAddresses();
-    }
+    this.loadAddresses();
 
-    this.cards$ = combineLatest([
-      this.getSupportedAddresses(),
-      this.selectedAddress$,
-      this.translationService.translate(
-        'checkoutAddress.defaultDeliveryAddress'
-      ),
-      this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
-        this.selectDefaultAddress(addresses, selected)
-      ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
-            address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
-      )
-    );
-
-    this.isUpdating$ = combineLatest([
-      this.busy$,
-      this.userAddressService.getAddressesLoading(),
-      this.getAddressLoading(),
-    ]).pipe(
-      map(
-        ([busy, userAddressLoading, deliveryAddressLoading]) =>
-          busy || userAddressLoading || deliveryAddressLoading
-      ),
-      distinctUntilChanged()
-    );
-  }
-
-  getSupportedAddresses(): Observable<Address[]> {
-    console.log('getSupportedAddresses');
-    return this.userAddressService.getAddresses();
+    this.cards$ = this.createCards();
+    this.isUpdating$ = this.createIsUpdating();
   }
 
   selectDefaultAddress(
@@ -235,6 +186,66 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   back(): void {
     this.checkoutStepService.back(this.activatedRoute);
+  }
+
+  protected loadAddresses(): void {
+    if (!this.isGuestCheckout) {
+      this.userAddressService.loadAddresses();
+    }
+  }
+
+  protected createCards(): Observable<CardWithAddress[]> {
+    return combineLatest([
+      this.getSupportedAddresses(),
+      this.selectedAddress$,
+      this.translationService.translate(
+        'checkoutAddress.defaultDeliveryAddress'
+      ),
+      this.translationService.translate('checkoutAddress.shipToThisAddress'),
+      this.translationService.translate('addressCard.selected'),
+    ]).pipe(
+      tap(([addresses, selected]) =>
+        this.selectDefaultAddress(addresses, selected)
+      ),
+      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+        addresses.map((address) => ({
+          address,
+          card: this.getCardContent(
+            address,
+            selected,
+            textDefault,
+            textShipTo,
+            textSelected
+          ),
+        }))
+      )
+    );
+  }
+
+  protected getSupportedAddresses(): Observable<Address[]> {
+    console.log('getSupportedAddresses');
+    return this.userAddressService.getAddresses();
+  }
+
+  protected createIsUpdating(): Observable<boolean> {
+    return combineLatest([
+      this.busy$,
+      this.userAddressService.getAddressesLoading(),
+      this.getAddressLoading(),
+    ]).pipe(
+      map(
+        ([busy, userAddressLoading, deliveryAddressLoading]) =>
+          busy || userAddressLoading || deliveryAddressLoading
+      ),
+      distinctUntilChanged()
+    );
+  }
+
+  protected getAddressLoading(): Observable<boolean> {
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      map((state) => state.loading),
+      distinctUntilChanged()
+    );
   }
 
   protected setAddress(address: Address): void {
