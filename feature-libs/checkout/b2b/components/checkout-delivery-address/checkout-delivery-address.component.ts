@@ -58,8 +58,6 @@ export class B2BCheckoutDeliveryAddressComponent
       })
     );
 
-  cards$: Observable<CardWithAddress[]>;
-
   isAccountPayment = false;
 
   constructor(
