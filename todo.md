@@ -31,9 +31,10 @@
    2. spartacus shows a blank page
    3. if guest checkout is enabled, redirect to home?
    4. if guest checkout is NOT enabled, redirect to login page
-10. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
-11. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
-12. Docs
+10. [Improvement] In b2b, we are issuing additional PUT for payment type when switching to the delivery address step
+11. maybe it's worth having all checkout rename migrations in `projects/schematics/src/migrations/5_0/rename-symbol/checkout-rename-symbol.ts` ?
+12. BUG infinite loop payment type step and new user - https://sap-cx.slack.com/archives/D02A0NHD3C0/p1643869193329879
+13. Docs
    5. go by example -> create the docs for one of the steps; maybe choose the mostly customized one - payment step?
    6. reference the docs for LL, where it is explained how to create a custom feature module, and LL custom code.
    7. Mention how to properly use the queries - check if it's loading, or if there's an error. E.g.:
@@ -45,7 +46,7 @@
          )
       ```
    8. cover the case when customers were using an old facade -> show how to switch to the new facade. This doesn't have to be a big section, as we'll have some migrations that'll handle this case.
-   9. If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
+   9.  If customized an effect -> please remove ngrx, and extend our facade service where you can add your custom logic by extending a method, or by adding new ones
    10. if using old components:
       1. you can consider using our new components. 
       2. If you don't want to, you can just import our new facade in your existing components, and keep using them and potentially slightly modifying them.
@@ -54,7 +55,7 @@
    13. Go through the old checkout's changes in `5_0.md`:
       3. add missing stuff
       4. remove unnecessary / non-relevant parts
-13. check LL:
+14. check LL:
    14. check the chunks: base, b2b, replenishment
    15. check if and when those are loaded
    16. check the deps, e.g. land on a b2b step, and check if the checkout chunk is loaded before the b2b one.
@@ -62,8 +63,8 @@
       1. the _base_ checkout depends on _cart_
       2. the _b2b_ / _repl_ depend on _base_
       3. when landing on a _b2b_ step, will the order of chunks being loaded be the following: _cart_ first, then _base_, and lastly the _b2b_ chunk?
-14.  check the bundle size of checkout (maybe using webpack analyzer)
-15. query debounce
+15.  check the bundle size of checkout (maybe using webpack analyzer)
+16. query debounce
     1.  see `feature/query-debounce` branch
     2.  could projects/core/src/util/rxjs/buffer-debounce-time.ts help?
 
