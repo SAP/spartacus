@@ -102,8 +102,8 @@ describe('CheckoutDeliveryService', () => {
 
   it('should CheckoutDeliveryService is injected', inject(
     [CheckoutDeliveryService],
-    (checkoutService: CheckoutDeliveryService) => {
-      expect(checkoutService).toBeTruthy();
+    (checkoutDeliveryService: CheckoutDeliveryService) => {
+      expect(checkoutDeliveryService).toBeTruthy();
     }
   ));
 

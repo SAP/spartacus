@@ -82,10 +82,10 @@ const entry: OrderEntry = {
 };
 
 function setConfiguratorTypeIntoFirstConfigInfo(
-  entry: OrderEntry,
+  orderEntry: OrderEntry,
   configuratorType: string
 ) {
-  const configInfos = entry.configurationInfos;
+  const configInfos = orderEntry.configurationInfos;
   if (configInfos && configInfos[0]) {
     configInfos[0].configuratorType = configuratorType;
   }
@@ -710,9 +710,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
         mockCartItemContext.location$?.next(PromotionLocation.SaveForLater);
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('.cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('.cx-configure-cart-entry')
+            .length
         ).toBe(0);
       });
 
@@ -721,9 +722,10 @@ describe('ConfiguratorCartEntryBundleInfoComponent', () => {
 
         fixture.detectChanges();
 
-        const htmlElem = fixture.nativeElement;
+        const htmlElementAfterChanges = fixture.nativeElement;
         expect(
-          htmlElem.querySelectorAll('cx-configure-cart-entry').length
+          htmlElementAfterChanges.querySelectorAll('cx-configure-cart-entry')
+            .length
         ).toBe(1);
       });
     });

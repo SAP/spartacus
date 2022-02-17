@@ -1075,7 +1075,7 @@ export function insertCommentAboveIdentifier(
     }
 
     const identifierNodes = findNodes(node, identifierType).filter(
-      (node) => node.getText() === identifierName
+      (identifierNode) => identifierNode.getText() === identifierName
     );
 
     identifierNodes.forEach((n) =>

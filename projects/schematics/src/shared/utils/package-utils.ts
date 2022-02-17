@@ -91,7 +91,7 @@ export function createDependencies(
 
 export function mapPackageToNodeDependencies(
   packageName: string,
-  version: string,
+  pkgVersion: string,
   overwrite = false
 ): NodeDependency {
   return {
@@ -99,7 +99,7 @@ export function mapPackageToNodeDependencies(
       ? NodeDependencyType.Dev
       : NodeDependencyType.Default,
     name: packageName,
-    version,
+    version: pkgVersion,
     overwrite,
   };
 }

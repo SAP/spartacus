@@ -36,7 +36,7 @@
             aria-checked="true"
             (change)="changeType(type.code)"
             [value]="type.code"
-            [checked]="type.code == typeSelected"
+            [checked]="type.code === typeSelected"
             formControlName="paymentType"
           />
           <label

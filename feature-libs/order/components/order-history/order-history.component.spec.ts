@@ -217,10 +217,8 @@ describe('OrderHistoryComponent', () => {
 
     expect(elements.length).toEqual(2);
     expect(component.sortType).toEqual('byDate');
-
   });
   it('should not have sortType if no orders and pagination are provided', () => {
-
     let orders: OrderHistoryList | undefined;
 
     mockOrderHistoryList$.next(undefined);

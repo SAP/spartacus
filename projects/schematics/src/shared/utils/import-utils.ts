@@ -4,9 +4,9 @@ import { SPARTACUS_SCOPE } from '../constants';
 export function isImportedFrom(node: Identifier, importPath: string): boolean {
   const definitions = node.getDefinitions();
   for (const def of definitions) {
-    const node = def.getDeclarationNode();
+    const declarationNode = def.getDeclarationNode();
 
-    const declaration = node?.getFirstAncestorByKind(
+    const declaration = declarationNode?.getFirstAncestorByKind(
       ts.SyntaxKind.ImportDeclaration
     );
     if (declaration?.getModuleSpecifier().getText().includes(importPath)) {
@@ -20,9 +20,9 @@ export function isImportedFrom(node: Identifier, importPath: string): boolean {
 export function isImportedFromSpartacusLibs(node: Identifier): boolean {
   const definitions = node.getDefinitions();
   for (const def of definitions) {
-    const node = def.getDeclarationNode();
+    const declarationNode = def.getDeclarationNode();
 
-    const declaration = node?.getFirstAncestorByKind(
+    const declaration = declarationNode?.getFirstAncestorByKind(
       ts.SyntaxKind.ImportDeclaration
     );
     const moduleSpecifier = declaration?.getModuleSpecifier().getText();

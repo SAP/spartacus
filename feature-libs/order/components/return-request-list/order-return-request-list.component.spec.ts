@@ -35,7 +35,6 @@ class MockUrlPipe implements PipeTransform {
 }
 
 class MockOrderReturnRequestService {
-
   getOrderReturnRequestList(): Observable<ReturnRequestList> {
     return mockReturnRequestList$.asObservable();
   }
@@ -99,10 +98,11 @@ describe('OrderReturnRequestListComponent', () => {
     component.returnRequests$
       .subscribe((value) => {
         returns = value;
-      }).unsubscribe();
+      })
+      .unsubscribe();
 
-      expect(returns).toEqual({});
-      expect(component.sortType).toBe(undefined);
+    expect(returns).toEqual({});
+    expect(component.sortType).toBe(undefined);
   });
 
   it('should read order return request list', () => {
@@ -114,10 +114,11 @@ describe('OrderReturnRequestListComponent', () => {
     component.returnRequests$
       .subscribe((value) => {
         returns = value;
-      }).unsubscribe();
+      })
+      .unsubscribe();
 
-      expect(returns).toEqual(mockReturns);
-      expect(component.sortType).toBe('byDate');
+    expect(returns).toEqual(mockReturns);
+    expect(component.sortType).toBe('byDate');
   });
 
   it('should set correctly sort code', () => {
@@ -134,11 +135,14 @@ describe('OrderReturnRequestListComponent', () => {
   });
 
   it('getSortLabels ', (done) => {
-    component.getSortLabels().subscribe((labels) => {
-      expect(labels).toEqual({byDate: 'sortLabel', byRMA: 'sortLabel'});
-      done();
-    }).unsubscribe();
-  })
+    component
+      .getSortLabels()
+      .subscribe((labels) => {
+        expect(labels).toEqual({ byDate: 'sortLabel', byRMA: 'sortLabel' });
+        done();
+      })
+      .unsubscribe();
+  });
 
   it('should set correctly page', () => {
     spyOn(returnService, 'loadOrderReturnRequestList').and.stub();
