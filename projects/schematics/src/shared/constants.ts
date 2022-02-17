@@ -505,6 +505,8 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT =
+  'ConfiguratorAttributeHeaderComponent';
 export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
   'ConfiguratorAttributeMultiSelectionBundleComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
@@ -557,6 +559,9 @@ export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
+
+export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
+export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
 
 /***** Classes end *****/
 
@@ -1003,6 +1008,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
+export const HANDLE_VOUCHER_OPERATION_ERROR = 'handleVoucherOperationError';
+
 export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
 export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
 export const ADD_DYNAMIC_ATTRIBUTES = 'addDynamicAttributes';
@@ -1084,6 +1091,9 @@ export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
 export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
+export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
+export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
+  'getConflictMessageKey';
 
 /***** APIs end *****/
 

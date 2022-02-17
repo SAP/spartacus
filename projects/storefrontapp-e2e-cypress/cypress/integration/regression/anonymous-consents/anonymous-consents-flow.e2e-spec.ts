@@ -1,4 +1,4 @@
-import * as aConsents from '../../../helpers/anonymous-consents';
+import * as anonymousConsents from '../../../helpers/anonymous-consents';
 import {
   LANGUAGES,
   LANGUAGE_REQUEST,
@@ -15,9 +15,10 @@ context('Anonymous consents flow', () => {
       });
     });
     describe('As an anonymous user', () => {
-      aConsents.testAcceptAnonymousConsents();
+      anonymousConsents.testAcceptAnonymousConsents();
     });
   });
+
   viewportContext(['mobile', 'desktop'], () => {
     beforeEach(() => {
       cy.window().then((win) => {
@@ -27,7 +28,7 @@ context('Anonymous consents flow', () => {
     });
 
     describe('Registering a user', () => {
-      aConsents.giveRegistrationConsentTest();
+      anonymousConsents.giveRegistrationConsentTest();
     });
 
     describe('As a registered user', () => {
@@ -35,11 +36,11 @@ context('Anonymous consents flow', () => {
         cy.visit('/');
       });
 
-      aConsents.movingFromAnonymousToRegisteredUser();
+      anonymousConsents.movingFromAnonymousToRegisteredUser();
     });
 
     describe('As a logged in user', () => {
-      aConsents.testAsLoggedInUser();
+      anonymousConsents.testAsLoggedInUser();
     });
 
     describe('On language change', () => {
@@ -49,7 +50,7 @@ context('Anonymous consents flow', () => {
 
       stub(LANGUAGE_REQUEST, LANGUAGES);
 
-      aConsents.changeLanguageTest();
+      anonymousConsents.changeLanguageTest();
     });
   });
 });
