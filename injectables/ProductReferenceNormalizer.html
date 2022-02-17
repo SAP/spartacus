@@ -122,8 +122,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="9"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-reference-normalizer.ts:9</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-reference-normalizer.ts:10</a></div>
                 </td>
             </tr>
 
@@ -204,8 +204,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-reference-normalizer.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="28"
+                            class="link-to-prism">projects/core/src/occ/adapters/product/converters/product-reference-normalizer.ts:28</a></div>
                 </td>
             </tr>
 
@@ -272,7 +272,8 @@ import { Product, ProductReferences } from &#x27;../../../../model/product.model
 
 @Injectable()
 export class ProductReferenceNormalizer
-  implements Converter&lt;Occ.Product, Product&gt; {
+  implements Converter&lt;Occ.Product, Product&gt;
+{
   convert(source: Occ.Product, target?: Product): Product {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
       target &#x3D; { ...(source as any) };

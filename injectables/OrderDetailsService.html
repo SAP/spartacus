@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts</code>
+            <code>feature-libs/order/components/order-details/order-details.service.ts</code>
         </p>
 
 
@@ -115,12 +115,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userOrderService: <a href="../injectables/UserOrderService.html" target="_self">UserOrderService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>)</code>
+<code>constructor(userOrderService: <a href="../injectables/OrderFacade.html" target="_self">OrderFacade</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/order/components/order-details/order-details.service.ts:18</a></div>
                             </td>
                         </tr>
 
@@ -141,7 +141,7 @@
                                                         <td>userOrderService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserOrderService.html" target="_self" >UserOrderService</a></code>
+                                                                        <code><a href="../injectables/OrderFacade.html" target="_self" >OrderFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -195,8 +195,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">feature-libs/order/components/order-details/order-details.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -237,7 +237,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/order/components/order-details/order-details.service.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -263,7 +263,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/storefrontlib/src/cms-components/myaccount/order/order-details/order-details.service.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/order/components/order-details/order-details.service.ts:18</a></div>
                         </td>
                     </tr>
 
@@ -277,7 +277,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Order, RoutingService, UserOrderService } from &#x27;@spartacus/core&#x27;;
+import { Order, RoutingService } from &#x27;@spartacus/core&#x27;;
+import { OrderFacade } from &#x27;@spartacus/order/root&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import {
   distinctUntilChanged,
@@ -295,7 +296,7 @@ export class OrderDetailsService {
   orderLoad$: Observable&lt;{}&gt;;
 
   constructor(
-    private userOrderService: UserOrderService,
+    private userOrderService: OrderFacade,
     private routingService: RoutingService
   ) {
     this.orderCode$ &#x3D; this.routingService.getRouterState().pipe(

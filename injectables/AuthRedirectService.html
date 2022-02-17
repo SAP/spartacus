@@ -84,12 +84,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#ignoredUrls" >ignoredUrls</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#lastAuthGuardNavigation" >lastAuthGuardNavigation</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#subscription" >subscription</a>
                             </li>
                         </ul>
                     </td>
@@ -104,17 +100,30 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#getCurrentNavigation" >getCurrentNavigation</a>
+                                    <span class="modifier">Protected</span>
+                                <a href="#clearRedirectUrl" >clearRedirectUrl</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#init" >init</a>
+                            </li>
+                            <li>
+                                <a href="#ngOnDestroy" >ngOnDestroy</a>
                             </li>
                             <li>
                                 <a href="#redirect" >redirect</a>
                             </li>
                             <li>
-                                <a href="#reportAuthGuard" >reportAuthGuard</a>
+                                <a href="#reportAuthGuard" class="deprecated-name">reportAuthGuard</a>
                             </li>
                             <li>
-                                <a href="#reportNotAuthGuard" >reportNotAuthGuard</a>
+                                <a href="#reportNotAuthGuard" class="deprecated-name">reportNotAuthGuard</a>
+                            </li>
+                            <li>
+                                <a href="#saveCurrentNavigationUrl" >saveCurrentNavigationUrl</a>
+                            </li>
+                            <li>
+                                <a href="#setRedirectUrl" >setRedirectUrl</a>
                             </li>
                         </ul>
                     </td>
@@ -134,22 +143,23 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(routing: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authRedirectStorageService: <a href="../injectables/AuthRedirectStorageService.html" target="_self">AuthRedirectStorageService</a>)</code>
+<code>constructor(routing: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, authRedirectStorageService: <a href="../injectables/AuthRedirectStorageService.html" target="_self">AuthRedirectStorageService</a>, authFlowRoutesService: <a href="../injectables/AuthFlowRoutesService.html" target="_self">AuthFlowRoutesService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:15</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
-                            <div class="io-description"><p>This service is responsible for redirecting to the last page before authorization. &quot;The last page&quot; can be:</p>
+                            <div class="io-description"><p>This service is responsible for remembering the last page before the authentication. &quot;The last page&quot; can be:</p>
 <ol>
 <li>Just the previously opened page; or</li>
 <li>The page that we just tried to open, but AuthGuard cancelled it</li>
 </ol>
+<p>Then, after successful authentication it allows for redirecting to that remembered page via the <code>redirect()</code> method.</p>
 <p>For example:</p>
 <ol>
 <li>The user opens the product page, then clicks /login link and signs in
@@ -206,6 +216,18 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authFlowRoutesService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthFlowRoutesService.html" target="_self" >AuthFlowRoutesService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -224,26 +246,67 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCurrentNavigation"></a>
+                    <a name="clearRedirectUrl"></a>
                     <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>getCurrentNavigation</b></span>
-                        <a href="#getCurrentNavigation"><span class="icon ion-ios-link"></span></a>
+                        <span class="modifier">Protected</span>
+                        <span ><b>clearRedirectUrl</b></span>
+                        <a href="#clearRedirectUrl"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCurrentNavigation()</code>
+                    <code>clearRedirectUrl()</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="89"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:89</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="111"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:111</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the redirect URL to undefined.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="init"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>init</b></span>
+                        <a href="#init"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>init()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="41"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:41</a></div>
                 </td>
             </tr>
 
@@ -252,7 +315,44 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>literal type</code>
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnDestroy"></a>
+                    <span class="name">
+                        <span ><b>ngOnDestroy</b></span>
+                        <a href="#ngOnDestroy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnDestroy()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:49</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
                     </div>
                 </td>
@@ -279,8 +379,8 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:41</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="56"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:56</a></div>
                 </td>
             </tr>
 
@@ -304,9 +404,14 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
                 <td class="col-md-4">
                     <a name="reportAuthGuard"></a>
                     <span class="name">
-                        <span ><b>reportAuthGuard</b></span>
+                        <span class="deprecated-name"><b>reportAuthGuard</b></span>
                         <a href="#reportAuthGuard"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 4.0 - use `saveCurrentNavigationUrl` method instead
                 </td>
             </tr>
             <tr>
@@ -318,8 +423,8 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="60"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:60</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="75"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:75</a></div>
                 </td>
             </tr>
 
@@ -343,9 +448,15 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
                 <td class="col-md-4">
                     <a name="reportNotAuthGuard"></a>
                     <span class="name">
-                        <span ><b>reportNotAuthGuard</b></span>
+                        <span class="deprecated-name"><b>reportNotAuthGuard</b></span>
                         <a href="#reportNotAuthGuard"><span class="icon ion-ios-link"></span></a>
                     </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4 deprecated">
+                    since 4.0 - method not needed anymore. Every visited URL is now
+             remembered automatically as redirect URL on NavigationEnd event.
                 </td>
             </tr>
             <tr>
@@ -357,20 +468,129 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:97</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-description"><p>Saves url of a page that was accessed before entering a page only for not auth users.</p>
+                    <div class="io-description"><div><pre class="line-numbers"><code class="language-none">                    remembered automatically as redirect URL on NavigationEnd event.</code></pre></div></div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="saveCurrentNavigationUrl"></a>
+                    <span class="name">
+                        <span ><b>saveCurrentNavigationUrl</b></span>
+                        <a href="#saveCurrentNavigationUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>saveCurrentNavigationUrl()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:83</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Saves the url of the current navigation as the redirect url, unless
+the url is a part of the user login flow.</p>
 </div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="setRedirectUrl"></a>
+                    <span class="name">
+                        <span ><b>setRedirectUrl</b></span>
+                        <a href="#setRedirectUrl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>setRedirectUrl(url: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="102"
+                            class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:102</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Save the url as the redirect url, unless it&#39;s a part of the user login flow.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>url</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -386,49 +606,23 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="ignoredUrls"></a>
+                    <a name="subscription"></a>
                     <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>ignoredUrls</b></span>
-                        <a href="#ignoredUrls"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Protected</span>
+                        <span ><b>subscription</b></span>
+                        <a href="#subscription"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new Set&lt;string&gt;()</code>
-                    </td>
-                </tr>
-                    <tr>
-                        <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:32</a></div>
-                        </td>
-                    </tr>
-
-
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="lastAuthGuardNavigation"></a>
-                    <span class="name">
-                            <span class="modifier">Private</span>
-                        <span ><b>lastAuthGuardNavigation</b></span>
-                        <a href="#lastAuthGuardNavigation"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-                <tr>
-                    <td class="col-md-4">
-                        <i>Type : </i>    <code>literal type</code>
+                        <i>Type : </i>    <code>Subscription</code>
 
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:33</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="39" class="link-to-prism">projects/core/src/auth/user-auth/services/auth-redirect.service.ts:39</a></div>
                         </td>
                     </tr>
 
@@ -441,10 +635,12 @@ but is automatically redirected to the login page by the AuthGuard, and he signs
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Router } from &#x27;@angular/router&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, OnDestroy } from &#x27;@angular/core&#x27;;
+import { Event, NavigationEnd, Router } from &#x27;@angular/router&#x27;;
+import { Subscription } from &#x27;rxjs&#x27;;
 import { take } from &#x27;rxjs/operators&#x27;;
 import { RoutingService } from &#x27;../../../routing/facade/routing.service&#x27;;
+import { AuthFlowRoutesService } from &#x27;./auth-flow-routes.service&#x27;;
 import { AuthRedirectStorageService } from &#x27;./auth-redirect-storage.service&#x27;;
 
 /**
@@ -453,11 +649,13 @@ import { AuthRedirectStorageService } from &#x27;./auth-redirect-storage.service
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
-export class AuthRedirectService {
+export class AuthRedirectService implements OnDestroy {
   /**
-   * This service is responsible for redirecting to the last page before authorization. &quot;The last page&quot; can be:
+   * This service is responsible for remembering the last page before the authentication. &quot;The last page&quot; can be:
    * 1. Just the previously opened page; or
    * 2. The page that we just tried to open, but AuthGuard cancelled it
+   *
+   * Then, after successful authentication it allows for redirecting to that remembered page via the &#x60;redirect()&#x60; method.
    *
    * For example:
    * 1. The user opens the product page, then clicks /login link and signs in
@@ -469,14 +667,25 @@ export class AuthRedirectService {
   constructor(
     protected routing: RoutingService,
     protected router: Router,
-    protected authRedirectStorageService: AuthRedirectStorageService
-  ) {}
+    protected authRedirectStorageService: AuthRedirectStorageService,
+    protected authFlowRoutesService: AuthFlowRoutesService
+  ) {
+    this.init();
+  }
 
-  private ignoredUrls &#x3D; new Set&lt;string&gt;();
-  private lastAuthGuardNavigation: {
-    url: string;
-    navigationId: number;
-  };
+  protected subscription: Subscription;
+
+  protected init() {
+    this.subscription &#x3D; this.router.events.subscribe((event: Event) &#x3D;&gt; {
+      if (event instanceof NavigationEnd) {
+        this.setRedirectUrl(event.urlAfterRedirects);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
+  }
 
   /**
    * Redirect to saved url (homepage if nothing is saved).
@@ -491,57 +700,53 @@ export class AuthRedirectService {
         } else {
           this.routing.goByUrl(redirectUrl);
         }
-        this.authRedirectStorageService.setRedirectUrl(undefined);
-
-        this.lastAuthGuardNavigation &#x3D; undefined;
+        this.clearRedirectUrl();
       });
   }
 
   /**
    * Saves url of a page that user wanted to access, but wasn&#x27;t yet logged in.
+   *
+   * @deprecated since 4.0 - use &#x60;saveCurrentNavigationUrl&#x60; method instead
    */
-  reportAuthGuard() {
-    const { url, navigationId } &#x3D; this.getCurrentNavigation();
-    this.lastAuthGuardNavigation &#x3D; { url, navigationId };
-    this.authRedirectStorageService.setRedirectUrl(url);
+  reportAuthGuard(): void {
+    this.saveCurrentNavigationUrl();
   }
 
   /**
-   * Saves url of a page that was accessed before entering a page only for not auth users.
+   * Saves the url of the current navigation as the redirect url, unless
+   * the url is a part of the user login flow.
    */
-  reportNotAuthGuard() {
-    const { url, initialUrl, navigationId } &#x3D; this.getCurrentNavigation();
+  saveCurrentNavigationUrl(): void {
+    const navigation &#x3D; this.router.getCurrentNavigation();
+    if (!navigation?.finalUrl) {
+      return;
+    }
 
-    this.ignoredUrls.add(url);
+    const url &#x3D; this.router.serializeUrl(navigation.finalUrl);
+    this.setRedirectUrl(url);
+  }
 
-    // Don&#x27;t save redirect url if you&#x27;ve already come from page with NotAuthGuard (i.e. user has come from login to register)
-    if (!this.ignoredUrls.has(initialUrl)) {
-      // We compare the navigation id to find out if the url cancelled by AuthGuard (i.e. my-account) is more recent
-      // than the last opened page
-      if (
-        !this.lastAuthGuardNavigation ||
-        this.lastAuthGuardNavigation.navigationId &lt; navigationId - 1
-      ) {
-        this.authRedirectStorageService.setRedirectUrl(initialUrl);
+  /**
+   * @deprecated since 4.0 - method not needed anymore. Every visited URL is now
+   *                         remembered automatically as redirect URL on NavigationEnd event.
+   */
+  reportNotAuthGuard() {}
 
-        this.lastAuthGuardNavigation &#x3D; undefined;
-      }
+  /**
+   * Save the url as the redirect url, unless it&#x27;s a part of the user login flow.
+   */
+  setRedirectUrl(url: string): void {
+    if (!this.authFlowRoutesService.isAuthFlow(url)) {
+      this.authRedirectStorageService.setRedirectUrl(url);
     }
   }
 
-  private getCurrentNavigation(): {
-    navigationId: number;
-    url: string;
-    initialUrl: string;
-  } {
-    const initialUrl &#x3D; this.router.url;
-    const navigation &#x3D; this.router.getCurrentNavigation();
-    const url &#x3D; this.router.serializeUrl(navigation.finalUrl);
-    return {
-      navigationId: navigation.id,
-      url,
-      initialUrl,
-    };
+  /**
+   * Sets the redirect URL to undefined.
+   */
+  protected clearRedirectUrl(): void {
+    this.authRedirectStorageService.setRedirectUrl(undefined);
   }
 }
 </code></pre>

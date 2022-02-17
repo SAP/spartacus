@@ -186,8 +186,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">projects/core/src/cart/cart.module.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/cart/cart.module.ts:14</a></div>
                 </td>
             </tr>
 
@@ -209,10 +209,8 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { PageMetaResolver } from &#x27;../cms/page/page-meta.resolver&#x27;;
 import { CartPersistenceModule } from &#x27;./cart-persistence.module&#x27;;
 import { CartEventModule } from &#x27;./event/cart-event.module&#x27;;
-import { CartPageMetaResolver } from &#x27;./services/cart-page-meta.resolver&#x27;;
 import { MultiCartStoreModule } from &#x27;./store/multi-cart-store.module&#x27;;
 
 @NgModule({
@@ -226,13 +224,6 @@ export class CartModule {
   static forRoot(): ModuleWithProviders&lt;CartModule&gt; {
     return {
       ngModule: CartModule,
-      providers: [
-        {
-          provide: PageMetaResolver,
-          useExisting: CartPageMetaResolver,
-          multi: true,
-        },
-      ],
     };
   }
 }

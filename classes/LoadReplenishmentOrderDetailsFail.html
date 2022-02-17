@@ -61,7 +61,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/actions/replenishment-order-details.action.ts</code>
+            <code>feature-libs/order/core/store/actions/replenishment-order-details.action.ts</code>
         </p>
 
 
@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/actions/replenishment-order-details.action.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-order-details.action.ts:48</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">projects/core/src/user/store/actions/replenishment-order-details.action.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-order-details.action.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/actions/replenishment-order-details.action.ts:46</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="48" class="link-to-prism">feature-libs/order/core/store/actions/replenishment-order-details.action.ts:48</a></div>
                         </td>
                     </tr>
 
@@ -221,30 +221,32 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { ReplenishmentOrder } from &#x27;../../../model/replenishment-order.model&#x27;;
-import { PROCESS_FEATURE } from &#x27;../../../process/store/process-state&#x27;;
-import { StateUtils } from &#x27;../../../state/utils/index&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  PROCESS_FEATURE,
+  ReplenishmentOrder,
+  StateUtils,
+} from &#x27;@spartacus/core&#x27;;
 import {
   CANCEL_REPLENISHMENT_ORDER_PROCESS_ID,
-  USER_REPLENISHMENT_ORDER_DETAILS,
-} from &#x27;../user-state&#x27;;
+  REPLENISHMENT_ORDER_DETAILS,
+} from &#x27;../order-state&#x27;;
 
 export const LOAD_REPLENISHMENT_ORDER_DETAILS &#x3D;
-  &#x27;[User] Load Replenishment Order Details&#x27;;
+  &#x27;[Order] Load Replenishment Order Details&#x27;;
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS &#x3D;
-  &#x27;[User] Load Replenishment Order Details Success&#x27;;
+  &#x27;[Order] Load Replenishment Order Details Success&#x27;;
 export const LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL &#x3D;
-  &#x27;[User] Load Replenishment Order Details Fail&#x27;;
+  &#x27;[Order] Load Replenishment Order Details Fail&#x27;;
 export const ClEAR_REPLENISHMENT_ORDER_DETAILS &#x3D;
-  &#x27;[User] Clear Replenishment Order Details&#x27;;
+  &#x27;[Order] Clear Replenishment Order Details&#x27;;
 
-export const CANCEL_REPLENISHMENT_ORDER &#x3D; &#x27;[User] Cancel Replenishment Order&#x27;;
+export const CANCEL_REPLENISHMENT_ORDER &#x3D; &#x27;[Order] Cancel Replenishment Order&#x27;;
 export const CANCEL_REPLENISHMENT_ORDER_SUCCESS &#x3D;
-  &#x27;[User] Cancel Replenishment Order Success&#x27;;
+  &#x27;[Order] Cancel Replenishment Order Success&#x27;;
 export const CANCEL_REPLENISHMENT_ORDER_FAIL &#x3D;
-  &#x27;[User] Cancel Replenishment Order Fail&#x27;;
+  &#x27;[Order] Cancel Replenishment Order Fail&#x27;;
 export const CLEAR_CANCEL_REPLENISHMENT_ORDER &#x3D;
-  &#x27;[User] Clear Cancel Replenishment Order&#x27;;
+  &#x27;[Order] Clear Cancel Replenishment Order&#x27;;
 
 export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
   readonly type &#x3D; LOAD_REPLENISHMENT_ORDER_DETAILS;
@@ -254,28 +256,28 @@ export class LoadReplenishmentOrderDetails extends StateUtils.LoaderLoadAction {
       replenishmentOrderCode: string;
     }
   ) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 
 export class LoadReplenishmentOrderDetailsSuccess extends StateUtils.LoaderSuccessAction {
   readonly type &#x3D; LOAD_REPLENISHMENT_ORDER_DETAILS_SUCCESS;
   constructor(public payload: ReplenishmentOrder) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 
 export class LoadReplenishmentOrderDetailsFail extends StateUtils.LoaderFailAction {
   readonly type &#x3D; LOAD_REPLENISHMENT_ORDER_DETAILS_FAIL;
   constructor(public payload: any) {
-    super(USER_REPLENISHMENT_ORDER_DETAILS, payload);
+    super(REPLENISHMENT_ORDER_DETAILS, payload);
   }
 }
 
 export class ClearReplenishmentOrderDetails extends StateUtils.LoaderResetAction {
   readonly type &#x3D; ClEAR_REPLENISHMENT_ORDER_DETAILS;
   constructor() {
-    super(USER_REPLENISHMENT_ORDER_DETAILS);
+    super(REPLENISHMENT_ORDER_DETAILS);
   }
 }
 

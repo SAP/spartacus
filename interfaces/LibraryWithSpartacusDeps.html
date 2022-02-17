@@ -344,7 +344,25 @@ function handleLibConfigs(
       &#x60;${library.directory}/tsconfig.lib.json&#x60;
     );
     if (libraryTsConfigPaths.length) {
-      let dependenciesEntryPoints &#x3D; library.spartacusDependencies
+      // Collect all spartacus dependencies for this lib (also dependencies of dependencies)
+      let previousSize &#x3D; 0;
+      const dependencies &#x3D; new Set(library.spartacusDependencies);
+      // We collect the dependencies till we have keep adding.
+      while (dependencies.size !&#x3D;&#x3D; previousSize) {
+        previousSize &#x3D; dependencies.size;
+        let subDependencies &#x3D; new Set&lt;string&gt;();
+        dependencies.forEach((dependency) &#x3D;&gt; {
+          libraries[dependency].spartacusDependencies.forEach(
+            (subDependency) &#x3D;&gt; {
+              subDependencies.add(subDependency);
+            }
+          );
+        });
+        subDependencies.forEach((subDependency) &#x3D;&gt; {
+          dependencies.add(subDependency);
+        });
+      }
+      let dependenciesEntryPoints &#x3D; Array.from(dependencies)
         // @spartacus/schematics library should be used only in &#x60;tsconfig.schematics.json&#x60; file.
         .filter((dependency) &#x3D;&gt; dependency !&#x3D;&#x3D; SPARTACUS_SCHEMATICS)
         .map((library) &#x3D;&gt; libraries[library])
@@ -353,7 +371,7 @@ function handleLibConfigs(
             (acc, entry) &#x3D;&gt; {
               return {
                 ...acc,
-                // In tsconfig.lib.json files we reference built paths. eg. &#x60;@spartacus/storefront&#x60;: [&#x27;dist/storefrontlib/src/public_api&#x27;]
+                // In tsconfig.lib.json files we reference built paths. eg. &#x60;@spartacus/storefront&#x60;: [&#x27;dist/storefrontlib/public_api&#x27;]
                 [entry.entryPoint]: [
                   joinPaths(&#x27;dist&#x27;, dependency.distDir, entry.directory),
                 ],
@@ -395,7 +413,7 @@ function handleRootConfigs(
     (acc, curr) &#x3D;&gt; {
       curr.entryPoints.forEach((entryPoint) &#x3D;&gt; {
         acc[entryPoint.entryPoint] &#x3D; [
-          // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/src/public_api&#x60;
+          // We reference source files entry points in these configs. E.g. &#x60;projects/storefrontlib/public_api&#x60;
           joinPaths(curr.directory, entryPoint.directory, entryPoint.entryFile),
         ];
       });

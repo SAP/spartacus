@@ -14,13 +14,13 @@
 <title>cluster_CheckoutOrderSummaryModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 408,-230.8 408,-32.8 8,-32.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_CheckoutOrderSummaryModule_exports</title>
-<polygon fill="none" stroke="black" points="87,-170.8 87,-222.8 329,-222.8 329,-170.8 87,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_CheckoutOrderSummaryModule_declarations</title>
 <polygon fill="none" stroke="black" points="162,-40.8 162,-92.8 400,-92.8 400,-40.8 162,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_CheckoutOrderSummaryModule_exports</title>
+<polygon fill="none" stroke="black" points="87,-170.8 87,-222.8 329,-222.8 329,-170.8 87,-170.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_CheckoutOrderSummaryModule_imports</title>

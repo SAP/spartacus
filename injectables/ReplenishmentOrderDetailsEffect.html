@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/user/store/effects/replenishment-order-details.effect.ts</code>
+            <code>feature-libs/order/core/store/effects/replenishment-order-details.effect.ts</code>
         </p>
 
 
@@ -101,12 +101,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(actions$: Actions, replenishmentOrderConnector: <a href="../injectables/UserReplenishmentOrderConnector.html" target="_self">UserReplenishmentOrderConnector</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>)</code>
+<code>constructor(actions$: Actions, replenishmentOrderConnector: <a href="../injectables/ReplenishmentOrderConnector.html" target="_self">ReplenishmentOrderConnector</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="73" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:73</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="77" class="link-to-prism">feature-libs/order/core/store/effects/replenishment-order-details.effect.ts:77</a></div>
                             </td>
                         </tr>
 
@@ -139,7 +139,7 @@
                                                         <td>replenishmentOrderConnector</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/UserReplenishmentOrderConnector.html" target="_self" >UserReplenishmentOrderConnector</a></code>
+                                                                        <code><a href="../injectables/ReplenishmentOrderConnector.html" target="_self" >ReplenishmentOrderConnector</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -187,45 +187,45 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt;</code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.ReplenishmentOrderDetailsAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
-    map((action: UserActions.CancelReplenishmentOrder) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .cancelReplenishmentOrder(
-          payload.userId,
-          payload.replenishmentOrderCode
-        )
-        .pipe(
-          map(
-            (replenishmentOrder: ReplenishmentOrder) &#x3D;&gt;
-              new UserActions.CancelReplenishmentOrderSuccess(
-                replenishmentOrder
-              )
-          ),
-          catchError((error) &#x3D;&gt; {
-            error?.error?.errors.forEach((err) &#x3D;&gt;
-              this.globalMessageService.add(
-                err.message,
-                GlobalMessageType.MSG_TYPE_ERROR
-              )
-            );
+      ofType(OrderActions.CANCEL_REPLENISHMENT_ORDER),
+      map((action: OrderActions.CancelReplenishmentOrder) &#x3D;&gt; action.payload),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .cancelReplenishmentOrder(
+            payload.userId,
+            payload.replenishmentOrderCode
+          )
+          .pipe(
+            map(
+              (replenishmentOrder: ReplenishmentOrder) &#x3D;&gt;
+                new OrderActions.CancelReplenishmentOrderSuccess(
+                  replenishmentOrder
+                )
+            ),
+            catchError((error) &#x3D;&gt; {
+              error?.error?.errors.forEach((err: any) &#x3D;&gt;
+                this.globalMessageService.add(
+                  err.message,
+                  GlobalMessageType.MSG_TYPE_ERROR
+                )
+              );
 
-            return of(
-              new UserActions.CancelReplenishmentOrderFail(
-                normalizeHttpError(error)
-              )
-            );
-          })
-        );
-    })
-  )</code>
+              return of(
+                new OrderActions.CancelReplenishmentOrderFail(
+                  normalizeHttpError(error)
+                )
+              );
+            })
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -239,7 +239,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="41" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:41</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">feature-libs/order/core/store/effects/replenishment-order-details.effect.ts:44</a></div>
                         </td>
                     </tr>
 
@@ -259,34 +259,36 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt;</code>
+                        <i>Type : </i>    <code>Observable&lt;OrderActions.ReplenishmentOrderDetailsAction&gt;</code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
-    map((action: UserActions.LoadReplenishmentOrderDetails) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .load(payload.userId, payload.replenishmentOrderCode)
-        .pipe(
-          map((replenishmentOrder: ReplenishmentOrder) &#x3D;&gt; {
-            return new UserActions.LoadReplenishmentOrderDetailsSuccess(
-              replenishmentOrder
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.LoadReplenishmentOrderDetailsFail(
-                normalizeHttpError(error)
+      ofType(OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
+      map(
+        (action: OrderActions.LoadReplenishmentOrderDetails) &#x3D;&gt; action.payload
+      ),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .load(payload.userId, payload.replenishmentOrderCode)
+          .pipe(
+            map((replenishmentOrder: ReplenishmentOrder) &#x3D;&gt; {
+              return new OrderActions.LoadReplenishmentOrderDetailsSuccess(
+                replenishmentOrder
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new OrderActions.LoadReplenishmentOrderDetailsFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -300,7 +302,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">projects/core/src/user/store/effects/replenishment-order-details.effect.ts:17</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="17" class="link-to-prism">feature-libs/order/core/store/effects/replenishment-order-details.effect.ts:17</a></div>
                         </td>
                     </tr>
 
@@ -315,81 +317,85 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
-import { Observable, of } from &#x27;rxjs&#x27;;
-import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
 import {
   GlobalMessageService,
   GlobalMessageType,
-} from &#x27;../../../global-message/index&#x27;;
-import { ReplenishmentOrder } from &#x27;../../../model/replenishment-order.model&#x27;;
-import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
-import { UserReplenishmentOrderConnector } from &#x27;../../connectors/replenishment-order/user-replenishment-order.connector&#x27;;
-import { UserActions } from &#x27;../actions/index&#x27;;
+  normalizeHttpError,
+  ReplenishmentOrder,
+} from &#x27;@spartacus/core&#x27;;
+import { Observable, of } from &#x27;rxjs&#x27;;
+import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
+import { ReplenishmentOrderConnector } from &#x27;../../connectors/replenishment-order.connector&#x27;;
+import { OrderActions } from &#x27;../actions/index&#x27;;
 
 @Injectable()
 export class ReplenishmentOrderDetailsEffect {
   @Effect()
-  loadReplenishmentOrderDetails$: Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
-    map((action: UserActions.LoadReplenishmentOrderDetails) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .load(payload.userId, payload.replenishmentOrderCode)
-        .pipe(
-          map((replenishmentOrder: ReplenishmentOrder) &#x3D;&gt; {
-            return new UserActions.LoadReplenishmentOrderDetailsSuccess(
-              replenishmentOrder
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new UserActions.LoadReplenishmentOrderDetailsFail(
-                normalizeHttpError(error)
+  loadReplenishmentOrderDetails$: Observable&lt;OrderActions.ReplenishmentOrderDetailsAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(OrderActions.LOAD_REPLENISHMENT_ORDER_DETAILS),
+      map(
+        (action: OrderActions.LoadReplenishmentOrderDetails) &#x3D;&gt; action.payload
+      ),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .load(payload.userId, payload.replenishmentOrderCode)
+          .pipe(
+            map((replenishmentOrder: ReplenishmentOrder) &#x3D;&gt; {
+              return new OrderActions.LoadReplenishmentOrderDetailsSuccess(
+                replenishmentOrder
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new OrderActions.LoadReplenishmentOrderDetailsFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   @Effect()
-  cancelReplenishmentOrder$: Observable&lt;UserActions.ReplenishmentOrderDetailsAction&gt; &#x3D; this.actions$.pipe(
-    ofType(UserActions.CANCEL_REPLENISHMENT_ORDER),
-    map((action: UserActions.CancelReplenishmentOrder) &#x3D;&gt; action.payload),
-    switchMap((payload) &#x3D;&gt; {
-      return this.replenishmentOrderConnector
-        .cancelReplenishmentOrder(
-          payload.userId,
-          payload.replenishmentOrderCode
-        )
-        .pipe(
-          map(
-            (replenishmentOrder: ReplenishmentOrder) &#x3D;&gt;
-              new UserActions.CancelReplenishmentOrderSuccess(
-                replenishmentOrder
-              )
-          ),
-          catchError((error) &#x3D;&gt; {
-            error?.error?.errors.forEach((err) &#x3D;&gt;
-              this.globalMessageService.add(
-                err.message,
-                GlobalMessageType.MSG_TYPE_ERROR
-              )
-            );
+  cancelReplenishmentOrder$: Observable&lt;OrderActions.ReplenishmentOrderDetailsAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(OrderActions.CANCEL_REPLENISHMENT_ORDER),
+      map((action: OrderActions.CancelReplenishmentOrder) &#x3D;&gt; action.payload),
+      switchMap((payload) &#x3D;&gt; {
+        return this.replenishmentOrderConnector
+          .cancelReplenishmentOrder(
+            payload.userId,
+            payload.replenishmentOrderCode
+          )
+          .pipe(
+            map(
+              (replenishmentOrder: ReplenishmentOrder) &#x3D;&gt;
+                new OrderActions.CancelReplenishmentOrderSuccess(
+                  replenishmentOrder
+                )
+            ),
+            catchError((error) &#x3D;&gt; {
+              error?.error?.errors.forEach((err: any) &#x3D;&gt;
+                this.globalMessageService.add(
+                  err.message,
+                  GlobalMessageType.MSG_TYPE_ERROR
+                )
+              );
 
-            return of(
-              new UserActions.CancelReplenishmentOrderFail(
-                normalizeHttpError(error)
-              )
-            );
-          })
-        );
-    })
-  );
+              return of(
+                new OrderActions.CancelReplenishmentOrderFail(
+                  normalizeHttpError(error)
+                )
+              );
+            })
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,
-    private replenishmentOrderConnector: UserReplenishmentOrderConnector,
+    private replenishmentOrderConnector: ReplenishmentOrderConnector,
     private globalMessageService: GlobalMessageService
   ) {}
 }

@@ -78,6 +78,9 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
+                                <a href="#isCartValidationEnabled" >isCartValidationEnabled</a>
+                            </li>
+                            <li>
                                 <a href="#isSelectiveCartEnabled" >isSelectiveCartEnabled</a>
                             </li>
                         </ul>
@@ -150,6 +153,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="isCartValidationEnabled"></a>
+                    <span class="name">
+                        <span ><b>isCartValidationEnabled</b></span>
+                        <a href="#isCartValidationEnabled"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>isCartValidationEnabled()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="14"
+                            class="link-to-prism">projects/core/src/cart/services/cart-config.service.ts:14</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="isSelectiveCartEnabled"></a>
                     <span class="name">
                         <span ><b>isSelectiveCartEnabled</b></span>
@@ -200,6 +240,10 @@ export class CartConfigService {
 
   isSelectiveCartEnabled(): boolean {
     return Boolean(this.config?.cart?.selectiveCart?.enabled);
+  }
+
+  isCartValidationEnabled(): boolean {
+    return Boolean(this.config?.cart?.validation?.enabled);
   }
 }
 </code></pre>

@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/events/home/home-page-event.builder.ts</code>
+            <code>projects/storefrontlib/events/home/home-page-event.builder.ts</code>
         </p>
 
 
@@ -82,10 +82,6 @@
                                 <a href="#buildHomePageEvent" >buildHomePageEvent</a>
                             </li>
                             <li>
-                                    <span class="modifier">Private</span>
-                                <a href="#createDeprecatedPageEvent" >createDeprecatedPageEvent</a>
-                            </li>
-                            <li>
                                     <span class="modifier">Protected</span>
                                 <a href="#register" >register</a>
                             </li>
@@ -107,12 +103,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(eventService: <a href="../injectables/EventService.html" target="_self">EventService</a>, featureConfigService?: <a href="../injectables/FeatureConfigService.html" target="_self">FeatureConfigService</a>)</code>
+<code>constructor(eventService: <a href="../injectables/EventService.html" target="_self">EventService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">projects/storefrontlib/src/events/home/home-page-event.builder.ts:16</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">projects/storefrontlib/events/home/home-page-event.builder.ts:11</a></div>
                             </td>
                         </tr>
 
@@ -138,18 +134,6 @@
                                                   
                                                     <td>
                                                             No
-                                                    </td>
-                                                    
-                                                </tr>
-                                                <tr>
-                                                        <td>featureConfigService</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/FeatureConfigService.html" target="_self" >FeatureConfigService</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
                                                     </td>
                                                     
                                                 </tr>
@@ -189,8 +173,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="29"
-                            class="link-to-prism">projects/storefrontlib/src/events/home/home-page-event.builder.ts:29</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="20"
+                            class="link-to-prism">projects/storefrontlib/events/home/home-page-event.builder.ts:20</a></div>
                 </td>
             </tr>
 
@@ -201,76 +185,6 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >Observable&lt;HomePageEvent&gt;</a></code>
 
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="createDeprecatedPageEvent"></a>
-                    <span class="name">
-                        <span class="modifier">Private</span>
-                        <span ><b>createDeprecatedPageEvent</b></span>
-                        <a href="#createDeprecatedPageEvent"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createDeprecatedPageEvent(navigationEvent: <a href="../classes/NavigationEvent.html" target="_self">NavigationEvent</a>)</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="41"
-                            class="link-to-prism">projects/storefrontlib/src/events/home/home-page-event.builder.ts:41</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                    <div class="io-description">
-                        <b>Parameters :</b>
-                        <table class="params">
-                            <thead>
-                                <tr>
-                                    <td>Name</td>
-                                    <td>Type</td>
-                                    <td>Optional</td>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>navigationEvent</td>
-                                    <td>
-                                                <code><a href="../classes/NavigationEvent.html" target="_self" >NavigationEvent</a></code>
-                                    </td>
-
-                                    <td>
-                                        No
-                                    </td>
-
-
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div>
-                    </div>
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../interfaces/Page.html" target="_self" >PageEvent | undefined</a></code>
-
-                    </div>
-                    <div class="io-description">
-                        
                     </div>
                 </td>
             </tr>
@@ -298,8 +212,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/storefrontlib/src/events/home/home-page-event.builder.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="16"
+                            class="link-to-prism">projects/storefrontlib/events/home/home-page-event.builder.ts:16</a></div>
                 </td>
             </tr>
 
@@ -322,26 +236,17 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import {
-  createFrom,
-  EventService,
-  FeatureConfigService,
-} from &#x27;@spartacus/core&#x27;;
+import { createFrom, EventService } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 import { filter, map } from &#x27;rxjs/operators&#x27;;
 import { NavigationEvent } from &#x27;../navigation/navigation.event&#x27;;
-import { PageEvent } from &#x27;../page/page.events&#x27;;
 import { HomePageEvent } from &#x27;./home-page.events&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
 })
 export class HomePageEventBuilder {
-  constructor(
-    protected eventService: EventService,
-    // TODO: #10896 - remove this
-    /** @deprecated @since 3.1 - this will be removed in 4.0 */ protected featureConfigService?: FeatureConfigService
-  ) {
+  constructor(protected eventService: EventService) {
     this.register();
   }
 
@@ -354,23 +259,10 @@ export class HomePageEventBuilder {
       filter((navigationEvent) &#x3D;&gt; navigationEvent.semanticRoute &#x3D;&#x3D;&#x3D; &#x27;home&#x27;),
       map((navigationEvent) &#x3D;&gt;
         createFrom(HomePageEvent, {
-          ...this.createDeprecatedPageEvent(navigationEvent),
-          navigation: { ...navigationEvent },
+          navigation: navigationEvent,
         })
       )
     );
-  }
-
-  private createDeprecatedPageEvent(
-    navigationEvent: NavigationEvent
-  ): PageEvent | undefined {
-    if (
-      !this.featureConfigService ||
-      this.featureConfigService.isLevel(&#x27;!3.1&#x27;)
-    ) {
-      return { ...navigationEvent };
-    }
-    return undefined;
   }
 }
 </code></pre>

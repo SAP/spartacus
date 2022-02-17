@@ -113,7 +113,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:63</a></div>
                             </td>
                         </tr>
 
@@ -176,7 +176,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="58" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:58</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="64" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:64</a></div>
                         </td>
                     </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="57" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:57</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="63" class="link-to-prism">feature-libs/cart/saved-cart/core/store/actions/saved-cart.action.ts:63</a></div>
                         </td>
                     </tr>
 
@@ -223,6 +223,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from &#x27;@spartacus/core&#x27;;
 import {
+  SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
   SAVED_CART_RESTORE_CART_PROCESS_ID,
   SAVED_CART_SAVE_CART_PROCESS_ID,
@@ -251,6 +252,11 @@ export const CLEAR_SAVE_CART &#x3D; &#x27;[Saved Cart] Clear Save Cart&#x27;;
 export const EDIT_SAVED_CART &#x3D; &#x27;[Saved Cart] Edit Saved Cart&#x27;;
 export const EDIT_SAVED_CART_SUCCESS &#x3D; &#x27;[Saved Cart] Edit Saved Cart Success&#x27;;
 export const EDIT_SAVED_CART_FAIL &#x3D; &#x27;[Saved Cart] Edit Saved Cart Fail&#x27;;
+
+export const CLONE_SAVED_CART &#x3D; &#x27;[Saved Cart] Clone Saved Cart&#x27;;
+export const CLONE_SAVED_CART_SUCCESS &#x3D; &#x27;[Saved Cart] Clone Saved Cart Success&#x27;;
+export const CLONE_SAVED_CART_FAIL &#x3D; &#x27;[Saved Cart] Clone Saved Cart Fail&#x27;;
+export const CLEAR_CLONE_SAVED_CART &#x3D; &#x27;[Saved Cart] Clear Clone Saved Cart&#x27;;
 
 export class LoadSavedCart extends StateUtils.EntityLoadAction {
   readonly type &#x3D; LOAD_SAVED_CART;
@@ -461,6 +467,53 @@ export class EditSavedCartFail extends StateUtils.EntityFailAction {
   }
 }
 
+export class CloneSavedCart extends StateUtils.EntityLoadAction {
+  readonly type &#x3D; CLONE_SAVED_CART;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
+export class CloneSavedCartSuccess extends StateUtils.EntitySuccessAction {
+  readonly type &#x3D; CLONE_SAVED_CART_SUCCESS;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
+export class CloneSavedCartFail extends StateUtils.EntityFailAction {
+  readonly type &#x3D; CLONE_SAVED_CART_FAIL;
+  constructor(
+    public payload: {
+      userId: string;
+      cartId: string;
+      saveCartName?: string;
+      error: any;
+    }
+  ) {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID, payload.error);
+  }
+}
+
+export class ClearCloneSavedCart extends StateUtils.EntityLoaderResetAction {
+  readonly type &#x3D; CLEAR_CLONE_SAVED_CART;
+  constructor() {
+    super(PROCESS_FEATURE, SAVED_CART_CLONE_CART_PROCESS_ID);
+  }
+}
+
 export type SavedCartActions &#x3D;
   | LoadSavedCart
   | LoadSavedCartSuccess
@@ -479,7 +532,11 @@ export type SavedCartActions &#x3D;
   | ClearSaveCart
   | EditSavedCart
   | EditSavedCartSuccess
-  | EditSavedCartFail;
+  | EditSavedCartFail
+  | CloneSavedCart
+  | CloneSavedCartSuccess
+  | CloneSavedCartFail
+  | ClearCloneSavedCart;
 </code></pre>
     </div>
 </div>

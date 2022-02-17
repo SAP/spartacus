@@ -303,7 +303,7 @@ It is useful if you need synchronously access state saved with <code>syncWithSto
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>T</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >T | undefined</a></code>
 
                     </div>
                     <div class="io-description">
@@ -408,12 +408,12 @@ Active cart for the <code>electronics</code> base site will be stored under <cod
 import { Observable, of, Subscription } from &#x27;rxjs&#x27;;
 import { map, tap, withLatestFrom } from &#x27;rxjs/operators&#x27;;
 import { StorageSyncType } from &#x27;../../state/config/state-config&#x27;;
+import { WindowRef } from &#x27;../../window/window-ref&#x27;;
 import {
   getStorage,
   persistToStorage,
   readFromStorage,
-} from &#x27;../../state/reducers/storage-sync.reducer&#x27;;
-import { WindowRef } from &#x27;../../window/window-ref&#x27;;
+} from &#x27;../utils/browser-storage&#x27;;
 
 @Injectable({
   providedIn: &#x27;root&#x27;,
@@ -452,7 +452,7 @@ export class StatePersistenceService {
     state$: Observable&lt;T&gt;;
     context$?: Observable&lt;string | Array&lt;string&gt;&gt;;
     storageType?: StorageSyncType;
-    onRead?: (stateFromStorage: T) &#x3D;&gt; void;
+    onRead?: (stateFromStorage: T | undefined) &#x3D;&gt; void;
   }): Subscription {
     const storage &#x3D; getStorage(storageType, this.winRef);
 
@@ -466,7 +466,7 @@ export class StatePersistenceService {
             return readFromStorage(
               storage,
               this.generateKeyWithContext(context, key)
-            ) as T;
+            ) as T | undefined;
           }),
           tap((state) &#x3D;&gt; onRead(state))
         )
@@ -504,20 +504,22 @@ export class StatePersistenceService {
     key: string;
     context?: string | Array&lt;string&gt;;
     storageType?: StorageSyncType;
-  }): T {
+  }): T | undefined {
     const storage &#x3D; getStorage(storageType, this.winRef);
 
     return readFromStorage(
       storage,
       this.generateKeyWithContext(context, key)
-    ) as T;
+    ) as T | undefined;
   }
 
   protected generateKeyWithContext(
     context: string | Array&lt;string&gt;,
     key: string
   ): string {
-    return &#x60;spartacus⚿${[].concat(context).join(&#x27;⚿&#x27;)}⚿${key}&#x60;;
+    return &#x60;spartacus⚿${([] as Array&lt;string&gt;)
+      .concat(context)
+      .join(&#x27;⚿&#x27;)}⚿${key}&#x60;;
   }
 }
 </code></pre>

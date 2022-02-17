@@ -114,7 +114,7 @@
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>literal type</code>
+                        <i>Type : </i>        <code><a href="../interfaces/RoutingConfigDefinition.html" target="_self" >RoutingConfigDefinition</a></code>
 
                     </td>
                 </tr>
@@ -133,9 +133,9 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { RoutesConfig } from &#x27;../routes-config&#x27;;
-import { Injectable } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Config } from &#x27;../../../config/config-tokens&#x27;;
+import { RoutesConfig } from &#x27;../routes-config&#x27;;
 
 export const enum RouteLoadStrategy {
   /**
@@ -153,22 +153,28 @@ export const enum RouteLoadStrategy {
   useExisting: Config,
 })
 export abstract class RoutingConfig {
-  routing?: {
-    /**
-     * Configuration of semantic routes. Key is route&#x27;s name. Value is the config specific to this route.
-     */
-    routes?: RoutesConfig;
+  routing?: RoutingConfigDefinition;
+}
 
-    /**
-     * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag &#x60;protected: false&#x60;
-     */
-    protected?: boolean;
+export interface RoutingConfigDefinition {
+  /**
+   * Configuration of semantic routes. Key is route&#x27;s name. Value is the config specific to this route.
+   */
+  routes?: RoutesConfig;
 
-    /**
-     * Global load strategy which is used as a fallback for loading data on each navigation
-     */
-    loadStrategy?: RouteLoadStrategy;
-  };
+  /**
+   * When true, it closes the storefront for unauthorized users, except from routes that have individual config flag &#x60;protected: false&#x60;
+   */
+  protected?: boolean;
+
+  /**
+   * Global load strategy which is used as a fallback for loading data on each navigation
+   */
+  loadStrategy?: RouteLoadStrategy;
+}
+
+declare module &#x27;../../../config/config-tokens&#x27; {
+  interface Config extends RoutingConfig {}
 }
 </code></pre>
     </div>

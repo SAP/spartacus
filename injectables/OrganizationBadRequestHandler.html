@@ -178,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="73"
-                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:73</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="76"
+                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:76</a></div>
                 </td>
             </tr>
 
@@ -252,7 +252,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:80</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:83</a></code>
 </div>
                 </td>
             </tr>
@@ -295,7 +295,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:26</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:29</a></code>
 </div>
                 </td>
             </tr>
@@ -377,8 +377,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="58"
-                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:58</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="61"
+                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:61</a></div>
                 </td>
             </tr>
 
@@ -475,7 +475,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:22</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:25</a></code>
 </div>
                 </td>
             </tr>
@@ -545,8 +545,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:50</a></div>
                 </td>
             </tr>
 
@@ -692,7 +692,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:19</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:21</a></div>
                         </td>
                     </tr>
 
@@ -750,7 +750,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="19" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -776,7 +776,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:20</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/bad-request/bad-request.handler.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -805,9 +805,12 @@ import {
 export class OrganizationBadRequestHandler extends HttpErrorHandler {
   responseStatus &#x3D; HttpResponseStatus.BAD_REQUEST;
 
-  protected costCenterMask &#x3D; /ambiguous unique keys \{code\&#x3D;(.*)\} for model B2BCostCenterModel/;
-  protected unitMask &#x3D; /ambiguous unique keys \{uid\&#x3D;(.*)\} for model B2BUnitModel/;
-  protected permissionMask &#x3D; /Approval Permission with code\: (.*) already exists\./;
+  protected costCenterMask &#x3D;
+    /ambiguous unique keys \{code\&#x3D;(.*)\} for model B2BCostCenterModel/;
+  protected unitMask &#x3D;
+    /ambiguous unique keys \{uid\&#x3D;(.*)\} for model B2BUnitModel/;
+  protected permissionMask &#x3D;
+    /Approval Permission with code\: (.*) already exists\./;
   protected unknownMask &#x3D; /Model saving error\./;
 
   hasMatch(errorResponse: HttpErrorResponse): boolean {

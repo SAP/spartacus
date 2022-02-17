@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts</code>
+            <code>feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts</code>
         </p>
 
 
@@ -83,11 +83,27 @@
                             </li>
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#getCartEndpoint" >getCartEndpoint</a>
+                                <a href="#getCreateDeliveryAddressEndpoint" >getCreateDeliveryAddressEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getDeliveryModeEndpoint" >getDeliveryModeEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getDeliveryModesEndpoint" >getDeliveryModesEndpoint</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
                                 <a href="#getMode" >getMode</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getSetDeliveryAddressEndpoint" >getSetDeliveryAddressEndpoint</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getSetDeliveryModeEndpoint" >getSetDeliveryModeEndpoint</a>
                             </li>
                             <li>
                                     <span class="modifier">Public</span>
@@ -124,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="18" class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:18</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="20" class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:20</a></div>
                             </td>
                         </tr>
 
@@ -213,8 +229,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:79</a></div>
                 </td>
             </tr>
 
@@ -289,26 +305,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getCartEndpoint"></a>
+                    <a name="getCreateDeliveryAddressEndpoint"></a>
                     <span class="name">
                         <span class="modifier">Protected</span>
-                        <span ><b>getCartEndpoint</b></span>
-                        <a href="#getCartEndpoint"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>getCreateDeliveryAddressEndpoint</b></span>
+                        <a href="#getCreateDeliveryAddressEndpoint"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getCartEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>getCreateDeliveryAddressEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="25"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:25</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="27"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:27</a></div>
                 </td>
             </tr>
 
@@ -329,6 +345,182 @@
                             <tbody>
                                 <tr>
                                     <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeliveryModeEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getDeliveryModeEndpoint</b></span>
+                        <a href="#getDeliveryModeEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDeliveryModeEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="50"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:50</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getDeliveryModesEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getDeliveryModesEndpoint</b></span>
+                        <a href="#getDeliveryModesEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getDeliveryModesEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="73"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:73</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
                                     <td>
                                                 <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
                                     </td>
@@ -377,8 +569,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="119"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:119</a></div>
                 </td>
             </tr>
 
@@ -441,6 +633,194 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getSetDeliveryAddressEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getSetDeliveryAddressEndpoint</b></span>
+                        <a href="#getSetDeliveryAddressEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSetDeliveryAddressEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, addressId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="39"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:39</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>addressId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getSetDeliveryModeEndpoint"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getSetDeliveryModeEndpoint</b></span>
+                        <a href="#getSetDeliveryModeEndpoint"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getSetDeliveryModeEndpoint(userId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, cartId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, deliveryModeId?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="59"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:59</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>userId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>cartId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>deliveryModeId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getSupportedModes"></a>
                     <span class="name">
                         <span class="modifier">Public</span>
@@ -459,8 +839,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="82"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:82</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:125</a></div>
                 </td>
             </tr>
 
@@ -541,8 +921,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="97"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:97</a></div>
                 </td>
             </tr>
 
@@ -635,8 +1015,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">projects/core/src/occ/adapters/checkout/occ-checkout-delivery.adapter.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="108"
+                            class="link-to-prism">feature-libs/checkout/occ/adapters/occ-checkout-delivery.adapter.ts:108</a></div>
                 </td>
             </tr>
 
@@ -715,19 +1095,21 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { HttpClient, HttpHeaders } from &#x27;@angular/common/http&#x27;;
 import { Injectable } from &#x27;@angular/core&#x27;;
-import { Observable } from &#x27;rxjs&#x27;;
-import { pluck } from &#x27;rxjs/operators&#x27;;
-import { CheckoutDeliveryAdapter } from &#x27;../../../checkout/connectors/delivery/checkout-delivery.adapter&#x27;;
-import { DELIVERY_MODE_NORMALIZER } from &#x27;../../../checkout/connectors/delivery/converters&#x27;;
-import { Address } from &#x27;../../../model/address.model&#x27;;
-import { DeliveryMode } from &#x27;../../../model/order.model&#x27;;
 import {
+  CheckoutDeliveryAdapter,
+  DELIVERY_MODE_NORMALIZER,
+} from &#x27;@spartacus/checkout/core&#x27;;
+import {
+  Address,
   ADDRESS_NORMALIZER,
   ADDRESS_SERIALIZER,
-} from &#x27;../../../user/connectors/address/converters&#x27;;
-import { ConverterService } from &#x27;../../../util/converter.service&#x27;;
-import { Occ } from &#x27;../../occ-models/occ.models&#x27;;
-import { OccEndpointsService } from &#x27;../../services/occ-endpoints.service&#x27;;
+  ConverterService,
+  DeliveryMode,
+  Occ,
+  OccEndpointsService,
+} from &#x27;@spartacus/core&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { map, pluck } from &#x27;rxjs/operators&#x27;;
 
 @Injectable()
 export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
@@ -737,9 +1119,56 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     protected converter: ConverterService
   ) {}
 
-  protected getCartEndpoint(userId: string): string {
-    const cartEndpoint &#x3D; &#x27;users/&#x27; + userId + &#x27;/carts/&#x27;;
-    return this.occEndpoints.getEndpoint(cartEndpoint);
+  protected getCreateDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string
+  ): string {
+    return this.occEndpoints.buildUrl(&#x27;createDeliveryAddress&#x27;, {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
+  protected getSetDeliveryAddressEndpoint(
+    userId: string,
+    cartId: string,
+    addressId?: string
+  ): string {
+    return this.occEndpoints.buildUrl(&#x27;setDeliveryAddress&#x27;, {
+      urlParams: { userId, cartId },
+      queryParams: { addressId },
+    });
+  }
+
+  protected getDeliveryModeEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl(&#x27;deliveryMode&#x27;, {
+      urlParams: {
+        userId,
+        cartId,
+      },
+    });
+  }
+
+  protected getSetDeliveryModeEndpoint(
+    userId: string,
+    cartId: string,
+    deliveryModeId?: string
+  ): string {
+    return this.occEndpoints.buildUrl(&#x27;setDeliveryMode&#x27;, {
+      urlParams: {
+        userId,
+        cartId,
+      },
+      queryParams: { deliveryModeId },
+    });
+  }
+
+  protected getDeliveryModesEndpoint(userId: string, cartId: string): string {
+    return this.occEndpoints.buildUrl(&#x27;deliveryModes&#x27;, {
+      urlParams: { userId, cartId },
+    });
   }
 
   public createAddress(
@@ -751,7 +1180,7 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
 
     return this.http
       .post&lt;Occ.Address&gt;(
-        this.getCartEndpoint(userId) + cartId + &#x27;/addresses/delivery&#x27;,
+        this.getCreateDeliveryAddressEndpoint(userId, cartId),
         address,
         {
           headers: new HttpHeaders().set(&#x27;Content-Type&#x27;, &#x27;application/json&#x27;),
@@ -766,11 +1195,8 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     addressId: string
   ): Observable&lt;any&gt; {
     return this.http.put(
-      this.occEndpoints.getUrl(&#x27;setDeliveryAddress&#x27;, { userId, cartId }),
-      {},
-      {
-        params: { addressId: addressId },
-      }
+      this.getSetDeliveryAddressEndpoint(userId, cartId, addressId),
+      {}
     );
   }
 
@@ -780,17 +1206,14 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     deliveryModeId: string
   ): Observable&lt;any&gt; {
     return this.http.put(
-      this.getCartEndpoint(userId) + cartId + &#x27;/deliverymode&#x27;,
-      {},
-      {
-        params: { deliveryModeId: deliveryModeId },
-      }
+      this.getSetDeliveryModeEndpoint(userId, cartId, deliveryModeId),
+      {}
     );
   }
 
   public getMode(userId: string, cartId: string): Observable&lt;any&gt; {
     return this.http
-      .get(this.getCartEndpoint(userId) + cartId + &#x27;/deliverymode&#x27;)
+      .get(this.getDeliveryModeEndpoint(userId, cartId))
       .pipe(this.converter.pipeable(DELIVERY_MODE_NORMALIZER));
   }
 
@@ -799,11 +1222,10 @@ export class OccCheckoutDeliveryAdapter implements CheckoutDeliveryAdapter {
     cartId: string
   ): Observable&lt;DeliveryMode[]&gt; {
     return this.http
-      .get&lt;Occ.DeliveryModeList&gt;(
-        this.getCartEndpoint(userId) + cartId + &#x27;/deliverymodes&#x27;
-      )
+      .get&lt;Occ.DeliveryModeList&gt;(this.getDeliveryModesEndpoint(userId, cartId))
       .pipe(
         pluck(&#x27;deliveryModes&#x27;),
+        map((modes) &#x3D;&gt; modes ?? []),
         this.converter.pipeableMany(DELIVERY_MODE_NORMALIZER)
       );
   }

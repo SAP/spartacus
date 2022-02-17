@@ -148,7 +148,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-structure/page/component/page-component.module.ts</code>
+            <code>projects/storefrontlib/cms-structure/page/component/page-component.module.ts</code>
         </p>
 
 
@@ -184,13 +184,57 @@
             </div>
         </div>
 
+        <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="forRoot"></a>
+                    <span class="name">
+                        <span class="modifier">Static</span>
+                        <span ><b>forRoot</b></span>
+                        <a href="#forRoot"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>forRoot()</code>
+                </td>
+            </tr>
 
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">projects/storefrontlib/cms-structure/page/component/page-component.module.ts:15</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>ModuleWithProviders&lt;PageComponentModule&gt;</code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
-import { NgModule } from &#x27;@angular/core&#x27;;
+import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
 import { ComponentWrapperDirective } from &#x27;./component-wrapper.directive&#x27;;
 import { ComponentHandler } from &#x27;./handlers/component-handler&#x27;;
 import { DefaultComponentHandler } from &#x27;./handlers/default-component.handler&#x27;;
@@ -199,22 +243,28 @@ import { InnerComponentsHostDirective } from &#x27;./inner-components-host.direc
 
 @NgModule({
   imports: [CommonModule],
-  providers: [
-    {
-      provide: ComponentHandler,
-      useExisting: DefaultComponentHandler,
-      multi: true,
-    },
-    {
-      provide: ComponentHandler,
-      useExisting: LazyComponentHandler,
-      multi: true,
-    },
-  ],
   declarations: [ComponentWrapperDirective, InnerComponentsHostDirective],
   exports: [ComponentWrapperDirective, InnerComponentsHostDirective],
 })
-export class PageComponentModule {}
+export class PageComponentModule {
+  static forRoot(): ModuleWithProviders&lt;PageComponentModule&gt; {
+    return {
+      ngModule: PageComponentModule,
+      providers: [
+        {
+          provide: ComponentHandler,
+          useExisting: DefaultComponentHandler,
+          multi: true,
+        },
+        {
+          provide: ComponentHandler,
+          useExisting: LazyComponentHandler,
+          multi: true,
+        },
+      ],
+    };
+  }
+}
 </code></pre>
     </div>
 </div>

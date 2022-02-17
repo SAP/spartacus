@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-shipping-address-added.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-saved-carts.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requireShippingAddressAdded" 
+                                        <a href="#requireSavedCart" 
 >
-                                            requireShippingAddressAdded
+                                            requireSavedCart
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requireShippingAddressAdded"></a>
-                                        <span class="name "><b>requireShippingAddressAdded</b>
-                                            <a href="#requireShippingAddressAdded">
+                                        <a name="requireSavedCart"></a>
+                                        <span class="name "><b>requireSavedCart</b>
+                                            <a href="#requireSavedCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requireShippingAddressAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requireSavedCart:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,9 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Adds a shipping address to the given cart of the current user.
-Returns address object.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.requireShippingAddressAdded(address, token, cartCode);</code></pre></div></div>
+                                    <div class="io-description"><p> Returns Saved Cart Object.</p>
+<div><pre class="line-numbers"><code class="language-none">cy.requireSavedCart(auth);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -144,71 +143,66 @@ Returns address object.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { user } from &#x27;../sample-data/checkout-flow&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { b2bProduct } from &#x27;../sample-data/b2b-checkout&#x27;;
+import { savedActiveCartForm } from &#x27;../sample-data/b2b-saved-cart&#x27;;
 
 declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Adds a shipping address to the given cart of the current user.
-       * Returns address object.
+       *  Returns Saved Cart Object.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requireShippingAddressAdded(address, token, cartCode);
+        cy.requireSavedCart(auth);
         &#x60;&#x60;&#x60;
        */
-      requireShippingAddressAdded: (
-        address: {},
-        token: {},
-        cartId?: string
-      ) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requireSavedCart: (
+        auth: {},
+        productData?: {},
+        savedCartForm?: {}
+      ) &#x3D;&gt; Cypress.Chainable&lt;any&gt;;
     }
   }
 }
 
 Cypress.Commands.add(
-  &#x27;requireShippingAddressAdded&#x27;,
-  (address, token, cartId) &#x3D;&gt; {
-    Cypress.log({
-      displayName: &#x27;requireShippingAddressAdded&#x27;,
-      message: [&#x60;Adding shipping address with token ${token.access_token}&#x60;],
-    });
-
-    const _address &#x3D; {
-      ...address,
-      firstName: user.firstName,
-      lastName: user.lastName,
-      town: address.city,
-      postalCode: address.postal,
-      titleCode: &#x27;mr&#x27;,
-      country: {
-        isocode: &#x27;US&#x27;,
-        name: user.address.country,
-      },
-      defaultAddress: false,
-    };
-    const cartCode &#x3D; cartId || &#x27;current&#x27;;
-
-    function addAddress() {
+  &#x27;requireSavedCart&#x27;,
+  (auth, productData &#x3D; b2bProduct, savedCartForm &#x3D; savedActiveCartForm[2]) &#x3D;&gt; {
+    function saveCart(cartCode: string) {
       return cy.request({
-        method: &#x27;POST&#x27;,
+        method: &#x27;PATCH&#x27;,
         url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
           &#x27;OCC_PREFIX&#x27;
         )}/${Cypress.env(
           &#x27;BASE_SITE&#x27;
-        )}/users/current/carts/${cartCode}/addresses/delivery&#x60;,
-        body: _address,
-        form: false,
+        )}/users/current/carts/${cartCode}/save?saveCartName&#x3D;${
+          savedCartForm.name
+        }&amp;saveCartDescription&#x3D;${savedCartForm.description}&#x60;,
         headers: {
-          Authorization: &#x60;bearer ${token.access_token}&#x60;,
+          Authorization: &#x60;bearer ${auth.access_token}&#x60;,
         },
       });
     }
 
-    addAddress().then((resp) &#x3D;&gt; cy.wrap(resp));
+    cy.requireProductAddedToCart(auth, productData).then((cart) &#x3D;&gt; {
+      saveCart(cart.cartId).then((response) &#x3D;&gt; {
+        Cypress.log({
+          name: &#x27;requireSavedCart&#x27;,
+          displayName: &#x27;Save cart (require)&#x27;,
+          message: [&#x60;🛒 Successfully saved a cart&#x60;],
+          consoleProps: () &#x3D;&gt; {
+            return {
+              &#x27;Cart ID&#x27;: cart.cartId,
+              &#x27;Saved Cart Data&#x27;: response.body,
+            };
+          },
+        });
+        cy.wrap(response.body.savedCartData);
+      });
+    });
   }
 );
 </code></pre>

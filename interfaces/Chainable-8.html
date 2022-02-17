@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-placed-order.commands.ts</code>
+            <code>projects/storefrontapp-e2e-cypress/cypress/support/require-payment-method-added.commands.ts</code>
         </p>
 
 
@@ -83,9 +83,9 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                        <a href="#requirePlacedOrder" 
+                                        <a href="#requirePaymentMethodAdded" 
 >
-                                            requirePlacedOrder
+                                            requirePaymentMethodAdded
                                         </a>
                                 </li>
                             </ul>
@@ -103,9 +103,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="requirePlacedOrder"></a>
-                                        <span class="name "><b>requirePlacedOrder</b>
-                                            <a href="#requirePlacedOrder">
+                                        <a name="requirePaymentMethodAdded"></a>
+                                        <span class="name "><b>requirePaymentMethodAdded</b>
+                                            <a href="#requirePaymentMethodAdded">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -113,7 +113,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>requirePlacedOrder:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
+                                        <code>requirePaymentMethodAdded:         <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/function" target="_blank" >function</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -132,9 +132,8 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Places an order with the current cart of the current user.
-Returns new order object.</p>
-<div><pre class="line-numbers"><code class="language-none">cy.requirePlacedOrder(token, address);</code></pre></div></div>
+                                    <div class="io-description"><p>Adds a payment method to the given cart of the current user.</p>
+<div><pre class="line-numbers"><code class="language-none">cy.requirePaymentMethodAdded(cartId);</code></pre></div></div>
                                 </td>
                             </tr>
                         </tbody>
@@ -144,55 +143,68 @@ Returns new order object.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { DaysOfWeek, recurrencePeriod } from &#x27;../sample-data/b2b-checkout&#x27;;
-declare global {
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">declare global {
   namespace Cypress {
     interface Chainable {
       /**
-       * Places an order with the current cart of the current user.
-       * Returns new order object.
+       * Adds a payment method to the given cart of the current user.
        *
        * @memberof Cypress.Chainable
        *
        * @example
         &#x60;&#x60;&#x60;
-        cy.requirePlacedOrder(token, address);
+        cy.requirePaymentMethodAdded(cartId);
         &#x60;&#x60;&#x60;
        */
-      requirePlacedOrder: (token: {}, cartId: {}) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
+      requirePaymentMethodAdded: (cartId?: string) &#x3D;&gt; Cypress.Chainable&lt;{}&gt;;
     }
   }
 }
 
-Cypress.Commands.add(&#x27;requirePlacedOrder&#x27;, (token, cartId) &#x3D;&gt; {
-  function placeOrder() {
-    return cy.request({
-      method: &#x27;POST&#x27;,
-      url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
-        &#x27;OCC_PREFIX&#x27;
-      )}/${Cypress.env(&#x27;BASE_SITE&#x27;)}/${Cypress.env(
-        &#x27;OCC_PREFIX_USER_ENDPOINT&#x27;
-      )}/current/${Cypress.env(
-        &#x27;OCC_PREFIX_ORDER_ENDPOINT&#x27;
-      )}?cartId&#x3D;${cartId}&amp;termsChecked&#x3D;true&#x60;,
-      form: false,
-      headers: {
-        Authorization: &#x60;bearer ${token.access_token}&#x60;,
-      },
-      body: Cypress.env(&#x27;OCC_PREFIX_USER_ENDPOINT&#x27;)
-        ? {
-            daysOfWeek: [DaysOfWeek.MONDAY],
-            nthDayOfMonth: &#x27;1&#x27;,
-            numberOfDays: &#x27;14&#x27;,
-            numberOfWeeks: &#x27;1&#x27;,
-            recurrencePeriod: recurrencePeriod.DAILY,
-            replenishmentStartDate: &#x27;2020-10-08T07:52:23Z&#x27;,
-          }
-        : {},
-    });
+Cypress.Commands.add(&#x27;requirePaymentMethodAdded&#x27;, (cartId) &#x3D;&gt; {
+  const cartCode &#x3D; cartId || &#x27;current&#x27;;
+
+  function addPaymentMethod() {
+    return cy
+      .request({
+        method: &#x27;POST&#x27;,
+        url: &#x60;${Cypress.env(&#x27;API_URL&#x27;)}/${Cypress.env(
+          &#x27;OCC_PREFIX&#x27;
+        )}/${Cypress.env(
+          &#x27;BASE_SITE&#x27;
+        )}/users/current/carts/${cartCode}/paymentdetails&#x60;,
+        headers: {
+          Authorization: &#x60;bearer ${
+            JSON.parse(localStorage.getItem(&#x27;spartacus⚿⚿auth&#x27;)).token
+              .access_token
+          }&#x60;,
+        },
+        body: {
+          accountHolderName: &#x27;Cypress User&#x27;,
+          cardNumber: &#x27;4111111111111111&#x27;,
+          cardType: { code: &#x27;visa&#x27; },
+          expiryMonth: &#x27;01&#x27;,
+          expiryYear: &#x27;2099&#x27;,
+          defaultPayment: true,
+          saved: true,
+          billingAddress: {
+            firstName: &#x27;Cypress&#x27;,
+            lastName: &#x27;User&#x27;,
+            titleCode: &#x27;mr&#x27;,
+            line1: &#x27;100 Fifth Avenue&#x27;,
+            line2: &#x27;&#x27;,
+            town: &#x27;New York&#x27;,
+            postalCode: &#x27;10001&#x27;,
+            country: { isocode: &#x27;US&#x27; },
+          },
+        },
+      })
+      .then((response) &#x3D;&gt; {
+        expect(response.status).to.eq(201);
+      });
   }
 
-  placeOrder().then((response) &#x3D;&gt; cy.wrap(response));
+  addPaymentMethod().then((resp) &#x3D;&gt; cy.wrap(resp));
 });
 </code></pre>
     </div>

@@ -56,13 +56,13 @@
 <title>cluster_ReplenishmentOrderCancellationDialogModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 622,-230.8 622,-32.8 8,-32.8"/>
 </g>
-<g id="clust2" class="cluster">
-<title>cluster_ReplenishmentOrderCancellationDialogModule_declarations</title>
-<polygon fill="none" stroke="black" points="292,-40.8 292,-92.8 614,-92.8 614,-40.8 292,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ReplenishmentOrderCancellationDialogModule_exports</title>
 <polygon fill="none" stroke="black" points="70,-170.8 70,-222.8 396,-222.8 396,-170.8 70,-170.8"/>
+</g>
+<g id="clust2" class="cluster">
+<title>cluster_ReplenishmentOrderCancellationDialogModule_declarations</title>
+<polygon fill="none" stroke="black" points="292,-40.8 292,-92.8 614,-92.8 614,-40.8 292,-40.8"/>
 </g>
 <g id="clust4" class="cluster">
 <title>cluster_ReplenishmentOrderCancellationDialogModule_imports</title>
@@ -152,7 +152,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/replenishment-order-cancellation-dialog/replenishment-order-cancellation-dialog.module.ts</code>
+            <code>feature-libs/order/components/replenishment-order-cancellation-dialog/replenishment-order-cancellation-dialog.module.ts</code>
         </p>
 
 
@@ -164,15 +164,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/ReplenishmentOrderCancellationDialogComponent.html">ReplenishmentOrderCancellationDialogComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/ReplenishmentOrderCancellationDialogComponent.html">ReplenishmentOrderCancellationDialogComponent</a>
@@ -211,13 +202,12 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { I18nModule } from &#x27;@spartacus/core&#x27;;
-import { KeyboardFocusModule } from &#x27;../../../layout/a11y/keyboard-focus/keyboard-focus.module&#x27;;
+import { KeyboardFocusModule } from &#x27;@spartacus/storefront&#x27;;
 import { ReplenishmentOrderCancellationDialogComponent } from &#x27;./replenishment-order-cancellation-dialog.component&#x27;;
 
 @NgModule({
   imports: [CommonModule, I18nModule, KeyboardFocusModule],
   declarations: [ReplenishmentOrderCancellationDialogComponent],
-  entryComponents: [ReplenishmentOrderCancellationDialogComponent],
   exports: [ReplenishmentOrderCancellationDialogComponent],
 })
 export class ReplenishmentOrderCancellationDialogModule {}

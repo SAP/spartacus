@@ -95,7 +95,21 @@
                                 <a href="#createConfigurationExtract" >createConfigurationExtract</a>
                             </li>
                             <li>
+                                <a href="#getConfigurationFromState" >getConfigurationFromState</a>
+                            </li>
+                            <li>
                                 <a href="#getGroupById" >getGroupById</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getGroupByIdIfPresent" >getGroupByIdIfPresent</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Protected</span>
+                                <a href="#getGroupFromSubGroups" >getGroupFromSubGroups</a>
+                            </li>
+                            <li>
+                                <a href="#getOptionalGroupById" >getOptionalGroupById</a>
                             </li>
                             <li>
                                 <a href="#getParentGroup" >getParentGroup</a>
@@ -139,15 +153,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>buildGroupForExtract(group: <a href="../s/Config.html" target="_self">Configurator.Group</a>)</code>
+                    <code>buildGroupForExtract(group: <a href="../injectables/Config.html" target="_self">Configurator.Group</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="143"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:143</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="250"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:250</a></div>
                 </td>
             </tr>
 
@@ -169,7 +183,7 @@
                                 <tr>
                                     <td>group</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
                                     </td>
 
                                     <td>
@@ -184,7 +198,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
 
                     </div>
                     <div class="io-description">
@@ -207,21 +221,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>buildGroupPath(groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, groupList: <a href="../s/Config.html" target="_self">Configurator.Group[]</a>, groupPath: <a href="../s/Config.html" target="_self">Configurator.Group[]</a>)</code>
+<code>buildGroupPath(groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, groupList: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, groupPath: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="118"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:118</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="205"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:205</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Builds group path.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -231,6 +247,7 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -245,11 +262,17 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Group ID</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>groupList</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group[]</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
                                     </td>
 
                                     <td>
@@ -257,11 +280,17 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>List of groups</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>groupPath</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group[]</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
                                     </td>
 
                                     <td>
@@ -269,6 +298,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Path of groups</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -280,7 +315,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>&#39;True&#39; if the group has been found, otherwise &#39;false&#39;</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -299,21 +337,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createConfigurationExtract(changedAttribute: <a href="../s/Config.html" target="_self">Configurator.Attribute</a>, configuration: <a href="../s/Config.html" target="_self">Configurator.Configuration</a>, updateType?: <a href="../s/Config.html" target="_self">Configurator.UpdateType</a>)</code>
+<code>createConfigurationExtract(changedAttribute: <a href="../injectables/Config.html" target="_self">Configurator.Attribute</a>, configuration: <a href="../injectables/Config.html" target="_self">Configurator.Configuration</a>, updateType?: <a href="../injectables/Config.html" target="_self">Configurator.UpdateType</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="136"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:136</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Creates configuration extract.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -323,13 +363,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>changedAttribute</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Attribute</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Attribute</a></code>
                                     </td>
 
                                     <td>
@@ -337,11 +378,17 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>changed configuration</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>configuration</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
                                     </td>
 
                                     <td>
@@ -349,11 +396,17 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>configuration</li>
+</ul>
+
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>updateType</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.UpdateType</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.UpdateType</a></code>
                                     </td>
 
                                     <td>
@@ -361,6 +414,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>updated type</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -368,11 +427,95 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>Configuration</li>
+</ul>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getConfigurationFromState"></a>
+                    <span class="name">
+                        <span ><b>getConfigurationFromState</b></span>
+                        <a href="#getConfigurationFromState"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getConfigurationFromState(configurationState: <a href="../injectables/Config.html" target="_self">StateUtils.ProcessesLoaderState&lt;Configurator.Configuration&gt;</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="239"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:239</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Retrieves the configuration from state, and throws an error in case the configuration is
+not available</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>configurationState</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >StateUtils.ProcessesLoaderState&lt;Configurator.Configuration&gt;</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Process loader state containing product configuration</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>The actual product configuration</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -391,15 +534,118 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getGroupById(groups: <a href="../s/Config.html" target="_self">Configurator.Group[]</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>getGroupById(groups: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="33"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:33</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:45</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Finds group identified by its ID, and ensures that we always get a valid group.
+If nothing is found in the configuration group list, this methods returns the first group.</p>
+<p>The exceptional case can happen if e.g. an edit in a conflict was done that
+resolved the conflict, or if a group vanished due to object dependencies.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groups</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>List of groups</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>groupId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Group id</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>Group identified by its id, if available. Otherwise first group</li>
+</ul>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGroupByIdIfPresent"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getGroupByIdIfPresent</b></span>
+                        <a href="#getGroupByIdIfPresent"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getGroupByIdIfPresent(groups: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -421,7 +667,7 @@
                                 <tr>
                                     <td>groups</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group[]</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
                                     </td>
 
                                     <td>
@@ -448,11 +694,192 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group | undefined</a></code>
 
                     </div>
                     <div class="io-description">
                         
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getGroupFromSubGroups"></a>
+                    <span class="name">
+                        <span class="modifier">Protected</span>
+                        <span ><b>getGroupFromSubGroups</b></span>
+                        <a href="#getGroupFromSubGroups"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>getGroupFromSubGroups(groups: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="86"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:86</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groups</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                                <tr>
+                                    <td>groupId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getOptionalGroupById"></a>
+                    <span class="name">
+                        <span ><b>getOptionalGroupById</b></span>
+                        <a href="#getOptionalGroupById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getOptionalGroupById(groups: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, groupId: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Finds group identified by its ID. If nothing is found, this
+methods returns undefined</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>groups</td>
+                                    <td>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>List of groups</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>groupId</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <ul>
+<li>Group id</li>
+</ul>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        <ul>
+<li>Group identified by its id, if available. Otherwise undefined</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -471,15 +898,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>getParentGroup(groups: <a href="../s/Config.html" target="_self">Configurator.Group[]</a>, group: <a href="../s/Config.html" target="_self">Configurator.Group</a>, parentGroup: <a href="../s/Config.html" target="_self">Configurator.Group</a>)</code>
+<code>getParentGroup(groups: <a href="../injectables/Config.html" target="_self">Configurator.Group[]</a>, group: <a href="../injectables/Config.html" target="_self">Configurator.Group</a>, parentGroup?: <a href="../injectables/Config.html" target="_self">Configurator.Group</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="16"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:16</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:17</a></div>
                 </td>
             </tr>
 
@@ -497,7 +924,6 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
-                                    <td>Default value</td>
                                     <td>Description</td>
                                 </tr>
                             </thead>
@@ -505,55 +931,54 @@
                                 <tr>
                                     <td>groups</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group[]</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group[]</a></code>
                                     </td>
 
                                     <td>
                                         No
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
-                                        <p>List of groups where we search for parent</p>
+                                        <ul>
+<li>List of groups where we search for parent</li>
+</ul>
 
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>group</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
                                     </td>
 
                                     <td>
                                         No
                                     </td>
 
-                                    <td>
-                                    </td>
 
                                     <td>
-                                        <p>If already part of groups, no further search is needed, and we return the provided parent group</p>
+                                        <ul>
+<li>If already part of groups, no further search is needed, and we return the provided parent group</li>
+</ul>
 
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>parentGroup</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
-                                    <td>
-                                        <code>null</code>
-                                    </td>
 
                                     <td>
-                                        <p>Optional.</p>
+                                        <ul>
+<li>Optional parent group.</li>
+</ul>
 
                                     </td>
                                 </tr>
@@ -563,11 +988,13 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                        <b>Returns : </b>        <code><a href="../injectables/Config.html" target="_self" >Configurator.Group | undefined</a></code>
 
                     </div>
                     <div class="io-description">
-                        <p>Parent group. Might be null</p>
+                        <ul>
+<li>Parent group. Might be undefined</li>
+</ul>
 
                     </div>
                 </td>
@@ -587,21 +1014,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>hasSubGroups(group: <a href="../s/Config.html" target="_self">Configurator.Group</a>)</code>
+<code>hasSubGroups(group: <a href="../injectables/Config.html" target="_self">Configurator.Group</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="48"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:48</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="107"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:107</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Verifies whether the current group has a subgroups.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -611,13 +1040,14 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>group</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Group</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Group</a></code>
                                     </td>
 
                                     <td>
@@ -625,6 +1055,12 @@
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Current group</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -636,7 +1072,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>&#39;True&#39; if the current group has any subgroups, otherwise &#39;false&#39;</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -655,21 +1094,23 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>isConfigurationCreated(configuration: <a href="../s/Config.html" target="_self">Configurator.Configuration</a>)</code>
+<code>isConfigurationCreated(configuration?: <a href="../injectables/Config.html" target="_self">Configurator.Configuration</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="52"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:52</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="117"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/core/facade/utils/configurator-utils.service.ts:117</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>Verifies whether the configuration has been created.</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -679,20 +1120,27 @@
                                     <td>Name</td>
                                     <td>Type</td>
                                     <td>Optional</td>
+                                    <td>Description</td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>configuration</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >Configurator.Configuration</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >Configurator.Configuration</a></code>
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
+                                    <td>
+                                        <ul>
+<li>Configuration</li>
+</ul>
+
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -704,7 +1152,10 @@
 
                     </div>
                     <div class="io-description">
-                        
+                        <ul>
+<li>&#39;True&#39; if the configuration hass been created, otherwise &#39;false&#39;</li>
+</ul>
+
                     </div>
                 </td>
             </tr>
@@ -717,6 +1168,7 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { StateUtils } from &#x27;@spartacus/core&#x27;;
 import { Configurator } from &#x27;../../model/configurator.model&#x27;;
 
 /**
@@ -726,28 +1178,39 @@ import { Configurator } from &#x27;../../model/configurator.model&#x27;;
 export class ConfiguratorUtilsService {
   /**
    * Determines the direct parent group for an attribute group
-   * @param groups List of groups where we search for parent
-   * @param group If already part of groups, no further search is needed, and we return the provided parent group
-   * @param parentGroup Optional.
-   * @returns Parent group. Might be null
+   * @param {Configurator.Group[]} groups - List of groups where we search for parent
+   * @param {Configurator.Group} group - If already part of groups, no further search is needed, and we return the provided parent group
+   * @param {Configurator.Group} parentGroup - Optional parent group.
+   * @returns {Configurator.Group | undefined} - Parent group. Might be undefined
    */
   getParentGroup(
     groups: Configurator.Group[],
     group: Configurator.Group,
-    parentGroup: Configurator.Group &#x3D; null
-  ): Configurator.Group {
+    parentGroup?: Configurator.Group
+  ): Configurator.Group | undefined {
     if (groups.includes(group)) {
       return parentGroup;
     }
 
     return groups
-      .map((currentGroup) &#x3D;&gt;
-        this.getParentGroup(currentGroup.subGroups, group, currentGroup)
-      )
+      .map((currentGroup) &#x3D;&gt; {
+        return currentGroup.subGroups
+          ? this.getParentGroup(currentGroup.subGroups, group, currentGroup)
+          : undefined;
+      })
       .filter((foundGroup) &#x3D;&gt; foundGroup)
       .pop();
   }
-
+  /**
+   * Finds group identified by its ID, and ensures that we always get a valid group.
+   * If nothing is found in the configuration group list, this methods returns the first group.
+   *
+   * The exceptional case can happen if e.g. an edit in a conflict was done that
+   * resolved the conflict, or if a group vanished due to object dependencies.
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param {string} groupId - Group id
+   * @returns {Configurator.Group} - Group identified by its id, if available. Otherwise first group
+   */
   getGroupById(
     groups: Configurator.Group[],
     groupId: string
@@ -756,27 +1219,89 @@ export class ConfiguratorUtilsService {
     if (currentGroup) {
       return currentGroup;
     }
-
-    return groups
-      .map((group) &#x3D;&gt; this.getGroupById(group.subGroups, groupId))
-      .filter((foundGroup) &#x3D;&gt; foundGroup)
-      .pop();
+    const groupFound &#x3D; this.getGroupFromSubGroups(groups, groupId);
+    return groupFound ? groupFound : groups[0];
   }
 
+  /**
+   * Finds group identified by its ID. If nothing is found, this
+   * methods returns undefined
+   * @param {Configurator.Group[]} groups - List of groups
+   * @param {string} groupId - Group id
+   * @returns {Configurator.Group | undefined} - Group identified by its id, if available. Otherwise undefined
+   */
+  getOptionalGroupById(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const currentGroup &#x3D; groups.find((group) &#x3D;&gt; group.id &#x3D;&#x3D;&#x3D; groupId);
+    return currentGroup
+      ? currentGroup
+      : this.getGroupFromSubGroups(groups, groupId);
+  }
+
+  protected getGroupByIdIfPresent(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const currentGroup &#x3D; groups.find((group) &#x3D;&gt; group.id &#x3D;&#x3D;&#x3D; groupId);
+    if (currentGroup) {
+      return currentGroup;
+    }
+
+    return this.getGroupFromSubGroups(groups, groupId);
+  }
+
+  protected getGroupFromSubGroups(
+    groups: Configurator.Group[],
+    groupId: string
+  ): Configurator.Group | undefined {
+    const groupFound &#x3D; groups
+      .map((group) &#x3D;&gt; {
+        return group.subGroups
+          ? this.getGroupByIdIfPresent(group.subGroups, groupId)
+          : undefined;
+      })
+      .filter((foundGroup) &#x3D;&gt; foundGroup)
+      .pop();
+    return groupFound;
+  }
+
+  /**
+   * Verifies whether the current group has a subgroups.
+   *
+   * @param {Configurator.Group} group - Current group
+   * @return {boolean} - &#x27;True&#x27; if the current group has any subgroups, otherwise &#x27;false&#x27;
+   */
   hasSubGroups(group: Configurator.Group): boolean {
     return group.subGroups ? group.subGroups.length &gt; 0 : false;
   }
 
-  isConfigurationCreated(configuration: Configurator.Configuration): boolean {
-    const configId: String &#x3D; configuration?.configId;
+  /**
+   * Verifies whether the configuration has been created.
+   *
+   * @param {Configurator.Configuration} configuration - Configuration
+   * @return {boolean} - &#x27;True&#x27; if the configuration hass been created, otherwise &#x27;false&#x27;
+   */
+  isConfigurationCreated(configuration?: Configurator.Configuration): boolean {
+    const configId &#x3D; configuration?.configId;
     return (
       configId !&#x3D;&#x3D; undefined &amp;&amp;
       configId.length !&#x3D;&#x3D; 0 &amp;&amp;
-      (configuration?.flatGroups !&#x3D;&#x3D; undefined ||
-        configuration?.overview !&#x3D;&#x3D; undefined)
+      configuration !&#x3D;&#x3D; undefined &amp;&amp;
+      (configuration.flatGroups.length &gt; 0 ||
+        configuration.overview !&#x3D;&#x3D; undefined)
     );
   }
 
+  /**
+   * Creates configuration extract.
+   *
+   * @param {Configurator.Attribute} changedAttribute - changed configuration
+   * @param {Configurator.Configuration} configuration - configuration
+   * @param {Configurator.UpdateType} updateType - updated type
+   * @return {Configurator.Configuration} - Configuration
+   */
   createConfigurationExtract(
     changedAttribute: Configurator.Attribute,
     configuration: Configurator.Configuration,
@@ -788,6 +1313,7 @@ export class ConfiguratorUtilsService {
     const newConfiguration: Configurator.Configuration &#x3D; {
       configId: configuration.configId,
       groups: [],
+      flatGroups: [],
       interactionState: {},
       owner: configuration.owner,
       productCode: configuration.productCode,
@@ -796,11 +1322,15 @@ export class ConfiguratorUtilsService {
 
     const groupPath: Configurator.Group[] &#x3D; [];
 
-    this.buildGroupPath(
-      changedAttribute.groupId,
-      configuration.groups,
-      groupPath
-    );
+    if (changedAttribute.groupId) {
+      this.buildGroupPath(
+        changedAttribute.groupId,
+        configuration.groups,
+        groupPath
+      );
+    } else {
+      throw Error(&#x27;GroupId must be available at attribute level during update&#x27;);
+    }
 
     const groupPathLength &#x3D; groupPath.length;
 
@@ -833,13 +1363,21 @@ export class ConfiguratorUtilsService {
     return newConfiguration;
   }
 
+  /**
+   * Builds group path.
+   *
+   * @param {string} groupId - Group ID
+   * @param { Configurator.Group[]} groupList - List of groups
+   * @param { Configurator.Group[]} groupPath - Path of groups
+   * @return {boolean} - &#x27;True&#x27; if the group has been found, otherwise &#x27;false&#x27;
+   */
   buildGroupPath(
     groupId: string,
     groupList: Configurator.Group[],
     groupPath: Configurator.Group[]
   ): boolean {
     let haveFoundGroup &#x3D; false;
-    const group: Configurator.Group &#x3D; groupList.find(
+    const group: Configurator.Group | undefined &#x3D; groupList.find(
       (currentGroup) &#x3D;&gt; currentGroup.id &#x3D;&#x3D;&#x3D; groupId
     );
 
@@ -850,7 +1388,10 @@ export class ConfiguratorUtilsService {
       groupList
         .filter((currentGroup) &#x3D;&gt; currentGroup.subGroups)
         .forEach((currentGroup) &#x3D;&gt; {
-          if (this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)) {
+          if (
+            currentGroup.subGroups &amp;&amp;
+            this.buildGroupPath(groupId, currentGroup.subGroups, groupPath)
+          ) {
             groupPath.push(currentGroup);
             haveFoundGroup &#x3D; true;
           }
@@ -858,12 +1399,30 @@ export class ConfiguratorUtilsService {
     }
     return haveFoundGroup;
   }
+  /**
+   * Retrieves the configuration from state, and throws an error in case the configuration is
+   * not available
+   * @param {StateUtils.ProcessesLoaderState&lt;Configurator.Configuration&gt;} configurationState - Process loader state containing product configuration
+   * @returns {Configurator.Configuration} - The actual product configuration
+   */
+  getConfigurationFromState(
+    configurationState: StateUtils.ProcessesLoaderState&lt;Configurator.Configuration&gt;
+  ): Configurator.Configuration {
+    const configuration &#x3D; configurationState.value;
+    if (configuration) {
+      return configuration;
+    } else {
+      throw new Error(&#x27;Configuration must be defined at this point&#x27;);
+    }
+  }
+
   protected buildGroupForExtract(
     group: Configurator.Group
   ): Configurator.Group {
     const changedGroup: Configurator.Group &#x3D; {
       groupType: group.groupType,
       id: group.id,
+      subGroups: [],
     };
     return changedGroup;
   }

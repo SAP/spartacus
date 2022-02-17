@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/occ/adapters/user/converters/occ-return-request-normalizer.ts</code>
+            <code>feature-libs/order/occ/adapters/converters/occ-return-request-normalizer.ts</code>
         </p>
 
 
@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-return-request-normalizer.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/order/occ/adapters/converters/occ-return-request-normalizer.ts:14</a></div>
                             </td>
                         </tr>
 
@@ -170,8 +170,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-return-request-normalizer.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="17"
+                            class="link-to-prism">feature-libs/order/occ/adapters/converters/occ-return-request-normalizer.ts:17</a></div>
                 </td>
             </tr>
 
@@ -245,15 +245,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>convertOrderEntry(source: Occ.OrderEntry)</code>
+                    <code>convertOrderEntry(source?: Occ.OrderEntry)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="30"
-                            class="link-to-prism">projects/core/src/occ/adapters/user/converters/occ-return-request-normalizer.ts:30</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="32"
+                            class="link-to-prism">feature-libs/order/occ/adapters/converters/occ-return-request-normalizer.ts:32</a></div>
                 </td>
             </tr>
 
@@ -279,7 +279,7 @@
                                     </td>
 
                                     <td>
-                                        No
+                                        Yes
                                     </td>
 
 
@@ -307,22 +307,24 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
-import { Occ } from &#x27;../../../occ-models/occ.models&#x27;;
 import {
   Converter,
   ConverterService,
-} from &#x27;../../../../util/converter.service&#x27;;
-import { OrderEntry, ReturnRequest } from &#x27;../../../../model/order.model&#x27;;
-import { PRODUCT_NORMALIZER } from &#x27;../../../../product/connectors/product/converters&#x27;;
+  Occ,
+  OrderEntry,
+  PRODUCT_NORMALIZER,
+  ReturnRequest,
+} from &#x27;@spartacus/core&#x27;;
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class OccReturnRequestNormalizer
-  implements Converter&lt;Occ.ReturnRequest, ReturnRequest&gt; {
+  implements Converter&lt;Occ.ReturnRequest, ReturnRequest&gt;
+{
   constructor(private converter: ConverterService) {}
 
   convert(source: Occ.ReturnRequest, target?: ReturnRequest): ReturnRequest {
     if (target &#x3D;&#x3D;&#x3D; undefined) {
-      target &#x3D; { ...(source as any) };
+      target &#x3D; { ...(source as any) } as ReturnRequest;
     }
 
     if (source.returnEntries) {
@@ -335,10 +337,10 @@ export class OccReturnRequestNormalizer
     return target;
   }
 
-  private convertOrderEntry(source: Occ.OrderEntry): OrderEntry {
+  private convertOrderEntry(source?: Occ.OrderEntry): OrderEntry {
     return {
       ...source,
-      product: this.converter.convert(source.product, PRODUCT_NORMALIZER),
+      product: this.converter.convert(source?.product, PRODUCT_NORMALIZER),
     };
   }
 }

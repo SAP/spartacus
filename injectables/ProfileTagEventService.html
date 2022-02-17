@@ -136,6 +136,10 @@
                                 <a href="#initWindow" >initWindow</a>
                             </li>
                             <li>
+                                    <span class="modifier">Private</span>
+                                <a href="#isScriptLoaded" >isScriptLoaded</a>
+                            </li>
+                            <li>
                                 <a href="#notifyProfileTagOfEventOccurence" >notifyProfileTagOfEventOccurence</a>
                             </li>
                             <li>
@@ -266,8 +270,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="107"
-                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:107</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="116"
+                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:116</a></div>
                 </td>
             </tr>
 
@@ -444,15 +448,15 @@
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>exposeConfig(options: <a href="../interfaces/ProfileTagJsConfig.html" target="_self">ProfileTagJsConfig</a>)</code>
+                    <code>exposeConfig(options: <a href="../injectables/Config.html" target="_self">ProfileTagJsConfig</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="129"
-                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:129</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="141"
+                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:141</a></div>
                 </td>
             </tr>
 
@@ -474,7 +478,7 @@
                                 <tr>
                                     <td>options</td>
                                     <td>
-                                                <code><a href="../interfaces/ProfileTagJsConfig.html" target="_self" >ProfileTagJsConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >ProfileTagJsConfig</a></code>
                                     </td>
 
                                     <td>
@@ -595,8 +599,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="117"
-                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:117</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="129"
+                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:129</a></div>
                 </td>
             </tr>
 
@@ -607,6 +611,76 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="isScriptLoaded"></a>
+                    <span class="name">
+                        <span class="modifier">Private</span>
+                        <span ><b>isScriptLoaded</b></span>
+                        <a href="#isScriptLoaded"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>isScriptLoaded(scriptSource: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="110"
+                            class="link-to-prism">integration-libs/cds/src/profiletag/services/profiletag-event.service.ts:110</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>scriptSource</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank" >boolean</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -976,7 +1050,19 @@ export class ProfileTagEventService {
     this.exposeConfig(newConfig);
   }
 
+  /*
+   * Checks if the script with the given source exists in the document or not.
+   */
+  private isScriptLoaded(scriptSource: string): boolean {
+    return !!this.winRef.document.querySelector(
+      &#x60;script[src&#x3D;&quot;${scriptSource}&quot;]&#x60;
+    );
+  }
+
   private addScript(): void {
+    if (this.isScriptLoaded(this.config.cds.profileTag.javascriptUrl)) {
+      return;
+    }
     const profileTagScript &#x3D; this.winRef.document.createElement(&#x27;script&#x27;);
     profileTagScript.type &#x3D; &#x27;text/javascript&#x27;;
     profileTagScript.async &#x3D; true;
@@ -1000,6 +1086,9 @@ export class ProfileTagEventService {
 
   private exposeConfig(options: ProfileTagJsConfig): void {
     const q &#x3D; this.profileTagWindow.Y_TRACKING.q || [];
+    if (q.length !&#x3D;&#x3D; 0) {
+      return;
+    }
     q.push([options]);
     this.profileTagWindow.Y_TRACKING.q &#x3D; q;
   }

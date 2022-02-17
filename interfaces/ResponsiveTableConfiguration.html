@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/shared/components/table/config/table.config.ts</code>
+            <code>projects/storefrontlib/shared/components/table/config/table.config.ts</code>
         </p>
 
 
@@ -80,7 +80,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../interfaces/TableStructureConfiguration.html" target="_self" >TableStructureConfiguration</a></code>
+                        <code><a href="../injectables/Config.html" target="_self" >TableStructureConfiguration</a></code>
             </p>
 
         <section>
@@ -259,6 +259,10 @@ export interface ResponsiveTableConfiguration
   [BREAKPOINT.sm]?: TableStructureConfiguration;
   /** The table configurations for extra small screens */
   [BREAKPOINT.xs]?: TableStructureConfiguration;
+}
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends TableConfig {}
 }
 </code></pre>
     </div>

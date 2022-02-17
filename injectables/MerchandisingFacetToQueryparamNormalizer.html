@@ -118,8 +118,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="8"
-                            class="link-to-prism">integration-libs/cds/src/merchandising/converters/merchandising-facet-to-queryparam-normalizer.ts:8</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="9"
+                            class="link-to-prism">integration-libs/cds/src/merchandising/converters/merchandising-facet-to-queryparam-normalizer.ts:9</a></div>
                 </td>
             </tr>
 
@@ -178,7 +178,8 @@ import { MerchandisingFacet } from &#x27;../model/merchandising-facet.model&#x27
 
 @Injectable({ providedIn: &#x27;root&#x27; })
 export class MerchandisingFacetToQueryparamNormalizer
-  implements Converter&lt;MerchandisingFacet[], string&gt; {
+  implements Converter&lt;MerchandisingFacet[], string&gt;
+{
   convert(source: MerchandisingFacet[]): string {
     const target &#x3D; source
       .filter(Boolean)

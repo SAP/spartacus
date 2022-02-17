@@ -187,8 +187,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="37"
-                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/cpq-configurator-endpoint.service.ts:37</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="53"
+                            class="link-to-prism">feature-libs/product-configurator/rulebased/cpq/rest/cpq-configurator-endpoint.service.ts:53</a></div>
                 </td>
             </tr>
 
@@ -417,13 +417,29 @@ export class CpqConfiguratorEndpointService {
     urlParams?: Object,
     queryParams?: [{ name: string; value: string }]
   ): string {
-    const endpoint &#x3D; this.config.backend.cpq.endpoints[endpointName];
+    const endpoints &#x3D; this.config.backend?.cpq?.endpoints;
+    let endpoint;
+    switch (endpointName) {
+      case &#x27;configurationInit&#x27;:
+        endpoint &#x3D; endpoints?.configurationInit;
+        break;
+      case &#x27;configurationDisplay&#x27;:
+        endpoint &#x3D; endpoints?.configurationDisplay;
+        break;
+      case &#x27;attributeUpdate&#x27;:
+        endpoint &#x3D; endpoints?.attributeUpdate;
+        break;
+      case &#x27;valueUpdate&#x27;:
+        endpoint &#x3D; endpoints?.valueUpdate;
+    }
+
     if (!endpoint) {
+      endpoint &#x3D; &#x27;configurations&#x27;;
       console.warn(
         &#x60;${endpointName} endpoint configuration missing for cpq backend, please provide it via key: &quot;backend.cpq.endpoints.${endpointName}&quot;&#x60;
       );
     }
-    let url &#x3D; this.config.backend.cpq.prefix + endpoint;
+    let url &#x3D; this.config.backend?.cpq?.prefix + endpoint;
     url &#x3D; urlParams ? StringTemplate.resolve(url, urlParams) : url;
     url &#x3D; queryParams ? this.appendQueryParameters(url, queryParams) : url;
     return url;

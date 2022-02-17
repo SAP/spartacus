@@ -14,13 +14,13 @@
 <title>cluster_ProductVariantColorSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 490,-230.8 490,-32.8 8,-32.8"/>
 </g>
-<g id="clust4" class="cluster">
-<title>cluster_ProductVariantColorSelectorModule_imports</title>
-<polygon fill="none" stroke="black" points="284,-40.8 284,-92.8 482,-92.8 482,-40.8 284,-40.8"/>
-</g>
 <g id="clust5" class="cluster">
 <title>cluster_ProductVariantColorSelectorModule_exports</title>
 <polygon fill="none" stroke="black" points="199,-170.8 199,-222.8 463,-222.8 463,-170.8 199,-170.8"/>
+</g>
+<g id="clust4" class="cluster">
+<title>cluster_ProductVariantColorSelectorModule_imports</title>
+<polygon fill="none" stroke="black" points="284,-40.8 284,-92.8 482,-92.8 482,-40.8 284,-40.8"/>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_ProductVariantColorSelectorModule_declarations</title>

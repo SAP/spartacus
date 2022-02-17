@@ -56,6 +56,10 @@
 <title>cluster_CheckoutProgressMobileBottomModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 512,-230.8 512,-32.8 8,-32.8"/>
 </g>
+<g id="clust5" class="cluster">
+<title>cluster_CheckoutProgressMobileBottomModule_exports</title>
+<polygon fill="none" stroke="black" points="210,-170.8 210,-222.8 496,-222.8 496,-170.8 210,-170.8"/>
+</g>
 <g id="clust4" class="cluster">
 <title>cluster_CheckoutProgressMobileBottomModule_imports</title>
 <polygon fill="none" stroke="black" points="306,-40.8 306,-92.8 504,-92.8 504,-40.8 306,-40.8"/>
@@ -63,10 +67,6 @@
 <g id="clust2" class="cluster">
 <title>cluster_CheckoutProgressMobileBottomModule_declarations</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 298,-92.8 298,-40.8 16,-40.8"/>
-</g>
-<g id="clust5" class="cluster">
-<title>cluster_CheckoutProgressMobileBottomModule_exports</title>
-<polygon fill="none" stroke="black" points="210,-170.8 210,-222.8 496,-222.8 496,-170.8 210,-170.8"/>
 </g>
 <!-- CheckoutProgressMobileBottomComponent -->
 <g id="node1" class="node">
@@ -152,7 +152,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module.ts</code>
+            <code>feature-libs/checkout/components/components/checkout-progress/checkout-progress-mobile-bottom/checkout-progress-mobile-bottom.module.ts</code>
         </p>
 
 
@@ -164,15 +164,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/CheckoutProgressMobileBottomComponent.html">CheckoutProgressMobileBottomComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/CheckoutProgressMobileBottomComponent.html">CheckoutProgressMobileBottomComponent</a>
@@ -217,16 +208,14 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from &#x27;@spartacus/core&#x27;;
-import { defaultCheckoutConfig } from &#x27;../../../config/default-checkout-config&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../../guards/checkout-auth.guard&#x27;;
-import { CartNotEmptyGuard } from &#x27;./../../../../../cms-components/cart/cart-not-empty.guard&#x27;;
-import { CheckoutProgressMobileBottomComponent } from &#x27;./checkout-progress-mobile-bottom.component&#x27;;
 import { CheckoutStepsSetGuard } from &#x27;../../../guards/checkout-steps-set.guard&#x27;;
+import { CheckoutProgressMobileBottomComponent } from &#x27;./checkout-progress-mobile-bottom.component&#x27;;
 
 @NgModule({
   imports: [CommonModule, UrlModule, I18nModule, RouterModule],
   providers: [
-    provideDefaultConfig(defaultCheckoutConfig),
     provideDefaultConfig(&lt;CmsConfig&gt;{
       cmsComponents: {
         CheckoutProgressMobileBottom: {
@@ -237,7 +226,6 @@ import { CheckoutStepsSetGuard } from &#x27;../../../guards/checkout-steps-set.g
     }),
   ],
   declarations: [CheckoutProgressMobileBottomComponent],
-  entryComponents: [CheckoutProgressMobileBottomComponent],
   exports: [CheckoutProgressMobileBottomComponent],
 })
 export class CheckoutProgressMobileBottomModule {}

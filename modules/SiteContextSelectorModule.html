@@ -56,10 +56,6 @@
 <title>cluster_SiteContextSelectorModule</title>
 <polygon fill="none" stroke="black" stroke-dasharray="1,5" points="8,-32.8 8,-230.8 978,-230.8 978,-32.8 8,-32.8"/>
 </g>
-<g id="clust6" class="cluster">
-<title>cluster_SiteContextSelectorModule_exports</title>
-<polygon fill="none" stroke="black" points="284,-170.8 284,-222.8 706,-222.8 706,-170.8 284,-170.8"/>
-</g>
 <g id="clust2" class="cluster">
 <title>cluster_SiteContextSelectorModule_declarations</title>
 <polygon fill="none" stroke="black" points="554,-40.8 554,-92.8 970,-92.8 970,-40.8 554,-40.8"/>
@@ -67,6 +63,10 @@
 <g id="clust5" class="cluster">
 <title>cluster_SiteContextSelectorModule_imports</title>
 <polygon fill="none" stroke="black" points="302,-40.8 302,-92.8 546,-92.8 546,-40.8 302,-40.8"/>
+</g>
+<g id="clust6" class="cluster">
+<title>cluster_SiteContextSelectorModule_exports</title>
+<polygon fill="none" stroke="black" points="284,-170.8 284,-222.8 706,-222.8 706,-170.8 284,-170.8"/>
 </g>
 <g id="clust8" class="cluster">
 <title>cluster_SiteContextSelectorModule_providers</title>
@@ -192,7 +192,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/misc/site-context-selector/site-context-selector.module.ts</code>
+            <code>projects/storefrontlib/cms-components/misc/site-context-selector/site-context-selector.module.ts</code>
         </p>
 
 
@@ -204,18 +204,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/LanguageCurrencyComponent.html">LanguageCurrencyComponent</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../components/SiteContextSelectorComponent.html">SiteContextSelectorComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/LanguageCurrencyComponent.html">LanguageCurrencyComponent</a>
@@ -304,7 +292,6 @@ import { SiteContextSelectorComponent } from &#x27;./site-context-selector.compo
     SiteContextComponentService,
   ],
   declarations: [SiteContextSelectorComponent, LanguageCurrencyComponent],
-  entryComponents: [SiteContextSelectorComponent, LanguageCurrencyComponent],
   exports: [SiteContextSelectorComponent, LanguageCurrencyComponent],
 })
 export class SiteContextSelectorModule {}

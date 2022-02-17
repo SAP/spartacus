@@ -163,18 +163,18 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="whitelistParams"></a>
+                    <a name="allowlistParams"></a>
                     <span class="name">
                         <span class="modifier">Static</span>
-                        <span ><b>whitelistParams</b></span>
-                        <a href="#whitelistParams"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>allowlistParams</b></span>
+                        <a href="#allowlistParams"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>whitelistParams(whitelistedParams: string[])</code>
+                    <code>allowlistParams(allowlistedParams: string[])</code>
                 </td>
             </tr>
 
@@ -202,7 +202,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>whitelistedParams</td>
+                                    <td>allowlistedParams</td>
                                     <td>
                                             <code>string[]</code>
                                     </td>
@@ -236,7 +236,7 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CommonModule } from &#x27;@angular/common&#x27;;
 import { ModuleWithProviders, NgModule } from &#x27;@angular/core&#x27;;
-import { MockUrlPipe, URL_TESTING_WHITELISTED_PARAMS } from &#x27;./mock-url.pipe&#x27;;
+import { MockUrlPipe, URL_TESTING_ALLOWLISTED_PARAMS } from &#x27;./mock-url.pipe&#x27;;
 
 @NgModule({
   imports: [CommonModule],
@@ -244,15 +244,15 @@ import { MockUrlPipe, URL_TESTING_WHITELISTED_PARAMS } from &#x27;./mock-url.pip
   exports: [MockUrlPipe],
 })
 export class UrlTestingModule {
-  static whitelistParams(
-    whitelistedParams: string[]
+  static allowlistParams(
+    allowlistedParams: string[]
   ): ModuleWithProviders&lt;UrlTestingModule&gt; {
     return {
       ngModule: UrlTestingModule,
       providers: [
         {
-          provide: URL_TESTING_WHITELISTED_PARAMS,
-          useValue: whitelistedParams,
+          provide: URL_TESTING_ALLOWLISTED_PARAMS,
+          useValue: allowlistedParams,
         },
       ],
     };

@@ -107,7 +107,16 @@
                                 <a href="#findStoresAction" >findStoresAction</a>
                             </li>
                             <li>
+                                <a href="#getFindStoreEntityById" >getFindStoreEntityById</a>
+                            </li>
+                            <li>
                                 <a href="#getFindStoresEntities" >getFindStoresEntities</a>
+                            </li>
+                            <li>
+                                <a href="#getStoreLatitude" >getStoreLatitude</a>
+                            </li>
+                            <li>
+                                <a href="#getStoreLongitude" >getStoreLongitude</a>
                             </li>
                             <li>
                                 <a href="#getStoresLoaded" >getStoresLoaded</a>
@@ -156,12 +165,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(store: Store<StateWithStoreFinder>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, platformId?: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
+<code>constructor(store: Store<StateWithStoreFinder>, winRef: <a href="../injectables/WindowRef.html" target="_self">WindowRef</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, platformId: <a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank">any</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:47</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:25</a></div>
                             </td>
                         </tr>
 
@@ -234,7 +243,7 @@
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -272,8 +281,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="220"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:220</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:208</a></div>
                 </td>
             </tr>
 
@@ -342,8 +351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="177"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:177</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="165"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:165</a></div>
                 </td>
             </tr>
 
@@ -403,15 +412,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findStoresAction(queryText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig?: <a href="../interfaces/SearchConfig.html" target="_self">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html" target="_self">GeoPoint</a>, countryIsoCode?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, useMyLocation?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+<code>findStoresAction(queryText: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, searchConfig?: <a href="../injectables/Config.html" target="_self">SearchConfig</a>, longitudeLatitude?: <a href="../interfaces/GeoPoint.html" target="_self">GeoPoint</a>, countryIsoCode?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, useMyLocation?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/boolean" target="_blank">boolean</a>, radius?: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="111"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:111</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -452,7 +461,7 @@
                                 <tr>
                                     <td>searchConfig</td>
                                     <td>
-                                                <code><a href="../interfaces/SearchConfig.html" target="_self" >SearchConfig</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >SearchConfig</a></code>
                                     </td>
 
                                     <td>
@@ -549,6 +558,45 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="getFindStoreEntityById"></a>
+                    <span class="name">
+                        <span ><b>getFindStoreEntityById</b></span>
+                        <a href="#getFindStoreEntityById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getFindStoreEntityById()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="64"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:64</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns observable for a single store by Id</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../interfaces/StoreEntities.html" target="_self" >Observable&lt;StoreEntities&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="getFindStoresEntities"></a>
                     <span class="name">
                         <span ><b>getFindStoresEntities</b></span>
@@ -565,8 +613,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="76"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:76</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="54"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:54</a></div>
                 </td>
             </tr>
 
@@ -579,6 +627,156 @@
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/StoreEntities.html" target="_self" >Observable&lt;StoreEntities&gt;</a></code>
 
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoreLatitude"></a>
+                    <span class="name">
+                        <span ><b>getStoreLatitude</b></span>
+                        <a href="#getStoreLatitude"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStoreLatitude(location: <a href="../interfaces/PointOfService.html" target="_self">PointOfService</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="227"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:227</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns store latitude</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>location</td>
+                                    <td>
+                                                <code><a href="../interfaces/PointOfService.html" target="_self" >PointOfService</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>store location</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >number | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="getStoreLongitude"></a>
+                    <span class="name">
+                        <span ><b>getStoreLongitude</b></span>
+                        <a href="#getStoreLongitude"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>getStoreLongitude(location: <a href="../interfaces/PointOfService.html" target="_self">PointOfService</a>)</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="235"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:235</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns store longitude</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>location</td>
+                                    <td>
+                                                <code><a href="../interfaces/PointOfService.html" target="_self" >PointOfService</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>store location</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >number | undefined</a></code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -604,8 +802,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="69"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:69</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="47"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:47</a></div>
                 </td>
             </tr>
 
@@ -643,8 +841,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="62"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:62</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="40"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:40</a></div>
                 </td>
             </tr>
 
@@ -682,8 +880,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="95"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:95</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="83"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:83</a></div>
                 </td>
             </tr>
 
@@ -721,8 +919,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="86"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:86</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:74</a></div>
                 </td>
             </tr>
 
@@ -762,8 +960,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="187"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:187</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="175"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:175</a></div>
                 </td>
             </tr>
 
@@ -830,8 +1028,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="231"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:231</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="219"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:219</a></div>
                 </td>
             </tr>
 
@@ -869,8 +1067,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="196"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:196</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="184"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:184</a></div>
                 </td>
             </tr>
 
@@ -908,8 +1106,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="163"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:163</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="151"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:151</a></div>
                 </td>
             </tr>
 
@@ -947,8 +1145,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="171"
-                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:171</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="159"
+                            class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:159</a></div>
                 </td>
             </tr>
 
@@ -1033,7 +1231,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:24</a></div>
                         </td>
                     </tr>
 
@@ -1059,7 +1257,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/storefinder/core/facade/store-finder.service.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -1079,6 +1277,7 @@ import {
   GeoPoint,
   GlobalMessageService,
   GlobalMessageType,
+  PointOfService,
   RoutingService,
   SearchConfig,
   WindowRef,
@@ -1098,34 +1297,11 @@ export class StoreFinderService implements OnDestroy {
   protected subscription &#x3D; new Subscription();
 
   constructor(
-    store: Store&lt;StateWithStoreFinder&gt;,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService
-  );
-
-  /**
-   * @deprecated since version 3.1
-   * Use constructor(protected store: Store&lt;StateWithStoreFinder&gt;, protected winRef: WindowRef, protected globalMessageService: GlobalMessageService,
-   * protected routingService: RoutingService @Inject(PLATFORM_ID) protected platformId: any); instead
-   */
-  // TODO(#11093): Remove deprecated constructors
-
-  constructor(
-    store: Store&lt;StateWithStoreFinder&gt;,
-    winRef: WindowRef,
-    globalMessageService: GlobalMessageService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    platformId: any
-  );
-
-  constructor(
     protected store: Store&lt;StateWithStoreFinder&gt;,
     protected winRef: WindowRef,
     protected globalMessageService: GlobalMessageService,
     protected routingService: RoutingService,
-    @Inject(PLATFORM_ID) protected platformId?: any
+    @Inject(PLATFORM_ID) protected platformId: any
   ) {
     this.reloadStoreEntitiesOnContextChange();
   }
@@ -1151,6 +1327,16 @@ export class StoreFinderService implements OnDestroy {
     return this.store.pipe(
       select(StoreFinderSelectors.getFindStoresEntities),
       map((data) &#x3D;&gt; data.findStoresEntities)
+    );
+  }
+
+  /**
+   * Returns observable for a single store by Id
+   */
+  getFindStoreEntityById(): Observable&lt;StoreEntities&gt; {
+    return this.store.pipe(
+      select(StoreFinderSelectors.getFindStoresEntities),
+      map((data) &#x3D;&gt; data.findStoreEntityById)
     );
   }
 
@@ -1192,32 +1378,32 @@ export class StoreFinderService implements OnDestroy {
   ) {
     if (useMyLocation &amp;&amp; this.winRef.nativeWindow) {
       this.clearWatchGeolocation(new StoreFinderActions.FindStoresOnHold());
-      this.geolocationWatchId &#x3D; this.winRef.nativeWindow.navigator.geolocation.watchPosition(
-        // TODO: Replace to GeolocationPosition when updating to new TS version
-        (pos: Position) &#x3D;&gt; {
-          const position: GeoPoint &#x3D; {
-            longitude: pos.coords.longitude,
-            latitude: pos.coords.latitude,
-          };
+      this.geolocationWatchId &#x3D;
+        this.winRef.nativeWindow.navigator.geolocation.watchPosition(
+          (pos: GeolocationPosition) &#x3D;&gt; {
+            const position: GeoPoint &#x3D; {
+              longitude: pos.coords.longitude,
+              latitude: pos.coords.latitude,
+            };
 
-          this.clearWatchGeolocation(
-            new StoreFinderActions.FindStores({
-              queryText: queryText,
-              searchConfig: searchConfig,
-              longitudeLatitude: position,
-              countryIsoCode: countryIsoCode,
-              radius: radius,
-            })
-          );
-        },
-        () &#x3D;&gt; {
-          this.globalMessageService.add(
-            { key: &#x27;storeFinder.geolocationNotEnabled&#x27; },
-            GlobalMessageType.MSG_TYPE_ERROR
-          );
-          this.routingService.go([&#x27;/store-finder&#x27;]);
-        }
-      );
+            this.clearWatchGeolocation(
+              new StoreFinderActions.FindStores({
+                queryText: queryText,
+                searchConfig: searchConfig,
+                longitudeLatitude: position,
+                countryIsoCode: countryIsoCode,
+                radius: radius,
+              })
+            );
+          },
+          () &#x3D;&gt; {
+            this.globalMessageService.add(
+              { key: &#x27;storeFinder.geolocationNotEnabled&#x27; },
+              GlobalMessageType.MSG_TYPE_ERROR
+            );
+            this.routingService.go([&#x27;/store-finder&#x27;]);
+          }
+        );
     } else {
       this.clearWatchGeolocation(
         new StoreFinderActions.FindStores({
@@ -1304,6 +1490,22 @@ export class StoreFinderService implements OnDestroy {
 
   ngOnDestroy() {
     this.subscription?.unsubscribe();
+  }
+
+  /**
+   * Returns store latitude
+   * @param location store location
+   */
+  getStoreLatitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.latitude;
+  }
+
+  /**
+   * Returns store longitude
+   * @param location store location
+   */
+  getStoreLongitude(location: PointOfService): number | undefined {
+    return location?.geoPoint?.longitude;
   }
 }
 </code></pre>

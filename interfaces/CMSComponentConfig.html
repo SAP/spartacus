@@ -73,7 +73,7 @@
                 <h3>Extends</h3>
             </p>
             <p class="comment">
-                        <code><a href="../interfaces/StandardCmsComponentConfig.html" target="_self" >StandardCmsComponentConfig</a></code>
+                        <code><a href="../injectables/Config.html" target="_self" >StandardCmsComponentConfig</a></code>
             </p>
 
 
@@ -225,6 +225,10 @@ export interface FeatureModuleConfig {
 export abstract class CmsConfig extends OccConfig {
   featureModules?: { [featureName: string]: FeatureModuleConfig | string };
   cmsComponents?: CMSComponentConfig;
+}
+
+declare module &#x27;../../config/config-tokens&#x27; {
+  interface Config extends CmsConfig {}
 }
 </code></pre>
     </div>

@@ -128,7 +128,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:49</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="47" class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:47</a></div>
                             </td>
                         </tr>
 
@@ -239,8 +239,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="81"
-                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:81</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="79"
+                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:79</a></div>
                 </td>
             </tr>
 
@@ -278,8 +278,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="64"
-                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:64</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="62"
+                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:62</a></div>
                 </td>
             </tr>
 
@@ -348,8 +348,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="74"
-                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:74</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="72"
+                            class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:72</a></div>
                 </td>
             </tr>
 
@@ -437,15 +437,15 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.command.create(({ user }) &#x3D;&gt;
-    this.userConnector.register(user).pipe(
-      tap(() &#x3D;&gt; {
-        // this is a compatibility mechanism only, to make anonymous consents
-        // management work properly in transitional period (when we move logic
-        // to separate libraries)
-        this.store.dispatch(new UserActions.RegisterUserSuccess());
-      })
-    )
-  )</code>
+      this.userConnector.register(user).pipe(
+        tap(() &#x3D;&gt; {
+          // this is a compatibility mechanism only, to make anonymous consents
+          // management work properly in transitional period (when we move logic
+          // to separate libraries)
+          this.store.dispatch(new UserActions.RegisterUserSuccess());
+        })
+      )
+    )</code>
                     </td>
                 </tr>
                     <tr>
@@ -489,7 +489,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">feature-libs/user/profile/core/facade/user-register.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -523,19 +523,17 @@ import { Store } from &#x27;@ngrx/store&#x27;;
 
 @Injectable()
 export class UserRegisterService implements UserRegisterFacade {
-  protected registerCommand: Command&lt;
-    { user: UserSignUp },
-    User
-  &gt; &#x3D; this.command.create(({ user }) &#x3D;&gt;
-    this.userConnector.register(user).pipe(
-      tap(() &#x3D;&gt; {
-        // this is a compatibility mechanism only, to make anonymous consents
-        // management work properly in transitional period (when we move logic
-        // to separate libraries)
-        this.store.dispatch(new UserActions.RegisterUserSuccess());
-      })
-    )
-  );
+  protected registerCommand: Command&lt;{ user: UserSignUp }, User&gt; &#x3D;
+    this.command.create(({ user }) &#x3D;&gt;
+      this.userConnector.register(user).pipe(
+        tap(() &#x3D;&gt; {
+          // this is a compatibility mechanism only, to make anonymous consents
+          // management work properly in transitional period (when we move logic
+          // to separate libraries)
+          this.store.dispatch(new UserActions.RegisterUserSuccess());
+        })
+      )
+    );
 
   protected registerGuestCommand: Command&lt;
     {

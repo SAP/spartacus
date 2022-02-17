@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/store/effects/card-types.effect.ts</code>
+            <code>feature-libs/checkout/core/store/effects/card-types.effect.ts</code>
         </p>
 
 
@@ -103,7 +103,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">projects/core/src/checkout/store/effects/card-types.effect.ts:24</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">feature-libs/checkout/core/store/effects/card-types.effect.ts:24</a></div>
                             </td>
                         </tr>
 
@@ -202,7 +202,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/checkout/store/effects/card-types.effect.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">feature-libs/checkout/core/store/effects/card-types.effect.ts:12</a></div>
                         </td>
                     </tr>
 
@@ -217,9 +217,9 @@
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Actions, Effect, ofType } from &#x27;@ngrx/effects&#x27;;
+import { normalizeHttpError } from &#x27;@spartacus/core&#x27;;
 import { Observable, of } from &#x27;rxjs&#x27;;
 import { catchError, map, switchMap } from &#x27;rxjs/operators&#x27;;
-import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27;;
 import { CheckoutPaymentConnector } from &#x27;../../connectors/payment/checkout-payment.connector&#x27;;
 import { CheckoutActions } from &#x27;../actions/index&#x27;;
 

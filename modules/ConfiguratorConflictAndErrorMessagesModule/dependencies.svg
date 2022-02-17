@@ -18,13 +18,13 @@
 <title>cluster_ConfiguratorConflictAndErrorMessagesModule_declarations</title>
 <polygon fill="none" stroke="black" points="324,-40.8 324,-92.8 648,-92.8 648,-40.8 324,-40.8"/>
 </g>
-<g id="clust5" class="cluster">
-<title>cluster_ConfiguratorConflictAndErrorMessagesModule_exports</title>
-<polygon fill="none" stroke="black" points="58,-170.8 58,-222.8 386,-222.8 386,-170.8 58,-170.8"/>
-</g>
 <g id="clust4" class="cluster">
 <title>cluster_ConfiguratorConflictAndErrorMessagesModule_imports</title>
 <polygon fill="none" stroke="black" points="16,-40.8 16,-92.8 316,-92.8 316,-40.8 16,-40.8"/>
+</g>
+<g id="clust5" class="cluster">
+<title>cluster_ConfiguratorConflictAndErrorMessagesModule_exports</title>
+<polygon fill="none" stroke="black" points="58,-170.8 58,-222.8 386,-222.8 386,-170.8 58,-170.8"/>
 </g>
 <!-- ConfiguratorConflictAndErrorMessagesComponent -->
 <g id="node1" class="node">

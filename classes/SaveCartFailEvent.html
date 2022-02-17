@@ -425,6 +425,59 @@ export class RestoreSavedCartFailEvent extends SavedCartEvent {
   saveCartDescription?: string;
   saveTime: string;
 }
+
+export class EditSavedCartEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;EditSavedCartEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
+export class EditSavedCartSuccessEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;EditSavedCartSuccessEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
+export class EditSavedCartFailEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;EditSavedCartFailEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
+
+export class CloneSavedCartEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;CloneSavedCartEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
+export class CloneSavedCartSuccessEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;CloneSavedCartSuccessEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+}
+export class CloneSavedCartFailEvent extends SavedCartEvent {
+  /**
+   * Event&#x27;s type
+   */
+  static readonly type &#x3D; &#x27;CloneSavedCartFailEvent&#x27;;
+  saveCartName?: string;
+  saveCartDescription?: string;
+  saveTime: string;
+}
 </code></pre>
     </div>
 </div>

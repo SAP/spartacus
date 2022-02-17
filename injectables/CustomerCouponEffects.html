@@ -112,7 +112,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="121" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:121</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="127" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:127</a></div>
                             </td>
                         </tr>
 
@@ -188,29 +188,30 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .claimCustomerCoupon(payload.userId, payload.couponCode)
-        .pipe(
-          map((data) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
-              data
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                normalizeHttpError(error)
+      ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .claimCustomerCoupon(payload.userId, payload.couponCode)
+          .pipe(
+            map((data) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+                data
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.ClaimCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -224,7 +225,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="98" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:98</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="102" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:102</a></div>
                         </td>
                     </tr>
 
@@ -251,34 +252,35 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
-    map(
-      (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .getCustomerCoupons(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((coupons: CustomerCouponSearchResult) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
-              coupons
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                normalizeHttpError(error)
+      ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
+      map(
+        (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .getCustomerCoupons(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+          .pipe(
+            map((coupons: CustomerCouponSearchResult) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
+                coupons
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.LoadCustomerCouponsFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -319,30 +321,30 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
-        action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .turnOnNotification(payload.userId, payload.couponCode)
-        .pipe(
-          map((data: any) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-              data
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                normalizeHttpError(error)
+      ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .turnOnNotification(payload.userId, payload.couponCode)
+          .pipe(
+            map((data: any) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
+                data
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -356,7 +358,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="46" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:46</a></div>
                         </td>
                     </tr>
 
@@ -383,30 +385,30 @@
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
-        action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .turnOffNotification(payload.userId, payload.couponCode)
-        .pipe(
-          map(() &#x3D;&gt; {
-            return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-              payload.couponCode
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                normalizeHttpError(error)
+      ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .turnOffNotification(payload.userId, payload.couponCode)
+          .pipe(
+            map(() &#x3D;&gt; {
+              return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
+                payload.couponCode
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  )</code>
+          );
+      })
+    )</code>
                     </td>
                 </tr>
                 <tr>
@@ -420,7 +422,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="71" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:71</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="74" class="link-to-prism">projects/core/src/user/store/effects/customer-coupon.effect.ts:74</a></div>
                         </td>
                     </tr>
 
@@ -445,115 +447,121 @@ import { normalizeHttpError } from &#x27;../../../util/normalize-http-error&#x27
 @Injectable()
 export class CustomerCouponEffects {
   @Effect()
-  loadCustomerCoupons$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
-    map(
-      (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .getCustomerCoupons(
-          payload.userId,
-          payload.pageSize,
-          payload.currentPage,
-          payload.sort
-        )
-        .pipe(
-          map((coupons: CustomerCouponSearchResult) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
-              coupons
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.LoadCustomerCouponsFail(
-                normalizeHttpError(error)
+  loadCustomerCoupons$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(fromCustomerCouponsAction.LOAD_CUSTOMER_COUPONS),
+      map(
+        (action: fromCustomerCouponsAction.LoadCustomerCoupons) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .getCustomerCoupons(
+            payload.userId,
+            payload.pageSize,
+            payload.currentPage,
+            payload.sort
+          )
+          .pipe(
+            map((coupons: CustomerCouponSearchResult) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.LoadCustomerCouponsSuccess(
+                coupons
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.LoadCustomerCouponsFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   @Effect()
-  subscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
-        action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .turnOnNotification(payload.userId, payload.couponCode)
-        .pipe(
-          map((data: any) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
-              data
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
-                normalizeHttpError(error)
+  subscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(fromCustomerCouponsAction.SUBSCRIBE_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.SubscribeCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .turnOnNotification(payload.userId, payload.couponCode)
+          .pipe(
+            map((data: any) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.SubscribeCustomerCouponSuccess(
+                data
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.SubscribeCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   @Effect()
-  unsubscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
-        action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .turnOffNotification(payload.userId, payload.couponCode)
-        .pipe(
-          map(() &#x3D;&gt; {
-            return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
-              payload.couponCode
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
-                normalizeHttpError(error)
+  unsubscribeCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(fromCustomerCouponsAction.UNSUBSCRIBE_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.UnsubscribeCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .turnOffNotification(payload.userId, payload.couponCode)
+          .pipe(
+            map(() &#x3D;&gt; {
+              return new fromCustomerCouponsAction.UnsubscribeCustomerCouponSuccess(
+                payload.couponCode
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.UnsubscribeCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   @Effect()
-  claimCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D; this.actions$.pipe(
-    ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
-    map(
-      (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt; action.payload
-    ),
-    mergeMap((payload) &#x3D;&gt; {
-      return this.customerCouponConnector
-        .claimCustomerCoupon(payload.userId, payload.couponCode)
-        .pipe(
-          map((data) &#x3D;&gt; {
-            return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
-              data
-            );
-          }),
-          catchError((error) &#x3D;&gt;
-            of(
-              new fromCustomerCouponsAction.ClaimCustomerCouponFail(
-                normalizeHttpError(error)
+  claimCustomerCoupon$: Observable&lt;fromCustomerCouponsAction.CustomerCouponAction&gt; &#x3D;
+    this.actions$.pipe(
+      ofType(fromCustomerCouponsAction.CLAIM_CUSTOMER_COUPON),
+      map(
+        (action: fromCustomerCouponsAction.ClaimCustomerCoupon) &#x3D;&gt;
+          action.payload
+      ),
+      mergeMap((payload) &#x3D;&gt; {
+        return this.customerCouponConnector
+          .claimCustomerCoupon(payload.userId, payload.couponCode)
+          .pipe(
+            map((data) &#x3D;&gt; {
+              return new fromCustomerCouponsAction.ClaimCustomerCouponSuccess(
+                data
+              );
+            }),
+            catchError((error) &#x3D;&gt;
+              of(
+                new fromCustomerCouponsAction.ClaimCustomerCouponFail(
+                  normalizeHttpError(error)
+                )
               )
             )
-          )
-        );
-    })
-  );
+          );
+      })
+    );
 
   constructor(
     private actions$: Actions,

@@ -272,8 +272,8 @@ Uses AuthHttpHeaderService for request manipulation and error handling. Intercep
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="96"
-                            class="link-to-prism">projects/core/src/auth/user-auth/http-interceptors/auth.interceptor.ts:96</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="94"
+                            class="link-to-prism">projects/core/src/auth/user-auth/http-interceptors/auth.interceptor.ts:94</a></div>
                 </td>
             </tr>
 
@@ -354,12 +354,10 @@ export class AuthInterceptor implements HttpInterceptor {
     request: HttpRequest&lt;any&gt;,
     next: HttpHandler
   ): Observable&lt;HttpEvent&lt;any&gt;&gt; {
-    const shouldCatchError &#x3D; this.authHttpHeaderService.shouldCatchError(
-      request
-    );
-    const shouldAddAuthorizationHeader &#x3D; this.authHttpHeaderService.shouldAddAuthorizationHeader(
-      request
-    );
+    const shouldCatchError &#x3D;
+      this.authHttpHeaderService.shouldCatchError(request);
+    const shouldAddAuthorizationHeader &#x3D;
+      this.authHttpHeaderService.shouldAddAuthorizationHeader(request);
 
     const token$ &#x3D; shouldAddAuthorizationHeader
       ? // emits sync, unless there is refresh or logout in progress, in which case it emits async

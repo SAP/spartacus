@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/layout/config/layout-config.ts</code>
+            <code>projects/storefrontlib/layout/config/layout-config.ts</code>
         </p>
 
 
@@ -318,6 +318,10 @@ export abstract class LayoutConfig {
   };
 
   launch?: LaunchConfig;
+}
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends LayoutConfig {}
 }
 </code></pre>
     </div>

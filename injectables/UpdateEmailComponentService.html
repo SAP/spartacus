@@ -127,12 +127,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userEmail: <a href="../injectables/UserEmailFacade.html" target="_self">UserEmailFacade</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>)</code>
+<code>constructor(userEmail: <a href="../injectables/UserEmailFacade.html" target="_self">UserEmailFacade</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, globalMessageService: <a href="../injectables/GlobalMessageService.html" target="_self">GlobalMessageService</a>, authService: <a href="../injectables/AuthService.html" target="_self">AuthService</a>, authRedirectService: <a href="../injectables/AuthRedirectService.html" target="_self">AuthRedirectService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="15" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:15</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -197,6 +197,18 @@
                                                     </td>
                                                     
                                                 </tr>
+                                                <tr>
+                                                        <td>authRedirectService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/AuthRedirectService.html" target="_self" >AuthRedirectService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -233,8 +245,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="83"
-                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:83</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="92"
+                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:92</a></div>
                 </td>
             </tr>
 
@@ -303,8 +315,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="63"
-                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:63</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="65"
+                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:65</a></div>
                 </td>
             </tr>
 
@@ -373,8 +385,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="43"
-                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:43</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="45"
+                            class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:45</a></div>
                 </td>
             </tr>
 
@@ -415,7 +427,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="23" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:23</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:25</a></div>
                         </td>
                     </tr>
 
@@ -458,7 +470,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -485,7 +497,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:25</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">feature-libs/user/profile/components/update-email/update-email-component.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -501,6 +513,7 @@
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { FormControl, FormGroup, Validators } from &#x27;@angular/forms&#x27;;
 import {
+  AuthRedirectService,
   AuthService,
   GlobalMessageService,
   GlobalMessageType,
@@ -517,7 +530,8 @@ export class UpdateEmailComponentService {
     protected userEmail: UserEmailFacade,
     protected routingService: RoutingService,
     protected globalMessageService: GlobalMessageService,
-    protected authService: AuthService
+    protected authService: AuthService,
+    protected authRedirectService: AuthRedirectService
   ) {}
 
   protected busy$ &#x3D; new BehaviorSubject(false);
@@ -570,13 +584,20 @@ export class UpdateEmailComponentService {
     );
     this.busy$.next(false);
     this.form.reset();
+    // sets the redirect url after login
+    this.authRedirectService.setRedirectUrl(
+      this.routingService.getUrl({ cxRoute: &#x27;home&#x27; })
+    );
     // TODO(#9638): Use logout route when it will support passing redirect url
     this.authService.coreLogout().then(() &#x3D;&gt; {
-      this.routingService.go({ cxRoute: &#x27;login&#x27; }, undefined, {
-        state: {
-          newUid,
-        },
-      });
+      this.routingService.go(
+        { cxRoute: &#x27;login&#x27; },
+        {
+          state: {
+            newUid,
+          },
+        }
+      );
     });
   }
 

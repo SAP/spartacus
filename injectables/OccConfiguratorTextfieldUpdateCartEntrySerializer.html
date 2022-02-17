@@ -107,7 +107,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:14</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="16" class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:16</a></div>
                             </td>
                         </tr>
 
@@ -133,15 +133,15 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>convert(source: <a href="../classes/UpdateCartEntry.html" target="_self">ConfiguratorTextfield.UpdateCartEntryParameters</a>)</code>
+<code>convert(source: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.UpdateCartEntryParameters</a>)</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="23"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:23</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="25"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:25</a></div>
                 </td>
             </tr>
 
@@ -167,7 +167,7 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../classes/UpdateCartEntry.html" target="_self" >ConfiguratorTextfield.UpdateCartEntryParameters</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.UpdateCartEntryParameters</a></code>
                                     </td>
 
                                     <td>
@@ -186,7 +186,7 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>        <code><a href="../injectables/OccConfig.html" target="_self" >OccConfiguratorTextfield.UpdateCartEntryParameters</a></code>
+                        <b>Returns : </b>        <code><a href="../classes/UpdateCartEntry.html" target="_self" >OccConfiguratorTextfield.UpdateCartEntryParameters</a></code>
 
                     </div>
                     <div class="io-description">
@@ -212,15 +212,15 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
             <tr>
                 <td class="col-md-4">
                     <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>convertInfo(source: <a href="../s/Config.html" target="_self">ConfiguratorTextfield.ConfigurationInfo</a>, occConfigurationInfos: <a href="../injectables/OccConfig.html" target="_self">OccConfiguratorTextfield.ConfigurationInfo[]</a>)</code>
+                    <code>convertInfo(source: <a href="../injectables/Config.html" target="_self">ConfiguratorTextfield.ConfigurationInfo</a>, occConfigurationInfos: OccConfiguratorTextfield.ConfigurationInfo[])</code>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="40"
-                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:40</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">feature-libs/product-configurator/textfield/occ/converters/occ-configurator-textfield-update-cart-entry-serializer.ts:43</a></div>
                 </td>
             </tr>
 
@@ -242,7 +242,7 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
                                 <tr>
                                     <td>source</td>
                                     <td>
-                                                <code><a href="../miscellaneous/variables.html#Config" target="_self" >ConfiguratorTextfield.ConfigurationInfo</a></code>
+                                                <code><a href="../injectables/Config.html" target="_self" >ConfiguratorTextfield.ConfigurationInfo</a></code>
                                     </td>
 
                                     <td>
@@ -254,7 +254,7 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
                                 <tr>
                                     <td>occConfigurationInfos</td>
                                     <td>
-                                                <code><a href="../injectables/OccConfig.html" target="_self" >OccConfiguratorTextfield.ConfigurationInfo[]</a></code>
+                                            <code>OccConfiguratorTextfield.ConfigurationInfo[]</code>
                                     </td>
 
                                     <td>
@@ -287,6 +287,7 @@ except for the backend configurator type that needs to be set to &#39;TEXTFIELD&
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import { Converter } from &#x27;@spartacus/core&#x27;;
+import { ConfigurationInfo } from &#x27;@spartacus/product-configurator/common&#x27;;
 import { ConfiguratorTextfield } from &#x27;../../core/model/configurator-textfield.model&#x27;;
 import { OccConfiguratorTextfield } from &#x27;../occ-configurator-textfield.models&#x27;;
 
@@ -298,7 +299,8 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
     Converter&lt;
       ConfiguratorTextfield.UpdateCartEntryParameters,
       OccConfiguratorTextfield.UpdateCartEntryParameters
-    &gt; {
+    &gt;
+{
   constructor() {}
 
   /**
@@ -310,16 +312,17 @@ export class OccConfiguratorTextfieldUpdateCartEntrySerializer
   convert(
     source: ConfiguratorTextfield.UpdateCartEntryParameters
   ): OccConfiguratorTextfield.UpdateCartEntryParameters {
+    const configurationInfos: ConfigurationInfo[] &#x3D; [];
+    source.configuration?.configurationInfos.forEach((info) &#x3D;&gt;
+      this.convertInfo(info, configurationInfos)
+    );
+
     const target: OccConfiguratorTextfield.UpdateCartEntryParameters &#x3D; {
       userId: source.userId,
       cartId: source.cartId,
       cartEntryNumber: source.cartEntryNumber,
-      configurationInfos: [],
+      configurationInfos: configurationInfos,
     };
-
-    source.configuration.configurationInfos.forEach((info) &#x3D;&gt;
-      this.convertInfo(info, target.configurationInfos)
-    );
 
     return target;
   }

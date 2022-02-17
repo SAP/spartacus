@@ -178,8 +178,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="71"
-                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/conflict/conflict.handler.ts:71</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/conflict/conflict.handler.ts:68</a></div>
                 </td>
             </tr>
 
@@ -252,7 +252,7 @@
             </tr>
             <tr>
                 <td class="col-md-4">
-                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:77</a></code>
+                        <div class="io-line">Defined in         <code><a href="../injectables/HttpErrorHandler.html#source" target="_self" >HttpErrorHandler:74</a></code>
 </div>
                 </td>
             </tr>
@@ -291,8 +291,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="55"
-                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/conflict/conflict.handler.ts:55</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="52"
+                            class="link-to-prism">feature-libs/organization/administration/core/http-interceptors/conflict/conflict.handler.ts:52</a></div>
                 </td>
             </tr>
 
@@ -846,12 +846,9 @@ export class OrganizationConflictHandler extends HttpErrorHandler {
 
   protected matchMask(response: HttpErrorResponse): boolean {
     return this.getErrors(response).some((error) &#x3D;&gt;
-      [
-        this.budgetMask,
-        this.userMask,
-        this.userGroupMask,
-        this.unitMask,
-      ].some((mask) &#x3D;&gt; mask.test(error.message))
+      [this.budgetMask, this.userMask, this.userGroupMask, this.unitMask].some(
+        (mask) &#x3D;&gt; mask.test(error.message)
+      )
     );
   }
 

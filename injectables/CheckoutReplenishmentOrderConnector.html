@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/connectors/replenishment-order/checkout-replenishment-order.connector.ts</code>
+            <code>feature-libs/checkout/core/connectors/replenishment-order/checkout-replenishment-order.connector.ts</code>
         </p>
 
 
@@ -104,7 +104,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="12" class="link-to-prism">projects/core/src/checkout/connectors/replenishment-order/checkout-replenishment-order.connector.ts:12</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">feature-libs/checkout/core/connectors/replenishment-order/checkout-replenishment-order.connector.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -169,8 +169,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="15"
-                            class="link-to-prism">projects/core/src/checkout/connectors/replenishment-order/checkout-replenishment-order.connector.ts:15</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="10"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/replenishment-order/checkout-replenishment-order.connector.ts:10</a></div>
                 </td>
             </tr>
 
@@ -260,16 +260,11 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { ReplenishmentOrder, ScheduleReplenishmentForm } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import {
-  ReplenishmentOrder,
-  ScheduleReplenishmentForm,
-} from &#x27;../../../model/replenishment-order.model&#x27;;
 import { CheckoutReplenishmentOrderAdapter } from &#x27;./checkout-replenishment-order.adapter&#x27;;
 
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
+@Injectable()
 export class CheckoutReplenishmentOrderConnector {
   constructor(protected adapter: CheckoutReplenishmentOrderAdapter) {}
 

@@ -152,7 +152,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/components/schedule-replenishment-order/schedule-replenishment-order.module.ts</code>
+            <code>feature-libs/checkout/components/components/schedule-replenishment-order/schedule-replenishment-order.module.ts</code>
         </p>
 
 
@@ -164,15 +164,6 @@
                 <div class="col-sm-3">
                     <h3>Declarations<a href="https://angular.io/api/core/NgModule#declarations" target="_blank"
                             title="Official documentation about module declarations"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../components/ScheduleReplenishmentOrderComponent.html">ScheduleReplenishmentOrderComponent</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>EntryComponents<a href="https://angular.io/api/core/NgModule#entryComponents" target="_blank"
-                            title="Official documentation about module entryComponents"><span class="icon ion-ios-information-circle-outline"></span></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
                             <a href="../components/ScheduleReplenishmentOrderComponent.html">ScheduleReplenishmentOrderComponent</a>
@@ -212,8 +203,8 @@
 import { NgModule } from &#x27;@angular/core&#x27;;
 import { RouterModule } from &#x27;@angular/router&#x27;;
 import { CmsConfig, I18nModule, provideDefaultConfig } from &#x27;@spartacus/core&#x27;;
-import { CartNotEmptyGuard } from &#x27;../../../cart/cart-not-empty.guard&#x27;;
-import { IconModule } from &#x27;../../../misc/icon/icon.module&#x27;;
+import { IconModule } from &#x27;@spartacus/storefront&#x27;;
+import { CartNotEmptyGuard } from &#x27;../../guards/cart-not-empty.guard&#x27;;
 import { CheckoutAuthGuard } from &#x27;../../guards/checkout-auth.guard&#x27;;
 import { ScheduleReplenishmentOrderComponent } from &#x27;./schedule-replenishment-order.component&#x27;;
 
@@ -230,7 +221,6 @@ import { ScheduleReplenishmentOrderComponent } from &#x27;./schedule-replenishme
     }),
   ],
   declarations: [ScheduleReplenishmentOrderComponent],
-  entryComponents: [ScheduleReplenishmentOrderComponent],
   exports: [ScheduleReplenishmentOrderComponent],
 })
 export class ScheduleReplenishmentOrderModule {}

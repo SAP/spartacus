@@ -1,0 +1,268 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>storefrontapp documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css" media="(prefers-color-scheme: dark)">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">storefrontapp documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content interface">
+                   <div class="content-data">
+
+
+
+
+
+
+
+
+
+
+
+
+<ol class="breadcrumb">
+  <li>Interfaces</li>
+  <li
+  >
+  Config</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info">
+        <p class="comment">
+            <h3>File</h3>
+        </p>
+        <p class="comment">
+            <code>projects/storefrontlib/layout/config/layout-config.ts</code>
+        </p>
+
+
+
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code><a href="../injectables/LayoutConfig.html" target="_self" >LayoutConfig</a></code>
+            </p>
+
+
+
+
+    </div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Config, DeferLoadingStrategy } from &#x27;@spartacus/core&#x27;;
+import { LaunchConfig } from &#x27;../launch-dialog/index&#x27;;
+
+/**
+ * The &#x60;BREAKPOINT&#x60; typing defaults to five default screen names:
+ * xs, sm, md, lg, xl.
+ *
+ * The type can be extended to allow for custom screens, such as XLL or &#x60;tablet&#x60;.
+ *
+ * While the screen names are fully configurable, other features might have
+ * pre-configured layout settings per screen. Page layouts or table configurations,
+ * for example, are driven by screen size. In case you change the screen size or
+ * introduce new screen names, you might loose out on these configurations.
+ */
+export enum BREAKPOINT {
+  xs &#x3D; &#x27;xs&#x27;,
+  sm &#x3D; &#x27;sm&#x27;,
+  md &#x3D; &#x27;md&#x27;,
+  lg &#x3D; &#x27;lg&#x27;,
+  xl &#x3D; &#x27;xl&#x27;,
+}
+
+export type LayoutSections &#x3D;
+  | &#x27;header&#x27;
+  | &#x27;footer&#x27;
+  | &#x27;LandingPage2Template&#x27;
+  | string;
+
+export type SlotConfig &#x3D; {
+  /** The cms page slots are mapped by the &#x60;slot.position&#x60;. */
+  slots?: string[];
+
+  /**
+   * The page fold identifies the last expected page slot above-the-fold.
+   * It&#x27;s perfectly fine to specify this by indication, but keep in mind that
+   * a more precise indication will gain a more positive impact on performance.
+   */
+  pageFold?: string;
+};
+
+export type SlotGroup &#x3D; {
+  /** The page slot configuration for large screens */
+  [BREAKPOINT.lg]?: SlotConfig;
+  /** The page slot configuration for medium screens */
+  [BREAKPOINT.md]?: SlotConfig;
+  /** The page slot configuration for small screens */
+  [BREAKPOINT.sm]?: SlotConfig;
+  /** The page slot configuration for extra small screens */
+  [BREAKPOINT.xs]?: SlotConfig;
+};
+
+export type LayoutSlotConfig &#x3D; {
+  [section in LayoutSections]: SlotConfig | SlotGroup | LayoutSlotConfig;
+};
+
+export interface BreakPoint {
+  /**
+   * The minimum screen width.
+   */
+  min?: number;
+
+  /**
+   * The minimum screen width.
+   */
+  max?: number;
+}
+
+/**
+ * The &#x60;LayoutBreakPoints&#x60; can be used to configure the size of a specific screen. The screen
+ * are defined by breakpoints, with a min and/or max value. The breakpoint size is in pixels,
+ * hence a numeric value is expected.
+ */
+export type LayoutBreakPoints &#x3D; {
+  [t in BREAKPOINT]?: number | BreakPoint;
+};
+
+/**
+ * The LayoutConfig supports the configuration of page slots by page templates
+ * or page sections, such as headers and footers. The configuration also supports
+ * adaptive design per breakpoint (not per device type), so that the DOM is (re)rendered
+ * por a given breakpoint.
+ */
+@Injectable({
+  providedIn: &#x27;root&#x27;,
+  useExisting: Config,
+})
+export abstract class LayoutConfig {
+  /**
+   * The breakpoint configuration is used to defined various screens. A specific screen name can
+   * be used to further configure certain features, such as the overall layout or specific
+   * component configurations.
+   */
+  breakpoints?: LayoutBreakPoints;
+
+  layoutSlots?: LayoutSlotConfig;
+
+  /**
+   * Deferred loading is a technique to hold of with the loading / creation
+   * of DOM elements which are not not in the initial view port.
+   * This technique wil increase performance.
+   */
+  deferredLoading?: {
+    /**
+     * The global strategy will be used as a fallback strategy for all DOM creation,
+     * but can be overridden by local configuration, i.e. for cms components.
+     */
+    strategy?: DeferLoadingStrategy;
+    /**
+     * The intersection margin contains the offset used by the Intersection Observer
+     * to observe elements outside the view port.
+     *
+     * See https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/rootMargin
+     */
+    intersectionMargin?: string;
+  };
+
+  launch?: LaunchConfig;
+}
+
+declare module &#x27;@spartacus/core&#x27; {
+  interface Config extends LayoutConfig {}
+}
+</code></pre>
+    </div>
+</div>
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
+            var COMPODOC_CURRENT_PAGE_URL = 'Config-8.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       
+       <script type="module" src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>

@@ -176,7 +176,7 @@ Used by AuthStatePersistenceService to store redirect url for OAuth flows that r
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
 
                     </div>
                     <div class="io-description">
@@ -200,7 +200,7 @@ Used by AuthStatePersistenceService to store redirect url for OAuth flows that r
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>setRedirectUrl(redirectUrl: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>setRedirectUrl(redirectUrl: <a href="../s/undefined.html" target="_self">string | undefined</a>)</code>
                 </td>
             </tr>
 
@@ -232,7 +232,7 @@ Used by AuthStatePersistenceService to store redirect url for OAuth flows that r
                                 <tr>
                                     <td>redirectUrl</td>
                                     <td>
-                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                <code><a href="../miscellaneous/variables.html#undefined" target="_self" >string | undefined</a></code>
                                     </td>
 
                                     <td>
@@ -277,15 +277,15 @@ Used by AuthStatePersistenceService to store redirect url for OAuth flows that r
             </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Type : </i>    <code>Observable&lt;string&gt;</code>
+                        <i>Type : </i>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
 
                     </td>
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>new BehaviorSubject&lt;string&gt;(
-    undefined
-  )</code>
+                        <i>Default value : </i><code>new BehaviorSubject&lt;
+    string | undefined
+  &gt;(undefined)</code>
                     </td>
                 </tr>
                     <tr>
@@ -316,16 +316,16 @@ import { BehaviorSubject, Observable } from &#x27;rxjs&#x27;;
 export class AuthRedirectStorageService {
   constructor() {}
 
-  private redirectUrl$: Observable&lt;string&gt; &#x3D; new BehaviorSubject&lt;string&gt;(
-    undefined
-  );
+  private redirectUrl$: Observable&lt;string | undefined&gt; &#x3D; new BehaviorSubject&lt;
+    string | undefined
+  &gt;(undefined);
 
   /**
    * Get redirect url after logging in.
    *
    * @returns observable with the redirect url as string
    */
-  getRedirectUrl(): Observable&lt;string&gt; {
+  getRedirectUrl(): Observable&lt;string | undefined&gt; {
     return this.redirectUrl$;
   }
 
@@ -334,8 +334,10 @@ export class AuthRedirectStorageService {
    *
    * @param redirectUrl
    */
-  setRedirectUrl(redirectUrl: string): void {
-    (this.redirectUrl$ as BehaviorSubject&lt;string&gt;).next(redirectUrl);
+  setRedirectUrl(redirectUrl: string | undefined): void {
+    (this.redirectUrl$ as BehaviorSubject&lt;string | undefined&gt;).next(
+      redirectUrl
+    );
   }
 }
 </code></pre>

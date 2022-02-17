@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/core/src/checkout/connectors/checkout/checkout.connector.ts</code>
+            <code>feature-libs/checkout/core/connectors/checkout/checkout.connector.ts</code>
         </p>
 
 
@@ -116,7 +116,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="10" class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.connector.ts:10</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">feature-libs/checkout/core/connectors/checkout/checkout.connector.ts:8</a></div>
                             </td>
                         </tr>
 
@@ -181,8 +181,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="28"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.connector.ts:28</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="26"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/checkout/checkout.connector.ts:26</a></div>
                 </td>
             </tr>
 
@@ -263,8 +263,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="35"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.connector.ts:35</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="33"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/checkout/checkout.connector.ts:33</a></div>
                 </td>
             </tr>
 
@@ -345,8 +345,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="21"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.connector.ts:21</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/checkout/checkout.connector.ts:19</a></div>
                 </td>
             </tr>
 
@@ -427,8 +427,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="13"
-                            class="link-to-prism">projects/core/src/checkout/connectors/checkout/checkout.connector.ts:13</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="11"
+                            class="link-to-prism">feature-libs/checkout/core/connectors/checkout/checkout.connector.ts:11</a></div>
                 </td>
             </tr>
 
@@ -506,14 +506,12 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import { Order } from &#x27;@spartacus/core&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
-import { Order } from &#x27;../../../model/order.model&#x27;;
 import { CheckoutDetails } from &#x27;../../models/checkout.model&#x27;;
 import { CheckoutAdapter } from &#x27;./checkout.adapter&#x27;;
 
-@Injectable({
-  providedIn: &#x27;root&#x27;,
-})
+@Injectable()
 export class CheckoutConnector {
   constructor(protected adapter: CheckoutAdapter) {}
 

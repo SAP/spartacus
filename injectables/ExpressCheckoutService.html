@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts</code>
+            <code>feature-libs/checkout/components/services/express-checkout.service.ts</code>
         </p>
 
 
@@ -102,10 +102,6 @@
                         <ul class="index-list">
                             <li>
                                     <span class="modifier">Protected</span>
-                                <a href="#resetCheckoutProcesses" class="deprecated-name">resetCheckoutProcesses</a>
-                            </li>
-                            <li>
-                                    <span class="modifier">Protected</span>
                                 <a href="#setDeliveryMode" >setDeliveryMode</a>
                             </li>
                             <li>
@@ -138,12 +134,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userPaymentService: <a href="../injectables/UserPaymentService.html" target="_self">UserPaymentService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryService.html" target="_self">CheckoutDeliveryService</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentService.html" target="_self">CheckoutPaymentService</a>, checkoutDetailsService: <a href="../injectables/CheckoutDetailsService.html" target="_self">CheckoutDetailsService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html" target="_self">CheckoutConfigService</a>, clearCheckoutService?: <a href="../injectables/ClearCheckoutService.html" target="_self">ClearCheckoutService</a>)</code>
+<code>constructor(userAddressService: <a href="../injectables/UserAddressService.html" target="_self">UserAddressService</a>, userPaymentService: <a href="../injectables/UserPaymentService.html" target="_self">UserPaymentService</a>, checkoutDeliveryService: <a href="../injectables/CheckoutDeliveryFacade.html" target="_self">CheckoutDeliveryFacade</a>, checkoutPaymentService: <a href="../injectables/CheckoutPaymentFacade.html" target="_self">CheckoutPaymentFacade</a>, checkoutDetailsService: <a href="../injectables/CheckoutDetailsService.html" target="_self">CheckoutDetailsService</a>, checkoutConfigService: <a href="../injectables/CheckoutConfigService.html" target="_self">CheckoutConfigService</a>, clearCheckoutService: <a href="../injectables/ClearCheckoutFacade.html" target="_self">ClearCheckoutFacade</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:33</a></div>
                             </td>
                         </tr>
 
@@ -188,7 +184,7 @@
                                                         <td>checkoutDeliveryService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutDeliveryService.html" target="_self" >CheckoutDeliveryService</a></code>
+                                                                        <code><a href="../injectables/CheckoutDeliveryFacade.html" target="_self" >CheckoutDeliveryFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -200,7 +196,7 @@
                                                         <td>checkoutPaymentService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/CheckoutPaymentService.html" target="_self" >CheckoutPaymentService</a></code>
+                                                                        <code><a href="../injectables/CheckoutPaymentFacade.html" target="_self" >CheckoutPaymentFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
@@ -236,11 +232,11 @@
                                                         <td>clearCheckoutService</td>
                                                   
                                                         <td>
-                                                                        <code><a href="../injectables/ClearCheckoutService.html" target="_self" >ClearCheckoutService</a></code>
+                                                                        <code><a href="../injectables/ClearCheckoutFacade.html" target="_self" >ClearCheckoutFacade</a></code>
                                                         </td>
                                                   
                                                     <td>
-                                                            Yes
+                                                            No
                                                     </td>
                                                     
                                                 </tr>
@@ -258,53 +254,6 @@
     <h3 id="methods">
         Methods
     </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="resetCheckoutProcesses"></a>
-                    <span class="name">
-                        <span class="modifier">Protected</span>
-                        <span class="deprecated-name"><b>resetCheckoutProcesses</b></span>
-                        <a href="#resetCheckoutProcesses"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4 deprecated">
-                    since version 3.2
-Use ClearCheckoutService to clear the checkout state
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                    <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>resetCheckoutProcesses()</code>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="308"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:308</a></div>
-                </td>
-            </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-                    <div class="io-description"><p>Use ClearCheckoutService to clear the checkout state</p>
-</div>
-
-                    <div class="io-description">
-                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
-
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
     <table class="table table-sm table-bordered">
         <tbody>
             <tr>
@@ -327,8 +276,8 @@ Use ClearCheckoutService to clear the checkout state
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="206"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:206</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="208"
+                            class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:208</a></div>
                 </td>
             </tr>
 
@@ -366,8 +315,8 @@ Use ClearCheckoutService to clear the checkout state
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="123"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:123</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="125"
+                            class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:125</a></div>
                 </td>
             </tr>
 
@@ -405,8 +354,8 @@ Use ClearCheckoutService to clear the checkout state
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="47"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:47</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="49"
+                            class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:49</a></div>
                 </td>
             </tr>
 
@@ -444,8 +393,8 @@ Use ClearCheckoutService to clear the checkout state
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="314"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:314</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="307"
+                            class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:307</a></div>
                 </td>
             </tr>
 
@@ -487,7 +436,7 @@ Use ClearCheckoutService to clear the checkout state
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="30" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:30</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="32" class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -514,7 +463,7 @@ Use ClearCheckoutService to clear the checkout state
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:31</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="33" class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:33</a></div>
                         </td>
                     </tr>
 
@@ -541,7 +490,7 @@ Use ClearCheckoutService to clear the checkout state
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="29" class="link-to-prism">projects/storefrontlib/src/cms-components/checkout/services/express-checkout.service.ts:29</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="31" class="link-to-prism">feature-libs/checkout/components/services/express-checkout.service.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -554,12 +503,14 @@ Use ClearCheckoutService to clear the checkout state
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
+import {
+  CheckoutDeliveryFacade,
+  CheckoutPaymentFacade,
+  ClearCheckoutFacade,
+} from &#x27;@spartacus/checkout/root&#x27;;
 import {
   Address,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-  ClearCheckoutService,
   DeliveryMode,
   PaymentDetails,
   StateUtils,
@@ -575,7 +526,7 @@ import {
   switchMap,
   tap,
 } from &#x27;rxjs/operators&#x27;;
-import { CheckoutConfigService } from &#x27;./checkout-config.service&#x27;;
+import { CheckoutConfigService } from &#x27;../services/checkout-config.service&#x27;;
 import { CheckoutDetailsService } from &#x27;./checkout-details.service&#x27;;
 
 @Injectable({
@@ -589,11 +540,11 @@ export class ExpressCheckoutService {
   constructor(
     protected userAddressService: UserAddressService,
     protected userPaymentService: UserPaymentService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutPaymentService: CheckoutPaymentService,
+    protected checkoutDeliveryService: CheckoutDeliveryFacade,
+    protected checkoutPaymentService: CheckoutPaymentFacade,
     protected checkoutDetailsService: CheckoutDetailsService,
     protected checkoutConfigService: CheckoutConfigService,
-    @Optional() protected clearCheckoutService?: ClearCheckoutService
+    protected clearCheckoutService: ClearCheckoutFacade
   ) {
     this.setShippingAddress();
     this.setDeliveryMode();
@@ -796,9 +747,10 @@ export class ExpressCheckoutService {
                   StateUtils.LoaderState&lt;void&gt;
                 ]) &#x3D;&gt; {
                   if (Boolean(deliveryModes.length)) {
-                    const preferredDeliveryMode &#x3D; this.checkoutConfigService.getPreferredDeliveryMode(
-                      deliveryModes
-                    );
+                    const preferredDeliveryMode &#x3D;
+                      this.checkoutConfigService.getPreferredDeliveryMode(
+                        deliveryModes
+                      );
                     return of([
                       preferredDeliveryMode,
                       setDeliveryModeStatus,
@@ -857,22 +809,9 @@ export class ExpressCheckoutService {
     );
   }
 
-  /**
-   * @deprecated since version 3.2
-   * Use ClearCheckoutService to clear the checkout state
-   */
-  protected resetCheckoutProcesses() {
-    this.checkoutDeliveryService.resetSetDeliveryAddressProcess();
-    this.checkoutPaymentService.resetSetPaymentDetailsProcess();
-    this.checkoutDeliveryService.resetSetDeliveryModeProcess();
-  }
-
   public trySetDefaultCheckoutDetails(): Observable&lt;boolean&gt; {
-    if (this.clearCheckoutService) {
-      this.clearCheckoutService.resetCheckoutProcesses();
-    } else {
-      this.resetCheckoutProcesses();
-    }
+    this.clearCheckoutService.resetCheckoutProcesses();
+
     return this.paymentMethodSet$.pipe(
       map((paymentMethodSet) &#x3D;&gt; Boolean(paymentMethodSet))
     );

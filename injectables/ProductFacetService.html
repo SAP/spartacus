@@ -57,7 +57,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts</code>
+            <code>projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts</code>
         </p>
 
 
@@ -140,7 +140,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:21</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="21" class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:21</a></div>
                             </td>
                         </tr>
 
@@ -217,8 +217,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="98"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:98</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="99"
+                            class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:99</a></div>
                 </td>
             </tr>
 
@@ -304,8 +304,8 @@ selected by the user.</p>
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="67"
-                            class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:67</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="68"
+                            class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:68</a></div>
                 </td>
             </tr>
 
@@ -406,7 +406,7 @@ This is done to avoid a combination of the next page and the current search resu
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="53" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:53</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="54" class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:54</a></div>
                         </td>
                     </tr>
 
@@ -442,7 +442,7 @@ is provided in a <code>FacetList</code>.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:27</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="27" class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:27</a></div>
                         </td>
                     </tr>
 
@@ -471,24 +471,24 @@ is provided in a <code>FacetList</code>.</p>
                 <tr>
                     <td class="col-md-4">
                         <i>Default value : </i><code>this.routeState$.pipe(
-    switchMap((state) &#x3D;&gt;
-      this.productListComponentService.model$.pipe(
-        filter((page) &#x3D;&gt; this.filterForPage(state, page)),
-        map((page) &#x3D;&gt; ({
-          ...page,
-          breadcrumbs: this.filterBreadcrumbs(
-            page?.breadcrumbs ?? [],
-            state.params
-          ),
-        }))
+      switchMap((state) &#x3D;&gt;
+        this.productListComponentService.model$.pipe(
+          filter((page) &#x3D;&gt; this.filterForPage(state, page)),
+          map((page) &#x3D;&gt; ({
+            ...page,
+            breadcrumbs: this.filterBreadcrumbs(
+              page?.breadcrumbs ?? [],
+              state.params
+            ),
+          }))
+        )
       )
-    )
-  )</code>
+    )</code>
                     </td>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/src/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:34</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="34" class="link-to-prism">projects/storefrontlib/cms-components/product/product-list/product-facet-navigation/services/product-facet.service.ts:34</a></div>
                         </td>
                     </tr>
 
@@ -540,20 +540,21 @@ export class ProductFacetService {
   /**
    * Returns the search results for the current page.
    */
-  protected readonly searchResult$: Observable&lt;ProductSearchPage&gt; &#x3D; this.routeState$.pipe(
-    switchMap((state) &#x3D;&gt;
-      this.productListComponentService.model$.pipe(
-        filter((page) &#x3D;&gt; this.filterForPage(state, page)),
-        map((page) &#x3D;&gt; ({
-          ...page,
-          breadcrumbs: this.filterBreadcrumbs(
-            page?.breadcrumbs ?? [],
-            state.params
-          ),
-        }))
+  protected readonly searchResult$: Observable&lt;ProductSearchPage&gt; &#x3D;
+    this.routeState$.pipe(
+      switchMap((state) &#x3D;&gt;
+        this.productListComponentService.model$.pipe(
+          filter((page) &#x3D;&gt; this.filterForPage(state, page)),
+          map((page) &#x3D;&gt; ({
+            ...page,
+            breadcrumbs: this.filterBreadcrumbs(
+              page?.breadcrumbs ?? [],
+              state.params
+            ),
+          }))
+        )
       )
-    )
-  );
+    );
 
   /**
    * Observes the facets and active facets for the given page. The facet data

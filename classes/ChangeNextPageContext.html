@@ -119,7 +119,7 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:7</a></div>
                             </td>
                         </tr>
 
@@ -182,7 +182,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="37" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:37</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:8</a></div>
                         </td>
                     </tr>
 
@@ -208,7 +208,7 @@
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="36" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:36</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="7" class="link-to-prism">projects/core/src/routing/store/actions/router.action.ts:7</a></div>
                         </td>
                     </tr>
 
@@ -227,51 +227,17 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { NavigationExtras } from &#x27;@angular/router&#x27;;
-import { Action } from &#x27;@ngrx/store&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Action } from &#x27;@ngrx/store&#x27;;
 import { PageContext } from &#x27;../../../routing/models/page-context.model&#x27;;
 
-export const ROUTER_GO &#x3D; &#x27;[Router] Go&#x27;;
-export const ROUTER_GO_BY_URL &#x3D; &#x27;[Router] Go By Url&#x27;;
-export const ROUTER_BACK &#x3D; &#x27;[Router] Back&#x27;;
-export const ROUTER_FORWARD &#x3D; &#x27;[Router] Forward&#x27;;
 export const CHANGE_NEXT_PAGE_CONTEXT &#x3D; &#x27;[Router] Change Next PageContext&#x27;;
-
-export class RouteGoAction implements Action {
-  readonly type &#x3D; ROUTER_GO;
-  constructor(
-    public payload: {
-      path: string[];
-      query?: object;
-      extras?: NavigationExtras;
-    }
-  ) {}
-}
-
-export class RouteGoByUrlAction implements Action {
-  readonly type &#x3D; ROUTER_GO_BY_URL;
-  constructor(public payload: string) {}
-}
-
-export class RouteBackAction implements Action {
-  readonly type &#x3D; ROUTER_BACK;
-}
-
-export class RouteForwardAction implements Action {
-  readonly type &#x3D; ROUTER_FORWARD;
-}
 
 export class ChangeNextPageContext implements Action {
   readonly type &#x3D; CHANGE_NEXT_PAGE_CONTEXT;
   constructor(public payload: PageContext) {}
 }
 
-export type RoutingAction &#x3D;
-  | RouteGoAction
-  | RouteGoByUrlAction
-  | RouteBackAction
-  | RouteForwardAction
-  | ChangeNextPageContext;
+export type RoutingAction &#x3D; ChangeNextPageContext;
 </code></pre>
     </div>
 </div>

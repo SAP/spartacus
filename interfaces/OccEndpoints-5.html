@@ -64,7 +64,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>feature-libs/product-configurator/rulebased/cpq/occ/model/occ-cpq-configurator-endpoints.model.ts</code>
+            <code>feature-libs/cart/saved-cart/occ/model/occ-saved-cart-endpoints.model.ts</code>
         </p>
 
 
@@ -84,37 +84,37 @@
                             <ul class="index-list">
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#addCpqConfigurationToCart" 
+                                        <a href="#cloneSavedCart" 
 >
-                                            addCpqConfigurationToCart
+                                            cloneSavedCart
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#getCpqAccessData" 
+                                        <a href="#restoreSavedCart" 
 >
-                                            getCpqAccessData
+                                            restoreSavedCart
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#readCpqConfigurationForCartEntry" 
+                                        <a href="#saveCart" 
 >
-                                            readCpqConfigurationForCartEntry
+                                            saveCart
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#readCpqConfigurationForOrderEntry" 
+                                        <a href="#savedCart" 
 >
-                                            readCpqConfigurationForOrderEntry
+                                            savedCart
                                         </a>
                                 </li>
                                 <li>
                                             <span class="modifier">Optional</span>
-                                        <a href="#updateCpqConfigurationForCartEntry" 
+                                        <a href="#savedCarts" 
 >
-                                            updateCpqConfigurationForCartEntry
+                                            savedCarts
                                         </a>
                                 </li>
                             </ul>
@@ -132,9 +132,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="addCpqConfigurationToCart"></a>
-                                        <span class="name "><b>addCpqConfigurationToCart</b>
-                                            <a href="#addCpqConfigurationToCart">
+                                        <a name="cloneSavedCart"></a>
+                                        <span class="name "><b>cloneSavedCart</b>
+                                            <a href="#cloneSavedCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -142,7 +142,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>addCpqConfigurationToCart:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>cloneSavedCart:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -166,7 +166,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Endpoint to add a cpq configuration to the current cart</p>
+                                    <div class="io-description"><p>Endpoint to clone a saved cart</p>
+<ul>
+<li>@member {string}</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -176,9 +179,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="getCpqAccessData"></a>
-                                        <span class="name "><b>getCpqAccessData</b>
-                                            <a href="#getCpqAccessData">
+                                        <a name="restoreSavedCart"></a>
+                                        <span class="name "><b>restoreSavedCart</b>
+                                            <a href="#restoreSavedCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -186,7 +189,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>getCpqAccessData:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>restoreSavedCart:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -210,7 +213,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Endpoint to get Cpq token</p>
+                                    <div class="io-description"><p>Endpoint to make a saved cart active</p>
+<ul>
+<li>@member {string}</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -220,9 +226,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="readCpqConfigurationForCartEntry"></a>
-                                        <span class="name "><b>readCpqConfigurationForCartEntry</b>
-                                            <a href="#readCpqConfigurationForCartEntry">
+                                        <a name="saveCart"></a>
+                                        <span class="name "><b>saveCart</b>
+                                            <a href="#saveCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -230,7 +236,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>readCpqConfigurationForCartEntry:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>saveCart:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -254,7 +260,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Endpoint for reading a CPQ configuration attached to the given cart entry</p>
+                                    <div class="io-description"><p>Endpoint to save a cart</p>
+<ul>
+<li>@member {string}</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -264,9 +273,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="readCpqConfigurationForOrderEntry"></a>
-                                        <span class="name "><b>readCpqConfigurationForOrderEntry</b>
-                                            <a href="#readCpqConfigurationForOrderEntry">
+                                        <a name="savedCart"></a>
+                                        <span class="name "><b>savedCart</b>
+                                            <a href="#savedCart">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -274,7 +283,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>readCpqConfigurationForOrderEntry:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>savedCart:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -298,7 +307,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Endpoint for reading a CPQ configuration attached to a given order entry</p>
+                                    <div class="io-description"><p>Endpoint to get specific saved cart</p>
+<ul>
+<li>@member {string}</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -308,9 +320,9 @@
                         <tbody>
                                 <tr>
                                     <td class="col-md-4">
-                                        <a name="updateCpqConfigurationForCartEntry"></a>
-                                        <span class="name "><b>updateCpqConfigurationForCartEntry</b>
-                                            <a href="#updateCpqConfigurationForCartEntry">
+                                        <a name="savedCarts"></a>
+                                        <span class="name "><b>savedCarts</b>
+                                            <a href="#savedCarts">
                                                 <span class="icon ion-ios-link"></span>
                                             </a>
                                         </span>
@@ -318,7 +330,7 @@
                                 </tr>
                                 <tr>
                                     <td class="col-md-4">
-                                        <code>updateCpqConfigurationForCartEntry:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
+                                        <code>savedCarts:         <code><a href="../interfaces/OccEndpoint.html" target="_self" >string | OccEndpoint</a></code>
 </code>
                                     </td>
                                 </tr>
@@ -342,7 +354,10 @@
 
                             <tr>
                                 <td class="col-md-4">
-                                    <div class="io-description"><p>Endpoint for updating a cpq configuration attached to the given cart entry</p>
+                                    <div class="io-description"><p>Endpoint to load saved carts</p>
+<ul>
+<li>@member {string}</li>
+</ul>
 </div>
                                 </td>
                             </tr>
@@ -354,32 +369,39 @@
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { OccEndpoint } from &#x27;@spartacus/core&#x27;;
+
 declare module &#x27;@spartacus/core&#x27; {
   interface OccEndpoints {
     /**
-     * Endpoint to get Cpq token
+     * Endpoint to load saved carts
      *
-     * @member {string}
+     * * @member {string}
      */
-    getCpqAccessData?: string | OccEndpoint;
+    savedCarts?: string | OccEndpoint;
     /**
-     * Endpoint to add a cpq configuration to the current cart
+     * Endpoint to save a cart
      *
-     * @member {string}
+     * * @member {string}
      */
-    addCpqConfigurationToCart?: string | OccEndpoint;
+    saveCart?: string | OccEndpoint;
     /**
-     * Endpoint for updating a cpq configuration attached to the given cart entry
+     * Endpoint to get specific saved cart
+     *
+     * * @member {string}
      */
-    updateCpqConfigurationForCartEntry?: string | OccEndpoint;
+    savedCart?: string | OccEndpoint;
     /**
-     * Endpoint for reading a CPQ configuration attached to the given cart entry
+     * Endpoint to make a saved cart active
+     *
+     * * @member {string}
      */
-    readCpqConfigurationForCartEntry?: string | OccEndpoint;
+    restoreSavedCart?: string | OccEndpoint;
     /**
-     * Endpoint for reading a CPQ configuration attached to a given order entry
+     * Endpoint to clone a saved cart
+     *
+     * * @member {string}
      */
-    readCpqConfigurationForOrderEntry?: string | OccEndpoint;
+    cloneSavedCart?: string | OccEndpoint;
   }
 }
 </code></pre>

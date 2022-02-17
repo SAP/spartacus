@@ -130,6 +130,9 @@
                                 <a href="#resolveBreadcrumbs" >resolveBreadcrumbs</a>
                             </li>
                             <li>
+                                <a href="#resolveDescription" >resolveDescription</a>
+                            </li>
+                            <li>
                                 <a href="#resolveRobots" >resolveRobots</a>
                             </li>
                             <li>
@@ -162,12 +165,12 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(contentPageMetaResolver: <a href="../injectables/ContentPageMetaResolver.html" target="_self">ContentPageMetaResolver</a>, translation: <a href="../classes/TranslationService.html" target="_self">TranslationService</a>, semanticPath: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>, basePageMetaResolver?: <a href="../injectables/BasePageMetaResolver.html" target="_self">BasePageMetaResolver</a>)</code>
+<code>constructor(contentPageMetaResolver: <a href="../injectables/ContentPageMetaResolver.html" target="_self">ContentPageMetaResolver</a>, translation: <a href="../classes/TranslationService.html" target="_self">TranslationService</a>, semanticPath: <a href="../injectables/SemanticPathService.html" target="_self">SemanticPathService</a>, routingService: <a href="../injectables/RoutingService.html" target="_self">RoutingService</a>)</code>
                     </td>
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="69" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:69</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:55</a></div>
                             </td>
                         </tr>
 
@@ -232,18 +235,6 @@
                                                     </td>
                                                     
                                                 </tr>
-                                                <tr>
-                                                        <td>basePageMetaResolver</td>
-                                                  
-                                                        <td>
-                                                                        <code><a href="../injectables/BasePageMetaResolver.html" target="_self" >BasePageMetaResolver</a></code>
-                                                        </td>
-                                                  
-                                                    <td>
-                                                            Yes
-                                                    </td>
-                                                    
-                                                </tr>
                                         </tbody>
                                     </table>
                             </div>
@@ -278,8 +269,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="130"
-                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:130</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="85"
+                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:85</a></div>
                 </td>
             </tr>
 
@@ -307,6 +298,43 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="resolveDescription"></a>
+                    <span class="name">
+                        <span ><b>resolveDescription</b></span>
+                        <a href="#resolveDescription"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>resolveDescription()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="70"
+                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:70</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="resolveRobots"></a>
                     <span class="name">
                         <span ><b>resolveRobots</b></span>
@@ -323,8 +351,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="141"
-                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:141</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="74"
+                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:74</a></div>
                 </td>
             </tr>
 
@@ -360,8 +388,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="134"
-                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:134</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="66"
+                            class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:66</a></div>
                 </td>
             </tr>
 
@@ -370,7 +398,7 @@
                 <td class="col-md-4">
 
                     <div class="io-description">
-                        <b>Returns : </b>    <code>Observable&lt;string&gt;</code>
+                        <b>Returns : </b>        <code><a href="../miscellaneous/variables.html#undefined" target="_self" >Observable&lt;string | undefined&gt;</a></code>
 
                     </div>
                 </td>
@@ -630,15 +658,9 @@ the page type and page template.</p>
                     <td class="col-md-4">
                         <i>Default value : </i><code>combineLatest([
     this.organizationPageBreadcrumb$,
-    defer(
-      // TODO(#10467): Remove usage of contentPageMetaResolver
-      () &#x3D;&gt;
-        (
-          this.basePageMetaResolver ?? this.contentPageMetaResolver
-        ).resolveBreadcrumbs()
-    ),
+    defer(() &#x3D;&gt; this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(([organizationPageBreadcrumb, breadcrumbs]) &#x3D;&gt; {
+    map(([organizationPageBreadcrumb, breadcrumbs &#x3D; []]) &#x3D;&gt; {
       const [home, ...restBreadcrumbs] &#x3D; breadcrumbs;
       return [home, ...organizationPageBreadcrumb, ...restBreadcrumbs];
     }),
@@ -648,7 +670,7 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="106" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:106</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="115" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:115</a></div>
                         </td>
                     </tr>
 
@@ -687,7 +709,7 @@ the page type and page template.</p>
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="50" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:50</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="55" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:55</a></div>
                         </td>
                     </tr>
 
@@ -727,7 +749,7 @@ we are on this page. In such a case we avoid showing the breadcrumb for this pag
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="44" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:44</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="49" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:49</a></div>
                         </td>
                     </tr>
 
@@ -760,7 +782,9 @@ we are on this page. In such a case we avoid showing the breadcrumb for this pag
                 </tr>
                 <tr>
                     <td class="col-md-4">
-                        <i>Default value : </i><code>defer(() &#x3D;&gt; this.routingService.getRouterState()).pipe(
+                        <i>Default value : </i><code>defer(
+    () &#x3D;&gt; this.routingService.getRouterState()
+  ).pipe(
     map((routerState) &#x3D;&gt; routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) &#x3D;&gt;
@@ -780,7 +804,7 @@ we are on this page. In such a case we avoid showing the breadcrumb for this pag
                 </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="84" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:84</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="93" class="link-to-prism">feature-libs/organization/administration/core/services/organization-page-meta.resolver.ts:93</a></div>
                         </td>
                     </tr>
 
@@ -824,7 +848,7 @@ It&#39;s empty when the current page is the Organization page.</p>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:38</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:43</a></code>
 </div>
                         </td>
                     </tr>
@@ -856,7 +880,7 @@ It&#39;s empty when the current page is the Organization page.</p>
                         </tr>
                     <tr>
                         <td class="col-md-4">
-                                <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:39</a></code>
+                                <div class="io-line">Defined in         <code><a href="../classes/PageMetaResolver.html#source" target="_self" >PageMetaResolver:44</a></code>
 </div>
                         </td>
                     </tr>
@@ -870,12 +894,12 @@ It&#39;s empty when the current page is the Organization page.</p>
 
 
     <div class="tab-pane fade  tab-source-code" id="c-source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable, Optional } from &#x27;@angular/core&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@angular/core&#x27;;
 import {
-  BasePageMetaResolver,
   BreadcrumbMeta,
   ContentPageMetaResolver,
   PageBreadcrumbResolver,
+  PageDescriptionResolver,
   PageMetaResolver,
   PageRobotsMeta,
   PageRobotsResolver,
@@ -906,7 +930,12 @@ import {
 })
 export class OrganizationPageMetaResolver
   extends PageMetaResolver
-  implements PageBreadcrumbResolver, PageTitleResolver, PageRobotsResolver {
+  implements
+    PageBreadcrumbResolver,
+    PageTitleResolver,
+    PageDescriptionResolver,
+    PageRobotsResolver
+{
   pageTemplate &#x3D; &#x27;CompanyPageTemplate&#x27;;
   pageType &#x3D; PageType.CONTENT_PAGE;
 
@@ -921,41 +950,45 @@ export class OrganizationPageMetaResolver
    */
   protected readonly ORGANIZATION_SEMANTIC_ROUTE &#x3D; &#x27;organization&#x27;;
 
-  // TODO(#10467): Remove deprecated constructors
-  constructor(
-    contentPageMetaResolver: ContentPageMetaResolver,
-    translation: TranslationService,
-    semanticPath: SemanticPathService,
-    routingService: RoutingService,
-    // eslint-disable-next-line @typescript-eslint/unified-signatures
-    basePageMetaResolver?: BasePageMetaResolver
-  );
-  /**
-   * @deprecated since 3.1, we&#x27;ll use the BasePageMetaResolver in future versions
-   */
-  constructor(
-    contentPageMetaResolver: ContentPageMetaResolver,
-    translation: TranslationService,
-    semanticPath: SemanticPathService,
-    routingService: RoutingService
-  );
   constructor(
     protected contentPageMetaResolver: ContentPageMetaResolver,
     protected translation: TranslationService,
     protected semanticPath: SemanticPathService,
-    protected routingService: RoutingService,
-    @Optional() protected basePageMetaResolver?: BasePageMetaResolver
+    protected routingService: RoutingService
   ) {
     super();
+  }
+
+  resolveTitle(): Observable&lt;string | undefined&gt; {
+    return this.contentPageMetaResolver.resolveTitle();
+  }
+
+  resolveDescription(): Observable&lt;string | undefined&gt; {
+    return this.contentPageMetaResolver.resolveDescription();
+  }
+
+  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
+    return this.contentPageMetaResolver.resolveRobots();
+  }
+
+  /**
+   * Returns list of breadcrumbs for:
+   * - the home page
+   * - the organization home page
+   * - the organization&#x27;s child pages (i.e. cost center list)
+   * - sub-routes of the organization&#x27;s child pages (i.e. cost center details, edit cost center, ...)
+   */
+  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt; {
+    return this.breadcrumbs$;
   }
 
   /**
    * Breadcrumb of the Organization page.
    * It&#x27;s empty when the current page is the Organization page.
    */
-  protected organizationPageBreadcrumb$: Observable&lt;
-    BreadcrumbMeta[]
-  &gt; &#x3D; defer(() &#x3D;&gt; this.routingService.getRouterState()).pipe(
+  protected organizationPageBreadcrumb$: Observable&lt;BreadcrumbMeta[]&gt; &#x3D; defer(
+    () &#x3D;&gt; this.routingService.getRouterState()
+  ).pipe(
     map((routerState) &#x3D;&gt; routerState?.state?.semanticRoute),
     distinctUntilChanged(),
     switchMap((semanticRoute) &#x3D;&gt;
@@ -977,45 +1010,14 @@ export class OrganizationPageMetaResolver
    */
   protected breadcrumbs$: Observable&lt;BreadcrumbMeta[]&gt; &#x3D; combineLatest([
     this.organizationPageBreadcrumb$,
-    defer(
-      // TODO(#10467): Remove usage of contentPageMetaResolver
-      () &#x3D;&gt;
-        (
-          this.basePageMetaResolver ?? this.contentPageMetaResolver
-        ).resolveBreadcrumbs()
-    ),
+    defer(() &#x3D;&gt; this.contentPageMetaResolver.resolveBreadcrumbs()),
   ]).pipe(
-    map(([organizationPageBreadcrumb, breadcrumbs]) &#x3D;&gt; {
+    map(([organizationPageBreadcrumb, breadcrumbs &#x3D; []]) &#x3D;&gt; {
       const [home, ...restBreadcrumbs] &#x3D; breadcrumbs;
       return [home, ...organizationPageBreadcrumb, ...restBreadcrumbs];
     }),
     shareReplay({ bufferSize: 1, refCount: true })
   );
-
-  /**
-   * Returns list of breadcrumbs for:
-   * - the home page
-   * - the organization home page
-   * - the organization&#x27;s child pages (i.e. cost center list)
-   * - sub-routes of the organization&#x27;s child pages (i.e. cost center details, edit cost center, ...)
-   */
-  resolveBreadcrumbs(): Observable&lt;BreadcrumbMeta[]&gt; {
-    return this.breadcrumbs$;
-  }
-
-  resolveTitle(): Observable&lt;string&gt; {
-    // TODO(#10467): Remove usage of contentPageMetaResolver
-    return (
-      this.basePageMetaResolver ?? this.contentPageMetaResolver
-    ).resolveTitle();
-  }
-
-  resolveRobots(): Observable&lt;PageRobotsMeta[]&gt; {
-    // TODO(#10467): Remove usage of contentPageMetaResolver
-    return (
-      this.basePageMetaResolver ?? this.contentPageMetaResolver
-    ).resolveRobots();
-  }
 }
 </code></pre>
     </div>
