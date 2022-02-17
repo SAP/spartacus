@@ -507,6 +507,8 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT =
+  'ConfiguratorAttributeHeaderComponent';
 export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
   'ConfiguratorAttributeMultiSelectionBundleComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
@@ -1091,6 +1093,9 @@ export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
 export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
+export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
+export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
+  'getConflictMessageKey';
 
 /***** APIs end *****/
 
