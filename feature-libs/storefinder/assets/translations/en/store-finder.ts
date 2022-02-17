@@ -13,7 +13,6 @@ export const storeFinder = {
     storeHours: 'Store hours',
     storeFeatures: 'Store features',
     storeFinder: 'Store Finder',
-    resultsFound: '{{ count }} results found',
     storesFound: '{{ count }} store found',
     storesFound_plural: '{{ count }} stores found',
     fromStoresFound: 'from {{ count }} store found',
