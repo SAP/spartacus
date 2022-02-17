@@ -48,7 +48,8 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    shopAll: 'Shop all {{ navNode}} >',
+    categoryNavLabel: 'Category menu',
+    footerNavLabel: 'Footer links',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',
@@ -133,6 +134,10 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
+    unknownIdentifier: 'Item not found.',
+    otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -154,6 +159,7 @@ export const common = {
     previousSlide: 'Previous slide',
     nextSlide: 'Next slide',
     slideNumber: 'Slide {{currentSlideNumber}}',
+    carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',

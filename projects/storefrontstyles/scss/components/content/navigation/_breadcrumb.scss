@@ -18,7 +18,7 @@ html[dir='rtl'] cx-breadcrumb nav span:not(:last-child):after {
   }
 
   nav {
-    font-size: 0.85rem;
+    font-size: var(--cx-font-size, 0.875rem);
     padding: 5px 0;
 
     display: flex;

@@ -7,10 +7,9 @@ import {
 import {
   GlobalMessageService,
   GlobalMessageType,
-  Order,
   RoutingService,
 } from '@spartacus/core';
-import { OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,

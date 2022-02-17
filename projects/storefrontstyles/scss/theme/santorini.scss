@@ -4,7 +4,7 @@
   --cx-color-inverse: #ffffff;
   --cx-color-transparent: transparent;
   --cx-color-primary: #1672b7;
-  --cx-color-secondary: #a1aabf;
+  --cx-color-secondary: #6c7079;
   --cx-buttons-border-radius: 27px;
   --cx-buttons-border-width: 3px;
   --cx-color-dark: #212738;
@@ -34,6 +34,11 @@
   }
 
   cx-site-context-selector {
+    label {
+      span {
+        color: var(--cx-color-text);
+      }
+    }
     select {
       background-color: var(--cx-color-background);
       color: var(--cx-color-text);
@@ -53,7 +58,7 @@
     @include media-breakpoint-up(lg) {
       background: linear-gradient(
         to top,
-        var(--cx-color-dark) 67px,
+        var(--cx-color-dark) $header-height,
         var(--cx-color-background) 0
       );
     }
@@ -79,6 +84,12 @@
     box-shadow: inset 0px 10px 7px -12px var(--cx-color-dark);
     @include media-breakpoint-up(lg) {
       box-shadow: none;
+    }
+
+    nav {
+      ol li a {
+        color: var(--cx-color-primary);
+      }
     }
   }
 
@@ -106,7 +117,8 @@
 
   cx-login {
     .cx-login-greet,
-    cx-navigation-ui.flyout span {
+    cx-navigation-ui.flyout span,
+    cx-navigation-ui.flyout button {
       color: var(--cx-color-text);
     }
   }
