@@ -8,7 +8,7 @@
     'aria-label': selectedLabel || placeholder,
     'aria-controls': ariaControls
   }"
-  [target]="'[role=\'combobox\']'"
+  [cxBindTarget]="'[role=\'combobox\']'"
 >
   <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{
     sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''

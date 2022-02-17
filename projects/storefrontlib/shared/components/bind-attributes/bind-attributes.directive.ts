@@ -20,7 +20,7 @@ export class BindAttributesDirective implements AfterViewInit {
   @Input() cxBindAttributes: { [attribute: string]: any };
 
   /* DOMString that matches the element to bind the attributes */
-  @Input() target: string;
+  @Input() cxBindTarget: string;
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
@@ -31,7 +31,7 @@ export class BindAttributesDirective implements AfterViewInit {
           const attributeValue = this.cxBindAttributes[attributeName];
           if (attributeValue) {
             this.renderer.setAttribute(
-              this.elementRef.nativeElement.querySelector(this.target) ??
+              this.elementRef.nativeElement.querySelector(this.cxBindTarget) ??
                 this.elementRef.nativeElement,
               attributeName,
               attributeValue

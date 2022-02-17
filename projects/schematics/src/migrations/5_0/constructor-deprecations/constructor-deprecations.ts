@@ -12,7 +12,6 @@ import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.co
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
-import { SORTING_COMPONENT_MIGRATION } from './data/sorting.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION,
@@ -26,7 +25,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION,
   CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION,
   NAVIGATION_UI_COMPONENT_MIGRATION,
-  SORTING_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
