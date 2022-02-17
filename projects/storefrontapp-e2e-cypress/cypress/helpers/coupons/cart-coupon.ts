@@ -54,9 +54,9 @@ export function refreshCartAndVerifyIfCouponAdded(
   userType = UserType.LOGGED
 ) {
   registerCartRefreshRoute(userType);
-  refreshCart(userType).then((xhr) => {
-    const subtotal = xhr.response.body.subTotal.formattedValue;
-    const discount = xhr.response.body.totalDiscounts.formattedValue;
+  verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
+    const subtotal = subTotal.formattedValue;
+    const discount = totalDiscounts.formattedValue;
     verifyBannerAfterAddingCoupon(couponCode);
     getCouponItemFromCart(couponCode).should('exist');
     verifyPrice(subtotal, discount);
@@ -65,9 +65,9 @@ export function refreshCartAndVerifyIfCouponAdded(
 }
 
 export function refreshCartAndVerifyIfCoupons(couponCode: string) {
-  refreshCart(UserType.LOGGED).then((xhr) => {
-    const subtotal = xhr.response.body.subTotal.formattedValue;
-    const discount = xhr.response.body.totalDiscounts.formattedValue;
+  verifyRefreshCart(UserType.LOGGED).then(({ subTotal, totalDiscounts }) => {
+    const subtotal = subTotal.formattedValue;
+    const discount = totalDiscounts.formattedValue;
     getCouponItemFromCart(couponCode).should('exist');
     verifyPrice(subtotal, discount);
     getCouponItemOrderSummary(couponCode).should('contain', couponCode);
@@ -79,10 +79,6 @@ export function verifyBannerAfterAddingCoupon(couponCode) {
     'contain',
     `${couponCode} has been applied`
   );
-}
-
-export function refreshCart(userType: string) {
-  return cy.wait(`@refresh_${userType}_cart`);
 }
 
 export function applyCoupon(couponCode: string, userType = UserType.LOGGED) {
@@ -462,6 +458,12 @@ function visitCartPage() {
   const cartPage = checkout.waitForPage('cart', 'cartPage');
   cy.visit('cart');
   cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+}
+
+export function verifyRefreshCart(userType: string) {
+  const alias = `@refresh_${userType}_cart`;
+  cy.wait(alias).its('response.statusCode').should('eq', 200);
+  return cy.get(alias).its('response.body');
 }
 
 function verifyLoginPageForGuestCheckout() {
