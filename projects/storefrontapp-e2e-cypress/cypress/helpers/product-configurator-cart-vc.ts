@@ -19,11 +19,12 @@ const paymentDetailsData: PaymentDetails = user;
  */
 export function checkNotificationBanner(
   element,
+  cartItemIndex: number,
   numberOfIssues?: number
 ): void {
   const resolveIssuesText = 'must be resolved before checkout.  Resolve Issues';
   element
-    .get('#cx-error-msg')
+    .get(`#cx-error-msg-${cartItemIndex}`)
     .first()
     .invoke('text')
     .then((text) => {
@@ -46,13 +47,15 @@ export function verifyNotificationBannerInCart(
   cartItemIndex: number,
   numberOfIssues?: number
 ): void {
+  cy.log('cartItemIndex: ' + cartItemIndex);
+  cy.log('numberOfIssues: ' + numberOfIssues);
   const element = cy
     .get('cx-cart-item-list .cx-item-list-row')
     .eq(cartItemIndex)
     .find('cx-configurator-issues-notification');
 
   if (numberOfIssues) {
-    checkNotificationBanner(element, numberOfIssues);
+    checkNotificationBanner(element, cartItemIndex, numberOfIssues);
   } else {
     element.should('not.be.visible');
   }
