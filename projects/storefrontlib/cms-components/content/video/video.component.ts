@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  HostBinding,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { CmsVideoComponent, SemanticPathService } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -23,7 +17,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
 export class VideoComponent {
   @HostBinding('class') styleClasses: string | undefined;
 
-  @ViewChild('videoPlayer', { read: ElementRef }) videoplayer: ElementRef;
+  // @ViewChild('videoPlayer', { read: ElementRef }) videoplayer: ElementRef;
 
   source: string | undefined;
   videoImage: Media | undefined;
