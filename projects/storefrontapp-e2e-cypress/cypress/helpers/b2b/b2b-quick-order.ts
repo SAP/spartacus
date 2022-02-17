@@ -227,6 +227,7 @@ export function prepareCartWithProduct() {
 
 export function getQuickOrderResultBox(query: string) {
   const alias = this.interceptSearchProductsEndpoint(query);
+  const maxBoxListLength = 5;
 
   cy.get('.quick-order-form-input input').type(`${query}`);
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
@@ -236,7 +237,9 @@ export function getQuickOrderResultBox(query: string) {
     .then((body) => {
       cy.get('.quick-order-results-products li').should(
         'have.length',
-        body?.products?.length > 5 ? 5 : body?.products?.length
+        body?.products?.length > maxBoxListLength
+          ? maxBoxListLength
+          : body?.products?.length
       );
     });
 }
