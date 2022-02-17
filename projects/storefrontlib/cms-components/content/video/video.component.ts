@@ -1,7 +1,17 @@
-import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { CmsVideoComponent, SemanticPathService } from '@spartacus/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  HostBinding,
+} from '@angular/core';
+import {
+  CmsService,
+  CmsVideoComponent,
+  PageType,
+  SemanticPathService,
+} from '@spartacus/core';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import {
   Media,
@@ -34,14 +44,32 @@ export class VideoComponent {
           data.videoMedia as MediaContainer
         );
       }
-      this.routerLink = this.getRouterLink(data);
+      if (data.contentPage) {
+        this.cmsService
+          .getPage({
+            id: data.contentPage,
+            type: PageType.CONTENT_PAGE,
+          })
+          .pipe(take(1))
+          .subscribe((page) => {
+            const pageLabel = page.label || '';
+            this.routerLink = this.urlService.transform({
+              cxRoute: pageLabel.substring(1),
+            });
+            this.cd.markForCheck();
+          });
+      } else {
+        this.routerLink = this.getRouterLink(data);
+      }
     })
   );
 
   constructor(
     protected component: CmsComponentData<CmsVideoComponent>,
     protected mediaService: MediaService,
-    protected urlService: SemanticPathService
+    protected urlService: SemanticPathService,
+    protected cmsService: CmsService,
+    protected cd: ChangeDetectorRef
   ) {}
 
   protected getRouterLink(data: CmsVideoComponent): string | any[] | undefined {
@@ -49,16 +77,18 @@ export class VideoComponent {
       return data.url;
     }
     // now page uid is returned, we need page label
-    const pageLabel = data.contentPage;
-    if (pageLabel && pageLabel.startsWith('/') && pageLabel.length > 1) {
-      return this.urlService.transform({ cxRoute: pageLabel.substring(1) });
-    }
+    //const pageLabel = data.contentPage;
+    //if (pageLabel && pageLabel.startsWith('/') && pageLabel.length > 1) {
+    //  return this.urlService.transform({ cxRoute: pageLabel.substring(1) });
+    //}
+
     if (data.product) {
       return this.urlService.transform({
         cxRoute: 'product',
         params: { code: data.product },
       });
     }
+
     if (data.category) {
       return this.urlService.transform({
         cxRoute: 'category',

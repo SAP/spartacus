@@ -1,7 +1,5 @@
 <a *ngIf="data$ | async as data" [routerLink]="routerLink">
-  <div>
-    {{ data.overlayTitle }}
-  </div>
+  <div>{{ data.overlayTitle }}</div>
   <video
     *ngIf="source"
     controls
