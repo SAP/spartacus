@@ -96,6 +96,20 @@ export class B2BCheckoutDeliveryAddressComponent
     super.ngOnInit();
   }
 
+  protected getAddressLoading(): Observable<boolean> {
+    return this.checkoutPaymentTypeFacade
+      .isAccountPayment()
+      .pipe(
+        switchMap((isAccountPayment) =>
+          isAccountPayment
+            ? this.checkoutCostCenterFacade
+                .getCostCenterState()
+                .pipe(map((state) => state.loading))
+            : super.getAddressLoading()
+        )
+      );
+  }
+
   getSupportedAddresses(): Observable<Address[]> {
     return this.checkoutPaymentTypeFacade
       .isAccountPayment()

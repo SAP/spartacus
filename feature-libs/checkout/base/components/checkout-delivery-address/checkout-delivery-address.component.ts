@@ -38,24 +38,18 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
   cards$: Observable<CardWithAddress[]>;
+  isUpdating$: Observable<boolean>;
 
   addressFormOpened = false;
   shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
-  isUpdating$: Observable<boolean> = combineLatest([
-    this.busy$,
-    this.userAddressService.getAddressesLoading(),
-    this.checkoutDeliveryAddressFacade
-      .getDeliveryAddressState()
-      .pipe(map((state) => state.loading)),
-  ]).pipe(
-    map(
-      ([busy, userAddressLoading, deliveryAddressLoading]) =>
-        busy || userAddressLoading || deliveryAddressLoading
-    ),
-    distinctUntilChanged()
-  );
+  protected getAddressLoading(): Observable<boolean> {
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      map((state) => state.loading),
+      distinctUntilChanged()
+    );
+  }
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -118,6 +112,18 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
           ),
         }))
       )
+    );
+
+    this.isUpdating$ = combineLatest([
+      this.busy$,
+      this.userAddressService.getAddressesLoading(),
+      this.getAddressLoading(),
+    ]).pipe(
+      map(
+        ([busy, userAddressLoading, deliveryAddressLoading]) =>
+          busy || userAddressLoading || deliveryAddressLoading
+      ),
+      distinctUntilChanged()
     );
   }
 
