@@ -26,7 +26,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -57,6 +57,21 @@ export class B2BCheckoutDeliveryAddressComponent
           : of([]);
       })
     );
+
+  protected creditCardAddressLoading$: Observable<boolean> =
+    super.getAddressLoading();
+
+  protected accountAddressLoading$: Observable<boolean> = combineLatest([
+    this.creditCardAddressLoading$,
+    this.checkoutCostCenterFacade
+      .getCostCenterState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(
+      ([superLoading, costCenterLoading]) => superLoading || costCenterLoading
+    ),
+    distinctUntilChanged()
+  );
 
   isAccountPayment = false;
 
@@ -109,10 +124,8 @@ export class B2BCheckoutDeliveryAddressComponent
       .pipe(
         switchMap((isAccountPayment) =>
           isAccountPayment
-            ? this.checkoutCostCenterFacade
-                .getCostCenterState()
-                .pipe(map((state) => state.loading))
-            : super.getAddressLoading()
+            ? this.accountAddressLoading$
+            : this.creditCardAddressLoading$
         )
       );
   }
