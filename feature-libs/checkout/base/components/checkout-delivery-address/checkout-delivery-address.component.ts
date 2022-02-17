@@ -15,7 +15,13 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -47,7 +53,8 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     map(
       ([busy, userAddressLoading, deliveryAddressLoading]) =>
         busy || userAddressLoading || deliveryAddressLoading
-    )
+    ),
+    distinctUntilChanged()
   );
 
   get isGuestCheckout(): boolean {

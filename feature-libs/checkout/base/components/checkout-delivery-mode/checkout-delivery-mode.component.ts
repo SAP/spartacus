@@ -25,6 +25,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
+  protected busy$: Observable<boolean> = new BehaviorSubject(false);
 
   selectedDeliveryModeCode$: Observable<string | undefined>;
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
@@ -35,13 +36,15 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     deliveryModeId: ['', Validators.required],
   });
 
-  busy$: Observable<boolean> = new BehaviorSubject(false);
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.checkoutDeliveryModesFacade
       .getSelectedDeliveryModeState()
       .pipe(map((state) => state.loading)),
-  ]).pipe(map(([busy, loading]) => busy || loading));
+  ]).pipe(
+    map(([busy, loading]) => busy || loading),
+    distinctUntilChanged()
+  );
 
   get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;

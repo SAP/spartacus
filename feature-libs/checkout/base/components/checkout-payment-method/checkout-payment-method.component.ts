@@ -26,7 +26,14 @@ import {
   of,
   Subscription,
 } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 @Component({
@@ -57,7 +64,8 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     map(
       ([busy, userPaymentLoading, paymentMethodLoading]) =>
         busy || userPaymentLoading || paymentMethodLoading
-    )
+    ),
+    distinctUntilChanged()
   );
 
   get backBtnText() {
