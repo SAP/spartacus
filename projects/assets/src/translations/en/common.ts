@@ -51,9 +51,6 @@ export const common = {
     categoryNavLabel: 'Category menu',
     footerNavLabel: 'Footer links',
   },
-  assistiveMessage: {
-    actionCancelled: 'Action cancelled, nothing changed',
-  },
   searchBox: {
     placeholder: 'Enter product name or SKU',
     productSearch: 'Find a product',

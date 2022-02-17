@@ -16,7 +16,6 @@ export const translationChunksConfig: TranslationChunksConfig = {
     'formErrors',
     'errorHandlers',
     'carousel',
-    'assistiveMessage',
   ],
   address: [
     'addressForm',
