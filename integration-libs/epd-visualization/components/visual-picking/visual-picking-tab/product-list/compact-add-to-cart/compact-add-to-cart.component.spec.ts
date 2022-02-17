@@ -4,18 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import {
-  ActiveCartFacade,
-  ADD_TO_CART_FEATURE,
-  Cart,
-  OrderEntry,
-} from '@spartacus/cart/base/root';
-import {
-  CmsComponent,
-  FeatureModulesService,
-  I18nTestingModule,
-  Product,
-} from '@spartacus/core';
+import { ActiveCartFacade, Cart, OrderEntry } from '@spartacus/cart/base/root';
+import { CmsComponent, I18nTestingModule, Product } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
@@ -74,14 +64,6 @@ class MockCurrentProductService {
   }
 }
 
-class MockFeatureModulesService {
-  public features: string[] = [];
-
-  isConfigured(featureName: string): boolean {
-    return this.features.includes(featureName);
-  }
-}
-
 @Component({
   template: '',
   selector: 'cx-item-counter',
@@ -100,8 +82,6 @@ describe('CompactAddToCartComponent', () => {
   let currentProductService: CurrentProductService;
   let el: DebugElement;
   let listener: AddedToCartDialogEventListener;
-  let mockFeatureModulesService: MockFeatureModulesService =
-    new MockFeatureModulesService();
 
   const mockCartEntry: OrderEntry = { entryNumber: 7 };
 
@@ -130,10 +110,6 @@ describe('CompactAddToCartComponent', () => {
           {
             provide: CmsComponentData,
             useValue: MockCmsComponentData,
-          },
-          {
-            provide: FeatureModulesService,
-            useValue: mockFeatureModulesService,
           },
           AddedToCartDialogEventListener,
         ],
@@ -191,43 +167,32 @@ describe('CompactAddToCartComponent', () => {
   });
 
   describe('UI', () => {
-    it('should show addToCart button when productCode property set and addToCart feature configured', () => {
+    it('should show addToCart button with productCode input', () => {
       addToCartComponent.productCode = productCode;
-      mockFeatureModulesService.features = [ADD_TO_CART_FEATURE];
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('button')).nativeElement).toBeDefined();
     });
 
-    it('should hide addToCart button when productCode property not set and current product not retrieved', () => {
+    it('should hide addToCart button with productCode input', () => {
       // addToCartComponent.productCode not set
-      mockFeatureModulesService.features = [ADD_TO_CART_FEATURE];
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('button'))).toBeNull();
     });
 
-    it('should show the button when current product has product code and addToCart feature configured', () => {
+    it('should show the addToCart button for currentProduct', () => {
+      // addToCartComponent.productCode not set
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockProduct)
       );
-      mockFeatureModulesService.features = [ADD_TO_CART_FEATURE];
       addToCartComponent.ngOnInit();
       fixture.detectChanges();
       expect(el.query(By.css('button')).nativeElement).toBeDefined();
     });
 
-    it('should hide the button when addToCart feature not configured', () => {
-      spyOn(currentProductService, 'getProduct').and.returnValue(
-        of(mockProduct)
-      );
-      mockFeatureModulesService.features = [];
-      addToCartComponent.ngOnInit();
-      fixture.detectChanges();
-      expect(el.query(By.css('button'))).toBeNull();
-    });
-
-    it('should hide the button when no stock', () => {
+    it('should hide the addToCart button for currentProduct', () => {
+      // addToCartComponent.productCode not set
       spyOn(currentProductService, 'getProduct').and.returnValue(
         of(mockNoStockProduct)
       );
