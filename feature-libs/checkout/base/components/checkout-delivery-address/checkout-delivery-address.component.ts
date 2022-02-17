@@ -40,7 +40,15 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userAddressService.getAddressesLoading(),
-  ]).pipe(map(([busy, loading]) => busy || loading));
+    this.checkoutDeliveryAddressFacade
+      .getDeliveryAddressState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(
+      ([busy, userAddressLoading, deliveryAddressLoading]) =>
+        busy || userAddressLoading || deliveryAddressLoading
+    )
+  );
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -102,8 +110,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
             textSelected
           ),
         }))
-      ),
-      tap((x) => console.log('CARDS', x))
+      )
     );
   }
 
@@ -118,8 +125,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   ): void {
     if (
       !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
+      addresses?.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
       selected = addresses.find((address) => address.defaultAddress);
@@ -220,14 +226,21 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   protected setAddress(address: Address): void {
     this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
-      complete: () => {
-        this.onSuccess();
-      },
-      error: () => {
-        this.onError();
-      },
-    });
+    this.checkoutDeliveryAddressFacade
+      .setDeliveryAddress(address)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+        )
+      )
+      .subscribe({
+        complete: () => {
+          this.onSuccess();
+        },
+        error: () => {
+          this.onError();
+        },
+      });
   }
 
   protected onSuccess(): void {

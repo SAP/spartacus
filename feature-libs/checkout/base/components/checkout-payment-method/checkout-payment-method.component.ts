@@ -39,6 +39,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   protected deliveryAddress: Address | undefined;
   protected busy$ = new BehaviorSubject<boolean>(false);
 
+  cards$: Observable<{ content: Card; paymentMethod: PaymentDetails }[]>;
   iconTypes = ICON_TYPE;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
@@ -49,7 +50,15 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   isUpdating$: Observable<boolean> = combineLatest([
     this.busy$,
     this.userPaymentService.getPaymentMethodsLoading(),
-  ]).pipe(map(([busy, loading]) => busy || loading));
+    this.checkoutPaymentFacade
+      .getPaymentDetailsState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(
+      ([busy, userPaymentLoading, paymentMethodLoading]) =>
+        busy || userPaymentLoading || paymentMethodLoading
+    )
+  );
 
   get backBtnText() {
     return this.checkoutStepService.getBackBntText(this.activatedRoute);
@@ -70,75 +79,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
           }
         }
       })
-    );
-  }
-
-  get cards$(): Observable<{ content: Card; paymentMethod: PaymentDetails }[]> {
-    return combineLatest([
-      this.existingPaymentMethods$.pipe(
-        switchMap((methods) => {
-          return !methods?.length
-            ? of([])
-            : combineLatest(
-                methods.map((method) =>
-                  combineLatest([
-                    of(method),
-                    this.translationService.translate('paymentCard.expires', {
-                      month: method.expiryMonth,
-                      year: method.expiryYear,
-                    }),
-                  ]).pipe(
-                    map(([payment, translation]) => ({
-                      payment,
-                      expiryTranslation: translation,
-                    }))
-                  )
-                )
-              );
-        })
-      ),
-      this.selectedMethod$,
-      this.translationService.translate('paymentForm.useThisPayment'),
-      this.translationService.translate('paymentCard.defaultPaymentMethod'),
-      this.translationService.translate('paymentCard.selected'),
-    ]).pipe(
-      map(
-        ([
-          paymentMethods,
-          selectedMethod,
-          textUseThisPayment,
-          textDefaultPaymentMethod,
-          textSelected,
-        ]) => {
-          if (
-            !this.doneAutoSelect &&
-            paymentMethods.length &&
-            (!selectedMethod || Object.keys(selectedMethod).length === 0)
-          ) {
-            const defaultPaymentMethod = paymentMethods.find(
-              (paymentMethod) => paymentMethod.payment.defaultPayment
-            );
-            if (defaultPaymentMethod) {
-              selectedMethod = defaultPaymentMethod.payment;
-              this.savePaymentMethod(selectedMethod);
-            }
-            this.doneAutoSelect = true;
-          }
-          return paymentMethods.map((payment) => ({
-            content: this.createCard(
-              payment.payment,
-              {
-                textExpires: payment.expiryTranslation,
-                textUseThisPayment,
-                textDefaultPaymentMethod,
-                textSelected,
-              },
-              selectedMethod
-            ),
-            paymentMethod: payment.payment,
-          }));
-        }
-      )
     );
   }
 
@@ -170,6 +110,81 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
       .subscribe((address) => {
         this.deliveryAddress = address;
       });
+
+    this.cards$ = combineLatest([
+      this.existingPaymentMethods$.pipe(
+        switchMap((methods) => {
+          return !methods?.length
+            ? of([])
+            : combineLatest(
+                methods.map((method) =>
+                  combineLatest([
+                    of(method),
+                    this.translationService.translate('paymentCard.expires', {
+                      month: method.expiryMonth,
+                      year: method.expiryYear,
+                    }),
+                  ]).pipe(
+                    map(([payment, translation]) => ({
+                      payment,
+                      expiryTranslation: translation,
+                    }))
+                  )
+                )
+              );
+        })
+      ),
+      this.selectedMethod$,
+      this.translationService.translate('paymentForm.useThisPayment'),
+      this.translationService.translate('paymentCard.defaultPaymentMethod'),
+      this.translationService.translate('paymentCard.selected'),
+    ]).pipe(
+      tap(([paymentMethods, selectedMethod]) =>
+        this.selectDefaultPaymentMethod(paymentMethods, selectedMethod)
+      ),
+      map(
+        ([
+          paymentMethods,
+          selectedMethod,
+          textUseThisPayment,
+          textDefaultPaymentMethod,
+          textSelected,
+        ]) =>
+          paymentMethods.map((payment) => ({
+            content: this.createCard(
+              payment.payment,
+              {
+                textExpires: payment.expiryTranslation,
+                textUseThisPayment,
+                textDefaultPaymentMethod,
+                textSelected,
+              },
+              selectedMethod
+            ),
+            paymentMethod: payment.payment,
+          }))
+      )
+    );
+  }
+
+  selectDefaultPaymentMethod(
+    paymentMethods: { payment: PaymentDetails; expiryTranslation: string }[],
+    selectedMethod: PaymentDetails | undefined
+  ) {
+    if (
+      !this.doneAutoSelect &&
+      paymentMethods?.length &&
+      (!selectedMethod || Object.keys(selectedMethod).length === 0)
+    ) {
+      const defaultPaymentMethod = paymentMethods.find(
+        (paymentMethod) => paymentMethod.payment.defaultPayment
+      );
+      if (defaultPaymentMethod) {
+        selectedMethod = defaultPaymentMethod.payment;
+        this.savePaymentMethod(selectedMethod);
+      }
+      this.doneAutoSelect = true;
+    }
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {

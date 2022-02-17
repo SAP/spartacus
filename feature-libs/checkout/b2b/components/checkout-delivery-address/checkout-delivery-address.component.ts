@@ -26,14 +26,8 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  tap,
-} from 'rxjs/operators';
+import { Observable, of, Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
   card: Card;
@@ -54,6 +48,20 @@ export class B2BCheckoutDeliveryAddressComponent
   cards$: Observable<CardWithAddress[]>;
 
   isAccountPayment = false;
+
+  costCenterAddresses$: Observable<Address[]> = this.checkoutCostCenterFacade
+    .getCostCenterState()
+    .pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      distinctUntilChanged(),
+      switchMap((costCenter) => {
+        this.doneAutoSelect = false;
+        return costCenter?.code
+          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          : of([]);
+      })
+    );
 
   constructor(
     protected userAddressService: UserAddressService,
@@ -88,59 +96,19 @@ export class B2BCheckoutDeliveryAddressComponent
         .subscribe((isAccount) => (this.isAccountPayment = isAccount))
     );
 
-    if (!this.isAccountPayment) {
-      super.ngOnInit();
-    } else {
-      this.cards$ = combineLatest([
-        this.getSupportedAddresses(),
-        this.selectedAddress$,
-        this.translationService.translate(
-          'checkoutAddress.defaultDeliveryAddress'
-        ),
-        this.translationService.translate('checkoutAddress.shipToThisAddress'),
-        this.translationService.translate('addressCard.selected'),
-      ]).pipe(
-        tap(([addresses, selected]) =>
-          this.selectDefaultAddress(addresses, selected)
-        ),
-        map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-          addresses.map((address) => ({
-            address,
-            card: this.getCardContent(
-              address,
-              selected,
-              textDefault,
-              textShipTo,
-              textSelected
-            ),
-          }))
-        ),
-        tap((x) => console.log('ACCOUNT', x))
-      );
-    }
+    super.ngOnInit();
   }
 
   getSupportedAddresses(): Observable<Address[]> {
-    console.log('b2b getSupportedAddresses');
-    return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
-      switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                this.doneAutoSelect = false;
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super.getSupportedAddresses();
-      })
-    );
+    return this.checkoutPaymentTypeFacade
+      .isAccountPayment()
+      .pipe(
+        switchMap((isAccountPayment) =>
+          isAccountPayment
+            ? this.costCenterAddresses$
+            : super.getSupportedAddresses()
+        )
+      );
   }
 
   selectDefaultAddress(
