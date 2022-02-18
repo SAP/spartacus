@@ -1,5 +1,5 @@
 import { waitForProductPage } from '../checkout-flow';
-import { loginB2bUser as login } from './b2b-checkout';
+import * as b2bCheckout from './b2b-checkout';
 
 export function visitProduct(productCode) {
   const page = `/product/${productCode}`;
@@ -72,29 +72,22 @@ export function updateAndverifyTotal(newQuantity) {
 }
 
 export function loginB2bUser() {
-  login();
+  b2bCheckout.loginB2bUser();
 }
 
 export function placeOrder() {
-  const checkoutSelector =
-    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary';
-  cy.get(checkoutSelector).click();
-  cy.get('cx-payment-type').contains(' Account ');
-  cy.get('cx-payment-type').within(() => {
-    cy.get('.form-control').clear().type('123');
-  });
-  cy.get('cx-payment-type').within(() => {
-    cy.findByText('Account').click({ force: true });
-  });
+  cy.get(
+    'cx-added-to-cart-dialog .cx-dialog-buttons a.btn.btn-secondary'
+  ).click();
 
-  cy.get('cx-payment-type .btn-primary').click();
+  b2bCheckout.enterPONumber();
+  b2bCheckout.selectAccountPayment();
+  b2bCheckout.selectAccountShippingAddress();
+  b2bCheckout.selectAccountDeliveryMode();
 
-  cy.get('cx-shipping-address').contains('Select your Shipping Address');
-  cy.get('cx-shipping-address .cx-checkout-btns button.btn-primary').click();
-  cy.get('cx-delivery-mode').contains('Standard Delivery');
-  cy.get('cx-delivery-mode .btn-primary').click();
   cy.get('.cx-review-title').should('contain', 'Review');
 
   cy.get('input[formcontrolname="termsAndConditions"]').check();
-  cy.get('cx-place-order button.btn-primary').click();
+
+  b2bCheckout.placeOrder('/order-confirmation');
 }

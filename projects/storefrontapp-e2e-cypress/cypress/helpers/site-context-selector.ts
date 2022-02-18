@@ -1,7 +1,7 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './checkout-flow';
-import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 
 export const LANGUAGES = 'languages';
 export const CURRENCIES = 'currencies';
@@ -69,7 +69,7 @@ export const UPDATE_PASSWORD_PATH = `/${myAccount}/update-password`;
 export const PRODUCT_SEARCH_PATH =
   '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
 export const REGISTRATION_PATH = '/login/register';
-export const CHECKOUT_SHIPPING_ADDRESS_PATH = '/checkout/shipping-address';
+export const CHECKOUT_DELIVERY_ADDRESS_PATH = '/checkout/delivery-address';
 export const CHECKOUT_DELIVERY_MODE_PATH = '/checkout/delivery-mode';
 export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
@@ -78,8 +78,8 @@ export function doPlaceOrder() {
   cy.window().then((win) => {
     const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
     cy.requireProductAddedToCart(savedState.token).then((resp) => {
-      cy.requireShippingAddressAdded(user.address, savedState.token);
-      cy.requireShippingMethodSelected(savedState.token);
+      cy.requireDeliveryAddressAdded(user.address, savedState.token);
+      cy.requireDeliveryMethodSelected(savedState.token);
       cy.requirePaymentDone(savedState.token);
       cy.requirePlacedOrder(savedState.token, resp.cartId);
     });
@@ -87,14 +87,14 @@ export function doPlaceOrder() {
 }
 
 export function addressBookNextStep() {
-  cy.get('cx-shipping-address .link').click({ force: true });
+  cy.get('cx-delivery-address .link').click({ force: true });
 
   const deliveryPage = waitForPage(
     CHECKOUT_DELIVERY_MODE_PATH,
     'getDeliveryPage'
   );
 
-  cy.get('cx-shipping-address .btn-primary').click();
+  cy.get('cx-delivery-address .btn-primary').click();
 
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
@@ -121,7 +121,7 @@ export function paymentDetailsNextStep() {
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click();
+  cy.get('cx-payment-method .btn-primary').should('be.enabled').click();
 
   cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }

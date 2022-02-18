@@ -74,10 +74,6 @@
     @include type('5');
     font-weight: $font-weight-normal;
 
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
     @include media-breakpoint-only(xl) {
       padding-inline-start: 0px;
     }
@@ -107,24 +103,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
-    @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-    }
-
-    @include forVersion(4.2) {
-      @include media-breakpoint-down(sm) {
-        .readonly-value {
-          display: flex;
-          justify-content: space-between;
-
-          &::before {
-            content: '';
-            width: 105px;
-          }
-        }
-      }
-    }
   }
 
   .cx-total {
@@ -132,31 +110,15 @@
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 0;
-    @include forVersion(4.2) {
-      padding-inline-start: 0;
-    }
+    padding-inline-start: 0;
 
     @include media-breakpoint-down(sm) {
-      justify-content: flex-start;
-      @include forVersion(4.2) {
-        padding-inline-start: 15px;
-      }
+      padding-inline-start: 15px;
     }
 
     .cx-value {
       text-align: end;
       word-break: break-word;
-    }
-  }
-
-  @include forVersion(4.2) {
-    .cx-price,
-    .cx-quantity,
-    .cx-total {
-      @include media-breakpoint-down(sm) {
-        width: 250px;
-        justify-content: space-between;
-      }
     }
   }
 
@@ -197,6 +159,51 @@
     }
   }
 
+  .cx-price,
+  .cx-quantity,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+
+      .cx-label {
+        width: 100px;
+      }
+    }
+  }
+
+  .cx-price,
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      .cx-value {
+        margin: 0 0 0 20px;
+      }
+
+      .readonly-value {
+        background-color: rgb(230, 230, 230);
+      }
+    }
+  }
+
+  .cx-actions {
+    @include media-breakpoint-down(sm) {
+      .link {
+        display: block;
+        text-align: start;
+      }
+
+      .cx-sfl-btn {
+        text-align: start;
+        padding-inline-start: 0;
+      }
+    }
+  }
+
   // ------------------------------------COMPACT VERSION STYLING------------------------------------------
 
   .cx-compact {
@@ -211,13 +218,6 @@
       display: flex;
       flex-direction: column;
       margin: 0;
-    }
-
-    .cx-price,
-    .cx-quantity {
-      @include media-breakpoint-down(sm) {
-        padding-bottom: 10px;
-      }
     }
 
     .cx-price,
@@ -238,6 +238,12 @@
 
       button.link {
         @include type('7');
+      }
+    }
+
+    .cx-quantity {
+      .cx-value {
+        margin: 0;
       }
     }
   }
