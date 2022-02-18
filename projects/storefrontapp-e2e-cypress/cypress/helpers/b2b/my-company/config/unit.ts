@@ -209,7 +209,7 @@ export const unitConfig: MyCompanyConfig = {
       manageAssignments: true,
     },
     {
-      name: 'Shipping Addresses',
+      name: 'Delivery Addresses',
       baseUrl: `/addresses`,
       apiEndpoint: '**/availableOrgCustomers**',
       objectType: 'members',

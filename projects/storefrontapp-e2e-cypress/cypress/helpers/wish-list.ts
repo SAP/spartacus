@@ -2,7 +2,11 @@ import { cheapProduct, user } from '../sample-data/checkout-flow';
 import { login, register } from './auth-forms';
 import * as checkoutAsPersistentUser from './checkout-as-persistent-user';
 import * as checkout from './checkout-flow';
-import { waitForPage, waitForProductPage } from './checkout-flow';
+import {
+  interceptCheckoutB2CDetailsEndpoint,
+  waitForPage,
+  waitForProductPage,
+} from './checkout-flow';
 import {
   AddressData,
   fillPaymentDetails,
@@ -249,24 +253,39 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
 }
 
 function proceedToCheckout() {
-  const shippingAddressPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingAddressPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingAddressPage}`)
+  cy.wait(`@${deliveryAddressPage}`)
     .its('response.statusCode')
     .should('eq', 200);
 }
 
 function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 function fillPaymentForm(
