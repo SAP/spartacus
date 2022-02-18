@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CHECKOUT_FEATURE } from '@spartacus/checkout/root';
+import { ModuleWithProviders, NgModule } from '@angular/core';
+import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
 import { I18nConfig, provideConfig } from '@spartacus/core';
 import {
   dpTranslationChunksConfig,
@@ -8,14 +8,6 @@ import {
 @NgModule({
   providers: [
     provideConfig(<I18nConfig>{
-      featureModules: {
-        [CHECKOUT_FEATURE]: {
-          module: () =>
-            import('@spartacus/digital-payments').then(
-              (m) => m.DigitalPaymentsModule
-            ),
-        },
-      },
       i18n: {
         resources: dpTranslations,
         chunks: dpTranslationChunksConfig,
@@ -24,4 +16,40 @@ import {
     }),
   ],
 })
-export class DigitalPaymentsFeatureModule {}
+export class DigitalPaymentsFeatureModule {
+  static forB2C(): ModuleWithProviders<DigitalPaymentsFeatureModule> {
+    return {
+      ngModule: DigitalPaymentsFeatureModule,
+      providers: [
+        provideConfig({
+          featureModules: {
+            [CHECKOUT_FEATURE]: {
+              module: () =>
+                import('@spartacus/digital-payments').then(
+                  (m) => m.DigitalPaymentsModule
+                ),
+            },
+          },
+        }),
+      ],
+    };
+  }
+
+  static forB2B(): ModuleWithProviders<DigitalPaymentsFeatureModule> {
+    return {
+      ngModule: DigitalPaymentsFeatureModule,
+      providers: [
+        provideConfig({
+          featureModules: {
+            [CHECKOUT_FEATURE]: {
+              module: () =>
+                import('./b2b-digital-payments.module').then(
+                  (m) => m.B2BDigitalPaymentsModule
+                ),
+            },
+          },
+        }),
+      ],
+    };
+  }
+}

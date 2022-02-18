@@ -104,7 +104,11 @@ if (environment.cpq) {
   featureModules.push(ProductConfiguratorRulebasedFeatureModule);
 }
 if (environment.digitalPayments) {
-  featureModules.push(DigitalPaymentsFeatureModule);
+  if (environment.b2b) {
+    featureModules.push(DigitalPaymentsFeatureModule.forB2B());
+  } else {
+    featureModules.push(DigitalPaymentsFeatureModule.forB2C());
+  }
 }
 
 @NgModule({
