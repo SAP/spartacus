@@ -193,6 +193,6 @@ export const common = {
     refreshThePage: 'Please refresh the page.',
   },
   assistiveMessage: {
-    actionCancelled: 'Action cancelled nothing changed',
+    actionCancelled: 'Action cancelled, nothing changed',
   },
 };
