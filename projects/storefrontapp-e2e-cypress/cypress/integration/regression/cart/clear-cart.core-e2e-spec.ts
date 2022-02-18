@@ -1,5 +1,5 @@
 import * as cart from '../../../helpers/cart';
-import { visitHomePage } from '../../../helpers/checkout-flow';
+import { visitHomePage, signOutUser } from '../../../helpers/checkout-flow';
 import { viewportContext } from '../../../helpers/viewport-context';
 import * as alerts from '../../../helpers/global-message';
 
@@ -70,7 +70,7 @@ describe('Clear Cart', () => {
           .should('contain', `Active cart cleared successfully.`);
         cart.validateEmptyCart();
         cart.verifyCartIdAfterClearCart();
-        cart.logOut();
+        signOutUser();
       });
     });
   });
