@@ -1,7 +1,7 @@
 import {
+  testEnableDisableNotification,
   updateEmail,
   verifyEmailChannel,
-  testEnableDisableNotification,
 } from '../../../helpers/notification';
 import { registerAndLogin } from '../../../helpers/update-email';
 import { viewportContext } from '../../../helpers/viewport-context';

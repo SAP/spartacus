@@ -143,6 +143,15 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     );
   }
 
+  takeActiveCartId(): Observable<string> {
+    return this.isStable().pipe(
+      filter((isStable) => isStable),
+      switchMap(() => this.getActiveCartId()),
+      filter((cartId) => !!cartId),
+      take(1)
+    );
+  }
+
   /**
    * Returns cart entries
    */
@@ -442,7 +451,8 @@ export class ActiveCartService implements ActiveCartFacade, OnDestroy {
     return cart
       ? of(this.isCartUserGuest(cart))
       : this.activeCart$.pipe(
-          map((activeCart) => this.isCartUserGuest(activeCart))
+          map((activeCart) => this.isCartUserGuest(activeCart)),
+          distinctUntilChanged()
         );
   }
 
