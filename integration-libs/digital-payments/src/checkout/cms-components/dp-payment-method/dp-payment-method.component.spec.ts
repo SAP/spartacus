@@ -7,7 +7,10 @@ import {
 import { StoreModule } from '@ngrx/store';
 import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { CheckoutDeliveryAddressService } from '@spartacus/checkout/base/core';
+import {
+  CheckoutDeliveryAddressService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/base/core';
 import {
   CheckoutDeliveryAddressFacade,
   CheckoutPaymentFacade,
@@ -107,6 +110,10 @@ describe('DpPaymentMethodComponent', () => {
         {
           provide: CheckoutDeliveryAddressService,
           useClass: MockCheckoutDeliveryAddressService,
+        },
+        {
+          provide: CheckoutPaymentService,
+          useClass: MockCheckoutPaymentService,
         },
         {
           provide: ActivatedRoute,
