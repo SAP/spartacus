@@ -4,18 +4,28 @@
     else loading
   "
 >
-  <div class="cx-count container">
+  <div
+    class="cx-count container"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-relevant="additions"
+  >
     <div class="row" *ngIf="locations?.length">
-      <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+      <div class="cx-visually-hidden">
         {{
-          'storeFinder.resultsFound' | cxTranslate: { count: locations?.length }
+          'storeFinder.ariaLabelCountriesCount'
+            | cxTranslate: { count: locations?.length }
         }}
       </div>
       <div
         *ngFor="let country of locations"
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
       >
-        <a [routerLink]="['../country', country.isoCode]" class="btn-link">
+        <a
+          [attr.aria-label]="country.count"
+          [routerLink]="['../country', country.isoCode]"
+          class="btn-link"
+        >
           <h2 class="cx-title">
             <span
               [ngClass]="
@@ -34,6 +44,7 @@
               "
               *ngIf="!country?.storeCountDataList"
               class="cx-country-count"
+              aria-hidden="true"
               >({{ country.count }})</span
             >
           </h2>
