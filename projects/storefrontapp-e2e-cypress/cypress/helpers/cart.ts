@@ -446,6 +446,16 @@ export function logOutAndEmptyCart() {
   validateEmptyCart();
 }
 
+export function logOut() {
+  const logoutPage = waitForPage('/logout', 'getLogoutPage');
+  cy.selectUserMenuOption({
+    option: 'Sign Out',
+  });
+  cy.wait(`@${logoutPage}`);
+
+  waitForHomePage();
+}
+
 export function manipulateCartQuantity() {
   const product = products[1];
 
