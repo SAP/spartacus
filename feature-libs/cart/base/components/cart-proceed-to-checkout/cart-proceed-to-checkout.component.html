@@ -4,6 +4,7 @@
   [disabled]="cartValidationInProgress"
   [loading]="cartValidationInProgress"
   [routerLink]="{ cxRoute: 'checkout' } | cxUrl"
+  tabindex="-1"
 >
   {{
     (!cartValidationInProgress
