@@ -22,6 +22,7 @@ export const common = {
     add: 'Add',
     breadcrumbs: 'breadcrumbs',
     selectFile: 'Select file',
+    clear: 'Clear',
   },
   pageMetaResolver: {
     category: {
