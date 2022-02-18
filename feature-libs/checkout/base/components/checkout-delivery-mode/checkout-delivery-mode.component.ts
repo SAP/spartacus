@@ -25,7 +25,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
-  protected busy$: Observable<boolean> = new BehaviorSubject(false);
+  protected busy$ = new BehaviorSubject(false);
 
   selectedDeliveryModeCode$: Observable<string | undefined>;
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
@@ -100,7 +100,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   changeMode(code: string): void {
-    (this.busy$ as BehaviorSubject<boolean>).next(true);
+    this.busy$.next(true);
 
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
       complete: () => this.onSuccess(),
@@ -119,11 +119,11 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(): void {
-    (this.busy$ as BehaviorSubject<boolean>).next(false);
+    this.busy$.next(false);
   }
 
   protected onError(): void {
-    (this.busy$ as BehaviorSubject<boolean>).next(false);
+    this.busy$.next(false);
   }
 
   ngOnDestroy(): void {
