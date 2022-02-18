@@ -49,7 +49,6 @@
   "@spartacus/setup": {
     "@angular/core": "^13.2.0",
     "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
     "@spartacus/order": "4.2.0",
     "@spartacus/user": "4.1.0-next.0"
@@ -90,7 +89,6 @@
     "@angular/forms": "^13.2.0",
     "@angular/router": "^13.2.0",
     "@ng-select/ng-select": "^8.0.0",
-    "@ngrx/effects": "^13.0.2",
     "@ngrx/store": "^13.0.2",
     "@spartacus/cart": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
