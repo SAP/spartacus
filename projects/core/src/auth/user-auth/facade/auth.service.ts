@@ -45,14 +45,23 @@ export class AuthService {
   async checkOAuthParamsInUrl(): Promise<void> {
     // We use the 'token_received' event to check if we have returned
     // from the auth server.
-    let tokenReceived: OAuthEvent | undefined;
-    const sub: Subscription = this.oAuthLibWrapperService.events$
+    let tokenReceivedEvent: OAuthEvent | undefined;
+    const subscription = this.oAuthLibWrapperService.events$
       .pipe(
-        filter((e: OAuthEvent) => e.type === 'token_received'),
+        filter((event) => event.type === 'token_received'),
         take(1)
       )
-      .subscribe((e: OAuthEvent) => (tokenReceived = e));
+      .subscribe((event) => (tokenReceivedEvent = event));
 
+    // The method `oAuthLibWrapperService.tryLogin()` obtains the token either from the URL params
+    // or from the storage. To distinguish those 2 cases, we observe the event `token_received`.
+    //
+    // The event 'token_received' is emitted, when the method `oAuthLibWrapperService.tryLogin()`
+    // can derive the token from the URL params (which means we've just returned from
+    // an external authorization page to Spartacus).
+    //
+    // But the event 'token_received' is not emitted when the method `oAuthLibWrapperService.tryLogin()`
+    // can obtain the token from the storage (e.g. on refresh of the Spartacus page).
     try {
       const result = await this.oAuthLibWrapperService.tryLogin();
 
@@ -65,13 +74,13 @@ export class AuthService {
 
         // Only redirect if we have received a token,
         // otherwise we are not returning from authentication server.
-        if (tokenReceived) {
+        if (tokenReceivedEvent) {
           this.authRedirectService.redirect();
         }
       }
     } catch {}
 
-    sub.unsubscribe();
+    subscription.unsubscribe();
   }
 
   /**
