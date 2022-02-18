@@ -111,10 +111,7 @@ export class FacetService {
         new BehaviorSubject({
           topVisible: topFacets,
           maxVisible: topFacets,
-          toggled: facet.expanded
-            ? FacetGroupCollapsedState.COLLAPSED
-            : FacetGroupCollapsedState.EXPANDED,
-        } as FacetCollapseState)
+        })
       );
     }
   }
