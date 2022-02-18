@@ -48,8 +48,8 @@ export class AuthService {
     let tokenReceived: OAuthEvent | undefined;
     const sub: Subscription = this.oAuthLibWrapperService.events$
       .pipe(
-        filter((e: OAuthEvent) => e.type === 'token_received')
-        take(1),
+        filter((e: OAuthEvent) => e.type === 'token_received'),
+        take(1)
       )
       .subscribe((e: OAuthEvent) => (tokenReceived = e));
 
