@@ -99,17 +99,6 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
         CheckoutResetQueryEvent
       );
     });
-  });
-
-  describe(`onDeliveryModeChange`, () => {
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
-    });
     it(`CheckoutDeliveryModeClearedEvent should dispatch CheckoutResetQueryEvent()`, () => {
       mockEventStream$.next(new CheckoutDeliveryModeClearedEvent());
 
