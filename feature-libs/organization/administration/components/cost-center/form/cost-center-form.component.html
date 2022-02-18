@@ -29,11 +29,12 @@
       <cx-form-errors [control]="form.get('code')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" formGroupName="currency">
+    <label formGroupName="currency">
       <span class="label-content required">{{
         'orgCostCenter.currency' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="isocode"
         [searchable]="false"
         [clearable]="false"
@@ -48,11 +49,12 @@
       <cx-form-errors [control]="form.get('currency.isocode')"></cx-form-errors>
     </label>
 
-    <label aria-required="true" [formGroup]="form.get('unit')">
+    <label [formGroup]="form.get('unit')">
       <span class="label-content required">{{
         'orgCostCenter.unit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
