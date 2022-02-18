@@ -105,7 +105,9 @@ if (environment.cpq) {
 }
 if (environment.digitalPayments) {
   if (environment.b2b) {
-    featureModules.push(DigitalPaymentsFeatureModule.forB2B());
+    featureModules.push(
+      DigitalPaymentsFeatureModule.forScheduledReplenishment()
+    );
   } else {
     featureModules.push(DigitalPaymentsFeatureModule.forB2C());
   }

@@ -43,9 +43,27 @@ export class DigitalPaymentsFeatureModule {
           featureModules: {
             [CHECKOUT_FEATURE]: {
               module: () =>
-                import('./b2b-digital-payments.module').then(
+                import('@spartacus/digital-payments/b2b').then(
                   (m) => m.B2BDigitalPaymentsModule
                 ),
+            },
+          },
+        }),
+      ],
+    };
+  }
+
+  static forScheduledReplenishment(): ModuleWithProviders<DigitalPaymentsFeatureModule> {
+    return {
+      ngModule: DigitalPaymentsFeatureModule,
+      providers: [
+        provideConfig({
+          featureModules: {
+            [CHECKOUT_FEATURE]: {
+              module: () =>
+                import(
+                  '@spartacus/digital-payments/scheduled-replenishment'
+                ).then((m) => m.ReplenishmentDigitalPaymentsModule),
             },
           },
         }),

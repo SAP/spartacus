@@ -66,7 +66,6 @@
       "@spartacus/cart/wish-list/core": ["../../dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["../../dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["../../dist/cart/wish-list/root"],
-      "@spartacus/checkout": ["../../dist/checkout"],
       "@spartacus/checkout/b2b/assets": ["../../dist/checkout/b2b/assets"],
       "@spartacus/checkout/b2b/components": [
         "../../dist/checkout/b2b/components"
@@ -83,6 +82,7 @@
       "@spartacus/checkout/base": ["../../dist/checkout/base"],
       "@spartacus/checkout/base/occ": ["../../dist/checkout/base/occ"],
       "@spartacus/checkout/base/root": ["../../dist/checkout/base/root"],
+      "@spartacus/checkout": ["../../dist/checkout"],
       "@spartacus/checkout/scheduled-replenishment/assets": [
         "../../dist/checkout/scheduled-replenishment/assets"
       ],
@@ -246,7 +246,11 @@
       "@spartacus/digital-payments/assets": [
         "../../dist/digital-payments/assets"
       ],
+      "@spartacus/digital-payments/b2b": ["../../dist/digital-payments/b2b"],
       "@spartacus/digital-payments": ["../../dist/digital-payments"],
+      "@spartacus/digital-payments/scheduled-replenishment": [
+        "../../dist/digital-payments/scheduled-replenishment"
+      ],
       "@spartacus/assets": ["../../dist/assets"],
       "@spartacus/core": ["../../dist/core"],
       "@spartacus/incubator": ["../../dist/incubator"],

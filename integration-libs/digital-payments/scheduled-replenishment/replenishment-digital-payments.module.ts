@@ -5,4 +5,4 @@ import { DigitalPaymentsModule } from '@spartacus/digital-payments';
 @NgModule({
   imports: [DigitalPaymentsModule, CheckoutScheduledReplenishmentModule],
 })
-export class B2BDigitalPaymentsModule {}
+export class ReplenishmentDigitalPaymentsModule {}
