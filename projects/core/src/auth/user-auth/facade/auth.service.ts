@@ -43,6 +43,8 @@ export class AuthService {
    * Check params in url and if there is an code/token then try to login with those.
    */
   async checkOAuthParamsInUrl(): Promise<void> {
+    // We use the 'token_received' event to check if we have returned
+    // from the auth server.
     let tokenReceived: OAuthEvent | undefined;
     const sub: Subscription = this.oAuthLibWrapperService.events$
       .pipe(
