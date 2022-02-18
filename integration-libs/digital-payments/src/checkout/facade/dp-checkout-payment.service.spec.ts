@@ -1,11 +1,11 @@
-import { PaymentDetails } from '@spartacus/core';
-import { DpPaymentRequest } from './../models/dp-checkout.model';
 import { TestBed } from '@angular/core/testing';
-import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
+import { PaymentDetails } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
-import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
-import createSpy = jasmine.createSpy;
 import { of } from 'rxjs';
+import { DigitalPaymentsAdapter } from '../adapters/digital-payments.adapter';
+import { DpPaymentRequest } from './../models/dp-checkout.model';
+import { DpCheckoutPaymentService } from './dp-checkout-payment.service';
+import createSpy = jasmine.createSpy;
 
 const initialPaymentRequestState: DpPaymentRequest | undefined = {};
 const initialPaymentDetailsState: PaymentDetails | undefined = {};
