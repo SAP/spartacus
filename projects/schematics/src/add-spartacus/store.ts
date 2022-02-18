@@ -31,25 +31,26 @@ function configureStoreModules(
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   for (const sourceFile of appSourceFiles) {
-    if (sourceFile.getFilePath().includes('app.module.ts')) {
-      addModuleImport(sourceFile, {
-        import: {
-          moduleSpecifier: NGRX_STORE,
-          namedImports: ['StoreModule'],
-        },
-        content: `StoreModule.forRoot({})`,
-      });
-      addModuleImport(sourceFile, {
-        import: {
-          moduleSpecifier: NGRX_EFFECTS,
-          namedImports: ['EffectsModule'],
-        },
-        content: `EffectsModule.forRoot([])`,
-      });
-
-      saveAndFormat(sourceFile);
-
-      break;
+    if (!sourceFile.getFilePath().includes('app.module.ts')) {
+      continue;
     }
+
+    addModuleImport(sourceFile, {
+      import: {
+        moduleSpecifier: NGRX_STORE,
+        namedImports: ['StoreModule'],
+      },
+      content: `StoreModule.forRoot({})`,
+    });
+    addModuleImport(sourceFile, {
+      import: {
+        moduleSpecifier: NGRX_EFFECTS,
+        namedImports: ['EffectsModule'],
+      },
+      content: `EffectsModule.forRoot([])`,
+    });
+
+    saveAndFormat(sourceFile);
+    break;
   }
 }

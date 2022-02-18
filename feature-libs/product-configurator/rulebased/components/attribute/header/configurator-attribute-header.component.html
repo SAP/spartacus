@@ -18,23 +18,25 @@
   *ngIf="attribute.hasConflicts"
   class="cx-conflict-msg"
   id="{{ createAttributeUiKey('attribute-msg', attribute.name) }}"
-  [attr.aria-live]="isAttributeGroup(groupType) ? 'assertive' : 'off'"
-  [attr.aria-atomic]="isAttributeGroup(groupType) ? true : false"
+  [attr.aria-live]="isAttributeGroup() ? 'assertive' : 'off'"
+  [attr.aria-atomic]="isAttributeGroup() ? true : false"
   role="alert"
   [attr.aria-label]="
-    isAttributeGroup(groupType)
+    isAttributeGroup()
       ? ('configurator.a11y.conflictDetected' | cxTranslate)
       : ''
   "
 >
   <cx-icon
-    *ngIf="isAttributeGroup(groupType)"
+    *ngIf="isAttributeGroup()"
     [type]="iconTypes.WARNING"
     aria-hidden="true"
   ></cx-icon>
-  <div class="cx-conflict-msg">
-    {{ getConflictMessageKey(groupType) | cxTranslate }}
-  </div>
+  <ng-container *ngIf="isAttributeGroup(); else conflictGroup">
+    <div class="cx-conflict-msg">
+      {{ getConflictMessageKey() | cxTranslate }}
+    </div>
+  </ng-container>
 </div>
 <div
   *ngIf="showRequiredMessageForDomainAttribute$ | async"
@@ -51,3 +53,9 @@
   src="{{ image?.url }}"
   alt="{{ image?.altText }}"
 />
+
+<ng-template #conflictGroup>
+  <a class="cx-conflict-msg" (click)="navigateToGroup()">
+    {{ getConflictMessageKey() | cxTranslate }}
+  </a>
+</ng-template>

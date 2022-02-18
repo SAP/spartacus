@@ -38,25 +38,26 @@ function configureSpartacusModules(
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   for (const sourceFile of appSourceFiles) {
-    if (sourceFile.getFilePath().includes(`${SPARTACUS_MODULE}.module.ts`)) {
-      addModuleImport(sourceFile, {
-        import: {
-          moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-          namedImports: [BASE_STOREFRONT_MODULE],
-        },
-        content: BASE_STOREFRONT_MODULE,
-      });
-      addModuleExport(sourceFile, {
-        import: {
-          moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-          namedImports: [BASE_STOREFRONT_MODULE],
-        },
-        content: BASE_STOREFRONT_MODULE,
-      });
-
-      saveAndFormat(sourceFile);
-
-      break;
+    if (!sourceFile.getFilePath().includes(`${SPARTACUS_MODULE}.module.ts`)) {
+      continue;
     }
+
+    addModuleImport(sourceFile, {
+      import: {
+        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+        namedImports: [BASE_STOREFRONT_MODULE],
+      },
+      content: BASE_STOREFRONT_MODULE,
+    });
+    addModuleExport(sourceFile, {
+      import: {
+        moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+        namedImports: [BASE_STOREFRONT_MODULE],
+      },
+      content: BASE_STOREFRONT_MODULE,
+    });
+
+    saveAndFormat(sourceFile);
+    break;
   }
 }

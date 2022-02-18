@@ -40,12 +40,6 @@ export interface OrderOccEndpoints {
    */
   cancelReturn?: string | OccEndpoint;
   /**
-   * Endpoint to schedule a replenishment order
-   *
-   * @member {string}
-   */
-  scheduleReplenishmentOrder?: string | OccEndpoint;
-  /**
    * Endpoint for the list of one user's replenishment orders
    *
    * @member {string}

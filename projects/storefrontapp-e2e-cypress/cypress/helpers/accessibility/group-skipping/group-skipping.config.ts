@@ -60,7 +60,7 @@ export const groupSkippingConfigMyAccount: GroupSkippingConfig = {
 
 export const groupSkippingConfigCheckout: GroupSkippingConfig = {
   shippingAddress: {
-    pageUrl: '/checkout/shipping-address',
+    pageUrl: '/checkout/delivery-address',
     expectedSkipperCount: 3,
   },
   deliveryMode: { pageUrl: '/checkout/delivery-mode', expectedSkipperCount: 3 },
