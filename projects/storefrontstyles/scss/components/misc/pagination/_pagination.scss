@@ -9,6 +9,7 @@
     color: var(--cx-color-text);
     width: 48px;
     height: 46px;
+    font-size: var(--cx-font-size, 1.188rem);
 
     border: solid 1px var(--cx-color-light);
     box-sizing: content-box;
@@ -36,6 +37,7 @@
       border-color: var(--cx-color-primary);
       color: var(--cx-color-inverse);
       opacity: 1;
+      font-weight: var(--cx-font-weight-bold);
     }
 
     &.current,
