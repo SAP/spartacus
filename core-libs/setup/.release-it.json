@@ -24,7 +24,6 @@
         {
           "file": "package.json",
           "path": [
-            "peerDependencies.@spartacus/checkout",
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/user"
           ]

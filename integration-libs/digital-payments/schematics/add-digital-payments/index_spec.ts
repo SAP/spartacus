@@ -11,7 +11,7 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_FEATURE,
+  CLI_CHECKOUT_BASE_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   LibraryOptions,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
@@ -169,7 +169,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           SPARTACUS_CHECKOUT
         );
         expect(checkoutTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_CHECKOUT_FEATURE,
+          CLI_CHECKOUT_BASE_FEATURE,
         ]);
       });
     });

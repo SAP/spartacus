@@ -1,6 +1,19 @@
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { PaymentMethodComponent as CorePaymentMethodComponent } from '@spartacus/checkout/components';
-import { PaymentDetails } from '@spartacus/core';
+import { ActivatedRoute } from '@angular/router';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
+import {
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
+  CheckoutStepService,
+} from '@spartacus/checkout/base/components';
+import {
+  CheckoutDeliveryAddressService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/base/core';
+import {
+  GlobalMessageService,
+  TranslationService,
+  UserPaymentService,
+} from '@spartacus/core';
 import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
@@ -27,11 +40,32 @@ export class DpPaymentMethodComponent
   }
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
-    this.selectPaymentMethod(paymentDetails);
+    this.savePaymentMethod(paymentDetails);
     this.next();
   }
 
-  ngOnInit() {
+  // TODO:#checkout - handle breaking changes
+  constructor(
+    protected userPaymentService: UserPaymentService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
+    protected checkoutPaymentFacade: CheckoutPaymentService,
+    protected activatedRoute: ActivatedRoute,
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
+  ) {
+    super(
+      userPaymentService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
+      activatedRoute,
+      translationService,
+      activeCartFacade,
+      checkoutStepService,
+      globalMessageService
+    );
+
     this.showCallbackScreen = this.isDpCallback();
     super.ngOnInit();
   }
