@@ -139,6 +139,34 @@ export class ConfiguratorStorefrontUtilsService {
   }
 
   /**
+   * Find an attribute by its name in the form and focus it.
+   *
+   * @param {string} name - Attribute name
+   */
+  focusAttribute(name: string): void {
+    if (!this.windowRef.isBrowser()) {
+      return;
+    }
+    const form = this.getElement('cx-configurator-form');
+    if (form) {
+      const focusableElements: HTMLElement[] =
+        this.keyboardFocusService.findFocusable(form);
+      if (focusableElements.length > 0) {
+        const foundFocusableElement = focusableElements.find(
+          (focusableElement) => {
+            if (focusableElement.id.indexOf(name) !== -1) {
+              return focusableElement;
+            }
+          }
+        );
+        if (foundFocusableElement) {
+          foundFocusableElement.focus();
+        }
+      }
+    }
+  }
+
+  /**
    * Generates a group ID.
    *
    * @param {string} groupId - group ID

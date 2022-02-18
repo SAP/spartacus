@@ -135,6 +135,8 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
     unknownIdentifier: 'Item not found.',
     otherCartErrors: 'Cart errors occurred.',
   },

@@ -1,8 +1,20 @@
 import { visitProductPage } from '../helpers/coupons/cart-coupon';
 import * as sampleData from '../sample-data/inventory-display';
-import { interceptProductDetails } from './product-details';
 
 export const stockSelector = 'cx-add-to-cart .info';
+
+export const GET_PRODUCT_DETAILS_ENDPOINT_ALIAS = 'getProductDetails';
+
+export function interceptProductDetails(productCode: string) {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${productCode}?fields=*stock(DEFAULT)*&lang=en&curr=USD`
+  ).as(GET_PRODUCT_DETAILS_ENDPOINT_ALIAS);
+
+  return GET_PRODUCT_DETAILS_ENDPOINT_ALIAS;
+}
 
 export function configureInventoryDisplay(enable: boolean) {
   cy.cxConfig({

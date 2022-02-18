@@ -501,21 +501,21 @@ export const cartUser = {
   },
 };
 
-export function registerCartUser() {
+export function registerCartUser(user = cartUser) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
   cy.wait(`@${registerPage}`);
 
-  register({ ...cartUser.registrationData });
+  register({ ...user.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
-export function loginCartUser() {
+export function loginCartUser(user = cartUser) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-  login(cartUser.registrationData.email, cartUser.registrationData.password);
-  cy.url().should('not.contain', 'login');
+  login(user.registrationData.email, user.registrationData.password);
+  return cy.url().should('not.contain', 'login');
 }
 
 export function saveCartId() {
