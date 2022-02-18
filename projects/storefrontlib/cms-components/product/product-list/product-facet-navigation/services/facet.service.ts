@@ -111,7 +111,7 @@ export class FacetService {
         new BehaviorSubject({
           topVisible: topFacets,
           maxVisible: topFacets,
-        })
+        } as FacetCollapseState)
       );
     }
   }
