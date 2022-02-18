@@ -16,9 +16,25 @@ import {
   fillShippingAddress,
   PaymentDetails,
 } from './checkout-forms';
+import { DeepPartial } from './form';
+import { productItemSelector } from './product-search';
 
 export const ELECTRONICS_BASESITE = 'electronics-spa';
 export const ELECTRONICS_CURRENCY = 'USD';
+
+export const GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS = 'GET_CHECKOUT_DETAILS';
+export const firstAddToCartSelector = `${productItemSelector} cx-add-to-cart:first`;
+
+export function interceptCheckoutB2CDetailsEndpoint() {
+  cy.intercept(
+    'GET',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/**/carts/**/*?fields=deliveryAddress(FULL),deliveryMode(FULL),paymentInfo(FULL)*`
+  ).as(GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS);
+
+  return GET_CHECKOUT_DETAILS_ENDPOINT_ALIAS;
+}
 
 /**
  * Clicks the main menu (on mobile only)
@@ -134,7 +150,7 @@ export function signInUser(sampleUser: SampleUser = user) {
   login(sampleUser.email, sampleUser.password);
 }
 
-export function signOutUser(sampleUser: SampleUser = user) {
+export function signOutUser() {
   const logoutPage = waitForPage('/logout', 'getLogoutPage');
   signOut();
   cy.wait(`@${logoutPage}`);
@@ -171,18 +187,42 @@ export function loginUser(sampleUser: SampleUser = user) {
 }
 
 export function fillAddressForm(shippingAddressData: AddressData = user) {
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
     .first()
     .find('.cx-summary-amount')
     .should('contain', cart.total);
+
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
+  const deliveryPage = waitForPage(
+    '/checkout/delivery-mode',
+    'getDeliveryPage'
+  );
   fillShippingAddress(shippingAddressData);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
 }
 
 export function verifyDeliveryMethod() {
   cy.log('🛒 Selecting delivery method');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
+
   cy.get('cx-delivery-mode input').first().should('be.checked');
+
   const paymentPage = waitForPage(
     '/checkout/payment-details',
     'getPaymentPage'
@@ -219,7 +259,7 @@ export function placeOrder() {
       cy.findByText(user.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -291,15 +331,15 @@ export function addCheapProductToCartAndLogin(
   addCheapProductToCart(sampleProduct);
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${loginPage}`);
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryPage'
   );
   loginUser(sampleUser);
   // Double timeout, because we have here a cascade of requests (login, load /checkout page, merge cart, load shipping page)
-  cy.wait(`@${shippingPage}`, { timeout: 30000 })
+  cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
     .its('response.statusCode')
     .should('eq', 200);
 }
@@ -317,12 +357,15 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
   sampleProduct: SampleProduct = cheapProduct
 ) {
   addCheapProductToCart(sampleProduct);
-  const shippingPage = waitForPage(
-    '/checkout/shipping-address',
-    'getShippingPage'
+
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
   );
   cy.findByText(/proceed to checkout/i).click();
-  cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+  cy.wait(`@${deliveryAddressPage}`)
+    .its('response.statusCode')
+    .should('eq', 200);
 }
 
 export function addCheapProductToCart(
@@ -336,29 +379,77 @@ export function addCheapProductToCart(
   });
 }
 
-export function fillAddressFormWithCheapProduct(
-  shippingAddressData: AddressData = user,
+export function proceedWithEmptyShippingAdressForm() {
+  cy.log('🛒 Trying to proceed with empty address form');
+
+  fillShippingAddress(null);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function proceedWithIncorrectShippingAddressForm(
+  shippingAddressData: Partial<AddressData> = user
+) {
+  cy.log('🛒 Trying to proceed with incorrect address form');
+
+  fillShippingAddress(shippingAddressData);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function checkSummaryAmount(
   cartData: SampleCartProduct = cartWithCheapProduct
+) {
+  cy.get('cx-order-summary .cx-summary-partials .cx-summary-total')
+    .find('.cx-summary-amount')
+    .should('contain', cartData.total);
+}
+
+export function fillAddressFormWithCheapProduct(
+  shippingAddressData: Partial<AddressData> = user
 ) {
   cy.log('🛒 Filling shipping address form');
 
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-  cy.get('cx-order-summary .cx-summary-partials .cx-summary-row')
-    .first()
-    .find('.cx-summary-amount')
-    .should('contain', cartData.total);
+  /**
+   * Delivery mode PUT intercept is not in verifyDeliveryMethod()
+   * because it doesn't choose a delivery mode and the intercept might have missed timing depending on cypress's performance
+   */
+  const getCheckoutDetailsAlias = interceptCheckoutB2CDetailsEndpoint();
+  cy.intercept({
+    method: 'PUT',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/**/deliverymode?deliveryModeId=*`,
+  }).as('putDeliveryMode');
+
   const deliveryPage = waitForPage(
     '/checkout/delivery-mode',
     'getDeliveryPage'
   );
   fillShippingAddress(shippingAddressData);
   cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
+
+  cy.wait('@putDeliveryMode').its('response.statusCode').should('eq', 200);
+  cy.wait(`@${getCheckoutDetailsAlias}`);
+}
+
+export function proceedWithEmptyPaymentForm() {
+  cy.log('🛒 Trying to proceed with empty payment method form');
+
+  fillPaymentDetails(null);
+  cy.get('cx-form-errors').should('exist');
+}
+
+export function proceedWithIncorrectPaymentForm(
+  paymentDetailsData: Partial<PaymentDetails> = user
+) {
+  cy.log('🛒 Trying to proceed with incorrect payment method form');
+
+  fillPaymentDetails(paymentDetailsData);
+  cy.get('cx-form-errors').should('exist');
 }
 
 export function fillPaymentFormWithCheapProduct(
-  paymentDetailsData: PaymentDetails = user,
-  billingAddress?: AddressData,
-  cartData: SampleCartProduct = cartWithCheapProduct
+  paymentDetailsData: DeepPartial<PaymentDetails> = user,
+  billingAddress?: AddressData
 ) {
   cy.log('🛒 Filling payment method form');
   cy.get('.cx-checkout-title').should('contain', 'Payment');
@@ -387,7 +478,7 @@ export function placeOrderWithCheapProduct(
       cy.findByText(sampleUser.address.line2);
     });
   cy.get('.cx-review-summary-card')
-    .contains('cx-card', 'Shipping Method')
+    .contains('cx-card', 'Delivery Method')
     .find('.cx-card-container')
     .within(() => {
       cy.findByText('Standard Delivery');
@@ -413,7 +504,7 @@ export function placeOrderWithCheapProduct(
     '/order-confirmation',
     'getOrderConfirmationPage'
   );
-  cy.get('cx-place-order button.btn-primary').click();
+  cy.get('cx-place-order button.btn-primary').should('be.enabled').click();
   cy.wait(`@${orderConfirmationPage}`)
     .its('response.statusCode')
     .should('eq', 200);
@@ -422,7 +513,6 @@ export function placeOrderWithCheapProduct(
 export function verifyOrderConfirmationPageWithCheapProduct(
   sampleUser: SampleUser = user,
   sampleProduct: SampleProduct = cheapProduct,
-  cartData: SampleCartProduct = cartWithCheapProduct,
   isApparel: boolean = false
 ) {
   cy.get('.cx-page-title').should('contain', 'Confirmation of Order');
@@ -465,9 +555,7 @@ export function verifyOrderConfirmationPageWithCheapProduct(
   cy.get('cx-order-summary .cx-summary-amount').should('not.be.empty');
 }
 
-export function viewOrderHistoryWithCheapProduct(
-  cartData: SampleCartProduct = cartWithCheapProduct
-) {
+export function viewOrderHistoryWithCheapProduct() {
   const orderHistoryPage = waitForPage(
     '/my-account/orders',
     'getOrderHistoryPage'
@@ -481,4 +569,83 @@ export function viewOrderHistoryWithCheapProduct(
     .first()
     .find('.cx-order-history-total .cx-order-history-value')
     .should('not.be.empty');
+}
+
+export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
+  cy.get(firstAddToCartSelector)
+    .findByText(/Add To Cart/i)
+    .click();
+  const loginPage = waitForPage('/login', 'getLoginPage');
+  cy.findByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
+
+  const deliveryAddressPage = waitForPage(
+    '/checkout/delivery-address',
+    'getDeliveryAddressPage'
+  );
+  loginUser(sampleUser);
+  cy.wait(`@${deliveryAddressPage}`, { timeout: 30000 })
+    .its('response.statusCode')
+    .should('eq', 200);
+}
+
+export function checkoutFirstDisplayedProduct(user: SampleUser) {
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/*/carts/*/entries?lang=en&curr=USD`
+  ).as('addToCart');
+
+  cy.intercept(
+    'POST',
+    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/current/carts?fields*`
+  ).as('carts');
+
+  addFirstResultToCartFromSearchAndLogin(user);
+
+  cy.wait('@addToCart').its('response.statusCode').should('eq', 200);
+  cy.wait('@carts').its('response.statusCode').should('eq', 201);
+
+  cy.get('@carts').then((xhr: any) => {
+    const cartData = { total: xhr.response.body.totalPrice.formattedValue };
+    const code = xhr.response.body.code;
+    checkSummaryAmount(cartData);
+    proceedWithEmptyShippingAdressForm();
+    proceedWithIncorrectShippingAddressForm({
+      ...user,
+      firstName: '',
+    });
+
+    cy.intercept(
+      'GET',
+      `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/current/carts/${code}?fields=DEFAULT*`
+    ).as('userCart');
+
+    fillAddressFormWithCheapProduct({ firstName: user.firstName });
+
+    cy.wait('@userCart').its('response.statusCode').should('eq', 200);
+
+    verifyDeliveryMethod();
+    fillPaymentFormWithCheapProduct(user as PaymentDetails);
+
+    cy.get('@userCart').then((xhr: any) => {
+      const cart = xhr.response.body;
+      const cartData = {
+        total: cart.subTotal.formattedValue,
+        estimatedShipping: cart.deliveryCost.formattedValue,
+      };
+      placeOrderWithCheapProduct(user, cartData);
+    });
+
+    cy.get('@addToCart').then((xhr: any) => {
+      const responseProduct = xhr.response.body.entry.product;
+      const sampleProduct = { code: responseProduct.code };
+      verifyOrderConfirmationPageWithCheapProduct(user, sampleProduct);
+    });
+  });
 }

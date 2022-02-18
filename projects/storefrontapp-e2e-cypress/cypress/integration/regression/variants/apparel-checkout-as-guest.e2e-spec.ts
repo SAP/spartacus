@@ -1,6 +1,7 @@
 import { login } from '../../../helpers/auth-forms';
 import * as guestCheckout from '../../../helpers/checkout-as-guest';
 import * as checkout from '../../../helpers/checkout-flow';
+import * as checkoutVariants from '../../../helpers/checkout-variants';
 import * as loginHelper from '../../../helpers/login';
 import {
   APPAREL_BASESITE,
@@ -12,7 +13,6 @@ import {
   products,
   variantProduct,
 } from '../../../sample-data/apparel-checkout-flow';
-import * as checkoutVariants from '../../../helpers/checkout-variants';
 
 context('Apparel - checkout as guest', () => {
   viewportContext(['mobile'], () => {
@@ -66,9 +66,9 @@ context('Apparel - checkout as guest', () => {
         cartWithSingleVariantProduct
       );
 
-      const shippingPage = checkout.waitForPage(
-        '/checkout/shipping-address',
-        'getShippingPage'
+      const deliveryAddressPage = checkout.waitForPage(
+        '/checkout/delivery-address',
+        'getDeliveryPage'
       );
 
       checkout.clickHamburger();
@@ -81,7 +81,12 @@ context('Apparel - checkout as guest', () => {
         checkoutVariants.variantUser.email,
         checkoutVariants.variantUser.password
       );
-      cy.wait(`@${shippingPage}`).its('response.statusCode').should('eq', 200);
+      cy.wait(`@${deliveryAddressPage}`)
+        .its('response.statusCode')
+        .should('eq', 200);
+
+      cy.get('cx-login div.cx-login-greet').should('exist');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
 
       cy.get('cx-mini-cart .count').contains('1');
 

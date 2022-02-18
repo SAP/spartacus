@@ -76,18 +76,5 @@ export function getB2bConfiguration(): CustomConfig[] {
       ],
       content: `provideConfig(defaultB2bOccConfig)`,
     },
-    {
-      import: [
-        {
-          moduleSpecifier: SPARTACUS_CORE,
-          namedImports: [PROVIDE_CONFIG_FUNCTION],
-        },
-        {
-          moduleSpecifier: SPARTACUS_SETUP,
-          namedImports: ['defaultB2bCheckoutConfig'],
-        },
-      ],
-      content: `provideConfig(defaultB2bCheckoutConfig)`,
-    },
   ];
 }

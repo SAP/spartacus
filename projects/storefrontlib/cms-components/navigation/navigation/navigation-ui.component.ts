@@ -7,17 +7,16 @@ import {
   HostListener,
   Input,
   OnDestroy,
-  Renderer2,
   OnInit,
+  Renderer2,
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { WindowRef } from '@spartacus/core';
-import { debounceTime, filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ICON_TYPE } from '../../misc/icon/index';
-import { NavigationNode } from './navigation-node.model';
-import { distinctUntilChanged } from 'rxjs/operators';
 import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
+import { NavigationNode } from './navigation-node.model';
 
 @Component({
   selector: 'cx-navigation-ui',
