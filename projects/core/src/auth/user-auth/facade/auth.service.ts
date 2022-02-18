@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { OAuthEvent } from 'angular-oauth2-oidc';
+import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -43,13 +43,15 @@ export class AuthService {
    * Check params in url and if there is an code/token then try to login with those.
    */
   async checkOAuthParamsInUrl(): Promise<void> {
-    try {
-      const tokenReceived = getLastValueSync(
-        this.oAuthLibWrapperService.events$.pipe(
-          filter((e) => e.type === 'token_received')
-        )
-      );
+    let tokenReceived: OAuthEvent | undefined;
+    const sub: Subscription = this.oAuthLibWrapperService.events$
+      .pipe(
+        take(1),
+        filter((e: OAuthEvent) => e.type === 'token_received')
+      )
+      .subscribe((e: OAuthEvent) => (tokenReceived = e));
 
+    try {
       const result = await this.oAuthLibWrapperService.tryLogin();
 
       const token = this.authStorageService.getItem('access_token');
@@ -66,6 +68,8 @@ export class AuthService {
         }
       }
     } catch {}
+
+    sub.unsubscribe();
   }
 
   /**
