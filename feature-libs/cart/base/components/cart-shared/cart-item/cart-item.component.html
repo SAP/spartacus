@@ -155,10 +155,10 @@
 
         <div class="col-md-3 cx-remove-btn">
           <button
-            class="link cx-action-link"
-            [disabled]="quantityControl.disabled"
             (click)="removeItem()"
+            [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
             attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
+            class="link cx-action-link"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>
