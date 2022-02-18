@@ -70,6 +70,7 @@ describe('Clear Cart', () => {
           .should('contain', `Active cart cleared successfully.`);
         cart.validateEmptyCart();
         cart.verifyCartIdAfterClearCart();
+        cart.logOutAndEmptyCart();
       });
     });
   });
