@@ -9,7 +9,6 @@ import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
-  CheckoutDeliveryAddressSetEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -77,16 +76,6 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
         {},
         CheckoutResetDeliveryModesEvent
       );
-    });
-  });
-
-  describe(`onDeliveryAddressChange`, () => {
-    it(`CheckoutDeliveryAddressSetEvent should call clearCheckoutDeliveryMode()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryAddressSetEvent());
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
     });
   });
 
