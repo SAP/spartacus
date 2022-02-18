@@ -46,10 +46,28 @@ export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
 export const SPARTACUS_TRACKING = '@spartacus/tracking';
 export const SPARTACUS_USER = '@spartacus/user';
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
-export const SPARTACUS_CHECKOUT_OCC = `${SPARTACUS_CHECKOUT}/occ`;
-export const SPARTACUS_CHECKOUT_CORE = `${SPARTACUS_CHECKOUT}/core`;
-export const SPARTACUS_CHECKOUT_ROOT = `${SPARTACUS_CHECKOUT}/root`;
-export const SPARTACUS_CHECKOUT_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
+export const SPARTACUS_CHECKOUT_BASE = `${SPARTACUS_CHECKOUT}/base`;
+export const SPARTACUS_CHECKOUT_BASE_ASSETS = `${SPARTACUS_CHECKOUT_BASE}/assets`;
+export const SPARTACUS_CHECKOUT_BASE_OCC = `${SPARTACUS_CHECKOUT_BASE}/occ`;
+export const SPARTACUS_CHECKOUT_BASE_CORE = `${SPARTACUS_CHECKOUT_BASE}/core`;
+export const SPARTACUS_CHECKOUT_BASE_ROOT = `${SPARTACUS_CHECKOUT_BASE}/root`;
+export const SPARTACUS_CHECKOUT_BASE_COMPONENTS = `${SPARTACUS_CHECKOUT_BASE}/components`;
+export const SPARTACUS_CHECKOUT_B2B = `${SPARTACUS_CHECKOUT}/b2b`;
+export const SPARTACUS_CHECKOUT_B2B_ASSETS = `${SPARTACUS_CHECKOUT_B2B}/assets`;
+export const SPARTACUS_CHECKOUT_B2B_OCC = `${SPARTACUS_CHECKOUT_B2B}/occ`;
+export const SPARTACUS_CHECKOUT_B2B_CORE = `${SPARTACUS_CHECKOUT_B2B}/core`;
+export const SPARTACUS_CHECKOUT_B2B_ROOT = `${SPARTACUS_CHECKOUT_B2B}/root`;
+export const SPARTACUS_CHECKOUT_B2B_COMPONENTS = `${SPARTACUS_CHECKOUT_B2B}/components`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT = `${SPARTACUS_CHECKOUT}/scheduled-replenishment`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/assets`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_OCC = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/occ`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_CORE = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/core`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/root`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_COMPONENTS = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/components`;
+export const SPARTACUS_CHECKOUT_OLD_OCC = `${SPARTACUS_CHECKOUT}/occ`;
+export const SPARTACUS_CHECKOUT_OLD_CORE = `${SPARTACUS_CHECKOUT}/core`;
+export const SPARTACUS_CHECKOUT_OLD_ROOT = `${SPARTACUS_CHECKOUT}/root`;
+export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
 export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
@@ -505,6 +523,8 @@ export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT =
   'ConfiguratorCartEntryBundleInfoComponent';
 export const CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_SERVICE =
   'ConfiguratorCartEntryBundleInfoService';
+export const CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT =
+  'ConfiguratorAttributeHeaderComponent';
 export const CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT =
   'ConfiguratorAttributeMultiSelectionBundleComponent';
 export const CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT =
@@ -558,6 +578,9 @@ export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
+
+export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
+export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
 
 /***** Classes end *****/
 
@@ -1007,6 +1030,8 @@ export const COMPONENTS_STATE_SELECTOR_FACTORY_NEW_API =
 export const COMPONENT_SELECTOR_FACTORY_OLD_API = 'componentSelectorFactory';
 export const COMPONENTS_SELECTOR_FACTORY_NEW_API = 'componentsSelectorFactory';
 
+export const HANDLE_VOUCHER_OPERATION_ERROR = 'handleVoucherOperationError';
+
 export const IS_LAUNCH_IN_SMART_EDIT = 'isLaunchInSmartEdit';
 export const IS_LAUNCHED_IN_SMART_EDIT = 'isLaunchedInSmartEdit';
 export const ADD_DYNAMIC_ATTRIBUTES = 'addDynamicAttributes';
@@ -1088,6 +1113,9 @@ export const PREVENT_SCROLLING_ON_SPACE = 'preventScrollingOnSpace';
 export const GET_STABLE_CONFIG = 'getStableConfig';
 export const GET_STABLE = 'getStable';
 export const EXTRACT_PRODUCT_CARD_PARAMETERS = 'extractProductCardParameters';
+export const CONFIGURATOR_API_IS_ATTRIBUTE_GROUP = 'isAttributeGroup';
+export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
+  'getConflictMessageKey';
 
 /***** APIs end *****/
 
@@ -1161,6 +1189,9 @@ export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
 export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
 
-export const CLI_CHECKOUT_FEATURE = 'Checkout';
+export const CLI_CHECKOUT_BASE_FEATURE = 'Checkout';
+export const CLI_CHECKOUT_B2B_FEATURE = 'Checkout-B2B';
+export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
+  'Checkout-Scheduled-Replenishment';
 export const CLI_ORDER_FEATURE = 'Order';
 /******* CLI end *******/

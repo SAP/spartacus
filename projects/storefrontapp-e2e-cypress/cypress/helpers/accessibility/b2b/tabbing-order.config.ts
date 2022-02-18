@@ -12,7 +12,7 @@ const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -23,11 +23,11 @@ const accountReviewOrderGeneral = [
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
@@ -113,7 +113,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
@@ -121,7 +121,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   paymentDetailsCard: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
@@ -137,7 +137,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Same as shipping address',
+      value: 'Same as delivery address',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     backButton,
@@ -156,7 +156,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   checkoutReviewOrder: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
     {
@@ -172,7 +172,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
-      value: '/powertools-spa/en/USD/checkout/shipping-address',
+      value: '/powertools-spa/en/USD/checkout/delivery-address',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
@@ -261,6 +261,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -323,6 +327,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Save Cart For Later',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: savedCartSampleData.products[0].name,
@@ -404,6 +412,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   savedCartDetails: [
     {
       type: TabbingOrderTypes.CX_ICON,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: 'Cordless screwdriver 2436',

@@ -29,15 +29,12 @@
       <cx-form-errors [control]="form.get('uid')"></cx-form-errors>
     </label>
 
-    <label
-      formGroupName="approvalProcess"
-      class="full-width"
-      aria-required="true"
-    >
+    <label formGroupName="approvalProcess" class="full-width">
       <span class="label-content required">{{
         'orgUnit.approvalProcess' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="code"
         [searchable]="false"
         [items]="approvalProcess$ | async"
@@ -52,15 +49,12 @@
       ></cx-form-errors>
     </label>
 
-    <label
-      *ngIf="form.get('parentOrgUnit')"
-      aria-required="true"
-      formGroupName="parentOrgUnit"
-    >
+    <label *ngIf="form.get('parentOrgUnit')" formGroupName="parentOrgUnit">
       <span class="label-content required">{{
         'orgUnit.form.parentOrgUnit' | cxTranslate
       }}</span>
       <ng-select
+        [inputAttrs]="{ required: 'true' }"
         formControlName="uid"
         [searchable]="true"
         [clearable]="false"
