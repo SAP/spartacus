@@ -4,6 +4,10 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import * as alerts from '../../../helpers/global-message';
 
 describe('Clear Cart', () => {
+  before(() => {
+    cart.registerCartUser();
+  });
+
   viewportContext(['desktop', 'mobile'], () => {
     context('Clear cart of anonymous user', () => {
       before(() => {
@@ -40,7 +44,6 @@ describe('Clear Cart', () => {
     context('Clear Cart for registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
-        cart.registerCartUser();
         visitHomePage();
       });
 
