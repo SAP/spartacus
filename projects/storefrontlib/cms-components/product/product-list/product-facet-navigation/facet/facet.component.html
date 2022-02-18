@@ -1,8 +1,8 @@
 <ng-container *ngIf="state$ | async as state">
   <button
-    [attr.aria-expanded]="state.toggled === 'EXPANDED'"
     class="heading"
     (click)="toggleGroup($event)"
+    [attr.aria-expanded]="isExpanded"
   >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
