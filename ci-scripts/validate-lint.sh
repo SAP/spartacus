@@ -60,16 +60,15 @@ else
     exit 1
 fi
 
-# TODO: should be uncommented once the `it.only` is removed from projects/storefrontapp-e2e-cypress/cypress/integration/regression/checkout/checkout-flow.core-e2e-spec.ts
-# echo "Validating that no 'it.only(' occurrences are present in tests..."
-# results=$(grep -rl --include "*spec.ts" 'it.only(' projects feature-libs intergration-libs core-libs || true)
-# if [[ -z "$results" ]]; then
-#     echo "Success: No 'it.only(' occurrences detected in tests."
-# else
-#     echo "ERROR: Detected 'it.only(' occurrence(s) in these files:"
-#     echo "$results"
-#     exit 1
-# fi
+echo "Validating that no 'it.only(' occurrences are present in tests..."
+results=$(grep -rl --include "*spec.ts" 'it.only(' projects feature-libs intergration-libs core-libs || true)
+if [[ -z "$results" ]]; then
+    echo "Success: No 'it.only(' occurrences detected in tests."
+else
+    echo "ERROR: Detected 'it.only(' occurrence(s) in these files:"
+    echo "$results"
+    exit 1
+fi
 
 echo "Validating that the storefrontlib does not import itself."
 results=$(grep -rl --include "*.ts" "from 'storefrontlib'" projects/storefrontlib || true)
