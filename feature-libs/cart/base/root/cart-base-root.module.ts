@@ -25,6 +25,7 @@ export function defaultCartComponentsConfig() {
           'CartComponent',
           'CartTotalsComponent',
           'SaveForLaterComponent',
+          'ClearCartComponent',
         ],
       },
       [MINI_CART_FEATURE]: {

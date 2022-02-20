@@ -66,7 +66,7 @@ export function verifyNotificationBannerInCart(
  */
 export function checkout(): void {
   cy.log('Complete checkout process');
-  cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
+  cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
   cy.log('Fulfill shipping address form');
   fillShippingAddress(shippingAddressData, false);
 
@@ -76,7 +76,7 @@ export function checkout(): void {
     .click()
     .then(() => {
       cy.location('pathname').should('contain', '/checkout/delivery-mode');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Method');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Method');
       cy.get('cx-delivery-mode').should('be.visible');
     });
 

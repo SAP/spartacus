@@ -110,7 +110,7 @@ export class PaymentMethodsComponent implements OnInit {
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
     this.globalMessageService?.add(
-      { key: 'paymentMessages.setAsDefaultSucessfully' },
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
