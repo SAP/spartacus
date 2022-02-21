@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
 
@@ -9,7 +9,8 @@ import { LaunchDialogService } from '@spartacus/storefront';
   providedIn: 'root',
 })
 export class ClearCartDialogComponentService {
-  isClearing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  protected isClearing$: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
 
   constructor(
     protected launchDialogService: LaunchDialogService,
@@ -21,13 +22,15 @@ export class ClearCartDialogComponentService {
     this.isClearing$.next(true);
     this.clearCart()
       .pipe(take(1))
-      .subscribe(() => {
+      .subscribe((cartEmpty) => {
         this.isClearing$.next(false);
-        this.onComplete();
+        if (cartEmpty) {
+          this.addSuccessGlobalMessage();
+        }
       });
   }
 
-  clearCart(): Observable<boolean> {
+  protected clearCart(): Observable<boolean> {
     return this.activeCartFacade.getEntries().pipe(
       take(1),
       tap((entries) => {
@@ -39,7 +42,13 @@ export class ClearCartDialogComponentService {
           .forEach((entry) => this.activeCartFacade.removeEntry(entry));
       }),
       switchMap(() => this.activeCartFacade.isStable()),
-      filter((data) => Boolean(data))
+      filter((data) => Boolean(data)),
+      tap(() => this.closeDialog('Close dialog after cart cleared')),
+      switchMap(() =>
+        this.activeCartFacade
+          .getEntries()
+          .pipe(map((entries) => entries.length === 0))
+      )
     );
   }
 
@@ -52,24 +61,24 @@ export class ClearCartDialogComponentService {
    *
    * @param success
    */
-  addSuccessGlobalMessage(): void {
+  protected addSuccessGlobalMessage(): void {
     this.globalMessageService.add(
       { key: 'clearCart.cartClearedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }
 
-  onComplete(): void {
-    this.closeDialog('Close dialog after cart cleared successfully');
-    this.activeCartFacade
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        if (entries.length === 0) {
-          this.addSuccessGlobalMessage();
-        }
-      });
-  }
+  // onComplete(): void {
+  //   this.closeDialog('Close dialog after cart cleared successfully');
+  //   this.activeCartFacade
+  //     .getEntries()
+  //     .pipe(take(1))
+  //     .subscribe((entries) => {
+  //       if (entries.length === 0) {
+  //         this.addSuccessGlobalMessage();
+  //       }
+  //     });
+  // }
 
   closeDialog(reason: string): void {
     this.launchDialogService.closeDialog(reason);
