@@ -4,6 +4,8 @@ export * from './cart-coupon/index';
 export * from './cart-details/cart-details.component';
 export * from './cart-details/cart-details.module';
 export * from './cart-page-layout-handler';
+export * from './cart-proceed-to-checkout/cart-proceed-to-checkout.component';
+export * from './cart-proceed-to-checkout/cart-proceed-to-checkout.module';
 export * from './cart-shared/index';
 export * from './cart-totals/cart-totals.component';
 export * from './cart-totals/cart-totals.module';

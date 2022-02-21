@@ -23,6 +23,7 @@ export function defaultCartComponentsConfig() {
         cmsComponents: [
           'CartApplyCouponComponent',
           'CartComponent',
+          'CartProceedToCheckoutComponent',
           'CartTotalsComponent',
           'SaveForLaterComponent',
           'ClearCartComponent',
