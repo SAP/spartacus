@@ -54,7 +54,6 @@ export const cart = {
     clearCart: 'Clear Cart',
     clearingCart: 'Clearing Cart...',
     cartClearedSuccessfully: 'Active cart cleared successfully.',
-    cartClearedUnsuccessfully: 'An problem occurred while clearing the cart.',
     areYouSureToClearCart: 'Are you sure you want to clear this cart?',
     allItemsWillBeRemoved: 'All items in your active cart will be removed.',
   },

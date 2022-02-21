@@ -39,11 +39,12 @@ export class ClearCartDialogComponentService {
           this.activeCartFacade
             .getEntries()
             .pipe(map((entries) => entries.length === 0))
-        )
+        ),
+        take(1)
       )
       .subscribe((success) => {
         this.isClearing$.next(false);
-        this.handleStatus(success);
+        this.displayGlobalMessage(success);
       });
   }
 
@@ -57,28 +58,13 @@ export class ClearCartDialogComponentService {
 
   /**
    * Display global message after clearing cart.
-   *
-   * @param success
    */
-  protected handleStatus(success: boolean): void {
-    if (success) {
-      this.addSuccessGlobalMessage();
-    } else {
-      this.addErrorGlobalMessage();
+  protected displayGlobalMessage(status: boolean): void {
+    if (status) {
+      this.globalMessageService.add(
+        { key: 'clearCart.cartClearedSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
     }
-  }
-
-  protected addSuccessGlobalMessage(): void {
-    this.globalMessageService.add(
-      { key: 'clearCart.cartClearedSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  }
-
-  protected addErrorGlobalMessage(): void {
-    this.globalMessageService.add(
-      { key: 'clearCart.cartClearedUnsuccessfully' },
-      GlobalMessageType.MSG_TYPE_ERROR
-    );
   }
 }
