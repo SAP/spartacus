@@ -88,20 +88,23 @@ export class CheckoutPaymentTypeComponent {
   }
 
   next(): void {
-    // set po number to cart
-    const poNumInput = this._poNumberInput.nativeElement.value;
-    if (this.typeSelected && poNumInput !== this.cartPoNumber) {
-      this.busy$.next(true);
-
-      this.checkoutPaymentTypeFacade
-        .setPaymentType(this.typeSelected, poNumInput)
-        .subscribe({
-          complete: () => this.checkoutStepService.next(this.activatedRoute),
-          error: () => this.onError(),
-        });
-    } else {
-      this.checkoutStepService.next(this.activatedRoute);
+    if (!this.typeSelected) {
+      return;
     }
+
+    const poNumInput = this._poNumberInput.nativeElement.value;
+    if (poNumInput === this.cartPoNumber) {
+      this.checkoutStepService.next(this.activatedRoute);
+      return;
+    }
+
+    this.busy$.next(true);
+    this.checkoutPaymentTypeFacade
+      .setPaymentType(this.typeSelected, poNumInput)
+      .subscribe({
+        complete: () => this.checkoutStepService.next(this.activatedRoute),
+        error: () => this.onError(),
+      });
   }
 
   back(): void {
