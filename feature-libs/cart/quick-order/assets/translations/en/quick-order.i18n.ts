@@ -1,15 +1,14 @@
 export const quickOrderCartForm = {
-  /**
-   * @deprecated since 4.2, use entriesWereAdded instead
-   */
-  entriesWasAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entriesWereAdded: '({{ quantity }}) {{ product }} has been added to the cart',
   entryWasAdded: '{{ product }} has been added to the cart',
   noResults: 'We could not find any products',
   stockLevelReached: 'The maximum stock level has been reached',
   title: 'Quick Order',
   productCodePlaceholder: 'Enter ID',
-  addToCart: 'Add',
+  entryProductCode: 'Enter Product ID for Quick Order',
+  quantity: 'Quantity for Quick Order',
+  addToCart: 'Add Product to Quick Order',
+  add: 'Add',
   product: 'Product',
   products: 'Products',
   productCodeLabel: 'Product ID',

@@ -67,9 +67,10 @@
     </div>
     <div class="cx-return-button col-12">
       <button
-        class="btn cx-action-link"
         (click)="removeEntry(cartEntry)"
+        [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
         [disabled]="isLoading"
+        class="btn cx-action-link"
       >
         {{ 'common.remove' | cxTranslate }}
       </button>

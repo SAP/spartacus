@@ -38,6 +38,8 @@ export class AtMessageDirective {
     event?.preventDefault();
 
     if (event?.target === this.host && this.cxAtMessage) {
+      this.host.focus();
+
       this.globalMessageService.add(
         this.cxAtMessage,
         GlobalMessageType.MSG_TYPE_ASSISTIVE
