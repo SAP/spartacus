@@ -18,3 +18,12 @@ export function getNextFocusableElement(
     ? elements[activeElementIndex + 1]
     : elements[0];
 }
+
+export function getPreviousFocusableElement(
+  elements: HTMLElement[],
+  activeElementIndex: number
+): HTMLElement {
+  return activeElementIndex - 1 >= 0
+    ? elements[activeElementIndex - 1]
+    : elements[elements.length - 1];
+}

@@ -1,0 +1,148 @@
+%cx-epd-visualization-viewer {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+
+  border-color: var(--cx-color-light);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 0.25em;
+  padding: 1px;
+
+  @include media-breakpoint-down(sm) {
+    border-radius: 0;
+    padding: 0;
+    border-width: 0;
+  }
+
+  &:focus-within {
+    border-color: var(--cx-color-secondary);
+  }
+
+  .sapVizKitViewport {
+    grid-row: 1;
+    grid-column: 1;
+
+    &:focus {
+      outline-style: unset;
+
+      canvas {
+        outline-style: unset;
+      }
+    }
+  }
+
+  .content-type-symbol {
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 1;
+    margin: 0.5em 1em 0 auto;
+
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+
+    .content-type-text {
+      font-size: var(--cx-font-size, 1.25rem);
+      opacity: 30%;
+      text-shadow: 1px 1px 1px rgb(150 150 150 / 50%);
+    }
+  }
+
+  .overlay {
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+  }
+
+  .toolbar {
+    display: flex;
+    flex-direction: row;
+    pointer-events: initial;
+    justify-content: center;
+
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+    }
+  }
+
+  .toolbarHBox {
+    display: flex;
+    flex-direction: row;
+    padding: 1em;
+    margin-bottom: 1em;
+    opacity: 95%;
+    border-radius: 0.25em;
+    background-color: var(--cx-color-inverse);
+    border-color: $input-border-color;
+    border-width: 1px;
+    border-style: solid;
+
+    @include media-breakpoint-down(md) {
+      padding: 0.25em;
+      margin: 0.25em;
+    }
+
+    @include media-breakpoint-down(sm) {
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  .toolbarItem {
+    margin: 0 0 0 0.5em;
+  }
+
+  cx-epd-visualization-animation-slider {
+    display: none;
+
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
+
+    .cx-epd-visualization-animation-slider {
+      width: 5em;
+      margin: 0 0.5em;
+
+      @include media-breakpoint-up(xl) {
+        width: 8em;
+      }
+    }
+  }
+
+  .isolateButton {
+    @include media-breakpoint-down(sm) {
+      display: none;
+    }
+  }
+
+  .turntableButton {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .panButton {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .zoomButton {
+    @include media-breakpoint-down(md) {
+      display: none;
+    }
+  }
+
+  .cx-spinner {
+    margin: auto;
+  }
+}

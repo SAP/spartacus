@@ -1,9 +1,9 @@
 import * as checkout from '../../../helpers/checkout-flow';
-import { viewportContext } from '../../../helpers/viewport-context';
 import {
   filterUsingFacetFiltering,
   searchResult,
 } from '../../../helpers/product-search';
+import { viewportContext } from '../../../helpers/viewport-context';
 import { getSampleUser } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
@@ -43,7 +43,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it.only('should filter with faceting and perform checkout', () => {
+    it('should filter with faceting and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
 

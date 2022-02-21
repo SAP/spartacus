@@ -35,6 +35,9 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
+    ariaLabelItemsAvailable_plural:
+      '{{name}}, {{state}} {{count}} items available',
   },
   productSummary: {
     id: 'ID',
@@ -81,6 +84,7 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
     tabPanelContainerRegion: 'Tab group with more product details',
   },

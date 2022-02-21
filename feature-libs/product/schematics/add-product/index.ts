@@ -11,6 +11,7 @@ import {
   CLI_PRODUCT_BULK_PRICING_FEATURE,
   CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
   CLI_PRODUCT_VARIANTS_FEATURE,
+  configureB2bFeatures,
   LibraryOptions as SpartacusProductOptions,
   readPackageJson,
   shouldAddFeature,
@@ -59,7 +60,10 @@ export function addSpartacusProduct(options: SpartacusProductOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       shouldAddFeature(CLI_PRODUCT_BULK_PRICING_FEATURE, options.features)
-        ? addBulkPricingFeature(options)
+        ? chain([
+            addBulkPricingFeature(options),
+            configureB2bFeatures(options, packageJson),
+          ])
         : noop(),
 
       shouldAddFeature(CLI_PRODUCT_VARIANTS_FEATURE, options.features)

@@ -12,7 +12,7 @@ const continueButton = { value: 'Continue', type: TabbingOrderTypes.BUTTON };
 
 const accountReviewOrderGeneral = [
   { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-  { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+  { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
   { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
   {
     value: '/powertools-spa/en/USD/checkout/payment-type',
@@ -23,11 +23,11 @@ const accountReviewOrderGeneral = [
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
-    value: '/powertools-spa/en/USD/checkout/shipping-address',
+    value: '/powertools-spa/en/USD/checkout/delivery-address',
     type: TabbingOrderTypes.IMG_LINK,
   },
   {
@@ -113,7 +113,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   deliveryMode: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     { value: 'deliveryModeId', type: TabbingOrderTypes.RADIO },
     backButton,
@@ -121,7 +121,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   paymentDetailsCard: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
@@ -137,7 +137,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     {
-      value: 'Same as shipping address',
+      value: 'Same as delivery address',
       type: TabbingOrderTypes.CHECKBOX_WITH_LABEL,
     },
     backButton,
@@ -156,7 +156,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   ],
   checkoutReviewOrder: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
-    { value: 'ShippingAddress', type: TabbingOrderTypes.LINK },
+    { value: 'DeliveryAddress', type: TabbingOrderTypes.LINK },
     { value: 'DeliveryMode', type: TabbingOrderTypes.LINK },
     { value: 'PaymentDetails', type: TabbingOrderTypes.LINK },
     {
@@ -172,7 +172,7 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
-      value: '/powertools-spa/en/USD/checkout/shipping-address',
+      value: '/powertools-spa/en/USD/checkout/delivery-address',
       type: TabbingOrderTypes.IMG_LINK,
     },
     {
@@ -339,13 +339,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Import Products', type: TabbingOrderTypes.LINK },
     { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
-    {
-      value: 'Proceed to Checkout',
-      type: TabbingOrderTypes.BUTTON,
-    },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -361,6 +357,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
   ],
@@ -464,13 +464,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Import Products', type: TabbingOrderTypes.LINK },
     { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
-    {
-      value: 'Proceed to Checkout',
-      type: TabbingOrderTypes.BUTTON,
-    },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
@@ -486,6 +482,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     {
       value: 'Add',
+      type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Proceed to Checkout',
       type: TabbingOrderTypes.BUTTON,
     },
   ],

@@ -86,6 +86,8 @@ export const order = {
       setAll: 'Set all quantities to maximum',
       totalPrice: 'Total',
       submit: 'Submit Request',
+      submitDescription:
+        'Submit Request. Items on this page will be included in the cancellation request.',
       returnSuccess: 'Your return request ({{rma}}) was submitted',
       cancelSuccess:
         'Your cancellation request was submitted (original order {{orderCode}} will be updated)',
