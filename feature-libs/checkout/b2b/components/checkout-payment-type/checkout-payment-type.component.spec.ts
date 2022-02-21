@@ -152,6 +152,8 @@ describe('CheckoutPaymentTypeComponent', () => {
     component['_poNumberInput'].nativeElement.value = 'test-po';
     component.cartPoNumber = component['_poNumberInput'].nativeElement.value;
 
+    fixture.detectChanges();
+
     component.next();
 
     expect(checkoutStepService.next).toHaveBeenCalledWith(
@@ -170,19 +172,16 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   describe('UI spinner when changing payment type', () => {
     it('should display spinner when user selects a new payment and response did not complete', () => {
-      (
-        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-      ).next(true);
+      component.isUpdating$ = of(true);
 
+      component.changeType('ACCOUNT');
       fixture.detectChanges();
 
       expect(el.query(By.css('div.cx-spinner'))).toBeTruthy();
     });
 
     it('should NOT display spinner when the payment type is NOT loading', () => {
-      (
-        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-      ).next(false);
+      component.isUpdating$ = of(false);
 
       fixture.detectChanges();
 
@@ -190,9 +189,7 @@ describe('CheckoutPaymentTypeComponent', () => {
     });
 
     it('should enable continue button when the payment is selected', () => {
-      (
-        component.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-      ).next(false);
+      component.isUpdating$ = of(false);
 
       fixture.detectChanges();
 

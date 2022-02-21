@@ -38,7 +38,7 @@ export class CheckoutPaymentTypeComponent {
   );
 
   typeSelected?: string;
-  cartPoNumber: string;
+  cartPoNumber: string = '';
 
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
@@ -88,17 +88,19 @@ export class CheckoutPaymentTypeComponent {
   }
 
   next(): void {
-    this.busy$.next(true);
-
     // set po number to cart
     const poNumInput = this._poNumberInput.nativeElement.value;
     if (this.typeSelected && poNumInput !== this.cartPoNumber) {
+      this.busy$.next(true);
+
       this.checkoutPaymentTypeFacade
         .setPaymentType(this.typeSelected, poNumInput)
         .subscribe({
           complete: () => this.checkoutStepService.next(this.activatedRoute),
           error: () => this.onError(),
         });
+    } else {
+      this.checkoutStepService.next(this.activatedRoute);
     }
   }
 
