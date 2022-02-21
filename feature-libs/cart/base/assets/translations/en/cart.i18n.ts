@@ -15,6 +15,7 @@ export const cart = {
     total: 'Total',
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
+    itemRemoved: 'Selected item has been removed. Cart total has been updated.',
   },
   orderCost: {
     orderSummary: 'Order Summary',
@@ -49,6 +50,13 @@ export const cart = {
     moveToCart: 'Move To Cart',
     stock: 'Stock',
     forceInStock: 'In Stock',
+  },
+  clearCart: {
+    clearCart: 'Clear Cart',
+    clearingCart: 'Clearing Cart...',
+    cartClearedSuccessfully: 'Active cart cleared successfully.',
+    areYouSureToClearCart: 'Are you sure you want to clear this cart?',
+    allItemsWillBeRemoved: 'All items in your active cart will be removed.',
   },
   validation: {
     cartEntriesChangeDuringCheckout:
