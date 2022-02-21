@@ -3,7 +3,9 @@
     class="heading"
     (click)="toggleGroup($event)"
     [attr.aria-expanded]="isExpanded"
-    [attr.aria-label]="'Filter by ' + facet.name"
+    [attr.aria-label]="
+      'productFacetNavigation.filterBy.name' | cxTranslate: { name: facet.name }
+    "
   >
     {{ facet.name }}
     <cx-icon class="collapse-icon" [type]="collapseIcon"></cx-icon>
