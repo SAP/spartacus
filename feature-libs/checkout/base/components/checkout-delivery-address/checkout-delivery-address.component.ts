@@ -53,7 +53,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   get selectedAddress$(): Observable<Address | undefined> {
-    console.log('selectedAddress$');
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
@@ -223,7 +222,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   protected getSupportedAddresses(): Observable<Address[]> {
-    console.log('getSupportedAddresses');
     return this.userAddressService.getAddresses();
   }
 
