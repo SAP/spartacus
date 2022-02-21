@@ -1,5 +1,6 @@
 import { InjectionToken } from '@angular/core';
-import { Converter, PaymentDetails } from '@spartacus/core';
+import { PaymentDetails } from '@spartacus/cart/base/root';
+import { Converter } from '@spartacus/core';
 import { DpPaymentRequest } from '../models';
 
 export const DP_DETAILS_NORMALIZER = new InjectionToken<

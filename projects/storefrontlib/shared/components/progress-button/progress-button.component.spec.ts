@@ -62,12 +62,12 @@ describe('ProgressButtonComponent', () => {
   });
 
   it('should trigger clickEvent on button click', () => {
-    spyOn(component.clikEvent, 'emit').and.callThrough();
+    spyOn(component.clickEvent, 'emit').and.callThrough();
 
     const button = el.query(By.css('.btn-primary')).nativeElement;
     button.click();
 
-    expect(component.clikEvent.emit).toHaveBeenCalled();
+    expect(component.clickEvent.emit).toHaveBeenCalled();
   });
 
   it('should show <ng-content> content', () => {
@@ -95,7 +95,7 @@ describe('ProgressButtonComponent', () => {
 
   describe('should not trigger clickEvent on button click when ', () => {
     beforeEach(() => {
-      spyOn(component.clikEvent, 'emit').and.callThrough();
+      spyOn(component.clickEvent, 'emit').and.callThrough();
     });
 
     it('button is disabled', () => {
@@ -105,7 +105,7 @@ describe('ProgressButtonComponent', () => {
       const button = el.query(By.css('.btn-primary')).nativeElement;
       button.click();
 
-      expect(component.clikEvent.emit).not.toHaveBeenCalled();
+      expect(component.clickEvent.emit).not.toHaveBeenCalled();
     });
 
     it('component is loading', () => {
@@ -115,7 +115,7 @@ describe('ProgressButtonComponent', () => {
       const button = el.query(By.css('.btn-primary')).nativeElement;
       button.click();
 
-      expect(component.clikEvent.emit).not.toHaveBeenCalled();
+      expect(component.clickEvent.emit).not.toHaveBeenCalled();
     });
   });
 });

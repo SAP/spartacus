@@ -22,6 +22,7 @@ export const common = {
     add: 'Add',
     breadcrumbs: 'breadcrumbs',
     selectFile: 'Select file',
+    clear: 'Clear',
   },
   pageMetaResolver: {
     category: {
@@ -134,6 +135,8 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
     unknownIdentifier: 'Item not found.',
     otherCartErrors: 'Cart errors occurred.',
   },
@@ -189,5 +192,8 @@ export const common = {
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
     refreshThePage: 'Please refresh the page.',
+  },
+  assistiveMessage: {
+    actionCancelled: 'Action cancelled, nothing changed',
   },
 };
