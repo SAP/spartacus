@@ -51,6 +51,13 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
+  clearCart: {
+    clearCart: 'Clear Cart',
+    clearingCart: 'Clearing Cart...',
+    cartClearedSuccessfully: 'Active cart cleared successfully.',
+    areYouSureToClearCart: 'Are you sure you want to clear this cart?',
+    allItemsWillBeRemoved: 'All items in your active cart will be removed.',
+  },
   validation: {
     cartEntriesChangeDuringCheckout:
       'During checkout we found problems with your entries. Please review your cart.',
