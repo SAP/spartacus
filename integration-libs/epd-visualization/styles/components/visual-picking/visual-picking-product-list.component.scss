@@ -1,0 +1,209 @@
+%cx-epd-visualization-product-list {
+  --cx-thumbnail-width: 48px;
+  --cx-thumbnail-height: 48px;
+  --cx-highlight-border-width: 3px;
+  --cx-highlight-border-color: var(--cx-color-primary);
+
+  display: flex;
+
+  a {
+    display: block;
+    color: var(--cx-color-text);
+    outline: none;
+
+    &:hover,
+    &:focus {
+      color: var(--cx-color-primary);
+      text-decoration: underline;
+    }
+
+    &:focus {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  cx-media {
+    align-self: center;
+    width: 48px;
+    height: 48px;
+  }
+
+  .list-header {
+    @include type('8');
+    justify-content: space-between;
+    text-transform: uppercase;
+
+    padding: 0.5rem 0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent transparent var(--cx-color-light) transparent;
+  }
+
+  .list-item {
+    align-content: center;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0.5rem;
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent transparent var(--cx-color-light) transparent;
+
+    &.selected {
+      background-color: darken($background, 2%);
+      border-color: transparent transparent var(--cx-color-light) transparent;
+    }
+
+    &:focus {
+      outline-offset: -6px;
+    }
+  }
+
+  .thumbnail-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .thumbnail {
+    width: calc(
+      var(--cx-thumbnail-width) + 2 * var(--cx-highlight-border-width)
+    );
+    height: calc(
+      var(--cx-thumbnail-height) + 2 * var(--cx-highlight-border-width)
+    );
+    border-style: solid;
+    border-color: transparent;
+    border-width: var(--cx-highlight-border-width);
+    border-radius: 0.25em;
+
+    margin: 0 0.5em 0 0; // rtl equivalent in in html[dir='rtl'] section at end
+
+    &.selected {
+      border-color: var(--cx-highlight-border-color);
+    }
+
+    cx-media {
+      &.is-missing {
+        width: var(--cx-thumbnail-width);
+        height: var(--cx-thumbnail-height);
+
+        img {
+          display: none;
+        }
+      }
+    }
+  }
+
+  .cx-item-list-header {
+    @include type('8');
+    margin: 0;
+    padding: 1.125rem 0;
+
+    @include media-breakpoint-down(sm) {
+      padding: 1rem 0;
+    }
+
+    text-transform: uppercase;
+    color: var(--cx-color-secondary);
+    border-width: 0 0 1px 0;
+    border-style: solid;
+    border-color: var(--cx-color-light);
+  }
+
+  .cx-item-list-desc {
+    text-align: start;
+    padding: 0;
+  }
+
+  .cx-item-list-price {
+    text-align: end;
+    padding: 0 1em 0 0; // rtl equivalent in in html[dir='rtl'] section at end
+  }
+
+  .cx-name {
+    @include type('5');
+    overflow-wrap: break-word;
+    padding: 0;
+
+    @include media-breakpoint-down(lg) {
+      @include type('7');
+    }
+
+    .cx-link {
+      color: var(--cx-color-text);
+      text-decoration: none;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-code {
+    @include type('7');
+    color: var(--cx-color-secondary);
+    overflow-wrap: break-word;
+    padding: 0.625rem 0 0 0;
+  }
+
+  .cx-price {
+    display: flex;
+    justify-content: flex-end;
+    text-align: end;
+    overflow-wrap: break-word;
+    padding: 0 1em 0 0; // rtl equivalent in in html[dir='rtl'] section at end
+
+    @include type('5', $font-weight-normal);
+
+    @include media-breakpoint-down(lg) {
+      @include type('7', $font-weight-normal);
+    }
+  }
+
+  .cx-out-of-stock {
+    @include type('5', $font-weight-normal);
+
+    @include media-breakpoint-down(lg) {
+      @include type('7', $font-weight-normal);
+    }
+  }
+
+  .cx-add-to-cart {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .flex-column {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .flex-row {
+    display: flex;
+    flex-direction: row;
+  }
+
+  cx-epd-visualization-compact-add-to-cart {
+    .btn {
+      min-width: 30px;
+    }
+  }
+}
+
+html[dir='rtl'] cx-epd-visualization-product-list {
+  .cx-item-list-price {
+    padding: 0 0 0 1em;
+  }
+
+  .cx-price {
+    padding: 0 0 0 1em;
+  }
+
+  .thumbnail {
+    margin: 0 0 0 0.5em;
+  }
+}
