@@ -577,6 +577,7 @@ export const SEARCH = 'search';
 export const REMOVE_ENTRY = 'removeEntry';
 export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
+export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
 
@@ -1012,6 +1013,9 @@ export const TABLE_HEADER = 'TableHeader';
 
 export const PROMOTION_LOCATION$ = 'promotionLocation$';
 export const LOCATION$ = 'location$';
+
+export const CLIK_EVENT = 'clikEvent';
+export const CLICK_EVENT = 'clickEvent';
 /***** Properties end *****/
 
 /***** APIs start *****/
