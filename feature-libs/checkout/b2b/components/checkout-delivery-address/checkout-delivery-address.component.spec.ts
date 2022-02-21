@@ -367,7 +367,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       );
 
       component.ngOnInit();
-      component.getSupportedAddresses().subscribe(() => {
+      component['getSupportedAddresses']().subscribe(() => {
         expect(
           userCostCenterService.getCostCenterAddresses
         ).toHaveBeenCalledWith('test-cost-center');
@@ -382,7 +382,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       );
 
       component.ngOnInit();
-      component.getSupportedAddresses().subscribe(() => {
+      component['getSupportedAddresses']().subscribe(() => {
         expect(userAddressService.getAddresses).toHaveBeenCalled();
         done();
       });
@@ -442,12 +442,16 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should not display if there are no existing addresses', () => {
-      spyOn(component, 'getSupportedAddresses').and.returnValue(of([]));
+      spyOn<any>(component, 'getSupportedAddresses').and.returnValue(of([]));
       fixture.detectChanges();
       expect(getCards().length).toEqual(0);
     });
 
     it('should not display if existing addresses are loading', () => {
+      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
+        of(false)
+      );
+
       component.isUpdating$ = of(true);
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
       fixture.detectChanges();
@@ -491,7 +495,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
-      spyOn(component, 'getSupportedAddresses').and.returnValue(of([]));
+      spyOn<any>(component, 'getSupportedAddresses').and.returnValue(of([]));
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeTruthy();
@@ -523,6 +527,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     it('should render only when existing addresses are loading', () => {
       component.isUpdating$ = of(true);
+      spyOn<any>(component, 'getSupportedAddresses').and.returnValue(of([]));
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
 
       fixture.detectChanges();

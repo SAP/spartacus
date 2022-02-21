@@ -382,6 +382,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
     it('should not render when existing addresses are loading', () => {
       component.isUpdating$ = of(true);
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      checkoutDeliveryAddressFacade.getDeliveryAddressState =
+        createSpy().and.returnValue(
+          of({ loading: true, error: false, data: undefined })
+        );
 
       fixture.detectChanges();
       expect(getNewAddressForm()).toBeFalsy();
