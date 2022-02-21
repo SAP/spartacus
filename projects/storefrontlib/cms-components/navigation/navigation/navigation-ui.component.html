@@ -1,27 +1,22 @@
-<div
-  *ngIf="flyout && node?.children.length > 1"
-  class="back is-open"
-  (click)="back()"
->
-  <span>
-    <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
-    {{ 'common.back' | cxTranslate }}
-  </span>
-</div>
+<nav [attr.aria-label]="navAriaLabel">
+  <ul>
+    <li *ngIf="flyout && node?.children.length > 1" class="back is-open">
+      <button (click)="back()">
+        <cx-icon [type]="iconType.CARET_LEFT"></cx-icon>
+        {{ 'common.back' | cxTranslate }}
+      </button>
+    </li>
 
-<ng-container *ngFor="let child of node?.children">
-  <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
-  </ng-container>
-</ng-container>
-
+    <ng-container *ngFor="let child of node?.children">
+      <ng-container *ngTemplateOutlet="nav; context: { node: child, depth: 0 }">
+      </ng-container>
+    </ng-container>
+  </ul>
+</nav>
 <!-- we generate links in a recursive manner -->
+
 <ng-template #nav let-node="node" let-depth="depth">
-  <nav
-    (click)="toggleOpen($event)"
-    (mouseenter)="onMouseEnter($event)"
-    (keydown.space)="toggleOpen($event)"
-    (keydown.esc)="back()"
-  >
+  <li>
     <cx-generic-link
       *ngIf="
         node.url && (!node.children || node.children?.length === 0);
@@ -31,35 +26,47 @@
       [target]="node.target"
       [style]="node.styleAttributes"
       [class]="node.styleClasses"
+      (click)="closeIfClickedTheSameLink(node)"
     >
       {{ node.title }}
-      <cx-icon
-        *ngIf="flyout && node.children?.length > 0"
-        [type]="iconType.CARET_DOWN"
-      ></cx-icon>
     </cx-generic-link>
 
     <ng-template #heading>
-      <span [attr.tabindex]="flyout && (depth === 0 || node.url) ? 0 : -1">
-        {{ node.title }}
-        <cx-icon
-          *ngIf="flyout && node.children?.length > 0"
-          [type]="iconType.CARET_DOWN"
-        ></cx-icon>
-      </span>
+      <ng-container *ngIf="flyout && node.children?.length > 0; else title">
+        <cx-generic-link
+          *ngIf="node.url"
+          [url]="node.url"
+          [target]="node.target"
+          (click)="closeIfClickedTheSameLink(node)"
+        >
+          {{ node.title }}
+        </cx-generic-link>
+        <button
+          [attr.tabindex]="depth < 1 ? 0 : -1"
+          [attr.aria-haspopup]="true"
+          [attr.aria-expanded]="false"
+          [attr.aria-label]="node.title"
+          (click)="toggleOpen($event)"
+          (mouseenter)="onMouseEnter($event)"
+          (keydown.space)="toggleOpen($event)"
+          (keydown.esc)="back()"
+        >
+          <ng-container *ngIf="!node.url">
+            {{ node.title }}
+          </ng-container>
+          <cx-icon [type]="iconType.CARET_DOWN"></cx-icon>
+        </button>
+      </ng-container>
+      <ng-template #title>
+        <span [attr.tabindex]="-1">
+          {{ node.title }}
+        </span>
+      </ng-template>
     </ng-template>
 
     <!-- we add a wrapper to allow for better layout handling in CSS -->
     <div class="wrapper" *ngIf="node.children?.length > 0">
-      <cx-generic-link
-        *ngIf="node.url"
-        [url]="node.url"
-        [target]="node.target"
-        class="all"
-      >
-        {{ 'navigation.shopAll' | cxTranslate: { navNode: node.title } }}
-      </cx-generic-link>
-      <div
+      <ul
         class="childs"
         [attr.depth]="getTotalDepth(node)"
         [attr.wrap-after]="node.children?.length > wrapAfter ? wrapAfter : null"
@@ -71,7 +78,7 @@
           >
           </ng-container>
         </ng-container>
-      </div>
+      </ul>
     </div>
-  </nav>
+  </li>
 </ng-template>

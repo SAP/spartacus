@@ -5,6 +5,7 @@ export const checkout = {
     defaultShippingAddress: 'Default Shipping Address',
     addNewAddress: 'Add New Address',
     shipToThisAddress: 'Ship to this address',
+    selectShippingAddressSuccess: 'Shipping address changed successfully',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
@@ -62,6 +63,7 @@ export const checkout = {
       "Shipping addresses available to you depend on the cost center's unit",
   },
   checkoutProgress: {
+    label: 'Checkout Progress',
     methodOfPayment: 'Method of Payment',
     shippingAddress: 'Shipping Address',
     deliveryMode: 'Delivery Mode',

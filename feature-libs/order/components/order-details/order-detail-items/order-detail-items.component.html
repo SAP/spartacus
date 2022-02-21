@@ -48,13 +48,17 @@
         </div>
       </div>
       <div class="cx-list-item col-12">
-        <cx-cart-item-list
-          [items]="
-            order?.unconsignedEntries ? order.unconsignedEntries : order.entries
-          "
-          [readonly]="true"
-          [promotionLocation]="promotionLocation"
-        ></cx-cart-item-list>
+        <ng-template
+          [cxOutlet]="CartOutlets.CART_ITEM_LIST"
+          [cxOutletContext]="{
+            items: order?.unconsignedEntries
+              ? order.unconsignedEntries
+              : order.entries,
+            readonly: true,
+            promotionLocation: promotionLocation
+          }"
+        >
+        </ng-template>
       </div>
     </div>
   </ng-container>

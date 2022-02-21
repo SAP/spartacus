@@ -19,6 +19,8 @@ class MockNavigationUIComponent {
   dropdownMode = 'list';
   @Input()
   node: NavigationNode;
+  @Input()
+  navAriaLabel: string;
 }
 
 const mockCmsComponentData = <CmsNavigationComponent>{

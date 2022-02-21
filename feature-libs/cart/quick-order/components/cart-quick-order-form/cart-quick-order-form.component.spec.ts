@@ -2,10 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import {
-  ActiveCartService,
+  ActiveCartFacade,
   Cart,
   CartAddEntryFailEvent,
   CartAddEntrySuccessEvent,
+} from '@spartacus/cart/base/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -79,7 +81,7 @@ class MockGlobalMessageService implements Partial<GlobalMessageService> {
   ): void {}
 }
 
-class MockActiveCartService implements Partial<ActiveCartService> {
+class MockActiveCartService implements Partial<ActiveCartFacade> {
   getActive(): Observable<Cart> {
     return cart$.asObservable();
   }
@@ -95,7 +97,7 @@ class MockActiveCartService implements Partial<ActiveCartService> {
 describe('CartQuickOrderFormComponent', () => {
   let component: CartQuickOrderFormComponent;
   let fixture: ComponentFixture<CartQuickOrderFormComponent>;
-  let activeCartService: ActiveCartService;
+  let activeCartService: ActiveCartFacade;
   let eventService: EventService;
   let globalMessageService: GlobalMessageService;
 
@@ -109,7 +111,7 @@ describe('CartQuickOrderFormComponent', () => {
       ],
       declarations: [CartQuickOrderFormComponent],
       providers: [
-        { provide: ActiveCartService, useClass: MockActiveCartService },
+        { provide: ActiveCartFacade, useClass: MockActiveCartService },
         {
           provide: EventService,
           useClass: MockEventService,
@@ -121,7 +123,7 @@ describe('CartQuickOrderFormComponent', () => {
     fixture = TestBed.createComponent(CartQuickOrderFormComponent);
     component = fixture.componentInstance;
 
-    activeCartService = TestBed.inject(ActiveCartService);
+    activeCartService = TestBed.inject(ActiveCartFacade);
     eventService = TestBed.inject(EventService);
     globalMessageService = TestBed.inject(GlobalMessageService);
 

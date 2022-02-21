@@ -36,6 +36,10 @@ const accountReviewOrderGeneral = [
   },
   {
     value: 'Cordless screwdriver 2436',
+    type: TabbingOrderTypes.CX_MEDIA,
+  },
+  {
+    value: 'Cordless screwdriver 2436',
     type: TabbingOrderTypes.LINK,
   },
   {
@@ -99,9 +103,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
   shippingAddressAccount: [
     { value: 'Method ofPayment', type: TabbingOrderTypes.LINK },
     { value: 'Cost Center', type: TabbingOrderTypes.SELECT },
+    { type: TabbingOrderTypes.GENERIC_ELEMENT },
     {
       value: 'Ship to this address',
-      type: TabbingOrderTypes.LINK,
+      type: TabbingOrderTypes.GENERIC_BUTTON,
     },
     backButton,
     continueButton,
@@ -173,6 +178,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: '/powertools-spa/en/USD/checkout/delivery-mode',
       type: TabbingOrderTypes.IMG_LINK,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: 'Cordless screwdriver 2436',
@@ -252,6 +261,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -267,6 +280,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Approve',
       type: TabbingOrderTypes.BUTTON,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: 'Angle Grinder RT-AG 115',
@@ -288,6 +305,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Angle Grinder RT-AG 115',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Angle Grinder RT-AG 115',
       type: TabbingOrderTypes.LINK,
     },
   ],
@@ -306,6 +327,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Save Cart For Later',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: savedCartSampleData.products[0].name,
@@ -390,6 +415,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     },
     {
       value: 'Cordless screwdriver 2436',
+      type: TabbingOrderTypes.CX_MEDIA,
+    },
+    {
+      value: 'Cordless screwdriver 2436',
       type: TabbingOrderTypes.LINK,
     },
     { type: TabbingOrderTypes.GENERIC_INPUT },
@@ -423,6 +452,10 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     {
       value: 'Save Cart For Later',
       type: TabbingOrderTypes.LINK,
+    },
+    {
+      value: savedCartSampleData.products[0].name,
+      type: TabbingOrderTypes.CX_MEDIA,
     },
     {
       value: savedCartSampleData.products[0].name,

@@ -20,6 +20,7 @@ export class OccConfiguratorVariantSerializer
     const resultTarget: OccConfigurator.Configuration = {
       ...target,
       configId: source.configId,
+      rootProduct: source.productCode,
       complete: source.complete,
       groups: resultGroups,
     };
