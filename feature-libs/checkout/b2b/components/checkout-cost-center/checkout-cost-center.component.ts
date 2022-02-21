@@ -28,17 +28,19 @@ import {
 })
 export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
-
-  @HostBinding('class.hidden') disabled = false;
-
-  costCenterId: string | undefined;
-  costCenters$: Observable<CostCenter[]>;
-  isAccountPayment: boolean;
-
   protected userCostCenters$: Observable<CostCenter[]> =
     this.userCostCenterService
       .getActiveCostCenters()
       .pipe(filter((costCenters) => !!costCenters));
+
+  @HostBinding('class.hidden')
+  get disabled() {
+    return !this.isAccountPayment;
+  }
+
+  costCenterId: string | undefined;
+  costCenters$: Observable<CostCenter[]>;
+  isAccountPayment: boolean;
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
@@ -73,7 +75,6 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
         .pipe(distinctUntilChanged())
         .subscribe((paymentType: boolean) => {
           this.isAccountPayment = paymentType;
-          this.disabled = !paymentType;
         })
     );
   }
