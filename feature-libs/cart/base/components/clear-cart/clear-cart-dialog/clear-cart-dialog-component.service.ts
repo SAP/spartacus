@@ -19,48 +19,55 @@ export class ClearCartDialogComponentService {
   ) {}
 
   clearActiveCart(): void {
-    this.isClearing$.next(true);
-    this.clearCart()
-      .pipe(take(1))
-      .subscribe((cartEmpty) => {
+    this.activeCartFacade
+      .getEntries()
+      .pipe(
+        take(1),
+        tap((entries) => {
+          this.isClearing$.next(true);
+          // Make copy and reverse entries[] to start at end of array
+          // since cart entries are shifted downwards with removeEntry()
+          entries
+            .slice()
+            .reverse()
+            .forEach((entry) => this.activeCartFacade.removeEntry(entry));
+        }),
+        switchMap(() => this.activeCartFacade.isStable()),
+        filter((data) => Boolean(data)),
+        tap(() => this.closeDialog('Close dialog after cart cleared')),
+        switchMap(() =>
+          this.activeCartFacade
+            .getEntries()
+            .pipe(map((entries) => entries.length === 0))
+        )
+      )
+      .subscribe((success) => {
         this.isClearing$.next(false);
-        if (cartEmpty) {
-          this.addSuccessGlobalMessage();
-        }
+        this.handleStatus(success);
       });
   }
 
-  protected clearCart(): Observable<boolean> {
-    return this.activeCartFacade.getEntries().pipe(
-      take(1),
-      tap((entries) => {
-        // Make copy and reverse entries[] to start at end of array
-        // since cart entries are shifted downwards with removeEntry()
-        entries
-          .slice()
-          .reverse()
-          .forEach((entry) => this.activeCartFacade.removeEntry(entry));
-      }),
-      switchMap(() => this.activeCartFacade.isStable()),
-      filter((data) => Boolean(data)),
-      tap(() => this.closeDialog('Close dialog after cart cleared')),
-      switchMap(() =>
-        this.activeCartFacade
-          .getEntries()
-          .pipe(map((entries) => entries.length === 0))
-      )
-    );
-  }
-
-  getClearingCartProgess(): Observable<boolean> {
+  getClearingCartProgress(): Observable<boolean> {
     return this.isClearing$.asObservable();
   }
 
+  closeDialog(reason: string): void {
+    this.launchDialogService.closeDialog(reason);
+  }
+
   /**
-   * Display succesful global message after clearing cart.
+   * Display global message after clearing cart.
    *
    * @param success
    */
+  protected handleStatus(success: boolean): void {
+    if (success) {
+      this.addSuccessGlobalMessage();
+    } else {
+      this.addErrorGlobalMessage();
+    }
+  }
+
   protected addSuccessGlobalMessage(): void {
     this.globalMessageService.add(
       { key: 'clearCart.cartClearedSuccessfully' },
@@ -68,19 +75,10 @@ export class ClearCartDialogComponentService {
     );
   }
 
-  // onComplete(): void {
-  //   this.closeDialog('Close dialog after cart cleared successfully');
-  //   this.activeCartFacade
-  //     .getEntries()
-  //     .pipe(take(1))
-  //     .subscribe((entries) => {
-  //       if (entries.length === 0) {
-  //         this.addSuccessGlobalMessage();
-  //       }
-  //     });
-  // }
-
-  closeDialog(reason: string): void {
-    this.launchDialogService.closeDialog(reason);
+  protected addErrorGlobalMessage(): void {
+    this.globalMessageService.add(
+      { key: 'clearCart.cartClearedUnsuccessfully' },
+      GlobalMessageType.MSG_TYPE_ERROR
+    );
   }
 }

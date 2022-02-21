@@ -57,7 +57,7 @@ describe('ClearCartDialogComponentService', () => {
     expect(service.isClearing$.value).toBeFalsy();
     service.clearActiveCart();
     service
-      .getClearingCartProgess()
+      .getClearingCartProgress()
       .pipe(take(1))
       .subscribe((clearing) => {
         expect(clearing).toBeTruthy();
@@ -68,7 +68,7 @@ describe('ClearCartDialogComponentService', () => {
   it('should change clearing cart progess to false when done', (done) => {
     spyOn(service, 'clearCart').and.returnValue(of(true));
     service
-      .getClearingCartProgess()
+      .getClearingCartProgress()
       .pipe(skip(2))
       .subscribe((clearing) => {
         expect(clearing).toBeFalsy();
