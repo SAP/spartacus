@@ -20,11 +20,17 @@
       [class.selected]="value.selected"
       [cxFocus]="value.name"
       (keydown.space)="openLink($event)"
+      [attr.role]="facet.multiSelect ? 'checkbox' : null"
+      [attr.aria-checked]="facet.multiSelect ? value.selected : null"
+      attr.aria-label="{{
+        'productFacetNavigation.ariaLabelItemsAvailable'
+          | cxTranslate: { name: value.name, count: value.count }
+      }}"
     >
-      <span>
-        <span class="label">{{ value.name }}</span>
-        <span class="count">{{ value.count }}</span>
-      </span>
+      <span aria-hidden="true"
+        >{{ value.name
+        }}<span aria-hidden="true" class="count">{{ value.count }}</span></span
+      >
     </a>
 
     <div class="more">

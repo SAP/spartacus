@@ -8,12 +8,12 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CLI_CHECKOUT_BASE_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CHECKOUT,
-  CLI_CHECKOUT_FEATURE,
   SPARTACUS_DIGITAL_PAYMENTS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -61,7 +61,7 @@ function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
       dependencyManagement: {
         featureName: CLI_DIGITAL_PAYMENTS_FEATURE,
         featureDependencies: {
-          [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_FEATURE],
+          [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
         },
       },
     }

@@ -50,6 +50,13 @@ export const cart = {
     stock: 'Stock',
     forceInStock: 'In Stock',
   },
+  clearCart: {
+    clearCart: 'Clear Cart',
+    clearingCart: 'Clearing Cart...',
+    cartClearedSuccessfully: 'Active cart cleared successfully.',
+    areYouSureToClearCart: 'Are you sure you want to clear this cart?',
+    allItemsWillBeRemoved: 'All items in your active cart will be removed.',
+  },
   validation: {
     cartEntriesChangeDuringCheckout:
       'During checkout we found problems with your entries. Please review your cart.',
@@ -64,6 +71,6 @@ export const cart = {
       'Configurator pricing is currently not available. Checkout/quote submission is not possible. Please try again later.',
     unresolvableIssues:
       'The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.',
-    inProgress: 'Cart validation is running',
+    inProgress: 'Processing',
   },
 };
