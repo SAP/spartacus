@@ -2,6 +2,7 @@
  If you only need to be logged in to check other feature use `requireLoggedIn` command */
 
 import { SampleUser } from '../sample-data/checkout-flow';
+import { waitForPage } from './checkout-flow';
 
 export interface LoginUser {
   username: string;
@@ -49,8 +50,10 @@ export function register(
   hiddenConsent?
 ) {
   fillRegistrationForm(user, giveRegistrationConsent, hiddenConsent);
+  const loginPage = waitForPage('/login', 'getLoginPage');
   cy.get('cx-register form').within(() => {
     cy.get('button[type="submit"]').click();
+    cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
   });
 }
 

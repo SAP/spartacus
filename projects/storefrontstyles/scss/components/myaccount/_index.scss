@@ -1,7 +1,6 @@
 @use 'sass:list';
 
 @import './anonymous-consent/index';
-@import './order-history/index';
 @import './address-book';
 @import './address-form';
 @import './payment-methods';
@@ -13,16 +12,7 @@
 @import './my-interests';
 
 $myaccount-components-allowlist: cx-address-book, cx-address-form,
-  cx-order-summary, cx-order-history, cx-order-confirmation-items,
-  cx-order-confirmation-totals, cx-order-confirmation-thank-you-message,
-  cx-promotions, cx-order-detail-items, cx-order-detail-shipping,
-  cx-order-detail-totals, cx-order-detail-totals,
   cx-anonymous-consent-management-banner, cx-anonymous-consent-dialog,
   cx-anonymous-consent-open-dialog, cx-consent-management-form,
-  cx-consent-management, cx-tracking-events, cx-order-return-request-list,
-  cx-amend-order-actions, cx-cancel-order, cx-return-order-confirmation,
-  cx-cancel-order-confirmation, cx-my-interests, cx-amend-order-items,
-  cx-order-details-actions, cx-consignment-tracking, cx-return-request-overview,
-  cx-return-request-totals, cx-return-request-items, cx-my-coupons,
-  cx-coupon-card, cx-coupon-dialog, cx-replenishment-order-history,
-  cx-payment-methods !default;
+  cx-consent-management, cx-my-interests, cx-my-coupons, cx-coupon-card,
+  cx-coupon-dialog, cx-payment-methods !default;

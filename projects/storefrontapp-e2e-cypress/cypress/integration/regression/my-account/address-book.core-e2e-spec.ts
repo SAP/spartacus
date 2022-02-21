@@ -1,14 +1,13 @@
 import {
   assertAddressForm,
-  createNewAddress,
   editedAddress,
   newAddress,
   verifyNewAddress,
 } from '../../../helpers/address-book';
+import { fillShippingAddress } from '../../../helpers/checkout-forms';
+import * as alerts from '../../../helpers/global-message';
 import * as login from '../../../helpers/login';
 import { viewportContext } from '../../../helpers/viewport-context';
-import * as alerts from '../../../helpers/global-message';
-import { fillShippingAddress } from '../../../helpers/checkout-forms';
 
 describe('My Account - Address Book', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -82,8 +81,15 @@ describe('My Account - Address Book', () => {
       });
 
       it('should set the second address as the default one', () => {
+        fetchAddressesInterceptor();
         cy.get('button').contains('Set as default').click();
 
+        cy.wait('@fetchAddresses').its('response.statusCode').should('eq', 200);
+        alerts
+          .getSuccessAlert()
+          .contains(
+            `Address ${newAddress.address.line1} was successfully set as default`
+          );
         const firstCard = cy.get('cx-card').first();
         firstCard.should('contain', '✓ DEFAULT');
         firstCard.should('contain', 'N Z');
@@ -117,16 +123,7 @@ describe('My Account - Address Book', () => {
             curr: 'USD',
           },
         }).as('deleteAddress');
-        cy.intercept({
-          method: 'GET',
-          pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-            'BASE_SITE'
-          )}/users/*/addresses`,
-          query: {
-            lang: 'en',
-            curr: 'USD',
-          },
-        }).as('fetchAddresses');
+        fetchAddressesInterceptor();
 
         const card = cy.get('cx-card').first();
         card.contains('Delete').click();
@@ -152,4 +149,17 @@ describe('My Account - Address Book', () => {
       });
     });
   });
+
+  function fetchAddressesInterceptor() {
+    cy.intercept({
+      method: 'GET',
+      pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+        'BASE_SITE'
+      )}/users/*/addresses`,
+      query: {
+        lang: 'en',
+        curr: 'USD',
+      },
+    }).as('fetchAddresses');
+  }
 });

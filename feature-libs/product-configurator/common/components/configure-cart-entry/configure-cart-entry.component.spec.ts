@@ -2,7 +2,8 @@ import { Directive, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
+import { I18nTestingModule } from '@spartacus/core';
 import { ModalDirective } from '@spartacus/storefront';
 import { CommonConfigurator } from '../../core/model/common-configurator.model';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
@@ -215,7 +216,7 @@ describe('ConfigureCartEntryComponent', () => {
       expect(component.getResolveIssuesA11yDescription()).toBeUndefined();
     });
 
-    it("should return 'cx-error-msg' ID for a HTML element if the expected conditions are met", () => {
+    it('should return ID for error message containing cart entry number for a HTML element if the expected conditions are met', () => {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -224,13 +225,13 @@ describe('ConfigureCartEntryComponent', () => {
       };
       fixture.detectChanges();
       expect(component.getResolveIssuesA11yDescription()).toEqual(
-        'cx-error-msg'
+        'cx-error-msg-0'
       );
     });
   });
 
   describe('Accessibility', () => {
-    it("should contain link element with ID 'cx-error-msg' and aria-describedby attribute that refers to the corresponding resolve issue message", function () {
+    it('should contain link element with ID for error message containing cart entry number and aria-describedby attribute that refers to the corresponding resolve issue message', function () {
       component.readOnly = false;
       component.msgBanner = true;
       component.cartEntry = {
@@ -246,7 +247,7 @@ describe('ConfigureCartEntryComponent', () => {
         'cx-action-link',
         undefined,
         'aria-describedby',
-        'cx-error-msg'
+        'cx-error-msg-0'
       );
     });
   });

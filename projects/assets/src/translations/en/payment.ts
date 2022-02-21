@@ -14,9 +14,9 @@ export const payment = {
     saveAsDefault: 'Save as default',
     setAsDefault: 'Set as default payment method',
     billingAddress: 'Billing address',
-    sameAsShippingAddress: 'Same as shipping address',
+    sameAsDeliveryAddress: 'Same as delivery address',
     billingAddressSameAsShipping:
-      'Billing address is the same as shipping address',
+      'Billing address is the same as delivery address',
     selectOne: 'Select One...',
     monthMask: 'MM',
     yearMask: 'YYYY',
@@ -24,7 +24,7 @@ export const payment = {
     expirationMonth: 'Expiration month {{ selected }}',
     useThisPayment: 'Use this payment',
     addNewPayment: 'Add New Payment',
-    paymentAddedSuccessfully: 'New payment was added successfully!',
+    paymentAddedSuccessfully: 'New payment was added successfully',
     changePayment: 'Change Payment',
   },
   paymentMethods: {
@@ -49,7 +49,7 @@ export const payment = {
     paymentType_CARD: 'Credit Card',
     paymentType_ACCOUNT: 'Account',
   },
-  messages: {
-    setAsDefaultSucessfully: 'New payment was sucessfully set as default',
+  paymentMessages: {
+    setAsDefaultSuccessfully: 'New payment was successfully set as default',
   },
 };

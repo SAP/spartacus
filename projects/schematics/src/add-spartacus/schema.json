@@ -22,7 +22,11 @@
           "Quick-Order",
           "CDC",
           "CDS",
+          "Cart",
+          "WishList",
           "Checkout",
+          "Checkout-B2B",
+          "Checkout-Scheduled-Replenishment",
           "Order",
           "Digital-Payments",
           "Administration",
@@ -46,6 +50,8 @@
       },
       "default": [
         "ASM",
+        "Cart",
+        "WishList",
         "Checkout",
         "Order",
         "Import-Export",
@@ -89,7 +95,23 @@
           },
           {
             "value": "Checkout",
-            "label": "Checkout"
+            "label": "Checkout base"
+          },
+          {
+            "value": "Checkout-B2B",
+            "label": "Checkout (b2b feature, includes Base Checkout)"
+          },
+          {
+            "value": "Checkout-Scheduled-Replenishment",
+            "label": "Checkout Scheduled Replenishment (b2b feature, includes Base and B2B Checkout)"
+          },
+          {
+            "value": "Cart",
+            "label": "Cart"
+          },
+          {
+            "value": "WishList",
+            "label": "WishList"
           },
           {
             "value": "Order",

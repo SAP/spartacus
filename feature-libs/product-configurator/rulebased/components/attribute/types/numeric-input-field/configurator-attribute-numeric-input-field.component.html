@@ -4,12 +4,14 @@
     [required]="attribute.required"
     class="form-control"
     [attr.aria-describedby]="
-      createAttributeUiKey('label', attribute.name) +
-      ' ' +
-      createAttributeUiKey('attribute-msg', attribute.name)
+      mustDisplayValidationMessage()
+        ? createAttributeUiKey('label', attribute.name) +
+          ' ' +
+          createAttributeUiKey('attribute-msg', attribute.name)
+        : createAttributeUiKey('label', attribute.name)
     "
     attr.role="{{ attribute.dataType }}"
-    attr.aria-required="{{ attribute.required }}"
+    attr.required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="

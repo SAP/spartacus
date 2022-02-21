@@ -62,7 +62,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
   it('should contain cms content in the html rendering after bootstrap', () => {
     data$.next(componentData);
     fixture.detectChanges();
-    expect(el.query(By.css('p')).nativeElement.textContent).toEqual(
+    expect(el.query(By.css('div')).nativeElement.textContent).toEqual(
       componentData.content
     );
   });
@@ -73,7 +73,7 @@ describe('CmsParagraphComponent in CmsLib', () => {
     data$.next(unsafeData);
     spyOn(console, 'warn').and.stub(); // Prevent warning to be showed by Angular when sanitizing
     fixture.detectChanges();
-    expect(el.query(By.css('p')).nativeElement.innerHTML).toEqual(
+    expect(el.query(By.css('div')).nativeElement.innerHTML).toEqual(
       `<img src="">`
     );
   });

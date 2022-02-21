@@ -63,7 +63,11 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button
+          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+          class="btn btn-block btn-secondary"
+          (click)="cancelEdit()"
+        >
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>
@@ -98,7 +102,9 @@
             *ngSwitchCase="'send'"
             class="link cx-action-link"
             (click)="send()"
-            [attr.aria-describedby]="index ? 'content-header-' + index : ''"
+            [attr.aria-describedby]="
+              index >= 0 ? 'content-header-' + index : ''
+            "
           >
             {{ action.name }}
           </button>

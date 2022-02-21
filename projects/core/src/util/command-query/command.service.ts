@@ -9,8 +9,8 @@ import {
   tap,
 } from 'rxjs/operators';
 
-export abstract class Command<P = undefined, R = unknown> {
-  abstract execute(params: P): Observable<R>;
+export abstract class Command<PARAMS = undefined, RESULT = unknown> {
+  abstract execute(parameters: PARAMS): Observable<RESULT>;
 }
 
 export enum CommandStrategy {
@@ -30,12 +30,12 @@ export class CommandService implements OnDestroy {
 
   constructor() {}
 
-  create<P = undefined, R = unknown>(
-    commandFactory: (command: P) => Observable<any>,
+  create<PARAMS = undefined, RESULT = unknown>(
+    commandFactory: (command: PARAMS) => Observable<any>,
     options?: { strategy?: CommandStrategy }
-  ): Command<P, R> {
-    const commands$ = new Subject<P>();
-    const results$ = new Subject<ReplaySubject<R>>();
+  ): Command<PARAMS, RESULT> {
+    const commands$ = new Subject<PARAMS>();
+    const results$ = new Subject<ReplaySubject<RESULT>>();
 
     let process$: Observable<any>;
 
@@ -79,9 +79,9 @@ export class CommandService implements OnDestroy {
 
     this.subscriptions.add(process$.subscribe());
 
-    const command: Command<P, R> = new (class extends Command {
-      execute = (parameters: P) => {
-        const result$ = new ReplaySubject<R>();
+    const command: Command<PARAMS, RESULT> = new (class extends Command {
+      execute = (parameters: PARAMS | undefined) => {
+        const result$ = new ReplaySubject<RESULT>();
         results$.next(result$);
         commands$.next(parameters);
         return result$;
