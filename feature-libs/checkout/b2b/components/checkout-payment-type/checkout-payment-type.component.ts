@@ -32,7 +32,10 @@ export class CheckoutPaymentTypeComponent {
     this.checkoutPaymentTypeFacade
       .getSelectedPaymentTypeState()
       .pipe(map((state) => state.loading)),
-  ]).pipe(map(([busy, loading]) => busy || loading));
+  ]).pipe(
+    map(([busy, loading]) => busy || loading),
+    distinctUntilChanged()
+  );
 
   typeSelected?: string;
   cartPoNumber: string;
