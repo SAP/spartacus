@@ -1,34 +1,50 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  HostBinding,
+  OnDestroy,
+  OnInit,
+} from '@angular/core';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
+import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CostCenter, UserCostCenterService } from '@spartacus/core';
-import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center',
   templateUrl: './checkout-cost-center.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CheckoutCostCenterComponent implements OnInit {
+export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
+  protected subscription = new Subscription();
+
+  @HostBinding('class.hidden') disabled = false;
+
   costCenterId: string | undefined;
   costCenters$: Observable<CostCenter[]>;
+  isAccountPayment: boolean;
 
   protected userCostCenters$: Observable<CostCenter[]> =
     this.userCostCenterService
       .getActiveCostCenters()
       .pipe(filter((costCenters) => !!costCenters));
 
-  isAccountPayment$: Observable<boolean> = this.checkoutPaymentTypeFacade
-    .isAccountPayment()
-    .pipe(distinctUntilChanged());
-
   constructor(
     protected userCostCenterService: UserCostCenterService,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
+    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
   ) {}
 
   ngOnInit(): void {
@@ -50,10 +66,30 @@ export class CheckoutCostCenterComponent implements OnInit {
       }),
       map(([costCenters]) => costCenters)
     );
+
+    this.subscription.add(
+      this.checkoutPaymentTypeFacade
+        .isAccountPayment()
+        .pipe(distinctUntilChanged())
+        .subscribe((paymentType: boolean) => {
+          this.isAccountPayment = paymentType;
+          this.disabled = !paymentType;
+        })
+    );
   }
 
   setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
-    this.checkoutCostCenterFacade.setCostCenter(this.costCenterId);
+    this.checkoutCostCenterFacade
+      .setCostCenter(this.costCenterId)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+        )
+      );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

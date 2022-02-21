@@ -1,10 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutClearDeliveryAddressEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from '@spartacus/checkout/base/root';
-import { createFrom, CxEvent, EventService } from '@spartacus/core';
+import { CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
@@ -16,10 +15,6 @@ class MockEventService implements Partial<EventService> {
   get = createSpy().and.returnValue(mockEventStream$.asObservable());
   dispatch = createSpy();
 }
-
-const mockCartId = 'mockCartId';
-const mockUserId = 'mockUserId';
-const mockCode = 'mockCode';
 
 describe(`CheckoutCostCenterEventListener`, () => {
   let eventService: EventService;
@@ -46,20 +41,6 @@ describe(`CheckoutCostCenterEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetDeliveryModesEvent
-      );
-    });
-
-    it(`should dispatch CheckoutClearDeliveryAddressEvent`, () => {
-      const event = createFrom(CostCenterSetEvent, {
-        code: mockCode,
-        cartId: mockCartId,
-        userId: mockUserId,
-      });
-      mockEventStream$.next(event);
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        { cartId: mockCartId, userId: mockUserId },
-        CheckoutClearDeliveryAddressEvent
       );
     });
 
