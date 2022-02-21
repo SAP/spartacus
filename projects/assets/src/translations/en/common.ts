@@ -193,4 +193,7 @@ export const common = {
     scriptFailedToLoad: 'Failed to load the script.',
     refreshThePage: 'Please refresh the page.',
   },
+  assistiveMessage: {
+    actionCancelled: 'Action cancelled, nothing changed',
+  },
 };
