@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
+import { defaultB2BCheckoutConfig } from '@spartacus/checkout/b2b/root';
 import { provideConfig, SiteContextConfig } from '@spartacus/core';
-import {
-  defaultB2bCheckoutConfig,
-  defaultB2bOccConfig,
-} from '@spartacus/setup';
+import { defaultB2bOccConfig } from '@spartacus/setup';
 import {
   defaultCmsContentProviders,
   layoutConfig,
@@ -19,7 +17,7 @@ import {
     ...defaultCmsContentProviders,
     // b2b
     provideConfig(defaultB2bOccConfig),
-    provideConfig(defaultB2bCheckoutConfig),
+    provideConfig(defaultB2BCheckoutConfig),
     provideConfig(<SiteContextConfig>{
       context: {
         urlParameters: ['baseSite', 'language', 'currency'],
