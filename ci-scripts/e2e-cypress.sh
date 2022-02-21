@@ -34,6 +34,10 @@ do
             echo "$help_display"
             exit 0
             ;;
+        '--traffic' | '-t' )
+            SPLIT=true
+            shift
+            ;;
         * )
             POSITIONAL+=("$1")
             shift
@@ -45,6 +49,24 @@ do
 done
 
 set -- "${POSITIONAL[@]}"
+
+if [[ "${SPLIT}" = true ]]; then
+    echo "Swtiching to different load balancer"
+    
+    CYPRESS_JSON="projects/storefrontapp-e2e-cypress/cypress.json"
+    CYPRESS_CI_JSON="projects/storefrontapp-e2e-cypress/cypress.ci.json"
+    CYPRESS_CI_B2B_JSON="projects/storefrontapp-e2e-cypress/cypress.ci.b2b.json"
+
+    # modify BASE URL in spartacus instance
+    sed 's/20.83.184.244/20.83.178.185/' .env-cmdrc > .tmp && mv .tmp .env-cmdrc || true
+    
+    # modify API URL in cypress config files.
+    sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_JSON} > tmp0.json && mv tmp0.json ${CYPRESS_JSON} || true
+    sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_CI_JSON}  > tmp1.json && mv tmp1.json ${CYPRESS_CI_JSON} || true
+    sed 's/20.83.184.244/20.83.178.185/' ${CYPRESS_CI_B2B_JSON}  > tmp2.json && mv tmp2.json ${CYPRESS_CI_B2B_JSON} || true
+
+    sleep 5
+fi
 
 echo '-----'
 echo "Building Spartacus libraries"
@@ -85,9 +107,9 @@ else
     echo '-----'
     echo "Running Cypress end to end tests"
 
-    if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
+    # if [ "${TRAVIS_PULL_REQUEST}" == "false" ]; then
         yarn e2e:run:ci"${SUITE}"
-    else
-        yarn e2e:run:ci:core"${SUITE}"
-    fi
+    #else
+    #    yarn e2e:run:ci:core"${SUITE}"
+    #fi
 fi
