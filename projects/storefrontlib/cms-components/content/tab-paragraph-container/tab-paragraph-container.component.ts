@@ -31,13 +31,7 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   tabTitleParams: (Observable<any> | null)[] = [];
 
-  constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    protected cmsService: CmsService,
-    protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
-  ) {}
-
+  // TODO: move definition to separate function and initialize components$ in OnInit hook
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
     switchMap((data) =>
@@ -68,9 +62,32 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     )
   );
 
+  isMobile$: Observable<boolean>;
+
+  constructor(
+    public componentData: CmsComponentData<CMSTabParagraphContainer>,
+    protected cmsService: CmsService,
+    protected winRef: WindowRef,
+    protected breakpointService: BreakpointService
+  ) {}
+
+  ngOnInit(): void {
+    this.activeTabNum =
+      this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
+
+    this.isMobile$ = this.breakpointService.isDown(BREAKPOINT.sm);
+  }
+
+  ngAfterViewInit(): void {
+    // If the sub cms components data exist, the components created before ngAfterViewInit are called.
+    // In this case, the title parameters are directly pulled from them.
+    if (this.children.length > 0) {
+      this.getTitleParams(this.children);
+    }
+  }
+
   select(tabNum: number, event?: MouseEvent): void {
-    this.breakpointService
-      ?.isDown(BREAKPOINT.sm)
+    this.isMobile$
       .pipe(take(1))
       .subscribe((res) => {
         if (res) {
@@ -86,23 +103,11 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
       });
   }
 
-  ngOnInit(): void {
-    this.activeTabNum =
-      this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
-  }
-
-  ngAfterViewInit(): void {
-    // If the sub cms components data exist, the components created before ngAfterViewInit are called.
-    // In this case, the title parameters are directly pulled from them.
-    if (this.children.length > 0) {
-      this.getTitleParams(this.children);
-    }
-  }
-
   tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
+  // TODO: refactor deprecated code
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       if (comp.cmpRef?.instance.tabTitleParam$) {
