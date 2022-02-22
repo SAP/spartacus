@@ -13,6 +13,7 @@ export const cart = {
     quantityTitle:
       'The quantity represents the total number of this item in your cart.',
     total: 'Total',
+    actions: 'Actions',
     cartTotal: 'Cart total ({{count}} item)',
     cartTotal_plural: 'Cart total ({{count}} items)',
     itemRemoved: 'Selected item has been removed. Cart total has been updated.',
