@@ -64,14 +64,14 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected removeDelimiter(label: string): string {
     let preparedLabel: string = label.trim();
-    if (preparedLabel) {
-      const lastCharacter: string = preparedLabel.charAt(
-        preparedLabel.length - 1
-      );
-      if (lastCharacter === ':') {
-        preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
-      }
+
+    const lastCharacter: string = preparedLabel.charAt(
+      preparedLabel.length - 1
+    );
+    if (lastCharacter === ':') {
+      preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
     }
+
     return preparedLabel;
   }
 

@@ -83,7 +83,7 @@ fi
 validateStylesLint
 
 echo "Validating code linting"
-ng lint
+node --max_old_space_size=3584 ./node_modules/@angular/cli/bin/ng lint
 
 echo "-----"
 
