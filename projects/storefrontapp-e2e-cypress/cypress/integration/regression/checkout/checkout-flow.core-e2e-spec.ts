@@ -45,7 +45,7 @@ context('Checkout flow', () => {
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
     });
 
-    it.only('should search and perform checkout', () => {
+    it('should search and perform checkout', () => {
       const user = getSampleUser();
       checkout.visitHomePage();
       checkout.clickHamburger();
