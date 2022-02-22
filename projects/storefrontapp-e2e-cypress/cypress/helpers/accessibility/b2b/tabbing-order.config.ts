@@ -339,9 +339,9 @@ export const tabbingOrderConfig: TabbingOrderConfig = {
     { type: TabbingOrderTypes.GENERIC_INPUT },
     { value: '+', type: TabbingOrderTypes.BUTTON },
     { value: 'Remove', type: TabbingOrderTypes.LINK },
+    { value: 'Clear Cart', type: TabbingOrderTypes.BUTTON },
     { value: 'Import Products', type: TabbingOrderTypes.LINK },
     { value: 'Export to CSV', type: TabbingOrderTypes.LINK },
-    { type: TabbingOrderTypes.CX_PROGRESS_BUTTON },
     {
       value: 'couponCode',
       type: TabbingOrderTypes.FORM_FIELD,
