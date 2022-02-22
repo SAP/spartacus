@@ -15,7 +15,7 @@ context('B2B - Quick Order', () => {
         quickOrder.visitQuickOrderPage();
       });
 
-      it('should show result box with 5 products', () => {
+      it('should show result box with max 5 products', () => {
         quickOrder.getQuickOrderResultBox(sampleData.b2bProduct.code);
       });
 

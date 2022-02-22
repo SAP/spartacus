@@ -22,6 +22,7 @@ export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
 export const SPARTACUS_CDS = '@spartacus/cds';
 export const SPARTACUS_CDC = '@spartacus/cdc';
 export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
+export const SPARTACUS_EPD_VISUALIZATION = '@spartacus/epd-visualization';
 export const SPARTACUS_ASSETS = '@spartacus/assets';
 export const SPARTACUS_STYLES = '@spartacus/styles';
 export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
@@ -406,6 +407,7 @@ export const USER_PROFILE_FACADE = 'UserProfileFacade';
 export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
+export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -575,6 +577,7 @@ export const SEARCH = 'search';
 export const REMOVE_ENTRY = 'removeEntry';
 export const QUICK_ORDER_FORM_COMPONENT = 'QuickOrderFormComponent';
 export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
+export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
 
@@ -1010,6 +1013,9 @@ export const TABLE_HEADER = 'TableHeader';
 
 export const PROMOTION_LOCATION$ = 'promotionLocation$';
 export const LOCATION$ = 'location$';
+
+export const CLIK_EVENT = 'clikEvent';
+export const CLICK_EVENT = 'clickEvent';
 /***** Properties end *****/
 
 /***** APIs start *****/
@@ -1159,6 +1165,7 @@ export const CLI_CDC_FEATURE = 'CDC';
 
 export const CLI_CDS_FEATURE = 'CDS';
 export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
+export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';

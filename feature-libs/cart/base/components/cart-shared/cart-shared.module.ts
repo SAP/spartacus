@@ -6,6 +6,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { CartOutlets } from '@spartacus/cart/base/root';
 import { FeaturesConfigModule, I18nModule, UrlModule } from '@spartacus/core';
 import {
+  AtMessageModule,
   IconModule,
   ItemCounterModule,
   MediaModule,
@@ -22,21 +23,22 @@ import { OrderSummaryComponent } from './order-summary/order-summary.component';
 
 @NgModule({
   imports: [
-    CommonModule,
-    RouterModule,
+    AtMessageModule,
     CartCouponModule,
-    ReactiveFormsModule,
-    UrlModule,
-    NgbModule,
-    PromotionsModule,
+    CartItemValidationWarningModule,
+    CommonModule,
+    FeaturesConfigModule,
     I18nModule,
     IconModule,
-    MediaModule,
     ItemCounterModule,
-    FeaturesConfigModule,
+    MediaModule,
     ModalModule,
+    NgbModule,
     OutletModule,
-    CartItemValidationWarningModule,
+    PromotionsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
   ],
   providers: [
     provideOutlet({
