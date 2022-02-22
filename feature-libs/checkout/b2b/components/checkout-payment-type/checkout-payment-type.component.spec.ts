@@ -136,8 +136,8 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   it('should set po number to cart if the cart po number does not match when calling next()', () => {
     component.typeSelected = 'test-code';
-    component['_poNumberInput'].nativeElement.value = 'test-po';
-    component.cartPoNumber = 'test-cart-po';
+    component['poNumberInputElement'].nativeElement.value = 'test-po';
+    component.cartPoNumber$ = of('test-cart-po');
 
     component.next();
 
@@ -149,8 +149,9 @@ describe('CheckoutPaymentTypeComponent', () => {
 
   it('should NOT set po number to cart if the cart po number does match when calling next()', () => {
     component.typeSelected = 'test-code';
-    component['_poNumberInput'].nativeElement.value = 'test-po';
-    component.cartPoNumber = component['_poNumberInput'].nativeElement.value;
+    const mockPoNumber = 'test-po';
+    component['poNumberInputElement'].nativeElement.value = mockPoNumber;
+    component.cartPoNumber$ = of(mockPoNumber);
 
     fixture.detectChanges();
 
