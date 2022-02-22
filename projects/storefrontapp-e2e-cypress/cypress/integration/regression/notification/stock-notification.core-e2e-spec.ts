@@ -3,7 +3,7 @@ import { viewportContext } from '../../../helpers/viewport-context';
 import { clearAllStorage } from '../../../support/utils/clear-all-storage';
 
 describe('My interests', () => {
-  viewportContext(['desktop'], () => {
+  viewportContext(['mobile', 'desktop'], () => {
     describe('Stock Notification for Guest', () => {
       before(() => {
         clearAllStorage();

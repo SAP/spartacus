@@ -30,6 +30,7 @@ viewportContext(['mobile', 'desktop'], () => {
       });
 
       consentManagementTest();
+
       afterEach(() => {
         cy.saveLocalStorage();
       });
