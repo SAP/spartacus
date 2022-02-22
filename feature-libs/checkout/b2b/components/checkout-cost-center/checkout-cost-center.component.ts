@@ -87,7 +87,8 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
         switchMap(() =>
           this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
         )
-      );
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

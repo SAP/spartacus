@@ -3,6 +3,7 @@ import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
+import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import {
   CostCenter,
   I18nTestingModule,
@@ -30,7 +31,7 @@ class MockCheckoutCostCenterService
     of({ loading: false, error: false, data: mockCostCenters[0] })
   );
 
-  setCostCenter = createSpy().and.returnValue(of());
+  setCostCenter = createSpy().and.returnValue(of({}));
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
@@ -48,10 +49,17 @@ class MockUserCostCenterService implements Partial<UserCostCenterService> {
   }
 }
 
+class MockCheckoutDeliveryModesFacade
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+}
+
 describe('CheckoutCostCenterComponent', () => {
   let component: CheckoutCostCenterComponent;
   let fixture: ComponentFixture<CheckoutCostCenterComponent>;
   let checkoutCostCenterService: CheckoutCostCenterFacade;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -70,6 +78,10 @@ describe('CheckoutCostCenterComponent', () => {
           provide: CheckoutPaymentTypeFacade,
           useClass: MockCheckoutPaymentTypeFacade,
         },
+        {
+          provide: CheckoutDeliveryModesFacade,
+          useClass: MockCheckoutDeliveryModesFacade,
+        },
       ],
     }).compileComponents();
   });
@@ -79,6 +91,7 @@ describe('CheckoutCostCenterComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     checkoutCostCenterService = TestBed.inject(CheckoutCostCenterFacade);
+    checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
   });
 
   it('should create', () => {
@@ -159,5 +172,12 @@ describe('CheckoutCostCenterComponent', () => {
     expect(checkoutCostCenterService.setCostCenter).toHaveBeenCalledWith(
       mockCostCenters[1].code
     );
+  });
+
+  it('should clear delivery modes when cost center is successfully set', () => {
+    component.setCostCenter(mockCostCenters[1].code ?? '');
+    expect(
+      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
+    ).toHaveBeenCalled();
   });
 });
