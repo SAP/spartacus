@@ -226,18 +226,6 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     expect(component.isGuestCheckout).toBeFalsy();
   });
 
-  it('should get isAccountPayment', () => {
-    spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValues(
-      of(false),
-      of(true)
-    );
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeFalsy();
-
-    component.ngOnInit();
-    expect(component.isAccountPayment).toBeTruthy();
-  });
-
   describe('should call ngOnInit', () => {
     it('for login user, should load user addresses if payment type is card', () => {
       spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
@@ -272,6 +260,32 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     it('should not invoke addAddress when address is undefined/ not modified.', () => {
       component.addAddress(undefined);
       expect(checkoutDeliveryFacade.createAndSetAddress).not.toHaveBeenCalled();
+    });
+
+    it('should return false when checkout flow is ACCOUNT', () => {
+      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
+        of({ loading: false, error: false, data: mockAddress1 })
+      );
+      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
+        of(false)
+      );
+      component.isUpdating$ = of(false);
+
+      component.ngOnInit();
+      expect(component.isAccountPayment).toBeFalsy();
+    });
+
+    it('should return true when checkout flow is ACCOUNT', () => {
+      spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
+        of({ loading: false, error: false, data: mockAddress1 })
+      );
+      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
+        of(true)
+      );
+      component.isUpdating$ = of(false);
+
+      component.ngOnInit();
+      expect(component.isAccountPayment).toBeTruthy();
     });
   });
 
