@@ -12,7 +12,7 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { isNotUndefined } from '@spartacus/core';
+import { getLastValueSync, isNotUndefined } from '@spartacus/core';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
@@ -23,9 +23,12 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 })
 export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
-  private _poNumberInput: ElementRef;
+  private poNumberInputElement: ElementRef<HTMLInputElement>;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
+
+  poNumberInput: string | undefined;
+  typeSelected?: string;
 
   isUpdating$ = combineLatest([
     this.busy$,
@@ -36,10 +39,6 @@ export class CheckoutPaymentTypeComponent {
     map(([busy, loading]) => busy || loading),
     distinctUntilChanged()
   );
-
-  poNumInput: string;
-  typeSelected?: string;
-  cartPoNumber: string = '';
 
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
@@ -67,9 +66,7 @@ export class CheckoutPaymentTypeComponent {
       filter((state) => !state.loading),
       map((state) => state.data),
       filter(isNotUndefined),
-      tap((po) => {
-        return (this.cartPoNumber = po);
-      })
+      distinctUntilChanged()
     );
 
   constructor(
@@ -79,7 +76,7 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    this.poNumInput = this._poNumberInput.nativeElement.value;
+    this.poNumberInput = this.poNumberInputElement.nativeElement.value;
 
     this.busy$.next(true);
     this.typeSelected = code;
@@ -95,15 +92,15 @@ export class CheckoutPaymentTypeComponent {
       return;
     }
 
-    this.poNumInput = this._poNumberInput.nativeElement.value;
-    if (this.poNumInput === this.cartPoNumber) {
+    this.poNumberInput = this.poNumberInputElement.nativeElement.value;
+    if (this.poNumberInput === getLastValueSync(this.cartPoNumber$)) {
       this.checkoutStepService.next(this.activatedRoute);
       return;
     }
 
     this.busy$.next(true);
     this.checkoutPaymentTypeFacade
-      .setPaymentType(this.typeSelected, this.poNumInput)
+      .setPaymentType(this.typeSelected, this.poNumberInput)
       .subscribe({
         complete: () => this.checkoutStepService.next(this.activatedRoute),
         error: () => this.onError(),
