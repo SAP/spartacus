@@ -1,0 +1,30 @@
+<div [class.container-fluid]="!hideViewport" [class.container]="hideViewport">
+  <div
+    class="no-product-references"
+    [hidden]="hideNoProductReferencesIndicator"
+  >
+    <span>{{
+      'epdVisualization.visualPicking.visualPickingTab.noProductReferences'
+        | cxTranslate
+    }}</span>
+  </div>
+
+  <cx-epd-visualization-viewer
+    [(selectedProductCodes)]="selectedProductCodes"
+    [hidden]="hideViewport"
+  >
+  </cx-epd-visualization-viewer>
+
+  <div
+    class="visual-picking-product-list-container"
+    [hidden]="hideProductList"
+    [class.viewportHidden]="hideViewport"
+  >
+    <cx-epd-visualization-product-filter></cx-epd-visualization-product-filter>
+
+    <cx-epd-visualization-product-list
+      [(selectedProductCodes)]="selectedProductCodes"
+    >
+    </cx-epd-visualization-product-list>
+  </div>
+</div>
