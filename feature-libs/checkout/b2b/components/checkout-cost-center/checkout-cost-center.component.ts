@@ -33,14 +33,14 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
       .getActiveCostCenters()
       .pipe(filter((costCenters) => !!costCenters));
 
+  costCenterId: string | undefined;
+  costCenters$: Observable<CostCenter[]>;
+  isAccountPayment: boolean;
+
   @HostBinding('class.hidden')
   get disabled() {
     return !this.isAccountPayment;
   }
-
-  costCenterId: string | undefined;
-  costCenters$: Observable<CostCenter[]>;
-  isAccountPayment: boolean;
 
   constructor(
     protected userCostCenterService: UserCostCenterService,
@@ -50,6 +50,15 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.subscription.add(
+      this.checkoutPaymentTypeFacade
+        .isAccountPayment()
+        .pipe(distinctUntilChanged())
+        .subscribe((isAccountPayment) => {
+          this.isAccountPayment = isAccountPayment;
+        })
+    );
+
     this.costCenters$ = combineLatest([
       this.userCostCenters$,
       this.checkoutCostCenterFacade.getCostCenterState().pipe(
@@ -67,15 +76,6 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
         }
       }),
       map(([costCenters]) => costCenters)
-    );
-
-    this.subscription.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccountPayment) => {
-          this.isAccountPayment = isAccountPayment;
-        })
     );
   }
 
