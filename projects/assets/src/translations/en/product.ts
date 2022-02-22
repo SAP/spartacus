@@ -84,6 +84,7 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
     tabPanelContainerRegion: 'Tab group with more product details',
   },
