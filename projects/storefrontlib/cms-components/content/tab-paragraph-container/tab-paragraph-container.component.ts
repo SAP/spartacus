@@ -87,20 +87,18 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   }
 
   select(tabNum: number, event?: MouseEvent): void {
-    this.isMobile$
-      .pipe(take(1))
-      .subscribe((res) => {
-        if (res) {
-          this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-          if (event && event?.target) {
-            const target = event.target as HTMLElement;
-            const parentNode = target.parentNode as HTMLElement;
-            this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
-          }
-        } else {
-          this.activeTabNum = tabNum;
+    this.isMobile$.pipe(take(1)).subscribe((res) => {
+      if (res) {
+        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+        if (event && event?.target) {
+          const target = event.target as HTMLElement;
+          const parentNode = target.parentNode as HTMLElement;
+          this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
         }
-      });
+      } else {
+        this.activeTabNum = tabNum;
+      }
+    });
   }
 
   tabCompLoaded(componentRef: any): void {
