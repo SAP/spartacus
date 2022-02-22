@@ -20,7 +20,7 @@ const featureLibsFolders: string[] = [
   'user',
 ];
 
-const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments'];
+const integrationLibsFolders: string[] = ['cdc', 'cds', 'digital-payments', 'epd-visualization'];
 
 const commands = [
   'publish',
@@ -33,6 +33,7 @@ const commands = [
   'build cdc/schematics',
   'build cds/schematics',
   'build digital-payments/schematics',
+  'build epd-visualization/schematics',
   'build organization/schematics',
   'build product/schematics',
   'build product-configurator/schematics',
@@ -168,6 +169,7 @@ async function executeCommand(command: Command): Promise<void> {
     case 'build cdc/schematics':
     case 'build cds/schematics':
     case 'build digital-payments/schematics':
+    case 'build epd-visualization/schematics':
     case 'build organization/schematics':
     case 'build product/schematics':
     case 'build product-configurator/schematics':
