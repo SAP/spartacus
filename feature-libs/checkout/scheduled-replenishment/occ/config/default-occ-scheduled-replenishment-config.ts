@@ -1,5 +1,5 @@
-import { CheckoutScheduledReplenishmentOccEndpoints } from '@spartacus/checkout/scheduled-replenishment/root';
 import { OccConfig } from '@spartacus/core';
+import { CheckoutScheduledReplenishmentOccEndpoints } from '../model/occ-checkout-scheduled-replenishment-endpoints.model';
 
 const defaultScheduledReplenishmentOccEndpoints: CheckoutScheduledReplenishmentOccEndpoints =
   {

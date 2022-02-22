@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { facadeFactory } from '@spartacus/core';
 import { ORDER_CORE_FEATURE, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { ScheduleReplenishmentForm } from '../models/scheduled-replenishment.model';
+import { ScheduleReplenishmentForm } from '../model/scheduled-replenishment.model';
 
 @Injectable({
   providedIn: 'root',
