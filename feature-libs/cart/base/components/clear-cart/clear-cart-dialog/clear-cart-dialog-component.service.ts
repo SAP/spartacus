@@ -58,7 +58,7 @@ export class ClearCartDialogComponentService {
    * but the status flag allows to recognize it and add a custom error message as well.
    * @param status
    */
-  protected displayGlobalMessage(status?: boolean): void {
+  protected displayGlobalMessage(status: boolean): void {
     if (status) {
       this.globalMessageService.add(
         { key: 'clearCart.cartClearedSuccessfully' },
