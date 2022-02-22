@@ -102,6 +102,7 @@ export class CheckoutPaymentTypeComponent {
     this.checkoutPaymentTypeFacade
       .setPaymentType(this.typeSelected, poNumberInput)
       .subscribe({
+        // we don't call onSuccess here, because it can cause a spinner flickering
         complete: () => this.checkoutStepService.next(this.activatedRoute),
         error: () => this.onError(),
       });
