@@ -1,0 +1,133 @@
+<ng-container *ngIf="viewportReady; else loading">
+  <div class="content-type-symbol" [hidden]="!viewportReady">
+    <span class="content-type-text">{{
+      (is2D
+        ? 'epdVisualization.visualViewer.contentType.drawing2D'
+        : 'epdVisualization.visualViewer.contentType.model3D'
+      ) | cxTranslate
+    }}</span>
+  </div>
+
+  <div class="bottom overlay">
+    <div [hidden]="!viewportReady" class="toolbar">
+      <div class="toolbarHBox">
+        <div class="toolbarButtonsHBox">
+          <cx-epd-visualization-viewer-toolbar-button
+            class="homeButton"
+            iconLibraryClass="fas"
+            iconClass="fa-home"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.homeButton.label'
+                | cxTranslate
+            }}"
+            (click)="activateHomeView()"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="turntableButton toolbarItem"
+            iconLibraryClass="fas"
+            iconClass="fa-sync-alt"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.rotateButton.label'
+                | cxTranslate
+            }}"
+            [hidden]="is2D"
+            (click)="navigationMode = NavigationMode.Turntable"
+            [checked]="navigationMode === NavigationMode.Turntable"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="panButton toolbarItem"
+            iconLibraryClass="fas"
+            iconClass="fa-arrows-alt"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.panButton.label'
+                | cxTranslate
+            }}"
+            (click)="navigationMode = NavigationMode.Pan"
+            [checked]="navigationMode === NavigationMode.Pan"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="zoomButton toolbarItem"
+            iconLibraryClass="fas"
+            iconClass="fa-search"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.zoomButton.label'
+                | cxTranslate
+            }}"
+            (click)="navigationMode = NavigationMode.Zoom"
+            [checked]="navigationMode === NavigationMode.Zoom"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="isolateButton toolbarItem"
+            iconLibraryClass="fas"
+            [hidden]="is2D"
+            [disabled]="
+              !isolateModeEnabled && selectedProductCodes?.length === 0
+            "
+            iconClass="fa-compress"
+            text="{{
+              'epdVisualization.visualViewer.toolbar.isolateButton.label'
+                | cxTranslate
+            }}"
+            (click)="isolateModeEnabled = !isolateModeEnabled"
+            [checked]="isolateModeEnabled"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="playPauseButton toolbarItem"
+            iconLibraryClass="fas"
+            iconClass="{{ animationPlaying ? 'fa-pause' : 'fa-play' }}"
+            text="{{
+              (animationPlaying
+                ? 'epdVisualization.visualViewer.toolbar.pauseButton.label'
+                : 'epdVisualization.visualViewer.toolbar.playButton.label'
+              ) | cxTranslate
+            }}"
+            [hidden]="is2D || animationTotalDuration <= 0"
+            [disabled]="isolateModeEnabled"
+            (click)="animationPlaying ? pauseAnimation() : playAnimation()"
+          ></cx-epd-visualization-viewer-toolbar-button>
+
+          <cx-epd-visualization-viewer-toolbar-button
+            class="showAllHotpotsButton toolbarItem"
+            iconLibraryClass="fas"
+            iconClass="fa-highlighter"
+            text="{{
+              (showAllHotspotsEnabled
+                ? 'epdVisualization.visualViewer.toolbar.hotspotsButton.hide'
+                : 'epdVisualization.visualViewer.toolbar.hotspotsButton.show'
+              ) | cxTranslate
+            }}"
+            [checked]="showAllHotspotsEnabled"
+            [hidden]="!is2D"
+            (click)="showAllHotspotsEnabled = !showAllHotspotsEnabled"
+          ></cx-epd-visualization-viewer-toolbar-button>
+        </div>
+
+        <div [hidden]="is2D || animationTotalDuration <= 0">
+          <cx-epd-visualization-animation-slider
+            [disabled]="isolateModeEnabled"
+            [(value)]="animationPosition"
+            (keydown.enter)="
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            "
+            (keydown.space)="
+              animationPlaying ? pauseAnimation() : playAnimation();
+              $event.preventDefault()
+            "
+          ></cx-epd-visualization-animation-slider>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
+
+<ng-template #loading>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

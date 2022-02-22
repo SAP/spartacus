@@ -1,0 +1,24 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/epd-visualization",
+  "lib": {
+    "entryFile": "./public_api.ts",
+    "umdModuleIds": {
+      "@spartacus/core": "core",
+      "@spartacus/storefront": "storefront",
+      "rxjs": "rxjs",
+      "sap/m/MessageBox": "MessageBox",
+      "sap/ui/vk/AnimationPlayer": "AnimationPlayer",
+      "sap/ui/vk/ContentConnector": "ContentConnector",
+      "sap/ui/vk/ContentResource": "ContentResource",
+      "sap/ui/vk/DrawerToolbar": "DrawerToolbar",
+      "sap/ui/vk/NodeContentType": "NodeContentType",
+      "sap/ui/vk/SelectionDisplayMode": "SelectionDisplayMode",
+      "sap/ui/vk/SelectionMode": "SelectionMode",
+      "sap/ui/vk/Viewport": "Viewport",
+      "sap/ui/vk/ViewStateManager": "ViewStateManager",
+      "sap/ui/vk/ZoomTo": "ZoomTo"
+    }
+  },
+  "assets": ["**/*.scss", "schematics/**/*.json", "schematics/**/*.js"]
+}
