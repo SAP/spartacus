@@ -30,6 +30,7 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
       facet: 'Filter results by Facets',
+      name: 'Filter by {{name}}',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
