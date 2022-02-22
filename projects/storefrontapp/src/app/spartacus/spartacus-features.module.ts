@@ -104,13 +104,7 @@ if (environment.cpq) {
   featureModules.push(ProductConfiguratorRulebasedFeatureModule);
 }
 if (environment.digitalPayments) {
-  if (environment.b2b) {
-    featureModules.push(
-      DigitalPaymentsFeatureModule.forScheduledReplenishment()
-    );
-  } else {
-    featureModules.push(DigitalPaymentsFeatureModule.forB2C());
-  }
+  featureModules.push(DigitalPaymentsFeatureModule);
 }
 
 @NgModule({

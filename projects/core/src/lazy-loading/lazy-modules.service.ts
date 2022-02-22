@@ -3,6 +3,7 @@ import {
   Injectable,
   InjectFlags,
   Injector,
+  NgModule,
   NgModuleFactory,
   NgModuleRef,
   OnDestroy,
@@ -19,6 +20,7 @@ import {
 } from 'rxjs';
 import {
   catchError,
+  concatAll,
   concatMap,
   map,
   observeOn,
@@ -26,6 +28,7 @@ import {
   switchMap,
   switchMapTo,
   tap,
+  toArray,
 } from 'rxjs/operators';
 import { EventService } from '../event/event.service';
 import { CombinedInjector } from '../util/combined-injector';
@@ -74,7 +77,8 @@ export class LazyModulesService implements OnDestroy {
   public resolveModuleInstance(
     moduleFunc: () => Promise<any>,
     feature?: string,
-    dependencyModuleRefs: NgModuleRef<any>[] = []
+    dependencyModuleRefs: NgModuleRef<any>[] = [],
+    plugins?: (() => Promise<any>)[]
   ): Observable<NgModuleRef<any>> {
     let parentInjector: Injector;
 
@@ -89,7 +93,7 @@ export class LazyModulesService implements OnDestroy {
       );
     }
 
-    return this.resolveModuleFactory(moduleFunc).pipe(
+    return this.resolveModuleFactory(moduleFunc, plugins).pipe(
       map(([moduleFactory]) => moduleFactory.create(parentInjector)),
       concatMap((moduleRef) => this.runModuleInitializersForModule(moduleRef)),
       tap((moduleRef) =>
@@ -213,8 +217,29 @@ export class LazyModulesService implements OnDestroy {
    * Resolve any Angular module from an function that return module or moduleFactory
    */
   private resolveModuleFactory(
-    moduleFunc: () => Promise<any>
+    moduleFunc: () => Promise<any>,
+    plugins?: (() => Promise<any>)[]
   ): Observable<[NgModuleFactory<any>, any]> {
+    if (plugins && plugins.length > 0) {
+      return from(
+        [moduleFunc, ...plugins].map((promise) => from(promise()))
+      ).pipe(
+        concatAll(),
+        toArray(),
+        switchMap((importModules) => {
+          const wrap = NgModule({
+            imports: importModules,
+          })(class {});
+
+          return combineLatest([
+            from(this.compiler.compileModuleAsync(wrap as any)),
+            of(wrap),
+          ]);
+        }),
+        observeOn(queueScheduler)
+      );
+    }
+
     return from(moduleFunc()).pipe(
       switchMap((module) =>
         module instanceof NgModuleFactory

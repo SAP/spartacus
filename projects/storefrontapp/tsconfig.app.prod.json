@@ -217,11 +217,7 @@
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cds": ["dist/cds"],
       "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
-      "@spartacus/digital-payments/b2b": ["dist/digital-payments/b2b"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
-      "@spartacus/digital-payments/scheduled-replenishment": [
-        "dist/digital-payments/scheduled-replenishment"
-      ],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
       "@spartacus/incubator": ["dist/incubator"],

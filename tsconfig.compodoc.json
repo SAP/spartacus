@@ -434,14 +434,8 @@
       "@spartacus/digital-payments/assets": [
         "integration-libs/digital-payments/assets/public_api"
       ],
-      "@spartacus/digital-payments/b2b": [
-        "integration-libs/digital-payments/b2b/public_api"
-      ],
       "@spartacus/digital-payments": [
         "integration-libs/digital-payments/public_api"
-      ],
-      "@spartacus/digital-payments/scheduled-replenishment": [
-        "integration-libs/digital-payments/scheduled-replenishment/public_api"
       ],
       "@spartacus/assets": [
         "projects/assets/src/public_api"
