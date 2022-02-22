@@ -7,6 +7,11 @@
 # Will replace default host (https://localhost:9002) as a backend endpoint
 # Make sure you specify the full url for the backend (https://[host]:[port]
 BACKEND_URL="https://40.76.109.9:9002"
+
+# A comma separated list of base sites.
+# When empty, the base sites will not be explicitly specified in spartacus-configuration.module.ts
+BASE_SITE=
+
 OCC_PREFIX="/occ/v2/"
 
 SPARTACUS_PROJECTS=(
@@ -17,6 +22,7 @@ SPARTACUS_PROJECTS=(
         "projects/schematics"
         "integration-libs/cds"
         "integration-libs/cdc"
+        "integration-libs/epd-visualization"
         "core-libs/setup"
         "feature-libs/asm"
         "feature-libs/organization"
@@ -58,3 +64,8 @@ ADD_B2B_LIBS=false
 
 ADD_CPQ=false
 ADD_CDC=false
+# config.epd-visualization.sh contains default values to use in your config.sh when ADD_EPD_VISUALIZATION is true.
+ADD_EPD_VISUALIZATION=false
+
+# The base URL (origin) of the SAP EPD Fiori launchpad
+EPD_VISUALIZATION_BASE_URL=

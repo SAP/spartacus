@@ -96,6 +96,12 @@ function add_cdc {
     fi
 }
 
+function add_epd_visualization {
+    if [ "$ADD_EPD_VISUALIZATION" = true ] ; then
+        ng add --skip-confirmation @spartacus/epd-visualization@${SPARTACUS_VERSION} --baseUrl ${EPD_VISUALIZATION_BASE_URL} --interactive false
+    fi
+}
+
 function add_product_configurator {
     local FEATURES=(--features="Textfield-Configurator");
 
@@ -114,30 +120,45 @@ function add_feature_libs {
 
 function add_spartacus_csr {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
 
 function add_spartacus_ssr {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
 
 function add_spartacus_ssr_pwa {
     ( cd ${INSTALLATION_DIR}/${1}
-    ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
+    if [ "$BASE_SITE" = "" ] ; then
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --ssr --pwa --interactive false
+    else
+      ng add --skip-confirmation @spartacus/schematics@${SPARTACUS_VERSION} --overwriteAppComponent true --baseUrl ${BACKEND_URL} --occPrefix ${OCC_PREFIX} --baseSite ${BASE_SITE} --ssr --pwa --interactive false
+    fi
     add_feature_libs
     add_b2b
     add_cdc
+    add_epd_visualization
     add_product_configurator
     )
 }
@@ -181,7 +202,7 @@ function publish_package {
 function restore_clone {
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
-        for path in ${SPARTACUS_PROJECTS[@]} 
+        for path in ${SPARTACUS_PROJECTS[@]}
         do
             if [ -f "${path}/package.json-E" ]; then
                 rm ${path}/package.json-E
@@ -233,6 +254,7 @@ function install_from_sources {
         'smartedit'
         'cds'
         'cdc'
+        'epd-visualization'
         'product-configurator'
     )
 
@@ -242,11 +264,11 @@ function install_from_sources {
     )
 
     for package in ${dist_packages[@]}; do
-        publish_dist_package ${package} 
+        publish_dist_package ${package}
     done
 
     for package in ${packages[@]}; do
-        publish_package ${package} 
+        publish_package ${package}
     done
 
     create_apps

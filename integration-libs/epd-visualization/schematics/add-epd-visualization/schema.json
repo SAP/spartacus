@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "$id": "EpdVisualizationSchematics",
+  "title": "EpdVisualization Schematics",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The name of the project.",
+      "$default": {
+        "$source": "projectName"
+      }
+    },
+    "features": {
+      "type": "array",
+      "uniqueItems": true,
+      "default": ["EPD-Visualization"]
+    },
+    "baseUrl": {
+      "type": "string",
+      "description": "The base URL (origin) of the EPD Fiori Launchpad",
+      "x-prompt": "[EPD Visualization] What is the base URL (origin) of your EPD Fiori Launchpad? e.g. https://mytenant.epd.cfapps.eu20.hana.ondemand.com"
+    }
+  },
+  "required": []
+}
