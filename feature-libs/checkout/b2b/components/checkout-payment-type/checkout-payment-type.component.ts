@@ -4,7 +4,6 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -27,10 +26,6 @@ export class CheckoutPaymentTypeComponent {
   private _poNumberInput: ElementRef;
 
   protected busy$ = new BehaviorSubject<boolean>(false);
-
-  addToCartForm = new FormGroup({
-    poNumber: new FormControl(''),
-  });
 
   isUpdating$ = combineLatest([
     this.busy$,
