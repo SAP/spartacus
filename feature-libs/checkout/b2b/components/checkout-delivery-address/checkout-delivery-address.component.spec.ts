@@ -8,7 +8,10 @@ import {
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
-import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   CostCenter,
@@ -42,7 +45,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 class MockCheckoutDeliveryFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  createAndSetAddress = createSpy().and.returnValue(of());
+  createAndSetAddress = createSpy().and.returnValue(of({}));
   setDeliveryAddress = createSpy().and.returnValue(of());
   getDeliveryAddressState(): Observable<QueryState<Address | undefined>> {
     return of({ loading: false, error: false, data: undefined });
@@ -83,6 +86,12 @@ class MockCheckoutCostCenterService
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy();
+}
+
+class MockCheckoutDeliveryModesFacade
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
 }
 
 const mockAddress1: Address = {
@@ -157,6 +166,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let userCostCenterService: UserCostCenterService;
   let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let globalMessageService: GlobalMessageService;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -190,6 +200,10 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
             provide: CheckoutCostCenterFacade,
             useClass: MockCheckoutCostCenterService,
           },
+          {
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModesFacade,
+          },
         ],
       })
         .overrideComponent(B2BCheckoutDeliveryAddressComponent, {
@@ -206,6 +220,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       userCostCenterService = TestBed.inject(UserCostCenterService);
       checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
       globalMessageService = TestBed.inject(GlobalMessageService);
+      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     })
   );
 
@@ -326,6 +341,9 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     component.addAddress({});
     expect(component.shouldRedirect).toBeTruthy();
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
+    ).toHaveBeenCalled();
   });
 
   it('should show a global message when a new default address is selected', () => {

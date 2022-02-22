@@ -3,7 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { CheckoutDeliveryAddressFacade } from '@spartacus/checkout/base/root';
+import {
+  CheckoutDeliveryAddressFacade,
+  CheckoutDeliveryModesFacade,
+} from '@spartacus/checkout/base/root';
 import {
   Address,
   GlobalMessageService,
@@ -29,7 +32,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
 {
-  createAndSetAddress = createSpy().and.returnValue(of());
+  createAndSetAddress = createSpy().and.returnValue(of({}));
   setDeliveryAddress = createSpy().and.returnValue(of());
   getDeliveryAddressState = createSpy().and.returnValue(
     of({ loading: false, error: false, data: undefined })
@@ -108,6 +111,12 @@ class MockCardComponent {
   fitToContainer: boolean;
 }
 
+class MockCheckoutDeliveryModesFacade
+  implements Partial<CheckoutDeliveryModesFacade>
+{
+  clearCheckoutDeliveryMode = createSpy().and.returnValue(of());
+}
+
 describe('CheckoutDeliveryAddressComponent', () => {
   let component: CheckoutDeliveryAddressComponent;
   let fixture: ComponentFixture<CheckoutDeliveryAddressComponent>;
@@ -115,6 +124,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
   let userAddressService: UserAddressService;
   let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
+  let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
   let globalMessageService: GlobalMessageService;
 
   beforeEach(
@@ -137,6 +147,10 @@ describe('CheckoutDeliveryAddressComponent', () => {
           { provide: CheckoutStepService, useClass: MockCheckoutStepService },
           { provide: ActivatedRoute, useValue: mockActivatedRoute },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          {
+            provide: CheckoutDeliveryModesFacade,
+            useClass: MockCheckoutDeliveryModesFacade,
+          },
         ],
       })
         .overrideComponent(CheckoutDeliveryAddressComponent, {
@@ -152,6 +166,7 @@ describe('CheckoutDeliveryAddressComponent', () => {
         CheckoutStepService as Type<CheckoutStepService>
       );
       userAddressService = TestBed.inject(UserAddressService);
+      checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
       globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
@@ -230,6 +245,9 @@ describe('CheckoutDeliveryAddressComponent', () => {
     expect(
       checkoutDeliveryAddressFacade.createAndSetAddress
     ).toHaveBeenCalledWith({});
+    expect(
+      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
+    ).toHaveBeenCalled();
   });
 
   it('should automatically select default delivery address when there is no current selection for a credit card payment', () => {
