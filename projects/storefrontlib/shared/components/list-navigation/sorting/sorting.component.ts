@@ -20,8 +20,6 @@ export class SortingComponent {
   @Input()
   placeholder: string;
   @Input()
-  ariaControls: string;
-  @Input()
   sortLabels: { [code: string]: string };
 
   @Output()
