@@ -396,8 +396,9 @@ describe('CheckoutDeliveryAddressComponent', () => {
     const getSpinner = () => fixture.debugElement.query(By.css('cx-spinner'));
 
     it('should render only when existing addresses are loading', () => {
-      component.isUpdating$ = of(true);
+      spyOn<any>(component, 'createIsUpdating').and.returnValue(of(true));
       userAddressService.getAddresses = createSpy().and.returnValue(of([]));
+      component.ngOnInit();
 
       fixture.detectChanges();
       expect(getSpinner()).toBeTruthy();
