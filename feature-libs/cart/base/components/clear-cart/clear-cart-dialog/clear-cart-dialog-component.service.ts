@@ -2,16 +2,13 @@ import { Injectable } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
 import { ActiveCartFacade } from '@spartacus/cart/base/root';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClearCartDialogComponentService {
-  protected isClearing$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected globalMessageService: GlobalMessageService,
@@ -24,7 +21,6 @@ export class ClearCartDialogComponentService {
       .pipe(
         take(1),
         tap((entries) => {
-          this.isClearing$.next(true);
           // Make copy and reverse entries[] to start at end of array
           // since cart entries are shifted downwards with removeEntry()
           entries
@@ -32,8 +28,8 @@ export class ClearCartDialogComponentService {
             .reverse()
             .forEach((entry) => this.activeCartFacade.removeEntry(entry));
         }),
-        switchMap(() => this.activeCartFacade.isStable()),
-        filter((data) => Boolean(data)),
+        switchMap(() => this.getClearingCartProgress()),
+        filter((inProgress) => !inProgress),
         tap(() => this.closeDialog('Close dialog after cart cleared')),
         switchMap(() =>
           this.activeCartFacade
@@ -43,13 +39,12 @@ export class ClearCartDialogComponentService {
         take(1)
       )
       .subscribe((success) => {
-        this.isClearing$.next(false);
         this.displayGlobalMessage(success);
       });
   }
 
   getClearingCartProgress(): Observable<boolean> {
-    return this.isClearing$.asObservable();
+    return this.activeCartFacade.isStable().pipe(map((stable) => !stable));
   }
 
   closeDialog(reason: string): void {
@@ -59,7 +54,7 @@ export class ClearCartDialogComponentService {
   /**
    * Display global message after clearing cart.
    */
-  protected displayGlobalMessage(status: boolean): void {
+  protected displayGlobalMessage(status?: boolean): void {
     if (status) {
       this.globalMessageService.add(
         { key: 'clearCart.cartClearedSuccessfully' },
