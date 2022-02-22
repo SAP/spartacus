@@ -10,10 +10,14 @@ export class NgSelectDirective implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.renderer.setAttribute(
-      this.elementRef.nativeElement.querySelector(this.target) ??
-        this.elementRef.nativeElement,
+      this.elementRef.nativeElement.querySelector(this.target),
       'role',
       'listbox'
+    );
+    this.renderer.setAttribute(
+      this.elementRef.nativeElement.querySelector(this.target),
+      'tabindex',
+      '0'
     );
   }
 }
