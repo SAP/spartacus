@@ -4,6 +4,7 @@ import {
   ElementRef,
   ViewChild,
 } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PaymentType } from '@spartacus/cart/base/root';
 import {
@@ -27,6 +28,10 @@ export class CheckoutPaymentTypeComponent {
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
+  addToCartForm = new FormGroup({
+    poNumber: new FormControl(''),
+  });
+
   isUpdating$ = combineLatest([
     this.busy$,
     this.checkoutPaymentTypeFacade
@@ -37,6 +42,7 @@ export class CheckoutPaymentTypeComponent {
     distinctUntilChanged()
   );
 
+  poNumInput: string;
   typeSelected?: string;
   cartPoNumber: string = '';
 
@@ -78,6 +84,8 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
+    this.poNumInput = this._poNumberInput.nativeElement.value;
+
     this.busy$.next(true);
     this.typeSelected = code;
 
@@ -92,15 +100,15 @@ export class CheckoutPaymentTypeComponent {
       return;
     }
 
-    const poNumInput = this._poNumberInput.nativeElement.value;
-    if (poNumInput === this.cartPoNumber) {
+    this.poNumInput = this._poNumberInput.nativeElement.value;
+    if (this.poNumInput === this.cartPoNumber) {
       this.checkoutStepService.next(this.activatedRoute);
       return;
     }
 
     this.busy$.next(true);
     this.checkoutPaymentTypeFacade
-      .setPaymentType(this.typeSelected, poNumInput)
+      .setPaymentType(this.typeSelected, this.poNumInput)
       .subscribe({
         complete: () => this.checkoutStepService.next(this.activatedRoute),
         error: () => this.onError(),

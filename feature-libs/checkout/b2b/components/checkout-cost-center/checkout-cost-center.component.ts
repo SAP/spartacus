@@ -73,7 +73,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
       this.checkoutPaymentTypeFacade
         .isAccountPayment()
         .pipe(distinctUntilChanged())
-        .subscribe((paymentType: boolean) => {
+        .subscribe((paymentType) => {
           this.isAccountPayment = paymentType;
         })
     );
