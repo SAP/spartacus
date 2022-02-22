@@ -8,14 +8,14 @@ import { ScheduleReplenishmentForm } from '../model/scheduled-replenishment.mode
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: TestScheduledReplenishmentFacade,
+      facade: UnnamedScheduledReplenishmentFacade,
       feature: ORDER_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder'],
       // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })
-export abstract class TestScheduledReplenishmentFacade {
+export abstract class UnnamedScheduledReplenishmentFacade {
   /**
    * Schedule a replenishment order
    */

@@ -8,13 +8,13 @@ import { ORDER_CORE_FEATURE } from '../feature-name';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: TestFacade,
+      facade: UnnamedFacade,
       feature: ORDER_CORE_FEATURE,
       methods: ['placeOrder'],
       // TODO:#deprecation-checkout - remove once we remove ngrx
       async: true,
     }),
 })
-export abstract class TestFacade {
+export abstract class UnnamedFacade {
   abstract placeOrder(termsChecked: boolean): Observable<Order>;
 }
