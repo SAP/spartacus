@@ -38,8 +38,8 @@ export class ClearCartDialogComponentService {
         ),
         take(1)
       )
-      .subscribe((success) => {
-        this.displayGlobalMessage(success);
+      .subscribe((status) => {
+        this.displayGlobalMessage(status);
       });
   }
 
@@ -53,6 +53,10 @@ export class ClearCartDialogComponentService {
 
   /**
    * Display global message after clearing cart.
+   * By default, the message is displayed with the type `Success` only,
+   * a negative scenario has been handled in the occ layer already,
+   * but the status flag allows to recognize it and add a custom error message as well.
+   * @param status
    */
   protected displayGlobalMessage(status?: boolean): void {
     if (status) {
