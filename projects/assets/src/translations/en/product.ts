@@ -93,7 +93,7 @@ export const product = {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',
     anonymous: 'Sign in to add to wish list',
-    addedToWishList: '{{product}} added to wish list'
+    addedToWishList: '{{product}} has been added to your wish list'
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',
