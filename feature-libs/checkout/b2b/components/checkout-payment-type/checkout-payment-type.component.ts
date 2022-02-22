@@ -27,7 +27,6 @@ export class CheckoutPaymentTypeComponent {
 
   protected busy$ = new BehaviorSubject<boolean>(false);
 
-  poNumberInput: string | undefined;
   typeSelected?: string;
 
   isUpdating$ = combineLatest([
@@ -76,15 +75,15 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    this.poNumberInput = this.poNumberInputElement.nativeElement.value;
-
     this.busy$.next(true);
     this.typeSelected = code;
 
-    this.checkoutPaymentTypeFacade.setPaymentType(code).subscribe({
-      complete: () => this.onSuccess(),
-      error: () => this.onError(),
-    });
+    this.checkoutPaymentTypeFacade
+      .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
+      .subscribe({
+        complete: () => this.onSuccess(),
+        error: () => this.onError(),
+      });
   }
 
   next(): void {
@@ -92,15 +91,16 @@ export class CheckoutPaymentTypeComponent {
       return;
     }
 
-    this.poNumberInput = this.poNumberInputElement.nativeElement.value;
-    if (this.poNumberInput === getLastValueSync(this.cartPoNumber$)) {
+    const poNumberInput = this.poNumberInputElement.nativeElement.value;
+    // if the PO number didn't change
+    if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
       this.checkoutStepService.next(this.activatedRoute);
       return;
     }
 
     this.busy$.next(true);
     this.checkoutPaymentTypeFacade
-      .setPaymentType(this.typeSelected, this.poNumberInput)
+      .setPaymentType(this.typeSelected, poNumberInput)
       .subscribe({
         complete: () => this.checkoutStepService.next(this.activatedRoute),
         error: () => this.onError(),

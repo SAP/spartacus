@@ -18,7 +18,7 @@
             formControlName="poNumber"
             type="text"
             placeholder="{{ 'checkoutB2B.placeholder' | cxTranslate }}"
-            value="{{ poNumberInput ?? (cartPoNumber$ | async) }}"
+            value="{{ cartPoNumber$ | async }}"
           />
         </label>
       </div>
