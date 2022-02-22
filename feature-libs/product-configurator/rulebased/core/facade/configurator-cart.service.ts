@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { CheckoutFacade } from '@spartacus/checkout/root';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { CheckoutQueryFacade } from '@spartacus/checkout/base/root';
 import {
-  ActiveCartService,
   OCC_USER_ID_CURRENT,
   StateUtils,
   UserIdService,
@@ -23,9 +23,10 @@ import { ConfiguratorUtilsService } from './utils/configurator-utils.service';
 export class ConfiguratorCartService {
   constructor(
     protected store: Store<StateWithConfigurator>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected commonConfigUtilsService: CommonConfiguratorUtilsService,
-    protected checkoutFacade: CheckoutFacade,
+    // TODO:#checkout - handle the breaking changes
+    protected checkoutQueryFacade: CheckoutQueryFacade,
     protected userIdService: UserIdService,
     protected configuratorUtilsService: ConfiguratorUtilsService
   ) {}
@@ -50,14 +51,17 @@ export class ConfiguratorCartService {
         this.activeCartService.isStable().pipe(filter((stable) => stable))
       ),
       delayWhen(() =>
-        this.checkoutFacade.isLoading().pipe(filter((loading) => !loading))
+        this.checkoutQueryFacade.getCheckoutDetailsState().pipe(
+          map((state) => state.loading),
+          filter((loading) => !loading)
+        )
       ),
       tap((configurationState) => {
         if (this.configurationNeedsReading(configurationState)) {
           this.activeCartService
             .requireLoadedCart()
             .pipe(take(1))
-            .subscribe((cartState) => {
+            .subscribe((cart) => {
               this.userIdService
                 .getUserId()
                 .pipe(take(1))
@@ -65,9 +69,7 @@ export class ConfiguratorCartService {
                   const readFromCartEntryParameters: CommonConfigurator.ReadConfigurationFromCartEntryParameters =
                     {
                       userId: userId,
-                      cartId: this.commonConfigUtilsService.getCartId(
-                        cartState.value
-                      ),
+                      cartId: this.commonConfigUtilsService.getCartId(cart),
                       cartEntryNumber: owner.id,
                       owner: owner,
                     };
@@ -155,14 +157,14 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
             const addToCartParameters: Configurator.AddToCartParameters = {
               userId: userId,
-              cartId: this.commonConfigUtilsService.getCartId(cartState.value),
+              cartId: this.commonConfigUtilsService.getCartId(cart),
               productCode: productCode,
               quantity: 1,
               configId: configId,
@@ -186,7 +188,7 @@ export class ConfiguratorCartService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
@@ -194,9 +196,7 @@ export class ConfiguratorCartService {
             const parameters: Configurator.UpdateConfigurationForCartEntryParameters =
               {
                 userId: userId,
-                cartId: this.commonConfigUtilsService.getCartId(
-                  cartState.value
-                ),
+                cartId: this.commonConfigUtilsService.getCartId(cart),
                 cartEntryNumber: configuration.owner.id,
                 configuration: configuration,
               };
@@ -213,8 +213,8 @@ export class ConfiguratorCartService {
    */
   activeCartHasIssues(): Observable<boolean> {
     return this.activeCartService.requireLoadedCart().pipe(
-      map((cartState) => {
-        return cartState.value ? cartState.value.entries : [];
+      map((cart) => {
+        return cart ? cart.entries : [];
       }),
       map((entries) =>
         entries

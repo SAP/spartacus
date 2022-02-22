@@ -12,12 +12,11 @@ import {
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  I18nTestingModule,
+  ReplenishmentOrderFacade,
   ReplenishmentOrderList,
-  RoutingService,
-} from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ReplenishmentOrderHistoryComponent } from './replenishment-order-history.component';

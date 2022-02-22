@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Cart, facadeFactory, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
+import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_SAVED_CART_CORE_FEATURE } from '../feature-name';
 
@@ -64,7 +65,7 @@ export abstract class SavedCartFacade {
    */
   abstract getSavedCart(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
    * Returns true when there are no operations on that in progress and it is not currently loading

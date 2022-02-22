@@ -1,5 +1,5 @@
 <ng-container *ngIf="locations">
-  <div class="container mb-2">
+  <div class="container mb-2" aria-atomic="true" aria-live="assertive">
     <div class="row" *ngIf="locations?.pagination">
       <div class="col-md-12">
         <cx-store-finder-pagination-details
@@ -7,6 +7,9 @@
         ></cx-store-finder-pagination-details>
       </div>
       <div class="text-left cx-back-wrapper">
+        <div class="cx-visually-hidden">
+          {{ storeDetails?.displayName }}
+        </div>
         <button
           class="btn btn-block btn-action cx-back"
           *ngIf="isDetailsModeVisible"

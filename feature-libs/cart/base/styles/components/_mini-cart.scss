@@ -1,0 +1,53 @@
+%cx-mini-cart {
+  margin-inline-start: 0.75rem;
+  display: block;
+
+  @include media-breakpoint-up(md) {
+    margin-inline-end: 0.85rem;
+  }
+
+  a {
+    display: flex;
+    background: var(--cx-color-primary);
+
+    min-width: 70px;
+    height: 47px;
+    padding: 10px;
+
+    color: var(--cx-color-inverse);
+    text-decoration: none;
+    justify-content: space-around;
+
+    color: currentColor;
+
+    &:hover {
+      color: currentColor;
+      text-decoration: none;
+    }
+
+    .count {
+      color: currentColor;
+      align-self: center;
+      padding-inline-start: 7px;
+      font-size: var(--cx-font-size, 1.188rem);
+      font-weight: var(--cx-font-weight-bold);
+    }
+
+    .total {
+      display: none;
+    }
+
+    @include media-breakpoint-down(sm) {
+      width: 55px;
+      height: 57px;
+      background-position: center top 4px;
+      flex-direction: column;
+      justify-content: center;
+
+      .count {
+        padding-inline-end: 0;
+        margin-bottom: -5px;
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { UserPaymentAdapter } from './user-payment.adapter';
 import { Observable } from 'rxjs';
-import { PaymentDetails } from '../../../model/cart.model';
+import { PaymentDetails } from '../../../model/payment.model';
 
 @Injectable({
   providedIn: 'root',

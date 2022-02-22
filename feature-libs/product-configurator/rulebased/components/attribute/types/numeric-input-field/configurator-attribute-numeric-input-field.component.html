@@ -11,7 +11,7 @@
         : createAttributeUiKey('label', attribute.name)
     "
     attr.role="{{ attribute.dataType }}"
-    attr.aria-required="{{ attribute.required }}"
+    attr.required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
     [attr.aria-label]="
