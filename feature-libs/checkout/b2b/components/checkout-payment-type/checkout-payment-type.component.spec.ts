@@ -130,7 +130,8 @@ describe('CheckoutPaymentTypeComponent', () => {
   it('should set payment type when changeType is called', () => {
     component.changeType('ACCOUNT');
     expect(checkoutPaymentTypeFacade.setPaymentType).toHaveBeenCalledWith(
-      'ACCOUNT'
+      'ACCOUNT',
+      'test-po'
     );
   });
 
