@@ -2320,6 +2320,11 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
+"@sapui5/ts-types-esm@1.98.0":
+  version "1.98.0"
+  resolved "https://registry.yarnpkg.com/@sapui5/ts-types-esm/-/ts-types-esm-1.98.0.tgz#21e4127164d4ca80f87b9062f78bcf4167945019"
+  integrity sha512-GKxrhBJiAmU7qUKJ0gHykYpoySVk1AYndGyLLqaors3JG3RjyFkwE51SCDOdgMNNd4keqHnAomV9X7jgY4LXHA==
+
 "@scarf/scarf@0.1.5":
   version "0.1.5"
   resolved "https://registry.yarnpkg.com/@scarf/scarf/-/scarf-0.1.5.tgz#fc4cc88294eca336eed9a91549180346de5e6946"
