@@ -44,5 +44,7 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
+    redirectingToConfirmationPage: 'Redirecting to the Confirmation Page.',
+    orderConfirmation: 'Order Confirmation',
   },
 };

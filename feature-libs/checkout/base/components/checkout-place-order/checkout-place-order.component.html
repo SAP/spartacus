@@ -1,8 +1,4 @@
-<form
-  (ngSubmit)="submitForm()"
-  class="cx-place-order-form form-check"
-  [formGroup]="checkoutSubmitForm"
->
+<form class="cx-place-order-form form-check" [formGroup]="checkoutSubmitForm">
   <div class="form-group">
     <label>
       <input
@@ -24,9 +20,14 @@
   </div>
 
   <button
-    type="submit"
+    (click)="submitForm()"
     class="btn btn-primary btn-block"
     [disabled]="termsAndConditionInvalid"
+    [cxAtMessage]="[
+      'checkoutOrderConfirmation.thankYou' | cxTranslate,
+      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate,
+      'checkoutOrderConfirmation.redirectingToConfirmationPage' | cxTranslate
+    ]"
   >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>
