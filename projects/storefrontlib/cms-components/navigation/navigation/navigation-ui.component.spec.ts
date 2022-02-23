@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, WindowRef } from '@spartacus/core';
+import { of } from 'rxjs';
+import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
 import { NavigationNode } from './navigation-node.model';
 import { NavigationUIComponent } from './navigation-ui.component';
-import { HamburgerMenuService } from './../../../layout/header/hamburger-menu/hamburger-menu.service';
-import { of } from 'rxjs';
 
 @Component({
   selector: 'cx-icon',

@@ -73,7 +73,7 @@ export class FacetComponent {
   }
 
   get isExpanded(): boolean {
-    return this.values.first.nativeElement.offsetParent !== null;
+    return this.values?.first?.nativeElement.offsetParent !== null;
   }
 
   openLink(event: KeyboardEvent) {

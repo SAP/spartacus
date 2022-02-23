@@ -14,8 +14,8 @@ docs.tar.gz
 docs.zip
 
 # spartacussampledataaddon
-spartacussampledataaddon.*
-spartacussampledata.*
+*spartacussampledataaddon*
+*spartacussampledata*
 
 # dependencies
 node_modules/

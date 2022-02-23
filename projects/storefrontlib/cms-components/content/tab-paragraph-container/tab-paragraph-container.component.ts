@@ -77,6 +77,8 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
   ngOnInit(): void {
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
+
+    this.isMobile$ = this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
   ngAfterViewInit(): void {
@@ -87,10 +89,26 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }
   }
 
+  select(tabNum: number, event?: MouseEvent): void {
+    this.isMobile$.pipe(take(1)).subscribe((res) => {
+      if (res) {
+        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+        if (event && event?.target) {
+          const target = event.target as HTMLElement;
+          const parentNode = target.parentNode as HTMLElement;
+          this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+        }
+      } else {
+        this.activeTabNum = tabNum;
+      }
+    });
+  }
+
   tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
+  // TODO: refactor deprecated code
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       if (comp.cmpRef?.instance.tabTitleParam$) {

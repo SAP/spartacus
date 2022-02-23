@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { OAuthEvent } from 'angular-oauth2-oidc';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { distinctUntilChanged, filter, map } from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take } from 'rxjs/operators';
 import { OCC_USER_ID_CURRENT } from '../../../occ/utils/occ-constants';
 import { RoutingService } from '../../../routing/facade/routing.service';
-import { getLastValueSync } from '../../../util/rxjs/get-last-value-sync';
 import { StateWithClientAuth } from '../../client-auth/store/client-auth-state';
 import { AuthRedirectService } from '../services/auth-redirect.service';
 import { AuthStorageService } from '../services/auth-storage.service';
@@ -43,13 +43,26 @@ export class AuthService {
    * Check params in url and if there is an code/token then try to login with those.
    */
   async checkOAuthParamsInUrl(): Promise<void> {
-    try {
-      const tokenReceived = getLastValueSync(
-        this.oAuthLibWrapperService.events$.pipe(
-          filter((e) => e.type === 'token_received')
-        )
-      );
+    // We use the 'token_received' event to check if we have returned
+    // from the auth server.
+    let tokenReceivedEvent: OAuthEvent | undefined;
+    const subscription = this.oAuthLibWrapperService.events$
+      .pipe(
+        filter((event) => event.type === 'token_received'),
+        take(1)
+      )
+      .subscribe((event) => (tokenReceivedEvent = event));
 
+    // The method `oAuthLibWrapperService.tryLogin()` obtains the token either from the URL params
+    // or from the storage. To distinguish those 2 cases, we observe the event `token_received`.
+    //
+    // The event 'token_received' is emitted, when the method `oAuthLibWrapperService.tryLogin()`
+    // can derive the token from the URL params (which means we've just returned from
+    // an external authorization page to Spartacus).
+    //
+    // But the event 'token_received' is not emitted when the method `oAuthLibWrapperService.tryLogin()`
+    // can obtain the token from the storage (e.g. on refresh of the Spartacus page).
+    try {
       const result = await this.oAuthLibWrapperService.tryLogin();
 
       const token = this.authStorageService.getItem('access_token');
@@ -61,11 +74,13 @@ export class AuthService {
 
         // Only redirect if we have received a token,
         // otherwise we are not returning from authentication server.
-        if (tokenReceived) {
+        if (tokenReceivedEvent) {
           this.authRedirectService.redirect();
         }
       }
     } catch {}
+
+    subscription.unsubscribe();
   }
 
   /**

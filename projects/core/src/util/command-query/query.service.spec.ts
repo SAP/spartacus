@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
-
-import { Query, QueryService, QueryState } from './query.service';
+import { CxEvent, EventService } from '@spartacus/core';
 import { defer, of, Subject } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { CxEvent, EventService } from '@spartacus/core';
+import { Query, QueryService, QueryState } from './query.service';
 
 class ReloadEvent extends CxEvent {
   static readonly type = 'TestingEvent';
@@ -61,9 +60,9 @@ describe('QueryService', () => {
     });
 
     it('should load on subscription', (done) => {
-      const data = query.getState();
+      const state$ = query.getState();
       const emissions: QueryState<string>[] = [];
-      data.pipe(take(2)).subscribe((state) => {
+      state$.pipe(take(2)).subscribe((state) => {
         emissions.push(state);
 
         if (emissions.length === 2) {
@@ -89,15 +88,15 @@ describe('QueryService', () => {
     });
 
     it('should return state from previous subscription after resubscription', (done) => {
-      const data = query.getState();
+      const state$ = query.getState();
       const emissions: QueryState<string>[] = [];
-      data.pipe(take(2)).subscribe((state) => {
+      state$.pipe(take(2)).subscribe((state) => {
         emissions.push(state);
       });
 
       loadingStream$.next('value');
 
-      data.pipe(take(1)).subscribe((state) => {
+      state$.pipe(take(1)).subscribe((state) => {
         emissions.push(state);
 
         if (emissions.length === 3) {
@@ -126,15 +125,15 @@ describe('QueryService', () => {
     });
 
     it('should load once again if it was cancelled by unsubscribe', (done) => {
-      const data = query.getState();
+      const state$ = query.getState();
       const emissions: QueryState<string>[] = [];
-      data.pipe(take(1)).subscribe((state) => {
+      state$.pipe(take(1)).subscribe((state) => {
         emissions.push(state);
       });
 
       loadingStream$.next('value');
 
-      data.pipe(take(2)).subscribe((state) => {
+      state$.pipe(take(2)).subscribe((state) => {
         emissions.push(state);
 
         if (emissions.length === 3) {
@@ -166,10 +165,10 @@ describe('QueryService', () => {
     });
 
     it('should clear value on error', (done) => {
-      const data = query.getState();
+      const state$ = query.getState();
       const emissions: QueryState<string>[] = [];
 
-      data.pipe(take(4)).subscribe((state) => {
+      state$.pipe(take(4)).subscribe((state) => {
         emissions.push(state);
 
         if (emissions.length === 4) {
@@ -207,10 +206,10 @@ describe('QueryService', () => {
     });
 
     it('should clear error on successful emission', (done) => {
-      const data = query.getState();
+      const state$ = query.getState();
       const emissions: QueryState<string>[] = [];
 
-      data.pipe(take(4)).subscribe((state) => {
+      state$.pipe(take(4)).subscribe((state) => {
         emissions.push(state);
 
         if (emissions.length === 4) {
@@ -250,18 +249,18 @@ describe('QueryService', () => {
     });
 
     it('should not call multiple times loaderFactory on multiple subscriptions', () => {
-      const data = query.getState();
-      data.pipe(take(2)).subscribe();
-      data.pipe(take(2)).subscribe();
+      const state$ = query.getState();
+      state$.pipe(take(2)).subscribe();
+      state$.pipe(take(2)).subscribe();
       loadingStream$.next('test-value');
       expect(loaderFactoryCalls).toEqual(1);
     });
 
     describe('get', () => {
       it('should return value property from getState', (done) => {
-        const data = query.get();
+        const data$ = query.get();
         const emissions: (string | undefined)[] = [];
-        data.pipe(take(3)).subscribe((state) => {
+        data$.pipe(take(3)).subscribe((state) => {
           emissions.push(state);
           if (emissions.length === 3) {
             // should not emit same values multiple times
@@ -279,10 +278,10 @@ describe('QueryService', () => {
 
     describe('reload trigger', () => {
       it('should reload data immediately when there are active query subscriptions', (done) => {
-        const data = query.getState();
+        const state$ = query.getState();
         const emissions: QueryState<string>[] = [];
 
-        data.pipe(take(4)).subscribe((state) => {
+        state$.pipe(take(4)).subscribe((state) => {
           emissions.push(state);
 
           if (emissions.length === 4) {
@@ -320,17 +319,17 @@ describe('QueryService', () => {
       });
 
       it('should reload data after resubscription when there was 0 subscribers during emission', (done) => {
-        const data = query.getState();
+        const state$ = query.getState();
         const emissions: QueryState<string>[] = [];
 
-        data.pipe(take(2)).subscribe((state) => {
+        state$.pipe(take(2)).subscribe((state) => {
           emissions.push(state);
         });
 
         loadingStream$.next('value');
         eventService.dispatch(new ReloadEvent());
 
-        data.pipe(take(2)).subscribe((state) => {
+        state$.pipe(take(2)).subscribe((state) => {
           emissions.push(state);
 
           if (emissions.length === 4) {
@@ -370,10 +369,10 @@ describe('QueryService', () => {
 
     describe('reset trigger', () => {
       it('should clear state and reload data immediately when there are active query subscriptions', (done) => {
-        const data = query.getState();
+        const state$ = query.getState();
         const emissions: QueryState<string>[] = [];
 
-        data.pipe(take(4)).subscribe((state) => {
+        state$.pipe(take(4)).subscribe((state) => {
           emissions.push(state);
 
           if (emissions.length === 4) {
@@ -411,17 +410,17 @@ describe('QueryService', () => {
       });
 
       it('should clear state instantly and reload data after resubscription when there was 0 subscribers during emission', (done) => {
-        const data = query.getState();
+        const state$ = query.getState();
         const emissions: QueryState<string>[] = [];
 
-        data.pipe(take(2)).subscribe((state) => {
+        state$.pipe(take(2)).subscribe((state) => {
           emissions.push(state);
         });
 
         loadingStream$.next('value');
         resetTrigger$.next(true);
 
-        data.pipe(take(2)).subscribe((state) => {
+        state$.pipe(take(2)).subscribe((state) => {
           emissions.push(state);
 
           if (emissions.length === 4) {
