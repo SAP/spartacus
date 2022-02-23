@@ -9,17 +9,9 @@ import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
 } from '@spartacus/checkout/b2b/root';
-import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
 import { CostCenter, UserCostCenterService } from '@spartacus/core';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  switchMap,
-  take,
-  tap,
-} from 'rxjs/operators';
+import { distinctUntilChanged, filter, map, take, tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-cost-center',
@@ -45,8 +37,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
   constructor(
     protected userCostCenterService: UserCostCenterService,
     protected checkoutCostCenterFacade: CheckoutCostCenterFacade,
-    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade,
-    protected checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade
+    protected checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade
   ) {}
 
   ngOnInit(): void {
@@ -81,14 +72,7 @@ export class CheckoutCostCenterComponent implements OnInit, OnDestroy {
 
   setCostCenter(selectCostCenter: string): void {
     this.costCenterId = selectCostCenter;
-    this.checkoutCostCenterFacade
-      .setCostCenter(this.costCenterId)
-      .pipe(
-        switchMap(() =>
-          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-        )
-      )
-      .subscribe();
+    this.checkoutCostCenterFacade.setCostCenter(this.costCenterId);
   }
 
   ngOnDestroy(): void {

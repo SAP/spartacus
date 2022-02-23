@@ -173,11 +173,4 @@ describe('CheckoutCostCenterComponent', () => {
       mockCostCenters[1].code
     );
   });
-
-  it('should clear delivery modes when cost center is successfully set', () => {
-    component.setCostCenter(mockCostCenters[1].code ?? '');
-    expect(
-      checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-    ).toHaveBeenCalled();
-  });
 });
