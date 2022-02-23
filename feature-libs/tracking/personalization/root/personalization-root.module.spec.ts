@@ -3,7 +3,7 @@ import { CmsConfig } from '@spartacus/core';
 import { defaultPersonalizationComponentsConfig, PersonalizationRootModule } from './personalization-root.module';
 import { PERSONALIZATION_FEATURE } from './feature-name';
 
-const MockCmsConfig : CmsConfig = {
+const MockCmsConfig: CmsConfig = {
 	featureModules: {
 		[PERSONALIZATION_FEATURE]: {
 			cmsComponents: ['PersonalizationScriptComponent'],
