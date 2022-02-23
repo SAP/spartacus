@@ -29,7 +29,7 @@ export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
       DP_CARD_REGISTRATION_STATUS
     );
 
-    return Boolean(queryParams);
+    return !!queryParams;
   }
 
   hideCallbackScreen(): void {
