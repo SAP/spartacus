@@ -1,11 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
   ConfigurationInfoSpecialFields,
 } from '../../core/model/common-configurator.model';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
 
 /**
  * Service for mapping of the CPQ line items from order entry
@@ -20,13 +20,14 @@ export class ConfiguratorCartEntryBundleInfoService {
    */
   retrieveLineItems(entry: OrderEntry): LineItem[] {
     let lineItems: LineItem[] = [];
-    if (entry?.configurationInfos) {
-      const configurationInfos: ConfigurationInfo[] = entry.configurationInfos.filter(
-        (configurationInfo) =>
-          configurationInfo &&
-          (configurationInfo.configurationLabel ||
-            configurationInfo.configurationValue)
-      );
+    if (entry.configurationInfos) {
+      const configurationInfos: ConfigurationInfo[] =
+        entry.configurationInfos.filter(
+          (configurationInfo) =>
+            configurationInfo &&
+            (configurationInfo.configurationLabel ||
+              configurationInfo.configurationValue)
+        );
       const firstLabel = configurationInfos[0]?.configurationLabel;
       const firstValue = configurationInfos[0]?.configurationValue;
 
@@ -63,14 +64,14 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected removeDelimiter(label: string): string {
     let preparedLabel: string = label.trim();
-    if (preparedLabel) {
-      const lastCharacter: string = preparedLabel.charAt(
-        preparedLabel.length - 1
-      );
-      if (lastCharacter === ':') {
-        preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
-      }
+
+    const lastCharacter: string = preparedLabel.charAt(
+      preparedLabel.length - 1
+    );
+    if (lastCharacter === ':') {
+      preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
     }
+
     return preparedLabel;
   }
 
@@ -97,15 +98,17 @@ export class ConfiguratorCartEntryBundleInfoService {
     configurationInfo: ConfigurationInfo
   ): void {
     if (configurationInfo.configurationLabel) {
-      const configurationInfoSplit: string[] = configurationInfo.configurationLabel.split(
-        ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
-      );
+      const configurationInfoSplit: string[] =
+        configurationInfo.configurationLabel.split(
+          ConfigurationInfoSpecialFields.LINE_ITEM_DELIMITER
+        );
       if (
         configurationInfoSplit[0] === ConfigurationInfoSpecialFields.LINE_ITEM
       ) {
-        const configurationInfoValue: string = configurationInfo.configurationValue
-          ? configurationInfo.configurationValue
-          : '';
+        const configurationInfoValue: string =
+          configurationInfo.configurationValue
+            ? configurationInfo.configurationValue
+            : '';
         this.addLineItemData(
           lineItemMap,
           configurationInfoSplit,

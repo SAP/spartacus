@@ -5,15 +5,18 @@ import {
   OnInit,
 } from '@angular/core';
 import {
+  Cart,
+  CartOutlets,
+  PromotionLocation,
+} from '@spartacus/cart/base/root';
+import {
   DeleteSavedCartSuccessEvent,
   SavedCartFacade,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  Cart,
   EventService,
   GlobalMessageService,
   GlobalMessageType,
-  PromotionLocation,
   RoutingService,
 } from '@spartacus/core';
 import { Observable, Subscription } from 'rxjs';
@@ -28,21 +31,23 @@ import { SavedCartDetailsService } from '../saved-cart-details.service';
 export class SavedCartDetailsItemsComponent implements OnInit, OnDestroy {
   private subscription = new Subscription();
 
+  readonly CartOutlets = CartOutlets;
+
   CartLocation = PromotionLocation;
 
   cartLoaded$: Observable<boolean> = this.savedCartDetailsService
     .getSavedCartId()
     .pipe(switchMap((cartId) => this.savedCartService.isStable(cartId)));
 
-  savedCart$: Observable<
-    Cart | undefined
-  > = this.savedCartDetailsService.getCartDetails().pipe(
-    tap((cart) => {
-      if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
-        this.savedCartService.deleteSavedCart(cart.code);
-      }
-    })
-  );
+  savedCart$: Observable<Cart | undefined> = this.savedCartDetailsService
+    .getCartDetails()
+    .pipe(
+      tap((cart) => {
+        if ((cart?.entries ?? []).length <= 0 && !!cart?.code) {
+          this.savedCartService.deleteSavedCart(cart.code);
+        }
+      })
+    );
 
   constructor(
     protected savedCartDetailsService: SavedCartDetailsService,

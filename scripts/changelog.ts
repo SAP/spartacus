@@ -88,7 +88,9 @@ export default async function run(
     '@spartacus/cdc': 'integration-libs/cdc',
     '@spartacus/setup': 'core-libs/setup',
     '@spartacus/cart': 'feature-libs/cart',
+    '@spartacus/order': 'feature-libs/order',
     '@spartacus/digital-payments': 'integration-libs/digital-payments',
+    '@spartacus/epd-visualization': 'integration-libs/epd-visualization',
   };
 
   const duplexUtil = through(function (
@@ -358,9 +360,17 @@ if (typeof config.to === 'undefined') {
     case '@spartacus/cart':
       config.library = '@spartacus/cart';
       break;
+    case 'order':
+    case '@spartacus/order':
+      config.library = '@spartacus/order';
+      break;
     case 'digital-payments':
     case '@spartacus/digital-payments':
       config.library = '@spartacus/digital-payments';
+      break;
+    case 'epd-visualization':
+    case '@spartacus/epd-visualization':
+      config.library = '@spartacus/epd-visualization';
       break;
     default:
       config.library = undefined;

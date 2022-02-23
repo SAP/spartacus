@@ -23,20 +23,28 @@ export const product = {
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
+    productListResults: 'Product Results List',
   },
   productFacetNavigation: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
+      facet: 'Filter results by Facets',
+      name: 'Filter by {{name}}',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
+    ariaLabelItemsAvailable_plural:
+      '{{name}}, {{state}} {{count}} items available',
   },
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
+    showReviewsDetailed:
+      'Show {{count}} reviews, Rated {{rating}} out of 5 stars',
     share: 'Share',
     newItemPrice: 'New item price',
   },
@@ -51,6 +59,9 @@ export const product = {
     less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
+  },
+  productCarousel: {
+    carouselLabel: 'Carousel, {{title}}',
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
@@ -74,7 +85,9 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
+    tabPanelContainerRegion: 'Tab group with more product details',
   },
   addToWishList: {
     add: 'Add to Wish List',

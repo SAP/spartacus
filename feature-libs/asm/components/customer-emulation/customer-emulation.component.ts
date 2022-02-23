@@ -25,7 +25,8 @@ export class CustomerEmulationComponent implements OnInit, OnDestroy {
         if (user) this.customer = user;
       })
     );
-    this.isCustomerEmulationSessionInProgress$ = this.asmComponentService.isCustomerEmulationSessionInProgress();
+    this.isCustomerEmulationSessionInProgress$ =
+      this.asmComponentService.isCustomerEmulationSessionInProgress();
   }
 
   logoutCustomer() {

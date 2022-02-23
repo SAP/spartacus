@@ -1,4 +1,5 @@
 import { user } from '../sample-data/checkout-flow';
+import { waitForOrderToBePlacedRequest } from '../support/utils/order-placed';
 import { switchSiteContext } from '../support/utils/switch-site-context';
 import { waitForPage } from './checkout-flow';
 
@@ -68,7 +69,7 @@ export const UPDATE_PASSWORD_PATH = `/${myAccount}/update-password`;
 export const PRODUCT_SEARCH_PATH =
   '/Open-Catalogue/Cameras/Film-Cameras/c/574?pageSize=10&categoryCode=574&query=:relevance:category:574';
 export const REGISTRATION_PATH = '/login/register';
-export const CHECKOUT_SHIPPING_ADDRESS_PATH = '/checkout/shipping-address';
+export const CHECKOUT_DELIVERY_ADDRESS_PATH = '/checkout/delivery-address';
 export const CHECKOUT_DELIVERY_MODE_PATH = '/checkout/delivery-mode';
 export const CHECKOUT_PAYMENT_DETAILS_PATH = '/checkout/payment-details';
 export const CHECKOUT_REVIEW_ORDER_PATH = '/checkout/review-order';
@@ -77,8 +78,8 @@ export function doPlaceOrder() {
   cy.window().then((win) => {
     const savedState = JSON.parse(win.localStorage.getItem('spartacus⚿⚿auth'));
     cy.requireProductAddedToCart(savedState.token).then((resp) => {
-      cy.requireShippingAddressAdded(user.address, savedState.token);
-      cy.requireShippingMethodSelected(savedState.token);
+      cy.requireDeliveryAddressAdded(user.address, savedState.token);
+      cy.requireDeliveryMethodSelected(savedState.token);
       cy.requirePaymentDone(savedState.token);
       cy.requirePlacedOrder(savedState.token, resp.cartId);
     });
@@ -86,16 +87,16 @@ export function doPlaceOrder() {
 }
 
 export function addressBookNextStep() {
-  cy.get('cx-shipping-address .cx-card-link').click({ force: true });
+  cy.get('cx-delivery-address .link').click({ force: true });
 
   const deliveryPage = waitForPage(
     CHECKOUT_DELIVERY_MODE_PATH,
     'getDeliveryPage'
   );
 
-  cy.get('cx-shipping-address .btn-primary').click();
+  cy.get('cx-delivery-address .btn-primary').click();
 
-  cy.wait(`@${deliveryPage}`).its('status').should('eq', 200);
+  cy.wait(`@${deliveryPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function deliveryModeNextStep() {
@@ -110,30 +111,25 @@ export function deliveryModeNextStep() {
 
   cy.get('cx-delivery-mode .btn-primary').click();
 
-  cy.wait(`@${paymentPage}`).its('status').should('eq', 200);
+  cy.wait(`@${paymentPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function paymentDetailsNextStep() {
-  cy.get('cx-payment-method .cx-card-link').click({
+  cy.get('cx-payment-method .link').click({
     force: true,
   });
 
   const reviewPage = waitForPage(CHECKOUT_REVIEW_ORDER_PATH, 'getReviewPage');
 
-  cy.get('cx-payment-method .btn-primary').click();
+  cy.get('cx-payment-method .btn-primary').should('be.enabled').click();
 
-  cy.wait(`@${reviewPage}`).its('status').should('eq', 200);
-}
-
-export function createRoute(request: string, alias: string): void {
-  cy.route(request).as(alias);
+  cy.wait(`@${reviewPage}`).its('response.statusCode').should('eq', 200);
 }
 
 export function stub(request: string, alias: string): void {
   beforeEach(() => {
     cy.restoreLocalStorage();
-    cy.server();
-    createRoute(request, alias);
+    cy.intercept(request).as(alias);
   });
 
   afterEach(() => {
@@ -160,7 +156,7 @@ export function siteContextChange(
       page = waitForPage('', 'pageForSitContextChange');
     }
     cy.visit(FULL_BASE_URL_EN_USD + pagePath);
-    cy.wait(`@${page}`).its('status').should('eq', 200);
+    cy.wait(`@${page}`).its('response.statusCode').should('eq', 200);
   }
 
   let contextParam: string;
@@ -180,9 +176,14 @@ export function siteContextChange(
   }
   cy.wait(`@${alias}`);
 
-  cy.route('GET', `*${contextParam}=${selectedOption}*`).as('switchedContext');
+  cy.intercept({
+    method: 'GET',
+    query: {
+      [contextParam]: selectedOption,
+    },
+  }).as('switchedContext');
   switchSiteContext(selectedOption, label);
-  cy.wait('@switchedContext').its('status').should('eq', 200);
+  cy.wait('@switchedContext').its('response.statusCode').should('eq', 200);
 }
 
 export function verifySiteContextChangeUrl(
@@ -194,4 +195,64 @@ export function verifySiteContextChangeUrl(
 ): void {
   siteContextChange(pagePath, alias, selectedOption, label);
   assertSiteContextChange(testPath);
+}
+
+export function testLangSwitchOrderPage() {
+  describe('order page', () => {
+    const orderPath = ORDER_PATH;
+    const deutschName = MONTH_DE;
+
+    before(() => {
+      doPlaceOrder();
+      waitForOrderToBePlacedRequest();
+    });
+
+    it('should change language in the url', () => {
+      verifySiteContextChangeUrl(
+        orderPath,
+        LANGUAGES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL,
+        FULL_BASE_URL_DE_USD + orderPath
+      );
+    });
+
+    it('should change language in the page', () => {
+      siteContextChange(orderPath, LANGUAGES, LANGUAGE_DE, LANGUAGE_LABEL);
+
+      cy.get(
+        'cx-order-history .cx-order-history-placed .cx-order-history-value'
+      ).should('contain', deutschName);
+    });
+  });
+}
+
+export function testPersonalDetailsPage() {
+  describe('personal details page', () => {
+    const personalDetailsPath = PERSONAL_DETAILS_PATH;
+    const deutschName = TITLE_DE;
+
+    it('should change language in the url', () => {
+      verifySiteContextChangeUrl(
+        personalDetailsPath,
+        LANGUAGES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL,
+        FULL_BASE_URL_DE_USD + personalDetailsPath
+      );
+    });
+
+    it('should change language in the page', () => {
+      siteContextChange(
+        personalDetailsPath,
+        TITLES,
+        LANGUAGE_DE,
+        LANGUAGE_LABEL
+      );
+
+      cy.get('cx-update-profile form select')
+        .select(deutschName)
+        .should('have.value', 'mr');
+    });
+  });
 }

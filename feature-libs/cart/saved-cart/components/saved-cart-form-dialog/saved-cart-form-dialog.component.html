@@ -198,6 +198,7 @@
                   'savedCartDialog.savedCartName' | cxTranslate
                 }}</span>
                 <input
+                  required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
                   formControlName="name"
@@ -248,7 +249,7 @@
             <button
               (click)="saveOrEditCart(cart?.code)"
               [attr.aria-label]="'common.save' | cxTranslate"
-              [disabled]="form.invalid || (isLoading$ | async)"
+              [disabled]="isLoading$ | async"
               class="btn btn-primary"
               type="button"
             >

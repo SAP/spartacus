@@ -16,8 +16,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   isInfiniteScroll: boolean;
 
-  model$: Observable<ProductSearchPage> = this.productListComponentService
-    .model$;
+  model$: Observable<ProductSearchPage> =
+    this.productListComponentService.model$;
 
   viewMode$ = new BehaviorSubject<ViewModes>(ViewModes.Grid);
   ViewModes = ViewModes;

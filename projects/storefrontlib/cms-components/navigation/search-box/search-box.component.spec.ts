@@ -108,7 +108,8 @@ describe('SearchBoxComponent', () => {
   }
 
   class SearchBoxComponentServiceSpy
-    implements Partial<SearchBoxComponentService> {
+    implements Partial<SearchBoxComponentService>
+  {
     launchSearchPage = jasmine.createSpy('launchSearchPage');
     getResults = jasmine.createSpy('search').and.callFake(() =>
       of(<SearchResults>{
@@ -269,8 +270,9 @@ describe('SearchBoxComponent', () => {
       it('should clear when clicking on clear button', () => {
         searchBoxComponent.queryText = 'something';
         fixture.detectChanges();
-        const box = fixture.debugElement.query(By.css('.searchbox > input'))
-          .nativeElement;
+        const box = fixture.debugElement.query(
+          By.css('.searchbox > input')
+        ).nativeElement;
         box.select();
         fixture.debugElement.query(By.css('.reset')).nativeElement.click();
 

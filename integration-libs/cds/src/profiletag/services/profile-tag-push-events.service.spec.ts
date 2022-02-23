@@ -1,15 +1,14 @@
 import { AbstractType, Type } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
-import { OrderPlacedEvent } from '@spartacus/checkout/root';
 import {
   CartAddEntrySuccessEvent,
+  CartPageEvent,
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
-  CxEvent,
-  EventService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
+import { CxEvent, EventService } from '@spartacus/core';
 import {
-  CartPageEvent,
   CategoryPageResultsEvent,
   HomePageEvent,
   PageEvent,
@@ -51,8 +50,8 @@ function setVariables() {
   eventServiceEvents.set(CartPageEvent, new ReplaySubject<CartPageEvent>());
   eventServiceEvents.set(HomePageEvent, new ReplaySubject<HomePageEvent>());
   eventServiceEvents.set(
-    OrderPlacedEvent,
-    new ReplaySubject<OrderPlacedEvent>()
+    CheckoutOrderPlacedEvent,
+    new ReplaySubject<CheckoutOrderPlacedEvent>()
   );
   eventServiceEvents.set(
     CartAddEntrySuccessEvent,
@@ -454,20 +453,22 @@ describe('profileTagPushEventsService', () => {
     });
   });
 
-  describe('call profileTagPushEventsService for OrderPlacedEvent events', () => {
-    it(`Should call the OrderPlacedEvent method for every OrderPlacedEvent event`, () => {
+  describe('call profileTagPushEventsService for CheckoutOrderPlacedEvent events', () => {
+    it(`Should call the CheckoutOrderPlacedEvent method for every CheckoutOrderPlacedEvent event`, () => {
       let timesCalled = 0;
       const subscription = profileTagPushEventsService
         .getPushEvents()
         .pipe(tap(() => timesCalled++))
         .subscribe();
-      const mockOrderEntry: OrderPlacedEvent[] = [{ code: '123' }];
-      const mockOrderEntries: OrderPlacedEvent[] = [
-        { code: '234' },
-        { code: '345' },
+      const mockOrderEntry: CheckoutOrderPlacedEvent[] = [
+        { order: { code: '123' } },
       ];
-      eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntry);
-      eventServiceEvents.get(OrderPlacedEvent).next(mockOrderEntries);
+      const mockOrderEntries: CheckoutOrderPlacedEvent[] = [
+        { order: { code: '234' } },
+        { order: { code: '345' } },
+      ];
+      eventServiceEvents.get(CheckoutOrderPlacedEvent).next(mockOrderEntry);
+      eventServiceEvents.get(CheckoutOrderPlacedEvent).next(mockOrderEntries);
       subscription.unsubscribe();
       expect(timesCalled).toEqual(2);
     });

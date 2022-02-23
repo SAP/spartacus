@@ -16,6 +16,9 @@ export function defaultGlobalMessageConfigFactory(): GlobalMessageConfig {
       [GlobalMessageType.MSG_TYPE_WARNING]: {
         timeout: 7000,
       },
+      [GlobalMessageType.MSG_TYPE_ASSISTIVE]: {
+        timeout: 7000,
+      },
     },
   };
 }

@@ -43,13 +43,13 @@ function getSelected(
   component: ConfiguratorAttributeSingleSelectionBundleComponent,
   index: number
 ): boolean | undefined {
-  const values = component?.attribute?.values;
+  const values = component.attribute?.values;
   return values ? values[index].selected : false;
 }
 function getFirstValue(
   component: ConfiguratorAttributeSingleSelectionBundleComponent
 ): Configurator.Value {
-  const values = component?.attribute?.values;
+  const values = component.attribute?.values;
   return values ? values[0] : { valueCode: 'a' };
 }
 describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
@@ -268,6 +268,17 @@ describe('ConfiguratorAttributeSingleSelectionBundleComponent', () => {
       expect(component['getFocusIdOfNearestValue'](values[0])).toBe(
         '1111--1111--focus'
       );
+    });
+  });
+
+  describe('extractProductCardParameters', () => {
+    it('should be able to cope with unavailable attibute values', () => {
+      component.attribute.values = undefined;
+      const options = component.extractProductCardParameters(
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.itemCount).toBe(0);
     });
   });
 });

@@ -52,7 +52,7 @@ export class ConfiguratorGroupsService {
   getFirstConflictGroup(
     configuration: Configurator.Configuration
   ): Configurator.Group | undefined {
-    return configuration.flatGroups?.find(
+    return configuration.flatGroups.find(
       (group) => group.groupType === Configurator.GroupType.CONFLICT_GROUP
     );
   }
@@ -70,9 +70,10 @@ export class ConfiguratorGroupsService {
       .getConfiguration(owner)
       .pipe(take(1))
       .subscribe((configuration) => {
-        const groupId = this.configuratorGroupStatusService.getFirstIncompleteGroup(
-          configuration
-        )?.id;
+        const groupId =
+          this.configuratorGroupStatusService.getFirstIncompleteGroup(
+            configuration
+          )?.id;
         if (groupId) {
           this.navigateToGroup(configuration, groupId, true);
         }
@@ -301,7 +302,7 @@ export class ConfiguratorGroupsService {
         return this.configuratorCommonsService.getConfiguration(owner).pipe(
           map((configuration) => {
             let nextGroup;
-            configuration?.flatGroups?.forEach((group, index) => {
+            configuration?.flatGroups.forEach((group, index) => {
               if (
                 group.id === currentGroupId &&
                 configuration?.flatGroups &&

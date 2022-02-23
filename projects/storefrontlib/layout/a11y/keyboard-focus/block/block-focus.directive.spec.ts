@@ -46,26 +46,30 @@ describe('BlockFocusDirective', () => {
   });
 
   it('should render tabindex -1 by default', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#a'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#a')
+    ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should render tabindex -1 when config = {block: true}', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#b'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#b')
+    ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('-1');
   });
 
   it('should not render tabindex -1 when config = {block: false}', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#c'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#c')
+    ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('0');
   });
 
   it('should not render tabindex -1 by default when non block config is given', () => {
-    const el: HTMLElement = fixture.debugElement.query(By.css('#d'))
-      .nativeElement;
+    const el: HTMLElement = fixture.debugElement.query(
+      By.css('#d')
+    ).nativeElement;
     expect(el.getAttribute('tabindex')).toEqual('0');
   });
 });

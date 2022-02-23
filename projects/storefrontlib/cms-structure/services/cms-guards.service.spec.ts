@@ -7,15 +7,16 @@ import {
 } from '@angular/router';
 import { ConfigModule } from '@spartacus/core';
 import { of } from 'rxjs';
-import { CmsGuardsService } from './cms-guards.service';
+import { take } from 'rxjs/operators';
 import { CmsComponentsService } from './cms-components.service';
+import { CmsGuardsService } from './cms-guards.service';
 
 describe('CmsGuardsService', () => {
   let service: CmsGuardsService;
   let guards: any[];
   const mockUrlTree = new UrlTree();
 
-  class MockCmsComponentsService {
+  class MockCmsComponentsService implements Partial<CmsComponentsService> {
     getGuards = jasmine.createSpy('getGuards').and.returnValue(guards);
   }
 
@@ -43,8 +44,10 @@ describe('CmsGuardsService', () => {
     }
   }
 
-  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot = 'ActivatedRouteSnapshot ' as any;
-  const mockRouterStateSnapshot: RouterStateSnapshot = 'RouterStateSnapshot' as any;
+  const mockActivatedRouteSnapshot: ActivatedRouteSnapshot =
+    'ActivatedRouteSnapshot ' as any;
+  const mockRouterStateSnapshot: RouterStateSnapshot =
+    'RouterStateSnapshot' as any;
 
   beforeEach(() => {
     guards = [];
@@ -80,6 +83,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
+        .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(true);
     });
@@ -94,6 +98,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
+        .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(true);
       expect(TestBed.inject(PositiveGuard).canActivate).toHaveBeenCalledWith(
@@ -112,6 +117,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
+        .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(false);
     });
@@ -126,6 +132,7 @@ describe('CmsGuardsService', () => {
           mockActivatedRouteSnapshot,
           mockRouterStateSnapshot
         )
+        .pipe(take(1))
         .subscribe((res) => (result = res));
       expect(result).toEqual(mockUrlTree);
     });

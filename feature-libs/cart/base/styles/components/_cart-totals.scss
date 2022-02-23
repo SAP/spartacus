@@ -1,0 +1,23 @@
+%cx-cart-totals {
+  padding-top: 2rem;
+  padding-inline-end: 0;
+  padding-inline-start: 3rem;
+
+  @include media-breakpoint-down(md) {
+    padding-top: 2rem;
+    padding-inline-end: 3rem;
+    padding-inline-start: 0rem;
+  }
+
+  @include media-breakpoint-down(sm) {
+    padding-inline-end: 0;
+  }
+
+  cx-order-summary {
+    padding: 0 0 1rem;
+
+    @include media-breakpoint-down(md) {
+      padding: 0 0 2rem;
+    }
+  }
+}

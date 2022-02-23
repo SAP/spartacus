@@ -91,8 +91,8 @@ describe('LoginRegisterComponent', () => {
 
       callNgInit();
 
-      const guestLinkElement: HTMLElement = getGuestCheckoutLink()
-        .nativeElement;
+      const guestLinkElement: HTMLElement =
+        getGuestCheckoutLink().nativeElement;
       const registerLink = getRegisterLink();
 
       expect(registerLink).toBeFalsy();

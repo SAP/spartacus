@@ -3,12 +3,16 @@
     <div class="col-2 col-md-1 cx-quick-order-image-container">
       <div class="cx-quick-order-table-item-product-image">
         <a
-          [ngClass]="{ disabled: loading }"
+          [ngClass]="{
+            disabled: loading,
+            'img-missing': !entry?.product?.images?.PRIMARY
+          }"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
           tabindex="-1"
         >
           <cx-media
             [container]="entry?.product?.images?.PRIMARY"
+            [alt]="entry?.product?.name"
             format="cartIcon"
           ></cx-media>
         </a>
@@ -18,7 +22,10 @@
     <div class="col-10 col-md-11 cx-quick-order-info-container">
       <div class="row">
         <div
-          class="cx-quick-order-table-item-product-information col-md-4 col-lg-4 col-xl-4"
+          class="
+            cx-quick-order-table-item-product-information
+            col-md-4 col-lg-4 col-xl-4
+          "
         >
           <div class="cx-name">
             <a

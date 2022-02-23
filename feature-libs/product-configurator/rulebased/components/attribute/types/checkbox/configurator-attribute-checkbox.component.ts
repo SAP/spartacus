@@ -19,7 +19,8 @@ import { ConfiguratorAttributeBaseComponent } from '../base/configurator-attribu
 })
 export class ConfiguratorAttributeCheckBoxComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() group: string;
   @Input() ownerKey: string;
@@ -75,9 +76,9 @@ export class ConfiguratorAttributeCheckBoxComponent
     value: Configurator.Value
   ): ConfiguratorPriceComponentOptions | undefined {
     return {
-      quantity: value?.quantity,
-      price: value?.valuePrice,
-      priceTotal: value?.valuePriceTotal,
+      quantity: value.quantity,
+      price: value.valuePrice,
+      priceTotal: value.valuePriceTotal,
       isLightedUp: value.selected,
     };
   }

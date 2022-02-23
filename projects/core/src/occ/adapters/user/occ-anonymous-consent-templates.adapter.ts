@@ -16,7 +16,8 @@ import { OccEndpointsService } from '../../services/occ-endpoints.service';
 
 @Injectable()
 export class OccAnonymousConsentTemplatesAdapter
-  implements AnonymousConsentTemplatesAdapter {
+  implements AnonymousConsentTemplatesAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

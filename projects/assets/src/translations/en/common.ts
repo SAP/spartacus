@@ -20,6 +20,9 @@ export const common = {
     reset: 'Reset',
     search: 'Search',
     add: 'Add',
+    breadcrumbs: 'breadcrumbs',
+    selectFile: 'Select file',
+    clear: 'Clear',
   },
   pageMetaResolver: {
     category: {
@@ -46,10 +49,12 @@ export const common = {
     loading: 'Loading...',
   },
   navigation: {
-    shopAll: 'Shop all {{ navNode}} >',
+    categoryNavLabel: 'Category menu',
+    footerNavLabel: 'Footer links',
   },
   searchBox: {
-    placeholder: 'Search here...',
+    placeholder: 'Enter product name or SKU',
+    productSearch: 'Find a product',
     ariaLabelInput: 'Search here...',
     ariaLabelSuggestions: 'typing suggestions',
     ariaLabelProducts: 'product results',
@@ -130,6 +135,10 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
+    unknownIdentifier: 'Item not found.',
+    otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -146,6 +155,12 @@ export const common = {
       productFacets: 'Product Facets',
       productList: 'Product List',
     },
+  },
+  carousel: {
+    previousSlide: 'Previous slide',
+    nextSlide: 'Next slide',
+    slideNumber: 'Slide {{currentSlideNumber}}',
+    carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
@@ -165,9 +180,20 @@ export const common = {
       pattern: 'Use dateformat yyyy-mm-dd',
       invalid: 'Use a valid date',
     },
+    file: {
+      required: 'File is required',
+      empty: 'File should not be empty',
+      invalidExtension: 'File extension is not valid',
+      tooLarge: 'File size should not exceed {{ maxSize }} MB',
+      tooManyEntries: 'The number of items is greater than {{ maxEntries }}',
+      notParsable: 'File is not parsable',
+    },
   },
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
     refreshThePage: 'Please refresh the page.',
+  },
+  assistiveMessage: {
+    actionCancelled: 'Action cancelled, nothing changed',
   },
 };

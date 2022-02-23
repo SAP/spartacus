@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import {
   CartModification,
   CART_MODIFICATION_NORMALIZER,
-  ConverterService,
-  OccEndpointsService,
-} from '@spartacus/core';
+} from '@spartacus/cart/base/root';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
 import {
   CommonConfigurator,
   ConfiguratorModelUtils,
@@ -27,7 +26,8 @@ import { OccConfigurator } from './variant-configurator-occ.models';
 
 @Injectable()
 export class VariantConfiguratorOccAdapter
-  implements RulebasedConfiguratorAdapter {
+  implements RulebasedConfiguratorAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpointsService: OccEndpointsService,
@@ -204,6 +204,7 @@ export class VariantConfiguratorOccAdapter
       map((overview) => {
         const configuration: Configurator.Configuration = {
           configId: overview.configId,
+          productCode: overview.productCode,
           groups: [],
           flatGroups: [],
           interactionState: {},

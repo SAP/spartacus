@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
 import {
   BASE_SITE_CONTEXT_ID,
-  OrderEntry,
   SiteContextParamsService,
   StatePersistenceService,
   StorageSyncType,
@@ -43,10 +43,6 @@ export class QuickOrderStatePersistenceService implements OnDestroy {
     );
   }
 
-  /**
-   * Function called on each browser storage read.
-   * Used to update state from browser -> state.
-   */
   protected onRead(state: OrderEntry[] | undefined): void {
     if (state) {
       this.quickOrderService.loadEntries(state);

@@ -1,11 +1,12 @@
 import { Component, Input, Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import { QuickOrderFacade } from '@spartacus/cart/quick-order/root';
-import { I18nTestingModule, OrderEntry } from '@spartacus/core';
+import { I18nTestingModule } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { QuickOrderItemComponent } from './quick-order-item.component';
-import { RouterTestingModule } from '@angular/router/testing';
 
 const mockIndex: number = 1;
 const mockCodeSubject = new Subject<string>();
@@ -15,7 +16,7 @@ const mockEntry: OrderEntry = {
 };
 
 class MockQuickOrderFacade implements Partial<QuickOrderFacade> {
-  removeEntry(_index: number): void {}
+  softDeleteEntry(_index: number): void {}
   updateEntryQuantity(_index: number, _quantity: number): void {}
   setProductAdded(code: string): void {
     mockCodeSubject.next(code);
@@ -91,11 +92,11 @@ describe('QuickOrderItemComponent', () => {
     expect(component.quantityControl).toBeTruthy();
   });
 
-  it('should remove entry', () => {
-    spyOn(quickOrderService, 'removeEntry');
+  it('should delete entry', () => {
+    spyOn(quickOrderService, 'softDeleteEntry');
     component.removeEntry();
 
-    expect(quickOrderService.removeEntry).toHaveBeenCalledWith(mockIndex);
+    expect(quickOrderService.softDeleteEntry).toHaveBeenCalledWith(mockIndex);
   });
 
   it('should update entry on quantity change', () => {

@@ -8,11 +8,11 @@ const VALUE_SEPARATOR = ',';
 
 @Injectable()
 export class CpqConfiguratorSerializer
-  implements Converter<Configurator.Configuration, Cpq.UpdateAttribute> {
+  implements Converter<Configurator.Configuration, Cpq.UpdateAttribute>
+{
   convert(source: Configurator.Configuration): Cpq.UpdateAttribute {
-    const attribute: Configurator.Attribute = CpqConfiguratorUtils.findFirstChangedAttribute(
-      source
-    );
+    const attribute: Configurator.Attribute =
+      CpqConfiguratorUtils.findFirstChangedAttribute(source);
     let updateAttribute: Cpq.UpdateAttribute;
     if (source.updateType === Configurator.UpdateType.ATTRIBUTE_QUANTITY) {
       updateAttribute = this.convertQuantity(attribute, source.configId);
@@ -26,9 +26,8 @@ export class CpqConfiguratorSerializer
     attribute: Configurator.Attribute,
     configId: string
   ): Cpq.UpdateAttribute {
-    const updateInformation = CpqConfiguratorUtils.getUpdateInformation(
-      attribute
-    );
+    const updateInformation =
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
 
     const updateAttribute: Cpq.UpdateAttribute = {
       configurationId: configId,
@@ -43,9 +42,8 @@ export class CpqConfiguratorSerializer
     attribute: Configurator.Attribute,
     configurationId: string
   ): Cpq.UpdateAttribute {
-    const updateInformation = CpqConfiguratorUtils.getUpdateInformation(
-      attribute
-    );
+    const updateInformation =
+      CpqConfiguratorUtils.getUpdateInformation(attribute);
     const updateAttribute: Cpq.UpdateAttribute = {
       configurationId: configurationId,
       standardAttributeCode: updateInformation.standardAttributeCode,
@@ -60,18 +58,16 @@ export class CpqConfiguratorSerializer
       attribute.uiType === Configurator.UiType.RADIOBUTTON_PRODUCT ||
       attribute.uiType === Configurator.UiType.SINGLE_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds = this.processSelectedSingleValue(
-        attribute.selectedSingleValue
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds =
+        this.processSelectedSingleValue(attribute.selectedSingleValue);
     } else if (
       attribute.uiType === Configurator.UiType.CHECKBOXLIST ||
       attribute.uiType === Configurator.UiType.CHECKBOXLIST_PRODUCT ||
       attribute.uiType === Configurator.UiType.CHECKBOX ||
       attribute.uiType === Configurator.UiType.MULTI_SELECTION_IMAGE
     ) {
-      updateAttribute.changeAttributeValue.attributeValueIds = this.prepareValueIds(
-        attribute
-      );
+      updateAttribute.changeAttributeValue.attributeValueIds =
+        this.prepareValueIds(attribute);
     } else if (
       attribute.uiType === Configurator.UiType.STRING ||
       attribute.uiType === Configurator.UiType.NUMERIC

@@ -4,7 +4,18 @@
     else loading
   "
 >
-  <div class="container">
+  <div
+    class="container"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-relevant="additions"
+  >
+    <div class="cx-visually-hidden">
+      {{
+        'storeFinder.storesFound'
+          | cxTranslate: { count: locations?.stores?.length }
+      }}
+    </div>
     <div class="row">
       <div
         class="col-sm-6 col-md-4 col-lg-3 item"

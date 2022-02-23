@@ -1,3 +1,4 @@
+import { clearAllStorage } from '../../../../support/utils/clear-all-storage';
 import { fillLoginForm, LoginUser } from '../../../auth-forms';
 import { waitForPage } from '../../../checkout-flow';
 import { INPUT_TYPE, MyCompanyConfig } from '../models';
@@ -92,7 +93,7 @@ export function userPasswordTest(config: MyCompanyConfig): void {
     cy.get('div.header button').contains('Save').click();
     cy.wait('@patch');
 
-    logOut();
+    clearAllStorage();
   }
 }
 

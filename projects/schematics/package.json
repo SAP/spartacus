@@ -54,7 +54,9 @@
       "@spartacus/cdc",
       "@spartacus/tracking",
       "@spartacus/cart",
+      "@spartacus/order",
       "@spartacus/digital-payments",
+      "@spartacus/epd-visualization",
       "@spartacus/setup"
     ]
   },

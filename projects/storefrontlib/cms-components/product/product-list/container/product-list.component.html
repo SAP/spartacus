@@ -1,5 +1,9 @@
 <div class="cx-page" *ngIf="model$ | async as model">
-  <section class="cx-page-section">
+  <section
+    tabindex="-1"
+    class="cx-page-section"
+    [attr.aria-label]="'productList.productListResults' | cxTranslate"
+  >
     <div class="container">
       <div class="row">
         <div class="col-12 col-lg-12" *ngIf="viewMode$ | async as viewMode">

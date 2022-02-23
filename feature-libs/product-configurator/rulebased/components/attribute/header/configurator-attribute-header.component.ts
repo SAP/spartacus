@@ -7,10 +7,14 @@ import {
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { delay, filter, map, switchMap, take } from 'rxjs/operators';
 import { Configurator } from '../../../core/model/configurator.model';
 import { ConfiguratorStorefrontUtilsService } from '../../service/configurator-storefront-utils.service';
 import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-attribute-base.component';
+import {
+  ConfiguratorCommonsService,
+  ConfiguratorGroupsService,
+} from '../../../core';
 
 @Component({
   selector: 'cx-configurator-attribute-header',
@@ -19,7 +23,8 @@ import { ConfiguratorAttributeBaseComponent } from '../types/base/configurator-a
 })
 export class ConfiguratorAttributeHeaderComponent
   extends ConfiguratorAttributeBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   @Input() attribute: Configurator.Attribute;
   @Input() owner: CommonConfigurator.Owner;
   @Input() groupId: string;
@@ -28,7 +33,11 @@ export class ConfiguratorAttributeHeaderComponent
   iconTypes = ICON_TYPE;
   showRequiredMessageForDomainAttribute$: Observable<boolean>;
 
-  constructor(protected configUtils: ConfiguratorStorefrontUtilsService) {
+  constructor(
+    protected configUtils: ConfiguratorStorefrontUtilsService,
+    protected configuratorCommonsService: ConfiguratorCommonsService,
+    protected configuratorGroupsService: ConfiguratorGroupsService
+  ) {
     super();
   }
 
@@ -98,11 +107,10 @@ export class ConfiguratorAttributeHeaderComponent
   /**
    * Verifies whether the group type is attribute group
    *
-   * @param groupType {Configurator.GroupType} - group type
    * @return {boolean} - 'true' if the group type is 'attribute group' otherwise 'false'
    */
-  isAttributeGroup(groupType: Configurator.GroupType): boolean {
-    if (Configurator.GroupType.ATTRIBUTE_GROUP === groupType) {
+  isAttributeGroup(): boolean {
+    if (Configurator.GroupType.ATTRIBUTE_GROUP === this.groupType) {
       return true;
     }
     return false;
@@ -111,11 +119,10 @@ export class ConfiguratorAttributeHeaderComponent
   /**
    * Retrieves a certain conflict link key depending on the current group type for translation.
    *
-   * @param groupType {Configurator.GroupType}- group type
    * @return {string} - the conflict link key
    */
-  getConflictMessageKey(groupType: Configurator.GroupType): string {
-    return groupType === Configurator.GroupType.CONFLICT_GROUP
+  getConflictMessageKey(): string {
+    return this.groupType === Configurator.GroupType.CONFLICT_GROUP
       ? 'configurator.conflict.viewConfigurationDetails'
       : 'configurator.conflict.viewConflictDetails';
   }
@@ -128,6 +135,7 @@ export class ConfiguratorAttributeHeaderComponent
     const images = this.attribute.images;
     return images ? images.length > 0 : false;
   }
+
   /**
    * Returns image attached to the attribute (if available)
    * @returns Image
@@ -135,5 +143,53 @@ export class ConfiguratorAttributeHeaderComponent
   get image(): Configurator.Image | undefined {
     const images = this.attribute.images;
     return images && this.hasImage ? images[0] : undefined;
+  }
+
+  /**
+   * Navigates to the group.
+   */
+  navigateToGroup(): void {
+    this.configuratorCommonsService
+      .getConfiguration(this.owner)
+      .pipe(take(1))
+      .subscribe((configuration) => {
+        if (this.groupType === Configurator.GroupType.CONFLICT_GROUP) {
+          const groupId = this.attribute.groupId;
+          if (groupId) {
+            this.configuratorGroupsService.navigateToGroup(
+              configuration,
+              groupId
+            );
+            this.focusAttribute(this.attribute.name);
+          }
+        }
+      });
+  }
+
+  /**
+   * The status of the configuration loading is retrieved twice:
+   * firstly, wait that the navigation to the corresponding group is started,
+   * secondly, wait that the navigation is completed and
+   * finally, focus a value of the in conflict involved attribute in the group.
+   *
+   * @protected
+   */
+  protected focusAttribute(name: string): void {
+    this.configuratorCommonsService
+      .isConfigurationLoading(this.owner)
+      .pipe(
+        filter((isLoading) => isLoading),
+        take(1),
+        switchMap(() =>
+          this.configuratorCommonsService
+            .isConfigurationLoading(this.owner)
+            .pipe(
+              filter((isLoading) => !isLoading),
+              take(1),
+              delay(0) //we need to consider the re-rendering of the page
+            )
+        )
+      )
+      .subscribe(() => this.configUtils.focusAttribute(name));
   }
 }

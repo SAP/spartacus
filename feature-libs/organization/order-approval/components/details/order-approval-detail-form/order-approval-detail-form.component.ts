@@ -22,15 +22,17 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     comment: [''],
   });
 
-  protected orderApprovalLoading$: Observable<boolean> = this.orderApprovalDetailService
-    .getOrderApprovalCodeFromRoute()
-    .pipe(
-      switchMap((approvalCode: string) =>
-        this.orderApprovalService.getOrderApprovalLoading(approvalCode)
-      )
-    );
+  protected orderApprovalLoading$: Observable<boolean> =
+    this.orderApprovalDetailService
+      .getOrderApprovalCodeFromRoute()
+      .pipe(
+        switchMap((approvalCode: string) =>
+          this.orderApprovalService.getOrderApprovalLoading(approvalCode)
+        )
+      );
 
-  protected decisionResultLoading$ = this.orderApprovalService.getMakeDecisionResultLoading();
+  protected decisionResultLoading$ =
+    this.orderApprovalService.getMakeDecisionResultLoading();
 
   loading$ = combineLatest([
     this.orderApprovalLoading$,
@@ -42,7 +44,8 @@ export class OrderApprovalDetailFormComponent implements OnDestroy {
     )
   );
 
-  orderApproval$: Observable<OrderApproval> = this.orderApprovalDetailService.getOrderApproval();
+  orderApproval$: Observable<OrderApproval> =
+    this.orderApprovalDetailService.getOrderApproval();
 
   constructor(
     protected orderApprovalDetailService: OrderApprovalDetailService,

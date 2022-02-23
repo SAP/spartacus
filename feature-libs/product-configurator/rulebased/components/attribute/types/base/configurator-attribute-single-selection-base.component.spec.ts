@@ -262,6 +262,14 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
       const quantityParameters = component.extractQuantityParameters(form);
       expect(quantityParameters.initialQuantity).toBe(attributeQuantity);
     });
+
+    it('should take over loading observable into result ', () => {
+      component.loading$.next(false);
+      const quantityOptions = component.extractQuantityParameters();
+      quantityOptions.disableQuantityActions$?.subscribe((disable) =>
+        expect(disable).toBe(false)
+      );
+    });
   });
 
   describe('extractPriceFormulaParameters', () => {
@@ -300,9 +308,8 @@ describe('ConfiguratorAttributeSingleSelectionBaseComponent', () => {
 
     it('should return price formula parameters', () => {
       const value = createTestValue(100, 100, true);
-      const priceFormulaParameters = component.extractValuePriceFormulaParameters(
-        value
-      );
+      const priceFormulaParameters =
+        component.extractValuePriceFormulaParameters(value);
       expect(priceFormulaParameters?.price?.value).toBe(
         value?.valuePrice?.value
       );
