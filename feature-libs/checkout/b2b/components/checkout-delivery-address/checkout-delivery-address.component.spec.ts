@@ -375,7 +375,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     describe('Account Payment', () => {
       it('should automatically select default delivery address when there is ONLY ONE', () => {
         component.ngOnInit();
-        component.selectDefaultAddress([mockAddress1], undefined);
+        component['selectDefaultAddress']([mockAddress1], undefined);
         expect(component['setAddress']).toHaveBeenCalledWith(mockAddress1);
       });
     });
@@ -383,7 +383,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     describe('Credit Card Payment', () => {
       it('should automatically select default delivery address when there is no current selection', () => {
         component.doneAutoSelect = false;
-        component.selectDefaultAddress(mockAddresses, undefined);
+        component['selectDefaultAddress'](mockAddresses, undefined);
         expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
       });
     });
