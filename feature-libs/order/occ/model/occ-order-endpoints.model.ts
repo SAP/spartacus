@@ -63,6 +63,14 @@ export interface OrderOccEndpoints {
    * @member {string}
    */
   cancelReplenishmentOrder?: string | OccEndpoint;
+  /**
+   * Endpoint for place order
+   */
+  placeOrder?: string | OccEndpoint;
+  /**
+   * Endpoint for scheduling a replenishment order
+   */
+  scheduleReplenishmentOrder?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {
