@@ -56,6 +56,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
       tap((address) => {
         if (address && this.shouldRedirect) {
           this.next();
@@ -80,23 +81,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
     this.cards$ = this.createCards();
     this.isUpdating$ = this.createIsUpdating();
-  }
-
-  selectDefaultAddress(
-    addresses: Address[],
-    selected: Address | undefined
-  ): void {
-    if (
-      !this.doneAutoSelect &&
-      addresses?.length &&
-      (!selected || Object.keys(selected).length === 0)
-    ) {
-      selected = addresses.find((address) => address.defaultAddress);
-      if (selected) {
-        this.setAddress(selected);
-      }
-      this.doneAutoSelect = true;
-    }
   }
 
   getCardContent(
@@ -219,6 +203,23 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
         }))
       )
     );
+  }
+
+  protected selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
+    if (
+      !this.doneAutoSelect &&
+      addresses?.length &&
+      (!selected || Object.keys(selected).length === 0)
+    ) {
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.setAddress(selected);
+      }
+      this.doneAutoSelect = true;
+    }
   }
 
   protected getSupportedAddresses(): Observable<Address[]> {

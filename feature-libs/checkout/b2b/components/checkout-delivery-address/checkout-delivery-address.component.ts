@@ -45,11 +45,16 @@ export class B2BCheckoutDeliveryAddressComponent
 {
   protected subscriptions = new Subscription();
 
+  protected isAccountPayment$: Observable<boolean> =
+    this.checkoutPaymentTypeFacade
+      .isAccountPayment()
+      .pipe(distinctUntilChanged());
+
   protected costCenterAddresses$: Observable<Address[]> =
     this.checkoutCostCenterFacade.getCostCenterState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged(),
+      distinctUntilChanged((prev, curr) => prev?.code === curr?.code),
       switchMap((costCenter) => {
         this.doneAutoSelect = false;
         return costCenter?.code
@@ -68,7 +73,8 @@ export class B2BCheckoutDeliveryAddressComponent
       .pipe(map((state) => state.loading)),
   ]).pipe(
     map(
-      ([superLoading, costCenterLoading]) => superLoading || costCenterLoading
+      ([creditCardAddressLoading, costCenterLoading]) =>
+        creditCardAddressLoading || costCenterLoading
     ),
     distinctUntilChanged()
   );
@@ -102,8 +108,7 @@ export class B2BCheckoutDeliveryAddressComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
+      this.isAccountPayment$
         .pipe(distinctUntilChanged())
         .subscribe((isAccount) => (this.isAccountPayment = isAccount))
     );
@@ -119,30 +124,26 @@ export class B2BCheckoutDeliveryAddressComponent
   }
 
   protected getAddressLoading(): Observable<boolean> {
-    return this.checkoutPaymentTypeFacade
-      .isAccountPayment()
-      .pipe(
-        switchMap((isAccountPayment) =>
-          isAccountPayment
-            ? this.accountAddressLoading$
-            : this.creditCardAddressLoading$
-        )
-      );
+    return this.isAccountPayment$.pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.accountAddressLoading$
+          : this.creditCardAddressLoading$
+      )
+    );
   }
 
   protected getSupportedAddresses(): Observable<Address[]> {
-    return this.checkoutPaymentTypeFacade
-      .isAccountPayment()
-      .pipe(
-        switchMap((isAccountPayment) =>
-          isAccountPayment
-            ? this.costCenterAddresses$
-            : super.getSupportedAddresses()
-        )
-      );
+    return this.isAccountPayment$.pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.costCenterAddresses$
+          : super.getSupportedAddresses()
+      )
+    );
   }
 
-  selectDefaultAddress(
+  protected selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
   ): void {
