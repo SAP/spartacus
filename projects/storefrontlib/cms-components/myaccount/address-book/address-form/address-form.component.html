@@ -1,6 +1,6 @@
 <form (ngSubmit)="verifyAddress()" [formGroup]="addressForm">
   <div class="row">
-    <div class="col-md-12 col-lg-9">
+    <div class="col-md-12 col-xl-10">
       <div class="form-group" formGroupName="country">
         <ng-container *ngIf="countries$ | async as countries">
           <div *ngIf="countries.length !== 0">
@@ -9,7 +9,7 @@
                 'addressForm.country' | cxTranslate
               }}</span>
               <ng-select
-                aria-required="true"
+                [inputAttrs]="{ required: 'true' }"
                 class="country-select"
                 formControlName="isocode"
                 [searchable]="true"
@@ -55,7 +55,7 @@
             'addressForm.firstName.label' | cxTranslate
           }}</span>
           <input
-            aria-required="true"
+            required="true"
             class="form-control"
             type="text"
             placeholder="{{
@@ -74,7 +74,7 @@
             'addressForm.lastName.label' | cxTranslate
           }}</span>
           <input
-            aria-required="true"
+            required="true"
             type="text"
             class="form-control"
             placeholder="{{ 'addressForm.lastName.placeholder' | cxTranslate }}"
@@ -91,7 +91,7 @@
             'addressForm.address1' | cxTranslate
           }}</span>
           <input
-            aria-required="true"
+            required="true"
             type="text"
             class="form-control"
             placeholder="{{ 'addressForm.streetAddress' | cxTranslate }}"
@@ -120,7 +120,7 @@
               'addressForm.city.label' | cxTranslate
             }}</span>
             <input
-              aria-required="true"
+              required="true"
               type="text"
               class="form-control"
               placeholder="{{ 'addressForm.city.placeholder' | cxTranslate }}"
@@ -137,7 +137,7 @@
               'addressForm.zipCode.label' | cxTranslate
             }}</span>
             <input
-              aria-required="true"
+              required="true"
               type="text"
               class="form-control"
               placeholder="{{
@@ -161,7 +161,7 @@
                   'addressForm.state' | cxTranslate
                 }}</span>
                 <ng-select
-                  aria-required="true"
+                  [inputAttrs]="{ required: 'true' }"
                   class="region-select"
                   formControlName="isocode"
                   [searchable]="true"
