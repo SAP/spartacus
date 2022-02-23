@@ -1,6 +1,7 @@
 @import '../../theme';
 @import '~bootstrap/scss/forms';
 @import '~bootstrap/scss/custom-forms';
+@import '../../layout/screen-reader';
 
 .form-control {
   margin-bottom: 0.25rem;
@@ -12,12 +13,12 @@
 }
 
 cx-form-errors {
-  display: none;
+  @extend .cx-visually-hidden;
 
   &.control-invalid {
     &.control-dirty,
     &.control-touched {
-      display: initial;
+      @include reset-visually-hidden;
     }
   }
 
