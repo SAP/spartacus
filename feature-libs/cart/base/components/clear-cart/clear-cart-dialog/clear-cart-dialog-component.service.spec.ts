@@ -4,7 +4,6 @@ import { Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
@@ -58,36 +57,73 @@ describe('ClearCartDialogComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should determine clear cart progess', (done) => {
+  it('should determine clear cart process', (done) => {
     spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
 
-    service.clearActiveCart();
     service
       .isClearCartInProgress()
-      .pipe(take(1))
       .subscribe((clearing) => {
         expect(clearing).toBeTruthy();
         done();
-      });
+      })
+      .unsubscribe();
   });
 
-  it('should return clear cart not in progess when cart is stable ', (done) => {
+  it('should return clear cart not in process when cart is stable ', (done) => {
     spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+
     service
       .isClearCartInProgress()
-      .pipe(take(1))
       .subscribe((clearing) => {
         expect(clearing).toBeFalsy();
         done();
-      });
+      })
+      .unsubscribe();
   });
 
-  it('should get entries from active cart', () => {
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
+  it('should remove entries from active cart', () => {
+    spyOn(activeCartFacade, 'getEntries').and.returnValues(
+      of([mockCartEntry]),
+      of([])
+    );
+    spyOn(activeCartFacade, 'removeEntry').and.callThrough();
+    spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+    spyOn(launchDialogService, 'closeDialog').and.callThrough();
 
     service.clearActiveCart();
 
-    expect(activeCartFacade['getEntries']).toHaveBeenCalled();
+    expect(activeCartFacade.getEntries).toHaveBeenCalledWith();
+    expect(activeCartFacade.getEntries).toHaveBeenCalledTimes(2);
+    expect(activeCartFacade.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+    expect(activeCartFacade.isStable).toHaveBeenCalledWith();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Close dialog after cart cleared'
+    );
+    expect(globalMessageService.add).toHaveBeenCalledWith(
+      { key: 'clearCart.cartClearedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
+  });
+
+  it('should meet the problem while removing entries from active cart', () => {
+    spyOn(activeCartFacade, 'getEntries').and.returnValues(
+      of([mockCartEntry]),
+      of([mockCartEntry])
+    );
+    spyOn(activeCartFacade, 'removeEntry').and.callThrough();
+    spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
+    spyOn(launchDialogService, 'closeDialog').and.callThrough();
+
+    service.clearActiveCart();
+
+    expect(activeCartFacade.getEntries).toHaveBeenCalledWith();
+    expect(activeCartFacade.getEntries).toHaveBeenCalledTimes(2);
+    expect(activeCartFacade.removeEntry).toHaveBeenCalledWith(mockCartEntry);
+    expect(activeCartFacade.isStable).toHaveBeenCalledWith();
+    expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
+      'Close dialog after cart cleared'
+    );
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should display global message on success', () => {
