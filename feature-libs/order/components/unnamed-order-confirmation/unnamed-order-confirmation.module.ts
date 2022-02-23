@@ -55,15 +55,36 @@ const orderConfirmationComponents = [
           component: UnnamedOrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
+
         OrderConfirmationItemsComponent: {
           component: UnnamedOrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
         },
+        ReplenishmentConfirmationItemsComponent: {
+          component: UnnamedOrderConfirmationItemsComponent,
+          guards: [OrderConfirmationGuard],
+        },
+
         OrderConfirmationTotalsComponent: {
           component: UnnamedOrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
+        ReplenishmentConfirmationTotalsComponent: {
+          component: UnnamedOrderConfirmationTotalsComponent,
+          guards: [OrderConfirmationGuard],
+        },
+
         OrderConfirmationOverviewComponent: {
+          component: OrderDetailShippingComponent,
+          providers: [
+            {
+              provide: OrderDetailsService,
+              useExisting: UnnamedFacade,
+            },
+          ],
+          guards: [OrderConfirmationGuard],
+        },
+        ReplenishmentConfirmationOverviewComponent: {
           component: OrderDetailShippingComponent,
           providers: [
             {
