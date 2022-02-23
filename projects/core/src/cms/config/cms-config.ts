@@ -113,8 +113,6 @@ export interface FeatureModuleConfig {
    * Cms components covered by this feature
    */
   cmsComponents?: string[];
-
-  plugins?: (() => Promise<any>)[];
 }
 
 @Injectable({

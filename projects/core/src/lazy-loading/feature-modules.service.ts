@@ -53,8 +53,7 @@ export class FeatureModulesService {
               this.lazyModules.resolveModuleInstance(
                 featureConfig.module,
                 featureName,
-                deps,
-                featureConfig?.plugins
+                deps
               )
             ),
             shareReplay()

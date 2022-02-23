@@ -105,7 +105,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
+              "buildOptimizer": true,
               "serviceWorker": false,
               "tsConfig": "projects/storefrontapp/tsconfig.app.prod.json"
             },

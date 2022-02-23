@@ -10,12 +10,10 @@ import {
     provideConfig(<CmsConfig>{
       featureModules: {
         [CHECKOUT_FEATURE]: {
-          plugins: [
-            () =>
-              import('@spartacus/digital-payments').then(
-                (m) => m.DigitalPaymentsModule
-              ),
-          ],
+          module: () =>
+            import('@spartacus/digital-payments').then(
+              (m) => m.DigitalPaymentsModule
+            ),
         },
       },
     }),
