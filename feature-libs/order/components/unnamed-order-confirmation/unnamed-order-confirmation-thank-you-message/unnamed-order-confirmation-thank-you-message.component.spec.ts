@@ -7,6 +7,14 @@ import { of } from 'rxjs';
 import { UnnamedOrderConfirmationThankYouMessageComponent } from './unnamed-order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
 
+const replenishmentOrderCode = 'test-repl-code';
+const mockOrder = {
+  code: 'test-code-412',
+  guid: 'guid',
+  guestCustomer: true,
+  paymentInfo: { billingAddress: { email: 'test@test.com' } },
+};
+
 @Component({ selector: 'cx-add-to-home-screen-banner', template: '' })
 class MockAddtoHomeScreenBannerComponent {}
 
@@ -17,15 +25,7 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockUnnamedService implements Partial<UnnamedFacade> {
-  getCurrentOrderDetails = createSpy().and.returnValue(
-    of({
-      code: 'test-code-412',
-      guid: 'guid',
-      guestCustomer: true,
-      paymentInfo: { billingAddress: { email: 'test@test.com' } },
-      replenishmentOrderCode: 'test-repl-code',
-    })
-  );
+  getCurrentOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
 describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
@@ -67,7 +67,20 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
         .innerHTML
-    ).toContain('test-code-412');
+    ).toContain(mockOrder.code);
+  });
+
+  it('should display replenishment order code', () => {
+    checkoutService.getCurrentOrderDetails = createSpy().and.returnValue(
+      of({ ...mockOrder, replenishmentOrderCode })
+    );
+
+    component.ngOnInit();
+    fixture.detectChanges();
+    expect(
+      fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
+        .innerHTML
+    ).toContain(replenishmentOrderCode);
   });
 
   it('should display guest register form for guest user', () => {
