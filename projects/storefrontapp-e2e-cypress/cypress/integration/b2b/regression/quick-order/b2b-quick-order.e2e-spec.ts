@@ -149,6 +149,7 @@ context('B2B - Quick Order', () => {
         quickOrder.verifyQuickOrderPageDoNotShowEntryDeletionMessages();
       });
     });
+
     describe('Cart Page', () => {
       beforeEach(() => {
         quickOrder.prepareCartWithProduct();
