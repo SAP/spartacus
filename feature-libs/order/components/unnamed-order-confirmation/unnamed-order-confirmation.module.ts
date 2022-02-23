@@ -51,6 +51,10 @@ const orderConfirmationComponents = [
           component: UnnamedOrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
+        ReplenishmentConfirmationMessageComponent: {
+          component: UnnamedOrderConfirmationThankYouMessageComponent,
+          guards: [OrderConfirmationGuard],
+        },
         OrderConfirmationItemsComponent: {
           component: UnnamedOrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],

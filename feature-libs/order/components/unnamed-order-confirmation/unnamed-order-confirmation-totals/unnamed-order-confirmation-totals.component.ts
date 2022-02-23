@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-order-confirmation-totals',
-  templateUrl: './checkout-order-confirmation-totals.component.html',
+  templateUrl: './unnamed-order-confirmation-totals.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UnnamedOrderConfirmationTotalsComponent implements OnDestroy {

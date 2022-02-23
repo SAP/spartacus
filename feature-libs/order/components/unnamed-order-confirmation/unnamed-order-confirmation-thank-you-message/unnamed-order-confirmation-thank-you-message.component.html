@@ -2,7 +2,7 @@
   <div class="cx-page-header">
     <span class="cx-page-title">
       {{ 'checkoutOrderConfirmation.confirmationOfOrder' | cxTranslate }}
-      {{ order.code }}
+      {{ order.replenishmentOrderCode ?? order.code }}
     </span>
   </div>
 
