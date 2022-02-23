@@ -12,8 +12,12 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
+import { UnnamedScheduledReplenishmentEventModule } from './events/unnamed-scheduled-replenishment-event.module';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
-import { OrderDetailsOrderEntriesContextToken } from './tokens/context';
+import {
+  OrderConfirmationOrderEntriesContextToken,
+  OrderDetailsOrderEntriesContextToken,
+} from './tokens/context';
 
 // TODO: Inline this factory when we start releasing Ivy compiled libraries
 export function defaultOrderComponentsConfig(): CmsConfig {
@@ -52,6 +56,7 @@ export function defaultOrderComponentsConfig(): CmsConfig {
 
 @NgModule({
   imports: [
+    UnnamedScheduledReplenishmentEventModule,
     RouterModule.forChild([
       {
         // @ts-ignore
@@ -127,6 +132,18 @@ export function defaultOrderComponentsConfig(): CmsConfig {
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
         data: { cxRoute: 'returnRequestDetails' },
+      },
+      {
+        // @ts-ignore
+        path: null,
+        canActivate: [CmsPageGuard],
+        component: PageLayoutComponent,
+        data: {
+          cxRoute: 'orderConfirmation',
+          cxContext: {
+            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
+          },
+        },
       },
     ]),
   ],
