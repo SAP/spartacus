@@ -24,7 +24,7 @@ export class ClearCartDialogComponent implements OnDestroy {
 
   iconTypes = ICON_TYPE;
   isClearing$: Observable<boolean> =
-    this.clearCartDialogComponentService.getClearingCartProgress();
+    this.clearCartDialogComponentService.isClearCartInProgress();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {

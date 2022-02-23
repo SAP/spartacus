@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { skip, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 import createSpy = jasmine.createSpy;
 
 const mockCloseReason = 'Close Dialog';
@@ -22,9 +22,15 @@ class MockActiveCartFacade implements Partial<ActiveCartFacade> {
   getEntries(): Observable<OrderEntry[]> {
     return of();
   }
+
+  isStable(): Observable<boolean> {
+    return of();
+  }
+
+  removeEntry(): void {}
 }
 
-fdescribe('ClearCartDialogComponentService', () => {
+describe('ClearCartDialogComponentService', () => {
   let service: ClearCartDialogComponentService;
   let activeCartFacade: ActiveCartFacade;
   let launchDialogService: LaunchDialogService;
@@ -52,12 +58,12 @@ fdescribe('ClearCartDialogComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get and change clearing cart progess', (done) => {
+  it('should determine clear cart progess', (done) => {
     spyOn(activeCartFacade, 'isStable').and.returnValue(of(false));
 
     service.clearActiveCart();
     service
-      .getClearingCartProgress()
+      .isClearCartInProgress()
       .pipe(take(1))
       .subscribe((clearing) => {
         expect(clearing).toBeTruthy();
@@ -65,33 +71,29 @@ fdescribe('ClearCartDialogComponentService', () => {
       });
   });
 
-  it('should change clearing cart progess to false when done', (done) => {
-    // spyOn(service, 'clearCart').and.returnValue(of(true));
+  it('should return clear cart not in progess when cart is stable ', (done) => {
+    spyOn(activeCartFacade, 'isStable').and.returnValue(of(true));
     service
-      .getClearingCartProgress()
-      .pipe(skip(2))
+      .isClearCartInProgress()
+      .pipe(take(1))
       .subscribe((clearing) => {
         expect(clearing).toBeFalsy();
         done();
       });
-    service.clearActiveCart();
   });
 
-  it('should call clearCart', () => {
-    //spyOn(service, 'clearCart').and.returnValue(of(true));
+  it('should get entries from active cart', () => {
     spyOn(activeCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
 
     service.clearActiveCart();
 
     expect(activeCartFacade['getEntries']).toHaveBeenCalled();
-    //expect(service['clearCart']).toHaveBeenCalled();
   });
 
   it('should display global message on success', () => {
-    // spyOn(service, 'displayGlobalMessage').and.callThrough();
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([]));
+    spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
 
-    // service.onComplete();
+    service['displayGlobalMessage'](true);
 
     expect(globalMessageService.add).toHaveBeenCalledWith(
       {
@@ -101,12 +103,10 @@ fdescribe('ClearCartDialogComponentService', () => {
     );
   });
 
-  it('should not display global message if cart remains non empty', () => {
-    // spyOn(service, 'displayGlobalMessage').and.callThrough();
-    spyOn(activeCartFacade, 'getEntries').and.returnValue(of([mockCartEntry]));
+  it('should not display global message if clear cart is not successful', () => {
+    spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
 
-    // service.displayGlobalMessage();
-
+    service['displayGlobalMessage'](false);
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
