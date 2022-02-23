@@ -31,7 +31,7 @@ export const address = {
     streetAddress: 'Street Address',
     aptSuite: 'Apt, Suite',
     selectOne: 'Select One...',
-    setAsDefault: 'Set as default shipping address',
+    setAsDefault: 'Set as default delivery address',
     titleRequired: 'Title is required.',
     userAddressAddSuccess: 'New address was added successfully!',
     userAddressUpdateSuccess: 'Address updated successfully!',
@@ -39,15 +39,15 @@ export const address = {
     invalidAddress: 'Invalid Address',
   },
   addressBook: {
-    addNewShippingAddress: 'Add a new shipping address',
-    editShippingAddress: 'Edit shipping address',
+    addNewDeliveryAddress: 'Add a new delivery address',
+    editDeliveryAddress: 'Edit delivery address',
     areYouSureToDeleteAddress: 'Are you sure you want to delete this address?',
     addNewAddress: 'Add new address',
     addAddress: 'Add address',
     updateAddress: 'Update address',
     backToAddressList: 'Back to address list',
-    defaultShippingAddress: 'Default Shipping Address',
-    additionalShippingAddress: 'Additional Shipping Address {{number}}',
+    defaultDeliveryAddress: 'Default Delivery Address',
+    additionalDeliveryAddress: 'Additional Delivery Address {{number}}',
   },
   addressCard: {
     default: 'DEFAULT',
@@ -67,7 +67,7 @@ export const address = {
     saveAddress: 'Save address',
   },
   addressMessages: {
-    setAsDefaultSucessfully:
-      'Address {{ streetAddress }} was sucessfully set as default',
+    setAsDefaultSuccessfully:
+      'Address {{ streetAddress }} was successfully set as default',
   },
 };

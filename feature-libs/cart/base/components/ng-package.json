@@ -4,7 +4,9 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront"
+      "@spartacus/storefront": "storefront",
+      "@ng-select/ng-select": "ngSelect",
+      "@ng-bootstrap/ng-bootstrap": "ngBootstrap"
     }
   }
 }
