@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
 import {
   CmsConfig,
   CmsService,
@@ -7,6 +8,7 @@ import {
   I18nTestingModule,
   WindowRef,
 } from '@spartacus/core';
+import { BreakpointService } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { CmsComponentData } from '../../../cms-structure/index';
 import { OutletDirective } from '../../../cms-structure/outlet/index';
@@ -69,11 +71,16 @@ const MockCmsComponentData = <CmsComponentData<CMSTabParagraphContainer>>{
   data$: of(mockComponentData),
 };
 
+const MockBreakpointService = {
+  isDown: () => of(false),
+};
+
 describe('TabParagraphContainerComponent', () => {
   let component: TabParagraphContainerComponent;
   let fixture: ComponentFixture<TabParagraphContainerComponent>;
   let cmsService: CmsService;
   let windowRef: WindowRef;
+  let breakpointService: BreakpointService;
 
   beforeEach(
     waitForAsync(() => {
@@ -91,6 +98,7 @@ describe('TabParagraphContainerComponent', () => {
           { provide: CmsService, useValue: MockCmsService },
           { provide: CmsConfig, useValue: MockCmsModuleConfig },
           { provide: LayoutConfig, useValue: MockLayoutConfig },
+          { provide: BreakpointService, useValue: MockBreakpointService },
         ],
       }).compileComponents();
     })
@@ -101,12 +109,9 @@ describe('TabParagraphContainerComponent', () => {
     component = fixture.componentInstance;
     cmsService = TestBed.inject(CmsService);
     windowRef = TestBed.inject(WindowRef);
+    breakpointService = TestBed.inject(BreakpointService);
 
     spyOn(console, 'warn');
-  });
-
-  it('should create', () => {
-    expect(component).toBeTruthy();
   });
 
   it('should render child components', () => {
@@ -115,7 +120,7 @@ describe('TabParagraphContainerComponent', () => {
       of(mockTabComponentData2),
       of(mockTabComponentData3)
     );
-    let childComponents: any[];
+    let childComponents: any[] = [];
     component.components$
       .subscribe((components) => (childComponents = components))
       .unsubscribe();
@@ -130,28 +135,28 @@ describe('TabParagraphContainerComponent', () => {
   });
 
   it('should be able to get the active tab number', () => {
-    windowRef.nativeWindow.history.pushState(
+    windowRef.nativeWindow?.history.pushState(
       {
         activeTab: 1,
       },
-      null
+      ''
     );
     component.ngOnInit();
     // reset the state
-    windowRef.nativeWindow.history.replaceState(null, null);
+    windowRef.nativeWindow?.history.replaceState(null, '');
     expect(component.activeTabNum).toEqual(1);
   });
 
   it('active tab number must be -1', () => {
-    windowRef.nativeWindow.history.pushState(
+    windowRef.nativeWindow?.history.pushState(
       {
         activeTab: -1,
       },
-      null
+      ''
     );
     component.ngOnInit();
     // reset the state
-    windowRef.nativeWindow.history.replaceState(null, null);
+    windowRef.nativeWindow?.history.replaceState(null, '');
     expect(component.activeTabNum).toEqual(-1);
   });
 
@@ -193,5 +198,38 @@ describe('TabParagraphContainerComponent', () => {
     });
 
     expect(param).toEqual('title param');
+  });
+
+  it('should contain aria-expanded attribute on mobile', () => {
+    spyOn(cmsService, 'getComponentData').and.returnValues(
+      of(mockTabComponentData1),
+      of(mockTabComponentData2),
+      of(mockTabComponentData3)
+    );
+    spyOn(breakpointService, 'isDown').and.returnValue(of(true));
+
+    fixture.detectChanges();
+
+    const tabElements = fixture.debugElement.queryAll(By.css('button'));
+
+    tabElements.forEach((tab) =>
+      expect(tab.nativeElement.ariaExpanded).toBeDefined()
+    );
+  });
+
+  it('should not contain aria-expanded attribute if not mobile', () => {
+    spyOn(cmsService, 'getComponentData').and.returnValues(
+      of(mockTabComponentData1),
+      of(mockTabComponentData2),
+      of(mockTabComponentData3)
+    );
+
+    spyOn(breakpointService, 'isDown').and.returnValue(of(false));
+
+    fixture.detectChanges();
+
+    const tabs = fixture.debugElement.queryAll(By.css('button'));
+
+    tabs.forEach((tab) => expect(tab.nativeElement.ariaExpanded).toEqual(null));
   });
 });
