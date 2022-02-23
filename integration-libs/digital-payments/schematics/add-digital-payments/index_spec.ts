@@ -11,7 +11,6 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
-  CLI_CHECKOUT_BASE_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   LibraryOptions,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
@@ -149,7 +148,7 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           .map(
             (task) => task.options as RunSchematicTaskOptions<LibraryOptions>
           );
-        expect(tasks.length).toEqual(3);
+        expect(tasks.length).toEqual(2);
 
         const cartTask = tasks[0];
         expect(cartTask).toBeTruthy();
@@ -165,19 +164,11 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           SPARTACUS_CHECKOUT
         );
         expect(checkoutTask.options.options?.features).toEqual([]);
+      });
 
-        const checkoutTaskWithSubFeatures = tasks[2];
-        expect(checkoutTaskWithSubFeatures).toBeTruthy();
-        expect(checkoutTaskWithSubFeatures.name).toEqual(
-          'add-spartacus-library'
-        );
-        expect(checkoutTaskWithSubFeatures.options).toHaveProperty(
-          'collection',
-          SPARTACUS_CHECKOUT
-        );
-        expect(checkoutTaskWithSubFeatures.options.options?.features).toEqual([
-          CLI_CHECKOUT_BASE_FEATURE,
-        ]);
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
       });
     });
 
