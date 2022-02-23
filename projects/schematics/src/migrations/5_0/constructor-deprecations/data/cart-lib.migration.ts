@@ -44,8 +44,8 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/core'
 			},
 			{
-				className: 'CmsComponentData<CmsQuickOrderComponent>',
-				importPath: ''
+				className: 'CmsComponentData',
+				importPath: '@spartacus/storefront'
 			},
 			{
 				className: 'GlobalMessageService',
@@ -180,7 +180,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/cart/saved-cart/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithMultiCart | StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -766,16 +766,16 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/core'
 			},
 			{
-				className: 'PaymentTypeFacade | undefined',
-				importPath: ''
+				className: 'PaymentTypeFacade',
+				importPath: '@spartacus/checkout/root'
 			},
 			{
-				className: 'UserCostCenterService | undefined',
-				importPath: ''
+				className: 'UserCostCenterService',
+				importPath: '@spartacus/core'
 			},
 			{
-				className: 'CheckoutCostCenterFacade | undefined',
-				importPath: ''
+				className: 'CheckoutCostCenterFacade',
+				importPath: '@spartacus/checkout/root'
 			}
 		],
 		removeParams: [
@@ -788,12 +788,12 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/core'
 			},
 			{
-				className: 'PaymentTypeFacade | undefined',
-				importPath: ''
+				className: 'PaymentTypeFacade',
+				importPath: '@spartacus/checkout/root'
 			},
 			{
-				className: 'CheckoutCostCenterFacade | undefined',
-				importPath: ''
+				className: 'CheckoutCostCenterFacade',
+				importPath: '@spartacus/checkout/root'
 			}
 		],
 		addParams: [
@@ -806,12 +806,12 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/cart/base/root'
 			},
 			{
-				className: 'PaymentTypeFacade | undefined',
-				importPath: ''
+				className: 'PaymentTypeFacade',
+				importPath: '@spartacus/checkout/root'
 			},
 			{
-				className: 'CheckoutCostCenterFacade | undefined',
-				importPath: ''
+				className: 'CheckoutCostCenterFacade',
+				importPath: '@spartacus/checkout/root'
 			}
 		]
 	},
@@ -820,7 +820,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/checkout/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithCheckout>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -850,11 +850,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/checkout/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithCheckout>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -918,11 +918,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/checkout/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithCheckout>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -956,11 +956,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/checkout/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithCheckout>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -990,11 +990,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/checkout/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithCheckout>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1024,7 +1024,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithMultiCart>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1038,7 +1038,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'Store<StateWithMultiCart>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1196,7 +1196,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/core',
 		deprecatedParams: [
 			{
-				className: 'Store<fromProcessStore.StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1210,7 +1210,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'Store<fromProcessStore.StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1220,7 +1220,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		addParams: [
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1255,7 +1255,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithUser | StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1265,17 +1265,17 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'Store<StateWithUser | StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			}
 		],
 		addParams: [
 			{
-				className: 'Store<StateWithOrder>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
-				className: 'Store<StateWithProcess<void>>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			}
 		]
@@ -1285,7 +1285,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithMultiCart>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1311,7 +1311,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'Store<StateWithMultiCart>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1335,7 +1335,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/core',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithMultiCart>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1369,7 +1369,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithConfigurator>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1411,7 +1411,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		importPath: '@spartacus/product-configurator/rulebased',
 		deprecatedParams: [
 			{
-				className: 'Store<StateWithConfigurator>',
+				className: 'Store',
 				importPath: '@ngrx/store'
 			},
 			{
@@ -1525,8 +1525,8 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/core'
 			},
 			{
-				className: 'CmsComponentData<CmsAddToCartComponent>',
-				importPath: ''
+				className: 'CmsComponentData',
+				importPath: '@spartacus/storefront'
 			}
 		],
 		removeParams: [
@@ -1549,8 +1549,8 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/core'
 			},
 			{
-				className: 'ProductListItemContext | undefined',
-				importPath: ''
+				className: 'ProductListItemContext',
+				importPath: '@spartacus/storefront'
 			}
 		]
 	},
@@ -1747,8 +1747,8 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@angular/core'
 			},
 			{
-				className: 'OutletContextData<ItemListContext> | undefined',
-				importPath: ''
+				className: 'OutletContextData',
+				importPath: '@spartacus/storefront'
 			}
 		]
 	},
@@ -1811,7 +1811,7 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/cart/base/root'
 			},
 			{
-				className: 'Router | undefined',
+				className: 'Router',
 				importPath: '@angular/router'
 			}
 		]
@@ -2127,14 +2127,14 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				importPath: '@spartacus/storefront'
 			},
 			{
-				className: 'PageLayoutHandler[]',
-				importPath: ''
+				className: 'PageLayoutHandler',
+				importPath: '@spartacus/storefront'
 			}
 		],
 		removeParams: [
 			{
-				className: 'PageLayoutHandler[]',
-				importPath: ''
+				className: 'PageLayoutHandler',
+				importPath: '@spartacus/storefront'
 			}
 		],
 		addParams: [
