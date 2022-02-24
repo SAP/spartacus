@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  TestBedStatic,
+  TestBedStatic
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,19 +12,19 @@ import {
   ActiveCartFacade,
   Cart,
   CartUiEventAddToCart,
-  OrderEntry,
+  OrderEntry
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
   I18nTestingModule,
-  Product,
+  Product
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ProductListItemContext,
-  SpinnerModule,
+  SpinnerModule
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';
@@ -89,10 +89,7 @@ class MockActiveCartService {
     return of([]);
   }
   getLastEntry(_productCode: string): Observable<OrderEntry> {
-    return of({
-      quantity: 5,
-      entryNumber: 0,
-    } as OrderEntry);
+    return of();
   }
 }
 
@@ -301,21 +298,6 @@ describe('AddToCartComponent', () => {
         addToCartComponent.addToCart();
 
         expect(eventService.dispatch).toHaveBeenCalledWith(uiEvent);
-      });
-
-      it('should set the real quanity to counter', () => {
-        spyOn(activeCartFacade, 'getEntries').and.returnValue(
-          of([{}, {}] as OrderEntry[])
-        );
-        spyOn(eventService, 'dispatch').and.callThrough();
-
-        addToCartComponent.addToCartForm.get('quantity')?.setValue(10);
-        addToCartComponent.productCode = mockProductCode;
-
-        addToCartComponent.addToCart();
-
-        const qty = addToCartComponent.addToCartForm.get('quantity');
-        expect(qty?.value).toBe(5);
       });
     });
 

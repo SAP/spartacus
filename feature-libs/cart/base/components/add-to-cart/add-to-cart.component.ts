@@ -5,24 +5,22 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  Optional
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
-  CartUiEventAddToCart,
+  CartUiEventAddToCart
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
-  isNotNullable,
-  isNotUndefined,
-  Product,
+  isNotNullable, Product
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  ProductListItemContext,
+  ProductListItemContext
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
@@ -155,17 +153,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
           )
         );
       });
-
-    if (this.lastEntrySub === undefined) {
-      this.lastEntrySub = this.activeCartService
-        .getLastEntry(this.productCode)
-        .pipe(filter(isNotUndefined))
-        .subscribe((entry) => {
-          if (entry.quantity && entry.quantity < quantity) {
-            this.addToCartForm.get('quantity')?.setValue(entry.quantity);
-          }
-        });
-    }
   }
 
   protected createCartUiEventAddToCart(
@@ -183,10 +170,6 @@ export class AddToCartComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.subscription) {
       this.subscription.unsubscribe();
-    }
-
-    if (this.lastEntrySub) {
-      this.lastEntrySub.unsubscribe();
     }
   }
 }
