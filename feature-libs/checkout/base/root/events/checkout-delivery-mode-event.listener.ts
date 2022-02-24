@@ -77,6 +77,11 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     );
   }
 
+  /**
+   * Registers listeners for the delivery mode clear event.
+   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
+   * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
+   */
   protected onDeliveryModeReset(): void {
     this.subscriptions.add(
       this.eventService
