@@ -21,10 +21,7 @@
             class="btn btn-link button-add cx-action-link"
             (click)="add(product)"
             [disabled]="loading$ | async"
-            [cxAtMessage]="
-              'addToWishList.addedToWishList'
-                | cxTranslate: { product: product.name }
-            "
+            [cxAtMessage]="'addToWishList.addedToWishList' | cxTranslate"
           >
             <cx-icon [type]="iconTypes.EMPTY_HEART"></cx-icon>
             <span class="button-text">{{
