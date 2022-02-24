@@ -974,28 +974,6 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
-    class: 'LoadWishListSuccess',
-    importPath: '@spartacus/core',
-    deprecatedParams: [
-      {
-        className: 'LoadWishListSuccessPayload',
-        importPath: '',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'LoadWishListSuccessPayload',
-        importPath: '',
-      },
-    ],
-    addParams: [
-      {
-        className: '{\n        cart: Cart;\n        cartId: string;\n    }',
-        importPath: '',
-      },
-    ],
-  },
-  {
     class: 'CartEventBuilder',
     importPath: '@spartacus/core',
     deprecatedParams: [
