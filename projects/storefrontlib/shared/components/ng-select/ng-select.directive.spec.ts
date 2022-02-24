@@ -1,4 +1,4 @@
-import { Component, DebugElement, AfterViewInit } from '@angular/core';
+import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CxNgSelectModule } from './ng-select.module';
 import { NgSelectDirective } from './ng-select.directive';
@@ -14,9 +14,7 @@ import { By } from '@angular/platform-browser';
     </ng-select>
   `,
 })
-class MockComponent implements AfterViewInit {
-  ngAfterViewInit(): void {}
-}
+class MockComponent {}
 
 fdescribe('NgSelectDirective', () => {
   let component: MockComponent;
@@ -38,12 +36,9 @@ fdescribe('NgSelectDirective', () => {
     return fixture.debugElement.query(By.directive(NgSelectDirective));
   }
 
-  it('should create test component', () => {
+  it('should create test ng-select with listbox and tabindex attributes', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
-  });
-
-  it('should have listbox and tabindex attributes', () => {
-    component.ngAfterViewInit();
     const select = getNgSelect().nativeElement;
     console.log(select);
 
