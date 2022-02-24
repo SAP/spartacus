@@ -50,7 +50,6 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   iconTypes = ICON_TYPE;
   isGuestCheckout = false;
   newPaymentFormManuallyOpened = false;
-  shouldRedirect = false;
   doneAutoSelect = false;
   paymentDetails?: PaymentDetails;
 
@@ -80,12 +79,9 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      tap((paymentInfo) => {
-        if (paymentInfo && !!Object.keys(paymentInfo).length) {
-          if (this.shouldRedirect) {
-            this.next();
-          }
-        }
+      distinctUntilChanged((prev, curr) => {
+        console.log('ab called');
+        return prev?.id === curr?.id;
       })
     );
   }
@@ -229,12 +225,11 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.checkoutPaymentFacade.createPaymentDetails(details).subscribe({
         complete: () => {
-          this.onSuccess();
-          this.shouldRedirect = true;
+          // we don't call onSuccess here, because it can cause a spinner flickering
+          this.next();
         },
         error: () => {
           this.onError();
-          this.shouldRedirect = false;
         },
       })
     );

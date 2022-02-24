@@ -41,7 +41,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   isUpdating$: Observable<boolean>;
 
   addressFormOpened = false;
-  shouldRedirect = false; // this helps with smoother steps transition
   doneAutoSelect = false;
 
   get isGuestCheckout(): boolean {
@@ -56,12 +55,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged((prev, curr) => prev?.id === curr?.id),
-      tap((address) => {
-        if (address && this.shouldRedirect) {
-          this.next();
-        }
-      })
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
     );
   }
 
@@ -126,8 +120,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   addAddress(address: Address | undefined): void {
     if (!address) {
-      this.shouldRedirect = false;
-      this.next();
       return;
     }
 
@@ -142,12 +134,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       )
       .subscribe({
         complete: () => {
-          this.onSuccess();
-          this.shouldRedirect = true;
+          // we don't call onSuccess here, because it can cause a spinner flickering
+          this.next();
         },
         error: () => {
           this.onError();
-          this.shouldRedirect = false;
         },
       });
   }

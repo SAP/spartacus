@@ -108,9 +108,9 @@ export class B2BCheckoutDeliveryAddressComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.isAccountPayment$
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
+      this.isAccountPayment$.subscribe(
+        (isAccount) => (this.isAccountPayment = isAccount)
+      )
     );
 
     super.ngOnInit();
