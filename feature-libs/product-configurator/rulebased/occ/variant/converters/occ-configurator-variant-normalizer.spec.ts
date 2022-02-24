@@ -1164,7 +1164,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
       domainValues: domainValuesWithIntervals,
     };
 
-    const configuration1: OccConfigurator.Configuration = {
+    const configuration: OccConfigurator.Configuration = {
       configId: configId,
       complete: true,
       consistent: true,
@@ -1192,7 +1192,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
     });
 
     it('should convert a configuration with interval attribute', () => {
-      const result = occConfiguratorVariantNormalizer.convert(configuration1);
+      const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.groups[0].attributes[0].placeholder).toBe('2-5 ; 10-12');
     });
   });
