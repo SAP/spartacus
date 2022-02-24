@@ -373,20 +373,12 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 				className: 'ActiveCartService',
 				importPath: '@spartacus/core'
 			},
-			{
-				className: 'UserAccountFacade',
-				importPath: '@spartacus/user/account/root'
-			}
 		],
 		addParams: [
 			{
 				className: 'ActiveCartFacade',
 				importPath: '@spartacus/cart/base/root'
 			},
-			{
-				className: 'UserAccountFacade',
-				importPath: '@spartacus/user/account/root'
-			}
 		]
 	},
 	{
@@ -412,35 +404,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'CheckoutFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutPaymentFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
 				className: 'ActiveCartService',
 				importPath: '@spartacus/core'
 			}
 		],
 		addParams: [
-			{
-				className: 'CheckoutFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutPaymentFacade',
-				importPath: '@spartacus/checkout/root'
-			},
 			{
 				className: 'ActiveCartFacade',
 				importPath: '@spartacus/cart/base/root'
@@ -644,41 +612,17 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'CheckoutFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutPaymentFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
 				className: 'ActiveCartService',
 				importPath: '@spartacus/core'
 			}
 		],
 		addParams: [
 			{
-				className: 'CheckoutFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutPaymentFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
 				className: 'ActiveCartFacade',
 				importPath: '@spartacus/cart/base/root'
 			}
 		]
-	},
+		},
 	{
 		class: 'ReviewSubmitComponent',
 		importPath: '@spartacus/checkout/components',
@@ -780,41 +724,17 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
 				className: 'ActiveCartService',
 				importPath: '@spartacus/core'
 			},
-			{
-				className: 'PaymentTypeFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutCostCenterFacade',
-				importPath: '@spartacus/checkout/root'
-			}
 		],
 		addParams: [
-			{
-				className: 'CheckoutDeliveryFacade',
-				importPath: '@spartacus/checkout/root'
-			},
 			{
 				className: 'ActiveCartFacade',
 				importPath: '@spartacus/cart/base/root'
 			},
-			{
-				className: 'PaymentTypeFacade',
-				importPath: '@spartacus/checkout/root'
-			},
-			{
-				className: 'CheckoutCostCenterFacade',
-				importPath: '@spartacus/checkout/root'
-			}
 		]
-	},
+		},
 	{
 		class: 'CheckoutCostCenterService',
 		importPath: '@spartacus/checkout/core',
@@ -1054,50 +974,6 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		]
 	},
 	{
-		class: 'CreateWishList',
-		importPath: '@spartacus/core',
-		deprecatedParams: [
-			{
-				className: '{\n        userId: string;\n        name: string;\n        description?: string;\n    }',
-				importPath: ''
-			}
-		],
-		removeParams: [
-			{
-				className: '{\n        userId: string;\n        name: string;\n        description?: string;\n    }',
-				importPath: ''
-			}
-		],
-		addParams: [
-			{
-				className: '{\n        userId: string;\n        name?: string;\n        description?: string;\n    }',
-				importPath: ''
-			}
-		]
-	},
-	{
-		class: 'CreateWishListSuccess',
-		importPath: '@spartacus/core',
-		deprecatedParams: [
-			{
-				className: '{\n        cart: Cart;\n        userId: string;\n    }',
-				importPath: ''
-			}
-		],
-		removeParams: [
-			{
-				className: '{\n        cart: Cart;\n        userId: string;\n    }',
-				importPath: ''
-			}
-		],
-		addParams: [
-			{
-				className: '{\n        cart: Cart;\n        cartId: string;\n    }',
-				importPath: ''
-			}
-		]
-	},
-	{
 		class: 'LoadWishListSuccess',
 		importPath: '@spartacus/core',
 		deprecatedParams: [
@@ -1210,19 +1086,11 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 		],
 		removeParams: [
 			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			},
-			{
 				className: 'ActiveCartService',
 				importPath: '@spartacus/core'
 			}
 		],
 		addParams: [
-			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			},
 			{
 				className: 'ActiveCartFacade',
 				importPath: '@spartacus/cart/base/root'
@@ -1249,36 +1117,6 @@ export const CART_LIB_MIGRATION: ConstructorDeprecation[] = [
 			}
 		],
 		addParams: []
-	},
-	{
-		class: 'OrderReturnRequestService',
-		importPath: '@spartacus/core',
-		deprecatedParams: [
-			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			},
-			{
-				className: 'UserIdService',
-				importPath: '@spartacus/core'
-			}
-		],
-		removeParams: [
-			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			}
-		],
-		addParams: [
-			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			},
-			{
-				className: 'Store',
-				importPath: '@ngrx/store'
-			}
-		]
 	},
 	{
 		class: 'SelectiveCartService',
