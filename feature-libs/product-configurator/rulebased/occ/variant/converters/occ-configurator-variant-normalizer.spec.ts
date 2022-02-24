@@ -1148,4 +1148,52 @@ describe('OccConfiguratorVariantNormalizer', () => {
       expect(values[0].selected).toBe(false);
     });
   });
+
+  describe('getPlaceholder', () => {
+    const domainValuesWithIntervals: OccConfigurator.Value[] = [
+      { key: valueKey, name: '2-5' },
+      { key: valueKey, name: '10-12' },
+    ];
+
+    const occAttributeWithIntervalValues: OccConfigurator.Attribute = {
+      name: 'attributewithIntervals',
+      required: requiredFlag,
+      type: OccConfigurator.UiType.NUMERIC,
+      key: groupKey,
+      intervalInDomain: true,
+      domainValues: domainValuesWithIntervals,
+    };
+
+    const configuration1: OccConfigurator.Configuration = {
+      configId: configId,
+      complete: true,
+      consistent: true,
+      rootProduct: 'CONF_PRODUCT',
+      groups: [
+        {
+          attributes: [occAttributeWithIntervalValues],
+          groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+          id: '1',
+        },
+      ],
+    };
+
+    it('should not fill placeholder if isIntervalInDomain is false', () => {
+      const result = occConfiguratorVariantNormalizer.getPlaceholder(
+        domainValuesWithIntervals,
+        false
+      );
+      expect(result).toBeUndefined;
+    });
+
+    it('should not fill placeholder if domainValues are empty', () => {
+      const result = occConfiguratorVariantNormalizer.getPlaceholder([], true);
+      expect(result).toBeUndefined;
+    });
+
+    it('should convert a configuration with interval attribute', () => {
+      const result = occConfiguratorVariantNormalizer.convert(configuration1);
+      expect(result.groups[0].attributes[0].placeholder).toBe('2-5 ; 10-12');
+    });
+  });
 });
