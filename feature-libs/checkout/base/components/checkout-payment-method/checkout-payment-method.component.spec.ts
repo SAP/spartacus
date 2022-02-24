@@ -41,6 +41,35 @@ const mockPaymentDetails: PaymentDetails = {
   cvn: '123',
 };
 
+const mockPayments: PaymentDetails[] = [
+  {
+    id: 'non default method',
+    accountHolderName: 'Name',
+    cardNumber: '123456789',
+    cardType: {
+      code: 'Visa',
+      name: 'Visa',
+    },
+    expiryMonth: '01',
+    expiryYear: '2022',
+    cvn: '123',
+  },
+  {
+    id: 'default payment method',
+    accountHolderName: 'Name',
+    cardNumber: '123456789',
+    cardType: {
+      code: 'Visa',
+      name: 'Visa',
+    },
+    expiryMonth: '01',
+    expiryYear: '2022',
+    cvn: '123',
+    defaultPayment: true,
+  },
+  mockPaymentDetails,
+];
+
 class MockUserPaymentService implements Partial<UserPaymentService> {
   loadPaymentMethods(): void {}
   getPaymentMethods(): Observable<PaymentDetails[]> {
@@ -52,9 +81,7 @@ class MockUserPaymentService implements Partial<UserPaymentService> {
 }
 
 class MockCheckoutPaymentService implements Partial<CheckoutPaymentFacade> {
-  setPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
-    return of();
-  }
+  setPaymentDetails = createSpy().and.returnValue(of());
   createPaymentDetails(_paymentDetails: PaymentDetails): Observable<unknown> {
     return of();
   }
@@ -136,6 +163,7 @@ describe('CheckoutPaymentMethodComponent', () => {
   let mockCheckoutPaymentService: CheckoutPaymentFacade;
   let mockActiveCartService: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -174,12 +202,16 @@ describe('CheckoutPaymentMethodComponent', () => {
       checkoutStepService = TestBed.inject(
         CheckoutStepService as Type<CheckoutStepService>
       );
+      globalMessageService = TestBed.inject(GlobalMessageService);
     })
   );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CheckoutPaymentMethodComponent);
     component = fixture.componentInstance;
+
+    spyOn(component, 'selectPaymentMethod').and.callThrough();
+    spyOn<any>(component, 'savePaymentMethod').and.callThrough();
   });
 
   it('should be created', () => {
@@ -208,33 +240,6 @@ describe('CheckoutPaymentMethodComponent', () => {
     });
 
     it('should select default payment method when nothing is selected', () => {
-      const mockPayments: PaymentDetails[] = [
-        {
-          id: 'non default method',
-          accountHolderName: 'Name',
-          cardNumber: '123456789',
-          cardType: {
-            code: 'Visa',
-            name: 'Visa',
-          },
-          expiryMonth: '01',
-          expiryYear: '2022',
-          cvn: '123',
-        },
-        {
-          id: 'default payment method',
-          accountHolderName: 'Name',
-          cardNumber: '123456789',
-          cardType: {
-            code: 'Visa',
-            name: 'Visa',
-          },
-          expiryMonth: '01',
-          expiryYear: '2022',
-          cvn: '123',
-          defaultPayment: true,
-        },
-      ];
       spyOn(mockUserPaymentService, 'getPaymentMethods').and.returnValue(
         of(mockPayments)
       );
@@ -242,7 +247,6 @@ describe('CheckoutPaymentMethodComponent', () => {
         mockCheckoutPaymentService,
         'getPaymentDetailsState'
       ).and.returnValue(of({ loading: false, error: false, data: undefined }));
-      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -447,7 +451,6 @@ describe('CheckoutPaymentMethodComponent', () => {
       ).and.returnValue(
         of({ loading: false, error: false, data: mockPaymentDetails })
       );
-      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -499,7 +502,6 @@ describe('CheckoutPaymentMethodComponent', () => {
       ).and.returnValue(
         of({ loading: false, error: false, data: mockPaymentDetails })
       );
-      spyOn(mockCheckoutPaymentService, 'setPaymentDetails').and.callThrough();
 
       component.ngOnInit();
       fixture.detectChanges();
@@ -530,6 +532,35 @@ describe('CheckoutPaymentMethodComponent', () => {
       expect(checkoutStepService.back).toHaveBeenCalledWith(
         <any>mockActivatedRoute
       );
+    });
+
+    it('should be able to payment method', () => {
+      component.selectPaymentMethod(mockPaymentDetails);
+
+      expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
+        mockPaymentDetails
+      );
+      expect(component['savePaymentMethod']).toHaveBeenCalledWith(
+        mockPaymentDetails
+      );
+      expect(globalMessageService.add).toHaveBeenCalled();
+    });
+
+    it('should NOT be able to select payment method if the selection is the same as the currently set payment details', () => {
+      mockCheckoutPaymentService.getPaymentDetailsState =
+        createSpy().and.returnValue(
+          of({ loading: false, error: false, data: mockPayments[0] })
+        );
+
+      component.selectPaymentMethod(mockPayments[0]);
+
+      expect(
+        mockCheckoutPaymentService.setPaymentDetails
+      ).not.toHaveBeenCalledWith(mockPayments[0]);
+      expect(component['savePaymentMethod']).not.toHaveBeenCalledWith(
+        mockPayments[0]
+      );
+      expect(globalMessageService.add).not.toHaveBeenCalled();
     });
   });
 });
