@@ -22,7 +22,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { B2BCheckoutDeliveryAddressComponent } from './checkout-delivery-address.component';
 import createSpy = jasmine.createSpy;
 
@@ -60,9 +60,10 @@ class MockCheckoutStepService implements Partial<CheckoutStepService> {
   }
 }
 
+const accountPayment$ = new BehaviorSubject<boolean>(true);
 class MockPaymentTypeService implements Partial<CheckoutPaymentTypeFacade> {
   isAccountPayment(): Observable<boolean> {
-    return of(true);
+    return accountPayment$.asObservable();
   }
 }
 
@@ -164,7 +165,6 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
   let activeCartFacade: ActiveCartFacade;
   let checkoutStepService: CheckoutStepService;
   let userCostCenterService: UserCostCenterService;
-  let checkoutPaymentTypeFacade: CheckoutPaymentTypeFacade;
   let globalMessageService: GlobalMessageService;
   let checkoutDeliveryModesFacade: CheckoutDeliveryModesFacade;
 
@@ -218,7 +218,6 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       );
       userAddressService = TestBed.inject(UserAddressService);
       userCostCenterService = TestBed.inject(UserCostCenterService);
-      checkoutPaymentTypeFacade = TestBed.inject(CheckoutPaymentTypeFacade);
       globalMessageService = TestBed.inject(GlobalMessageService);
       checkoutDeliveryModesFacade = TestBed.inject(CheckoutDeliveryModesFacade);
     })
@@ -231,6 +230,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     spyOn(component, 'addAddress').and.callThrough();
     spyOn(component, 'selectAddress').and.callThrough();
     spyOn<any>(component, 'setAddress').and.callThrough();
+    accountPayment$.next(true);
   });
 
   it('should be created', () => {
@@ -243,9 +243,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
   describe('should call ngOnInit', () => {
     it('for login user, should load user addresses if payment type is card', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
       spyOn(userAddressService, 'loadAddresses').and.stub();
 
       component.ngOnInit();
@@ -264,9 +262,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     it('for guest user, should not load user addresses', () => {
       spyOn(activeCartFacade, 'isGuestCart').and.returnValue(of(true));
       spyOn(userAddressService, 'loadAddresses').and.stub();
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
 
       component.ngOnInit();
       expect(userAddressService.loadAddresses).not.toHaveBeenCalled();
@@ -277,13 +273,11 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       expect(checkoutDeliveryFacade.createAndSetAddress).not.toHaveBeenCalled();
     });
 
-    it('should return false when checkout flow is ACCOUNT', () => {
+    it('should return false when checkout flow is NOT ACCOUNT', () => {
       spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
         of({ loading: false, error: false, data: mockAddress1 })
       );
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
       component.isUpdating$ = of(false);
 
       component.ngOnInit();
@@ -294,9 +288,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       spyOn(checkoutDeliveryFacade, 'getDeliveryAddressState').and.returnValue(
         of({ loading: false, error: false, data: mockAddress1 })
       );
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(true)
-      );
+      accountPayment$.next(true);
       component.isUpdating$ = of(false);
 
       component.ngOnInit();
@@ -339,7 +331,6 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
   it('should be able to add address', () => {
     component.addAddress({});
-    expect(component.shouldRedirect).toBeTruthy();
     expect(checkoutDeliveryFacade.createAndSetAddress).toHaveBeenCalledWith({});
     expect(
       checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
@@ -391,9 +382,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
   describe('should be able to get supported address', () => {
     it('for ACCOUNT payment', (done) => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(true)
-      );
+      accountPayment$.next(true);
       spyOn(userCostCenterService, 'getCostCenterAddresses').and.returnValue(
         of([])
       );
@@ -409,9 +398,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
 
     it('for CARD payment', (done) => {
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
 
       component.ngOnInit();
       component['getSupportedAddresses']().subscribe(() => {
@@ -480,9 +467,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should not display if existing addresses are loading', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
 
       component.isUpdating$ = of(true);
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
@@ -502,9 +487,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       fixture.debugElement.query(By.css('cx-address-form'));
 
     it('should render only after user clicks "add new address" button if there are some existing addresses', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
       spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
@@ -521,9 +504,7 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
     });
 
     it('should render on init if there are no existing addresses', () => {
-      spyOn(checkoutPaymentTypeFacade, 'isAccountPayment').and.returnValue(
-        of(false)
-      );
+      accountPayment$.next(false);
       spyOn(userAddressService, 'getAddressesLoading').and.returnValue(
         of(false)
       );
