@@ -109,6 +109,10 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     this.checkoutStepService.back(this.activatedRoute);
   }
 
+  getAriaChecked(code: string): boolean {
+    return code === this.mode.controls['deliveryModeId'].value;
+  }
+
   protected onSuccess(): void {
     (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
   }

@@ -580,6 +580,7 @@ export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
+export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 
 export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
 export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
