@@ -396,14 +396,14 @@ describe('B2BCheckoutDeliveryAddressComponent', () => {
       });
     });
 
-    it('for CARD payment', (done) => {
+    it('for CARD payment', () => {
       spyOn(userAddressService, 'getAddresses').and.returnValue(of([]));
       accountPayment$.next(false);
 
       component.ngOnInit();
+      fixture.detectChanges();
       component['getSupportedAddresses']().subscribe(() => {
         expect(userAddressService.getAddresses).toHaveBeenCalled();
-        done();
       });
     });
   });
