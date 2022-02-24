@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { LoadCartEvent } from '@spartacus/cart/base/root';
 import {
+  createFrom,
   CxEvent,
   DeleteUserAddressEvent,
   EventService,
@@ -15,6 +17,9 @@ import {
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
+
+const mockUserId = 'test-user-id';
+const mockCartId = 'test-cart-id';
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
@@ -94,6 +99,22 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
+      );
+    });
+  });
+
+  describe(`onDeliveryModeReset`, () => {
+    it(`CheckoutResetDeliveryModesEvent should dispatch LoadCartEvent()`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutResetDeliveryModesEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });

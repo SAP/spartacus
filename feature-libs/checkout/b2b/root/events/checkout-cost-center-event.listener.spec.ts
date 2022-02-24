@@ -3,12 +3,14 @@ import {
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from '@spartacus/checkout/base/root';
-import { CxEvent, EventService } from '@spartacus/core';
+import { createFrom, CxEvent, EventService } from '@spartacus/core';
 import { Subject } from 'rxjs';
 import { CostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
 import createSpy = jasmine.createSpy;
 
+const mockUserId = 'test-user-id';
+const mockCartId = 'test-cart-id';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
@@ -36,10 +38,16 @@ describe(`CheckoutCostCenterEventListener`, () => {
 
   describe(`onCostCenterChange`, () => {
     it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new CostCenterSetEvent());
+      mockEventStream$.next(
+        createFrom(CostCenterSetEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          code: 'test-cost-center',
+        })
+      );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { userId: mockUserId, cartId: mockCartId },
         CheckoutResetDeliveryModesEvent
       );
     });
