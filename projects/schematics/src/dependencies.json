@@ -13,9 +13,6 @@
     "i18next-http-backend": "^1.2.2",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/incubator": {
-    "@angular/core": "^12.0.5"
-  },
   "@spartacus/schematics": {
     "@angular-devkit/core": "^12.0.5",
     "@angular-devkit/schematics": "^12.0.5",
