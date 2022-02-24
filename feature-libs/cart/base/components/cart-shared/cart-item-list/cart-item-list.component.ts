@@ -5,7 +5,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional,
+  Optional
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
@@ -15,7 +15,7 @@ import {
   MultiCartFacade,
   OrderEntry,
   PromotionLocation,
-  SelectiveCartFacade,
+  SelectiveCartFacade
 } from '@spartacus/cart/base/root';
 import { UserIdService } from '@spartacus/core';
 import { OutletContextData } from '@spartacus/storefront';
@@ -153,6 +153,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
           if (!items[i]) {
             this._items.splice(i, 1);
+            i--;
           } else {
             this._items[i] = items[i];
           }
