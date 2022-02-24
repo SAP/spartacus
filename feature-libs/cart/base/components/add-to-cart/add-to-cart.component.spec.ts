@@ -2,7 +2,7 @@ import { Component, DebugElement, Input } from '@angular/core';
 import {
   ComponentFixture,
   TestBed,
-  TestBedStatic
+  TestBedStatic,
 } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { By } from '@angular/platform-browser';
@@ -12,19 +12,19 @@ import {
   ActiveCartFacade,
   Cart,
   CartUiEventAddToCart,
-  OrderEntry
+  OrderEntry,
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
   I18nTestingModule,
-  Product
+  Product,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
   ProductListItemContext,
-  SpinnerModule
+  SpinnerModule,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { AddToCartComponent } from './add-to-cart.component';

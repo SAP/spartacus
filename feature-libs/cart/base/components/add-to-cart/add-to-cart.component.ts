@@ -5,22 +5,23 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   ActiveCartFacade,
-  CartUiEventAddToCart
+  CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import {
   CmsAddToCartComponent,
   EventService,
-  isNotNullable, Product
+  isNotNullable,
+  Product,
 } from '@spartacus/core';
 import {
   CmsComponentData,
   CurrentProductService,
-  ProductListItemContext
+  ProductListItemContext,
 } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, take } from 'rxjs/operators';
