@@ -7,7 +7,7 @@ import {
   BREAKPOINT,
   LayoutConfig,
   LayoutSlotConfig,
-  SlotConfig
+  SlotConfig,
 } from '../../../layout/config/layout-config';
 import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 
