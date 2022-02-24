@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { LoadCartEvent } from '@spartacus/cart/base/root';
 import {
   DeleteUserAddressEvent,
   EventService,
@@ -30,6 +31,7 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   ) {
     this.onUserAddressChange();
     this.onDeliveryModeChange();
+    this.onDeliveryModeReset();
   }
 
   /**
@@ -71,6 +73,27 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, CheckoutResetQueryEvent)
+        )
+    );
+  }
+
+  protected onDeliveryModeReset(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutResetDeliveryModesEvent)
+        .subscribe(({ userId, cartId }) =>
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode: cartId,
+            },
+            LoadCartEvent
+          )
         )
     );
   }

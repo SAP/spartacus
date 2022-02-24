@@ -19,10 +19,15 @@ export class CheckoutCostCenterEventListener implements OnDestroy {
 
   protected onCostCenterChange(): void {
     this.subscriptions.add(
-      this.eventService.get(CostCenterSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
-        this.eventService.dispatch({}, CheckoutResetQueryEvent);
-      })
+      this.eventService
+        .get(CostCenterSetEvent)
+        .subscribe(({ cartId, userId }) => {
+          this.eventService.dispatch(
+            { cartId, userId },
+            CheckoutResetDeliveryModesEvent
+          );
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        })
     );
   }
 
