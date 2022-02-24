@@ -79,10 +79,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     return this.checkoutPaymentFacade.getPaymentDetailsState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      distinctUntilChanged((prev, curr) => {
-        console.log('ab called');
-        return prev?.id === curr?.id;
-      })
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
     );
   }
 
