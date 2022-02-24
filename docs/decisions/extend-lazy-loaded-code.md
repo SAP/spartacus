@@ -178,7 +178,7 @@ As a next step we could possibly change the behavior of `CmsComponentsService#de
 
 
 
-### Option 4: Introduce a config `plugins` for lazy-loaded feature modules
+### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use empty Module + parent CombinedInjector
 We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
 ```
 |- user-feature.module.ts
@@ -214,33 +214,50 @@ provideConfig(<CmsConfig>{
 TODO:
 - plugins should be able to populate the CMS mappings and services. and should overwrite default CMS maapings and services
 
-#### Pros
-- it doesn't require relying on wrapper modules
-  - to install an extension, you don't need to know the filename of the wrapper module, but only the feature name, e.g. `USER_PROFILE_FEATURE` 
+IMPLEMENTATION DETAILS:
+As the feature module we set artificially an empty Module. And when instantiating it, we set its parent injector to the `CombinedInjector` consisting of (in the following order): the plugins' injectors, the original feature module's injector and dependencies' injectors.
+This should allow for injecting services first from plugins modules, then from original feature module, and later from dependencies modules.
 
-> TODO
+#### Pros
+- it doesn't require importing both the original and plugin modules in the same file (in the wrapper module)
+  - to install an extension, you don't need to know the filename of the wrapper module, but only the feature name, e.g. `USER_PROFILE_FEATURE` 
+- extensions modules (plugins) can live in separate files. The original modules remain untouched 
+
+#### Cons
+- it doesn't work properly for multi-provided tokens (including `MODULE_INITIALIZER`s)
+  - in details: `CombinedInjector` returns the array of multi-provided tokens only from the first complementary injector that provides the tokens. In other words, `CombinedInjector` cannot return an array combining all multi-provided tokens in all complementary injectors. 
+- adds a bit of more non-trivial logic ("magic") to the Spartacus lazy loading and dependency injection
+
+
+TODO: We need to create a working PoC
 
 ### Interesting
-- won't it create 2 instances of any of those modules?
-- is it acceptable (no!?) that default User depends on CDC intragration
-- CDC depends on user? to be checked -> circular dep?
+- 
 
-## Option 5: export pre-baked wrapper modules from our libs
+### Option 5: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime (tweaked Option 4)
+We could tweak the Option (5), and create the wrapper module importing the original module all the plugin modules in the runtime. This helps to avoid using the opinionated `CombinedInjector`.
+
+Interesting:
+- did we already use JIT in `develop` branch? How can we prove we did or not? We have already been calling `compiler.compileModuleAsync()` in develop.
+- Angular documented several drawbacks of using JIT: increased bundle size and increased runtime (due to compilation happening in the browser). But are those docs still up to date with regards to IVY and Angular 12/13? See https://angular.io/guide/aot-compiler
+- Should we use JIT in general? Angular may remove the JIT compilation in the (far?) future, however it’s not definitely decided yet. See [RFC](https://github.com/angular/angular/issues/43133#issuecomment-941151334).
+- using JIT compiler introduces [some security concerns](https://angular.io/guide/security#use-the-aot-template-compiler). How much will we be affected, when calling compileModuleAsync or the alternative function createNgModuleRef() (that was introduced only in v13)
+
+
+TODO: We need to create a working PoC
+
+## Option 6: export pre-baked wrapper modules from our libs
 TODO: explain it
 
 Cons:
 - doesn't allow for many composable extensions
-- 
+
 ## 5. Decision
 _Elaborate the decision_
 
-### Names of wrapper modules
-
+TODO
 
 ## 6. Consequences
 _What becomes easier or more difficult to do because of this change?_
 
-- more boilerplate of modules in customer's app
-- slightly bigger production bundle size because of wrapper modules even for non-customized modules
-- need to amend installation schematics to create the wrapper modules
-
+TODO
