@@ -9,7 +9,6 @@ import {
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
@@ -30,10 +29,6 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutReviewOrder',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
-  'OrderConfirmationThankMessageComponent',
-  'OrderConfirmationItemsComponent',
-  'OrderConfirmationTotalsComponent',
-  'OrderConfirmationOverviewComponent',
 ];
 
 export function defaultCheckoutComponentsConfig() {
@@ -42,7 +37,7 @@ export function defaultCheckoutComponentsConfig() {
       [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
         // TODO:#checkout - remove ORDER_FEATURE once we move the order placing functionality to the order lib
-        dependencies: [CART_BASE_FEATURE, ORDER_FEATURE],
+        dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,

@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
   ORDER_TYPE,
@@ -15,6 +14,7 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { RoutingService } from '@spartacus/core';
+import { UnnamedFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
@@ -36,7 +36,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected checkoutFacade: CheckoutFacade,
+    protected checkoutFacade: UnnamedFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,

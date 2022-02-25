@@ -1,7 +1,7 @@
 import { OccEndpoint } from '@spartacus/core';
 
 export interface CheckoutScheduledReplenishmentOccEndpoints {
-  scheduleReplenishmentOrder?: string | OccEndpoint;
+  abc?: string | OccEndpoint;
 }
 
 declare module '@spartacus/core' {

@@ -3,8 +3,7 @@ import { CheckoutScheduledReplenishmentOccEndpoints } from '../model/occ-checkou
 
 const defaultScheduledReplenishmentOccEndpoints: CheckoutScheduledReplenishmentOccEndpoints =
   {
-    scheduleReplenishmentOrder:
-      'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
+    abc: 'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
   };
 
 export const defaultOccScheduledReplenishmentConfig: OccConfig = {

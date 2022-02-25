@@ -9,7 +9,7 @@ export const defaultCheckoutRoutingConfig: RoutingConfig = {
       checkoutDeliveryMode: { paths: ['checkout/delivery-mode'] },
       checkoutPaymentDetails: { paths: ['checkout/payment-details'] },
       checkoutReviewOrder: { paths: ['checkout/review-order'] },
-      orderConfirmation: { paths: ['order-confirmation'] },
+      // orderConfirmation: { paths: ['order-confirmation'] },
     },
   },
 };
