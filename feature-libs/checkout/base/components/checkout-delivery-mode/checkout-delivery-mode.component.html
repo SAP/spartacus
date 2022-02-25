@@ -4,8 +4,7 @@
 
 <ng-container
   *ngIf="
-    (supportedDeliveryModes$ | async)?.length &&
-      !(isSetDeliveryModeBusy$ | async);
+    (supportedDeliveryModes$ | async)?.length && !(isUpdating$ | async);
     else loading
   "
 >

@@ -19,10 +19,15 @@ export class CheckoutPaymentTypeEventListener implements OnDestroy {
 
   protected onPaymentTypeChange(): void {
     this.subscriptions.add(
-      this.eventService.get(PaymentTypeSetEvent).subscribe(() => {
-        this.eventService.dispatch({}, CheckoutResetDeliveryModesEvent);
-        this.eventService.dispatch({}, CheckoutResetQueryEvent);
-      })
+      this.eventService
+        .get(PaymentTypeSetEvent)
+        .subscribe(({ userId, cartId }) => {
+          this.eventService.dispatch(
+            { userId, cartId },
+            CheckoutResetDeliveryModesEvent
+          );
+          this.eventService.dispatch({}, CheckoutResetQueryEvent);
+        })
     );
   }
 

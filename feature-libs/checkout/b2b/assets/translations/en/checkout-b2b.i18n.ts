@@ -9,6 +9,9 @@ export const checkoutB2B = {
     invalid: {
       accountType: 'Your account does not allow you to checkout here.',
     },
+    methodOfPayment: {
+      paymentType: 'Payment Type',
+    },
     review: {
       poNumber: 'Purchase Order Number',
     },
