@@ -1,5 +1,7 @@
-import { ScheduleReplenishmentForm } from '@spartacus/checkout/scheduled-replenishment/root';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  ReplenishmentOrder,
+  ScheduleReplenishmentForm,
+} from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 export abstract class UnnamedReplenishmentOrderAdapter {
