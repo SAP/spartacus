@@ -3,7 +3,7 @@ import { select, Store } from '@ngrx/store';
 import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
 import {
   Cart,
-  DeleteCartEvent,
+  DeleteCartEvent as DeleteSavedCartEvent,
   MultiCartFacade,
 } from '@spartacus/cart/base/root';
 import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
@@ -72,7 +72,7 @@ export class SavedCartService implements SavedCartFacade {
     return this.getSavedCart(cartId).pipe(
       observeOn(queueScheduler),
       withLatestFrom(
-        this.eventService.get(DeleteCartEvent).pipe(startWith({}))
+        this.eventService.get(DeleteSavedCartEvent).pipe(startWith({}))
       ),
       filter(([state, _event]) => !!state),
       tap(([state, event]) => {
