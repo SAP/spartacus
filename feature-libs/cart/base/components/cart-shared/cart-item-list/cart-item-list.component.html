@@ -47,14 +47,14 @@
         class="cx-item-list-items"
         [class.is-changed]="control.get('quantity').disabled"
       >
-        <cx-cart-item
+        <cx-cart-item-list-row
           [item]="item"
           [quantityControl]="control.get('quantity')"
           [readonly]="readonly"
           [promotionLocation]="promotionLocation"
           [options]="options"
         >
-        </cx-cart-item>
+        </cx-cart-item-list-row>
       </ng-container>
     </ng-container>
   </tbody>
