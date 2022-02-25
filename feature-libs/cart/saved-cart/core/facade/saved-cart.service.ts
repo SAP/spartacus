@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { isSelectiveCart, StateWithMultiCart } from '@spartacus/cart/base/core';
-import { Cart, MultiCartFacade } from '@spartacus/cart/base/root';
 import {
-  DeleteSavedCartEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
+  Cart,
+  DeleteCartEvent,
+  MultiCartFacade,
+} from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   EventService,
   ProcessSelectors,
@@ -71,7 +72,7 @@ export class SavedCartService implements SavedCartFacade {
     return this.getSavedCart(cartId).pipe(
       observeOn(queueScheduler),
       withLatestFrom(
-        this.eventService.get(DeleteSavedCartEvent).pipe(startWith({}))
+        this.eventService.get(DeleteCartEvent).pipe(startWith({}))
       ),
       filter(([state, _event]) => !!state),
       tap(([state, event]) => {
