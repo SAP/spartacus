@@ -7,9 +7,9 @@ import * as configurationCartCpq from '../../../helpers/product-configurator-car
 import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
-const EMAIL = 'cpq03@sap.com';
+const EMAIL = 'cpq08@sap.com';
 const PASSWORD = 'welcome';
-const CPQ_USER = 'cpq03';
+const CPQ_USER = 'cpq08';
 
 // UI types
 const RADGRP = 'radioGroup';
@@ -469,7 +469,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Configuration Process', () => {
-    it('should support configuration aspect in product search, cart, checkout and order history', () => {
+    it.only('should support configuration aspect in product search, cart, checkout and order history', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
