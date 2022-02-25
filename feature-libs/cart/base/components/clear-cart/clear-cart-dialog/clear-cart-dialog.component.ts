@@ -6,7 +6,6 @@ import {
   OnDestroy,
 } from '@angular/core';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
-import { Observable } from 'rxjs';
 import { ICON_TYPE, FocusConfig } from '@spartacus/storefront';
 
 @Component({
@@ -23,8 +22,6 @@ export class ClearCartDialogComponent implements OnDestroy {
   };
 
   iconTypes = ICON_TYPE;
-  isClearing$: Observable<boolean> =
-    this.clearCartDialogComponentService.isClearCartInProgress();
 
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {

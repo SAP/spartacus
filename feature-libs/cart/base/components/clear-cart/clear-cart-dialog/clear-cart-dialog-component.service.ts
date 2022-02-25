@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { ActiveCartFacade, OrderEntry } from '@spartacus/cart/base/root';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  UserIdService,
+} from '@spartacus/core';
+import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
+import { take, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
@@ -12,45 +15,22 @@ export class ClearCartDialogComponentService {
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected multiCartFacade: MultiCartFacade,
+    protected userIdService: UserIdService
   ) {}
 
   /**
-   * Clear all entries from active cart
+   * Clear current cart and create a new fresh one
    */
   clearActiveCart(): void {
     this.activeCartFacade
-      .getEntries()
-      .pipe(
-        take(1),
-        tap((entries: OrderEntry[]) => {
-          // Make copy and reverse entries[] to start at end of array
-          // since cart entries are shifted downwards with removeEntry()
-          entries
-            .slice()
-            .reverse()
-            .forEach((entry) => this.activeCartFacade.removeEntry(entry));
-        }),
-        switchMap(() => this.isClearCartInProgress()),
-        filter((inProgress) => !inProgress),
-        tap(() => this.closeDialog('Close dialog after cart cleared')),
-        switchMap(() =>
-          this.activeCartFacade
-            .getEntries()
-            .pipe(map((entries) => entries.length === 0))
-        ),
-        take(1)
-      )
-      .subscribe((status) => {
-        this.displayGlobalMessage(status);
+      .getActiveCartId()
+      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
+      .subscribe(([cartId, userId]) => {
+        this.multiCartFacade.deleteCart(cartId, userId);
+        this.closeDialog('Close dialog after cart cleared');
       });
-  }
-
-  /**
-   * Returns status of clearing cart
-   */
-  isClearCartInProgress(): Observable<boolean> {
-    return this.activeCartFacade.isStable().pipe(map((stable) => !stable));
   }
 
   /**
