@@ -13,11 +13,12 @@
           [class.active]="i === activeTabNum"
           (click)="select(i, $event)"
           [attr.aria-expanded]="i === activeTabNum"
-          [attr.aria-controls]="'tab-' + i"
+          [attr.aria-owns]="'tab-' + i"
         >
           {{
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
+          <icon></icon>          
         </button>
 
         <div

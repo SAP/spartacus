@@ -1,7 +1,7 @@
 $useTabsOnPDP: false !default;
-$useAccordianOnly: false !default;
+$useAccordionOnly: false !default;
 
-@mixin accordian {
+@mixin accordion {
   > button {
     border-top: 1px var(--cx-color-light) solid;
     font-size: 18px;
@@ -12,15 +12,16 @@ $useAccordianOnly: false !default;
     width: 100%;
     text-align: start;
     height: 63px;
-
-    &:before {
-      content: '+';
-      margin: 0px 15px;
-      float: right;
-      font-size: 33px;
-      bottom: 12px;
-      position: relative;
-      color: var(--cx-color-text);
+    > icon {
+      &:before {
+        content: '+';
+        margin: 0px 15px;
+        float: right;
+        font-size: 33px;
+        bottom: 12px;
+        position: relative;
+        color: var(--cx-color-text);
+      }
     }
     &:after {
       margin-top: 15px;
@@ -29,8 +30,10 @@ $useAccordianOnly: false !default;
       margin-inline-start: -4%;
     }
     &.active {
-      &:before {
-        content: '–';
+      > icon {
+        &:before {
+          content: '–';
+        }
       }
     }
     &.active:after,
@@ -54,8 +57,10 @@ $useAccordianOnly: false !default;
       }
       > button.active.toggled {
         color: initial;
-        &:before {
-          content: '+';
+        > .icon {
+          &:before {
+            content: '+';
+          }
         }
         &:after {
           width: 0;
@@ -121,11 +126,11 @@ $useAccordianOnly: false !default;
       }
     }
 
-    @if $useAccordianOnly == true {
-      @include accordian();
+    @if $useAccordionOnly == true {
+      @include accordion();
     } @else {
       @include media-breakpoint-down(sm) {
-        @include accordian();
+        @include accordion();
       }
 
       // in order to align the tabs to the left
