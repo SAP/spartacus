@@ -1,6 +1,5 @@
 %cx-payment-type {
   @include checkout-media-style();
-  padding-top: 2.375rem;
 
   @include media-breakpoint-down(md) {
     padding-top: 20px;
