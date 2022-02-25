@@ -153,6 +153,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
           if (!items[i]) {
             this._items.splice(i, 1);
+            i--;
           } else {
             this._items[i] = items[i];
           }
