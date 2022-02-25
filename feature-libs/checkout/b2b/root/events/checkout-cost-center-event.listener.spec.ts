@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import {
-  CheckoutClearDeliveryAddressEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from '@spartacus/checkout/base/root';
@@ -10,16 +9,14 @@ import { CostCenterSetEvent } from './checkout-b2b.events';
 import { CheckoutCostCenterEventListener } from './checkout-cost-center-event.listener';
 import createSpy = jasmine.createSpy;
 
+const mockUserId = 'test-user-id';
+const mockCartId = 'test-cart-id';
 const mockEventStream$ = new Subject<CxEvent>();
 
 class MockEventService implements Partial<EventService> {
   get = createSpy().and.returnValue(mockEventStream$.asObservable());
   dispatch = createSpy();
 }
-
-const mockCartId = 'mockCartId';
-const mockUserId = 'mockUserId';
-const mockCode = 'mockCode';
 
 describe(`CheckoutCostCenterEventListener`, () => {
   let eventService: EventService;
@@ -41,25 +38,17 @@ describe(`CheckoutCostCenterEventListener`, () => {
 
   describe(`onCostCenterChange`, () => {
     it(`should dispatch CheckoutResetDeliveryModesEvent`, () => {
-      mockEventStream$.next(new CostCenterSetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetDeliveryModesEvent
+      mockEventStream$.next(
+        createFrom(CostCenterSetEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          code: 'test-cost-center',
+        })
       );
-    });
-
-    it(`should dispatch CheckoutClearDeliveryAddressEvent`, () => {
-      const event = createFrom(CostCenterSetEvent, {
-        code: mockCode,
-        cartId: mockCartId,
-        userId: mockUserId,
-      });
-      mockEventStream$.next(event);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        { cartId: mockCartId, userId: mockUserId },
-        CheckoutClearDeliveryAddressEvent
+        { userId: mockUserId, cartId: mockCartId },
+        CheckoutResetDeliveryModesEvent
       );
     });
 
