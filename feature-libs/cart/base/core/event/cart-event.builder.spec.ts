@@ -11,10 +11,13 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntryFailEvent,
   CartUpdateEntrySuccessEvent,
+  DeleteCartEvent,
+  DeleteCartFailEvent,
+  DeleteCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { createFrom, EventService } from '@spartacus/core';
 import { BehaviorSubject, of, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { take, tap } from 'rxjs/operators';
 import { CartActions } from '../store/actions';
 import { CartEventBuilder } from './cart-event.builder';
 
@@ -25,6 +28,7 @@ interface ActionWithPayload extends Action {
 }
 
 const MOCK_ID = '00000123';
+const MOCK_USER_ID = 'userId';
 const MOCK_ACTIVE_CART_ID = 'activeCartId';
 const MOCK_NOT_ACTIVE_CART_ID = 'notActiveCartId';
 const MOCK_ACTIVE_CART: Cart = {
@@ -42,12 +46,12 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
 
 const MOCK_NOT_ACTIVE_CART_EVENT = Object.freeze({
   cartId: MOCK_NOT_ACTIVE_CART_ID,
-  userId: 'userId',
+  userId: MOCK_USER_ID,
 });
 
 const MOCK_ACTIVE_CART_EVENT = Object.freeze({
   cartId: MOCK_ACTIVE_CART_ID,
-  userId: 'userId',
+  userId: MOCK_USER_ID,
 });
 
 describe('CartEventBuilder', () => {
@@ -343,6 +347,90 @@ describe('CartEventBuilder', () => {
       expect(results[0]).toEqual(jasmine.objectContaining(firstEventData));
 
       subscription.unsubscribe();
+    });
+
+    describe('Delete Cart Events', () => {
+      describe('DeleteCartEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            cartId: MOCK_ID,
+            userId: MOCK_USER_ID,
+          };
+
+          const eventData: DeleteCartEvent = {
+            cartCode: MOCK_ID,
+            ...payload,
+          };
+
+          let result: DeleteCartEvent | undefined;
+          eventService
+            .get(DeleteCartEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next({
+            type: CartActions.DELETE_CART,
+            payload,
+          });
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('DeleteCartSuccessEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            cartId: MOCK_ID,
+            userId: MOCK_USER_ID,
+          };
+
+          const eventData: DeleteCartSuccessEvent = {
+            cartCode: MOCK_ID,
+            ...payload,
+          };
+
+          let result: DeleteCartSuccessEvent | undefined;
+          eventService
+            .get(DeleteCartSuccessEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next({
+            type: CartActions.DELETE_CART_SUCCESS,
+            payload,
+          });
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
+
+      describe('DeleteCartFailEvent', () => {
+        it('should emit the event when the action is fired', () => {
+          const payload = {
+            cartId: MOCK_ID,
+            userId: MOCK_USER_ID,
+            error: { error: 'error' },
+          };
+
+          const eventData: DeleteCartFailEvent = {
+            cartCode: MOCK_ID,
+            ...payload,
+          };
+
+          let result: DeleteCartFailEvent | undefined;
+          eventService
+            .get(DeleteCartFailEvent)
+            .pipe(take(1))
+            .subscribe((value) => (result = value));
+
+          actions$.next({
+            type: CartActions.DELETE_CART_FAIL,
+            payload,
+          });
+
+          expect(result).toEqual(jasmine.objectContaining(eventData));
+        });
+      });
     });
   });
 });
