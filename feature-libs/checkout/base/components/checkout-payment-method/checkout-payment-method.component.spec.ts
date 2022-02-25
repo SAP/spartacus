@@ -534,7 +534,7 @@ describe('CheckoutPaymentMethodComponent', () => {
       );
     });
 
-    it('should be able to payment method', () => {
+    it('should be able to select payment method', () => {
       component.selectPaymentMethod(mockPaymentDetails);
 
       expect(mockCheckoutPaymentService.setPaymentDetails).toHaveBeenCalledWith(
