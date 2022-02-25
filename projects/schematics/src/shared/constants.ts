@@ -471,9 +471,6 @@ export const SAVED_CART_FACADE = 'SavedCartFacade';
 export const SAVED_CART_EVENT_BUILDER = 'SavedCartEventBuilder';
 export const REGISTER_DELETE_SAVED_CART_EVENTS =
   'registerDeleteSavedCartEvents';
-export const DELETE_SAVED_CART_EVENT = 'DeleteSavedCartEvent';
-export const DELETE_SAVED_CART_SUCCESS_EVENT = 'DeleteSavedCartSuccessEvent';
-export const DELETE_SAVED_CART_FAIL_EVENT = 'DeleteSavedCartFailEvent';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
   'ReplenishmentOrderCancellationLaunchDialogService';
