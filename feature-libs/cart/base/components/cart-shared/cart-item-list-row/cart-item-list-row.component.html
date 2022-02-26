@@ -5,8 +5,8 @@
       [code]="item.product?.code"
     ></cx-cart-item-validation-warning>
   </ng-container>
-  <tr role="row" [ngClass]="compact ? 'cx-compact' : ''">
-    <td>
+  <tr role="row">
+    <td role="cell">
       <!-- Item Image -->
       <a
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
@@ -18,48 +18,41 @@
           format="cartIcon"
         ></cx-media>
       </a>
-      <div [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-5'">
+      <div>
         <div *ngIf="item.product?.name" class="cx-name">
           <a
             class="cx-link"
             [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
             cxModal="dismiss"
-            ><h3>{{ item.product?.name }}</h3></a
+            >{{ item.product?.name }}</a
           >
         </div>
         <div *ngIf="item.product?.code" class="cx-code">
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
-
-        <!-- Item Details Outlet -->
-        <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
-
-        <!-- Variants -->
-        <ng-container *ngIf="item.product?.baseOptions?.length">
-          <div
-            *ngFor="
-              let variant of item.product?.baseOptions[0]?.selected
-                ?.variantOptionQualifiers
-            "
-            class="cx-property"
-          >
-            <div class="cx-label" *ngIf="variant.name && variant.value">
-              {{ variant.name }}: {{ variant.value }}
-            </div>
-          </div>
-        </ng-container>
       </div>
+      <!-- Item Details Outlet -->
+      <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
+
+      <!-- Variants -->
+      <ng-container *ngIf="item.product?.baseOptions?.length">
+        <div
+          *ngFor="
+            let variant of item.product?.baseOptions[0]?.selected
+              ?.variantOptionQualifiers
+          "
+          class="cx-property"
+        >
+          <!--            cx-mobile-header-->
+          <div class="cx-label" *ngIf="variant.name && variant.value">
+            {{ variant.name }}: {{ variant.value }}
+          </div>
+        </div>
+      </ng-container>
     </td>
     <!-- Item Price -->
-    <td
-      *ngIf="item.basePrice"
-      class="cx-price"
-      [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
-    >
-      <div
-        class="cx-label"
-        [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-      >
+    <td role="cell" *ngIf="item.basePrice" class="cx-price">
+      <div class="cx-mobile-header">
         {{ 'cartItems.itemPrice' | cxTranslate }}
       </div>
       <div *ngIf="item.basePrice" class="cx-value">
@@ -67,10 +60,9 @@
       </div>
     </td>
     <!-- Item Quantity -->
-    <td class="cx-quantity" [ngClass]="compact ? '' : ' col-3'">
+    <td role="cell" class="cx-quantity">
       <div
-        class="cx-label"
-        [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
+        class="cx-mobile-header"
         placement="left"
         title="{{ 'cartItems.quantityTitle' | cxTranslate }}"
       >
@@ -88,14 +80,8 @@
     </td>
     <!-- Total -->
     <ng-container *ngIf="options.isSaveForLater; else total">
-      <td
-        class="cx-total"
-        [ngClass]="compact ? '' : ' col-md-3 col-lg-3 col-xl-2'"
-      >
-        <div
-          class="cx-label"
-          [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-        >
+      <td role="cell" class="cx-total">
+        <div class="cx-mobile-header">
           {{ 'saveForLaterItems.stock' | cxTranslate }}
         </div>
         <div
@@ -113,8 +99,9 @@
     </ng-container>
     <!-- Availability -->
     <td
+      role="cell"
       *ngIf="isProductOutOfStock(item.product)"
-      class="cx-availability col-12"
+      class="cx-availability"
     >
       {{ 'addToCart.outOfStock' | cxTranslate }}
     </td>
@@ -127,8 +114,9 @@
 
     <!-- Actions -->
     <td
+      role="cell"
       *ngIf="(!readonly || options.isSaveForLater) && item.updateable"
-      class="cx-actions col-12"
+      class="cx-actions"
     >
       <ng-container *ngIf="!isProductOutOfStock(item.product)">
         <ng-container
@@ -154,15 +142,8 @@
   </tr>
 
   <ng-template #total>
-    <td
-      *ngIf="item.totalPrice"
-      class="cx-total"
-      [ngClass]="compact ? '' : ' col-md-3 col-xl-2'"
-    >
-      <div
-        class="cx-label"
-        [ngClass]="compact ? '' : ' d-block d-md-none d-lg-none d-xl-none'"
-      >
+    <td role="cell" *ngIf="item.totalPrice" class="cx-total">
+      <div class="cx-mobile-header">
         {{ 'cartItems.total' | cxTranslate }}
       </div>
       <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>

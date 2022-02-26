@@ -2,30 +2,30 @@
   <caption id="Cap1" class="cx-visually-hidden">
     Shopping cart contents
   </caption>
-  <thead *ngIf="hasHeader" class="d-none d-md-block d-lg-block d-xl-block">
-    <tr role="row" class="cx-item-list-header row">
+  <thead *ngIf="hasHeader">
+    <tr role="row" class="cx-item-list-header">
       <th
         role="columnheader"
-        class="cx-item-list-desc col-md-5 col-lg-5 col-xl-6"
+        class="cx-item-list-desc"
       >
         {{ 'cartItems.description' | cxTranslate }}
       </th>
       <th
         role="columnheader"
-        class="cx-item-list-price col-md-3 col-lg-2 col-xl-2"
+        class="cx-item-list-price"
       >
         {{ 'cartItems.itemPrice' | cxTranslate }}
       </th>
       <th
         role="columnheader"
-        class="cx-item-list-qty col-md-2 col-lg-3 col-xl-2"
+        class="cx-item-list-qty"
       >
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>
       <ng-container *ngIf="options.isSaveForLater; else totalHeader">
         <th
           role="columnheader"
-          class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
+          class="cx-item-list-total"
         >
           {{ 'saveForLaterItems.stock' | cxTranslate }}
         </th>
@@ -33,7 +33,7 @@
       <ng-container *ngIf="(!readonly || options.isSaveForLater)">
         <th
           role="columnheader"
-          class="cx-item-list-total col-md-2 col-lg-2 col-xl-2"
+          class="cx-item-list-actions"
         >
           {{ 'cartItems.actions' | cxTranslate }}
         </th>
@@ -61,7 +61,7 @@
 </table>
 
 <ng-template #totalHeader>
-  <th role="columnheader" class="cx-item-list-total col-md-2 col-lg-2 col-xl-2">
+  <th role="columnheader" class="cx-item-list-total">
     {{ 'cartItems.total' | cxTranslate }}
   </th>
 </ng-template>
