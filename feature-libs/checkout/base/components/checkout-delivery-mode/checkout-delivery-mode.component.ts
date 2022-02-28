@@ -8,7 +8,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { DeliveryMode } from '@spartacus/cart/base/root';
 import { CheckoutDeliveryModesFacade } from '@spartacus/checkout/base/root';
-import { BehaviorSubject, Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -25,6 +25,7 @@ import { CheckoutStepService } from '../services/checkout-step.service';
 })
 export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   protected subscriptions = new Subscription();
+  protected busy$ = new BehaviorSubject(false);
 
   selectedDeliveryModeCode$: Observable<string | undefined>;
   supportedDeliveryModes$: Observable<DeliveryMode[]>;
@@ -35,7 +36,15 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
     deliveryModeId: ['', Validators.required],
   });
 
-  isSetDeliveryModeBusy$: Observable<boolean> = new BehaviorSubject(false);
+  isUpdating$: Observable<boolean> = combineLatest([
+    this.busy$,
+    this.checkoutDeliveryModesFacade
+      .getSelectedDeliveryModeState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(([busy, loading]) => busy || loading),
+    distinctUntilChanged()
+  );
 
   get deliveryModeInvalid(): boolean {
     return this.mode.controls['deliveryModeId'].invalid;
@@ -91,7 +100,7 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   changeMode(code: string): void {
-    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(true);
+    this.busy$.next(true);
 
     this.checkoutDeliveryModesFacade.setDeliveryMode(code).subscribe({
       complete: () => this.onSuccess(),
@@ -114,11 +123,11 @@ export class CheckoutDeliveryModeComponent implements OnInit, OnDestroy {
   }
 
   protected onSuccess(): void {
-    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
+    this.busy$.next(false);
   }
 
   protected onError(): void {
-    (this.isSetDeliveryModeBusy$ as BehaviorSubject<boolean>).next(false);
+    this.busy$.next(false);
   }
 
   ngOnDestroy(): void {
