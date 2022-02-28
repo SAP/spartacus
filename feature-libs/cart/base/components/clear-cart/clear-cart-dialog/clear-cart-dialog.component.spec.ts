@@ -7,16 +7,12 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
-import { of, Observable } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 const mockCloseReason = 'Cancel Clear Cart';
 
 class MockClearCartService implements Partial<ClearCartDialogComponentService> {
   clearActiveCart(): void {}
-  isClearCartInProgress(): Observable<boolean> {
-    return of();
-  }
   closeDialog(): void {}
 }
 
@@ -53,7 +49,6 @@ describe('ClearCartDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.isClearing$).toBeDefined();
   });
 
   it('should trigger clear cart', () => {

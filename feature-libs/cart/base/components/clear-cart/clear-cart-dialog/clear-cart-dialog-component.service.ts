@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import {
+  EventService,
   GlobalMessageService,
   GlobalMessageType,
   UserIdService,
 } from '@spartacus/core';
-import { ActiveCartFacade, MultiCartFacade } from '@spartacus/cart/base/root';
-import { take, withLatestFrom } from 'rxjs/operators';
+import {
+  ActiveCartFacade,
+  MultiCartFacade,
+  DeleteCartEvent as ClearActiveCartEvent,
+} from '@spartacus/cart/base/root';
+import { mapTo, take, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
@@ -17,13 +22,24 @@ export class ClearCartDialogComponentService {
     protected globalMessageService: GlobalMessageService,
     protected activeCartFacade: ActiveCartFacade,
     protected multiCartFacade: MultiCartFacade,
-    protected userIdService: UserIdService
+    protected userIdService: UserIdService,
+    protected eventService: EventService
   ) {}
 
   /**
-   * Clear current cart and create a new fresh one
+   * Clear all entires and info of active cart
    */
   clearActiveCart(): void {
+    this.eventService
+      .get(ClearActiveCartEvent)
+      .pipe(take(1), mapTo(true))
+      .subscribe((success) => {
+        // Incur small delay to display message, event is intercepted before the DOM updates
+        setTimeout(() => {
+          this.displayGlobalMessage(success);
+        }, 100);
+      });
+
     this.activeCartFacade
       .getActiveCartId()
       .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
