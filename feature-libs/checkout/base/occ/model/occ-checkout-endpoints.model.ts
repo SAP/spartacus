@@ -6,10 +6,6 @@ export interface CheckoutOccEndpoints {
    */
   setDeliveryAddress?: string | OccEndpoint;
   /**
-   * Endpoint for place order
-   */
-  placeOrder?: string | OccEndpoint;
-  /**
    * Get a list of supported payment card types.
    */
   cardTypes?: string | OccEndpoint;

@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { LoadCartEvent } from '@spartacus/cart/base/root';
 import {
   DeleteUserAddressEvent,
   EventService,
@@ -9,7 +10,6 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import {
-  CheckoutDeliveryAddressSetEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
@@ -30,8 +30,8 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
     protected eventService: EventService
   ) {
     this.onUserAddressChange();
-    this.onDeliveryAddressChange();
     this.onDeliveryModeChange();
+    this.onDeliveryModeReset();
   }
 
   /**
@@ -58,18 +58,6 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
   }
 
   /**
-   * Registers listeners for the Delivery address events.
-   */
-  protected onDeliveryAddressChange(): void {
-    this.subscriptions.add(
-      this.eventService.get(CheckoutDeliveryAddressSetEvent).subscribe(() =>
-        // we want to LL the checkout feature (if not already loaded), in order to clear the checkout data that's potentially set on the back-end
-        this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
-      )
-    );
-  }
-
-  /**
    * Registers listeners for the delivery mode events.
    */
   protected onDeliveryModeChange(): void {
@@ -85,6 +73,32 @@ export class CheckoutDeliveryModeEventListener implements OnDestroy {
         .get(CheckoutDeliveryModeClearedEvent)
         .subscribe(() =>
           this.eventService.dispatch({}, CheckoutResetQueryEvent)
+        )
+    );
+  }
+
+  /**
+   * Registers listeners for the delivery mode clear event.
+   * This is needed for when `CheckoutResetDeliveryModesEvent` is dispatched
+   * as we need to update the user's cart when the delivery mode is cleared from the backend checkout details.
+   */
+  protected onDeliveryModeReset(): void {
+    this.subscriptions.add(
+      this.eventService
+        .get(CheckoutResetDeliveryModesEvent)
+        .subscribe(({ userId, cartId }) =>
+          this.eventService.dispatch(
+            {
+              userId,
+              cartId,
+              /**
+               * As we know the cart is not anonymous (precondition checked),
+               * we can safely use the cartId, which is actually the cart.code.
+               */
+              cartCode: cartId,
+            },
+            LoadCartEvent
+          )
         )
     );
   }

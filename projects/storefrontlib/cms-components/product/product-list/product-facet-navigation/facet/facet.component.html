@@ -56,6 +56,13 @@
       <button
         *ngIf="state.maxVisible > state.topVisible"
         (click)="decreaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.decreaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="true"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowLess' | cxTranslate
+        }}"
         class="cx-action-link"
         cxFocus="moreorless"
       >
@@ -65,6 +72,13 @@
       <button
         *ngIf="state.maxVisible > 0 && state.maxVisible < facet.values.length"
         (click)="increaseVisibleValues()"
+        [cxAtMessage]="
+          'productFacetNavigation.increaseOptionsVisibility' | cxTranslate
+        "
+        aria-expanded="false"
+        attr.aria-label="{{
+          'productFacetNavigation.ariaLabelShowMore' | cxTranslate
+        }}"
         class="cx-action-link"
         cxFocus="moreorless"
       >
