@@ -8,9 +8,9 @@ import {
 import {
   ActiveCartFacade,
   MultiCartFacade,
-  DeleteCartEvent as ClearActiveCartEvent,
+  DeleteCartEvent,
 } from '@spartacus/cart/base/root';
-import { mapTo, take, withLatestFrom } from 'rxjs/operators';
+import { delay, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
@@ -27,25 +27,23 @@ export class ClearCartDialogComponentService {
   ) {}
 
   /**
-   * Clear all entires and info of active cart
+   * Clear all entries and info of active cart
    */
   clearActiveCart(): void {
-    this.eventService
-      .get(ClearActiveCartEvent)
-      .pipe(take(1), mapTo(true))
-      .subscribe((success) => {
-        // Incur small delay to display message, event is intercepted before the DOM updates
-        setTimeout(() => {
-          this.displayGlobalMessage(success);
-        }, 100);
-      });
-
     this.activeCartFacade
       .getActiveCartId()
-      .pipe(withLatestFrom(this.userIdService.getUserId()), take(1))
-      .subscribe(([cartId, userId]) => {
-        this.multiCartFacade.deleteCart(cartId, userId);
-        this.closeDialog('Close dialog after cart cleared');
+      .pipe(
+        withLatestFrom(this.userIdService.getUserId()),
+        take(1),
+        tap(([cartId, userId]) => {
+          this.multiCartFacade.deleteCart(cartId, userId);
+        }),
+        switchMap(() => this.eventService.get(DeleteCartEvent)),
+        tap(() => this.closeDialog('Close dialog after cart cleared')),
+        delay(100)
+      )
+      .subscribe(() => {
+        this.displayGlobalMessage();
       });
   }
 
@@ -59,17 +57,11 @@ export class ClearCartDialogComponentService {
 
   /**
    * Display global message after clearing cart.
-   * By default, the message is displayed with the type `Success` only,
-   * a negative scenario has been handled in the occ layer already,
-   * but the status flag allows to recognize it and add a custom error message as well.
-   * @param status
    */
-  protected displayGlobalMessage(status: boolean): void {
-    if (status) {
-      this.globalMessageService.add(
-        { key: 'clearCart.cartClearedSuccessfully' },
-        GlobalMessageType.MSG_TYPE_CONFIRMATION
-      );
-    }
+  protected displayGlobalMessage(): void {
+    this.globalMessageService.add(
+      { key: 'clearCart.cartClearedSuccessfully' },
+      GlobalMessageType.MSG_TYPE_CONFIRMATION
+    );
   }
 }
