@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, OnDestroy } from '@angular/core';
 import { CartOutlets } from '@spartacus/cart/base/root';
-import { Order, UnnamedFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -12,7 +12,7 @@ export class UnnamedOrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();
 
-  constructor(protected checkoutFacade: UnnamedFacade) {}
+  constructor(protected checkoutFacade: OrderFacade) {}
 
   ngOnDestroy() {
     this.checkoutFacade.clearPlacedOrder();

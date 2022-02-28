@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router, UrlTree } from '@angular/router';
 import { SemanticPathService } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ import { map } from 'rxjs/operators';
 })
 export class OrderConfirmationGuard implements CanActivate {
   constructor(
-    protected checkoutFacade: UnnamedFacade,
+    protected checkoutFacade: OrderFacade,
     protected router: Router,
     protected semanticPathService: SemanticPathService
   ) {}

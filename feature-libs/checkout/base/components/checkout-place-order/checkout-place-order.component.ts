@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { RoutingService } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
@@ -28,7 +28,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
   }
 
   constructor(
-    protected checkoutFacade: UnnamedFacade,
+    protected checkoutFacade: OrderFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,

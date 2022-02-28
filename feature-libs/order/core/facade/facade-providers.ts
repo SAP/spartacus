@@ -1,16 +1,16 @@
 import { Provider } from '@angular/core';
 import {
+  OrderFacade,
   OrderHistoryFacade,
   OrderReturnRequestFacade,
   ReplenishmentOrderHistoryFacade,
-  UnnamedFacade,
-  UnnamedScheduledReplenishmentFacade,
+  ScheduledReplenishmentFacade,
 } from '@spartacus/order/root';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
+import { OrderService } from './order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
-import { UnnamedScheduledReplenishmentService } from './unnamed-scheduled-replenishment.service';
-import { UnnamedService } from './unnamed.service';
+import { ScheduledReplenishmentService } from './scheduled-replenishment.service';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
@@ -28,14 +28,14 @@ export const facadeProviders: Provider[] = [
     provide: ReplenishmentOrderHistoryFacade,
     useExisting: ReplenishmentOrderHistoryService,
   },
-  UnnamedScheduledReplenishmentService,
+  ScheduledReplenishmentService,
   {
-    provide: UnnamedScheduledReplenishmentFacade,
-    useExisting: UnnamedScheduledReplenishmentService,
+    provide: ScheduledReplenishmentFacade,
+    useExisting: ScheduledReplenishmentService,
   },
-  UnnamedService,
+  OrderService,
   {
-    provide: UnnamedFacade,
-    useExisting: UnnamedService,
+    provide: OrderFacade,
+    useExisting: OrderService,
   },
 ];

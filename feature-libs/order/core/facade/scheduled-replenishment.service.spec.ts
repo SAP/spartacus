@@ -6,14 +6,14 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  OrderFacade,
   ReplenishmentOrder,
   ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
-  UnnamedFacade,
 } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
-import { UnnamedScheduledReplenishmentService } from './unnamed-scheduled-replenishment.service';
+import { ScheduledReplenishmentService } from './scheduled-replenishment.service';
 
 import createSpy = jasmine.createSpy;
 
@@ -49,20 +49,20 @@ class MockScheduledReplenishmentOrderConnector
   );
 }
 
-class MockUnnamedFacade implements Partial<UnnamedFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   setPlacedOrder = createSpy();
 }
 
-describe(`UnnamedScheduledReplenishmentService`, () => {
-  let service: UnnamedScheduledReplenishmentService;
+describe(`ScheduledReplenishmentService`, () => {
+  let service: ScheduledReplenishmentService;
   let connector: ScheduledReplenishmentOrderConnector;
-  let checkoutFacade: UnnamedFacade;
+  let checkoutFacade: OrderFacade;
   let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UnnamedScheduledReplenishmentService,
+        ScheduledReplenishmentService,
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
@@ -71,23 +71,21 @@ describe(`UnnamedScheduledReplenishmentService`, () => {
           useClass: MockScheduledReplenishmentOrderConnector,
         },
         {
-          provide: UnnamedFacade,
-          useClass: MockUnnamedFacade,
+          provide: OrderFacade,
+          useClass: MockOrderFacade,
         },
       ],
     });
 
-    service = TestBed.inject(UnnamedScheduledReplenishmentService);
+    service = TestBed.inject(ScheduledReplenishmentService);
     connector = TestBed.inject(ScheduledReplenishmentOrderConnector);
-    checkoutFacade = TestBed.inject(UnnamedFacade);
+    checkoutFacade = TestBed.inject(OrderFacade);
     eventService = TestBed.inject(EventService);
   });
 
-  it(`should inject UnnamedScheduledReplenishmentService`, inject(
-    [UnnamedScheduledReplenishmentService],
-    (
-      checkoutScheduledReplenishmentService: UnnamedScheduledReplenishmentService
-    ) => {
+  it(`should inject ScheduledReplenishmentService`, inject(
+    [ScheduledReplenishmentService],
+    (checkoutScheduledReplenishmentService: ScheduledReplenishmentService) => {
       expect(checkoutScheduledReplenishmentService).toBeTruthy();
     }
   ));

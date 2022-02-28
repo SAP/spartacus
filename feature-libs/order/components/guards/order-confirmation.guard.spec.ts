@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { RoutingService, SemanticPathService } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 import createSpy = jasmine.createSpy;
 
-class MockUnnamedService implements Partial<UnnamedFacade> {
+class MockOrderService implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(undefined));
 }
 
@@ -16,7 +16,7 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
 
 describe(`OrderConfirmationGuard`, () => {
   let guard: OrderConfirmationGuard;
-  let mockUnnamedFacade: UnnamedFacade;
+  let mockOrderFacade: OrderFacade;
   let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
@@ -26,20 +26,20 @@ describe(`OrderConfirmationGuard`, () => {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
         },
-        { provide: UnnamedFacade, useClass: MockUnnamedService },
+        { provide: OrderFacade, useClass: MockOrderService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(OrderConfirmationGuard);
-    mockUnnamedFacade = TestBed.inject(UnnamedFacade);
+    mockOrderFacade = TestBed.inject(OrderFacade);
     semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      mockUnnamedFacade.getOrderDetails = createSpy().and.returnValue(of({}));
+      mockOrderFacade.getOrderDetails = createSpy().and.returnValue(of({}));
       semanticPathService.get =
         createSpy().and.returnValue('/my-account/orders');
 
@@ -52,7 +52,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      mockUnnamedFacade.getOrderDetails = createSpy().and.returnValue(
+      mockOrderFacade.getOrderDetails = createSpy().and.returnValue(
         of({ code: 'test order' })
       );
 

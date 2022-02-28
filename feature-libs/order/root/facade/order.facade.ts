@@ -8,7 +8,7 @@ import { Order } from '../model/order.model';
   providedIn: 'root',
   useFactory: () =>
     facadeFactory({
-      facade: UnnamedFacade,
+      facade: OrderFacade,
       feature: ORDER_CORE_FEATURE,
       methods: [
         'getOrderDetails',
@@ -20,7 +20,7 @@ import { Order } from '../model/order.model';
       async: true,
     }),
 })
-export abstract class UnnamedFacade {
+export abstract class OrderFacade {
   /**
    * Returns the current order
    */

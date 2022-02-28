@@ -9,7 +9,7 @@ import { CheckoutOrderPlacedEvent, Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
-import { UnnamedService } from './unnamed.service';
+import { OrderService } from './order.service';
 import createSpy = jasmine.createSpy;
 
 const mockUserId = OCC_USER_ID_CURRENT;
@@ -26,7 +26,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockUnnamedConnector implements Partial<OrderConnector> {
+class MockOrderConnector implements Partial<OrderConnector> {
   placeOrder = createSpy().and.returnValue(of(mockOrder));
 }
 
@@ -35,33 +35,33 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
-describe(`UnnamedService`, () => {
-  let service: UnnamedService;
+describe(`OrderService`, () => {
+  let service: OrderService;
   let connector: OrderConnector;
   let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UnnamedService,
+        OrderService,
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         {
           provide: OrderConnector,
-          useClass: MockUnnamedConnector,
+          useClass: MockOrderConnector,
         },
         { provide: EventService, useClass: MockEventService },
       ],
     });
 
-    service = TestBed.inject(UnnamedService);
+    service = TestBed.inject(OrderService);
     connector = TestBed.inject(OrderConnector);
     eventService = TestBed.inject(EventService);
   });
 
-  it(`should inject UnnamedService`, inject(
-    [UnnamedService],
-    (checkoutService: UnnamedService) => {
+  it(`should inject OrderService`, inject(
+    [OrderService],
+    (checkoutService: OrderService) => {
       expect(checkoutService).toBeTruthy();
     }
   ));

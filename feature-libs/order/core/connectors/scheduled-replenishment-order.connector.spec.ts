@@ -26,7 +26,7 @@ class MockScheduledReplenishmentOrderAdapter
   scheduleReplenishmentOrder = createSpy().and.returnValue(of({}));
 }
 
-describe('Unnamed Replenishment Order Connector', () => {
+describe('Scheduled Replenishment Order Connector', () => {
   let adapter: ScheduledReplenishmentOrderAdapter;
   let connector: ScheduledReplenishmentOrderConnector;
 

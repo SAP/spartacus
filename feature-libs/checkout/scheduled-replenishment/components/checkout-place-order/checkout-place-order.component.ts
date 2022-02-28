@@ -14,8 +14,8 @@ import {
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { RoutingService } from '@spartacus/core';
 import {
-  UnnamedFacade,
-  UnnamedScheduledReplenishmentFacade,
+  OrderFacade,
+  ScheduledReplenishmentFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
@@ -38,13 +38,13 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected checkoutFacade: UnnamedFacade,
+    protected checkoutFacade: OrderFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentFacade: UnnamedScheduledReplenishmentFacade
+    protected checkoutScheduledReplenishmentFacade: ScheduledReplenishmentFacade
   ) {
     super(checkoutFacade, routingService, fb, launchDialogService, vcr);
   }

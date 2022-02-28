@@ -9,19 +9,19 @@ import {
   UserIdService,
 } from '@spartacus/core';
 import {
+  OrderFacade,
   ReplenishmentOrder,
   ReplenishmentOrderScheduledEvent,
+  ScheduledReplenishmentFacade,
   ScheduleReplenishmentForm,
-  UnnamedFacade,
-  UnnamedScheduledReplenishmentFacade,
 } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 
 @Injectable()
-export class UnnamedScheduledReplenishmentService
-  implements UnnamedScheduledReplenishmentFacade
+export class ScheduledReplenishmentService
+  implements ScheduledReplenishmentFacade
 {
   protected scheduleReplenishmentOrderCommand: Command<
     { termsChecked: boolean; form: ScheduleReplenishmentForm },
@@ -73,7 +73,7 @@ export class UnnamedScheduledReplenishmentService
     protected commandService: CommandService,
     protected checkoutReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected checkoutFacade: UnnamedFacade
+    protected checkoutFacade: OrderFacade
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {
@@ -89,7 +89,7 @@ export class UnnamedScheduledReplenishmentService
           !cartId ||
           (userId === OCC_USER_ID_ANONYMOUS && !isGuestCart)
         ) {
-          throw new Error('Unnamed conditions not met');
+          throw new Error('Order conditions not met');
         }
         return [userId, cartId];
       })

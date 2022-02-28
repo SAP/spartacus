@@ -9,13 +9,13 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { Order, UnnamedFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
 
 @Injectable()
-export class UnnamedService implements UnnamedFacade {
+export class OrderService implements OrderFacade {
   protected order$ = new BehaviorSubject<Order | undefined>(undefined);
 
   protected placeOrderCommand: Command<boolean, Order> =

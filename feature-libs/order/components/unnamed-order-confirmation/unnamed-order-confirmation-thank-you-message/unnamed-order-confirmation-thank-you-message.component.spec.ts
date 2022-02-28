@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { UnnamedOrderConfirmationThankYouMessageComponent } from './unnamed-order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
@@ -24,7 +24,7 @@ class MockGuestRegisterFormComponent {
   @Input() email: string;
 }
 
-class MockUnnamedService implements Partial<UnnamedFacade> {
+class MockOrderService implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
@@ -32,7 +32,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
   let component: UnnamedOrderConfirmationThankYouMessageComponent;
   let fixture: ComponentFixture<UnnamedOrderConfirmationThankYouMessageComponent>;
 
-  let checkoutService: UnnamedFacade;
+  let checkoutService: OrderFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -43,7 +43,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
-        providers: [{ provide: UnnamedFacade, useClass: MockUnnamedService }],
+        providers: [{ provide: OrderFacade, useClass: MockOrderService }],
       }).compileComponents();
     })
   );
@@ -53,7 +53,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
       UnnamedOrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
-    checkoutService = TestBed.inject(UnnamedFacade);
+    checkoutService = TestBed.inject(OrderFacade);
   });
 
   it('should create', () => {

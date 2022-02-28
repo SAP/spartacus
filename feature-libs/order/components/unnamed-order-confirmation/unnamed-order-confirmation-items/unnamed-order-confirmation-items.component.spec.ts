@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import { OrderFacade } from '@spartacus/order/root';
 import { PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { UnnamedOrderConfirmationItemsComponent } from './unnamed-order-confirmation-items.component';
 import createSpy = jasmine.createSpy;
 
-class MockUnnamedService implements Partial<UnnamedFacade> {
+class MockOrderService implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(
     of({
       entries: [
@@ -29,7 +29,7 @@ describe('UnnamedOrderConfirmationItemsComponent', () => {
         imports: [I18nTestingModule, PromotionsModule],
         declarations: [UnnamedOrderConfirmationItemsComponent],
         providers: [
-          { provide: UnnamedFacade, useClass: MockUnnamedService },
+          { provide: OrderFacade, useClass: MockOrderService },
           {
             provide: FeaturesConfig,
             useValue: {

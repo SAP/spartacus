@@ -11,10 +11,6 @@ class MockOrderAdapter implements Partial<OrderAdapter> {
     (userId: string, cartId: string, termsChecked: boolean) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
   );
-  getUnnamedDetails = createSpy('OrderAdapter.loadUnnamedDetails').and.callFake(
-    (userId: string, cartId: string) =>
-      of(`loadUnnamedDetails-${userId}-${cartId}`)
-  );
 }
 
 describe('OrderConnector', () => {

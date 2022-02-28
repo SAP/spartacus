@@ -4,7 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
   OrderConfirmationOrderEntriesContextToken,
-  UnnamedFacade,
+  OrderFacade,
 } from '@spartacus/order/root';
 import {
   CardModule,
@@ -77,7 +77,7 @@ const orderConfirmationComponents = [
           providers: [
             {
               provide: OrderDetailsService,
-              useExisting: UnnamedFacade,
+              useExisting: OrderFacade,
             },
           ],
           guards: [OrderConfirmationGuard],
@@ -87,7 +87,7 @@ const orderConfirmationComponents = [
           providers: [
             {
               provide: OrderDetailsService,
-              useExisting: UnnamedFacade,
+              useExisting: OrderFacade,
             },
           ],
           guards: [OrderConfirmationGuard],

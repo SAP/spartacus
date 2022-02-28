@@ -4,7 +4,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Order, UnnamedFacade } from '@spartacus/order/root';
+import { Order, OrderFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
@@ -21,7 +21,7 @@ export class UnnamedOrderConfirmationThankYouMessageComponent
   isGuestCustomer = false;
   orderGuid: string | undefined;
 
-  constructor(protected checkoutFacade: UnnamedFacade) {}
+  constructor(protected checkoutFacade: OrderFacade) {}
 
   ngOnInit(): void {
     console.log('in here');
