@@ -37,6 +37,7 @@
       class="cx-review-summary-card cx-review-card-address"
     >
       <cx-card
+        [isRegion]="false"
         [content]="getDeliveryAddressCard(deliveryAddress) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
@@ -59,6 +60,7 @@
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
       <cx-card
+        [isRegion]="false"
         *ngIf="deliveryMode$ | async as deliveryMode"
         [content]="getDeliveryModeCard(deliveryMode) | async"
       ></cx-card>
@@ -81,6 +83,7 @@
     <div class="cx-review-summary-card cx-review-card-payment">
       <div>
         <cx-card
+          [isRegion]="false"
           *ngIf="paymentDetails$ | async as paymentDetails"
           [content]="getPaymentMethodCard(paymentDetails) | async"
         ></cx-card>

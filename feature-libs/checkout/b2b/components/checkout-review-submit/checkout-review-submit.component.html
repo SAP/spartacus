@@ -42,7 +42,11 @@
   <!-- PO NUMBER SECTION -->
   <ng-template #poNumber>
     <div class="cx-review-summary-card">
-      <cx-card [content]="getPoNumberCard(poNumber$ | async) | async"></cx-card>
+      <cx-card
+        [isRegion]="false"
+        [isRegion]="false"
+        [content]="getPoNumberCard(poNumber$ | async) | async"
+      ></cx-card>
       <div class="cx-review-summary-edit-step">
         <a
           [attr.aria-label]="'checkoutReview.editPaymentType' | cxTranslate"
@@ -61,6 +65,7 @@
   <ng-template #paymentType>
     <div class="cx-review-summary-card">
       <cx-card
+        [isRegion]="false"
         *ngIf="paymentType$ | async as paymentType"
         [content]="getPaymentTypeCard(paymentType) | async"
       ></cx-card>
@@ -83,6 +88,7 @@
     <ng-container *ngIf="isAccountPayment$ | async">
       <div class="cx-review-summary-card">
         <cx-card
+          [isRegion]="false"
           *ngIf="costCenter$ | async as costCenter"
           [content]="getCostCenterCard(costCenter) | async"
         ></cx-card>
@@ -110,6 +116,7 @@
       class="cx-review-summary-card cx-review-card-address"
     >
       <cx-card
+        [isRegion]="false"
         [content]="getDeliveryAddressCard(deliveryAddress) | async"
       ></cx-card>
       <div class="cx-review-summary-edit-step">
@@ -132,6 +139,7 @@
   <ng-template #deliveryMode>
     <div class="cx-review-summary-card cx-review-card-shipping">
       <cx-card
+        [isRegion]="false"
         *ngIf="deliveryMode$ | async as deliveryMode"
         [content]="getDeliveryModeCard(deliveryMode) | async"
       ></cx-card>
@@ -154,6 +162,7 @@
     <div class="cx-review-summary-card cx-review-card-payment">
       <div>
         <cx-card
+          [isRegion]="false"
           *ngIf="paymentDetails$ | async as paymentDetails"
           [content]="getPaymentMethodCard(paymentDetails) | async"
         ></cx-card>

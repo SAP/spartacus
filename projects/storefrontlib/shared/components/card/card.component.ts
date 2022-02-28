@@ -45,6 +45,9 @@ export class CardComponent implements OnInit {
   border = false;
 
   @Input()
+  isRegion = true;
+
+  @Input()
   editMode = false;
 
   @Input()
