@@ -18,7 +18,7 @@ import {
 } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OccUnnamedReplenishmentOrderAdapter } from './occ-checkout-replenishment-order.adapter';
+import { OccScheduledReplenishmentOrderAdapter } from './occ-scheduled-replenishment-order.adapter';
 
 const cartId = 'testCart';
 const termsChecked = true;
@@ -63,8 +63,8 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe(`OccUnnamedReplenishmentOrderAdapter`, () => {
-  let occAdapter: OccUnnamedReplenishmentOrderAdapter;
+describe(`OccScheduledReplenishmentOrderAdapter`, () => {
+  let occAdapter: OccScheduledReplenishmentOrderAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -74,7 +74,7 @@ describe(`OccUnnamedReplenishmentOrderAdapter`, () => {
       TestBed.configureTestingModule({
         imports: [HttpClientTestingModule],
         providers: [
-          OccUnnamedReplenishmentOrderAdapter,
+          OccScheduledReplenishmentOrderAdapter,
           { provide: OccConfig, useValue: MockOccModuleConfig },
         ],
       });
@@ -82,7 +82,7 @@ describe(`OccUnnamedReplenishmentOrderAdapter`, () => {
   );
 
   beforeEach(() => {
-    occAdapter = TestBed.inject(OccUnnamedReplenishmentOrderAdapter);
+    occAdapter = TestBed.inject(OccScheduledReplenishmentOrderAdapter);
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
