@@ -9,9 +9,11 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  AtMessageModule,
   FormErrorsModule,
   IconModule,
   ItemCounterModule,
+  KeyboardFocusModule,
   MediaModule,
   MessageComponentModule,
   ProgressButtonModule,
@@ -23,17 +25,19 @@ import { QuickOrderTableComponent } from './table/quick-order-table.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
-    ReactiveFormsModule,
-    RouterModule,
     FormErrorsModule,
     I18nModule,
     IconModule,
     ItemCounterModule,
+    KeyboardFocusModule,
     MediaModule,
-    UrlModule,
-    ProgressButtonModule,
     MessageComponentModule,
+    ProgressButtonModule,
+    ReactiveFormsModule,
+    RouterModule,
+    UrlModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

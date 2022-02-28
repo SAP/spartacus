@@ -79,7 +79,7 @@ export class AutoFocusDirective
    */
   handleFocus(event?: KeyboardEvent) {
     if (this.shouldAutofocus) {
-      if (!event?.target || event.target === this.host) {
+      if (!event?.target || event.target !== this.host) {
         this.firstFocusable?.focus();
       } else {
         (event.target as HTMLElement).focus();
