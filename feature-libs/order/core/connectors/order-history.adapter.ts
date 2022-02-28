@@ -10,7 +10,7 @@ import {
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
-export abstract class OrderAdapter {
+export abstract class OrderHistoryAdapter {
   /**
    * Abstract method used to load order data.
    *

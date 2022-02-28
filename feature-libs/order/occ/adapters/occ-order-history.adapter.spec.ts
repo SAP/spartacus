@@ -26,7 +26,7 @@ import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { OccOrderAdapter } from './occ-order.adapter';
+import { OccOrderHistoryAdapter } from './occ-order-history.adapter';
 
 const userId = '123';
 
@@ -39,8 +39,8 @@ const consignmentCode = 'a00001004';
 
 const returnRequest: ReturnRequest = { rma: 'test return request' };
 
-describe('OccOrderAdapter', () => {
-  let occOrderAdapter: OccOrderAdapter;
+describe('OccOrderHistoryAdapter', () => {
+  let occOrderAdapter: OccOrderHistoryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEnpointsService: OccEndpointsService;
@@ -49,7 +49,7 @@ describe('OccOrderAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, HttpClientTestingModule],
       providers: [
-        OccOrderAdapter,
+        OccOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         {
           provide: OccEndpointsService,
@@ -58,7 +58,7 @@ describe('OccOrderAdapter', () => {
       ],
     });
 
-    occOrderAdapter = TestBed.inject(OccOrderAdapter);
+    occOrderAdapter = TestBed.inject(OccOrderHistoryAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEnpointsService = TestBed.inject(OccEndpointsService);

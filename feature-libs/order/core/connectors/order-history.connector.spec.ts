@@ -1,63 +1,63 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
-import { OrderAdapter } from './order.adapter';
-import { OrderConnector } from './order.connector';
+import { OrderHistoryAdapter } from './order-history.adapter';
+import { OrderHistoryConnector } from './order-history.connector';
 import createSpy = jasmine.createSpy;
 
-class MockOrderAdapter implements OrderAdapter {
-  load = createSpy('OrderAdapter.load').and.callFake((userId, orderCode) =>
-    of(`order-${userId}-${orderCode}`)
+class MockOrderHistoryAdapter implements OrderHistoryAdapter {
+  load = createSpy('OrderHistoryAdapter.load').and.callFake(
+    (userId, orderCode) => of(`order-${userId}-${orderCode}`)
   );
 
-  loadHistory = createSpy('OrderAdapter.loadHistory').and.callFake((userId) =>
-    of(`orderHistory-${userId}`)
+  loadHistory = createSpy('OrderHistoryAdapter.loadHistory').and.callFake(
+    (userId) => of(`orderHistory-${userId}`)
   );
 
   getConsignmentTracking = createSpy(
-    'OrderAdapter.getConsignmentTracking'
+    'OrderHistoryAdapter.getConsignmentTracking'
   ).and.callFake((orderCode, consignmentCode, userId) =>
     of(`consignmentTracking-${userId}-${orderCode}-${consignmentCode}`)
   );
 
   createReturnRequest = createSpy(
-    'OrderAdapter.createReturnRequest'
+    'OrderHistoryAdapter.createReturnRequest'
   ).and.callFake((userId, {}) => of(`orderReturnRequest-${userId}`));
 
   loadReturnRequestList = createSpy(
-    'OrderAdapter.loadReturnRequestList'
+    'OrderHistoryAdapter.loadReturnRequestList'
   ).and.callFake((userId) => of(`loadReturnRequestList-${userId}`));
 
   loadReturnRequestDetail = createSpy(
-    'OrderAdapter.loadReturnRequestDetail'
+    'OrderHistoryAdapter.loadReturnRequestDetail'
   ).and.callFake((userId, returnRequestCode) =>
     of(`loadReturnRequestDetail-${userId}-${returnRequestCode}`)
   );
 
-  cancel = createSpy('OrderAdapter.cancel').and.callFake(
+  cancel = createSpy('OrderHistoryAdapter.cancel').and.callFake(
     (userId, orderCode, {}) => of(`cancel-${userId}-${orderCode}`)
   );
 
   cancelReturnRequest = createSpy(
-    'OrderAdapter.cancelReturnRequest'
+    'OrderHistoryAdapter.cancelReturnRequest'
   ).and.callFake((userId, returnRequestCode, {}) =>
     of(`cancelReturnRequest-${userId}-${returnRequestCode}`)
   );
 }
 
-describe('OrderConnector', () => {
-  let service: OrderConnector;
-  let adapter: OrderAdapter;
+describe('OrderHistoryConnector', () => {
+  let service: OrderHistoryConnector;
+  let adapter: OrderHistoryAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        OrderConnector,
-        { provide: OrderAdapter, useClass: MockOrderAdapter },
+        OrderHistoryConnector,
+        { provide: OrderHistoryAdapter, useClass: MockOrderHistoryAdapter },
       ],
     });
 
-    service = TestBed.inject(OrderConnector);
-    adapter = TestBed.inject(OrderAdapter);
+    service = TestBed.inject(OrderHistoryConnector);
+    adapter = TestBed.inject(OrderHistoryAdapter);
   });
 
   it('should be created', () => {

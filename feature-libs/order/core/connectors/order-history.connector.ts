@@ -10,11 +10,11 @@ import {
   ReturnRequestModification,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { OrderAdapter } from './order.adapter';
+import { OrderHistoryAdapter } from './order-history.adapter';
 
 @Injectable()
-export class OrderConnector {
-  constructor(protected adapter: OrderAdapter) {}
+export class OrderHistoryConnector {
+  constructor(protected adapter: OrderHistoryAdapter) {}
 
   public get(userId: string, orderCode: string): Observable<Order> {
     return this.adapter.load(userId, orderCode);

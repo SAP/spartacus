@@ -9,7 +9,7 @@ import {
   OCC_USER_ID_CURRENT,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { OrderAdapter } from '@spartacus/order/core';
+import { OrderHistoryAdapter } from '@spartacus/order/core';
 import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
@@ -30,7 +30,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccOrderAdapter implements OrderAdapter {
+export class OccOrderHistoryAdapter implements OrderHistoryAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

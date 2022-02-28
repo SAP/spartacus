@@ -6,8 +6,8 @@ import { GlobalMessageService } from '@spartacus/core';
 import { Order } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { OrderAdapter } from '../../connectors/order.adapter';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryAdapter } from '../../connectors/order-history.adapter';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 import * as fromOrderDetailsEffect from './order-details.effect';
 
@@ -30,16 +30,16 @@ class MockGlobalMessageService {
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderConnector: OrderConnector;
+  let orderConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OrderConnector,
+        OrderHistoryConnector,
         fromOrderDetailsEffect.OrderDetailsEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
         {
           provide: GlobalMessageService,
@@ -52,7 +52,7 @@ describe('Order Details effect', () => {
     orderDetailsEffect = TestBed.inject(
       fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.inject(OrderConnector);
+    orderConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('loadOrderDetails$', () => {

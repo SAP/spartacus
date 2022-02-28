@@ -8,8 +8,8 @@ import { OrderHistoryList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
 import {
-  OrderAdapter,
-  OrderConnector,
+  OrderHistoryAdapter,
+  OrderHistoryConnector,
   ReplenishmentOrderAdapter,
   ReplenishmentOrderConnector,
 } from '../../connectors/index';
@@ -26,7 +26,7 @@ const mockError = 'test-error';
 
 describe('Orders effect', () => {
   let ordersEffect: fromOrdersEffect.OrdersEffect;
-  let orderConnector: OrderConnector;
+  let orderConnector: OrderHistoryConnector;
   let replenishmentOrderConnector: ReplenishmentOrderConnector;
   let actions$: Observable<Action>;
 
@@ -34,10 +34,10 @@ describe('Orders effect', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OrderConnector,
+        OrderHistoryConnector,
         ReplenishmentOrderConnector,
         fromOrdersEffect.OrdersEffect,
-        { provide: OrderAdapter, useValue: {} },
+        { provide: OrderHistoryAdapter, useValue: {} },
         { provide: ReplenishmentOrderAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
@@ -45,7 +45,7 @@ describe('Orders effect', () => {
 
     actions$ = TestBed.inject(Actions);
     ordersEffect = TestBed.inject(fromOrdersEffect.OrdersEffect);
-    orderConnector = TestBed.inject(OrderConnector);
+    orderConnector = TestBed.inject(OrderHistoryConnector);
     replenishmentOrderConnector = TestBed.inject(ReplenishmentOrderConnector);
   });
 

@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { provideDefaultConfig } from '@spartacus/core';
 import {
-  OrderAdapter,
+  OrderHistoryAdapter,
   ReplenishmentOrderAdapter,
   ScheduledReplenishmentOrderAdapter,
   UnnamedAdapter,
@@ -17,17 +17,17 @@ import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
 import { OccUnnamedReplenishmentOrderFormSerializer } from './adapters/converters/occ-unnamed-replenishment-order-form-serializer';
-import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-checkout-replenishment-order.adapter';
 import { OccUnnamedAdapter } from './adapters/occ-checkout.adapter';
-import { OccOrderAdapter } from './adapters/occ-order.adapter';
+import { OccOrderHistoryAdapter } from './adapters/occ-order-history.adapter';
 import { OccReplenishmentOrderAdapter } from './adapters/occ-replenishment-order.adapter';
+import { OccScheduledReplenishmentOrderAdapter } from './adapters/occ-scheduled-replenishment-order.adapter';
 import { defaultOccOrderConfig } from './config/default-occ-order-config';
 
 @NgModule({
   imports: [CommonModule],
   providers: [
     provideDefaultConfig(defaultOccOrderConfig),
-    { provide: OrderAdapter, useClass: OccOrderAdapter },
+    { provide: OrderHistoryAdapter, useClass: OccOrderHistoryAdapter },
     {
       provide: ReplenishmentOrderAdapter,
       useClass: OccReplenishmentOrderAdapter,
