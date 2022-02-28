@@ -6,8 +6,8 @@ import {
   ViewContainerRef,
 } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import { RoutingService } from '@spartacus/core';
+import { OrderFacade } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
 
@@ -28,7 +28,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
   }
 
   constructor(
-    protected checkoutFacade: CheckoutFacade,
+    protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
@@ -41,7 +41,7 @@ export class CheckoutPlaceOrderComponent implements OnDestroy {
         LAUNCH_CALLER.PLACE_ORDER_SPINNER,
         this.vcr
       );
-      this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
+      this.orderFacade.placeOrder(this.checkoutSubmitForm.valid).subscribe({
         error: () => {
           if (!this.placedOrder) {
             return;

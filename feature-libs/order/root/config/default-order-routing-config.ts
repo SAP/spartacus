@@ -41,6 +41,8 @@ export const defaultOrderRoutingConfig: RoutingConfig = {
         paths: ['my-account/my-replenishment/:replenishmentOrderCode'],
         paramsMapping: { replenishmentOrderCode: 'replenishmentOrderCode' },
       },
+      replenishmentConfirmation: { paths: ['replenishment/confirmation'] },
+      orderConfirmation: { paths: ['order-confirmation'] },
     },
   },
 };

@@ -16,7 +16,7 @@ import {
   LibraryOptions,
   SpartacusOptions,
   SPARTACUS_CART,
-  SPARTACUS_CHECKOUT,
+  SPARTACUS_ORDER,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_TRACKING,
 } from '@spartacus/schematics';
@@ -163,14 +163,14 @@ describe('Spartacus CDS schematics: ng-add', () => {
           expect(cartTask.options).toHaveProperty('collection', SPARTACUS_CART);
           expect(cartTask.options.options?.features).toEqual([]);
 
-          const chexckoutTask = tasks[1];
-          expect(chexckoutTask).toBeTruthy();
-          expect(chexckoutTask.name).toEqual('add-spartacus-library');
-          expect(chexckoutTask.options).toHaveProperty(
+          const orderTask = tasks[1];
+          expect(orderTask).toBeTruthy();
+          expect(orderTask.name).toEqual('add-spartacus-library');
+          expect(orderTask.options).toHaveProperty(
             'collection',
-            SPARTACUS_CHECKOUT
+            SPARTACUS_ORDER
           );
-          expect(chexckoutTask.options.options?.features).toEqual([]);
+          expect(orderTask.options.options?.features).toEqual([]);
 
           const trackingTask = tasks[2];
           expect(trackingTask).toBeTruthy();

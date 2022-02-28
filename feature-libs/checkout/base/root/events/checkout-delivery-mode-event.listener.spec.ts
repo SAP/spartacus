@@ -1,5 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { LoadCartEvent } from '@spartacus/cart/base/root';
 import {
+  createFrom,
   CxEvent,
   DeleteUserAddressEvent,
   EventService,
@@ -9,13 +11,15 @@ import { of, Subject } from 'rxjs';
 import { CheckoutDeliveryModesFacade } from '../facade/checkout-delivery-modes.facade';
 import { CheckoutDeliveryModeEventListener } from './checkout-delivery-mode-event.listener';
 import {
-  CheckoutDeliveryAddressSetEvent,
   CheckoutDeliveryModeClearedEvent,
   CheckoutDeliveryModeSetEvent,
   CheckoutResetDeliveryModesEvent,
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
+
+const mockUserId = 'test-user-id';
+const mockCartId = 'test-cart-id';
 
 class MockCheckoutDeliveryModesFacade
   implements Partial<CheckoutDeliveryModesFacade>
@@ -80,27 +84,6 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
     });
   });
 
-  describe(`onDeliveryAddressChange`, () => {
-    it(`CheckoutDeliveryAddressSetEvent should call clearCheckoutDeliveryMode()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryAddressSetEvent());
-
-      expect(
-        checkoutDeliveryModesFacade.clearCheckoutDeliveryMode
-      ).toHaveBeenCalled();
-    });
-  });
-
-  describe(`onDeliveryModeChange`, () => {
-    it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
-      mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
-
-      expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
-        CheckoutResetQueryEvent
-      );
-    });
-  });
-
   describe(`onDeliveryModeChange`, () => {
     it(`CheckoutDeliveryModeSetEvent should dispatch CheckoutResetQueryEvent()`, () => {
       mockEventStream$.next(new CheckoutDeliveryModeSetEvent());
@@ -116,6 +99,22 @@ describe(`CheckoutDeliveryModeEventListener`, () => {
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
         CheckoutResetQueryEvent
+      );
+    });
+  });
+
+  describe(`onDeliveryModeReset`, () => {
+    it(`CheckoutResetDeliveryModesEvent should dispatch LoadCartEvent()`, () => {
+      mockEventStream$.next(
+        createFrom(CheckoutResetDeliveryModesEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+        })
+      );
+
+      expect(eventService.dispatch).toHaveBeenCalledWith(
+        { userId: mockUserId, cartId: mockCartId, cartCode: mockCartId },
+        LoadCartEvent
       );
     });
   });
