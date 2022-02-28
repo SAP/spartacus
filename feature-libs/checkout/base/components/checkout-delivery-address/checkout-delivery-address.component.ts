@@ -108,6 +108,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   }
 
   selectAddress(address: Address): void {
+    if (address?.id === getLastValueSync(this.selectedAddress$)?.id) {
+      return;
+    }
+
     this.globalMessageService.add(
       {
         key: 'checkoutAddress.deliveryAddressSelected',

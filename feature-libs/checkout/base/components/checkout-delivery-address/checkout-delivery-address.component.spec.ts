@@ -233,10 +233,28 @@ describe('CheckoutDeliveryAddressComponent', () => {
   });
 
   it('should be able to select address', () => {
-    component.selectAddress({});
+    component.selectAddress(mockAddress1);
+
     expect(
       checkoutDeliveryAddressFacade.setDeliveryAddress
-    ).toHaveBeenCalledWith({});
+    ).toHaveBeenCalledWith(mockAddress1);
+    expect(component['setAddress']).toHaveBeenCalledWith(mockAddress1);
+    expect(globalMessageService.add).toHaveBeenCalled();
+  });
+
+  it('should NOT be able to select address if the selection is the same as the currently set delivery address', () => {
+    checkoutDeliveryAddressFacade.getDeliveryAddressState =
+      createSpy().and.returnValue(
+        of({ loading: false, error: false, data: mockAddress2 })
+      );
+
+    component.selectAddress(mockAddress2);
+
+    expect(
+      checkoutDeliveryAddressFacade.setDeliveryAddress
+    ).not.toHaveBeenCalledWith(mockAddress2);
+    expect(component['setAddress']).not.toHaveBeenCalledWith(mockAddress2);
+    expect(globalMessageService.add).not.toHaveBeenCalled();
   });
 
   it('should be able to add address', () => {
@@ -253,12 +271,6 @@ describe('CheckoutDeliveryAddressComponent', () => {
     component.doneAutoSelect = false;
     component['selectDefaultAddress'](mockAddresses, undefined);
     expect(component['setAddress']).toHaveBeenCalledWith(mockAddress2);
-  });
-
-  it('should show a global message when a new default address is selected', () => {
-    component.selectAddress({});
-    expect(component.selectAddress).toHaveBeenCalledWith({});
-    expect(globalMessageService.add).toHaveBeenCalled();
   });
 
   it('should be able to get card content', () => {
