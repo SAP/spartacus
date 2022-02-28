@@ -7,9 +7,9 @@ import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'cx-guest-register-form',
-  templateUrl: './unnamed-guest-register-form.component.html',
+  templateUrl: './order-guest-register-form.component.html',
 })
-export class UnnamedGuestRegisterFormComponent implements OnDestroy {
+export class OrderGuestRegisterFormComponent implements OnDestroy {
   @Input() guid: string;
   @Input() email: string;
 

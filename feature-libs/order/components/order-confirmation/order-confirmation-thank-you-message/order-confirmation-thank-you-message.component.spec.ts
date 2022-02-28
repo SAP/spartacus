@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { UnnamedOrderConfirmationThankYouMessageComponent } from './unnamed-order-confirmation-thank-you-message.component';
+import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
 import createSpy = jasmine.createSpy;
 
 const replenishmentOrderCode = 'test-repl-code';
@@ -28,9 +28,9 @@ class MockOrderService implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
-describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
-  let component: UnnamedOrderConfirmationThankYouMessageComponent;
-  let fixture: ComponentFixture<UnnamedOrderConfirmationThankYouMessageComponent>;
+describe('OrderConfirmationThankYouMessageComponent', () => {
+  let component: OrderConfirmationThankYouMessageComponent;
+  let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
 
   let checkoutService: OrderFacade;
 
@@ -39,7 +39,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [
-          UnnamedOrderConfirmationThankYouMessageComponent,
+          OrderConfirmationThankYouMessageComponent,
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
@@ -50,7 +50,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(
-      UnnamedOrderConfirmationThankYouMessageComponent
+      OrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
     checkoutService = TestBed.inject(OrderFacade);

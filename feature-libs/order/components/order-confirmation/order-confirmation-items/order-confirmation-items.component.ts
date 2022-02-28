@@ -5,10 +5,10 @@ import { Observable } from 'rxjs';
 
 @Component({
   selector: 'cx-order-confirmation-items',
-  templateUrl: './unnamed-order-confirmation-items.component.html',
+  templateUrl: './order-confirmation-items.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnnamedOrderConfirmationItemsComponent implements OnDestroy {
+export class OrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
   order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();

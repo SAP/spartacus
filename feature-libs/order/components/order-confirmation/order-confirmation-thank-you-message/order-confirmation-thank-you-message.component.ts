@@ -10,10 +10,10 @@ import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
-  templateUrl: './unnamed-order-confirmation-thank-you-message.component.html',
+  templateUrl: './order-confirmation-thank-you-message.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UnnamedOrderConfirmationThankYouMessageComponent
+export class OrderConfirmationThankYouMessageComponent
   implements OnInit, OnDestroy
 {
   order$: Observable<Order | undefined>;

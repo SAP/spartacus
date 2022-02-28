@@ -4,6 +4,7 @@ import {
   OrderCancellationModule,
   OrderReturnModule,
 } from './amend-order/index';
+import { OrderConfirmationModule } from './order-confirmation/order-confirmation.module';
 import { OrderDetailsModule } from './order-details/order-details.module';
 import { OrderHistoryModule } from './order-history/order-history.module';
 import { OrderDetailsOrderEntriesContext } from './page-context/order-details-order-entries.context';
@@ -11,7 +12,6 @@ import { ReplenishmentOrderDetailsModule } from './replenishment-order-details/r
 import { ReplenishmentOrderHistoryModule } from './replenishment-order-history/replenishment-order-history.module';
 import { ReturnRequestDetailModule } from './return-request-detail/return-request-detail.module';
 import { ReturnRequestListModule } from './return-request-list/order-return-request-list.module';
-import { UnnamedOrderConfirmationModule } from './unnamed-order-confirmation/unnamed-order-confirmation.module';
 
 @NgModule({
   imports: [
@@ -23,7 +23,7 @@ import { UnnamedOrderConfirmationModule } from './unnamed-order-confirmation/unn
     ReplenishmentOrderHistoryModule,
     ReturnRequestListModule,
     ReturnRequestDetailModule,
-    UnnamedOrderConfirmationModule,
+    OrderConfirmationModule,
   ],
   providers: [
     {

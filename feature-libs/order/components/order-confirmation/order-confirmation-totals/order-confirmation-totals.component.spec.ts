@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { UnnamedOrderConfirmationTotalsComponent } from './unnamed-order-confirmation-totals.component';
+import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 import createSpy = jasmine.createSpy;
 
 class MockOrderService implements Partial<OrderFacade> {
@@ -13,22 +13,22 @@ class MockOrderService implements Partial<OrderFacade> {
   );
 }
 
-describe('UnnamedOrderConfirmationTotalsComponent', () => {
-  let component: UnnamedOrderConfirmationTotalsComponent;
-  let fixture: ComponentFixture<UnnamedOrderConfirmationTotalsComponent>;
+describe('OrderConfirmationTotalsComponent', () => {
+  let component: OrderConfirmationTotalsComponent;
+  let fixture: ComponentFixture<OrderConfirmationTotalsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
-        declarations: [UnnamedOrderConfirmationTotalsComponent],
+        declarations: [OrderConfirmationTotalsComponent],
         providers: [{ provide: OrderFacade, useClass: MockOrderService }],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnnamedOrderConfirmationTotalsComponent);
+    fixture = TestBed.createComponent(OrderConfirmationTotalsComponent);
     component = fixture.componentInstance;
   });
 

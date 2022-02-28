@@ -18,16 +18,16 @@ import { OrderDetailShippingComponent } from '../order-details/order-detail-ship
 import { OrderDetailsService } from '../order-details/order-details.service';
 import { OrderOverviewModule } from '../order-details/order-overview/order-overview.module';
 import { OrderConfirmationOrderEntriesContext } from '../page-context/order-confirmation-order-entries.context';
-import { UnnamedGuestRegisterFormComponent } from './unnamed-guest-register-form/unnamed-guest-register-form.component';
-import { UnnamedOrderConfirmationItemsComponent } from './unnamed-order-confirmation-items/unnamed-order-confirmation-items.component';
-import { UnnamedOrderConfirmationThankYouMessageComponent } from './unnamed-order-confirmation-thank-you-message/unnamed-order-confirmation-thank-you-message.component';
-import { UnnamedOrderConfirmationTotalsComponent } from './unnamed-order-confirmation-totals/unnamed-order-confirmation-totals.component';
+import { OrderConfirmationItemsComponent } from './order-confirmation-items/order-confirmation-items.component';
+import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message/order-confirmation-thank-you-message.component';
+import { OrderConfirmationTotalsComponent } from './order-confirmation-totals/order-confirmation-totals.component';
+import { OrderGuestRegisterFormComponent } from './order-guest-register-form/order-guest-register-form.component';
 
 const orderConfirmationComponents = [
-  UnnamedOrderConfirmationItemsComponent,
-  UnnamedOrderConfirmationThankYouMessageComponent,
-  UnnamedOrderConfirmationTotalsComponent,
-  UnnamedGuestRegisterFormComponent,
+  OrderConfirmationItemsComponent,
+  OrderConfirmationThankYouMessageComponent,
+  OrderConfirmationTotalsComponent,
+  OrderGuestRegisterFormComponent,
 ];
 
 @NgModule({
@@ -46,29 +46,29 @@ const orderConfirmationComponents = [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
         OrderConfirmationThankMessageComponent: {
-          component: UnnamedOrderConfirmationThankYouMessageComponent,
+          component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationMessageComponent: {
-          component: UnnamedOrderConfirmationThankYouMessageComponent,
+          component: OrderConfirmationThankYouMessageComponent,
           guards: [OrderConfirmationGuard],
         },
 
         OrderConfirmationItemsComponent: {
-          component: UnnamedOrderConfirmationItemsComponent,
+          component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationItemsComponent: {
-          component: UnnamedOrderConfirmationItemsComponent,
+          component: OrderConfirmationItemsComponent,
           guards: [OrderConfirmationGuard],
         },
 
         OrderConfirmationTotalsComponent: {
-          component: UnnamedOrderConfirmationTotalsComponent,
+          component: OrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
         ReplenishmentConfirmationTotalsComponent: {
-          component: UnnamedOrderConfirmationTotalsComponent,
+          component: OrderConfirmationTotalsComponent,
           guards: [OrderConfirmationGuard],
         },
 
@@ -102,4 +102,4 @@ const orderConfirmationComponents = [
   declarations: [...orderConfirmationComponents],
   exports: [...orderConfirmationComponents],
 })
-export class UnnamedOrderConfirmationModule {}
+export class OrderConfirmationModule {}

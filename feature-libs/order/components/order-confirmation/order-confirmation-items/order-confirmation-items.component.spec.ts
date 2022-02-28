@@ -3,7 +3,7 @@ import { FeaturesConfig, I18nTestingModule } from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { PromotionsModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
-import { UnnamedOrderConfirmationItemsComponent } from './unnamed-order-confirmation-items.component';
+import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 import createSpy = jasmine.createSpy;
 
 class MockOrderService implements Partial<OrderFacade> {
@@ -19,15 +19,15 @@ class MockOrderService implements Partial<OrderFacade> {
   );
 }
 
-describe('UnnamedOrderConfirmationItemsComponent', () => {
-  let component: UnnamedOrderConfirmationItemsComponent;
-  let fixture: ComponentFixture<UnnamedOrderConfirmationItemsComponent>;
+describe('OrderConfirmationItemsComponent', () => {
+  let component: OrderConfirmationItemsComponent;
+  let fixture: ComponentFixture<OrderConfirmationItemsComponent>;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule, PromotionsModule],
-        declarations: [UnnamedOrderConfirmationItemsComponent],
+        declarations: [OrderConfirmationItemsComponent],
         providers: [
           { provide: OrderFacade, useClass: MockOrderService },
           {
@@ -42,7 +42,7 @@ describe('UnnamedOrderConfirmationItemsComponent', () => {
   );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnnamedOrderConfirmationItemsComponent);
+    fixture = TestBed.createComponent(OrderConfirmationItemsComponent);
     component = fixture.componentInstance;
   });
 
