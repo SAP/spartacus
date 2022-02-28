@@ -7,8 +7,8 @@ import { normalizeHttpError } from '@spartacus/core';
 import { ReplenishmentOrderList } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ReplenishmentOrderAdapter } from '../../connectors/replenishment-order.adapter';
-import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';
+import { ReplenishmentOrderHistoryAdapter } from '../../connectors/replenishment-order-history.adapter';
+import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';
 import { OrderActions } from '../actions/index';
 import * as fromEffect from './replenishment-orders.effect';
 
@@ -20,16 +20,16 @@ const mockUserReplenishmentOrders: ReplenishmentOrderList = {
 
 describe('Replenishment Orders effect', () => {
   let userReplenishmentOrdersEffect: fromEffect.ReplenishmentOrdersEffect;
-  let replenishmentOrderConnector: ReplenishmentOrderConnector;
+  let replenishmentOrderConnector: ReplenishmentOrderHistoryConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ReplenishmentOrderConnector,
+        ReplenishmentOrderHistoryConnector,
         fromEffect.ReplenishmentOrdersEffect,
-        { provide: ReplenishmentOrderAdapter, useValue: {} },
+        { provide: ReplenishmentOrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
@@ -38,7 +38,9 @@ describe('Replenishment Orders effect', () => {
     userReplenishmentOrdersEffect = TestBed.inject(
       fromEffect.ReplenishmentOrdersEffect
     );
-    replenishmentOrderConnector = TestBed.inject(ReplenishmentOrderConnector);
+    replenishmentOrderConnector = TestBed.inject(
+      ReplenishmentOrderHistoryConnector
+    );
   });
 
   describe('loadUserReplenishmentOrders$', () => {

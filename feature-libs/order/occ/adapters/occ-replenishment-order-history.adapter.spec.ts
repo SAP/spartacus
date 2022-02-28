@@ -21,7 +21,7 @@ import {
   MockOccEndpointsService,
   mockOccModuleConfig,
 } from 'projects/core/src/occ/adapters/user/unit-test.helper';
-import { OccReplenishmentOrderAdapter } from './occ-replenishment-order.adapter';
+import { OccReplenishmentOrderHistoryAdapter } from './occ-replenishment-order-history.adapter';
 
 const mockUserId = 'test-user';
 const mockReplenishmentOrderCode = 'test-repl-code';
@@ -52,8 +52,8 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-describe('OccReplenishmentOrderAdapter', () => {
-  let occAdapter: OccReplenishmentOrderAdapter;
+describe('OccReplenishmentOrderHistoryAdapter', () => {
+  let occAdapter: OccReplenishmentOrderHistoryAdapter;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
   let occEndpointService: OccEndpointsService;
@@ -62,13 +62,13 @@ describe('OccReplenishmentOrderAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccReplenishmentOrderAdapter,
+        OccReplenishmentOrderHistoryAdapter,
         { provide: OccConfig, useValue: mockOccModuleConfig },
         { provide: OccEndpointsService, useClass: MockOccEndpointsService },
       ],
     });
 
-    occAdapter = TestBed.inject(OccReplenishmentOrderAdapter);
+    occAdapter = TestBed.inject(OccReplenishmentOrderHistoryAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
     occEndpointService = TestBed.inject(OccEndpointsService);

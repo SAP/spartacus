@@ -5,7 +5,7 @@ import {
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
-export abstract class ReplenishmentOrderAdapter {
+export abstract class ReplenishmentOrderHistoryAdapter {
   /**
    * Abstract method used to load replenishment order details.
    *

@@ -10,8 +10,8 @@ import { Observable, of, throwError } from 'rxjs';
 import {
   OrderHistoryAdapter,
   OrderHistoryConnector,
-  ReplenishmentOrderAdapter,
-  ReplenishmentOrderConnector,
+  ReplenishmentOrderHistoryAdapter,
+  ReplenishmentOrderHistoryConnector,
 } from '../../connectors/index';
 import { OrderActions } from '../actions/index';
 import * as fromOrdersEffect from './orders.effect';
@@ -27,7 +27,7 @@ const mockError = 'test-error';
 describe('Orders effect', () => {
   let ordersEffect: fromOrdersEffect.OrdersEffect;
   let orderConnector: OrderHistoryConnector;
-  let replenishmentOrderConnector: ReplenishmentOrderConnector;
+  let replenishmentOrderConnector: ReplenishmentOrderHistoryConnector;
   let actions$: Observable<Action>;
 
   beforeEach(() => {
@@ -35,10 +35,10 @@ describe('Orders effect', () => {
       imports: [HttpClientTestingModule],
       providers: [
         OrderHistoryConnector,
-        ReplenishmentOrderConnector,
+        ReplenishmentOrderHistoryConnector,
         fromOrdersEffect.OrdersEffect,
         { provide: OrderHistoryAdapter, useValue: {} },
-        { provide: ReplenishmentOrderAdapter, useValue: {} },
+        { provide: ReplenishmentOrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
@@ -46,7 +46,9 @@ describe('Orders effect', () => {
     actions$ = TestBed.inject(Actions);
     ordersEffect = TestBed.inject(fromOrdersEffect.OrdersEffect);
     orderConnector = TestBed.inject(OrderHistoryConnector);
-    replenishmentOrderConnector = TestBed.inject(ReplenishmentOrderConnector);
+    replenishmentOrderConnector = TestBed.inject(
+      ReplenishmentOrderHistoryConnector
+    );
   });
 
   describe('loadUserOrders$', () => {

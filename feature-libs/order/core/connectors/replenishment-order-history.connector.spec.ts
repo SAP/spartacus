@@ -5,8 +5,8 @@ import {
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
-import { ReplenishmentOrderAdapter } from './replenishment-order.adapter';
-import { ReplenishmentOrderConnector } from './replenishment-order.connector';
+import { ReplenishmentOrderHistoryAdapter } from './replenishment-order-history.adapter';
+import { ReplenishmentOrderHistoryConnector } from './replenishment-order-history.connector';
 
 const userId = 'test-user-id';
 const replenishmentCode = 'test-order-id';
@@ -28,7 +28,9 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-class MockReplenishmentOrderAdapter implements ReplenishmentOrderAdapter {
+class MockReplenishmentOrderAdapter
+  implements ReplenishmentOrderHistoryAdapter
+{
   load(
     _userId: string,
     _replenishmentOrderCode: string
@@ -58,23 +60,23 @@ class MockReplenishmentOrderAdapter implements ReplenishmentOrderAdapter {
   }
 }
 
-describe('ReplenishmentOrderConnector', () => {
-  let adapter: ReplenishmentOrderAdapter;
-  let connector: ReplenishmentOrderConnector;
+describe('ReplenishmentOrderHistoryConnector', () => {
+  let adapter: ReplenishmentOrderHistoryAdapter;
+  let connector: ReplenishmentOrderHistoryConnector;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ReplenishmentOrderConnector,
+        ReplenishmentOrderHistoryConnector,
         {
-          provide: ReplenishmentOrderAdapter,
+          provide: ReplenishmentOrderHistoryAdapter,
           useClass: MockReplenishmentOrderAdapter,
         },
       ],
     });
 
-    adapter = TestBed.inject(ReplenishmentOrderAdapter);
-    connector = TestBed.inject(ReplenishmentOrderConnector);
+    adapter = TestBed.inject(ReplenishmentOrderHistoryAdapter);
+    connector = TestBed.inject(ReplenishmentOrderHistoryConnector);
   });
 
   it('should create', () => {

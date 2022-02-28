@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ConverterService, Occ, OccEndpointsService } from '@spartacus/core';
-import { ReplenishmentOrderAdapter } from '@spartacus/order/core';
+import { ReplenishmentOrderHistoryAdapter } from '@spartacus/order/core';
 import {
   OrderHistoryList,
   ORDER_HISTORY_NORMALIZER,
@@ -13,7 +13,9 @@ import {
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class OccReplenishmentOrderAdapter implements ReplenishmentOrderAdapter {
+export class OccReplenishmentOrderHistoryAdapter
+  implements ReplenishmentOrderHistoryAdapter
+{
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

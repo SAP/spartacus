@@ -6,7 +6,7 @@ import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
   OrderHistoryConnector,
-  ReplenishmentOrderConnector,
+  ReplenishmentOrderHistoryConnector,
 } from '../../connectors/index';
 import { OrderActions } from '../actions/index';
 
@@ -15,7 +15,7 @@ export class OrdersEffect {
   constructor(
     private actions$: Actions,
     private orderConnector: OrderHistoryConnector,
-    private replenishmentOrderConnector: ReplenishmentOrderConnector
+    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
   ) {}
 
   @Effect()
