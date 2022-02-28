@@ -122,7 +122,7 @@ class OtherPageLayoutHandler {
   }
 }
 
-fdescribe('PageLayoutService', () => {
+describe('PageLayoutService', () => {
   let pageLayoutService: PageLayoutService;
   let cmsService: CmsService;
   let breakpointService: BreakpointService;
