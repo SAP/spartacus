@@ -287,7 +287,6 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
@@ -498,9 +497,9 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .contains('proceed to checkout')
     .click()
     .then(() => {
-      cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
+      cy.location('pathname').should('contain', '/checkout/delivery-address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('cx-delivery-address').should('be.visible');
     });
 }
 

@@ -1,0 +1,78 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "../../out-tsc/lib",
+    "target": "es2015",
+    "module": "es2020",
+    "moduleResolution": "node",
+    "declaration": true,
+    "sourceMap": true,
+    "inlineSources": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "skipLibCheck": true, // Needed due to @sapui5/ts-types-esm
+    "lib": ["dom", "esnext"],
+    "paths": {
+      "@spartacus/core": ["dist/core"],
+      "@spartacus/storefront": ["dist/storefrontlib"],
+      "@spartacus/cart/base/assets": ["dist/cart/base/assets"],
+      "@spartacus/cart/base/components/add-to-cart": [
+        "dist/cart/base/components/add-to-cart"
+      ],
+      "@spartacus/cart/base/components/mini-cart": [
+        "dist/cart/base/components/mini-cart"
+      ],
+      "@spartacus/cart/base/components": ["dist/cart/base/components"],
+      "@spartacus/cart/base/core": ["dist/cart/base/core"],
+      "@spartacus/cart/base": ["dist/cart/base"],
+      "@spartacus/cart/base/occ": ["dist/cart/base/occ"],
+      "@spartacus/cart/base/root": ["dist/cart/base/root"],
+      "@spartacus/cart/import-export/assets": [
+        "dist/cart/import-export/assets"
+      ],
+      "@spartacus/cart/import-export/components": [
+        "dist/cart/import-export/components"
+      ],
+      "@spartacus/cart/import-export/core": ["dist/cart/import-export/core"],
+      "@spartacus/cart/import-export": ["dist/cart/import-export"],
+      "@spartacus/cart/import-export/root": ["dist/cart/import-export/root"],
+      "@spartacus/cart": ["dist/cart"],
+      "@spartacus/cart/quick-order/assets": ["dist/cart/quick-order/assets"],
+      "@spartacus/cart/quick-order/components": [
+        "dist/cart/quick-order/components"
+      ],
+      "@spartacus/cart/quick-order/core": ["dist/cart/quick-order/core"],
+      "@spartacus/cart/quick-order": ["dist/cart/quick-order"],
+      "@spartacus/cart/quick-order/root": ["dist/cart/quick-order/root"],
+      "@spartacus/cart/saved-cart/assets": ["dist/cart/saved-cart/assets"],
+      "@spartacus/cart/saved-cart/components": [
+        "dist/cart/saved-cart/components"
+      ],
+      "@spartacus/cart/saved-cart/core": ["dist/cart/saved-cart/core"],
+      "@spartacus/cart/saved-cart": ["dist/cart/saved-cart"],
+      "@spartacus/cart/saved-cart/occ": ["dist/cart/saved-cart/occ"],
+      "@spartacus/cart/saved-cart/root": ["dist/cart/saved-cart/root"],
+      "@spartacus/cart/wish-list/assets": ["dist/cart/wish-list/assets"],
+      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+        "dist/cart/wish-list/components/add-to-wishlist"
+      ],
+      "@spartacus/cart/wish-list/components": [
+        "dist/cart/wish-list/components"
+      ],
+      "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
+      "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
+      "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"]
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
+  },
+  "angularCompilerOptions": {
+    "skipTemplateCodegen": true,
+    "strictMetadataEmit": true,
+    "fullTemplateTypeCheck": true,
+    "strictInjectionParameters": true,
+    "enableResourceInlining": false
+  },
+  "exclude": ["test.ts", "**/*.spec.ts"]
+}

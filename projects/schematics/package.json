@@ -43,7 +43,6 @@
       "@spartacus/user",
       "@spartacus/cds",
       "@spartacus/assets",
-      "@spartacus/incubator",
       "@spartacus/organization",
       "@spartacus/product",
       "@spartacus/storefinder",
@@ -56,6 +55,7 @@
       "@spartacus/cart",
       "@spartacus/order",
       "@spartacus/digital-payments",
+      "@spartacus/epd-visualization",
       "@spartacus/setup"
     ]
   },

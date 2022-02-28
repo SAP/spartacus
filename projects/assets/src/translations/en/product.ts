@@ -30,11 +30,23 @@ export const product = {
       label: 'Filter by',
       action: 'Filter by',
       facet: 'Filter results by Facets',
+      name: 'Filter by {{name}}',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    ariaLabelShowLess:
+      'Show Less, button, clicking on this button will reduce options for the active group',
+    ariaLabelShowMore:
+      'Show more, button, clicking on this button will show all options for the active group',
+    ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
+    ariaLabelItemsAvailable_plural:
+      '{{name}}, {{state}} {{count}} items available',
+    decreaseOptionsVisibility:
+      'Options were hidden from the active group, tab backward to read them or forward for the next group',
+    increaseOptionsVisibility:
+      'More options were added to the active group, tab backward to read them or forward for the next group',
   },
   productSummary: {
     id: 'ID',
@@ -81,6 +93,7 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
     tabPanelContainerRegion: 'Tab group with more product details',
   },
