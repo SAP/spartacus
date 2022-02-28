@@ -1238,14 +1238,26 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should convert a configuration with interval attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
-      expect(result.groups[0].attributes[0].placeholder).toBe('2-5 ; 10-12');
+      if (result.groups.length > 0) {
+        const group = result.groups[0];
+        if (group.attributes && group.attributes.length > 0) {
+          const attribute = group.attributes[0];
+          expect(attribute.placeholder).toBe('2-5 ; 10-12');
+        }
+      }
     });
 
     it('should convert a configuration without interval attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(
         configurationWithoutInterval
       );
-      expect(result.groups[0].attributes[0].placeholder).toBeUndefined();
+      if (result.groups.length > 0) {
+        const group = result.groups[0];
+        if (group.attributes && group.attributes.length > 0) {
+          const attribute = group.attributes[0];
+          expect(attribute.placeholder).toBeUndefined();
+        }
+      }
     });
   });
 });
