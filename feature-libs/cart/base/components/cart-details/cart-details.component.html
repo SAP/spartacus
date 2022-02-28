@@ -31,14 +31,13 @@
 </ng-container>
 
 <ng-template let-ctx #saveForLaterBtn>
-  <div *ngIf="selectiveCartEnabled">
-    <button
-      class="link cx-action-link"
-      [disabled]="ctx.loading"
-      (click)="saveForLater(ctx.item)"
-      type="button"
-    >
-      {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
-    </button>
-  </div>
+  <button
+    *ngIf="selectiveCartEnabled"
+    class="link cx-action-link"
+    [disabled]="ctx.loading"
+    (click)="saveForLater(ctx.item)"
+    type="button"
+  >
+    {{ 'saveForLaterItems.saveForLater' | cxTranslate }}
+  </button>
 </ng-template>
