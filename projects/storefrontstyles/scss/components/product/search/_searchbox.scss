@@ -181,12 +181,6 @@
       z-index: 10;
     }
 
-    > ul {
-      list-style: none;
-      padding-inline-start: 0;
-      margin-bottom: 0;
-    }
-
     a {
       text-decoration: none;
       cursor: pointer;
@@ -205,16 +199,24 @@
         color: currentColor;
       }
     }
-    .suggestion {
+    .suggestions {
       display: flex;
       flex-wrap: wrap;
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+      li,
       a {
         flex: 100%;
         line-height: 2rem;
         display: block;
       }
     }
-    .product {
+    .products {
+      list-style: none;
+      padding-inline-start: 0;
+      margin-bottom: 0;
+
       @include media-breakpoint-down(sm) {
         display: none;
       }
