@@ -100,7 +100,7 @@ class MockCommonConfiguratorUtilsService {
   }
 }
 
-class MockUserOrderService {
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   loadOrderDetails() {}
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
@@ -258,7 +258,7 @@ describe('ConfigAddToCartButtonComponent', () => {
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
             provide: OrderHistoryFacade,
-            useClass: MockUserOrderService,
+            useClass: MockOrderHistoryFacade,
           },
           {
             provide: CommonConfiguratorUtilsService,

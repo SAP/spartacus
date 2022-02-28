@@ -28,8 +28,8 @@ const mockOrderHistoryList: OrderHistoryList = {
   sorts: [],
 };
 
-class MockReplenishmentOrderAdapter
-  implements ReplenishmentOrderHistoryAdapter
+class MockReplenishmentOrderHistoryAdapter
+  implements Partial<ReplenishmentOrderHistoryAdapter>
 {
   load(
     _userId: string,
@@ -70,7 +70,7 @@ describe('ReplenishmentOrderHistoryConnector', () => {
         ReplenishmentOrderHistoryConnector,
         {
           provide: ReplenishmentOrderHistoryAdapter,
-          useClass: MockReplenishmentOrderAdapter,
+          useClass: MockReplenishmentOrderHistoryAdapter,
         },
       ],
     });

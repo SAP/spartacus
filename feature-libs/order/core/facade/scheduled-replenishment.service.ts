@@ -12,7 +12,7 @@ import {
   OrderFacade,
   ReplenishmentOrder,
   ReplenishmentOrderScheduledEvent,
-  ScheduledReplenishmentFacade,
+  ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
@@ -20,8 +20,8 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 
 @Injectable()
-export class ScheduledReplenishmentService
-  implements ScheduledReplenishmentFacade
+export class ScheduledReplenishmentOrderService
+  implements ScheduledReplenishmentOrderFacade
 {
   protected scheduleReplenishmentOrderCommand: Command<
     { termsChecked: boolean; form: ScheduleReplenishmentForm },
@@ -33,11 +33,11 @@ export class ScheduledReplenishmentService
     ({ form, termsChecked }) =>
       this.checkoutPreconditions().pipe(
         switchMap(([userId, cartId]) =>
-          this.checkoutReplenishmentOrderConnector
+          this.scheduledReplenishmentOrderConnector
             .scheduleReplenishmentOrder(cartId, form, termsChecked, userId)
             .pipe(
               tap((replenishmentOrder) => {
-                this.checkoutFacade.setPlacedOrder(replenishmentOrder);
+                this.orderFacade.setPlacedOrder(replenishmentOrder);
                 this.eventService.dispatch(
                   {
                     userId,
@@ -71,9 +71,9 @@ export class ScheduledReplenishmentService
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
-    protected checkoutReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
+    protected scheduledReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
     protected eventService: EventService,
-    protected checkoutFacade: OrderFacade
+    protected orderFacade: OrderFacade
   ) {}
 
   protected checkoutPreconditions(): Observable<[string, string]> {

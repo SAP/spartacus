@@ -13,7 +13,7 @@ import {
 } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
-import { ScheduledReplenishmentService } from './scheduled-replenishment.service';
+import { ScheduledReplenishmentOrderService } from './scheduled-replenishment.service';
 
 import createSpy = jasmine.createSpy;
 
@@ -53,16 +53,16 @@ class MockOrderFacade implements Partial<OrderFacade> {
   setPlacedOrder = createSpy();
 }
 
-describe(`ScheduledReplenishmentService`, () => {
-  let service: ScheduledReplenishmentService;
+describe(`ScheduledReplenishmentOrderService`, () => {
+  let service: ScheduledReplenishmentOrderService;
   let connector: ScheduledReplenishmentOrderConnector;
-  let checkoutFacade: OrderFacade;
+  let orderFacade: OrderFacade;
   let eventService: EventService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        ScheduledReplenishmentService,
+        ScheduledReplenishmentOrderService,
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
@@ -77,16 +77,18 @@ describe(`ScheduledReplenishmentService`, () => {
       ],
     });
 
-    service = TestBed.inject(ScheduledReplenishmentService);
+    service = TestBed.inject(ScheduledReplenishmentOrderService);
     connector = TestBed.inject(ScheduledReplenishmentOrderConnector);
-    checkoutFacade = TestBed.inject(OrderFacade);
+    orderFacade = TestBed.inject(OrderFacade);
     eventService = TestBed.inject(EventService);
   });
 
-  it(`should inject ScheduledReplenishmentService`, inject(
-    [ScheduledReplenishmentService],
-    (checkoutScheduledReplenishmentService: ScheduledReplenishmentService) => {
-      expect(checkoutScheduledReplenishmentService).toBeTruthy();
+  it(`should inject ScheduledReplenishmentOrderService`, inject(
+    [ScheduledReplenishmentOrderService],
+    (
+      scheduledReplenishmentOrderService: ScheduledReplenishmentOrderService
+    ) => {
+      expect(scheduledReplenishmentOrderService).toBeTruthy();
     }
   ));
 
@@ -105,13 +107,13 @@ describe(`ScheduledReplenishmentService`, () => {
       );
     });
 
-    it(`should call checkoutFacade`, () => {
+    it(`should call orderFacade`, () => {
       service.scheduleReplenishmentOrder(
         mockScheduleReplenishmentForm,
         termsChecked
       );
 
-      expect(checkoutFacade.setPlacedOrder).toHaveBeenCalledWith(
+      expect(orderFacade.setPlacedOrder).toHaveBeenCalledWith(
         mockReplenishmentOrder
       );
     });

@@ -51,7 +51,9 @@ const mockRouter = {
 
 const routerSubject = new BehaviorSubject<{ state: object }>(mockRouter);
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return of(mockReplenishmentOrder);
   }
@@ -67,7 +69,7 @@ class MockRoutingService {
 
 describe('ReplenishmentOrderDetailsService', () => {
   let replenishmentOrderDetailsService: ReplenishmentOrderDetailsService;
-  let userReplenishmentOrderService: ReplenishmentOrderHistoryFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -75,7 +77,7 @@ describe('ReplenishmentOrderDetailsService', () => {
         ReplenishmentOrderDetailsService,
         {
           provide: ReplenishmentOrderHistoryFacade,
-          useClass: MockUserReplenishmentOrderService,
+          useClass: MockReplenishmentOrderHistoryFacade,
         },
         {
           provide: RoutingService,
@@ -87,20 +89,20 @@ describe('ReplenishmentOrderDetailsService', () => {
     replenishmentOrderDetailsService = TestBed.inject(
       ReplenishmentOrderDetailsService
     );
-    userReplenishmentOrderService = TestBed.inject(
+    replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
     );
 
     spyOn(
-      userReplenishmentOrderService,
+      replenishmentOrderHistoryFacade,
       'loadReplenishmentOrderDetails'
     ).and.callThrough();
     spyOn(
-      userReplenishmentOrderService,
+      replenishmentOrderHistoryFacade,
       'clearReplenishmentOrderDetails'
     ).and.callThrough();
     spyOn(
-      userReplenishmentOrderService,
+      replenishmentOrderHistoryFacade,
       'getReplenishmentOrderDetails'
     ).and.returnValue(of(mockReplenishmentOrder));
   });
@@ -120,10 +122,10 @@ describe('ReplenishmentOrderDetailsService', () => {
       .unsubscribe();
 
     expect(
-      userReplenishmentOrderService.loadReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.loadReplenishmentOrderDetails
     ).toHaveBeenCalledWith('1');
     expect(
-      userReplenishmentOrderService.getReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails
     ).toHaveBeenCalled();
     expect(orderDetails).toBe(mockReplenishmentOrder);
   });
@@ -139,10 +141,10 @@ describe('ReplenishmentOrderDetailsService', () => {
       .unsubscribe();
 
     expect(
-      userReplenishmentOrderService.clearReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.clearReplenishmentOrderDetails
     ).toHaveBeenCalled();
     expect(
-      userReplenishmentOrderService.getReplenishmentOrderDetails
+      replenishmentOrderHistoryFacade.getReplenishmentOrderDetails
     ).toHaveBeenCalled();
     expect(orderDetails).toBe(mockReplenishmentOrder);
   });

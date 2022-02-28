@@ -21,15 +21,15 @@ import { filter, map, take, tap } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnDestroy {
   constructor(
     protected routing: RoutingService,
-    protected userOrderService: OrderHistoryFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade
   ) {}
 
   private PAGE_SIZE = 5;
   sortType: string;
 
-  orders$: Observable<OrderHistoryList | undefined> = this.userOrderService
+  orders$: Observable<OrderHistoryList | undefined> = this.orderHistoryFacade
     .getOrderHistoryList(this.PAGE_SIZE)
     .pipe(
       tap((orders: OrderHistoryList | undefined) => {
@@ -40,12 +40,12 @@ export class OrderHistoryComponent implements OnDestroy {
     );
 
   hasReplenishmentOrder$: Observable<boolean> =
-    this.userReplenishmentOrderService
+    this.replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
       .pipe(map((order) => order && Object.keys(order).length !== 0));
 
   isLoaded$: Observable<boolean> =
-    this.userOrderService.getOrderHistoryListLoaded();
+    this.orderHistoryFacade.getOrderHistoryListLoaded();
 
   /**
    * When "Order Return" feature is enabled, this component becomes one tab in
@@ -58,7 +58,7 @@ export class OrderHistoryComponent implements OnDestroy {
   );
 
   ngOnDestroy(): void {
-    this.userOrderService.clearOrderList();
+    this.orderHistoryFacade.clearOrderList();
   }
 
   changeSortCode(sortCode: string): void {
@@ -100,7 +100,7 @@ export class OrderHistoryComponent implements OnDestroy {
   }
 
   private fetchOrders(event: { sortCode: string; currentPage: number }): void {
-    this.userOrderService.loadOrderList(
+    this.orderHistoryFacade.loadOrderList(
       this.PAGE_SIZE,
       event.currentPage,
       event.sortCode

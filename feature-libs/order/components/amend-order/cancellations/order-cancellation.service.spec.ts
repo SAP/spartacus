@@ -44,7 +44,7 @@ class MockGlobalMessageService {
 
 describe('OrderCancellationService', () => {
   let service: OrderCancellationService;
-  let userOrderService: OrderHistoryFacade;
+  let orderHistoryFacade: OrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
@@ -75,7 +75,7 @@ describe('OrderCancellationService', () => {
 
     service = TestBed.inject(OrderCancellationService);
 
-    userOrderService = TestBed.inject(OrderHistoryFacade);
+    orderHistoryFacade = TestBed.inject(OrderHistoryFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 
@@ -119,7 +119,7 @@ describe('OrderCancellationService', () => {
   it('should save one item', () => {
     service.save();
 
-    expect(userOrderService.cancelOrder).toHaveBeenCalledWith('123', {
+    expect(orderHistoryFacade.cancelOrder).toHaveBeenCalledWith('123', {
       cancellationRequestEntryInputs: [{ orderEntryNumber: 1, quantity: 3 }],
     });
   });

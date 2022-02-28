@@ -5,7 +5,7 @@ import { of } from 'rxjs';
 import { OrderConfirmationTotalsComponent } from './order-confirmation-totals.component';
 import createSpy = jasmine.createSpy;
 
-class MockOrderService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(
     of({
       code: 'test-code-412',
@@ -22,7 +22,7 @@ describe('OrderConfirmationTotalsComponent', () => {
       TestBed.configureTestingModule({
         imports: [I18nTestingModule],
         declarations: [OrderConfirmationTotalsComponent],
-        providers: [{ provide: OrderFacade, useClass: MockOrderService }],
+        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
       }).compileComponents();
     })
   );

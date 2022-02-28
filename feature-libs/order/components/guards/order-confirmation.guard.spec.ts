@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { OrderConfirmationGuard } from './order-confirmation.guard';
 import createSpy = jasmine.createSpy;
 
-class MockOrderService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(undefined));
 }
 
@@ -16,7 +16,7 @@ class MockSemanticPathService implements Partial<SemanticPathService> {
 
 describe(`OrderConfirmationGuard`, () => {
   let guard: OrderConfirmationGuard;
-  let mockOrderFacade: OrderFacade;
+  let orderFacade: OrderFacade;
   let semanticPathService: SemanticPathService;
 
   beforeEach(() => {
@@ -26,20 +26,20 @@ describe(`OrderConfirmationGuard`, () => {
           provide: RoutingService,
           useValue: { go: jasmine.createSpy() },
         },
-        { provide: OrderFacade, useClass: MockOrderService },
+        { provide: OrderFacade, useClass: MockOrderFacade },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
       ],
       imports: [RouterTestingModule],
     });
 
     guard = TestBed.inject(OrderConfirmationGuard);
-    mockOrderFacade = TestBed.inject(OrderFacade);
+    orderFacade = TestBed.inject(OrderFacade);
     semanticPathService = TestBed.inject(SemanticPathService);
   });
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      mockOrderFacade.getOrderDetails = createSpy().and.returnValue(of({}));
+      orderFacade.getOrderDetails = createSpy().and.returnValue(of({}));
       semanticPathService.get =
         createSpy().and.returnValue('/my-account/orders');
 
@@ -52,7 +52,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      mockOrderFacade.getOrderDetails = createSpy().and.returnValue(
+      orderFacade.getOrderDetails = createSpy().and.returnValue(
         of({ code: 'test order' })
       );
 

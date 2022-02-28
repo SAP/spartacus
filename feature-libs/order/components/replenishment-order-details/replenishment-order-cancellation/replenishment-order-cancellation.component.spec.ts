@@ -28,7 +28,9 @@ const mockReplenishmentOrder$ = new BehaviorSubject<ReplenishmentOrder>(
   mockReplenishmentOrder
 );
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return mockReplenishmentOrder$.asObservable();
   }
@@ -54,7 +56,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 describe('ReplenishmentOrderCancellationComponent', () => {
   let component: ReplenishmentOrderCancellationComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderHistoryFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
@@ -67,7 +69,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
         providers: [
           {
             provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockUserReplenishmentOrderService,
+            useClass: MockReplenishmentOrderHistoryFacade,
           },
           {
             provide: LaunchDialogService,
@@ -80,7 +82,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
-    userReplenishmentOrderService = TestBed.inject(
+    replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
     );
     launchDialogService = TestBed.inject(LaunchDialogService);
@@ -97,7 +99,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
   it('should be able to get replenishment order details', () => {
     let result: ReplenishmentOrder;
 
-    userReplenishmentOrderService
+    replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
       .subscribe((data) => (result = data))
       .unsubscribe();

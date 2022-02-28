@@ -30,7 +30,7 @@ class MockGlobalMessageService {
 
 describe('Order Details effect', () => {
   let orderDetailsEffect: fromOrderDetailsEffect.OrderDetailsEffect;
-  let orderConnector: OrderHistoryConnector;
+  let orderHistoryConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -52,12 +52,12 @@ describe('Order Details effect', () => {
     orderDetailsEffect = TestBed.inject(
       fromOrderDetailsEffect.OrderDetailsEffect
     );
-    orderConnector = TestBed.inject(OrderHistoryConnector);
+    orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('loadOrderDetails$', () => {
     it('should load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(of(mockOrderDetails));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(of(mockOrderDetails));
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
       const completion = new OrderActions.LoadOrderDetailsSuccess(
@@ -71,7 +71,7 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for load order details', () => {
-      spyOn(orderConnector, 'get').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'get').and.returnValue(throwError('Error'));
 
       const action = new OrderActions.LoadOrderDetails(mockOrderDetailsParams);
 
@@ -86,7 +86,7 @@ describe('Order Details effect', () => {
 
   describe('cancelOrder$', () => {
     it('should cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(of({}));
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(of({}));
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 
@@ -99,7 +99,9 @@ describe('Order Details effect', () => {
     });
 
     it('should handle failures for cancel an order', () => {
-      spyOn(orderConnector, 'cancel').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'cancel').and.returnValue(
+        throwError('Error')
+      );
 
       const action = new OrderActions.CancelOrder(mockCancelOrderParams);
 

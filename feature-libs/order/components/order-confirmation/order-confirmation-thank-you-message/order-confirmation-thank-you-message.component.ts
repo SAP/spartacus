@@ -21,10 +21,10 @@ export class OrderConfirmationThankYouMessageComponent
   isGuestCustomer = false;
   orderGuid: string | undefined;
 
-  constructor(protected checkoutFacade: OrderFacade) {}
+  constructor(protected orderFacade: OrderFacade) {}
 
   ngOnInit(): void {
-    this.order$ = this.checkoutFacade.getOrderDetails().pipe(
+    this.order$ = this.orderFacade.getOrderDetails().pipe(
       tap((order) => {
         this.isGuestCustomer =
           order && 'guestCustomer' in order
@@ -36,6 +36,6 @@ export class OrderConfirmationThankYouMessageComponent
   }
 
   ngOnDestroy() {
-    this.checkoutFacade.clearPlacedOrder();
+    this.orderFacade.clearPlacedOrder();
   }
 }

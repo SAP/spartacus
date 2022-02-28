@@ -22,7 +22,7 @@ export class OrderService implements OrderFacade {
       (payload) =>
         this.checkoutPreconditions().pipe(
           switchMap(([userId, cartId]) =>
-            this.checkoutConnector.placeOrder(userId, cartId, payload).pipe(
+            this.orderConnector.placeOrder(userId, cartId, payload).pipe(
               tap((order) => {
                 this.order$.next(order);
                 this.eventService.dispatch(
@@ -58,7 +58,7 @@ export class OrderService implements OrderFacade {
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
-    protected checkoutConnector: OrderConnector,
+    protected orderConnector: OrderConnector,
     protected eventService: EventService
   ) {}
 

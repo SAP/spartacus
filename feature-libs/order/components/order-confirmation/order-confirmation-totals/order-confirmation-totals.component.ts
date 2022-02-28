@@ -10,11 +10,11 @@ import { Observable } from 'rxjs';
 })
 export class OrderConfirmationTotalsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
-  order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();
+  order$: Observable<Order | undefined> = this.orderFacade.getOrderDetails();
 
-  constructor(protected checkoutFacade: OrderFacade) {}
+  constructor(protected orderFacade: OrderFacade) {}
 
   ngOnDestroy() {
-    this.checkoutFacade.clearPlacedOrder();
+    this.orderFacade.clearPlacedOrder();
   }
 }

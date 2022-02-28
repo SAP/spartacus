@@ -4,13 +4,13 @@ import {
   OrderHistoryFacade,
   OrderReturnRequestFacade,
   ReplenishmentOrderHistoryFacade,
-  ScheduledReplenishmentFacade,
+  ScheduledReplenishmentOrderFacade,
 } from '@spartacus/order/root';
 import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
-import { ScheduledReplenishmentService } from './scheduled-replenishment.service';
+import { ScheduledReplenishmentOrderService } from './scheduled-replenishment.service';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
@@ -28,10 +28,10 @@ export const facadeProviders: Provider[] = [
     provide: ReplenishmentOrderHistoryFacade,
     useExisting: ReplenishmentOrderHistoryService,
   },
-  ScheduledReplenishmentService,
+  ScheduledReplenishmentOrderService,
   {
-    provide: ScheduledReplenishmentFacade,
-    useExisting: ScheduledReplenishmentService,
+    provide: ScheduledReplenishmentOrderFacade,
+    useExisting: ScheduledReplenishmentOrderService,
   },
   OrderService,
   {

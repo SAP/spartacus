@@ -21,7 +21,9 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
-class MockUserReplenishmentOrderService {
+class MockReplenishmentOrderHistoryFacade
+  implements Partial<ReplenishmentOrderHistoryFacade>
+{
   getReplenishmentOrderDetails(): Observable<ReplenishmentOrder> {
     return of(mockReplenishmentOrder);
   }
@@ -53,7 +55,7 @@ class MockLaunchDialogService {
 
 describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let component: ReplenishmentOrderCancellationDialogComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderHistoryFacade;
+  let replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
@@ -66,7 +68,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         providers: [
           {
             provide: ReplenishmentOrderHistoryFacade,
-            useClass: MockUserReplenishmentOrderService,
+            useClass: MockReplenishmentOrderHistoryFacade,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
@@ -79,7 +81,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     fixture = TestBed.createComponent(
       ReplenishmentOrderCancellationDialogComponent
     );
-    userReplenishmentOrderService = TestBed.inject(
+    replenishmentOrderHistoryFacade = TestBed.inject(
       ReplenishmentOrderHistoryFacade
     );
     globalMessageService = TestBed.inject(GlobalMessageService);
@@ -96,7 +98,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   it('should be able to get replenishment order details', () => {
     let result: ReplenishmentOrder;
 
-    userReplenishmentOrderService
+    replenishmentOrderHistoryFacade
       .getReplenishmentOrderDetails()
       .subscribe((data) => (result = data))
       .unsubscribe();
@@ -105,9 +107,12 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should redirect to same page and add global message on successful cancellation ', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
     spyOn(
-      userReplenishmentOrderService,
+      replenishmentOrderHistoryFacade,
+      'cancelReplenishmentOrder'
+    ).and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
       'clearCancelReplenishmentOrderProcessState'
     ).and.stub();
     spyOn(globalMessageService, 'add').and.stub();
@@ -130,7 +135,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     );
 
     expect(
-      userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState
+      replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState
     ).toHaveBeenCalled();
   });
 
@@ -147,12 +152,15 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
   });
 
   it('should be able to call the cancel replenishment', () => {
-    spyOn(userReplenishmentOrderService, 'cancelReplenishmentOrder').and.stub();
+    spyOn(
+      replenishmentOrderHistoryFacade,
+      'cancelReplenishmentOrder'
+    ).and.stub();
 
     component.cancelReplenishment();
 
     expect(
-      userReplenishmentOrderService.cancelReplenishmentOrder
+      replenishmentOrderHistoryFacade.cancelReplenishmentOrder
     ).toHaveBeenCalledWith(mockReplenishmentOrder.replenishmentOrderCode);
   });
 });

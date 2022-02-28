@@ -23,7 +23,7 @@ export class OrderCancellationService extends OrderAmendService {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected userOrderService: OrderHistoryFacade,
+    protected orderHistoryFacade: OrderHistoryFacade,
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {
@@ -62,18 +62,18 @@ export class OrderCancellationService extends OrderAmendService {
 
     this.form.reset();
 
-    this.userOrderService.cancelOrder(orderCode, {
+    this.orderHistoryFacade.cancelOrder(orderCode, {
       cancellationRequestEntryInputs: inputs,
     });
 
-    this.userOrderService
+    this.orderHistoryFacade
       .getCancelOrderSuccess()
       .pipe(first(Boolean))
       .subscribe(() => this.afterSave(orderCode));
   }
 
   private afterSave(orderCode: string): void {
-    this.userOrderService.resetCancelOrderProcessState();
+    this.orderHistoryFacade.resetCancelOrderProcessState();
     this.globalMessageService.add(
       {
         key: 'orderDetails.cancellationAndReturn.cancelSuccess',

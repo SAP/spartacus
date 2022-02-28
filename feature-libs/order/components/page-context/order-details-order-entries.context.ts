@@ -14,10 +14,10 @@ import { map } from 'rxjs/operators';
 export class OrderDetailsOrderEntriesContext implements GetOrderEntriesContext {
   readonly type = OrderEntriesSource.ORDER_DETAILS;
 
-  constructor(protected userOrderService: OrderHistoryFacade) {}
+  constructor(protected orderHistoryFacade: OrderHistoryFacade) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.userOrderService
+    return this.orderHistoryFacade
       .getOrderDetails()
       .pipe(map((order: Order) => order?.entries ?? []));
   }

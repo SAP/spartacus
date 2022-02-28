@@ -14,10 +14,10 @@ export class TrackingEventsComponent implements OnDestroy {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private userOrderService: OrderHistoryFacade
+    private orderHistoryFacade: OrderHistoryFacade
   ) {}
 
   ngOnDestroy(): void {
-    this.userOrderService.clearConsignmentTracking();
+    this.orderHistoryFacade.clearConsignmentTracking();
   }
 }

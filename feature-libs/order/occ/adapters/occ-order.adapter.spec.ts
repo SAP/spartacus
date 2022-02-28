@@ -23,11 +23,6 @@ const MockOccModuleConfig: OccConfig = {
       prefix: '',
       endpoints: {
         placeOrder: 'users/${userId}/orders?fields=FULL',
-        removeDeliveryAddress:
-          'users/${userId}/carts/${cartId}/addresses/delivery',
-        clearDeliveryMode: 'users/${userId}/carts/${cartId}/deliverymode',
-        getCheckoutDetails:
-          'users/${userId}/carts/${cartId}?fields=deliveryAddress(FULL),deliveryMode,paymentInfo(FULL)',
       } as OccEndpoints,
     },
   },

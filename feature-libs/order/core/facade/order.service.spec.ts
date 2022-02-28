@@ -61,13 +61,13 @@ describe(`OrderService`, () => {
 
   it(`should inject OrderService`, inject(
     [OrderService],
-    (checkoutService: OrderService) => {
-      expect(checkoutService).toBeTruthy();
+    (orderService: OrderService) => {
+      expect(orderService).toBeTruthy();
     }
   ));
 
   describe(`placeOrder`, () => {
-    it(`should call checkoutConnector.placeOrder`, () => {
+    it(`should call orderConnector.placeOrder`, () => {
       service.placeOrder(termsChecked);
 
       expect(connector.placeOrder).toHaveBeenCalledWith(

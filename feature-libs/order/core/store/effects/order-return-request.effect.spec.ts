@@ -37,7 +37,7 @@ const mockCancelReturnRequest = {
 
 describe('Order Return Request effect', () => {
   let orderReturnRequestEffect: fromOrderReturnRequestEffect.OrderReturnRequestEffect;
-  let orderConnector: OrderHistoryConnector;
+  let orderHistoryConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -55,12 +55,14 @@ describe('Order Return Request effect', () => {
     orderReturnRequestEffect = TestBed.inject(
       fromOrderReturnRequestEffect.OrderReturnRequestEffect
     );
-    orderConnector = TestBed.inject(OrderHistoryConnector);
+    orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('createReturnRequest$', () => {
     it('should create order return request', () => {
-      spyOn(orderConnector, 'return').and.returnValue(of(mockReturnRequest));
+      spyOn(orderHistoryConnector, 'return').and.returnValue(
+        of(mockReturnRequest)
+      );
       const action = new OrderActions.CreateOrderReturnRequest({
         userId: 'userId',
         returnRequestInput,
@@ -79,7 +81,9 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for create order return request', () => {
-      spyOn(orderConnector, 'return').and.returnValue(throwError('Error'));
+      spyOn(orderHistoryConnector, 'return').and.returnValue(
+        throwError('Error')
+      );
 
       const action = new OrderActions.CreateOrderReturnRequest({
         userId: 'userId',
@@ -101,7 +105,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequestList$', () => {
     it('should load return request list', () => {
-      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+      spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
         of(mockReturnRequestList)
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
@@ -122,7 +126,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load return request list', () => {
-      spyOn(orderConnector, 'getReturnRequestList').and.returnValue(
+      spyOn(orderHistoryConnector, 'getReturnRequestList').and.returnValue(
         throwError('Error')
       );
       const action = new OrderActions.LoadOrderReturnRequestList({
@@ -145,7 +149,7 @@ describe('Order Return Request effect', () => {
 
   describe('loadReturnRequest$', () => {
     it('should load an order return request', () => {
-      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+      spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
         of(mockReturnRequest)
       );
       const action = new OrderActions.LoadOrderReturnRequest({
@@ -166,7 +170,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for load an order return request', () => {
-      spyOn(orderConnector, 'getReturnRequestDetail').and.returnValue(
+      spyOn(orderHistoryConnector, 'getReturnRequestDetail').and.returnValue(
         throwError('Error')
       );
 
@@ -188,7 +192,9 @@ describe('Order Return Request effect', () => {
 
   describe('cancelReturnRequest$', () => {
     it('should cancel return request', () => {
-      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(of({}));
+      spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
+        of({})
+      );
 
       const action = new OrderActions.CancelOrderReturnRequest(
         mockCancelReturnRequest
@@ -205,7 +211,7 @@ describe('Order Return Request effect', () => {
     });
 
     it('should handle failures for cancel return request', () => {
-      spyOn(orderConnector, 'cancelReturnRequest').and.returnValue(
+      spyOn(orderHistoryConnector, 'cancelReturnRequest').and.returnValue(
         throwError('Error')
       );
 

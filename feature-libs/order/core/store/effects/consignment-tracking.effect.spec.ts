@@ -30,7 +30,7 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('Consignment Tracking effect', () => {
   let trackingEffect: ConsignmentTrackingEffects;
-  let userOrderConnector: OrderHistoryConnector;
+  let orderHistoryConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
@@ -47,12 +47,12 @@ describe('Consignment Tracking effect', () => {
 
     actions$ = TestBed.inject(Actions);
     trackingEffect = TestBed.inject(ConsignmentTrackingEffects);
-    userOrderConnector = TestBed.inject(OrderHistoryConnector);
+    orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
         of(mockTracking)
       );
       const action = new OrderActions.LoadConsignmentTracking(
@@ -70,7 +70,7 @@ describe('Consignment Tracking effect', () => {
     });
 
     it('should handle failures for load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
         throwError('Error')
       );
 

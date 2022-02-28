@@ -10,13 +10,13 @@ import { map } from 'rxjs/operators';
 })
 export class OrderConfirmationGuard implements CanActivate {
   constructor(
-    protected checkoutFacade: OrderFacade,
+    protected orderFacade: OrderFacade,
     protected router: Router,
     protected semanticPathService: SemanticPathService
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.checkoutFacade.getOrderDetails().pipe(
+    return this.orderFacade.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;

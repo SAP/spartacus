@@ -24,7 +24,7 @@ class MockGuestRegisterFormComponent {
   @Input() email: string;
 }
 
-class MockOrderService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
@@ -32,7 +32,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   let component: OrderConfirmationThankYouMessageComponent;
   let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
 
-  let checkoutService: OrderFacade;
+  let orderFacade: OrderFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -43,7 +43,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
-        providers: [{ provide: OrderFacade, useClass: MockOrderService }],
+        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
       }).compileComponents();
     })
   );
@@ -53,7 +53,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
       OrderConfirmationThankYouMessageComponent
     );
     component = fixture.componentInstance;
-    checkoutService = TestBed.inject(OrderFacade);
+    orderFacade = TestBed.inject(OrderFacade);
   });
 
   it('should create', () => {
@@ -71,7 +71,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should display replenishment order code', () => {
-    checkoutService.getOrderDetails = createSpy().and.returnValue(
+    orderFacade.getOrderDetails = createSpy().and.returnValue(
       of({ ...mockOrder, replenishmentOrderCode })
     );
 
@@ -93,7 +93,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    checkoutService.getOrderDetails = createSpy().and.returnValue(
+    orderFacade.getOrderDetails = createSpy().and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
 

@@ -40,7 +40,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   }
 
   constructor(
-    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef
@@ -49,7 +49,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   ngOnInit(): void {
     this.subscription.add(
       combineLatest([
-        this.userReplenishmentOrderService
+        this.replenishmentOrderHistoryFacade
           .getReplenishmentOrderDetails()
           .pipe(startWith(null)),
         this.launchDialogService.data$,
@@ -60,7 +60,7 @@ export class ReplenishmentOrderCancellationDialogComponent
     );
 
     this.subscription.add(
-      this.userReplenishmentOrderService
+      this.replenishmentOrderHistoryFacade
         .getCancelReplenishmentOrderSuccess()
         .subscribe((value) => this.onSuccess(value))
     );
@@ -82,7 +82,7 @@ export class ReplenishmentOrderCancellationDialogComponent
         GlobalMessageType.MSG_TYPE_CONFIRMATION
       );
     }
-    this.userReplenishmentOrderService.clearCancelReplenishmentOrderProcessState();
+    this.replenishmentOrderHistoryFacade.clearCancelReplenishmentOrderProcessState();
   }
 
   close(reason: string): void {
@@ -90,7 +90,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   }
 
   cancelReplenishment(): void {
-    this.userReplenishmentOrderService.cancelReplenishmentOrder(
+    this.replenishmentOrderHistoryFacade.cancelReplenishmentOrder(
       this.replenishmentOrderCode
     );
   }

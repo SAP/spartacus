@@ -12,7 +12,7 @@ import {
   OrderFacade,
   ORDER_TYPE,
   recurrencePeriod,
-  ScheduledReplenishmentFacade,
+  ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -36,15 +36,15 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected checkoutFacade: OrderFacade,
+    protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentFacade: ScheduledReplenishmentFacade
+    protected scheduledReplenishmentFacade: ScheduledReplenishmentOrderFacade
   ) {
-    super(checkoutFacade, routingService, fb, launchDialogService, vcr);
+    super(orderFacade, routingService, fb, launchDialogService, vcr);
   }
 
   submitForm(): void {
@@ -55,8 +55,8 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       );
       merge(
         this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid)
-          : this.checkoutScheduledReplenishmentFacade.scheduleReplenishmentOrder(
+          ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
+          : this.scheduledReplenishmentFacade.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
               this.checkoutSubmitForm.valid
             )

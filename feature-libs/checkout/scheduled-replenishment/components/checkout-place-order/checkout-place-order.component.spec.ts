@@ -8,7 +8,7 @@ import {
   OrderFacade,
   ORDER_TYPE,
   recurrencePeriod,
-  ScheduledReplenishmentFacade,
+  ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -31,13 +31,13 @@ const mockReplenishmentOrderFormData$ =
     mockReplenishmentOrderFormData
   );
 
-class MockCheckoutService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   placeOrder = createSpy().and.returnValue(of());
-  clearOrder = createSpy();
+  clearPlacedOrder = createSpy();
 }
 
-class MockCheckoutScheduledReplenishmentService
-  implements Partial<ScheduledReplenishmentFacade>
+class MockScheduledReplenishmentOrderFacade
+  implements Partial<ScheduledReplenishmentOrderFacade>
 {
   scheduleReplenishmentOrder = createSpy().and.returnValue(of());
 }
@@ -76,11 +76,11 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
   let controls: FormGroup['controls'];
 
-  let checkoutService: OrderFacade;
+  let orderFacade: OrderFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
-  let checkoutScheduledReplenishmentService: ScheduledReplenishmentFacade;
+  let scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -91,7 +91,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           CheckoutScheduledReplenishmentPlaceOrderComponent,
         ],
         providers: [
-          { provide: OrderFacade, useClass: MockCheckoutService },
+          { provide: OrderFacade, useClass: MockOrderFacade },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -99,8 +99,8 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
-            provide: ScheduledReplenishmentFacade,
-            useClass: MockCheckoutScheduledReplenishmentService,
+            provide: ScheduledReplenishmentOrderFacade,
+            useClass: MockScheduledReplenishmentOrderFacade,
           },
         ],
       }).compileComponents();
@@ -115,9 +115,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
     controls = component.checkoutSubmitForm.controls;
 
-    checkoutService = TestBed.inject(OrderFacade);
-    checkoutScheduledReplenishmentService = TestBed.inject(
-      ScheduledReplenishmentFacade
+    orderFacade = TestBed.inject(OrderFacade);
+    scheduledReplenishmentOrderFacade = TestBed.inject(
+      ScheduledReplenishmentOrderFacade
     );
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService
@@ -134,18 +134,18 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     it('should not place order when checkbox not checked', () => {
       submitForm(ORDER_TYPE.PLACE_ORDER, false);
 
-      expect(checkoutService.placeOrder).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        checkoutScheduledReplenishmentService.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
       ).not.toHaveBeenCalled();
     });
 
     it('should place order when checkbox checked', () => {
       submitForm(ORDER_TYPE.PLACE_ORDER, true);
 
-      expect(checkoutService.placeOrder).toHaveBeenCalled();
+      expect(orderFacade.placeOrder).toHaveBeenCalled();
       expect(
-        checkoutScheduledReplenishmentService.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
       ).not.toHaveBeenCalled();
     });
 
@@ -163,18 +163,18 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
     it('should not schedule a replenishment order when checkbox not checked', () => {
       submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, false);
 
-      expect(checkoutService.placeOrder).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        checkoutScheduledReplenishmentService.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
       ).not.toHaveBeenCalled();
     });
 
     it('should schedule a replenishment order when checkbox checked', () => {
       submitForm(ORDER_TYPE.SCHEDULE_REPLENISHMENT_ORDER, true);
 
-      expect(checkoutService.placeOrder).not.toHaveBeenCalled();
+      expect(orderFacade.placeOrder).not.toHaveBeenCalled();
       expect(
-        checkoutScheduledReplenishmentService.scheduleReplenishmentOrder
+        scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder
       ).toHaveBeenCalled();
     });
 

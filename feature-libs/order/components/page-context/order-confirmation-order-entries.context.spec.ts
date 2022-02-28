@@ -12,20 +12,20 @@ const mockEntries: OrderEntry[] = [
   },
 ];
 
-class MockUserOrderService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
 describe('OrderConfirmationOrderEntriesContext', () => {
   let service: OrderConfirmationOrderEntriesContext;
-  let userOrderService: OrderFacade;
+  let orderFacade: OrderFacade;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [{ useClass: MockUserOrderService, provide: OrderFacade }],
+      providers: [{ useClass: MockOrderFacade, provide: OrderFacade }],
     });
     service = TestBed.inject(OrderConfirmationOrderEntriesContext);
-    userOrderService = TestBed.inject(OrderFacade);
+    orderFacade = TestBed.inject(OrderFacade);
   });
 
   it('should be created', () => {
@@ -42,7 +42,7 @@ describe('OrderConfirmationOrderEntriesContext', () => {
         })
         .unsubscribe();
 
-      expect(userOrderService.getOrderDetails).toHaveBeenCalledWith();
+      expect(orderFacade.getOrderDetails).toHaveBeenCalledWith();
       expect(entries).toEqual(mockEntries);
     });
   });

@@ -16,10 +16,10 @@ export class OrderConfirmationOrderEntriesContext
 {
   readonly type = OrderEntriesSource.ORDER_CONFIRMATION;
 
-  constructor(protected checkoutFacade: OrderFacade) {}
+  constructor(protected orderFacade: OrderFacade) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.checkoutFacade
+    return this.orderFacade
       .getOrderDetails()
       .pipe(map((order) => order?.entries ?? []));
   }

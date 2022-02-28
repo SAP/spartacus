@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 import { OrderConfirmationItemsComponent } from './order-confirmation-items.component';
 import createSpy = jasmine.createSpy;
 
-class MockOrderService implements Partial<OrderFacade> {
+class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(
     of({
       entries: [
@@ -29,7 +29,7 @@ describe('OrderConfirmationItemsComponent', () => {
         imports: [I18nTestingModule, PromotionsModule],
         declarations: [OrderConfirmationItemsComponent],
         providers: [
-          { provide: OrderFacade, useClass: MockOrderService },
+          { provide: OrderFacade, useClass: MockOrderFacade },
           {
             provide: FeaturesConfig,
             useValue: {

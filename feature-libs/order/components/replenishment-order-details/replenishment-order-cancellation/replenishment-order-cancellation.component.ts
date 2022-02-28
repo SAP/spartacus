@@ -23,10 +23,10 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
   private subscription = new Subscription();
 
   replenishmentOrder$: Observable<ReplenishmentOrder> =
-    this.userReplenishmentOrderService.getReplenishmentOrderDetails();
+    this.replenishmentOrderHistoryFacade.getReplenishmentOrderDetails();
 
   constructor(
-    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade,
+    protected replenishmentOrderHistoryFacade: ReplenishmentOrderHistoryFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}
@@ -45,6 +45,6 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.userReplenishmentOrderService.clearReplenishmentOrderDetails();
+    this.replenishmentOrderHistoryFacade.clearReplenishmentOrderDetails();
   }
 }
