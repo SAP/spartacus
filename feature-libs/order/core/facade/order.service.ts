@@ -15,7 +15,7 @@ import { OrderConnector } from '../connectors/order.connector';
 
 @Injectable()
 export class OrderService implements OrderFacade {
-  protected order$ = new BehaviorSubject<Order | undefined>(undefined);
+  protected placedOrder$ = new BehaviorSubject<Order | undefined>(undefined);
 
   protected placeOrderCommand: Command<boolean, Order> =
     this.commandService.create<boolean, Order>(
@@ -24,7 +24,7 @@ export class OrderService implements OrderFacade {
           switchMap(([userId, cartId]) =>
             this.orderConnector.placeOrder(userId, cartId, payload).pipe(
               tap((order) => {
-                this.order$.next(order);
+                this.placedOrder$.next(order);
                 this.eventService.dispatch(
                   {
                     userId,
@@ -90,14 +90,14 @@ export class OrderService implements OrderFacade {
   }
 
   getOrderDetails(): Observable<Order | undefined> {
-    return this.order$.asObservable();
+    return this.placedOrder$.asObservable();
   }
 
   clearPlacedOrder(): void {
-    this.order$.next(undefined);
+    this.placedOrder$.next(undefined);
   }
 
   setPlacedOrder(order: Order): void {
-    this.order$.next(order);
+    this.placedOrder$.next(order);
   }
 }

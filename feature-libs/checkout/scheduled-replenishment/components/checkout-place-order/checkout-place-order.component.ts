@@ -42,7 +42,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected scheduledReplenishmentFacade: ScheduledReplenishmentOrderFacade
+    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
   ) {
     super(orderFacade, routingService, fb, launchDialogService, vcr);
   }
@@ -56,7 +56,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       merge(
         this.currentOrderType === ORDER_TYPE.PLACE_ORDER
           ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
-          : this.scheduledReplenishmentFacade.scheduleReplenishmentOrder(
+          : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
               this.checkoutSubmitForm.valid
             )

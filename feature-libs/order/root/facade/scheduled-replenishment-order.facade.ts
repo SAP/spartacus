@@ -12,8 +12,6 @@ import { ScheduleReplenishmentForm } from '../model/scheduled-replenishment.mode
       facade: ScheduledReplenishmentOrderFacade,
       feature: ORDER_CORE_FEATURE,
       methods: ['scheduleReplenishmentOrder'],
-      // TODO:#deprecation-checkout - remove once we remove ngrx
-      async: true,
     }),
 })
 export abstract class ScheduledReplenishmentOrderFacade {

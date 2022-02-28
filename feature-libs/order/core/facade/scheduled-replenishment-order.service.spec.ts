@@ -13,7 +13,7 @@ import {
 } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
-import { ScheduledReplenishmentOrderService } from './scheduled-replenishment.service';
+import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
 import createSpy = jasmine.createSpy;
 

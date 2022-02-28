@@ -16,8 +16,6 @@ import { Order } from '../model/order.model';
         'setPlacedOrder',
         'placeOrder',
       ],
-      // TODO:#deprecation-checkout - remove once we remove ngrx
-      async: true,
     }),
 })
 export abstract class OrderFacade {

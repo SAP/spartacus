@@ -10,7 +10,7 @@ import { OrderHistoryService } from './order-history.service';
 import { OrderReturnRequestService } from './order-return-request.service';
 import { OrderService } from './order.service';
 import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
-import { ScheduledReplenishmentOrderService } from './scheduled-replenishment.service';
+import { ScheduledReplenishmentOrderService } from './scheduled-replenishment-order.service';
 
 export const facadeProviders: Provider[] = [
   OrderReturnRequestService,
