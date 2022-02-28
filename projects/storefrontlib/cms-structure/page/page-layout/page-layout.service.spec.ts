@@ -116,7 +116,13 @@ class SimplePageLayoutHandler {
   }
 }
 
-describe('PageLayoutService', () => {
+class OtherPageLayoutHandler {
+  handle(slots$) {
+    return slots$;
+  }
+}
+
+fdescribe('PageLayoutService', () => {
   let pageLayoutService: PageLayoutService;
   let cmsService: CmsService;
   let breakpointService: BreakpointService;
@@ -133,6 +139,11 @@ describe('PageLayoutService', () => {
           useClass: SimplePageLayoutHandler,
           multi: true,
         },
+        {
+          provide: PAGE_LAYOUT_HANDLER,
+          useClass: OtherPageLayoutHandler,
+          multi: true,
+        },
       ],
     });
 
@@ -143,6 +154,10 @@ describe('PageLayoutService', () => {
 
   it('should inject service', () => {
     expect(pageLayoutService).toBeTruthy();
+  });
+
+  it('should have 2 page handlers', () => {
+    expect(pageLayoutService['handlers'].length).toBe(2);
   });
 
   describe('Page template 1', () => {
