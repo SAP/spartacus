@@ -1,23 +1,23 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
 import { TestingTimeUtils, TimeUtils } from '@spartacus/core';
-import { OccUnnamedReplenishmentOrderFormSerializer } from './occ-unnamed-replenishment-order-form-serializer';
+import { OccScheduledReplenishmentOrderFormSerializer } from './occ-scheduled-replenishment-order-form-serializer';
 
 const mockTime = '10:00';
 const mockDate = '2021-06-01';
 
-describe('OccUnnamedReplenishmentOrderFormSerializer', () => {
-  let serializer: OccUnnamedReplenishmentOrderFormSerializer;
+describe('OccScheduledReplenishmentOrderFormSerializer', () => {
+  let serializer: OccScheduledReplenishmentOrderFormSerializer;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        providers: [OccUnnamedReplenishmentOrderFormSerializer],
+        providers: [OccScheduledReplenishmentOrderFormSerializer],
       });
     })
   );
 
   beforeEach(() => {
-    serializer = TestBed.inject(OccUnnamedReplenishmentOrderFormSerializer);
+    serializer = TestBed.inject(OccScheduledReplenishmentOrderFormSerializer);
   });
 
   it('should convert', () => {

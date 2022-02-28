@@ -16,7 +16,7 @@ import {
 import { OccOrderNormalizer } from './adapters/converters/occ-order-normalizer';
 import { OccReplenishmentOrderNormalizer } from './adapters/converters/occ-replenishment-order-normalizer';
 import { OccReturnRequestNormalizer } from './adapters/converters/occ-return-request-normalizer';
-import { OccUnnamedReplenishmentOrderFormSerializer } from './adapters/converters/occ-unnamed-replenishment-order-form-serializer';
+import { OccScheduledReplenishmentOrderFormSerializer } from './adapters/converters/occ-scheduled-replenishment-order-form-serializer';
 import { OccOrderHistoryAdapter } from './adapters/occ-order-history.adapter';
 import { OccOrderAdapter } from './adapters/occ-order.adapter';
 import { OccReplenishmentOrderHistoryAdapter } from './adapters/occ-replenishment-order-history.adapter';
@@ -57,7 +57,7 @@ import { defaultOccOrderConfig } from './config/default-occ-order-config';
     },
     {
       provide: REPLENISHMENT_ORDER_FORM_SERIALIZER,
-      useExisting: OccUnnamedReplenishmentOrderFormSerializer,
+      useExisting: OccScheduledReplenishmentOrderFormSerializer,
       multi: true,
     },
   ],
