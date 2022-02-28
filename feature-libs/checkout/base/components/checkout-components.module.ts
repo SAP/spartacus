@@ -3,7 +3,6 @@ import { CheckoutDeliveryAddressModule } from './checkout-delivery-address/check
 import { CheckoutDeliveryModeModule } from './checkout-delivery-mode/checkout-delivery-mode.module';
 import { CheckoutLoginModule } from './checkout-login/checkout-login.module';
 import { CheckoutOrchestratorModule } from './checkout-orchestrator/checkout-orchestrator.module';
-import { CheckoutOrderConfirmationModule } from './checkout-order-confirmation/checkout-order-confirmation.module';
 import { CheckoutOrderSummaryModule } from './checkout-order-summary/checkout-order-summary.module';
 import { CheckoutPaymentMethodModule } from './checkout-payment-method/checkout-payment-method.module';
 import { CheckoutPlaceOrderModule } from './checkout-place-order/checkout-place-order.module';
@@ -24,7 +23,7 @@ import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-re
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
     CheckoutDeliveryAddressModule,
-    CheckoutOrderConfirmationModule,
+    // CheckoutOrderConfirmationModule,
     CheckoutLoginModule,
   ],
 })

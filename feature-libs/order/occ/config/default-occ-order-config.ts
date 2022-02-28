@@ -31,8 +31,6 @@ export const defaultOccOrderConfig: OccConfig = {
 
         /** placing or scheduling an order endpoints start **/
         placeOrder: 'users/${userId}/orders?fields=FULL',
-        scheduleReplenishmentOrder:
-          'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
         /** placing or scheduling an order endpoints end **/
       },
     },

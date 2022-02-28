@@ -16,7 +16,7 @@ export const defaultOccCheckoutB2BConfig: OccConfig = {
           'orgUsers/${userId}/carts/${cartId}/addresses/delivery',
         paymentTypes: 'paymenttypes',
         setCartCostCenter: 'users/${userId}/carts/${cartId}/costcenter',
-        placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
+        // placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
         setCartPaymentType: 'users/${userId}/carts/${cartId}/paymenttype',
       },
     },
