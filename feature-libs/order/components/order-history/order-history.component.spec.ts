@@ -15,10 +15,10 @@ import {
   TranslationService,
 } from '@spartacus/core';
 import {
-  OrderFacade,
+  OrderHistoryFacade,
   OrderHistoryList,
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderHistoryComponent } from './order-history.component';
@@ -121,7 +121,7 @@ class MockUserReplenishmentOrderService {
 describe('OrderHistoryComponent', () => {
   let component: OrderHistoryComponent;
   let fixture: ComponentFixture<OrderHistoryComponent>;
-  let userService: OrderFacade | MockUserOrderService;
+  let userService: OrderHistoryFacade | MockUserOrderService;
   let routingService: RoutingService;
 
   beforeEach(
@@ -136,16 +136,16 @@ describe('OrderHistoryComponent', () => {
         ],
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
-          { provide: OrderFacade, useClass: MockUserOrderService },
+          { provide: OrderHistoryFacade, useClass: MockUserOrderService },
           { provide: TranslationService, useClass: MockTranslationService },
           {
-            provide: ReplenishmentOrderFacade,
+            provide: ReplenishmentOrderHistoryFacade,
             useClass: MockUserReplenishmentOrderService,
           },
         ],
       }).compileComponents();
 
-      userService = TestBed.inject(OrderFacade);
+      userService = TestBed.inject(OrderHistoryFacade);
       routingService = TestBed.inject(RoutingService);
     })
   );

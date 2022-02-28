@@ -1,6 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ConsignmentTracking, OrderFacade } from '@spartacus/order/root';
+import { ConsignmentTracking, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -14,7 +14,7 @@ export class TrackingEventsComponent implements OnDestroy {
 
   constructor(
     public activeModal: NgbActiveModal,
-    private userOrderService: OrderFacade
+    private userOrderService: OrderHistoryFacade
   ) {}
 
   ngOnDestroy(): void {

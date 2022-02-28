@@ -9,7 +9,7 @@ import {
   GlobalMessageType,
   RoutingService,
 } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -69,7 +69,7 @@ export class ConfiguratorAddToCartButtonComponent implements OnInit, OnDestroy {
     protected configuratorGroupsService: ConfiguratorGroupsService,
     protected configRouterExtractorService: ConfiguratorRouterExtractorService,
     protected globalMessageService: GlobalMessageService,
-    protected orderFacade: OrderFacade,
+    protected orderFacade: OrderHistoryFacade,
     protected commonConfiguratorUtilsService: CommonConfiguratorUtilsService,
     protected configUtils: ConfiguratorStorefrontUtilsService,
     protected intersectionService: IntersectionService

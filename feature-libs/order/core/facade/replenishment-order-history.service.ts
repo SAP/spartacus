@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -20,7 +20,9 @@ import {
 import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
-export class ReplenishmentOrderService implements ReplenishmentOrderFacade {
+export class ReplenishmentOrderHistoryService
+  implements ReplenishmentOrderHistoryFacade
+{
   constructor(
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,

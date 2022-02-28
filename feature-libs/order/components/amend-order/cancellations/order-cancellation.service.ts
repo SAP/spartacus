@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   CancelOrReturnRequestEntryInput,
-  OrderFacade,
+  OrderHistoryFacade,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
@@ -23,7 +23,7 @@ export class OrderCancellationService extends OrderAmendService {
 
   constructor(
     protected orderDetailsService: OrderDetailsService,
-    protected userOrderService: OrderFacade,
+    protected userOrderService: OrderHistoryFacade,
     protected routing: RoutingService,
     protected globalMessageService: GlobalMessageService
   ) {

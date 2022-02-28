@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   Consignment,
   ConsignmentTracking,
-  OrderFacade,
+  OrderHistoryFacade,
 } from '@spartacus/order/root';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -29,7 +29,7 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentTracking$: Observable<ConsignmentTracking>;
 
   constructor(
-    private userOrderService: OrderFacade,
+    private userOrderService: OrderHistoryFacade,
     private modalService: ModalService
   ) {}
 

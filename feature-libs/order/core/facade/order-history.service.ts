@@ -10,7 +10,7 @@ import {
   CancellationRequestEntryInputList,
   ConsignmentTracking,
   Order,
-  OrderFacade,
+  OrderHistoryFacade,
   OrderHistoryList,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
@@ -20,7 +20,7 @@ import { CANCEL_ORDER_PROCESS_ID, StateWithOrder } from '../store/order-state';
 import { OrderSelectors } from '../store/selectors/index';
 
 @Injectable()
-export class OrderService implements OrderFacade {
+export class OrderHistoryService implements OrderHistoryFacade {
   constructor(
     protected store: Store<StateWithOrder>,
     protected processStateStore: Store<StateWithProcess<void>>,

@@ -12,7 +12,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { OrderService } from './order.service';
+import { OrderHistoryService } from './order-history.service';
 
 const mockReplenishmentOrderCode = 'test-repl-code';
 
@@ -28,8 +28,8 @@ class MockUserIdService implements Partial<UserIdService> {
   }
 }
 
-describe('OrderService', () => {
-  let userOrderService: OrderService;
+describe('OrderHistoryService', () => {
+  let userOrderService: OrderHistoryService;
   let userIdService: UserIdService;
   let routingService: RoutingService;
   let store: Store<StateWithOrder>;
@@ -45,13 +45,13 @@ describe('OrderService', () => {
         ),
       ],
       providers: [
-        OrderService,
+        OrderHistoryService,
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: RoutingService, useClass: MockRoutingService },
       ],
     });
 
-    userOrderService = TestBed.inject(OrderService);
+    userOrderService = TestBed.inject(OrderHistoryService);
     userIdService = TestBed.inject(UserIdService);
     routingService = TestBed.inject(RoutingService);
     store = TestBed.inject(Store);
@@ -59,9 +59,9 @@ describe('OrderService', () => {
     spyOn(store, 'dispatch').and.callThrough();
   });
 
-  it('should OrderService is injected', inject(
-    [OrderService],
-    (service: OrderService) => {
+  it('should OrderHistoryService is injected', inject(
+    [OrderHistoryService],
+    (service: OrderHistoryService) => {
       expect(service).toBeTruthy();
     }
   ));

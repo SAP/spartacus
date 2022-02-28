@@ -15,7 +15,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -257,7 +257,7 @@ describe('ConfigAddToCartButtonComponent', () => {
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
-            provide: OrderFacade,
+            provide: OrderHistoryFacade,
             useClass: MockUserOrderService,
           },
           {

@@ -9,7 +9,7 @@ import {
 import { RoutingService, TranslationService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -45,7 +45,7 @@ export class ReplenishmentOrderHistoryComponent implements OnDestroy {
 
   constructor(
     protected routing: RoutingService,
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade,
+    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade,
     protected translation: TranslationService,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService

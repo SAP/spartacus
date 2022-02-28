@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { FormGroup } from '@angular/forms';
 import { GlobalMessageService, RoutingService } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderDetailsService } from '../../order-details/order-details.service';
 import { OrderCancellationService } from './order-cancellation.service';
@@ -44,7 +44,7 @@ class MockGlobalMessageService {
 
 describe('OrderCancellationService', () => {
   let service: OrderCancellationService;
-  let userOrderService: OrderFacade;
+  let userOrderService: OrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let routingService: RoutingService;
 
@@ -59,7 +59,7 @@ describe('OrderCancellationService', () => {
           useClass: MockOrderDetailsService,
         },
         {
-          provide: OrderFacade,
+          provide: OrderHistoryFacade,
           useClass: MockUserOrderService,
         },
         {
@@ -75,7 +75,7 @@ describe('OrderCancellationService', () => {
 
     service = TestBed.inject(OrderCancellationService);
 
-    userOrderService = TestBed.inject(OrderFacade);
+    userOrderService = TestBed.inject(OrderHistoryFacade);
     globalMessageService = TestBed.inject(GlobalMessageService);
     routingService = TestBed.inject(RoutingService);
 

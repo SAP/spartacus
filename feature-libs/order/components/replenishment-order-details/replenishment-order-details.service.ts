@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
@@ -37,7 +37,7 @@ export class ReplenishmentOrderDetailsService {
 
   constructor(
     protected routingService: RoutingService,
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade
+    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade
   ) {}
 
   getOrderDetails(): Observable<ReplenishmentOrder> {

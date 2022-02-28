@@ -9,9 +9,9 @@ import {
   OrderHistoryList,
 } from '../model/order.model';
 
-export function orderFacadeFactory() {
+export function orderHistoryFacadeFactory() {
   return facadeFactory({
-    facade: OrderFacade,
+    facade: OrderHistoryFacade,
     feature: ORDER_CORE_FEATURE,
     methods: [
       'getOrderDetails',
@@ -35,9 +35,9 @@ export function orderFacadeFactory() {
 
 @Injectable({
   providedIn: 'root',
-  useFactory: orderFacadeFactory,
+  useFactory: orderHistoryFacadeFactory,
 })
-export abstract class OrderFacade {
+export abstract class OrderHistoryFacade {
   /**
    * Returns an order's detail
    */

@@ -15,7 +15,7 @@ import { of, throwError } from 'rxjs';
 import { OrderActions } from '../store/actions/index';
 import { ORDER_FEATURE, StateWithOrder } from '../store/order-state';
 import * as fromStoreReducers from '../store/reducers/index';
-import { ReplenishmentOrderService } from './replenishment-order.service';
+import { ReplenishmentOrderHistoryService } from './replenishment-order-history.service';
 
 const mockUserId = OCC_USER_ID_CURRENT;
 const mockReplenishmentOrderCode = 'test-repl-code';
@@ -41,7 +41,7 @@ class MockUserIdService implements Partial<UserIdService> {
 }
 
 describe('UserReplenishmentOrderService', () => {
-  let userReplenishmentOrderService: ReplenishmentOrderService;
+  let userReplenishmentOrderService: ReplenishmentOrderHistoryService;
   let userIdService: UserIdService;
   let store: Store<StateWithOrder | StateWithProcess<void>>;
 
@@ -56,12 +56,14 @@ describe('UserReplenishmentOrderService', () => {
         ),
       ],
       providers: [
-        ReplenishmentOrderService,
+        ReplenishmentOrderHistoryService,
         { provide: UserIdService, useClass: MockUserIdService },
       ],
     });
 
-    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderService);
+    userReplenishmentOrderService = TestBed.inject(
+      ReplenishmentOrderHistoryService
+    );
     userIdService = TestBed.inject(UserIdService);
     store = TestBed.inject(Store);
 

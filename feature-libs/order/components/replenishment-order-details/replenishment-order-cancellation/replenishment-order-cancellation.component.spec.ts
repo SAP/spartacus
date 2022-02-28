@@ -11,7 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
@@ -54,7 +54,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 
 describe('ReplenishmentOrderCancellationComponent', () => {
   let component: ReplenishmentOrderCancellationComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderFacade;
+  let userReplenishmentOrderService: ReplenishmentOrderHistoryFacade;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationComponent>;
   let el: DebugElement;
@@ -66,7 +66,7 @@ describe('ReplenishmentOrderCancellationComponent', () => {
         declarations: [ReplenishmentOrderCancellationComponent, MockUrlPipe],
         providers: [
           {
-            provide: ReplenishmentOrderFacade,
+            provide: ReplenishmentOrderHistoryFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           {
@@ -80,7 +80,9 @@ describe('ReplenishmentOrderCancellationComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReplenishmentOrderCancellationComponent);
-    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
+    userReplenishmentOrderService = TestBed.inject(
+      ReplenishmentOrderHistoryFacade
+    );
     launchDialogService = TestBed.inject(LaunchDialogService);
 
     component = fixture.componentInstance;

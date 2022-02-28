@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { RoutingService } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -18,7 +18,7 @@ export class OrderDetailsService {
   orderLoad$: Observable<{}>;
 
   constructor(
-    private userOrderService: OrderFacade,
+    private userOrderService: OrderHistoryFacade,
     private routingService: RoutingService
   ) {
     this.orderCode$ = this.routingService.getRouterState().pipe(

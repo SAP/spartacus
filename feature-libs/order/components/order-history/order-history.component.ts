@@ -6,9 +6,9 @@ import {
 } from '@spartacus/core';
 import {
   Order,
-  OrderFacade,
+  OrderHistoryFacade,
   OrderHistoryList,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
@@ -21,9 +21,9 @@ import { filter, map, take, tap } from 'rxjs/operators';
 export class OrderHistoryComponent implements OnDestroy {
   constructor(
     protected routing: RoutingService,
-    protected userOrderService: OrderFacade,
+    protected userOrderService: OrderHistoryFacade,
     protected translation: TranslationService,
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade
+    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade
   ) {}
 
   private PAGE_SIZE = 5;

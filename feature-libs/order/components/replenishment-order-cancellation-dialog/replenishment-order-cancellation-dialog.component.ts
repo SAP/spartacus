@@ -7,7 +7,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { ReplenishmentOrderFacade } from '@spartacus/order/root';
+import { ReplenishmentOrderHistoryFacade } from '@spartacus/order/root';
 import { FocusConfig, LaunchDialogService } from '@spartacus/storefront';
 import { combineLatest, Subscription } from 'rxjs';
 import { startWith } from 'rxjs/operators';
@@ -40,7 +40,7 @@ export class ReplenishmentOrderCancellationDialogComponent
   }
 
   constructor(
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade,
+    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade,
     protected globalMessageService: GlobalMessageService,
     protected launchDialogService: LaunchDialogService,
     protected el: ElementRef

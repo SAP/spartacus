@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
@@ -26,7 +26,7 @@ export class ReplenishmentOrderCancellationComponent implements OnDestroy {
     this.userReplenishmentOrderService.getReplenishmentOrderDetails();
 
   constructor(
-    protected userReplenishmentOrderService: ReplenishmentOrderFacade,
+    protected userReplenishmentOrderService: ReplenishmentOrderHistoryFacade,
     protected vcr: ViewContainerRef,
     protected launchDialogService: LaunchDialogService
   ) {}

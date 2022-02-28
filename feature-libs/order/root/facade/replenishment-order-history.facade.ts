@@ -7,9 +7,9 @@ import {
   ReplenishmentOrderList,
 } from '../model/replenishment-order.model';
 
-export function replenishmentOrderFacadeFactory() {
+export function replenishmentOrderHistoryFacadeFactory() {
   return facadeFactory({
-    facade: ReplenishmentOrderFacade,
+    facade: ReplenishmentOrderHistoryFacade,
     feature: ORDER_CORE_FEATURE,
     methods: [
       'loadReplenishmentOrderDetails',
@@ -36,9 +36,9 @@ export function replenishmentOrderFacadeFactory() {
 
 @Injectable({
   providedIn: 'root',
-  useFactory: replenishmentOrderFacadeFactory,
+  useFactory: replenishmentOrderHistoryFacadeFactory,
 })
-export abstract class ReplenishmentOrderFacade {
+export abstract class ReplenishmentOrderHistoryFacade {
   /**
    * Returns replenishment order details for a given 'current' user
    *

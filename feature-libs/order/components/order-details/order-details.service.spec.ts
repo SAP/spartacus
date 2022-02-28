@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { RoutingService } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { OrderDetailsService } from './order-details.service';
 
@@ -92,7 +92,7 @@ describe('OrderDetailsService', () => {
       providers: [
         OrderDetailsService,
         {
-          provide: OrderFacade,
+          provide: OrderHistoryFacade,
           useClass: MockUserOrderService,
         },
         {
@@ -103,7 +103,7 @@ describe('OrderDetailsService', () => {
     });
 
     service = TestBed.inject(OrderDetailsService);
-    userService = TestBed.inject(OrderFacade);
+    userService = TestBed.inject(OrderHistoryFacade);
     routingService = TestBed.inject(RoutingService);
 
     spyOn(routingService, 'getRouterState');

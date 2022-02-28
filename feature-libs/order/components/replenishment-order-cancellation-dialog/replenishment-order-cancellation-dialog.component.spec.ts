@@ -7,7 +7,7 @@ import {
 } from '@spartacus/core';
 import {
   ReplenishmentOrder,
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
 } from '@spartacus/order/root';
 import { LaunchDialogService } from '@spartacus/storefront';
 import { KeyboardFocusTestingModule } from 'projects/storefrontlib/layout/a11y/keyboard-focus/focus-testing.module';
@@ -53,7 +53,7 @@ class MockLaunchDialogService {
 
 describe('ReplenishmentOrderCancellationDialogComponent', () => {
   let component: ReplenishmentOrderCancellationDialogComponent;
-  let userReplenishmentOrderService: ReplenishmentOrderFacade;
+  let userReplenishmentOrderService: ReplenishmentOrderHistoryFacade;
   let globalMessageService: GlobalMessageService;
   let launchDialogService: LaunchDialogService;
   let fixture: ComponentFixture<ReplenishmentOrderCancellationDialogComponent>;
@@ -65,7 +65,7 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
         declarations: [ReplenishmentOrderCancellationDialogComponent],
         providers: [
           {
-            provide: ReplenishmentOrderFacade,
+            provide: ReplenishmentOrderHistoryFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
@@ -79,7 +79,9 @@ describe('ReplenishmentOrderCancellationDialogComponent', () => {
     fixture = TestBed.createComponent(
       ReplenishmentOrderCancellationDialogComponent
     );
-    userReplenishmentOrderService = TestBed.inject(ReplenishmentOrderFacade);
+    userReplenishmentOrderService = TestBed.inject(
+      ReplenishmentOrderHistoryFacade
+    );
     globalMessageService = TestBed.inject(GlobalMessageService);
     launchDialogService = TestBed.inject(LaunchDialogService);
 

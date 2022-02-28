@@ -14,7 +14,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  ReplenishmentOrderFacade,
+  ReplenishmentOrderHistoryFacade,
   ReplenishmentOrderList,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
@@ -116,7 +116,7 @@ class MockLaunchDialogService implements Partial<LaunchDialogService> {
 describe('ReplenishmentOrderHistoryComponent', () => {
   let component: ReplenishmentOrderHistoryComponent;
   let fixture: ComponentFixture<ReplenishmentOrderHistoryComponent>;
-  let userService: ReplenishmentOrderFacade;
+  let userService: ReplenishmentOrderHistoryFacade;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
   let el: DebugElement;
@@ -134,7 +134,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         providers: [
           { provide: RoutingService, useClass: MockRoutingService },
           {
-            provide: ReplenishmentOrderFacade,
+            provide: ReplenishmentOrderHistoryFacade,
             useClass: MockUserReplenishmentOrderService,
           },
           {
@@ -144,7 +144,7 @@ describe('ReplenishmentOrderHistoryComponent', () => {
         ],
       }).compileComponents();
 
-      userService = TestBed.inject(ReplenishmentOrderFacade);
+      userService = TestBed.inject(ReplenishmentOrderHistoryFacade);
       routingService = TestBed.inject(RoutingService);
       launchDialogService = TestBed.inject(LaunchDialogService);
     })
