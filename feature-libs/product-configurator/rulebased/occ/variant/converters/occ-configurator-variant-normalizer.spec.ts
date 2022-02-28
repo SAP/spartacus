@@ -1164,6 +1164,13 @@ describe('OccConfiguratorVariantNormalizer', () => {
       domainValues: domainValuesWithIntervals,
     };
 
+    const occAttributeWithoutIntervalValues: OccConfigurator.Attribute = {
+      name: 'attributewithoutIntervals',
+      required: requiredFlag,
+      type: OccConfigurator.UiType.NUMERIC,
+      key: groupKey,
+    };
+
     const configuration: OccConfigurator.Configuration = {
       configId: configId,
       complete: true,
@@ -1178,22 +1185,67 @@ describe('OccConfiguratorVariantNormalizer', () => {
       ],
     };
 
+    const configurationWithoutInterval: OccConfigurator.Configuration = {
+      configId: configId,
+      complete: true,
+      consistent: true,
+      rootProduct: 'CONF_PRODUCT',
+      groups: [
+        {
+          attributes: [occAttributeWithoutIntervalValues],
+          groupType: OccConfigurator.GroupType.CSTIC_GROUP,
+          id: '1',
+        },
+      ],
+    };
+
+    it('should not fill placeholder if domainValues are undefined', () => {
+      const result = occConfiguratorVariantNormalizer.getPlaceholder(
+        undefined,
+        false
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should not fill placeholder if isIntervalInDomain is undefined', () => {
+      const result = occConfiguratorVariantNormalizer.getPlaceholder(
+        domainValuesWithIntervals,
+        undefined
+      );
+      expect(result).toBeUndefined();
+    });
+
+    it('should not fill placeholder if isIntervalInDomain and domainValues are undefined', () => {
+      const result = occConfiguratorVariantNormalizer.getPlaceholder(
+        domainValuesWithIntervals,
+        undefined
+      );
+      expect(result).toBeUndefined();
+    });
+
     it('should not fill placeholder if isIntervalInDomain is false', () => {
       const result = occConfiguratorVariantNormalizer.getPlaceholder(
         domainValuesWithIntervals,
         false
       );
-      expect(result).toBeUndefined;
+      expect(result).toBeUndefined();
     });
 
     it('should not fill placeholder if domainValues are empty', () => {
       const result = occConfiguratorVariantNormalizer.getPlaceholder([], true);
-      expect(result).toBeUndefined;
+      expect(result).toBeUndefined();
     });
 
     it('should convert a configuration with interval attribute', () => {
       const result = occConfiguratorVariantNormalizer.convert(configuration);
       expect(result.groups[0].attributes[0].placeholder).toBe('2-5 ; 10-12');
+    });
+
+    it('should convert a configuration without interval attribute', () => {
+      const result = occConfiguratorVariantNormalizer.convert(
+        configurationWithoutInterval
+      );
+      expect(result.groups[0].attributes[0].placeholder).toBeUndefined();
     });
   });
 });

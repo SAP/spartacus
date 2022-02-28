@@ -263,16 +263,20 @@ export class OccConfiguratorVariantNormalizer
   }
 
   getPlaceholder(
-    domainValues: OccConfigurator.Value[],
-    intervalInDomain: boolean
-  ): string {
-    let placeholder: string = '';
+    domainValues?: OccConfigurator.Value[],
+    intervalInDomain?: boolean
+  ): string | undefined {
+    let placeholder: string | undefined;
 
-    if (intervalInDomain && domainValues) {
+    if (intervalInDomain && domainValues && domainValues.length > 0) {
+      placeholder = '';
       domainValues.forEach((value) => (placeholder += value.name + ' ; '));
     }
-
-    return placeholder.slice(0, -3);
+    if (placeholder) {
+      return placeholder.slice(0, -3);
+    } else {
+      return placeholder;
+    }
   }
 
   convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {
