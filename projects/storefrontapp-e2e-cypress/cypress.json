@@ -1,11 +1,10 @@
 {
   "defaultCommandTimeout": 10000,
   "baseUrl_Org": "http://localhost:4200",
-  "baseUrl": "https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud/electronics-spa/en/USD",
+  "baseUrl_ccv2": "https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud/electronics-spa/en/USD",
+  "baseUrl": "https://spartacusstore.cg79x9wuu9-eccommerc1-p1-public.model-t.myhybris.cloud",
   "requestTimeout": 15000,
-  "retries": {
-    "runMode": 2
-  },
+  "video": true,
   "videoUploadOnPasses": false,
   "env": {
     "CLIENT_ID": "mobile_android",

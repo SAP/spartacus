@@ -31,8 +31,10 @@ Cypress.Commands.add(
     }
 
     cy.get(
-      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > ul > li > div > ul'
-    )
+      // 'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > ul > li > div > ul'
+      'cx-login > cx-page-slot > cx-navigation > cx-navigation-ui > nav > div > div'
+
+      )
       .findByText(new RegExp(option, 'i'))
       .click({ force: true });
   }

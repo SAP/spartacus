@@ -116,7 +116,8 @@ export function clickAddToCart() {
  * @param productCode
  */
 export function addProductFromPdp(productCode: string = products[0].code) {
-  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}`;
+  const productName = products[0].name;
+  const pdpUrl = `${getBaseUrlPrefix()}/product/${productCode}/${productName}`;
 
   registerCartRefreshRoute();
   registerCartPageRoute();
