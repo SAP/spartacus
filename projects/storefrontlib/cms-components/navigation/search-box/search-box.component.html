@@ -48,9 +48,8 @@
 <div
   *ngIf="results$ | async as result"
   class="results"
-  id="results"
+  role="dialog"
   (click)="close($event, true)"
-  role="listbox"
 >
   <div
     *ngIf="result.message"
@@ -58,13 +57,10 @@
     [innerHTML]="result.message"
   ></div>
 
-  <ul
-    class="suggestions"
-    attr.aria-label="{{ 'searchBox.ariaLabelSuggestions' | cxTranslate }}"
-    tabindex="0"
-  >
-    <li *ngFor="let suggestion of result.suggestions">
+  <ul id="results" role="listbox">
+    <li class="suggestion" *ngFor="let suggestion of result.suggestions">
       <a
+        role="option"
         [innerHTML]="suggestion | cxHighlight: searchInput.value"
         [routerLink]="
           {
@@ -89,16 +85,9 @@
       >
       </a>
     </li>
-  </ul>
-
-  <ul
-    class="products"
-    *ngIf="result.products"
-    attr.aria-label="{{ 'searchBox.ariaLabelProducts' | cxTranslate }}"
-    tabindex="0"
-  >
-    <li *ngFor="let product of result.products">
+    <li class="product" *ngFor="let product of result.products">
       <a
+        role="option"
         [routerLink]="
           {
             cxRoute: 'product',
@@ -126,11 +115,14 @@
           role="presentation"
         ></cx-media>
         <div class="name" [innerHTML]="product.nameHtml"></div>
-        <span class="price">{{ product.price?.formattedValue }}</span>
+        <span class="price" aria-hidden="true">{{
+          product.price?.formattedValue
+        }}</span>
       </a>
     </li>
   </ul>
-  <span id="initialDescription" class="cx-visually-hidden">
+
+  <!-- <span id="initialDescription" class="cx-visually-hidden">
     {{ 'searchBox.initialDescription' | cxTranslate }}
   </span>
   <div
@@ -147,5 +139,5 @@
         | cxTranslate: { count: result.products?.length }
     }}
     {{ 'searchBox.initialDescription' | cxTranslate }}
-  </div>
+  </div> -->
 </div>
