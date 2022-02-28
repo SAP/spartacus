@@ -8,17 +8,19 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
+  CLI_CHECKOUT_BASE_FEATURE,
   CLI_DIGITAL_PAYMENTS_FEATURE,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
   shouldAddFeature,
+  SPARTACUS_CHECKOUT,
   SPARTACUS_CHECKOUT_BASE_ROOT,
   SPARTACUS_DIGITAL_PAYMENTS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
   DIGITAL_PAYMENTS_FOLDER_NAME,
   DIGITAL_PAYMENTS_MODULE,
   DIGITAL_PAYMENTS_MODULE_NAME,
@@ -60,6 +62,12 @@ function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
       resources: DIGITAL_PAYMENTS_TRANSLATIONS,
       chunks: DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG,
       importPath: SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
+    },
+    dependencyManagement: {
+      featureName: CLI_DIGITAL_PAYMENTS_FEATURE,
+      featureDependencies: {
+        [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
+      },
     },
   });
 }
