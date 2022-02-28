@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
-import {
-  CheckoutFacade,
-  CheckoutOrderPlacedEvent,
-} from '@spartacus/checkout/base/root';
+import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   Command,
   CommandService,
@@ -12,7 +9,7 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order, OrderPlacedEvent } from '@spartacus/order/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -47,7 +44,7 @@ export class CheckoutService implements CheckoutFacade {
                     cartId,
                     order,
                   },
-                  CheckoutOrderPlacedEvent
+                  OrderPlacedEvent
                 );
               })
             )

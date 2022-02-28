@@ -1,12 +1,11 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
-import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
+import { Order, OrderPlacedEvent } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -87,7 +86,7 @@ describe(`CheckoutService`, () => {
       );
     });
 
-    it(`should dispatch CheckoutOrderPlacedEvent`, () => {
+    it(`should dispatch OrderPlacedEvent`, () => {
       service.placeOrder(termsChecked);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -96,7 +95,7 @@ describe(`CheckoutService`, () => {
           cartId: mockCartId,
           order: mockOrder,
         },
-        CheckoutOrderPlacedEvent
+        OrderPlacedEvent
       );
     });
   });

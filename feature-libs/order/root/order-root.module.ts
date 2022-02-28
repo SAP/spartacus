@@ -12,7 +12,6 @@ import {
 } from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultOrderRoutingConfig } from './config/default-order-routing-config';
-import { UnnamedScheduledReplenishmentEventModule } from './events/unnamed-scheduled-replenishment-event.module';
 import { ORDER_CORE_FEATURE, ORDER_FEATURE } from './feature-name';
 import {
   OrderConfirmationOrderEntriesContextToken,
@@ -64,7 +63,6 @@ export function defaultOrderComponentsConfig(): CmsConfig {
 
 @NgModule({
   imports: [
-    UnnamedScheduledReplenishmentEventModule,
     RouterModule.forChild([
       {
         // @ts-ignore

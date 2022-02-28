@@ -5,7 +5,7 @@ import {
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import { CheckoutOrderPlacedEvent, Order } from '@spartacus/order/root';
+import { Order, OrderPlacedEvent } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { OrderConnector } from '../connectors/order.connector';
@@ -86,7 +86,7 @@ describe(`OrderService`, () => {
       );
     });
 
-    it(`should dispatch CheckoutOrderPlacedEvent`, () => {
+    it(`should dispatch OrderPlacedEvent`, () => {
       service.placeOrder(termsChecked);
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
@@ -95,7 +95,7 @@ describe(`OrderService`, () => {
           cartId: mockCartId,
           order: mockOrder,
         },
-        CheckoutOrderPlacedEvent
+        OrderPlacedEvent
       );
     });
   });

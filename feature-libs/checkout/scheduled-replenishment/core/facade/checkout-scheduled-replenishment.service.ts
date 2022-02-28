@@ -3,7 +3,6 @@ import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
 import {
   CheckoutScheduledReplenishmentFacade,
-  ReplenishmentOrderScheduledEvent,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
@@ -14,7 +13,10 @@ import {
   OCC_USER_ID_ANONYMOUS,
   UserIdService,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderScheduledEvent,
+} from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';

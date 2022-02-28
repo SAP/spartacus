@@ -1,16 +1,16 @@
 import { inject, TestBed } from '@angular/core/testing';
 import { ActiveCartFacade, RemoveCartEvent } from '@spartacus/cart/base/root';
 import { CheckoutFacade } from '@spartacus/checkout/base/root';
-import {
-  ReplenishmentOrderScheduledEvent,
-  ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
+import { ScheduleReplenishmentForm } from '@spartacus/checkout/scheduled-replenishment/root';
 import {
   EventService,
   OCC_USER_ID_CURRENT,
   UserIdService,
 } from '@spartacus/core';
-import { ReplenishmentOrder } from '@spartacus/order/root';
+import {
+  ReplenishmentOrder,
+  ReplenishmentOrderScheduledEvent,
+} from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { CheckoutReplenishmentOrderConnector } from '../connectors/checkout-replenishment-order/checkout-replenishment-order.connector';
 import { CheckoutScheduledReplenishmentService } from './checkout-scheduled-replenishment.service';
