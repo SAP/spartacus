@@ -50,6 +50,7 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
 
   focusConfig: FocusConfig = {
     autofocus: true,
+    childManualFocus: true,
   };
 
   @ViewChild('quickOrderForm')

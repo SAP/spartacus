@@ -69,6 +69,10 @@ export interface AutoFocusConfig extends EscapeFocusConfig {
    * autofocus the element dynamically.
    */
   refreshFocus?: unknown;
+  /**
+   * The childManualFocus allow to manually with mouse focus child elements.
+   */
+  childManualFocus?: boolean;
 }
 
 export interface TabFocusConfig extends AutoFocusConfig {

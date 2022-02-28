@@ -79,10 +79,15 @@ export class AutoFocusDirective
    */
   handleFocus(event?: KeyboardEvent) {
     if (this.shouldAutofocus) {
-      if (!event?.target || event.target !== this.host) {
+      if (!event?.target) {
+        this.firstFocusable?.focus();
+      } else if (
+        event?.target === this.host &&
+        !this.shouldEnableChildManualFocus
+      ) {
         this.firstFocusable?.focus();
       } else {
-        (event.target as HTMLElement).focus();
+        (event?.target as HTMLElement).focus();
       }
     }
     super.handleFocus(event);
@@ -101,6 +106,13 @@ export class AutoFocusDirective
    */
   protected get shouldAutofocus(): boolean {
     return !!this.config?.autofocus;
+  }
+
+  /**
+   * Helper function to indicate whether we are able to manually focus for the child elements
+   */
+  protected get shouldEnableChildManualFocus(): boolean {
+    return !!this.config?.childManualFocus;
   }
 
   /**
