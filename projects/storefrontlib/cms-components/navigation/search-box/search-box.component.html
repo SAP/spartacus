@@ -47,6 +47,7 @@
 
 <div
   *ngIf="results$ | async as result"
+  id="results"
   class="results"
   (click)="close($event, true)"
   role="dialog"
