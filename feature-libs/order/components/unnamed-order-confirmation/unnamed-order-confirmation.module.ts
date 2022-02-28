@@ -3,11 +3,6 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
 import {
-  OrderDetailShippingComponent,
-  OrderDetailsService,
-  OrderOverviewModule,
-} from '@spartacus/order/components';
-import {
   OrderConfirmationOrderEntriesContextToken,
   UnnamedFacade,
 } from '@spartacus/order/root';
@@ -19,6 +14,9 @@ import {
   PwaModule,
 } from '@spartacus/storefront';
 import { OrderConfirmationGuard } from '../guards/order-confirmation.guard';
+import { OrderDetailShippingComponent } from '../order-details/order-detail-shipping/order-detail-shipping.component';
+import { OrderDetailsService } from '../order-details/order-details.service';
+import { OrderOverviewModule } from '../order-details/order-overview/order-overview.module';
 import { OrderConfirmationOrderEntriesContext } from '../page-context/order-confirmation-order-entries.context';
 import { UnnamedGuestRegisterFormComponent } from './unnamed-guest-register-form/unnamed-guest-register-form.component';
 import { UnnamedOrderConfirmationItemsComponent } from './unnamed-order-confirmation-items/unnamed-order-confirmation-items.component';
