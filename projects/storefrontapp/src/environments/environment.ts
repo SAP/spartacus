@@ -13,6 +13,7 @@
 import 'zone.js/plugins/zone-error'; // Included with Angular CLI.
 import { Environment } from './models/environment.model';
 
+// test pipelin
 export const environment: Environment = {
   production: false,
   occBaseUrl: buildProcess.env.CX_BASE_URL,
