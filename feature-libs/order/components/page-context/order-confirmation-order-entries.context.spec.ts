@@ -13,9 +13,7 @@ const mockEntries: OrderEntry[] = [
 ];
 
 class MockUserOrderService implements Partial<UnnamedFacade> {
-  getCurrentOrderDetails = createSpy().and.returnValue(
-    of({ entries: mockEntries })
-  );
+  getOrderDetails = createSpy().and.returnValue(of({ entries: mockEntries }));
 }
 
 describe('OrderConfirmationOrderEntriesContext', () => {
@@ -44,7 +42,7 @@ describe('OrderConfirmationOrderEntriesContext', () => {
         })
         .unsubscribe();
 
-      expect(userOrderService.getCurrentOrderDetails).toHaveBeenCalledWith();
+      expect(userOrderService.getOrderDetails).toHaveBeenCalledWith();
       expect(entries).toEqual(mockEntries);
     });
   });

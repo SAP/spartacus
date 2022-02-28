@@ -50,7 +50,7 @@ class MockUnnamedReplenishmentOrderConnector
 }
 
 class MockUnnamedFacade implements Partial<UnnamedFacade> {
-  setCurrentOrder = createSpy();
+  setPlacedOrder = createSpy();
 }
 
 describe(`UnnamedScheduledReplenishmentService`, () => {
@@ -113,7 +113,7 @@ describe(`UnnamedScheduledReplenishmentService`, () => {
         termsChecked
       );
 
-      expect(checkoutFacade.setCurrentOrder).toHaveBeenCalledWith(
+      expect(checkoutFacade.setPlacedOrder).toHaveBeenCalledWith(
         mockReplenishmentOrder
       );
     });

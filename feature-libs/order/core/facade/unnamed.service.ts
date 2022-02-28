@@ -93,15 +93,15 @@ export class UnnamedService implements UnnamedFacade {
     return this.placeOrderCommand.execute(termsChecked);
   }
 
-  getCurrentOrderDetails(): Observable<Order | undefined> {
+  getOrderDetails(): Observable<Order | undefined> {
     return this.order$.asObservable();
   }
 
-  clearCurrentOrder(): void {
+  clearPlacedOrder(): void {
     this.order$.next(undefined);
   }
 
-  setCurrentOrder(order: Order): void {
+  setPlacedOrder(order: Order): void {
     this.order$.next(order);
   }
 }

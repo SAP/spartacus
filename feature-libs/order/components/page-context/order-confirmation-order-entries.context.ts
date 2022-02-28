@@ -20,7 +20,7 @@ export class OrderConfirmationOrderEntriesContext
 
   getEntries(): Observable<OrderEntry[]> {
     return this.checkoutFacade
-      .getCurrentOrderDetails()
+      .getOrderDetails()
       .pipe(map((order) => order?.entries ?? []));
   }
 }

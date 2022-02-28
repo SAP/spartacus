@@ -25,7 +25,7 @@ class MockGuestRegisterFormComponent {
 }
 
 class MockUnnamedService implements Partial<UnnamedFacade> {
-  getCurrentOrderDetails = createSpy().and.returnValue(of(mockOrder));
+  getOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
 describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
@@ -71,7 +71,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should display replenishment order code', () => {
-    checkoutService.getCurrentOrderDetails = createSpy().and.returnValue(
+    checkoutService.getOrderDetails = createSpy().and.returnValue(
       of({ ...mockOrder, replenishmentOrderCode })
     );
 
@@ -93,7 +93,7 @@ describe('UnnamedOrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should not display guest register form for login user', () => {
-    checkoutService.getCurrentOrderDetails = createSpy().and.returnValue(
+    checkoutService.getOrderDetails = createSpy().and.returnValue(
       of({ guid: 'guid', guestCustomer: false })
     );
 

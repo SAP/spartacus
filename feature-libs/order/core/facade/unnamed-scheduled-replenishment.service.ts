@@ -37,7 +37,7 @@ export class UnnamedScheduledReplenishmentService
             .scheduleReplenishmentOrder(cartId, form, termsChecked, userId)
             .pipe(
               tap((replenishmentOrder) => {
-                this.checkoutFacade.setCurrentOrder(replenishmentOrder);
+                this.checkoutFacade.setPlacedOrder(replenishmentOrder);
                 this.eventService.dispatch(
                   {
                     userId,

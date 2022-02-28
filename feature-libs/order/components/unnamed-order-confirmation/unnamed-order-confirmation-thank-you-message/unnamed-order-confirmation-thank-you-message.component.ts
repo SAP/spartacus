@@ -26,7 +26,7 @@ export class UnnamedOrderConfirmationThankYouMessageComponent
   ngOnInit(): void {
     console.log('in here');
 
-    this.order$ = this.checkoutFacade.getCurrentOrderDetails().pipe(
+    this.order$ = this.checkoutFacade.getOrderDetails().pipe(
       tap((order) => {
         this.isGuestCustomer =
           order && 'guestCustomer' in order
@@ -38,6 +38,6 @@ export class UnnamedOrderConfirmationThankYouMessageComponent
   }
 
   ngOnDestroy() {
-    this.checkoutFacade.clearCurrentOrder();
+    this.checkoutFacade.clearPlacedOrder();
   }
 }

@@ -100,10 +100,10 @@ describe(`UnnamedService`, () => {
     });
   });
 
-  describe(`getCurrentOrderDetails`, () => {
+  describe(`getOrderDetails`, () => {
     it(`should return falsy when there's no order`, (done) => {
       service
-        .getCurrentOrderDetails()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toBeFalsy();
@@ -115,7 +115,7 @@ describe(`UnnamedService`, () => {
       service.placeOrder(termsChecked);
 
       service
-        .getCurrentOrderDetails()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(mockOrder);
@@ -124,13 +124,13 @@ describe(`UnnamedService`, () => {
     });
   });
 
-  describe(`clearCurrentOrder`, () => {
+  describe(`clearPlacedOrder`, () => {
     it(`should clear the order`, (done) => {
       service.placeOrder(termsChecked);
-      service.clearCurrentOrder();
+      service.clearPlacedOrder();
 
       service
-        .getCurrentOrderDetails()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(undefined);
@@ -139,14 +139,14 @@ describe(`UnnamedService`, () => {
     });
   });
 
-  describe(`setCurrentOrder`, () => {
+  describe(`setPlacedOrder`, () => {
     it(`should set a new order`, (done) => {
       const newMockOrder: Order = { code: 'newMockCode' };
 
-      service.setCurrentOrder(newMockOrder);
+      service.setPlacedOrder(newMockOrder);
 
       service
-        .getCurrentOrderDetails()
+        .getOrderDetails()
         .pipe(take(1))
         .subscribe((result) => {
           expect(result).toEqual(newMockOrder);

@@ -11,9 +11,9 @@ import { Order } from '../model/order.model';
       facade: UnnamedFacade,
       feature: ORDER_CORE_FEATURE,
       methods: [
-        'getCurrentOrderDetails',
-        'clearCurrentOrder',
-        'setCurrentOrder',
+        'getOrderDetails',
+        'clearPlacedOrder',
+        'setPlacedOrder',
         'placeOrder',
       ],
       // TODO:#deprecation-checkout - remove once we remove ngrx
@@ -24,15 +24,15 @@ export abstract class UnnamedFacade {
   /**
    * Returns the current order
    */
-  abstract getCurrentOrderDetails(): Observable<Order | undefined>;
+  abstract getOrderDetails(): Observable<Order | undefined>;
   /**
    * Clears the current order
    */
-  abstract clearCurrentOrder(): void;
+  abstract clearPlacedOrder(): void;
   /**
    * Sets the provided order as current
    */
-  abstract setCurrentOrder(order: Order): void;
+  abstract setPlacedOrder(order: Order): void;
   /**
    * Places an order
    */

@@ -7,7 +7,7 @@ import { OrderConfirmationGuard } from './order-confirmation.guard';
 import createSpy = jasmine.createSpy;
 
 class MockUnnamedService implements Partial<UnnamedFacade> {
-  getCurrentOrderDetails = createSpy().and.returnValue(of(undefined));
+  getOrderDetails = createSpy().and.returnValue(of(undefined));
 }
 
 class MockSemanticPathService implements Partial<SemanticPathService> {
@@ -39,9 +39,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is NO order details present`, () => {
     it(`should return UrlTree to order history page`, (done) => {
-      mockUnnamedFacade.getCurrentOrderDetails = createSpy().and.returnValue(
-        of({})
-      );
+      mockUnnamedFacade.getOrderDetails = createSpy().and.returnValue(of({}));
       semanticPathService.get =
         createSpy().and.returnValue('/my-account/orders');
 
@@ -54,7 +52,7 @@ describe(`OrderConfirmationGuard`, () => {
 
   describe(`when there is order details present`, () => {
     it(`should return true`, (done) => {
-      mockUnnamedFacade.getCurrentOrderDetails = createSpy().and.returnValue(
+      mockUnnamedFacade.getOrderDetails = createSpy().and.returnValue(
         of({ code: 'test order' })
       );
 

@@ -16,7 +16,7 @@ export class OrderConfirmationGuard implements CanActivate {
   ) {}
 
   canActivate(): Observable<boolean | UrlTree> {
-    return this.checkoutFacade.getCurrentOrderDetails().pipe(
+    return this.checkoutFacade.getOrderDetails().pipe(
       map((orderDetails) => {
         if (orderDetails && Object.keys(orderDetails).length !== 0) {
           return true;

@@ -11,12 +11,11 @@ import { Observable } from 'rxjs';
 export class UnnamedOrderConfirmationItemsComponent implements OnDestroy {
   readonly cartOutlets = CartOutlets;
   promotionLocation: PromotionLocation = PromotionLocation.Checkout;
-  order$: Observable<Order | undefined> =
-    this.checkoutFacade.getCurrentOrderDetails();
+  order$: Observable<Order | undefined> = this.checkoutFacade.getOrderDetails();
 
   constructor(protected checkoutFacade: UnnamedFacade) {}
 
   ngOnDestroy() {
-    this.checkoutFacade.clearCurrentOrder();
+    this.checkoutFacade.clearPlacedOrder();
   }
 }

@@ -6,7 +6,7 @@ import { UnnamedOrderConfirmationTotalsComponent } from './unnamed-order-confirm
 import createSpy = jasmine.createSpy;
 
 class MockUnnamedService implements Partial<UnnamedFacade> {
-  getCurrentOrderDetails = createSpy().and.returnValue(
+  getOrderDetails = createSpy().and.returnValue(
     of({
       code: 'test-code-412',
     })
