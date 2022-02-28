@@ -178,7 +178,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     beforeEach(() => {
       checkoutDeliveryModesFacade.getSupportedDeliveryModes =
         createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-      component.isSetDeliveryModeBusy$ = of(false);
+      component.isUpdating$ = of(false);
     });
 
     it('should be enabled when delivery mode is selected', () => {
@@ -209,7 +209,7 @@ describe('CheckoutDeliveryModeComponent', () => {
     it('should call "back" function after being clicked', () => {
       checkoutDeliveryModesFacade.getSupportedDeliveryModes =
         createSpy().and.returnValue(of(mockSupportedDeliveryModes));
-      component.isSetDeliveryModeBusy$ = of(false);
+      component.isUpdating$ = of(false);
 
       spyOn(component, 'back');
 
