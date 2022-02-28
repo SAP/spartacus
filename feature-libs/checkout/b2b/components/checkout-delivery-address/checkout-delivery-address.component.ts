@@ -26,7 +26,7 @@ import {
   UserCostCenterService,
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
-import { Observable, of, Subscription } from 'rxjs';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 
 export interface CardWithAddress {
@@ -44,6 +44,41 @@ export class B2BCheckoutDeliveryAddressComponent
   implements OnInit, OnDestroy
 {
   protected subscriptions = new Subscription();
+
+  protected isAccountPayment$: Observable<boolean> =
+    this.checkoutPaymentTypeFacade
+      .isAccountPayment()
+      .pipe(distinctUntilChanged());
+
+  protected costCenterAddresses$: Observable<Address[]> =
+    this.checkoutCostCenterFacade.getCostCenterState().pipe(
+      filter((state) => !state.loading),
+      map((state) => state.data),
+      distinctUntilChanged((prev, curr) => prev?.code === curr?.code),
+      switchMap((costCenter) => {
+        this.doneAutoSelect = false;
+        return costCenter?.code
+          ? this.userCostCenterService.getCostCenterAddresses(costCenter.code)
+          : of([]);
+      })
+    );
+
+  protected creditCardAddressLoading$: Observable<boolean> =
+    super.getAddressLoading();
+
+  protected accountAddressLoading$: Observable<boolean> = combineLatest([
+    this.creditCardAddressLoading$,
+    this.checkoutCostCenterFacade
+      .getCostCenterState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(
+      ([creditCardAddressLoading, costCenterLoading]) =>
+        creditCardAddressLoading || costCenterLoading
+    ),
+    distinctUntilChanged()
+  );
+
   isAccountPayment = false;
 
   constructor(
@@ -73,47 +108,48 @@ export class B2BCheckoutDeliveryAddressComponent
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.checkoutPaymentTypeFacade
-        .isAccountPayment()
-        .pipe(distinctUntilChanged())
-        .subscribe((isAccount) => (this.isAccountPayment = isAccount))
+      this.isAccountPayment$.subscribe(
+        (isAccount) => (this.isAccountPayment = isAccount)
+      )
     );
 
+    super.ngOnInit();
+  }
+
+  protected loadAddresses(): void {
     if (!this.isAccountPayment) {
-      super.ngOnInit();
+      super.loadAddresses();
     }
+    // else: do nothing, as we don't need to load user addresses for account payment
   }
 
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.checkoutPaymentTypeFacade.isAccountPayment().pipe(
-      switchMap((isAccountPayment) => {
-        return isAccountPayment
-          ? this.checkoutCostCenterFacade.getCostCenterState().pipe(
-              filter((state) => !state.loading),
-              map((state) => state.data),
-              distinctUntilChanged(),
-              switchMap((costCenter) => {
-                this.doneAutoSelect = false;
-                return costCenter?.code
-                  ? this.userCostCenterService.getCostCenterAddresses(
-                      costCenter.code
-                    )
-                  : of([]);
-              })
-            )
-          : super.getSupportedAddresses();
-      })
+  protected getAddressLoading(): Observable<boolean> {
+    return this.isAccountPayment$.pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.accountAddressLoading$
+          : this.creditCardAddressLoading$
+      )
     );
   }
 
-  selectDefaultAddress(
+  protected getSupportedAddresses(): Observable<Address[]> {
+    return this.isAccountPayment$.pipe(
+      switchMap((isAccountPayment) =>
+        isAccountPayment
+          ? this.costCenterAddresses$
+          : super.getSupportedAddresses()
+      )
+    );
+  }
+
+  protected selectDefaultAddress(
     addresses: Address[],
     selected: Address | undefined
   ): void {
     if (
       !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
+      addresses?.length &&
       (!selected || Object.keys(selected).length === 0)
     ) {
       if (this.isAccountPayment) {

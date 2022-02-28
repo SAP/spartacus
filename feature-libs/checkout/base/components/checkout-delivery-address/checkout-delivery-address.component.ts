@@ -15,7 +15,13 @@ import {
 } from '@spartacus/core';
 import { Card } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CheckoutStepService } from '../services/checkout-step.service';
 
 export interface CardWithAddress {
@@ -31,14 +37,11 @@ export interface CardWithAddress {
 export class CheckoutDeliveryAddressComponent implements OnInit {
   protected busy$ = new BehaviorSubject<boolean>(false);
 
-  addressFormOpened = false;
-  shouldRedirect = false; // this helps with smoother steps transition
-  doneAutoSelect = false;
+  cards$: Observable<CardWithAddress[]>;
+  isUpdating$: Observable<boolean>;
 
-  isUpdating$: Observable<boolean> = combineLatest([
-    this.busy$,
-    this.userAddressService.getAddressesLoading(),
-  ]).pipe(map(([busy, loading]) => busy || loading));
+  addressFormOpened = false;
+  doneAutoSelect = false;
 
   get isGuestCheckout(): boolean {
     return !!getLastValueSync(this.activeCartFacade.isGuestCart());
@@ -52,39 +55,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
       filter((state) => !state.loading),
       map((state) => state.data),
-      tap((address) => {
-        if (address && this.shouldRedirect) {
-          this.next();
-        }
-      })
-    );
-  }
-
-  get cards$(): Observable<CardWithAddress[]> {
-    return combineLatest([
-      this.getSupportedAddresses(),
-      this.selectedAddress$,
-      this.translationService.translate(
-        'checkoutAddress.defaultDeliveryAddress'
-      ),
-      this.translationService.translate('checkoutAddress.shipToThisAddress'),
-      this.translationService.translate('addressCard.selected'),
-    ]).pipe(
-      tap(([addresses, selected]) =>
-        this.selectDefaultAddress(addresses, selected)
-      ),
-      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
-        addresses.map((address) => ({
-          address,
-          card: this.getCardContent(
-            address,
-            selected,
-            textDefault,
-            textShipTo,
-            textSelected
-          ),
-        }))
-      )
+      distinctUntilChanged((prev, curr) => prev?.id === curr?.id)
     );
   }
 
@@ -100,31 +71,10 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (!this.isGuestCheckout) {
-      this.userAddressService.loadAddresses();
-    }
-  }
+    this.loadAddresses();
 
-  getSupportedAddresses(): Observable<Address[]> {
-    return this.userAddressService.getAddresses();
-  }
-
-  selectDefaultAddress(
-    addresses: Address[],
-    selected: Address | undefined
-  ): void {
-    if (
-      !this.doneAutoSelect &&
-      addresses &&
-      addresses.length &&
-      (!selected || Object.keys(selected).length === 0)
-    ) {
-      selected = addresses.find((address) => address.defaultAddress);
-      if (selected) {
-        this.setAddress(selected);
-      }
-      this.doneAutoSelect = true;
-    }
+    this.cards$ = this.createCards();
+    this.isUpdating$ = this.createIsUpdating();
   }
 
   getCardContent(
@@ -170,8 +120,6 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
 
   addAddress(address: Address | undefined): void {
     if (!address) {
-      this.shouldRedirect = false;
-      this.next();
       return;
     }
 
@@ -186,12 +134,11 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
       )
       .subscribe({
         complete: () => {
-          this.onSuccess();
-          this.shouldRedirect = true;
+          // we don't call onSuccess here, because it can cause a spinner flickering
+          this.next();
         },
         error: () => {
           this.onError();
-          this.shouldRedirect = false;
         },
       });
   }
@@ -215,16 +162,99 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     this.checkoutStepService.back(this.activatedRoute);
   }
 
+  protected loadAddresses(): void {
+    if (!this.isGuestCheckout) {
+      this.userAddressService.loadAddresses();
+    }
+  }
+
+  protected createCards(): Observable<CardWithAddress[]> {
+    return combineLatest([
+      this.getSupportedAddresses(),
+      this.selectedAddress$,
+      this.translationService.translate(
+        'checkoutAddress.defaultDeliveryAddress'
+      ),
+      this.translationService.translate('checkoutAddress.shipToThisAddress'),
+      this.translationService.translate('addressCard.selected'),
+    ]).pipe(
+      tap(([addresses, selected]) =>
+        this.selectDefaultAddress(addresses, selected)
+      ),
+      map(([addresses, selected, textDefault, textShipTo, textSelected]) =>
+        addresses.map((address) => ({
+          address,
+          card: this.getCardContent(
+            address,
+            selected,
+            textDefault,
+            textShipTo,
+            textSelected
+          ),
+        }))
+      )
+    );
+  }
+
+  protected selectDefaultAddress(
+    addresses: Address[],
+    selected: Address | undefined
+  ): void {
+    if (
+      !this.doneAutoSelect &&
+      addresses?.length &&
+      (!selected || Object.keys(selected).length === 0)
+    ) {
+      selected = addresses.find((address) => address.defaultAddress);
+      if (selected) {
+        this.setAddress(selected);
+      }
+      this.doneAutoSelect = true;
+    }
+  }
+
+  protected getSupportedAddresses(): Observable<Address[]> {
+    return this.userAddressService.getAddresses();
+  }
+
+  protected createIsUpdating(): Observable<boolean> {
+    return combineLatest([
+      this.busy$,
+      this.userAddressService.getAddressesLoading(),
+      this.getAddressLoading(),
+    ]).pipe(
+      map(
+        ([busy, userAddressLoading, deliveryAddressLoading]) =>
+          busy || userAddressLoading || deliveryAddressLoading
+      ),
+      distinctUntilChanged()
+    );
+  }
+
+  protected getAddressLoading(): Observable<boolean> {
+    return this.checkoutDeliveryAddressFacade.getDeliveryAddressState().pipe(
+      map((state) => state.loading),
+      distinctUntilChanged()
+    );
+  }
+
   protected setAddress(address: Address): void {
     this.busy$.next(true);
-    this.checkoutDeliveryAddressFacade.setDeliveryAddress(address).subscribe({
-      complete: () => {
-        this.onSuccess();
-      },
-      error: () => {
-        this.onError();
-      },
-    });
+    this.checkoutDeliveryAddressFacade
+      .setDeliveryAddress(address)
+      .pipe(
+        switchMap(() =>
+          this.checkoutDeliveryModesFacade.clearCheckoutDeliveryMode()
+        )
+      )
+      .subscribe({
+        complete: () => {
+          this.onSuccess();
+        },
+        error: () => {
+          this.onError();
+        },
+      });
   }
 
   protected onSuccess(): void {
