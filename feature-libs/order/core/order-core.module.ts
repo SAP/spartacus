@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { OrderHistoryConnector } from './connectors/order-history.connector';
+import { OrderConnector } from './connectors/order.connector';
 import { ReplenishmentOrderHistoryConnector } from './connectors/replenishment-order-history.connector';
 import { ScheduledReplenishmentOrderConnector } from './connectors/scheduled-replenishment-order.connector';
-import { UnnamedConnector } from './connectors/unnamed.connector';
 import { facadeProviders } from './facade/facade-providers';
 import { OrderStoreModule } from './store/order-store.module';
 
@@ -12,7 +12,7 @@ import { OrderStoreModule } from './store/order-store.module';
     ...facadeProviders,
     OrderHistoryConnector,
     ReplenishmentOrderHistoryConnector,
-    UnnamedConnector,
+    OrderConnector,
     ScheduledReplenishmentOrderConnector,
   ],
 })

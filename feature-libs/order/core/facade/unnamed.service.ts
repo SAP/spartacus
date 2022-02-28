@@ -12,7 +12,7 @@ import {
 import { Order, UnnamedFacade } from '@spartacus/order/root';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { UnnamedConnector } from '../connectors/unnamed.connector';
+import { OrderConnector } from '../connectors/order.connector';
 
 @Injectable()
 export class UnnamedService implements UnnamedFacade {
@@ -59,7 +59,7 @@ export class UnnamedService implements UnnamedFacade {
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
-    protected checkoutConnector: UnnamedConnector,
+    protected checkoutConnector: OrderConnector,
     protected eventService: EventService
   ) {}
 

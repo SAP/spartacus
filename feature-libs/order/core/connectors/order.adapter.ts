@@ -1,7 +1,7 @@
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
-export abstract class UnnamedAdapter {
+export abstract class OrderAdapter {
   /**
    * Abstract method used to place an order.
    *

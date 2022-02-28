@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { UnnamedAdapter } from './unnamed.adapter';
+import { OrderAdapter } from './order.adapter';
 
 @Injectable()
-export class UnnamedConnector {
-  constructor(protected adapter: UnnamedAdapter) {}
+export class OrderConnector {
+  constructor(protected adapter: OrderAdapter) {}
 
   public placeOrder(
     userId: string,

@@ -1,37 +1,36 @@
 import { TestBed } from '@angular/core/testing';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UnnamedAdapter } from './unnamed.adapter';
-import { UnnamedConnector } from './unnamed.connector';
+import { OrderAdapter } from './order.adapter';
+import { OrderConnector } from './order.connector';
 
 import createSpy = jasmine.createSpy;
 
-class MockOrderAdapter implements Partial<UnnamedAdapter> {
-  placeOrder = createSpy('UnnamedAdapter.placeOrder').and.callFake(
+class MockOrderAdapter implements Partial<OrderAdapter> {
+  placeOrder = createSpy('OrderAdapter.placeOrder').and.callFake(
     (userId: string, cartId: string, termsChecked: boolean) =>
       of(`placedOrder-${userId}-${cartId}-${termsChecked}`)
   );
-  getUnnamedDetails = createSpy(
-    'UnnamedAdapter.loadUnnamedDetails'
-  ).and.callFake((userId: string, cartId: string) =>
-    of(`loadUnnamedDetails-${userId}-${cartId}`)
+  getUnnamedDetails = createSpy('OrderAdapter.loadUnnamedDetails').and.callFake(
+    (userId: string, cartId: string) =>
+      of(`loadUnnamedDetails-${userId}-${cartId}`)
   );
 }
 
-describe('UnnamedConnector', () => {
-  let service: UnnamedConnector;
-  let adapter: UnnamedAdapter;
+describe('OrderConnector', () => {
+  let service: OrderConnector;
+  let adapter: OrderAdapter;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
-        UnnamedConnector,
-        { provide: UnnamedAdapter, useClass: MockOrderAdapter },
+        OrderConnector,
+        { provide: OrderAdapter, useClass: MockOrderAdapter },
       ],
     });
 
-    service = TestBed.inject(UnnamedConnector);
-    adapter = TestBed.inject(UnnamedAdapter);
+    service = TestBed.inject(OrderConnector);
+    adapter = TestBed.inject(OrderAdapter);
   });
 
   it('should be created', () => {

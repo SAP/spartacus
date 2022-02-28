@@ -8,7 +8,7 @@ import {
 import { CheckoutOrderPlacedEvent, Order } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UnnamedConnector } from '../connectors/unnamed.connector';
+import { OrderConnector } from '../connectors/order.connector';
 import { UnnamedService } from './unnamed.service';
 import createSpy = jasmine.createSpy;
 
@@ -26,7 +26,7 @@ class MockUserIdService implements Partial<UserIdService> {
   takeUserId = createSpy().and.returnValue(of(mockUserId));
 }
 
-class MockUnnamedConnector implements Partial<UnnamedConnector> {
+class MockUnnamedConnector implements Partial<OrderConnector> {
   placeOrder = createSpy().and.returnValue(of(mockOrder));
 }
 
@@ -37,7 +37,7 @@ class MockEventService implements Partial<EventService> {
 
 describe(`UnnamedService`, () => {
   let service: UnnamedService;
-  let connector: UnnamedConnector;
+  let connector: OrderConnector;
   let eventService: EventService;
 
   beforeEach(() => {
@@ -47,7 +47,7 @@ describe(`UnnamedService`, () => {
         { provide: ActiveCartFacade, useClass: MockActiveCartService },
         { provide: UserIdService, useClass: MockUserIdService },
         {
-          provide: UnnamedConnector,
+          provide: OrderConnector,
           useClass: MockUnnamedConnector,
         },
         { provide: EventService, useClass: MockEventService },
@@ -55,7 +55,7 @@ describe(`UnnamedService`, () => {
     });
 
     service = TestBed.inject(UnnamedService);
-    connector = TestBed.inject(UnnamedConnector);
+    connector = TestBed.inject(OrderConnector);
     eventService = TestBed.inject(EventService);
   });
 

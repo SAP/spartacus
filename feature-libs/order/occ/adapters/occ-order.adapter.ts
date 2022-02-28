@@ -11,13 +11,13 @@ import {
   OCC_USER_ID_ANONYMOUS,
   USE_CLIENT_TOKEN,
 } from '@spartacus/core';
-import { UnnamedAdapter } from '@spartacus/order/core';
+import { OrderAdapter } from '@spartacus/order/core';
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccUnnamedAdapter implements UnnamedAdapter {
+export class OccOrderAdapter implements OrderAdapter {
   constructor(
     protected http: HttpClient,
     protected occEndpoints: OccEndpointsService,

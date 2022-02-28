@@ -14,7 +14,7 @@ import {
 import { Order, ORDER_NORMALIZER } from '@spartacus/order/root';
 import { defer, of, throwError } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { OccUnnamedAdapter } from './occ-checkout.adapter';
+import { OccOrderAdapter } from './occ-order.adapter';
 
 const MockOccModuleConfig: OccConfig = {
   backend: {
@@ -58,8 +58,8 @@ const mockJaloError = new HttpErrorResponse({
 });
 const mockNormalizedJaloError = normalizeHttpError(mockJaloError);
 
-describe('OccUnnamedAdapter', () => {
-  let service: OccUnnamedAdapter;
+describe('OccOrderAdapter', () => {
+  let service: OccOrderAdapter;
   let httpClient: HttpClient;
   let httpMock: HttpTestingController;
   let converter: ConverterService;
@@ -68,11 +68,11 @@ describe('OccUnnamedAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OccUnnamedAdapter,
+        OccOrderAdapter,
         { provide: OccConfig, useValue: MockOccModuleConfig },
       ],
     });
-    service = TestBed.inject(OccUnnamedAdapter);
+    service = TestBed.inject(OccOrderAdapter);
     httpClient = TestBed.inject(HttpClient);
     httpMock = TestBed.inject(HttpTestingController);
     converter = TestBed.inject(ConverterService);
