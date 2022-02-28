@@ -204,7 +204,6 @@ describe('dependency management migrations', () => {
         expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
       });
     });
