@@ -4,11 +4,11 @@ import {
   ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { UnnamedReplenishmentOrderAdapter } from './unnamed-replenishment-order.adapter';
+import { ScheduledReplenishmentOrderAdapter } from './scheduled-replenishment-order.adapter';
 
 @Injectable()
-export class UnnamedReplenishmentOrderConnector {
-  constructor(protected adapter: UnnamedReplenishmentOrderAdapter) {}
+export class ScheduledReplenishmentOrderConnector {
+  constructor(protected adapter: ScheduledReplenishmentOrderAdapter) {}
 
   public scheduleReplenishmentOrder(
     cartId: string,

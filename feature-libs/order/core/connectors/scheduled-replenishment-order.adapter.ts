@@ -4,7 +4,7 @@ import {
 } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 
-export abstract class UnnamedReplenishmentOrderAdapter {
+export abstract class ScheduledReplenishmentOrderAdapter {
   /**
    * Abstract method used to schedule a replenishment order.
    *

@@ -7,7 +7,7 @@ import {
   normalizeHttpError,
   OccEndpointsService,
 } from '@spartacus/core';
-import { UnnamedReplenishmentOrderAdapter } from '@spartacus/order/core';
+import { ScheduledReplenishmentOrderAdapter } from '@spartacus/order/core';
 import {
   ReplenishmentOrder,
   REPLENISHMENT_ORDER_FORM_SERIALIZER,
@@ -18,8 +18,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable()
-export class OccUnnamedReplenishmentOrderAdapter
-  implements UnnamedReplenishmentOrderAdapter
+export class OccScheduledReplenishmentOrderAdapter
+  implements ScheduledReplenishmentOrderAdapter
 {
   constructor(
     protected http: HttpClient,

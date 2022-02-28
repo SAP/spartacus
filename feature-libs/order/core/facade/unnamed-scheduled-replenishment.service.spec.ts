@@ -12,7 +12,7 @@ import {
   UnnamedFacade,
 } from '@spartacus/order/root';
 import { of } from 'rxjs';
-import { UnnamedReplenishmentOrderConnector } from '../connectors/unnamed-replenishment-order.connector';
+import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 import { UnnamedScheduledReplenishmentService } from './unnamed-scheduled-replenishment.service';
 
 import createSpy = jasmine.createSpy;
@@ -41,8 +41,8 @@ class MockEventService implements Partial<EventService> {
   dispatch = createSpy();
 }
 
-class MockUnnamedReplenishmentOrderConnector
-  implements Partial<UnnamedReplenishmentOrderConnector>
+class MockScheduledReplenishmentOrderConnector
+  implements Partial<ScheduledReplenishmentOrderConnector>
 {
   scheduleReplenishmentOrder = createSpy().and.returnValue(
     of(mockReplenishmentOrder)
@@ -55,7 +55,7 @@ class MockUnnamedFacade implements Partial<UnnamedFacade> {
 
 describe(`UnnamedScheduledReplenishmentService`, () => {
   let service: UnnamedScheduledReplenishmentService;
-  let connector: UnnamedReplenishmentOrderConnector;
+  let connector: ScheduledReplenishmentOrderConnector;
   let checkoutFacade: UnnamedFacade;
   let eventService: EventService;
 
@@ -67,8 +67,8 @@ describe(`UnnamedScheduledReplenishmentService`, () => {
         { provide: UserIdService, useClass: MockUserIdService },
         { provide: EventService, useClass: MockEventService },
         {
-          provide: UnnamedReplenishmentOrderConnector,
-          useClass: MockUnnamedReplenishmentOrderConnector,
+          provide: ScheduledReplenishmentOrderConnector,
+          useClass: MockScheduledReplenishmentOrderConnector,
         },
         {
           provide: UnnamedFacade,
@@ -78,7 +78,7 @@ describe(`UnnamedScheduledReplenishmentService`, () => {
     });
 
     service = TestBed.inject(UnnamedScheduledReplenishmentService);
-    connector = TestBed.inject(UnnamedReplenishmentOrderConnector);
+    connector = TestBed.inject(ScheduledReplenishmentOrderConnector);
     checkoutFacade = TestBed.inject(UnnamedFacade);
     eventService = TestBed.inject(EventService);
   });

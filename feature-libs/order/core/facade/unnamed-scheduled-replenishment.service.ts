@@ -17,7 +17,7 @@ import {
 } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
-import { UnnamedReplenishmentOrderConnector } from '../connectors/unnamed-replenishment-order.connector';
+import { ScheduledReplenishmentOrderConnector } from '../connectors/scheduled-replenishment-order.connector';
 
 @Injectable()
 export class UnnamedScheduledReplenishmentService
@@ -71,7 +71,7 @@ export class UnnamedScheduledReplenishmentService
     protected activeCartFacade: ActiveCartFacade,
     protected userIdService: UserIdService,
     protected commandService: CommandService,
-    protected checkoutReplenishmentOrderConnector: UnnamedReplenishmentOrderConnector,
+    protected checkoutReplenishmentOrderConnector: ScheduledReplenishmentOrderConnector,
     protected eventService: EventService,
     protected checkoutFacade: UnnamedFacade
   ) {}

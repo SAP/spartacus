@@ -5,8 +5,8 @@ import {
 } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { take } from 'rxjs/operators';
-import { UnnamedReplenishmentOrderAdapter } from './unnamed-replenishment-order.adapter';
-import { UnnamedReplenishmentOrderConnector } from './unnamed-replenishment-order.connector';
+import { ScheduledReplenishmentOrderAdapter } from './scheduled-replenishment-order.adapter';
+import { ScheduledReplenishmentOrderConnector } from './scheduled-replenishment-order.connector';
 import createSpy = jasmine.createSpy;
 
 const mockReplenishmentOrderFormData: ScheduleReplenishmentForm = {
@@ -20,24 +20,24 @@ const mockReplenishmentOrder: ReplenishmentOrder = {
   entries: [{ entryNumber: 0, product: { name: 'test-product' } }],
 };
 
-class MockUnnamedReplenishmentOrderAdapter
-  implements UnnamedReplenishmentOrderAdapter
+class MockScheduledReplenishmentOrderAdapter
+  implements ScheduledReplenishmentOrderAdapter
 {
   scheduleReplenishmentOrder = createSpy().and.returnValue(of({}));
 }
 
 describe('Unnamed Replenishment Order Connector', () => {
-  let adapter: UnnamedReplenishmentOrderAdapter;
-  let connector: UnnamedReplenishmentOrderConnector;
+  let adapter: ScheduledReplenishmentOrderAdapter;
+  let connector: ScheduledReplenishmentOrderConnector;
 
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
         providers: [
-          UnnamedReplenishmentOrderConnector,
+          ScheduledReplenishmentOrderConnector,
           {
-            provide: UnnamedReplenishmentOrderAdapter,
-            useClass: MockUnnamedReplenishmentOrderAdapter,
+            provide: ScheduledReplenishmentOrderAdapter,
+            useClass: MockScheduledReplenishmentOrderAdapter,
           },
         ],
       });
@@ -45,8 +45,8 @@ describe('Unnamed Replenishment Order Connector', () => {
   );
 
   beforeEach(() => {
-    adapter = TestBed.inject(UnnamedReplenishmentOrderAdapter);
-    connector = TestBed.inject(UnnamedReplenishmentOrderConnector);
+    adapter = TestBed.inject(ScheduledReplenishmentOrderAdapter);
+    connector = TestBed.inject(ScheduledReplenishmentOrderConnector);
   });
 
   it('should create', () => {
