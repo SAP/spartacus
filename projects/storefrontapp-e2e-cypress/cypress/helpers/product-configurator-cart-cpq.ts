@@ -134,8 +134,20 @@ function checkLoadingSpinnerNotDisplayed(): void {
   cy.get('.cx-spinner').should('not.exist');
 }
 
+/**
+ * Verifies whether 'Continue' button is not disabled.
+ */
 function checkContinueBtnNotDisabled(): void {
   cy.get('button.btn-primary').contains('Continue').should('not.be.disabled');
+}
+
+/**
+ * Verifies whether 'Place Order' button is not disabled.
+ */
+function checkPlaceOrderBtnNotDisabled(): void {
+  cy.get('button.btn-primary')
+    .contains('Place Order')
+    .should('not.be.disabled');
 }
 
 /**
@@ -154,6 +166,86 @@ function proceedWithPaymentMethod(): void {
 }
 
 /**
+ * Verifies whether cost center is displayed.
+ */
+function checkCostCenterDisplayed(): void {
+  cy.get('cx-cost-center').should('be.visible');
+  cy.get('cx-cost-center').within(() => {
+    cy.get('span.label-content').contains('Cost Center');
+    cy.get('select').should('be.visible');
+    cy.get('span.label-content').contains('Delivery addresses available');
+  });
+}
+
+/**
+ * Verifies whether delivery address is displayed.
+ */
+function checkDeliveryAddressDisplayed(): void {
+  cy.get('cx-delivery-address').should('be.visible');
+  cy.get('cx-delivery-address').within(() => {
+    checkLoadingSpinnerNotDisplayed();
+    cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+    cy.get('p.cx-checkout-text').contains('Select your Delivery Address');
+    cy.get('.cx-checkout-body').should('be.visible');
+    cy.get('.cx-checkout-btns').should('be.visible');
+    cy.get('.cx-checkout-body').within(() => {
+      checkShipToThisAddressDisplayed();
+    });
+    cy.get('.cx-checkout-btns').within(() => {
+      cy.get('button.btn-action').should('be.visible');
+      cy.get('button.btn-action').contains('Back');
+      cy.get('button.btn-primary').should('be.visible');
+      cy.get('button.btn-primary').contains('Continue');
+    });
+  });
+}
+
+/**
+ * Verifies whether 'Ship to this address' button is displayed.
+ */
+function checkShipToThisAddressDisplayed(): void {
+  cy.get('.cx-delivery-address-card').should('be.visible');
+  cy.get('.cx-delivery-address-card').within(() => {
+    checkLoadingSpinnerNotDisplayed();
+    cy.get('.cx-card-body').should('be.visible');
+    cy.get('.cx-card-container').should('be.visible');
+    cy.get('.cx-card-actions').should('be.visible');
+    cy.get('.cx-card-actions').within(() => {
+      checkLoadingSpinnerNotDisplayed();
+      cy.get('button.link.cx-action-link').should('exist');
+      cy.get('button.link.cx-action-link').should('be.visible');
+      cy.get('button.link.cx-action-link').contains('Ship to this address');
+      checkLoadingSpinnerNotDisplayed();
+    });
+  });
+}
+
+/**
+ * Clicks on 'Ship to this address' button.
+ */
+function clickOnShipToThisAddressBtn(): void {
+  cy.log("🛒 Click to the link 'Ship to this address'");
+  cy.get('.cx-delivery-address-card').should('be.visible');
+  cy.get('.cx-delivery-address-card').within(() => {
+    checkLoadingSpinnerNotDisplayed();
+    cy.get('.cx-card-actions').should('be.visible');
+    cy.get('.cx-card-actions').within(() => {
+      checkLoadingSpinnerNotDisplayed();
+      cy.get('button.link.cx-action-link').should('exist');
+      cy.get('button.link.cx-action-link').should('be.visible');
+      cy.get('button.link.cx-action-link').contains('Ship to this address');
+      checkLoadingSpinnerNotDisplayed();
+      cy.get('button.link.cx-action-link')
+        .wait(Cypress.config('defaultCommandTimeout'))
+        .click()
+        .then(() => {
+          checkLoadingSpinnerNotDisplayed();
+        });
+    });
+  });
+}
+
+/**
  * Proceeds with delivery address.
  */
 function proceedWithDeliveryAddress(): void {
@@ -166,44 +258,10 @@ function proceedWithDeliveryAddress(): void {
       cy.wait('@deliveryAddress');
       cy.location('pathname').should('contain', '/checkout/delivery-address');
       cy.get('a.cx-link.active').contains('DeliveryAddress');
-      cy.get('cx-cost-center').should('be.visible');
-      cy.get('cx-cost-center').within(() => {
-        cy.get('span.label-content').contains('Cost Center');
-        cy.get('select').should('be.visible');
-        cy.get('span.label-content').contains('Delivery addresses available');
-      });
-
-      cy.get('cx-delivery-address').should('be.visible');
-      cy.get('.cx-checkout-btns').should('be.visible');
-      cy.get('cx-delivery-address').within(() => {
-        checkLoadingSpinnerNotDisplayed();
-        cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
-        cy.get('p.cx-checkout-text').contains('Select your Delivery Address');
-        cy.get('.cx-checkout-body').should('be.visible');
-        cy.get('.cx-checkout-body').within(() => {
-          cy.log("🛒 Click to the link 'Ship to this address'");
-          cy.get('.cx-delivery-address-card').should('be.visible');
-          cy.get('.cx-delivery-address-card').within(() => {
-            cy.get('.cx-card-actions').should('be.visible');
-            cy.get('.cx-card-actions').within(() => {
-              checkLoadingSpinnerNotDisplayed();
-              cy.get('button.link.cx-action-link').should('exist');
-              cy.get('button.link.cx-action-link').should('be.visible');
-              cy.get('button.link.cx-action-link').contains(
-                'Ship to this address'
-              );
-              checkLoadingSpinnerNotDisplayed();
-              cy.get('button.link.cx-action-link')
-                .wait(Cypress.config('defaultCommandTimeout'))
-                .should('exist')
-                .click()
-                .then(() => {
-                  checkLoadingSpinnerNotDisplayed();
-                });
-            });
-          });
-        });
-      });
+      checkCostCenterDisplayed();
+      checkDeliveryAddressDisplayed();
+      checkShipToThisAddressDisplayed();
+      clickOnShipToThisAddressBtn();
     });
 }
 
@@ -268,6 +326,7 @@ function reviewOrder(): void {
  */
 function placeOrder(): void {
   cy.log('🛒 Place order');
+  checkPlaceOrderBtnNotDisabled();
   cy.get('cx-place-order button.btn-primary')
     .click()
     .then(() => {
