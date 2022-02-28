@@ -8,13 +8,15 @@ import {
 import { FormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
 import {
-  CheckoutScheduledReplenishmentFacade,
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
 } from '@spartacus/checkout/scheduled-replenishment/root';
 import { RoutingService } from '@spartacus/core';
-import { UnnamedFacade } from '@spartacus/order/root';
+import {
+  UnnamedFacade,
+  UnnamedScheduledReplenishmentFacade,
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
@@ -42,7 +44,7 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
+    protected checkoutScheduledReplenishmentFacade: UnnamedScheduledReplenishmentFacade
   ) {
     super(checkoutFacade, routingService, fb, launchDialogService, vcr);
   }

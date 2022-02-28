@@ -2,7 +2,9 @@ import { Injectable } from '@angular/core';
 import { Converter, Occ, TimeUtils } from '@spartacus/core';
 import { ScheduleReplenishmentForm } from '@spartacus/order/root';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class OccUnnamedReplenishmentOrderFormSerializer
   implements
     Converter<Occ.ScheduleReplenishmentForm, ScheduleReplenishmentForm>
