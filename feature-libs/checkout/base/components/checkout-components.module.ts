@@ -23,7 +23,6 @@ import { CheckoutReviewSubmitModule } from './checkout-review-submit/checkout-re
     CheckoutPlaceOrderModule,
     CheckoutReviewSubmitModule,
     CheckoutDeliveryAddressModule,
-    // CheckoutOrderConfirmationModule,
     CheckoutLoginModule,
   ],
 })

@@ -6,7 +6,6 @@ export const defaultOccCheckoutConfig: OccConfig = {
       endpoints: {
         setDeliveryAddress:
           'users/${userId}/carts/${cartId}/addresses/delivery',
-        // placeOrder: 'users/${userId}/orders?fields=FULL',
         cardTypes: 'cardtypes',
         createDeliveryAddress:
           'users/${userId}/carts/${cartId}/addresses/delivery',

@@ -29,9 +29,6 @@ export function defaultCheckoutComponentsConfig() {
 
 @NgModule({
   imports: [CheckoutB2BRootModule, CheckoutScheduledReplenishmentEventModule],
-  providers: [
-    // provideDefaultConfig(defaultCheckoutScheduledReplenishmentRoutingConfig),
-    provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
-  ],
+  providers: [provideDefaultConfigFactory(defaultCheckoutComponentsConfig)],
 })
 export class CheckoutScheduledReplenishmentRootModule {}

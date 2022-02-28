@@ -2,15 +2,15 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
+import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
-  CheckoutScheduledReplenishmentFacade,
   DaysOfWeek,
+  OrderFacade,
   ORDER_TYPE,
   recurrencePeriod,
+  ScheduledReplenishmentFacade,
   ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
-import { I18nTestingModule, RoutingService } from '@spartacus/core';
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, of } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
@@ -31,13 +31,13 @@ const mockReplenishmentOrderFormData$ =
     mockReplenishmentOrderFormData
   );
 
-class MockCheckoutService implements Partial<CheckoutFacade> {
+class MockCheckoutService implements Partial<OrderFacade> {
   placeOrder = createSpy().and.returnValue(of());
   clearOrder = createSpy();
 }
 
 class MockCheckoutScheduledReplenishmentService
-  implements Partial<CheckoutScheduledReplenishmentFacade>
+  implements Partial<ScheduledReplenishmentFacade>
 {
   scheduleReplenishmentOrder = createSpy().and.returnValue(of());
 }
@@ -76,11 +76,11 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
   let fixture: ComponentFixture<CheckoutScheduledReplenishmentPlaceOrderComponent>;
   let controls: FormGroup['controls'];
 
-  let checkoutService: CheckoutFacade;
+  let checkoutService: OrderFacade;
   let checkoutReplenishmentFormService: CheckoutReplenishmentFormService;
   let routingService: RoutingService;
   let launchDialogService: LaunchDialogService;
-  let checkoutScheduledReplenishmentService: CheckoutScheduledReplenishmentFacade;
+  let checkoutScheduledReplenishmentService: ScheduledReplenishmentFacade;
 
   beforeEach(
     waitForAsync(() => {
@@ -91,7 +91,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           CheckoutScheduledReplenishmentPlaceOrderComponent,
         ],
         providers: [
-          { provide: CheckoutFacade, useClass: MockCheckoutService },
+          { provide: OrderFacade, useClass: MockCheckoutService },
           {
             provide: CheckoutReplenishmentFormService,
             useClass: MockCheckoutReplenishmentFormService,
@@ -99,7 +99,7 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
           { provide: RoutingService, useClass: MockRoutingService },
           { provide: LaunchDialogService, useClass: MockLaunchDialogService },
           {
-            provide: CheckoutScheduledReplenishmentFacade,
+            provide: ScheduledReplenishmentFacade,
             useClass: MockCheckoutScheduledReplenishmentService,
           },
         ],
@@ -115,9 +115,9 @@ describe('CheckoutScheduledReplenishmentPlaceOrderComponent', () => {
 
     controls = component.checkoutSubmitForm.controls;
 
-    checkoutService = TestBed.inject(CheckoutFacade);
+    checkoutService = TestBed.inject(OrderFacade);
     checkoutScheduledReplenishmentService = TestBed.inject(
-      CheckoutScheduledReplenishmentFacade
+      ScheduledReplenishmentFacade
     );
     checkoutReplenishmentFormService = TestBed.inject(
       CheckoutReplenishmentFormService

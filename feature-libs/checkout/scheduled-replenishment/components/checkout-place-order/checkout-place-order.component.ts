@@ -7,15 +7,13 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import {
-  ORDER_TYPE,
-  recurrencePeriod,
-  ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
 import { RoutingService } from '@spartacus/core';
 import {
   OrderFacade,
+  ORDER_TYPE,
+  recurrencePeriod,
   ScheduledReplenishmentFacade,
+  ScheduleReplenishmentForm,
 } from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';

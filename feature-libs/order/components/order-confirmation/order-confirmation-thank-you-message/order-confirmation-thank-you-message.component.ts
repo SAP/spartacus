@@ -24,8 +24,6 @@ export class OrderConfirmationThankYouMessageComponent
   constructor(protected checkoutFacade: OrderFacade) {}
 
   ngOnInit(): void {
-    console.log('in here');
-
     this.order$ = this.checkoutFacade.getOrderDetails().pipe(
       tap((order) => {
         this.isGuestCustomer =

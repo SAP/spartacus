@@ -7,7 +7,6 @@ import { CheckoutScheduleReplenishmentOrderModule } from './checkout-schedule-re
   imports: [
     CommonModule,
     CheckoutScheduleReplenishmentOrderModule,
-    // CheckoutScheduledReplenishmentOrderConfirmationModule,
     CheckoutScheduledReplenishmentPlaceOrderModule,
   ],
 })
