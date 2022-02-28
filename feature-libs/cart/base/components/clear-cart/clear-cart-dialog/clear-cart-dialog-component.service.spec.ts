@@ -1,8 +1,8 @@
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import {
   ActiveCartFacade,
   MultiCartFacade,
-  DeleteCartEvent as ClearActiveCartEvent,
+  DeleteCartSuccessEvent as ClearActiveCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { EMPTY, Observable, of } from 'rxjs';
 import { ClearCartDialogComponentService } from './clear-cart-dialog-component.service';
@@ -82,8 +82,8 @@ describe('ClearCartDialogComponentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should clear the active cart and display success message', fakeAsync(() => {
-    spyOn(eventService, 'get').and.returnValue(of(ClearActiveCartEvent));
+  it('should clear the active cart and display success message', () => {
+    spyOn(eventService, 'get').and.returnValue(of(ClearActiveCartSuccessEvent));
     spyOn(multiCartFacade, 'deleteCart').and.callThrough();
     spyOn(launchDialogService, 'closeDialog').and.callThrough();
     spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
@@ -91,7 +91,6 @@ describe('ClearCartDialogComponentService', () => {
     spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
 
     service.clearActiveCart();
-    tick(300);
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       'Close dialog after cart cleared'
@@ -104,9 +103,9 @@ describe('ClearCartDialogComponentService', () => {
       { key: 'clearCart.cartClearedSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
-  }));
+  });
 
-  it('should not display global message if clear cart is not successful', fakeAsync(() => {
+  it('should not display global message if clear cart is not successful', () => {
     spyOn(eventService, 'get').and.returnValue(EMPTY);
     spyOn(multiCartFacade, 'deleteCart').and.callThrough();
     spyOn(launchDialogService, 'closeDialog').and.callThrough();
@@ -115,10 +114,8 @@ describe('ClearCartDialogComponentService', () => {
 
     service.clearActiveCart();
 
-    tick(300);
-
     expect(globalMessageService.add).not.toHaveBeenCalled();
-  }));
+  });
 
   it('should close dialog on close method', () => {
     spyOn(launchDialogService, 'closeDialog');

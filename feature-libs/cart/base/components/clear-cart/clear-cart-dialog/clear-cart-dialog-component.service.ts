@@ -8,9 +8,9 @@ import {
 import {
   ActiveCartFacade,
   MultiCartFacade,
-  DeleteCartEvent,
+  DeleteCartSuccessEvent as ClearActiveCartSuccessEvent,
 } from '@spartacus/cart/base/root';
-import { delay, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
+import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
 
 @Injectable({
@@ -38,9 +38,9 @@ export class ClearCartDialogComponentService {
         tap(([cartId, userId]) => {
           this.multiCartFacade.deleteCart(cartId, userId);
         }),
-        switchMap(() => this.eventService.get(DeleteCartEvent)),
+        switchMap(() => this.eventService.get(ClearActiveCartSuccessEvent)),
         tap(() => this.closeDialog('Close dialog after cart cleared')),
-        delay(100)
+        take(1)
       )
       .subscribe(() => {
         this.displayGlobalMessage();
