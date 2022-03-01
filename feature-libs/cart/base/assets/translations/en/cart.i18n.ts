@@ -74,4 +74,12 @@ export const cart = {
       'The product configuration requires additional entries in the back end. As a result, you cannot proceed. Please contact support.',
     inProgress: 'Processing',
   },
+  cartToast: {
+    entriesAdded: '{{ quantity }} items added',
+    entryAdded: '{{ quantity }} item added',
+    continueShopping: 'Continue Shopping',
+    goToCart: 'Go to Cart',
+    quantity: 'Qty',
+    price: 'Price',
+  },
 };
