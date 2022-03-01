@@ -6,8 +6,8 @@ import { OccConfig } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { OrderAdapter } from '../../connectors/order.adapter';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryAdapter } from '../../connectors/order-history.adapter';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 import { ConsignmentTrackingEffects } from './consignment-tracking.effect';
 
@@ -30,29 +30,29 @@ const MockOccModuleConfig: OccConfig = {
 
 describe('Consignment Tracking effect', () => {
   let trackingEffect: ConsignmentTrackingEffects;
-  let userOrderConnector: OrderConnector;
+  let orderHistoryConnector: OrderHistoryConnector;
   let actions$: Observable<any>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        OrderConnector,
+        OrderHistoryConnector,
         ConsignmentTrackingEffects,
         { provide: OccConfig, useValue: MockOccModuleConfig },
-        { provide: OrderAdapter, useValue: {} },
+        { provide: OrderHistoryAdapter, useValue: {} },
         provideMockActions(() => actions$),
       ],
     });
 
     actions$ = TestBed.inject(Actions);
     trackingEffect = TestBed.inject(ConsignmentTrackingEffects);
-    userOrderConnector = TestBed.inject(OrderConnector);
+    orderHistoryConnector = TestBed.inject(OrderHistoryConnector);
   });
 
   describe('loadConsignmentTracking$', () => {
     it('should load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
         of(mockTracking)
       );
       const action = new OrderActions.LoadConsignmentTracking(
@@ -70,7 +70,7 @@ describe('Consignment Tracking effect', () => {
     });
 
     it('should handle failures for load consignment tracking', () => {
-      spyOn(userOrderConnector, 'getConsignmentTracking').and.returnValue(
+      spyOn(orderHistoryConnector, 'getConsignmentTracking').and.returnValue(
         throwError('Error')
       );
 

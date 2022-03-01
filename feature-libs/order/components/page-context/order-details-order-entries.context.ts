@@ -4,7 +4,7 @@ import {
   OrderEntriesSource,
   OrderEntry,
 } from '@spartacus/cart/base/root';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderHistoryFacade } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
@@ -14,10 +14,10 @@ import { map } from 'rxjs/operators';
 export class OrderDetailsOrderEntriesContext implements GetOrderEntriesContext {
   readonly type = OrderEntriesSource.ORDER_DETAILS;
 
-  constructor(protected userOrderService: OrderFacade) {}
+  constructor(protected orderHistoryFacade: OrderHistoryFacade) {}
 
   getEntries(): Observable<OrderEntry[]> {
-    return this.userOrderService
+    return this.orderHistoryFacade
       .getOrderDetails()
       .pipe(map((order: Order) => order?.entries ?? []));
   }

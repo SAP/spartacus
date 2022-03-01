@@ -153,6 +153,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
           }
           if (!items[i]) {
             this._items.splice(i, 1);
+            i--;
           } else {
             this._items[i] = items[i];
           }
@@ -172,7 +173,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
         quantity: new FormControl(item.quantity, { updateOn: 'blur' }),
       });
 
-      this.form.addControl(controlName, group);
+      this.form.setControl(controlName, group);
 
       // If we disable form group before adding, disabled status will reset
       // Which forces us to disable control after including to form object
