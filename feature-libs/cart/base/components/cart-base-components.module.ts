@@ -12,6 +12,7 @@ import { CartSharedModule } from './cart-shared/cart-shared.module';
 import { CartTotalsModule } from './cart-totals/cart-totals.module';
 import { ActiveCartOrderEntriesContext } from './page-context/active-cart-order-entries.context';
 import { SaveForLaterModule } from './save-for-later/save-for-later.module';
+import { AddedToCartToastModule } from './added-to-cart-toast/added-to-cart-toast.module';
 
 @NgModule({
   imports: [
@@ -32,6 +33,7 @@ import { SaveForLaterModule } from './save-for-later/save-for-later.module';
     CartSharedModule,
     ClearCartModule,
     AddedToCartDialogModule,
+    AddedToCartToastModule,
     SaveForLaterModule,
   ],
   providers: [
