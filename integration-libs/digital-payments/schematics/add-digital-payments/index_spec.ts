@@ -179,6 +179,11 @@ describe('Spartacus Digital-Payments schematics: ng-add', () => {
           CLI_CHECKOUT_BASE_FEATURE,
         ]);
       });
+
+      it('should add the feature using the lazy loading syntax', async () => {
+        const module = appTree.readContent(featureModulePath);
+        expect(module).toMatchSnapshot();
+      });
     });
 
     describe('eager loading', () => {
