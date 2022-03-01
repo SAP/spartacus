@@ -43,6 +43,7 @@ title: Changes to Styles in 5.0
 
 - wrapped everything in `%pdpTabs`inside a `> div {...}` to restore styling after template changes
 - wrapped everything in `%pdpFlat`inside a `> div {...}` to restore styling after template changes
+- `span.accordion-icon` has been added for screen reader improvments.
 
 ## Change in \_order-summary.scss
 
