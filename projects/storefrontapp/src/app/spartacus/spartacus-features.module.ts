@@ -52,7 +52,6 @@ import {
 import { environment } from '../../environments/environment';
 import { AdministrationFeatureModule } from './features/administration-feature.module';
 import { AsmFeatureModule } from './features/asm-feature.module';
-import { CheckoutReplenishmentDpFeatureModule } from './features/b2b-digital-payments/checkout-replenishment-dp-feature.module copy';
 import { BulkPricingFeatureModule } from './features/bulk-pricing-feature.module';
 import { CartBaseFeatureModule } from './features/cart-base-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
@@ -106,11 +105,7 @@ if (environment.cpq) {
   featureModules.push(ProductConfiguratorRulebasedFeatureModule);
 }
 if (environment.digitalPayments) {
-  if (environment.b2b) {
-    featureModules.push(CheckoutReplenishmentDpFeatureModule);
-  } else {
-    featureModules.push(DigitalPaymentsFeatureModule);
-  }
+  featureModules.push(DigitalPaymentsFeatureModule);
 }
 if (environment.epdVisualization) {
   featureModules.push(EpdVisualizationFeatureModule);
