@@ -30,7 +30,18 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
 ];
 
 export function migrate(): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    return migrateComponentMigration(tree, context, COMPONENT_DEPRECATION_DATA);
+  return async (): Promise<Rule> => {
+    // TODO: check if we need a similar workaround as in Angular repo:
+    // See https://github.com/angular/angular/commit/c008e0fa90950fd265a699b44f8e596d6511dac2#diff-6a18709758d7c52328001e67eee0c4690888699fb2949f0fc14c2ee75561e91bR48-R58
+    const angularCompiler = await import('@angular/compiler');
+
+    return (tree: Tree, context: SchematicContext): Tree => {
+      return migrateComponentMigration(
+        tree,
+        context,
+        COMPONENT_DEPRECATION_DATA,
+        angularCompiler
+      );
+    };
   };
 }
