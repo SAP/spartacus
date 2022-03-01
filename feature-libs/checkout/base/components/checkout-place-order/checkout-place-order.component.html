@@ -23,11 +23,7 @@
     (click)="submitForm()"
     class="btn btn-primary btn-block"
     [disabled]="termsAndConditionInvalid"
-    [cxAtMessage]="[
-      'checkoutOrderConfirmation.thankYou' | cxTranslate,
-      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail' | cxTranslate,
-      'checkoutOrderConfirmation.redirectingToConfirmationPage' | cxTranslate
-    ]"
+    [cxAtMessage]="'checkoutReview.orderInProcess' | cxTranslate"
   >
     {{ 'checkoutReview.placeOrder' | cxTranslate }}
   </button>

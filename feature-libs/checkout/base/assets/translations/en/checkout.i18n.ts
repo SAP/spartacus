@@ -33,6 +33,7 @@ export const checkout = {
     editPaymentDetails: 'Edit payment details, opens Payment Details page',
     editPaymentType: 'Edit payment method, opens Method of Payment page',
     editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
+    orderInProcess: 'Order is in process. Please wait.',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
@@ -44,7 +45,5 @@ export const checkout = {
     createAccount: 'Create an account?',
     createAccountForNext:
       'Create an account for <{{email}}> for a faster checkout on your next visit.',
-    redirectingToConfirmationPage: 'Redirecting to the Confirmation Page.',
-    orderConfirmation: 'Order Confirmation',
   },
 };

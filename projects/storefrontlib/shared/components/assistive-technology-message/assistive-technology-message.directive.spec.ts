@@ -80,7 +80,8 @@ describe('AtMessageDirective', () => {
     getCancelButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'common.cancel',
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
+      100
     );
   });
 
@@ -89,7 +90,8 @@ describe('AtMessageDirective', () => {
     getResultsButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       'searchBox.productsResult count:4',
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
+      100
     );
   });
 
@@ -101,7 +103,8 @@ describe('AtMessageDirective', () => {
     getConfirmationButton().nativeElement.click();
     expect(globalMessageService.add).toHaveBeenCalledWith(
       expectedMessage,
-      GlobalMessageType.MSG_TYPE_ASSISTIVE
+      GlobalMessageType.MSG_TYPE_ASSISTIVE,
+      100
     );
   });
 });
