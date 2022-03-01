@@ -271,7 +271,6 @@ describe('CartItemListComponent', () => {
       fixture.detectChanges();
       const multipleMockItems = [
         {
-          id: 1,
           quantity: 5,
           entryNumber: 1,
           product: {
@@ -280,7 +279,6 @@ describe('CartItemListComponent', () => {
           },
         },
         {
-          id: 2,
           quantity: 3,
           entryNumber: 2,
           product: {
@@ -297,6 +295,23 @@ describe('CartItemListComponent', () => {
       expect(
         component.form.controls[multipleMockItems[1].entryNumber]
       ).toBeDefined();
+    });
+
+    it('should be able to remove entry with free promotion product ', () => {
+      const mockItem3 = {
+        quantity: 1,
+        entryNumber: 2,
+        product: {
+          code: 'PR0000',
+        },
+        updateable: true,
+      };
+      component.items = [mockItem0, mockItem1, mockItem3];
+      fixture.detectChanges();
+      component.items = [mockItem0];
+      fixture.detectChanges();
+      expect(component.form.controls[mockItem0.entryNumber]).toBeDefined();
+      expect(Object.keys(component.form.controls).length).toEqual(1);
     });
 
     it('remove entry from save for later list', () => {

@@ -7,12 +7,10 @@ import {
 import {
   Cart,
   CartOutlets,
+  DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
   PromotionLocation,
 } from '@spartacus/cart/base/root';
-import {
-  DeleteSavedCartSuccessEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
 import {
   EventService,
   GlobalMessageService,
