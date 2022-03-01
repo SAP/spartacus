@@ -4,7 +4,7 @@ import { normalizeHttpError } from '@spartacus/core';
 import { ConsignmentTracking } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 
 @Injectable()
@@ -39,6 +39,6 @@ export class ConsignmentTrackingEffects {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector
+    private orderConnector: OrderHistoryConnector
   ) {}
 }
