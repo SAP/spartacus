@@ -159,7 +159,7 @@ export function clickNotifyMeBtn(productCode: string) {
   cy.get('cx-stock-notification > .btn')
     .should('contain', 'NOTIFY ME')
     .should('not.be.disabled')
-    .click();
+    .click({force: true});
 
   cy.wait(`@${getStockNotification}`)
     .its('response.statusCode')
