@@ -1,8 +1,5 @@
 import { TestBed, waitForAsync } from '@angular/core/testing';
-import {
-  ORDER_TYPE,
-  ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
+import { ORDER_TYPE, ScheduleReplenishmentForm } from '@spartacus/order/root';
 import { take } from 'rxjs/operators';
 import { CheckoutReplenishmentFormService } from './checkout-replenishment-form.service';
 
