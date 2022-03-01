@@ -5,8 +5,8 @@ import {
   CartRemoveEntrySuccessEvent,
   CartUpdateEntrySuccessEvent,
 } from '@spartacus/cart/base/root';
-import { CheckoutOrderPlacedEvent } from '@spartacus/checkout/base/root';
 import { Category, EventService } from '@spartacus/core';
+import { OrderPlacedEvent } from '@spartacus/order/root';
 import {
   CategoryPageResultsEvent,
   HomePageEvent,
@@ -239,15 +239,15 @@ export class ProfileTagPushEventsService {
   }
 
   /**
-   * Listens to CheckoutOrderPlacedEvent events
+   * Listens to OrderPlacedEvent events
    *
    * @returns an observable emitting events that describe order confirmation page visits in a profiltag compliant way
-   * @see CheckoutOrderPlacedEvent
+   * @see OrderPlacedEvent
    * @see OrderConfirmationPushEvent
    */
   protected orderConfirmationPageVisited(): Observable<ProfileTagPushEvent> {
     return this.eventService
-      .get(CheckoutOrderPlacedEvent)
+      .get(OrderPlacedEvent)
       .pipe(mapTo(new OrderConfirmationPushEvent()));
   }
 

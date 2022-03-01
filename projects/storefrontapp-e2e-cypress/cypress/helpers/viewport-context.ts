@@ -1,4 +1,4 @@
-import { formats } from '../sample-data/viewports';
+import { formats, ViewportType } from '../sample-data/viewports';
 
 const viewportConfigs: Viewport[] = Object.entries(formats).map(
   ([key, value]) => {
@@ -48,6 +48,15 @@ export function viewportContext(
       }
     );
   });
+}
+
+/**
+ * Check if viewport is mobile
+ *
+ * @returns true if the current viewport is mobile
+ */
+export function isMobile(): boolean {
+  return getViewport() === ViewportType.Mobile;
 }
 
 /**

@@ -1,11 +1,6 @@
-import { Injectable, isDevMode } from '@angular/core';
-import {
-  CmsService,
-  getLastValueSync,
-  Page,
-  UnifiedInjector,
-} from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { CmsService, Page, UnifiedInjector } from '@spartacus/core';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
@@ -19,16 +14,22 @@ import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 @Injectable({
   providedIn: 'root',
 })
-export class PageLayoutService {
+export class PageLayoutService implements OnDestroy {
+  protected handlers: PageLayoutHandler[];
+  protected subscription = new Subscription();
+
   constructor(
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
     private unifiedInjector: UnifiedInjector
-  ) {}
-
-  private handlers$: Observable<PageLayoutHandler[]> =
-    this.unifiedInjector.get(PAGE_LAYOUT_HANDLER);
+  ) {
+    this.subscription.add(
+      this.unifiedInjector
+        .getMulti(PAGE_LAYOUT_HANDLER)
+        .subscribe((handlers) => (this.handlers = handlers))
+    );
+  }
 
   // Prints warn messages for missing layout configs.
   // The warnings are only printed once per config
@@ -45,7 +46,7 @@ export class PageLayoutService {
       }),
       switchMap(({ slots, pageTemplate, breakpoint }) => {
         let result = of(slots);
-        for (const handler of getLastValueSync(this.handlers$) || []) {
+        for (const handler of this.handlers || []) {
           result = handler.handle(result, pageTemplate, section, breakpoint);
         }
         return result;
@@ -255,5 +256,9 @@ export class PageLayoutService {
       );
       this.warnLogMessages[cacheKey] = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
