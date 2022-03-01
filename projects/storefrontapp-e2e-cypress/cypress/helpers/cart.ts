@@ -453,6 +453,25 @@ export function manipulateCartQuantity() {
   registerCartRefreshRoute();
   registerCartPageRoute();
 
+  /**
+   * Example commented below that explains that we need to wait for the page data to finish loading on ccv2 (frontend/backend)
+   * to successful run
+   */
+  // cy.intercept(
+  //   'GET',
+  //   `${getOccUrlPrefix()}/products/${product.code}/reviews?*lang=en&curr=USD`
+  // ).as('product_reviews');
+
+  // const productPageAlias = waitForProductPage(product.code, 'getProductPage');
+
+  // // something to look into why we have to put the full path
+  // cy.visit(`/product/${product.code}/Photosmart%20E317%20Digital%20Camera`);
+
+  // // wait for cms page from backend
+  // cy.wait(`@${productPageAlias}`).its('response.statusCode').should('eq', 200);
+  // // wait for page data to load using one of the last request done in product details page
+  // cy.wait(`@product_reviews`).its('response.statusCode').should('eq', 200);
+
   cy.visit(`/product/${product.code}`);
 
   clickAddToCart();
