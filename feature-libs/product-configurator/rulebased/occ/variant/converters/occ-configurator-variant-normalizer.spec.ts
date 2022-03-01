@@ -1217,7 +1217,7 @@ describe('OccConfiguratorVariantNormalizer', () => {
 
     it('should not fill placeholder if isIntervalInDomain and domainValues are undefined', () => {
       const result = occConfiguratorVariantNormalizer.getPlaceholder(
-        domainValuesWithIntervals,
+        undefined,
         undefined
       );
       expect(result).toBeUndefined();
