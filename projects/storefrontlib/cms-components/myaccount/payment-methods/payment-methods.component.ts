@@ -77,6 +77,7 @@ export class PaymentMethodsComponent implements OnInit {
           }
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
+            isRegion: true,
             header: defaultPayment ? textDefaultPaymentMethod : null,
             textBold: accountHolderName,
             text: [cardNumber, textExpires],
