@@ -39,6 +39,7 @@
     type="button"
     [attr.disabled]="anonymous ? true : null"
     aria-describedby="outOfStockMessage"
+    (click)="subscribe()"
   >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
