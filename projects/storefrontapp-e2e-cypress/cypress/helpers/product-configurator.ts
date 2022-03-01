@@ -287,7 +287,6 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
