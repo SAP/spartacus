@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import {
   Consignment,
   ConsignmentTracking,
-  OrderFacade,
+  OrderHistoryFacade,
 } from '@spartacus/order/root';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Observable } from 'rxjs';
@@ -29,17 +29,18 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   consignmentTracking$: Observable<ConsignmentTracking>;
 
   constructor(
-    private userOrderService: OrderFacade,
+    private orderHistoryFacade: OrderHistoryFacade,
     private modalService: ModalService
   ) {}
 
   ngOnInit() {
-    this.consignmentTracking$ = this.userOrderService.getConsignmentTracking();
+    this.consignmentTracking$ =
+      this.orderHistoryFacade.getConsignmentTracking();
   }
 
   openTrackingDialog(consignment: Consignment) {
     if (consignment.code) {
-      this.userOrderService.loadConsignmentTracking(
+      this.orderHistoryFacade.loadConsignmentTracking(
         this.orderCode,
         consignment.code
       );
@@ -57,6 +58,6 @@ export class ConsignmentTrackingComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.userOrderService.clearConsignmentTracking();
+    this.orderHistoryFacade.clearConsignmentTracking();
   }
 }

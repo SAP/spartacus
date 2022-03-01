@@ -8,11 +8,7 @@
   >
     <ng-container *ngFor="let component of components; let i = index">
       <ng-container *ngIf="component">
-        <button
-          [class.active]="i === activeTabNum"
-          (click)="select(i, $event)"
-          [attr.aria-expanded]="(isMobile$ | async) ? i === activeTabNum : null"
-        >
+        <button [class.active]="i === activeTabNum" (click)="select(i, $event)">
           {{
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
