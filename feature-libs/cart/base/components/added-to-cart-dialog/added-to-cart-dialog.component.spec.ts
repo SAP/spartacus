@@ -31,8 +31,8 @@ import {
 } from '@spartacus/storefront';
 import { cold } from 'jasmine-marbles';
 import { ModalService } from 'projects/storefrontlib/shared/components/modal/modal.service';
-import { EMPTY, Observable, of } from 'rxjs';
-import { take } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { skip, take } from 'rxjs/operators';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 @Directive({
   selector: '[cxModal]',
@@ -278,6 +278,27 @@ describe('AddedToCartDialogComponent', () => {
         expect(control.value).toEqual(5);
         done();
       });
+  });
+
+  it('should return formControl with updated order entry quantity', (done) => {
+    const entry$ = new BehaviorSubject<any>({
+      quantity: 5,
+      entryNumber: 0,
+    });
+
+    component.entry$ = entry$;
+    component
+      .getQuantityControl()
+      .pipe(skip(1))
+      .subscribe((control) => {
+        expect(control.value).toEqual(50);
+        done();
+      });
+
+    entry$.next({
+      quantity: 50,
+      entryNumber: 0,
+    });
   });
 
   it('should show added dialog title message in case new entry appears in cart', () => {

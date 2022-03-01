@@ -9,7 +9,7 @@ import {
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
+} from '@spartacus/order/root';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { Observable, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
