@@ -7,14 +7,14 @@ import {
 } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { CheckoutPlaceOrderComponent } from '@spartacus/checkout/base/components';
-import { CheckoutFacade } from '@spartacus/checkout/base/root';
+import { RoutingService } from '@spartacus/core';
 import {
-  CheckoutScheduledReplenishmentFacade,
+  OrderFacade,
   ORDER_TYPE,
   recurrencePeriod,
+  ScheduledReplenishmentOrderFacade,
   ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
-import { RoutingService } from '@spartacus/core';
+} from '@spartacus/order/root';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { BehaviorSubject, merge, Subscription } from 'rxjs';
 import { CheckoutReplenishmentFormService } from '../services/checkout-replenishment-form.service';
@@ -36,15 +36,15 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
   daysOfWeekNotChecked$ = new BehaviorSubject<boolean>(false);
 
   constructor(
-    protected checkoutFacade: CheckoutFacade,
+    protected orderFacade: OrderFacade,
     protected routingService: RoutingService,
     protected fb: FormBuilder,
     protected launchDialogService: LaunchDialogService,
     protected vcr: ViewContainerRef,
     protected checkoutReplenishmentFormService: CheckoutReplenishmentFormService,
-    protected checkoutScheduledReplenishmentFacade: CheckoutScheduledReplenishmentFacade
+    protected scheduledReplenishmentOrderFacade: ScheduledReplenishmentOrderFacade
   ) {
-    super(checkoutFacade, routingService, fb, launchDialogService, vcr);
+    super(orderFacade, routingService, fb, launchDialogService, vcr);
   }
 
   submitForm(): void {
@@ -55,8 +55,8 @@ export class CheckoutScheduledReplenishmentPlaceOrderComponent
       );
       merge(
         this.currentOrderType === ORDER_TYPE.PLACE_ORDER
-          ? this.checkoutFacade.placeOrder(this.checkoutSubmitForm.valid)
-          : this.checkoutScheduledReplenishmentFacade.scheduleReplenishmentOrder(
+          ? this.orderFacade.placeOrder(this.checkoutSubmitForm.valid)
+          : this.scheduledReplenishmentOrderFacade.scheduleReplenishmentOrder(
               this.scheduleReplenishmentFormData,
               this.checkoutSubmitForm.valid
             )
