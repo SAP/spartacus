@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CartToastItem } from '../models/added-to-cart-toast.model';
+import { CartToastItem } from './added-to-cart-toast.model';
 
 @Injectable({ providedIn: 'root' })
-export class AddedToCartToastService {
+export class AddedToCartToastComponentService {
   cartToastItems: CartToastItem[] = [];
 
   constructor(protected productService: ProductService) {}

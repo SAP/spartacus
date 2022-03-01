@@ -7,17 +7,18 @@ import {
   Renderer2,
 } from '@angular/core';
 import {
-  CartAddEntrySuccessEvent,
   EventService,
   ProductService,
   RoutingService,
   WindowRef,
 } from '@spartacus/core';
-import { combineLatest, Observable, of, Subscription } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
-import { AddedToCartToastConfig } from '../../added-to-cart-toast-config';
-import { CartToastItem, CART_TOAST_STATE } from '../../core/models';
-import { AddedToCartToastService } from '../../core/services';
+import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { AddedToCartToastConfig } from '../../../added-to-cart-toast/added-to-cart-toast-config';
+
+import { CartUiEventAddToCart } from '../../root';
+import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
+import { CartToastItem, CART_TOAST_STATE } from './added-to-cart-toast.model';
 
 @Component({
   selector: 'cx-added-to-cart-toast',
@@ -42,10 +43,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
 
   @HostBinding('className') baseClass: string;
 
-  cartAddEntrySuccess$: Observable<CartAddEntrySuccessEvent> = this.eventService.get(
-    CartAddEntrySuccessEvent
-  );
-
   cartToasts$: Observable<
     CartToastItem[]
   > = this.addedToCartToastService.getToasts();
@@ -53,7 +50,7 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   constructor(
     protected winRef: WindowRef,
     protected addedToCartToastConfig: AddedToCartToastConfig,
-    protected addedToCartToastService: AddedToCartToastService,
+    protected addedToCartToastService: AddedToCartToastComponentService,
     protected eventService: EventService,
     protected productService: ProductService,
     protected renderer: Renderer2,
@@ -77,58 +74,44 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
       this.timeout = 3000;
     }
 
-    this.watchCartAddEntrySuccess();
+    // this.watchCartAddEntrySuccess();
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  watchCartAddEntrySuccess() {
-    this.subscription.add(
-      this.cartAddEntrySuccess$
-        .pipe(
-          switchMap((cartEntry) => {
-            return combineLatest([
-              of(cartEntry),
-              this.productService.get(cartEntry.productCode),
-            ]).pipe(
-              filter((result) => result[1] !== undefined),
-              map(([cartEntry, product]) => ({
-                quantityAdded: cartEntry.quantityAdded,
-                product,
-              }))
-            );
-          })
-        )
-        .subscribe(({ quantityAdded, product }) => {
-          let toastContainerClass = `${this.toastContainerBaseClass} `;
-          const toastItem = this.addedToCartToastService.addToast(
-            quantityAdded,
-            product,
-            toastContainerClass
-          );
+  addToast(event: CartUiEventAddToCart) {
+    this.productService
+      .get(event.productCode)
+      .pipe(filter(Boolean))
+      .subscribe((product) => {
+        let toastContainerClass = `${this.toastContainerBaseClass} `;
+        const toastItem = this.addedToCartToastService.addToast(
+          event.quantity,
+          product,
+          toastContainerClass
+        );
 
-          this.cd.detectChanges();
+        this.cd.detectChanges();
 
-          // trigger enter animations with class change
-          toastItem.baseClass = this.getToastStyles();
+        // trigger enter animations with class change
+        toastItem.baseClass = this.getToastStyles();
 
-          if (this.scrollEventUnlistener) {
-            this.scrollEventUnlistener();
-          }
+        if (this.scrollEventUnlistener) {
+          this.scrollEventUnlistener();
+        }
 
-          // wait for enter animation end
-          setTimeout(() => {
-            this.triggerScrollEvent();
-          }, 500);
+        // wait for enter animation end
+        setTimeout(() => {
+          this.triggerScrollEvent();
+        }, 500);
 
-          // trigger slide out animation after timeout
-          toastItem.timeoutRef = setTimeout(() => {
-            this._closeToast(toastItem);
-          }, this.timeout);
-        })
-    );
+        // trigger slide out animation after timeout
+        toastItem.timeoutRef = setTimeout(() => {
+          this._closeToast(toastItem);
+        }, this.timeout);
+      });
   }
 
   triggerScrollEvent(): void {

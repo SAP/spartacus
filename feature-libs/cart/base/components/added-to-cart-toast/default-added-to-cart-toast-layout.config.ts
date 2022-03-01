@@ -1,5 +1,5 @@
 import { LayoutConfig, OutletPosition } from '@spartacus/storefront';
-import { AddedToCartToastComponent } from './added-to-cart-toast/added-to-cart-toast.component';
+import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 
 export const defaultAddedToCartToastLayoutConfig: LayoutConfig = {
   launch: {
