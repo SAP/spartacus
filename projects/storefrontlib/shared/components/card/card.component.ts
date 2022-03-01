@@ -21,6 +21,7 @@ export interface Card {
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
   label?: string;
+  isRegion?: boolean;
 }
 
 @Component({
@@ -43,9 +44,6 @@ export class CardComponent implements OnInit {
 
   @Input()
   border = false;
-
-  @Input()
-  isRegion = true;
 
   @Input()
   editMode = false;
