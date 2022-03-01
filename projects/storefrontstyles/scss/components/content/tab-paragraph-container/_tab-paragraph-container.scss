@@ -12,7 +12,7 @@ $useAccordionOnly: false !default;
     width: 100%;
     text-align: start;
     height: 63px;
-    > icon {
+    > span.accordion-icon {
       &:before {
         content: '+';
         margin: 0px 15px;
@@ -30,7 +30,7 @@ $useAccordionOnly: false !default;
       margin-inline-start: -4%;
     }
     &.active {
-      > icon {
+      > span.accordion-icon {
         &:before {
           content: '–';
         }
@@ -57,7 +57,7 @@ $useAccordionOnly: false !default;
       }
       > button.active.toggled {
         color: initial;
-        > .icon {
+        > span.accordion-icon {
           &:before {
             content: '+';
           }
