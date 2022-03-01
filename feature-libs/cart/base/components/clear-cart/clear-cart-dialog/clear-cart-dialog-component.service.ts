@@ -8,7 +8,7 @@ import {
 import {
   ActiveCartFacade,
   MultiCartFacade,
-  DeleteCartSuccessEvent as ClearActiveCartSuccessEvent,
+  DeleteCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import { switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
@@ -38,7 +38,7 @@ export class ClearCartDialogComponentService {
         tap(([cartId, userId]) => {
           this.multiCartFacade.deleteCart(cartId, userId);
         }),
-        switchMap(() => this.eventService.get(ClearActiveCartSuccessEvent)),
+        switchMap(() => this.eventService.get(DeleteCartSuccessEvent)),
         tap(() => this.closeDialog('Close dialog after cart cleared')),
         take(1)
       )
