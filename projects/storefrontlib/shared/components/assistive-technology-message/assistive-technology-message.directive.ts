@@ -6,7 +6,12 @@ import {
   Optional,
   TemplateRef,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
+import { take } from 'rxjs/operators';
 
 @Directive({
   selector: '[cxAtMessage]',
@@ -40,10 +45,25 @@ export class AtMessageDirective {
     if (event?.target === this.host && this.cxAtMessage) {
       this.host.focus();
 
-      this.globalMessageService.add(
-        this.cxAtMessage,
-        GlobalMessageType.MSG_TYPE_ASSISTIVE
-      );
+      this.globalMessageService
+        .get()
+        .pipe(take(1))
+        .subscribe((globalMessageEntities: GlobalMessageEntities) => {
+          const current =
+            globalMessageEntities &&
+            globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE];
+
+          // Override current assitive message.
+          if (current) {
+            this.globalMessageService.remove(
+              GlobalMessageType.MSG_TYPE_ASSISTIVE
+            );
+          }
+          this.globalMessageService.add(
+            this.cxAtMessage,
+            GlobalMessageType.MSG_TYPE_ASSISTIVE
+          );
+        });
     }
   }
 }

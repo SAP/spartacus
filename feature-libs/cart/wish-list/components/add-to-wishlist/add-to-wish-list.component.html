@@ -9,6 +9,7 @@
             class="btn btn-link button-remove cx-action-link"
             (click)="remove(entry)"
             [disabled]="loading$ | async"
+            [cxAtMessage]="'addToWishList.removedFromWishList' | cxTranslate"
           >
             <cx-icon [type]="iconTypes.HEART"></cx-icon>
             <span class="button-text">{{
