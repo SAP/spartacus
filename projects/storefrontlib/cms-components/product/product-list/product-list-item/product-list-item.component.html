@@ -5,7 +5,7 @@
         !product.images?.hasOwnProperty('PRIMARY')
           ? ('productDetails.noProductImage'
             | cxTranslate: { product: product.name })
-          : ''
+          : undefined
       "
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"
       class="cx-product-image-container"
