@@ -38,16 +38,6 @@ describe('CheckoutConnector', () => {
     expect(service).toBeTruthy();
   });
 
-  it('placeOrder should call adapter', () => {
-    let result;
-    service
-      .placeOrder('user1', 'cart1', true)
-      .pipe(take(1))
-      .subscribe((res) => (result = res));
-    expect(result).toBe('placedOrder-user1-cart1-true');
-    expect(adapter.placeOrder).toHaveBeenCalledWith('user1', 'cart1', true);
-  });
-
   it('getCheckoutDetails should call adapter', () => {
     let result;
     service

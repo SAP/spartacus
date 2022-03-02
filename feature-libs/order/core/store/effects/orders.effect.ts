@@ -5,8 +5,8 @@ import { OrderHistoryList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
 import {
-  OrderConnector,
-  ReplenishmentOrderConnector,
+  OrderHistoryConnector,
+  ReplenishmentOrderHistoryConnector,
 } from '../../connectors/index';
 import { OrderActions } from '../actions/index';
 
@@ -14,8 +14,8 @@ import { OrderActions } from '../actions/index';
 export class OrdersEffect {
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector,
-    private replenishmentOrderConnector: ReplenishmentOrderConnector
+    private orderConnector: OrderHistoryConnector,
+    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector
   ) {}
 
   @Effect()

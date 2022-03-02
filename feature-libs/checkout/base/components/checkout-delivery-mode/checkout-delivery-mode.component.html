@@ -4,24 +4,23 @@
 
 <ng-container
   *ngIf="
-    (supportedDeliveryModes$ | async)?.length &&
-      !(isSetDeliveryModeBusy$ | async);
+    (supportedDeliveryModes$ | async)?.length && !(isUpdating$ | async);
     else loading
   "
 >
   <div [formGroup]="mode">
     <div class="row">
-      <div class="col-md-12 col-lg-9">
+      <div class="col-md-12 col-lg-9" role="radiogroup">
         <div
           class="form-check"
           *ngFor="let mode of supportedDeliveryModes$ | async"
         >
           <input
+            [attr.aria-checked]="getAriaChecked(mode.code)"
             class="form-check-input"
             role="radio"
             type="radio"
             id="deliveryMode-{{ mode.code }}"
-            aria-checked="true"
             (change)="changeMode(mode.code)"
             [value]="mode.code"
             formControlName="deliveryModeId"

@@ -12,13 +12,13 @@ import {
   CheckoutPaymentDetailsCreatedEvent,
   CheckoutPaymentDetailsSetEvent,
 } from '@spartacus/checkout/base/root';
+import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
 import {
   DaysOfWeek,
   ORDER_TYPE,
   recurrencePeriod,
   ScheduleReplenishmentForm,
-} from '@spartacus/checkout/scheduled-replenishment/root';
-import { EventService, LoginEvent, LogoutEvent } from '@spartacus/core';
+} from '@spartacus/order/root';
 import { BehaviorSubject, merge, Observable, Subscription } from 'rxjs';
 
 @Injectable({
