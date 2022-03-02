@@ -10,6 +10,7 @@ import { OccDpDetailsNormalizer } from './adapters/occ-digital-payment-details.n
 import { OccDpRequestNormalizer } from './adapters/occ-digital-payment-request.normalizer';
 import { OccDigitalPaymentsAdapter } from './adapters/occ-digital-payments.adapter';
 import { DpPaymentMethodModule } from './cms-components/dp-payment-method/dp-payment-method.module';
+import { DpCheckoutPaymentService } from './facade/dp-checkout-payment.service';
 
 @NgModule({
   imports: [DpPaymentMethodModule],
@@ -28,6 +29,7 @@ import { DpPaymentMethodModule } from './cms-components/dp-payment-method/dp-pay
       useExisting: OccDpRequestNormalizer,
       multi: true,
     },
+    DpCheckoutPaymentService,
     provideDefaultConfig(occDigitalPaymentsConfig),
   ],
 })
