@@ -41,18 +41,6 @@ describe('Cart', () => {
   });
 
   viewportContext(['desktop'], () => {
-    context('Anonymous user', () => {
-      it.skip('should be unable to add out of stock products to cart', () => {
-        cart.outOfStock();
-      });
-
-      it.skip('should keep cart on page refresh', () => {
-        cart.addProductAsAnonymous();
-        cy.reload();
-        cart.verifyCartNotEmpty();
-      });
-    });
-
     context('Registered user', () => {
       before(() => {
         cy.window().then((win) => win.sessionStorage.clear());
@@ -258,60 +246,6 @@ describe('Cart', () => {
         cart.validateEmptyCart();
       });
 
-      // will fail right now, as this is not fixed yet
-      it.skip("shouldn't show added to cart dialog when entry couldn't be added", () => {
-        cy.visit(`/product/${cart.products[0].code}`);
-        cy.get('cx-breadcrumb h1').contains(cart.products[0].name);
-        cy.intercept(
-          {
-            method: 'POST',
-            pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-              'BASE_SITE'
-            )}/users/anonymous/carts/*/entries`,
-          },
-          {
-            body: {
-              error: {},
-            },
-            statusCode: 400,
-          }
-        ).as('addEntry');
-        cart.clickAddToCart();
-        cy.wait('@addEntry').its('response.statusCode').should('eq', 400);
-        cy.get('cx-added-to-cart-dialog .modal-header').should(
-          'not.contain',
-          'Item(s) added to your cart'
-        );
-        cart.checkAddedToCartDialog();
-        cy.visit('/cart');
-        cart.validateEmptyCart();
-      });
-
-      it.skip('should have different cart on different base sites', () => {
-        cy.visit(`/product/${cart.products[0].code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
-
-        const apparelProduct = {
-          code: '300310300',
-          name: 'Wallet Dakine Agent Leather Wallet brown',
-          price: 33.96,
-        };
-
-        cy.visit(`/apparel-uk-spa/en/GBP/product/${apparelProduct.code}`);
-        cart.clickAddToCart();
-        cart.checkAddedToCartDialog();
-        cart.closeAddedToCartDialog();
-
-        cy.visit(`/${Cypress.env('BASE_SITE')}/en/USD/cart`);
-        cart.checkProductInCart(cart.products[0]);
-        cy.get('cx-global-message .alert-danger').should('not.exist');
-
-        cy.visit(`/apparel-uk-spa/en/GBP/cart`);
-        cart.checkProductInCart(apparelProduct, 1, 'GBP');
-        cy.get('cx-global-message .alert-danger').should('not.exist');
-      });
     });
   });
 });

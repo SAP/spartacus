@@ -41,7 +41,7 @@ describe('Order details page', () => {
       });
     });
 
-    it('should display order details page with consigned entries', () => {
+    it.skip('should display order details page with consigned entries', () => {
       doPlaceOrder().then((orderData: any) => {
         cy.waitForOrderToBePlacedRequest(
           undefined,

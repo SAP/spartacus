@@ -103,32 +103,7 @@ context('Cart Import/Export', () => {
       });
     });
 
-    describe('Normal products with configurable products', () => {
-      const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n1934793,1,PowerShot A480,$99.85\r\n300938,3,Photosmart E317 Digital Camera,$342.36\r\n`;
-
-      it('should export cart', () => {
-        importExport.addProductToCart(cart.products[0].code);
-        importExport.addProductToCart(cart.products[0].code);
-        importExport.addProductToCart(cart.products[0].code);
-        importExport.addProductToCart(cart.products[1].code);
-        importExport.addProductToCart(cart.products[1].code);
-        importExport.addProductToCart(cart.products[1].code);
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Normal and Configurable Products Cart',
-          description:
-            'A test description for Normal and Configurable Products Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 6,
-          total: '$621.91',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
+    
 
     describe('Non-default export configuration', () => {
       const EXPECTED_CSV = `Code|Quantity|Name|Price\r\n1934793|1|Canon|true\r\n300938|1|HP|true\r\n`;
@@ -156,31 +131,7 @@ context('Cart Import/Export', () => {
       });
     });
 
-    // TODO: Enable and improve once importing configurable products is supported (#13456)
-    xdescribe('Configurable products', () => {
-      const EXPECTED_CSV = `Code,Quantity,[importExport:exportEntries.columnNames.engravedTextHeading],[importExport:exportEntries.columnNames.fontSize],[importExport:exportEntries.columnNames.fontType]\r\n1934793,1,PowerShot,14,Comic Sans\r\n`;
-
-      beforeEach(() => {
-        cy.cxConfig(importExport.configurableProductConfig);
-      });
-
-      it('should export cart', () => {
-        importExport.addProductToCart(cart.products[0].code);
-        importExport.exportCart(EXPECTED_CSV);
-      });
-
-      it('should import cart', () => {
-        importExport.importCartTestFromConfig({
-          name: 'Configurable products Cart',
-          description: 'A test description for Configurable products Cart.',
-          saveTime: importExport.getSavedDate(),
-          quantity: 1,
-          total: '$99.85',
-          headers: importExport.getCsvHeaders(EXPECTED_CSV),
-          expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
-        });
-      });
-    });
+    
 
     describe('Variable products', () => {
       const EXPECTED_CSV = `Code,Quantity,Name,Price\r\n300785814,1,Maguro Pu Belt plaid LXL,£24.26\r\n`;
@@ -210,48 +161,6 @@ context('Cart Import/Export', () => {
           headers: importExport.getCsvHeaders(EXPECTED_CSV),
           expectedData: importExport.convertCsvToArray(EXPECTED_CSV),
         });
-      });
-    });
-
-    describe('Malformed CSVs', () => {
-      it('should NOT import empty csv file', () => {
-        const CSV = 'empty.csv';
-        cy.writeFile(`cypress/downloads/${CSV}`, '');
-        importExport.attemptUpload(`../downloads/${CSV}`);
-
-        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File should not be empty'
-        );
-      });
-
-      it('should NOT import malformed csv file', () => {
-        const CSV = 'malformed.csv';
-        cy.writeFile(`cypress/downloads/${CSV}`, 'I am wrong :(');
-        importExport.attemptUpload(`../downloads/${CSV}`);
-
-        cy.get('cx-import-entries-dialog cx-form-errors p').contains(
-          'File is not parsable'
-        );
-      });
-
-      it('should only import remaining stock', () => {
-        const toImport = `Code,Quantity\r\n325234,999\r\n`;
-        const CSV = 'limited-quantity.csv';
-        cy.writeFile(`cypress/downloads/${CSV}`, toImport);
-        importExport.attemptUpload(`../downloads/${CSV}`);
-        cy.wait('@import');
-
-        cy.get('.cx-import-entries-summary-warnings p').contains(
-          `1 product was not imported totally.`
-        );
-
-        cy.get('.cx-import-entries-summary-warnings p')
-          .contains(`Show`)
-          .click();
-
-        cy.get('.cx-import-entries-summary-warnings li').contains(
-          ` has been reduced to `
-        );
       });
     });
   });

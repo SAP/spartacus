@@ -92,32 +92,6 @@ context('Save for later', () => {
         removeItem(products[0], ItemList.SaveForLater);
         validateCart(2, 0);
       });
-
-      it('should place order and keep save for later', () => {
-        const stateAuth = JSON.parse(
-          localStorage.getItem('spartacus⚿⚿auth')
-        ).token;
-        addProductToCart(products[0]);
-        addProductToCart(products[1]);
-        moveItem(products[0], ItemList.SaveForLater);
-        validateCart(1, 1);
-        cy.wait(1000);
-        cartCoupon.placeOrder(stateAuth);
-        cy.reload();
-        validateCart(0, 1);
-        validateProduct(products[0], 1, ItemList.SaveForLater);
-      });
-
-      // turned off until sampledata with proper promotion will get set up (#11871)
-      xit('should handle product with free gift in save for later', () => {
-        addProductToCart(products[0]);
-        addProductToCart(products[3]);
-        verifyMiniCartQty(3);
-        moveItem(products[3], ItemList.SaveForLater);
-        validateCart(1, 2);
-        moveItem(products[3], ItemList.Cart);
-        validateCart(3, 0);
-      });
     });
   });
 });
