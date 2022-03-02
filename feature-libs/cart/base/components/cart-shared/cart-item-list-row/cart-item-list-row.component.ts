@@ -4,7 +4,7 @@ import { CartItemComponent } from '../cart-item/cart-item.component';
 import { CartItemContextSource } from '../cart-item/model/cart-item-context-source.model';
 
 @Component({
-  selector: 'cx-cart-item-list-row',
+  selector: '[cx-cart-item-list-row]',
   templateUrl: './cart-item-list-row.component.html',
   providers: [
     CartItemContextSource,
