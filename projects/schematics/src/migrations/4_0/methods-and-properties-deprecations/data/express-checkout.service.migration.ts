@@ -2,9 +2,9 @@ import {
   CLEAR_CHECKOUT_FACADE,
   EXPRESS_CHECKOUT_SERVICE,
   RESET_CHECKOUT_PROCESSES,
-  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CHECKOUT_OLD_COMPONENTS } from '../../../../shared/feature-libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [

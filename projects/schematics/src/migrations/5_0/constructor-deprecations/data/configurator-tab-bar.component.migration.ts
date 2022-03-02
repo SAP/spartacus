@@ -2,9 +2,11 @@ import {
   CONFIGURATOR_COMMONS_SERVICE,
   CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
   CONFIGURATOR_TAB_BAR_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/constants';
+} from '../../../../shared/feature-libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION: ConstructorDeprecation =

@@ -1,7 +1,7 @@
 import {
   SPARTACUS_CHECKOUT_B2B_ROOT,
   SPARTACUS_SETUP,
-} from '../../../shared/constants';
+} from '../../../shared/feature-libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 
 export const CHECKOUT_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [

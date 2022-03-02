@@ -1,9 +1,9 @@
 import { Rule, SchematicsException, Tree } from '@angular-devkit/schematics';
+import { BASE_STOREFRONT_MODULE } from '../shared/constants';
 import {
-  BASE_STOREFRONT_MODULE,
   SPARTACUS_MODULE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+} from '../shared/feature-libs-constants';
 import {
   addModuleExport,
   addModuleImport,

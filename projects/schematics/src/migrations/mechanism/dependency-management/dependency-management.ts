@@ -12,9 +12,10 @@ import {
 import semver from 'semver';
 import collectedDependencies from '../../../dependencies.json';
 import {
+  CORE_SPARTACUS_SCOPES,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
-} from '../../../shared/constants';
+} from '../../../shared/feature-libs-constants';
 import {
   addPackageJsonDependencies,
   dependencyExists,
@@ -22,7 +23,6 @@ import {
 } from '../../../shared/utils/lib-utils';
 import {
   cleanSemverVersion,
-  CORE_SPARTACUS_SCOPES,
   createDependencies,
   readPackageJson,
 } from '../../../shared/utils/package-utils';

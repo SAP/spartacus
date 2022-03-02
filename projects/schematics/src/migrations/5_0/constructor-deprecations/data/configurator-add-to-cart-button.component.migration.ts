@@ -10,12 +10,14 @@ import {
   INTERSECTION_SERVICE,
   ORDER_FACADE,
   ROUTING_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_ORDER_ROOT,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/feature-libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION: ConstructorDeprecation =

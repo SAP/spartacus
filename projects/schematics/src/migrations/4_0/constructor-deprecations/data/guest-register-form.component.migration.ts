@@ -1,17 +1,19 @@
 import {
   GUEST_REGISTER_FORM_COMPONENT,
-  SPARTACUS_CORE,
-  SPARTACUS_USER_PROFILE_ROOT,
   USER_REGISTER_FACADE,
   USER_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
+  SPARTACUS_CORE,
+  SPARTACUS_USER_PROFILE_ROOT,
+} from '../../../../shared/feature-libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 import {
   ANGULAR_FORMS,
   AUTH_SERVICE,
   FORM_BUILDER,
   ROUTING_SERVICE,
-  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
 } from './../../../../shared/constants';
 
 export const GUEST_REGISTER_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {
