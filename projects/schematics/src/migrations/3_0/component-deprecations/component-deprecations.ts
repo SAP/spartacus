@@ -1,5 +1,6 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ComponentData } from '../../../shared/utils/file-utils';
+import { loadEsmModule } from '../../../shared/utils/load-esm-module';
 import { migrateComponentMigration } from '../../mechanism/component-deprecations/component-deprecations';
 import { ADD_TO_CART_COMPONENT_MIGRATION } from './data/added-to-cart-dialog.component.migration';
 import { CART_ITEM_COMPONENT_MIGRATION } from './data/cart-item.component.migration';
@@ -30,12 +31,12 @@ export const COMPONENT_DEPRECATION_DATA: ComponentData[] = [
 ];
 
 export function migrate(): Rule {
-  return async (): Promise<Rule> => {
-    // TODO: check if we need a similar workaround as in Angular repo:
-    // See https://github.com/angular/angular/commit/c008e0fa90950fd265a699b44f8e596d6511dac2#diff-6a18709758d7c52328001e67eee0c4690888699fb2949f0fc14c2ee75561e91bR48-R58
-    const angularCompiler = await import('@angular/compiler');
+  return async (tree: Tree, context: SchematicContext): Promise<Rule> => {
+    const angularCompiler = await loadEsmModule<
+      typeof import('@angular/compiler')
+    >('@angular/compiler');
 
-    return (tree: Tree, context: SchematicContext): Tree => {
+    return (): Tree => {
       return migrateComponentMigration(
         tree,
         context,
