@@ -254,7 +254,7 @@ export function insertHtmlComment(
   componentProperty: ComponentProperty,
   angularCompiler: typeof import('@angular/compiler')
 ): string | undefined {
-  const { HtmlParser } = angularCompiler; // dynamic import is needed until Angular supports ESM schematics
+  const { HtmlParser } = angularCompiler;
   const comment = buildHtmlComment(componentProperty.comment);
   const result = new HtmlParser().parse(content, '');
 
