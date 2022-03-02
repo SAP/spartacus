@@ -105,7 +105,7 @@ export function readPackageJson(tree: Tree): any {
 
 export function cleanSemverVersion(versionString: string): string {
   if (isNaN(Number(versionString.charAt(0)))) {
-    return versionString.substr(1, versionString.length - 1);
+    return versionString.substring(1, versionString.length - 1);
   }
   return versionString;
 }
