@@ -137,52 +137,49 @@ function addToModuleInternal(
   },
   createIfMissing = true
 ): Expression | undefined {
-  let createdNode: Expression | undefined;
-
   const module = getModule(sourceFile);
-  if (module) {
-    const args = module.getArguments();
-    if (args.length > 0) {
-      const arg = args[0];
-      if (Node.isObjectLiteralExpression(arg)) {
-        if (!arg.getProperty(propertyName) && createIfMissing) {
-          arg.addPropertyAssignment({
-            name: propertyName,
-            initializer: '[]',
-          });
-        }
+  if (!module) {
+    return undefined;
+  }
 
-        const property = arg.getProperty(propertyName);
-        if (property && Node.isPropertyAssignment(property)) {
-          const initializer = property.getInitializerIfKind(
-            tsMorph.SyntaxKind.ArrayLiteralExpression
-          );
-          if (!initializer) {
-            return;
-          }
+  const arg = module.getArguments()[0];
+  if (!Node.isObjectLiteralExpression(arg)) {
+    return undefined;
+  }
 
-          if (isDuplication(initializer, propertyName, insertOptions.content)) {
-            return;
-          }
+  let createdNode: Expression | undefined;
+  if (!arg.getProperty(propertyName) && createIfMissing) {
+    arg.addPropertyAssignment({
+      name: propertyName,
+      initializer: '[]',
+    });
+  }
 
-          const imports = ([] as Import[]).concat(insertOptions.import);
-          imports.forEach((specifiedImport) =>
-            sourceFile.addImportDeclaration({
-              moduleSpecifier: specifiedImport.moduleSpecifier,
-              namedImports: specifiedImport.namedImports,
-            })
-          );
+  const property = arg.getProperty(propertyName);
+  if (property && Node.isPropertyAssignment(property)) {
+    const initializer = property.getInitializerIfKind(
+      tsMorph.SyntaxKind.ArrayLiteralExpression
+    );
+    if (!initializer) {
+      return;
+    }
 
-          if (insertOptions.order || insertOptions.order === 0) {
-            initializer.insertElement(
-              insertOptions.order,
-              insertOptions.content
-            );
-          } else {
-            createdNode = initializer.addElement(insertOptions.content);
-          }
-        }
-      }
+    if (isDuplication(initializer, propertyName, insertOptions.content)) {
+      return;
+    }
+
+    const imports = ([] as Import[]).concat(insertOptions.import);
+    imports.forEach((specifiedImport) =>
+      sourceFile.addImportDeclaration({
+        moduleSpecifier: specifiedImport.moduleSpecifier,
+        namedImports: specifiedImport.namedImports,
+      })
+    );
+
+    if (insertOptions.order || insertOptions.order === 0) {
+      initializer.insertElement(insertOptions.order, insertOptions.content);
+    } else {
+      createdNode = initializer.addElement(insertOptions.content);
     }
   }
 
