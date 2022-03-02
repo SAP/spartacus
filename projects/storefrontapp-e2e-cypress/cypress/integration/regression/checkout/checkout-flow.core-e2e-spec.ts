@@ -1,10 +1,12 @@
 import * as checkout from '../../../helpers/checkout-flow';
 import {
+  clickSearchIcon,
+  searchForProduct,
   filterUsingFacetFiltering,
   searchResult,
 } from '../../../helpers/product-search';
 import { viewportContext } from '../../../helpers/viewport-context';
-import { getSampleUser } from '../../../sample-data/checkout-flow';
+import { getSampleUser, product } from '../../../sample-data/checkout-flow';
 
 context('Checkout flow', () => {
   viewportContext(['mobile', 'desktop'], () => {
@@ -41,6 +43,18 @@ context('Checkout flow', () => {
       });
       checkout.placeOrderWithCheapProduct(user);
       checkout.verifyOrderConfirmationPageWithCheapProduct(user);
+    });
+
+    it('should search and perform checkout', () => {
+      const user = getSampleUser();
+      checkout.visitHomePage();
+      checkout.clickHamburger();
+      checkout.registerUser(false, user);
+      cy.onMobile(() => {
+        clickSearchIcon();
+      });
+      searchForProduct(product.name);
+      checkout.checkoutFirstDisplayedProduct(user);
     });
 
     it('should filter with faceting and perform checkout', () => {

@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
 import { EventService } from '@spartacus/core';
+import { ReplenishmentOrderScheduledEvent } from '@spartacus/order/root';
 import { Subscription } from 'rxjs';
-import { ReplenishmentOrderScheduledEvent } from './checkout-scheduled-replenishment.events';
 
 @Injectable({
   providedIn: 'root',

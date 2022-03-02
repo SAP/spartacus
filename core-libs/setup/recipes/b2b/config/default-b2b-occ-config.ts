@@ -23,14 +23,9 @@ const defaultB2bCartOccEndpoints: CartOccEndpoints = {
 };
 
 const defaultB2bOrderOccEndpoints: OrderOccEndpoints = {
-  replenishmentOrderDetails:
-    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-  replenishmentOrderDetailsHistory:
-    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}/orders',
-  cancelReplenishmentOrder:
-    'users/${userId}/replenishmentOrders/${replenishmentOrderCode}?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType,user',
-  replenishmentOrderHistory:
-    'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
+  placeOrder: 'orgUsers/${userId}/orders?fields=FULL',
+  scheduleReplenishmentOrder:
+    'orgUsers/${userId}/replenishmentOrders?fields=FULL,costCenter(FULL),purchaseOrderNumber,paymentType',
 };
 
 export const defaultB2bOccConfig: OccConfig = {

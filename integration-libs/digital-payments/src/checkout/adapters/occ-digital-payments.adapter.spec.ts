@@ -1,14 +1,14 @@
-import { MockOccEndpointsService } from './../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
+import { HttpRequest } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { OccDigitalPaymentsAdapter } from './occ-digital-payments.adapter';
 import { TestBed } from '@angular/core/testing';
-import { OccEndpointsService, ConverterService } from '@spartacus/core';
-import { HttpRequest } from '@angular/common/http';
-import { DigitalPaymentsAdapter } from './digital-payments.adapter';
+import { ConverterService, OccEndpointsService } from '@spartacus/core';
+import { MockOccEndpointsService } from './../../../../../projects/core/src/occ/adapters/user/unit-test.helper';
 import { DP_DETAILS_NORMALIZER, DP_REQUEST_NORMALIZER } from './converters';
+import { DigitalPaymentsAdapter } from './digital-payments.adapter';
+import { OccDigitalPaymentsAdapter } from './occ-digital-payments.adapter';
 
 const mockSessionId = 'mockSessionId';
 const mockSignature = 'mockSignature';
@@ -24,23 +24,21 @@ describe('OccDigitalPaymentsAdapter', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
+        OccDigitalPaymentsAdapter,
         {
           provide: OccEndpointsService,
           useClass: MockOccEndpointsService,
         },
-        {
-          provide: DigitalPaymentsAdapter,
-          useClass: OccDigitalPaymentsAdapter,
-        },
       ],
     });
 
-    adapter = TestBed.inject(DigitalPaymentsAdapter);
+    adapter = TestBed.inject(OccDigitalPaymentsAdapter);
     httpMock = TestBed.inject(HttpTestingController);
     occEnpointsService = TestBed.inject(OccEndpointsService);
-    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
     converterService = TestBed.inject(ConverterService);
+
     spyOn(converterService, 'pipeable').and.callThrough();
+    spyOn(occEnpointsService, 'buildUrl').and.callThrough();
   });
 
   afterEach(() => {

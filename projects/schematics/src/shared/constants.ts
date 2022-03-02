@@ -33,6 +33,7 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
 export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
+export const SPARTACUS_CART_SAVED_CART_CORE = `${SPARTACUS_CART}/saved-cart/core`;
 export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
 export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
 export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
@@ -408,6 +409,8 @@ export const USER_REGISTER_FACADE = 'UserRegisterFacade';
 export const UNIT_ADDRESS_FORM_SERVICE = 'UnitAddressFormService';
 export const GUEST_REGISTER_FORM_COMPONENT = 'GuestRegisterFormComponent';
 export const EPD_VISUALIZATION_CONFIG = 'EpdVisualizationConfig';
+export const CART_EVENT_BUILDER = 'CartEventBuilder';
+export const REGISTER_DELETE_CART = 'registerDeleteCart';
 
 export const TEST_OUTLET_MODULE = 'TestOutletModule';
 export const TEST_CONFIG_MODULE = 'TestConfigModule';
@@ -465,6 +468,9 @@ export const SAVED_CART_DETAILS_OVERVIEW_COMPONENT =
   'SavedCartDetailsOverviewComponent ';
 export const SAVED_CART_DETAILS_SERVICE = 'SavedCartDetailsService';
 export const SAVED_CART_FACADE = 'SavedCartFacade';
+export const SAVED_CART_EVENT_BUILDER = 'SavedCartEventBuilder';
+export const REGISTER_DELETE_SAVED_CART_EVENTS =
+  'registerDeleteSavedCartEvents';
 
 export const REPLENISHMENT_ORDER_CANCELLATION_LAUNCH_DIALOG_SERVICE =
   'ReplenishmentOrderCancellationLaunchDialogService';
@@ -580,6 +586,7 @@ export const QUICK_ORDER_FACADE = 'QuickOrderFacade';
 export const PROGRESS_BUTTON_COMPONENT = 'ProgressButtonComponent';
 
 export const REINITALIZE_MENU = 'reinitalizeMenu';
+export const PAGE_LAYOUT_HANDLER = 'PageLayoutHandler';
 
 export const BAD_REQUEST_HANDLER = 'BadRequestHandler';
 export const BAD_VOUCHER_REQUEST_HANDLER = 'BadVoucherRequestHandler';
@@ -913,6 +920,8 @@ export const DEFAULT_UNITS_ROUTING_CONFIG = 'defaultUnitsRoutingConfig';
 export const DEFAULT_USER_GROUP_ROUTING_CONFIG =
   'defaultUserGroupRoutingConfig';
 export const DEFAULT_USER_ROUTING_CONFIG = 'defaultUserRoutingConfig';
+
+export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 
 // uncomment product variants deprecation on 4.0 migration works (#11391)
 // export const PRODUCT_VARIANT_COMPONENT = 'ProductVariantsComponent';
