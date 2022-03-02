@@ -2,7 +2,7 @@ export const CHECKOUT_FOLDER_NAME = 'checkout';
 export const SCSS_FILE_NAME = 'checkout.scss';
 
 export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
-export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
+
 export const CHECKOUT_BASE_MODULE = 'CheckoutModule';
 export const CHECKOUT_BASE_ROOT_MODULE = 'CheckoutRootModule';
 export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
