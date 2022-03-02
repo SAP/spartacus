@@ -19,7 +19,7 @@ import {
   GlobalMessageType,
   Product,
 } from '@spartacus/core';
-import { CmsComponentData, FocusConfig } from '@spartacus/storefront';
+import { CmsComponentData } from '@spartacus/storefront';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { QuickOrderFormComponent } from './form/quick-order-form.component';
@@ -47,11 +47,6 @@ export class QuickOrderComponent implements OnInit, OnDestroy {
   ]).pipe(map(([activeCartId, isStable]) => (!activeCartId ? true : isStable)));
   globalMessageType = GlobalMessageType;
   listLimitReached$: Observable<boolean>;
-
-  focusConfig: FocusConfig = {
-    autofocus: true,
-    childManualFocus: true,
-  };
 
   @ViewChild('quickOrderForm')
   quickOrderForm: QuickOrderFormComponent;

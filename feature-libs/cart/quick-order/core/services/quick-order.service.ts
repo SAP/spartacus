@@ -11,6 +11,7 @@ import {
   QuickOrderFacade,
 } from '@spartacus/cart/quick-order/root';
 import {
+  Config,
   EventService,
   HttpErrorModel,
   Product,
@@ -38,12 +39,13 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     new BehaviorSubject<Record<string, OrderEntry>>({});
   protected nonPurchasableProductError$: BehaviorSubject<Product | null> =
     new BehaviorSubject<Product | null>(null);
-  protected hardDeleteTimeout = 5000;
+  protected hardDeleteTimeout = this.config.quickOrder?.list?.hardDeleteTimeout;
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
 
   constructor(
     protected activeCartService: ActiveCartFacade,
+    protected config: Config,
     protected eventService: EventService,
     protected productSearchConnector: ProductSearchConnector
   ) {}
