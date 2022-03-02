@@ -95,7 +95,7 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textDelete, event: 'delete' });
 
           return {
-            isRegion: true,
+            role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,

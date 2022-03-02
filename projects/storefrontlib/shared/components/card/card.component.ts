@@ -21,7 +21,7 @@ export interface Card {
   actions?: Array<CardAction | CardLinkAction>;
   deleteMsg?: string;
   label?: string;
-  isRegion?: boolean;
+  role?: string;
 }
 
 @Component({
