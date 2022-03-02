@@ -13,7 +13,6 @@ const defaultBaseSite = [
   'electronics-spa',
   'electronics',
   'apparel-de',
-  'apparel-uk',
   'apparel-uk-spa',
 ];
 const baseSite = environment.epdVisualization

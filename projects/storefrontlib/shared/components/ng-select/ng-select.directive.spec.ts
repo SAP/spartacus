@@ -16,7 +16,7 @@ import { By } from '@angular/platform-browser';
 })
 class MockComponent {}
 
-fdescribe('NgSelectDirective', () => {
+describe('NgSelectDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
@@ -29,22 +29,20 @@ fdescribe('NgSelectDirective', () => {
     fixture = TestBed.createComponent(MockComponent);
 
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   function getNgSelect(): DebugElement {
     return fixture.debugElement.query(By.directive(NgSelectDirective));
   }
 
-  it('should create test ng-select with listbox and tabindex attributes', () => {
+  it('should create ng-select with listbox and tabindex attributes', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
     const select = getNgSelect().nativeElement;
-    console.log(select);
 
     const innerDiv = select.querySelector("[role='listbox']");
 
     expect(innerDiv).toBeTruthy();
-    expect(innerDiv.getAttribute('tabindex')).toEqual(0);
+    expect(innerDiv.getAttribute('tabindex')).toEqual('0');
   });
 });
