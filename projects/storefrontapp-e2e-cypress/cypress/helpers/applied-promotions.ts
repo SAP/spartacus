@@ -36,11 +36,11 @@ export function addProductToCart() {
     `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
     )}/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*`
-  ).as('addToCart');
+  ).as('cart_refresh');
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.wait(`@addToCart`);
+  cy.wait(`@cart_refresh`);
 }
 
 export function goToCartDetailsView() {
