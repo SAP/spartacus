@@ -82,7 +82,7 @@ export class AutoFocusDirective
       if (!event?.target || event.target === this.host) {
         this.firstFocusable?.focus();
       } else {
-        (event?.target as HTMLElement).focus();
+        (event.target as HTMLElement).focus();
       }
     }
     super.handleFocus(event);
