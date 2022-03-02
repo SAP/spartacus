@@ -21,6 +21,8 @@ export class ClearCartDialogComponent implements OnDestroy {
     focusOnEscape: true,
   };
 
+  isClearing: boolean = false;
+
   iconTypes = ICON_TYPE;
 
   @HostListener('click', ['$event'])
@@ -37,6 +39,7 @@ export class ClearCartDialogComponent implements OnDestroy {
   ) {}
 
   clear(): void {
+    this.isClearing = true;
     this.clearCartDialogComponentService.clearActiveCart();
   }
 

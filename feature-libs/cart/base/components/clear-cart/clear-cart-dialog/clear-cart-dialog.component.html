@@ -4,7 +4,7 @@
   class="cx-clear-cart-dialog"
 >
   <div class="cx-clear-cart-container">
-    <ng-container>
+    <ng-container *ngIf="!isClearing; else loading">
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
         <div class="cx-clear-cart-title modal-title">
@@ -49,3 +49,14 @@
     </ng-container>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="modal-header cx-clear-cart-header">
+    <div class="cx-clear-cart-title modal-title">
+      {{ 'clearCart.clearingCart' | cxTranslate }}
+    </div>
+  </div>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>
