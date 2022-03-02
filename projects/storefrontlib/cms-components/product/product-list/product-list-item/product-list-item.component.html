@@ -3,7 +3,8 @@
     <a
       [attr.aria-label]="
         !product.images?.hasOwnProperty('PRIMARY')
-          ? ('productDetails.noProductImage' | cxTranslate)
+          ? ('productDetails.noProductImage'
+            | cxTranslate: { product: product.name })
           : ''
       "
       [routerLink]="{ cxRoute: 'product', params: product } | cxUrl"

@@ -10,7 +10,7 @@ export const product = {
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
     productPrice: 'Product price',
-    noProductImage: 'No image available',
+    noProductImage: 'No image available, {{ product }}',
   },
   productList: {
     filterBy: {
