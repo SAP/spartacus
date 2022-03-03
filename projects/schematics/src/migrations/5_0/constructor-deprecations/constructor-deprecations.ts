@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { ConstructorDeprecation } from '../../../shared/utils/file-utils';
 import { migrateConstructorDeprecation } from '../../mechanism/constructor-deprecations/constructor-deprecations';
 import { ADDRESS_BOOK_COMPONENT_MIGRATION } from './data/address-book.component.migration';
+import { CART_LIB_MIGRATION } from './data/cart-lib.migration';
 import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.migration';
 import { CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION } from './data/configurator-add-to-cart-button.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION } from './data/configurator-attribute-header.component.migration';
@@ -31,6 +32,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION,
   NAVIGATION_UI_COMPONENT_MIGRATION,
   PAGE_LAYOUT_SERVICE_MIGRATION,
+  ...CART_LIB_MIGRATION,
 ];
 
 export function migrate(): Rule {
