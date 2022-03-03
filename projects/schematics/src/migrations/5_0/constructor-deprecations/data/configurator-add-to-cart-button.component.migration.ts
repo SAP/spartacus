@@ -51,8 +51,8 @@ export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION: ConstructorDep
     ],
     addParams: [
       {
-        className: ORDER_FACADE,
-        importPath: SPARTACUS_ORDER_ROOT,
+        className: 'OrderHistoryFacade',
+        importPath: '@spartacus/order/root',
       },
       {
         className: COMMON_CONFIGURATOR_UTILS_SERVICE,

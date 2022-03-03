@@ -1686,64 +1686,6 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
-    class: 'ConfiguratorAddToCartButtonComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
-    deprecatedParams: [
-      {
-        className: 'RoutingService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'ConfiguratorCommonsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-      {
-        className: 'ConfiguratorCartService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-      {
-        className: 'ConfiguratorGroupsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-      {
-        className: 'ConfiguratorRouterExtractorService',
-        importPath: '@spartacus/product-configurator/common',
-      },
-      {
-        className: 'GlobalMessageService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'OrderFacade',
-        importPath: '@spartacus/order/root',
-      },
-      {
-        className: 'CommonConfiguratorUtilsService',
-        importPath: '@spartacus/product-configurator/common',
-      },
-      {
-        className: 'ConfiguratorStorefrontUtilsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-      {
-        className: 'IntersectionService',
-        importPath: '@spartacus/storefront',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'OrderFacade',
-        importPath: '@spartacus/order/root',
-      },
-    ],
-    addParams: [
-      {
-        className: 'OrderHistoryFacade',
-        importPath: '@spartacus/order/root',
-      },
-    ],
-  },
-  {
     class: 'ConfiguratorAttributeHeaderComponent',
     importPath: '@spartacus/product-configurator/rulebased',
     deprecatedParams: [
