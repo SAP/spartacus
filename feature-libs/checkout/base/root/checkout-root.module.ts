@@ -1,22 +1,15 @@
 import { NgModule } from '@angular/core';
-import { RouterModule } from '@angular/router';
-import {
-  CART_BASE_FEATURE,
-  ORDER_ENTRIES_CONTEXT,
-} from '@spartacus/cart/base/root';
+import { CART_BASE_FEATURE } from '@spartacus/cart/base/root';
 import {
   CmsConfig,
   provideDefaultConfig,
   provideDefaultConfigFactory,
 } from '@spartacus/core';
-import { ORDER_FEATURE } from '@spartacus/order/root';
-import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { defaultCheckoutConfig } from './config/default-checkout-config';
 import { defaultCheckoutRoutingConfig } from './config/default-checkout-routing-config';
 import { CheckoutEventModule } from './events/checkout-event.module';
 import { CHECKOUT_CORE_FEATURE, CHECKOUT_FEATURE } from './feature-name';
 import { interceptors } from './http-interceptors/index';
-import { OrderConfirmationOrderEntriesContextToken } from './tokens/index';
 
 export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutOrchestrator',
@@ -30,10 +23,6 @@ export const CHECKOUT_BASE_CMS_COMPONENTS: string[] = [
   'CheckoutReviewOrder',
   'CheckoutDeliveryAddress',
   'GuestCheckoutLoginComponent',
-  'OrderConfirmationThankMessageComponent',
-  'OrderConfirmationItemsComponent',
-  'OrderConfirmationTotalsComponent',
-  'OrderConfirmationOverviewComponent',
 ];
 
 export function defaultCheckoutComponentsConfig() {
@@ -41,8 +30,7 @@ export function defaultCheckoutComponentsConfig() {
     featureModules: {
       [CHECKOUT_FEATURE]: {
         cmsComponents: CHECKOUT_BASE_CMS_COMPONENTS,
-        // TODO:#checkout - remove ORDER_FEATURE once we move the order placing functionality to the order lib
-        dependencies: [CART_BASE_FEATURE, ORDER_FEATURE],
+        dependencies: [CART_BASE_FEATURE],
       },
       // by default core is bundled together with components
       [CHECKOUT_CORE_FEATURE]: CHECKOUT_FEATURE,
@@ -52,23 +40,7 @@ export function defaultCheckoutComponentsConfig() {
 }
 
 @NgModule({
-  imports: [
-    CheckoutEventModule,
-    RouterModule.forChild([
-      {
-        // @ts-ignore
-        path: null,
-        canActivate: [CmsPageGuard],
-        component: PageLayoutComponent,
-        data: {
-          cxRoute: 'orderConfirmation',
-          cxContext: {
-            [ORDER_ENTRIES_CONTEXT]: OrderConfirmationOrderEntriesContextToken,
-          },
-        },
-      },
-    ]),
-  ],
+  imports: [CheckoutEventModule],
   providers: [
     ...interceptors,
     provideDefaultConfig(defaultCheckoutRoutingConfig),

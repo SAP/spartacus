@@ -1,9 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 import { CheckoutResetQueryEvent } from '@spartacus/checkout/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
+import { ReplenishmentOrderScheduledEvent } from '@spartacus/order/root';
 import { Subject } from 'rxjs';
 import { CheckoutScheduledReplenishmentEventListener } from './checkout-scheduled-replenishment-event.listener';
-import { ReplenishmentOrderScheduledEvent } from './checkout-scheduled-replenishment.events';
 import createSpy = jasmine.createSpy;
 
 const mockEventStream$ = new Subject<CxEvent>();

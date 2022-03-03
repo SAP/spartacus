@@ -12,8 +12,8 @@ import {
 } from '@spartacus/checkout/b2b/root';
 import { CheckoutStepService } from '@spartacus/checkout/base/components';
 import { CheckoutStepType } from '@spartacus/checkout/base/root';
-import { isNotUndefined } from '@spartacus/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { getLastValueSync, isNotUndefined } from '@spartacus/core';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 
 @Component({
@@ -23,16 +23,24 @@ import { distinctUntilChanged, filter, map, tap } from 'rxjs/operators';
 })
 export class CheckoutPaymentTypeComponent {
   @ViewChild('poNumber', { static: false })
-  private _poNumberInput: ElementRef;
+  private poNumberInputElement: ElementRef<HTMLInputElement>;
+
+  protected busy$ = new BehaviorSubject<boolean>(false);
 
   typeSelected?: string;
-  cartPoNumber: string;
+
+  isUpdating$ = combineLatest([
+    this.busy$,
+    this.checkoutPaymentTypeFacade
+      .getSelectedPaymentTypeState()
+      .pipe(map((state) => state.loading)),
+  ]).pipe(
+    map(([busy, loading]) => busy || loading),
+    distinctUntilChanged()
+  );
 
   paymentTypes$: Observable<PaymentType[]> =
     this.checkoutPaymentTypeFacade.getPaymentTypes();
-
-  changeSelectedPaymentTypeInProgress$: Observable<boolean> =
-    new BehaviorSubject<boolean>(false);
 
   typeSelected$: Observable<PaymentType> = this.checkoutPaymentTypeFacade
     .getSelectedPaymentTypeState()
@@ -57,9 +65,7 @@ export class CheckoutPaymentTypeComponent {
       filter((state) => !state.loading),
       map((state) => state.data),
       filter(isNotUndefined),
-      tap((po) => {
-        return (this.cartPoNumber = po);
-      })
+      distinctUntilChanged()
     );
 
   constructor(
@@ -69,28 +75,37 @@ export class CheckoutPaymentTypeComponent {
   ) {}
 
   changeType(code: string): void {
-    (
-      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-    ).next(true);
+    this.busy$.next(true);
     this.typeSelected = code;
 
-    this.checkoutPaymentTypeFacade.setPaymentType(code).subscribe({
-      complete: () => this.onSuccess(),
-      error: () => this.onError(),
-    });
+    this.checkoutPaymentTypeFacade
+      .setPaymentType(code, this.poNumberInputElement.nativeElement.value)
+      .subscribe({
+        complete: () => this.onSuccess(),
+        error: () => this.onError(),
+      });
   }
 
   next(): void {
-    // set po number to cart
-    const poNumInput = this._poNumberInput.nativeElement.value;
-    if (this.typeSelected && poNumInput !== this.cartPoNumber) {
-      this.checkoutPaymentTypeFacade.setPaymentType(
-        this.typeSelected,
-        poNumInput
-      );
+    if (!this.typeSelected) {
+      return;
     }
 
-    this.checkoutStepService.next(this.activatedRoute);
+    const poNumberInput = this.poNumberInputElement.nativeElement.value;
+    // if the PO number didn't change
+    if (poNumberInput === getLastValueSync(this.cartPoNumber$)) {
+      this.checkoutStepService.next(this.activatedRoute);
+      return;
+    }
+
+    this.busy$.next(true);
+    this.checkoutPaymentTypeFacade
+      .setPaymentType(this.typeSelected, poNumberInput)
+      .subscribe({
+        // we don't call onSuccess here, because it can cause a spinner flickering
+        complete: () => this.checkoutStepService.next(this.activatedRoute),
+        error: () => this.onError(),
+      });
   }
 
   back(): void {
@@ -98,14 +113,10 @@ export class CheckoutPaymentTypeComponent {
   }
 
   protected onSuccess(): void {
-    (
-      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-    ).next(false);
+    this.busy$.next(false);
   }
 
   protected onError(): void {
-    (
-      this.changeSelectedPaymentTypeInProgress$ as BehaviorSubject<boolean>
-    ).next(false);
+    this.busy$.next(false);
   }
 }

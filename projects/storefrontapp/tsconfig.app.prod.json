@@ -57,7 +57,6 @@
       "@spartacus/cart/wish-list/core": ["dist/cart/wish-list/core"],
       "@spartacus/cart/wish-list": ["dist/cart/wish-list"],
       "@spartacus/cart/wish-list/root": ["dist/cart/wish-list/root"],
-      "@spartacus/checkout": ["dist/checkout"],
       "@spartacus/checkout/b2b/assets": ["dist/checkout/b2b/assets"],
       "@spartacus/checkout/b2b/components": ["dist/checkout/b2b/components"],
       "@spartacus/checkout/b2b/core": ["dist/checkout/b2b/core"],
@@ -70,20 +69,15 @@
       "@spartacus/checkout/base": ["dist/checkout/base"],
       "@spartacus/checkout/base/occ": ["dist/checkout/base/occ"],
       "@spartacus/checkout/base/root": ["dist/checkout/base/root"],
+      "@spartacus/checkout": ["dist/checkout"],
       "@spartacus/checkout/scheduled-replenishment/assets": [
         "dist/checkout/scheduled-replenishment/assets"
       ],
       "@spartacus/checkout/scheduled-replenishment/components": [
         "dist/checkout/scheduled-replenishment/components"
       ],
-      "@spartacus/checkout/scheduled-replenishment/core": [
-        "dist/checkout/scheduled-replenishment/core"
-      ],
       "@spartacus/checkout/scheduled-replenishment": [
         "dist/checkout/scheduled-replenishment"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/occ": [
-        "dist/checkout/scheduled-replenishment/occ"
       ],
       "@spartacus/checkout/scheduled-replenishment/root": [
         "dist/checkout/scheduled-replenishment/root"
@@ -216,10 +210,20 @@
       "@spartacus/cdc": ["dist/cdc"],
       "@spartacus/cdc/root": ["dist/cdc/root"],
       "@spartacus/cds": ["dist/cds"],
+      "@spartacus/digital-payments/assets": ["dist/digital-payments/assets"],
       "@spartacus/digital-payments": ["dist/digital-payments"],
+      "@spartacus/epd-visualization/components": [
+        "dist/epd-visualization/components"
+      ],
+      "@spartacus/epd-visualization/assets": ["dist/epd-visualization/assets"],
+      "@spartacus/epd-visualization/root": ["dist/epd-visualization/root"],
+      "@spartacus/epd-visualization/core": ["dist/epd-visualization/core"],
+      "@spartacus/epd-visualization/epd-visualization-api": [
+        "dist/epd-visualization/epd-visualization-api"
+      ],
+      "@spartacus/epd-visualization": ["dist/epd-visualization"],
       "@spartacus/assets": ["dist/assets"],
       "@spartacus/core": ["dist/core"],
-      "@spartacus/incubator": ["dist/incubator"],
       "@spartacus/storefront": ["dist/storefrontlib"]
     }
   }

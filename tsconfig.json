@@ -91,11 +91,11 @@
       "@spartacus/cart/saved-cart/root": [
         "feature-libs/cart/saved-cart/root/public_api"
       ],
-      "@spartacus/cart/wish-list/components/add-to-wishlist": [
-        "feature-libs/cart/wish-list/components/add-to-wishlist/public_api"
-      ],
       "@spartacus/cart/wish-list/assets": [
         "feature-libs/cart/wish-list/assets/public_api"
+      ],
+      "@spartacus/cart/wish-list/components/add-to-wishlist": [
+        "feature-libs/cart/wish-list/components/add-to-wishlist/public_api"
       ],
       "@spartacus/cart/wish-list/components": [
         "feature-libs/cart/wish-list/components/public_api"
@@ -107,7 +107,6 @@
       "@spartacus/cart/wish-list/root": [
         "feature-libs/cart/wish-list/root/public_api"
       ],
-      "@spartacus/checkout": ["feature-libs/checkout/public_api"],
       "@spartacus/checkout/b2b/assets": [
         "feature-libs/checkout/b2b/assets/public_api"
       ],
@@ -140,20 +139,15 @@
       "@spartacus/checkout/base/root": [
         "feature-libs/checkout/base/root/public_api"
       ],
+      "@spartacus/checkout": ["feature-libs/checkout/public_api"],
       "@spartacus/checkout/scheduled-replenishment/assets": [
         "feature-libs/checkout/scheduled-replenishment/assets/public_api"
       ],
       "@spartacus/checkout/scheduled-replenishment/components": [
         "feature-libs/checkout/scheduled-replenishment/components/public_api"
       ],
-      "@spartacus/checkout/scheduled-replenishment/core": [
-        "feature-libs/checkout/scheduled-replenishment/core/public_api"
-      ],
       "@spartacus/checkout/scheduled-replenishment": [
         "feature-libs/checkout/scheduled-replenishment/public_api"
-      ],
-      "@spartacus/checkout/scheduled-replenishment/occ": [
-        "feature-libs/checkout/scheduled-replenishment/occ/public_api"
       ],
       "@spartacus/checkout/scheduled-replenishment/root": [
         "feature-libs/checkout/scheduled-replenishment/root/public_api"
@@ -346,12 +340,32 @@
       "@spartacus/cdc": ["integration-libs/cdc/public_api"],
       "@spartacus/cdc/root": ["integration-libs/cdc/root/public_api"],
       "@spartacus/cds": ["integration-libs/cds/public_api"],
+      "@spartacus/digital-payments/assets": [
+        "integration-libs/digital-payments/assets/public_api"
+      ],
       "@spartacus/digital-payments": [
         "integration-libs/digital-payments/public_api"
       ],
+      "@spartacus/epd-visualization/assets": [
+        "integration-libs/epd-visualization/assets/public_api"
+      ],
+      "@spartacus/epd-visualization/components": [
+        "integration-libs/epd-visualization/components/public_api"
+      ],
+      "@spartacus/epd-visualization/core": [
+        "integration-libs/epd-visualization/core/public_api"
+      ],
+      "@spartacus/epd-visualization/epd-visualization-api": [
+        "integration-libs/epd-visualization/epd-visualization-api/public_api"
+      ],
+      "@spartacus/epd-visualization": [
+        "integration-libs/epd-visualization/public_api"
+      ],
+      "@spartacus/epd-visualization/root": [
+        "integration-libs/epd-visualization/root/public_api"
+      ],
       "@spartacus/assets": ["projects/assets/src/public_api"],
       "@spartacus/core": ["projects/core/public_api"],
-      "@spartacus/incubator": ["projects/incubator/public_api"],
       "@spartacus/storefront": ["projects/storefrontlib/public_api"]
     }
   },

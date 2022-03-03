@@ -13,6 +13,9 @@ import {
   CreateCartEvent,
   CreateCartFailEvent,
   CreateCartSuccessEvent,
+  DeleteCartEvent,
+  DeleteCartFailEvent,
+  DeleteCartSuccessEvent,
 } from '@spartacus/cart/base/root';
 import {
   ActionToEventMapping,
@@ -46,6 +49,7 @@ export class CartEventBuilder {
     this.registerAddEntry();
     this.registerRemoveEntry();
     this.registerUpdateEntry();
+    this.registerDeleteCart();
   }
 
   /**
@@ -100,6 +104,41 @@ export class CartEventBuilder {
     this.stateEventService.register({
       action: CartActions.CREATE_CART_FAIL,
       event: CreateCartFailEvent,
+    });
+  }
+
+  /**
+   * Registers delete cart events
+   */
+  protected registerDeleteCart(): void {
+    this.stateEventService.register({
+      action: CartActions.DELETE_CART,
+      event: DeleteCartEvent,
+      factory: (action: CartActions.DeleteCart) =>
+        createFrom(DeleteCartEvent, {
+          ...action.payload,
+          cartCode: action.payload.cartId,
+        }),
+    });
+
+    this.stateEventService.register({
+      action: CartActions.DELETE_CART_SUCCESS,
+      event: DeleteCartSuccessEvent,
+      factory: (action: CartActions.DeleteCartSuccess) =>
+        createFrom(DeleteCartSuccessEvent, {
+          ...action.payload,
+          cartCode: action.payload.cartId,
+        }),
+    });
+
+    this.stateEventService.register({
+      action: CartActions.DELETE_CART_FAIL,
+      event: DeleteCartFailEvent,
+      factory: (action: CartActions.DeleteCartFail) =>
+        createFrom(DeleteCartFailEvent, {
+          ...action.payload,
+          cartCode: action.payload.cartId,
+        }),
     });
   }
 

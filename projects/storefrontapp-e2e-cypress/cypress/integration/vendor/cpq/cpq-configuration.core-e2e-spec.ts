@@ -469,8 +469,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Configuration Process', () => {
-    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
-      configurationCartCpq.defineDeliveryModeAlias();
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();

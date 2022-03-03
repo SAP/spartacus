@@ -104,6 +104,7 @@ export class AddedToCartDialogComponent {
       map((entries) => entries.length === numberOfEntriesBeforeAdd)
     );
   }
+
   /**
    * Adds quantity and entryNumber form controls to the FormGroup.
    * Returns quantity form control.
@@ -115,7 +116,11 @@ export class AddedToCartDialogComponent {
 
       const entryNumber = new FormControl(entry?.entryNumber);
       this.form.addControl('entryNumber', entryNumber);
+    } else {
+      // set the real quantity added to cart
+      this.form.get('quantity')?.setValue(entry?.quantity);
     }
+
     return <FormControl>this.form.get('quantity');
   }
 

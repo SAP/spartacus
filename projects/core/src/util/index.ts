@@ -11,6 +11,7 @@ export * from './regex-pattern';
 export * from './rxjs/index';
 export * from './script-loader.service';
 export * from './ssr.tokens';
+export * from './testing-time-utils';
 export * from './time-utils';
 export * from './type-guards';
 export * from './type-utils';
