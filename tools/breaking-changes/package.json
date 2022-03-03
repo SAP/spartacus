@@ -18,7 +18,8 @@
     "gen-deleted": "ts-node generate-deleted.ts ./data/breaking-changes.json",
     "gen-moved": "ts-node generate-moved.ts ./data/breaking-changes.json",
     "gen-methods-props": "ts-node generate-methods-props.ts ./data/breaking-changes.json",
-    "gen-doc": "ts-node generate-doc.ts ./data/breaking-changes.json"
+    "gen-doc": "ts-node generate-doc.ts ./data/breaking-changes.json",
+    "gen-stats": "ts-node generate-stats.ts ./data/breaking-changes.json"
   },
   "dependencies": {
     "@microsoft/api-extractor": "^7.19.4"
