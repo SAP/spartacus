@@ -1686,27 +1686,6 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
-    class: 'ConfiguratorAttributeHeaderComponent',
-    importPath: '@spartacus/product-configurator/rulebased',
-    deprecatedParams: [
-      {
-        className: 'ConfiguratorStorefrontUtilsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-    ],
-    removeParams: [],
-    addParams: [
-      {
-        className: 'ConfiguratorCommonsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-      {
-        className: 'ConfiguratorGroupsService',
-        importPath: '@spartacus/product-configurator/rulebased',
-      },
-    ],
-  },
-  {
     class: 'ConfiguratorCartService',
     importPath: '@spartacus/product-configurator/rulebased',
     deprecatedParams: [
