@@ -8,7 +8,6 @@ import {
   SaveCartSuccessEvent,
 } from '@spartacus/cart/saved-cart/root';
 import {
-  CheckoutOrderPlacedEvent,
   CheckoutQueryFacade,
   CheckoutReloadQueryEvent,
   CheckoutResetQueryEvent,
@@ -26,6 +25,7 @@ import {
   QueryState,
   UserIdService,
 } from '@spartacus/core';
+import { OrderPlacedEvent } from '@spartacus/order/root';
 import { combineLatest, Observable } from 'rxjs';
 import { map, switchMap, take } from 'rxjs/operators';
 import { CheckoutConnector } from '../connectors/checkout/checkout.connector';
@@ -80,7 +80,7 @@ export class CheckoutQueryService implements CheckoutQueryFacade {
   protected getCheckoutQueryResetOrderTriggers(): QueryNotifier[] {
     return [
       // we need to reset the query's state after the checkout is finished
-      CheckoutOrderPlacedEvent,
+      OrderPlacedEvent,
     ];
   }
 

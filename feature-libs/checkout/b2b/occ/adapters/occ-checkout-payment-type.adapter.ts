@@ -70,9 +70,7 @@ export class OccCheckoutPaymentTypeAdapter
     paymentType: string,
     purchaseOrderNumber?: string
   ): string {
-    const queryParams = purchaseOrderNumber
-      ? { paymentType, purchaseOrderNumber }
-      : { paymentType };
+    const queryParams = { paymentType, purchaseOrderNumber };
     return this.occEndpoints.buildUrl('setCartPaymentType', {
       urlParams: { userId, cartId },
       queryParams,

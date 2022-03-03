@@ -1,6 +1,5 @@
 import { PaymentDetails } from '@spartacus/cart/base/root';
 import { Address, CxEvent } from '@spartacus/core';
-import { Order } from '@spartacus/order/root';
 
 /**
  * Emit this event to force checkout details reload
@@ -28,20 +27,6 @@ export class CheckoutResetQueryEvent extends CxEvent {
 export abstract class CheckoutEvent extends CxEvent {
   userId?: string;
   cartId?: string;
-}
-
-/**
- * Indicates that a user has successfully placed an order.
- */
-export class CheckoutOrderPlacedEvent extends CheckoutEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'CheckoutOrderPlacedEvent';
-  /**
-   * Order
-   */
-  order: Order;
 }
 
 /**
