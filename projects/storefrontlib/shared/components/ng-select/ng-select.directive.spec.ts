@@ -35,7 +35,7 @@ describe('NgSelectDirective', () => {
     return fixture.debugElement.query(By.directive(NgSelectDirective));
   }
 
-  it('should create ng-select with listbox and tabindex attributes', () => {
+  it('should create ng-select with listbox attribute', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
     const select = getNgSelect().nativeElement;
@@ -43,6 +43,5 @@ describe('NgSelectDirective', () => {
     const innerDiv = select.querySelector("[role='listbox']");
 
     expect(innerDiv).toBeTruthy();
-    expect(innerDiv.getAttribute('tabindex')).toEqual('0');
   });
 });

@@ -11,6 +11,5 @@ export class NgSelectDirective implements AfterViewInit {
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
 
     this.renderer.setAttribute(divCombobox, 'role', 'listbox');
-    this.renderer.setAttribute(divCombobox, 'tabindex', '0');
   }
 }
