@@ -1,6 +1,7 @@
 <cx-import-order-entries
   *ngIf="shouldDisplayImport$ | async"
 ></cx-import-order-entries>
-<cx-export-order-entries [standAlone]="false"
+<cx-export-order-entries
   *ngIf="shouldDisplayExport$ | async"
+  [standAlone]="false"
 ></cx-export-order-entries>
