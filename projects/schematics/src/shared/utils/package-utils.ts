@@ -11,6 +11,7 @@ import {
   FEATURES_LIBS_SKIP_SCOPES,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
+  SPARTACUS_SCOPE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
 } from '../feature-libs-constants';
@@ -187,4 +188,12 @@ export function prepare3rdPartyDependencies(): NodeDependency[] {
     ...collectedDependencies[SPARTACUS_ASSETS],
   });
   return thirdPartyDependencies;
+}
+
+export function getSpartacusPackages(
+  dependencies: Record<string, string>
+): string[] {
+  return Object.keys(dependencies).filter((dependency) =>
+    dependency.startsWith(SPARTACUS_SCOPE)
+  );
 }

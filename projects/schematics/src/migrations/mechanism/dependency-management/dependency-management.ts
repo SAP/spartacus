@@ -24,6 +24,7 @@ import {
 import {
   cleanSemverVersion,
   createDependencies,
+  getSpartacusPackages,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -60,17 +61,14 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
   installedLibs: string[];
   spartacusPeerDeps: string[];
 } {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-  const installedLibs = Object.keys(dependencies).filter((dep) =>
-    dep.startsWith(SPARTACUS_SCOPE)
-  );
+  const dependencies: Record<string, string> = packageJson.dependencies;
+  const installedLibs = getSpartacusPackages(dependencies);
 
   let spartacusPeerDeps: string[] = [];
   for (const spartacusLib of installedLibs) {
     spartacusPeerDeps = collectSpartacusPeerDeps(
-      spartacusPeerDeps,
-      spartacusLib
+      spartacusLib,
+      spartacusPeerDeps
     );
   }
 
@@ -83,8 +81,8 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
 }
 
 function collectSpartacusPeerDeps(
-  collectedDeps: string[],
-  name: string
+  name: string,
+  collectedDeps: string[]
 ): string[] {
   const peerDepsWithVersions = (
     collectedDependencies as Record<string, Record<string, string>>
@@ -96,7 +94,7 @@ function collectSpartacusPeerDeps(
 
   collectedDeps = collectedDeps.concat(peerDeps);
   for (const peerDep of peerDeps) {
-    collectedDeps = collectSpartacusPeerDeps(collectedDeps, peerDep);
+    collectedDeps = collectSpartacusPeerDeps(peerDep, collectedDeps);
   }
 
   return collectedDeps;
@@ -139,9 +137,6 @@ function checkAndLogRemovedDependencies(
   removedDependencies: string[],
   logger: logging.LoggerApi
 ): void {
-  const dependencies =
-    (packageJson.dependencies as Record<string, string>) ?? {};
-
   let allSpartacusDeps: string[] = [];
   for (const libraryName of installedSpartacusLibs) {
     const spartacusLibrary = (
@@ -150,6 +145,8 @@ function checkAndLogRemovedDependencies(
     allSpartacusDeps = allSpartacusDeps.concat(Object.keys(spartacusLibrary));
   }
 
+  const dependencies =
+    (packageJson.dependencies as Record<string, string>) ?? {};
   const removed: string[] = [];
   for (const removedDependency of removedDependencies) {
     if (!dependencies[removedDependency]) {

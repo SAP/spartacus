@@ -1,5 +1,5 @@
 import { Identifier, ts } from 'ts-morph';
-import { SPARTACUS_SCOPE } from '../constants';
+import { SPARTACUS_SCOPE } from '../feature-libs-constants';
 
 export function isImportedFrom(node: Identifier, importPath: string): boolean {
   const definitions = node.getDefinitions();

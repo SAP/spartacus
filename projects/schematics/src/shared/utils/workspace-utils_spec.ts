@@ -259,7 +259,7 @@ describe('Workspace utils', () => {
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
         )
       );
     });
