@@ -3,6 +3,7 @@ import * as alerts from '../../helpers/global-message';
 import * as sampleData from '../../sample-data/b2b-saved-cart';
 import { SampleProduct } from '../../sample-data/checkout-flow';
 import { verifyTabbingOrder as tabbingOrder } from '../accessibility/tabbing-order';
+import { addProductToCart as addToCart } from '../applied-promotions';
 import { waitForPage, waitForProductPage } from '../checkout-flow';
 import { loginB2bUser as login } from './b2b-checkout';
 
@@ -170,9 +171,7 @@ export function addProductToCart(product: SampleProduct, quantity: number) {
   cy.wait(`@${alias}`).its('response.statusCode').should('eq', 200);
 
   cy.get('cx-item-counter input').type(`{selectall}${quantity.toString()}`);
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/view cart/i).click();
