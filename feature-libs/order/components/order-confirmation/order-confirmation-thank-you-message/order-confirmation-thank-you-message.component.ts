@@ -10,7 +10,7 @@ import {
   GlobalMessageType,
   TranslationService,
 } from '@spartacus/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -49,11 +49,11 @@ export class OrderConfirmationThankYouMessageComponent
     this.addThankYouMessage();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.orderFacade.clearPlacedOrder();
   }
 
-  protected addThankYouMessage() {
+  protected addThankYouMessage(): void {
     this.getThankYouAssistiveMessage()
       .pipe(take(1))
       .subscribe(
@@ -63,7 +63,10 @@ export class OrderConfirmationThankYouMessageComponent
           thankYouMessage,
           invoiceHasBeenSentByEmailMessage,
         ]) => {
-          const message = `${confirmationOfOrderMessage} ${order?.code}. ${thankYouMessage} ${invoiceHasBeenSentByEmailMessage}`;
+          const code =
+            (order as ReplenishmentOrder).replenishmentOrderCode ??
+            (order as Order).code;
+          const message = `${confirmationOfOrderMessage} ${code}. ${thankYouMessage} ${invoiceHasBeenSentByEmailMessage}`;
           this.globalMessageService.add(
             message,
             GlobalMessageType.MSG_TYPE_ASSISTIVE
@@ -72,7 +75,7 @@ export class OrderConfirmationThankYouMessageComponent
       );
   }
 
-  protected getThankYouAssistiveMessage() {
+  protected getThankYouAssistiveMessage(): Observable<[Order | undefined, string, string, string]> {
     const confirmationOfOrderMessage$ = this.translationService.translate(
       'checkoutOrderConfirmation.confirmationOfOrder'
     );
