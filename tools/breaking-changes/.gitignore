@@ -1,4 +1,4 @@
-# data
-data
 src
 out
+*.out.ts
+*.out.md
