@@ -5,6 +5,14 @@ import {
 } from '@angular/common';
 import { Injectable } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { Configurator } from '../../../../core/model/configurator.model';
+
+export interface ConfiguratorAttributeNumericInterval {
+  minValue?: number;
+  maxValue?: number;
+  minValueIncluded?: boolean;
+  maxValueIncluded?: boolean;
+}
 
 /**
  * Provides validation and formatting of numeric input
@@ -48,6 +56,87 @@ export class ConfiguratorAttributeNumericInputFieldService {
       splitParts[1].length > numberDecimalPlaces
     );
   }
+  /**
+   *
+   * @param values
+   */
+  getIntervalHelpText(
+    values: Configurator.Value[] | undefined
+  ): string | undefined {
+    let helpText: string | undefined;
+    if (values && values.length > 0) {
+      helpText = '';
+      values.forEach((value) => (helpText += value.name + ' ; '));
+      helpText.slice(helpText.length - 3, helpText.length); //remove last semicolon
+    }
+    return helpText;
+  }
+
+  getIntervals(
+    values: Configurator.Value[] | undefined
+  ): ConfiguratorAttributeNumericInterval[] | undefined {
+    let intervals: ConfiguratorAttributeNumericInterval[] | undefined;
+    if (values && values.length > 0) {
+      intervals = [];
+      values.forEach((value) => intervals.push(this.getInterval(value)));
+    }
+    return intervals;
+  }
+
+  getInterval(value: Configurator.Value): ConfiguratorAttributeNumericInterval {
+    let interval: ConfiguratorAttributeNumericInterval = {};
+    let index = value?.name.indexOf(' - ');
+    let minVal: string = '';
+    let maxVal: string = '';
+    let minValIncluded = true;
+    let maxValIncluded = true;
+    if (value && value.name) {
+      // standard interval a - b
+      if (value.name.includes(' - ')) {
+        minVal = value.name.substring(0, index);
+        maxVal = value.name.substring(index + 3, value.name.length);
+        if (minVal.includes('>')) {
+          minValIncluded = false;
+          minVal = minVal.replace('>', '');
+        }
+
+        if (maxVal.includes('<')) {
+          maxValIncluded = false;
+          maxVal = maxVal.replace('<', '');
+        }
+
+        // infinite interval
+      } else {
+        if (value.name.includes('>')) {
+          minVal = value.name;
+          minValIncluded = false;
+          if (value.name.includes('=')) {
+            minVal = minVal.replace('=', '');
+            minValIncluded = true;
+          }
+          minVal = minVal.replace('>', '');
+        } else {
+          maxVal = value.name;
+          maxValIncluded = false;
+          if (value.name.includes('=')) {
+            maxVal = maxVal.replace('=', '');
+            maxValIncluded = true;
+          }
+          maxVal = maxVal.replace('<', '');
+        }
+      }
+      if (minVal && minVal.length > 0) {
+        interval.minValue = +minVal;
+      }
+      if (maxVal && maxVal.length > 0) {
+        interval.maxValue = +maxVal;
+      }
+      interval.minValueIncluded = minValIncluded;
+      interval.maxValueIncluded = maxValIncluded;
+    }
+    return interval;
+  }
+
   /**
    * Get pattern for the message that is displayed when the validation fails. This message e.g. looks like
    * 'Wrong format, this numerical attribute should be entered according to pattern ##,###,###.##'

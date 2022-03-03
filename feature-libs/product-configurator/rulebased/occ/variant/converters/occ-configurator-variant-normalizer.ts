@@ -135,10 +135,6 @@ export class OccConfiguratorVariantNormalizer
       images: attributeImages,
       values: attributeValues,
       intervalInDomain: sourceAttribute.intervalInDomain,
-      placeholder: this.getPlaceholder(
-        sourceAttribute.domainValues,
-        sourceAttribute.intervalInDomain
-      ),
     };
 
     this.setSelectedSingleValue(attribute);
@@ -260,23 +256,6 @@ export class OccConfiguratorVariantNormalizer
       format: this.convertImageFormatType(occImage.format),
     };
     images.push(image);
-  }
-
-  getPlaceholder(
-    domainValues?: OccConfigurator.Value[],
-    intervalInDomain?: boolean
-  ): string | undefined {
-    let placeholder: string | undefined;
-
-    if (intervalInDomain && domainValues && domainValues.length > 0) {
-      placeholder = '';
-      domainValues.forEach((value) => (placeholder += value.name + ' ; '));
-    }
-    if (placeholder) {
-      return placeholder.slice(0, -3);
-    } else {
-      return placeholder;
-    }
   }
 
   convertAttributeType(type: OccConfigurator.UiType): Configurator.UiType {

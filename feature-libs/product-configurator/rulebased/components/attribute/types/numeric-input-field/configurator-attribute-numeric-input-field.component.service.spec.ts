@@ -1,5 +1,9 @@
 import { TestBed } from '@angular/core/testing';
-import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+import {
+  ConfiguratorAttributeNumericInputFieldService,
+  ConfiguratorAttributeNumericInterval,
+} from './configurator-attribute-numeric-input-field.component.service';
+import { Configurator } from '../../../../core/model/configurator.model';
 
 describe('ConfigAttributeNumericInputFieldService', () => {
   let serviceUnderTest: ConfiguratorAttributeNumericInputFieldService;
@@ -127,5 +131,115 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     expect(
       serviceUnderTest.getPatternForValidationMessage(0, 10, false, 'en')
     ).toBe('#,###,###,###');
+  });
+
+  describe('Numeric Interval Test', () => {
+    fit('should get minValue and maxValue from closed interval string', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 4,
+        maxValue: 7,
+        minValueIncluded: true,
+        maxValueIncluded: true,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '4 - 7',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get minValue and maxValue from open interval string', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 4,
+        maxValue: 7,
+        minValueIncluded: false,
+        maxValueIncluded: false,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '>4 - <7',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get minValue and maxValue from half-open interval string (min included)', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 4,
+        maxValue: 7,
+        minValueIncluded: true,
+        maxValueIncluded: false,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '4 - <7',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get minValue and maxValue from half-open interval string (max included)', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 4,
+        maxValue: 7,
+        minValueIncluded: false,
+        maxValueIncluded: true,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '>4 - 7',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get minValue from infinite interval string', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 5,
+        minValueIncluded: false,
+        maxValueIncluded: true,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '>5',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get minValue from infinite interval string, minValue included', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        minValue: 5,
+        minValueIncluded: true,
+        maxValueIncluded: true,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '>=5',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get maxValue from interval string', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        maxValue: 5,
+        minValueIncluded: true,
+        maxValueIncluded: false,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '<5',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
+
+    fit('should get maxValue from interval string, value included', () => {
+      let interval: ConfiguratorAttributeNumericInterval = {
+        maxValue: 5,
+        minValueIncluded: true,
+        maxValueIncluded: true,
+      };
+      let value: Configurator.Value = {
+        valueCode: '1',
+        name: '<=5',
+      };
+      expect(serviceUnderTest.getInterval(value)).toEqual(interval);
+    });
   });
 });

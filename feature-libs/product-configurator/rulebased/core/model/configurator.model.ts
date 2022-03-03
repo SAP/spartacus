@@ -28,7 +28,6 @@ export namespace Configurator {
     retractTriggered?: boolean;
     attributePriceTotal?: PriceDetails;
     intervalInDomain?: boolean;
-    placeholder?: string;
   }
 
   export interface Value {
