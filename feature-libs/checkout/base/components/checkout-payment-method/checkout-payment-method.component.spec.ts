@@ -415,6 +415,7 @@ describe('CheckoutPaymentMethodComponent', () => {
           selectedPaymentMethod
         )
       ).toEqual({
+        role: 'region',
         title: '✓ DEFAULT',
         textBold: 'Name',
         text: ['123456789', 'Expires'],
