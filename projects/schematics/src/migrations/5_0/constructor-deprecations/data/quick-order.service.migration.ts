@@ -1,4 +1,3 @@
-import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 import {
   ACTIVE_CART_SERVICE,
   EVENT_SERVICE,
@@ -8,6 +7,7 @@ import {
   SPARTACUS_CART_QUICK_ORDER_CORE,
   SPARTACUS_CORE,
 } from '../../../../shared/constants';
+import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
   // feature-libs/cart/quick-order/core/services/quick-order.service.ts
@@ -32,8 +32,16 @@ export const QUICK_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {
       className: PRODUCT_SEARCH_CONNECTOR,
       importPath: SPARTACUS_CORE,
     },
+    {
+      className: 'ActiveCartFacade',
+      importPath: '@spartacus/cart/base/root',
+    },
   ],
   removeParams: [
+    {
+      className: 'ActiveCartService',
+      importPath: '@spartacus/core',
+    },
     {
       className: PRODUCT_ADAPTER,
       importPath: SPARTACUS_CORE,

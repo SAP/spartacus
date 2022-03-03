@@ -74,36 +74,6 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
-    class: 'QuickOrderService',
-    importPath: '@spartacus/cart/quick-order/core',
-    deprecatedParams: [
-      {
-        className: 'ActiveCartService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'EventService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'ProductSearchConnector',
-        importPath: '@spartacus/core',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'ActiveCartService',
-        importPath: '@spartacus/core',
-      },
-    ],
-    addParams: [
-      {
-        className: 'ActiveCartFacade',
-        importPath: '@spartacus/cart/base/root',
-      },
-    ],
-  },
-  {
     class: 'AddToSavedCartComponent',
     importPath: '@spartacus/cart/saved-cart/components',
     deprecatedParams: [
