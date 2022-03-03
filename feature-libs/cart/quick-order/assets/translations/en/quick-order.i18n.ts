@@ -39,25 +39,25 @@ export const quickOrderList = {
   successfullyAddedToCart: 'Successfully added to Cart.',
   errors: {
     productIsOutOfStock: '{{ name }} (#{{code}}) is out of stock.',
-    reviewErrors: 'Please review these errors',
+    reviewErrors: 'Please review these errors.',
     listIsFull:
       'The list is full, add these {{ count }} products to Cart in order to continue.',
     nonPurchasableError: 'Product {{ name }} cannot be purchased',
-    outOfStockErrorFound: '{{count}} out of stock product was not added',
+    outOfStockErrorFound: '{{count}} out of stock product was not added.',
     outOfStockErrorFound_plural:
-      '{{count}} out of stock products were not added',
+      '{{count}} out of stock products were not added.',
   },
   warnings: {
     productWasReduced:
       'Quantity for {{ name }} (#{{code}}) was reduced to {{ quantityAdded}}.',
-    reviewWarnings: 'Please review these warnings',
-    reduceWarningFound: '{{count}} product quantity was reduced',
-    reduceWarningFound_plural: '{{count}} products quantity were reduced',
+    reviewWarnings: 'Please review these warnings.',
+    reduceWarningFound: '{{count}} product quantity was reduced.',
+    reduceWarningFound_plural: '{{count}} products quantity were reduced.',
   },
   successes: {
     productAddedToCart: '{{ name }} (#{{code}}) was added to cart.',
-    addedToCartFound: '{{ count }} product was added to cart',
-    addedToCartFound_plural: '{{ count }} products were added to cart',
+    addedToCartFound: '{{ count }} product was added to cart.',
+    addedToCartFound_plural: '{{ count }} products were added to cart.',
   },
   informations: {
     addProductBeforeAddingToCart:
