@@ -1713,8 +1713,10 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
         className: 'GlobalMessageService',
         importPath: '@spartacus/core',
       },
+    ],
+    addParams: [
       {
-        className: 'OrderFacade',
+        className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
       },
       {
@@ -1728,18 +1730,6 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'IntersectionService',
         importPath: '@spartacus/storefront',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'OrderFacade',
-        importPath: '@spartacus/order/root',
-      },
-    ],
-    addParams: [
-      {
-        className: 'OrderHistoryFacade',
-        importPath: '@spartacus/order/root',
       },
     ],
   },
