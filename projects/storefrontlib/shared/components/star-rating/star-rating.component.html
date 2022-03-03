@@ -6,4 +6,8 @@
   (click)="saveRate(i)"
   (keydown.space)="saveRate(i)"
   [attr.tabindex]="disabled ? null : 0"
+  role="button"
+  attr.aria-label="{{
+    'productReview.ariaLabelRate' | cxTranslate: { rating: i }
+  }}"
 ></cx-icon>

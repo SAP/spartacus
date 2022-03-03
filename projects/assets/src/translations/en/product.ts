@@ -61,6 +61,8 @@ export const product = {
     reviewTitle: 'Review Title',
     writeYourComments: 'Write your comments',
     rating: 'Rating',
+    ariaLabelRating: 'Product rating, required',
+    ariaLabelRate: 'Add rate: {{rating}}',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
