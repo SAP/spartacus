@@ -24,7 +24,7 @@
       border: none;
       cursor: text;
       @include forVersion(4.2) {
-        width: 100%;
+        width: 65px;
       }
     }
   }
