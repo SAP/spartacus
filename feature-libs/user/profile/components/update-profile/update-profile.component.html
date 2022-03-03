@@ -5,12 +5,15 @@
     <span class="label-content">{{
       'updateProfileForm.title' | cxTranslate
     }}</span>
-    <select formControlName="titleCode" class="form-control">
-      <option value="">{{ 'updateProfileForm.none' | cxTranslate }}</option>
-      <option *ngFor="let title of titles$ | async" [value]="title.code">
-        {{ title.name }}
-      </option>
-    </select>
+    <ng-select
+      [clearable]="false"
+      [items]="titles$ | async"
+      [searchable]="false"
+      bindLabel="name"
+      bindValue="code"
+      formControlName="titleCode"
+    >
+    </ng-select>
   </label>
   <label>
     <span class="label-content">{{

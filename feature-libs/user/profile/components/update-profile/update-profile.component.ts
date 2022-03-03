@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Title } from '@spartacus/user/profile/root';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { UpdateProfileComponentService } from './update-profile-component.service';
 
 @Component({
@@ -15,7 +16,12 @@ export class UpdateProfileComponent {
 
   form: FormGroup = this.service.form;
   isUpdating$ = this.service.isUpdating$;
-  titles$: Observable<Title[]> = this.service.titles$;
+  titles$: Observable<Title[]> = this.service.titles$.pipe(
+    map((titles: Title[]) => {
+      titles.unshift({ code: '', name: '' } as Title);
+      return titles;
+    })
+  );
 
   onSubmit(): void {
     this.service.updateProfile();

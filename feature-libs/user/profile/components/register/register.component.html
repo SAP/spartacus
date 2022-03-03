@@ -11,17 +11,16 @@
               <span class="label-content">{{
                 'register.title' | cxTranslate
               }}</span>
-              <select formControlName="titleCode" class="form-control">
-                <option selected value="" disabled>
-                  {{ 'register.selectTitle' | cxTranslate }}
-                </option>
-                <option
-                  *ngFor="let title of titles$ | async"
-                  [value]="title.code"
-                >
-                  {{ title.name }}
-                </option>
-              </select>
+              <ng-select
+                [clearable]="false"
+                [items]="titles$ | async"
+                [placeholder]="'register.selectTitle' | cxTranslate"
+                [searchable]="false"
+                bindLabel="name"
+                bindValue="code"
+                formControlName="titleCode"
+              >
+              </ng-select>
             </label>
           </div>
 
