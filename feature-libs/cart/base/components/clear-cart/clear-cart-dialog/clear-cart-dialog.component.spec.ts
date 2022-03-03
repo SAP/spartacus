@@ -12,7 +12,7 @@ import { By } from '@angular/platform-browser';
 const mockCloseReason = 'Cancel Clear Cart';
 
 class MockClearCartService implements Partial<ClearCartDialogComponentService> {
-  clearActiveCart(): void {}
+  deleteActiveCart(): void {}
   closeDialog(): void {}
 }
 
@@ -52,7 +52,7 @@ describe('ClearCartDialogComponent', () => {
   });
 
   it('should trigger clear cart', () => {
-    spyOn(clearCartService, 'clearActiveCart');
+    spyOn(clearCartService, 'deleteActiveCart');
 
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-primary')
@@ -60,7 +60,7 @@ describe('ClearCartDialogComponent', () => {
 
     clearBtn.click();
 
-    expect(clearCartService.clearActiveCart).toHaveBeenCalled();
+    expect(clearCartService.deleteActiveCart).toHaveBeenCalled();
   });
 
   it('should close dialog on cancel', () => {

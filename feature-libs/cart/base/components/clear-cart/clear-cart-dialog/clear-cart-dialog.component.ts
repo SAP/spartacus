@@ -38,9 +38,9 @@ export class ClearCartDialogComponent implements OnDestroy {
     protected clearCartDialogComponentService: ClearCartDialogComponentService
   ) {}
 
-  clear(): void {
+  clearCart(): void {
     this.isClearing = true;
-    this.clearCartDialogComponentService.clearActiveCart();
+    this.clearCartDialogComponentService.deleteActiveCart();
   }
 
   close(reason: string): void {

@@ -90,7 +90,7 @@ describe('ClearCartDialogComponentService', () => {
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
     spyOn<any>(service, 'displayGlobalMessage').and.callThrough();
 
-    service.clearActiveCart();
+    service.deleteActiveCart();
 
     expect(launchDialogService.closeDialog).toHaveBeenCalledWith(
       'Close dialog after cart cleared'
@@ -112,7 +112,7 @@ describe('ClearCartDialogComponentService', () => {
     spyOn(userIdService, 'getUserId').and.returnValue(of('current'));
     spyOn(activeCartFacade, 'getActiveCartId').and.returnValue(of('00001122'));
 
-    service.clearActiveCart();
+    service.deleteActiveCart();
 
     expect(globalMessageService.add).not.toHaveBeenCalled();
   });

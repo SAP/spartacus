@@ -29,9 +29,9 @@ export class ClearCartDialogComponentService {
   ) {}
 
   /**
-   * Clear all entries and info of active cart
+   * Clear the cart by deleting the active cart.
    */
-  clearActiveCart(): void {
+  deleteActiveCart(): void {
     this.activeCartFacade
       .getActiveCartId()
       .pipe(
@@ -66,7 +66,6 @@ export class ClearCartDialogComponentService {
    * Display global message after clearing cart.
    * By default, only message displayed is of type `Success`. A negative scenario
    * related to cart has been handled in the occ layer already.
-   * Success param recognizes result of action and allows custom error message as well.
    *
    * @param success result of clear cart action
    */
