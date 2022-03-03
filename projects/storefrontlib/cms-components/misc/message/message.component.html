@@ -1,8 +1,4 @@
-<div
-  [ngClass]="getCssClassesForMessage"
-  aria-describedby="messageDescription"
-  class="cx-message"
->
+<div [ngClass]="getCssClassesForMessage" class="cx-message">
   <div class="cx-message-content">
     <div class="cx-message-header">
       <span class="cx-message-icon">
@@ -16,6 +12,7 @@
           (click)="showBody = !showBody"
           [attr.aria-expanded]="showBody"
           [attr.aria-label]="accordionText"
+          aria-hidden="true"
           class="cx-message-accordion-button link cx-action-link"
           type="button"
         >
@@ -30,6 +27,7 @@
           *ngIf="actionButtonText"
           (click)="buttonAction.emit()"
           [cxAtMessage]="actionButtonMessage"
+          aria-hidden="true"
           class="btn btn-link cx-action-link"
           type="button"
         >
@@ -42,6 +40,7 @@
         (click)="closeMessage.emit()"
         [attr.aria-label]="'common.close' | cxTranslate"
         [cxAtMessage]="'common.close' | cxTranslate"
+        aria-hidden="true"
         class="close"
         type="button"
       >
@@ -53,13 +52,4 @@
       <ng-content></ng-content>
     </div>
   </div>
-</div>
-
-<div
-  aria-atomic="true"
-  aria-live="polite"
-  class="cx-visually-hidden"
-  id="messageDescription"
->
-  {{ text }}
 </div>
