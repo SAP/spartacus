@@ -49,12 +49,8 @@ export class AtMessageDirective {
         .get()
         .pipe(take(1))
         .subscribe((globalMessageEntities: GlobalMessageEntities) => {
-          const current =
-            globalMessageEntities &&
-            globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE];
-
           // Override current assitive message.
-          if (current) {
+          if (globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE]) {
             this.globalMessageService.remove(
               GlobalMessageType.MSG_TYPE_ASSISTIVE
             );
