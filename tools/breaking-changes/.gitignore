@@ -1,36 +1,3 @@
-
-# dependencies
-node_modules/
-package-lock.json
-
-# compiled output
-/dist
-/tmp
-/out-tsc
-/documentation
-
-
-# IDEs and editors
-/.idea
-*.iml
-.project
-.classpath
-.c9/
-*.launch
-.settings/
-*.sublime-workspace
-
-# Logs
-npm-debug.log
-yarn-error.log
-testem.log
-debug.log
-
-# System Files
-.DS_Store
-Thumbs.db
-*.out.ts
-*.out.md
 # data
 data
 src
