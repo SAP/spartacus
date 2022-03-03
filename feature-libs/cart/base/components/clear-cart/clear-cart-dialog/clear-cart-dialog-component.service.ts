@@ -44,10 +44,9 @@ export class ClearCartDialogComponentService {
           merge(
             this.eventService.get(DeleteCartSuccessEvent).pipe(mapTo(true)),
             this.eventService.get(DeleteCartFailEvent).pipe(mapTo(false))
-          )
+          ).pipe(take(1))
         ),
-        tap(() => this.closeDialog('Close dialog after cart cleared')),
-        take(1)
+        tap(() => this.closeDialog('Close dialog after cart cleared'))
       )
       .subscribe((success: boolean) => {
         this.displayGlobalMessage(success);
