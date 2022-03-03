@@ -39,7 +39,8 @@ export class QuickOrderService implements QuickOrderFacade, OnDestroy {
     new BehaviorSubject<Record<string, OrderEntry>>({});
   protected nonPurchasableProductError$: BehaviorSubject<Product | null> =
     new BehaviorSubject<Product | null>(null);
-  protected hardDeleteTimeout = this.config.quickOrder?.list?.hardDeleteTimeout;
+  protected hardDeleteTimeout =
+    this.config.quickOrder?.list?.hardDeleteTimeout || 7000;
   protected quickOrderListLimit = 0;
   protected clearDeleteTimeouts: Record<string, Subscription> = {};
 
