@@ -12,7 +12,6 @@ import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator
 import { CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION } from './data/configurator-overview-bundle-attribute.component.migration';
 import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-tab-bar.component.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
-import { PAGE_LAYOUT_SERVICE_MIGRATION } from './data/page-layout.service.migration';
 import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
