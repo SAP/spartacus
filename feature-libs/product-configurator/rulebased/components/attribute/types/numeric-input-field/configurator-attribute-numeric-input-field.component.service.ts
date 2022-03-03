@@ -67,7 +67,7 @@ export class ConfiguratorAttributeNumericInputFieldService {
     if (values && values.length > 0) {
       helpText = '';
       values.forEach((value) => (helpText += value.name + ' ; '));
-      helpText.slice(helpText.length - 3, helpText.length); //remove last semicolon
+      helpText = helpText.slice(0, -3); //remove last semicolon
     }
     return helpText;
   }
