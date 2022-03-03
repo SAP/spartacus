@@ -2221,6 +2221,36 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
+    class: 'CartTotalsComponent',
+    importPath: '@spartacus/storefront',
+    deprecatedParams: [
+      {
+        className: 'ActiveCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'ActiveCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+    ],
+    addParams: [
+      {
+        className: 'ActiveCartFacade',
+        importPath: '@spartacus/cart/base/root',
+      },
+    ],
+  },
+  {
     class: 'CartValidationGuard',
     importPath: '@spartacus/storefront',
     deprecatedParams: [
