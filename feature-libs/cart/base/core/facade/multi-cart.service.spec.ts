@@ -207,7 +207,17 @@ describe('MultiCartService', () => {
   });
 
   describe('isStable', () => {
-    it('should return true when cart is stable', (done) => {
+    it('should return true when cart is stable when there is no active cart', (done) => {
+      service
+        .isStable('xxx')
+        .pipe(take(1))
+        .subscribe((isStable) => {
+          expect(isStable).toBe(true);
+          done();
+        });
+    });
+
+    it('should return true when cart is stable when there are 0 processes and loading is false', (done) => {
       store.dispatch(
         new CartActions.LoadCartSuccess({
           userId: 'userId',
@@ -232,15 +242,19 @@ describe('MultiCartService', () => {
         new CartActions.LoadCart({
           userId: 'userId',
           cartId: 'xxx',
+          extraData: {
+            active: true,
+          },
         })
       );
+
       service
-        .isStable('cartId')
+        .isStable('xxx')
+        .pipe(take(1))
         .subscribe((isStable) => {
           expect(isStable).toBe(false);
           done();
-        })
-        .unsubscribe();
+        });
     });
   });
 
