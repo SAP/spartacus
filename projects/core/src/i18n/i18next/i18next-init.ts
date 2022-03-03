@@ -43,8 +43,8 @@ export function i18nextInit(
               loadPath,
               request: i18nextGetHttpClient(httpClient),
 
-              // Disable the periodical reloading. Otherwise the SSR would not finish due to the pending task `setInterval()`
-              // See source code: https://github.com/i18next/i18next-http-backend/blob/00b7e8f67abf8372af17529b51190a7e8b17e3d8/i18nextHttpBackend.js#L94-L95
+              // Disable the periodical reloading. Otherwise SSR would not finish due to the pending task `setInterval()`
+              // See source code of `i18next-http-backend` : https://github.com/i18next/i18next-http-backend/blob/00b7e8f67abf8372af17529b51190a7e8b17e3d8/lib/index.js#L40-L41
               reloadInterval: false,
             };
             i18nextConfig = { ...i18nextConfig, backend };
