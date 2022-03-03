@@ -1,6 +1,21 @@
 /// <reference types="jest" />
 
-import { Node, resolveGraphDependencies } from './graph-utils';
+import {
+  SPARTACUS_CART,
+  SPARTACUS_CHECKOUT,
+  SPARTACUS_ORDER,
+  SPARTACUS_USER,
+} from '..';
+import {
+  CORE_SPARTACUS_SCOPES,
+  SPARTACUS_DIGITAL_PAYMENTS,
+} from '../feature-libs-constants';
+import {
+  createDependencyGraph,
+  findNode,
+  Node,
+  resolveGraphDependencies,
+} from './graph-utils';
 
 describe('Graph utils', () => {
   describe('resolveGraphDependencies', () => {
@@ -112,6 +127,85 @@ describe('Graph utils', () => {
           );
         }
       });
+    });
+  });
+
+  describe('createDependencyGraph', () => {
+    it('should create a dependency graph based on the provided nodes', () => {
+      const dependencies: Record<string, Record<string, string>> = {
+        [SPARTACUS_DIGITAL_PAYMENTS]: {
+          '@spartacus/cart': '4.1.0-next.0',
+          '@spartacus/checkout': '4.1.0-next.0',
+          '@spartacus/core': '4.1.0-next.0',
+          '@spartacus/schematics': '4.1.0-next.0',
+          '@spartacus/storefront': '4.1.0-next.0',
+        },
+        [SPARTACUS_CART]: {
+          '@spartacus/core': '4.1.0-next.0',
+          '@spartacus/schematics': '4.1.0-next.0',
+          '@spartacus/storefront': '4.1.0-next.0',
+          '@spartacus/styles': '4.1.0-next.0',
+        },
+        [SPARTACUS_CHECKOUT]: {
+          '@spartacus/cart': '4.1.0-next.0',
+          '@spartacus/core': '4.1.0-next.0',
+          '@spartacus/order': '4.2.0',
+          '@spartacus/schematics': '4.1.0-next.0',
+          '@spartacus/storefront': '4.1.0-next.0',
+          '@spartacus/styles': '4.1.0-next.0',
+          '@spartacus/user': '4.1.0-next.0',
+        },
+        [SPARTACUS_ORDER]: {
+          '@spartacus/cart': '4.1.0-next.0',
+          '@spartacus/core': '4.1.0-next.0',
+          '@spartacus/schematics': '4.1.0-next.0',
+          '@spartacus/storefront': '4.1.0-next.0',
+          '@spartacus/styles': '4.1.0-next.0',
+        },
+        [SPARTACUS_USER]: {
+          '@spartacus/core': '4.1.0-next.0',
+          '@spartacus/schematics': '4.1.0-next.0',
+          '@spartacus/storefront': '4.1.0-next.0',
+          '@spartacus/styles': '4.1.0-next.0',
+        },
+      };
+      const installedLibs = [
+        SPARTACUS_DIGITAL_PAYMENTS,
+        SPARTACUS_CART,
+        SPARTACUS_CHECKOUT,
+        SPARTACUS_ORDER,
+        SPARTACUS_USER,
+      ];
+
+      const graph = createDependencyGraph(
+        installedLibs,
+        dependencies,
+        CORE_SPARTACUS_SCOPES
+      );
+
+      const dpNode = findNode(graph, new Node(SPARTACUS_DIGITAL_PAYMENTS));
+      expect(dpNode?.getEdges().map((node) => node.getName())).toEqual([
+        SPARTACUS_CART,
+        SPARTACUS_CHECKOUT,
+      ]);
+
+      const cartNode = findNode(graph, new Node(SPARTACUS_CART));
+      expect(cartNode?.getEdges().map((node) => node.getName())).toEqual([]);
+
+      const checkoutNode = findNode(graph, new Node(SPARTACUS_CHECKOUT));
+      expect(checkoutNode?.getEdges().map((node) => node.getName())).toEqual([
+        SPARTACUS_CART,
+        SPARTACUS_ORDER,
+        SPARTACUS_USER,
+      ]);
+
+      const orderNode = findNode(graph, new Node(SPARTACUS_ORDER));
+      expect(orderNode?.getEdges().map((node) => node.getName())).toEqual([
+        SPARTACUS_CART,
+      ]);
+
+      const userNode = findNode(graph, new Node(SPARTACUS_USER));
+      expect(userNode?.getEdges().map((node) => node.getName())).toEqual([]);
     });
   });
 });

@@ -1,3 +1,5 @@
+import { getSpartacusPackages } from './package-utils';
+
 /**
  * Graph's Node.
  *
@@ -50,8 +52,8 @@ export function resolveGraphDependencies<T = unknown>(
   unresolved.push(node);
 
   for (const edge of node.getEdges()) {
-    if (!exists(resolved, edge)) {
-      if (exists(unresolved, edge)) {
+    if (!findNode(resolved, edge)) {
+      if (!!findNode(unresolved, edge)) {
         throw new Error(
           `Circular dependency detected for: ${node.getName()} --> ${edge.getName()}`
         );
@@ -64,8 +66,11 @@ export function resolveGraphDependencies<T = unknown>(
   remove(unresolved, node);
 }
 
-function exists<T = unknown>(nodes: Node<T>[], toFind: Node<T>): boolean {
-  return !!nodes.find((n) => toFind.getName() === n.getName());
+export function findNode<T = unknown>(
+  nodes: Node<T>[],
+  toFind: Node<T>
+): Node<T> | undefined {
+  return nodes.find((n) => toFind.getName() === n.getName());
 }
 
 function remove<T = unknown>(nodes: Node<T>[], toRemove: Node<T>): void {
@@ -75,4 +80,34 @@ function remove<T = unknown>(nodes: Node<T>[], toRemove: Node<T>): void {
       return;
     }
   }
+}
+
+export function createDependencyGraph<T = unknown>(
+  installedLibs: string[],
+  dependencies: Record<string, Record<string, string>>,
+  skip: string[] = []
+): Node<T>[] {
+  const graph: Node<T>[] = [];
+  for (const spartacusLib of installedLibs) {
+    if (skip.includes(spartacusLib)) {
+      continue;
+    }
+
+    const node = new Node<T>(spartacusLib);
+    const spartacusPeerDependencies = getSpartacusPackages(
+      dependencies[spartacusLib]
+    );
+    for (const spartacusPackage of spartacusPeerDependencies) {
+      if (skip.includes(spartacusPackage)) {
+        continue;
+      }
+
+      const edge = new Node<T>(spartacusPackage);
+      node.addEdges(edge);
+    }
+
+    graph.push(node);
+  }
+
+  return graph;
 }
