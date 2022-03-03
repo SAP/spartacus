@@ -103,7 +103,7 @@
             class="link cx-action-link"
             (click)="send()"
             [attr.aria-describedby]="
-              index >= 0 ? 'content-header-' + index : ''
+              index >= 0 && content.header && !editMode ? 'content-header-' + index : null
             "
           >
             {{ action.name }}
