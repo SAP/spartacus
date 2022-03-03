@@ -134,7 +134,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
   });
 
   describe('Numeric Interval Test', () => {
-    fit('should get minValue and maxValue from closed interval string', () => {
+    it('should get minValue and maxValue from closed interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 4,
         maxValue: 7,
@@ -148,7 +148,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get minValue and maxValue from open interval string', () => {
+    it('should get minValue and maxValue from open interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 4,
         maxValue: 7,
@@ -162,7 +162,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get minValue and maxValue from half-open interval string (min included)', () => {
+    it('should get minValue and maxValue from half-open interval string (min included)', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 4,
         maxValue: 7,
@@ -176,7 +176,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get minValue and maxValue from half-open interval string (max included)', () => {
+    it('should get minValue and maxValue from half-open interval string (max included)', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 4,
         maxValue: 7,
@@ -190,7 +190,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get minValue from infinite interval string', () => {
+    it('should get minValue from infinite interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
         minValueIncluded: false,
@@ -203,7 +203,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get minValue from infinite interval string, minValue included', () => {
+    it('should get minValue from infinite interval string, minValue included', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
         minValueIncluded: true,
@@ -216,7 +216,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get maxValue from interval string', () => {
+    it('should get maxValue from interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
         minValueIncluded: true,
@@ -229,7 +229,7 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
 
-    fit('should get maxValue from interval string, value included', () => {
+    it('should get maxValue from interval string, value included', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
         minValueIncluded: true,
