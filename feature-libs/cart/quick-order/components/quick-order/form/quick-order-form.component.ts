@@ -37,9 +37,9 @@ export class QuickOrderFormComponent implements OnInit, OnDestroy {
   protected searchSubscription = new Subscription();
 
   constructor(
-    protected quickOrderService: QuickOrderFacade,
     public config: Config,
     protected cd: ChangeDetectorRef,
+    protected quickOrderService: QuickOrderFacade,
     protected winRef: WindowRef
   ) {}
 
