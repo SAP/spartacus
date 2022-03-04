@@ -55,7 +55,7 @@ cx-saved-cart-list {
       padding-inline-start: 0;
 
       @include media-breakpoint-up(md) {
-        text-align: start;
+        text-align: center;
 
         &:last-child {
           text-align: end;
