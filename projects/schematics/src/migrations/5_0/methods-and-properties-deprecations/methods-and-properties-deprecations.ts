@@ -2,6 +2,7 @@ import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import { MethodPropertyDeprecation } from '../../../shared/utils/file-utils';
 import { migrateMethodPropertiesDeprecation } from '../../mechanism/methods-and-properties-deprecations/methods-and-properties-deprecations';
 import { AUTH_HTTP_HEADER_SERVICE_MIGRATION } from './data/auth-http-header.service.migration';
+import { CART_LIB_AND_CHECKOUT_MIGRATION } from './data/cart-lib-checkout.migration';
 import { CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION } from './data/configurator-attribute-header.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_MULTI_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-multi-selection-bundle.component.migration';
 import { CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION } from './data/configurator-attribute-single-selection-bundle.component.migration';
@@ -22,6 +23,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     ...NAVIGATION_UI_COMPONENT_MIGRATION,
     ...PROGRESS_BUTTON_COMPONENT_MIGRATION,
     ...SAVED_CART_EVENT_BUILDER_MIGRATION,
+    ...CART_LIB_AND_CHECKOUT_MIGRATION,
   ];
 
 export function migrate(): Rule {
