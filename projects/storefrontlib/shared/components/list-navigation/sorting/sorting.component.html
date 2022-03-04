@@ -6,7 +6,12 @@
   [ngModel]="selectedOption"
   [cxNgSelect]="'productList.sortBy' | cxTranslate"
 >
-  <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{
-    sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''
-  }}</ng-option>
+  <ng-option
+    role="option"
+    *ngFor="let sort of sortOptions"
+    [value]="sort.code"
+    >{{
+      sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''
+    }}</ng-option
+  >
 </ng-select>
