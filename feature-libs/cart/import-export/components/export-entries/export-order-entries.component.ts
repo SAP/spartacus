@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, HostBinding, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 import { OrderEntriesContext, OrderEntry, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
@@ -11,9 +11,7 @@ import { ExportOrderEntriesToCsvService } from './export-order-entries-to-csv.se
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExportOrderEntriesComponent {
-  // If there is no sibling component then add container class to line up with other components.
-  @Input() @HostBinding('class.container') standAlone: boolean = true;
-
+  @HostBinding('class') styles = 'container';
   constructor(
     protected exportEntriesService: ExportOrderEntriesToCsvService,
     protected contextService: ContextService
