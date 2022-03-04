@@ -27,7 +27,7 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/cart/saved-cart/core',
     deprecatedNode: 'registerDeleteSavedCartEvents',
     comment:
-      '// TODO:Spartacus - Method "registerDeleteSavedCartEvents" was removed from Class "SavedCartEventBuilder". ',
+      '// TODO:Spartacus - Method "registerDeleteSavedCartEvents" was removed from Class "SavedCartEventBuilder". It was moved to "CartEventBuilder", and was renamed to "registerDeleteCart"',
   },
   {
     class: 'OccSavedCartAdapter',

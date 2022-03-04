@@ -9,7 +9,6 @@ import { CONFIGURATOR_ATTRIBUTE_SINGLE_SELECTION_BUNDLE_COMPONENT_MIGRATION } fr
 import { CONFIGURATOR_COMMONS_SERVICE_MIGRATION } from './data/configurator-commons-service.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
-import { SAVED_CART_EVENT_BUILDER_MIGRATION } from './data/saved-cart-event.builder.migration';
 
 export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation[] =
   [
@@ -20,7 +19,6 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     ...CONFIGURATOR_COMMONS_SERVICE_MIGRATION,
     ...CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT_MIGRATION,
     ...NAVIGATION_UI_COMPONENT_MIGRATION,
-    ...SAVED_CART_EVENT_BUILDER_MIGRATION,
     ...CART_LIB_AND_CHECKOUT_MIGRATION,
   ];
 

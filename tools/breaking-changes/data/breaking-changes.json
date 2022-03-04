@@ -2281,7 +2281,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
         "deletedComment": "// TODO:Spartacus - Method \"registerDeleteSavedCartEvents\" was removed from Class \"SavedCartEventBuilder\".",
-        "migrationComment": ""
+        "migrationComment": "It was moved to \"CartEventBuilder\", and was renamed to \"registerDeleteCart\""
       }
     ]
   },
