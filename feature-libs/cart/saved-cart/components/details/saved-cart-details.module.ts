@@ -15,7 +15,6 @@ import {
   OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
-import { CartSharedModule } from '../../../base/components/cart-shared/cart-shared.module';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
 import { SavedCartDetailsItemsComponent } from './saved-cart-details-items/saved-cart-details-items.component';
 import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview/saved-cart-details-overview.component';
@@ -30,7 +29,6 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
     MediaModule,
     IconModule,
     SpinnerModule,
-    CartSharedModule,
     OutletModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
