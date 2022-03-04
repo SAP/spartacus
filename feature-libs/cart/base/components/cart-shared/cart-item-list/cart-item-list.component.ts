@@ -171,9 +171,7 @@ export class CartItemListComponent implements OnInit, OnDestroy {
       const control = this.form.get(controlName);
       if (control) {
         if (control.get('quantity')?.value !== item.quantity) {
-          this.form
-            .get(controlName)
-            ?.patchValue({ quantity: item.quantity }, { emitEvent: false });
+          control.patchValue({ quantity: item.quantity }, { emitEvent: false });
         }
       } else {
         const group = new FormGroup({
