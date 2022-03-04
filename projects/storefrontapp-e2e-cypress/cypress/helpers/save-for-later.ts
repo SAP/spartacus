@@ -1,6 +1,7 @@
-import { waitForPage } from './checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
 import { login } from './auth-forms';
 import * as cart from './cart';
+import { waitForPage } from './checkout-flow';
 
 interface TestProduct {
   code: string;
@@ -144,9 +145,7 @@ export function verifyMiniCartQty(qty: number) {
 export function addProductToCart(product) {
   cy.visit(`/product/${product.code}`);
 
-  cy.get('cx-add-to-cart')
-    .findAllByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', product.code);
     cy.findByText(/view cart/i).click();
