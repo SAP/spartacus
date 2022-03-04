@@ -1,5 +1,9 @@
 import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
-import { OrderEntriesContext, OrderEntry, ORDER_ENTRIES_CONTEXT } from '@spartacus/cart/base/root';
+import {
+  OrderEntriesContext,
+  OrderEntry,
+  ORDER_ENTRIES_CONTEXT,
+} from '@spartacus/cart/base/root';
 import { ContextService } from '@spartacus/storefront';
 import { Observable, of } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -20,9 +24,13 @@ export class ExportOrderEntriesComponent {
   protected orderEntriesContext$: Observable<OrderEntriesContext | undefined> =
     this.contextService.get<OrderEntriesContext>(ORDER_ENTRIES_CONTEXT);
 
-  entries$: Observable<OrderEntry[] | undefined> = this.orderEntriesContext$.pipe(
-    switchMap((orderEntriesContext) => orderEntriesContext?.getEntries?.() ?? of(undefined))
-  );
+  entries$: Observable<OrderEntry[] | undefined> =
+    this.orderEntriesContext$.pipe(
+      switchMap(
+        (orderEntriesContext) =>
+          orderEntriesContext?.getEntries?.() ?? of(undefined)
+      )
+    );
 
   exportCsv(entries: OrderEntry[]): void {
     this.exportEntriesService.downloadCsv(entries);
