@@ -55597,7 +55597,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
         "deletedComment": "// TODO:Spartacus - Property \"clikEvent\" was removed from Class \"ProgressButtonComponent\".",
-        "migrationComment": ""
+        "migrationComment": "It is renamed to \"clickEvent\" to fix a typo."
       }
     ]
   },

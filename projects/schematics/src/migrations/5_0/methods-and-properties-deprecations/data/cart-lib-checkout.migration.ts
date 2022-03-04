@@ -1665,7 +1665,7 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/storefront',
     deprecatedNode: 'clikEvent',
     comment:
-      '// TODO:Spartacus - Property "clikEvent" was removed from Class "ProgressButtonComponent". ',
+      '// TODO:Spartacus - Property "clikEvent" was removed from Class "ProgressButtonComponent". It is renamed to "clickEvent" to fix a typo.',
   },
   {
     class: 'ReplenishmentOrderCancellationComponent',
