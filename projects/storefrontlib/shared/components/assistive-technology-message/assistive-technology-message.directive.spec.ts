@@ -1,6 +1,7 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { of } from 'rxjs';
 import { AtMessageModule } from './assistive-technology-message.module';
 import { I18nTestingModule } from '@spartacus/core';
 import { GlobalMessageService } from '../../../../core/src/global-message/facade/global-message.service';
@@ -24,6 +25,7 @@ class MockComponent {}
 
 class MockGlobalMessageService implements Partial<GlobalMessageService> {
   add = createSpy().and.stub();
+  get = createSpy().and.returnValue(of([GlobalMessageType.MSG_TYPE_ASSISTIVE]));
 }
 
 describe('AtMessageDirective', () => {
