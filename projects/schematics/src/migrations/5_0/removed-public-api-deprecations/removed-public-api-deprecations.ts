@@ -1,14 +1,15 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
-  SPARTACUS_CORE,
-  CONFIGURATOR_EVENT_LISTENER,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  BAD_VOUCHER_REQUEST_HANDLER,
   BAD_REQUEST_HANDLER,
+  BAD_VOUCHER_REQUEST_HANDLER,
+  CONFIGURATOR_EVENT_LISTENER,
   HANDLE_VOUCHER_OPERATION_ERROR,
+  SPARTACUS_CORE,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../shared/constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
+import { CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA } from './cart-lib-checkout.migration';
 
 export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   // feature-libs/product-configurator/rulebased/core/event/rulebased-configurator-event.listener.ts
@@ -27,6 +28,9 @@ export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
 
 export function migrate(): Rule {
   return (tree: Tree, context: SchematicContext) => {
-    return removedPublicApiDeprecation(tree, context, REMOVED_PUBLIC_API_DATA);
+    return removedPublicApiDeprecation(tree, context, [
+      ...REMOVED_PUBLIC_API_DATA,
+      ...CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA,
+    ]);
   };
 }
