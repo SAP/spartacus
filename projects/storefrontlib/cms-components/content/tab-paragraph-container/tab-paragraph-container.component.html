@@ -13,19 +13,15 @@
           [class.active]="i === activeTabNum"
           (click)="select(i, $event)"
           [attr.aria-expanded]="i === activeTabNum"
-          [attr.aria-owns]="'tab-' + i"
         >
           {{
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
-          <span class="accordion-icon"></span>
+
+          <span class="accordion-icon" aria-hidden="”true”"></span>
         </button>
 
-        <div
-          [class.active]="i === activeTabNum"
-          [attr.id]="'tab-' + i"
-          tabindex="0"
-        >
+        <div [class.active]="i === activeTabNum" tabindex="0">
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container
               [cxComponentWrapper]="component"
