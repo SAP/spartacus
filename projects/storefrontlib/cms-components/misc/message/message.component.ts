@@ -56,7 +56,6 @@ export class MessageComponent {
       case GlobalMessageType.MSG_TYPE_INFO:
         return ICON_TYPE.INFO;
       default:
-        // GlobalMessageType.MSG_TYPE_CONFIRMATION:
         return ICON_TYPE.SUCCESS;
     }
   }
