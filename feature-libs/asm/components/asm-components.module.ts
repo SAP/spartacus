@@ -23,6 +23,15 @@ import { defaultAsmLayoutConfig } from './default-asm-layout.config';
     CustomerEmulationComponent,
     AsmToggleUiComponent,
   ],
+  exports: [
+    AsmMainUiComponent,
+    CSAgentLoginFormComponent,
+    CustomerSelectionComponent,
+    AsmSessionTimerComponent,
+    FormatTimerPipe,
+    CustomerEmulationComponent,
+    AsmToggleUiComponent,
+  ],
   providers: [provideConfig(defaultAsmLayoutConfig)],
   entryComponents: [AsmMainUiComponent],
 })
