@@ -30,8 +30,17 @@
         {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
       </div>
     </div>
-    <!-- Item Details Outlet -->
-    <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
+    <div>
+<!-- Item Details Outlet -->
+<ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
+
+<!-- Item Bundle Details Outlet -->
+<ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
+
+<!-- Promotion -->
+<cx-promotions [promotions]="item.promotions"></cx-promotions>
+    </div>
+    
 
     <!-- Variants -->
     <ng-container *ngIf="item.product?.baseOptions?.length">
@@ -104,12 +113,6 @@
   >
     {{ 'addToCart.outOfStock' | cxTranslate }}
   </td>
-
-  <!-- Item Bundle Details Outlet -->
-  <ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
-
-  <!-- Promotion -->
-  <cx-promotions [promotions]="item.promotions"></cx-promotions>
 
   <!-- Actions -->
   <td
