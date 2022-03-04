@@ -1643,7 +1643,7 @@
         "apiElementName": "AddToSavedCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"AddToSavedCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'AddToSavedCartComponent'.",
         "migrationComment": ""
       }
     ]
@@ -1818,7 +1818,7 @@
         "apiElementName": "SavedCartAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
-        "deletedComment": "// TODO:Spartacus - Method \"saveCart\" was removed from Class \"SavedCartAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -2008,7 +2008,7 @@
         "apiElementName": "SavedCartConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
-        "deletedComment": "// TODO:Spartacus - Method \"saveCart\" was removed from Class \"SavedCartConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'SavedCartConnector'.",
         "migrationComment": ""
       }
     ]
@@ -2280,8 +2280,8 @@
         "apiElementName": "SavedCartEventBuilder",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/core",
-        "deletedComment": "// TODO:Spartacus - Method \"registerDeleteSavedCartEvents\" was removed from Class \"SavedCartEventBuilder\".",
-        "migrationComment": "It was moved to \"CartEventBuilder\", and was renamed to \"registerDeleteCart\""
+        "deletedComment": "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'.",
+        "migrationComment": "It was moved to 'CartEventBuilder', and was renamed to 'registerDeleteCart'."
       }
     ]
   },
@@ -3070,7 +3070,7 @@
         "apiElementName": "OccSavedCartAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getSaveCartEndpoint\" was removed from Class \"OccSavedCartAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getSaveCartEndpoint' was removed from Class 'OccSavedCartAdapter'.",
         "migrationComment": ""
       },
       {
@@ -3116,7 +3116,7 @@
         "apiElementName": "OccSavedCartAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"saveCart\" was removed from Class \"OccSavedCartAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'saveCart' was removed from Class 'OccSavedCartAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -3423,7 +3423,7 @@
         "apiElementName": "NewSavedCartOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
-        "deletedComment": "// TODO:Spartacus - Property \"actionsSubject\" was removed from Class \"NewSavedCartOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'.",
         "migrationComment": ""
       },
       {
@@ -3974,7 +3974,7 @@
         "apiElementName": "SavedCartOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/cart/saved-cart/root",
-        "deletedComment": "// TODO:Spartacus - Property \"actionsSubject\" was removed from Class \"SavedCartOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'.",
         "migrationComment": ""
       },
       {
@@ -4233,7 +4233,7 @@
         "apiElementName": "CartNotEmptyGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CartNotEmptyGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartNotEmptyGuard'.",
         "migrationComment": ""
       }
     ]
@@ -4553,7 +4553,7 @@
         "apiElementName": "CheckoutAuthGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutAuthGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutAuthGuard'.",
         "migrationComment": ""
       },
       {
@@ -4572,7 +4572,7 @@
         "apiElementName": "CheckoutAuthGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"globalMessageService\" was removed from Class \"CheckoutAuthGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'.",
         "migrationComment": ""
       },
       {
@@ -4610,7 +4610,7 @@
         "apiElementName": "CheckoutAuthGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Method \"handleUserRole\" was removed from Class \"CheckoutAuthGuard\".",
+        "deletedComment": "// TODO:Spartacus - Method 'handleUserRole' was removed from Class 'CheckoutAuthGuard'.",
         "migrationComment": ""
       },
       {
@@ -4629,7 +4629,7 @@
         "apiElementName": "CheckoutAuthGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userService\" was removed from Class \"CheckoutAuthGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userService' was removed from Class 'CheckoutAuthGuard'.",
         "migrationComment": ""
       }
     ]
@@ -5113,7 +5113,7 @@
         "apiElementName": "CheckoutGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutGuard'.",
         "migrationComment": ""
       }
     ]
@@ -5291,7 +5291,7 @@
         "apiElementName": "CheckoutLoginComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutLoginComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutLoginComponent'.",
         "migrationComment": ""
       }
     ]
@@ -5488,7 +5488,7 @@
         "apiElementName": "CheckoutOrderSummaryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutOrderSummaryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutOrderSummaryComponent'.",
         "migrationComment": ""
       }
     ]
@@ -5854,7 +5854,7 @@
         "apiElementName": "CheckoutProgressMobileTopComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutProgressMobileTopComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutProgressMobileTopComponent'.",
         "migrationComment": ""
       },
       {
@@ -5875,7 +5875,7 @@
         "apiElementName": "CheckoutProgressMobileTopComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Method \"ngOnInit\" was removed from Class \"CheckoutProgressMobileTopComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'.",
         "migrationComment": ""
       }
     ]
@@ -6672,7 +6672,7 @@
         "apiElementName": "CheckoutStepsSetGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutCostCenterService\" was removed from Class \"CheckoutStepsSetGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutCostCenterService' was removed from Class 'CheckoutStepsSetGuard'.",
         "migrationComment": ""
       },
       {
@@ -6691,7 +6691,7 @@
         "apiElementName": "CheckoutStepsSetGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutDetailsService\" was removed from Class \"CheckoutStepsSetGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'CheckoutStepsSetGuard'.",
         "migrationComment": ""
       },
       {
@@ -6719,7 +6719,7 @@
         "apiElementName": "CheckoutStepsSetGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Method \"isPaymentTypeSet\" was removed from Class \"CheckoutStepsSetGuard\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isPaymentTypeSet' was removed from Class 'CheckoutStepsSetGuard'.",
         "migrationComment": ""
       },
       {
@@ -6753,7 +6753,7 @@
         "apiElementName": "CheckoutStepsSetGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Method \"isShippingAddressAndCostCenterSet\" was removed from Class \"CheckoutStepsSetGuard\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'.",
         "migrationComment": ""
       },
       {
@@ -6782,7 +6782,7 @@
         "apiElementName": "CheckoutStepsSetGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"paymentTypeService\" was removed from Class \"CheckoutStepsSetGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'paymentTypeService' was removed from Class 'CheckoutStepsSetGuard'.",
         "migrationComment": ""
       }
     ]
@@ -7257,7 +7257,7 @@
         "apiElementName": "ExpressCheckoutService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutDeliveryService\" was removed from Class \"ExpressCheckoutService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDeliveryService' was removed from Class 'ExpressCheckoutService'.",
         "migrationComment": ""
       },
       {
@@ -7276,7 +7276,7 @@
         "apiElementName": "ExpressCheckoutService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutDetailsService\" was removed from Class \"ExpressCheckoutService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutDetailsService' was removed from Class 'ExpressCheckoutService'.",
         "migrationComment": ""
       },
       {
@@ -7295,7 +7295,7 @@
         "apiElementName": "ExpressCheckoutService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutPaymentService\" was removed from Class \"ExpressCheckoutService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutPaymentService' was removed from Class 'ExpressCheckoutService'.",
         "migrationComment": ""
       },
       {
@@ -7314,7 +7314,7 @@
         "apiElementName": "ExpressCheckoutService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"clearCheckoutService\" was removed from Class \"ExpressCheckoutService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'clearCheckoutService' was removed from Class 'ExpressCheckoutService'.",
         "migrationComment": ""
       },
       {
@@ -7335,7 +7335,7 @@
         "apiElementName": "ExpressCheckoutService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Method \"setShippingAddress\" was removed from Class \"ExpressCheckoutService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'setShippingAddress' was removed from Class 'ExpressCheckoutService'.",
         "migrationComment": ""
       }
     ]
@@ -7608,7 +7608,7 @@
         "apiElementName": "NotCheckoutAuthGuard",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/components",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"NotCheckoutAuthGuard\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'NotCheckoutAuthGuard'.",
         "migrationComment": ""
       }
     ]
@@ -13658,7 +13658,7 @@
         "apiElementName": "CheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryAddress\" was removed from Class \"CheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -13692,7 +13692,7 @@
         "apiElementName": "CheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryMode\" was removed from Class \"CheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -13726,7 +13726,7 @@
         "apiElementName": "CheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadCheckoutDetails\" was removed from Class \"CheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -13766,7 +13766,7 @@
         "apiElementName": "CheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"placeOrder\" was removed from Class \"CheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -13924,7 +13924,7 @@
         "apiElementName": "CheckoutConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryAddress\" was removed from Class \"CheckoutConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'CheckoutConnector'.",
         "migrationComment": ""
       },
       {
@@ -13958,7 +13958,7 @@
         "apiElementName": "CheckoutConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryMode\" was removed from Class \"CheckoutConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'CheckoutConnector'.",
         "migrationComment": ""
       },
       {
@@ -13992,7 +13992,7 @@
         "apiElementName": "CheckoutConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadCheckoutDetails\" was removed from Class \"CheckoutConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'CheckoutConnector'.",
         "migrationComment": ""
       },
       {
@@ -14032,7 +14032,7 @@
         "apiElementName": "CheckoutConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"placeOrder\" was removed from Class \"CheckoutConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'CheckoutConnector'.",
         "migrationComment": ""
       }
     ]
@@ -14414,7 +14414,7 @@
         "apiElementName": "CheckoutCostCenterService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutCostCenterService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutCostCenterService'.",
         "migrationComment": ""
       },
       {
@@ -14433,7 +14433,7 @@
         "apiElementName": "CheckoutCostCenterService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutStore\" was removed from Class \"CheckoutCostCenterService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutCostCenterService'.",
         "migrationComment": ""
       },
       {
@@ -14454,7 +14454,7 @@
         "apiElementName": "CheckoutCostCenterService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getCostCenter\" was removed from Class \"CheckoutCostCenterService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'.",
         "migrationComment": ""
       },
       {
@@ -15509,7 +15509,7 @@
         "apiElementName": "CheckoutPageMetaResolver",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutPageMetaResolver\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPageMetaResolver'.",
         "migrationComment": ""
       },
       {
@@ -15528,7 +15528,7 @@
         "apiElementName": "CheckoutPageMetaResolver",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cart$\" was removed from Class \"CheckoutPageMetaResolver\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'.",
         "migrationComment": ""
       },
       {
@@ -15557,7 +15557,7 @@
         "apiElementName": "CheckoutPageMetaResolver",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"translation\" was removed from Class \"CheckoutPageMetaResolver\".",
+        "deletedComment": "// TODO:Spartacus - Property 'translation' was removed from Class 'CheckoutPageMetaResolver'.",
         "migrationComment": ""
       }
     ]
@@ -15679,7 +15679,7 @@
         "apiElementName": "CheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"create\" was removed from Class \"CheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentAdapter'.",
         "migrationComment": ""
       },
       {
@@ -15700,7 +15700,7 @@
         "apiElementName": "CheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadCardTypes\" was removed from Class \"CheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'CheckoutPaymentAdapter'.",
         "migrationComment": ""
       },
       {
@@ -15740,7 +15740,7 @@
         "apiElementName": "CheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"set\" was removed from Class \"CheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -15881,7 +15881,7 @@
         "apiElementName": "CheckoutPaymentConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"create\" was removed from Class \"CheckoutPaymentConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'CheckoutPaymentConnector'.",
         "migrationComment": ""
       },
       {
@@ -15921,7 +15921,7 @@
         "apiElementName": "CheckoutPaymentConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"set\" was removed from Class \"CheckoutPaymentConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'CheckoutPaymentConnector'.",
         "migrationComment": ""
       }
     ]
@@ -16283,7 +16283,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"actionAllowed\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'actionAllowed' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16302,7 +16302,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16321,7 +16321,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutService\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16340,7 +16340,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutStore\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutStore' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16371,7 +16371,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getPaymentDetails\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16392,7 +16392,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getSetPaymentDetailsResultProcess\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16413,7 +16413,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadSupportedCardTypes\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16434,7 +16434,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"paymentProcessSuccess\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16453,7 +16453,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Property \"processStateStore\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -16474,7 +16474,7 @@
         "apiElementName": "CheckoutPaymentService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - Method \"resetSetPaymentDetailsProcess\" was removed from Class \"CheckoutPaymentService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'.",
         "migrationComment": ""
       },
       {
@@ -17405,7 +17405,7 @@
         "apiElementName": "CheckoutState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cardTypes\" was removed from Interface \"CheckoutState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cardTypes' was removed from Interface 'CheckoutState'.",
         "migrationComment": ""
       },
       {
@@ -17424,7 +17424,7 @@
         "apiElementName": "CheckoutState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderType\" was removed from Interface \"CheckoutState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderType' was removed from Interface 'CheckoutState'.",
         "migrationComment": ""
       },
       {
@@ -17443,7 +17443,7 @@
         "apiElementName": "CheckoutState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"paymentTypes\" was removed from Interface \"CheckoutState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutState'.",
         "migrationComment": ""
       },
       {
@@ -17462,7 +17462,7 @@
         "apiElementName": "CheckoutState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"steps\" was removed from Interface \"CheckoutState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'steps' was removed from Interface 'CheckoutState'.",
         "migrationComment": ""
       }
     ]
@@ -18241,7 +18241,7 @@
         "apiElementName": "CheckoutOccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"loadCheckoutDetails\" was removed from Interface \"CheckoutOccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'loadCheckoutDetails' was removed from Interface 'CheckoutOccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -18260,7 +18260,7 @@
         "apiElementName": "CheckoutOccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"paymentTypes\" was removed from Interface \"CheckoutOccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'paymentTypes' was removed from Interface 'CheckoutOccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -18279,7 +18279,7 @@
         "apiElementName": "CheckoutOccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"placeOrder\" was removed from Interface \"CheckoutOccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'placeOrder' was removed from Interface 'CheckoutOccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -18298,7 +18298,7 @@
         "apiElementName": "CheckoutOccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"setCartCostCenter\" was removed from Interface \"CheckoutOccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartCostCenter' was removed from Interface 'CheckoutOccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -18317,7 +18317,7 @@
         "apiElementName": "CheckoutOccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"setCartPaymentType\" was removed from Interface \"CheckoutOccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'setCartPaymentType' was removed from Interface 'CheckoutOccEndpoints'.",
         "migrationComment": ""
       }
     ]
@@ -18603,7 +18603,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryAddress\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryAddress' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18637,7 +18637,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"clearCheckoutDeliveryMode\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearCheckoutDeliveryMode' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18671,7 +18671,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getClearDeliveryModeEndpoint\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getClearDeliveryModeEndpoint' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18705,7 +18705,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getLoadCheckoutDetailsEndpoint\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getLoadCheckoutDetailsEndpoint' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18745,7 +18745,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getPlaceOrderEndpoint\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getPlaceOrderEndpoint' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18779,7 +18779,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getRemoveDeliveryAddressEndpoint\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getRemoveDeliveryAddressEndpoint' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18813,7 +18813,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadCheckoutDetails\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadCheckoutDetails' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       },
       {
@@ -18853,7 +18853,7 @@
         "apiElementName": "OccCheckoutAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"placeOrder\" was removed from Class \"OccCheckoutAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'placeOrder' was removed from Class 'OccCheckoutAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -19562,7 +19562,7 @@
         "apiElementName": "OccCheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"create\" was removed from Class \"OccCheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'create' was removed from Class 'OccCheckoutPaymentAdapter'.",
         "migrationComment": ""
       },
       {
@@ -19583,7 +19583,7 @@
         "apiElementName": "OccCheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadCardTypes\" was removed from Class \"OccCheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadCardTypes' was removed from Class 'OccCheckoutPaymentAdapter'.",
         "migrationComment": ""
       },
       {
@@ -19623,7 +19623,7 @@
         "apiElementName": "OccCheckoutPaymentAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"set\" was removed from Class \"OccCheckoutPaymentAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'set' was removed from Class 'OccCheckoutPaymentAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -19788,7 +19788,7 @@
         "apiElementName": "OccCheckoutPaymentTypeAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadPaymentTypes\" was removed from Class \"OccCheckoutPaymentTypeAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadPaymentTypes' was removed from Class 'OccCheckoutPaymentTypeAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -20078,7 +20078,7 @@
         "apiElementName": "CheckoutCostCenterFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getCostCenter\" was removed from Class \"CheckoutCostCenterFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'.",
         "migrationComment": ""
       },
       {
@@ -20549,7 +20549,7 @@
         "apiElementName": "CheckoutPaymentFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getPaymentDetails\" was removed from Class \"CheckoutPaymentFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentFacade'.",
         "migrationComment": ""
       },
       {
@@ -20570,7 +20570,7 @@
         "apiElementName": "CheckoutPaymentFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getSetPaymentDetailsResultProcess\" was removed from Class \"CheckoutPaymentFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getSetPaymentDetailsResultProcess' was removed from Class 'CheckoutPaymentFacade'.",
         "migrationComment": ""
       },
       {
@@ -20591,7 +20591,7 @@
         "apiElementName": "CheckoutPaymentFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"loadSupportedCardTypes\" was removed from Class \"CheckoutPaymentFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadSupportedCardTypes' was removed from Class 'CheckoutPaymentFacade'.",
         "migrationComment": ""
       },
       {
@@ -20612,7 +20612,7 @@
         "apiElementName": "CheckoutPaymentFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"paymentProcessSuccess\" was removed from Class \"CheckoutPaymentFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'paymentProcessSuccess' was removed from Class 'CheckoutPaymentFacade'.",
         "migrationComment": ""
       },
       {
@@ -20633,7 +20633,7 @@
         "apiElementName": "CheckoutPaymentFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Method \"resetSetPaymentDetailsProcess\" was removed from Class \"CheckoutPaymentFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'.",
         "migrationComment": ""
       },
       {
@@ -20983,7 +20983,7 @@
         "apiElementName": "OrderConfirmationOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutService\" was removed from Class \"OrderConfirmationOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutService' was removed from Class 'OrderConfirmationOrderEntriesContext'.",
         "migrationComment": ""
       }
     ]
@@ -21027,7 +21027,7 @@
         "apiElementName": "OrderPlacedEvent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/checkout/root",
-        "deletedComment": "// TODO:Spartacus - Property \"code\" was removed from Class \"OrderPlacedEvent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'code' was removed from Class 'OrderPlacedEvent'.",
         "migrationComment": ""
       }
     ]
@@ -21666,7 +21666,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cartSelector$\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21724,7 +21724,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isEmail\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21752,7 +21752,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isEmpty\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21796,7 +21796,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isJustLoggedIn\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21815,7 +21815,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"multiCartService\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21846,7 +21846,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"requireLoadedCartForGuestMerge\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'requireLoadedCartForGuestMerge' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -21865,7 +21865,7 @@
         "apiElementName": "ActiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"store\" was removed from Class \"ActiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'ActiveCartService'.",
         "migrationComment": ""
       }
     ]
@@ -21918,7 +21918,7 @@
         "apiElementName": "AddUserAddressEvent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"userId\" was removed from Class \"AddUserAddressEvent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'AddUserAddressEvent'.",
         "migrationComment": ""
       }
     ]
@@ -22160,7 +22160,7 @@
         "apiElementName": "BadRequestHandler",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"handleBadCartRequest\" was removed from Class \"BadRequestHandler\".",
+        "deletedComment": "// TODO:Spartacus - Method 'handleBadCartRequest' was removed from Class 'BadRequestHandler'.",
         "migrationComment": ""
       },
       {
@@ -22194,7 +22194,7 @@
         "apiElementName": "BadRequestHandler",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"handleVoucherOperationError\" was removed from Class \"BadRequestHandler\".",
+        "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
         "migrationComment": ""
       }
     ]
@@ -27354,7 +27354,7 @@
         "apiElementName": "CartPersistenceModule",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"forRoot\" was removed from Class \"CartPersistenceModule\".",
+        "deletedComment": "// TODO:Spartacus - Method 'forRoot' was removed from Class 'CartPersistenceModule'.",
         "migrationComment": ""
       }
     ]
@@ -27772,7 +27772,7 @@
         "apiElementName": "CartValidationService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CartValidationService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartValidationService'.",
         "migrationComment": ""
       }
     ]
@@ -28222,7 +28222,7 @@
         "apiElementName": "CartVoucherService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"CartVoucherService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartVoucherService'.",
         "migrationComment": ""
       },
       {
@@ -28623,7 +28623,7 @@
         "apiElementName": "DeleteUserAddressEvent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"userId\" was removed from Class \"DeleteUserAddressEvent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'.",
         "migrationComment": ""
       }
     ]
@@ -29771,7 +29771,7 @@
         "apiElementName": "MultiCartState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"active\" was removed from Interface \"MultiCartState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'active' was removed from Interface 'MultiCartState'.",
         "migrationComment": ""
       },
       {
@@ -29802,7 +29802,7 @@
         "apiElementName": "MultiCartState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"wishList\" was removed from Interface \"MultiCartState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'wishList' was removed from Interface 'MultiCartState'.",
         "migrationComment": ""
       }
     ]
@@ -31232,7 +31232,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"addEmail\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'addEmail' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31251,7 +31251,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"addEntries\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'addEntries' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31270,7 +31270,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cancelOrder\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelOrder' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31289,7 +31289,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cancelReplenishmentOrder\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReplenishmentOrder' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31308,7 +31308,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cancelReturn\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cancelReturn' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31327,7 +31327,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cart\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cart' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31346,7 +31346,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"carts\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'carts' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31365,7 +31365,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"cartVoucher\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'cartVoucher' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31384,7 +31384,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"consignmentTracking\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31403,7 +31403,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"createCart\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'createCart' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31422,7 +31422,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"deleteCart\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'deleteCart' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31441,7 +31441,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderDetail\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderDetail' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31460,7 +31460,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderHistory\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderHistory' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31479,7 +31479,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderReturnDetail\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnDetail' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31498,7 +31498,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderReturns\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturns' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31517,7 +31517,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"removeEntries\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'removeEntries' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31536,7 +31536,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"replenishmentOrderDetails\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderDetails' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31555,7 +31555,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"replenishmentOrderDetailsHistory\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderDetailsHistory' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31574,7 +31574,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"replenishmentOrderHistory\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrderHistory' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31593,7 +31593,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"returnOrder\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'returnOrder' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31612,7 +31612,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"saveCart\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'saveCart' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31631,7 +31631,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"scheduleReplenishmentOrder\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'scheduleReplenishmentOrder' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31650,7 +31650,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"updateEntries\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'updateEntries' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       },
       {
@@ -31669,7 +31669,7 @@
         "apiElementName": "OccEndpoints",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"validate\" was removed from Interface \"OccEndpoints\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'validate' was removed from Interface 'OccEndpoints'.",
         "migrationComment": ""
       }
     ]
@@ -34527,7 +34527,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cartConfigService\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartConfigService' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34546,7 +34546,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cartId\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartId' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34565,7 +34565,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cartId$\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartId$' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34584,7 +34584,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"cartSelector$\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartSelector$' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34603,7 +34603,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"customerId\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34641,7 +34641,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isEmpty\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isEmpty' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34662,7 +34662,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isEnabled\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isEnabled' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34690,7 +34690,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isJustLoggedIn\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34718,7 +34718,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"isLoggedIn\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'isLoggedIn' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34739,7 +34739,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Method \"load\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'load' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34758,7 +34758,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"multiCartService\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34777,7 +34777,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"PREVIOUS_USER_ID_INITIAL_VALUE\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'PREVIOUS_USER_ID_INITIAL_VALUE' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34796,7 +34796,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"previousUserId\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'previousUserId' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34815,7 +34815,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"store\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       },
       {
@@ -34834,7 +34834,7 @@
         "apiElementName": "SelectiveCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"userId\" was removed from Class \"SelectiveCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'SelectiveCartService'.",
         "migrationComment": ""
       }
     ]
@@ -34958,7 +34958,7 @@
         "apiElementName": "UpdateUserAddressEvent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"userId\" was removed from Class \"UpdateUserAddressEvent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userId' was removed from Class 'UpdateUserAddressEvent'.",
         "migrationComment": ""
       }
     ]
@@ -40411,7 +40411,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"consignmentTracking\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'consignmentTracking' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40430,7 +40430,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"order\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'order' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40449,7 +40449,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderReturn\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturn' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40468,7 +40468,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orderReturnList\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orderReturnList' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40487,7 +40487,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"orders\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'orders' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40506,7 +40506,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"replenishmentOrder\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrder' was removed from Interface 'UserState'.",
         "migrationComment": ""
       },
       {
@@ -40525,7 +40525,7 @@
         "apiElementName": "UserState",
         "apiElementKind": "Interface",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - PropertySignature \"replenishmentOrders\" was removed from Interface \"UserState\".",
+        "deletedComment": "// TODO:Spartacus - PropertySignature 'replenishmentOrders' was removed from Interface 'UserState'.",
         "migrationComment": ""
       }
     ]
@@ -40908,7 +40908,7 @@
         "apiElementName": "WishListService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
-        "deletedComment": "// TODO:Spartacus - Property \"multiCartService\" was removed from Class \"WishListService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'WishListService'.",
         "migrationComment": ""
       }
     ]
@@ -41262,7 +41262,7 @@
         "apiElementName": "OrderCancellationService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userOrderService\" was removed from Class \"OrderCancellationService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderCancellationService'.",
         "migrationComment": ""
       }
     ]
@@ -41630,7 +41630,7 @@
         "apiElementName": "OrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userOrderService\" was removed from Class \"OrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderHistoryComponent'.",
         "migrationComment": ""
       },
       {
@@ -41649,7 +41649,7 @@
         "apiElementName": "OrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"OrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'OrderHistoryComponent'.",
         "migrationComment": ""
       }
     ]
@@ -41814,7 +41814,7 @@
         "apiElementName": "ReplenishmentOrderCancellationComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderCancellationComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderCancellationComponent'.",
         "migrationComment": ""
       }
     ]
@@ -42057,7 +42057,7 @@
         "apiElementName": "ReplenishmentOrderCancellationDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderCancellationDialogComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderCancellationDialogComponent'.",
         "migrationComment": ""
       }
     ]
@@ -42197,7 +42197,7 @@
         "apiElementName": "ReplenishmentOrderDetailsService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderDetailsService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderDetailsService'.",
         "migrationComment": ""
       }
     ]
@@ -42483,7 +42483,7 @@
         "apiElementName": "ReplenishmentOrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/components",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderHistoryComponent'.",
         "migrationComment": ""
       }
     ]
@@ -42953,7 +42953,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"cancel\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancel' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -42993,7 +42993,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"cancelReturnRequest\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancelReturnRequest' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43027,7 +43027,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"createReturnRequest\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'createReturnRequest' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43067,7 +43067,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getConsignmentTracking\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getConsignmentTracking' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43101,7 +43101,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"load\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'load' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43147,7 +43147,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadHistory\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadHistory' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43181,7 +43181,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadReturnRequestDetail\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadReturnRequestDetail' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -43227,7 +43227,7 @@
         "apiElementName": "OrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadReturnRequestList\" was removed from Class \"OrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadReturnRequestList' was removed from Class 'OrderAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -43493,7 +43493,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"cancel\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancel' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43533,7 +43533,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"cancelReturnRequest\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancelReturnRequest' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43567,7 +43567,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"get\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'get' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43607,7 +43607,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getConsignmentTracking\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getConsignmentTracking' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43653,7 +43653,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getHistory\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getHistory' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43687,7 +43687,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getReturnRequestDetail\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getReturnRequestDetail' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43733,7 +43733,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getReturnRequestList\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getReturnRequestList' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       },
       {
@@ -43767,7 +43767,7 @@
         "apiElementName": "OrderConnector",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"return\" was removed from Class \"OrderConnector\".",
+        "deletedComment": "// TODO:Spartacus - Method 'return' was removed from Class 'OrderConnector'.",
         "migrationComment": ""
       }
     ]
@@ -44148,7 +44148,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"cancelOrder\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancelOrder' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44169,7 +44169,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearConsignmentTracking\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearConsignmentTracking' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44190,7 +44190,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearOrderDetails\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearOrderDetails' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44211,7 +44211,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"clearOrderList\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearOrderList' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44232,7 +44232,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getCancelOrderLoading\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCancelOrderLoading' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44253,7 +44253,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getCancelOrderSuccess\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCancelOrderSuccess' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44274,7 +44274,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getConsignmentTracking\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getConsignmentTracking' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44312,7 +44312,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getOrderHistoryList\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getOrderHistoryList' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44333,7 +44333,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"getOrderHistoryListLoaded\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getOrderHistoryListLoaded' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44367,7 +44367,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadConsignmentTracking\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadConsignmentTracking' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44395,7 +44395,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadOrderDetails\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadOrderDetails' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44435,7 +44435,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"loadOrderList\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadOrderList' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44454,7 +44454,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Property \"processStateStore\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'processStateStore' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44475,7 +44475,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Method \"resetCancelOrderProcessState\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Method 'resetCancelOrderProcessState' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44494,7 +44494,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Property \"routingService\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'routingService' was removed from Class 'OrderService'.",
         "migrationComment": ""
       },
       {
@@ -44513,7 +44513,7 @@
         "apiElementName": "OrderService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/core",
-        "deletedComment": "// TODO:Spartacus - Property \"store\" was removed from Class \"OrderService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'store' was removed from Class 'OrderService'.",
         "migrationComment": ""
       }
     ]
@@ -45313,7 +45313,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"cancel\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancel' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45353,7 +45353,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"cancelReturnRequest\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancelReturnRequest' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45387,7 +45387,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"createReturnRequest\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'createReturnRequest' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45427,7 +45427,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"getConsignmentTracking\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getConsignmentTracking' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45461,7 +45461,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"load\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'load' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45507,7 +45507,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadHistory\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadHistory' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45541,7 +45541,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadReturnRequestDetail\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadReturnRequestDetail' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       },
       {
@@ -45587,7 +45587,7 @@
         "apiElementName": "OccOrderAdapter",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/occ",
-        "deletedComment": "// TODO:Spartacus - Method \"loadReturnRequestList\" was removed from Class \"OccOrderAdapter\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadReturnRequestList' was removed from Class 'OccOrderAdapter'.",
         "migrationComment": ""
       }
     ]
@@ -45865,7 +45865,7 @@
         "apiElementName": "OrderDetailsOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Property \"userOrderService\" was removed from Class \"OrderDetailsOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderDetailsOrderEntriesContext'.",
         "migrationComment": ""
       }
     ]
@@ -46065,7 +46065,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"cancelOrder\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'cancelOrder' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46086,7 +46086,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"clearConsignmentTracking\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearConsignmentTracking' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46107,7 +46107,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"clearOrderDetails\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearOrderDetails' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46128,7 +46128,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"clearOrderList\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'clearOrderList' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46149,7 +46149,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getCancelOrderLoading\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCancelOrderLoading' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46170,7 +46170,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getCancelOrderSuccess\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getCancelOrderSuccess' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46191,7 +46191,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getConsignmentTracking\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getConsignmentTracking' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46229,7 +46229,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getOrderHistoryList\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getOrderHistoryList' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46250,7 +46250,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"getOrderHistoryListLoaded\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'getOrderHistoryListLoaded' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46284,7 +46284,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"loadConsignmentTracking\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadConsignmentTracking' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46312,7 +46312,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"loadOrderDetails\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadOrderDetails' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46352,7 +46352,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"loadOrderList\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'loadOrderList' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       },
       {
@@ -46373,7 +46373,7 @@
         "apiElementName": "OrderFacade",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/order/root",
-        "deletedComment": "// TODO:Spartacus - Method \"resetCancelOrderProcessState\" was removed from Class \"OrderFacade\".",
+        "deletedComment": "// TODO:Spartacus - Method 'resetCancelOrderProcessState' was removed from Class 'OrderFacade'.",
         "migrationComment": ""
       }
     ]
@@ -47102,7 +47102,7 @@
         "apiElementName": "ConfiguratorAddToCartButtonComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
-        "deletedComment": "// TODO:Spartacus - Property \"orderFacade\" was removed from Class \"ConfiguratorAddToCartButtonComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'orderFacade' was removed from Class 'ConfiguratorAddToCartButtonComponent'.",
         "migrationComment": ""
       }
     ]
@@ -47673,7 +47673,7 @@
         "apiElementName": "ConfiguratorCartService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
-        "deletedComment": "// TODO:Spartacus - Property \"checkoutFacade\" was removed from Class \"ConfiguratorCartService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'checkoutFacade' was removed from Class 'ConfiguratorCartService'.",
         "migrationComment": ""
       }
     ]
@@ -48243,7 +48243,7 @@
         "apiElementName": "ActiveCartOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"actionsSubject\" was removed from Class \"ActiveCartOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'ActiveCartOrderEntriesContext'.",
         "migrationComment": ""
       },
       {
@@ -48262,7 +48262,7 @@
         "apiElementName": "ActiveCartOrderEntriesContext",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"ActiveCartOrderEntriesContext\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'ActiveCartOrderEntriesContext'.",
         "migrationComment": ""
       }
     ]
@@ -48474,7 +48474,7 @@
         "apiElementName": "AddedToCartDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"cartService\" was removed from Class \"AddedToCartDialogComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartService' was removed from Class 'AddedToCartDialogComponent'.",
         "migrationComment": ""
       },
       {
@@ -48507,7 +48507,7 @@
         "apiElementName": "AddedToCartDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method \"ngOnInit\" was removed from Class \"AddedToCartDialogComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'AddedToCartDialogComponent'.",
         "migrationComment": ""
       },
       {
@@ -48526,7 +48526,7 @@
         "apiElementName": "AddedToCartDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"numberOfEntriesBeforeAdd\" was removed from Class \"AddedToCartDialogComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddedToCartDialogComponent'.",
         "migrationComment": ""
       }
     ]
@@ -48956,7 +48956,7 @@
         "apiElementName": "AddToCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Constructor \"constructor\" was removed from Class \"AddToCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Constructor 'constructor' was removed from Class 'AddToCartComponent'.",
         "migrationComment": ""
       },
       {
@@ -48987,7 +48987,7 @@
         "apiElementName": "AddToCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"modalRef\" was removed from Class \"AddToCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'modalRef' was removed from Class 'AddToCartComponent'.",
         "migrationComment": ""
       },
       {
@@ -49006,7 +49006,7 @@
         "apiElementName": "AddToCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"modalService\" was removed from Class \"AddToCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'modalService' was removed from Class 'AddToCartComponent'.",
         "migrationComment": ""
       },
       {
@@ -49025,7 +49025,7 @@
         "apiElementName": "AddToCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"numberOfEntriesBeforeAdd\" was removed from Class \"AddToCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddToCartComponent'.",
         "migrationComment": ""
       },
       {
@@ -49046,7 +49046,7 @@
         "apiElementName": "AddToCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method \"openModal\" was removed from Class \"AddToCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'openModal' was removed from Class 'AddToCartComponent'.",
         "migrationComment": ""
       }
     ]
@@ -49324,7 +49324,7 @@
         "apiElementName": "AddToWishListComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"wishListService\" was removed from Class \"AddToWishListComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'wishListService' was removed from Class 'AddToWishListComponent'.",
         "migrationComment": ""
       }
     ]
@@ -51799,7 +51799,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"cartValidationInProgress\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartValidationInProgress' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       },
       {
@@ -51820,7 +51820,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method \"disableButtonWhileNavigation\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'disableButtonWhileNavigation' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       },
       {
@@ -51839,7 +51839,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"entries$\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'entries$' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       },
       {
@@ -51860,7 +51860,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method \"ngOnDestroy\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnDestroy' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       },
       {
@@ -51879,7 +51879,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"router\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'router' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       },
       {
@@ -51898,7 +51898,7 @@
         "apiElementName": "CartTotalsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"subscription\" was removed from Class \"CartTotalsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'subscription' was removed from Class 'CartTotalsComponent'.",
         "migrationComment": ""
       }
     ]
@@ -52473,7 +52473,7 @@
         "apiElementName": "CartValidationWarningsComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"cartValidationStateService\" was removed from Class \"CartValidationWarningsComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'cartValidationStateService' was removed from Class 'CartValidationWarningsComponent'.",
         "migrationComment": ""
       }
     ]
@@ -52646,7 +52646,7 @@
         "apiElementName": "CmsGuardsService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"injector\" was removed from Class \"CmsGuardsService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'injector' was removed from Class 'CmsGuardsService'.",
         "migrationComment": ""
       }
     ]
@@ -52961,7 +52961,7 @@
         "apiElementName": "MiniCartComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"activeCartService\" was removed from Class \"MiniCartComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'MiniCartComponent'.",
         "migrationComment": ""
       }
     ]
@@ -53437,7 +53437,7 @@
         "apiElementName": "OrderCancellationService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userOrderService\" was removed from Class \"OrderCancellationService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderCancellationService'.",
         "migrationComment": ""
       }
     ]
@@ -54284,7 +54284,7 @@
         "apiElementName": "OrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userOrderService\" was removed from Class \"OrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderHistoryComponent'.",
         "migrationComment": ""
       },
       {
@@ -54303,7 +54303,7 @@
         "apiElementName": "OrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"OrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'OrderHistoryComponent'.",
         "migrationComment": ""
       }
     ]
@@ -55596,8 +55596,8 @@
         "apiElementName": "ProgressButtonComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"clikEvent\" was removed from Class \"ProgressButtonComponent\".",
-        "migrationComment": "It is renamed to \"clickEvent\" to fix a typo."
+        "deletedComment": "// TODO:Spartacus - Property 'clikEvent' was removed from Class 'ProgressButtonComponent'.",
+        "migrationComment": "It is renamed to 'clickEvent' to fix a typo."
       }
     ]
   },
@@ -55775,7 +55775,7 @@
         "apiElementName": "ReplenishmentOrderCancellationComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderCancellationComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderCancellationComponent'.",
         "migrationComment": ""
       }
     ]
@@ -56032,7 +56032,7 @@
         "apiElementName": "ReplenishmentOrderCancellationDialogComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderCancellationDialogComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderCancellationDialogComponent'.",
         "migrationComment": ""
       }
     ]
@@ -56230,7 +56230,7 @@
         "apiElementName": "ReplenishmentOrderDetailsService",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderDetailsService\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderDetailsService'.",
         "migrationComment": ""
       }
     ]
@@ -56542,7 +56542,7 @@
         "apiElementName": "ReplenishmentOrderHistoryComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"userReplenishmentOrderService\" was removed from Class \"ReplenishmentOrderHistoryComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderHistoryComponent'.",
         "migrationComment": ""
       }
     ]
@@ -57514,7 +57514,7 @@
         "apiElementName": "TabParagraphContainerComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Method \"ngOnDestroy\" was removed from Class \"TabParagraphContainerComponent\".",
+        "deletedComment": "// TODO:Spartacus - Method 'ngOnDestroy' was removed from Class 'TabParagraphContainerComponent'.",
         "migrationComment": ""
       },
       {
@@ -57533,7 +57533,7 @@
         "apiElementName": "TabParagraphContainerComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"subscription\" was removed from Class \"TabParagraphContainerComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'subscription' was removed from Class 'TabParagraphContainerComponent'.",
         "migrationComment": ""
       }
     ]
@@ -57787,7 +57787,7 @@
         "apiElementName": "WishListComponent",
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Property \"wishListService\" was removed from Class \"WishListComponent\".",
+        "deletedComment": "// TODO:Spartacus - Property 'wishListService' was removed from Class 'WishListComponent'.",
         "migrationComment": ""
       }
     ]
