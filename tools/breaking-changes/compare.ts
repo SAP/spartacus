@@ -221,7 +221,7 @@ function getMembersBreakingChange(
         apiElementName: oldApiElement.name,
         apiElementKind: oldApiElement.kind,
         entryPoint: oldApiElement.entryPoint,
-        deletedComment: `// TODO:Spartacus - ${oldMember.kind} "${oldMember.name}" was removed from ${oldApiElement.kind} "${oldApiElement.name}".`,
+        deletedComment: `// TODO:Spartacus - ${oldMember.kind} '${oldMember.name}' was removed from ${oldApiElement.kind} '${oldApiElement.name}'.`,
         migrationComment: '',
       });
     } else {
