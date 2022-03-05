@@ -11,7 +11,6 @@
   table {
     margin: 1em 0;
     border-collapse: collapse;
-    width: 740px;
   }
 
   th,
@@ -27,6 +26,7 @@
   /* customization styles ---------- */
   tr {
     border-bottom: 1px solid var(--cx-color-light);
+    padding: 1.25rem 0;
   }
 
   td {
@@ -62,11 +62,6 @@
 
   th:nth-of-type(4) {
     text-align: right;
-  }
-
-  /* cx styles  */
-  tbody tr:not(tr.cx-actions) {
-    border: 0 none;
   }
 
   th.cx-item-list-actions {
