@@ -56,9 +56,12 @@ export class ConfiguratorAttributeNumericInputFieldService {
       splitParts[1].length > numberDecimalPlaces
     );
   }
+
   /**
+   * Get the interval help text based of the values of the attribute
    *
-   * @param values
+   * @param values values of the attribute
+   * @returns {string} concatenated string with all value texts separated by a semicolon
    */
   getIntervalHelpText(
     values: Configurator.Value[] | undefined
@@ -72,68 +75,96 @@ export class ConfiguratorAttributeNumericInputFieldService {
     return helpText;
   }
 
+  /**
+   * Parses the value names and returns the intervals.
+   *
+   * @param values values of the attribute
+   * @returns {ConfiguratorAttributeNumericInterval[]} parsed intervals
+   */
   getIntervals(
     values: Configurator.Value[] | undefined
   ): ConfiguratorAttributeNumericInterval[] | undefined {
     let intervals: ConfiguratorAttributeNumericInterval[] | undefined;
     if (values && values.length > 0) {
       intervals = [];
-      values.forEach((value) => intervals.push(this.getInterval(value)));
+      values.forEach((value) => intervals?.push(this.getInterval(value)));
     }
     return intervals;
   }
 
+  /**
+   * Parses the value name and returns the interval structure.
+   * Valid interval strings:
+   * Standard Interval
+   * 5 - 10
+   * 5 - <10
+   * >5 - 10
+   * >5 - <10
+   * -10 - -5
+   * 1.25 - 1.35
+   *
+   * Infinite Interval
+   * >5
+   * >=5
+   * <5
+   * <=5
+   * >-5
+   *
+   * @param value value which will be parsed
+   * @returns {ConfiguratorAttributeNumericInterval} parsed interval
+   */
   getInterval(value: Configurator.Value): ConfiguratorAttributeNumericInterval {
     let interval: ConfiguratorAttributeNumericInterval = {};
-    let index = value?.name.indexOf(' - ');
+    if (!value || !value.name) {
+      return interval;
+    }
+
     let minVal: string = '';
     let maxVal: string = '';
-    let minValIncluded = true;
-    let maxValIncluded = true;
-    if (value && value.name) {
-      // standard interval a - b
-      if (value.name.includes(' - ')) {
-        minVal = value.name.substring(0, index);
-        maxVal = value.name.substring(index + 3, value.name.length);
-        if (minVal.includes('>')) {
-          minValIncluded = false;
-          minVal = minVal.replace('>', '');
-        }
 
-        if (maxVal.includes('<')) {
-          maxValIncluded = false;
-          maxVal = maxVal.replace('<', '');
-        }
+    // standard interval a - b
+    if (value.name.includes(' - ')) {
+      let index = value?.name.indexOf(' - ');
+      minVal = value.name.substring(0, index);
+      maxVal = value.name.substring(index + 3, value.name.length);
+      if (minVal.includes('>')) {
+        interval.minValueIncluded = false;
+        minVal = minVal.replace('>', '');
+      }
 
-        // infinite interval
+      if (maxVal.includes('<')) {
+        interval.maxValueIncluded = false;
+        maxVal = maxVal.replace('<', '');
+      }
+
+      // infinite interval
+    } else {
+      if (value.name.includes('>')) {
+        minVal = value.name;
+        interval.minValueIncluded = false;
+        if (value.name.includes('=')) {
+          minVal = minVal.replace('=', '');
+          interval.minValueIncluded = true;
+        }
+        minVal = minVal.replace('>', '');
       } else {
-        if (value.name.includes('>')) {
-          minVal = value.name;
-          minValIncluded = false;
-          if (value.name.includes('=')) {
-            minVal = minVal.replace('=', '');
-            minValIncluded = true;
-          }
-          minVal = minVal.replace('>', '');
-        } else {
-          maxVal = value.name;
-          maxValIncluded = false;
-          if (value.name.includes('=')) {
-            maxVal = maxVal.replace('=', '');
-            maxValIncluded = true;
-          }
-          maxVal = maxVal.replace('<', '');
+        maxVal = value.name;
+        interval.maxValueIncluded = false;
+        if (value.name.includes('=')) {
+          maxVal = maxVal.replace('=', '');
+          interval.maxValueIncluded = true;
         }
+        maxVal = maxVal.replace('<', '');
       }
-      if (minVal && minVal.length > 0) {
-        interval.minValue = +minVal;
-      }
-      if (maxVal && maxVal.length > 0) {
-        interval.maxValue = +maxVal;
-      }
-      interval.minValueIncluded = minValIncluded;
-      interval.maxValueIncluded = maxValIncluded;
     }
+
+    if (minVal && minVal.length > 0) {
+      interval.minValue = +minVal;
+    }
+    if (maxVal && maxVal.length > 0) {
+      interval.maxValue = +maxVal;
+    }
+
     return interval;
   }
 
