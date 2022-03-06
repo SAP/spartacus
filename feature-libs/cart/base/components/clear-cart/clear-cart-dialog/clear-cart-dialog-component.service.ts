@@ -1,77 +1,80 @@
 import { Injectable } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
-import { ActiveCartFacade } from '@spartacus/cart/base/root';
-import { filter, switchMap, take, tap } from 'rxjs/operators';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {
+  EventService,
+  GlobalMessageService,
+  GlobalMessageType,
+  UserIdService,
+} from '@spartacus/core';
+import {
+  ActiveCartFacade,
+  MultiCartFacade,
+  DeleteCartSuccessEvent,
+  DeleteCartFailEvent,
+} from '@spartacus/cart/base/root';
+import { mapTo, switchMap, take, tap, withLatestFrom } from 'rxjs/operators';
 import { LaunchDialogService } from '@spartacus/storefront';
+import { merge } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ClearCartDialogComponentService {
-  isClearing$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
   constructor(
     protected launchDialogService: LaunchDialogService,
     protected globalMessageService: GlobalMessageService,
-    protected activeCartFacade: ActiveCartFacade
+    protected activeCartFacade: ActiveCartFacade,
+    protected multiCartFacade: MultiCartFacade,
+    protected userIdService: UserIdService,
+    protected eventService: EventService
   ) {}
 
-  clearActiveCart(): void {
-    this.isClearing$.next(true);
-    this.clearCart()
-      .pipe(take(1))
-      .subscribe(() => {
-        this.isClearing$.next(false);
-        this.onComplete();
+  /**
+   * Clear the cart by deleting the active cart.
+   */
+  deleteActiveCart(): void {
+    this.activeCartFacade
+      .getActiveCartId()
+      .pipe(
+        withLatestFrom(this.userIdService.getUserId()),
+        take(1),
+        tap(([cartId, userId]) => {
+          this.multiCartFacade.deleteCart(cartId, userId);
+        }),
+        switchMap(() =>
+          merge(
+            this.eventService.get(DeleteCartSuccessEvent).pipe(mapTo(true)),
+            this.eventService.get(DeleteCartFailEvent).pipe(mapTo(false))
+          ).pipe(take(1))
+        ),
+        tap(() => this.closeDialog('Close dialog after cart cleared'))
+      )
+      .subscribe((success: boolean) => {
+        this.displayGlobalMessage(success);
       });
-  }
-
-  clearCart(): Observable<boolean> {
-    return this.activeCartFacade.getEntries().pipe(
-      take(1),
-      tap((entries) => {
-        // Make copy and reverse entries[] to start at end of array
-        // since cart entries are shifted downwards with removeEntry()
-        entries
-          .slice()
-          .reverse()
-          .forEach((entry) => this.activeCartFacade.removeEntry(entry));
-      }),
-      switchMap(() => this.activeCartFacade.isStable()),
-      filter((data) => Boolean(data))
-    );
-  }
-
-  getClearingCartProgess(): Observable<boolean> {
-    return this.isClearing$.asObservable();
   }
 
   /**
-   * Display succesful global message after clearing cart.
+   * Close clear cart modal dialog
    *
-   * @param success
+   * @param reason to close dialog
    */
-  addSuccessGlobalMessage(): void {
-    this.globalMessageService.add(
-      { key: 'clearCart.cartClearedSuccessfully' },
-      GlobalMessageType.MSG_TYPE_CONFIRMATION
-    );
-  }
-
-  onComplete(): void {
-    this.closeDialog('Close dialog after cart cleared successfully');
-    this.activeCartFacade
-      .getEntries()
-      .pipe(take(1))
-      .subscribe((entries) => {
-        if (entries.length === 0) {
-          this.addSuccessGlobalMessage();
-        }
-      });
-  }
-
   closeDialog(reason: string): void {
     this.launchDialogService.closeDialog(reason);
+  }
+
+  /**
+   * Display global message after clearing cart.
+   * By default, only message displayed is of type `Success`. A negative scenario
+   * related to cart has been handled in the occ layer already.
+   *
+   * @param success result of clear cart action
+   */
+  protected displayGlobalMessage(success: boolean): void {
+    if (success) {
+      this.globalMessageService.add(
+        { key: 'clearCart.cartClearedSuccessfully' },
+        GlobalMessageType.MSG_TYPE_CONFIRMATION
+      );
+    }
   }
 }
