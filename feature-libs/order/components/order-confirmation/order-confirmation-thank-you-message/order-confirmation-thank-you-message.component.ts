@@ -75,7 +75,9 @@ export class OrderConfirmationThankYouMessageComponent
       );
   }
 
-  protected getThankYouAssistiveMessage(): Observable<[Order | undefined, string, string, string]> {
+  protected getThankYouAssistiveMessage(): Observable<
+    [Order | undefined, string, string, string]
+  > {
     const confirmationOfOrderMessage$ = this.translationService.translate(
       'checkoutOrderConfirmation.confirmationOfOrder'
     );
