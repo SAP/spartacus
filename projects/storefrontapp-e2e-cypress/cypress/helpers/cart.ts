@@ -530,6 +530,9 @@ export function saveCartId() {
 export function verifyCartIdAfterClearCart() {
   cy.visit(`/product/${products[0].code}`);
   clickAddToCart();
+  checkAddedToCartDialog();
+  closeAddedToCartDialog();
+
   goToCart();
   let _cartId;
   cy.get('cx-cart-details')
@@ -539,6 +542,6 @@ export function verifyCartIdAfterClearCart() {
     });
 
   cy.get('@cartId').then((cartId) => {
-    expect(cartId).to.eq(_cartId);
+    expect(cartId).to.not.eq(_cartId);
   });
 }

@@ -4,7 +4,7 @@
   class="cx-clear-cart-dialog"
 >
   <div class="cx-clear-cart-container">
-    <ng-container *ngIf="!(isClearing$ | async); else loading">
+    <ng-container *ngIf="!isClearing; else loading">
       <!-- Modal Header -->
       <div class="modal-header cx-clear-cart-header">
         <div class="cx-clear-cart-title modal-title">
@@ -40,7 +40,7 @@
             >
               {{ 'common.cancel' | cxTranslate }}
             </button>
-            <button (click)="clear()" class="btn btn-primary" type="button">
+            <button (click)="clearCart()" class="btn btn-primary" type="button">
               {{ 'clearCart.clearCart' | cxTranslate }}
             </button>
           </div>

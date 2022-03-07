@@ -90,6 +90,7 @@ export class CheckoutDeliveryAddressComponent implements OnInit {
     }
 
     return {
+      role: 'region',
       title: address.defaultAddress ? textDefaultDeliveryAddress : '',
       textBold: address.firstName + ' ' + address.lastName,
       text: [
