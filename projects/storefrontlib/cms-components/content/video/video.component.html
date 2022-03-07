@@ -1,20 +1,23 @@
-<a *ngIf="data$ | async as data" [routerLink]="routerLink">
-  <div>{{ data.overlayTitle }}</div>
-  <video
-    *ngIf="source"
-    controls
-    [poster]="videoImage?.src"
-    [height]="
-      data.containerSize === 'DEFINE_CONTAINER_HEIGHT'
-        ? data.videoContainerHeight
-        : '200'
-    "
-    [width]="600"
-    [loop]="data.loop === 'true'"
-    [autoplay]="data.autoPlay === 'true'"
-    [muted]="data.mute === 'true' ? 'muted' : null"
-    #videoPlayer
-  >
-    <source src="{{ source }}" type="{{ data.video.mime }}" />
-  </video>
-</a>
+<ng-container
+  ><a *ngIf="data$ | async as data" [routerLink]="routerLink">
+    <div>{{ data.overlayTitle }}</div>
+    <video
+      *ngIf="source"
+      controls
+      [poster]="thumbnail?.src"
+      [loop]="loop"
+      [autoplay]="autoplay"
+      [muted]="mute"
+      #myVideo
+    >
+      <track
+        label="English"
+        kind="subtitles"
+        srclang="en"
+        src="position.vtt"
+        default
+      />
+      <source src="{{ source }}" type="{{ data.video.mime }}" />
+    </video>
+  </a>
+</ng-container>

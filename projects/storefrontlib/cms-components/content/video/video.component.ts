@@ -1,9 +1,12 @@
 import {
+  AfterViewChecked,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
   ElementRef,
   HostBinding,
+  Renderer2,
+  ViewChild,
 } from '@angular/core';
 import {
   CmsBannerComponentMedia,
@@ -28,8 +31,9 @@ import { MediaService } from '../../../shared/components/media/media.service';
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent {
+export class VideoComponent implements AfterViewChecked {
   @HostBinding('class') styleClasses: string | undefined;
+  @ViewChild('myVideo') video: ElementRef;
 
   source: string | undefined;
   thumbnail: Media | undefined;
@@ -37,6 +41,7 @@ export class VideoComponent {
   autoplay: boolean;
   loop: boolean;
   mute: string | undefined;
+  height: string;
 
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -48,13 +53,17 @@ export class VideoComponent {
     })
   );
 
+  ngAfterViewChecked(): void {
+    this.el.setStyle(this.video.nativeElement, 'height', this.height);
+  }
+
   constructor(
     protected component: CmsComponentData<CmsVideoComponent>,
     protected mediaService: MediaService,
     protected urlService: SemanticPathService,
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected el: ElementRef
+    protected el: Renderer2
   ) {}
 
   setControls(autoPlay?: string, loop?: string, mute?: string) {
@@ -67,12 +76,10 @@ export class VideoComponent {
     containerSize?: ContainerSizeOptions,
     videoContainerHeight?: number
   ) {
-    const height =
+    this.height =
       containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT
-        ? `${videoContainerHeight}`
+        ? `${videoContainerHeight}px`
         : '100%';
-        console.log('this is height', height);
-    this.el.nativeElement.style.setProperty('height', height);
   }
 
   protected setMedia(
