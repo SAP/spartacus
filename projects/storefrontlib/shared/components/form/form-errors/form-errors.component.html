@@ -1,3 +1,5 @@
-<p *ngFor="let error of errorsDetails$ | async">
-  {{ prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1]) }}
-</p>
+<ng-container *ngIf="!hidden">
+  <p *ngFor="let error of errorsDetails$ | async">
+    {{ prefix + '.' + error[0] | cxTranslate: getTranslationParams(error[1]) }}
+  </p>
+</ng-container>
