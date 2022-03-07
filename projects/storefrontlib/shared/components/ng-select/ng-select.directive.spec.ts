@@ -7,11 +7,12 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   template: `
-    <ng-select cxNgSelect>
+    <ng-select cxNgSelect="Size" cxNgSelectControlsPrefix="size-results">
       <ng-option *ngFor="let val of [1, 2, 3]" [value]="val">{{
         val
       }}</ng-option>
     </ng-select>
+    <div id="size-results"></div>
   `,
 })
 class MockComponent {}
@@ -35,13 +36,16 @@ describe('NgSelectDirective', () => {
     return fixture.debugElement.query(By.directive(NgSelectDirective));
   }
 
-  it('should create ng-select with listbox attribute', () => {
+  it('should create ng-select and bind aria attributes', () => {
     fixture.detectChanges();
     expect(component).toBeTruthy();
     const select = getNgSelect().nativeElement;
 
-    const innerDiv = select.querySelector("[role='listbox']");
+    const innerDiv = select.querySelector("[role='combobox']");
 
     expect(innerDiv).toBeTruthy();
+
+    expect(innerDiv.getAttribute('aria-controls')).toEqual('size-results');
+    expect(innerDiv.getAttribute('aria-label')).toEqual('Size');
   });
 });

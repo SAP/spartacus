@@ -12,6 +12,11 @@ import {
 export class NgSelectDirective implements AfterViewInit {
   @Input() cxNgSelect: string;
 
+  private _controlsPrefix: string;
+  @Input() set cxNgSelectControlsPrefix(controlsPrefix: string) {
+    this._controlsPrefix = controlsPrefix;
+  }
+
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
   ngAfterViewInit(): void {
@@ -19,6 +24,10 @@ export class NgSelectDirective implements AfterViewInit {
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
 
     this.renderer.setAttribute(divCombobox, 'aria-label', this.cxNgSelect);
-    this.renderer.setAttribute(divCombobox, 'role', 'listbox');
+    this.renderer.setAttribute(
+      divCombobox,
+      'aria-controls',
+      this._controlsPrefix
+    );
   }
 }

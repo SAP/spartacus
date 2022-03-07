@@ -4,14 +4,10 @@
   placeholder="{{ placeholder }}"
   (change)="sortList($event)"
   [ngModel]="selectedOption"
-  [cxNgSelect]="'productList.sortBy' | cxTranslate"
+  [cxNgSelect]="'productList.sortResults' | cxTranslate"
+  [cxNgSelectControlsPrefix]="ariaControls"
 >
-  <ng-option
-    role="option"
-    *ngFor="let sort of sortOptions"
-    [value]="sort.code"
-    >{{
-      sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''
-    }}</ng-option
-  >
+  <ng-option *ngFor="let sort of sortOptions" [value]="sort.code">{{
+    sort.name ? sort.name : sortLabels ? sortLabels[sort.code] : ''
+  }}</ng-option>
 </ng-select>
