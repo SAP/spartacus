@@ -6,7 +6,12 @@ import {
   Optional,
   TemplateRef,
 } from '@angular/core';
-import { GlobalMessageService, GlobalMessageType } from '@spartacus/core';
+import {
+  GlobalMessageEntities,
+  GlobalMessageService,
+  GlobalMessageType,
+} from '@spartacus/core';
+import { take } from 'rxjs/operators';
 
 @Directive({
   selector: '[cxAtMessage]',
@@ -15,7 +20,7 @@ export class AtMessageDirective {
   /**
    * Usage [cxAtMessage]="'translatableKey' | cxTranslate"
    */
-  @Input() cxAtMessage: string;
+  @Input() cxAtMessage: string | string[];
 
   constructor(
     protected elementRef: ElementRef<HTMLElement>,
@@ -38,12 +43,25 @@ export class AtMessageDirective {
     event?.preventDefault();
 
     if (event?.target === this.host && this.cxAtMessage) {
-      this.host.focus();
+      const message = Array.isArray(this.cxAtMessage)
+        ? this.cxAtMessage.join('\n')
+        : this.cxAtMessage;
 
-      this.globalMessageService.add(
-        this.cxAtMessage,
-        GlobalMessageType.MSG_TYPE_ASSISTIVE
-      );
+      this.globalMessageService
+        .get()
+        .pipe(take(1))
+        .subscribe((globalMessageEntities: GlobalMessageEntities) => {
+          // Override current assitive message.
+          if (globalMessageEntities[GlobalMessageType.MSG_TYPE_ASSISTIVE]) {
+            this.globalMessageService.remove(
+              GlobalMessageType.MSG_TYPE_ASSISTIVE
+            );
+          }
+          this.globalMessageService.add(
+            message,
+            GlobalMessageType.MSG_TYPE_ASSISTIVE
+          );
+        });
     }
   }
 }
