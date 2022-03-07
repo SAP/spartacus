@@ -33,6 +33,7 @@ export const checkout = {
     editPaymentDetails: 'Edit payment details, opens Payment Details page',
     editPaymentType: 'Edit payment method, opens Method of Payment page',
     editDeliveryMode: 'Edit delivery mode, opens Delivery Mode page',
+    orderInProcess: 'Order is in process. Please wait.',
   },
   checkoutOrderConfirmation: {
     confirmationOfOrder: 'Confirmation of Order:',
