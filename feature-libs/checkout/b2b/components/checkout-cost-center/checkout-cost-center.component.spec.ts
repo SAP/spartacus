@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Cart } from '@spartacus/cart/base/root';
 import {
   CheckoutCostCenterFacade,
   CheckoutPaymentTypeFacade,
@@ -7,11 +6,11 @@ import {
 import {
   CostCenter,
   I18nTestingModule,
-  QueryState,
   UserCostCenterService,
 } from '@spartacus/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { CheckoutCostCenterComponent } from './checkout-cost-center.component';
+import createSpy = jasmine.createSpy;
 
 const mockCostCenters: CostCenter[] = [
   {
@@ -27,12 +26,11 @@ const mockCostCenters: CostCenter[] = [
 class MockCheckoutCostCenterService
   implements Partial<CheckoutCostCenterFacade>
 {
-  getCostCenterState(): Observable<QueryState<CostCenter | undefined>> {
-    return of({ loading: false, error: false, data: mockCostCenters[0] });
-  }
-  setCostCenter(_costCenterId: string): Observable<Cart> {
-    return of();
-  }
+  getCostCenterState = createSpy().and.returnValue(
+    of({ loading: false, error: false, data: mockCostCenters[0] })
+  );
+
+  setCostCenter = createSpy().and.returnValue(of({}));
 }
 
 const accountPayment$ = new BehaviorSubject<boolean>(false);
@@ -91,24 +89,18 @@ describe('CheckoutCostCenterComponent', () => {
     accountPayment$.next(false);
     fixture.detectChanges();
 
-    let result: boolean | undefined;
-    component.isAccountPayment$
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+    component.ngOnInit();
 
-    expect(result).toBe(false);
+    expect(component.isAccountPayment).toBe(false);
   });
 
   it('should return true for payment type when it is ACCOUNT type', () => {
     accountPayment$.next(true);
     fixture.detectChanges();
 
-    let result: boolean | undefined;
-    component.isAccountPayment$
-      .subscribe((data) => (result = data))
-      .unsubscribe();
+    component.ngOnInit();
 
-    expect(result).toBe(true);
+    expect(component.isAccountPayment).toBe(true);
   });
 
   it('should get cost centers', () => {
@@ -123,7 +115,9 @@ describe('CheckoutCostCenterComponent', () => {
   });
 
   it('should NOT set default if the cart already CONTAINS a cost center', () => {
-    spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
+    component.ngOnInit();
+    fixture.detectChanges();
+
     let costCenter: CostCenter[] | undefined;
 
     component.costCenters$
@@ -137,10 +131,12 @@ describe('CheckoutCostCenterComponent', () => {
   });
 
   it('should set default if the cart does NOT contain a cost center', () => {
-    spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
-    spyOn(checkoutCostCenterService, 'getCostCenterState').and.returnValue(
+    checkoutCostCenterService.getCostCenterState = createSpy().and.returnValue(
       of({ loading: false, error: false, data: undefined })
     );
+
+    component.ngOnInit();
+    fixture.detectChanges();
 
     let costCenter: CostCenter[] | undefined;
 
@@ -157,8 +153,6 @@ describe('CheckoutCostCenterComponent', () => {
   });
 
   it('should set cost center', () => {
-    spyOn(checkoutCostCenterService, 'setCostCenter').and.stub();
-
     component.setCostCenter(mockCostCenters[1].code ?? '');
 
     expect(component['costCenterId']).toEqual(mockCostCenters[1].code);

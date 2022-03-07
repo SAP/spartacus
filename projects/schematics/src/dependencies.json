@@ -13,9 +13,6 @@
     "i18next-http-backend": "^1.3.2",
     "rxjs": "^6.6.0"
   },
-  "@spartacus/incubator": {
-    "@angular/core": "^13.2.0"
-  },
   "@spartacus/schematics": {
     "@angular-devkit/core": "^13.2.0",
     "@angular-devkit/schematics": "^13.2.0",
@@ -115,6 +112,7 @@
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/styles": "4.1.0-next.0",
+    "@spartacus/user": "4.1.0-next.0",
     "rxjs": "^6.6.0"
   },
   "@spartacus/organization": {
@@ -238,8 +236,8 @@
     "@angular/router": "^13.2.0",
     "@ngrx/store": "^13.0.2",
     "@spartacus/cart": "4.1.0-next.0",
-    "@spartacus/checkout": "4.1.0-next.0",
     "@spartacus/core": "4.1.0-next.0",
+    "@spartacus/order": "4.2.0",
     "@spartacus/schematics": "4.1.0-next.0",
     "@spartacus/storefront": "4.1.0-next.0",
     "@spartacus/tracking": "4.1.0-next.0",

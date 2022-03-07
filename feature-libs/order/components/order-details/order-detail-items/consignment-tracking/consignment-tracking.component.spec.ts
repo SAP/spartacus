@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { I18nTestingModule } from '@spartacus/core';
-import { Consignment, OrderFacade } from '@spartacus/order/root';
+import { Consignment, OrderHistoryFacade } from '@spartacus/order/root';
 import { ModalService, SpinnerModule } from '@spartacus/storefront';
 import { of } from 'rxjs';
 import { ConsignmentTrackingComponent } from './consignment-tracking.component';
@@ -74,7 +74,7 @@ describe('ConsignmentTrackingComponent', () => {
       declarations: [ConsignmentTrackingComponent, MockTranslateUrlPipe],
       providers: [
         { provide: ModalService, useClass: MockModalService },
-        { provide: OrderFacade, useValue: userOrderService },
+        { provide: OrderHistoryFacade, useValue: userOrderService },
       ],
     }).compileComponents();
   });

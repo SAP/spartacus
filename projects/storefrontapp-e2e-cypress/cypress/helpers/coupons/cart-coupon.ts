@@ -1,5 +1,6 @@
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
+import { addProductToCart as addToCart } from '../applied-promotions';
 import { AUTH_STORAGE_KEY, getStateAuth } from '../auth';
 import { cartUser } from '../cart';
 import { loginAsGuest } from '../checkout-as-guest';
@@ -30,10 +31,7 @@ export function visitProductPage(productCode: string) {
 }
 
 export function addProductToCart(productCode: string) {
-  cy.get('cx-add-to-cart')
-    .findAllByText(/Add To Cart/i)
-    .first()
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.findByText(/view cart/i).click();

@@ -8,7 +8,7 @@ import {
 import { Order } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 
 @Injectable()
@@ -65,7 +65,7 @@ export class OrderDetailsEffect {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector,
+    private orderConnector: OrderHistoryConnector,
     private globalMessageService: GlobalMessageService
   ) {}
 }

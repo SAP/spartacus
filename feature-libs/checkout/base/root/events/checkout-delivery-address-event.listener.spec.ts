@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  createFrom,
   CxEvent,
   DeleteUserAddressEvent,
   EventService,
@@ -19,6 +20,9 @@ import {
   CheckoutResetQueryEvent,
 } from './checkout.events';
 import createSpy = jasmine.createSpy;
+
+const mockUserId = 'test-user-id';
+const mockCartId = 'test-cart-id';
 
 class MockCheckoutDeliveryAddressFacade
   implements Partial<CheckoutDeliveryAddressFacade>
@@ -97,15 +101,21 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
   describe(`onDeliveryAddressChange`, () => {
     it(`CheckoutDeliveryAddressSetEvent should dispatch CheckoutResetDeliveryModesEvent and CheckoutResetQueryEvent`, () => {
-      mockEventStream$.next(new CheckoutDeliveryAddressSetEvent());
+      mockEventStream$.next(
+        createFrom(CheckoutDeliveryAddressSetEvent, {
+          userId: mockUserId,
+          cartId: mockCartId,
+          address: {},
+        })
+      );
 
       expect(eventService.dispatch).toHaveBeenCalledWith(
-        {},
+        { userId: mockUserId, cartId: mockCartId },
         CheckoutResetDeliveryModesEvent
       );
       expect(eventService.dispatch).toHaveBeenCalledWith(
         {},
-        CheckoutResetDeliveryModesEvent
+        CheckoutResetQueryEvent
       );
     });
 
@@ -128,7 +138,13 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
 
     describe(`global message`, () => {
       it(`CheckoutDeliveryAddressCreatedEvent should add a global message`, () => {
-        mockEventStream$.next(new CheckoutDeliveryAddressCreatedEvent());
+        mockEventStream$.next(
+          createFrom(CheckoutDeliveryAddressCreatedEvent, {
+            userId: mockUserId,
+            cartId: mockCartId,
+            address: {},
+          })
+        );
 
         expect(globalMessageService.add).toHaveBeenCalledWith(
           { key: 'addressForm.userAddressAddSuccess' },
@@ -136,12 +152,12 @@ describe(`CheckoutDeliveryAddressEventListener`, () => {
         );
 
         expect(eventService.dispatch).toHaveBeenCalledWith(
-          {},
+          { userId: mockUserId, cartId: mockCartId },
           CheckoutResetDeliveryModesEvent
         );
         expect(eventService.dispatch).toHaveBeenCalledWith(
           {},
-          CheckoutResetDeliveryModesEvent
+          CheckoutResetQueryEvent
         );
       });
     });

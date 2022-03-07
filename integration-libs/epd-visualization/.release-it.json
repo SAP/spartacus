@@ -34,7 +34,6 @@
             "peerDependencies.@spartacus/core",
             "peerDependencies.@spartacus/styles",
             "peerDependencies.@spartacus/storefront",
-            "peerDependencies.@spartacus/assets",
             "peerDependencies.@spartacus/schematics"
           ]
         }

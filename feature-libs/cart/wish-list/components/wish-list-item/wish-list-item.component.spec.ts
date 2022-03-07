@@ -133,6 +133,14 @@ describe('WishListItemComponent', () => {
     ).not.toBeNull();
   });
 
+  it('should not display actions when entry is not updateable', () => {
+    component.cartEntry.updateable = false;
+    fixture.detectChanges();
+
+    expect(el.query(By.css('.cx-return-button button'))).toBeNull();
+    component.cartEntry.updateable = true;
+  });
+
   it('should call remove', () => {
     spyOn(component, 'removeEntry');
     el.query(By.css('.cx-return-button button')).nativeElement.click();
