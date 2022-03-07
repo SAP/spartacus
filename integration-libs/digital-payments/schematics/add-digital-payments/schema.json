@@ -11,6 +11,11 @@
         "$source": "projectName"
       }
     },
+    "lazy": {
+      "type": "boolean",
+      "description": "Lazy load the digital payment.",
+      "default": true
+    },
     "features": {
       "type": "array",
       "uniqueItems": true,

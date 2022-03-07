@@ -7,11 +7,13 @@ import {
   OnInit,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Cart } from '@spartacus/cart/base/root';
 import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
+  Cart,
+  DeleteCartEvent as DeleteSavedCartEvent,
+  DeleteCartFailEvent as DeleteSavedCartFailEvent,
+  DeleteCartSuccessEvent as DeleteSavedCartSuccessEvent,
+} from '@spartacus/cart/base/root';
+import {
   SavedCartFacade,
   SavedCartFormType,
 } from '@spartacus/cart/saved-cart/root';

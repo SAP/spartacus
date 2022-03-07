@@ -55,9 +55,12 @@
           {{ cartEntry.basePrice?.formattedValue }}
         </div>
       </div>
-      <!-- Total -->
+      <!-- Action -->
       <div class="col-sm-8 col-md-4 col-lg-3 col-xl-3 cx-add-to-cart">
-        <ng-container cxInnerComponentsHost></ng-container>
+        <ng-container
+          *ngIf="cartEntry.updateable"
+          cxInnerComponentsHost
+        ></ng-container>
         <ng-template #outOfStock>
           <span class="cx-out-of-stock">
             {{ 'addToCart.outOfStock' | cxTranslate }}
@@ -65,11 +68,12 @@
         </ng-template>
       </div>
     </div>
-    <div class="cx-return-button col-12">
+    <div class="cx-return-button col-12" *ngIf="cartEntry.updateable">
       <button
-        class="btn cx-action-link"
         (click)="removeEntry(cartEntry)"
+        [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
         [disabled]="isLoading"
+        class="btn cx-action-link"
       >
         {{ 'common.remove' | cxTranslate }}
       </button>
