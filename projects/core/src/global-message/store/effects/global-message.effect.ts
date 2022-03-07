@@ -59,42 +59,44 @@ export class GlobalMessageEffect {
       )
     );
 
-  hideAfterDelay$: Observable<GlobalMessageActions.RemoveMessage> =
-    createEffect(() =>
-      isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
-        ? this.actions$.pipe(
-            ofType(GlobalMessageActions.ADD_MESSAGE),
-            pluck('payload'),
-            concatMap((message: GlobalMessage) => {
-              const config = this.config.globalMessages[message.type];
-              return this.store.pipe(
-                select(
-                  GlobalMessageSelectors.getGlobalMessageCountByType(
-                    message.type
-                  )
-                ),
-                take(1),
-                filter(
-                  (count: number) =>
-                    ((config && config.timeout !== undefined) ||
-                      message.timeout) &&
-                    count &&
-                    count > 0
-                ),
-                delay(message.timeout || config.timeout),
-                switchMap(() =>
-                  of(
-                    new GlobalMessageActions.RemoveMessage({
-                      type: message.type,
-                      index: 0,
-                    })
-                  )
+  hideAfterDelay$:
+    | Observable<GlobalMessageActions.RemoveMessage>
+    | (() => Observable<never>) = createEffect(() =>
+    isPlatformBrowser(this.platformId) // we don't want to run this logic when doing SSR
+      ? this.actions$.pipe(
+          ofType(GlobalMessageActions.ADD_MESSAGE),
+          pluck('payload'),
+          concatMap((message: GlobalMessage) => {
+            const config = this.config.globalMessages[message.type];
+            return this.store.pipe(
+              select(
+                GlobalMessageSelectors.getGlobalMessageCountByType(message.type)
+              ),
+              take(1),
+              filter(
+                (count: number) =>
+                  ((config && config.timeout !== undefined) ||
+                    message.timeout) &&
+                  count &&
+                  count > 0
+              ),
+              delay(message.timeout || config.timeout),
+              switchMap(() =>
+                of(
+                  new GlobalMessageActions.RemoveMessage({
+                    type: message.type,
+                    index: 0,
+                  })
                 )
-              );
-            })
-          )
-        : EMPTY
-    );
+              )
+            );
+          })
+        )
+      : // workaround is required due to NGRX mutating a global static
+        // observable EMPTY, causing to throw an error if we have
+        // effect registered on the same observable twice
+        () => EMPTY
+  );
 
   constructor(
     private actions$: Actions,

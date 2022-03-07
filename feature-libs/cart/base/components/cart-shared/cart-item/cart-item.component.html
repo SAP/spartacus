@@ -11,7 +11,7 @@
       <a
         [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
         cxModal="dismiss"
-        tabindex="-1"
+        tabindex="0"
       >
         <cx-media
           [container]="item.product?.images?.PRIMARY"
@@ -155,10 +155,11 @@
 
         <div class="col-md-3 cx-remove-btn">
           <button
-            class="link cx-action-link"
-            [disabled]="quantityControl.disabled"
             (click)="removeItem()"
+            [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
+            [disabled]="quantityControl.disabled"
             attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
+            class="link cx-action-link"
           >
             {{ 'common.remove' | cxTranslate }}
           </button>

@@ -57,7 +57,9 @@ import { CartBaseFeatureModule } from './features/cart-base-feature.module';
 import { CdcFeatureModule } from './features/cdc-feature.module';
 import { CdsFeatureModule } from './features/cds-feature.module';
 import { CheckoutFeatureModule } from './features/checkout-feature.module';
+import { CheckoutScheduledReplenishmentFeatureModule } from './features/checkout-scheduled-replenishment-feature.module';
 import { DigitalPaymentsFeatureModule } from './features/digital-payments-feature.module';
+import { EpdVisualizationFeatureModule } from './features/epd-visualization-feature.module';
 import { ImageZoomFeatureModule } from './features/image-zoom-feature.module';
 import { ImportExportFeatureModule } from './features/import-export-feature.module';
 import { OrderApprovalFeatureModule } from './features/order-approval-feature.module';
@@ -84,6 +86,13 @@ if (environment.b2b) {
     OrderApprovalFeatureModule
   );
 }
+
+let CheckoutFeature = CheckoutFeatureModule;
+
+if (environment.b2b) {
+  CheckoutFeature = CheckoutScheduledReplenishmentFeatureModule;
+}
+
 if (environment.cdc) {
   featureModules.push(CdcFeatureModule);
 }
@@ -97,6 +106,9 @@ if (environment.cpq) {
 }
 if (environment.digitalPayments) {
   featureModules.push(DigitalPaymentsFeatureModule);
+}
+if (environment.epdVisualization) {
+  featureModules.push(EpdVisualizationFeatureModule);
 }
 
 @NgModule({
@@ -172,7 +184,6 @@ if (environment.digitalPayments) {
     UserFeatureModule,
     CartBaseFeatureModule,
     WishListFeatureModule,
-    CheckoutFeatureModule,
     AsmFeatureModule,
     StorefinderFeatureModule,
     QualtricsFeatureModule,
@@ -185,6 +196,7 @@ if (environment.digitalPayments) {
     ImportExportFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
+    CheckoutFeature,
     ...featureModules,
   ],
 })

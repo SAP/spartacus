@@ -172,7 +172,7 @@ export function checkImageSelected(
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.log('valueId: ' + valueId);
-  cy.get(`#${valueId}`).should('be.checked');
+  cy.get(`#${valueId}`).should('have.attr', 'aria-checked', 'true');
 }
 
 /**
@@ -206,6 +206,24 @@ export function checkConflictDetectedMsgNotDisplayed(
 export function checkConflictDescriptionDisplayed(description: string): void {
   cy.get('cx-configurator-conflict-description').should(($div) => {
     expect($div).to.contain(description);
+  });
+}
+
+/**
+ * Navigates to the configuration group that contains an attribute which is involved in a conflict.
+ *
+ * @param attribute - Attribute name
+ */
+export function clickOnViewInConfiguration(attribute: string): void {
+  checkGhostAnimationNotDisplayed();
+  cy.get('cx-configurator-attribute-header').within(() => {
+    cy.get(`#cx-configurator--attribute-msg--${attribute}`).within(() => {
+      cy.get('.cx-conflict-msg')
+        .click()
+        .then(() => {
+          checkGhostAnimationNotDisplayed();
+        });
+    });
   });
 }
 
