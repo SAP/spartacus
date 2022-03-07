@@ -93,7 +93,7 @@ export class FormErrorsComponent {
     return this.control?.touched;
   }
   @HostBinding('class.cx-visually-hidden') get hidden() {
-    return (this.invalid && this.touched) || this.dirty;
+    return !(this.invalid && (this.touched || this.dirty));
   }
   @HostBinding('attr.role') role = 'alert';
 }
