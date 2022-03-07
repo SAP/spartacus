@@ -1,9 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  HostBinding,
-  Input,
-} from '@angular/core';
+import { Component, HostBinding, Input } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
 import { Observable } from 'rxjs';
@@ -21,7 +16,6 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'cx-form-errors',
   templateUrl: './form-errors.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FormErrorsComponent {
   _control: FormControl;
