@@ -55,6 +55,9 @@ export class WrapperUserProfileModule {}
 
 The working example can be found in the PoC PR: https://github.com/SAP/spartacus/pull/14871
 
+#### How the installation schematics will recognize where to add an import of the extension module?
+It should locate the import of the original feature module in the customer's codebase, and add the extension module after it.
+
 #### Pros
 - this approach allows for extending Spartacus services from other Spartacus libraries  in lazy-loaded modules
 - by the way, it improves the customer's developer experience - it shows the straightforward place where customers they can overwrite our OOTB services in a lazy-loaded feature (nowadays the [documentation says customers need to create wrapper modules themselves manually](https://sap.github.io/spartacus-docs/lazy-loading-guide/#customizing-lazy-loaded-modules))
@@ -70,33 +73,58 @@ The working example can be found in the PoC PR: https://github.com/SAP/spartacus
   - Note that the OOTB `UserProfileModule` feature has 42.15 kB at the moment of writing. So the increase in this case is 0.3% and it affects only the lazy-loaded chunk, but not the main JS chunk. 
 
 
-#### Interesting
+#### Interesting (checked = answered)
 
-- does it increase the production built MAIN JS bundle size?
+- [x] does it increase the production built MAIN JS bundle size?
   - NO
-- does it cause creating any new JS chunks?
+- [x] does it cause producing more JS chunks than before?
   - NO
-- will importing statically the original module in the wrapper module break the lazy loading?
+- [x] will it break lazy loading when we statically import the original module inside the wrapper module?
   - NO
-- should we change our installation schematics to create wrapper modules? 
-  - YES, to allow for automated installation of any extension modules inside wrapper modules
-- should we automate the migration from old dynamic imports to new wrapper imports?
-  - Ideally YES. But might not have time for it. Instead just document how customers should do it themselves.
-  - TODO?
-- how do we install automatically the extension which contributes to other lazy-laoded feature, if customer doesn't have the wrapper module of the expected name for that feature?  
-- how will we migrate customer's code, when we decide in future to change the structure of the lazy-loaded chunks?
-  - TODO? 
-- should we force (or strongly recommend) customers  who migrate to 5.0 to introduce the wrapper modules?
-  - YES, for sure with documentation and maybe with schematics
-- how do we name the wrapper modules?
-  - TBD: how to name new wrapper lazy-laoded modules in customer's app, so it's obvious that customer's customizations should go there as well. Options: for example UserProfileModule: LazyUserProfileModule, WrapperUserProfileModule, ... ?
-- it might seriously complicate the future automated migrations in case we will change in the future the suggested division of the features in to lazy-laoded chunks (e.g. we propose more fine-grained or reorganized chunks).
-  - TBD: in the end of the day, it's up to customers to decide how to optimize their code. But it would be good to provide nice OOTB experience.
-- how does the shell app look files structure look like if every feature is blown into many modules (main feature module with configs, and one or more lazy-loaded wrapper feature modules)
+- [x] should we adapt our _installation schematics_ to create wrapper modules OOTB? 
+  - YES, to allow for future installation of any extensions for feature modules
+- [x] should we create wrapper modules for all features or only those we expect to be extended?
+  - ALL, because we don't know in advance which features will be extended
+- [ ] should we automate for customers the _migration_ from old simple dynamic imports (e.g. `()=>import('@spartacus/store-finder')`)) to the new wrapper modules?
+  - NO, but we need to at least document how to do it yourself as a customer.
+  - [ ] A nice enhancement from our side could be a schematics migration that would just add a code comment over the old dynamic imports (`import('@spartacus/...')`) instructing to change it to wrapper module (with link to docs). 
+    - [ ] should we improve old links to docs or write new docs? 
+- [ ] ## CATCHUP ##:
+  - [ ] 
+- [ ] is it essential to have wrapper modules in app since 5.0 or we can postpone the decision/code change/schematics change to 5.x?
   - TBD
-- can we have one library entry point for multiple lazy-loaded modules? if yes, how do we enforce boundaries?
+    - POSTPONE? consenquences:
+      - we cannot solve OOTB DigitalPayments compatibility with B2B or Sched.Repl. Chekcout 
+      - we keep having the baked-in wrapper modules in our API
+        - B2bCheckoutModule importing BaseCheckout
+        - SchedReplModule importing B2bCheckout
+        - DigitalPayments importing BaseCheckout
+          - this COULD be problematic because of importing BaseCheckout 2 times.
+            - how customers can mitigate: lookup structure of our modules, and pick only what is necessary (not conveninet but there is a workaround)
+    - FORCE in 5.0? consequences:
+      - time and effort to do it in 5.0
+      - possible delay of 5.0
+    - < BOOKMARK 💚 > : continue decision from here
+- [ ] how will we migrate customer's code, when we decide in future to change the structure of the lazy-loaded chunks?
+  - problem: when we generate template code for base feature and extensions, then we have more layers of breaking changes (what extension belongs to where)
+    - when we change the structure of lazy loading, then we change the import path. But also extensions need to be moved around.
+      - the schematics will need to move the schematics along with the split modules
+  - TBD 
+  - we have similar the case now:
+    - we released checkout in one chunk in 4.0
+    - but in 5.0 we'll have 3 modules (1 base and 2 extensions)
+  - ideas:
+    - break down dynamic import to few other dynamic imports
+- [ ] should we force (or strongly recommend) customers  who migrate to 5.0 to introduce the wrapper modules?
+  - YES, for sure with documentation and maybe with schematics
+- [ ] how do we name the wrapper modules?
+  - TBD: how to name new wrapper lazy-laoded modules in customer's app, so it's obvious that customer's customizations should go there as well. Options: for example UserProfileModule: LazyUserProfileModule, WrapperUserProfileModule, ... ?
+- [ ] it might seriously complicate the future automated migrations in case we will change in the future the suggested division of the features in to lazy-laoded chunks (e.g. we propose more fine-grained or reorganized chunks).
+  - TBD: in the end of the day, it's up to customers to decide how to optimize their code. But it would be good to provide nice OOTB experience.
+- [ ] how does the shell app look files structure look like if every feature is blown into many modules (main feature module with configs, and one or more lazy-loaded wrapper feature modules)
+  - TBD
+- [ ] can we have one library entry point for multiple lazy-loaded modules? if yes, how do we enforce boundaries?
   - TODO 
-  
 
 ### Option 2: Configure the extension module as `dependencies` of the lazy-loaded feature module
 Spartacus allows for configuring `dependencies` for a feature module, for example:
@@ -178,7 +206,7 @@ As a next step we could possibly change the behavior of `CmsComponentsService#de
 
 
 
-### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use empty Module + parent CombinedInjector
+### Option 4: Introduce a config `plugins` for lazy-loaded feature modules; implementation: use static empty NgModule + parent CombinedInjector
 We want to allow for plugging many extensions for a single module. And ideally we would like to avoid changing the original module in customer's app, when plugging the extensions. In other words, we a want loose coupling between the original feature module and the extension modules in the app. See example structure in the customer's app:
 ```
 |- user-feature.module.ts
@@ -234,11 +262,12 @@ TODO: We need to create a working PoC
 ### Interesting
 - 
 
-### Option 5: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime (tweaked Option 4)
+### Option 5: Introduce a config `plugins` for lazy-loaded feature modules; implementation: create wrapper module in runtime by JIT compiler (tweaked Option 4)
 We could tweak the Option (5), and create the wrapper module importing the original module all the plugin modules in the runtime. This helps to avoid using the opinionated `CombinedInjector`.
 
 Interesting:
 - did we already use JIT in `develop` branch? How can we prove we did or not? We have already been calling `compiler.compileModuleAsync()` in develop.
+  - NO. How to prove: when trying to create NgModule in rutime I gout error that JIT compiler is not available.
 - Angular documented several drawbacks of using JIT: increased bundle size and increased runtime (due to compilation happening in the browser). But are those docs still up to date with regards to IVY and Angular 12/13? See https://angular.io/guide/aot-compiler
 - Should we use JIT in general? Angular may remove the JIT compilation in the (far?) future, however it’s not definitely decided yet. See [RFC](https://github.com/angular/angular/issues/43133#issuecomment-941151334).
 - using JIT compiler introduces [some security concerns](https://angular.io/guide/security#use-the-aot-template-compiler). How much will we be affected, when calling compileModuleAsync or the alternative function createNgModuleRef() (that was introduced only in v13)
