@@ -12,6 +12,7 @@ import {
   ReplenishmentOrder,
   ReplenishmentOrderList,
 } from '../model/replenishment-order.model';
+import { ScheduleReplenishmentForm } from '../model/scheduled-replenishment.model';
 
 export const ORDER_NORMALIZER = new InjectionToken<Converter<any, Order>>(
   'OrderNormalizer'
@@ -44,3 +45,7 @@ export const ORDER_RETURNS_NORMALIZER = new InjectionToken<
 export const REPLENISHMENT_ORDER_HISTORY_NORMALIZER = new InjectionToken<
   Converter<any, ReplenishmentOrderList>
 >('ReplenishmentOrderHistoryNormalizer');
+
+export const REPLENISHMENT_ORDER_FORM_SERIALIZER = new InjectionToken<
+  Converter<ScheduleReplenishmentForm, any>
+>('ReplenishmentOrderFormSerializer');

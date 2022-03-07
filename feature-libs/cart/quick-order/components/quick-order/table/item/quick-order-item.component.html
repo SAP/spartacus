@@ -70,6 +70,7 @@
         >
           <button
             (click)="removeEntry()"
+            [attr.aria-label]="'common.remove' | cxTranslate"
             [disabled]="loading"
             class="link cx-action-link"
           >

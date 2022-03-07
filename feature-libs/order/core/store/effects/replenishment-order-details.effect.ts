@@ -8,7 +8,7 @@ import {
 import { ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';
+import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';
 import { OrderActions } from '../actions/index';
 
 @Injectable()
@@ -80,7 +80,7 @@ export class ReplenishmentOrderDetailsEffect {
 
   constructor(
     private actions$: Actions,
-    private replenishmentOrderConnector: ReplenishmentOrderConnector,
+    private replenishmentOrderConnector: ReplenishmentOrderHistoryConnector,
     private globalMessageService: GlobalMessageService
   ) {}
 }
