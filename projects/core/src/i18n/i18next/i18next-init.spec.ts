@@ -121,7 +121,7 @@ describe('i18nextInit', () => {
       spyOn(configInitializerService, 'getStable').and.returnValue(of(config));
     });
 
-    fit('should set i18next config `backend.reloadInterval` to false', () => {
+    it('should set i18next config `backend.reloadInterval` to false', () => {
       spyOn(i18next, 'init').and.callThrough();
       i18nextInit(
         i18next,
