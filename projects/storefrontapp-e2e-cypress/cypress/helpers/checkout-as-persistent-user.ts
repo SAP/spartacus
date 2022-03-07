@@ -1,4 +1,5 @@
 import { product } from '../sample-data/checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
 
 export const username = 'test-user-with-orders@sap.cx.com';
 export const password = 'pw4all';
@@ -59,9 +60,7 @@ export function goToProductPageFromCategory() {
 
 export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/view cart/i).click();
