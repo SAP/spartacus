@@ -11,6 +11,8 @@ import {
   CLI_ORDER_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   LibraryOptions as SpartacusOrderOptions,
+  ORDER_MODULE,
+  ORDER_ROOT_MODULE,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_ORDER,
@@ -21,9 +23,7 @@ import { peerDependencies } from '../../package.json';
 import {
   ORDER_FEATURE_NAME_CONSTANT,
   ORDER_FOLDER_NAME,
-  ORDER_MODULE,
   ORDER_MODULE_NAME,
-  ORDER_ROOT_MODULE,
   ORDER_TRANSLATIONS,
   ORDER_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,

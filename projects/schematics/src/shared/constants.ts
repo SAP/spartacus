@@ -278,7 +278,6 @@ export const RENDERER_FACTORY_2 = 'RendererFactory2';
 export const QUALTRICS_CONFIG = 'QualtricsConfig';
 export const QUALTRICS_COMPONENT = 'QualtricsComponent';
 export const QUALTRICS_EVENT_NAME = 'QUALTRICS_EVENT_NAME';
-export const QUALTRICS_MODULE = 'QualtricsModule';
 export const PRODUCT_FACET_NAVIGATION_COMPONENT =
   'ProductFacetNavigationComponent';
 export const BREAKPOINT_SERVICE = 'BreakpointService';
@@ -615,7 +614,6 @@ export const ASM_ACTIONS = 'AsmActions';
 export const CSAGENT_TOKEN_DATA = 'CSAGENT_TOKEN_DATA';
 export const CUSTOMER_SUPPORT_AGENT_TOKEN_INTERCEPTOR =
   'CustomerSupportAgentTokenInterceptor ';
-export const ASM_MODULE = 'AsmModule';
 export const ASM_OCC_MODULE = 'AsmOccModule';
 export const OCC_ASM_ADAPTER = 'OccAsmAdapter';
 export const ASM_CONFIG = 'AsmConfig';
@@ -747,7 +745,6 @@ export const DEFAULT_STATE_CONFIG = 'defaultStateConfig';
 export const DEFAULT_LOCAL_STORAGE_KEY = 'DEFAULT_LOCAL_STORAGE_KEY';
 export const DEFAULT_SESSION_STORAGE_KEY = 'DEFAULT_SESSION_STORAGE_KEY';
 
-export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_CONFIG = 'PersonalizationConfig';
 export const PERSONALIZATION_CONTEXT_SERVICE = 'PersonalizationContextService';
 export const PERSONALIZATION_ACTION = 'PersonalizationAction';
@@ -790,8 +787,6 @@ export const USER_DETAILS_ACTION = 'UserDetailsAction';
 export const USER_DETAILS_STATE_INTERFACE = 'UserDetailsState';
 export const USER_STATE_INTERFACE = 'UserState';
 export const USER_MODULE = 'UserModule';
-export const USER_ACCOUNT_MODULE = 'UserAccountModule';
-export const USER_PROFILE_MODULE = 'UserProfileModule';
 export const USER_PROFILE_FACADE_TRANSITIONAL_TOKEN =
   'UserProfileFacadeTransitionalToken';
 export const USER_REGISTER_FACADE_TRANSITIONAL_TOKEN =
@@ -1016,8 +1011,6 @@ export const GET_META_RESOLVER = 'getMetaResolver';
 export const FIND_COMPONENTS_BY_IDS_LEGACY = 'findComponentsByIdsLegacy';
 export const GET_LOADED = 'getLoaded';
 export const IS_STABLE = 'isStable';
-
-export const STOREFINDER_MODULE = 'StoreFinderModule';
 
 export const GO = 'go';
 

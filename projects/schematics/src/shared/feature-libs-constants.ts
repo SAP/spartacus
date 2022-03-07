@@ -105,17 +105,6 @@ export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
 export const SPARTACUS_EPD_VISUALIZATION = '@spartacus/epd-visualization';
 /***** Scopes end *****/
 
-/***** Feature libs configuration start *****/
-export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
-
-/**
- * Used to lookup the libs for a given feature module name.
- */
-export const FEATURE_LIBS_MODULE_NAMES: Record<string, string> = {
-  [`${CHECKOUT_BASE_MODULE_NAME}Module`]: SPARTACUS_CHECKOUT,
-};
-/***** Feature libs configuration end *****/
-
 /***** File structure start *****/
 export const SPARTACUS_ROUTING_MODULE = 'app-routing';
 export const SPARTACUS_MODULE = 'spartacus';
@@ -177,3 +166,161 @@ export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
 
 export const CLI_ORDER_FEATURE = 'Order';
 /***** CLI end *****/
+
+/***** Feature libs configuration start *****/
+export const ASM_MODULE = 'AsmModule';
+export const ASM_ROOT_MODULE = 'AsmRootModule';
+
+export const CART_BASE_MODULE = 'CartBaseModule';
+export const MINI_CART_MODULE = 'MiniCartModule';
+export const ADD_TO_CART_MODULE = 'AddToCartModule';
+export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
+export const CART_WISHLIST_MODULE = 'WishListModule';
+export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
+export const CART_WISHLIST_ROOT_MODULE = 'WishListRootModule';
+export const SAVED_CART_MODULE = 'SavedCartModule';
+export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
+export const QUICK_ORDER_MODULE = 'QuickOrderModule';
+export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
+export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
+export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
+
+export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
+export const CHECKOUT_BASE_MODULE = 'CheckoutModule';
+export const CHECKOUT_BASE_ROOT_MODULE = 'CheckoutRootModule';
+export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
+export const CHECKOUT_B2B_ROOT_MODULE = 'CheckoutB2BRootModule';
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
+  'CheckoutScheduledReplenishmentModule';
+export const CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE =
+  'CheckoutScheduledReplenishmentRootModule';
+
+export const ORDER_MODULE = 'OrderModule';
+export const ORDER_ROOT_MODULE = 'OrderRootModule';
+
+export const ADMINISTRATION_MODULE = 'AdministrationModule';
+export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
+export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
+export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
+
+export const BULK_PRICING_MODULE = 'BulkPricingModule';
+export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
+export const VARIANTS_MODULE = 'ProductVariantsModule';
+export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
+export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
+export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
+
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
+  'TextfieldConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
+  'TextfieldConfiguratorRootModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =
+  'RulebasedConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
+  'RulebasedConfiguratorRootModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE =
+  'RulebasedCpqConfiguratorModule';
+export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE =
+  'CpqConfiguratorRootModule';
+
+export const QUALTRICS_MODULE = 'QualtricsModule';
+export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
+
+export const SMARTEDIT_MODULE = 'SmartEditModule';
+export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
+
+export const STOREFINDER_MODULE = 'StoreFinderModule';
+export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
+
+export const TMS_BASE_MODULE = 'BaseTmsModule';
+export const TMS_GTM_MODULE = 'GtmModule';
+export const TMS_AEP_MODULE = 'AepModule';
+export const PERSONALIZATION_MODULE = 'PersonalizationModule';
+export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
+
+export const USER_ACCOUNT_MODULE = 'UserAccountModule';
+export const USER_ACCOUNT_ROOT_MODULE = 'UserAccountRootModule';
+export const USER_PROFILE_MODULE = 'UserProfileModule';
+export const USER_PROFILE_ROOT_MODULE = 'UserProfileRootModule';
+
+export const CDC_MODULE = 'CdcModule';
+export const CDC_ROOT_MODULE = 'CdcRootModule';
+
+export const CDS_MODULE = 'CdsModule';
+
+export const DIGITAL_PAYMENTS_MODULE = 'DigitalPaymentsModule';
+
+export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
+export const EPD_VISUALIZATION_ROOT_MODULE = 'EpdVisualizationRootModule';
+
+export const packageFeatureConfigMapping: Record<string, string[]> = {
+  [SPARTACUS_ASM]: [ASM_MODULE, ASM_ROOT_MODULE],
+  [SPARTACUS_CART]: [
+    CART_BASE_MODULE,
+    MINI_CART_MODULE,
+    ADD_TO_CART_MODULE,
+    CART_BASE_ROOT_MODULE,
+    CART_WISHLIST_MODULE,
+    ADD_TO_WISHLIST_MODULE,
+    CART_WISHLIST_ROOT_MODULE,
+    SAVED_CART_MODULE,
+    SAVED_CART_ROOT_MODULE,
+    QUICK_ORDER_MODULE,
+    QUICK_ORDER_ROOT_MODULE,
+    CART_IMPORT_EXPORT_MODULE,
+    CART_IMPORT_EXPORT_ROOT_MODULE,
+  ],
+  [SPARTACUS_CHECKOUT]: [
+    CHECKOUT_BASE_MODULE,
+    CHECKOUT_BASE_ROOT_MODULE,
+    CHECKOUT_B2B_MODULE,
+    CHECKOUT_B2B_ROOT_MODULE,
+    CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
+    CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
+  ],
+  [SPARTACUS_ORDER]: [ORDER_MODULE, ORDER_ROOT_MODULE],
+  [SPARTACUS_ORGANIZATION]: [
+    ADMINISTRATION_MODULE,
+    ADMINISTRATION_ROOT_MODULE,
+    ORDER_APPROVAL_MODULE,
+    ORDER_APPROVAL_ROOT_MODULE,
+  ],
+  [SPARTACUS_PRODUCT]: [
+    BULK_PRICING_MODULE,
+    BULK_PRICING_ROOT_MODULE,
+    VARIANTS_MODULE,
+    VARIANTS_ROOT_MODULE,
+    IMAGE_ZOOM_MODULE,
+    IMAGE_ZOOM_ROOT_MODULE,
+  ],
+  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
+    PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
+    PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE,
+    PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
+    PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
+    PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
+    PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE,
+  ],
+  [SPARTACUS_QUALTRICS]: [QUALTRICS_MODULE, QUALTRICS_ROOT_MODULE],
+  [SPARTACUS_TRACKING]: [
+    TMS_BASE_MODULE,
+    TMS_GTM_MODULE,
+    TMS_AEP_MODULE,
+    PERSONALIZATION_MODULE,
+    PERSONALIZATION_ROOT_MODULE,
+  ],
+  [SPARTACUS_USER]: [
+    USER_ACCOUNT_MODULE,
+    USER_ACCOUNT_ROOT_MODULE,
+    USER_PROFILE_MODULE,
+    USER_PROFILE_ROOT_MODULE,
+  ],
+  [SPARTACUS_CDC]: [CDC_MODULE, CDC_ROOT_MODULE],
+  [SPARTACUS_CDS]: [CDS_MODULE],
+  [SPARTACUS_DIGITAL_PAYMENTS]: [DIGITAL_PAYMENTS_MODULE],
+  [SPARTACUS_EPD_VISUALIZATION]: [
+    EPD_VISUALIZATION_MODULE,
+    EPD_VISUALIZATION_ROOT_MODULE,
+  ],
+};
+/***** Feature libs configuration end *****/
