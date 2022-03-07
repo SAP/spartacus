@@ -42,7 +42,7 @@
       padding: 1.625rem 0;
 
       @include media-breakpoint-up(md) {
-        text-align: center;
+        text-align: start;
 
         &:last-child {
           text-align: end;
