@@ -6,13 +6,10 @@ import {
   SPARTACUS_ORDER,
   SPARTACUS_USER,
 } from '..';
+import { SPARTACUS_DIGITAL_PAYMENTS } from '../feature-libs-constants';
 import {
-  CORE_SPARTACUS_SCOPES,
-  SPARTACUS_DIGITAL_PAYMENTS,
-} from '../feature-libs-constants';
-import {
-  createDependencyGraph,
-  findNode,
+  Graph,
+  kahnsAlgorithm,
   Node,
   resolveGraphDependencies,
 } from './graph-utils';
@@ -130,82 +127,127 @@ describe('Graph utils', () => {
     });
   });
 
-  describe('createDependencyGraph', () => {
-    it('should create a dependency graph based on the provided nodes', () => {
-      const dependencies: Record<string, Record<string, string>> = {
-        [SPARTACUS_DIGITAL_PAYMENTS]: {
-          '@spartacus/cart': '4.1.0-next.0',
-          '@spartacus/checkout': '4.1.0-next.0',
-          '@spartacus/core': '4.1.0-next.0',
-          '@spartacus/schematics': '4.1.0-next.0',
-          '@spartacus/storefront': '4.1.0-next.0',
-        },
-        [SPARTACUS_CART]: {
-          '@spartacus/core': '4.1.0-next.0',
-          '@spartacus/schematics': '4.1.0-next.0',
-          '@spartacus/storefront': '4.1.0-next.0',
-          '@spartacus/styles': '4.1.0-next.0',
-        },
-        [SPARTACUS_CHECKOUT]: {
-          '@spartacus/cart': '4.1.0-next.0',
-          '@spartacus/core': '4.1.0-next.0',
-          '@spartacus/order': '4.2.0',
-          '@spartacus/schematics': '4.1.0-next.0',
-          '@spartacus/storefront': '4.1.0-next.0',
-          '@spartacus/styles': '4.1.0-next.0',
-          '@spartacus/user': '4.1.0-next.0',
-        },
-        [SPARTACUS_ORDER]: {
-          '@spartacus/cart': '4.1.0-next.0',
-          '@spartacus/core': '4.1.0-next.0',
-          '@spartacus/schematics': '4.1.0-next.0',
-          '@spartacus/storefront': '4.1.0-next.0',
-          '@spartacus/styles': '4.1.0-next.0',
-        },
-        [SPARTACUS_USER]: {
-          '@spartacus/core': '4.1.0-next.0',
-          '@spartacus/schematics': '4.1.0-next.0',
-          '@spartacus/storefront': '4.1.0-next.0',
-          '@spartacus/styles': '4.1.0-next.0',
-        },
-      };
-      const installedLibs = [
+  // describe('createDependencyGraph', () => {
+  //   it('should create a dependency graph based on the provided nodes', () => {
+  //     const dependencies: Record<string, Record<string, string>> = {
+  //       [SPARTACUS_DIGITAL_PAYMENTS]: {
+  //         '@spartacus/cart': '4.1.0-next.0',
+  //         '@spartacus/checkout': '4.1.0-next.0',
+  //         '@spartacus/core': '4.1.0-next.0',
+  //         '@spartacus/schematics': '4.1.0-next.0',
+  //         '@spartacus/storefront': '4.1.0-next.0',
+  //       },
+  //       [SPARTACUS_CART]: {
+  //         '@spartacus/core': '4.1.0-next.0',
+  //         '@spartacus/schematics': '4.1.0-next.0',
+  //         '@spartacus/storefront': '4.1.0-next.0',
+  //         '@spartacus/styles': '4.1.0-next.0',
+  //       },
+  //       [SPARTACUS_CHECKOUT]: {
+  //         '@spartacus/cart': '4.1.0-next.0',
+  //         '@spartacus/core': '4.1.0-next.0',
+  //         '@spartacus/order': '4.2.0',
+  //         '@spartacus/schematics': '4.1.0-next.0',
+  //         '@spartacus/storefront': '4.1.0-next.0',
+  //         '@spartacus/styles': '4.1.0-next.0',
+  //         '@spartacus/user': '4.1.0-next.0',
+  //       },
+  //       [SPARTACUS_ORDER]: {
+  //         '@spartacus/cart': '4.1.0-next.0',
+  //         '@spartacus/core': '4.1.0-next.0',
+  //         '@spartacus/schematics': '4.1.0-next.0',
+  //         '@spartacus/storefront': '4.1.0-next.0',
+  //         '@spartacus/styles': '4.1.0-next.0',
+  //       },
+  //       [SPARTACUS_USER]: {
+  //         '@spartacus/core': '4.1.0-next.0',
+  //         '@spartacus/schematics': '4.1.0-next.0',
+  //         '@spartacus/storefront': '4.1.0-next.0',
+  //         '@spartacus/styles': '4.1.0-next.0',
+  //       },
+  //     };
+  //     const installedLibs = [
+  //       SPARTACUS_DIGITAL_PAYMENTS,
+  //       SPARTACUS_CART,
+  //       SPARTACUS_CHECKOUT,
+  //       SPARTACUS_ORDER,
+  //       SPARTACUS_USER,
+  //     ];
+
+  //     const graph = createDependencyGraph(
+  //       installedLibs,
+  //       dependencies,
+  //       CORE_SPARTACUS_SCOPES
+  //     );
+
+  //     const dpNode = findNode(graph, SPARTACUS_DIGITAL_PAYMENTS);
+  //     expect(dpNode?.getEdges().map((node) => node.getName())).toEqual([
+  //       SPARTACUS_CART,
+  //       SPARTACUS_CHECKOUT,
+  //     ]);
+
+  //     const cartNode = findNode(graph, SPARTACUS_CART);
+  //     expect(cartNode?.getEdges().map((node) => node.getName())).toEqual([]);
+
+  //     const checkoutNode = findNode(graph, SPARTACUS_CHECKOUT);
+  //     expect(checkoutNode?.getEdges().map((node) => node.getName())).toEqual([
+  //       SPARTACUS_CART,
+  //       SPARTACUS_ORDER,
+  //       SPARTACUS_USER,
+  //     ]);
+
+  //     const orderNode = findNode(graph, SPARTACUS_ORDER);
+  //     expect(orderNode?.getEdges().map((node) => node.getName())).toEqual([
+  //       SPARTACUS_CART,
+  //     ]);
+
+  //     const userNode = findNode(graph, SPARTACUS_USER);
+  //     expect(userNode?.getEdges().map((node) => node.getName())).toEqual([]);
+  //   });
+  // });
+
+  describe('graph', () => {
+    it('should be able to find one of the correct installation orders', () => {
+      const graph = new Graph([
         SPARTACUS_DIGITAL_PAYMENTS,
         SPARTACUS_CART,
         SPARTACUS_CHECKOUT,
         SPARTACUS_ORDER,
         SPARTACUS_USER,
-      ];
-
-      const graph = createDependencyGraph(
-        installedLibs,
-        dependencies,
-        CORE_SPARTACUS_SCOPES
-      );
-
-      const dpNode = findNode(graph, new Node(SPARTACUS_DIGITAL_PAYMENTS));
-      expect(dpNode?.getEdges().map((node) => node.getName())).toEqual([
-        SPARTACUS_CART,
-        SPARTACUS_CHECKOUT,
       ]);
 
-      const cartNode = findNode(graph, new Node(SPARTACUS_CART));
-      expect(cartNode?.getEdges().map((node) => node.getName())).toEqual([]);
+      graph.createEdge(SPARTACUS_DIGITAL_PAYMENTS, SPARTACUS_CART);
+      graph.createEdge(SPARTACUS_DIGITAL_PAYMENTS, SPARTACUS_CHECKOUT);
 
-      const checkoutNode = findNode(graph, new Node(SPARTACUS_CHECKOUT));
-      expect(checkoutNode?.getEdges().map((node) => node.getName())).toEqual([
+      graph.createEdge(SPARTACUS_CHECKOUT, SPARTACUS_CART);
+      graph.createEdge(SPARTACUS_CHECKOUT, SPARTACUS_ORDER);
+      graph.createEdge(SPARTACUS_CHECKOUT, SPARTACUS_USER);
+
+      graph.createEdge(SPARTACUS_ORDER, SPARTACUS_CART);
+
+      const result = kahnsAlgorithm(graph);
+      expect(result).toEqual([
         SPARTACUS_CART,
-        SPARTACUS_ORDER,
         SPARTACUS_USER,
+        SPARTACUS_ORDER,
+        SPARTACUS_CHECKOUT,
+        SPARTACUS_DIGITAL_PAYMENTS,
       ]);
+    });
 
-      const orderNode = findNode(graph, new Node(SPARTACUS_ORDER));
-      expect(orderNode?.getEdges().map((node) => node.getName())).toEqual([
-        SPARTACUS_CART,
-      ]);
+    it('should be able to detect a cyclic dependency', () => {
+      const graph = new Graph();
+      graph.addVertex('a', 'b', 'c');
 
-      const userNode = findNode(graph, new Node(SPARTACUS_USER));
-      expect(userNode?.getEdges().map((node) => node.getName())).toEqual([]);
+      graph.createEdge('a', 'b');
+      graph.createEdge('b', 'c');
+      graph.createEdge('c', 'a');
+
+      try {
+        kahnsAlgorithm(graph);
+      } catch (e: any) {
+        expect(e.message).toEqual('Circular dependency detected.');
+      }
     });
   });
 });

@@ -68,8 +68,9 @@ export function resolveGraphDependencies<T = unknown>(
 
 export function findNode<T = unknown>(
   nodes: Node<T>[],
-  toFind: Node<T>
+  search: Node<T> | string
 ): Node<T> | undefined {
+  const toFind = typeof search === 'string' ? new Node<T>(search) : search;
   return nodes.find((n) => toFind.getName() === n.getName());
 }
 
@@ -82,18 +83,88 @@ function remove<T = unknown>(nodes: Node<T>[], toRemove: Node<T>): void {
   }
 }
 
-export function createDependencyGraph<T = unknown>(
-  installedLibs: string[],
-  dependencies: Record<string, Record<string, string>>,
-  skip: string[] = []
-): Node<T>[] {
-  const graph: Node<T>[] = [];
-  for (const spartacusLib of installedLibs) {
-    if (skip.includes(spartacusLib)) {
+export class Graph {
+  protected adjacentVertices: Record<string, Array<string>> = {};
+
+  constructor(vertices?: string[]) {
+    if (vertices) {
+      this.addVertex(...vertices);
+    }
+  }
+
+  addVertex(...vertices: string[]): void {
+    for (const vertex of vertices) {
+      if (!this.adjacentVertices[vertex]) {
+        this.adjacentVertices[vertex] = [];
+      }
+    }
+  }
+
+  createEdge(v1: string, v2: string): void {
+    this.adjacentVertices[v1].push(v2);
+  }
+
+  getAdjacentVertices(): Record<string, Array<string>> {
+    return this.adjacentVertices;
+  }
+}
+
+/**
+ * Creates the order in which the Spartacus libraries should be installed.
+ * https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
+ */
+export function kahnsAlgorithm(graph: Graph): string[] {
+  console.error('Running algo...');
+
+  // Calculate the incoming degree for each vertex
+  const vertices = Object.keys(graph.getAdjacentVertices());
+
+  const inDegree: Record<string, number> = {};
+  for (const vertex of vertices) {
+    for (const neighbor of graph.getAdjacentVertices()[vertex]) {
+      inDegree[neighbor] = inDegree[neighbor] + 1 || 1;
+    }
+  }
+
+  // Create a queue which stores the vertex without dependencies
+  const queue = vertices.filter((vertex) => !inDegree[vertex]);
+  const topNums: Record<string, number> = {};
+  let index = 0;
+
+  while (queue.length) {
+    const vertex = queue.shift();
+    if (!vertex) {
       continue;
     }
 
-    const node = new Node<T>(spartacusLib);
+    topNums[vertex] = index++;
+    // adjust the incoming degree of its neighbors
+    for (const neighbor of graph.getAdjacentVertices()[vertex]) {
+      inDegree[neighbor]--;
+      if (inDegree[neighbor] === 0) {
+        queue.push(neighbor);
+      }
+    }
+  }
+
+  if (index !== vertices.length) {
+    throw new Error(`Circular dependency detected.`);
+  }
+
+  return Object.keys(topNums).reverse();
+}
+
+export function createDependencyGraph(
+  dependencies: Record<string, Record<string, string>>,
+  skip: string[] = []
+): Graph {
+  const spartacusLibraries = Object.keys(dependencies).filter(
+    (dependency) => !skip.includes(dependency)
+  );
+  console.log('spartacusLibraries: ', spartacusLibraries);
+
+  const graph = new Graph(spartacusLibraries);
+  for (const spartacusLib of spartacusLibraries) {
     const spartacusPeerDependencies = getSpartacusPackages(
       dependencies[spartacusLib]
     );
@@ -102,11 +173,8 @@ export function createDependencyGraph<T = unknown>(
         continue;
       }
 
-      const edge = new Node<T>(spartacusPackage);
-      node.addEdges(edge);
+      graph.createEdge(spartacusLib, spartacusPackage);
     }
-
-    graph.push(node);
   }
 
   return graph;
