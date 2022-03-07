@@ -9,15 +9,3 @@
   white-space: nowrap;
   border: 0;
 }
-
-@mixin reset-visually-hidden {
-  position: initial;
-  width: initial;
-  height: initial;
-  padding: initial;
-  margin: initial;
-  overflow: initial;
-  clip: initial;
-  white-space: initial;
-  border: initial;
-}
