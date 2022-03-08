@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   HostBinding,
   Input,
+  OnDestroy,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 /**
@@ -23,7 +25,9 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorsComponent {
+export class FormErrorsComponent implements OnDestroy {
+  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
+
   _control: FormControl;
 
   /**
@@ -37,6 +41,8 @@ export class FormErrorsComponent {
    * the error key and error details.
    */
   errorsDetails$: Observable<Array<[string, string]>>;
+
+  protected subscription = new Subscription();
 
   /**
    * Prefix prepended to the translation key.
@@ -53,6 +59,10 @@ export class FormErrorsComponent {
   set control(control: FormControl) {
     this._control = control;
 
+    this.subscription = control?.valueChanges.subscribe(() => {
+      this.ChangeDetectionRef.markForCheck();
+    });
+
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
       map(() => control.errors || {}),
@@ -68,6 +78,10 @@ export class FormErrorsComponent {
 
   get control(): FormControl {
     return this._control;
+  }
+
+  ngOnDestroy() {
+    this.subscription?.unsubscribe();
   }
 
   /**
