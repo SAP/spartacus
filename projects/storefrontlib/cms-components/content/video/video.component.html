@@ -1,6 +1,5 @@
-<ng-container
-  ><a *ngIf="data$ | async as data" [routerLink]="routerLink">
-    <div>{{ data.overlayTitle }}</div>
+<div *ngIf="data$ | async as data" [routerLink]="routerLink">
+  <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
     <video
       *ngIf="source"
       controls
@@ -8,16 +7,8 @@
       [loop]="loop"
       [autoplay]="autoplay"
       [muted]="mute"
-      #myVideo
-    >
-      <track
-        label="English"
-        kind="subtitles"
-        srclang="en"
-        src="position.vtt"
-        default
-      />
+      #videoPlayer
+    > 
       <source src="{{ source }}" type="{{ data.video.mime }}" />
     </video>
-  </a>
-</ng-container>
+  </div>

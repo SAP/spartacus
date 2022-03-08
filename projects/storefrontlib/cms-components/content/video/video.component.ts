@@ -33,7 +33,7 @@ import { MediaService } from '../../../shared/components/media/media.service';
 })
 export class VideoComponent implements AfterViewChecked {
   @HostBinding('class') styleClasses: string | undefined;
-  @ViewChild('myVideo') video: ElementRef;
+  @ViewChild('videoPlayer') video: ElementRef;
 
   source: string | undefined;
   thumbnail: Media | undefined;

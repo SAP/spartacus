@@ -1,7 +1,13 @@
 %cx-video {
-  padding-bottom: 0.5rem;
-
   video {
     width: 100%;
+    display: inherit;
+  }
+  h2 {
+    @include type('3');
+    font-weight: bold;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
   }
 }
