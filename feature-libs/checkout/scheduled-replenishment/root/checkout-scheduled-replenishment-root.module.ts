@@ -4,12 +4,7 @@ import {
   CHECKOUT_B2B_CMS_COMPONENTS,
 } from '@spartacus/checkout/b2b/root';
 import { CHECKOUT_FEATURE } from '@spartacus/checkout/base/root';
-import {
-  CmsConfig,
-  provideDefaultConfig,
-  provideDefaultConfigFactory,
-} from '@spartacus/core';
-import { defaultCheckoutScheduledReplenishmentRoutingConfig } from './config/default-checkout-scheduled-replenishment-routing-config';
+import { CmsConfig, provideDefaultConfigFactory } from '@spartacus/core';
 import { CheckoutScheduledReplenishmentEventModule } from './events/checkout-scheduled-replenishment-event.module';
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS: string[] = [
@@ -19,10 +14,6 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_CMS_COMPONENTS: string[] = [
    */
   ...CHECKOUT_B2B_CMS_COMPONENTS,
   'CheckoutScheduleReplenishmentOrder',
-  'ReplenishmentConfirmationMessageComponent',
-  'ReplenishmentConfirmationOverviewComponent',
-  'ReplenishmentConfirmationItemsComponent',
-  'ReplenishmentConfirmationTotalsComponent',
 ];
 
 export function defaultCheckoutComponentsConfig() {
@@ -38,9 +29,6 @@ export function defaultCheckoutComponentsConfig() {
 
 @NgModule({
   imports: [CheckoutB2BRootModule, CheckoutScheduledReplenishmentEventModule],
-  providers: [
-    provideDefaultConfig(defaultCheckoutScheduledReplenishmentRoutingConfig),
-    provideDefaultConfigFactory(defaultCheckoutComponentsConfig),
-  ],
+  providers: [provideDefaultConfigFactory(defaultCheckoutComponentsConfig)],
 })
 export class CheckoutScheduledReplenishmentRootModule {}

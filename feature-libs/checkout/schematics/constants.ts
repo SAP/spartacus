@@ -1,8 +1,6 @@
 export const CHECKOUT_FOLDER_NAME = 'checkout';
 export const SCSS_FILE_NAME = 'checkout.scss';
 
-export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
-
 export const CHECKOUT_BASE_TRANSLATIONS = 'checkoutTranslations';
 export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';

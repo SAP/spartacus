@@ -160,3 +160,27 @@ export class RemoveCartEvent extends CartEvent {
    */
   static readonly type = 'RemoveCartEvent';
 }
+
+/**
+ * Fired when the cart has been deleted.
+ */
+export class DeleteCartEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeleteCartEvent';
+}
+
+export class DeleteCartSuccessEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeleteCartSuccessEvent';
+}
+
+export class DeleteCartFailEvent extends CartEvent {
+  /**
+   * Event's type
+   */
+  static readonly type = 'DeleteCartFailEvent';
+}

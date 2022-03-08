@@ -1,8 +1,8 @@
 <h2 class="cx-checkout-title d-none d-lg-block d-xl-block">
   {{ 'paymentForm.payment' | cxTranslate }}
 </h2>
-<ng-container *ngIf="cards$ | async as cards; else loading">
-  <ng-container *ngIf="!shouldRedirect && !(isUpdating$ | async); else loading">
+<ng-container *ngIf="cards$ | async as cards">
+  <ng-container *ngIf="!(isUpdating$ | async); else loading">
     <ng-container
       *ngIf="
         cards?.length && !newPaymentFormManuallyOpened;

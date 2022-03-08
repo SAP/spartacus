@@ -58,6 +58,7 @@ export function navigateToOrderDetails(): void {
  * Defines the order number alias.
  */
 export function defineOrderNumberAlias(): void {
+  cy.log('Define order number alias');
   const orderConfirmationText = 'Confirmation of Order:';
 
   cy.get('cx-order-confirmation-thank-you-message .cx-page-title')
