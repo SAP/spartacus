@@ -136,7 +136,6 @@ export class VideoComponent implements AfterViewChecked {
     }
 
     if (data.product) {
-      console.log('in product');
       return this.urlService.transform({
         cxRoute: 'product',
         params: { code: data.product },
