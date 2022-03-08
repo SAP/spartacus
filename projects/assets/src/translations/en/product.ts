@@ -42,7 +42,7 @@ export const product = {
     ariaLabelShowMore:
       'Show more, button, clicking on this button will show all options for the active group',
     ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
-    ariaLabelItemsAvailable_plural:
+    ariaLabelItemsAvailable_other:
       '{{name}}, {{state}} {{count}} items available',
     decreaseOptionsVisibility:
       'Options were hidden from the active group, tab backward to read them or forward for the next group',
