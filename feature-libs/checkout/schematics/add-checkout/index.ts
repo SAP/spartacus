@@ -9,11 +9,19 @@ import {
   addFeatureTranslations,
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CHECKOUT_B2B_MODULE,
+  CHECKOUT_B2B_ROOT_MODULE,
+  CHECKOUT_BASE_MODULE,
+  CHECKOUT_BASE_MODULE_NAME,
+  CHECKOUT_BASE_ROOT_MODULE,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
   CLI_CART_BASE_FEATURE,
   CLI_CHECKOUT_B2B_FEATURE,
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_ORDER_FEATURE,
+  collectInstalledFeatures,
   configureB2bFeatures,
   FeatureConfig,
   LibraryOptions as SpartacusCheckoutOptions,
@@ -35,19 +43,12 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  CHECKOUT_B2B_MODULE,
-  CHECKOUT_B2B_ROOT_MODULE,
   CHECKOUT_B2B_TRANSLATIONS,
   CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG,
   CHECKOUT_BASE_FEATURE_NAME_CONSTANT,
-  CHECKOUT_BASE_MODULE,
-  CHECKOUT_BASE_MODULE_NAME,
-  CHECKOUT_BASE_ROOT_MODULE,
   CHECKOUT_BASE_TRANSLATIONS,
   CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG,
   CHECKOUT_FOLDER_NAME,
-  CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
-  CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
   CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATIONS,
   CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG,
   SCSS_FILE_NAME,
@@ -164,6 +165,9 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       determineCheckoutFeatures(options, packageJson),
+
+      // TODO:#schematics
+      collectInstalledFeatures(options),
     ]);
   };
 }

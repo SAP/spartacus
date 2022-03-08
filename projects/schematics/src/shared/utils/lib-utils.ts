@@ -21,6 +21,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import collectedDependencies from '../../dependencies.json';
 import {
   ANGULAR_CORE,
   CMS_CONFIG,
@@ -59,6 +60,7 @@ import {
   CLI_TRACKING_TMS_GTM_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
+  CORE_SPARTACUS_SCOPES,
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
@@ -82,6 +84,7 @@ import {
   SPARTACUS_USER,
 } from '../feature-libs-constants';
 import { getB2bConfiguration } from './config-utils';
+import { createDependencyGraph, Graph, kahnsAlgorithm } from './graph-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -108,8 +111,23 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
   lazy?: boolean;
   features?: string[];
-  // meta, when programmatically installing other Spartacus libraries as dependencies
+  /**
+   * Meta.
+   * Populated when programmatically invoking
+   * Spartacus installation schematics in order
+   * to install them as dependencies.
+   */
   options?: LibraryOptions;
+  // TODO:#schematics
+  /**
+   * Indicates if the library's schematics are
+   * being programmatically invoked.
+   * E.g., running `ng add @spartacus/schematics`
+   * and selecting "Checkout" as the feature will
+   * result in this flag being set to true when
+   * executing the checkout schematics.
+   */
+  // programmatic?: boolean;
 }
 
 export interface FeatureConfig {
@@ -248,6 +266,9 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
   [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
 };
 
+export const dependencyGraph: Graph = createLibraryDependencyGraph();
+export const installationOrder: string[] = kahnsAlgorithm(dependencyGraph);
+
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
@@ -282,6 +303,17 @@ export function getPackageBySubFeature(subFeature: string): string {
     `The given '${subFeature}' doesn't contain a Spartacus package mapping.
 Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/utils/lib-utils.ts'`
   );
+}
+
+function createLibraryDependencyGraph(): Graph {
+  const skip = CORE_SPARTACUS_SCOPES.concat(
+    'storefrontapp-e2e-cypress',
+    'storefrontapp'
+  );
+  const graph = createDependencyGraph(collectedDependencies, skip);
+  console.log(graph);
+
+  return graph;
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
@@ -1012,6 +1044,8 @@ export function addSchematicsTasks(
       collection: featureOption.feature,
       name: 'add',
       options: featureOption.options,
+      // TODO:#schematics: remove this once the new version of the Spartacus schematics is released
+      // options: { ...featureOption.options, programmatic: true },
     };
 
     context.addTask(

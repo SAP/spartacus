@@ -8,7 +8,8 @@ import {
 } from '@angular-devkit/schematics';
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
-import { ANGULAR_HTTP, SPARTACUS_STOREFRONTLIB } from '../shared/constants';
+import { ANGULAR_HTTP } from '../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../shared/feature-libs-constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
@@ -18,7 +19,10 @@ import {
   LibraryOptions,
   prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
-import { addModuleImport } from '../shared/utils/new-module-utils';
+import {
+  addModuleImport,
+  collectInstalledFeatures,
+} from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -305,6 +309,9 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       increaseBudgets(),
 
       addSpartacusFeatures(options),
+
+      // TODO:#schematics - rename this method
+      collectInstalledFeatures(options),
     ])(tree, context);
   };
 }
