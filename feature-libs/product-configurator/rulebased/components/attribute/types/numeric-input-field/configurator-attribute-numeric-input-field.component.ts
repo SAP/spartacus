@@ -10,10 +10,14 @@ import {
 import { FormControl } from '@angular/forms';
 import { ICON_TYPE } from '@spartacus/storefront';
 import { timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { debounce, take } from 'rxjs/operators';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { ConfiguratorAttributeInputFieldComponent } from '../input-field/configurator-attribute-input-field.component';
-import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+import {
+  ConfiguratorAttributeNumericInputFieldService,
+  ConfiguratorAttributeNumericInterval,
+} from './configurator-attribute-numeric-input-field.component.service';
+import { TranslationService } from '@spartacus/core';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -33,12 +37,17 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
+  intervalHelpText: string | undefined;
+  intervals: ConfiguratorAttributeNumericInterval[] | undefined;
+  //intervals[]: this.interval[];
+  ariaLabel: string;
 
   @Input() language: string;
 
   constructor(
     protected configAttributeNumericInputFieldService: ConfiguratorAttributeNumericInputFieldService,
-    protected config: ConfiguratorUISettingsConfig
+    protected config: ConfiguratorUISettingsConfig,
+    protected translation: TranslationService
   ) {
     super(config);
   }
@@ -101,6 +110,21 @@ export class ConfiguratorAttributeNumericInputFieldComponent
       this.attributeInputForm.setValue(this.attribute.userInput);
     }
 
+    if (this.attribute.intervalInDomain) {
+      this.intervalHelpText =
+        this.configAttributeNumericInputFieldService.getIntervalHelpText(
+          this.attribute.values
+        );
+
+      this.intervals =
+        this.configAttributeNumericInputFieldService.getIntervals(
+          this.attribute.values
+        );
+      if (this.intervals && this.intervals.length > 0) {
+        this.ariaLabel = this.getAriaLabelForInterval(this.intervals);
+      }
+    }
+
     this.sub = this.attributeInputForm.valueChanges
       .pipe(
         debounce(() =>
@@ -115,6 +139,86 @@ export class ConfiguratorAttributeNumericInputFieldComponent
 
   ngOnDestroy() {
     super.ngOnDestroy();
+  }
+
+  getAriaLabelForInterval(
+    intervals: ConfiguratorAttributeNumericInterval[]
+  ): string {
+    let intervalText = '';
+    intervals.forEach((interval) => {
+      intervalText += this.getIntervalText(interval);
+    });
+
+    return intervalText;
+  }
+
+  getIntervalText(interval: ConfiguratorAttributeNumericInterval): string {
+    let intervalText = '';
+    if (interval.minValue && interval.maxValue) {
+      this.translation
+        .translate('configurator.a11y.numericIntervalStandard', {
+          minvalue: interval.minValue,
+          maxvalue: interval.maxValue,
+        })
+        .pipe(take(1))
+        .subscribe((text) => (intervalText = text));
+
+      if (!interval.minValueIncluded || !interval.maxValueIncluded) {
+        if (!interval.minValueIncluded && !interval.maxValueIncluded) {
+          intervalText += 'Note that the boundary values are not included.';
+        } else {
+          if (!interval.minValueIncluded) {
+            intervalText +=
+              'Note that the lower boundary value is not included.';
+          }
+          if (!interval.maxValueIncluded) {
+            intervalText +=
+              'Note that the upper boundary value is not included.';
+          }
+        }
+      }
+    } else {
+      if (interval.minValue) {
+        if (interval.minValueIncluded) {
+          this.translation
+            .translate(
+              'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
+              {
+                minvalue: interval.minValue,
+              }
+            )
+            .pipe(take(1))
+            .subscribe((text) => (intervalText = text));
+        } else {
+          this.translation
+            .translate('configurator.a11y.numericInfiniteIntervalMinValue', {
+              minvalue: interval.minValue,
+            })
+            .pipe(take(1))
+            .subscribe((text) => (intervalText = text));
+        }
+      } else {
+        if (interval.maxValueIncluded) {
+          this.translation
+            .translate(
+              'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
+              {
+                maxvalue: interval.maxValue,
+              }
+            )
+            .pipe(take(1))
+            .subscribe((text) => (intervalText = text));
+        } else {
+          this.translation
+            .translate('configurator.a11y.numericInfiniteIntervalMaxValue', {
+              maxvalue: interval.maxValue,
+            })
+            .pipe(take(1))
+            .subscribe((text) => (intervalText = text));
+        }
+      }
+    }
+    return intervalText;
   }
 
   protected getDefaultSettings(): DefaultSettings {

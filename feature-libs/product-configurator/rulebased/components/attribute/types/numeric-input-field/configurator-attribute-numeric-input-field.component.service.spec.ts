@@ -194,7 +194,6 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
         minValueIncluded: false,
-        maxValueIncluded: true,
       };
       let value: Configurator.Value = {
         valueCode: '1',
@@ -207,11 +206,10 @@ describe('ConfigAttributeNumericInputFieldService', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         minValue: 5,
         minValueIncluded: true,
-        maxValueIncluded: true,
       };
       let value: Configurator.Value = {
         valueCode: '1',
-        name: '>=5',
+        name: '≥5',
       };
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });
@@ -219,7 +217,6 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     it('should get maxValue from interval string', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
-        minValueIncluded: true,
         maxValueIncluded: false,
       };
       let value: Configurator.Value = {
@@ -232,12 +229,11 @@ describe('ConfigAttributeNumericInputFieldService', () => {
     it('should get maxValue from interval string, value included', () => {
       let interval: ConfiguratorAttributeNumericInterval = {
         maxValue: 5,
-        minValueIncluded: true,
         maxValueIncluded: true,
       };
       let value: Configurator.Value = {
         valueCode: '1',
-        name: '<=5',
+        name: '≤5',
       };
       expect(serviceUnderTest.getInterval(value)).toEqual(interval);
     });

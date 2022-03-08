@@ -127,6 +127,8 @@ export class ConfiguratorAttributeNumericInputFieldService {
       let index = value?.name.indexOf(' - ');
       minVal = value.name.substring(0, index);
       maxVal = value.name.substring(index + 3, value.name.length);
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = true;
       if (minVal.includes('>')) {
         interval.minValueIncluded = false;
         minVal = minVal.replace('>', '');
@@ -142,19 +144,22 @@ export class ConfiguratorAttributeNumericInputFieldService {
       if (value.name.includes('>')) {
         minVal = value.name;
         interval.minValueIncluded = false;
-        if (value.name.includes('=')) {
-          minVal = minVal.replace('=', '');
-          interval.minValueIncluded = true;
-        }
         minVal = minVal.replace('>', '');
-      } else {
+      }
+      if (value.name.includes('<')) {
         maxVal = value.name;
         interval.maxValueIncluded = false;
-        if (value.name.includes('=')) {
-          maxVal = maxVal.replace('=', '');
-          interval.maxValueIncluded = true;
-        }
         maxVal = maxVal.replace('<', '');
+      }
+      if (value.name.includes('≥')) {
+        minVal = value.name;
+        interval.minValueIncluded = true;
+        minVal = minVal.replace('≥', '');
+      }
+      if (value.name.includes('≤')) {
+        maxVal = value.name;
+        interval.maxValueIncluded = true;
+        maxVal = maxVal.replace('≤', '');
       }
     }
 

@@ -173,6 +173,16 @@ export const configurator = {
       configurationPageLink: 'Navigate to configuration  page.',
       overviewPage: 'You are on the overview page.',
       overviewPageLink: 'Navigate to configuration overview page.',
+      numericIntervalStandard:
+        'Enter a value between {{ minvalue }} and {{ maxvalue }}.',
+      numericInfiniteIntervalMinValueIncluded:
+        'Enter a value greater or equal to {{ minvalue }}.',
+      numericInfiniteIntervalMinValue:
+        'Enter a value greater than {{ minvalue }}.',
+      numericInfiniteIntervalMaxValueIncluded:
+        'Enter a value less or equal to {{ maxvalue }}.',
+      numericInfiniteIntervalMaxValue:
+        'Enter a value less than {{ maxvalue }}.',
     },
   },
 };
