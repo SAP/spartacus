@@ -1,5 +1,5 @@
-<div *ngIf="data$ | async as data" [routerLink]="routerLink">
-  <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
+<div *ngIf="data$ | async as data">
+  <a [routerLink]="routerLink">
     <video
       *ngIf="source"
       controls
@@ -8,7 +8,12 @@
       [autoplay]="autoplay"
       [muted]="mute"
       #videoPlayer
-    > 
+    >
       <source src="{{ source }}" type="{{ data.video.mime }}" />
     </video>
+  </a>
+  <div class="video-text">
+    <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
+    <button class="link cx-action-link" type="button">Video Transcript</button>
   </div>
+</div>
