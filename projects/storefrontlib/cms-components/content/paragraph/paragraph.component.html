@@ -1,6 +1,6 @@
 <ng-container
   *ngIf="component.data$ | async as data"
   htmlOutlet
-  [html]="data.content"
+  [html]="data.content | cxSupplementHashAnchors"
 >
 </ng-container>
