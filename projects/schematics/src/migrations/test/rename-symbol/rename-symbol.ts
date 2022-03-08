@@ -2,9 +2,11 @@ import { Rule, Tree } from '@angular-devkit/schematics';
 import {
   ASM_AUTH_HTTP_HEADER_SERVICE,
   CS_AGENT_AUTH_SERVICE,
+} from '../../../shared/constants';
+import {
   SPARTACUS_ASM,
   SPARTACUS_CORE,
-} from '../../../shared/constants';
+} from '../../../shared/feature-libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
 
