@@ -1,7 +1,12 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
-import { I18nTestingModule } from '@spartacus/core';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  I18nTestingModule,
+  TranslationService,
+} from '@spartacus/core';
 import { OrderFacade } from '@spartacus/order/root';
 import { of } from 'rxjs';
 import { OrderConfirmationThankYouMessageComponent } from './order-confirmation-thank-you-message.component';
@@ -28,11 +33,20 @@ class MockOrderFacade implements Partial<OrderFacade> {
   getOrderDetails = createSpy().and.returnValue(of(mockOrder));
 }
 
+class MockGlobalMessageService implements Partial<GlobalMessageService> {
+  add() {}
+}
+
+class MockTranslationService {
+  translate = createSpy().and.returnValue(of('testMessage'));
+}
+
 describe('OrderConfirmationThankYouMessageComponent', () => {
   let component: OrderConfirmationThankYouMessageComponent;
   let fixture: ComponentFixture<OrderConfirmationThankYouMessageComponent>;
 
   let orderFacade: OrderFacade;
+  let globalMessageService: GlobalMessageService;
 
   beforeEach(
     waitForAsync(() => {
@@ -43,7 +57,11 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
           MockAddtoHomeScreenBannerComponent,
           MockGuestRegisterFormComponent,
         ],
-        providers: [{ provide: OrderFacade, useClass: MockOrderFacade }],
+        providers: [
+          { provide: OrderFacade, useClass: MockOrderFacade },
+          { provide: GlobalMessageService, useClass: MockGlobalMessageService },
+          { provide: TranslationService, useClass: MockTranslationService },
+        ],
       }).compileComponents();
     })
   );
@@ -54,6 +72,7 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
     );
     component = fixture.componentInstance;
     orderFacade = TestBed.inject(OrderFacade);
+    globalMessageService = TestBed.inject(GlobalMessageService);
   });
 
   it('should create', () => {
@@ -62,7 +81,6 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should display order code', () => {
-    component.ngOnInit();
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
@@ -75,7 +93,6 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
       of({ ...mockOrder, replenishmentOrderCode })
     );
 
-    component.ngOnInit();
     fixture.detectChanges();
     expect(
       fixture.debugElement.query(By.css('.cx-page-title')).nativeElement
@@ -84,7 +101,6 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
   });
 
   it('should display guest register form for guest user', () => {
-    component.ngOnInit();
     fixture.detectChanges();
 
     expect(
@@ -97,11 +113,23 @@ describe('OrderConfirmationThankYouMessageComponent', () => {
       of({ guid: 'guid', guestCustomer: false })
     );
 
-    component.ngOnInit();
     fixture.detectChanges();
 
     expect(
       fixture.debugElement.query(By.css('cx-guest-register-form'))
     ).toBeNull();
+  });
+
+  it('should add assistive message after view init', () => {
+    const addSpy: jasmine.Spy = spyOn(globalMessageService, 'add');
+    const expectedMessage = `testMessage ${mockOrder.code}. testMessage testMessage`;
+
+    component.ngOnInit();
+    component.ngAfterViewInit();
+
+    expect(addSpy).toHaveBeenCalledWith(
+      expectedMessage,
+      GlobalMessageType.MSG_TYPE_ASSISTIVE
+    );
   });
 });

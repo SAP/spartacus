@@ -1,12 +1,18 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { Order, OrderFacade } from '@spartacus/order/root';
+import {
+  GlobalMessageService,
+  GlobalMessageType,
+  TranslationService,
+} from '@spartacus/core';
+import { Order, OrderFacade, ReplenishmentOrder } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { filter, take, tap, withLatestFrom } from 'rxjs/operators';
 
 @Component({
   selector: 'cx-order-confirmation-thank-you-message',
@@ -14,14 +20,18 @@ import { tap } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrderConfirmationThankYouMessageComponent
-  implements OnInit, OnDestroy
+  implements OnInit, AfterViewInit, OnDestroy
 {
   order$: Observable<Order | undefined>;
 
   isGuestCustomer = false;
   orderGuid: string | undefined;
 
-  constructor(protected orderFacade: OrderFacade) {}
+  constructor(
+    protected orderFacade: OrderFacade,
+    protected globalMessageService: GlobalMessageService,
+    protected translationService: TranslationService
+  ) {}
 
   ngOnInit(): void {
     this.order$ = this.orderFacade.getOrderDetails().pipe(
@@ -35,7 +45,56 @@ export class OrderConfirmationThankYouMessageComponent
     );
   }
 
-  ngOnDestroy() {
+  ngAfterViewInit(): void {
+    this.addThankYouMessage();
+  }
+
+  ngOnDestroy(): void {
     this.orderFacade.clearPlacedOrder();
+  }
+
+  protected addThankYouMessage(): void {
+    this.getThankYouAssistiveMessage()
+      .pipe(take(1))
+      .subscribe(
+        ([
+          order,
+          confirmationOfOrderMessage,
+          thankYouMessage,
+          invoiceHasBeenSentByEmailMessage,
+        ]) => {
+          const code =
+            (order as ReplenishmentOrder).replenishmentOrderCode ??
+            (order as Order).code;
+          const message = `${confirmationOfOrderMessage} ${code}. ${thankYouMessage} ${invoiceHasBeenSentByEmailMessage}`;
+          this.globalMessageService.add(
+            message,
+            GlobalMessageType.MSG_TYPE_ASSISTIVE
+          );
+        }
+      );
+  }
+
+  protected getThankYouAssistiveMessage(): Observable<
+    [Order | undefined, string, string, string]
+  > {
+    const confirmationOfOrderMessage$ = this.translationService.translate(
+      'checkoutOrderConfirmation.confirmationOfOrder'
+    );
+    const thankYouMessage$ = this.translationService.translate(
+      'checkoutOrderConfirmation.thankYou'
+    );
+    const invoiceHasBeenSentByEmailMessage$ = this.translationService.translate(
+      'checkoutOrderConfirmation.invoiceHasBeenSentByEmail'
+    );
+
+    return this.order$.pipe(
+      filter((order) => !!order),
+      withLatestFrom(
+        confirmationOfOrderMessage$,
+        thankYouMessage$,
+        invoiceHasBeenSentByEmailMessage$
+      )
+    );
   }
 }
