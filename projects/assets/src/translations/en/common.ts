@@ -23,6 +23,7 @@ export const common = {
     breadcrumbs: 'breadcrumbs',
     selectFile: 'Select file',
     clear: 'Clear',
+    loaded: 'Loaded',
   },
   pageMetaResolver: {
     category: {

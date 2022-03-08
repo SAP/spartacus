@@ -21,6 +21,10 @@
       *ngIf="!(addressesStateLoading$ | async); else loading"
     >
       <div
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <div
         *ngFor="let address of addresses$ | async; let i = index"
         class="col-md-6 cx-address-card"
       >

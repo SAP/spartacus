@@ -46,6 +46,7 @@
 
 <ng-template #stopNotify>
   <ng-container *ngIf="!(isRemoveInterestLoading$ | async); else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="stock-notification-notes">
       <p>{{ 'stockNotification.notified' | cxTranslate }}</p>
     </div>
