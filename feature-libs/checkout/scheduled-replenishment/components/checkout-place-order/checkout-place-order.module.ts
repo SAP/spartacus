@@ -12,10 +12,12 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { AtMessageModule } from '@spartacus/storefront';
 import { CheckoutScheduledReplenishmentPlaceOrderComponent } from './checkout-place-order.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
     RouterModule,
     UrlModule,
