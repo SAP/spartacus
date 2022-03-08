@@ -10,6 +10,10 @@ import {
   selector: '[cxNgSelect]',
 })
 export class NgSelectDirective implements AfterViewInit {
+  /**
+   * Use directive to bind aria attribute to inner element of ng-select
+   * Angular component for accessibility compliance.
+   */
   @Input() cxNgSelect: string;
 
   private _controlsPrefix: string;
