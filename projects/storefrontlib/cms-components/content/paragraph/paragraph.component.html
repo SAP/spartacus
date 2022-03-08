@@ -1,4 +1,3 @@
 <ng-container *ngIf="component.data$ | async as data">
   <html-outlet [html]="data.content"></html-outlet>
-  <p [innerHTML]="data.content | cxSupplementHashAnchors"></p>
 </ng-container>

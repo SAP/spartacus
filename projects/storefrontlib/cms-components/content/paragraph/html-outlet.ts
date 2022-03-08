@@ -58,7 +58,10 @@ export class HtmlOutletDirective implements OnInit, OnDestroy {
     });
 
     createComponentFactory(this.compiler, compMetadata).then((factory) => {
-      const injector = Injector.create([], this.vcRef.parentInjector);
+      const injector = Injector.create({
+        providers: [],
+        parent: this.vcRef.parentInjector,
+      });
       this.cmpRef = this.vcRef.createComponent(<any>factory, 0, injector, []);
     });
   }

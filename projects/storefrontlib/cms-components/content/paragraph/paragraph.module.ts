@@ -10,7 +10,7 @@ import { SupplementHashAnchorsModule } from '../../../shared/pipes/suplement-has
 import { ParagraphComponent } from './paragraph.component';
 import { HtmlOutletDirective } from './html-outlet';
 import { JitCompilerFactory } from '@angular/platform-browser-dynamic';
-import { SupplementInternalLinksModule } from 'projects/storefrontlib/shared/pipes/suplement-internal-links/supplement-internal-links.module';
+import { SupplementInternalLinksModule } from '../../../shared/pipes/suplement-internal-links/supplement-internal-links.module';
 
 @NgModule({
   imports: [
