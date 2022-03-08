@@ -324,7 +324,7 @@ describe('QuickOrderService', () => {
       });
   });
 
-  it('should add deleted entry and after 5s delete it', (done) => {
+  it('should add deleted entry and after 7s delete it', (done) => {
     service.loadEntries(mockEntries);
     service.softDeleteEntry(0);
 
@@ -334,7 +334,7 @@ describe('QuickOrderService', () => {
         tap((softDeletedEntries) => {
           expect(softDeletedEntries).toEqual({ mockCode1: mockEntry1 });
         }),
-        delay(5000),
+        delay(7000),
         switchMap(() => service.getSoftDeletedEntries())
       )
       .subscribe((result) => {

@@ -63,6 +63,9 @@ export const product = {
     reviewTitle: 'Review Title',
     writeYourComments: 'Write your comments',
     rating: 'Rating',
+    ratingRequired: 'Product rating, required',
+    addRate: 'Add rate: {{count}} star',
+    addRate_plural: 'Add rate: {{count}} stars',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
@@ -103,6 +106,8 @@ export const product = {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',
     anonymous: 'Sign in to add to wish list',
+    addedToWishList: 'Product added to wish list',
+    removedFromWishList: 'Product removed from wish list',
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',

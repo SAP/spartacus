@@ -282,6 +282,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     selected: PaymentDetails | undefined
   ): Card {
     return {
+      role: 'region',
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
         : '',
