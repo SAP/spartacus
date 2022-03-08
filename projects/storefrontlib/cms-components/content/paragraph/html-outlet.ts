@@ -37,7 +37,7 @@ export function createComponentFactory(
     });
 }
 
-@Directive({ selector: 'html-outlet' })
+@Directive({ selector: '[htmlOutlet]' })
 export class HtmlOutletDirective implements OnInit, OnDestroy {
   @Input() html: string;
   cmpRef: ComponentRef<any>;

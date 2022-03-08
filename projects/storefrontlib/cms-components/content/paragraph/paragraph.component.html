@@ -1,3 +1,6 @@
-<ng-container *ngIf="component.data$ | async as data">
-  <html-outlet [html]="data.content"></html-outlet>
+<ng-container
+  *ngIf="component.data$ | async as data"
+  htmlOutlet
+  [html]="data.content"
+>
 </ng-container>
