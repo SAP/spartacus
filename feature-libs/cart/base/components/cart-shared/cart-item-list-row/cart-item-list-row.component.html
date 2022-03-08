@@ -6,39 +6,51 @@
     ></cx-cart-item-validation-warning>
   </ng-container>
   <td role="cell">
-    <!-- Item Image -->
-    <a
-      [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-      cxModal="dismiss"
-      tabindex="0"
-    >
-      <cx-media
-        [container]="item.product?.images?.PRIMARY"
-        format="cartIcon"
-      ></cx-media>
-    </a>
-    <div>
-      <div *ngIf="item.product?.name" class="cx-name">
-        <a
-          class="cx-link"
-          [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
-          cxModal="dismiss"
-          >{{ item.product?.name }}</a
-        >
-      </div>
-      <div *ngIf="item.product?.code" class="cx-code">
-        {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
+    <div class="cx-table-item-container">
+      <a
+        [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+        cxModal="dismiss"
+        tabindex="0"
+      >
+        <cx-media
+          [container]="item.product?.images?.PRIMARY"
+          format="cartIcon"
+        ></cx-media>
+      </a>
+      <div>
+        <div *ngIf="item.product?.name" class="cx-name">
+          <a
+            class="cx-link"
+            [routerLink]="{ cxRoute: 'product', params: item.product } | cxUrl"
+            cxModal="dismiss"
+            >{{ item.product?.name }}</a
+          >
+        </div>
+        <div *ngIf="item.product?.code" class="cx-code">
+          {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
+        </div>
+        <!-- Item Price -->
+        <div role="cell" *ngIf="item.basePrice" class="cx-price">
+          <div class="cx-mobile-header">
+            {{ 'cartItems.itemPrice' | cxTranslate }}
+          </div>
+          <div *ngIf="item.basePrice" class="cx-value">
+            {{ item.basePrice?.formattedValue }}
+          </div>
+        </div>
       </div>
     </div>
     <div>
-<!-- Item Details Outlet -->
-<ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
+    <!-- Item Image -->
+  
+    <!-- Item Details Outlet -->
+    <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
 
-<!-- Item Bundle Details Outlet -->
-<ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
+    <!-- Item Bundle Details Outlet -->
+    <ng-template [cxOutlet]="CartOutlets.ITEM_BUNDLE_DETAILS"> </ng-template>
 
-<!-- Promotion -->
-<cx-promotions [promotions]="item.promotions"></cx-promotions>
+    <!-- Promotion -->
+    <cx-promotions [promotions]="item.promotions"></cx-promotions>
     </div>
     
 
@@ -59,14 +71,14 @@
     </ng-container>
   </td>
   <!-- Item Price -->
-  <td role="cell" *ngIf="item.basePrice" class="cx-price">
+  <!-- <td role="cell" *ngIf="item.basePrice" class="cx-price">
     <div class="cx-mobile-header">
       {{ 'cartItems.itemPrice' | cxTranslate }}
     </div>
     <div *ngIf="item.basePrice" class="cx-value">
       {{ item.basePrice?.formattedValue }}
     </div>
-  </td>
+  </td> -->
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div
