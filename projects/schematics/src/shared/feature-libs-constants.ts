@@ -185,6 +185,7 @@ export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
 export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
 export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
 
+export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
 export const CHECKOUT_BASE_MODULE = 'CheckoutModule';
 export const CHECKOUT_BASE_ROOT_MODULE = 'CheckoutRootModule';
