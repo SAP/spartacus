@@ -1,5 +1,5 @@
-<div *ngIf="data$ | async as data">
-  <a [routerLink]="routerLink">
+<div *ngIf="data$ | async as data; else loading">
+  <a tabindex="-1" [routerLink]="routerLink">
     <video
       *ngIf="source"
       controls
@@ -18,3 +18,7 @@
     <button class="link cx-action-link" type="button">{{'transcript.download' | cxTranslate}}</button>
   </div>
 </div>
+
+<ng-template #loading>
+  <div class="cx-spinner"><cx-spinner></cx-spinner></div>
+</ng-template>
