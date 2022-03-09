@@ -5,7 +5,7 @@ Extend lazy loaded code
 Proposed
 
 ## 3. Involved areas
-lazy-loading, dependency injection
+extensibility, lazy-loading, dependency injection
 
 ## 4. Context
 _Explain why the decision is being taken_
