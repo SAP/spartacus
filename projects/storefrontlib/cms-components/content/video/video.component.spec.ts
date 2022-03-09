@@ -14,7 +14,7 @@ import {
 import { CmsComponentData, Media } from '@spartacus/storefront';
 import { MediaService } from 'projects/storefrontlib/shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
-import { VideoComponent } from '..';
+import { VideoComponent } from './video.component';
 
 @Pipe({
   name: 'cxTranslate',
