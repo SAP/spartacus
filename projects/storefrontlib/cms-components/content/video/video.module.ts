@@ -7,7 +7,13 @@ import { MediaModule } from '../../../shared/components/media/media.module';
 import { VideoComponent } from './video.component';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, GenericLinkModule, MediaModule, I18nModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    GenericLinkModule,
+    MediaModule,
+    I18nModule,
+  ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {

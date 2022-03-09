@@ -5,6 +5,7 @@ import {
   Component,
   ElementRef,
   HostBinding,
+  OnDestroy,
   Renderer2,
   ViewChild,
 } from '@angular/core';
@@ -17,7 +18,7 @@ import {
   PageType,
   SemanticPathService,
 } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { take, tap } from 'rxjs/operators';
 import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
 import {
@@ -31,17 +32,18 @@ import { MediaService } from '../../../shared/components/media/media.service';
   templateUrl: './video.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent implements AfterViewChecked {
+export class VideoComponent implements AfterViewChecked, OnDestroy {
   @HostBinding('class') styleClasses: string | undefined;
-  @ViewChild('videoPlayer') video: ElementRef;
+  @ViewChild('videoPlayer') videoPlayer: ElementRef;
 
   source: string | undefined;
   thumbnail: Media | undefined;
   routerLink: string | any[] | undefined;
-  autoplay: boolean;
+  autoPlay: boolean;
   loop: boolean;
   mute: string | undefined;
   height: string;
+  protected subscriptions = new Subscription();
 
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     tap((data) => {
@@ -53,21 +55,25 @@ export class VideoComponent implements AfterViewChecked {
     })
   );
 
-  ngAfterViewChecked(): void {
-    this.el.setStyle(this.video.nativeElement, 'height', this.height);
-  }
-
   constructor(
     protected component: CmsComponentData<CmsVideoComponent>,
     protected mediaService: MediaService,
     protected urlService: SemanticPathService,
     protected cmsService: CmsService,
     protected cd: ChangeDetectorRef,
-    protected el: Renderer2
+    protected renderer: Renderer2
   ) {}
 
-  setControls(autoPlay?: string, loop?: string, mute?: string) {
-    this.autoplay = autoPlay === 'true';
+  ngAfterViewChecked(): void {
+    this.renderer.setStyle(
+      this.videoPlayer.nativeElement,
+      'height',
+      this.height
+    );
+  }
+
+  protected setControls(autoPlay?: string, loop?: string, mute?: string) {
+    this.autoPlay = autoPlay === 'true';
     this.loop = loop === 'true';
     this.mute = mute === 'true' ? 'muted' : undefined;
   }
@@ -77,7 +83,8 @@ export class VideoComponent implements AfterViewChecked {
     videoContainerHeight?: number
   ) {
     this.height =
-      containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT
+      containerSize === ContainerSizeOptions.DEFINE_CONTAINER_HEIGHT &&
+      videoContainerHeight
         ? `${videoContainerHeight}px`
         : '100%';
   }
@@ -97,42 +104,29 @@ export class VideoComponent implements AfterViewChecked {
 
   protected setRouting(data: CmsVideoComponent) {
     if (data.contentPage) {
-      this.cmsService
-        .getPage({
-          id: data.contentPage,
-          type: PageType.CONTENT_PAGE,
-        })
-        .pipe(take(1))
-        .subscribe((page) => {
-          const pageLabel = page.label || '';
-          this.routerLink = this.urlService.transform({
-            cxRoute: pageLabel.substring(1),
-          });
-          this.cd.markForCheck();
-        });
+      this.subscriptions.add(
+        this.cmsService
+          .getPage({
+            id: data.contentPage,
+            type: PageType.CONTENT_PAGE,
+          })
+          .pipe(take(1))
+          .subscribe((page) => {
+            const pageLabel = page.label || '';
+            this.routerLink = this.urlService.transform({
+              cxRoute: pageLabel.substring(1),
+            });
+          })
+      );
     } else {
       this.routerLink = this.getRouterLink(data);
     }
+    this.cd.markForCheck();
   }
 
   protected getRouterLink(data: CmsVideoComponent): string | any[] | undefined {
     if (data.url) {
       return data.url;
-    }
-
-    if (data.contentPage) {
-      this.cmsService
-        .getPage({
-          id: data.contentPage,
-          type: PageType.CONTENT_PAGE,
-        })
-        .pipe(take(1))
-        .subscribe((page) => {
-          const pageLabel = page.label || '';
-          return this.urlService.transform({
-            cxRoute: pageLabel.substring(1),
-          });
-        });
     }
 
     if (data.product) {
@@ -143,11 +137,14 @@ export class VideoComponent implements AfterViewChecked {
     }
 
     if (data.category) {
-      console.log('in category');
       return this.urlService.transform({
         cxRoute: 'category',
         params: { code: data.category },
       });
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
   }
 }

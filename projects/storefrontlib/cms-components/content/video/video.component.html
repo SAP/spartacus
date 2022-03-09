@@ -1,22 +1,22 @@
-<div *ngIf="data$ | async as data; else loading">
-  <a tabindex="-1" [routerLink]="routerLink">
-    <video
-      *ngIf="source"
-      controls
-      [poster]="thumbnail?.src"
-      [loop]="loop"
-      [autoplay]="autoplay"
-      [muted]="mute"
-      [attr.aria-label]="'player.label' | cxTranslate"
-      #videoPlayer
-    >
-      <source src="{{ source }}" type="{{ data.video.mime }}" />
-    </video>
-  </a>
-  <div class="video-text">
-    <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
-    <button class="link cx-action-link" type="button">{{'transcript.download' | cxTranslate}}</button>
-  </div>
+<div
+  *ngIf="data$ | async as data; else loading"
+  class="video-container"
+  tabindex="-1"
+  [routerLink]="routerLink"
+>
+  <video
+    #videoPlayer
+    *ngIf="source"
+    controls
+    [poster]="thumbnail?.src"
+    [loop]="loop"
+    [autoplay]="autoPlay"
+    [muted]="mute"
+    [attr.aria-label]="'player.label' | cxTranslate"
+  >
+    <source src="{{ source }}" type="{{ data.video.mime }}" />
+  </video>
+  <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
 </div>
 
 <ng-template #loading>

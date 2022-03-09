@@ -1,16 +1,20 @@
 %cx-video {
   video {
-    width: 100%;
+    position: relative;
     display: inherit;
+    width: 100%;
   }
   h2 {
     @include type('3');
     font-weight: bold;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1;
+    color: #fff;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
   }
-  .video-text {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 0.5rem;
-    margin-bottom: 1rem;
+  .video-container {
+    position: relative;
   }
 }

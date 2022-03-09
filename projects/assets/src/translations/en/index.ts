@@ -15,5 +15,5 @@ export const en = {
   product,
   pwa,
   user,
-  video
+  video,
 };

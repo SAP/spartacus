@@ -1,3 +1,4 @@
+import { Pipe, PipeTransform } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
@@ -14,6 +15,13 @@ import { CmsComponentData, Media } from '@spartacus/storefront';
 import { MediaService } from 'projects/storefrontlib/shared';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { VideoComponent } from '..';
+
+@Pipe({
+  name: 'cxTranslate',
+})
+class MockTranslatePipe implements PipeTransform {
+  transform(): any {}
+}
 
 class MockCmsService {
   getPage(pageContext: PageContext): Observable<Page> {
@@ -41,10 +49,10 @@ class MockMediaService {
 }
 
 const mockCmsBannerComponentMedia: CmsBannerComponentMedia = {
-  altText: 'test',
-  code: 'test2',
-  mime: 'test3',
-  url: 'test4',
+  altText: 'test alt text',
+  code: 'test code',
+  mime: 'test mime',
+  url: 'test url',
 };
 
 const mockComponentData: CmsVideoComponent = {
@@ -66,16 +74,14 @@ class MockCmsVideoComponentData {
 fdescribe('VideoComponent', () => {
   let videoComponent: VideoComponent;
   let fixture: ComponentFixture<VideoComponent>;
+  let videoElement: any;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [RouterTestingModule],
-      declarations: [VideoComponent],
+      declarations: [VideoComponent, MockTranslatePipe],
       providers: [
-        {
-          provide: CmsComponentData,
-          useClass: MockCmsVideoComponentData,
-        },
+        { provide: CmsComponentData, useClass: MockCmsVideoComponentData },
         { provide: CmsService, useClass: MockCmsService },
         { provide: SemanticPathService, useClass: MockSemanticPathService },
         { provide: MediaService, useClass: MockMediaService },
@@ -115,12 +121,12 @@ fdescribe('VideoComponent', () => {
     });
 
     it('should not autoplay video when autoplay is undefined', () => {
-      expect(videoComponent.autoplay).toBeFalsy();
+      expect(videoComponent.autoPlay).toBeFalsy();
     });
 
     it('should autoplay video when autoplay is true', () => {
       data$.next({ ...mockComponentData, autoPlay: 'true' });
-      expect(videoComponent.autoplay).toBeTruthy();
+      expect(videoComponent.autoPlay).toBeTruthy();
     });
 
     it('should not loop video when loop is undefined', () => {
@@ -134,28 +140,48 @@ fdescribe('VideoComponent', () => {
   });
 
   describe('Routing', () => {
+    beforeEach(() => {
+      videoElement = fixture.nativeElement.querySelector('.video-container');
+    });
+
     it('should set routing link with product', () => {
       const product = '4205431';
       data$.next({ ...mockComponentData, product: product });
+      fixture.detectChanges();
       expect(videoComponent.routerLink).toEqual(product);
+      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
+        product
+      );
     });
 
     it('should set routing link with category', () => {
       const category = 'cameras';
       data$.next({ ...mockComponentData, category: category });
+      fixture.detectChanges();
       expect(videoComponent.routerLink).toEqual(category);
+      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
+        category
+      );
     });
 
     it('should set routing link with url', () => {
       const url = '/products/234231';
       data$.next({ ...mockComponentData, url: url });
+      fixture.detectChanges();
       expect(videoComponent.routerLink).toEqual(url);
+      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
+        url
+      );
     });
 
     it('should set routing link with content page', () => {
       const contentPage = 'carousel';
       data$.next({ ...mockComponentData, contentPage: contentPage });
+      fixture.detectChanges();
       expect(videoComponent.routerLink).toEqual(contentPage);
+      expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
+        contentPage
+      );
     });
   });
 
