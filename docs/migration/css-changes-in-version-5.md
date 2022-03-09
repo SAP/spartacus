@@ -48,6 +48,10 @@ title: Changes to Styles in 5.0
 
 - `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes
 
+## Change in tables.scss
+
+- `text-align: center` has been removed from `.table > thead > th` 
+
 ## Change in store-finder-list-item.scss
 
 - obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name` for screen reader improvements.
