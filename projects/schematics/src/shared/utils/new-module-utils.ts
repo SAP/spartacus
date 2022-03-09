@@ -17,10 +17,8 @@ import {
   ts as tsMorph,
 } from 'ts-morph';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import {
-  packageFeatureConfigMapping,
-  SPARTACUS_FEATURES_MODULE,
-} from '../feature-libs-constants';
+import { SPARTACUS_FEATURES_MODULE } from '../feature-libs-constants';
+import { packageFeatureConfigMapping } from '../updateable-constants';
 import { getSpartacusProviders, normalizeConfiguration } from './config-utils';
 import { getTsSourceFile } from './file-utils';
 import {
