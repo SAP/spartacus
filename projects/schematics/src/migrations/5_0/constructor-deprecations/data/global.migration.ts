@@ -27,11 +27,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -65,11 +89,43 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'CmsComponentData',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
+      {
+        className: 'QuickOrderStatePersistenceService',
+        importPath: '@spartacus/cart/quick-order/core',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CmsComponentData',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
+      {
+        className: 'QuickOrderStatePersistenceService',
+        importPath: '@spartacus/cart/quick-order/core',
       },
     ],
   },
@@ -91,6 +147,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'GlobalMessageService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
     ],
     addParams: [
       {
@@ -100,6 +160,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'ChangeDetectorRef',
         importPath: '@angular/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
       },
       {
         className: 'WindowRef',
@@ -133,6 +197,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ProductAdapter',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
@@ -141,6 +209,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       },
       {
         className: 'Config',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'EventService',
         importPath: '@spartacus/core',
       },
       {
@@ -179,11 +251,43 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -210,11 +314,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ActionsSubject',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'StateEventService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'ActionsSubject',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'StateEventService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -248,14 +376,46 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'EventService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -286,8 +446,16 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@ngrx/store',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'SavedCartFacade',
+        importPath: '@spartacus/cart/saved-cart/root',
       },
     ],
     addParams: [
@@ -296,8 +464,16 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/cart/base/core',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'SavedCartFacade',
+        importPath: '@spartacus/cart/saved-cart/root',
       },
     ],
   },
@@ -332,7 +508,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@ngrx/store',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'SavedCartFacade',
+        importPath: '@spartacus/cart/saved-cart/root',
+      },
+      {
+        className: 'RoutingService',
         importPath: '@spartacus/core',
       },
     ],
@@ -342,8 +530,20 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/cart/base/core',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'SavedCartFacade',
+        importPath: '@spartacus/cart/saved-cart/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -368,8 +568,41 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/cds',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ProductSearchService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ProfileTagEventService',
+        importPath: '@spartacus/cds',
+      },
+    ],
     addParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ProductSearchService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ProfileTagEventService',
+        importPath: '@spartacus/cds',
+      },
       {
         className: 'ProfileTagLifecycleService',
         importPath: '@spartacus/cds',
@@ -398,11 +631,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
     ],
   },
@@ -445,8 +694,28 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'AuthRedirectService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/components',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
       {
         className: 'UserAccountFacade',
@@ -459,8 +728,28 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     addParams: [
       {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'AuthRedirectService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/base/components',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
     ],
   },
@@ -495,14 +784,54 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'RoutingConfigService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/components',
+      },
+      {
+        className: 'ExpressCheckoutService',
+        importPath: '@spartacus/checkout/components',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/components',
       },
     ],
     addParams: [
       {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'RoutingConfigService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/base/components',
+      },
+      {
+        className: 'ExpressCheckoutService',
+        importPath: '@spartacus/checkout/base/components',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/base/components',
       },
     ],
   },
@@ -525,11 +854,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'AuthRedirectService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'AuthRedirectService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -576,11 +921,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/components',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/base/components',
       },
     ],
   },
@@ -631,15 +984,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/checkout/root',
       },
       {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/components',
+      },
+      {
         className: 'CheckoutDetailsService',
         importPath: '@spartacus/checkout/components',
+      },
+      {
+        className: 'RoutingConfigService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'CheckoutCostCenterFacade',
         importPath: '@spartacus/checkout/root',
       },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
     ],
     addParams: [
+      {
+        className: 'CheckoutStepService',
+        importPath: '@spartacus/checkout/base/components',
+      },
+      {
+        className: 'RoutingConfigService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'CheckoutDeliveryAddressFacade',
         importPath: '@spartacus/checkout/base/root',
@@ -651,6 +1024,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'CheckoutDeliveryModesFacade',
         importPath: '@spartacus/checkout/base/root',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
     ],
   },
@@ -689,6 +1066,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'UserAddressService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserPaymentService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'CheckoutDeliveryFacade',
         importPath: '@spartacus/checkout/root',
       },
@@ -701,11 +1086,23 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/checkout/components',
       },
       {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/components',
+      },
+      {
         className: 'ClearCheckoutFacade',
         importPath: '@spartacus/checkout/root',
       },
     ],
     addParams: [
+      {
+        className: 'UserAddressService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserPaymentService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'CheckoutDeliveryAddressFacade',
         importPath: '@spartacus/checkout/base/root',
@@ -715,11 +1112,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/checkout/base/root',
       },
       {
+        className: 'CheckoutConfigService',
+        importPath: '@spartacus/checkout/base/components',
+      },
+      {
         className: 'CheckoutDeliveryModesFacade',
         importPath: '@spartacus/checkout/base/root',
       },
     ],
-    warning: 'Types both added and removed: CheckoutPaymentFacade',
   },
   {
     class: 'NotCheckoutAuthGuard',
@@ -744,14 +1144,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
     ],
     addParams: [
       {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
       },
     ],
   },
@@ -777,11 +1201,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'CheckoutFacade',
         importPath: '@spartacus/checkout/root',
       },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -811,11 +1251,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'CommandService',
@@ -903,6 +1351,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'BasePageMetaResolver',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
@@ -913,8 +1365,11 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
       },
+      {
+        className: 'BasePageMetaResolver',
+        importPath: '@spartacus/core',
+      },
     ],
-    warning: 'Types both added and removed: TranslationService',
   },
   {
     class: 'CheckoutPaymentService',
@@ -950,11 +1405,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'QueryService',
@@ -1026,11 +1489,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'MultiCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -1058,7 +1529,6 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '',
       },
     ],
-    warning: 'Types both added and removed: ',
   },
   {
     class: 'CreateWishListSuccess',
@@ -1081,7 +1551,6 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '',
       },
     ],
-    warning: 'Types both added and removed: ',
   },
   {
     class: 'LoadWishListSuccess',
@@ -1124,11 +1593,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ActionsSubject',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'ActionsSubject',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -1162,11 +1647,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'CartValidationConnector',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'CartValidationConnector',
+        importPath: '@spartacus/cart/base/core',
+      },
+      {
+        className: 'CommandService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -1203,6 +1712,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
@@ -1213,8 +1726,11 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
-    warning: 'Types both added and removed: Store',
   },
   {
     class: 'OccCartNormalizer',
@@ -1231,11 +1747,20 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderEntryPromotionsService',
         importPath: '@spartacus/core',
       },
     ],
-    addParams: [],
+    addParams: [
+      {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+    ],
   },
   {
     class: 'OccOrderNormalizer',
@@ -1252,11 +1777,20 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderEntryPromotionsService',
         importPath: '@spartacus/core',
       },
     ],
-    addParams: [],
+    addParams: [
+      {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+    ],
   },
   {
     class: 'OccReplenishmentOrderNormalizer',
@@ -1273,11 +1807,20 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderEntryPromotionsService',
         importPath: '@spartacus/core',
       },
     ],
-    addParams: [],
+    addParams: [
+      {
+        className: 'ConverterService',
+        importPath: '@spartacus/core',
+      },
+    ],
   },
   {
     class: 'OrderReturnRequestService',
@@ -1297,6 +1840,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'Store',
         importPath: '@ngrx/store',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
@@ -1307,8 +1854,11 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'Store',
         importPath: '@ngrx/store',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
-    warning: 'Types both added and removed: Store',
   },
   {
     class: 'SelectiveCartService',
@@ -1345,18 +1895,42 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@ngrx/store',
       },
       {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'BaseSiteService',
         importPath: '@spartacus/core',
       },
       {
         className: 'CartConfigService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'BaseSiteService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -1383,14 +1957,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'UserIdService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'UserService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -1412,11 +2010,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
       },
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
     ],
     addParams: [
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -1443,14 +2049,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
       },
     ],
     addParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -1472,11 +2102,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
       },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -1503,8 +2141,16 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'ReplenishmentOrderFacade',
@@ -1513,8 +2159,16 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     addParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'ReplenishmentOrderHistoryFacade',
@@ -1544,11 +2198,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ReplenishmentOrderFacade',
         importPath: '@spartacus/order/root',
       },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
     ],
     addParams: [
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -1578,11 +2248,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'ReplenishmentOrderFacade',
         importPath: '@spartacus/order/root',
       },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
+      },
     ],
     addParams: [
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
       },
     ],
   },
@@ -1601,11 +2295,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ReplenishmentOrderFacade',
         importPath: '@spartacus/order/root',
       },
     ],
     addParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
@@ -1639,14 +2341,46 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ReplenishmentOrderFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
     addParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -1665,11 +2399,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'NgbActiveModal',
+        importPath: '@ng-bootstrap/ng-bootstrap',
+      },
+      {
         className: 'OrderFacade',
         importPath: '@spartacus/order/root',
       },
     ],
     addParams: [
+      {
+        className: 'NgbActiveModal',
+        importPath: '@ng-bootstrap/ng-bootstrap',
+      },
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
@@ -1707,6 +2449,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@ngrx/store',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'RoutingService',
         importPath: '@spartacus/core',
       },
@@ -1715,6 +2461,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'CommandService',
@@ -1773,11 +2523,44 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/storefront',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCartEntryBundleInfoService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'CartItemContext',
+        importPath: '@spartacus/storefront',
+      },
+    ],
     addParams: [
+      {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCartEntryBundleInfoService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'TranslationService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'CartItemContext',
+        importPath: '@spartacus/cart/base/root',
       },
     ],
   },
@@ -1810,8 +2593,57 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorCartService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorCartService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
@@ -1839,8 +2671,17 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/product-configurator/rulebased',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ConfiguratorStorefrontUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+    ],
     addParams: [
+      {
+        className: 'ConfiguratorStorefrontUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
       {
         className: 'ConfiguratorCommonsService',
         importPath: '@spartacus/product-configurator/rulebased',
@@ -1864,8 +2705,25 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/storefront',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'KeyboardFocusService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
     addParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'KeyboardFocusService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'TranslationService',
         importPath: '@spartacus/core',
@@ -1903,22 +2761,54 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
       },
       {
         className: 'CheckoutFacade',
         importPath: '@spartacus/checkout/root',
       },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
     ],
     addParams: [
+      {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
       },
       {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
         className: 'CheckoutQueryFacade',
         importPath: '@spartacus/checkout/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
     ],
   },
@@ -1949,14 +2839,46 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCartService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
     ],
     addParams: [
       {
+        className: 'Store',
+        importPath: '@ngrx/store',
+      },
+      {
+        className: 'CommonConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCartService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'ConfiguratorUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
     ],
   },
@@ -1989,8 +2911,57 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'WindowRef',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'WindowRef',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'Location',
         importPath: '@angular/common',
@@ -2030,8 +3001,65 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/storefront',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'HamburgerMenuService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorStorefrontUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupMenuService',
+        importPath: '',
+      },
+      {
+        className: 'DirectionService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
     addParams: [
+      {
+        className: 'ConfiguratorCommonsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'HamburgerMenuService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+      {
+        className: 'ConfiguratorStorefrontUtilsService',
+        importPath: '@spartacus/product-configurator/rulebased',
+      },
+      {
+        className: 'ConfiguratorGroupMenuService',
+        importPath: '',
+      },
+      {
+        className: 'DirectionService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'TranslationService',
         importPath: '@spartacus/core',
@@ -2047,8 +3075,17 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'ProductService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'TranslationService',
         importPath: '@spartacus/core',
@@ -2064,8 +3101,17 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/product-configurator/common',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
+    ],
     addParams: [
+      {
+        className: 'ConfiguratorRouterExtractorService',
+        importPath: '@spartacus/product-configurator/common',
+      },
       {
         className: 'ConfiguratorCommonsService',
         importPath: '@spartacus/product-configurator/rulebased',
@@ -2085,8 +3131,25 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'OccConfig',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'OccConfig',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ConfiguratorUISettingsConfig',
         importPath: '@spartacus/product-configurator/rulebased',
@@ -2142,11 +3205,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -2166,8 +3237,25 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'AddressBookComponentService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'AddressBookComponentService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'GlobalMessageService',
         importPath: '@spartacus/core',
@@ -2205,14 +3293,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/storefront',
       },
       {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'CmsComponentData',
+        importPath: '@spartacus/storefront',
       },
     ],
     addParams: [
       {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CmsComponentData',
+        importPath: '@spartacus/storefront',
       },
       {
         className: 'EventService',
@@ -2246,11 +3358,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'WishListService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'WishListFacade',
         importPath: '@spartacus/cart/wish-list/root',
+      },
+      {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -2303,6 +3431,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
       {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'CustomerCouponService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
@@ -2311,6 +3447,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'CartVoucherFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'FormBuilder',
+        importPath: '@angular/forms',
+      },
+      {
+        className: 'CustomerCouponService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'ActiveCartFacade',
@@ -2348,6 +3492,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'SelectiveCartService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
@@ -2357,6 +3509,14 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'SelectiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'AuthService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'CartConfigService',
@@ -2395,6 +3555,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
       {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'MultiCartService',
         importPath: '@spartacus/core',
       },
@@ -2407,6 +3571,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'SelectiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'UserIdService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'MultiCartFacade',
@@ -2521,7 +3689,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
       {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'CartValidationStateService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'CartConfigService',
         importPath: '@spartacus/core',
       },
     ],
@@ -2531,8 +3719,28 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/cart/base/root',
       },
       {
+        className: 'SemanticPathService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CartValidationStateService',
+        importPath: '@spartacus/cart/base/core',
+      },
+      {
+        className: 'CartConfigService',
+        importPath: '@spartacus/cart/base/core',
       },
     ],
   },
@@ -2573,11 +3781,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'CmsComponentsService',
+        importPath: '@spartacus/storefront',
+      },
+      {
         className: 'Injector',
         importPath: '@angular/core',
       },
     ],
     addParams: [
+      {
+        className: 'CmsComponentsService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'UnifiedInjector',
         importPath: '@spartacus/core',
@@ -2602,11 +3818,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'UserOrderService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
     ],
     addParams: [
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -2653,8 +3877,41 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/storefront',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'Renderer2',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'HamburgerMenuService',
+        importPath: '@spartacus/storefront',
+      },
+    ],
     addParams: [
+      {
+        className: 'Router',
+        importPath: '@angular/router',
+      },
+      {
+        className: 'Renderer2',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'HamburgerMenuService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'WindowRef',
         importPath: '@spartacus/core',
@@ -2684,14 +3941,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'UserOrderService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -2718,6 +3999,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'UnifiedInjector',
         importPath: '@spartacus/core',
       },
@@ -2726,6 +4011,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -2752,7 +4041,15 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'UserOrderService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
         importPath: '@spartacus/core',
       },
       {
@@ -2762,8 +4059,16 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     addParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
       },
       {
         className: 'ReplenishmentOrderHistoryFacade',
@@ -2789,11 +4094,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'OrderReturnRequestService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
     ],
     addParams: [
       {
         className: 'OrderReturnRequestFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -2820,14 +4133,38 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'OrderReturnRequestService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
       {
+        className: 'OrderDetailsService',
+        importPath: '@spartacus/order/components',
+      },
+      {
         className: 'OrderReturnRequestFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
       },
     ],
   },
@@ -2854,11 +4191,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'CmsService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LayoutConfig',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
+      {
         className: 'PageLayoutHandler',
         importPath: '@spartacus/storefront',
       },
     ],
     addParams: [
+      {
+        className: 'CmsService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LayoutConfig',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'BreakpointService',
+        importPath: '@spartacus/storefront',
+      },
       {
         className: 'UnifiedInjector',
         importPath: '@spartacus/core',
@@ -2878,8 +4239,25 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         importPath: '@spartacus/core',
       },
     ],
-    removeParams: [],
+    removeParams: [
+      {
+        className: 'UserPaymentService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+    ],
     addParams: [
+      {
+        className: 'UserPaymentService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'GlobalMessageService',
         importPath: '@spartacus/core',
@@ -2908,11 +4286,27 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'UserReplenishmentOrderService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
     ],
     addParams: [
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -2942,11 +4336,35 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
         className: 'UserReplenishmentOrderService',
         importPath: '@spartacus/core',
       },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
+      },
     ],
     addParams: [
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ElementRef',
+        importPath: '@angular/core',
       },
     ],
   },
@@ -2965,11 +4383,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'UserReplenishmentOrderService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
@@ -3003,14 +4429,46 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'UserReplenishmentOrderService',
         importPath: '@spartacus/core',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
     addParams: [
       {
+        className: 'RoutingService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ReplenishmentOrderHistoryFacade',
         importPath: '@spartacus/order/root',
+      },
+      {
+        className: 'TranslationService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ViewContainerRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'LaunchDialogService',
+        importPath: '@spartacus/storefront',
       },
     ],
   },
@@ -3029,11 +4487,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'ActivatedRoutesService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'Injector',
         importPath: '@angular/core',
       },
     ],
     addParams: [
+      {
+        className: 'ActivatedRoutesService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'UnifiedInjector',
         importPath: '@spartacus/core',
@@ -3059,6 +4525,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'CmsService',
+        importPath: '@spartacus/core',
+      },
+      {
         className: 'ActiveCartService',
         importPath: '@spartacus/core',
       },
@@ -3068,6 +4538,10 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       },
     ],
     addParams: [
+      {
+        className: 'CmsService',
+        importPath: '@spartacus/core',
+      },
       {
         className: 'ActiveCartFacade',
         importPath: '@spartacus/cart/base/root',
@@ -3093,11 +4567,19 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
     removeParams: [
       {
+        className: 'NgbActiveModal',
+        importPath: '@ng-bootstrap/ng-bootstrap',
+      },
+      {
         className: 'UserOrderService',
         importPath: '@spartacus/core',
       },
     ],
     addParams: [
+      {
+        className: 'NgbActiveModal',
+        importPath: '@ng-bootstrap/ng-bootstrap',
+      },
       {
         className: 'OrderHistoryFacade',
         importPath: '@spartacus/order/root',

@@ -76,18 +76,10 @@ function getSchematicsData(apiElement: any, constructorChanges: any): any {
   schematicsData.deprecatedParams =
     constructorChanges.details.oldParams.map(toSchematicsParam);
   schematicsData.removeParams =
-    constructorChanges.details.removedParams.map(toSchematicsParam);
+    constructorChanges.details.oldParams.map(toSchematicsParam);
   schematicsData.addParams =
-    constructorChanges.details.addedParams.map(toSchematicsParam);
+    constructorChanges.details.newParams.map(toSchematicsParam);
 
-  const intersect = paramDiffIntersect(
-    constructorChanges.details.removedParams,
-    constructorChanges.details.addedParams
-  );
-
-  if (intersect?.length) {
-    schematicsData.warning = `Types both added and removed: ${intersect}`;
-  }
   return schematicsData;
 }
 
@@ -96,34 +88,4 @@ function toSchematicsParam(param: any) {
     className: param.shortType || param.type,
     importPath: param.importPath,
   };
-}
-function logWarnings(apiElement: any, constructorChanges: any): any {
-  const intersect = paramDiffIntersect(
-    constructorChanges.details.removedParams,
-    constructorChanges.details.addedParams
-  );
-  if (intersect?.length) {
-    console.log(
-      `WARNING: ${apiElement.name} has same types added and removed ${intersect}`
-    );
-  }
-}
-
-function paramDiffIntersect(oldParameters: any, newParameters: any): any[] {
-  const intersect = new Set();
-
-  oldParameters.forEach((oldParam: any) => {
-    const match = newParameters.find(
-      (newParam: any) => newParam.shortType === oldParam.shortType
-    );
-    if (match) {
-      intersect.add(oldParam.shortType);
-    }
-  });
-
-  if (intersect.size > 0) {
-    return Array.from(intersect);
-  } else {
-    return undefined;
-  }
 }
