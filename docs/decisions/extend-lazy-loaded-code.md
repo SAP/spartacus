@@ -56,7 +56,19 @@ export class WrapperUserProfileModule {}
 The working example can be found in the PoC PR: https://github.com/SAP/spartacus/pull/14871
 
 #### How the installation schematics will recognize where to add an import of the extension module?
-It should locate the import of the original feature module in the customer's codebase, and add the extension module after it.
+It should locate the import of the original feature module in the customer's codebase, and append the extension module after it.
+
+```ts
+// customer app's checkout wrapper module:
+@NgModule({
+  imports: [
+    CheckoutModule,       // <-- marker where to append extension modules
+    B2bCheckoutModule,    // appended by schematics
+    DigitalPaymentsModule // appended by schematics
+  ],
+})
+export class WrapperCheckoutModule {}
+```
 
 #### Pros
 - this approach allows for extending Spartacus services from other Spartacus libraries  in lazy-loaded modules
@@ -96,15 +108,36 @@ It should locate the import of the original feature module in the customer's cod
     - POSTPONE? consenquences:
       - we cannot solve OOTB DigitalPayments compatibility with B2B or Sched.Repl. Chekcout 
       - we keep having the baked-in wrapper modules in our API
+        - cdc importing user
         - B2bCheckoutModule importing BaseCheckout
         - SchedReplModule importing B2bCheckout
         - DigitalPayments importing BaseCheckout
           - this COULD be problematic because of importing BaseCheckout 2 times.
             - how customers can mitigate: lookup structure of our modules, and pick only what is necessary (not conveninet but there is a workaround)
+      - to install any extension that contributes to an existing LL feature in an automated way, we would need to create custom (complex?) schematics that:
+        1. detects if the original feature module is original import or already in a customized wrapper module
+          1. original import -> replace the import
+          2. inside custom wrapper modules -> replace the original module reference
     - FORCE in 5.0? consequences:
       - time and effort to do it in 5.0
-      - possible delay of 5.0
+        - How realistic it is that we do all those thing:
+          - agreeing on a scalable and stable wrapper modules structure
+            - stable means: if we need to update the structure for any new requirement, we don't like to go through the same story again (discuss decision, amend schematics and documentation) 
+          - prepare the schematics - takes time to create them and test. and run them against a few feature combinations
+          - doing it in the rush (because of rushing we might miss some cases)
+            - we have now only 3 examples: digital payments and checkout, and cdc
+        - in the future we might need to do some other changes that could affect our solution. It would not look good on us, if we force customers again to rewrite their app structure
+        - possible delay of 5.0
+        - assigning one person from Blamed to it and devote time to it
+      - risk we missed something in our plan, but find out obstacles when implementing... 
+      - We take tha occasion to TELL customers they HAVE to do some changes in their app (= create wrapper modules)
+    - FORCE ONLY FOR SELECTED MODULES in 5.0? consequences:💚
+      - e.g. user, checkout, cart
+      - what if customer already have a customized feature (their own wrapper module)?
     - < BOOKMARK 💚 > : continue decision from here
+    - NOTES:
+      - console.warn! when we cannot find out where to append the extension module
+      - sooner or later will need to solve problem of ordering imports of the extensions (we already have this problem, but the solution it will need to be spread also among the LL wrapper modules)
 - [ ] how will we migrate customer's code, when we decide in future to change the structure of the lazy-loaded chunks?
   - problem: when we generate template code for base feature and extensions, then we have more layers of breaking changes (what extension belongs to where)
     - when we change the structure of lazy loading, then we change the import path. But also extensions need to be moved around.
