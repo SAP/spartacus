@@ -1,5 +1,3 @@
-import { getSpartacusPackages } from './package-utils';
-
 /**
  * Graph's Node.
  *
@@ -152,30 +150,4 @@ export function kahnsAlgorithm(graph: Graph): string[] {
   }
 
   return Object.keys(topNums).reverse();
-}
-
-export function createDependencyGraph(
-  dependencies: Record<string, Record<string, string>>,
-  skip: string[] = []
-): Graph {
-  const spartacusLibraries = Object.keys(dependencies).filter(
-    (dependency) => !skip.includes(dependency)
-  );
-  console.log('spartacusLibraries: ', spartacusLibraries);
-
-  const graph = new Graph(spartacusLibraries);
-  for (const spartacusLib of spartacusLibraries) {
-    const spartacusPeerDependencies = getSpartacusPackages(
-      dependencies[spartacusLib]
-    );
-    for (const spartacusPackage of spartacusPeerDependencies) {
-      if (skip.includes(spartacusPackage)) {
-        continue;
-      }
-
-      graph.createEdge(spartacusLib, spartacusPackage);
-    }
-  }
-
-  return graph;
 }

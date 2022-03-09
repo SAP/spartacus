@@ -19,12 +19,12 @@ import {
 import {
   addPackageJsonDependencies,
   dependencyExists,
+  getSpartacusLibraries,
   installPackageJsonDependencies,
 } from '../../../shared/utils/lib-utils';
 import {
   cleanSemverVersion,
   createDependencies,
-  getSpartacusPackages,
   readPackageJson,
 } from '../../../shared/utils/package-utils';
 
@@ -62,7 +62,7 @@ function collectSpartacusLibraryDependencies(packageJson: any): {
   spartacusPeerDeps: string[];
 } {
   const dependencies: Record<string, string> = packageJson.dependencies;
-  const installedLibs = getSpartacusPackages(dependencies);
+  const installedLibs = getSpartacusLibraries(dependencies);
 
   let spartacusPeerDeps: string[] = [];
   for (const spartacusLib of installedLibs) {
