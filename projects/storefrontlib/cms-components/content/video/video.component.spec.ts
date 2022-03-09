@@ -71,7 +71,7 @@ class MockCmsVideoComponentData {
   }
 }
 
-fdescribe('VideoComponent', () => {
+describe('VideoComponent', () => {
   let videoComponent: VideoComponent;
   let fixture: ComponentFixture<VideoComponent>;
   let videoElement: any;
