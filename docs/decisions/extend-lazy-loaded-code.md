@@ -12,7 +12,7 @@ _Explain why the decision is being taken_
 
 Spartacus extension/integration library should be able to extend default services in a lazy-loaded feature modules coming from other libraries. We didn't have a need for it yet, but now we have a big need. It’s because we extract more-and-more code to lazy-loaded modules and we decouple more-and-more code into independent, composable “plugin-like” libraries. And the usual techniques for extending services, don't work in the case of lazy-loaded modules.
 
-The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but has a higher priority than the parent one. And because the original service implementation is provided in the module that has its own child-injector, the original service shadows any extensions provided in the root injector.
+The usual technique of providing the extending service in the root injector, e.g. `{provide: ..., useClass:...}` in the `AppModule` (or any other statically imported module) doesn't overwrite the original service in the lazy-loaded module. The lazy-loaded module instantiates its own, fresh child-injector, which derives from the parent (root) injector, but locally has a higher priority than the parent one. And because the original service implementation is provided in the module that has its own child-injector, the original service shadows any extensions provided in the root injector.
 
 So wee need to find a way to allow extension libraries for extending services in the lazy-loaded feature modules of other libraries. Moreover we should find an optimal, future-proof solution, because it might be used very often in OOTB Spartacus soon.
 
@@ -78,9 +78,6 @@ export class WrapperCheckoutModule {}
 #### Cons
 - we add more modules in customer's app
 - wrapper modules for non-customized features are just a redundant boilerplate
-- to install an extension, you need to know the filename of the wrapper module - so it requires naming conventions
-  - when customers don't follow the conventions, we're not able to install automatically the extension
-  - if in the future we change the suggested the name of the feature (e.g. because of changing our vision of dividing the code into chunks), the customer app's code requires moving around and renaming the wrapper modules. Otherwise new extensions for those features won't be able to install automatically
 - negligible increase in the production built JS bundle of the lazy-loaded feature: 100-200 bytes (depending on the length of the class name).
   - Note that the OOTB `UserProfileModule` feature has 42.15 kB at the moment of writing. So the increase in this case is 0.3% and it affects only the lazy-loaded chunk, but not the main JS chunk. 
 
