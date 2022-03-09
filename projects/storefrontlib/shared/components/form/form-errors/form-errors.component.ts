@@ -87,7 +87,7 @@ export class FormErrorsComponent implements DoCheck {
     const changes = this.differ?.diff(this.control);
     if (changes) {
       changes.forEachChangedItem((r) => {
-        if (r?.key === 'errors' || r?.key === 'touched') {
+        if (r?.key === 'touched') {
           this.ChangeDetectionRef.markForCheck();
         }
       });
