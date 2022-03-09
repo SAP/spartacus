@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CmsConfig, I18nModule, provideDefaultConfig } from '@spartacus/core';
+import { SpinnerModule } from 'projects/storefrontlib/shared';
 import { GenericLinkModule } from '../../../shared/components/generic-link/generic-link.module';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { VideoComponent } from './video.component';
@@ -13,6 +14,7 @@ import { VideoComponent } from './video.component';
     GenericLinkModule,
     MediaModule,
     I18nModule,
+    SpinnerModule
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
