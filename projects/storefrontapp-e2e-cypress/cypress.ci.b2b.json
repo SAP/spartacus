@@ -5,7 +5,7 @@
   "projectId": "k3nmep",
   "video": true,
   "retries": {
-    "runMode": 2
+    "runMode": 1
   },
   "videoUploadOnPasses": false,
   "chromeWebSecurity": false,
