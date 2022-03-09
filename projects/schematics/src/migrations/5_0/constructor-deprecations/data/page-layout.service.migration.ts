@@ -4,10 +4,12 @@ import {
   LAYOUT_CONFIG,
   PAGE_LAYOUT_HANDLER,
   PAGE_LAYOUT_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   UNIFIED_INJECTOR,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/feature-libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PAGE_LAYOUT_SERVICE_MIGRATION: ConstructorDeprecation = {
