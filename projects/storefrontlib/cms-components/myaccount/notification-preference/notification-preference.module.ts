@@ -22,7 +22,7 @@ import { CmsPageGuard, PageLayoutComponent } from '../../../cms-structure';
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'notificationPreference' }
+        data: { cxRoute: 'notificationPreference' },
       },
     ]),
   ],

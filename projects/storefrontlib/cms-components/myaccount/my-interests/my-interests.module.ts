@@ -5,7 +5,13 @@ import { ListNavigationModule } from '../../../shared/components/list-navigation
 import { MyInterestsComponent } from './my-interests.component';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import {
+  AuthGuard,
+  CmsConfig,
+  I18nModule,
+  provideDefaultConfig,
+  UrlModule,
+} from '@spartacus/core';
 import { CmsPageGuard, PageLayoutComponent } from '../../../cms-structure';
 
 @NgModule({
@@ -23,9 +29,9 @@ import { CmsPageGuard, PageLayoutComponent } from '../../../cms-structure';
         path: null,
         canActivate: [AuthGuard, CmsPageGuard],
         component: PageLayoutComponent,
-        data: { cxRoute: 'myInterests' }
-      }
-    ])
+        data: { cxRoute: 'myInterests' },
+      },
+    ]),
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
