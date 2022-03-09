@@ -37,8 +37,9 @@
   <button
     class="btn btn-primary btn-block btn-notify"
     type="button"
-    disabled="true"
+    [attr.disabled]="anonymous ? true : null"
     aria-describedby="outOfStockMessage"
+    (click)="subscribe()"
   >
     {{ 'stockNotification.notifyMe' | cxTranslate }}
   </button>
