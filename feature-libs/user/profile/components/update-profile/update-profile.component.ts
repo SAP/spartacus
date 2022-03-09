@@ -18,8 +18,7 @@ export class UpdateProfileComponent {
   isUpdating$ = this.service.isUpdating$;
   titles$: Observable<Title[]> = this.service.titles$.pipe(
     map((titles: Title[]) => {
-      titles.unshift({ code: '', name: '' } as Title);
-      return titles;
+      return [{ code: '', name: '' } as Title].concat(titles);
     })
   );
 
