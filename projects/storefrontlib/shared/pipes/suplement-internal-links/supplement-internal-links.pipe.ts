@@ -32,11 +32,15 @@ export class SupplementInternalLinksPipe implements PipeTransform {
     Array.from(linkNodes).forEach((link: HTMLAnchorElement) => {
       const href = link.getAttribute('href');
 
-      if (href?.indexOf('/') === 0) {
-        link.addEventListener('click', () => console.log('clicked'));
-        this.renderer.listen(link, 'click', () => console.log('clicked'));
-        console.log('set router link on ' + href);
-        // this.renderer.setProperty(link, 'href', this.getPath(href));
+      if (href?.indexOf('#') === 0) {
+        link.setAttributeNS(null, 'routerLink', '.');
+        link.setAttributeNS(null, 'fragment', href.substring(1));
+        link.removeAttribute('href');
+        console.log(`set anchor ${href}`);
+      } else if (href?.indexOf('/') === 0) {
+        link.setAttributeNS(null, 'routerLink', href);
+        link.removeAttribute('href');
+        console.log(`set link ${href}`);
       }
     });
     return template.innerHTML;
