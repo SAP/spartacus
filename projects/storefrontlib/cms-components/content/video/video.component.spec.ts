@@ -28,6 +28,7 @@ class MockCmsService {
     return of({ label: ` ${pageContext.id}` });
   }
 }
+
 class MockSemanticPathService {
   transform(test: UrlCommand): any[] {
     if (test.params && test.params.code) {
@@ -196,6 +197,7 @@ describe('VideoComponent', () => {
       fixture.detectChanges();
       expect(videoElement.offsetHeight).toEqual(500);
     });
+
     it('should set style classes', () => {
       data$.next({ styleClasses: 'cls-1 cls-2' });
       expect(videoComponent.styleClasses).toContain('cls-1');

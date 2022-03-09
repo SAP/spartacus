@@ -72,6 +72,19 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
     );
   }
 
+  protected setMedia(
+    video?: CmsBannerComponentMedia,
+    media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia
+  ) {
+    if (video) {
+      this.source = this.mediaService.getMedia(video)?.src;
+    }
+
+    if (media) {
+      this.thumbnail = this.mediaService.getMedia(media as MediaContainer);
+    }
+  }
+
   protected setControls(autoPlay?: string, loop?: string, mute?: string) {
     this.autoPlay = autoPlay === 'true';
     this.loop = loop === 'true';
@@ -87,19 +100,6 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
       videoContainerHeight
         ? `${videoContainerHeight}px`
         : '100%';
-  }
-
-  protected setMedia(
-    video?: CmsBannerComponentMedia,
-    media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia
-  ) {
-    if (video) {
-      this.source = this.mediaService.getMedia(video)?.src;
-    }
-
-    if (media) {
-      this.thumbnail = this.mediaService.getMedia(media as MediaContainer);
-    }
   }
 
   protected setRouting(data: CmsVideoComponent) {
