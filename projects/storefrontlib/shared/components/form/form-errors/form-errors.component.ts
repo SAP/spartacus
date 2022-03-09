@@ -2,13 +2,15 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DoCheck,
   HostBinding,
   Input,
-  OnDestroy,
+  KeyValueDiffer,
+  KeyValueDiffers,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 
 /**
@@ -25,8 +27,11 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorsComponent implements OnDestroy {
-  constructor(protected ChangeDetectionRef: ChangeDetectorRef) {}
+export class FormErrorsComponent implements DoCheck {
+  constructor(
+    protected ChangeDetectionRef: ChangeDetectorRef,
+    protected keyValueDiffers: KeyValueDiffers
+  ) {}
 
   _control: FormControl;
 
@@ -42,7 +47,7 @@ export class FormErrorsComponent implements OnDestroy {
    */
   errorsDetails$: Observable<Array<[string, string]>>;
 
-  protected subscription = new Subscription();
+  protected differ: KeyValueDiffer<any, any>;
 
   /**
    * Prefix prepended to the translation key.
@@ -59,9 +64,7 @@ export class FormErrorsComponent implements OnDestroy {
   set control(control: FormControl) {
     this._control = control;
 
-    this.subscription = control?.valueChanges.subscribe(() => {
-      this.ChangeDetectionRef.markForCheck();
-    });
+    this.differ = this.keyValueDiffers.find(this.control).create();
 
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
@@ -80,10 +83,16 @@ export class FormErrorsComponent implements OnDestroy {
     return this._control;
   }
 
-  ngOnDestroy() {
-    this.subscription?.unsubscribe();
+  ngDoCheck(): void {
+    const changes = this.differ?.diff(this.control);
+    if (changes) {
+      changes.forEachChangedItem((r) => {
+        if (r?.key === 'errors' || r?.key === 'touched') {
+          this.ChangeDetectionRef.markForCheck();
+        }
+      });
+    }
   }
-
   /**
    * Returns translation params composed of
    * the argument `errorDetails` (if only is an object) merged with
