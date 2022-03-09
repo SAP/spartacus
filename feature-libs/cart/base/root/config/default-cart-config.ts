@@ -1,5 +1,6 @@
+import { ADD_TO_CART_FEEDBACK } from '../models';
 import { CartConfig } from './cart-config';
-import { ADD_TO_CART_FEEDBACK } from './add-to-cart-feedback';
+import { defaultAddToCartToastConfig } from './default-added-to-cart-toast-config';
 
 export const defaultCartConfig: CartConfig = {
   cart: {
@@ -10,8 +11,8 @@ export const defaultCartConfig: CartConfig = {
       enabled: false,
     },
     addToCartFeedback: {
-      feedback: ADD_TO_CART_FEEDBACK.MODAL,
-      toastTimeout: 3000,
+      feedback: ADD_TO_CART_FEEDBACK.TOAST,
+      toast: defaultAddToCartToastConfig,
     },
   },
 };

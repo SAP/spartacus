@@ -1,5 +1,6 @@
 import { Injectable, OnDestroy } from '@angular/core';
 import {
+  ADD_TO_CART_FEEDBACK,
   CartAddEntryFailEvent,
   CartConfig,
   CartUiEventAddToCart,
@@ -7,7 +8,6 @@ import {
 import { EventService } from '@spartacus/core';
 import { ModalRef, ModalService } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { ADD_TO_CART_FEEDBACK } from '../../root/config/add-to-cart-feedback';
 import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
 
 @Injectable({
