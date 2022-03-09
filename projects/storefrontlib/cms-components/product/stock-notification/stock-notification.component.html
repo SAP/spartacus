@@ -27,9 +27,10 @@
       <ng-template #loggedIn>
         {{ 'stockNotification.getNotify' | cxTranslate }}<br />
         {{ 'stockNotification.activateChannelsPrefix' | cxTranslate
-        }}<a [routerLink]="['/my-account/notification-preference']">{{
+        }}
+        <a [routerLink]="{ cxRoute: 'notificationPreference'} | cxUrl">{{
           'stockNotification.channelsLink' | cxTranslate
-        }}</a
+          }}</a
         >{{ 'stockNotification.activateChannelsSuffix' | cxTranslate }}
       </ng-template>
     </p>

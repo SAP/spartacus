@@ -5,25 +5,27 @@ import { ListNavigationModule } from '../../../shared/components/list-navigation
 import { MyInterestsComponent } from './my-interests.component';
 import { MediaModule } from '../../../shared/components/media/media.module';
 import { SpinnerModule } from '../../../shared/components/spinner/spinner.module';
-import {
-  AuthGuard,
-  CmsConfig,
-  I18nModule,
-  provideDefaultConfig,
-  UrlModule,
-} from '@spartacus/core';
+import { AuthGuard, CmsConfig, I18nModule, provideDefaultConfig, UrlModule } from '@spartacus/core';
+import { CmsPageGuard, PageLayoutComponent } from '../../../cms-structure';
 
 @NgModule({
   declarations: [MyInterestsComponent],
   imports: [
     CommonModule,
     I18nModule,
-    RouterModule,
     ListNavigationModule,
     I18nModule,
     UrlModule,
     MediaModule,
     SpinnerModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'myInterests' }
+      }
+    ])
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

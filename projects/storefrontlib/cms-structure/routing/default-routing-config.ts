@@ -47,6 +47,12 @@ export const defaultStorefrontRoutesConfig: RoutesConfig = {
     paths: ['my-account/coupon/claim/:couponCode'],
     paramsMapping: { couponCode: 'code' },
   },
+  myInterests: {
+    paths: ['my-account/my-interests']
+  },
+  notificationPreference: {
+    paths: ['my-account/notification-preference']
+  }
 };
 
 export const defaultRoutingConfig: RoutingConfig = {
