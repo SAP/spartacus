@@ -3,10 +3,10 @@
 import {
   SPARTACUS_CART,
   SPARTACUS_CHECKOUT,
+  SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_ORDER,
   SPARTACUS_USER,
-} from '..';
-import { SPARTACUS_DIGITAL_PAYMENTS } from '../feature-libs-constants';
+} from '../feature-libs-constants';
 import {
   Graph,
   kahnsAlgorithm,

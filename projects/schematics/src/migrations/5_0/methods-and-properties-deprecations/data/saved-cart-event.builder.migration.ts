@@ -3,9 +3,9 @@ import {
   REGISTER_DELETE_CART,
   REGISTER_DELETE_SAVED_CART_EVENTS,
   SAVED_CART_EVENT_BUILDER,
-  SPARTACUS_CART_SAVED_CART_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CART_SAVED_CART_CORE } from '../../../../shared/feature-libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/core/events/saved-cart-event.builder.ts
