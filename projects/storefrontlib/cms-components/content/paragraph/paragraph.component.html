@@ -1,6 +1,3 @@
-<ng-container
-  *ngIf="component.data$ | async as data"
-  htmlOutlet
-  [html]="data.content | cxSupplementInternalLinks"
->
+<ng-container *ngIf="component.data$ | async as data">
+  <div [innerHTML]="data.content | cxSupplementHashAnchors"></div>
 </ng-container>
