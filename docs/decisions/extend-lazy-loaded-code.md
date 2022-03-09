@@ -102,37 +102,37 @@ export class WrapperCheckoutModule {}
 - [ ] ## CATCHUP ##:
   - [ ] 
 - [ ] is it essential to have wrapper modules in app since 5.0 or we can postpone the decision/code change/schematics change to 5.x?
-  - TBD
-    - POSTPONE? consenquences:
-      - we cannot solve OOTB DigitalPayments compatibility with B2B or Sched.Repl. Chekcout 
-      - we keep having the baked-in wrapper modules in our API
-        - cdc importing user
-        - B2bCheckoutModule importing BaseCheckout
-        - SchedReplModule importing B2bCheckout
-        - DigitalPayments importing BaseCheckout
-          - this COULD be problematic because of importing BaseCheckout 2 times.
-            - how customers can mitigate: lookup structure of our modules, and pick only what is necessary (not conveninet but there is a workaround)
-      - to install any extension that contributes to an existing LL feature in an automated way, we would need to create custom (complex?) schematics that:
-        1. detects if the original feature module is original import or already in a customized wrapper module
-          1. original import -> replace the import
-          2. inside custom wrapper modules -> replace the original module reference
-    - FORCE in 5.0? consequences:
-      - time and effort to do it in 5.0
-        - How realistic it is that we do all those thing:
-          - agreeing on a scalable and stable wrapper modules structure
-            - stable means: if we need to update the structure for any new requirement, we don't like to go through the same story again (discuss decision, amend schematics and documentation) 
-          - prepare the schematics - takes time to create them and test. and run them against a few feature combinations
-          - doing it in the rush (because of rushing we might miss some cases)
-            - we have now only 3 examples: digital payments and checkout, and cdc
-        - in the future we might need to do some other changes that could affect our solution. It would not look good on us, if we force customers again to rewrite their app structure
-        - possible delay of 5.0
-        - assigning one person from Blamed to it and devote time to it
-      - risk we missed something in our plan, but find out obstacles when implementing... 
-      - We take tha occasion to TELL customers they HAVE to do some changes in their app (= create wrapper modules)
-    - FORCE ONLY FOR SELECTED MODULES in 5.0? consequences:💚
-      - e.g. user, checkout, cart
-      - what if customer already have a customized feature (their own wrapper module)?
-    - < BOOKMARK 💚 > : continue decision from here
+  - Let's push for 5.0. The major release is an occasion to force customers (by migration documentation) to create wrapper modules for every lazy loaded feature. Thanks to , we'll able to install new extensions inside those wrapper modules in the upcoming minor releases.
+    - Arguments:
+      - PUSH for 5.0:
+        - time and effort to do it in 5.0
+          - How realistic it is that we do all those thing:
+            - agreeing on a scalable and stable wrapper modules structure
+              - stable means: if we need to update the structure for any new requirement, we don't like to go through the same story again (discuss decision, amend schematics and documentation) 
+            - prepare the schematics - takes time to create them and test. and run them against a few feature combinations
+            - doing it in the rush (because of rushing we might miss some cases)
+              - we have now only 3 examples: digital payments and checkout, and cdc
+          - in the future we might need to do some other changes that could affect our solution. It would not look good on us, if we force customers again to rewrite their app structure
+          - possible delay of 5.0
+          - assigning one person from Blamed to it and devote time to it
+        - risk we missed something in our plan, but find out obstacles when implementing... 
+        - We take tha occasion to TELL customers they HAVE to do some changes in their app (= create wrapper modules)
+      - POSTPONE after 5.0:
+        - we cannot solve OOTB DigitalPayments compatibility with B2B or Sched.Repl. Chekcout 
+        - we keep having the baked-in wrapper modules in our API
+          - cdc importing user
+          - B2bCheckoutModule importing BaseCheckout
+          - SchedReplModule importing B2bCheckout
+          - DigitalPayments importing BaseCheckout
+            - this COULD be problematic because of importing BaseCheckout 2 times.
+              - how customers can mitigate: lookup structure of our modules, and pick only what is necessary (not conveninet but there is a workaround)
+        - to install any extension that contributes to an existing LL feature in an automated way, we would need to create custom (complex?) schematics that:
+          1. detects if the original feature module is original import or already in a customized wrapper module
+            1. original import -> replace the import
+            2. inside custom wrapper modules -> replace the original module reference
+      - PUSH for 5.0 ONLY SELECTED MODULES:
+        - e.g. user, checkout, cart
+        - what if customer already have a customized feature (their own wrapper module)?
     - NOTES:
       - console.warn! when we cannot find out where to append the extension module
       - sooner or later will need to solve problem of ordering imports of the extensions (we already have this problem, but the solution it will need to be spread also among the LL wrapper modules)
