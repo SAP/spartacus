@@ -1,25 +1,29 @@
 import { Injectable } from '@angular/core';
-import { Product, ProductService } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
-import { CartToastItem } from './added-to-cart-toast.model';
+import { CartToastItem, OrderEntry } from '../../root';
 
 @Injectable({ providedIn: 'root' })
 export class AddedToCartToastComponentService {
   cartToastItems: CartToastItem[] = [];
 
-  constructor(protected productService: ProductService) {}
+  constructor() {}
 
   getToasts(): Observable<CartToastItem[]> {
     return of(this.cartToastItems);
   }
 
-  addToast(quantityAdded: number, product: Product, containerClass: string) {
+  addToast(
+    quantityAdded: number,
+    orderEntry: OrderEntry,
+    containerClass: string
+  ) {
+    const { basePrice, product } = orderEntry;
     const newCartToastItem: CartToastItem = {
-      productName: product.name,
+      productName: product?.name,
       quantity: quantityAdded,
       baseClass: containerClass,
-      unitPrice: product.price?.formattedValue,
-      images: product.images,
+      unitPrice: basePrice?.formattedValue,
+      images: product?.images,
     };
     const index = this.cartToastItems.push(newCartToastItem) - 1;
     setTimeout(() => {

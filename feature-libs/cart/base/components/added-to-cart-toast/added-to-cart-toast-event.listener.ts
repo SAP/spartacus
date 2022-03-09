@@ -1,18 +1,22 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { ComponentRef, Injectable, OnDestroy } from '@angular/core';
 import { EventService } from '@spartacus/core';
 import { LaunchDialogService, LAUNCH_CALLER } from '@spartacus/storefront';
 import { Subscription } from 'rxjs';
-import { take } from 'rxjs/operators';
-import { CartConfig, CartUiEventAddToCart } from '../../root';
-import { ADD_TO_CART_FEEDBACK } from '../../root/config/add-to-cart-feedback';
+import { filter, take } from 'rxjs/operators';
+import {
+  ADD_TO_CART_FEEDBACK,
+  CartConfig,
+  CartUiEventAddToCart,
+} from '../../root';
 import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
+import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AddedToCartToastEventListener implements OnDestroy {
   protected subscription = new Subscription();
-  protected component: any;
+  protected component: AddedToCartToastComponent;
 
   constructor(
     protected eventService: EventService,
@@ -23,7 +27,7 @@ export class AddedToCartToastEventListener implements OnDestroy {
     this.onAddToCart();
   }
 
-  protected onAddToCart() {
+  protected onAddToCart(): void {
     const feedbackType = this.cartConfig.cart?.addToCartFeedback.feedback;
     if (feedbackType !== ADD_TO_CART_FEEDBACK.TOAST) {
       return;
@@ -36,13 +40,18 @@ export class AddedToCartToastEventListener implements OnDestroy {
     );
   }
 
-  protected renderToastUi() {
+  protected renderToastUi(): void {
+    const timeout = this.cartConfig.cart?.addToCartFeedback.toast?.timeout;
     const component$: any = this.launchDialogService.launch(
       LAUNCH_CALLER.ADDED_TO_CART_TOAST
     );
-    component$.pipe(take(1)).subscribe((component: any) => {
-      this.component = component.instance;
-    });
+
+    component$
+      .pipe(filter(Boolean), take(1))
+      .subscribe((component: ComponentRef<AddedToCartToastComponent>) => {
+        this.component = component.instance;
+        this.component.timeout = timeout ? timeout : 3000;
+      });
   }
 
   protected addToast(event: CartUiEventAddToCart): void {

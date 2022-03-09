@@ -6,19 +6,17 @@ import {
   OnInit,
   Renderer2,
 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
+import { Observable, OperatorFunction, Subscription } from 'rxjs';
+import { filter, take } from 'rxjs/operators';
 import {
-  EventService,
-  ProductService,
-  RoutingService,
-  WindowRef,
-} from '@spartacus/core';
-import { Observable, Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { AddedToCartToastConfig } from '../../../added-to-cart-toast/added-to-cart-toast-config';
-
-import { CartUiEventAddToCart } from '../../root';
+  ActiveCartFacade,
+  CartToastItem,
+  CartUiEventAddToCart,
+  CART_TOAST_STATE,
+  OrderEntry,
+} from '../../root';
 import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
-import { CartToastItem, CART_TOAST_STATE } from './added-to-cart-toast.model';
 
 @Component({
   selector: 'cx-added-to-cart-toast',
@@ -26,8 +24,6 @@ import { CartToastItem, CART_TOAST_STATE } from './added-to-cart-toast.model';
 })
 export class AddedToCartToastComponent implements OnInit, OnDestroy {
   protected subscription = new Subscription();
-
-  quantity: number;
 
   customClass?: string;
 
@@ -43,19 +39,15 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
 
   @HostBinding('className') baseClass: string;
 
-  cartToasts$: Observable<
-    CartToastItem[]
-  > = this.addedToCartToastService.getToasts();
+  cartToasts$: Observable<CartToastItem[]> =
+    this.addedToCartToastService.getToasts();
 
   constructor(
     protected winRef: WindowRef,
-    protected addedToCartToastConfig: AddedToCartToastConfig,
-    protected addedToCartToastService: AddedToCartToastComponentService,
-    protected eventService: EventService,
-    protected productService: ProductService,
     protected renderer: Renderer2,
-    protected routerService: RoutingService,
-    protected cd: ChangeDetectorRef
+    protected cd: ChangeDetectorRef,
+    protected addedToCartToastService: AddedToCartToastComponentService,
+    protected activeCartService: ActiveCartFacade
   ) {}
 
   ngOnInit(): void {
@@ -67,14 +59,6 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
 
     this.baseClass = `${this.customClass}`;
     this.toastContainerClass = this.toastContainerBaseClass;
-
-    if (this.addedToCartToastConfig.addedToCartToast?.timeout) {
-      this.timeout = this.addedToCartToastConfig.addedToCartToast?.timeout;
-    } else {
-      this.timeout = 3000;
-    }
-
-    // this.watchCartAddEntrySuccess();
   }
 
   ngOnDestroy(): void {
@@ -82,14 +66,17 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
   }
 
   addToast(event: CartUiEventAddToCart) {
-    this.productService
-      .get(event.productCode)
-      .pipe(filter(Boolean))
-      .subscribe((product) => {
+    this.activeCartService
+      .getLastEntry(event.productCode)
+      .pipe(
+        filter(Boolean) as OperatorFunction<OrderEntry | undefined, OrderEntry>,
+        take(1)
+      )
+      .subscribe((entries) => {
         let toastContainerClass = `${this.toastContainerBaseClass} `;
         const toastItem = this.addedToCartToastService.addToast(
           event.quantity,
-          product,
+          entries,
           toastContainerClass
         );
 
