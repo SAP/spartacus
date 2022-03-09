@@ -78,6 +78,7 @@ export class WrapperCheckoutModule {}
 #### Cons
 - we add more modules in customer's app
 - wrapper modules for non-customized features are just a redundant boilerplate
+- increase the complexity of the installation schematics
 - negligible increase in the production built JS bundle of the lazy-loaded feature: 100-200 bytes (depending on the length of the class name).
   - Note that the OOTB `UserProfileModule` feature has 42.15 kB at the moment of writing. So the increase in this case is 0.3% and it affects only the lazy-loaded chunk, but not the main JS chunk. 
 
