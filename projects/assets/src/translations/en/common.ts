@@ -51,6 +51,7 @@ export const common = {
   navigation: {
     categoryNavLabel: 'Category menu',
     footerNavLabel: 'Footer links',
+    navigateTo: 'Navigate to {{nav}}',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',
@@ -78,6 +79,7 @@ export const common = {
     rma: 'Return Number',
     replenishmentNumber: 'Replenishment Number',
     nextOrderDate: 'Next Order Date',
+    pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
