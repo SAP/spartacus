@@ -13,7 +13,7 @@ import { CmsComponentData } from '../../../cms-structure/page/model/cms-componen
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ParagraphComponent {
-  @HostListener('document:click', ['$event'])
+  @HostListener('click', ['$event'])
   public handleClick(event: Event): void {
     if (event.target instanceof HTMLAnchorElement) {
       const element = event.target as HTMLAnchorElement;
