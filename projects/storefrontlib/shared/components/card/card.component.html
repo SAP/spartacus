@@ -2,7 +2,7 @@
   *ngIf="content"
   class="cx-card"
   [tabindex]="border ? 0 : -1"
-  role="region"
+  [attr.role]="content.role ?? null"
   [attr.aria-label]="
     content.label ? (content.label | cxTranslate: { number: this.index }) : null
   "
@@ -63,7 +63,11 @@
     <!-- Edit Mode Actions -->
     <div *ngIf="editMode" class="row cx-card-body-delete">
       <div class="col-md-6">
-        <button class="btn btn-block btn-secondary" (click)="cancelEdit()">
+        <button
+          [cxAtMessage]="'assistiveMessage.actionCancelled' | cxTranslate"
+          class="btn btn-block btn-secondary"
+          (click)="cancelEdit()"
+        >
           {{ 'common.cancel' | cxTranslate }}
         </button>
       </div>

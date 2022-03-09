@@ -264,6 +264,13 @@ export function checkAddedToCartDialog(itemsNumber = 1) {
   );
 }
 
+export function checkClearCartDialog() {
+  cy.get('cx-clear-cart-dialog .cx-clear-cart-header').should(
+    'contain',
+    'Clear Cart'
+  );
+}
+
 export function removeAllItemsFromCart() {
   registerCartRefreshRoute();
 
@@ -322,6 +329,15 @@ export function logOutAndNavigateToEmptyCart() {
   validateEmptyCart();
 }
 
+export function addProducts() {
+  const prods = products.slice(0, 3);
+  prods.forEach((product) => {
+    cy.visit(`/product/${product.code}`);
+    clickAddToCart();
+    closeAddedToCartDialog();
+  });
+}
+
 export function addProductAsAnonymous() {
   const product = products[2];
 
@@ -349,8 +365,37 @@ export function addProductAsAnonymous() {
   closeAddedToCartDialog();
 }
 
+export function getClearCartDialog() {
+  return cy
+    .get('cx-clear-cart')
+    .get('.clear-cart-btn')
+    .scrollIntoView()
+    .click();
+}
+
+export function goToCart() {
+  const cartPage = waitForPage('/cart', 'getCartPage');
+  cy.visit('/cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+  cy.get('cx-breadcrumb h1').should('contain', 'Your Shopping Cart');
+}
+
+export function cancelClearCart() {
+  getClearCartDialog().then(() => {
+    checkClearCartDialog();
+    cy.get('.cx-clear-cart-footer .btn-action').click();
+  });
+}
+
+export function clearActiveCart() {
+  getClearCartDialog().then(() => {
+    checkClearCartDialog();
+    cy.get('.cx-clear-cart-footer .btn-primary').click();
+  });
+}
+
 export function verifyCartNotEmpty() {
-  cy.get('cx-mini-cart .count').contains('1');
+  cy.get('cx-mini-cart .count').should('not.match', '0');
 }
 
 export function verifyMergedCartWhenLoggedIn() {
@@ -456,19 +501,47 @@ export const cartUser = {
   },
 };
 
-export function registerCartUser() {
+export function registerCartUser(user = cartUser) {
   const registerPage = waitForPage('/login/register', 'getRegisterPage');
   cy.visit('/login/register');
   cy.wait(`@${registerPage}`);
 
-  register({ ...cartUser.registrationData });
+  register({ ...user.registrationData });
   cy.url().should('not.contain', 'register');
 }
 
-export function loginCartUser() {
+export function loginCartUser(user = cartUser) {
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.visit('/login');
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
-  login(cartUser.registrationData.email, cartUser.registrationData.password);
-  cy.url().should('not.contain', 'login');
+  login(user.registrationData.email, user.registrationData.password);
+  return cy.url().should('not.contain', 'login');
+}
+
+export function saveCartId() {
+  cy.get('cx-cart-details')
+    .get('h2.cx-total')
+    .then(($cartId) => {
+      let cartId = $cartId.text();
+      cy.wrap(cartId).as('cartId');
+    });
+}
+
+export function verifyCartIdAfterClearCart() {
+  cy.visit(`/product/${products[0].code}`);
+  clickAddToCart();
+  checkAddedToCartDialog();
+  closeAddedToCartDialog();
+
+  goToCart();
+  let _cartId;
+  cy.get('cx-cart-details')
+    .get('h2.cx-total')
+    .then(($cartId) => {
+      _cartId = $cartId.text();
+    });
+
+  cy.get('@cartId').then((cartId) => {
+    expect(cartId).to.not.eq(_cartId);
+  });
 }

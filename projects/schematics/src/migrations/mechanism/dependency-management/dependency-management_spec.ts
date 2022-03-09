@@ -159,7 +159,7 @@ describe('dependency management migrations', () => {
               '@spartacus/core': '3.0.0',
               '@spartacus/storefront': '3.0.0',
               '@spartacus/organization': '3.0.0',
-              '@spartacus/setup': '3.0.0',
+              '@spartacus/product-configurator': '3.0.0',
             },
           })
         );
@@ -204,7 +204,7 @@ describe('dependency management migrations', () => {
         expect(packageJson.dependencies['@spartacus/cds']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/tracking']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/cart']).toBeTruthy();
-        expect(packageJson.dependencies['@spartacus/checkout']).toBeTruthy();
+        expect(packageJson.dependencies['@spartacus/order']).toBeTruthy();
         expect(packageJson.dependencies['@spartacus/qualtrics']).toBeTruthy();
       });
     });

@@ -89,7 +89,7 @@
                 {{ 'savedCartDialog.quantity' | cxTranslate }}
               </div>
               <div class="cx-saved-cart-value">
-                {{ cart?.totalItems }}
+                {{ cart?.totalUnitCount }}
               </div>
             </div>
 
@@ -198,7 +198,7 @@
                   'savedCartDialog.savedCartName' | cxTranslate
                 }}</span>
                 <input
-                  aria-required="true"
+                  required="true"
                   [maxLength]="nameMaxLength"
                   class="form-control"
                   formControlName="name"

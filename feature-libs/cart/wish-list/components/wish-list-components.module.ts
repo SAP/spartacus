@@ -9,6 +9,7 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
+  AtMessageModule,
   ItemCounterModule,
   MediaModule,
   PageComponentModule,
@@ -19,14 +20,15 @@ import { WishListComponent } from './wish-list/wish-list.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
     I18nModule,
+    ItemCounterModule,
     MediaModule,
+    PageComponentModule,
     RouterModule,
     StarRatingModule,
     UrlModule,
-    ItemCounterModule,
-    PageComponentModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{

@@ -1,0 +1,43 @@
+{
+  "git": {
+    "requireCleanWorkingDir": true,
+    "requireUpstream": false,
+    "tagName": "epd-visualization-${version}",
+    "commitMessage": "Bumping epd-visualization version to ${version}",
+    "tagAnnotation": "Bumping epd-visualization version to ${version}"
+  },
+  "npm": {
+    "publishPath": "./../../dist/epd-visualization"
+  },
+  "hooks": {
+    "after:version:bump": "cd ../.. && yarn build:epd-visualization"
+  },
+  "github": {
+    "release": true,
+    "assets": [
+      "../../docs.tar.gz",
+      "../../docs.zip",
+      "../../epdvisualizationspartacussampledata.2105.zip",
+      "../../epdvisualizationspartacussampledata.2105.tar.gz",
+      "../../epdvisualizationspartacussampledata-visualizations.zip",
+      "../../epdvisualizationspartacussampledata-visualizations.tar.gz"
+    ],
+    "releaseName": "@spartacus/epd-visualization@${version}",
+    "releaseNotes": "ts-node ../../scripts/changelog.ts --verbose --lib epd-visualization --to epd-visualization-${version}"
+  },
+  "plugins": {
+    "../../scripts/release-it/bumper.js": {
+      "out": [
+        {
+          "file": "package.json",
+          "path": [
+            "peerDependencies.@spartacus/core",
+            "peerDependencies.@spartacus/styles",
+            "peerDependencies.@spartacus/storefront",
+            "peerDependencies.@spartacus/schematics"
+          ]
+        }
+      ]
+    }
+  }
+}
