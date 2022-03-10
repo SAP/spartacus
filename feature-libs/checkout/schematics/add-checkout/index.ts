@@ -22,7 +22,6 @@ import {
   CLI_CHECKOUT_BASE_FEATURE,
   CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
   CLI_ORDER_FEATURE,
-  collectInstalledFeatures,
   configureB2bFeatures,
   FeatureConfig,
   LibraryOptions as SpartacusCheckoutOptions,
@@ -165,9 +164,6 @@ export function addCheckoutFeatures(options: SpartacusCheckoutOptions): Rule {
       addPackageJsonDependenciesForLibrary(peerDependencies, options),
 
       determineCheckoutFeatures(options, packageJson),
-
-      // TODO:#schematics
-      collectInstalledFeatures(options),
     ]);
   };
 }

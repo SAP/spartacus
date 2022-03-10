@@ -112,8 +112,6 @@ export class Graph {
  * https://en.wikipedia.org/wiki/Topological_sorting#Kahn's_algorithm
  */
 export function kahnsAlgorithm(graph: Graph): string[] {
-  console.error('Running algo...');
-
   // Calculate the incoming degree for each vertex
   const vertices = Object.keys(graph.getAdjacentVertices());
 

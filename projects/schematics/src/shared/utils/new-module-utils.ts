@@ -3,7 +3,6 @@ import {
   externalSchematic,
   noop,
   Rule,
-  SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import { getDecoratorMetadata } from '@schematics/angular/utility/ast-utils';
@@ -18,7 +17,6 @@ import {
   ts as tsMorph,
 } from 'ts-morph';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
-import { SPARTACUS_FEATURES_MODULE } from '../feature-libs-constants';
 import { packageFeatureConfigMapping } from '../updateable-constants';
 import { getSpartacusProviders, normalizeConfiguration } from './config-utils';
 import { getTsSourceFile } from './file-utils';
@@ -27,9 +25,6 @@ import {
   isImportedFrom,
   isImportedFromSpartacusLibs,
 } from './import-utils';
-import { installationOrder, LibraryOptions } from './lib-utils';
-import { createProgram, saveAndFormat } from './program';
-import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { getSourceRoot } from './workspace-utils';
 
 export type ModuleProperty =
@@ -262,72 +257,6 @@ function normalizeTypeToken(token: string): string {
   return newToken;
 }
 
-export function collectInstalledFeatures<T extends LibraryOptions>(
-  options: T
-): Rule {
-  return (tree: Tree, _context: SchematicContext): void => {
-    const basePath = process.cwd();
-    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
-    for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      let spartacusFeaturesModule: SourceFile | undefined;
-      for (const sourceFile of appSourceFiles) {
-        if (
-          sourceFile
-            .getFilePath()
-            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
-        ) {
-          spartacusFeaturesModule = sourceFile;
-          break;
-        }
-      }
-
-      if (!spartacusFeaturesModule) {
-        continue;
-      }
-
-      const collectedModules = collectInstalledModules(spartacusFeaturesModule);
-      if (!collectedModules) {
-        continue;
-      }
-
-      const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
-        (spartacusCoreModule) => spartacusCoreModule.getText()
-      );
-      const featureModules = collectedModules.featureModules;
-      const unrecognizedModules = collectedModules.unrecognizedModules.map(
-        (unrecognizedModule) => unrecognizedModule.getText()
-      );
-
-      featureModules.sort((moduleA, moduleB) => {
-        const indexA = installationOrder.indexOf(moduleA.spartacusLibrary);
-        const indexB = installationOrder.indexOf(moduleB.spartacusLibrary);
-
-        /**
-         * In case a feature module is _not_ found in the `installationOrder`,
-         * we want to sort it at the end of the list.
-         */
-        return (
-          (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity)
-        );
-      });
-
-      const moduleImportsProperty = getModulePropertyInitializer(
-        spartacusFeaturesModule,
-        'imports',
-        false
-      );
-      const finalOrder: string[] = spartacusCoreModules
-        .concat(featureModules.map((m) => m.moduleNode.getText()))
-        .concat(unrecognizedModules);
-      moduleImportsProperty?.replaceWithText(`[${finalOrder.join(',\n')}]`);
-
-      saveAndFormat(spartacusFeaturesModule);
-    }
-  };
-}
-
 export function getModulePropertyInitializer(
   source: SourceFile,
   propertyName: ModuleProperty,
@@ -350,7 +279,6 @@ function getModuleProperty(
 ): ObjectLiteralElementLike | undefined {
   const moduleNode = getModule(source);
   if (!moduleNode) {
-    console.warn(`No 'NgModule' decorator found in '${source.getFilePath()}'`);
     return undefined;
   }
 
@@ -370,7 +298,7 @@ function getModuleProperty(
   return arg.getProperty(propertyName);
 }
 
-function collectInstalledModules(spartacusFeaturesModule: SourceFile):
+export function collectInstalledModules(spartacusFeaturesModule: SourceFile):
   | {
       spartacusCoreModules: (Expression | Identifier)[];
       featureModules: {

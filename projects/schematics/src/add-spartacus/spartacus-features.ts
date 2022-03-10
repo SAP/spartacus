@@ -239,6 +239,7 @@ function configureSpartacusModules(
       });
 
       [
+        // TODO:#schematics - don't add comments?
         `// External routes,
       ExternalRoutesModule.forRoot(),`,
       ].forEach((content) => {
@@ -259,5 +260,3 @@ function configureSpartacusModules(
     }
   }
 }
-
-// export function addOrderFeatures(): Rule {}

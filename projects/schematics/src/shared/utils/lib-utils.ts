@@ -45,7 +45,9 @@ import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
   addModuleProvider,
+  collectInstalledModules,
   ensureModuleExists,
+  getModulePropertyInitializer,
   Import,
 } from './new-module-utils';
 import {
@@ -223,7 +225,6 @@ function createLibraryDependencyGraph(): Graph {
     'storefrontapp'
   );
   const graph = createDependencyGraph(collectedDependencies, skip);
-  console.log(graph);
 
   return graph;
 }
@@ -243,7 +244,6 @@ function createDependencyGraph(
   const spartacusLibraries = Object.keys(dependencies).filter(
     (dependency) => !skip.includes(dependency)
   );
-  console.log('spartacusLibraries: ', spartacusLibraries);
 
   const graph = new Graph(spartacusLibraries);
   for (const spartacusLib of spartacusLibraries) {
@@ -286,6 +286,8 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.dependencyManagement
         ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
         : noop(),
+
+      orderInstalledFeatures(options),
     ]);
   };
 }
@@ -990,7 +992,7 @@ export function addSchematicsTasks(
       collection: featureOption.feature,
       name: 'add',
       options: featureOption.options,
-      // TODO:#schematics: remove this once the new version of the Spartacus schematics is released
+      // TODO:#schematics
       // options: { ...featureOption.options, programmatic: true },
     };
 
@@ -1028,4 +1030,70 @@ export function runExternalSpartacusLibrary(
 
 function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
+}
+
+export function orderInstalledFeatures<T extends LibraryOptions>(
+  options: T
+): Rule {
+  return (tree: Tree, _context: SchematicContext): void => {
+    const basePath = process.cwd();
+    const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
+    for (const tsconfigPath of buildPaths) {
+      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
+
+      let spartacusFeaturesModule: SourceFile | undefined;
+      for (const sourceFile of appSourceFiles) {
+        if (
+          sourceFile
+            .getFilePath()
+            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
+        ) {
+          spartacusFeaturesModule = sourceFile;
+          break;
+        }
+      }
+
+      if (!spartacusFeaturesModule) {
+        continue;
+      }
+
+      const collectedModules = collectInstalledModules(spartacusFeaturesModule);
+      if (!collectedModules) {
+        continue;
+      }
+
+      const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
+        (spartacusCoreModule) => spartacusCoreModule.getText()
+      );
+      const featureModules = collectedModules.featureModules;
+      const unrecognizedModules = collectedModules.unrecognizedModules.map(
+        (unrecognizedModule) => unrecognizedModule.getText()
+      );
+
+      featureModules.sort((moduleA, moduleB) => {
+        const indexA = installationOrder.indexOf(moduleA.spartacusLibrary);
+        const indexB = installationOrder.indexOf(moduleB.spartacusLibrary);
+
+        /**
+         * In case a feature module is _not_ found in the `installationOrder`,
+         * we want to sort it at the end of the list.
+         */
+        return (
+          (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity)
+        );
+      });
+
+      const moduleImportsProperty = getModulePropertyInitializer(
+        spartacusFeaturesModule,
+        'imports',
+        false
+      );
+      const finalOrder: string[] = spartacusCoreModules
+        .concat(featureModules.map((m) => m.moduleNode.getText()))
+        .concat(unrecognizedModules);
+      moduleImportsProperty?.replaceWithText(`[${finalOrder.join(',\n')}]`);
+
+      saveAndFormat(spartacusFeaturesModule);
+    }
+  };
 }
