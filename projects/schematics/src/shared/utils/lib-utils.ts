@@ -214,17 +214,7 @@ function createLibraryDependencyGraph(): Graph {
     'storefrontapp-e2e-cypress',
     'storefrontapp'
   );
-  const graph = createDependencyGraph(collectedDependencies, skip);
-
-  return graph;
-}
-
-export function getSpartacusLibraries(
-  dependencies: Record<string, string>
-): string[] {
-  return Object.keys(dependencies).filter((dependency) =>
-    dependency.startsWith(SPARTACUS_SCOPE)
-  );
+  return createDependencyGraph(collectedDependencies, skip);
 }
 
 function createDependencyGraph(
@@ -250,6 +240,14 @@ function createDependencyGraph(
   }
 
   return graph;
+}
+
+export function getSpartacusLibraries(
+  dependencies: Record<string, string>
+): string[] {
+  return Object.keys(dependencies).filter((dependency) =>
+    dependency.startsWith(SPARTACUS_SCOPE)
+  );
 }
 
 export function addLibraryFeature<T extends LibraryOptions>(
