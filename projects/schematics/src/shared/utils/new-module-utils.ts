@@ -286,48 +286,44 @@ export function collectInstalledFeatures<T extends LibraryOptions>(
       if (!spartacusFeaturesModule) {
         continue;
       }
-      const moduleImportsProperty = getModulePropertyInitializer(
-        spartacusFeaturesModule,
-        'imports',
-        false
-      );
-      if (!moduleImportsProperty) {
-        continue;
-      }
 
       const collectedModules = collectInstalledModules(spartacusFeaturesModule);
       if (!collectedModules) {
         continue;
       }
 
-      console.log('installationOrder', installationOrder);
-
       const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
-        (m) => m.getText()
+        (spartacusCoreModule) => spartacusCoreModule.getText()
       );
       const featureModules = collectedModules.featureModules;
       const unrecognizedModules = collectedModules.unrecognizedModules.map(
-        (m) => m.getText()
+        (unrecognizedModule) => unrecognizedModule.getText()
       );
 
       featureModules.sort((moduleA, moduleB) => {
         const indexA = installationOrder.indexOf(moduleA.spartacusLibrary);
         const indexB = installationOrder.indexOf(moduleB.spartacusLibrary);
 
+        /**
+         * In case a feature module is _not_ found in the `installationOrder`,
+         * we want to sort it at the end of the list.
+         */
         return (
           (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity)
         );
       });
 
+      const moduleImportsProperty = getModulePropertyInitializer(
+        spartacusFeaturesModule,
+        'imports',
+        false
+      );
       const finalOrder: string[] = spartacusCoreModules
         .concat(featureModules.map((m) => m.moduleNode.getText()))
         .concat(unrecognizedModules);
-
-      moduleImportsProperty.replaceWithText(`[${finalOrder.join(',\n')}]`);
+      moduleImportsProperty?.replaceWithText(`[${finalOrder.join(',\n')}]`);
 
       saveAndFormat(spartacusFeaturesModule);
-
-      console.log('\n\n\n', 'options:', options, '\n\n\n');
     }
   };
 }
@@ -382,6 +378,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
         moduleNode: Expression | Identifier;
       }[];
       unrecognizedModules: (Expression | Identifier)[];
+      warnings: string[];
     }
   | undefined {
   const initializer = getModulePropertyInitializer(
@@ -393,6 +390,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
     return undefined;
   }
 
+  const warnings: string[] = [];
   const spartacusCoreModules: (Expression | Identifier)[] = [];
   const featureModules: {
     spartacusLibrary: string;
@@ -403,15 +401,17 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
   for (const element of initializer.getElements()) {
     const moduleIdentifier = getModuleIdentifier(element);
     if (!moduleIdentifier) {
-      // TODO:#schematics - change to context.logger.warning
-      console.error(`${element.print()} not recognized as a module.`);
+      warnings.push(
+        `Skipping ${element.print()} as it is not recognized as a module.`
+      );
       continue;
     }
 
     const importDeclaration = getImportDeclaration(moduleIdentifier);
     if (!importDeclaration) {
-      // TODO:#schematics - change to context.logger.warning
-      console.error(`No import found for ${moduleIdentifier.print()}.`);
+      warnings.push(
+        `Skipping ${element.print()} as there is no import found for it.`
+      );
       continue;
     }
 
@@ -424,9 +424,8 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
     const potentialFeatureModule =
       importDeclaration.getModuleSpecifierSourceFile();
     if (!potentialFeatureModule) {
-      // TODO:#schematics - change to context.logger.warning
-      console.error(
-        `No file found for ${element.print()} under ${importPath}.ts`
+      warnings.push(
+        `Skipping ${element.print()} as there is no file found for ${importDeclaration.print()}.`
       );
       continue;
     }
@@ -443,6 +442,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
     spartacusCoreModules,
     featureModules,
     unrecognizedModules,
+    warnings,
   };
 }
 
