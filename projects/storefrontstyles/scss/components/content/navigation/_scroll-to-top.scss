@@ -1,0 +1,35 @@
+%cx-scroll-to-top {
+  .scroll-to-top-btn {
+    height: 70px;
+    width: 40px;
+    border: 4px solid var(--cx-color-primary);
+    border-radius: 20px;
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: white;
+    color: var(--cx-color-primary);
+
+    font-size: 25px;
+
+    &:hover {
+      .sort-up-icon {
+        color: var(--cx-color-primary);
+      }
+    }
+
+    .sort-up-icon {
+      color: white;
+      font-size: 30px;
+      top: -10px;
+      position: relative;
+    }
+
+    .chevron-up-icon {
+      transform: translate(-50%, -50%);
+      top: 15%;
+      left: 50%;
+      position: relative;
+    }
+  }
+}
