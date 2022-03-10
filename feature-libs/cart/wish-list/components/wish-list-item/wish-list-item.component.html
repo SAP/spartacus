@@ -1,5 +1,6 @@
 <td role="cell">
-  <div class="cx-image-container">
+  <div class="cx-table-item-container">
+    <!-- Item Image -->
     <a
       [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
       tabindex="-1"
@@ -9,16 +10,20 @@
         format="thumbnail"
       ></cx-media>
     </a>
-  </div>
-  <div *ngIf="cartEntry.product?.name" class="cx-name">
-    <a
-      class="cx-link"
-      [routerLink]="{ cxRoute: 'product', params: cartEntry.product } | cxUrl"
-      ><h2>{{ cartEntry.product?.name }}</h2></a
-    >
-  </div>
-  <div *ngIf="cartEntry.product?.code" class="cx-code">
-    {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product?.code }}
+    <div>
+      <div *ngIf="cartEntry.product?.name" class="cx-name">
+        <a
+          class="cx-link"
+          [routerLink]="
+            { cxRoute: 'product', params: cartEntry.product } | cxUrl
+          "
+          >{{ cartEntry.product?.name }}</a
+        >
+      </div>
+      <div *ngIf="cartEntry.product?.code" class="cx-code">
+        {{ 'cartItems.id' | cxTranslate }} {{ cartEntry.product?.code }}
+      </div>
+    </div>
   </div>
   <!-- Variants -->
   <ng-container *ngIf="cartEntry.product?.baseOptions?.length">
@@ -45,7 +50,7 @@
   </div>
 </td>
 <!-- Action -->
-<td role="cell" class="cx-add-to-cart">
+<td role="cell" class="cx-actions">
   <ng-container
     *ngIf="cartEntry.updateable"
     cxInnerComponentsHost
@@ -55,14 +60,13 @@
       {{ 'addToCart.outOfStock' | cxTranslate }}
     </span>
   </ng-template>
-  <div class="cx-return-button col-12" *ngIf="cartEntry.updateable">
-    <button
-      (click)="removeEntry(cartEntry)"
-      [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
-      [disabled]="isLoading"
-      class="btn cx-action-link"
-    >
-      {{ 'common.remove' | cxTranslate }}
-    </button>
-  </div>
+  <button
+    *ngIf="cartEntry.updateable"
+    (click)="removeEntry(cartEntry)"
+    [cxAtMessage]="'wishlist.itemRemoved' | cxTranslate"
+    [disabled]="isLoading"
+    class="link cx-action-link"
+  >
+    {{ 'common.remove' | cxTranslate }}
+  </button>
 </td>
