@@ -59,7 +59,6 @@ import {
   shouldRemoveDecorator,
 } from './file-utils';
 import { getSourceRoot } from './workspace-utils';
-import { loadEsmModule } from './load-esm-module';
 
 const PARAMETER_LENGTH_MISS_MATCH_TEST_CLASS = `
     import { ActionsSubject, Store } from '@ngrx/store';
@@ -399,9 +398,7 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
-      const angularCompiler = await loadEsmModule<
-        typeof import('@angular/compiler')
-        >('@angular/compiler');
+      const angularCompiler = await import('@angular/compiler');
 
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
