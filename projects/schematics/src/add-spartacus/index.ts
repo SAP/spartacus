@@ -19,10 +19,7 @@ import {
   LibraryOptions,
   prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
-import {
-  addModuleImport,
-  collectInstalledFeatures,
-} from '../shared/utils/new-module-utils';
+import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
   getPrefixedSpartacusSchematicsVersion,
   getSpartacusCurrentFeatureLevel,
@@ -309,9 +306,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       increaseBudgets(),
 
       addSpartacusFeatures(options),
-
-      // TODO:#schematics - rename this method
-      collectInstalledFeatures(options),
     ])(tree, context);
   };
 }

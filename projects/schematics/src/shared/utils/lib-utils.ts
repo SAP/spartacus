@@ -1032,6 +1032,20 @@ function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
 }
 
+/**
+ * Used to sort the features in the correct order.
+ */
+function calculateSort(libraryA: string, libraryB: string): number {
+  const indexA = installationOrder.indexOf(libraryA);
+  const indexB = installationOrder.indexOf(libraryB);
+
+  /**
+   * In case a feature module is _not_ found in the `installationOrder`,
+   * we want to sort it at the end of the list.
+   */
+  return (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity);
+}
+
 export function orderInstalledFeatures<T extends LibraryOptions>(
   options: T
 ): Rule {
@@ -1070,18 +1084,9 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
         (unrecognizedModule) => unrecognizedModule.getText()
       );
 
-      featureModules.sort((moduleA, moduleB) => {
-        const indexA = installationOrder.indexOf(moduleA.spartacusLibrary);
-        const indexB = installationOrder.indexOf(moduleB.spartacusLibrary);
-
-        /**
-         * In case a feature module is _not_ found in the `installationOrder`,
-         * we want to sort it at the end of the list.
-         */
-        return (
-          (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity)
-        );
-      });
+      featureModules.sort((moduleA, moduleB) =>
+        calculateSort(moduleA.spartacusLibrary, moduleB.spartacusLibrary)
+      );
 
       const moduleImportsProperty = getModulePropertyInitializer(
         spartacusFeaturesModule,
