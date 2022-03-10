@@ -7,7 +7,7 @@
   }
   h2 {
     @include media-breakpoint-down(sm) {
-      font-size: 3.0vw;
+      font-size: 3vw;
     }
     @include type('3');
     position: absolute;
@@ -16,7 +16,7 @@
     z-index: 1;
     padding: 0.5rem;
     margin-inline-end: var(--cx-margin-right, 1rem);
-    background-color: rgba(150, 150, 150, 0.8); 
+    background-color: rgba(150, 150, 150, 0.8);
     border-radius: 0.2rem;
     font-weight: bold;
   }
