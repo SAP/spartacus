@@ -3,10 +3,10 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   GlobalMessageService,
   I18nTestingModule,
-  Order,
   RouterState,
   RoutingService,
 } from '@spartacus/core';
+import { Order } from '@spartacus/order/root';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -15,7 +15,7 @@ import {
   ConfiguratorType,
 } from '@spartacus/product-configurator/common';
 import { IntersectionService } from '@spartacus/storefront';
-import { OrderFacade } from 'feature-libs/order/root';
+import { OrderHistoryFacade } from 'feature-libs/order/root';
 import { Observable, of } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { ConfiguratorCartService } from '../../core/facade/configurator-cart.service';
@@ -100,7 +100,7 @@ class MockCommonConfiguratorUtilsService {
   }
 }
 
-class MockUserOrderService {
+class MockOrderHistoryFacade implements Partial<OrderHistoryFacade> {
   loadOrderDetails() {}
   getOrderDetails(): Observable<Order> {
     return of(mockOrder);
@@ -257,8 +257,8 @@ describe('ConfigAddToCartButtonComponent', () => {
           },
           { provide: GlobalMessageService, useClass: MockGlobalMessageService },
           {
-            provide: OrderFacade,
-            useClass: MockUserOrderService,
+            provide: OrderHistoryFacade,
+            useClass: MockOrderHistoryFacade,
           },
           {
             provide: CommonConfiguratorUtilsService,

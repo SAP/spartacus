@@ -19,7 +19,13 @@ import glob from 'glob';
 import postcss from 'postcss-scss';
 import semver from 'semver';
 import ts from 'typescript';
-import { PACKAGE_JSON, SPARTACUS_SCHEMATICS, SPARTACUS_SCOPE } from './const';
+import {
+  PACKAGE_JSON,
+  SAPUI5_TYPES,
+  SAP_SCOPE,
+  SPARTACUS_SCHEMATICS,
+  SPARTACUS_SCOPE,
+} from './const';
 import {
   error,
   Library,
@@ -133,78 +139,76 @@ export function manageDependencies(
   options: ProgramOptions
 ) {
   const libraries = Object.values(repository)
-    .map(
-      (library: Library): LibraryWithDependencies => {
-        const tsImports: LibraryWithDependencies['tsImports'] = {};
-        const scssImports: LibraryWithDependencies['scssImports'] = {};
+    .map((library: Library): LibraryWithDependencies => {
+      const tsImports: LibraryWithDependencies['tsImports'] = {};
+      const scssImports: LibraryWithDependencies['scssImports'] = {};
 
-        // Gather data about ts imports
-        const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`, {
-          // Ignore assets json translation scripts
-          // TODO: Remove when translation script will be moved to lib builder
-          ignore: [`projects/assets/generate-translations-*.ts`],
+      // Gather data about ts imports
+      const tsFilesPaths = glob.sync(`${library.directory}/**/*.ts`, {
+        // Ignore assets json translation scripts
+        // TODO: Remove when translation script will be moved to lib builder
+        ignore: [`projects/assets/generate-translations-*.ts`],
+      });
+
+      tsFilesPaths.forEach((fileName) => {
+        const sourceFile = ts.createSourceFile(
+          fileName,
+          readFileSync(fileName).toString(),
+          ts.ScriptTarget.ES2015,
+          true
+        );
+
+        const fileImports = getAllImports(sourceFile);
+        fileImports.forEach((val) => {
+          if (tsImports[val]) {
+            tsImports[val].files.add(fileName);
+          } else {
+            tsImports[val] = {
+              importPath: val,
+              files: new Set<string>([fileName]),
+              usageIn: {
+                spec: false,
+                lib: false,
+                schematics: false,
+                schematicsSpec: false,
+              },
+            };
+          }
         });
+      });
 
-        tsFilesPaths.forEach((fileName) => {
-          const sourceFile = ts.createSourceFile(
-            fileName,
-            readFileSync(fileName).toString(),
-            ts.ScriptTarget.ES2015,
-            true
-          );
+      // Gather data about scss imports
+      const scssFilesPaths = glob.sync(`${library.directory}/**/*.scss`);
 
-          const fileImports = getAllImports(sourceFile);
-          fileImports.forEach((val) => {
-            if (tsImports[val]) {
-              tsImports[val].files.add(fileName);
-            } else {
-              tsImports[val] = {
-                importPath: val,
-                files: new Set<string>([fileName]),
-                usageIn: {
-                  spec: false,
-                  lib: false,
-                  schematics: false,
-                  schematicsSpec: false,
-                },
-              };
-            }
-          });
+      scssFilesPaths.forEach((fileName) => {
+        const ast = postcss.parse(readFileSync(fileName).toString());
+        const imports = new Set<string>();
+        ast.walk((node) => {
+          if (node.type === 'atrule' && node.name === 'import') {
+            const path = node.params.replace(/['"]+/g, '');
+            imports.add(path);
+          }
         });
-
-        // Gather data about scss imports
-        const scssFilesPaths = glob.sync(`${library.directory}/**/*.scss`);
-
-        scssFilesPaths.forEach((fileName) => {
-          const ast = postcss.parse(readFileSync(fileName).toString());
-          const imports = new Set<string>();
-          ast.walk((node) => {
-            if (node.type === 'atrule' && node.name === 'import') {
-              const path = node.params.replace(/['"]+/g, '');
-              imports.add(path);
-            }
-          });
-          imports.forEach((val) => {
-            if (scssImports[val]) {
-              scssImports[val].files.add(fileName);
-            } else {
-              scssImports[val] = {
-                importPath: val,
-                files: new Set<string>([fileName]),
-              };
-            }
-          });
+        imports.forEach((val) => {
+          if (scssImports[val]) {
+            scssImports[val].files.add(fileName);
+          } else {
+            scssImports[val] = {
+              importPath: val,
+              files: new Set<string>([fileName]),
+            };
+          }
         });
+      });
 
-        return {
-          ...library,
-          scssImports,
-          tsImports,
-          externalDependencies: {},
-          externalDependenciesForPackageJson: {},
-        };
-      }
-    )
+      return {
+        ...library,
+        scssImports,
+        tsImports,
+        externalDependencies: {},
+        externalDependenciesForPackageJson: {},
+      };
+    })
     .reduce((acc: Record<string, LibraryWithDependencies>, curr) => {
       acc[curr.name] = curr;
       return acc;
@@ -608,6 +612,7 @@ function checkIfWeHaveAllDependenciesInPackageJson(
       Object.values(lib.externalDependencies).forEach((dep) => {
         if (
           !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`) &&
+          dep.dependency !== SAP_SCOPE &&
           !Object.keys(allDeps).includes(dep.dependency)
         ) {
           errors.push(
@@ -699,6 +704,8 @@ function addMissingDependenciesToPackageJson(
             !dep.dependency.startsWith(`${SPARTACUS_SCOPE}/`)
           ) {
             // Nothing we can do here. First the dependencies must be added to root package.json (previous check).
+          } else if (dep.dependency === SAP_SCOPE) {
+            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
           } else {
             if (typeof packageJson.peerDependencies === 'undefined') {
               packageJson.peerDependencies = {};
@@ -713,11 +720,15 @@ function addMissingDependenciesToPackageJson(
             }
           }
         } else {
-          errors.push(
-            `Missing \`${chalk.bold(
-              dep.dependency
-            )}\` dependency that is directly referenced in library.`
-          );
+          if (dep.dependency === SAP_SCOPE) {
+            // Work around mismatch between package name (@sapui5/ts-types-esm) and module names (sap/...) for UI5 type definitions
+          } else {
+            errors.push(
+              `Missing \`${chalk.bold(
+                dep.dependency
+              )}\` dependency that is directly referenced in library.`
+            );
+          }
         }
       }
     });
@@ -777,6 +788,7 @@ function removeNotUsedDependenciesFromPackageJson(
     Object.keys(deps).forEach((dep) => {
       if (
         typeof lib.externalDependenciesForPackageJson[dep] === 'undefined' &&
+        dep !== SAPUI5_TYPES &&
         dep !== `tslib` &&
         ((lib.name === SPARTACUS_SCHEMATICS &&
           !externalSchematics.includes(dep)) ||
@@ -1000,12 +1012,11 @@ function updateDependenciesVersions(
   rootPackageJson: PackageJson,
   options: ProgramOptions
 ): void {
-  const rootDeps:
-    | PackageJson['dependencies']
-    | PackageJson['devDependencies'] = {
-    ...rootPackageJson.dependencies,
-    ...rootPackageJson.devDependencies,
-  };
+  const rootDeps: PackageJson['dependencies'] | PackageJson['devDependencies'] =
+    {
+      ...rootPackageJson.dependencies,
+      ...rootPackageJson.devDependencies,
+    };
   if (options.fix) {
     reportProgress(
       `Updating packages versions between libraries and root ${PACKAGE_JSON}`

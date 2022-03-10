@@ -287,7 +287,6 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
@@ -307,7 +306,8 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          checkValueSelected(uiType, attributeName, valueName);
+          //Here we cannot check if the value is selected, as this method is also used
+          //for de-selecting items
         });
       break;
     default:
@@ -497,9 +497,9 @@ export function clickOnProceedToCheckoutBtnOnPD(): void {
     .contains('proceed to checkout')
     .click()
     .then(() => {
-      cy.location('pathname').should('contain', '/checkout/shipping-address');
-      cy.get('.cx-checkout-title').should('contain', 'Shipping Address');
-      cy.get('cx-shipping-address').should('be.visible');
+      cy.location('pathname').should('contain', '/checkout/delivery-address');
+      cy.get('.cx-checkout-title').should('contain', 'Delivery Address');
+      cy.get('cx-delivery-address').should('be.visible');
     });
 }
 

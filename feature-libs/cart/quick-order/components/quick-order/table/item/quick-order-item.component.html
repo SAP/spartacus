@@ -3,12 +3,16 @@
     <div class="col-2 col-md-1 cx-quick-order-image-container">
       <div class="cx-quick-order-table-item-product-image">
         <a
-          [ngClass]="{ disabled: loading }"
+          [ngClass]="{
+            disabled: loading,
+            'img-missing': !entry?.product?.images?.PRIMARY
+          }"
           [routerLink]="{ cxRoute: 'product', params: entry.product } | cxUrl"
           tabindex="-1"
         >
           <cx-media
             [container]="entry?.product?.images?.PRIMARY"
+            [alt]="entry?.product?.name"
             format="cartIcon"
           ></cx-media>
         </a>
@@ -66,6 +70,7 @@
         >
           <button
             (click)="removeEntry()"
+            [attr.aria-label]="'common.remove' | cxTranslate"
             [disabled]="loading"
             class="link cx-action-link"
           >

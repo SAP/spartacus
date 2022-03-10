@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Consignment, Order, PromotionLocation } from '@spartacus/core';
+import { CartOutlets, PromotionLocation } from '@spartacus/cart/base/root';
+import { Consignment, Order } from '@spartacus/order/root';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { OrderDetailsService } from '../order-details.service';
@@ -14,6 +15,8 @@ import {
 })
 export class OrderDetailItemsComponent implements OnInit {
   constructor(protected orderDetailsService: OrderDetailsService) {}
+
+  readonly CartOutlets = CartOutlets;
 
   promotionLocation: PromotionLocation = PromotionLocation.Order;
   order$: Observable<Order> = this.orderDetailsService.getOrderDetails();

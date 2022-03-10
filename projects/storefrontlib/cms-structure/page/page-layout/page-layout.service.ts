@@ -1,6 +1,6 @@
-import { Inject, Injectable, isDevMode, Optional } from '@angular/core';
-import { CmsService, Page } from '@spartacus/core';
-import { combineLatest, Observable, of } from 'rxjs';
+import { Injectable, isDevMode, OnDestroy } from '@angular/core';
+import { CmsService, Page, UnifiedInjector } from '@spartacus/core';
+import { combineLatest, Observable, of, Subscription } from 'rxjs';
 import { distinctUntilChanged, filter, map, switchMap } from 'rxjs/operators';
 import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
 import {
@@ -14,15 +14,22 @@ import { PageLayoutHandler, PAGE_LAYOUT_HANDLER } from './page-layout-handler';
 @Injectable({
   providedIn: 'root',
 })
-export class PageLayoutService {
+export class PageLayoutService implements OnDestroy {
+  protected handlers: PageLayoutHandler[];
+  protected subscription = new Subscription();
+
   constructor(
     private cms: CmsService,
     private config: LayoutConfig,
     private breakpointService: BreakpointService,
-    @Optional()
-    @Inject(PAGE_LAYOUT_HANDLER)
-    private handlers: PageLayoutHandler[]
-  ) {}
+    private unifiedInjector: UnifiedInjector
+  ) {
+    this.subscription.add(
+      this.unifiedInjector
+        .getMulti(PAGE_LAYOUT_HANDLER)
+        .subscribe((handlers) => (this.handlers = handlers))
+    );
+  }
 
   // Prints warn messages for missing layout configs.
   // The warnings are only printed once per config
@@ -249,5 +256,9 @@ export class PageLayoutService {
       );
       this.warnLogMessages[cacheKey] = true;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

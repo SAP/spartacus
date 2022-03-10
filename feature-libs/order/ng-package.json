@@ -7,6 +7,7 @@
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
       "@ng-bootstrap/ng-bootstrap": "ng-bootstrap",
+      "@spartacus/cart": "cart",
       "rxjs": "rxjs"
     }
   },

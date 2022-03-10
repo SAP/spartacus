@@ -9,11 +9,10 @@ import {
   UrlModule,
 } from '@spartacus/core';
 import {
-  AddToCartModule,
   CardModule,
-  CartSharedModule,
   IconModule,
   MediaModule,
+  OutletModule,
   SpinnerModule,
 } from '@spartacus/storefront';
 import { SavedCartDetailsActionComponent } from './saved-cart-details-action/saved-cart-details-action.component';
@@ -22,16 +21,15 @@ import { SavedCartDetailsOverviewComponent } from './saved-cart-details-overview
 
 @NgModule({
   imports: [
-    CartSharedModule,
     CommonModule,
     I18nModule,
     UrlModule,
     RouterModule,
     CardModule,
     MediaModule,
-    AddToCartModule,
     IconModule,
     SpinnerModule,
+    OutletModule,
     ConfigModule.withConfig(<CmsConfig>{
       cmsComponents: {
         SavedCartDetailsOverviewComponent: {

@@ -1,7 +1,9 @@
+import { addProductToCart as addToCart } from './applied-promotions';
+
 export const summaryContainer = `cx-product-summary`;
 export const infoContainer = `cx-product-intro`;
 export const tabsContainer = 'cx-tab-paragraph-container';
-export const tabsHeaderList = `${tabsContainer} > button`;
+export const tabsHeaderList = `${tabsContainer} > div > button`;
 export const activeTabContainer = `${tabsContainer} .active .container`;
 export const shippingTabActive = `${tabsContainer} .active cx-paragraph`;
 export const reviewContainer = 'cx-product-reviews';
@@ -91,9 +93,7 @@ export function verifyReviewForm() {
 }
 
 export function verifyQuantityInCart() {
-  cy.get(addToCartButton)
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get(atcModal).should('be.visible');
   cy.get(atcModalTitle).should('contain', 'Item(s) added to your cart');
   cy.get(`${atcModalItem} .cx-name`).should('contain', PRODUCT_NAME);
@@ -102,9 +102,7 @@ export function verifyQuantityInCart() {
   for (let i = 0; i <= 2; i++) {
     cy.get(itemCounter).findByText('+').click();
   }
-  cy.get(addToCartButton)
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog cx-cart-item');
   cy.get(atcModalCloseButton).click();
   cy.get(headerCartButton).should('contain', '5');

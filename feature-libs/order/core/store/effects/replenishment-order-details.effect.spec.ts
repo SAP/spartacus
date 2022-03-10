@@ -5,12 +5,12 @@ import {
   GlobalMessageService,
   GlobalMessageType,
   normalizeHttpError,
-  ReplenishmentOrder,
   Translatable,
 } from '@spartacus/core';
+import { ReplenishmentOrder } from '@spartacus/order/root';
 import { cold, hot } from 'jasmine-marbles';
 import { Observable, of, throwError } from 'rxjs';
-import { ReplenishmentOrderConnector } from '../../connectors/replenishment-order.connector';
+import { ReplenishmentOrderHistoryConnector } from '../../connectors/replenishment-order-history.connector';
 import { OrderActions } from '../actions/index';
 import * as fromEffects from './replenishment-order-details.effect';
 
@@ -50,7 +50,7 @@ class MockGlobalMessageService {
 }
 
 describe('ReplenishmentOrderDetailsEffect', () => {
-  let connector: ReplenishmentOrderConnector;
+  let connector: ReplenishmentOrderHistoryConnector;
   let effects: fromEffects.ReplenishmentOrderDetailsEffect;
   let actions$: Observable<Action>;
 
@@ -58,7 +58,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
     TestBed.configureTestingModule({
       providers: [
         {
-          provide: ReplenishmentOrderConnector,
+          provide: ReplenishmentOrderHistoryConnector,
           useClass: MockReplenishmentOrderConnector,
         },
         {
@@ -70,7 +70,7 @@ describe('ReplenishmentOrderDetailsEffect', () => {
       ],
     });
 
-    connector = TestBed.inject(ReplenishmentOrderConnector);
+    connector = TestBed.inject(ReplenishmentOrderHistoryConnector);
     effects = TestBed.inject(fromEffects.ReplenishmentOrderDetailsEffect);
   });
 

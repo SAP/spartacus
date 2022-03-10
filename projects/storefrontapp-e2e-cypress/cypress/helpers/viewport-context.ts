@@ -1,4 +1,4 @@
-import { formats } from '../sample-data/viewports';
+import { formats, ViewportType } from '../sample-data/viewports';
 
 const viewportConfigs: Viewport[] = Object.entries(formats).map(
   ([key, value]) => {
@@ -18,7 +18,7 @@ interface Viewport {
 }
 
 function capitalize(str: string) {
-  return str[0].toUpperCase() + str.substr(1);
+  return str[0].toUpperCase() + str.substring(1);
 }
 
 /**
@@ -48,6 +48,15 @@ export function viewportContext(
       }
     );
   });
+}
+
+/**
+ * Check if viewport is mobile
+ *
+ * @returns true if the current viewport is mobile
+ */
+export function isMobile(): boolean {
+  return getViewport() === ViewportType.Mobile;
 }
 
 /**

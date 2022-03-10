@@ -1,4 +1,4 @@
-import { CartEvent } from '@spartacus/core';
+import { CartEvent } from '@spartacus/cart/base/root';
 
 /**
  * Base saved cart event. Most cart events should have these properties.
@@ -6,27 +6,6 @@ import { CartEvent } from '@spartacus/core';
 export abstract class SavedCartEvent extends CartEvent {}
 
 // =====================================================================
-
-export class DeleteSavedCartEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartEvent';
-}
-
-export class DeleteSavedCartSuccessEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartSuccessEvent';
-}
-
-export class DeleteSavedCartFailEvent extends SavedCartEvent {
-  /**
-   * Event's type
-   */
-  static readonly type = 'DeleteSavedCartFailEvent';
-}
 
 export class SaveCartEvent extends SavedCartEvent {
   /**

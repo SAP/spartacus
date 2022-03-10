@@ -95,6 +95,7 @@ export class AddressBookComponent implements OnInit {
           actions.push({ name: textDelete, event: 'delete' });
 
           return {
+            role: 'region',
             textBold: address.firstName + ' ' + address.lastName,
             text: [
               address.line1,
@@ -107,8 +108,8 @@ export class AddressBookComponent implements OnInit {
             header: address.defaultAddress ? `✓ ${defaultText}` : '',
             deleteMsg: textVerifyDeleteMsg,
             label: address.defaultAddress
-              ? 'addressBook.defaultShippingAddress'
-              : 'addressBook.additionalShippingAddress',
+              ? 'addressBook.defaultDeliveryAddress'
+              : 'addressBook.additionalDeliveryAddress',
           };
         }
       )
@@ -119,7 +120,7 @@ export class AddressBookComponent implements OnInit {
     this.service.setAddressAsDefault(address.id ?? '');
     this.globalMessageService.add(
       {
-        key: 'addressMessages.setAsDefaultSucessfully',
+        key: 'addressMessages.setAsDefaultSuccessfully',
         params: { streetAddress: address.line1 },
       },
       GlobalMessageType.MSG_TYPE_CONFIRMATION

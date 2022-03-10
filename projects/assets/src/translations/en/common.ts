@@ -22,6 +22,7 @@ export const common = {
     add: 'Add',
     breadcrumbs: 'breadcrumbs',
     selectFile: 'Select file',
+    clear: 'Clear',
   },
   pageMetaResolver: {
     category: {
@@ -50,6 +51,7 @@ export const common = {
   navigation: {
     categoryNavLabel: 'Category menu',
     footerNavLabel: 'Footer links',
+    navigateTo: 'Navigate to {{nav}}',
   },
   searchBox: {
     placeholder: 'Enter product name or SKU',
@@ -77,6 +79,7 @@ export const common = {
     rma: 'Return Number',
     replenishmentNumber: 'Replenishment Number',
     nextOrderDate: 'Next Order Date',
+    pageViewUpdated: 'Page view updated with your selected options.',
   },
   httpHandlers: {
     badGateway: 'A server error occurred. Please try again later.',
@@ -134,6 +137,10 @@ export const common = {
     },
     cartNotFound: 'Cart not found.',
     invalidCodeProvided: 'Invalid code provided.',
+    voucherExceeded:
+      'This coupon has exceeded the number of times it can be used',
+    unknownIdentifier: 'Item not found.',
+    otherCartErrors: 'Cart errors occurred.',
   },
   miniCart: {
     item: '{{count}} item currently in your cart',
@@ -155,6 +162,7 @@ export const common = {
     previousSlide: 'Previous slide',
     nextSlide: 'Next slide',
     slideNumber: 'Slide {{currentSlideNumber}}',
+    carouselForProduct: 'Carousel, Images for {{product}}',
   },
   formErrors: {
     globalMessage: 'The form you are trying to submit contains errors.',
@@ -186,5 +194,8 @@ export const common = {
   errorHandlers: {
     scriptFailedToLoad: 'Failed to load the script.',
     refreshThePage: 'Please refresh the page.',
+  },
+  assistiveMessage: {
+    actionCancelled: 'Action cancelled, nothing changed',
   },
 };
