@@ -18,7 +18,8 @@ import {
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
 import { TranslationService } from '@spartacus/core';
-import { Configurator } from 'feature-libs/product-configurator/rulebased/core/model/configurator.model';
+import { Configurator } from '@spartacus/product-configurator/rulebased';
+//import { Configurator } from 'feature-libs/product-configurator/rulebased/core/model/configurator.model';
 
 class DefaultSettings {
   numDecimalPlaces: number;
