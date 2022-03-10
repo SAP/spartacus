@@ -9,7 +9,7 @@ import { ScrollToTopComponent } from './scroll-to-top.component';
   providers: [
     provideDefaultConfig(<CmsConfig>{
       cmsComponents: {
-        PageTitleComponent: {
+        ScrollToTopComponent: {
           component: ScrollToTopComponent,
         },
       },
