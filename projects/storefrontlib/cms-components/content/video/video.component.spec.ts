@@ -12,7 +12,7 @@ import {
   UrlCommand,
 } from '@spartacus/core';
 import { CmsComponentData, Media } from '@spartacus/storefront';
-import { MediaService } from 'projects/storefrontlib/shared';
+import { MediaService } from '../../../shared/components/media/media.service';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { VideoComponent } from './video.component';
 
