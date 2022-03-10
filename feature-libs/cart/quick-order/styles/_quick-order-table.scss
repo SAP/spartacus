@@ -1,9 +1,12 @@
 cx-quick-order-table {
-
   @extend %cx-cart-item-list;
 
-  th.cx-item-list-price {
-    text-align: start;
+  td.cx-price {
+    text-align: center;
+
+    @include media-breakpoint-down(md) {
+      text-align: left;
+    }
   }
   //display: block;
   //margin-top: 30px;

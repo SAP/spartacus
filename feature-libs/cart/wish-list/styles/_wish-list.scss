@@ -1,25 +1,39 @@
 %cx-wish-list {
   @extend %cx-cart-item-list;
 
-  th.cx-item-list-price {
-    text-align: start;
+
+
+  td.cx-price {
+    text-align: center;
+
+    @include media-breakpoint-down(md) {
+      text-align: left;
+    }
   }
 
-  //--cx-max-width: 75%;
+  td.cx-actions {
+    cx-add-to-cart {
+      display:flex;
+      justify-content: flex-end;
+    }
+  }
   //margin: auto;
   //
   //.cx-item-list-price {
   //  padding: 0;
   //}
   //
-  //@include media-breakpoint-down(sm) {
-  //  --cx-max-width: 100%;
-  //  .cx-item-list-row:last-of-type {
-  //    border: none;
-  //  }
-  //}
-  //
-  //@include media-breakpoint-down(md) {
-  //  --cx-max-width: 90%;
-  //}
+
+  --cx-max-width: 75%;
+
+  @include media-breakpoint-down(sm) {
+    --cx-max-width: 100%;
+    .cx-item-list-row:last-of-type {
+      border: none;
+    }
+  }
+
+  @include media-breakpoint-down(md) {
+    --cx-max-width: 90%;
+  }
 }
