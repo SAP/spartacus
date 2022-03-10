@@ -4,12 +4,7 @@
     else loading
   "
 >
-  <div
-    class="cx-count container"
-    aria-live="assertive"
-    aria-atomic="true"
-    aria-relevant="additions"
-  >
+  <div class="cx-count container">
     <div class="row" *ngIf="locations?.length">
       <div class="cx-visually-hidden">
         {{
@@ -22,11 +17,12 @@
         class="cx-set col-sm-6 col-md-4 col-lg-4 col-xl-3"
       >
         <a
-          [attr.aria-label]="country.count"
           [routerLink]="['../country', country.isoCode]"
           class="btn-link"
+          role="button"
+          [attr.aria-label]="country.name + '(' + country.count + ')'"
         >
-          <h2 class="cx-title">
+          <h2 class="cx-title" aria-hidden="true">
             <span
               [ngClass]="
                 country?.storeCountDataList
@@ -44,7 +40,6 @@
               "
               *ngIf="!country?.storeCountDataList"
               class="cx-country-count"
-              aria-hidden="true"
               >({{ country.count }})</span
             >
           </h2>

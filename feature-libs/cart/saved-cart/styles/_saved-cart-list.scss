@@ -10,6 +10,10 @@ cx-saved-cart-list {
     border-color: var(--cx-color-light);
     border-style: solid;
 
+    .cx-saved-cart-list-th-qty {
+      width: 150px;
+    }
+
     .cx-table-label-mobile {
       @include media-breakpoint-up(lg) {
         display: none !important;
