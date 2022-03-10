@@ -22,11 +22,7 @@ export function getSpartacusProviders(
 
   const providers: Node[] = [];
   initializer?.getElements().forEach((element) => {
-    if (
-      Node.isCallExpression(element) ||
-      // TODO:#schematics - cover the spread in new module utils
-      Node.isSpreadElement(element)
-    ) {
+    if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
       const expression = element.getExpression();
       if (
         Node.isIdentifier(expression) &&
