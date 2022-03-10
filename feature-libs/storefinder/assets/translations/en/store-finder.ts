@@ -14,7 +14,7 @@ export const storeFinder = {
     storeFeatures: 'Store features',
     storeFinder: 'Store Finder',
     storesFound: '{{ count }} store found',
-    storesFound_plural: '{{ count }} stores found',
+    storesFound_other: '{{ count }} stores found',
     fromStoresFound: 'from {{ count }} store found',
     fromStoresFound_other: 'from {{ count }} stores found',
     findStore: 'Find store',
