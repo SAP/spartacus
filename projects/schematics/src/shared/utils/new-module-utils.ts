@@ -13,6 +13,7 @@ import {
   Expression,
   Identifier,
   Node,
+  ObjectLiteralElementLike,
   SourceFile,
   ts as tsMorph,
 } from 'ts-morph';
@@ -27,7 +28,7 @@ import {
   isImportedFromSpartacusLibs,
 } from './import-utils';
 import { installationOrder, LibraryOptions } from './lib-utils';
-import { createProgram } from './program';
+import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { getSourceRoot } from './workspace-utils';
 
@@ -39,6 +40,7 @@ export interface Import {
 export function ensureModuleExists(options: {
   name: string;
   path: string;
+  // TODO:#schematics - rename, as there's a "module" in the global scope
   module: string;
   project: string;
 }): Rule {
@@ -48,6 +50,7 @@ export function ensureModuleExists(options: {
     }`;
     const filePath = `${modulePath}/${dasherize(options.name)}.module.ts`;
     if (host.exists(filePath)) {
+      // TODO:#schematics - rename!!
       const module = getTsSourceFile(host, filePath);
       const metadata = getDecoratorMetadata(
         module,
@@ -147,6 +150,7 @@ function addToModuleInternal(
   },
   createIfMissing = true
 ): Expression | undefined {
+  // TODO:#schematics - rename, as there's a "module" in the global scope
   const module = getModule(sourceFile);
   if (!module) {
     return undefined;
@@ -280,103 +284,84 @@ export function collectInstalledFeatures<T extends LibraryOptions>(
     for (const tsconfigPath of buildPaths) {
       const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
+      let spartacusFeaturesModule: SourceFile | undefined;
       for (const sourceFile of appSourceFiles) {
         if (
           sourceFile
             .getFilePath()
             .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
         ) {
-          const featureModuleNames = collectInstalledFeatureModules(sourceFile);
-          console.log('collected: ', featureModuleNames.join('\n'));
+          spartacusFeaturesModule = sourceFile;
           break;
         }
       }
 
-      // for (const featureModule of collectInstalledFeatureModules(
-      //   appSourceFiles
-      // )) {
-      //   featureModuleNames = featureModuleNames.concat(
-      //     collectModuleNames(featureModule)
-      //   );
-      // // }
+      if (!spartacusFeaturesModule) {
+        continue;
+      }
+      const moduleImportsProperty = getModuleImportsInitializer(
+        spartacusFeaturesModule
+      );
+      if (!moduleImportsProperty) {
+        continue;
+      }
 
-      // const dependencies: Record<string, string> =
-      //   readPackageJson(tree).dependencies;
-      // const spartacusLibs = getSpartacusPackages(dependencies).filter(
-      //   (spartacusPackage) =>
-      //     !CORE_SPARTACUS_SCOPES.some((skipPackage) =>
-      //       spartacusPackage.startsWith(skipPackage)
-      //     )
-      // );
-      // console.log('spa libs: ', spartacusLibs.join('\n'));
-
-      console.log('\n\n\n', 'options:', options, '\n\n\n');
+      const collectedModules = collectInstalledModules(spartacusFeaturesModule);
+      if (!collectedModules) {
+        continue;
+      }
 
       console.log('installationOrder', installationOrder);
 
-      // resolveGraphDependencies(, resolved);
-      // 1. get feature module name
-      // 2. check it against the config
-      // 3. if it matches, pull the lib from the config
+      const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
+        (m) => m.getText()
+      );
+      const featureModules = collectedModules.featureModules;
+      const unrecognizedModules = collectedModules.unrecognizedModules.map(
+        (m) => m.getText()
+      );
 
-      // figure out which feature module belongs to which spartacus library
-      //    use the feature's configs to re-create the root import?
-      //    OR: collect all @spartacus imports, filter out core imports, normalize the rest (remove everything after the second '/' (including it))
-      // call the graph to get the proper installation order
+      featureModules.sort((moduleA, moduleB) => {
+        const indexA = installationOrder.indexOf(moduleA.spartacusLibrary);
+        const indexB = installationOrder.indexOf(moduleB.spartacusLibrary);
 
-      // sort the feature modules according to the graph's result.
-      //    if multiple features are mapped to the same spartacus package,
-      //    preserve their order.
-      //    otherwise, sort according to the graph's result
+        return (
+          (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity)
+        );
+      });
+
+      const finalOrder: string[] = spartacusCoreModules
+        .concat(featureModules.map((m) => m.module.getText()))
+        .concat(unrecognizedModules);
+
+      moduleImportsProperty.replaceWithText(`[${finalOrder.join(',\n')}]`);
+
+      saveAndFormat(spartacusFeaturesModule);
+
+      console.log('\n\n\n', 'options:', options, '\n\n\n');
     }
   };
 }
-
-// function collectModuleNames(featureModule: SourceFile): string[] {
-//   return featureModule
-//     .getClasses()
-//     .map((className) => className.getName() ?? '')
-//     .filter((className) => !!className);
-// }
-
-// function collectFeatureLibImports(featureModule: SourceFile): string[] {
-//   const libImports = collectImportScopes(featureModule)
-//     .filter(
-//       (scope) =>
-//         !CORE_SPARTACUS_SCOPES.some((skipScope) => scope.startsWith(skipScope))
-//     )
-//     .filter((scope) => scope.startsWith(SPARTACUS_SCOPE))
-//     .map((scope) => normalizeScope(scope));
-//   // remove duplicates
-//   return Array.from(new Set(libImports));
-// }
-
-// function normalizeScope(scope: string): string {
-//   return scope.split('/').slice(0, 2).join('/');
-// }
-
-// function insert(
-//   libFeatureModules: Map<string, string[]>,
-//   libImports: string[],
-//   featureModuleNames: string[]
-// ): void {
-//   for (const libImport of libImports) {
-//     if (!libFeatureModules.has(libImport)) {
-//       libFeatureModules.set(libImport, []);
-//     }
-
-//     const existingFeatureModuleNames = libFeatureModules.get(libImport) ?? [];
-//     libFeatureModules.set(
-//       libImport,
-//       existingFeatureModuleNames.concat(featureModuleNames)
-//     );
-//   }
-// }
 
 // TODO:#schematics - use elsewhere. Search for 'getInitializerIfKind'
 function getModuleImportsInitializer(
   source: SourceFile
 ): ArrayLiteralExpression | undefined {
+  const property = getModuleImportsProperty(source);
+  if (!property || !Node.isPropertyAssignment(property)) {
+    return undefined;
+  }
+
+  return property.getInitializerIfKind(
+    tsMorph.SyntaxKind.ArrayLiteralExpression
+  );
+}
+
+// TODO:#schematics - make generic, and allow to get any kind of property: 'imports', 'exports', 'declarations', etc.
+function getModuleImportsProperty(
+  source: SourceFile
+): ObjectLiteralElementLike | undefined {
+  // TODO:#schematics - rename, as there's a "module" in the global scope
   const module = getModule(source);
   if (!module) {
     console.warn(`No 'NgModule' decorator found in '${source.getFilePath()}'`);
@@ -388,59 +373,51 @@ function getModuleImportsInitializer(
     return undefined;
   }
 
-  const property = arg.getProperty('imports');
-  if (!property || !Node.isPropertyAssignment(property)) {
+  return arg.getProperty('imports');
+}
+
+function collectInstalledModules(spartacusFeaturesModule: SourceFile):
+  | {
+      spartacusCoreModules: (Expression | Identifier)[];
+      featureModules: {
+        spartacusLibrary: string;
+        // TODO:#schematics - rename, as there's a "module" in the global scope
+        module: Expression | Identifier;
+      }[];
+      unrecognizedModules: (Expression | Identifier)[];
+    }
+  | undefined {
+  const initializer = getModuleImportsInitializer(spartacusFeaturesModule);
+  if (!initializer) {
     return undefined;
   }
 
-  return property.getInitializerIfKind(
-    tsMorph.SyntaxKind.ArrayLiteralExpression
-  );
-}
-
-function collectInstalledFeatureModules(
-  spartacusFeaturesModule: SourceFile
-): string[] {
-  const initializer = getModuleImportsInitializer(spartacusFeaturesModule);
-  if (!initializer) {
-    return [];
-  }
-
-  const spartacusCoreModules: Identifier[] = [];
-  const featureModules: { spartacusLibrary: string; module: Identifier }[] = [];
-  const unrecognizedModules: Identifier[] = [];
+  const spartacusCoreModules: (Expression | Identifier)[] = [];
+  const featureModules: {
+    spartacusLibrary: string;
+    // TODO:#schematics - rename, as there's a "module" in the global scope
+    module: Expression | Identifier;
+  }[] = [];
+  const unrecognizedModules: (Expression | Identifier)[] = [];
 
   for (const element of initializer.getElements()) {
-    // let module: Identifier | undefined;
-    // if (Node.isIdentifier(element)) {
-    //   module = element;
-    // } else if (Node.isCallExpression(element)) {
-    //   const propertyAccessExpression = element.getFirstChild();
-    //   if (Node.isPropertyAccessExpression(propertyAccessExpression)) {
-    //     const firstIdentifier = propertyAccessExpression.getFirstChild();
-    //     if (Node.isIdentifier(firstIdentifier)) {
-    //       module = firstIdentifier;
-    //     }
-    //   }
-    // }
-
-    const module = getModuleIdentifier(element);
-    if (!module) {
+    const moduleIdentifier = getModuleIdentifier(element);
+    if (!moduleIdentifier) {
       // TODO:#schematics - change to context.logger.warning
       console.error(`${element.print()} not recognized as a module.`);
       continue;
     }
 
-    const importDeclaration = getImportDeclaration(module);
+    const importDeclaration = getImportDeclaration(moduleIdentifier);
     if (!importDeclaration) {
       // TODO:#schematics - change to context.logger.warning
-      console.error(`No import found for ${module.print()}.`);
+      console.error(`No import found for ${moduleIdentifier.print()}.`);
       continue;
     }
 
     const importPath = importDeclaration.getModuleSpecifierValue();
     if (isImportedFromSpartacusLibs(importPath)) {
-      spartacusCoreModules.push(module);
+      spartacusCoreModules.push(element);
       continue;
     }
 
@@ -449,35 +426,24 @@ function collectInstalledFeatureModules(
     if (!potentialFeatureModule) {
       // TODO:#schematics - change to context.logger.warning
       console.error(
-        `No file found for ${module.print()} under ${importPath}.ts`
+        `No file found for ${element.print()} under ${importPath}.ts`
       );
       continue;
     }
 
     const spartacusLibrary = recognizeFeatureModule(potentialFeatureModule);
     if (spartacusLibrary) {
-      featureModules.push({ spartacusLibrary, module });
+      featureModules.push({ spartacusLibrary, module: element });
     } else {
-      unrecognizedModules.push(module);
+      unrecognizedModules.push(element);
     }
   }
 
-  console.warn('SPA CORE modules: ');
-  console.log(spartacusCoreModules.map((x) => x.getText()).join('\n'));
-  console.warn('FEATURE modules: ');
-  console.log(featureModules.map((x) => x.module.getText()).join('\n'));
-  console.warn('UNRECOGNIZED modules: ');
-  console.log(unrecognizedModules.map((x) => x.getText()).join('\n'));
-
-  // check the imports:
-  // if imported from CORE_SPA_SCOPES - preserve the order as is. Maybe push it to a "coreSpaImports"
-  // if imported from a local file - check it:
-  // 1.navigate to the file
-  // 2.determine if there's a Spartacus root / main module imported in the module
-  // 2.1 if so, it should be ordered
-  // 2.2 if not, it's a custom feature module, and should go at the end of the final import list
-
-  return initializer.getElements().map((element) => element.getText());
+  return {
+    spartacusCoreModules,
+    featureModules,
+    unrecognizedModules,
+  };
 }
 
 function getModuleIdentifier(element: Node): Identifier | undefined {
@@ -505,16 +471,7 @@ function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
   }
 
   for (const element of initializer.getElements()) {
-    const module = getModuleIdentifier(element);
-    if (!module) {
-      // TODO:#schematics - change to context.logger.warning
-      console.error(`${element.print()} not recognized as a module.`);
-      continue;
-    }
-
-    const spartacusLibrary = getSpartacusLibraryByModuleImports(
-      module.getText()
-    );
+    const spartacusLibrary = getSpartacusLibraryByModuleImports(element);
     if (spartacusLibrary) {
       return spartacusLibrary;
     }
@@ -524,8 +481,14 @@ function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
 }
 
 function getSpartacusLibraryByModuleImports(
-  moduleName: string
+  moduleExpression: Node
 ): string | undefined {
+  const moduleIdentifier = getModuleIdentifier(moduleExpression);
+  if (!moduleIdentifier) {
+    return undefined;
+  }
+
+  const moduleName = moduleIdentifier.getText();
   for (const spartacusLibrary of Object.keys(packageFeatureConfigMapping)) {
     if (packageFeatureConfigMapping[spartacusLibrary].includes(moduleName)) {
       return spartacusLibrary;
