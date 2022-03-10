@@ -1,3 +1,4 @@
+import deepEqual from 'deep-equal';
 import * as fs from 'fs';
 import stringifyObject from 'stringify-object';
 const { execSync } = require('child_process');
@@ -37,21 +38,34 @@ console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
 
-let ticketCount = 0;
+const apiElementsWithConstructorChanges = breakingChangesData.filter(
+  (apiElement: any) => {
+    return !!getConstructorChanges(apiElement);
+  }
+);
+console.log(
+  `Found ${apiElementsWithConstructorChanges.length} api elements with constructor changes.`
+);
 
 const constructorSchematics = [];
-for (let index = 0; index < breakingChangesData.length; index++) {
-  const apiElement = breakingChangesData[index];
+
+apiElementsWithConstructorChanges.forEach((apiElement: any) => {
   const constructorChanges = getConstructorChanges(apiElement);
-  if (constructorChanges) {
-    ticketCount++;
-    //logWarnings(apiElement, constructorChanges);
-    constructorSchematics.push(
-      getSchematicsData(apiElement, constructorChanges)
+  if (schematicsParamsAreEqual(constructorChanges)) {
+    console.log(
+      `Warning: Skipped schematics for ${apiElement.kind} ${apiElement.name} because before and after params are the same for schematics.`
     );
+    // Schematics only care about param type changes.  If the only changes are with other
+    // changes (param variable name, genericss type changes), there is a chance the before and after would be the same
+    // for schematics.
+    return;
   }
-}
-console.log(`Generated ${ticketCount} entries.`);
+  constructorSchematics.push(getSchematicsData(apiElement, constructorChanges));
+});
+
+console.log(
+  `Generated ${constructorSchematics.length} constructor schematics entries.`
+);
 fs.writeFileSync(
   `generate-const.out.ts`,
   stringifyObject(constructorSchematics)
@@ -88,4 +102,11 @@ function toSchematicsParam(param: any) {
     className: param.shortType || param.type,
     importPath: param.importPath,
   };
+}
+
+function schematicsParamsAreEqual(constructorChanges: any): boolean {
+  return deepEqual(
+    constructorChanges.details.oldParams.map(toSchematicsParam),
+    constructorChanges.details.newParams.map(toSchematicsParam)
+  );
 }
