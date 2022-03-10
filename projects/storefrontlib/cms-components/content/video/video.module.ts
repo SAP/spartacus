@@ -14,7 +14,7 @@ import { VideoComponent } from './video.component';
     GenericLinkModule,
     MediaModule,
     I18nModule,
-    SpinnerModule
+    SpinnerModule,
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
