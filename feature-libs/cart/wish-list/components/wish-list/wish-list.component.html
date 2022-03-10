@@ -1,24 +1,26 @@
 <ng-container *ngIf="wishList$ | async as wishList">
   <table role="table" *ngIf="wishList?.entries?.length > 0; else emptyWishList">
+    <caption class="cx-visually-hidden">
+      {{ 'wishlist.caption' | cxTranslate }}
+    </caption>
     <thead>
-      <tr role="row">
-        <th class="cx-item-list-desc">
+      <tr role="row" class="cx-item-list-header">
+        <th role="columnheader" class="cx-item-list-desc">
           {{ 'cartItems.description' | cxTranslate }}
         </th>
-        <th class="cx-item-list-price">
+        <th role="columnheader" class="cx-item-list-price">
           {{ 'cartItems.itemPrice' | cxTranslate }}
         </th>
-        <th class="cx-item-list-actions">
+        <th role="columnheader" class="cx-item-list-actions">
           {{ 'cartItems.actions' | cxTranslate }}
         </th>
       </tr>
     </thead>
-
-    <tbody>
+    <tbody class="cx-item-list-items">
       <tr
-        class="cx-item-list-row cx-wish-list-items"
         cx-wish-list-item
         role="row"
+        class="cx-item-list-row cx-wish-list-items"
         *ngFor="let entry of wishList?.entries"
         [cartEntry]="entry"
         [isLoading]="loading$ | async"
