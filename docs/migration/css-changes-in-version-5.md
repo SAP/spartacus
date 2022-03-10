@@ -48,6 +48,10 @@ title: Changes to Styles in 5.0
 
 - `h2` has been changed to `.cx-summary-heading` to restore styling for corresponding markup changes
 
+## Change in tables.scss
+
+- `text-align: center` has been removed from `.table > thead > th` 
+
 ## Change in store-finder-list-item.scss
 
 - obsolete style rules were removed for `.cx-store-name` class since the markup structure changed from `h2.cx-store-name > button` changed to `a.cx-store-name` for screen reader improvements.
@@ -74,3 +78,8 @@ title: Changes to Styles in 5.0
 - Width for `cx-label` in `cx-total` set to `100px` in mobile view
 - Width for `cx-label` in `cx-quantity` set to `100px` in mobile view
 - Set `display` to `block` for `cx-actions > link` in mobile view
+
+### FormErrorsComponent
+
+- `display: none` has been removed from `cx-form-errors`
+- Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
