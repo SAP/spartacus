@@ -1,14 +1,26 @@
 import { EventEmitter } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '@spartacus/core';
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 import { skip } from 'rxjs/operators';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
-describe('VisualPickingProductFilterService', () => {
-  it('should match on product code', (done) => {
-    const visualPickingProductFilterService =
-      new VisualPickingProductFilterService();
+let navEndSub = new Subject<any>();
+class MockRouter {
+  events = navEndSub
+}
 
+describe('VisualPickingProductFilterService', () => {
+  let visualPickingProductFilterService: VisualPickingProductFilterService
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      providers: [{ provide: Router, useClass: MockRouter }],
+    });
+
+    visualPickingProductFilterService = TestBed.inject(VisualPickingProductFilterService);
+  });
+  it('should match on product code', (done) => {
     const productReferences: ProductReference[] = [
       {
         target: {
@@ -42,9 +54,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('set filter', () => {
     it('should do nothing when setting existing value', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
-
       const filter$ = visualPickingProductFilterService[
         'filter$'
       ] as EventEmitter<string>;
@@ -60,8 +69,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('get filter', () => {
     it('should return value that was set', () => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       expect(visualPickingProductFilterService.filter).toEqual('');
       visualPickingProductFilterService.filter = 'yyyy';
@@ -71,8 +78,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('getFilteredProducts', () => {
     it('should match on product description', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -111,8 +116,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should match multiple', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -157,8 +160,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should not filter when empty string used as filter string', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -203,6 +204,16 @@ describe('VisualPickingProductFilterService', () => {
       visualPickingProductFilterService.filter = 'yyyyy';
       // set back to ''
       visualPickingProductFilterService.filter = '';
+    });
+  });
+
+  describe('reset filter on navigation', () => {
+    it('should have empty filter', () => {
+      visualPickingProductFilterService.filter = 'yyyy';
+      expect(visualPickingProductFilterService.filter).toEqual('yyyy');
+      const navEndEvent = new NavigationEnd(1, '/', '/');
+      navEndSub.next(navEndEvent);
+      expect(visualPickingProductFilterService.filter).toEqual('');
     });
   });
 });
