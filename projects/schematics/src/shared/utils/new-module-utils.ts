@@ -40,7 +40,6 @@ export interface Import {
 export function ensureModuleExists(options: {
   name: string;
   path: string;
-  // TODO:#schematics - rename, as there's a "module" in the global scope
   module: string;
   project: string;
 }): Rule {
@@ -50,10 +49,9 @@ export function ensureModuleExists(options: {
     }`;
     const filePath = `${modulePath}/${dasherize(options.name)}.module.ts`;
     if (host.exists(filePath)) {
-      // TODO:#schematics - rename!!
-      const module = getTsSourceFile(host, filePath);
+      const moduleFile = getTsSourceFile(host, filePath);
       const metadata = getDecoratorMetadata(
-        module,
+        moduleFile,
         'NgModule',
         ANGULAR_CORE
       )[0];
@@ -150,13 +148,12 @@ function addToModuleInternal(
   },
   createIfMissing = true
 ): Expression | undefined {
-  // TODO:#schematics - rename, as there's a "module" in the global scope
-  const module = getModule(sourceFile);
-  if (!module) {
+  const moduleNode = getModule(sourceFile);
+  if (!moduleNode) {
     return undefined;
   }
 
-  const arg = module.getArguments()[0];
+  const arg = moduleNode.getArguments()[0];
   if (!Node.isObjectLiteralExpression(arg)) {
     return undefined;
   }
@@ -331,7 +328,7 @@ export function collectInstalledFeatures<T extends LibraryOptions>(
       });
 
       const finalOrder: string[] = spartacusCoreModules
-        .concat(featureModules.map((m) => m.module.getText()))
+        .concat(featureModules.map((m) => m.moduleNode.getText()))
         .concat(unrecognizedModules);
 
       moduleImportsProperty.replaceWithText(`[${finalOrder.join(',\n')}]`);
@@ -361,14 +358,13 @@ function getModuleImportsInitializer(
 function getModuleImportsProperty(
   source: SourceFile
 ): ObjectLiteralElementLike | undefined {
-  // TODO:#schematics - rename, as there's a "module" in the global scope
-  const module = getModule(source);
-  if (!module) {
+  const moduleNode = getModule(source);
+  if (!moduleNode) {
     console.warn(`No 'NgModule' decorator found in '${source.getFilePath()}'`);
     return undefined;
   }
 
-  const arg = module.getArguments()[0];
+  const arg = moduleNode.getArguments()[0];
   if (!arg || !Node.isObjectLiteralExpression(arg)) {
     return undefined;
   }
@@ -381,8 +377,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
       spartacusCoreModules: (Expression | Identifier)[];
       featureModules: {
         spartacusLibrary: string;
-        // TODO:#schematics - rename, as there's a "module" in the global scope
-        module: Expression | Identifier;
+        moduleNode: Expression | Identifier;
       }[];
       unrecognizedModules: (Expression | Identifier)[];
     }
@@ -395,8 +390,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
   const spartacusCoreModules: (Expression | Identifier)[] = [];
   const featureModules: {
     spartacusLibrary: string;
-    // TODO:#schematics - rename, as there's a "module" in the global scope
-    module: Expression | Identifier;
+    moduleNode: Expression | Identifier;
   }[] = [];
   const unrecognizedModules: (Expression | Identifier)[] = [];
 
@@ -433,7 +427,7 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
 
     const spartacusLibrary = recognizeFeatureModule(potentialFeatureModule);
     if (spartacusLibrary) {
-      featureModules.push({ spartacusLibrary, module: element });
+      featureModules.push({ spartacusLibrary, moduleNode: element });
     } else {
       unrecognizedModules.push(element);
     }
