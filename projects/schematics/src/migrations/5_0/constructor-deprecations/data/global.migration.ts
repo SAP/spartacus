@@ -3337,6 +3337,72 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
+    class: 'AddToCartComponent',
+    importPath: '@spartacus/storefront',
+    deprecatedParams: [
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'ActiveCartService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'ModalService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'ActiveCartService',
+        importPath: '@spartacus/core',
+      },
+    ],
+    addParams: [
+      {
+        className: 'CurrentProductService',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'ActiveCartFacade',
+        importPath: '@spartacus/cart/base/root',
+      },
+      {
+        className: 'CmsComponentData',
+        importPath: '@spartacus/storefront',
+      },
+      {
+        className: 'EventService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ProductListItemContext',
+        importPath: '@spartacus/storefront',
+      },
+    ],
+  },
+  {
     class: 'AddToWishListComponent',
     importPath: '@spartacus/storefront',
     deprecatedParams: [

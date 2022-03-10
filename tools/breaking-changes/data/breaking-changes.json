@@ -52645,25 +52645,29 @@
             "name": "modalService",
             "type": "ModalService",
             "canonicalReference": "@spartacus/storefront!ModalService:class",
-            "shortType": "ModalService"
+            "shortType": "ModalService",
+            "importPath": "@spartacus/storefront"
           },
           {
             "name": "currentProductService",
             "type": "CurrentProductService",
             "canonicalReference": "@spartacus/storefront!CurrentProductService:class",
-            "shortType": "CurrentProductService"
+            "shortType": "CurrentProductService",
+            "importPath": "@spartacus/storefront"
           },
           {
             "name": "cd",
             "type": "ChangeDetectorRef",
             "canonicalReference": "@angular/core!ChangeDetectorRef:class",
-            "shortType": "ChangeDetectorRef"
+            "shortType": "ChangeDetectorRef",
+            "importPath": "@angular/core"
           },
           {
             "name": "activeCartService",
             "type": "ActiveCartService",
             "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
-            "shortType": "ActiveCartService"
+            "shortType": "ActiveCartService",
+            "importPath": "@spartacus/core"
           }
         ]
       },
@@ -52923,49 +52927,138 @@
         }
       },
       {
-        "change": "CONSTRUCTOR_DELETED",
-        "changeType": "DELETED",
+        "change": "CONSTRUCTOR_CHANGED",
+        "changeType": "CHANGED",
         "changeKind": "Constructor",
-        "changeLabel": "deleted",
+        "changeLabel": "changed",
         "changeElementName": "constructor",
         "changeDesc": true,
-        "isDeletedMember": true,
-        "deletedMember": {
+        "previousStateDoc": "\nconstructor(\n  modalService: ModalService\n  currentProductService: CurrentProductService\n  cd: ChangeDetectorRef\n  activeCartService: ActiveCartService\n)\n",
+        "currentStateDoc": "\nconstructor(\n  currentProductService: CurrentProductService\n  cd: ChangeDetectorRef\n  activeCartService: ActiveCartFacade\n  component: CmsComponentData<CmsAddToCartComponent>\n  eventService: EventService\n  productListItemContext: ProductListItemContext | undefined\n)\n",
+        "details": {
           "kind": "Constructor",
           "name": "constructor",
-          "overloadIndex": 2,
-          "parameters": [
+          "oldParams": [
             {
               "name": "modalService",
               "type": "ModalService",
               "canonicalReference": "@spartacus/storefront!ModalService:class",
-              "shortType": "ModalService"
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
             },
             {
               "name": "currentProductService",
               "type": "CurrentProductService",
               "canonicalReference": "@spartacus/storefront!CurrentProductService:class",
-              "shortType": "CurrentProductService"
+              "shortType": "CurrentProductService",
+              "importPath": "@spartacus/storefront"
             },
             {
               "name": "cd",
               "type": "ChangeDetectorRef",
               "canonicalReference": "@angular/core!ChangeDetectorRef:class",
-              "shortType": "ChangeDetectorRef"
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
             },
             {
               "name": "activeCartService",
               "type": "ActiveCartService",
               "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
-              "shortType": "ActiveCartService"
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "newParams": [
+            {
+              "name": "currentProductService",
+              "type": "CurrentProductService",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!CurrentProductService:class",
+              "shortType": "CurrentProductService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "cd",
+              "type": "ChangeDetectorRef",
+              "canonicalReference": "@angular/core!ChangeDetectorRef:class",
+              "shortType": "ChangeDetectorRef",
+              "importPath": "@angular/core"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "component",
+              "type": "CmsComponentData<CmsAddToCartComponent>",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!CmsComponentData:class",
+              "shortType": "CmsComponentData",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!EventService:class",
+              "shortType": "EventService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productListItemContext",
+              "type": "ProductListItemContext | undefined",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!ProductListItemContext:class",
+              "shortType": "ProductListItemContext",
+              "importPath": "@spartacus/storefront"
+            }
+          ],
+          "removedParams": [
+            {
+              "name": "modalService",
+              "type": "ModalService",
+              "canonicalReference": "@spartacus/storefront!ModalService:class",
+              "shortType": "ModalService",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartService",
+              "canonicalReference": "@spartacus/storefront!ActiveCartService:class",
+              "shortType": "ActiveCartService",
+              "importPath": "@spartacus/core"
+            }
+          ],
+          "addedParams": [
+            {
+              "name": "activeCartService",
+              "type": "ActiveCartFacade",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!ActiveCartFacade:class",
+              "shortType": "ActiveCartFacade",
+              "importPath": "@spartacus/cart/base/root"
+            },
+            {
+              "name": "component",
+              "type": "CmsComponentData<CmsAddToCartComponent>",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!CmsComponentData:class",
+              "shortType": "CmsComponentData",
+              "importPath": "@spartacus/storefront"
+            },
+            {
+              "name": "eventService",
+              "type": "EventService",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!EventService:class",
+              "shortType": "EventService",
+              "importPath": "@spartacus/core"
+            },
+            {
+              "name": "productListItemContext",
+              "type": "ProductListItemContext | undefined",
+              "canonicalReference": "@spartacus/cart_base_components_add-to-cart!ProductListItemContext:class",
+              "shortType": "ProductListItemContext",
+              "importPath": "@spartacus/storefront"
             }
           ]
-        },
-        "apiElementName": "AddToCartComponent",
-        "apiElementKind": "Class",
-        "entryPoint": "@spartacus/storefront",
-        "deletedComment": "// TODO:Spartacus - Constructor 'constructor' was removed from Class 'AddToCartComponent'.",
-        "migrationComment": ""
+        }
       },
       {
         "change": "PROPERTY_CHANGED",

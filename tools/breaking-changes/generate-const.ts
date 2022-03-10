@@ -37,10 +37,10 @@ const breakingChangesData = JSON.parse(
 console.log(
   `Read: ${breakingChangesFile}, ${breakingChangesData.length} entries`
 );
-
+let constructorChangesCount = 0;
 const apiElementsWithConstructorChanges = breakingChangesData.filter(
   (apiElement: any) => {
-    return !!getConstructorChanges(apiElement);
+    return getConstructorChanges(apiElement).length > 0;
   }
 );
 console.log(
@@ -50,17 +50,20 @@ console.log(
 const constructorSchematics = [];
 
 apiElementsWithConstructorChanges.forEach((apiElement: any) => {
-  const constructorChanges = getConstructorChanges(apiElement);
-  if (schematicsParamsAreEqual(constructorChanges)) {
-    console.log(
-      `Warning: Skipped schematics for ${apiElement.kind} ${apiElement.name} because before and after params are the same for schematics.`
+  getConstructorChanges(apiElement).forEach((constructorChange: any) => {
+    if (schematicsParamsAreEqual(constructorChange)) {
+      console.log(
+        `Warning: Skipped one migration schematic for ${apiElement.kind} ${apiElement.name} because before and after params are the same for schematics.`
+      );
+      // Schematics only care about param type changes.  If the only changes are with other
+      // changes (param variable name, genericss type changes), there is a chance the before and after would be the same
+      // for schematics.
+      return;
+    }
+    constructorSchematics.push(
+      getSchematicsData(apiElement, constructorChange)
     );
-    // Schematics only care about param type changes.  If the only changes are with other
-    // changes (param variable name, genericss type changes), there is a chance the before and after would be the same
-    // for schematics.
-    return;
-  }
-  constructorSchematics.push(getSchematicsData(apiElement, constructorChanges));
+  });
 });
 
 console.log(
@@ -77,8 +80,14 @@ fs.writeFileSync(
  * -----------
  */
 
-function getConstructorChanges(apiElement: any): any {
-  return apiElement.breakingChanges.find((breakingChange: any) => {
+//  function getConstructorChanges(apiElement: any): any {
+//   return apiElement.breakingChanges.find((breakingChange: any) => {
+//     return breakingChange.change === 'CONSTRUCTOR_CHANGED';
+//   });
+// }
+
+function getConstructorChanges(apiElement: any): any[] {
+  return apiElement.breakingChanges.filter((breakingChange: any) => {
     return breakingChange.change === 'CONSTRUCTOR_CHANGED';
   });
 }
