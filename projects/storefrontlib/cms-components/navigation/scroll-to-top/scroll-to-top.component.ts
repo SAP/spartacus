@@ -3,6 +3,7 @@ import {
   Component,
   HostListener,
 } from '@angular/core';
+import { WindowRef } from '@spartacus/core';
 import { ICON_TYPE } from '../../misc/icon/icon.model';
 @Component({
   selector: 'cx-scroll-to-top',
@@ -13,18 +14,24 @@ export class ScrollToTopComponent {
   iconTypes = ICON_TYPE;
   display: boolean;
 
-  @HostListener('document:wheel')
+  protected window: Window | undefined = this.winRef.nativeWindow;
+
+  @HostListener('window:scroll', ['$event'])
   onScroll(): void {
-    this.display = window.scrollY > 1;
+    if (this.window) {
+      this.display = this.window.scrollY > 50;
+    }
   }
 
-  constructor() {}
+  constructor(protected winRef: WindowRef) {}
 
   scrollToTop(): void {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
-    this.display = false;
+    if (this.window) {
+      this.window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+      this.display = false;
+    }
   }
 }
