@@ -38,7 +38,7 @@
         }}
         <a
           (click)="close()"
-          [routerLink]="['/my-account/notification-preference']"
+          [routerLink]="{ cxRoute: 'notificationPreference' } | cxUrl"
           class="link-prefs"
         >
           {{
@@ -59,7 +59,7 @@
         }}
         <a
           (click)="close()"
-          [routerLink]="['/my-account/my-interests']"
+          [routerLink]="{ cxRoute: 'myInterests' } | cxUrl"
           class="link-interests"
         >
           {{
