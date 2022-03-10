@@ -17,7 +17,6 @@ import { SortingModule } from './sorting/sorting.module';
     PaginationModule,
     SortingModule,
   ],
-
   exports: [SortingComponent, PaginationComponent],
 })
 export class ListNavigationModule {}
