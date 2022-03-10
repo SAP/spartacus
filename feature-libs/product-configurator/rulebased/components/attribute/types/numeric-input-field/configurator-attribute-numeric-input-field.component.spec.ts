@@ -284,42 +284,6 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
   }));
 
   describe('Accessibility', () => {
-    it("should contain input element with class name 'form-control' without set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
-      component.attribute.userInput = '';
-      fixture.detectChanges();
-      component.ngOnInit();
-      tick(DEBOUNCE_TIME);
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-control',
-        0,
-        'aria-label',
-        'configurator.a11y.valueOfAttributeBlank attribute:' +
-          component.attribute.label
-      );
-    }));
-
-    it("should contain input element with class name 'form-control' with set value and 'aria-label' attribute that defines an accessible name to label the current element", fakeAsync(() => {
-      component.attribute.userInput = '123';
-      fixture.detectChanges();
-      component.ngOnInit();
-      tick(DEBOUNCE_TIME);
-      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
-        expect,
-        htmlElem,
-        'input',
-        'form-control',
-        0,
-        'aria-label',
-        'configurator.a11y.valueOfAttributeFull attribute:' +
-          component.attribute.label +
-          ' value:' +
-          component.attribute.userInput
-      );
-    }));
-
     it("should contain input element with class name 'form-control' and 'aria-describedby' attribute attribute that indicates the ID of the element that describe the elements", fakeAsync(() => {
       component.attribute.userInput = '123';
       fixture.detectChanges();
