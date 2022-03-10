@@ -398,10 +398,13 @@ describe('File utils', () => {
 
   describe('insertHtmlComment', () => {
     it('should insert the comment with *ngIf', async () => {
+      const angularCompiler = await import('@angular/compiler');
+
       const componentDeprecation = COMPONENT_DEPRECATION_DATA[2];
       const result = insertHtmlComment(
         HTML_EXAMPLE_NGIF,
-        (componentDeprecation.removedProperties || [])[0]
+        (componentDeprecation.removedProperties || [])[0],
+        angularCompiler
       );
 
       expect(result).toBeTruthy();
