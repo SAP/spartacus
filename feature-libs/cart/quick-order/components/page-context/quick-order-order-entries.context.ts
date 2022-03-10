@@ -85,7 +85,7 @@ export class QuickOrderOrderEntriesContext
   ) {
     if (
       product.stock?.stockLevel &&
-      productData.quantity >= product.stock.stockLevel
+      productData.quantity > product.stock.stockLevel
     ) {
       results$.next({
         productCode: productData.productCode,
