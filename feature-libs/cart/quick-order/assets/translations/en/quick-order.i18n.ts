@@ -75,6 +75,7 @@ export const quickOrderTable = {
   quantity: 'QTY',
   itemPrice: 'Item price',
   qty: 'Qty',
+  actions: 'Actions',
   inStock: 'In Stock',
   lowStock: 'Low Stock',
   outOfStock: 'Out of Stock',
