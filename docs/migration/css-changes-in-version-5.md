@@ -80,3 +80,8 @@ title: Changes to Styles in 5.0
 - Width for `cx-label` in `cx-total` set to `100px` in mobile view
 - Width for `cx-label` in `cx-quantity` set to `100px` in mobile view
 - Set `display` to `block` for `cx-actions > link` in mobile view
+
+### FormErrorsComponent
+
+- `display: none` has been removed from `cx-form-errors`
+- Style structure `&.control-invalid > &.control-dirty, &.control-touched` has ben removed `cx-form-errors`
