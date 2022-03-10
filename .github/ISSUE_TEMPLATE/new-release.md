@@ -20,7 +20,7 @@ assignees: ''
 - [ ] Build app on this branch using installation script; prepare the `scripts/install/config.sh` file as below:
 
     ```bash
-    BACKEND_URL="https://20.83.184.244:9002"
+    BACKEND_URL="https://20.55.1.150:9002"
     BRANCH='release/*.*.*'
     SPARTACUS_VERSION='*.*.*'
     ```
