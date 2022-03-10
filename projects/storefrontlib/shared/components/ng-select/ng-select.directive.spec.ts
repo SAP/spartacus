@@ -7,7 +7,9 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   template: `
-    <ng-select cxNgSelect="Size" cxNgSelectControlsPrefix="size-results">
+    <ng-select
+      [cxNgSelect]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
+    >
       <ng-option *ngFor="let val of [1, 2, 3]" [value]="val">{{
         val
       }}</ng-option>
