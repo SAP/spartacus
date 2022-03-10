@@ -172,6 +172,72 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
     ],
   },
   {
+    class: 'QuickOrderFormComponent',
+    importPath: '@spartacus/cart/quick-order/components',
+    deprecatedParams: [
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
+      {
+        className: 'Config',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'WindowRef',
+        importPath: '@spartacus/core',
+      },
+    ],
+    removeParams: [
+      {
+        className: 'GlobalMessageService',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
+      {
+        className: 'Config',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'WindowRef',
+        importPath: '@spartacus/core',
+      },
+    ],
+    addParams: [
+      {
+        className: 'Config',
+        importPath: '@spartacus/core',
+      },
+      {
+        className: 'ChangeDetectorRef',
+        importPath: '@angular/core',
+      },
+      {
+        className: 'QuickOrderFacade',
+        importPath: '@spartacus/cart/quick-order/root',
+      },
+      {
+        className: 'WindowRef',
+        importPath: '@spartacus/core',
+      },
+    ],
+  },
+  {
     class: 'QuickOrderService',
     importPath: '@spartacus/cart/quick-order/core',
     deprecatedParams: [
