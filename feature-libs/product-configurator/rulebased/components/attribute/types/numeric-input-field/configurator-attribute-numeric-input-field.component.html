@@ -3,6 +3,7 @@
     [formControl]="attributeInputForm"
     [required]="attribute.required"
     class="form-control"
+    placeholder="{{ this.intervalHelpText }}"
     [attr.aria-describedby]="
       mustDisplayValidationMessage()
         ? createAttributeUiKey('label', attribute.name) +
@@ -14,20 +15,7 @@
     attr.required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
-    [attr.aria-label]="
-      attribute.userInput?.length === 0
-        ? ('configurator.a11y.valueOfAttributeBlank'
-          | cxTranslate
-            : {
-                attribute: attribute.label
-              })
-        : ('configurator.a11y.valueOfAttributeFull'
-          | cxTranslate
-            : {
-                value: attribute.userInput,
-                attribute: attribute.label
-              })
-    "
+    [attr.aria-label]="getAriaLabelComplete(attribute)"
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"
