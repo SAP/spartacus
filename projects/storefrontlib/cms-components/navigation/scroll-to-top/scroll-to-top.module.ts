@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CmsConfig, provideDefaultConfig } from '@spartacus/core';
-import { IconModule } from '@spartacus/storefront';
+import { IconModule } from '../../misc/icon/icon.module';
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
 @NgModule({
@@ -17,6 +17,5 @@ import { ScrollToTopComponent } from './scroll-to-top.component';
   ],
   declarations: [ScrollToTopComponent],
   exports: [ScrollToTopComponent],
-  entryComponents: [ScrollToTopComponent],
 })
 export class ScrollToTopModule {}

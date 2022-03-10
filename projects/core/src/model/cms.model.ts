@@ -54,6 +54,10 @@ export interface CmsSiteContextSelectorComponent extends CmsComponent {
   context?: string;
 }
 
+export interface ScrollToTopComponent extends CmsComponent {
+  display?: boolean;
+}
+
 export interface CmsSearchBoxComponent extends CmsComponent {
   container?: boolean;
   maxSuggestions?: number;

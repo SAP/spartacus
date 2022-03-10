@@ -15,7 +15,7 @@ export class ScrollToTopComponent {
 
   @HostListener('document:wheel')
   onScroll(): void {
-    this.display = window.scrollY !== 0;
+    this.display = window.scrollY > 1;
   }
 
   constructor() {}
