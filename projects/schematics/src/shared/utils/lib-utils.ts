@@ -76,16 +76,6 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
    * to install them as dependencies.
    */
   options?: LibraryOptions;
-  // TODO:#schematics
-  /**
-   * Indicates if the library's schematics are
-   * being programmatically invoked.
-   * E.g., running `ng add @spartacus/schematics`
-   * and selecting "Checkout" as the feature will
-   * result in this flag being set to true when
-   * executing the checkout schematics.
-   */
-  // programmatic?: boolean;
 }
 
 export interface FeatureConfig {
@@ -992,8 +982,6 @@ export function addSchematicsTasks(
       collection: featureOption.feature,
       name: 'add',
       options: featureOption.options,
-      // TODO:#schematics
-      // options: { ...featureOption.options, programmatic: true },
     };
 
     context.addTask(
