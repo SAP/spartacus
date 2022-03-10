@@ -4,6 +4,7 @@
   tabindex="-1"
   [routerLink]="routerLink"
 >
+<h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
   <video
     #videoPlayer
     *ngIf="source"
@@ -16,7 +17,6 @@
   >
     <source src="{{ source }}" type="{{ data.video.mime }}" />
   </video>
-  <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
 </div>
 
 <ng-template #loading>

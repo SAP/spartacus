@@ -1,18 +1,24 @@
 %cx-video {
   video {
-    position: relative;
     display: inherit;
     width: 100%;
+    position: relative;
+    z-index: 0;
   }
   h2 {
+    @include media-breakpoint-down(sm) {
+      font-size: 3.0vw;
+    }
     @include type('3');
-    font-weight: bold;
     position: absolute;
     top: 1rem;
     left: 1rem;
     z-index: 1;
-    color: #fff;
-    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    padding: 0.5rem;
+    margin-inline-end: var(--cx-margin-right, 1rem);
+    background-color: rgba(150, 150, 150, 0.8); 
+    border-radius: 0.2rem;
+    font-weight: bold;
   }
   .video-container {
     position: relative;
