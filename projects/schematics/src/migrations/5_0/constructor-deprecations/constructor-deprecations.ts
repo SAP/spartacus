@@ -5,13 +5,11 @@ import { CART_TOTALS_COMPONENT_MIGRATION } from './data/cart-totals.component.mi
 import { GLOBAL_MIGRATION } from './data/global.migration';
 import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
-import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CART_TOTALS_COMPONENT_MIGRATION,
   QUICK_ORDER_SERVICE_MIGRATION,
   QUICK_ORDER_FORM_COMPONENT_MIGRATION,
-  SHIPPING_ADDRESS_COMPONENT_MIGRATION,
   ...GLOBAL_MIGRATION,
 ];
 
