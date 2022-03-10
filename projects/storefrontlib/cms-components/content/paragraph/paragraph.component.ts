@@ -29,6 +29,6 @@ export class ParagraphComponent {
 
   constructor(
     public component: CmsComponentData<CmsParagraphComponent>,
-    private router: Router
+    protected router: Router
   ) {}
 }
