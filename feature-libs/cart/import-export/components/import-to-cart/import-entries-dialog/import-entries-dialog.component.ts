@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  HostListener,
+  OnDestroy,
+} from '@angular/core';
 import {
   AddOrderEntriesContext,
   OrderEntriesSource,
@@ -14,20 +20,27 @@ import {
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, pluck } from 'rxjs/operators';
-
 @Component({
   selector: 'cx-import-entries-dialog',
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent {
+export class ImportEntriesDialogComponent implements OnDestroy {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
     block: true,
-    autofocus: 'button',
-    focusOnEscape: true,
+    autofocus: 'button.btn-action',
+    focusOnEscape: false,
   };
+
+  @HostListener('click', ['$event'])
+  handleClick(event: UIEvent): void {
+    // Close on click outside the dialog window
+    if ((event.target as any).tagName === this.el.nativeElement.tagName) {
+      this.close('Cross click');
+    }
+  }
 
   formState: boolean = true;
   summary$ = new BehaviorSubject<ProductImportSummary>({
@@ -43,7 +56,11 @@ export class ImportEntriesDialogComponent {
   context$: Observable<AddOrderEntriesContext> =
     this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
-  constructor(protected launchDialogService: LaunchDialogService) {}
+  constructor(
+    protected el: ElementRef,
+    protected launchDialogService: LaunchDialogService
+  ) {}
+  ngOnDestroy(): void {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

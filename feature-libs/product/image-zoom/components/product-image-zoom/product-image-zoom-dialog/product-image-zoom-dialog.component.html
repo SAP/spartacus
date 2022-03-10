@@ -1,4 +1,6 @@
-<div class="cx-image-zoom-dialog" [cxFocus]="focusConfig">
+<div class="cx-image-zoom-dialog" 
+[cxFocus]="focusConfig"
+(esc)="close('Escape clicked')">
   <div class="cx-dialog-content">
     <div class="cx-dialog-header">
       <button

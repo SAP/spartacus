@@ -9,6 +9,7 @@ import {
   ModalModule,
   PromotionsModule,
   SpinnerModule,
+ KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
@@ -27,6 +28,8 @@ import { AddedToCartDialogComponent } from './added-to-cart-dialog.component';
     I18nModule,
     ItemCounterModule,
     ModalModule,
+    // eslint-disable-next-line deprecation/deprecation
+    KeyboardFocusModule,
   ],
   declarations: [AddedToCartDialogComponent],
   exports: [AddedToCartDialogComponent],

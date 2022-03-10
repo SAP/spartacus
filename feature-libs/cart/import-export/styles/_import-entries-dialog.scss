@@ -1,14 +1,11 @@
 cx-import-entries-dialog {
   background-color: rgba(0, 0, 0, 0.5);
-
   .cx-import-entries-dialog {
     @extend .modal-dialog;
     @extend .modal-dialog-centered;
 
     .cx-import-entries-container {
       @extend .modal-content;
-      pointer-events: none;
-
       button,
       input,
       textarea {
@@ -17,6 +14,7 @@ cx-import-entries-dialog {
 
       .cx-import-entries-header {
         .cx-import-entries-title {
+          pointer-events: none;
           font-size: var(--cx-font-size, 1.375rem);
           font-weight: var(--cx-font-weight-semi);
           line-height: var(--cx-line-height, 1.2222222222);
@@ -25,8 +23,11 @@ cx-import-entries-dialog {
 
       cx-import-entries-form,
       cx-import-to-new-saved-cart-form {
+        pointer-events: none;
         @extend .modal-body;
-        background-color: var(--cx-color-inverse);
+      
+       
+       background-color: var(--cx-color-inverse);
         .cx-import-entries-subtitle {
           font-weight: var(--cx-font-weight-bold);
           margin-bottom: 0.5rem;
@@ -68,6 +69,7 @@ cx-import-entries-dialog {
       }
 
       .cx-import-entries-footer {
+        pointer-events: none;
         display: flex;
 
         button {
@@ -88,6 +90,7 @@ cx-import-entries-dialog {
       }
 
       cx-import-entries-summary {
+        pointer-events: none;
         @extend .modal-body;
 
         ul {
