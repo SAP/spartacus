@@ -12,18 +12,26 @@ import {
   provideDefaultConfig,
   UrlModule,
 } from '@spartacus/core';
+import { CmsPageGuard, PageLayoutComponent } from '../../../cms-structure';
 
 @NgModule({
   declarations: [MyInterestsComponent],
   imports: [
     CommonModule,
     I18nModule,
-    RouterModule,
     ListNavigationModule,
     I18nModule,
     UrlModule,
     MediaModule,
     SpinnerModule,
+    RouterModule.forChild([
+      {
+        path: null,
+        canActivate: [AuthGuard, CmsPageGuard],
+        component: PageLayoutComponent,
+        data: { cxRoute: 'myInterests' },
+      },
+    ]),
   ],
   providers: [
     provideDefaultConfig(<CmsConfig>{
