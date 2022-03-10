@@ -2994,7 +2994,7 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       },
       {
         className: 'ConfiguratorGroupMenuService',
-        importPath: '',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
       {
         className: 'DirectionService',
@@ -3024,7 +3024,7 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       },
       {
         className: 'ConfiguratorGroupMenuService',
-        importPath: '',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
       {
         className: 'DirectionService',
@@ -3054,7 +3054,7 @@ export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
       },
       {
         className: 'ConfiguratorGroupMenuService',
-        importPath: '',
+        importPath: '@spartacus/product-configurator/rulebased',
       },
       {
         className: 'DirectionService',
