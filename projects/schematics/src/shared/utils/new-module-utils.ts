@@ -32,6 +32,11 @@ import { createProgram, saveAndFormat } from './program';
 import { getProjectTsConfigPaths } from './project-tsconfig-paths';
 import { getSourceRoot } from './workspace-utils';
 
+export type ModuleProperty =
+  | 'imports'
+  | 'exports'
+  | 'declarations'
+  | 'providers';
 export interface Import {
   moduleSpecifier: string;
   namedImports: string[];
@@ -140,7 +145,7 @@ export function addModuleProvider(
 
 function addToModuleInternal(
   sourceFile: SourceFile,
-  propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
+  propertyName: ModuleProperty,
   insertOptions: {
     import: Import | Import[];
     content: string;
@@ -153,26 +158,10 @@ function addToModuleInternal(
     return undefined;
   }
 
-  const arg = moduleNode.getArguments()[0];
-  if (!Node.isObjectLiteralExpression(arg)) {
-    return undefined;
-  }
-
-  let createdNode: Expression | undefined;
-  if (!arg.getProperty(propertyName) && createIfMissing) {
-    arg.addPropertyAssignment({
-      name: propertyName,
-      initializer: '[]',
-    });
-  }
-
-  const property = arg.getProperty(propertyName);
-  if (!property || !Node.isPropertyAssignment(property)) {
-    return undefined;
-  }
-
-  const initializer = property.getInitializerIfKind(
-    tsMorph.SyntaxKind.ArrayLiteralExpression
+  const initializer = getModulePropertyInitializer(
+    sourceFile,
+    propertyName,
+    createIfMissing
   );
   if (!initializer) {
     return undefined;
@@ -190,6 +179,7 @@ function addToModuleInternal(
     })
   );
 
+  let createdNode: Expression | undefined;
   if (insertOptions.order || insertOptions.order === 0) {
     initializer.insertElement(insertOptions.order, insertOptions.content);
   } else {
@@ -296,8 +286,10 @@ export function collectInstalledFeatures<T extends LibraryOptions>(
       if (!spartacusFeaturesModule) {
         continue;
       }
-      const moduleImportsProperty = getModuleImportsInitializer(
-        spartacusFeaturesModule
+      const moduleImportsProperty = getModulePropertyInitializer(
+        spartacusFeaturesModule,
+        'imports',
+        false
       );
       if (!moduleImportsProperty) {
         continue;
@@ -340,11 +332,12 @@ export function collectInstalledFeatures<T extends LibraryOptions>(
   };
 }
 
-// TODO:#schematics - use elsewhere. Search for 'getInitializerIfKind'
-function getModuleImportsInitializer(
-  source: SourceFile
+export function getModulePropertyInitializer(
+  source: SourceFile,
+  propertyName: ModuleProperty,
+  createIfMissing = true
 ): ArrayLiteralExpression | undefined {
-  const property = getModuleImportsProperty(source);
+  const property = getModuleProperty(source, propertyName, createIfMissing);
   if (!property || !Node.isPropertyAssignment(property)) {
     return undefined;
   }
@@ -354,9 +347,10 @@ function getModuleImportsInitializer(
   );
 }
 
-// TODO:#schematics - make generic, and allow to get any kind of property: 'imports', 'exports', 'declarations', etc.
-function getModuleImportsProperty(
-  source: SourceFile
+function getModuleProperty(
+  source: SourceFile,
+  propertyName: ModuleProperty,
+  createIfMissing = true
 ): ObjectLiteralElementLike | undefined {
   const moduleNode = getModule(source);
   if (!moduleNode) {
@@ -369,7 +363,15 @@ function getModuleImportsProperty(
     return undefined;
   }
 
-  return arg.getProperty('imports');
+  const property = arg.getProperty(propertyName);
+  if (!property && createIfMissing) {
+    arg.addPropertyAssignment({
+      name: propertyName,
+      initializer: '[]',
+    });
+  }
+
+  return arg.getProperty(propertyName);
 }
 
 function collectInstalledModules(spartacusFeaturesModule: SourceFile):
@@ -382,7 +384,11 @@ function collectInstalledModules(spartacusFeaturesModule: SourceFile):
       unrecognizedModules: (Expression | Identifier)[];
     }
   | undefined {
-  const initializer = getModuleImportsInitializer(spartacusFeaturesModule);
+  const initializer = getModulePropertyInitializer(
+    spartacusFeaturesModule,
+    'imports',
+    false
+  );
   if (!initializer) {
     return undefined;
   }
@@ -459,7 +465,11 @@ function getModuleIdentifier(element: Node): Identifier | undefined {
 }
 
 function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
-  const initializer = getModuleImportsInitializer(featureModule);
+  const initializer = getModulePropertyInitializer(
+    featureModule,
+    'imports',
+    false
+  );
   if (!initializer) {
     return undefined;
   }

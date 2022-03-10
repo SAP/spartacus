@@ -1,41 +1,39 @@
-import { Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import { Node, SourceFile } from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../feature-libs-constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
 import { CustomConfig } from './lib-utils';
-import { getModule } from './new-module-utils';
+import { getModule, getModulePropertyInitializer } from './new-module-utils';
 
-export function getSpartacusProviders(sourceFile: SourceFile): Node[] {
-  const module = getModule(sourceFile);
-  if (!module) {
+export function getSpartacusProviders(
+  sourceFile: SourceFile,
+  createIfMissing = true
+): Node[] {
+  const moduleNode = getModule(sourceFile);
+  if (!moduleNode) {
     return [];
   }
-  const literal = module.getFirstDescendantByKind(
-    tsMorph.SyntaxKind.ObjectLiteralExpression
-  );
-  const providers: Node[] = [];
 
-  const properties =
-    literal?.getChildrenOfKind(tsMorph.SyntaxKind.PropertyAssignment) ?? [];
-  properties.forEach((property) => {
+  const initializer = getModulePropertyInitializer(
+    sourceFile,
+    'providers',
+    createIfMissing
+  );
+
+  const providers: Node[] = [];
+  initializer?.getElements().forEach((element) => {
     if (
-      property.getNameNode().getText() === 'providers' &&
-      property.getInitializerIfKind(tsMorph.SyntaxKind.ArrayLiteralExpression)
+      Node.isCallExpression(element) ||
+      // TODO:#schematics - cover the spread in new module utils
+      Node.isSpreadElement(element)
     ) {
-      const initializer = property.getInitializerIfKind(
-        tsMorph.SyntaxKind.ArrayLiteralExpression
-      );
-      initializer?.getElements().forEach((element) => {
-        if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
-          const expression = element.getExpression();
-          if (
-            Node.isIdentifier(expression) &&
-            isImportedFromSpartacusLibs(expression)
-          ) {
-            providers.push(element);
-          }
-        }
-      });
+      const expression = element.getExpression();
+      if (
+        Node.isIdentifier(expression) &&
+        isImportedFromSpartacusLibs(expression)
+      ) {
+        providers.push(element);
+      }
     }
   });
 
