@@ -17,53 +17,62 @@ import {
   shouldAddFeature,
 } from './lib-utils';
 
-const collectionPath = path.join(__dirname, '../../collection.json');
-
-const CLI_FEATURE_NAME = 'xxx-cli';
-const FEATURE_NAME = 'xxx';
-const FEATURE_FOLDER_NAME = 'xxx';
-const FEATURE_MODULE_NAME = 'XxxModule';
-const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
-const ROOT_MODULE_NAME = 'XxxModuleRoot';
-const ROOT_FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx/root';
-const I18N_RESOURCES = 'translations';
-const I18N_CHUNKS = 'translationChunk';
-const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
-const SCSS_FILE_NAME = 'xxx.scss';
-const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
-
 const appModulePath = 'src/app/app.module.ts';
-const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
-
-const BASE_FEATURE_CONFIG: FeatureConfig = {
-  moduleName: FEATURE_NAME,
-  folderName: FEATURE_FOLDER_NAME,
-  featureModule: {
-    name: FEATURE_MODULE_NAME,
-    importPath: FEATURE_MODULE_IMPORT_PATH,
-  },
-  rootModule: {
-    name: ROOT_MODULE_NAME,
-    importPath: ROOT_FEATURE_MODULE_IMPORT_PATH,
-  },
-  i18n: {
-    resources: I18N_RESOURCES,
-    chunks: I18N_CHUNKS,
-    importPath: ASSETS_IMPORT_PATH,
-  },
-  styles: {
-    scssFileName: SCSS_FILE_NAME,
-    importStyle: STYLE_IMPORT_PATH,
-  },
-};
-
-const BASE_OPTIONS: LibraryOptions = {
-  project: 'schematics-test',
-  features: [CLI_FEATURE_NAME],
-  lazy: true,
-};
 
 describe('Lib utils', () => {
+  const schematicRunner = new SchematicTestRunner(
+    'schematics',
+    path.join(__dirname, '../../collection.json')
+  );
+
+  let appTree: UnitTestTree;
+
+  const workspaceOptions: WorkspaceOptions = {
+    name: 'workspace',
+    version: '0.5.0',
+  };
+
+  const appOptions: ApplicationOptions = {
+    name: 'schematics-test',
+    inlineStyle: false,
+    inlineTemplate: false,
+    routing: false,
+    style: Style.Scss,
+    skipTests: false,
+    projectRoot: '',
+  };
+
+  const spartacusDefaultOptions: SpartacusOptions = {
+    project: 'schematics-test',
+    lazy: true,
+    features: [],
+  };
+
+  beforeEach(async () => {
+    appTree = await schematicRunner
+      .runExternalSchematicAsync(
+        '@schematics/angular',
+        'workspace',
+        workspaceOptions
+      )
+      .toPromise();
+    appTree = await schematicRunner
+      .runExternalSchematicAsync(
+        '@schematics/angular',
+        'application',
+        appOptions,
+        appTree
+      )
+      .toPromise();
+    appTree = await schematicRunner
+      .runSchematicAsync(
+        'add-spartacus',
+        { ...spartacusDefaultOptions, name: 'schematics-test' },
+        appTree
+      )
+      .toPromise();
+  });
+
   describe('shouldAddFeature', () => {
     it('should return true if the feature is present in the given features array', () => {
       const feature1 = 'feature1';
@@ -79,58 +88,48 @@ describe('Lib utils', () => {
   });
 
   describe('addLibraryFeature', () => {
-    const schematicRunner = new SchematicTestRunner(
-      'schematics',
-      collectionPath
-    );
+    const CLI_FEATURE_NAME = 'xxx-cli';
+    const FEATURE_NAME = 'xxx';
+    const FEATURE_FOLDER_NAME = 'xxx';
+    const FEATURE_MODULE_NAME = 'XxxModule';
+    const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
+    const ROOT_MODULE_NAME = 'XxxModuleRoot';
+    const ROOT_FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx/root';
+    const I18N_RESOURCES = 'translations';
+    const I18N_CHUNKS = 'translationChunk';
+    const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
+    const SCSS_FILE_NAME = 'xxx.scss';
+    const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
 
-    let appTree: UnitTestTree;
+    const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
-    const workspaceOptions: WorkspaceOptions = {
-      name: 'workspace',
-      version: '0.5.0',
+    const BASE_FEATURE_CONFIG: FeatureConfig = {
+      moduleName: FEATURE_NAME,
+      folderName: FEATURE_FOLDER_NAME,
+      featureModule: {
+        name: FEATURE_MODULE_NAME,
+        importPath: FEATURE_MODULE_IMPORT_PATH,
+      },
+      rootModule: {
+        name: ROOT_MODULE_NAME,
+        importPath: ROOT_FEATURE_MODULE_IMPORT_PATH,
+      },
+      i18n: {
+        resources: I18N_RESOURCES,
+        chunks: I18N_CHUNKS,
+        importPath: ASSETS_IMPORT_PATH,
+      },
+      styles: {
+        scssFileName: SCSS_FILE_NAME,
+        importStyle: STYLE_IMPORT_PATH,
+      },
     };
 
-    const appOptions: ApplicationOptions = {
-      name: 'schematics-test',
-      inlineStyle: false,
-      inlineTemplate: false,
-      routing: false,
-      style: Style.Scss,
-      skipTests: false,
-      projectRoot: '',
-    };
-
-    const spartacusDefaultOptions: SpartacusOptions = {
+    const BASE_OPTIONS: LibraryOptions = {
       project: 'schematics-test',
+      features: [CLI_FEATURE_NAME],
       lazy: true,
-      features: [],
     };
-
-    beforeEach(async () => {
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@schematics/angular',
-          'workspace',
-          workspaceOptions
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runExternalSchematicAsync(
-          '@schematics/angular',
-          'application',
-          appOptions,
-          appTree
-        )
-        .toPromise();
-      appTree = await schematicRunner
-        .runSchematicAsync(
-          'add-spartacus',
-          { ...spartacusDefaultOptions, name: 'schematics-test' },
-          appTree
-        )
-        .toPromise();
-    });
 
     it('should add i18n config in feature module', async () => {
       const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
@@ -248,5 +247,16 @@ describe('Lib utils', () => {
         });
       });
     });
+  });
+
+  describe('feature ordering', () => {
+    /**
+     * TODO:#schematics - test plan:
+     * - create a couple of example "apps"
+     * - we need to have the spartacus-features modules
+     * - we need to have the feature modules as well,
+     *  which need to be correctly setup for the feature detection
+     * - call the rule for ordering features
+     */
   });
 });
