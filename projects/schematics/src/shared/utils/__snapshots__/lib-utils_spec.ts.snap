@@ -1,5 +1,48 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Lib utils addLibraryFeature custom config option should add the custom config when set 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig } from \\"@spartacus/cds\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'random',
+        configUrl:
+          'random',
+        allowInsecureCookies: true,
+      },
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
 exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";

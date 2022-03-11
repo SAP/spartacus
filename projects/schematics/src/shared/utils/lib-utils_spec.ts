@@ -10,8 +10,11 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { UTF_8 } from '../constants';
-import { SPARTACUS_FEATURES_MODULE } from '../feature-libs-constants';
+import { CDS_CONFIG, UTF_8 } from '../constants';
+import {
+  SPARTACUS_CDS,
+  SPARTACUS_FEATURES_MODULE,
+} from '../feature-libs-constants';
 import {
   addLibraryFeature,
   FeatureConfig,
@@ -289,6 +292,37 @@ describe('Lib utils', () => {
             }),
             appTree
           )
+          .toPromise();
+
+        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
+      });
+    });
+    describe('custom config option', () => {
+      it('should add the custom config when set', async () => {
+        const featureConfig: FeatureConfig = {
+          ...BASE_FEATURE_CONFIG,
+          customConfig: {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CDS,
+                namedImports: [CDS_CONFIG],
+              },
+            ],
+            content: `<${CDS_CONFIG}>{
+              cds: {
+                profileTag: {
+                  javascriptUrl:
+                    'random',
+                  configUrl:
+                    'random',
+                  allowInsecureCookies: true,
+                },
+              },
+            }`,
+          },
+        };
+        const tree = await schematicRunner
+          .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
           .toPromise();
 
         expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
