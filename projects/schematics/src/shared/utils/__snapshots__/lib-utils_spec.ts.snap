@@ -1,5 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.YyyModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
 exports[`Lib utils feature ordering should appropriately order the feature modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";

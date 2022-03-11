@@ -272,6 +272,44 @@ describe('Lib utils', () => {
         );
       });
     });
+    describe.only('recreate option', () => {
+      it('should remove the feature module and recreate it', async () => {
+        let tree: Tree;
+        tree = await schematicRunner
+          .callRule(
+            addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
+            appTree
+          )
+          .toPromise();
+
+        expect(
+          tree
+            .read(`src/app/spartacus/features/xxx/xxx-feature.module.ts`)
+            ?.toString(UTF_8)
+        ).toMatchSnapshot();
+
+        tree = await schematicRunner
+          .callRule(
+            addLibraryFeature(BASE_OPTIONS, {
+              ...BASE_FEATURE_CONFIG,
+              recreate: true,
+              featureModule: {
+                ...BASE_FEATURE_CONFIG.featureModule,
+                // this should change
+                name: 'YyyModule',
+              },
+            }),
+            appTree
+          )
+          .toPromise();
+
+        expect(
+          tree
+            .read(`src/app/spartacus/features/xxx/xxx-feature.module.ts`)
+            ?.toString(UTF_8)
+        ).toMatchSnapshot();
+      });
+    });
     describe('style', () => {
       describe('when style config is provided', () => {
         describe('and the scss file does NOT exist', () => {
