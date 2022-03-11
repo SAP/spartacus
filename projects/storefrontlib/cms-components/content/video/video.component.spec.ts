@@ -118,6 +118,7 @@ describe('VideoComponent', () => {
 
     it('should mute video when mute is true', () => {
       data$.next({ ...mockComponentData, mute: 'true' });
+
       expect(videoComponent.mute).toEqual('muted');
     });
 
@@ -127,6 +128,7 @@ describe('VideoComponent', () => {
 
     it('should autoplay video when autoplay is true', () => {
       data$.next({ ...mockComponentData, autoPlay: 'true' });
+
       expect(videoComponent.autoPlay).toBeTruthy();
     });
 
@@ -136,6 +138,7 @@ describe('VideoComponent', () => {
 
     it('should loop video when loop is true', () => {
       data$.next({ ...mockComponentData, loop: 'true' });
+
       expect(videoComponent.loop).toBeTruthy();
     });
   });
@@ -149,6 +152,7 @@ describe('VideoComponent', () => {
       const product = '4205431';
       data$.next({ ...mockComponentData, product: product });
       fixture.detectChanges();
+
       expect(videoComponent.routerLink).toEqual(product);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
         product
@@ -159,6 +163,7 @@ describe('VideoComponent', () => {
       const category = 'cameras';
       data$.next({ ...mockComponentData, category: category });
       fixture.detectChanges();
+
       expect(videoComponent.routerLink).toEqual(category);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
         category
@@ -169,6 +174,7 @@ describe('VideoComponent', () => {
       const url = '/products/234231';
       data$.next({ ...mockComponentData, url: url });
       fixture.detectChanges();
+
       expect(videoComponent.routerLink).toEqual(url);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
         url
@@ -179,6 +185,7 @@ describe('VideoComponent', () => {
       const contentPage = 'carousel';
       data$.next({ ...mockComponentData, contentPage: contentPage });
       fixture.detectChanges();
+
       expect(videoComponent.routerLink).toEqual(contentPage);
       expect(videoElement.getAttribute('ng-reflect-router-link')).toContain(
         contentPage
@@ -195,13 +202,19 @@ describe('VideoComponent', () => {
       });
       const videoElement = fixture.nativeElement.querySelector('video');
       fixture.detectChanges();
+
       expect(videoElement.offsetHeight).toEqual(500);
     });
 
     it('should set style classes', () => {
-      data$.next({ styleClasses: 'cls-1 cls-2' });
+      data$.next({ ...mockComponentData, styleClasses: 'cls-1 cls-2' });
+      const videoElement = fixture.nativeElement;
+      fixture.detectChanges();
+
       expect(videoComponent.styleClasses).toContain('cls-1');
       expect(videoComponent.styleClasses).toContain('cls-2');
+      expect((videoElement as HTMLElement).classList).toContain('cls-1');
+      expect((videoElement as HTMLElement).classList).toContain('cls-2');
     });
   });
 });
