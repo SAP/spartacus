@@ -145,7 +145,7 @@ describe('VideoComponent', () => {
 
   describe('Routing', () => {
     beforeEach(() => {
-      videoElement = fixture.nativeElement.querySelector('.video-container');
+      videoElement = fixture.nativeElement.querySelector('a');
     });
 
     it('should set routing link with product', () => {

@@ -2,9 +2,8 @@
   *ngIf="data$ | async as data; else loading"
   class="video-container"
   tabindex="-1"
-  [routerLink]="routerLink"
 >
-  <h2 *ngIf="data.overlayTitle">{{ data.overlayTitle }}</h2>
+<a *ngIf="data.overlayTitle" [routerLink]="routerLink">{{ data.overlayTitle }}</a>
   <video
     #videoPlayer
     *ngIf="source"

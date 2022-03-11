@@ -5,17 +5,18 @@
     position: relative;
     z-index: 0;
   }
-  h2 {
+  a {
     @include media-breakpoint-down(sm) {
       font-size: 3vw;
     }
     @include type('3');
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 2.5rem;
+    left: 2.5rem;
     z-index: 1;
     padding: 0.5rem;
-    margin-inline-end: var(--cx-margin-right, 1rem);
+    margin-inline-end: var(--cx-margin-right, 2.5rem);
+    color: black;
     background-color: rgba(150, 150, 150, 0.8);
     border-radius: 0.2rem;
     font-weight: bold;
