@@ -113,6 +113,12 @@ export class OAuthLibWrapperService {
 
   /**
    * Tries to login user based on `code` or `token` present in the url.
+   *
+   * @param result The result returned by `OAuthService.tryLogin()`.
+   *
+   * @param tokenReceived Whether the event 'token_received' is emitted during `OAuthService.tryLogin()`.
+   * We can use this identify that we have returned from an external authorization page to Spartacus).
+   * In cases where we don't receive this event, the token has been obtained from storage.
    */
   tryLogin(): Promise<OAuthTryLoginResult> {
     return new Promise((resolve) => {
@@ -131,7 +137,7 @@ export class OAuthLibWrapperService {
           // We don't load discovery document, because it doesn't contain revoke endpoint information
           disableOAuth2StateCheck: true,
         })
-        .then((result) => {
+        .then((result: boolean) => {
           subscription.unsubscribe();
           resolve({
             result: result,

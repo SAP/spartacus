@@ -43,29 +43,21 @@ export class AuthService {
    * Check params in url and if there is an code/token then try to login with those.
    */
   async checkOAuthParamsInUrl(): Promise<void> {
-    // The method `oAuthLibWrapperService.tryLogin()` obtains the token either from the URL params
-    // or from the storage. To distinguish those 2 cases, we observe the event `token_received`.
-    //
-    // The event 'token_received' is emitted, when the method `oAuthLibWrapperService.tryLogin()`
-    // can derive the token from the URL params (which means we've just returned from
-    // an external authorization page to Spartacus).
-    //
-    // But the event 'token_received' is not emitted when the method `oAuthLibWrapperService.tryLogin()`
-    // can obtain the token from the storage (e.g. on refresh of the Spartacus page).
     try {
-      const result: OAuthTryLoginResult =
+      const loginResult: OAuthTryLoginResult =
         await this.oAuthLibWrapperService.tryLogin();
 
       const token = this.authStorageService.getItem('access_token');
 
-      // We get the result in the code flow even if we did not logged in that why we also need to check if we have access_token
-      if (result.result && token) {
+      // We get the result in the code flow even if we did not log in that why we also need to check if we have access_token
+      if (loginResult.result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
 
-        // Only redirect if we have received a token,
-        // otherwise we are not returning from authentication server.
-        if (result.tokenReceived) {
+        // We check if the token was received during the `tryLogin()` attempt.
+        // If so, we will redirect as we can deduce we are returning from the authentication server.
+        // Redirection should not be done in cases we get the token from storage (eg. refreshing the page).
+        if (loginResult.tokenReceived) {
           this.authRedirectService.redirect();
         }
       }
