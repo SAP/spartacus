@@ -3,7 +3,9 @@
   class="video-container"
   tabindex="-1"
 >
-<a *ngIf="data.overlayTitle" [routerLink]="routerLink">{{ data.overlayTitle }}</a>
+  <a *ngIf="data.overlayTitle" [routerLink]="routerLink">{{
+    data.overlayTitle
+  }}</a>
   <video
     #videoPlayer
     *ngIf="source"
