@@ -34,11 +34,12 @@ describe('Graph utils', () => {
       graph.createEdge(SPARTACUS_CHECKOUT, SPARTACUS_USER);
 
       graph.createEdge(SPARTACUS_ORDER, SPARTACUS_CART);
+      graph.createEdge(SPARTACUS_ORDER, SPARTACUS_USER);
 
       const result = kahnsAlgorithm(graph);
       expect(result).toEqual([
-        SPARTACUS_CART,
         SPARTACUS_USER,
+        SPARTACUS_CART,
         SPARTACUS_ORDER,
         SPARTACUS_CHECKOUT,
         SPARTACUS_DIGITAL_PAYMENTS,
@@ -60,14 +61,15 @@ describe('Graph utils', () => {
       graph.createEdge(SPARTACUS_CHECKOUT, SPARTACUS_USER);
 
       graph.createEdge(SPARTACUS_ORDER, SPARTACUS_CART);
+      graph.createEdge(SPARTACUS_ORDER, SPARTACUS_USER);
 
       graph.createEdge(SPARTACUS_CDC, SPARTACUS_ASM);
       graph.createEdge(SPARTACUS_CDC, SPARTACUS_USER);
 
       const result = kahnsAlgorithm(graph);
       expect(result).toEqual([
-        SPARTACUS_CART,
         SPARTACUS_USER,
+        SPARTACUS_CART,
         SPARTACUS_ASM,
         SPARTACUS_ORDER,
         SPARTACUS_CDC,
