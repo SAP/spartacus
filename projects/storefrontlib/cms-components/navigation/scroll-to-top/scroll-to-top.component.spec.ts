@@ -1,13 +1,8 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { ScrollToTopModule } from '@spartacus/storefront';
+import { ScrollToTopComponent } from '@spartacus/storefront';
 
 @Component({
   template: `
@@ -19,21 +14,15 @@ import { ScrollToTopModule } from '@spartacus/storefront';
 })
 class MockComponent {}
 
-// class MockScrollToTopComponent implements Partial<ScrollToTopComponent> {
-//   scrollToTop(): void {}
-// }
-
 fdescribe('ScrollToTopComponent', () => {
   let component: MockComponent;
-  // let scrollToTopComponent: ScrollToTopComponent;
   let fixture: ComponentFixture<MockComponent>;
   let winRef: WindowRef;
   let el: DebugElement;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [MockComponent],
-      imports: [ScrollToTopModule],
+      declarations: [MockComponent, ScrollToTopComponent],
     }).compileComponents();
 
     winRef = TestBed.inject(WindowRef);
@@ -62,7 +51,7 @@ fdescribe('ScrollToTopComponent', () => {
     expect(el.query(By.css('.scroll-to-top-btn'))).toBeTruthy();
 
     scrollBtn.click();
-    tick(3000);
+
     fixture.detectChanges();
     expect(winRef.nativeWindow?.scrollY).toEqual(0);
   }));
