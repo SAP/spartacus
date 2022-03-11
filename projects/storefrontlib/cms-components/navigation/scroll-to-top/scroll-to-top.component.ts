@@ -1,6 +1,7 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  HostBinding,
   HostListener,
 } from '@angular/core';
 import {
@@ -18,7 +19,9 @@ import { ICON_TYPE } from '../../misc/icon/icon.model';
 })
 export class ScrollToTopComponent {
   iconTypes = ICON_TYPE;
-  display: boolean;
+
+  @HostBinding('class.display')
+  display: boolean | undefined;
 
   protected behavior: ScrollBehavior;
   protected displayThreshold: number;
@@ -38,17 +41,17 @@ export class ScrollToTopComponent {
     this.componentData.data$.pipe(take(1)).subscribe((data) => {
       this.behavior = data.behavior ?? ScrollBehavior.SMOOTH;
       this.displayThreshold =
-        data.displayThreshold ?? this.winRef.nativeWindow?.innerHeight ?? 200;
+        data.displayThreshold ?? this.window?.innerHeight ?? 200;
     });
   }
 
+  /**
+   * Scroll back to the top of the page.
+   */
   scrollToTop(): void {
-    if (this.window) {
-      this.window.scrollTo({
-        top: 0,
-        behavior: this.behavior,
-      });
-      this.display = false;
-    }
+    this.window?.scrollTo({
+      top: 0,
+      behavior: this.behavior,
+    });
   }
 }

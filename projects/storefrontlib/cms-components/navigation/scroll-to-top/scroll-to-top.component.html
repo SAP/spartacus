@@ -1,7 +1,5 @@
-<div *ngIf="display">
-  <button (click)="scrollToTop()" class="scroll-to-top-btn">
-    <span aria-hidden="true">
-      <cx-icon class="caret-up-icon" [type]="iconTypes.CARET_UP"></cx-icon>
-    </span>
-  </button>
-</div>
+<button class="scroll-to-top-btn" (click)="scrollToTop()">
+  <span aria-hidden="true">
+    <cx-icon class="caret-up-icon" [type]="iconTypes.CARET_UP"></cx-icon>
+  </span>
+</button>

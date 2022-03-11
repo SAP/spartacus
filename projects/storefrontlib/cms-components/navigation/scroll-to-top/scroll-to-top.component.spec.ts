@@ -1,8 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement } from '@angular/core';
-import { WindowRef } from '@spartacus/core';
-import { IconTestingModule, ScrollToTopComponent } from '@spartacus/storefront';
+import {
+  WindowRef,
+  CmsScrollToTopComponent,
+  ScrollBehavior,
+} from '@spartacus/core';
+import { CmsComponentData } from '../../../cms-structure/page/model/cms-component-data';
+import { ScrollToTopComponent } from './scroll-to-top.component';
+import { IconTestingModule } from '../../misc/icon/testing/icon-testing.module';
+import { of } from 'rxjs';
 
 @Component({
   template: `
@@ -14,6 +21,15 @@ import { IconTestingModule, ScrollToTopComponent } from '@spartacus/storefront';
 })
 class MockComponent {}
 
+const mockData: CmsScrollToTopComponent = {
+  behavior: ScrollBehavior.SMOOTH,
+  displayThreshold: 100,
+};
+
+const MockCmsComponentData = <CmsComponentData<any>>{
+  data$: of(mockData),
+};
+
 describe('ScrollToTopComponent', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
@@ -24,6 +40,12 @@ describe('ScrollToTopComponent', () => {
     TestBed.configureTestingModule({
       imports: [IconTestingModule],
       declarations: [MockComponent, ScrollToTopComponent],
+      providers: [
+        {
+          provide: CmsComponentData,
+          useValue: MockCmsComponentData,
+        },
+      ],
     }).compileComponents();
 
     winRef = TestBed.inject(WindowRef);
@@ -37,19 +59,24 @@ describe('ScrollToTopComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should not be visible at top of page', () => {
+  it('should not be displayed at top of page', () => {
     winRef.nativeWindow?.scrollTo(0, 0);
     fixture.detectChanges();
-    expect(el.query(By.css('.scroll-to-top-btn'))).toBeNull();
+    const scrollComponent = el.query(By.css('.display'));
+    expect(scrollComponent).toBeNull();
   });
 
-  it('should be visible scroll to top of page', (done) => {
+  it('should be visible and scroll to top of page', (done) => {
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
 
     fixture.detectChanges();
+
+    const scrollComponent = el.query(By.css('.display'));
     const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
-    expect(el.query(By.css('.scroll-to-top-btn'))).toBeTruthy();
+
+    expect(scrollComponent.nativeElement).toBeTruthy();
+    expect(scrollBtn).toBeTruthy();
     scrollBtn.click();
     setTimeout(() => {
       expect(winRef.nativeWindow?.scrollY).toEqual(0);
