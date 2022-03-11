@@ -1,5 +1,6 @@
 <div class="cx-section">
   <ng-container *ngIf="!(couponsLoading$ | async); else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <ng-container *ngIf="couponResult$ | async as couponResult">
       <div class="cx-my-coupons-header">
         <h3>{{ 'myCoupons.myCoupons' | cxTranslate }}</h3>
