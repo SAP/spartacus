@@ -8,6 +8,7 @@
     else loading
   "
 >
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div [formGroup]="mode">
     <div class="row">
       <div class="col-md-12 col-lg-9" role="radiogroup">
