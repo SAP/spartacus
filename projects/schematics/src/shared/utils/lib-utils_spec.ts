@@ -1,3 +1,4 @@
+import { Tree } from '@angular-devkit/schematics';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -10,14 +11,17 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { UTF_8 } from '../constants';
+import { SPARTACUS_FEATURES_MODULE } from '../feature-libs-constants';
 import {
   addLibraryFeature,
   FeatureConfig,
   LibraryOptions,
+  orderInstalledFeatures,
   shouldAddFeature,
 } from './lib-utils';
 
 const appModulePath = 'src/app/app.module.ts';
+const spartacusFeaturesPath = `src/app/spartacus/${SPARTACUS_FEATURES_MODULE}.module.ts`;
 
 describe('Lib utils', () => {
   const schematicRunner = new SchematicTestRunner(
@@ -46,6 +50,135 @@ describe('Lib utils', () => {
     project: 'schematics-test',
     lazy: true,
     features: [],
+  };
+
+  const CLI_FEATURE_NAME = 'xxx-cli';
+  const FEATURE_NAME = 'xxx';
+  const FEATURE_FOLDER_NAME = 'xxx';
+  const FEATURE_MODULE_NAME = 'XxxModule';
+  const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
+  const ROOT_MODULE_NAME = 'XxxModuleRoot';
+  const ROOT_FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx/root';
+  const I18N_RESOURCES = 'translations';
+  const I18N_CHUNKS = 'translationChunk';
+  const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
+  const SCSS_FILE_NAME = 'xxx.scss';
+  const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
+
+  const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
+
+  const BASE_FEATURE_CONFIG: FeatureConfig = {
+    folderName: FEATURE_FOLDER_NAME,
+    moduleName: FEATURE_NAME,
+    featureModule: {
+      name: FEATURE_MODULE_NAME,
+      importPath: FEATURE_MODULE_IMPORT_PATH,
+    },
+    rootModule: {
+      name: ROOT_MODULE_NAME,
+      importPath: ROOT_FEATURE_MODULE_IMPORT_PATH,
+    },
+    i18n: {
+      resources: I18N_RESOURCES,
+      chunks: I18N_CHUNKS,
+      importPath: ASSETS_IMPORT_PATH,
+    },
+    styles: {
+      scssFileName: SCSS_FILE_NAME,
+      importStyle: STYLE_IMPORT_PATH,
+    },
+  };
+
+  const BASE_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: [CLI_FEATURE_NAME],
+    lazy: true,
+  };
+
+  const DP_FEATURE_CONFIG: FeatureConfig = {
+    folderName: 'dp',
+    moduleName: 'DigitalPayments',
+    featureModule: {
+      name: 'DigitalPaymentsModule',
+      importPath: '@spartacus/digital-payments',
+    },
+  };
+  const DP_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: ['dp-cli'],
+    lazy: true,
+  };
+
+  const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
+    folderName: 'checkout',
+    moduleName: 'Checkout',
+    featureModule: {
+      name: 'CheckoutModule',
+      importPath: '@spartacus/Checkout/base',
+    },
+    rootModule: {
+      name: 'CheckoutRootModule',
+      importPath: '@spartacus/Checkout/base/root',
+    },
+  };
+  const CHECKOUT_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: ['checkout-base-cli'],
+    lazy: true,
+  };
+
+  const CART_FEATURE_CONFIG: FeatureConfig = {
+    folderName: 'cart',
+    moduleName: 'Cart',
+    featureModule: {
+      name: 'CartBaseModule',
+      importPath: '@spartacus/cart/base',
+    },
+    rootModule: {
+      name: 'CartBaseRootModule',
+      importPath: '@spartacus/cart/base/root',
+    },
+  };
+  const CART_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: ['cart-cli'],
+    lazy: true,
+  };
+
+  const USER_PROFILE_FEATURE_CONFIG: FeatureConfig = {
+    folderName: 'user',
+    moduleName: 'UserProfile',
+    featureModule: {
+      name: 'UserProfileModule',
+      importPath: '@spartacus/user',
+    },
+    rootModule: {
+      name: 'UserProfileRootModule',
+      importPath: '@spartacus/user/root',
+    },
+  };
+  const USER_PROFILE_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: ['user-profile-cli'],
+    lazy: true,
+  };
+
+  const ORDER_FEATURE_CONFIG: FeatureConfig = {
+    folderName: 'order',
+    moduleName: 'Order',
+    featureModule: {
+      name: 'OrderModule',
+      importPath: '@spartacus/order',
+    },
+    rootModule: {
+      name: 'OrderRootModule',
+      importPath: '@spartacus/order/root',
+    },
+  };
+  const ORDER_OPTIONS: LibraryOptions = {
+    project: 'schematics-test',
+    features: ['order-cli'],
+    lazy: true,
   };
 
   beforeEach(async () => {
@@ -88,49 +221,6 @@ describe('Lib utils', () => {
   });
 
   describe('addLibraryFeature', () => {
-    const CLI_FEATURE_NAME = 'xxx-cli';
-    const FEATURE_NAME = 'xxx';
-    const FEATURE_FOLDER_NAME = 'xxx';
-    const FEATURE_MODULE_NAME = 'XxxModule';
-    const FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx';
-    const ROOT_MODULE_NAME = 'XxxModuleRoot';
-    const ROOT_FEATURE_MODULE_IMPORT_PATH = '@spartacus/xxx/root';
-    const I18N_RESOURCES = 'translations';
-    const I18N_CHUNKS = 'translationChunk';
-    const ASSETS_IMPORT_PATH = '@spartacus/xxx/assets';
-    const SCSS_FILE_NAME = 'xxx.scss';
-    const STYLE_IMPORT_PATH = FEATURE_MODULE_IMPORT_PATH;
-
-    const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
-
-    const BASE_FEATURE_CONFIG: FeatureConfig = {
-      moduleName: FEATURE_NAME,
-      folderName: FEATURE_FOLDER_NAME,
-      featureModule: {
-        name: FEATURE_MODULE_NAME,
-        importPath: FEATURE_MODULE_IMPORT_PATH,
-      },
-      rootModule: {
-        name: ROOT_MODULE_NAME,
-        importPath: ROOT_FEATURE_MODULE_IMPORT_PATH,
-      },
-      i18n: {
-        resources: I18N_RESOURCES,
-        chunks: I18N_CHUNKS,
-        importPath: ASSETS_IMPORT_PATH,
-      },
-      styles: {
-        scssFileName: SCSS_FILE_NAME,
-        importStyle: STYLE_IMPORT_PATH,
-      },
-    };
-
-    const BASE_OPTIONS: LibraryOptions = {
-      project: 'schematics-test',
-      features: [CLI_FEATURE_NAME],
-      lazy: true,
-    };
-
     it('should add i18n config in feature module', async () => {
       const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
       const tree = await schematicRunner.callRule(rule, appTree).toPromise();
@@ -250,13 +340,42 @@ describe('Lib utils', () => {
   });
 
   describe('feature ordering', () => {
-    /**
-     * TODO:#schematics - test plan:
-     * - create a couple of example "apps"
-     * - we need to have the spartacus-features modules
-     * - we need to have the feature modules as well,
-     *  which need to be correctly setup for the feature detection
-     * - call the rule for ordering features
-     */
+    let tree: Tree;
+    beforeEach(async () => {
+      tree = await schematicRunner
+        .callRule(addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG), appTree)
+        .toPromise();
+      tree = await schematicRunner
+        .callRule(addLibraryFeature(DP_OPTIONS, DP_FEATURE_CONFIG), tree)
+        .toPromise();
+      tree = await schematicRunner
+        .callRule(
+          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
+          tree
+        )
+        .toPromise();
+      tree = await schematicRunner
+        .callRule(addLibraryFeature(CART_OPTIONS, CART_FEATURE_CONFIG), tree)
+        .toPromise();
+      tree = await schematicRunner
+        .callRule(
+          addLibraryFeature(USER_PROFILE_OPTIONS, USER_PROFILE_FEATURE_CONFIG),
+          tree
+        )
+        .toPromise();
+      tree = await schematicRunner
+        .callRule(addLibraryFeature(ORDER_OPTIONS, ORDER_FEATURE_CONFIG), tree)
+        .toPromise();
+
+      tree = await schematicRunner
+        .callRule(orderInstalledFeatures(spartacusDefaultOptions), tree)
+        .toPromise();
+    });
+
+    it('should order the feature modules appropriately', () => {
+      expect(
+        tree.read(spartacusFeaturesPath)?.toString(UTF_8)
+      ).toMatchSnapshot();
+    });
   });
 });

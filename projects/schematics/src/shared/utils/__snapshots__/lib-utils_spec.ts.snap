@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lib utils feature ordering should order the feature modules appropriately 1`] = `
+"import { NgModule } from '@angular/core';
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { CartFeatureModule } from './features/cart/cart-feature.module';
+import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/dp/digital-payments-feature.module';
+import { OrderFeatureModule } from './features/order/order-feature.module';
+import { UserProfileFeatureModule } from './features/user/user-profile-feature.module';
+import { XxxFeatureModule } from './features/xxx/xxx-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [AuthModule.forRoot(),
+    LogoutModule,
+    LoginRouteModule,
+    HamburgerMenuModule,
+    SiteContextSelectorModule,
+    LinkModule,
+    BannerModule,
+    CmsParagraphModule,
+    TabParagraphContainerModule,
+    BannerCarouselModule,
+    CategoryNavigationModule,
+    NavigationModule,
+    FooterNavigationModule,
+    BreadcrumbModule,
+    UserModule,
+    UserOccModule,
+    AddressBookModule,
+    PaymentMethodsModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
+    ConsentManagementModule,
+    MyCouponsModule,
+  AnonymousConsentsModule.forRoot(),
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
+  ProductModule.forRoot(),
+    ProductOccModule,
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ProductListModule,
+    SearchBoxModule,
+    ProductFacetNavigationModule,
+    ProductTabsModule,
+    ProductCarouselModule,
+    ProductReferencesModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    CostCenterOccModule,
+    NavigationEventModule,
+    HomePageEventModule,
+    ProductPageEventModule,
+  ExternalRoutesModule.forRoot(),
+    UserProfileFeatureModule,
+    CartFeatureModule,
+    OrderFeatureModule,
+    CheckoutFeatureModule,
+    DigitalPaymentsFeatureModule,
+    XxxFeatureModule]
+})
+export class SpartacusFeaturesModule { }
+"
+`;
