@@ -6,6 +6,7 @@
   <ng-container
     *ngIf="(typeSelected$ | async) && !(isUpdating$ | async); else loading"
   >
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="row">
       <div class="col-md-12 col-lg-6">
         <label>
