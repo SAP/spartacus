@@ -42,7 +42,6 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            target: 'toplevel',
             to: {
               entryPoint: newApiElementMoved.entryPoint,
               namespace: newApiElementMoved.namespace ?? '',
@@ -68,7 +67,6 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          target: 'toplevel',
         },
       ]);
     }
@@ -442,7 +440,6 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeDesc: true,
   };
 }
 

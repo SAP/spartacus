@@ -117,16 +117,7 @@ function getMovedDoc(apiElement: any): string {
   }
   return movedDoc;
 }
-// function getOtherBreakingChangesDoc(apiElement: any): string {
-//   let doc = '';
-//   apiElement.breakingChanges
-//     .filter((breakingChange: any) => breakingChange.target !== 'toplevel')
-//     .forEach((breakingChange: any) => {
-//       doc += breakingChange.change + '\n';
-//     });
 
-//   return doc;
-// }
 function getMembersDoc(apiElement: any): string {
   let doc = '';
 
