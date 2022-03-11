@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
-import { I18nTestingModule, Product } from '@spartacus/core';
+import {
+  I18nTestingModule,
+  Product,
+  TranslationService,
+} from '@spartacus/core';
 import { Observable, of } from 'rxjs';
 import { CurrentProductService } from '../current-product.service';
 import { ProductIntroComponent } from './product-intro.component';
@@ -20,9 +24,14 @@ class MockCurrentProductService {
   }
 }
 
+class MockTranslationService {
+  translate() {}
+}
+
 describe('ProductIntroComponent in product', () => {
   let productIntroComponent: ProductIntroComponent;
   let fixture: ComponentFixture<ProductIntroComponent>;
+  let translationService: TranslationService;
 
   beforeEach(
     waitForAsync(() => {
@@ -34,12 +43,18 @@ describe('ProductIntroComponent in product', () => {
             provide: CurrentProductService,
             useClass: MockCurrentProductService,
           },
+          {
+            provide: TranslationService,
+            useClass: MockTranslationService,
+          },
         ],
       }).compileComponents();
     })
   );
 
   beforeEach(() => {
+    translationService = TestBed.inject(TranslationService);
+
     fixture = TestBed.createComponent(ProductIntroComponent);
     productIntroComponent = fixture.componentInstance;
   });
@@ -138,14 +153,47 @@ describe('ProductIntroComponent in product', () => {
     it('should not display Show Reviews when no reviews available', () => {
       productIntroComponent.product$ = of<Product>({
         averageRating: undefined,
+        numberOfReviews: 1,
       });
-      productIntroComponent.ngAfterContentChecked = () => {
-        productIntroComponent.reviewsTabAvailable.next(true);
-      };
       fixture.detectChanges();
       expect(fixture.debugElement.nativeElement.innerText).not.toContain(
         'productSummary.showReviews'
       );
+    });
+
+    it('should scroll to Reviews tab and set focus on Show Reviews click', (done) => {
+      const reviewsLabel = 'Reviews';
+      const tabsComponent: HTMLElement = document.createElement(
+        'cx-tab-paragraph-container'
+      );
+      const tab1: HTMLElement = document.createElement('button');
+      const reviewsTab: HTMLElement = document.createElement('button');
+
+      tab1.innerText = 'Tab 1';
+      reviewsTab.innerText = reviewsLabel;
+
+      tabsComponent.appendChild(tab1);
+      tabsComponent.appendChild(reviewsTab);
+
+      productIntroComponent.product$ = of<Product>({
+        averageRating: undefined,
+        numberOfReviews: 1,
+      });
+      productIntroComponent['getTabsComponent'] = () => tabsComponent;
+
+      spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
+      spyOn(reviewsTab, 'focus');
+      spyOn(reviewsTab, 'scrollIntoView');
+
+      fixture.detectChanges();
+
+      productIntroComponent.showReviews();
+
+      setTimeout(() => {
+        expect(reviewsTab.focus).toHaveBeenCalled();
+        expect(reviewsTab.scrollIntoView).toHaveBeenCalled();
+        done();
+      }, 100);
     });
   });
 });

@@ -40,6 +40,16 @@ export function verifyCorrectTabs() {
   cy.get(tabsHeaderList).eq(3).should('contain', 'Shipping');
 }
 
+export function verifyShowReviewsLink() {
+  cy.get(`${infoContainer} .cx-action-link`)
+    .contains(/show reviews/i)
+    .click();
+  cy.get(`${tabsHeaderList}`)
+    .contains(/reviews/i)
+    .should('be.focused')
+    .and('have.attr', 'aria-expanded', 'true');
+}
+
 export function verifyTextInTabs() {
   cy.get(activeTabContainer)
     .should(
@@ -141,6 +151,10 @@ export function productDetailsTest() {
 
   it('should submit a review', () => {
     verifyReviewForm();
+  });
+
+  it('should jump to reviews section when Show Reviews clicked', () => {
+    verifyShowReviewsLink();
   });
 
   it('should be able to add different quantities of product to cart', () => {
