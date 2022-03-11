@@ -13,11 +13,11 @@ const { execSync } = require('child_process');
  *
  * - params renamed + other legit braking changs (renamed params will be present as breaking changes in in both added params and removed params)
  * - params with anonymous types, like: `someParam: { customerId: string, cart:Cart }`
- * - deleted constructor (support for this could be added in the future)
+ * - deleted constructor ( In some cases, the tool can't match the new constructor and flags chaanged constructor as deleted ).
  *
  * How to spot the cases for manual review:
  * - look for empty import paths in the generated code.  Search for [importPath: '']
- * - look for `warning:` occurences in the generated code.  Search for [warning:]
+ * - look for `warning:` occurences in the generated code.  Search for "warning:"
  * - look for CONSTRUCTOR_DELETED occurences in the braking change list
  *
  */
