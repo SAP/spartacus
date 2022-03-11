@@ -85,7 +85,7 @@ export function testCheckoutVariantAsGuest() {
     });
 
     validateUpdateProfileForm(
-      'mr',
+      'Mr.',
       variantUser.firstName,
       variantUser.lastName
     );
