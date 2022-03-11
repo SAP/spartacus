@@ -1035,7 +1035,9 @@ function calculateSort(libraryA: string, libraryB: string): number {
 export function orderInstalledFeatures<T extends LibraryOptions>(
   options: T
 ): Rule {
-  return (tree: Tree, _context: SchematicContext): void => {
+  return (tree: Tree, context: SchematicContext): void => {
+    context.logger.info('Ordering the installed Spartacus features...');
+
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     for (const tsconfigPath of buildPaths) {
@@ -1065,13 +1067,13 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
       const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
         (spartacusCoreModule) => spartacusCoreModule.getText()
       );
-      const featureModules = collectedModules.featureModules;
+      const featureModules = collectedModules.featureModules
+        .sort((moduleA, moduleB) =>
+          calculateSort(moduleA.spartacusLibrary, moduleB.spartacusLibrary)
+        )
+        .map((featureModule) => featureModule.moduleNode.getText());
       const unrecognizedModules = collectedModules.unrecognizedModules.map(
         (unrecognizedModule) => unrecognizedModule.getText()
-      );
-
-      featureModules.sort((moduleA, moduleB) =>
-        calculateSort(moduleA.spartacusLibrary, moduleB.spartacusLibrary)
       );
 
       const moduleImportsProperty = getModulePropertyInitializer(
@@ -1079,11 +1081,23 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
         'imports',
         false
       );
-      const finalOrder: string[] = spartacusCoreModules
-        .concat(featureModules.map((m) => m.moduleNode.getText()))
-        .concat(unrecognizedModules);
-      moduleImportsProperty?.replaceWithText(`[${finalOrder.join(',\n')}]`);
+      if (!moduleImportsProperty) {
+        continue;
+      }
 
+      if (collectedModules.warnings.length) {
+        context.logger.warn(
+          'The following modules were not recognized due to various reasons:'
+        );
+        for (const warning of collectedModules.warnings) {
+          context.logger.warn(warning);
+        }
+      }
+
+      const orderedModules: string[] = spartacusCoreModules
+        .concat(featureModules)
+        .concat(unrecognizedModules);
+      moduleImportsProperty.replaceWithText(`[${orderedModules.join(',\n')}]`);
       saveAndFormat(spartacusFeaturesModule);
     }
   };
