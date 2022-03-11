@@ -413,9 +413,9 @@ function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
 }
 
 function getSpartacusLibraryByModuleImports(
-  moduleExpression: Node
+  moduleNode: Node
 ): string | undefined {
-  const moduleIdentifier = getModuleIdentifier(moduleExpression);
+  const moduleIdentifier = getModuleIdentifier(moduleNode);
   if (!moduleIdentifier) {
     return undefined;
   }
