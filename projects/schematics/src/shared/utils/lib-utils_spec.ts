@@ -225,13 +225,11 @@ describe('Lib utils', () => {
 
   describe('addLibraryFeature', () => {
     it('should add i18n config in feature module', async () => {
-      const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-      const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+      const tree = await schematicRunner
+        .callRule(addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG), appTree)
+        .toPromise();
 
-      const xxxModule = tree.read(xxxFeaturePath)?.toString(UTF_8);
-      expect(xxxModule).toContain(
-        `import { ${I18N_RESOURCES} } from '${ASSETS_IMPORT_PATH}';`
-      );
+      expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
     it('should NOT add i18n if the config is not present', async () => {
       const featureConfig: FeatureConfig = {
