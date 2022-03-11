@@ -14,4 +14,27 @@
       rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
       rgba(0, 0, 0, 0.07) 0px 16px 16px;
   }
+
+  .scroll-to-top-btn:hover {
+    animation: shake 1.85s infinite;
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translateY(0);
+    }
+    10% {
+      transform: translateY(-6px);
+    }
+    20% {
+      transform: translateY(0);
+    }
+    30% {
+      transform: translateY(-3px);
+    }
+    40% {
+      transform: translateY(0);
+    }
+
+  }
 }

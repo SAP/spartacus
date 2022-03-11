@@ -14,7 +14,7 @@ import { IconTestingModule, ScrollToTopComponent } from '@spartacus/storefront';
 })
 class MockComponent {}
 
-fdescribe('ScrollToTopComponent', () => {
+describe('ScrollToTopComponent', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
   let winRef: WindowRef;
