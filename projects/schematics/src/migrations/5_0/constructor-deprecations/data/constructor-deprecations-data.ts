@@ -1,6 +1,6 @@
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const GLOBAL_MIGRATION: ConstructorDeprecation[] = [
+export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   {
     class: 'CartQuickOrderFormComponent',
     importPath: '@spartacus/cart/quick-order/components',
