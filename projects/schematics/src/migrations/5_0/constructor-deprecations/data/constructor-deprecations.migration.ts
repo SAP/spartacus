@@ -1445,7 +1445,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
       },
       {
         className: 'CheckoutLegacyStoreEventListener',
-        importPath: '',
+        importPath: '@spartacus/checkout/base/root',
       },
     ],
   },
@@ -1626,75 +1626,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
       {
         className: 'UserIdService',
         importPath: '@spartacus/core',
-      },
-    ],
-  },
-  {
-    class: 'CreateWishList',
-    importPath: '@spartacus/core',
-    deprecatedParams: [
-      {
-        className:
-          '{\n        userId: string;\n        name: string;\n        description?: string;\n    }',
-        importPath: '',
-      },
-    ],
-    removeParams: [
-      {
-        className:
-          '{\n        userId: string;\n        name: string;\n        description?: string;\n    }',
-        importPath: '',
-      },
-    ],
-    addParams: [
-      {
-        className:
-          '{\n        userId: string;\n        name?: string;\n        description?: string;\n    }',
-        importPath: '',
-      },
-    ],
-  },
-  {
-    class: 'CreateWishListSuccess',
-    importPath: '@spartacus/core',
-    deprecatedParams: [
-      {
-        className: '{\n        cart: Cart;\n        userId: string;\n    }',
-        importPath: '',
-      },
-    ],
-    removeParams: [
-      {
-        className: '{\n        cart: Cart;\n        userId: string;\n    }',
-        importPath: '',
-      },
-    ],
-    addParams: [
-      {
-        className: '{\n        cart: Cart;\n        cartId: string;\n    }',
-        importPath: '',
-      },
-    ],
-  },
-  {
-    class: 'LoadWishListSuccess',
-    importPath: '@spartacus/core',
-    deprecatedParams: [
-      {
-        className: 'LoadWishListSuccessPayload',
-        importPath: '',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'LoadWishListSuccessPayload',
-        importPath: '',
-      },
-    ],
-    addParams: [
-      {
-        className: '{\n        cart: Cart;\n        cartId: string;\n    }',
-        importPath: '',
       },
     ],
   },
