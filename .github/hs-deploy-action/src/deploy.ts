@@ -14,7 +14,7 @@ export async function deploy(github: any, octoKit: any, branch: string) {
   console.log(`--> Deploying branch ${branch}`);
 
   const bundleId = getBundleId(branch);
-  const command = `upp application deploy -b ${bundleId} -t spartacus -s ./dist/storefrontapp -e stage`;
+  const command = `upp application deploy -b ${bundleId} -t spartacus --csr-dist ./dist/storefrontapp --ssr-dist ./dist/storefrontapp-server -e stage`;
 
   const exp = /https\:\/\/\w+\.cloudfront\.net/;
   const ERROR = 'Response code: 500';

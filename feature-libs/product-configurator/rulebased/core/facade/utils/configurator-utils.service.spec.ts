@@ -6,10 +6,11 @@ import {
   ATTRIBUTE_1_CHECKBOX,
   GROUP_ID_1,
   GROUP_ID_2,
+  GROUP_ID_4,
   productConfiguration,
   subGroupWith2Attributes,
-} from '../../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../../shared/testing/configurator-test-utils';
+} from '../../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../../testing/configurator-test-utils';
 import { Configurator } from '../../model/configurator.model';
 import { ConfiguratorUtilsService } from './configurator-utils.service';
 
@@ -98,11 +99,12 @@ function mergeChangesAndGetFirstGroup(
   changedAttribute: Configurator.Attribute,
   configuration: Configurator.Configuration
 ) {
-  const configurationForSendingChanges = serviceUnderTest.createConfigurationExtract(
-    changedAttribute,
-    configuration,
-    updateType
-  );
+  const configurationForSendingChanges =
+    serviceUnderTest.createConfigurationExtract(
+      changedAttribute,
+      configuration,
+      updateType
+    );
 
   expect(configurationForSendingChanges).toBeDefined();
   const groups = configurationForSendingChanges.groups;
@@ -112,7 +114,7 @@ function mergeChangesAndGetFirstGroup(
   return groupForUpdateRequest;
 }
 
-describe('ConfiguratorGroupUtilsService', () => {
+describe('ConfiguratorUtilsService', () => {
   let classUnderTest: ConfiguratorUtilsService;
 
   beforeEach(
@@ -133,15 +135,6 @@ describe('ConfiguratorGroupUtilsService', () => {
     expect(classUnderTest).toBeTruthy();
   });
 
-  it('should find group from group Id', () => {
-    const group = classUnderTest.getGroupById(
-      productConfiguration.groups,
-      GROUP_ID_2
-    );
-
-    expect(group).toBe(productConfiguration.groups[1]);
-  });
-
   it('should find parent group from group', () => {
     const parentGroup = classUnderTest.getParentGroup(
       productConfiguration.groups,
@@ -153,12 +146,10 @@ describe('ConfiguratorGroupUtilsService', () => {
   });
 
   it('should check if subgroups exist', () => {
-    expect(classUnderTest.hasSubGroups(productConfiguration.groups[0])).toBe(
-      false
-    );
-    expect(classUnderTest.hasSubGroups(productConfiguration.groups[2])).toBe(
-      true
-    );
+    const groupWithoutSubgroups = productConfiguration.groups[1];
+    expect(classUnderTest.hasSubGroups(groupWithoutSubgroups)).toBe(false);
+    const groupWithSubgroups = productConfiguration.groups[3];
+    expect(classUnderTest.hasSubGroups(groupWithSubgroups)).toBe(true);
   });
 
   describe('isConfigurationCreated', () => {
@@ -197,7 +188,7 @@ describe('ConfiguratorGroupUtilsService', () => {
           'a',
           ConfiguratorModelUtils.createInitialOwner()
         ),
-        overview: { configId: CONFIG_ID },
+        overview: { configId: CONFIG_ID, productCode: PRODUCT_CODE },
       };
       expect(classUnderTest.isConfigurationCreated(configuration)).toBe(true);
     });
@@ -337,10 +328,11 @@ describe('ConfiguratorGroupUtilsService', () => {
         name: ATTRIBUTE_1_CHECKBOX,
         groupId: GROUP_ID_1,
       };
-      const configurationForSendingChanges = classUnderTest.createConfigurationExtract(
-        changedAttribute,
-        productConfiguration
-      );
+      const configurationForSendingChanges =
+        classUnderTest.createConfigurationExtract(
+          changedAttribute,
+          productConfiguration
+        );
       expect(configurationForSendingChanges.updateType).toBe(
         Configurator.UpdateType.ATTRIBUTE
       );
@@ -349,18 +341,64 @@ describe('ConfiguratorGroupUtilsService', () => {
 
   describe('getConfigurationFromState', () => {
     it('should retrieve configuration from state', () => {
-      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {
-        value: productConfiguration,
-      };
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> =
+        {
+          value: productConfiguration,
+        };
       expect(classUnderTest.getConfigurationFromState(configurationState)).toBe(
         productConfiguration
       );
     });
     it('should throw error in case no configuration is present in state', () => {
-      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> = {};
+      const configurationState: StateUtils.ProcessesLoaderState<Configurator.Configuration> =
+        {};
       expect(() =>
         classUnderTest.getConfigurationFromState(configurationState)
       ).toThrowError();
+    });
+  });
+
+  describe('getOptionalGroupById', () => {
+    it('should find group from group id if present on the root level', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        GROUP_ID_2
+      );
+      expect(group).toBe(productConfiguration.groups[1]);
+    });
+
+    it('should find group from group id if present as sub group', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        GROUP_ID_4
+      );
+      expect(group).toBe(subGroupWith2Attributes);
+    });
+
+    it('should return undefined if group cannot be found', () => {
+      const group = classUnderTest.getOptionalGroupById(
+        productConfiguration.groups,
+        'UNKNOWN_ID'
+      );
+      expect(group).toBeUndefined();
+    });
+  });
+
+  describe('getGroupById', () => {
+    it('should find group from group id if present on the root level', () => {
+      const group = classUnderTest.getGroupById(
+        productConfiguration.groups,
+        GROUP_ID_2
+      );
+      expect(group).toBe(productConfiguration.groups[1]);
+    });
+
+    it('should fall back to first group if group cannot be found', () => {
+      const group = classUnderTest.getGroupById(
+        productConfiguration.groups,
+        'UNKNOWN_ID'
+      );
+      expect(group).toBe(productConfiguration.groups[0]);
     });
   });
 });

@@ -10,6 +10,7 @@ export const product = {
     showReviews: 'Show reviews',
     noReviews: 'No reviews yet',
     productPrice: 'Product price',
+    noProductImage: 'No image available, {{ product }}',
   },
   productList: {
     filterBy: {
@@ -23,20 +24,36 @@ export const product = {
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',
+    productListResults: 'Product Results List',
   },
   productFacetNavigation: {
     filterBy: {
       label: 'Filter by',
       action: 'Filter by',
+      facet: 'Filter results by Facets',
+      name: 'Filter by {{name}}',
     },
     appliedFilter: 'Applied filter:',
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    ariaLabelShowLess:
+      'Show Less, button, clicking on this button will reduce options for the active group',
+    ariaLabelShowMore:
+      'Show more, button, clicking on this button will show all options for the active group',
+    ariaLabelItemsAvailable: '{{name}}, {{state}} {{count}} item available',
+    ariaLabelItemsAvailable_plural:
+      '{{name}}, {{state}} {{count}} items available',
+    decreaseOptionsVisibility:
+      'Options were hidden from the active group, tab backward to read them or forward for the next group',
+    increaseOptionsVisibility:
+      'More options were added to the active group, tab backward to read them or forward for the next group',
   },
   productSummary: {
     id: 'ID',
     showReviews: 'Show reviews',
+    showReviewsDetailed:
+      'Show {{count}} reviews, Rated {{rating}} out of 5 stars',
     share: 'Share',
     newItemPrice: 'New item price',
   },
@@ -45,12 +62,18 @@ export const product = {
     reviewTitle: 'Review Title',
     writeYourComments: 'Write your comments',
     rating: 'Rating',
+    ratingRequired: 'Product rating, required',
+    addRate: 'Add rate: {{count}} star',
+    addRate_plural: 'Add rate: {{count}} stars',
     reviewerName: 'Reviewer name (optional)',
     writeReview: 'Write a Review',
     more: 'Show More Reviews',
     less: 'Show Less Reviews',
     thankYouForReview:
       'Thank you for the review! Note that reviews may require review before appearing here.',
+  },
+  productCarousel: {
+    carouselLabel: 'Carousel, {{title}}',
   },
   addToCart: {
     itemsAddedToYourCart: 'Item(s) added to your cart',
@@ -74,12 +97,16 @@ export const product = {
       ProductSpecsTabComponent: 'Specs',
       ProductReviewsTabComponent: 'Reviews',
       deliveryTab: 'Shipping',
+      SparePartsTabComponent: ' Spare Parts',
     },
+    tabPanelContainerRegion: 'Tab group with more product details',
   },
   addToWishList: {
     add: 'Add to Wish List',
     remove: 'Remove from Wish List',
     anonymous: 'Sign in to add to wish list',
+    addedToWishList: 'Product added to wish list',
+    removedFromWishList: 'Product removed from wish list',
   },
   stockNotification: {
     notifyMe: 'NOTIFY ME',

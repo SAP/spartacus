@@ -6,7 +6,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_GRID_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/product/product-list/product-grid-item/product-grid-item.component.ts
+  // projects/storefrontlib/cms-components/product/product-list/product-grid-item/product-grid-item.component.ts
   class: PRODUCT_GRID_ITEM_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [],

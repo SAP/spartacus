@@ -1,5 +1,8 @@
 import { CommonConfigurator } from '@spartacus/product-configurator/common';
 
+// Note that this namespace should be augmentable, therefore it's exposed in the 'public_api.ts'
+// of the rulebased entry point, and there is no index.ts file in this folder
+
 export namespace Configurator {
   export interface Attribute {
     attrCode?: number;
@@ -52,14 +55,26 @@ export namespace Configurator {
     subGroups: Group[];
   }
 
+  export interface ValueSupplement {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
+  }
+
+  export interface AttributeSupplement {
+    attributeUiKey: string;
+    valueSupplements: ValueSupplement[];
+  }
+
   export interface Configuration {
     configId: string;
     consistent?: boolean;
     complete?: boolean;
     totalNumberOfIssues?: number;
-    productCode?: string;
+    productCode: string;
     groups: Group[];
     flatGroups: Group[];
+    priceSupplements?: AttributeSupplement[];
     priceSummary?: PriceSummary;
     overview?: Overview;
     owner: CommonConfigurator.Owner;
@@ -85,7 +100,7 @@ export namespace Configurator {
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     priceSummary?: PriceSummary;
-    productCode?: string;
+    productCode: string;
   }
 
   export interface GroupOverview {
@@ -97,7 +112,9 @@ export namespace Configurator {
 
   export interface AttributeOverview {
     attribute: string;
+    attributeId?: string;
     value: string;
+    valueId?: string;
     productCode?: string;
     type?: AttributeOverviewType;
     quantity?: number;

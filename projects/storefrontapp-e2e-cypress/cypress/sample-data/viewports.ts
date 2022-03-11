@@ -10,3 +10,8 @@ export const formats = {
     height: 660,
   },
 };
+
+export enum ViewportType {
+  Mobile = 'mobile',
+  Desktop = 'desktop',
+}

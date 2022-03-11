@@ -29,6 +29,6 @@ export class ConfiguratorOverviewAttributeComponent {
    * @returns {Observable<boolean>} - If the given breakpoint equals or is larger than`BREAKPOINT.md` returns `true`, otherwise `false`.
    */
   isDesktop(): Observable<boolean> {
-    return this.breakpointService?.isUp(BREAKPOINT.md);
+    return this.breakpointService.isUp(BREAKPOINT.md);
   }
 }

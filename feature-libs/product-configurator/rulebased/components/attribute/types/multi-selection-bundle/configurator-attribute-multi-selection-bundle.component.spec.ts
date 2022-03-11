@@ -9,9 +9,9 @@ import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { I18nTestingModule } from '@spartacus/core';
-import { CommonConfiguratorTestUtilsService } from '@spartacus/product-configurator/common';
 import { ItemCounterComponent, MediaModule } from '@spartacus/storefront';
 import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/url-translation/testing/url-testing.module';
+import { CommonConfiguratorTestUtilsService } from '../../../../../common/testing/common-configurator-test-utils.service';
 import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorPriceComponentOptions } from '../../../price/configurator-price.component';
 import { ConfiguratorShowMoreComponent } from '../../../show-more/configurator-show-more.component';
@@ -52,7 +52,7 @@ function getSelected(
   component: ConfiguratorAttributeMultiSelectionBundleComponent,
   index: number
 ): boolean | undefined {
-  const values = component?.attribute?.values;
+  const values = component.attribute.values;
   return values ? values[index].selected : false;
 }
 
@@ -127,40 +127,40 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
   beforeEach(() => {
     const values: Configurator.Value[] = [
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        '1111 Description',
         [createImage('url', 'alt')],
         'valueName',
         1,
         true,
         '1111',
-        'Lorem Ipsum Dolor'
+        '1111Display'
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        '2222 Description',
         [createImage('url', 'alt')],
         'valueName',
         1,
         true,
         '2222',
-        'Lorem Ipsum Dolor'
+        '2222Display'
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        '3333 Description',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '3333',
-        'Lorem Ipsum Dolor'
+        '3333Display'
       ),
       createValue(
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
+        '4444 Description',
         [createImage('url', 'alt')],
         'valueName',
         1,
         false,
         '4444',
-        'Lorem Ipsum Dolor'
+        '4444Display'
       ),
     ];
 
@@ -403,6 +403,55 @@ describe('ConfiguratorAttributeMultiSelectionBundleComponent', () => {
         htmlElem,
         'cx-configurator-price'
       );
+    });
+  });
+
+  describe('extractProductCardParameters', () => {
+    it('should be able to cope with no values', () => {
+      component.attribute.values = undefined;
+      const options = component.extractProductCardParameters(
+        false,
+        true,
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.itemCount).toBe(0);
+      expect(options.disableAllButtons).toBe(false);
+      expect(options.hideRemoveButton).toBe(true);
+    });
+
+    it('should be able to handle null values for boolean attributes', () => {
+      const options = component.extractProductCardParameters(
+        null,
+        null,
+        { valueCode: 'A' },
+        1
+      );
+      expect(options.disableAllButtons).toBe(false);
+      expect(options.hideRemoveButton).toBe(false);
+    });
+  });
+
+  describe('initialize', () => {
+    it('should prevent actions in case attribute is required and less than 2 selected values present', () => {
+      component.attribute.values = undefined;
+      component.attribute.required = true;
+      component.multipleSelectionValues = [];
+      component['initialize']();
+      component.preventAction$.subscribe((prevent) =>
+        expect(prevent).toBe(true)
+      );
+    });
+  });
+
+  describe('updateMultipleSelectionValuesQuantity', () => {
+    it('should return undefined event in case value code is not known ', () => {
+      expect(
+        component['updateMultipleSelectionValuesQuantity']({
+          valueCode: 'Not known',
+          quantity: 1,
+        })
+      ).toBeUndefined();
     });
   });
 });

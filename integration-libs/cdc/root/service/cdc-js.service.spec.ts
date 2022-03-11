@@ -132,46 +132,63 @@ describe('CdcJsService', () => {
   });
 
   describe('didLoad', () => {
-    it('should return CDC script loading state', () => {
-      spyOn(scriptLoader, 'embedScript').and.callFake(
-        (embedOptions: { src; params; attributes; loadCb }) => {
-          embedOptions.loadCb({} as Event);
-        }
+    it('should return CDC script loading state', (done) => {
+      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
+        (service as any)['loaded$'].next(true);
+      });
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
       );
+      spyOn(languageService, 'getActive').and.returnValue(of('en'));
+
+      const results: Array<boolean> = [];
+
+      (service as any)['loaded$'].next(false);
 
       service
         .didLoad()
-        .pipe(take(1))
-        .subscribe((val) => expect(val).toBe(false));
+        .pipe(take(2))
+        .subscribe((val) => {
+          results.push(val);
+          if (results.length > 1) {
+            expect(results[0]).toBe(false);
+            expect(results[1]).toBe(true);
+            done();
+          }
+        });
 
       service.loadCdcJavascript();
-
-      service
-        .didLoad()
-        .pipe(take(1))
-        .subscribe((val) => expect(val).toBe(false));
     });
   });
 
   describe('didScriptFailToLoad', () => {
-    it('should return CDC script loading error state', () => {
-      spyOn(scriptLoader, 'embedScript').and.callFake(
-        (embedOptions: { src; params; attributes; callback; errorCb }) => {
-          embedOptions.errorCb({} as Event);
-        }
+    it('should return CDC script loading error state', (done) => {
+      spyOn(scriptLoader, 'embedScript').and.callFake(() => {
+        (service as any)['errorLoading$'].next(true);
+      });
+
+      spyOn(baseSiteService, 'getActive').and.returnValue(
+        of('electronics-spa')
       );
+      spyOn(languageService, 'getActive').and.returnValue(of('en'));
+
+      const results: Array<boolean> = [];
+
+      (service as any)['errorLoading$'].next(false);
 
       service
         .didScriptFailToLoad()
-        .pipe(take(1))
-        .subscribe((val) => expect(val).toBe(false));
+        .pipe(take(2))
+        .subscribe((val) => {
+          results.push(val);
+          if (results.length > 1) {
+            expect(results[0]).toBe(false);
+            expect(results[1]).toBe(true);
+            done();
+          }
+        });
 
       service.loadCdcJavascript();
-
-      service
-        .didScriptFailToLoad()
-        .pipe(take(1))
-        .subscribe((val) => expect(val).toBe(false));
     });
   });
 

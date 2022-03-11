@@ -159,9 +159,7 @@ export function buildRelativePath(from: string, to: string): string {
   return pathPrefix + (relativePath ? relativePath + '/' : '') + toFileName;
 }
 
-export function getTemplateInfo(
-  source: ts.SourceFile
-):
+export function getTemplateInfo(source: ts.SourceFile):
   | {
       templateUrl?: string;
       inlineTemplateContent?: string;

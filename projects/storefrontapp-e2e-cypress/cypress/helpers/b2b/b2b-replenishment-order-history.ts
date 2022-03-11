@@ -16,14 +16,12 @@ export const replenishmentOrderHistoryHeaderValue =
 export function createReplenishmentRequestRoute(requestMethod: string) {
   const replenishmentAlias = 'replenishmentAlias';
 
-  cy.server();
-
-  cy.route(
-    requestMethod,
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: requestMethod,
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/*/replenishmentOrders*`
-  ).as(replenishmentAlias);
+    )}/users/*/replenishmentOrders*`,
+  }).as(replenishmentAlias);
 
   return `@${replenishmentAlias}`;
 }
@@ -32,7 +30,9 @@ export function visitReplenishmentHistory() {
   const replenishmentHistoryAlias = createReplenishmentRequestRoute('GET');
 
   cy.visit(replenishmentOrderHistoryUrl);
-  cy.wait(replenishmentHistoryAlias).its('status').should('eq', 200);
+  cy.wait(replenishmentHistoryAlias)
+    .its('response.statusCode')
+    .should('eq', 200);
 
   return replenishmentHistoryAlias;
 }
@@ -74,12 +74,13 @@ export function waitForReplenishmentOrders() {
 export function verifySorting() {
   visitReplenishmentHistory();
 
-  cy.server();
-  cy.route('GET', /sort=byReplenishmentNumber/).as('query_order_asc');
+  cy.intercept({ method: 'GET', query: { sort: 'byReplenishmentNumber' } }).as(
+    'query_order_asc'
+  );
 
   cy.get('.top cx-sorting .ng-select').ngSelect('Replenishment Number');
 
-  cy.wait('@query_order_asc').its('status').should('eq', 200);
+  cy.wait('@query_order_asc').its('response.statusCode').should('eq', 200);
 
   cy.get(
     `${replenishmentOrderHistorySelector} .cx-replenishment-order-history-code > .cx-replenishment-order-history-value`

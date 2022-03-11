@@ -2,6 +2,7 @@
   class="cx-page-section container"
   *ngIf="!(isLoading$ | async); else loading"
 >
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <div class="row justify-content-center">
     <div class="col-md-6">
       <div class="cx-section">
@@ -11,17 +12,16 @@
               <span class="label-content">{{
                 'register.title' | cxTranslate
               }}</span>
-              <select formControlName="titleCode" class="form-control">
-                <option selected value="" disabled>
-                  {{ 'register.selectTitle' | cxTranslate }}
-                </option>
-                <option
-                  *ngFor="let title of titles$ | async"
-                  [value]="title.code"
-                >
-                  {{ title.name }}
-                </option>
-              </select>
+              <ng-select
+                [clearable]="false"
+                [items]="titles$ | async"
+                [placeholder]="'register.selectTitle' | cxTranslate"
+                [searchable]="false"
+                bindLabel="name"
+                bindValue="code"
+                formControlName="titleCode"
+              >
+              </ng-select>
             </label>
           </div>
 
@@ -31,6 +31,7 @@
                 'register.firstName.label' | cxTranslate
               }}</span>
               <input
+                required="true"
                 class="form-control"
                 type="text"
                 name="firstname"
@@ -51,6 +52,7 @@
                 'register.lastName.label' | cxTranslate
               }}</span>
               <input
+                required="true"
                 class="form-control"
                 type="text"
                 name="lastname"
@@ -71,6 +73,7 @@
                 'register.emailAddress.label' | cxTranslate
               }}</span>
               <input
+                required="true"
                 class="form-control"
                 type="email"
                 name="email"
@@ -91,6 +94,7 @@
                 'register.password.label' | cxTranslate
               }}</span>
               <input
+                required="true"
                 class="form-control"
                 type="password"
                 name="password"
@@ -111,6 +115,7 @@
                 'register.confirmPassword.label' | cxTranslate
               }}</span>
               <input
+                required="true"
                 class="form-control"
                 type="password"
                 name="confirmpassword"
@@ -146,6 +151,7 @@
             <div class="form-check">
               <label>
                 <input
+                  required="true"
                   type="checkbox"
                   name="termsandconditions"
                   formControlName="termsandconditions"

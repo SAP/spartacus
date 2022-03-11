@@ -6,14 +6,12 @@ const containerSelector = '.StoreFinderPageTemplate';
 export function countriesListTabbingOrder(config: TabElement[]) {
   cy.visit('/store-finder/view-all');
 
-  cy.server();
-
-  cy.route(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/stores/storescounts*`
-  ).as('storesCounts');
+    )}/stores/storescounts*`,
+  }).as('storesCounts');
 
   cy.wait('@storesCounts');
   verifyTabbingOrder(containerSelector, config);

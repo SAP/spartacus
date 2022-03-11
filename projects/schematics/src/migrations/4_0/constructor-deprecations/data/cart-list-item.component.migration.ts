@@ -11,7 +11,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_LIST_ITEM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
   class: CART_ITEM_LIST_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -37,7 +37,7 @@ export const CART_LIST_ITEM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
 };
 
 export const CART_LIST_ITEM_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
   class: CART_ITEM_LIST_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -73,7 +73,7 @@ export const CART_LIST_ITEM_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
 };
 
 export const CART_LIST_ITEM_COMPONENT_MIGRATION_V3: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
+  // projects/storefrontlib/cms-components/cart/cart-shared/cart-item-list/cart-item-list.component.ts
   class: CART_ITEM_LIST_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

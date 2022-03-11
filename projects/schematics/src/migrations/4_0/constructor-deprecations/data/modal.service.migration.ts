@@ -10,7 +10,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const MODAL_SERVICE_MIGRATION_V1: ConstructorDeprecation = {
-  // projects/storefrontlib/src/shared/components/modal/modal.service.ts
+  // projects/storefrontlib/shared/components/modal/modal.service.ts
   class: MODAL_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [
@@ -24,7 +24,7 @@ export const MODAL_SERVICE_MIGRATION_V1: ConstructorDeprecation = {
 };
 
 export const MODAL_SERVICE_MIGRATION_V2: ConstructorDeprecation = {
-  // projects/storefrontlib/src/shared/components/modal/modal.service.ts
+  // projects/storefrontlib/shared/components/modal/modal.service.ts
   class: MODAL_SERVICE,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [{ className: NGB_MODAL, importPath: NG_BOOTSTRAP }],

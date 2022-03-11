@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { ActiveCartService, UserIdService } from '@spartacus/core';
+import { ActiveCartFacade } from '@spartacus/cart/base/root';
+import { OCC_USER_ID_CURRENT, UserIdService } from '@spartacus/core';
 import {
   CommonConfigurator,
   CommonConfiguratorUtilsService,
@@ -19,7 +20,7 @@ import { ConfiguratorTextFieldSelectors } from '../state/selectors/index';
 export class ConfiguratorTextfieldService {
   constructor(
     protected store: Store<StateWithConfigurationTextfield>,
-    protected activeCartService: ActiveCartService,
+    protected activeCartService: ActiveCartFacade,
     protected configuratorUtils: CommonConfiguratorUtilsService,
     protected userIdService: UserIdService
   ) {}
@@ -104,18 +105,19 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              productCode: productCode,
-              configuration: configuration,
-              quantity: 1,
-            };
+            const addToCartParameters: ConfiguratorTextfield.AddToCartParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cart),
+                productCode: productCode,
+                configuration: configuration,
+                quantity: 1,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.AddToCart(addToCartParameters)
             );
@@ -136,17 +138,18 @@ export class ConfiguratorTextfieldService {
     this.activeCartService
       .requireLoadedCart()
       .pipe(take(1))
-      .subscribe((cartState) => {
+      .subscribe((cart) => {
         this.userIdService
           .getUserId()
           .pipe(take(1))
           .subscribe((userId) => {
-            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters = {
-              userId: userId,
-              cartId: this.configuratorUtils.getCartId(cartState.value),
-              cartEntryNumber: cartEntryNumber,
-              configuration: configuration,
-            };
+            const updateCartParameters: ConfiguratorTextfield.UpdateCartEntryParameters =
+              {
+                userId: userId,
+                cartId: this.configuratorUtils.getCartId(cart),
+                cartEntryNumber: cartEntryNumber,
+                configuration: configuration,
+              };
             this.store.dispatch(
               new ConfiguratorTextfieldActions.UpdateCartEntryConfiguration(
                 updateCartParameters
@@ -167,17 +170,17 @@ export class ConfiguratorTextfieldService {
     owner: CommonConfigurator.Owner
   ): Observable<ConfiguratorTextfield.Configuration> {
     return this.activeCartService.requireLoadedCart().pipe(
-      switchMap((cartState) =>
+      switchMap((cart) =>
         this.userIdService
           .getUserId()
           .pipe(
             take(1),
-            map((userId) => ({ cartState, userId: userId }))
+            map((userId) => ({ cart, userId: userId }))
           )
           .pipe(
             map((cont) => ({
               userId: cont.userId,
-              cartId: this.configuratorUtils.getCartId(cont.cartState.value),
+              cartId: this.configuratorUtils.getCartId(cont.cart),
               cartEntryNumber: owner.id,
               owner: owner,
             })),
@@ -210,6 +213,42 @@ export class ConfiguratorTextfieldService {
     );
   }
 
+  /**
+   * Returns the textfield configuration attached to an order entry.
+   *
+   * @param {CommonConfigurator.Owner} owner - Configuration owner
+   *
+   * @returns {Observable<ConfiguratorTextfield.Configuration>}
+   */
+  readConfigurationForOrderEntry(
+    owner: CommonConfigurator.Owner
+  ): Observable<ConfiguratorTextfield.Configuration> {
+    const ownerIdParts = this.configuratorUtils.decomposeOwnerId(owner.id);
+    const readFromOrderEntryParameters: CommonConfigurator.ReadConfigurationFromOrderEntryParameters =
+      {
+        userId: OCC_USER_ID_CURRENT,
+        orderId: ownerIdParts.documentId,
+        orderEntryNumber: ownerIdParts.entryNumber,
+        owner: owner,
+      };
+    this.store.dispatch(
+      new ConfiguratorTextfieldActions.ReadOrderEntryConfiguration(
+        readFromOrderEntryParameters
+      )
+    );
+    return this.store.pipe(
+      select(ConfiguratorTextFieldSelectors.getConfigurationContent),
+      filter((configuration) => !this.isConfigurationInitial(configuration)),
+      map((configuration) =>
+        configuration
+          ? configuration
+          : {
+              configurationInfos: [],
+              owner: ConfiguratorModelUtils.createInitialOwner(),
+            }
+      )
+    );
+  }
   /**
    * Creates a textfield configuration supposed to be sent to the backend when an attribute
    * has been changed

@@ -11,7 +11,8 @@ import { VARIANT_CONFIGURATOR_PRICE_SUMMARY_NORMALIZER } from './../variant-conf
 
 @Injectable({ providedIn: 'root' })
 export class OccConfiguratorVariantOverviewNormalizer
-  implements Converter<OccConfigurator.Overview, Configurator.Overview> {
+  implements Converter<OccConfigurator.Overview, Configurator.Overview>
+{
   constructor(
     protected translation: TranslationService,
     protected converterService: ConverterService
@@ -21,7 +22,10 @@ export class OccConfiguratorVariantOverviewNormalizer
     source: OccConfigurator.Overview,
     target?: Configurator.Overview
   ): Configurator.Overview {
-    const prices: OccConfigurator.Prices = { priceSummary: source.pricing };
+    const prices: OccConfigurator.Prices = {
+      priceSummary: source.pricing,
+      configId: source.id,
+    };
     const resultTarget: Configurator.Overview = {
       ...target,
       configId: source.id,
@@ -52,7 +56,9 @@ export class OccConfiguratorVariantOverviewNormalizer
         ? characteristicValues.map((characteristic) => {
             return {
               attribute: characteristic.characteristic,
+              attributeId: characteristic.characteristicId,
               value: characteristic.value,
+              valueId: characteristic.valueId,
             };
           })
         : [],

@@ -1,0 +1,250 @@
+%cx-cart-item {
+  .cx-info-container {
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .cx-name {
+    @include type('5');
+    overflow-wrap: break-word;
+    padding: 0;
+
+    h3 {
+      @include type('5');
+    }
+
+    @include media-breakpoint-up(xl) {
+      min-width: 14rem;
+    }
+
+    .cx-link {
+      color: var(--cx-color-text);
+      text-decoration: none;
+      display: block;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-code {
+    @include type('7');
+    color: var(--cx-color-secondary);
+    padding: 0.625rem 0;
+  }
+
+  .cx-property {
+    display: flex;
+    &:last-of-type {
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .cx-label {
+    @include type('8');
+    overflow-wrap: break-word;
+    padding-inline-end: 1rem;
+
+    @include media-breakpoint-down(sm) {
+      min-width: 5rem;
+    }
+  }
+
+  .cx-value {
+    @include type('5');
+    overflow-wrap: break-word;
+    font-weight: 400;
+
+    @include media-breakpoint-down(sm) {
+      @include type('7');
+    }
+
+    @include media-breakpoint-only(lg) {
+      padding-inline-start: 1em;
+    }
+  }
+
+  .cx-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    @include type('5');
+    font-weight: $font-weight-normal;
+
+    @include media-breakpoint-only(xl) {
+      padding-inline-start: 0px;
+    }
+
+    .cx-old {
+      text-decoration: line-through;
+      color: var(--cx-color-secondary);
+      padding-inline-end: 1rem;
+    }
+
+    .cx-new {
+      color: var(--cx-color-primary);
+    }
+  }
+
+  .cx-image-container {
+    padding: 0;
+
+    a {
+      display: block;
+      padding: 0 1vw;
+      height: 100%;
+    }
+  }
+
+  .cx-quantity {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cx-total {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 0;
+    padding-inline-start: 0;
+
+    @include media-breakpoint-down(sm) {
+      padding-inline-start: 15px;
+    }
+
+    .cx-value {
+      text-align: end;
+      word-break: break-word;
+    }
+  }
+
+  .cx-promo {
+    @include type('8');
+    color: var(--cx-color-success);
+    padding: 0.75rem 0;
+    margin: 0;
+  }
+
+  .cx-availability {
+    @include type('8');
+    color: var(--cx-color-danger);
+    padding: 0.75rem 0;
+    margin: 0;
+  }
+
+  .cx-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0;
+
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      justify-content: flex-start;
+      padding: 0;
+    }
+
+    button.link {
+      @include type('7');
+      color: var(--cx-color-text);
+      border-width: 0;
+      background-color: transparent;
+
+      &:hover {
+        color: var(--cx-color-primary);
+      }
+    }
+  }
+
+  .cx-price,
+  .cx-quantity,
+  .cx-total {
+    @include media-breakpoint-down(sm) {
+      justify-content: flex-start;
+
+      .cx-label {
+        width: 100px;
+      }
+    }
+  }
+
+  .cx-price,
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      padding-bottom: 10px;
+    }
+  }
+
+  .cx-quantity {
+    @include media-breakpoint-down(sm) {
+      .cx-value {
+        margin: 0 0 0 20px;
+      }
+
+      .readonly-value {
+        background-color: rgb(230, 230, 230);
+      }
+    }
+  }
+
+  .cx-actions {
+    @include media-breakpoint-down(sm) {
+      .link {
+        display: block;
+        text-align: start;
+      }
+
+      .cx-sfl-btn {
+        text-align: start;
+        padding-inline-start: 0;
+      }
+    }
+  }
+
+  // ------------------------------------COMPACT VERSION STYLING------------------------------------------
+
+  .cx-compact {
+    display: flex;
+    flex-direction: row;
+
+    .cx-image-container {
+      padding: 0;
+    }
+
+    .cx-info-container {
+      display: flex;
+      flex-direction: column;
+      margin: 0;
+    }
+
+    .cx-price,
+    .cx-quantity,
+    .cx-total,
+    .cx-actions {
+      justify-content: flex-start;
+      padding: 0 0 10px 0;
+
+      .cx-label {
+        @include type('8');
+        min-width: 5rem;
+      }
+
+      .cx-value {
+        @include type('7');
+      }
+
+      button.link {
+        @include type('7');
+      }
+    }
+
+    .cx-quantity {
+      .cx-value {
+        margin: 0;
+      }
+    }
+  }
+}

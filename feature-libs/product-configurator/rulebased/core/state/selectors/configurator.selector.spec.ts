@@ -13,7 +13,7 @@ import {
   StateWithConfigurator,
 } from '../configurator-state';
 import { getConfiguratorReducers } from '../reducers/index';
-import { ConfiguratorTestUtils } from './../../../shared/testing/configurator-test-utils';
+import { ConfiguratorTestUtils } from './../../../testing/configurator-test-utils';
 import { ConfiguratorSelectors } from './index';
 
 describe('Configurator selectors', () => {
@@ -21,10 +21,8 @@ describe('Configurator selectors', () => {
   let configuratorUtils: CommonConfiguratorUtilsService;
   const productCode = 'CONF_LAPTOP';
   let owner = ConfiguratorModelUtils.createInitialOwner();
-  let configuration: Configurator.Configuration = ConfiguratorTestUtils.createConfiguration(
-    'a',
-    owner
-  );
+  let configuration: Configurator.Configuration =
+    ConfiguratorTestUtils.createConfiguration('a', owner);
 
   const configurationWithInteractionState: Configurator.Configuration = {
     ...ConfiguratorTestUtils.createConfiguration('a', owner),

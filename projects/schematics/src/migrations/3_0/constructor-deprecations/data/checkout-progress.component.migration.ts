@@ -10,7 +10,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_PROGRESS_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/checkout-progress/checkout-progress.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/checkout-progress/checkout-progress.component.ts
   class: CHECKOUT_PROGRESS_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

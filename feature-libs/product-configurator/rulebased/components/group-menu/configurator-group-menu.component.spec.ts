@@ -6,7 +6,6 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { I18nTestingModule, RoutingService } from '@spartacus/core';
 import {
   CommonConfigurator,
-  CommonConfiguratorTestUtilsService,
   CommonConfiguratorUtilsService,
   ConfiguratorModelUtils,
   ConfiguratorType,
@@ -17,8 +16,9 @@ import {
   HamburgerMenuService,
   ICON_TYPE,
 } from '@spartacus/storefront';
-import { Observable, of } from 'rxjs';
+import { NEVER, Observable, of } from 'rxjs';
 import { take } from 'rxjs/operators';
+import { CommonConfiguratorTestUtilsService } from '../../../common/testing/common-configurator-test-utils.service';
 import { ConfiguratorCommonsService } from '../../core/facade/configurator-commons.service';
 import { ConfiguratorGroupsService } from '../../core/facade/configurator-groups.service';
 import { Configurator } from '../../core/model/configurator.model';
@@ -33,15 +33,16 @@ import {
   mockRouterState,
   productConfiguration,
   PRODUCT_CODE,
-} from '../../shared/testing/configurator-test-data';
-import { ConfiguratorTestUtils } from '../../shared/testing/configurator-test-utils';
+} from '../../testing/configurator-test-data';
+import { ConfiguratorTestUtils } from '../../testing/configurator-test-utils';
 import { ConfiguratorStorefrontUtilsService } from './../service/configurator-storefront-utils.service';
 import { ConfiguratorGroupMenuComponent } from './configurator-group-menu.component';
 import { ConfiguratorGroupMenuService } from './configurator-group-menu.component.service';
 
 let mockGroupVisited = false;
 let mockDirection = DirectionMode.LTR;
-const mockProductConfiguration: Configurator.Configuration = productConfiguration;
+const mockProductConfiguration: Configurator.Configuration =
+  productConfiguration;
 
 class MockRoutingService {
   getRouterState(): Observable<RouterState> {
@@ -57,7 +58,8 @@ const typeCPQ = ConfiguratorType.CPQ;
 const typeVariant = ConfiguratorType.VARIANT;
 
 const simpleConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
+  ...mockProductConfiguration,
+
   groups: [
     {
       id: GROUP_ID_1,
@@ -84,9 +86,8 @@ const simpleConfig: Configurator.Configuration = {
 };
 
 const inconsistentConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: false,
   complete: true,
   interactionState: {
@@ -96,9 +97,8 @@ const inconsistentConfig: Configurator.Configuration = {
 };
 
 const incompleteConfig: Configurator.Configuration = {
-  configId: mockProductConfiguration.configId,
-  groups: mockProductConfiguration.groups,
-  flatGroups: mockProductConfiguration.flatGroups,
+  ...mockProductConfiguration,
+
   consistent: true,
   complete: false,
   interactionState: {
@@ -301,6 +301,13 @@ describe('ConfigurationGroupMenuComponent', () => {
     component.configuration$.subscribe((data: Configurator.Configuration) => {
       expect(data.productCode).toEqual(PRODUCT_CODE);
     });
+  });
+
+  it('should render ghost view, consisting of 10 elements, if no data is present', () => {
+    productConfigurationObservable = NEVER;
+    routerStateObservable = of(mockRouterState);
+    initialize();
+    expect(htmlElem.querySelectorAll('.cx-ghost-menu-item').length).toBe(10);
   });
 
   it('should render 5 groups directly after init has been performed as groups are compiled without delay', () => {
@@ -731,15 +738,50 @@ describe('ConfigurationGroupMenuComponent', () => {
     it("should contain 'WARNING' class because the group has been visited and has some conflicts", () => {
       simpleConfig.consistent = false;
       simpleConfig.groups[0].consistent = false;
+      simpleConfig.groups[0].description = 'Group Name';
+
       productConfigurationObservable = of(simpleConfig);
       routerStateObservable = of(mockRouterState);
       mockGroupVisited = true;
-      isConflictGroupType = true;
       initialize();
       CommonConfiguratorTestUtilsService.expectElementPresent(
         expect,
         htmlElem,
         '.cx-menu-item.WARNING'
+      );
+
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-label',
+        'configurator.a11y.groupName group:Group Name'
+      );
+    });
+
+    it('should add correct aria-attributes to conflict group', () => {
+      simpleConfig.consistent = false;
+      simpleConfig.groups[0].consistent = false;
+      simpleConfig.groups[0].description = 'Resolve Conlflicts';
+      simpleConfig.groups[0].groupType =
+        Configurator.GroupType.CONFLICT_HEADER_GROUP;
+      simpleConfig.groups[0].subGroups = [{ id: 'subgroup1', subGroups: [] }];
+
+      productConfigurationObservable = of(simpleConfig);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      isConflictGroupType = true;
+      initialize();
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-conflict',
+        0,
+        'aria-label',
+        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
       );
     });
 
@@ -1109,6 +1151,368 @@ describe('ConfigurationGroupMenuComponent', () => {
 
     it('should return aria-controls string', () => {
       expect(component.createAriaControls('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('getAriaLabel', () => {
+    it("should return 'configurator.a11y.groupName group:Group Name' if group is an attribute group", () => {
+      const group = {
+        id: GROUP_ID_1,
+        description: 'Group Name',
+        groupType: Configurator.GroupType.ATTRIBUTE_GROUP,
+        attributes: [],
+        subGroups: [],
+      };
+      expect(component.getAriaLabel(group)).toBe(
+        'configurator.a11y.groupName group:Group Name'
+      );
+    });
+
+    it("should return 'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)' if group is conflict header", () => {
+      isConflictGroupType = true;
+      const group = {
+        id: GROUP_ID_1,
+        description: 'Resolve Conflicts',
+        groupType: Configurator.GroupType.CONFLICT_HEADER_GROUP,
+        attributes: [],
+        subGroups: [{ id: 'subgroup1', subGroups: [] }],
+      };
+      expect(component.getAriaLabel(group)).toBe(
+        'configurator.a11y.conflictsInConfiguration numberOfConflicts:(1)'
+      );
+    });
+
+    it('should return group description if group is conflict group', () => {
+      isConflictGroupType = true;
+      const group = {
+        id: GROUP_ID_1,
+        description: 'Conflict for xyz',
+        groupType: Configurator.GroupType.CONFLICT_GROUP,
+        attributes: [],
+        subGroups: [],
+      };
+      expect(component.getAriaLabel(group)).toBe('Conflict for xyz');
+    });
+  });
+
+  describe('getAriaDescribedby', () => {
+    it('should return appropriate (ICONSUCCESS) aria-describedby for variant configurator if group is complete and consistent', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' ICONSUCCESS1234-56-7892 inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (only inListOfGroups) aria-describedby if group is complete, consistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[1].complete = true;
+      mockProductConfiguration.groups[1].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[1],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (ICONWARNING) aria-describedby if group is inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual('ICONWARNING1234-56-7891 inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (only inListOfGroups) if group is inconsistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is CPQ', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, consistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (ICONWARNING and ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeVariant;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(
+            'ICONWARNING1234-56-7891 ICONERROR1234-56-7891 inListOfGroups'
+          )
+        );
+    });
+
+    it('should return appropriate (ICONERROR) aria-describedby if group is incomplete, inconsistent and type is variant', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.owner.configuratorType = typeCPQ;
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(' ICONERROR1234-56-7891 inListOfGroups')
+        );
+    });
+
+    it('should return appropriate (ICONCARET_RIGHT) aria-describedby if group has subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.groups[0].subGroups = [
+        { id: 'subgroup1', subGroups: [] },
+      ];
+
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(
+            ' ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          )
+        );
+    });
+
+    it('should return appropriate (ICONCARET_RIGHT and ICONERROR) aria-describedby if group has subgroups', () => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = false;
+      mockProductConfiguration.groups[0].consistent = false;
+      mockProductConfiguration.groups[0].subGroups = [
+        { id: 'subgroup1', subGroups: [] },
+      ];
+
+      initialize();
+      component
+        .getAriaDescribedby(
+          mockProductConfiguration.groups[0],
+          mockProductConfiguration
+        )
+        .pipe(take(1))
+        .subscribe((describedby) =>
+          expect(describedby).toEqual(
+            ' ICONERROR1234-56-7891 ICONCARET_RIGHT1234-56-7891 inListOfGroups'
+          )
+        );
+    });
+  });
+
+  describe('Accessibility', () => {
+    beforeEach(() => {
+      productConfigurationObservable = of(mockProductConfiguration);
+      routerStateObservable = of(mockRouterState);
+      mockGroupVisited = true;
+      mockProductConfiguration.groups[0].complete = true;
+      mockProductConfiguration.groups[0].consistent = true;
+      mockProductConfiguration.groups[0].subGroups = [
+        {
+          id: 'subgroup1',
+          description: 'Description for subgroup1',
+          subGroups: [],
+        },
+      ];
+      initialize();
+    });
+
+    it("should contain action span element with ID 'listOfGroups' and class name 'cx-visually-hidden' that hides element content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        0,
+        undefined,
+        undefined,
+        'configurator.a11y.listOfGroups'
+      );
+    });
+
+    it("should contain action span element with ID 'inListOfGroups' and class name 'cx-visually-hidden' that hides element content on the UI", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'span',
+        'cx-visually-hidden',
+        1,
+        undefined,
+        undefined,
+        'configurator.a11y.inListOfGroups'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-describedby' attribute that indicates the IDs of the elements that describe the elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-describedby',
+        ' ICONERRORsubgroup1 inListOfGroups'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-selected' attribute that indicates the current 'selected' state of elements", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-selected',
+        'false'
+      );
+    });
+
+    it("should contain action button element with class name 'cx-menu-item' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'button',
+        'cx-menu-item',
+        0,
+        'aria-label',
+        'configurator.a11y.groupName group:' +
+          mockProductConfiguration.groups[0].subGroups[0].description
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'WARNING' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'WARNING',
+        0,
+        'aria-label',
+        'configurator.a11y.iconConflict'
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'ERROR' and 'aria-label' attribute that defines an accessible name to label the current elementt", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'ERROR',
+        0,
+        'aria-label',
+        'configurator.a11y.iconIncomplete'
+      );
+    });
+
+    it("should contain action cx-icon element with class name 'COMPLETE' and 'aria-label' attribute that defines an accessible name to label the current element", () => {
+      CommonConfiguratorTestUtilsService.expectElementContainsA11y(
+        expect,
+        htmlElem,
+        'cx-icon',
+        'COMPLETE',
+        0,
+        'aria-label',
+        'configurator.a11y.iconComplete'
+      );
     });
   });
 });

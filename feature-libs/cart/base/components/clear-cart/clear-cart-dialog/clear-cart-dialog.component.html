@@ -1,0 +1,66 @@
+<div
+  [cxFocus]="focusConfig"
+  (esc)="close('Escape clicked')"
+  class="cx-clear-cart-dialog"
+>
+  <div class="cx-clear-cart-container">
+    <ng-container *ngIf="!isClearing; else loading">
+      <div
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
+      <!-- Modal Header -->
+      <div class="modal-header cx-clear-cart-header">
+        <div class="cx-clear-cart-title modal-title">
+          {{ 'clearCart.clearCart' | cxTranslate }}
+        </div>
+
+        <button
+          (click)="close('Close Clear Cart Dialog')"
+          [attr.aria-label]="'common.close' | cxTranslate"
+          class="close"
+          type="button"
+        >
+          <span aria-hidden="true">
+            <cx-icon [type]="iconTypes.CLOSE"></cx-icon>
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="cx-clear-cart-body">
+        <div class="clear-cart-msg">
+          {{ 'clearCart.allItemsWillBeRemoved' | cxTranslate }}
+        </div>
+        <div class="clear-cart-warning" role="alert">
+          {{ 'clearCart.areYouSureToClearCart' | cxTranslate }}
+        </div>
+        <div>
+          <div class="cx-clear-cart-footer">
+            <button
+              (click)="close('Cancel Clear Cart')"
+              class="btn btn-action"
+              type="button"
+            >
+              {{ 'common.cancel' | cxTranslate }}
+            </button>
+            <button (click)="clearCart()" class="btn btn-primary" type="button">
+              {{ 'clearCart.clearCart' | cxTranslate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<ng-template #loading>
+  <div class="modal-header cx-clear-cart-header">
+    <div class="cx-clear-cart-title modal-title">
+      {{ 'clearCart.clearingCart' | cxTranslate }}
+    </div>
+  </div>
+  <div class="cx-spinner">
+    <cx-spinner></cx-spinner>
+  </div>
+</ng-template>

@@ -67,29 +67,25 @@ export const savedCarts = {
                 altText: 'Measuring beakers',
                 format: 'zoom',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wzNjg4N3xpbWFnZS9qcGVnfGltYWdlcy9oMzMvaDQ3Lzg3OTY4Njc2OTA1MjYuanBnfGQ1MGM5YzMxMzIwOTNhOGZiMDdhMzRiMzc3ZGVlNmE4ZTY3YWRiZTkyODA1N2Q3ZDVhYjM4MTNiZTU0YzhjNTc',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wzNjg4N3xpbWFnZS9qcGVnfGltYWdlcy9oMzMvaDQ3Lzg3OTY4Njc2OTA1MjYuanBnfGQ1MGM5YzMxMzIwOTNhOGZiMDdhMzRiMzc3ZGVlNmE4ZTY3YWRiZTkyODA1N2Q3ZDVhYjM4MTNiZTU0YzhjNTc',
               },
               {
                 altText: 'Measuring beakers',
                 format: 'product',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wxMzk0M3xpbWFnZS9qcGVnfGltYWdlcy9oY2QvaDE2Lzg3OTY4OTQ5NTM1MDIuanBnfGE5ZTYyNjY4YjZhYjcxNzNkNWQ0OTNkN2Y1NjM5MjljNjdlMzlkNDc3ODQ1NjhjZjI2NGY4ZDFiZTBmYWY5MTU',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMzk0M3xpbWFnZS9qcGVnfGltYWdlcy9oY2QvaDE2Lzg3OTY4OTQ5NTM1MDIuanBnfGE5ZTYyNjY4YjZhYjcxNzNkNWQ0OTNkN2Y1NjM5MjljNjdlMzlkNDc3ODQ1NjhjZjI2NGY4ZDFiZTBmYWY5MTU',
               },
               {
                 altText: 'Measuring beakers',
                 format: 'thumbnail',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wyMzc4fGltYWdlL2pwZWd8aW1hZ2VzL2gzMS9oZDkvODc5NjkyMjIxNjQ3OC5qcGd8OTg5OGE5OTFjNDE0M2FhMDU1ZjJiZjgxY2NkNzlmYTExYmI5YTRmZTI3MTZmMzlmNjBjZTVjNmQ2NTFiMzAyMQ',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wyMzc4fGltYWdlL2pwZWd8aW1hZ2VzL2gzMS9oZDkvODc5NjkyMjIxNjQ3OC5qcGd8OTg5OGE5OTFjNDE0M2FhMDU1ZjJiZjgxY2NkNzlmYTExYmI5YTRmZTI3MTZmMzlmNjBjZTVjNmQ2NTFiMzAyMQ',
               },
               {
                 altText: 'Measuring beakers',
                 format: 'cartIcon',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wxNDc2fGltYWdlL2pwZWd8aW1hZ2VzL2g3NC9oOTYvODc5Njk0OTQ3OTQ1NC5qcGd8MDkxODQ4MWQ1Y2UzZjljYzU5NDdmN2RlNjNmY2I0MTc3MzFkMDRkNjk4YmJjNWI4NzNlODZlMDg3NDdmOTQ1MQ',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wxNDc2fGltYWdlL2pwZWd8aW1hZ2VzL2g3NC9oOTYvODc5Njk0OTQ3OTQ1NC5qcGd8MDkxODQ4MWQ1Y2UzZjljYzU5NDdmN2RlNjNmY2I0MTc3MzFkMDRkNjk4YmJjNWI4NzNlODZlMDg3NDdmOTQ1MQ',
               },
             ],
             manufacturer: 'Hama',
@@ -100,8 +96,7 @@ export const savedCarts = {
               stockLevel: 168,
               stockLevelStatus: 'inStock',
             },
-            url:
-              '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/Measuring-beakers/p/2217258',
+            url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/Measuring-beakers/p/2217258',
           },
           quantity: 1,
           returnableQuantity: 0,
@@ -169,29 +164,25 @@ export const savedCarts = {
                 altText: '6 Inch Nylon Cable Ties 100-Pack',
                 format: 'zoom',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wyNzc3OHxpbWFnZS9qcGVnfGltYWdlcy9oOTEvaGJhLzg3OTY4NjI3NzUzMjYuanBnfGE3NTA4NjIyN2FhNmYyMjI3Nzk4YTU5NjE0ZWVjOWUwOGM2MzdhMDljMjA5MjM1N2Q0ZDc5MDg4OTVlYzU3ODI',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wyNzc3OHxpbWFnZS9qcGVnfGltYWdlcy9oOTEvaGJhLzg3OTY4NjI3NzUzMjYuanBnfGE3NTA4NjIyN2FhNmYyMjI3Nzk4YTU5NjE0ZWVjOWUwOGM2MzdhMDljMjA5MjM1N2Q0ZDc5MDg4OTVlYzU3ODI',
               },
               {
                 altText: '6 Inch Nylon Cable Ties 100-Pack',
                 format: 'product',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wxMDk3MnxpbWFnZS9qcGVnfGltYWdlcy9oMDMvaGZmLzg3OTY4OTAwMzgzMDIuanBnfGIwMWMzMTg5ODU4ZDMwZjU2MjA4ODMyMjlkMzA4NTBjZDZiMjMxM2RmOTU2MzJlYWZjMjVhYTgwOGRiMjBiMzc',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMDk3MnxpbWFnZS9qcGVnfGltYWdlcy9oMDMvaGZmLzg3OTY4OTAwMzgzMDIuanBnfGIwMWMzMTg5ODU4ZDMwZjU2MjA4ODMyMjlkMzA4NTBjZDZiMjMxM2RmOTU2MzJlYWZjMjVhYTgwOGRiMjBiMzc',
               },
               {
                 altText: '6 Inch Nylon Cable Ties 100-Pack',
                 format: 'thumbnail',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wxOTYzfGltYWdlL2pwZWd8aW1hZ2VzL2hmZi9oYzUvODc5NjkxNzMwMTI3OC5qcGd8ODMzMGVkOWU2MTg5ZTg0NGI2ZjRjYTEzYzFiODJhMGYyNzg2ODA4MzA3M2U2ZTE2NWZhMWFmNTk1Mjg5ODBmYQ',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wxOTYzfGltYWdlL2pwZWd8aW1hZ2VzL2hmZi9oYzUvODc5NjkxNzMwMTI3OC5qcGd8ODMzMGVkOWU2MTg5ZTg0NGI2ZjRjYTEzYzFiODJhMGYyNzg2ODA4MzA3M2U2ZTE2NWZhMWFmNTk1Mjg5ODBmYQ',
               },
               {
                 altText: '6 Inch Nylon Cable Ties 100-Pack',
                 format: 'cartIcon',
                 imageType: 'PRIMARY',
-                url:
-                  '/medias/?context=bWFzdGVyfGltYWdlc3wxMjQwfGltYWdlL2pwZWd8aW1hZ2VzL2gyYS9oYTMvODc5Njk0NDU2NDI1NC5qcGd8ODI3NjA2NjhiOTNiNDYxOTMxMzdiNjIxMmFmNjFiZGUxMWVkMmQ5ZDA3ZGU4YmU2Mzg0MzcxNDRjMDJmNzdjMQ',
+                url: '/medias/?context=bWFzdGVyfGltYWdlc3wxMjQwfGltYWdlL2pwZWd8aW1hZ2VzL2gyYS9oYTMvODc5Njk0NDU2NDI1NC5qcGd8ODI3NjA2NjhiOTNiNDYxOTMxMzdiNjIxMmFmNjFiZGUxMWVkMmQ5ZDA3ZGU4YmU2Mzg0MzcxNDRjMDJmNzdjMQ',
               },
             ],
             manufacturer: 'StarTech.com',
@@ -202,8 +193,7 @@ export const savedCarts = {
               stockLevel: 122,
               stockLevelStatus: 'inStock',
             },
-            url:
-              '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/6-Inch-Nylon-Cable-Ties-100-Pack/p/1128763',
+            url: '/Open-Catalogue/Tools/Measuring-%26-Layout-Tools/6-Inch-Nylon-Cable-Ties-100-Pack/p/1128763',
           },
           quantity: 1,
           returnableQuantity: 0,

@@ -7,12 +7,13 @@ import {
   ProductSearchService,
   RoutingService,
 } from '@spartacus/core';
-import { combineLatest, merge, Observable } from 'rxjs';
+import { combineLatest, merge, Observable, of } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
   map,
   startWith,
+  switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
 import {
@@ -21,6 +22,8 @@ import {
 } from '../connectors/strategy/converters';
 import { MerchandisingUserContext } from '../model/merchandising-user-context.model';
 import { ProfileTagEventService } from './../../profiletag/services/profiletag-event.service';
+import { ProfileTagLifecycleService } from '../../profiletag/services';
+import { ConsentChangedPushEvent } from '../../profiletag/model';
 
 @Injectable({
   providedIn: 'root',
@@ -30,7 +33,8 @@ export class CdsMerchandisingUserContextService {
     private routingService: RoutingService,
     private productSearchService: ProductSearchService,
     private converterService: ConverterService,
-    private profileTagEventService: ProfileTagEventService
+    private profileTagEventService: ProfileTagEventService,
+    private profileTagLifecycleService: ProfileTagLifecycleService
   ) {}
 
   getUserContext(): Observable<MerchandisingUserContext> {
@@ -61,10 +65,17 @@ export class CdsMerchandisingUserContextService {
   }
 
   private getConsentReferenceContext(): Observable<MerchandisingUserContext> {
-    return this.profileTagEventService.getConsentReference().pipe(
-      startWith(''),
-      distinctUntilChanged(),
-      map((consentReference) => ({ consentReference }))
+    return this.profileTagLifecycleService.consentChanged().pipe(
+      switchMap((changed: ConsentChangedPushEvent) => {
+        if (changed.data.granted) {
+          return this.profileTagEventService
+            .getConsentReference()
+            .pipe(map((consentReference) => ({ consentReference })));
+        } else {
+          this.profileTagEventService.handleConsentWithdrawn();
+          return of({ consentReference: '' });
+        }
+      })
     );
   }
 

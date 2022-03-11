@@ -12,17 +12,35 @@ export namespace OccConfigurator {
      * @member {boolean} [complete]
      */
     complete?: boolean;
-
+    /**
+     * Configuration is consistent, meaning it does not contain conflicts
+     *
+     * @member {boolean}
+     */
+    consistent?: boolean;
     totalNumberOfIssues?: number;
     groups?: Group[];
-    rootProduct?: string;
+    rootProduct: string;
   }
 
   export interface Prices {
-    configId?: string;
+    configId: string;
+    attributes?: Supplements[];
     pricingError?: boolean;
     showDeltaPrices?: boolean;
     priceSummary?: PriceSummary;
+  }
+
+  export interface Supplements {
+    csticUiKey: string;
+    selectedValues: string[];
+    priceSupplements: ValueSupplements[];
+  }
+
+  export interface ValueSupplements {
+    attributeValueKey: string;
+    priceValue: PriceDetails;
+    obsoletePriceValue: PriceDetails;
   }
 
   export interface PriceSummary {
@@ -113,7 +131,7 @@ export namespace OccConfigurator {
     totalNumberOfIssues?: number;
     groups?: GroupOverview[];
     pricing?: PriceSummary;
-    productCode?: string;
+    productCode: string;
   }
 
   export interface GroupOverview {
@@ -125,7 +143,9 @@ export namespace OccConfigurator {
 
   export interface CharacteristicOverview {
     characteristic: string;
+    characteristicId?: string;
     value: string;
+    valueId?: string;
   }
   export interface Image {
     imageType: ImageType;

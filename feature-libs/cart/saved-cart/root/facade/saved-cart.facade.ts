@@ -1,48 +1,46 @@
 import { Injectable } from '@angular/core';
-import { Cart, facadeFactory, StateUtils } from '@spartacus/core';
+import { Cart } from '@spartacus/cart/base/root';
+import { facadeFactory, StateUtils } from '@spartacus/core';
 import { Observable } from 'rxjs';
 import { CART_SAVED_CART_CORE_FEATURE } from '../feature-name';
 
-export function savedCartFacadeFactory() {
-  return facadeFactory({
-    facade: SavedCartFacade,
-    feature: CART_SAVED_CART_CORE_FEATURE,
-    methods: [
-      'editSavedCart',
-      'deleteSavedCart',
-      'getSavedCart',
-      'getSavedCartList',
-      'loadSavedCart',
-      'clearCloneSavedCart',
-      'clearRestoreSavedCart',
-      'clearSaveCart',
-      'clearSavedCarts',
-      'get',
-      'getList',
-      'getCloneSavedCartProcessError',
-      'getCloneSavedCartProcessLoading',
-      'getCloneSavedCartProcessSuccess',
-      'getRestoreSavedCartProcessError',
-      'getRestoreSavedCartProcessLoading',
-      'getRestoreSavedCartProcessSuccess',
-      'getSaveCartProcessError',
-      'getSaveCartProcessLoading',
-      'getSaveCartProcessSuccess',
-      'getSavedCartListProcess',
-      'getSavedCartListProcessLoading',
-      'isStable',
-      'cloneSavedCart',
-      'loadSavedCarts',
-      'restoreSavedCart',
-      'saveCart',
-    ],
-    async: true,
-  });
-}
-
 @Injectable({
   providedIn: 'root',
-  useFactory: savedCartFacadeFactory,
+  useFactory: () =>
+    facadeFactory({
+      facade: SavedCartFacade,
+      feature: CART_SAVED_CART_CORE_FEATURE,
+      methods: [
+        'editSavedCart',
+        'deleteSavedCart',
+        'getSavedCart',
+        'getSavedCartList',
+        'loadSavedCart',
+        'clearCloneSavedCart',
+        'clearRestoreSavedCart',
+        'clearSaveCart',
+        'clearSavedCarts',
+        'get',
+        'getList',
+        'getCloneSavedCartProcessError',
+        'getCloneSavedCartProcessLoading',
+        'getCloneSavedCartProcessSuccess',
+        'getRestoreSavedCartProcessError',
+        'getRestoreSavedCartProcessLoading',
+        'getRestoreSavedCartProcessSuccess',
+        'getSaveCartProcessError',
+        'getSaveCartProcessLoading',
+        'getSaveCartProcessSuccess',
+        'getSavedCartListProcess',
+        'getSavedCartListProcessLoading',
+        'isStable',
+        'cloneSavedCart',
+        'loadSavedCarts',
+        'restoreSavedCart',
+        'saveCart',
+      ],
+      async: true,
+    }),
 })
 export abstract class SavedCartFacade {
   /**
@@ -67,7 +65,7 @@ export abstract class SavedCartFacade {
    */
   abstract getSavedCart(
     cartId: string
-  ): Observable<StateUtils.ProcessesLoaderState<Cart>>;
+  ): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>;
 
   /**
    * Returns true when there are no operations on that in progress and it is not currently loading
@@ -213,7 +211,7 @@ export abstract class SavedCartFacade {
    *
    * @param cartId
    */
-  abstract cloneSavedCart(cartId: string): void;
+  abstract cloneSavedCart(cartId: string, saveCartName?: string): void;
 
   /**
    * Gets the loading state of cloning a saved cart

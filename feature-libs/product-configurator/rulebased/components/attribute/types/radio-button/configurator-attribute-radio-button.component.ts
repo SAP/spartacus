@@ -10,7 +10,8 @@ import { ConfiguratorAttributeSingleSelectionBaseComponent } from '../base/confi
 })
 export class ConfiguratorAttributeRadioButtonComponent
   extends ConfiguratorAttributeSingleSelectionBaseComponent
-  implements OnInit {
+  implements OnInit
+{
   attributeRadioButtonForm = new FormControl('');
 
   constructor(protected quantityService: ConfiguratorAttributeQuantityService) {

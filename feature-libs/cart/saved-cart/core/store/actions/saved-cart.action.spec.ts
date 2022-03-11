@@ -1,4 +1,5 @@
-import { MULTI_CART_DATA, PROCESS_FEATURE, StateUtils } from '@spartacus/core';
+import { MULTI_CART_DATA } from '@spartacus/cart/base/core';
+import { PROCESS_FEATURE, StateUtils } from '@spartacus/core';
 import {
   SAVED_CART_CLONE_CART_PROCESS_ID,
   SAVED_CART_LIST_PROCESS_ID,
@@ -362,11 +363,16 @@ describe('SavedCart Actions', () => {
         const action = new SavedCartActions.CloneSavedCart({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.CLONE_SAVED_CART,
-          payload: { userId: mockUserId, cartId: mockCartId },
+          payload: {
+            userId: mockUserId,
+            cartId: mockCartId,
+            saveCartName: mockCartName,
+          },
           meta: StateUtils.entityLoadMeta(
             PROCESS_FEATURE,
             SAVED_CART_CLONE_CART_PROCESS_ID
@@ -379,6 +385,7 @@ describe('SavedCart Actions', () => {
         const action = new SavedCartActions.CloneSavedCartSuccess({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
         });
 
         expect({ ...action }).toEqual({
@@ -386,6 +393,7 @@ describe('SavedCart Actions', () => {
           payload: {
             userId: mockUserId,
             cartId: mockCartId,
+            saveCartName: mockCartName,
           },
           meta: StateUtils.entitySuccessMeta(
             PROCESS_FEATURE,
@@ -399,12 +407,18 @@ describe('SavedCart Actions', () => {
         const action = new SavedCartActions.CloneSavedCartFail({
           userId: mockUserId,
           cartId: mockCartId,
+          saveCartName: mockCartName,
           error,
         });
 
         expect({ ...action }).toEqual({
           type: SavedCartActions.CLONE_SAVED_CART_FAIL,
-          payload: { userId: mockUserId, cartId: mockCartId, error },
+          payload: {
+            userId: mockUserId,
+            cartId: mockCartId,
+            saveCartName: mockCartName,
+            error,
+          },
           meta: StateUtils.entityFailMeta(
             PROCESS_FEATURE,
             SAVED_CART_CLONE_CART_PROCESS_ID,

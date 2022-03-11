@@ -14,7 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PLACE_ORDER_COMPONENT_MIGRATION: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/checkout/components/place-order/place-order.component.ts
+  // projects/storefrontlib/cms-components/checkout/components/place-order/place-order.component.ts
   class: PLACE_ORDER_COMPONENT,
   importPath: SPARTACUS_STOREFRONTLIB,
   deprecatedParams: [

@@ -14,7 +14,7 @@ import {
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_FORM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-form/address-form.component.ts
+  // projects/storefrontlib/cms-components/myaccount/address-book/address-form/address-form.component.ts
   class: ADDRESS_FORM_COMPONENT,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
@@ -30,7 +30,7 @@ export const ADDRESS_FORM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
 };
 
 export const ADDRESS_FORM_COMPONENT_MIGRATION_V2: ConstructorDeprecation = {
-  // projects/storefrontlib/src/cms-components/myaccount/address-book/address-form/address-form.component.ts
+  // projects/storefrontlib/cms-components/myaccount/address-book/address-form/address-form.component.ts
   class: ADDRESS_FORM_COMPONENT,
   importPath: SPARTACUS_CORE,
   deprecatedParams: [
