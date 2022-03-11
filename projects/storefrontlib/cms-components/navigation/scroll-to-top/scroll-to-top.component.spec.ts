@@ -1,8 +1,8 @@
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { Component, DebugElement } from '@angular/core';
 import { WindowRef } from '@spartacus/core';
-import { ScrollToTopComponent } from '@spartacus/storefront';
+import { IconTestingModule, ScrollToTopComponent } from '@spartacus/storefront';
 
 @Component({
   template: `
@@ -22,6 +22,7 @@ fdescribe('ScrollToTopComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [IconTestingModule],
       declarations: [MockComponent, ScrollToTopComponent],
     }).compileComponents();
 
@@ -42,17 +43,17 @@ fdescribe('ScrollToTopComponent', () => {
     expect(el.query(By.css('.scroll-to-top-btn'))).toBeNull();
   });
 
-  it('should be visible scroll to top of page', fakeAsync(() => {
+  it('should be visible scroll to top of page', (done) => {
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
 
     fixture.detectChanges();
     const scrollBtn = el.query(By.css('.scroll-to-top-btn')).nativeElement;
     expect(el.query(By.css('.scroll-to-top-btn'))).toBeTruthy();
-
     scrollBtn.click();
-
-    fixture.detectChanges();
-    expect(winRef.nativeWindow?.scrollY).toEqual(0);
-  }));
+    setTimeout(() => {
+      expect(winRef.nativeWindow?.scrollY).toEqual(0);
+      done();
+    }, 1000);
+  });
 });
