@@ -393,17 +393,25 @@ function getModuleIdentifier(element: Node): Identifier | undefined {
 }
 
 function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
-  const initializer = getModulePropertyInitializer(
-    featureModule,
-    'imports',
-    false
+  return (
+    recognizeFeatureModuleByImports(featureModule) ??
+    recognizeFeatureModuleByDynamicImport(featureModule)
   );
-  if (!initializer) {
-    return undefined;
-  }
+}
 
-  for (const element of initializer.getElements()) {
-    const spartacusLibrary = getSpartacusLibraryByModuleImports(element);
+function recognizeFeatureModuleByImports(
+  featureModule: SourceFile
+): string | undefined {
+  const elements =
+    getModulePropertyInitializer(
+      featureModule,
+      'imports',
+      false
+    )?.getElements() ?? [];
+
+  for (const element of elements) {
+    const moduleName = getModuleIdentifier(element)?.getText() ?? '';
+    const spartacusLibrary = getSpartacusLibraryByModule(moduleName);
     if (spartacusLibrary) {
       return spartacusLibrary;
     }
@@ -412,15 +420,35 @@ function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
   return undefined;
 }
 
-function getSpartacusLibraryByModuleImports(
-  moduleNode: Node
+function recognizeFeatureModuleByDynamicImport(
+  featureModule: SourceFile
 ): string | undefined {
-  const moduleIdentifier = getModuleIdentifier(moduleNode);
-  if (!moduleIdentifier) {
-    return undefined;
+  const providers = getSpartacusProviders(featureModule, false);
+
+  for (const element of providers) {
+    const moduleName =
+      element
+        /** () => import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule)
+         */
+        .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
+        /** (m) => m.DigitalPaymentsModule */
+        ?.getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
+        /** m.DigitalPaymentsModule */
+        ?.getFirstDescendantByKind(tsMorph.SyntaxKind.PropertyAccessExpression)
+        /** DigitalPaymentsModule */
+        ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
+        ?.getText() ?? '';
+
+    const spartacusLibrary = getSpartacusLibraryByModule(moduleName);
+    if (spartacusLibrary) {
+      return spartacusLibrary;
+    }
   }
 
-  const moduleName = moduleIdentifier.getText();
+  return undefined;
+}
+
+function getSpartacusLibraryByModule(moduleName: string): string | undefined {
   for (const spartacusLibrary of Object.keys(packageFeatureConfigMapping)) {
     if (packageFeatureConfigMapping[spartacusLibrary].includes(moduleName)) {
       return spartacusLibrary;
