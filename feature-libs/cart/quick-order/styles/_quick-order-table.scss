@@ -5,7 +5,7 @@ cx-quick-order-table {
     text-align: center;
 
     @include media-breakpoint-down(md) {
-      text-align: left;
+      text-align: start;
     }
   }
   //display: block;
