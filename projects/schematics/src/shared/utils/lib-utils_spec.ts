@@ -372,7 +372,7 @@ describe('Lib utils', () => {
         .toPromise();
     });
 
-    it('should order the feature modules appropriately', () => {
+    it('should appropriately order the feature modules', () => {
       expect(
         tree.read(spartacusFeaturesPath)?.toString(UTF_8)
       ).toMatchSnapshot();
