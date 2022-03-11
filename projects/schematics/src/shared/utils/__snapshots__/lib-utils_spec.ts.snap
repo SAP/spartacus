@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Lib utils addLibraryFeature assets options should generate assets 1`] = `
+exports[`Lib utils addLibraryFeature assets options should update angular.json file with assets 1`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,
@@ -114,7 +114,7 @@ exports[`Lib utils addLibraryFeature assets options should generate assets 1`] =
 }"
 `;
 
-exports[`Lib utils addLibraryFeature assets options should generate assets 2`] = `
+exports[`Lib utils addLibraryFeature assets options should update angular.json file with assets 2`] = `
 "{
   \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
   \\"version\\": 1,

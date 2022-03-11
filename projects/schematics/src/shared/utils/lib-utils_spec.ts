@@ -327,7 +327,7 @@ describe('Lib utils', () => {
       });
     });
     describe('assets options', () => {
-      it('should generate assets', async () => {
+      it('should update angular.json file with assets', async () => {
         // before
         expect(appTree.readContent('angular.json')).toMatchSnapshot();
 
