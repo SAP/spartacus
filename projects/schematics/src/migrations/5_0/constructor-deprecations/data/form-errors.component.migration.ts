@@ -3,8 +3,8 @@ import {
   CHANGE_DETECTOR_REF,
   FORM_ERRORS_COMPONENT,
   KEY_VALUE_DIFFERS,
-  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORM_ERRORS_COMPONENT_MIGRATION: ConstructorDeprecation = {
