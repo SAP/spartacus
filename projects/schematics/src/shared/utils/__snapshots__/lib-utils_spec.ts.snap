@@ -62,6 +62,84 @@ export class XxxFeatureModule { }
 "
 `;
 
+exports[`Lib utils addLibraryFeature should NOT add i18n if the config is not present 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature when the eager loading is configured should add it in the eager way 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { XxxModule } from \\"@spartacus/xxx\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot,
+    XxxModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature when the lazy loading is configured should add it in the lazy loading way 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
 exports[`Lib utils feature ordering should appropriately order the feature modules 1`] = `
 "import { NgModule } from '@angular/core';
 import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";

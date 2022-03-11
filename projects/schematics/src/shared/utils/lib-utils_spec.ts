@@ -20,7 +20,7 @@ import {
   shouldAddFeature,
 } from './lib-utils';
 
-const appModulePath = 'src/app/app.module.ts';
+const xxxFeaturePath = `src/app/spartacus/features/xxx/xxx-feature.module.ts`;
 const spartacusFeaturesPath = `src/app/spartacus/${SPARTACUS_FEATURES_MODULE}.module.ts`;
 
 describe('Lib utils', () => {
@@ -225,9 +225,8 @@ describe('Lib utils', () => {
       const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
       const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-      // TODO: Finish when config util will be created
-      const appModule = tree.read(appModulePath)?.toString(UTF_8);
-      expect(appModule).not.toContain(
+      const xxxModule = tree.read(xxxFeaturePath)?.toString(UTF_8);
+      expect(xxxModule).toContain(
         `import { ${I18N_RESOURCES} } from '${ASSETS_IMPORT_PATH}';`
       );
     });
@@ -236,25 +235,22 @@ describe('Lib utils', () => {
         ...BASE_FEATURE_CONFIG,
         i18n: undefined,
       };
-      const rule = addLibraryFeature(BASE_OPTIONS, featureConfig);
-      const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+      const tree = await schematicRunner
+        .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
+        .toPromise();
 
-      // TODO: Finish when config util will be created
-      const appModule = tree.read(appModulePath)?.toString(UTF_8);
-      expect(appModule).not.toContain(`providers: [
-        provideConfig({
-          i18n: {`);
+      expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
     });
     describe('when the lazy loading is configured', () => {
       it('should add it in the lazy loading way', async () => {
-        const rule = addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG);
-        const tree = await schematicRunner.callRule(rule, appTree).toPromise();
+        const tree = await schematicRunner
+          .callRule(
+            addLibraryFeature(BASE_OPTIONS, BASE_FEATURE_CONFIG),
+            appTree
+          )
+          .toPromise();
 
-        const appModule = tree.read(appModulePath)?.toString(UTF_8);
-        // TODO: Finish when config util will be created
-        expect(appModule).not.toContain(
-          `import { ${ROOT_MODULE_NAME} } from '${ROOT_FEATURE_MODULE_IMPORT_PATH}';`
-        );
+        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('when the eager loading is configured', () => {
@@ -265,14 +261,10 @@ describe('Lib utils', () => {
         );
         const tree = await schematicRunner.callRule(rule, appTree).toPromise();
 
-        const appModule = tree.read(appModulePath)?.toString(UTF_8);
-        // TODO: Finish when config util will be created
-        expect(appModule).not.toContain(
-          `module: () => import('${FEATURE_MODULE_IMPORT_PATH}').then(`
-        );
+        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
-    describe.only('recreate option', () => {
+    describe('recreate option', () => {
       it('should remove the feature module and recreate it', async () => {
         let tree: Tree;
         tree = await schematicRunner
@@ -282,11 +274,7 @@ describe('Lib utils', () => {
           )
           .toPromise();
 
-        expect(
-          tree
-            .read(`src/app/spartacus/features/xxx/xxx-feature.module.ts`)
-            ?.toString(UTF_8)
-        ).toMatchSnapshot();
+        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
 
         tree = await schematicRunner
           .callRule(
@@ -303,11 +291,7 @@ describe('Lib utils', () => {
           )
           .toPromise();
 
-        expect(
-          tree
-            .read(`src/app/spartacus/features/xxx/xxx-feature.module.ts`)
-            ?.toString(UTF_8)
-        ).toMatchSnapshot();
+        expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
     describe('style', () => {
