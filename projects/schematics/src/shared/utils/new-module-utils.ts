@@ -392,6 +392,13 @@ function getModuleIdentifier(element: Node): Identifier | undefined {
   return undefined;
 }
 
+/**
+ * Function attempts to recognize the given feature module by either:
+ * - looking at the import path
+ * - or by looking at the module used in the dynamic import
+ *
+ * If the feature module is recognized, the corresponding Spartacus library is returned.
+ */
 function recognizeFeatureModule(featureModule: SourceFile): string | undefined {
   return (
     recognizeFeatureModuleByImports(featureModule) ??
@@ -428,14 +435,14 @@ function recognizeFeatureModuleByDynamicImport(
   for (const element of providers) {
     const moduleName =
       element
-        /** () => import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule)
+        /** e.g.: () => import('@spartacus/digital-payments').then((m) => m.DigitalPaymentsModule)
          */
         .getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
-        /** (m) => m.DigitalPaymentsModule */
+        /** e.g.: (m) => m.DigitalPaymentsModule */
         ?.getFirstDescendantByKind(tsMorph.SyntaxKind.ArrowFunction)
-        /** m.DigitalPaymentsModule */
+        /** e.g.: m.DigitalPaymentsModule */
         ?.getFirstDescendantByKind(tsMorph.SyntaxKind.PropertyAccessExpression)
-        /** DigitalPaymentsModule */
+        /** e.g.: DigitalPaymentsModule */
         ?.getLastChildByKind(tsMorph.SyntaxKind.Identifier)
         ?.getText() ?? '';
 
