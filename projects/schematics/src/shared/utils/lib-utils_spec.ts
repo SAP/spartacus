@@ -326,6 +326,26 @@ describe('Lib utils', () => {
         expect(tree.read(xxxFeaturePath)?.toString(UTF_8)).toMatchSnapshot();
       });
     });
+    describe('assets options', () => {
+      it('should generate assets', async () => {
+        // before
+        expect(appTree.readContent('angular.json')).toMatchSnapshot();
+
+        const featureConfig: FeatureConfig = {
+          ...BASE_FEATURE_CONFIG,
+          assets: {
+            input: 'smartedit/assets',
+            glob: '**/*',
+          },
+        };
+        const tree = await schematicRunner
+          .callRule(addLibraryFeature(BASE_OPTIONS, featureConfig), appTree)
+          .toPromise();
+
+        // after
+        expect(tree.read('angular.json')?.toString(UTF_8)).toMatchSnapshot();
+      });
+    });
     describe('style', () => {
       describe('when style config is provided', () => {
         describe('and the scss file does NOT exist', () => {
