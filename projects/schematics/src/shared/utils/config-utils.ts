@@ -1,4 +1,4 @@
-import { Node, SourceFile } from 'ts-morph';
+import { Expression, Node, SourceFile } from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../feature-libs-constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
@@ -8,7 +8,7 @@ import { getModule, getModulePropertyInitializer } from './new-module-utils';
 export function getSpartacusProviders(
   sourceFile: SourceFile,
   createIfMissing = true
-): Node[] {
+): Expression[] {
   const moduleNode = getModule(sourceFile);
   if (!moduleNode) {
     return [];
@@ -20,7 +20,7 @@ export function getSpartacusProviders(
     createIfMissing
   );
 
-  const providers: Node[] = [];
+  const providers: Expression[] = [];
   initializer?.getElements().forEach((element) => {
     if (Node.isCallExpression(element) || Node.isSpreadElement(element)) {
       const expression = element.getExpression();
