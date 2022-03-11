@@ -54,8 +54,14 @@ export interface CmsSiteContextSelectorComponent extends CmsComponent {
   context?: string;
 }
 
-export interface ScrollToTopComponent extends CmsComponent {
-  display?: boolean;
+export enum ScrollBehavior {
+  AUTO = 'auto',
+  SMOOTH = 'smooth',
+}
+
+export interface CmsScrollToTopComponent extends CmsComponent {
+  behavior?: ScrollBehavior;
+  displayThreshold?: number;
 }
 
 export interface CmsSearchBoxComponent extends CmsComponent {
