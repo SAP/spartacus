@@ -1,21 +1,24 @@
 import { EventEmitter } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { first, skip } from 'rxjs/operators';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
-let navEndSub = new Subject<any>();
 class MockRouter {
-  events = navEndSub
+  events = new Subject<RouterEvent>();
 }
 
 describe('VisualPickingProductFilterService', () => {
-  let visualPickingProductFilterService: VisualPickingProductFilterService
+  let visualPickingProductFilterService: VisualPickingProductFilterService;
+  let mockRouter: MockRouter;
+
   beforeEach(() => {
+    mockRouter = new MockRouter();
+
     TestBed.configureTestingModule({
-      providers: [{ provide: Router, useClass: MockRouter }],
+      providers: [{ provide: Router, useValue: mockRouter }],
     });
 
     visualPickingProductFilterService = TestBed.inject(VisualPickingProductFilterService);
@@ -41,7 +44,7 @@ describe('VisualPickingProductFilterService', () => {
 
     visualPickingProductFilterService
       .getFilteredProducts(of(productReferences))
-      .pipe(skip(1))
+      .pipe(skip(1), first())
       .subscribe((filteredProductReferences: ProductReference[]) => {
         expect(filteredProductReferences).toBeTruthy();
         expect(filteredProductReferences.length).toBe(1);
@@ -102,7 +105,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(1))
+        .pipe(skip(1), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(1);
@@ -140,7 +143,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(1))
+        .pipe(skip(1), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
@@ -184,7 +187,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(2))
+        .pipe(skip(2), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
@@ -211,8 +214,10 @@ describe('VisualPickingProductFilterService', () => {
     it('should have empty filter', () => {
       visualPickingProductFilterService.filter = 'yyyy';
       expect(visualPickingProductFilterService.filter).toEqual('yyyy');
-      const navEndEvent = new NavigationEnd(1, '/', '/');
-      navEndSub.next(navEndEvent);
+
+      mockRouter.events.next(new NavigationStart(1, '/'));
+      mockRouter.events.next(new NavigationEnd(2, '/', '/any_path'));
+
       expect(visualPickingProductFilterService.filter).toEqual('');
     });
   });
