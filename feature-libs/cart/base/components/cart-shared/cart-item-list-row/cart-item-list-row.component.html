@@ -32,16 +32,13 @@
         </div>
         <!-- Item Price -->
         <div role="cell" *ngIf="item.basePrice" class="cx-price">
-          <div class="cx-mobile-header">
-            {{ 'cartItems.itemPrice' | cxTranslate }}
-          </div>
           <div *ngIf="item.basePrice" class="cx-value">
             {{ item.basePrice?.formattedValue }}
           </div>
         </div>
       </div>
     </div>
-    <div>
+    <div class="cx-cart-addons">
       <!-- Item Details Outlet -->
       <ng-template [cxOutlet]="CartOutlets.ITEM_DETAILS"> </ng-template>
 
@@ -61,22 +58,22 @@
         "
         class="cx-property"
       >
-        <!--            cx-mobile-header-->
+        <!-- cx-mobile-header -->
         <div class="cx-label" *ngIf="variant.name && variant.value">
           {{ variant.name }}: {{ variant.value }}
         </div>
       </div>
     </ng-container>
   </td>
-  <!-- Item Price -->
-  <!-- <td role="cell" *ngIf="item.basePrice" class="cx-price">
+  <!-- Mobile Item Price -->
+  <td role="cell" *ngIf="item.basePrice" class="cx-price cx-cart-mobile">
     <div class="cx-mobile-header">
       {{ 'cartItems.itemPrice' | cxTranslate }}
     </div>
     <div *ngIf="item.basePrice" class="cx-value">
       {{ item.basePrice?.formattedValue }}
     </div>
-  </td> -->
+  </td>
   <!-- Item Quantity -->
   <td role="cell" class="cx-quantity">
     <div

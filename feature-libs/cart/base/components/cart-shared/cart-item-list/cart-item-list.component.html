@@ -1,15 +1,14 @@
 <table role="table">
   <caption class="cx-visually-hidden">
-    {{ 'cartItems.table.caption' | cxTranslate }}
+    {{
+      'cartItems.table.caption' | cxTranslate
+    }}
   </caption>
   <thead *ngIf="hasHeader">
     <tr role="row" class="cx-item-list-header">
       <th role="columnheader" class="cx-item-list-desc">
         {{ 'cartItems.description' | cxTranslate }}
       </th>
-      <!-- <th role="columnheader" class="cx-item-list-price">
-        {{ 'cartItems.itemPrice' | cxTranslate }}
-      </th> -->
       <th role="columnheader" class="cx-item-list-qty">
         {{ 'cartItems.quantity' | cxTranslate }}
       </th>
@@ -26,9 +25,7 @@
     </tr>
   </thead>
   <tbody class="cx-item-list-items">
-    <ng-container
-      *ngFor="let item of items; let i = index"
-    >
+    <ng-container *ngFor="let item of items; let i = index">
       <ng-container
         *ngIf="getControl(item) | async as control"
         [class.is-changed]="control.get('quantity').disabled"

@@ -1,7 +1,9 @@
 <ng-container *ngIf="wishList$ | async as wishList">
   <table role="table" *ngIf="wishList?.entries?.length > 0; else emptyWishList">
     <caption class="cx-visually-hidden">
-      {{ 'wishlist.caption' | cxTranslate }}
+      {{
+        'wishlist.caption' | cxTranslate
+      }}
     </caption>
     <thead>
       <tr role="row" class="cx-item-list-header">

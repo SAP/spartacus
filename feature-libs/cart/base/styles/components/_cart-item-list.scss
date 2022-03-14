@@ -1,12 +1,4 @@
 %cx-cart-item-list {
-  //display: block;
-  //box-sizing: border-box;
-  //width: auto;
-  //padding: 1em 2vw;
-  //margin: 1em 2vw;
-  //color: #000;
-  //background-color: #fff;
-
   /* agnostic-table styles -------------- */
   table {
     margin: 1em 0;
@@ -68,25 +60,6 @@
     }
   }
 
-  //
-  //.cx-action-link {
-  //  background-color: initial;
-  //  border: 0 none;
-  //  cursor: pointer;
-  //  padding: 0;
-  //  text-decoration: underline;
-  //}
-  //
-  //.cx-visually-hidden {
-  //  clip: rect(0 0 0 0);
-  //  clip-path: inset(50%);
-  //  height: 1px;
-  //  overflow: hidden;
-  //  position: absolute;
-  //  white-space: nowrap;
-  //  width: 1px;
-  //}
-
   .cx-table-item-container {
     display: inline-grid;
     grid-template-columns: 5em 14em;
@@ -129,34 +102,14 @@
       text-align: center;
     }
   }
-  //cx-item-counter:not(.readonly) {
-  //  display: inline-flex;
-  //  border: 1px solid #ccc;
-  //  border-radius: 4px;
-  //}
-  //
-  //cx-item-counter button {
-  //  margin: 0;
-  //  max-height: 48px;
-  //  min-width: 30px;
-  //  border: none;
-  //  cursor: pointer;
-  //  color: #000;
-  //  background-color: transparent;
-  //  line-height: 1.6;
-  //}
-  //
-  //cx-item-counter:not(.readonly) input {
-  //  border-left: 1px solid #ccc;
-  //  border-bottom: 0 solid #ccc;
-  //  border-right: 1px solid #ccc;
-  //  border-top: 0 solid #ccc;
-  //  padding: 12px 9px;
-  //  max-height: 46px;
-  //  /* min-width: 30px; */
-  //  max-width: 18px;
-  //  text-align: center;
-  //}
+
+  .cx-cart-addons {
+    width: 100%;
+  }
+
+  .cx-cart-mobile {
+    display: none;
+  }
 
   /* MOBILE */
   @media screen and (max-width: 37em), print and (max-width: 5in) {
@@ -171,6 +124,18 @@
       display: none;
     }
 
+    .cx-table-item-container {
+      grid-template-columns: 4em auto;
+    }
+
+    .cx-price {
+      display: none;
+    }
+
+    .cx-cart-mobile {
+      display: flex;
+    }
+
     .cx-mobile-header {
       display: inline;
       font-weight: bold;
@@ -180,14 +145,10 @@
 
     /* customization styles ---------- */
     td {
-      display: grid;
-      grid-template-columns: 8em auto;
-      border: 0 none;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
       align-items: center;
-      text-align: left;
-      text-indent: 0;
-      padding-left: 6em;
-      padding-bottom: 1em;
     }
 
     .cx-actions button {
