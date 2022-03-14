@@ -70,6 +70,10 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
   lazy?: boolean;
   features?: string[];
   /**
+   * When enabled, prints the additional logs.
+   */
+  debug?: boolean;
+  /**
    * Meta.
    * Populated when programmatically invoking
    * Spartacus installation schematics in order
@@ -1069,6 +1073,13 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
         continue;
       }
 
+      if (options.debug) {
+        context.logger.info(
+          `Sorting the installed Spartacus features according to the dependency graph: ${installationOrder.join(
+            ', '
+          )}`
+        );
+      }
       const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
         (spartacusCoreModule) => spartacusCoreModule.getText()
       );
