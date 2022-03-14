@@ -112,12 +112,14 @@
   }
 
   /* MOBILE */
-  @include media-breakpoint-down(sm) {
+  @include media-breakpoint-down(md) {
     /* agnostic-table styles -------------- */
     table,
     tr,
     td {
-      display: block;
+      display: flex;
+      flex-wrap: wrap;
+      flex-basis: 100%;
     }
 
     thead {
