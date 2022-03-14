@@ -81,6 +81,6 @@ describe('ScrollToTopComponent', () => {
     setTimeout(() => {
       expect(winRef.nativeWindow?.scrollY).toEqual(0);
       done();
-    }, 1000);
+    }, 500);
   });
 });
