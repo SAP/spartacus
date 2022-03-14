@@ -117,30 +117,25 @@ export const SPARTACUS_CONFIGURATION_MODULE = 'spartacus-configuration';
 /***** CLI start *****/
 export const CLI_ASM_FEATURE = 'ASM';
 
-export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
-
-export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
-
-export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
-
 export const CLI_CART_BASE_FEATURE = 'Cart';
-
+export const CLI_CART_IMPORT_EXPORT_FEATURE = 'Import-Export';
+export const CLI_CART_QUICK_ORDER_FEATURE = 'Quick-Order';
+export const CLI_CART_SAVED_CART_FEATURE = 'Saved-Cart';
 export const CLI_CART_WISHLIST_FEATURE = 'WishList';
 
-export const CLI_CDC_FEATURE = 'CDC';
+export const CLI_CHECKOUT_BASE_FEATURE = 'Checkout';
+export const CLI_CHECKOUT_B2B_FEATURE = 'Checkout-B2B';
+export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
+  'Checkout-Scheduled-Replenishment';
 
-export const CLI_CDS_FEATURE = 'CDS';
-
-export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
-
-export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
+export const CLI_ORDER_FEATURE = 'Order';
 
 export const CLI_ORGANIZATION_ADMINISTRATION_FEATURE = 'Administration';
 export const CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE = 'Order-Approval';
 
 export const CLI_PRODUCT_BULK_PRICING_FEATURE = 'Bulk-Pricing';
-export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
 export const CLI_PRODUCT_IMAGE_ZOOM_FEATURE = 'Image-Zoom';
+export const CLI_PRODUCT_VARIANTS_FEATURE = 'Product-Variants';
 
 export const CLI_PRODUCT_CONFIGURATOR_VC_FEATURE = 'VC-Configurator';
 export const CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
@@ -160,12 +155,10 @@ export const CLI_TRACKING_TMS_AEP_FEATURE = 'TMS-AEPL';
 export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
 
-export const CLI_CHECKOUT_BASE_FEATURE = 'Checkout';
-export const CLI_CHECKOUT_B2B_FEATURE = 'Checkout-B2B';
-export const CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE =
-  'Checkout-Scheduled-Replenishment';
-
-export const CLI_ORDER_FEATURE = 'Order';
+export const CLI_CDC_FEATURE = 'CDC';
+export const CLI_CDS_FEATURE = 'CDS';
+export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
+export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
@@ -173,18 +166,18 @@ export const ASM_MODULE = 'AsmModule';
 export const ASM_ROOT_MODULE = 'AsmRootModule';
 
 export const CART_BASE_MODULE = 'CartBaseModule';
+export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
 export const MINI_CART_MODULE = 'MiniCartModule';
 export const ADD_TO_CART_MODULE = 'AddToCartModule';
-export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
+export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
+export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
+export const QUICK_ORDER_MODULE = 'QuickOrderModule';
+export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
+export const SAVED_CART_MODULE = 'SavedCartModule';
+export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
 export const CART_WISHLIST_MODULE = 'WishListModule';
 export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
 export const CART_WISHLIST_ROOT_MODULE = 'WishListRootModule';
-export const SAVED_CART_MODULE = 'SavedCartModule';
-export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
-export const QUICK_ORDER_MODULE = 'QuickOrderModule';
-export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
-export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
-export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
 
 export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
@@ -207,10 +200,10 @@ export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
 
 export const BULK_PRICING_MODULE = 'BulkPricingModule';
 export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
-export const VARIANTS_MODULE = 'ProductVariantsModule';
-export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
 export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
 export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
+export const VARIANTS_MODULE = 'ProductVariantsModule';
+export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
 
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
   'TextfieldConfiguratorModule';
