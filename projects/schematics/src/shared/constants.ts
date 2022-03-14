@@ -329,6 +329,7 @@ export const ADDRESS_FORM_COMPONENT = `AddressFormComponent`;
 export const PAYMENT_FORM_COMPONENT = 'PaymentFormComponent';
 export const AMEND_ORDER_ACTIONS_COMPONENT = 'AmendOrderActionsComponent';
 export const COMPONENT_WRAPPER_DIRECTIVE = 'ComponentWrapperDirective';
+export const INNER_COMPONENTS_HOST_DIRECTIVE = 'InnerComponentsHostDirective';
 export const POPOVER_COMPONENT = 'PopoverComponent';
 export const POPOVER_DIRECTIVE = 'PopoverDirective';
 export const POPOVER_SERVICE = 'PopoverService';
