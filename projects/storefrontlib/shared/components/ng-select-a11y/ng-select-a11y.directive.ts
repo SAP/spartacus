@@ -7,14 +7,14 @@ import {
 } from '@angular/core';
 
 @Directive({
-  selector: '[cxNgSelect]',
+  selector: '[cxNgSelectA11y]',
 })
-export class NgSelectDirective implements AfterViewInit {
+export class NgSelectA11yDirective implements AfterViewInit {
   /**
    * Use directive to bind aria attribute to inner element of ng-select
    * Angular component for accessibility compliance.
    */
-  @Input() cxNgSelect: { ariaLabel: string; ariaControls: string };
+  @Input() cxNgSelectA11y: { ariaLabel: string; ariaControls: string };
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
@@ -25,12 +25,12 @@ export class NgSelectDirective implements AfterViewInit {
     this.renderer.setAttribute(
       divCombobox,
       'aria-label',
-      this.cxNgSelect.ariaLabel
+      this.cxNgSelectA11y.ariaLabel
     );
     this.renderer.setAttribute(
       divCombobox,
       'aria-controls',
-      this.cxNgSelect.ariaControls
+      this.cxNgSelectA11y.ariaControls
     );
   }
 }

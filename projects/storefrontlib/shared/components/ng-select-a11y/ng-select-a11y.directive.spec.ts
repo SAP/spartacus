@@ -1,14 +1,14 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CxNgSelectModule } from './ng-select.module';
-import { NgSelectDirective } from './ng-select.directive';
+import { CxNgSelectA11yModule } from './ng-select-a11y.module';
+import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
 
 @Component({
   template: `
     <ng-select
-      [cxNgSelect]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
+      [cxNgSelectA11y]="{ ariaLabel: 'Size', ariaControls: 'size-results' }"
     >
       <ng-option *ngFor="let val of [1, 2, 3]" [value]="val">{{
         val
@@ -19,13 +19,13 @@ import { By } from '@angular/platform-browser';
 })
 class MockComponent {}
 
-describe('NgSelectDirective', () => {
+describe('NgSelectA11yDirective', () => {
   let component: MockComponent;
   let fixture: ComponentFixture<MockComponent>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CxNgSelectModule, NgSelectModule],
+      imports: [CxNgSelectA11yModule, NgSelectModule],
       declarations: [MockComponent],
     }).compileComponents();
 
@@ -35,7 +35,7 @@ describe('NgSelectDirective', () => {
   });
 
   function getNgSelect(): DebugElement {
-    return fixture.debugElement.query(By.directive(NgSelectDirective));
+    return fixture.debugElement.query(By.directive(NgSelectA11yDirective));
   }
 
   it('should create ng-select and bind aria attributes', () => {

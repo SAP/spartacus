@@ -1,2 +1,2 @@
-export * from './ng-select.directive';
-export * from './ng-select.module';
+export * from './ng-select-a11y.directive';
+export * from './ng-select-a11y.module';

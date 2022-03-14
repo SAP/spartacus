@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SortingComponent } from './sorting.component';
-import { CxNgSelectModule } from '../../ng-select-a11y/ng-select.module';
+import { CxNgSelectA11yModule } from '../../ng-select-a11y/ng-select-a11y.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
@@ -11,7 +11,7 @@ import { I18nModule } from '@spartacus/core';
     CommonModule,
     NgSelectModule,
     FormsModule,
-    CxNgSelectModule,
+    CxNgSelectA11yModule,
     I18nModule,
   ],
   declarations: [SortingComponent],
