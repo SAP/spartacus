@@ -266,6 +266,7 @@ function addSpartacusFeatures(options: SpartacusOptions): Rule {
     const libraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
+      debug: options.debug,
     };
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       libraryOptions,
