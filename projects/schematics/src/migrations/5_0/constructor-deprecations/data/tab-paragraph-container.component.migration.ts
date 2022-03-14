@@ -9,7 +9,7 @@ import {
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
-export const TAB_PARAGRAPH_CONTAINER__COMPONENT_MIGRATION: ConstructorDeprecation =
+export const TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION: ConstructorDeprecation =
   {
     // projects/storefrontlib/cms-components/content/tab-paragraph-container/tab-paragraph-container.component.ts
     class: TAB_PARAGRAPH_CONTAINER__COMPONENT,
