@@ -821,7 +821,10 @@ export function addPackageJsonDependenciesForLibrary<
       .reduce((previous, current) => {
         return {
           ...previous,
-          // just install the Spartacus library, without any sub-features
+          /**
+           * Just install the Spartacus library,
+           * but don't configure any sub-features
+           */
           [current]: [],
         };
       }, {} as Record<string, string[]>);
