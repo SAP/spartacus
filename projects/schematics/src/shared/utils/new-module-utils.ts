@@ -18,7 +18,10 @@ import {
 } from 'ts-morph';
 import { ANGULAR_CORE, ANGULAR_SCHEMATICS } from '../constants';
 import { packageFeatureConfigMapping } from '../updateable-constants';
-import { getSpartacusProviders, normalizeConfiguration } from './config-utils';
+import {
+  getSpartacusProviders,
+  isSpartacusConfigDuplicate,
+} from './config-utils';
 import { getTsSourceFile } from './file-utils';
 import {
   getImportDeclaration,
@@ -148,11 +151,6 @@ function addToModuleInternal(
   },
   createIfMissing = true
 ): Expression | undefined {
-  const moduleNode = getModule(sourceFile);
-  if (!moduleNode) {
-    return undefined;
-  }
-
   const initializer = getModulePropertyInitializer(
     sourceFile,
     propertyName,
@@ -189,20 +187,11 @@ function isDuplication(
   propertyName: 'imports' | 'exports' | 'declarations' | 'providers',
   content: string
 ): boolean {
-  if (propertyName === 'providers') {
-    const normalizedContent = normalizeConfiguration(content);
-    const configs = getSpartacusProviders(initializer.getSourceFile());
-    for (const config of configs) {
-      const normalizedConfig = normalizeConfiguration(config);
-      if (normalizedContent === normalizedConfig) {
-        return true;
-      }
-    }
-
-    return false;
+  if (propertyName !== 'providers') {
+    return isTypeTokenDuplicate(initializer, content);
   }
 
-  return isTypeTokenDuplicate(initializer, content);
+  return isSpartacusConfigDuplicate(content, initializer);
 }
 
 function isTypeTokenDuplicate(

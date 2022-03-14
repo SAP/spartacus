@@ -1,4 +1,4 @@
-import { Expression, Node, SourceFile } from 'ts-morph';
+import { ArrayLiteralExpression, Expression, Node, SourceFile } from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
 import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../feature-libs-constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
@@ -36,11 +36,29 @@ export function getSpartacusProviders(
   return providers;
 }
 
+export function isSpartacusConfigDuplicate(
+  newContent: string,
+  initializer: ArrayLiteralExpression
+): boolean {
+  const normalizedContent = normalizeConfiguration(newContent);
+  const configs = getSpartacusProviders(initializer.getSourceFile());
+  for (const config of configs) {
+    const normalizedConfig = normalizeConfiguration(config);
+    if (normalizedContent === normalizedConfig) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
 const EMPTY_SPACE_REG_EXP = /\s+/gm;
-export function normalizeConfiguration(config: string | Node): string {
+const COMMA_REG_EXP = /,+/gm;
+function normalizeConfiguration(config: string | Node): string {
   let newConfig = typeof config === 'string' ? config : config.getText();
 
   newConfig = newConfig.trim();
+  newConfig = newConfig.replace(COMMA_REG_EXP, '');
 
   if (newConfig.startsWith(PROVIDE_CONFIG_FUNCTION)) {
     newConfig = newConfig.replace(`${PROVIDE_CONFIG_FUNCTION}(`, '');
