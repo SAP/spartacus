@@ -99,8 +99,6 @@ export const SAVED_CART_LIST_COMPONENT = 'SavedCartListComponent';
 export const SAVED_CART_FORM_DIALOG_COMPONENT = 'SavedCartFormDialogComponent';
 export const CONFIGURATOR_CART_SERVICE = 'ConfiguratorCartService';
 export const FORM_ERRORS_COMPONENT = 'FormErrorsComponent';
-export const TAB_PARAGRAPH_CONTAINER__COMPONENT =
-  'TabParagraphContainerComponent';
 
 export const PAGE_META_RESOLVER = 'PageMetaResolver';
 export const BASE_PAGE_META_RESOLVER = 'BasePageMetaResolver';
