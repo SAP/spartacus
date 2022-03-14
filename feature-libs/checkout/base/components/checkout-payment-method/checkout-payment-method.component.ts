@@ -189,6 +189,10 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
   }
 
   selectPaymentMethod(paymentDetails: PaymentDetails): void {
+    if (paymentDetails?.id === getLastValueSync(this.selectedMethod$)?.id) {
+      return;
+    }
+
     this.globalMessageService.add(
       {
         key: 'paymentMethods.paymentMethodSelected',
@@ -278,6 +282,7 @@ export class CheckoutPaymentMethodComponent implements OnInit, OnDestroy {
     selected: PaymentDetails | undefined
   ): Card {
     return {
+      role: 'region',
       title: paymentDetails.defaultPayment
         ? cardLabels.textDefaultPaymentMethod
         : '',
