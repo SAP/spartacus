@@ -416,6 +416,14 @@ function recognizeFeatureModuleByImports(
   return undefined;
 }
 
+/**
+ * TODO:#schematics:
+ * Improvements for dynamic imports detection:
+ * 1. collect all dynamic imports from the feature module
+ * 2. filter the dynamic imports that have a relative import
+ * 3. peek into those relative modules, and check their NgModule imports.
+ * 4. if it contains the "main" module import, skip the addition of dynamic import that would point to a spartacus lib
+ */
 function recognizeFeatureModuleByDynamicImport(
   featureModule: SourceFile
 ): string | undefined {
