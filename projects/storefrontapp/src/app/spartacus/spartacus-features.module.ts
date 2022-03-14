@@ -196,8 +196,11 @@ if (environment.epdVisualization) {
     TrackingFeatureModule,
 
     AsmFeatureModule,
+
     StorefinderFeatureModule,
+
     QualtricsFeatureModule,
+
     SmartEditFeatureModule,
 
     VariantsFeatureModule,
