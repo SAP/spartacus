@@ -18,8 +18,6 @@ import {
   ConfiguratorAttributeNumericInterval,
 } from './configurator-attribute-numeric-input-field.component.service';
 import { TranslationService } from '@spartacus/core';
-import { Configurator } from '@spartacus/product-configurator/rulebased';
-//import { Configurator } from 'feature-libs/product-configurator/rulebased/core/model/configurator.model';
 
 class DefaultSettings {
   numDecimalPlaces: number;
@@ -153,20 +151,20 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return intervalText;
   }
 
-  getAriaLabelComplete(attribute: Configurator.Attribute): string {
+  getAriaLabelComplete(): string {
     let completeAriaText = '';
-    if (attribute.userInput?.length === 0) {
+    if (this.attribute.userInput?.length === 0) {
       this.translation
         .translate('configurator.a11y.valueOfAttributeBlank', {
-          attribute: attribute.label,
+          attribute: this.attribute.label,
         })
         .pipe(take(1))
         .subscribe((text) => (completeAriaText = text));
     } else {
       this.translation
         .translate('configurator.a11y.valueOfAttributeFull', {
-          value: attribute.userInput,
-          attribute: attribute.label,
+          value: this.attribute.userInput,
+          attribute: this.attribute.label,
         })
         .pipe(take(1))
         .subscribe((text) => (completeAriaText = text));

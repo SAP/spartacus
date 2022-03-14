@@ -15,7 +15,7 @@
     attr.required="{{ attribute.required }}"
     (change)="onChange()"
     maxlength="{{ attribute.maxlength }}"
-    [attr.aria-label]="getAriaLabelComplete(attribute)"
+    [attr.aria-label]="getAriaLabelComplete()"
     [cxFocus]="{
       key: createAttributeIdForConfigurator(attribute)
     }"
