@@ -97,7 +97,8 @@ export interface FeatureConfig {
    */
   rootModule?: Module;
   /**
-   * The lazy loading chunk's name. It's usually a constant imported from a library.
+   * The lazy loading chunk's name.
+   * It's usually a constant imported from a library.
    */
   lazyLoadingChunk?: Import;
   /**
@@ -117,7 +118,8 @@ export interface FeatureConfig {
    */
   customConfig?: CustomConfig | CustomConfig[];
   /**
-   * Dependency management for the library
+   * Configure it if a feature requires another feature
+   * to be configured before it.
    */
   dependencyManagement?: DependencyManagement;
   /**
