@@ -31,7 +31,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
         <!-- Item Price -->
-        <div role="cell" *ngIf="item.basePrice" class="cx-price">
+        <div *ngIf="item.basePrice" class="cx-price">
           <div *ngIf="item.basePrice" class="cx-value">
             {{ item.basePrice?.formattedValue }}
           </div>

@@ -128,10 +128,10 @@
 
     .cx-table-item-container {
       grid-template-columns: 4em auto;
-    }
 
-    .cx-price {
-      display: none;
+      .cx-price {
+        display: none;
+      }
     }
 
     .cx-cart-mobile {
