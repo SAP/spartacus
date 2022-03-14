@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { SortingComponent } from './sorting.component';
-import { CxNgSelectModule } from '../../ng-select/ng-select.module';
+import { CxNgSelectModule } from '../../ng-select-a11y/ng-select.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
 import { I18nModule } from '@spartacus/core';
