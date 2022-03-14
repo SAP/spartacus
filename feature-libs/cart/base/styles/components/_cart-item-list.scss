@@ -112,7 +112,7 @@
   }
 
   /* MOBILE */
-  @media screen and (max-width: 37em), print and (max-width: 5in) {
+  @include media-breakpoint-down(sm) {
     /* agnostic-table styles -------------- */
     table,
     tr,
