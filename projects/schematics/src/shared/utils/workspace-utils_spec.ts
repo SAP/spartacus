@@ -14,7 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../libs-constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,

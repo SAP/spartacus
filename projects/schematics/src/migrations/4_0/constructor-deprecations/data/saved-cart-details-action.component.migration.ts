@@ -15,7 +15,7 @@ import {
   SPARTACUS_CART_SAVED_CART_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SAVED_CART_DETAILS_ACTION_COMPONENT_MIGRATION_V1: ConstructorDeprecation =

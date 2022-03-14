@@ -4,7 +4,7 @@ import {
   SEARCH,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_CART_QUICK_ORDER_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CART_QUICK_ORDER_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_SERVICE_MIGRATION: MethodPropertyDeprecation[] = [

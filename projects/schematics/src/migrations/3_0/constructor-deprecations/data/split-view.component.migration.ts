@@ -5,7 +5,7 @@ import {
   SPLIT_VIEW_COMPONENT,
   SPLIT_VIEW_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SPLIT_VIEW_COMPONENT_MIGRATION: ConstructorDeprecation = {

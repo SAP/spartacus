@@ -3,7 +3,7 @@ import {
   ORDER_DETAIL_ITEMS_COMPONENT,
   PROMOTION_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_DETAIL_ITEMS_COMPONENT_MIGRATION: ConstructorDeprecation = {

@@ -26,7 +26,7 @@ import {
   ANGULAR_PLATFORM_BROWSER,
   NGUNIVERSAL_EXPRESS_ENGINE,
 } from '../shared/constants';
-import { SPARTACUS_SETUP } from '../shared/feature-libs-constants';
+import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,

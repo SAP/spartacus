@@ -5,7 +5,7 @@ import {
   SAVED_CART_EVENT_BUILDER,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_CART_SAVED_CART_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CART_SAVED_CART_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/core/events/saved-cart-event.builder.ts

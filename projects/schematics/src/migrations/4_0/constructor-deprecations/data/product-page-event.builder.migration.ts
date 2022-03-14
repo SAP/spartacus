@@ -8,7 +8,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION: ConstructorDeprecation =

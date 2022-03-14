@@ -3,7 +3,7 @@ import {
   CONFIGURATOR_GROUP_TITLE_COMPONENT,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_GROUP_TITLE_COMPONENT_MIGRATION: MethodPropertyDeprecation[] =

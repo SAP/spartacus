@@ -4,7 +4,7 @@ import {
   GET_INJECTORS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects\storefrontlib\src\cms-structure\services\cms-components.service.ts

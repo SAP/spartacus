@@ -9,7 +9,7 @@ import {
 import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { ANGULAR_HTTP } from '../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {

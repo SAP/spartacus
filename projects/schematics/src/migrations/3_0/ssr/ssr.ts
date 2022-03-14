@@ -15,7 +15,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_SETUP,
   SPARTACUS_SETUP_SSR,
-} from '../../../shared/feature-libs-constants';
+} from '../../../shared/libs-constants';
 import {
   commitChanges,
   getServerTsPath,

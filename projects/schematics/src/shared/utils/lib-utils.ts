@@ -37,7 +37,7 @@ import {
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
-} from '../feature-libs-constants';
+} from '../libs-constants';
 import { packageSubFeaturesMapping } from '../updateable-constants';
 import { getB2bConfiguration } from './config-utils';
 import { Graph, kahnsAlgorithm } from './graph-utils';

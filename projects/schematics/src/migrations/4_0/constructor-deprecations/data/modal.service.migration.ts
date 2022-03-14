@@ -6,7 +6,7 @@ import {
   NGB_MODAL,
   NG_BOOTSTRAP,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const MODAL_SERVICE_MIGRATION_V1: ConstructorDeprecation = {

@@ -15,7 +15,7 @@ import {
   CORE_SPARTACUS_SCOPES,
   SPARTACUS_SCHEMATICS,
   SPARTACUS_SCOPE,
-} from '../../../shared/feature-libs-constants';
+} from '../../../shared/libs-constants';
 import {
   addPackageJsonDependencies,
   dependencyExists,

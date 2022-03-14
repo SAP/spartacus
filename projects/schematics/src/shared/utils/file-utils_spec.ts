@@ -31,7 +31,7 @@ import {
   USER_ADDRESS_SERVICE,
   UTF_8,
 } from '../constants';
-import { SPARTACUS_CORE } from '../feature-libs-constants';
+import { SPARTACUS_CORE } from '../libs-constants';
 import {
   addConstructorParam,
   buildSpartacusComment,

@@ -4,7 +4,7 @@ import {
   ON_SELECT,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //feature-libs/product-configurator/rulebased/components/attribute/types/drop-down/configurator-attribute-drop-down.component.ts

@@ -8,7 +8,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const TOGGLE_STATUS_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {

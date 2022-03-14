@@ -13,7 +13,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFINDER,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const STORE_FINDER_SERVICE_MIGRATION: ConstructorDeprecation = {

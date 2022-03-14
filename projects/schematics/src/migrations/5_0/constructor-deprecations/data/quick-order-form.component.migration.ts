@@ -11,7 +11,7 @@ import {
   SPARTACUS_CART_QUICK_ORDER_COMPONENTS,
   SPARTACUS_CART_QUICK_ORDER_ROOT,
   SPARTACUS_CORE,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_FORM_COMPONENT_MIGRATION: ConstructorDeprecation = {

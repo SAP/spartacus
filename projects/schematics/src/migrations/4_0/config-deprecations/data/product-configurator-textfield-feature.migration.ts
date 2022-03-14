@@ -2,7 +2,7 @@ import {
   PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE } from '../../../../shared/feature-libs-constants';
+import { PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE } from '../../../../shared/libs-constants';
 import { ConfigDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_MIGRATION: ConfigDeprecation =

@@ -7,7 +7,7 @@ import {
   SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   SPARTACUS_CORE,
   SPARTACUS_USER_PROFILE_ROOT,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 import {
   ANGULAR_FORMS,

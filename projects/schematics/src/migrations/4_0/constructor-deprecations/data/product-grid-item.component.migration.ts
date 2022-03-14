@@ -2,7 +2,7 @@ import {
   PRODUCT_GRID_ITEM_COMPONENT,
   PRODUCT_LIST_ITEM_CONTEXT_SOURCE,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_GRID_ITEM_COMPONENT_MIGRATION: ConstructorDeprecation = {

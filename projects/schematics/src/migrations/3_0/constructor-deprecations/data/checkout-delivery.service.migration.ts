@@ -6,7 +6,7 @@ import {
   STORE,
   USER_ID_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_DELIVERY_SERVICE_MIGRATION: ConstructorDeprecation = {

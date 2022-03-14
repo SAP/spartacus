@@ -12,7 +12,7 @@ import {
   SPARTACUS_CHECKOUT_OLD_COMPONENTS,
   SPARTACUS_CHECKOUT_OLD_ROOT,
   SPARTACUS_CORE,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: ConstructorDeprecation = {

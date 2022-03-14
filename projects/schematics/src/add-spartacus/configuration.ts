@@ -12,7 +12,7 @@ import {
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/feature-libs-constants';
+} from '../shared/libs-constants';
 import { addModuleProvider } from '../shared/utils/new-module-utils';
 import { getSpartacusCurrentFeatureLevel } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';

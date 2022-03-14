@@ -8,7 +8,7 @@ import {
   OCC_ENDPOINTS_SERVICE,
   ROUTING_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const AUTH_HTTP_HEADER_SERVICE_MIGRATION: ConstructorDeprecation = {

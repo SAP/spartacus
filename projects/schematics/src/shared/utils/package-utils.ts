@@ -13,7 +13,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
-} from '../feature-libs-constants';
+} from '../libs-constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
 

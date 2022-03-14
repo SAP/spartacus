@@ -11,7 +11,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_QUALTRICS_COMPONENTS,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUALTRICS_LOADER_SERVICE_MIGRATION: ConstructorDeprecation = {

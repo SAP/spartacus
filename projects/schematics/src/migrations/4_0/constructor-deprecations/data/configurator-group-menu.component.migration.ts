@@ -12,7 +12,7 @@ import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION: ConstructorDeprecation =

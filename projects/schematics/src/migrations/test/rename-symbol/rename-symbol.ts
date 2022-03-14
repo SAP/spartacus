@@ -3,10 +3,7 @@ import {
   ASM_AUTH_HTTP_HEADER_SERVICE,
   CS_AGENT_AUTH_SERVICE,
 } from '../../../shared/constants';
-import {
-  SPARTACUS_ASM,
-  SPARTACUS_CORE,
-} from '../../../shared/feature-libs-constants';
+import { SPARTACUS_ASM, SPARTACUS_CORE } from '../../../shared/libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
 

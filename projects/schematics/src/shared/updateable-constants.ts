@@ -105,7 +105,7 @@ import {
   USER_PROFILE_ROOT_MODULE,
   VARIANTS_MODULE,
   VARIANTS_ROOT_MODULE,
-} from './feature-libs-constants';
+} from './libs-constants';
 
 /**
  * Maps sub-features to their parent feature.

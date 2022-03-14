@@ -7,7 +7,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_USER,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LOGIN_REGISTER_COMPONENT_MIGRATION: ConstructorDeprecation = {

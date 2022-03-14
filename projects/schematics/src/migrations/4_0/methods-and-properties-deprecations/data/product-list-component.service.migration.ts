@@ -3,7 +3,7 @@ import {
   PRODUCT_LIST_COMPONENT_SERVICE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/cms-components/product/product-list/container/product-list-component.service.ts

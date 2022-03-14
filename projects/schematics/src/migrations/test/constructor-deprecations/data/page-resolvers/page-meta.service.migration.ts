@@ -4,7 +4,7 @@ import {
   PAGE_META_RESOLVER,
   PAGE_META_SERVICE,
 } from '../../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../../shared/utils/file-utils';
 
 export const PAGE_META_SERVICE_MIGRATION: ConstructorDeprecation = {

@@ -3,7 +3,7 @@ import {
   STORE_FINDER_SERVICE,
   STORE_FINDER_STORE_DESCRIPTION_COMPONENT,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFINDER } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFINDER } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const STORE_FINDER_STORE_DESCRIPTION_COMPONENT_MIGRATION: ConstructorDeprecation =

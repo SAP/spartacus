@@ -5,7 +5,7 @@ import {
   USER_ID_SERVICE,
   USER_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_SERVICE_MIGRATION: ConstructorDeprecation = {

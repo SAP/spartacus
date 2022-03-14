@@ -17,7 +17,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_MODULE,
-} from '../feature-libs-constants';
+} from '../libs-constants';
 import { ensureModuleExists } from './new-module-utils';
 
 const DEFAULT_POSSIBLE_PROJECT_FILES = ['/angular.json', '/.angular.json'];

@@ -3,7 +3,7 @@ import {
   SET_ACTIVE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/site-context/facade/currency.service.ts

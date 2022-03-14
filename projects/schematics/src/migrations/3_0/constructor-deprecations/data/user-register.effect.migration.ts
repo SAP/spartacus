@@ -5,7 +5,7 @@ import {
   USER_CONNECTOR,
   USER_REGISTER_EFFECT,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_REGISTER_EFFECT_MIGRATION: ConstructorDeprecation = {

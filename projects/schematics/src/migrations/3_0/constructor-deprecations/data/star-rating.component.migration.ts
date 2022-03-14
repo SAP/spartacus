@@ -4,7 +4,7 @@ import {
   RENDERER_2,
   STAR_RATING_COMPONENT,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const STAR_RATING_COMPONENT_MIGRATION: ConstructorDeprecation = {

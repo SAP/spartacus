@@ -5,7 +5,7 @@ import {
   TRANSLATION_SERVICE,
   USER_ADDRESS_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_BOOK_COMPONENT_MIGRATION: ConstructorDeprecation = {

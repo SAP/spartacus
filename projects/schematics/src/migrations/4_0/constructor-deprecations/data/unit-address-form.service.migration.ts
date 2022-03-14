@@ -8,7 +8,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_USER_PROFILE_ROOT,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const UNIT_ADDRESS_FORM_SERVICE_MIGRATION: ConstructorDeprecation = {

@@ -82,7 +82,7 @@ import {
   SPARTACUS_TRACKING,
   SPARTACUS_USER_ACCOUNT_COMPONENTS,
   SPARTACUS_USER_PROFILE_COMPONENTS,
-} from '../../../shared/feature-libs-constants';
+} from '../../../shared/libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 import { migrateRenamedSymbols } from '../../mechanism/rename-symbol/rename-symbol';
 

@@ -12,7 +12,7 @@ import {
   STRING_TYPE,
   WINDOW_REF,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const WINDOW_REF_MIGRATION: ConstructorDeprecation = {

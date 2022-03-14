@@ -8,7 +8,7 @@ import {
   SAVED_CART_FORM_TYPE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/components/details/saved-cart-details-action/saved-cart-details-action.component.ts

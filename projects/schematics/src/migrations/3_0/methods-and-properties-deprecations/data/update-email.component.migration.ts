@@ -3,7 +3,7 @@ import {
   TODO_SPARTACUS,
   UPDATE_EMAIL_COMPONENT,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/cms-components/myaccount/update-email/update-email.component.ts

@@ -13,7 +13,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {

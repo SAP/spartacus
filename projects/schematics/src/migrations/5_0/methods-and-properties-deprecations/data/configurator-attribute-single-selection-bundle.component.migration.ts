@@ -3,7 +3,7 @@ import {
   EXTRACT_PRODUCT_CARD_PARAMETERS,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/product-configurator/rulebased/components/attribute/types/single-selection-bundle/configurator-attribute-single-selection-bundle.component.ts

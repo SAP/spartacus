@@ -7,7 +7,7 @@ import {
 import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADDRESS_BOOK_COMPONENT_MIGRATION: ConstructorDeprecation = {

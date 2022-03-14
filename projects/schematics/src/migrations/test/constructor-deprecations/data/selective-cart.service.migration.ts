@@ -8,7 +8,7 @@ import {
   STORE,
   USER_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SELECTIVE_CART_SERVICE_MIGRATION: ConstructorDeprecation = {

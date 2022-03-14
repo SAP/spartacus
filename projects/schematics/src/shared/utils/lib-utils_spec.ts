@@ -12,10 +12,7 @@ import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
 import { CDS_CONFIG, UTF_8 } from '../constants';
-import {
-  SPARTACUS_CDS,
-  SPARTACUS_FEATURES_MODULE,
-} from '../feature-libs-constants';
+import { SPARTACUS_CDS, SPARTACUS_FEATURES_MODULE } from '../libs-constants';
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,

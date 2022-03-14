@@ -5,7 +5,7 @@ import {
   SAVED_CART_LIST_COMPONENT,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CART_SAVED_CART_COMPONENTS } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/cart/saved-cart/components/list/saved-cart-list.component.ts

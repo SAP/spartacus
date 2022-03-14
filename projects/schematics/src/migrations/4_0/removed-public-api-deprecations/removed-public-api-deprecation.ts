@@ -143,7 +143,7 @@ import {
   SPARTACUS_USER_PROFILE_OCC,
   USER_ACCOUNT_MODULE,
   USER_PROFILE_MODULE,
-} from '../../../shared/feature-libs-constants';
+} from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 

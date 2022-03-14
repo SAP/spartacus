@@ -4,7 +4,7 @@ import {
   TODO_SPARTACUS,
   UNIT_FORM_COMPONENT,
 } from '../../../../shared/constants';
-import { SPARTACUS_ORGANIZATION } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_ORGANIZATION } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs\organization\administration\components\unit\form\unit-form.component.ts

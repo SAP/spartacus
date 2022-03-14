@@ -4,7 +4,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/feature-libs-constants';
+} from '../shared/libs-constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';

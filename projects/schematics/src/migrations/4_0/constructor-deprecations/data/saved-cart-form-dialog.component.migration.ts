@@ -12,7 +12,7 @@ import {
   SPARTACUS_CART,
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SAVED_CART_FORM_DIALOG_COMPONENT_MIGRATION: ConstructorDeprecation =

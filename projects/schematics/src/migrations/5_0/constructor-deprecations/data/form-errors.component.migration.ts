@@ -4,7 +4,7 @@ import {
   FORM_ERRORS_COMPONENT,
   KEY_VALUE_DIFFERS,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORM_ERRORS_COMPONENT_MIGRATION: ConstructorDeprecation = {

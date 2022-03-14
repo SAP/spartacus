@@ -8,7 +8,7 @@ import {
 import {
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_UPDATE_MESSAGE_COMPONENT_MIGRATION: ConstructorDeprecation =

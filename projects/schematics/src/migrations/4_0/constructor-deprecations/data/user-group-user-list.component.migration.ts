@@ -4,7 +4,7 @@ import {
   USER_GROUP_USER_LIST_COMPONENT,
   USER_GROUP_USER_LIST_SERVICE,
 } from '../../../../shared/constants';
-import { SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_GROUP_USER_LIST_COMPONENT_MIGRATION: ConstructorDeprecation =

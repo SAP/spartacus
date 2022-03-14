@@ -12,7 +12,7 @@ import {
 import {
   SPARTACUS_CDC,
   SPARTACUS_CORE,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CDC_LOGOUT_GUARD_CONSTRUCTOR_MIGRATION: ConstructorDeprecation = {

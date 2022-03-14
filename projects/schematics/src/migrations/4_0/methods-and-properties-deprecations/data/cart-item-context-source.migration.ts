@@ -4,7 +4,7 @@ import {
   PROMOTION_LOCATION$,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
-import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/storefrontlib/cms-components/cart/cart-shared/cart-item/model/cart-item-context-source.model.ts

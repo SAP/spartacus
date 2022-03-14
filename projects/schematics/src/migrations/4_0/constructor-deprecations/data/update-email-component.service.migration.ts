@@ -10,7 +10,7 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_USER_PROFILE_COMPONENTS,
   SPARTACUS_USER_PROFILE_ROOT,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const UPDATE_EMAIL_COMPONENT_SERVICE_MIGRATION: ConstructorDeprecation =

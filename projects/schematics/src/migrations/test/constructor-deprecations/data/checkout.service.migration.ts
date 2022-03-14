@@ -6,7 +6,7 @@ import {
   NGRX_STORE,
   STORE,
 } from '../../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_SERVICE_MIGRATION: ConstructorDeprecation = {

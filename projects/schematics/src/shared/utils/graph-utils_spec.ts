@@ -12,7 +12,7 @@ import {
   SPARTACUS_SMARTEDIT,
   SPARTACUS_STOREFINDER,
   SPARTACUS_USER,
-} from '../feature-libs-constants';
+} from '../libs-constants';
 import { Graph, kahnsAlgorithm } from './graph-utils';
 
 describe('Graph utils', () => {

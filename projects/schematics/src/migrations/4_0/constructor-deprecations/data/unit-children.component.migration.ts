@@ -5,7 +5,7 @@ import {
 import {
   SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS,
   SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const UNIT_CHILDREN_COMPONENT_MIGRATION: ConstructorDeprecation = {

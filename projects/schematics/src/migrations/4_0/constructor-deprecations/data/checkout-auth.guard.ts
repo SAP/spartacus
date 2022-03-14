@@ -14,7 +14,7 @@ import {
   SPARTACUS_CHECKOUT,
   SPARTACUS_CORE,
   SPARTACUS_USER_ACCOUNT,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/checkout/components/guards/checkout-auth.guard.ts

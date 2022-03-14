@@ -8,7 +8,7 @@ import {
 import {
   SPARTACUS_CART_QUICK_ORDER_CORE,
   SPARTACUS_CORE,
-} from '../../../../shared/feature-libs-constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const QUICK_ORDER_SERVICE_MIGRATION: ConstructorDeprecation = {

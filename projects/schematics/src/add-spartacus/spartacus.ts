@@ -3,7 +3,7 @@ import { BASE_STOREFRONT_MODULE } from '../shared/constants';
 import {
   SPARTACUS_MODULE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/feature-libs-constants';
+} from '../shared/libs-constants';
 import {
   addModuleExport,
   addModuleImport,

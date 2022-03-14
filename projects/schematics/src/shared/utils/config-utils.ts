@@ -1,6 +1,6 @@
 import { ArrayLiteralExpression, Expression, Node, SourceFile } from 'ts-morph';
 import { PROVIDE_CONFIG_FUNCTION } from '../constants';
-import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../feature-libs-constants';
+import { SPARTACUS_CORE, SPARTACUS_SETUP } from '../libs-constants';
 import { isImportedFromSpartacusLibs } from './import-utils';
 import { CustomConfig } from './lib-utils';
 import { getModule, getModulePropertyInitializer } from './new-module-utils';

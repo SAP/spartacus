@@ -12,7 +12,7 @@ import {
 import * as shx from 'shelljs';
 import ts from 'typescript';
 import { AUTH_SERVICE, STORE } from '../../../shared/constants';
-import { SPARTACUS_CORE } from '../../../shared/feature-libs-constants';
+import { SPARTACUS_CORE } from '../../../shared/libs-constants';
 import {
   getConstructor,
   getParams,
