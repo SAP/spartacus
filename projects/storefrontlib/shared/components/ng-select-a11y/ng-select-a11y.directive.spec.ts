@@ -1,6 +1,6 @@
 import { Component, DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CxNgSelectA11yModule } from './ng-select-a11y.module';
+import { NgSelectA11yModule } from './ng-select-a11y.module';
 import { NgSelectA11yDirective } from './ng-select-a11y.directive';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { By } from '@angular/platform-browser';
@@ -25,7 +25,7 @@ describe('NgSelectA11yDirective', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [CxNgSelectA11yModule, NgSelectModule],
+      imports: [NgSelectA11yModule, NgSelectModule],
       declarations: [MockComponent],
     }).compileComponents();
 

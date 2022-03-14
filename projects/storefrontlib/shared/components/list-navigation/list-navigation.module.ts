@@ -3,8 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { IconModule } from '../../../cms-components/misc/icon/icon.module';
-import { PaginationComponent, PaginationModule } from './pagination/index';
-import { SortingComponent } from './sorting/sorting.component';
+import { PaginationModule } from './pagination/index';
 import { SortingModule } from './sorting/sorting.module';
 
 @NgModule({
@@ -17,6 +16,5 @@ import { SortingModule } from './sorting/sorting.module';
     PaginationModule,
     SortingModule,
   ],
-  exports: [SortingComponent, PaginationComponent],
 })
 export class ListNavigationModule {}

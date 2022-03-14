@@ -5,4 +5,4 @@ import { NgSelectA11yDirective } from './ng-select-a11y.directive';
   declarations: [NgSelectA11yDirective],
   exports: [NgSelectA11yDirective],
 })
-export class CxNgSelectA11yModule {}
+export class NgSelectA11yModule {}
