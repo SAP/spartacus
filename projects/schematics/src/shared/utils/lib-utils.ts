@@ -297,18 +297,22 @@ export function checkAppStructure(tree: Tree, project: string): boolean {
 
   const basePath = process.cwd();
   for (const tsconfigPath of buildPaths) {
-    if (spartacusFeatureModuleExists(tree, tsconfigPath, basePath)) {
+    if (getSpartacusFeaturesModule(tree, basePath, tsconfigPath)) {
       return true;
     }
   }
   return false;
 }
 
-function spartacusFeatureModuleExists(
+/**
+ * If exists, it returns the spartacus-features.module.ts' source.
+ * Otherwise, it returns undefined.
+ */
+function getSpartacusFeaturesModule(
   tree: Tree,
-  tsconfigPath: string,
-  basePath: string
-): boolean {
+  basePath: string,
+  tsconfigPath: string
+): SourceFile | undefined {
   const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
 
   for (const sourceFile of appSourceFiles) {
@@ -317,18 +321,21 @@ function spartacusFeatureModuleExists(
         .getFilePath()
         .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
     ) {
-      if (getSpartacusFeaturesModule(sourceFile)) {
-        return true;
+      if (getSpartacusFeaturesNgModuleDecorator(sourceFile)) {
+        return sourceFile;
       }
     }
   }
-  return false;
+  return undefined;
 }
 
-function getSpartacusFeaturesModule(
+/**
+ * Returns the NgModule decorator, if exists.
+ */
+function getSpartacusFeaturesNgModuleDecorator(
   sourceFile: SourceFile
 ): CallExpression | undefined {
-  let spartacusFeaturesModule;
+  let spartacusFeaturesModule: CallExpression | undefined;
 
   function visitor(node: Node) {
     if (Node.isCallExpression(node)) {
@@ -357,6 +364,7 @@ function getSpartacusFeaturesModule(
   }
 
   sourceFile.forEachChild(visitor);
+  console.log('ng', spartacusFeaturesModule?.getText());
   return spartacusFeaturesModule;
 }
 
@@ -1050,19 +1058,11 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
     for (const tsconfigPath of buildPaths) {
-      const { appSourceFiles } = createProgram(tree, basePath, tsconfigPath);
-
-      let spartacusFeaturesModule: SourceFile | undefined;
-      for (const sourceFile of appSourceFiles) {
-        if (
-          sourceFile
-            .getFilePath()
-            .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
-        ) {
-          spartacusFeaturesModule = sourceFile;
-          break;
-        }
-      }
+      const spartacusFeaturesModule = getSpartacusFeaturesModule(
+        tree,
+        basePath,
+        tsconfigPath
+      );
 
       if (!spartacusFeaturesModule) {
         continue;
