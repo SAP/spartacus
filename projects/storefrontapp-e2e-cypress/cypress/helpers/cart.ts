@@ -176,7 +176,7 @@ export function checkBasicCart() {
   removeCartItem(products[0]);
 
   cy.wait('@refresh_cart');
-  cy.get('cx-cart-item').should('have.length', 1);
+  cy.get('.cx-item-list-row').should('have.length', 1);
 
   removeCartItem(products[4]);
 
