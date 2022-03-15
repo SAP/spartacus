@@ -364,7 +364,6 @@ function getSpartacusFeaturesNgModuleDecorator(
   }
 
   sourceFile.forEachChild(visitor);
-  console.log('ng', spartacusFeaturesModule?.getText());
   return spartacusFeaturesModule;
 }
 
