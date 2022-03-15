@@ -1,5 +1,4 @@
 %cx-cart-item-list {
-  /* agnostic-table styles -------------- */
   table {
     margin: 1em 0;
     border-collapse: collapse;
@@ -16,7 +15,6 @@
     display: none;
   }
 
-  /* customization styles ---------- */
   tr {
     border-bottom: 1px solid var(--cx-color-light);
     padding: 1.25rem 0;
@@ -111,9 +109,7 @@
     display: none;
   }
 
-  /* MOBILE */
   @include media-breakpoint-down(md) {
-    /* agnostic-table styles -------------- */
     table,
     tr,
     td {
@@ -142,10 +138,9 @@
       display: inline;
       font-weight: bold;
       white-space: nowrap;
-      text-align: left;
+      text-align: start;
     }
 
-    /* customization styles ---------- */
     td {
       display: flex;
       justify-content: space-between;
@@ -154,11 +149,10 @@
     }
 
     .cx-actions button {
-      margin-left: 0;
-      text-align: left;
+      margin-inline-start: 0;
+      text-align: start;
     }
 
-    /*   JS generated */
     th:nth-child(1) {
       clip: rect(0 0 0 0);
       clip-path: inset(50%);
@@ -170,11 +164,11 @@
     }
 
     td:nth-of-type(1) {
-      padding-left: 0;
+      padding-inline-start: 0;
     }
 
     td:nth-of-type(3) {
-      text-align: left;
+      text-align: start;
     }
   }
 }

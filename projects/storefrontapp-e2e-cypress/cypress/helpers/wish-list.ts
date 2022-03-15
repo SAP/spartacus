@@ -248,7 +248,7 @@ function goToCartAndCheckout(checkoutProducts: TestProduct[]) {
   cy.location('pathname').should('match', /\/cart$/);
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('cx-cart-item-list-row', product.code);
   }
 }
 
@@ -302,7 +302,7 @@ function placeOrderWithProducts(checkoutProducts: TestProduct[]) {
   cy.get('.cx-review-title').should('contain', 'Review');
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('cx-cart-item-list-row', product.code);
   }
 
   cy.findByText('Terms & Conditions')
@@ -328,7 +328,7 @@ function verifyOrderConfirmationPage(checkoutProducts: TestProduct[]) {
   cy.get('h2').should('contain', 'Thank you for your order!');
 
   for (const product of checkoutProducts) {
-    cy.get('cx-cart-item-list').contains('cx-cart-item', product.code);
+    cy.get('cx-cart-item-list').contains('cx-cart-item-list-row', product.code);
   }
 }
 
