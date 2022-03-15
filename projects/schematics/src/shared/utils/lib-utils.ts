@@ -1053,7 +1053,13 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
   options: T
 ): Rule {
   return (tree: Tree, context: SchematicContext): void => {
-    context.logger.info('Ordering the installed Spartacus features...');
+    let message = `Ordering the installed Spartacus features...`;
+    if (options.debug) {
+      message = `Sorting the installed Spartacus features according to the dependency graph: ${installationOrder.join(
+        ', '
+      )}`;
+    }
+    context.logger.info(message);
 
     const basePath = process.cwd();
     const { buildPaths } = getProjectTsConfigPaths(tree, options.project);
@@ -1073,13 +1079,6 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
         continue;
       }
 
-      if (options.debug) {
-        context.logger.info(
-          `Sorting the installed Spartacus features according to the dependency graph: ${installationOrder.join(
-            ', '
-          )}`
-        );
-      }
       const spartacusCoreModules = collectedModules.spartacusCoreModules.map(
         (spartacusCoreModule) => spartacusCoreModule.getText()
       );
