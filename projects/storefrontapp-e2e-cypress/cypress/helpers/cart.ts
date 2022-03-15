@@ -287,7 +287,7 @@ export function removeCartItem(product) {
   registerDeleteCartItemRoute();
 
   getCartItem(product.name).within(() => {
-    cy.get('.cx-remove-btn > .link').click();
+    cy.get('.cx-actions > .cx-action-link').contains('Remove').click();
   });
 
   cy.wait('@delete_cart_item');

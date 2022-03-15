@@ -93,7 +93,8 @@ export function moveItem(
 export function removeItem(product, position: ItemList) {
   stubForCartRefresh();
   getItem(product, position).within(() => {
-    cy.get('.cx-remove-btn > .link')
+    cy.get('.cx-actions > .cx-action-link')
+      .contains('Remove')
       .should('not.be.disabled')
       .then((el) => {
         cy.wrap(el).click();
