@@ -48,7 +48,7 @@ export function removeItemAndCheckCartEntriesNumber(
 ) {
   removeCartItem(product);
   cy.wait('@refresh_cart');
-  cy.get('cx-cart-item-list cx-cart-item').should(
+  cy.get('cx-cart-item-list .cx-item-list-row').should(
     'have.length',
     expectedCartLength
   );

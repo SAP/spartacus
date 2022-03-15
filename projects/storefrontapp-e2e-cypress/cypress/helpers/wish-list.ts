@@ -140,7 +140,7 @@ export function verifyProductInWishList(product: TestProduct) {
 export function removeProductFromWishListPage(product: TestProduct) {
   waitForGetWishList();
   getWishListItem(product.name).within(() => {
-    cy.get('.cx-return-button>button').click();
+    cy.get('button.cx-remove-btn').click();
   });
   cy.wait('@get_wish_list');
   getWishListItem(product.name).should('not.exist');

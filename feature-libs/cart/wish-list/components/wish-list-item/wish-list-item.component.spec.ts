@@ -137,13 +137,13 @@ describe('WishListItemComponent', () => {
     component.cartEntry.updateable = false;
     fixture.detectChanges();
 
-    expect(el.query(By.css('button.link.cx-action-link'))).toBeNull();
+    expect(el.query(By.css('button.cx-remove-btn'))).toBeNull();
     component.cartEntry.updateable = true;
   });
 
   it('should call remove', () => {
     spyOn(component, 'removeEntry');
-    el.query(By.css('button.link.cx-action-link')).nativeElement.click();
+    el.query(By.css('button.cx-remove-btn')).nativeElement.click();
     expect(component.removeEntry).toHaveBeenCalledWith(mockCartEntry);
   });
 
@@ -152,7 +152,7 @@ describe('WishListItemComponent', () => {
     fixture.detectChanges();
 
     expect(
-      el.query(By.css('button.link.cx-action-link')).nativeElement.disabled
+      el.query(By.css('button.cx-remove-btn')).nativeElement.disabled
     ).toBeTruthy();
   });
 
