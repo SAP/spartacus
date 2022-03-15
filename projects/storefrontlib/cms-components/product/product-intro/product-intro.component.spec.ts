@@ -57,10 +57,10 @@ describe('ProductIntroComponent in product', () => {
 
     fixture = TestBed.createComponent(ProductIntroComponent);
     productIntroComponent = fixture.componentInstance;
-  });
 
-  it('should be created', () => {
-    expect(productIntroComponent).toBeTruthy();
+    productIntroComponent.observer = {
+      disconnect: () => {},
+    } as MutationObserver;
   });
 
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
@@ -122,6 +122,16 @@ describe('ProductIntroComponent in product', () => {
   });
 
   describe('Product rating', () => {
+    const reviewsLabel = 'Reviews';
+    const tabsComponent: HTMLElement = document.createElement(
+      'cx-tab-paragraph-container'
+    );
+
+    beforeEach(() => {
+      spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
+      productIntroComponent['getTabsComponent'] = () => tabsComponent;
+    });
+
     it('should display rating component when rating is available', () => {
       productIntroComponent.product$ = of<Product>({ averageRating: 4.5 });
       fixture.detectChanges();
@@ -162,10 +172,6 @@ describe('ProductIntroComponent in product', () => {
     });
 
     it('should scroll to Reviews tab and set focus on Show Reviews click', (done) => {
-      const reviewsLabel = 'Reviews';
-      const tabsComponent: HTMLElement = document.createElement(
-        'cx-tab-paragraph-container'
-      );
       const tab1: HTMLElement = document.createElement('button');
       const reviewsTab: HTMLElement = document.createElement('button');
 
@@ -179,9 +185,7 @@ describe('ProductIntroComponent in product', () => {
         averageRating: undefined,
         numberOfReviews: 1,
       });
-      productIntroComponent['getTabsComponent'] = () => tabsComponent;
 
-      spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
       spyOn(reviewsTab, 'focus');
       spyOn(reviewsTab, 'scrollIntoView');
 

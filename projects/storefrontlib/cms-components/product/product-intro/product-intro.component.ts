@@ -1,6 +1,12 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import {
+  AfterContentChecked,
+  ChangeDetectionStrategy,
+  Component,
+  OnDestroy,
+} from '@angular/core';
 import { Product, TranslationService, WindowRef } from '@spartacus/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
+import { map, take, takeUntil } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -8,8 +14,16 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductIntroComponent {
-  product$: Observable<Product> = this.currentProductService.getProduct();
+export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
+  product$: Observable<Product | null> =
+    this.currentProductService.getProduct();
+  isReviewsTabAvailable$ = new BehaviorSubject<boolean>(false);
+  unsubscribe$ = new Subject();
+
+  observer: MutationObserver;
+
+  private reviewsTranslationKey =
+    'TabPanelContainer.tabs.ProductReviewsTabComponent';
 
   constructor(
     protected currentProductService: CurrentProductService,
@@ -17,11 +31,25 @@ export class ProductIntroComponent {
     protected winRef: WindowRef
   ) {}
 
+  ngAfterContentChecked(): void {
+    const tabsComponent = this.getTabsComponent();
+    if (tabsComponent && !this.observer) {
+      this.observer = this.observeOnTabsMutation(tabsComponent);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.observer.disconnect();
+    this.unsubscribe$.next();
+    this.unsubscribe$.complete();
+  }
+
   // Scroll to views component on page and click "Reviews" tab
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
-      .translate('TabPanelContainer.tabs.ProductReviewsTabComponent')
+      .translate(this.reviewsTranslationKey)
+      .pipe(take(1))
       .subscribe((reviewsTabLabel) => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab =
@@ -34,8 +62,38 @@ export class ProductIntroComponent {
             reviewsTab.focus({ preventScroll: true });
           }, 0);
         }
-      })
-      .unsubscribe();
+      });
+  }
+
+  // Create a mutation observer to observe if reviews component has been rendered
+  protected observeOnTabsMutation(target: HTMLElement): MutationObserver {
+    const config: MutationObserverInit = {
+      childList: true,
+      characterData: true,
+    };
+    const observer = new MutationObserver((mutations) => {
+      this.translationService
+        .translate(this.reviewsTranslationKey)
+        .pipe(
+          map(
+            // element is not filtered by name because reviews component and its selector can be customized
+            (reviewsTabLabel) =>
+              !!mutations
+                .map((mutation) =>
+                  this.getTabByLabel(
+                    reviewsTabLabel,
+                    mutation.target as HTMLElement
+                  )
+                )
+                .find((tab) => !!tab)
+                ?.nextSibling?.hasChildNodes()
+          ),
+          takeUntil(this.unsubscribe$)
+        )
+        .subscribe(this.isReviewsTabAvailable$);
+    });
+    observer.observe(target, config);
+    return observer;
   }
 
   // Get Tabs Component if exists on page
