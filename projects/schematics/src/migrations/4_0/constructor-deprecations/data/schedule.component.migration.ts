@@ -1,8 +1,8 @@
 import {
   SCHEDULE_COMPONENT,
-  SPARTACUS_STOREFINDER,
   STORE_DATA_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFINDER } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SCHEDULE_COMPONENT_MIGRATION: ConstructorDeprecation = {

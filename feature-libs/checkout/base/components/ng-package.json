@@ -9,9 +9,10 @@
       "@spartacus/user/account/root": "userAccountRoot",
       "@spartacus/user/profile/root": "userProfileRoot",
       "@spartacus/cart/base/root": "cartRoot",
+      "@spartacus/cart/base/core": "cartCore",
       "@spartacus/cart/base/components": "cartComponents",
-      "@spartacus/order/components": "orderComponents",
-      "@spartacus/cart/base/core": "cartCore"
+      "@spartacus/order/root": "orderRoot",
+      "@spartacus/order/components": "orderComponents"
     }
   }
 }
