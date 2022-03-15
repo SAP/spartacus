@@ -1,17 +1,19 @@
 import {
-  SPARTACUS_CORE,
-  STORE,
+  ANGULAR_CORE,
+  ANY_TYPE,
+  GLOBAL_MESSAGE_SERVICE,
   NGRX_STORE,
+  PLATFORM,
+  PLATFORM_ID_STRING,
+  ROUTING_SERVICE,
+  STORE,
   STORE_FINDER_SERVICE,
   WINDOW_REF,
-  GLOBAL_MESSAGE_SERVICE,
-  ROUTING_SERVICE,
-  SPARTACUS_STOREFINDER,
-  ANGULAR_CORE,
-  PLATFORM_ID_STRING,
-  ANY_TYPE,
-  PLATFORM,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFINDER,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const STORE_FINDER_SERVICE_MIGRATION: ConstructorDeprecation = {

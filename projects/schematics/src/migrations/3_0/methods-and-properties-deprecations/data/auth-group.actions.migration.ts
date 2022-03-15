@@ -25,9 +25,9 @@ import {
   REVOKE_USER_TOKEN_FAIL_CLASS,
   REVOKE_USER_TOKEN_SUCCESS,
   REVOKE_USER_TOKEN_SUCCESS_CLASS,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const AUTH_ACTIONS_MIGRATION: MethodPropertyDeprecation[] = [

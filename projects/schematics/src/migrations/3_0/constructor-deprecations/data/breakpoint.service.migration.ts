@@ -5,10 +5,12 @@ import {
   LAYOUT_CONFIG,
   PLATFORM,
   PLATFORM_ID_STRING,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const BREAKPOINT_SERVICE_MIGRATION: ConstructorDeprecation = {
