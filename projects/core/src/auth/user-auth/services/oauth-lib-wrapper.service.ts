@@ -138,11 +138,13 @@ export class OAuthLibWrapperService {
           disableOAuth2StateCheck: true,
         })
         .then((result: boolean) => {
-          subscription.unsubscribe();
           resolve({
             result: result,
             tokenReceived: !!tokenReceivedEvent,
           });
+        })
+        .finally(() => {
+          subscription.unsubscribe();
         });
     });
   }
