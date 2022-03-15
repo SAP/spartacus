@@ -4,9 +4,11 @@ import {
   EVENT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   RXJS,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION_V1: ConstructorDeprecation =

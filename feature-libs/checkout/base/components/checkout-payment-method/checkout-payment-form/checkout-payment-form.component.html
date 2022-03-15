@@ -1,5 +1,6 @@
 <!-- FORM -->
 <ng-container *ngIf="!loading; else spinner">
+  <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
   <form (ngSubmit)="next()" [formGroup]="paymentForm">
     <div class="row">
       <div class="col-md-12 col-xl-10">
