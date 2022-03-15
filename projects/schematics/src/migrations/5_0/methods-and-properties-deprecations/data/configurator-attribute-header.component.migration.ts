@@ -2,9 +2,9 @@ import {
   CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY,
   CONFIGURATOR_API_IS_ATTRIBUTE_GROUP,
   CONFIGURATOR_ATTRIBUTE_HEADER_COMPONENT,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // feature-libs/product-configurator/rulebased/components/attribute/header/configurator-attribute-header.component.ts

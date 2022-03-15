@@ -25,8 +25,6 @@ import {
   OPEN_ID_TOKEN_DATA,
   SCHEDULE_COMPONENT,
   SEARCH_CONFIG,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   SPLIT_VIEW_DEACTIVATE_GUARD,
   STATE_WITH_AUTH,
   STATE_WITH_KYMA,
@@ -69,6 +67,10 @@ import {
   USER_TOKEN_STATE,
   VIEW_ALL_STORES_STATE,
 } from '../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 

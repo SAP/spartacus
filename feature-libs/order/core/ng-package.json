@@ -5,7 +5,8 @@
     "umdModuleIds": {
       "@spartacus/core": "core",
       "@ngrx/effects": "effects",
-      "@ngrx/store": "store"
+      "@ngrx/store": "store",
+      "@spartacus/cart/base/root": "cartRoot"
     }
   }
 }
