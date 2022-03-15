@@ -1,14 +1,29 @@
 import { EventEmitter } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '@spartacus/core';
-import { of } from 'rxjs';
-import { skip } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { first, skip } from 'rxjs/operators';
 import { VisualPickingProductFilterService } from './visual-picking-product-filter.service';
 
-describe('VisualPickingProductFilterService', () => {
-  it('should match on product code', (done) => {
-    const visualPickingProductFilterService =
-      new VisualPickingProductFilterService();
+class MockRouter {
+  events = new Subject<RouterEvent>();
+}
 
+describe('VisualPickingProductFilterService', () => {
+  let visualPickingProductFilterService: VisualPickingProductFilterService;
+  let mockRouter: MockRouter;
+
+  beforeEach(() => {
+    mockRouter = new MockRouter();
+
+    TestBed.configureTestingModule({
+      providers: [{ provide: Router, useValue: mockRouter }],
+    });
+
+    visualPickingProductFilterService = TestBed.inject(VisualPickingProductFilterService);
+  });
+  it('should match on product code', (done) => {
     const productReferences: ProductReference[] = [
       {
         target: {
@@ -29,7 +44,7 @@ describe('VisualPickingProductFilterService', () => {
 
     visualPickingProductFilterService
       .getFilteredProducts(of(productReferences))
-      .pipe(skip(1))
+      .pipe(skip(1), first())
       .subscribe((filteredProductReferences: ProductReference[]) => {
         expect(filteredProductReferences).toBeTruthy();
         expect(filteredProductReferences.length).toBe(1);
@@ -42,9 +57,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('set filter', () => {
     it('should do nothing when setting existing value', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
-
       const filter$ = visualPickingProductFilterService[
         'filter$'
       ] as EventEmitter<string>;
@@ -60,8 +72,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('get filter', () => {
     it('should return value that was set', () => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       expect(visualPickingProductFilterService.filter).toEqual('');
       visualPickingProductFilterService.filter = 'yyyy';
@@ -71,8 +81,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('getFilteredProducts', () => {
     it('should match on product description', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -97,7 +105,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(1))
+        .pipe(skip(1), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(1);
@@ -111,8 +119,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should match multiple', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -137,7 +143,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(1))
+        .pipe(skip(1), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
@@ -157,8 +163,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should not filter when empty string used as filter string', (done) => {
-      const visualPickingProductFilterService =
-        new VisualPickingProductFilterService();
 
       const productReferences: ProductReference[] = [
         {
@@ -183,7 +187,7 @@ describe('VisualPickingProductFilterService', () => {
 
       visualPickingProductFilterService
         .getFilteredProducts(of(productReferences))
-        .pipe(skip(2))
+        .pipe(skip(2), first())
         .subscribe((filteredProductReferences: ProductReference[]) => {
           expect(filteredProductReferences).toBeTruthy();
           expect(filteredProductReferences.length).toBe(3);
@@ -203,6 +207,18 @@ describe('VisualPickingProductFilterService', () => {
       visualPickingProductFilterService.filter = 'yyyyy';
       // set back to ''
       visualPickingProductFilterService.filter = '';
+    });
+  });
+
+  describe('reset filter on navigation', () => {
+    it('should have empty filter', () => {
+      visualPickingProductFilterService.filter = 'yyyy';
+      expect(visualPickingProductFilterService.filter).toEqual('yyyy');
+
+      mockRouter.events.next(new NavigationStart(1, '/'));
+      mockRouter.events.next(new NavigationEnd(2, '/', '/any_path'));
+
+      expect(visualPickingProductFilterService.filter).toEqual('');
     });
   });
 });
