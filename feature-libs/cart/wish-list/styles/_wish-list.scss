@@ -18,14 +18,11 @@
 
   --cx-max-width: 75%;
 
-  @include media-breakpoint-down(sm) {
-    --cx-max-width: 100%;
-    .cx-item-list-row:last-of-type {
-      border: none;
-    }
+  @include media-breakpoint-down(md) {
+    --cx-max-width: 50%;
   }
 
-  @include media-breakpoint-down(md) {
+  @include media-breakpoint-down(sm) {
     --cx-max-width: 90%;
   }
 }
