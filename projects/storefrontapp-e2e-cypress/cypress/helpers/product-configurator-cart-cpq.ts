@@ -214,7 +214,7 @@ function checkShipToThisAddressDisplayed(): void {
       checkLoadingSpinnerNotDisplayed();
       cy.get('button.link.cx-action-link').should('exist');
       cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship to this address');
+      cy.get('button.link.cx-action-link').contains('Ship');
       checkLoadingSpinnerNotDisplayed();
     });
   });
@@ -233,7 +233,7 @@ function clickOnShipToThisAddressBtn(): void {
       checkLoadingSpinnerNotDisplayed();
       cy.get('button.link.cx-action-link').should('exist');
       cy.get('button.link.cx-action-link').should('be.visible');
-      cy.get('button.link.cx-action-link').contains('Ship to this address');
+      cy.get('button.link.cx-action-link').contains('Ship');
       checkLoadingSpinnerNotDisplayed();
       cy.get('button.link.cx-action-link')
         .wait(Cypress.config('defaultCommandTimeout'))
