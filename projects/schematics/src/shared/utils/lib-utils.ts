@@ -1069,7 +1069,6 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
         basePath,
         tsconfigPath
       );
-
       if (!spartacusFeaturesModule) {
         continue;
       }
