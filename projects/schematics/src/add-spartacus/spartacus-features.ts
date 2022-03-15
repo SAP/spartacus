@@ -4,7 +4,7 @@ import {
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_STOREFRONTLIB,
-} from '../shared/constants';
+} from '../shared/libs-constants';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
@@ -41,30 +41,26 @@ function configureSpartacusModules(
         .getFilePath()
         .includes(`${SPARTACUS_FEATURES_MODULE}.module.ts`)
     ) {
-      [
-        `// Auth Core
-        AuthModule.forRoot(),`,
-        'LogoutModule,',
-        'LoginRouteModule,',
-      ].forEach((content) => {
-        addModuleImport(sourceFile, {
-          import: [
-            {
-              moduleSpecifier: SPARTACUS_CORE,
-              namedImports: ['AuthModule'],
-            },
-            {
-              moduleSpecifier: SPARTACUS_STOREFRONTLIB,
-              namedImports: ['LogoutModule', 'LoginRouteModule'],
-            },
-          ],
-          content,
-        });
-      });
+      ['AuthModule.forRoot(),', 'LogoutModule,', 'LoginRouteModule,'].forEach(
+        (content) => {
+          addModuleImport(sourceFile, {
+            import: [
+              {
+                moduleSpecifier: SPARTACUS_CORE,
+                namedImports: ['AuthModule'],
+              },
+              {
+                moduleSpecifier: SPARTACUS_STOREFRONTLIB,
+                namedImports: ['LogoutModule', 'LoginRouteModule'],
+              },
+            ],
+            content,
+          });
+        }
+      );
 
       [
-        `// Basic Cms Components
-        HamburgerMenuModule,`,
+        'HamburgerMenuModule,',
         'SiteContextSelectorModule,',
         'LinkModule,',
         'BannerModule,',
@@ -100,11 +96,9 @@ function configureSpartacusModules(
       });
 
       [
-        `// User Core,
-        UserModule,`,
+        'UserModule,',
         'UserOccModule,',
-        `// User UI,
-        AddressBookModule,`,
+        'AddressBookModule,',
         'PaymentMethodsModule,',
         'NotificationPreferenceModule,',
         'MyInterestsModule,',
@@ -136,10 +130,8 @@ function configureSpartacusModules(
       });
 
       [
-        `// Anonymous Consents Core,
-        AnonymousConsentsModule.forRoot(),`,
-        `// Anonymous Consents UI,
-        AnonymousConsentsDialogModule,`,
+        'AnonymousConsentsModule.forRoot(),',
+        'AnonymousConsentsDialogModule,',
         'AnonymousConsentManagementBannerModule,',
       ].forEach((content) => {
         addModuleImport(sourceFile, {
@@ -161,11 +153,9 @@ function configureSpartacusModules(
       });
 
       [
-        `// Product Core,
-        ProductModule.forRoot(),`,
+        'ProductModule.forRoot(),',
         'ProductOccModule,',
-        `// Product UI,
-        ProductDetailsPageModule,`,
+        'ProductDetailsPageModule,',
         'ProductListingPageModule,',
         'ProductListModule,',
         'SearchBoxModule,',
@@ -218,8 +208,7 @@ function configureSpartacusModules(
       });
 
       [
-        `// Page Events,
-        NavigationEventModule,`,
+        'NavigationEventModule,',
         'HomePageEventModule,',
         'ProductPageEventModule,',
       ].forEach((content) => {
@@ -238,10 +227,7 @@ function configureSpartacusModules(
         });
       });
 
-      [
-        `// External routes,
-      ExternalRoutesModule.forRoot(),`,
-      ].forEach((content) => {
+      ['ExternalRoutesModule.forRoot()'].forEach((content) => {
         addModuleImport(sourceFile, {
           import: [
             {

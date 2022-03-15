@@ -1,12 +1,14 @@
 import { Rule, SchematicContext, Tree } from '@angular-devkit/schematics';
 import {
-  SPARTACUS_CORE,
-  CONFIGURATOR_EVENT_LISTENER,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  BAD_VOUCHER_REQUEST_HANDLER,
   BAD_REQUEST_HANDLER,
+  BAD_VOUCHER_REQUEST_HANDLER,
+  CONFIGURATOR_EVENT_LISTENER,
   HANDLE_VOUCHER_OPERATION_ERROR,
 } from '../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+} from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 
