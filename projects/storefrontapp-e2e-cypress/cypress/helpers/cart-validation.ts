@@ -27,7 +27,7 @@ export function checkProductAvailabilityMessage() {
 
 export function checkReducedQuantity(product) {
   cy.get('cx-cart-item-list')
-    .contains('cx-cart-item-list-row', product.name)
+    .contains('.cx-item-list-row', product.name)
     .should('contain', `Quantity has reduced to 1 due to insufficient stock.`);
 }
 

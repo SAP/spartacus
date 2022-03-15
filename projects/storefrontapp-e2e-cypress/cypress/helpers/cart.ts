@@ -56,7 +56,7 @@ export const products: TestProduct[] = [
 ];
 
 function getCartItem(name: string) {
-  return cy.get('cx-cart-item-list').contains('cx-cart-item-list-row', name);
+  return cy.get('cx-cart-item-list').contains('.cx-item-list-row', name);
 }
 
 function checkCartSummary(subtotal: string) {

@@ -48,11 +48,11 @@ export function getItem(product, position: ItemList) {
   if (position === ItemList.Cart) {
     return cy
       .get('cx-cart-details > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item-list-row', product.code);
+      .contains('.cx-item-list-row', product.code);
   } else {
     return cy
       .get('cx-save-for-later > .cart-details-wrapper > cx-cart-item-list')
-      .contains('cx-cart-item-list-row', product.code);
+      .contains('.cx-item-list-row', product.code);
   }
 }
 
