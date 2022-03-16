@@ -4378,44 +4378,6 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
     ],
   },
   {
-    class: 'PaymentMethodsComponent',
-    importPath: '@spartacus/storefront',
-    deprecatedParams: [
-      {
-        className: 'UserPaymentService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'TranslationService',
-        importPath: '@spartacus/core',
-      },
-    ],
-    removeParams: [
-      {
-        className: 'UserPaymentService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'TranslationService',
-        importPath: '@spartacus/core',
-      },
-    ],
-    addParams: [
-      {
-        className: 'UserPaymentService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'TranslationService',
-        importPath: '@spartacus/core',
-      },
-      {
-        className: 'GlobalMessageService',
-        importPath: '@spartacus/core',
-      },
-    ],
-  },
-  {
     class: 'ReplenishmentOrderCancellationComponent',
     importPath: '@spartacus/storefront',
     deprecatedParams: [
