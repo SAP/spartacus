@@ -2,6 +2,7 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SortingComponent } from './sorting.component';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { FormsModule } from '@angular/forms';
+import { I18nTestingModule } from '@spartacus/core';
 
 describe('SortingComponent', () => {
   let component: SortingComponent;
@@ -10,7 +11,7 @@ describe('SortingComponent', () => {
   beforeEach(
     waitForAsync(() => {
       TestBed.configureTestingModule({
-        imports: [NgSelectModule, FormsModule],
+        imports: [NgSelectModule, FormsModule, I18nTestingModule],
         declarations: [SortingComponent],
       }).compileComponents();
     })
