@@ -5,7 +5,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { Observable } from 'rxjs';
 import * as operators from 'rxjs/operators';
 import * as utils from '../../../util/compare-equal-objects';
-import { defaultGlobalMessageConfigFactory } from '../../config/default-global-message-config';
+import { defaultGlobalMessageConfig } from '../../config/default-global-message-config';
 import { GlobalMessageConfig } from '../../config/global-message-config';
 import {
   GlobalMessage,
@@ -72,7 +72,7 @@ describe('GlobalMessage Effects', () => {
         fromEffects.GlobalMessageEffect,
         {
           provide: GlobalMessageConfig,
-          useValue: defaultGlobalMessageConfigFactory(),
+          useValue: defaultGlobalMessageConfig,
         },
       ],
     });

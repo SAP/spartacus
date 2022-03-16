@@ -7,15 +7,15 @@ import {
 import { GlobalMessageStoreModule } from './store/global-message-store.module';
 import { GlobalMessageEffect } from './store/effects/global-message.effect';
 
-import { defaultGlobalMessageConfigFactory } from './config/default-global-message-config';
-import { provideDefaultConfigFactory } from '../config/config-providers';
+import { defaultGlobalMessageConfig } from './config/default-global-message-config';
+import { provideDefaultConfig } from '../config/config-providers';
 
 @NgModule({
   imports: [
     GlobalMessageStoreModule,
     EffectsModule.forFeature([GlobalMessageEffect]),
   ],
-  providers: [provideDefaultConfigFactory(defaultGlobalMessageConfigFactory)],
+  providers: [provideDefaultConfig(defaultGlobalMessageConfig)],
 })
 export class GlobalMessageModule {
   static forRoot(): ModuleWithProviders<GlobalMessageModule> {
