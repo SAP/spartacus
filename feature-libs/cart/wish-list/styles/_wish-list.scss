@@ -1,14 +1,6 @@
 %cx-wish-list {
   @extend %cx-cart-item-list;
 
-  td.cx-price {
-    text-align: center;
-
-    @include media-breakpoint-down(md) {
-      text-align: start;
-    }
-  }
-
   td.cx-actions {
     cx-add-to-cart {
       display: flex;

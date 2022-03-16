@@ -77,20 +77,9 @@
     font-weight: var(--cx-font-weight-bold);
   }
 
-  .cx-price {
-    text-align: start;
-  }
-
   .cx-total {
     font-size: var(--cx-font-size, 1rem);
     font-weight: var(--cx-font-weight-normal);
-    text-align: center;
-  }
-
-  .cx-quantity {
-    .cx-value {
-      text-align: center;
-    }
   }
 
   .cx-cart-addons {
