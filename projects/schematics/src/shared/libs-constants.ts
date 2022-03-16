@@ -120,7 +120,12 @@ export const SPARTACUS_TRACKING = `@spartacus/tracking`;
 
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `@spartacus/product-configurator/common/assets`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD = `@spartacus/product-configurator/textfield`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `@spartacus/product-configurator/rulebased`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT = `@spartacus/product-configurator/textfield/root`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT = `@spartacus/product-configurator/rulebased/root`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ = `@spartacus/product-configurator/rulebased/cpq`;
 
 export const SPARTACUS_USER = `@spartacus/user`;
 export const SPARTACUS_USER_ACCOUNT = `@spartacus/user/account`;
@@ -204,18 +209,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
-  'TextfieldConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
-  'TextfieldConfiguratorRootModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_MODULE =
-  'RulebasedConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE =
-  'RulebasedConfiguratorRootModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE =
-  'RulebasedCpqConfiguratorModule';
-export const PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE =
-  'CpqConfiguratorRootModule';
 
 export const QUALTRICS_MODULE = 'QualtricsModule';
 export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
