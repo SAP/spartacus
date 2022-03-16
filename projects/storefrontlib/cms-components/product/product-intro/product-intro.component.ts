@@ -38,7 +38,8 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
         this.observer = this.observeOnTabsMutation(tabsComponent);
       }
     } else {
-      !this.isReviewsTabAvailable$.value && this.isReviewsTabAvailable$.next(true);
+      !this.isReviewsTabAvailable$.value &&
+        this.isReviewsTabAvailable$.next(true);
     }
   }
 
