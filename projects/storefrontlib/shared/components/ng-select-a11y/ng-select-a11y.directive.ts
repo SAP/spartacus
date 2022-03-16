@@ -22,15 +22,20 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const divCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
 
-    this.renderer.setAttribute(
-      divCombobox,
-      'aria-label',
-      this.cxNgSelectA11y.ariaLabel
-    );
-    this.renderer.setAttribute(
-      divCombobox,
-      'aria-controls',
-      this.cxNgSelectA11y.ariaControls
-    );
+    if (this.cxNgSelectA11y.ariaLabel) {
+      this.renderer.setAttribute(
+        divCombobox,
+        'aria-label',
+        this.cxNgSelectA11y.ariaLabel
+      );
+    }
+
+    if (this.cxNgSelectA11y.ariaControls) {
+      this.renderer.setAttribute(
+        divCombobox,
+        'aria-controls',
+        this.cxNgSelectA11y.ariaControls
+      );
+    }
   }
 }

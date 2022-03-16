@@ -11,6 +11,7 @@
               <ng-select
                 [inputAttrs]="{ required: 'true' }"
                 class="country-select"
+                id="country-select"
                 formControlName="isocode"
                 [searchable]="true"
                 [clearable]="false"
@@ -19,6 +20,10 @@
                 bindValue="isocode"
                 placeholder="{{ 'addressForm.selectOne' | cxTranslate }}"
                 (change)="countrySelected($event)"
+                [cxNgSelectA11y]="{
+                  ariaLabel: 'addressForm.country' | cxTranslate,
+                  ariaControls: 'country-select'
+                }"
               >
               </ng-select>
               <cx-form-errors
@@ -36,6 +41,7 @@
                 'addressForm.title' | cxTranslate
               }}</span>
               <ng-select
+                id="title-select"
                 formControlName="titleCode"
                 [searchable]="true"
                 [clearable]="false"
@@ -43,6 +49,10 @@
                 bindLabel="name"
                 bindValue="code"
                 [placeholder]="'addressForm.title' | cxTranslate"
+                [cxNgSelectA11y]="{
+                  ariaLabel: 'addressForm.title' | cxTranslate,
+                  ariaControls: 'title-select'
+                }"
               >
               </ng-select>
             </label>
