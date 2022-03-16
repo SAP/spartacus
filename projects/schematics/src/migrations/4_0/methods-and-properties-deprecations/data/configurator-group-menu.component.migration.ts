@@ -3,9 +3,9 @@ import {
   CONFIGURATOR_GROUP_MENU_COMPONENT,
   NAVIGATE_UP_ON_ENTER,
   PREVENT_SCROLLING_ON_SPACE,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 //feature-libs/product-configurator/rulebased/components/group-menu/configurator-group-menu.component.ts

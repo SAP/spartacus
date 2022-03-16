@@ -42,7 +42,7 @@ jobs:
       name: "Lighthouse score validation"
     - script: "export SPA_ENV='b2b,epd-visualization' && ./ci-scripts/e2e-cypress.sh -s epd-visualization || exit 0"
       name: "E2E tests for EPD Visualization"
-      if: branch IN (integration-libs/epd-visualization, integration-libs/epd-visualization-maintenance)
+      if: branch ~= /^.*epd-visualization.*$
 addons:
   chrome: stable
   sonarcloud:

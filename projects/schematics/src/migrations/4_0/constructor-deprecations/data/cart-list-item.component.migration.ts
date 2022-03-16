@@ -4,10 +4,12 @@ import {
   FEATURE_CONFIG_SERVICE,
   MULTI_CART_SERVICE,
   SELECTIVE_CART_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   USER_ID_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_LIST_ITEM_COMPONENT_MIGRATION_V1: ConstructorDeprecation = {
