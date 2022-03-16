@@ -1,6 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 import {
+  ADD_TO_CART_FEEDBACK,
   CartAddEntryFailEvent,
+  CartConfig,
   CartUiEventAddToCart,
 } from '@spartacus/cart/base/root';
 import { CxEvent, EventService } from '@spartacus/core';
@@ -48,6 +50,12 @@ class MockModalService {
   }
 }
 
+const mockCartConfig: CartConfig = {
+  cart: {
+    addToCartFeedback: { feedback: ADD_TO_CART_FEEDBACK.MODAL },
+  },
+};
+
 describe('AddToCartDialogEventListener', () => {
   let listener: AddedToCartDialogEventListener;
   let modalService: ModalService;
@@ -63,6 +71,10 @@ describe('AddToCartDialogEventListener', () => {
         {
           provide: ModalService,
           useClass: MockModalService,
+        },
+        {
+          provide: CartConfig,
+          useValue: mockCartConfig,
         },
       ],
     });

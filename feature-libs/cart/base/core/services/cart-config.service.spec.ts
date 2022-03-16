@@ -1,5 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-import { CartConfig } from '@spartacus/cart/base/root';
+import { ADD_TO_CART_FEEDBACK, CartConfig } from '@spartacus/cart/base/root';
 import { CartConfigService } from './cart-config.service';
 
 describe('CartConfigService', () => {
@@ -20,7 +20,12 @@ describe('CartConfigService', () => {
 
   describe('isSelectiveCartService', () => {
     it('should return true if selectiveCart enabled is set to true', () => {
-      mockCartConfig.cart = { selectiveCart: { enabled: true } };
+      mockCartConfig.cart = {
+        selectiveCart: { enabled: true },
+        addToCartFeedback: {
+          feedback: ADD_TO_CART_FEEDBACK.MODAL,
+        },
+      };
       expect(service.isSelectiveCartEnabled()).toBeTruthy();
     });
 
@@ -31,7 +36,10 @@ describe('CartConfigService', () => {
 
   describe('isCartValidationEnabled', () => {
     it('should return true if cart validation enabled is set to true', () => {
-      mockCartConfig.cart = { validation: { enabled: true } };
+      mockCartConfig.cart = {
+        validation: { enabled: true },
+        addToCartFeedback: { feedback: ADD_TO_CART_FEEDBACK.MODAL },
+      };
       expect(service.isCartValidationEnabled()).toBeTruthy();
     });
 
