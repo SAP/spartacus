@@ -1,13 +1,25 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable, OnDestroy } from '@angular/core';
 import { Product, ProductReference } from '@spartacus/core';
-import { combineLatest, concat, Observable, of } from 'rxjs';
+import { combineLatest, concat, Observable, of, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Router, Event, NavigationEnd } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
 })
-export class VisualPickingProductFilterService {
-  constructor() {}
+export class VisualPickingProductFilterService implements OnDestroy {
+  constructor(protected router: Router) {
+    this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationEnd) {
+          this.filter = '';
+    }});
+  }
+
+  ngOnDestroy(): void {
+   this.routerEventsSubscription.unsubscribe();
+  }
+
+  protected routerEventsSubscription: Subscription;
 
   /**
    * The current filter value.
