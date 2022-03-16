@@ -12,6 +12,8 @@ import {
   CustomConfig,
   readPackageJson,
   shouldAddFeature,
+  SMARTEDIT_MODULE,
+  SMARTEDIT_ROOT_MODULE,
   SMART_EDIT_CONFIG,
   SPARTACUS_SMARTEDIT,
   validateSpartacusInstallation,
@@ -20,9 +22,7 @@ import { peerDependencies } from '../../package.json';
 import {
   SMARTEDIT_FEATURE_NAME_CONSTANT,
   SMARTEDIT_FOLDER_NAME,
-  SMARTEDIT_MODULE,
   SMARTEDIT_MODULE_NAME,
-  SMARTEDIT_ROOT_MODULE,
   SPARTACUS_SMARTEDIT_ASSETS,
   SPARTACUS_SMARTEDIT_ROOT,
 } from '../constants';

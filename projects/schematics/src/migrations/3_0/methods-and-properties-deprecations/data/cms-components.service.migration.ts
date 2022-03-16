@@ -2,9 +2,9 @@ import {
   CMS_COMPONENTS_SERVICE,
   GET_CHILD_ROUTES,
   GET_INJECTORS,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects\storefrontlib\src\cms-structure\services\cms-components.service.ts

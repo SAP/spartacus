@@ -79,7 +79,7 @@ export function testCheckoutAsGuest() {
       option: 'Personal Details',
     });
 
-    validateUpdateProfileForm('mr', guestUser.firstName, guestUser.lastName);
+    validateUpdateProfileForm('Mr.', guestUser.firstName, guestUser.lastName);
     checkout.signOut();
   });
 }

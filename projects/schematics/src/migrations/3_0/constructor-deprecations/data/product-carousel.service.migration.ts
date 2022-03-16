@@ -3,9 +3,11 @@ import {
   PRODUCT_REFERENCE_SERVICE,
   PRODUCT_SERVICE,
   SEMANTIC_PATH_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const PRODUCT_CAROUSEL_SERVICE_MIGRATION: ConstructorDeprecation = {
