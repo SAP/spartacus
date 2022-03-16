@@ -32,14 +32,18 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
   ) {}
 
   ngAfterContentChecked(): void {
-    const tabsComponent = this.getTabsComponent();
-    if (tabsComponent && !this.observer) {
-      this.observer = this.observeOnTabsMutation(tabsComponent);
+    if (this.winRef.isBrowser()) {
+      const tabsComponent = this.getTabsComponent();
+      if (tabsComponent && !this.observer) {
+        this.observer = this.observeOnTabsMutation(tabsComponent);
+      }
+    } else {
+      !this.isReviewsTabAvailable$.value && this.isReviewsTabAvailable$.next(true);
     }
   }
 
   ngOnDestroy(): void {
-    this.observer.disconnect();
+    this.observer?.disconnect();
     this.unsubscribe$.next();
     this.unsubscribe$.complete();
   }
@@ -76,15 +80,15 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
         .translate(this.reviewsTranslationKey)
         .pipe(
           map(
-            // element is not filtered by name because reviews component and its selector can be customized
             (reviewsTabLabel) =>
               !!mutations
-                .map((mutation) =>
-                  this.getTabByLabel(
+                .map((mutation) => {
+                  // element is not filtered by name because reviews component and its selector can be customized
+                  return this.getTabByLabel(
                     reviewsTabLabel,
                     mutation.target as HTMLElement
-                  )
-                )
+                  );
+                })
                 .find((tab) => !!tab)
                 ?.nextSibling?.hasChildNodes()
           ),
