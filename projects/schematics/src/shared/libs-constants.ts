@@ -87,9 +87,14 @@ export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
+export const SPARTACUS_ADMINISTRATION = `@spartacus/organization/administration`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `@spartacus/organization/administration/root`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `@spartacus/organization/administration/core`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `@spartacus/organization/administration/components`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ASSETS = `@spartacus/organization/administration/assets`;
+export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL = `@spartacus/organization/order-approval`;
+export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ROOT = `@spartacus/organization/order-approval/root`;
+export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organization/order-approval/assets`;
 
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
@@ -190,11 +195,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const ADMINISTRATION_MODULE = 'AdministrationModule';
-export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
-export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
-export const ORDER_APPROVAL_ROOT_MODULE = 'OrderApprovalRootModule';
-
 export const BULK_PRICING_MODULE = 'BulkPricingModule';
 export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
 export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
