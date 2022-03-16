@@ -6,8 +6,7 @@ import {
 import { FeatureConfig } from '../utils/lib-utils';
 
 export const ASM_FOLDER_NAME = 'asm';
-// TODO:#schematics - rename to `ASM_FEATURE_MODULE_NAME`
-export const ASM_MODULE_NAME = 'Asm';
+export const ASM_FEATURE_MODULE_NAME = 'Asm';
 
 export const ASM_FEATURE_NAME_CONSTANT = 'ASM_FEATURE';
 export const ASM_MODULE = 'AsmModule';
@@ -17,7 +16,7 @@ export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
 
 export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
   folderName: ASM_FOLDER_NAME,
-  moduleName: ASM_MODULE_NAME,
+  moduleName: ASM_FEATURE_MODULE_NAME,
   featureModule: {
     name: ASM_MODULE,
     importPath: SPARTACUS_ASM,

@@ -4,17 +4,17 @@ export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
   'productConfiguratorTextfield';
 
 /***** Scopes start *****/
-export const SPARTACUS_SCOPE = '@spartacus/';
+export const SPARTACUS_SCOPE = `@spartacus/`;
 
-export const SPARTACUS_SCHEMATICS = '@spartacus/schematics';
+export const SPARTACUS_SCHEMATICS = `@spartacus/schematics`;
 
-export const SPARTACUS_CORE = '@spartacus/core';
-export const SPARTACUS_STOREFRONTLIB = '@spartacus/storefront';
-export const SPARTACUS_ASSETS = '@spartacus/assets';
-export const SPARTACUS_STYLES = '@spartacus/styles';
+export const SPARTACUS_CORE = `@spartacus/core`;
+export const SPARTACUS_STOREFRONTLIB = `@spartacus/storefront`;
+export const SPARTACUS_ASSETS = `@spartacus/assets`;
+export const SPARTACUS_STYLES = `@spartacus/styles`;
 
-export const SPARTACUS_SETUP = '@spartacus/setup';
-export const SPARTACUS_SETUP_SSR = `${SPARTACUS_SETUP}/ssr`;
+export const SPARTACUS_SETUP = `@spartacus/setup`;
+export const SPARTACUS_SETUP_SSR = `@spartacus/setup/ssr`;
 
 export const CORE_SPARTACUS_SCOPES = [
   SPARTACUS_CORE,
@@ -26,89 +26,107 @@ export const CORE_SPARTACUS_SCOPES = [
 ];
 export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 
-export const SPARTACUS_ORGANIZATION = '@spartacus/organization';
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `${SPARTACUS_ORGANIZATION}/administration/root`;
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZATION}/administration/core`;
-export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
+export const SPARTACUS_ASM = `@spartacus/asm`;
+export const SPARTACUS_ASM_ROOT = `@spartacus/asm/root`;
+export const SPARTACUS_ASM_ASSETS = `@spartacus/asm/assets`;
 
-export const SPARTACUS_ASM = '@spartacus/asm';
-export const SPARTACUS_ASM_ROOT = `${SPARTACUS_ASM}/root`;
-export const SPARTACUS_ASM_ASSETS = `${SPARTACUS_ASM}/assets`;
+export const SPARTACUS_CART = `@spartacus/cart`;
+export const SPARTACUS_CART_BASE = `@spartacus/cart/base`;
+export const SPARTACUS_CART_BASE_ROOT = `@spartacus/cart/base/root`;
+export const SPARTACUS_CART_BASE_ASSETS = `@spartacus/cart/base/assets`;
+export const MINI_CART_ENTRY_POINT = `@spartacus/cart/base/components/mini-cart`;
+export const ADD_TO_CART_ENTRY_POINT = `@spartacus/cart/base/components/add-to-cart`;
+export const SPARTACUS_CART_IMPORT_EXPORT = `@spartacus/cart/import-export`;
+export const SPARTACUS_CART_IMPORT_EXPORT_ROOT = `@spartacus/cart/import-export/root`;
+export const SPARTACUS_CART_IMPORT_EXPORT_ASSETS = `@spartacus/cart/import-export/assets`;
+export const SPARTACUS_QUICK_ORDER = `@spartacus/cart/quick-order`;
+export const SPARTACUS_CART_QUICK_ORDER_CORE = `@spartacus/cart/quick-order/core`;
+export const SPARTACUS_CART_QUICK_ORDER_ROOT = `@spartacus/cart/quick-order/root`;
+export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `@spartacus/cart/quick-order/components`;
+export const SPARTACUS_QUICK_ORDER_ROOT = `@spartacus/cart/quick-order/root`;
+export const SPARTACUS_QUICK_ORDER_ASSETS = `@spartacus/cart/quick-order/assets`;
+export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `@spartacus/cart/saved-cart/components`;
+export const SPARTACUS_CART_SAVED_CART_CORE = `@spartacus/cart/saved-cart/core`;
+export const SPARTACUS_CART_SAVED_CART_ROOT = `@spartacus/cart/saved-cart/root`;
+export const SPARTACUS_SAVED_CART = `@spartacus/cart/saved-cart`;
+export const SPARTACUS_SAVED_CART_ROOT = `@spartacus/cart/saved-cart/root`;
+export const SPARTACUS_SAVED_CART_ASSETS = `@spartacus/cart/saved-cart/assets`;
+export const SPARTACUS_CART_WISHLIST = `@spartacus/cart/wish-list`;
+export const SPARTACUS_CART_WISHLIST_ROOT = `@spartacus/cart/wish-list/root`;
+export const SPARTACUS_CART_WISHLIST_ASSETS = `@spartacus/cart/wish-list/assets`;
+export const ADD_TO_WISHLIST_ENTRY_POINT = `@spartacus/cart/wish-list/components/add-to-wishlist`;
 
-export const SPARTACUS_CART = '@spartacus/cart';
-export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
-export const SPARTACUS_CART_SAVED_CART_CORE = `${SPARTACUS_CART}/saved-cart/core`;
-export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
-export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
-export const SPARTACUS_CART_QUICK_ORDER_ROOT = `${SPARTACUS_CART}/quick-order/root`;
-export const SPARTACUS_CART_QUICK_ORDER_COMPONENTS = `${SPARTACUS_CART}/quick-order/components`;
+export const SPARTACUS_CHECKOUT = `@spartacus/checkout`;
+export const SPARTACUS_CHECKOUT_BASE = `@spartacus/checkout/base`;
+export const SPARTACUS_CHECKOUT_BASE_ASSETS = `spartacus/checkout/base/assets`;
+export const SPARTACUS_CHECKOUT_BASE_OCC = `spartacus/checkout/base/occ`;
+export const SPARTACUS_CHECKOUT_BASE_CORE = `spartacus/checkout/base/core`;
+export const SPARTACUS_CHECKOUT_BASE_ROOT = `spartacus/checkout/base/root`;
+export const SPARTACUS_CHECKOUT_BASE_COMPONENTS = `spartacus/checkout/base/components`;
+export const SPARTACUS_CHECKOUT_B2B = `@spartacus/checkout/b2b`;
+export const SPARTACUS_CHECKOUT_B2B_ASSETS = `@spartacus/checkout/b2b/assets`;
+export const SPARTACUS_CHECKOUT_B2B_OCC = `@spartacus/checkout/b2b/occ`;
+export const SPARTACUS_CHECKOUT_B2B_CORE = `@spartacus/checkout/b2b/core`;
+export const SPARTACUS_CHECKOUT_B2B_ROOT = `@spartacus/checkout/b2b/root`;
+export const SPARTACUS_CHECKOUT_B2B_COMPONENTS = `@spartacus/checkout/b2b/components`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT = `@spartacus/checkout/scheduled-replenishment`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS = `@spartacus/checkout/scheduled-replenishment/assets`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_OCC = `@spartacus/checkout/scheduled-replenishment/occ`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_CORE = `@spartacus/checkout/scheduled-replenishment/core`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT = `@spartacus/checkout/scheduled-replenishment/root`;
+export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_COMPONENTS = `@spartacus/checkout/scheduled-replenishment/components`;
 
-export const SPARTACUS_PRODUCT = '@spartacus/product';
-export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `${SPARTACUS_PRODUCT}/variants/components`;
-export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `${SPARTACUS_PRODUCT}/variants/root`;
+export const SPARTACUS_CHECKOUT_OLD_OCC = `@spartacus/checkout/occ`;
+export const SPARTACUS_CHECKOUT_OLD_CORE = `@spartacus/checkout/core`;
+export const SPARTACUS_CHECKOUT_OLD_ROOT = `@spartacus/checkout/root`;
+export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components`;
 
-export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
+export const SPARTACUS_ORDER = `@spartacus/order`;
+export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
 
-export const SPARTACUS_USER = '@spartacus/user';
-export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
-export const SPARTACUS_USER_ACCOUNT_ASSETS = `${SPARTACUS_USER_ACCOUNT}/assets`;
-export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
-export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
-export const SPARTACUS_USER_ACCOUNT_ROOT = `${SPARTACUS_USER_ACCOUNT}/root`;
-export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
-export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
-export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
-export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
-export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
-export const SPARTACUS_USER_PROFILE_ASSETS = `${SPARTACUS_USER_PROFILE}/assets`;
-export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
+export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `@spartacus/organization/administration/root`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `@spartacus/organization/administration/core`;
+export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `@spartacus/organization/administration/components`;
 
-export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
-export const SPARTACUS_CHECKOUT_BASE = `${SPARTACUS_CHECKOUT}/base`;
-export const SPARTACUS_CHECKOUT_BASE_ASSETS = `${SPARTACUS_CHECKOUT_BASE}/assets`;
-export const SPARTACUS_CHECKOUT_BASE_OCC = `${SPARTACUS_CHECKOUT_BASE}/occ`;
-export const SPARTACUS_CHECKOUT_BASE_CORE = `${SPARTACUS_CHECKOUT_BASE}/core`;
-export const SPARTACUS_CHECKOUT_BASE_ROOT = `${SPARTACUS_CHECKOUT_BASE}/root`;
-export const SPARTACUS_CHECKOUT_BASE_COMPONENTS = `${SPARTACUS_CHECKOUT_BASE}/components`;
-export const SPARTACUS_CHECKOUT_B2B = `${SPARTACUS_CHECKOUT}/b2b`;
-export const SPARTACUS_CHECKOUT_B2B_ASSETS = `${SPARTACUS_CHECKOUT_B2B}/assets`;
-export const SPARTACUS_CHECKOUT_B2B_OCC = `${SPARTACUS_CHECKOUT_B2B}/occ`;
-export const SPARTACUS_CHECKOUT_B2B_CORE = `${SPARTACUS_CHECKOUT_B2B}/core`;
-export const SPARTACUS_CHECKOUT_B2B_ROOT = `${SPARTACUS_CHECKOUT_B2B}/root`;
-export const SPARTACUS_CHECKOUT_B2B_COMPONENTS = `${SPARTACUS_CHECKOUT_B2B}/components`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT = `${SPARTACUS_CHECKOUT}/scheduled-replenishment`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ASSETS = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/assets`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_OCC = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/occ`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_CORE = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/core`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/root`;
-export const SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT_COMPONENTS = `${SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT}/components`;
+export const SPARTACUS_PRODUCT = `@spartacus/product`;
+export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
+export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 
-export const SPARTACUS_CHECKOUT_OLD_OCC = `${SPARTACUS_CHECKOUT}/occ`;
-export const SPARTACUS_CHECKOUT_OLD_CORE = `${SPARTACUS_CHECKOUT}/core`;
-export const SPARTACUS_CHECKOUT_OLD_ROOT = `${SPARTACUS_CHECKOUT}/root`;
-export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `${SPARTACUS_CHECKOUT}/components`;
+export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 
-export const SPARTACUS_ORDER = '@spartacus/order';
-export const SPARTACUS_ORDER_ROOT = '@spartacus/order/root';
+export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
+export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
 
-export const SPARTACUS_QUALTRICS = '@spartacus/qualtrics';
-export const SPARTACUS_QUALTRICS_COMPONENTS = `${SPARTACUS_QUALTRICS}/components`;
+export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
 
-export const SPARTACUS_STOREFINDER = '@spartacus/storefinder';
+export const SPARTACUS_TRACKING = `@spartacus/tracking`;
 
-export const SPARTACUS_TRACKING = '@spartacus/tracking';
+export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
+export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `@spartacus/product-configurator/rulebased`;
 
-export const SPARTACUS_PRODUCT_CONFIGURATOR = '@spartacus/product-configurator';
-export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `${SPARTACUS_PRODUCT_CONFIGURATOR}/common`;
-export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `${SPARTACUS_PRODUCT_CONFIGURATOR}/rulebased`;
+export const SPARTACUS_USER = `@spartacus/user`;
+export const SPARTACUS_USER_ACCOUNT = `@spartacus/user/account`;
+export const SPARTACUS_USER_ACCOUNT_ASSETS = `@spartacus/user/account/assets`;
+export const SPARTACUS_USER_ACCOUNT_OCC = `@spartacus/user/account/occ`;
+export const SPARTACUS_USER_ACCOUNT_CORE = `@spartacus/user/account/core`;
+export const SPARTACUS_USER_ACCOUNT_ROOT = `@spartacus/user/account/root`;
+export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `@spartacus/user/account/components`;
+export const SPARTACUS_USER_PROFILE = `@spartacus/user/profile`;
+export const SPARTACUS_USER_PROFILE_OCC = `@spartacus/user/profile/occ`;
+export const SPARTACUS_USER_PROFILE_CORE = `@spartacus/user/profile/core`;
+export const SPARTACUS_USER_PROFILE_COMPONENTS = `@spartacus/user/profile/components`;
+export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
+export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
-export const SPARTACUS_CDS = '@spartacus/cds';
+export const SPARTACUS_CDS = `@spartacus/cds`;
 
-export const SPARTACUS_CDC = '@spartacus/cdc';
+export const SPARTACUS_CDC = `@spartacus/cdc`;
 
-export const SPARTACUS_DIGITAL_PAYMENTS = '@spartacus/digital-payments';
+export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 
-export const SPARTACUS_EPD_VISUALIZATION = '@spartacus/epd-visualization';
+export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -167,20 +185,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const CART_BASE_MODULE = 'CartBaseModule';
-export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
-export const MINI_CART_MODULE = 'MiniCartModule';
-export const ADD_TO_CART_MODULE = 'AddToCartModule';
-export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
-export const CART_IMPORT_EXPORT_ROOT_MODULE = 'ImportExportRootModule';
-export const QUICK_ORDER_MODULE = 'QuickOrderModule';
-export const QUICK_ORDER_ROOT_MODULE = 'QuickOrderRootModule';
-export const SAVED_CART_MODULE = 'SavedCartModule';
-export const SAVED_CART_ROOT_MODULE = 'SavedCartRootModule';
-export const CART_WISHLIST_MODULE = 'WishListModule';
-export const ADD_TO_WISHLIST_MODULE = 'AddToWishListModule';
-export const CART_WISHLIST_ROOT_MODULE = 'WishListRootModule';
-
 export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
 export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
 export const CHECKOUT_BASE_MODULE = 'CheckoutModule';

@@ -13,8 +13,7 @@ import { FeatureConfig } from '../utils/lib-utils';
 
 export const USER_FOLDER_NAME = 'user';
 export const SCSS_FILE_NAME = 'user.scss';
-// TODO:#schematics - rename to `ASM_FEATURE_MODULE_NAME`
-export const USER_MODULE_NAME = 'User';
+export const USER_FEATURE_MODULE_NAME = 'User';
 
 export const USER_ACCOUNT_FEATURE_NAME_CONSTANT = 'USER_ACCOUNT_FEATURE';
 export const USER_ACCOUNT_MODULE = 'UserAccountModule';
@@ -25,7 +24,7 @@ export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
   folderName: USER_FOLDER_NAME,
-  moduleName: USER_MODULE_NAME,
+  moduleName: USER_FEATURE_MODULE_NAME,
   featureModule: {
     name: USER_ACCOUNT_MODULE,
     importPath: SPARTACUS_USER_ACCOUNT,
@@ -58,7 +57,7 @@ export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
 
 export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
   folderName: USER_FOLDER_NAME,
-  moduleName: USER_MODULE_NAME,
+  moduleName: USER_FEATURE_MODULE_NAME,
   featureModule: {
     name: USER_PROFILE_MODULE,
     importPath: SPARTACUS_USER_PROFILE,
