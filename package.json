@@ -119,7 +119,7 @@
     "@types/googlemaps": "^3.37.5",
     "bootstrap": "4.2.1",
     "express": "^4.15.2",
-    "hamburgers": "^1.1.3",
+    "hamburgers": "~1.1.3",
     "i18next": "^19.3.4",
     "i18next-xhr-backend": "^3.2.2",
     "ngx-infinite-scroll": "^8.0.0",
