@@ -3,9 +3,9 @@ import {
   PRODUCT_PAGE_META_RESOLVER,
   PRODUCT_SERVICE,
   ROUTING_SERVICE,
-  SPARTACUS_CORE,
   TRANSLATION_SERVICE,
 } from '../../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../../shared/utils/file-utils';
 
 export const PRODUCT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {

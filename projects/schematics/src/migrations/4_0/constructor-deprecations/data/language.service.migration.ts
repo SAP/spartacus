@@ -2,11 +2,13 @@ import {
   LANGUAGE_SERVICE,
   NGRX_STORE,
   SITE_CONTEXT_CONFIG,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   STORE,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const LANGUAGE_SERVICE_MIGRATION: ConstructorDeprecation = {
