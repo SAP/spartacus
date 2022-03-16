@@ -3,8 +3,6 @@ export const EPD_VISUALIZATION_FEATURE_NAME_CONSTANT =
 
 export const EPD_VISUALIZATION_FOLDER_NAME = 'epd-visualization';
 export const EPD_VISUALIZATION_MODULE_NAME = 'EpdVisualization';
-export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
-export const EPD_VISUALIZATION_ROOT_MODULE = 'EpdVisualizationRootModule';
 
 export const EPD_VISUALIZATION_TRANSLATIONS = 'epdVisualizationTranslations';
 export const EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG =

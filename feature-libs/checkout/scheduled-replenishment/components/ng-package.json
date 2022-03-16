@@ -8,6 +8,7 @@
       "@spartacus/cart/base/components": "cartComponents",
       "@spartacus/cart/base/root": "cartRoot",
       "@spartacus/cart/saved-cart/root": "savedCartRoot",
+      "@spartacus/order/root": "orderRoot",
       "@spartacus/order/components": "orderComponents"
     }
   }
