@@ -5,28 +5,17 @@ import {
 } from '@schematics/angular/utility/dependencies';
 import { version } from '../../../package.json';
 import collectedDependencies from '../../dependencies.json';
+import { UTF_8 } from '../constants';
 import {
+  CORE_SPARTACUS_SCOPES,
+  FEATURES_LIBS_SKIP_SCOPES,
   SPARTACUS_ASSETS,
   SPARTACUS_CORE,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_SCOPE,
-  SPARTACUS_SETUP,
   SPARTACUS_STOREFRONTLIB,
   SPARTACUS_STYLES,
-  UTF_8,
-} from '../constants';
+} from '../libs-constants';
 import { getServerTsPath } from './file-utils';
 import { getDefaultProjectNameFromWorkspace } from './workspace-utils';
-
-export const CORE_SPARTACUS_SCOPES = [
-  SPARTACUS_CORE,
-  SPARTACUS_ASSETS,
-  SPARTACUS_SCHEMATICS,
-  SPARTACUS_STOREFRONTLIB,
-  SPARTACUS_STYLES,
-  SPARTACUS_SETUP,
-];
-export const FEATURES_LIBS_SKIP_SCOPES = [SPARTACUS_SCOPE];
 
 export function createSpartacusDependencies(
   dependencyObject: Record<string, string>
@@ -116,7 +105,7 @@ export function readPackageJson(tree: Tree): any {
 
 export function cleanSemverVersion(versionString: string): string {
   if (isNaN(Number(versionString.charAt(0)))) {
-    return versionString.substr(1, versionString.length - 1);
+    return versionString.substring(1, versionString.length);
   }
   return versionString;
 }

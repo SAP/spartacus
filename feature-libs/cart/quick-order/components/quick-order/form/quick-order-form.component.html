@@ -14,6 +14,7 @@
       [attr.aria-label]="
         'quickOrderForm.searchBoxLabel' | cxTranslate: { limit: limit }
       "
+      aria-controls="results"
       aria-describedby="quickOrderFormInitialDescription"
       class="form-control"
       formControlName="product"
@@ -50,11 +51,21 @@
     </span>
   </div>
 
-  <div *ngIf="isResultsBoxOpen()" role="listbox" class="quick-order-results">
-    <ul *ngIf="results.length" class="quick-order-results-products">
+  <div
+    *ngIf="isResultsBoxOpen()"
+    class="quick-order-results"
+    role="dialog"
+    id="results"
+  >
+    <ul
+      *ngIf="results.length"
+      class="quick-order-results-products"
+      role="listbox"
+    >
       <li
         *ngFor="let product of results; let i = index"
         class="quick-order-results-product-container"
+        role="option"
       >
         <button
           (blur)="onBlur($event)"

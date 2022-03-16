@@ -14,7 +14,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import * as path from 'path';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { SPARTACUS_CORE } from '../../shared/constants';
+import { SPARTACUS_CORE } from '../libs-constants';
 import {
   buildDefaultPath,
   getAngularJsonFile,
@@ -259,7 +259,7 @@ describe('Workspace utils', () => {
       ).toThrowError(
         new SchematicsException(
           `Spartacus is not detected. Please first install Spartacus by running: 'ng add @spartacus/schematics'.
-    To see more options, please check our documentation.`
+    To see more options, please check our documentation: https://sap.github.io/spartacus-docs/schematics/`
         )
       );
     });

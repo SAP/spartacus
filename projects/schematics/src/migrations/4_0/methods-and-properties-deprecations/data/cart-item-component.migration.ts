@@ -2,9 +2,9 @@ import {
   CART_DETAILS_COMPONENT,
   CART_ITEM_COMPONENT,
   NG_ON_INIT,
-  SPARTACUS_STOREFRONTLIB,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_ITEM_COMPONENT_MIGRATION: MethodPropertyDeprecation[] = [

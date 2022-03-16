@@ -7,18 +7,12 @@ import { I18nTestingModule } from '@spartacus/core';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ClearCartDialogComponent } from './clear-cart-dialog.component';
-import { BehaviorSubject } from 'rxjs';
 import { By } from '@angular/platform-browser';
 
 const mockCloseReason = 'Cancel Clear Cart';
-const clearProgress$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-  false
-);
+
 class MockClearCartService implements Partial<ClearCartDialogComponentService> {
-  clearActiveCart(): void {}
-  getClearingCartProgess(): BehaviorSubject<boolean> {
-    return clearProgress$;
-  }
+  deleteActiveCart(): void {}
   closeDialog(): void {}
 }
 
@@ -55,11 +49,10 @@ describe('ClearCartDialogComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.isClearing$).toBeDefined();
   });
 
   it('should trigger clear cart', () => {
-    spyOn(clearCartService, 'clearActiveCart');
+    spyOn(clearCartService, 'deleteActiveCart');
 
     const clearBtn = fixture.debugElement.query(
       By.css('.btn-primary')
@@ -67,7 +60,7 @@ describe('ClearCartDialogComponent', () => {
 
     clearBtn.click();
 
-    expect(clearCartService.clearActiveCart).toHaveBeenCalled();
+    expect(clearCartService.deleteActiveCart).toHaveBeenCalled();
   });
 
   it('should close dialog on cancel', () => {

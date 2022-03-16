@@ -12,6 +12,9 @@ export abstract class QuickOrderConfig {
       maxProducts: number;
       minCharactersBeforeRequest: number;
     };
+    list?: {
+      hardDeleteTimeout: number;
+    };
   };
 }
 
