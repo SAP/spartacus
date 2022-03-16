@@ -12,7 +12,7 @@ import {
 import { FeatureConfig } from '../utils/lib-utils';
 
 export const USER_FOLDER_NAME = 'user';
-export const SCSS_FILE_NAME = 'user.scss';
+export const USER_SCSS_FILE_NAME = 'user.scss';
 export const USER_FEATURE_MODULE_NAME = 'User';
 
 export const USER_ACCOUNT_FEATURE_NAME_CONSTANT = 'USER_ACCOUNT_FEATURE';
@@ -43,7 +43,7 @@ export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_USER_ACCOUNT_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: USER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_USER,
   },
 };
@@ -76,7 +76,7 @@ export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_USER_PROFILE_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: USER_SCSS_FILE_NAME,
     importStyle: SPARTACUS_USER,
   },
   dependencyManagement: {

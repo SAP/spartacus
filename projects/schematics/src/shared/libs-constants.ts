@@ -1,3 +1,4 @@
+// TODO:#schematics - move
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
   'productConfiguratorRulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
@@ -185,17 +186,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const CHECKOUT_BASE_FEATURE_NAME_CONSTANT = 'CHECKOUT_FEATURE';
-export const CHECKOUT_BASE_MODULE_NAME = 'Checkout';
-export const CHECKOUT_BASE_MODULE = 'CheckoutModule';
-export const CHECKOUT_BASE_ROOT_MODULE = 'CheckoutRootModule';
-export const CHECKOUT_B2B_MODULE = 'CheckoutB2BModule';
-export const CHECKOUT_B2B_ROOT_MODULE = 'CheckoutB2BRootModule';
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE =
-  'CheckoutScheduledReplenishmentModule';
-export const CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE =
-  'CheckoutScheduledReplenishmentRootModule';
-
 export const ORDER_MODULE = 'OrderModule';
 export const ORDER_ROOT_MODULE = 'OrderRootModule';
 

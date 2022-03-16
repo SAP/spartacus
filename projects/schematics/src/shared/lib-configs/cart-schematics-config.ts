@@ -22,7 +22,7 @@ import {
 import { FeatureConfig } from '../utils/lib-utils';
 
 export const CART_FOLDER_NAME = 'cart';
-export const SCSS_FILE_NAME = 'cart.scss';
+export const CART_SCSS_FILE_NAME = 'cart.scss';
 
 export const CART_BASE_MODULE = 'CartBaseModule';
 export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
@@ -71,7 +71,7 @@ export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_CART_BASE_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
 };
@@ -106,7 +106,7 @@ export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_CART_IMPORT_EXPORT_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
 };
@@ -141,7 +141,7 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_QUICK_ORDER_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
 };
@@ -186,7 +186,7 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_CART_WISHLIST_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
 };
@@ -220,7 +220,7 @@ export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_SAVED_CART_ASSETS,
   },
   styles: {
-    scssFileName: SCSS_FILE_NAME,
+    scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
 };
