@@ -84,6 +84,7 @@ export const SPARTACUS_CHECKOUT_OLD_COMPONENTS = `@spartacus/checkout/components
 
 export const SPARTACUS_ORDER = `@spartacus/order`;
 export const SPARTACUS_ORDER_ROOT = `@spartacus/order/root`;
+export const SPARTACUS_ORDER_ASSETS = `@spartacus/order/assets`;
 
 export const SPARTACUS_ORGANIZATION = `@spartacus/organization`;
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_ROOT = `@spartacus/organization/administration/root`;
@@ -180,15 +181,15 @@ export const CLI_USER_ACCOUNT_FEATURE = 'Account';
 export const CLI_USER_PROFILE_FEATURE = 'Profile';
 
 export const CLI_CDC_FEATURE = 'CDC';
+
 export const CLI_CDS_FEATURE = 'CDS';
+
 export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
+
 export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const ORDER_MODULE = 'OrderModule';
-export const ORDER_ROOT_MODULE = 'OrderRootModule';
-
 export const ADMINISTRATION_MODULE = 'AdministrationModule';
 export const ADMINISTRATION_ROOT_MODULE = 'AdministrationRootModule';
 export const ORDER_APPROVAL_MODULE = 'OrderApprovalModule';
