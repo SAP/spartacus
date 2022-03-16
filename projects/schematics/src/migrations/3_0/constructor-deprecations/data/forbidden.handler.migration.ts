@@ -1,10 +1,10 @@
 import {
-  FORBIDDEN_HANDLER,
-  SPARTACUS_CORE,
-  GLOBAL_MESSAGE_SERVICE,
   AUTH_SERVICE,
+  FORBIDDEN_HANDLER,
+  GLOBAL_MESSAGE_SERVICE,
   OCC_ENDPOINTS_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const FORBIDDEN_HANDLER_MIGRATION: ConstructorDeprecation = {
