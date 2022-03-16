@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  ASM_MODULE,
+  ASM_ROOT_MODULE,
   CLI_ASM_FEATURE,
   LibraryOptions as SpartacusAsmOptions,
   readPackageJson,
@@ -19,9 +21,7 @@ import { peerDependencies } from '../../package.json';
 import {
   ASM_FEATURE_NAME_CONSTANT,
   ASM_FOLDER_NAME,
-  ASM_MODULE,
   ASM_MODULE_NAME,
-  ASM_ROOT_MODULE,
   ASM_TRANSLATIONS,
   ASM_TRANSLATION_CHUNKS_CONFIG,
   SPARTACUS_ASM_ASSETS,
