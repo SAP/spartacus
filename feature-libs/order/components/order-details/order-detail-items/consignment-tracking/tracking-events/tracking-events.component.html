@@ -1,6 +1,7 @@
 <div class="cx-consignment-tracking-dialog">
   <!-- Modal Header -->
   <ng-container *ngIf="tracking$ | async as consignmentTracking; else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="header modal-header">
       <div class="title modal-title">
         {{ 'orderDetails.consignmentTracking.dialog.header' | cxTranslate }}

@@ -12,11 +12,9 @@ import {
   WindowRef,
 } from '@spartacus/core';
 import { combineLatest, Observable } from 'rxjs';
-import { distinctUntilChanged, map, switchMap, take } from 'rxjs/operators';
+import { distinctUntilChanged, map, switchMap } from 'rxjs/operators';
 import { ComponentWrapperDirective } from '../../../cms-structure/page/component/component-wrapper.directive';
 import { CmsComponentData } from '../../../cms-structure/page/model/index';
-import { BreakpointService } from '../../../layout/breakpoint/breakpoint.service';
-import { BREAKPOINT } from '../../../layout/config/layout-config';
 
 @Component({
   selector: 'cx-tab-paragraph-container',
@@ -31,7 +29,12 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
 
   tabTitleParams: (Observable<any> | null)[] = [];
 
-  // TODO: move definition to separate function and initialize components$ in OnInit hook
+  constructor(
+    public componentData: CmsComponentData<CMSTabParagraphContainer>,
+    protected cmsService: CmsService,
+    protected winRef: WindowRef
+  ) {}
+
   components$: Observable<any[]> = this.componentData.data$.pipe(
     distinctUntilChanged((x, y) => x?.components === y?.components),
     switchMap((data) =>
@@ -62,20 +65,18 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     )
   );
 
-  isMobile$: Observable<boolean>;
-
-  constructor(
-    public componentData: CmsComponentData<CMSTabParagraphContainer>,
-    protected cmsService: CmsService,
-    protected winRef: WindowRef,
-    protected breakpointService: BreakpointService
-  ) {}
+  select(tabNum: number, event?: MouseEvent): void {
+    this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
+    if (event && event?.target) {
+      const target = event.target as HTMLElement;
+      const parentNode = target.parentNode as HTMLElement;
+      this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
+    }
+  }
 
   ngOnInit(): void {
     this.activeTabNum =
       this.winRef?.nativeWindow?.history?.state?.activeTab ?? this.activeTabNum;
-
-    this.isMobile$ = this.breakpointService.isDown(BREAKPOINT.sm);
   }
 
   ngAfterViewInit(): void {
@@ -86,26 +87,10 @@ export class TabParagraphContainerComponent implements AfterViewInit, OnInit {
     }
   }
 
-  select(tabNum: number, event?: MouseEvent): void {
-    this.isMobile$.pipe(take(1)).subscribe((res) => {
-      if (res) {
-        this.activeTabNum = this.activeTabNum === tabNum ? -1 : tabNum;
-        if (event && event?.target) {
-          const target = event.target as HTMLElement;
-          const parentNode = target.parentNode as HTMLElement;
-          this.winRef?.nativeWindow?.scrollTo(0, parentNode.offsetTop);
-        }
-      } else {
-        this.activeTabNum = tabNum;
-      }
-    });
-  }
-
   tabCompLoaded(componentRef: any): void {
     this.tabTitleParams.push(componentRef.instance.tabTitleParam$);
   }
 
-  // TODO: refactor deprecated code
   private getTitleParams(children: QueryList<ComponentWrapperDirective>) {
     children.forEach((comp) => {
       if (comp.cmpRef?.instance.tabTitleParam$) {

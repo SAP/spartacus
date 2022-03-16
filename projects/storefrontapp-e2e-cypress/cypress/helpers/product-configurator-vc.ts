@@ -172,7 +172,6 @@ export function checkImageSelected(
   const attributeId = configuration.getAttributeId(attributeName, uiType);
   const valueId = `${attributeId}--${valueName}-input`;
   cy.log('valueId: ' + valueId);
-  cy.get(`#${valueId}`).should('have.attr', 'checked', 'checked');
   cy.get(`#${valueId}`).should('have.attr', 'aria-checked', 'true');
 }
 

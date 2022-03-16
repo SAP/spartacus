@@ -1,0 +1,523 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Lib utils addLibraryFeature assets options should update angular.json file with assets 1`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\"
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Lib utils addLibraryFeature assets options should update angular.json file with assets 2`] = `
+"{
+  \\"$schema\\": \\"./node_modules/@angular/cli/lib/config/schema.json\\",
+  \\"version\\": 1,
+  \\"newProjectRoot\\": \\"\\",
+  \\"projects\\": {
+    \\"schematics-test\\": {
+      \\"projectType\\": \\"application\\",
+      \\"schematics\\": {
+        \\"@schematics/angular:component\\": {
+          \\"style\\": \\"scss\\"
+        },
+        \\"@schematics/angular:application\\": {
+          \\"strict\\": true
+        }
+      },
+      \\"root\\": \\"\\",
+      \\"sourceRoot\\": \\"src\\",
+      \\"prefix\\": \\"app\\",
+      \\"architect\\": {
+        \\"build\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:browser\\",
+          \\"options\\": {
+            \\"outputPath\\": \\"dist/schematics-test\\",
+            \\"index\\": \\"src/index.html\\",
+            \\"main\\": \\"src/main.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.app.json\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\",
+              {
+                \\"glob\\": \\"**/*\\",
+                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"output\\": \\"assets/\\"
+              }
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/xxx.scss\\"
+            ],
+            \\"scripts\\": []
+          },
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"budgets\\": [
+                {
+                  \\"type\\": \\"initial\\",
+                  \\"maximumWarning\\": \\"500kb\\",
+                  \\"maximumError\\": \\"2.5mb\\"
+                },
+                {
+                  \\"type\\": \\"anyComponentStyle\\",
+                  \\"maximumWarning\\": \\"2kb\\",
+                  \\"maximumError\\": \\"4kb\\"
+                }
+              ],
+              \\"fileReplacements\\": [
+                {
+                  \\"replace\\": \\"src/environments/environment.ts\\",
+                  \\"with\\": \\"src/environments/environment.prod.ts\\"
+                }
+              ],
+              \\"outputHashing\\": \\"all\\"
+            },
+            \\"development\\": {
+              \\"buildOptimizer\\": false,
+              \\"optimization\\": false,
+              \\"vendorChunk\\": true,
+              \\"extractLicenses\\": false,
+              \\"sourceMap\\": true,
+              \\"namedChunks\\": true
+            }
+          },
+          \\"defaultConfiguration\\": \\"production\\"
+        },
+        \\"serve\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:dev-server\\",
+          \\"configurations\\": {
+            \\"production\\": {
+              \\"browserTarget\\": \\"schematics-test:build:production\\"
+            },
+            \\"development\\": {
+              \\"browserTarget\\": \\"schematics-test:build:development\\"
+            }
+          },
+          \\"defaultConfiguration\\": \\"development\\"
+        },
+        \\"extract-i18n\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:extract-i18n\\",
+          \\"options\\": {
+            \\"browserTarget\\": \\"schematics-test:build\\"
+          }
+        },
+        \\"test\\": {
+          \\"builder\\": \\"@angular-devkit/build-angular:karma\\",
+          \\"options\\": {
+            \\"main\\": \\"src/test.ts\\",
+            \\"polyfills\\": \\"src/polyfills.ts\\",
+            \\"tsConfig\\": \\"tsconfig.spec.json\\",
+            \\"karmaConfig\\": \\"karma.conf.js\\",
+            \\"inlineStyleLanguage\\": \\"scss\\",
+            \\"assets\\": [
+              \\"src/favicon.ico\\",
+              \\"src/assets\\",
+              {
+                \\"glob\\": \\"**/*\\",
+                \\"input\\": \\"./node_modules/@spartacus/smartedit/assets\\",
+                \\"output\\": \\"assets/\\"
+              }
+            ],
+            \\"styles\\": [
+              \\"src/styles.scss\\",
+              \\"src/styles/spartacus/xxx.scss\\"
+            ],
+            \\"scripts\\": []
+          }
+        }
+      }
+    }
+  },
+  \\"defaultProject\\": \\"schematics-test\\"
+}"
+`;
+
+exports[`Lib utils addLibraryFeature custom config option should add the custom config when set 1`] = `
+"import { NgModule } from '@angular/core';
+import { CdsConfig } from \\"@spartacus/cds\\";
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  }),
+  provideConfig(<CdsConfig>{
+    cds: {
+      profileTag: {
+        javascriptUrl:
+          'random',
+        configUrl:
+          'random',
+        allowInsecureCookies: true,
+      },
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature recreate option should remove the feature module and recreate it 2`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.YyyModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature should NOT add i18n if the config is not present 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature should add i18n config in feature module 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature when the eager loading is configured should add it in the eager way 1`] = `
+"import { NgModule } from '@angular/core';
+import { I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { XxxModule } from \\"@spartacus/xxx\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot,
+    XxxModule
+  ],
+  providers: [provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils addLibraryFeature when the lazy loading is configured should add it in the lazy loading way 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
+import { translationChunk, translations } from \\"@spartacus/xxx/assets\\";
+import { XxxModuleRoot } from \\"@spartacus/xxx/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    XxxModuleRoot
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      xxx: {
+        module: () =>
+          import('@spartacus/xxx').then((m) => m.XxxModule),
+      },
+    }
+  }),
+  provideConfig(<I18nConfig>{
+    i18n: {
+      resources: translations,
+      chunks: translationChunk,
+    },
+  })
+  ]
+})
+export class XxxFeatureModule { }
+"
+`;
+
+exports[`Lib utils feature ordering should appropriately order the feature modules 1`] = `
+"import { NgModule } from '@angular/core';
+import { AnonymousConsentsModule, AuthModule, CostCenterOccModule, ExternalRoutesModule, ProductModule, ProductOccModule, UserModule, UserOccModule } from \\"@spartacus/core\\";
+import { AddressBookModule, AnonymousConsentManagementBannerModule, AnonymousConsentsDialogModule, BannerCarouselModule, BannerModule, BreadcrumbModule, CategoryNavigationModule, CmsParagraphModule, ConsentManagementModule, FooterNavigationModule, HamburgerMenuModule, HomePageEventModule, LinkModule, LoginRouteModule, LogoutModule, MyCouponsModule, MyInterestsModule, NavigationEventModule, NavigationModule, NotificationPreferenceModule, PaymentMethodsModule, ProductCarouselModule, ProductDetailsPageModule, ProductFacetNavigationModule, ProductImagesModule, ProductIntroModule, ProductListingPageModule, ProductListModule, ProductPageEventModule, ProductReferencesModule, ProductSummaryModule, ProductTabsModule, SearchBoxModule, SiteContextSelectorModule, StockNotificationModule, TabParagraphContainerModule } from \\"@spartacus/storefront\\";
+import { CartFeatureModule } from './features/cart/cart-feature.module';
+import { CheckoutFeatureModule } from './features/checkout/checkout-feature.module';
+import { DigitalPaymentsFeatureModule } from './features/dp/digital-payments-feature.module';
+import { OrderFeatureModule } from './features/order/order-feature.module';
+import { UserProfileFeatureModule } from './features/user/user-profile-feature.module';
+import { XxxFeatureModule } from './features/xxx/xxx-feature.module';
+
+@NgModule({
+  declarations: [],
+  imports: [AuthModule.forRoot(),
+    LogoutModule,
+    LoginRouteModule,
+    HamburgerMenuModule,
+    SiteContextSelectorModule,
+    LinkModule,
+    BannerModule,
+    CmsParagraphModule,
+    TabParagraphContainerModule,
+    BannerCarouselModule,
+    CategoryNavigationModule,
+    NavigationModule,
+    FooterNavigationModule,
+    BreadcrumbModule,
+    UserModule,
+    UserOccModule,
+    AddressBookModule,
+    PaymentMethodsModule,
+    NotificationPreferenceModule,
+    MyInterestsModule,
+    StockNotificationModule,
+    ConsentManagementModule,
+    MyCouponsModule,
+  AnonymousConsentsModule.forRoot(),
+    AnonymousConsentsDialogModule,
+    AnonymousConsentManagementBannerModule,
+  ProductModule.forRoot(),
+    ProductOccModule,
+    ProductDetailsPageModule,
+    ProductListingPageModule,
+    ProductListModule,
+    SearchBoxModule,
+    ProductFacetNavigationModule,
+    ProductTabsModule,
+    ProductCarouselModule,
+    ProductReferencesModule,
+    ProductImagesModule,
+    ProductSummaryModule,
+    ProductIntroModule,
+    CostCenterOccModule,
+    NavigationEventModule,
+    HomePageEventModule,
+    ProductPageEventModule,
+  ExternalRoutesModule.forRoot(),
+    UserProfileFeatureModule,
+    CartFeatureModule,
+    OrderFeatureModule,
+    CheckoutFeatureModule,
+    DigitalPaymentsFeatureModule,
+    XxxFeatureModule]
+})
+export class SpartacusFeaturesModule { }
+"
+`;

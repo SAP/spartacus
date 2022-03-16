@@ -5,24 +5,23 @@
     [attr.aria-label]="
       'TabPanelContainer.tabPanelContainerRegion' | cxTranslate
     "
+    class="container"
   >
     <ng-container *ngFor="let component of components; let i = index">
       <ng-container *ngIf="component">
         <button
           [class.active]="i === activeTabNum"
           (click)="select(i, $event)"
-          [attr.aria-expanded]="(isMobile$ | async) ? i === activeTabNum : null"
+          [attr.aria-expanded]="i === activeTabNum"
         >
           {{
             component.title | cxTranslate: { param: tabTitleParams[i] | async }
           }}
-        </button>
-      </ng-container>
-    </ng-container>
 
-    <ng-container *ngFor="let component of components; let i = index">
-      <ng-container *ngIf="component">
-        <div [class.active]="i === activeTabNum">
+          <span class="accordion-icon" aria-hidden="true"></span>
+        </button>
+
+        <div [class.active]="i === activeTabNum" tabindex="0">
           <ng-template [cxOutlet]="component.flexType" [cxOutletContext]="{}">
             <ng-container
               [cxComponentWrapper]="component"

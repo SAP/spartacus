@@ -28,6 +28,10 @@ export const defaultOccOrderConfig: OccConfig = {
         replenishmentOrderHistory:
           'users/${userId}/replenishmentOrders?fields=FULL,replenishmentOrders(FULL, purchaseOrderNumber)',
         /** scheduled replenishment endpoints end */
+
+        /** placing an order endpoints start **/
+        placeOrder: 'users/${userId}/orders?fields=FULL',
+        /** placing an order endpoints end **/
       },
     },
   },

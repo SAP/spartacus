@@ -287,7 +287,6 @@ export function selectAttribute(
         .click({ force: true })
         .then(() => {
           checkUpdatingMessageNotDisplayed();
-          cy.get(`#${valueId}-input`).should('be.checked');
         });
       break;
     case 'dropdown':
@@ -516,6 +515,7 @@ export function searchForProduct(productName: string): void {
       'BASE_SITE'
     )}/products/suggestions?term=${productName}*`,
   }).as('productSearch');
+
   productSearch.searchForProduct(productName);
   cy.wait('@productSearch');
 }

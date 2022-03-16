@@ -1,9 +1,11 @@
 import {
   BREAKPOINT_SERVICE,
   CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_OVERVIEW_ATTRIBUTE_COMPONENT_MIGRATION: ConstructorDeprecation =

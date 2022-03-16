@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import {
@@ -21,21 +21,15 @@ import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
   templateUrl: './dp-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DpPaymentMethodComponent
-  extends CorePaymentMethodComponent
-  implements OnInit
-{
+export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
       DP_CARD_REGISTRATION_STATUS
     );
-    if (queryParams) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return !!queryParams;
   }
 
   hideCallbackScreen(): void {
