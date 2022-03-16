@@ -1,7 +1,7 @@
 <div #dialog>
   <!-- Modal Header -->
   <ng-container *ngIf="(loaded$ | async) || modalIsOpen; else loading">
-    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
+    <!-- <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div> -->
     <div class="cx-dialog-header modal-header">
       <div class="cx-dialog-title modal-title">
         {{
@@ -114,8 +114,9 @@
     </div>
   </ng-template>
 
-  <!-- For screen reader purposes -->
+  <!-- For screen reader purposes (not visual)-->
   <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
+    {{ 'addToCart.updatingCart' | cxTranslate }}
     {{
       (addedEntryWasMerged$ | async)
         ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
