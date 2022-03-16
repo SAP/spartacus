@@ -9,14 +9,17 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 })
 export class VisualPickingProductFilterService implements OnDestroy {
   constructor(protected router: Router) {
-    this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd) {
+    this.routerEventsSubscription = this.router.events.subscribe(
+      (event: Event) => {
+        if (event instanceof NavigationEnd) {
           this.filter = '';
-    }});
+        }
+      }
+    );
   }
 
   ngOnDestroy(): void {
-   this.routerEventsSubscription.unsubscribe();
+    this.routerEventsSubscription.unsubscribe();
   }
 
   protected routerEventsSubscription: Subscription;

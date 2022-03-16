@@ -1,5 +1,10 @@
 import { EventEmitter } from '@angular/core';
-import { NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
+import {
+  NavigationEnd,
+  NavigationStart,
+  Router,
+  RouterEvent,
+} from '@angular/router';
 import { TestBed } from '@angular/core/testing';
 import { ProductReference } from '@spartacus/core';
 import { of, Subject } from 'rxjs';
@@ -21,7 +26,9 @@ describe('VisualPickingProductFilterService', () => {
       providers: [{ provide: Router, useValue: mockRouter }],
     });
 
-    visualPickingProductFilterService = TestBed.inject(VisualPickingProductFilterService);
+    visualPickingProductFilterService = TestBed.inject(
+      VisualPickingProductFilterService
+    );
   });
   it('should match on product code', (done) => {
     const productReferences: ProductReference[] = [
@@ -72,7 +79,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('get filter', () => {
     it('should return value that was set', () => {
-
       expect(visualPickingProductFilterService.filter).toEqual('');
       visualPickingProductFilterService.filter = 'yyyy';
       expect(visualPickingProductFilterService.filter).toEqual('yyyy');
@@ -81,7 +87,6 @@ describe('VisualPickingProductFilterService', () => {
 
   describe('getFilteredProducts', () => {
     it('should match on product description', (done) => {
-
       const productReferences: ProductReference[] = [
         {
           target: {
@@ -119,7 +124,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should match multiple', (done) => {
-
       const productReferences: ProductReference[] = [
         {
           target: {
@@ -163,7 +167,6 @@ describe('VisualPickingProductFilterService', () => {
     });
 
     it('should not filter when empty string used as filter string', (done) => {
-
       const productReferences: ProductReference[] = [
         {
           target: {
