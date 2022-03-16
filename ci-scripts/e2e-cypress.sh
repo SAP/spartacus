@@ -46,6 +46,14 @@ done
 
 set -- "${POSITIONAL[@]}"
 
+if [ "$SUITE" == ":ccv2" ]; then
+    export SPA_ENV='ccv2,b2c'
+fi
+
+if [ "$SUITE" == ":ccv2-b2b" ]; then
+    export SPA_ENV='ccv2,b2b'
+fi
+
 echo '-----'
 echo "Building Spartacus libraries"
 
