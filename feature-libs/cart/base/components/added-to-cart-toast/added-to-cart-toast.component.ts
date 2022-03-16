@@ -54,7 +54,7 @@ export class AddedToCartToastComponent implements OnInit, OnDestroy {
     this.headerElement = this.winRef.document.querySelector('header');
 
     if (!this.customClass) {
-      this.customClass = 'cx-added-cart-toast';
+      this.customClass = 'cx-added-to-cart-toast';
     }
 
     this.baseClass = `${this.customClass}`;

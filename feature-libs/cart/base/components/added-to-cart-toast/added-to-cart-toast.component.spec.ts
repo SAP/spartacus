@@ -10,7 +10,6 @@ import { UrlTestingModule } from 'projects/core/src/routing/configurable-routes/
 import { Observable, of } from 'rxjs';
 import {
   ActiveCartFacade,
-  Cart,
   CartToastItem,
   CartUiEventAddToCart,
   CART_TOAST_STATE,
@@ -68,7 +67,7 @@ class MockActiveCartService implements Partial<ActiveCartFacade> {
   }
 }
 
-fdescribe('AddedToCartToastComponent', () => {
+describe('AddedToCartToastComponent', () => {
   let component: AddedToCartToastComponent;
   let fixture: ComponentFixture<AddedToCartToastComponent>;
   let service: AddedToCartToastComponentService;
@@ -111,7 +110,7 @@ fdescribe('AddedToCartToastComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call the product service', () => {
+  it('should call the active cart service', () => {
     const spy = spyOn(activeCartService, 'getLastEntry').and.callThrough();
     component.ngOnInit();
     component.addToast(mockEvent);
