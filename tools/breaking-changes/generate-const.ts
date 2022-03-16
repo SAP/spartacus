@@ -79,13 +79,6 @@ fs.writeFileSync(
  * Functions
  * -----------
  */
-
-//  function getConstructorChanges(apiElement: any): any {
-//   return apiElement.breakingChanges.find((breakingChange: any) => {
-//     return breakingChange.change === 'CONSTRUCTOR_CHANGED';
-//   });
-// }
-
 function getConstructorChanges(apiElement: any): any[] {
   return apiElement.breakingChanges.filter((breakingChange: any) => {
     return breakingChange.change === 'CONSTRUCTOR_CHANGED';
