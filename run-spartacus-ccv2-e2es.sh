@@ -1,3 +1,3 @@
 #!/bin/bash
 
-yarn cy:run:ci:ccv2
+yarn e2e:run:ci:ccv2
