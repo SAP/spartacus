@@ -14,6 +14,7 @@ import {
   CmsResponsiveBannerComponentMedia,
   CmsService,
   CmsVideoComponent,
+  ContainerBackgroundOptions,
   ContainerSizeOptions,
   PageType,
   SemanticPathService,
@@ -48,7 +49,7 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
   data$: Observable<CmsVideoComponent> = this.component.data$.pipe(
     tap((data) => {
       this.styleClasses = data.styleClasses;
-      this.setMedia(data.video, data.videoMedia);
+      this.setMedia(data.video, data.videoMedia, data.containerBackground);
       this.setControls(data.autoPlay, data.loop, data.mute);
       this.setVideoHeight(data.containerSize, data.videoContainerHeight);
       this.setRouting(data);
@@ -74,13 +75,15 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
 
   protected setMedia(
     video?: CmsBannerComponentMedia,
-    media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia
+    media?: CmsBannerComponentMedia | CmsResponsiveBannerComponentMedia,
+    containerBackground?: ContainerBackgroundOptions
   ) {
     if (video) {
       this.source = this.mediaService.getMedia(video)?.src;
     }
 
-    if (media) {
+    if (containerBackground ===
+      ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE && media) {
       this.thumbnail = this.mediaService.getMedia(media as MediaContainer);
     }
   }
