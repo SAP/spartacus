@@ -113,6 +113,7 @@ export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 
 export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
 export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
+export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
 
 export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
 
@@ -209,10 +210,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-
-export const QUALTRICS_MODULE = 'QualtricsModule';
-export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
-
 export const SMARTEDIT_MODULE = 'SmartEditModule';
 export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
 
