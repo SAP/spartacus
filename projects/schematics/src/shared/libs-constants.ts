@@ -1,3 +1,5 @@
+import { FeatureConfig } from './utils/lib-utils';
+
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
   'productConfiguratorRulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
@@ -32,6 +34,8 @@ export const SPARTACUS_ORGANIZATION_ADMINISTRATION_CORE = `${SPARTACUS_ORGANIZAT
 export const SPARTACUS_ORGANIZATION_ADMINISTRATION_COMPONENTS = `${SPARTACUS_ORGANIZATION}/administration/components`;
 
 export const SPARTACUS_ASM = '@spartacus/asm';
+export const SPARTACUS_ASM_ROOT = `${SPARTACUS_ASM}/root`;
+export const SPARTACUS_ASM_ASSETS = `${SPARTACUS_ASM}/assets`;
 
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
@@ -48,15 +52,18 @@ export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `${SPARTACUS_PRODUCT}/variants/ro
 export const SPARTACUS_SMARTEDIT = '@spartacus/smartedit';
 
 export const SPARTACUS_USER = '@spartacus/user';
+export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
+export const SPARTACUS_USER_ACCOUNT_ASSETS = `${SPARTACUS_USER_ACCOUNT}/assets`;
+export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
+export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
+export const SPARTACUS_USER_ACCOUNT_ROOT = `${SPARTACUS_USER_ACCOUNT}/root`;
+export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 export const SPARTACUS_USER_PROFILE = `${SPARTACUS_USER}/profile`;
 export const SPARTACUS_USER_PROFILE_OCC = `${SPARTACUS_USER_PROFILE}/occ`;
 export const SPARTACUS_USER_PROFILE_CORE = `${SPARTACUS_USER_PROFILE}/core`;
 export const SPARTACUS_USER_PROFILE_COMPONENTS = `${SPARTACUS_USER_PROFILE}/components`;
+export const SPARTACUS_USER_PROFILE_ASSETS = `${SPARTACUS_USER_PROFILE}/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `${SPARTACUS_USER_PROFILE}/root`;
-export const SPARTACUS_USER_ACCOUNT = `${SPARTACUS_USER}/account`;
-export const SPARTACUS_USER_ACCOUNT_OCC = `${SPARTACUS_USER_ACCOUNT}/occ`;
-export const SPARTACUS_USER_ACCOUNT_CORE = `${SPARTACUS_USER_ACCOUNT}/core`;
-export const SPARTACUS_USER_ACCOUNT_COMPONENTS = `${SPARTACUS_USER_ACCOUNT}/components`;
 
 export const SPARTACUS_CHECKOUT = '@spartacus/checkout';
 export const SPARTACUS_CHECKOUT_BASE = `${SPARTACUS_CHECKOUT}/base`;
@@ -162,8 +169,37 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
+export const ASM_FOLDER_NAME = 'asm';
+// TODO:#schematics - rename to `ASM_FEATURE_MODULE_NAME`
+export const ASM_MODULE_NAME = 'Asm';
+
+export const ASM_FEATURE_NAME_CONSTANT = 'ASM_FEATURE';
 export const ASM_MODULE = 'AsmModule';
 export const ASM_ROOT_MODULE = 'AsmRootModule';
+export const ASM_TRANSLATIONS = 'asmTranslations';
+export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
+
+export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
+  folderName: ASM_FOLDER_NAME,
+  moduleName: ASM_MODULE_NAME,
+  featureModule: {
+    name: ASM_MODULE,
+    importPath: SPARTACUS_ASM,
+  },
+  rootModule: {
+    name: ASM_ROOT_MODULE,
+    importPath: SPARTACUS_ASM_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_ASM_ROOT,
+    namedImports: [ASM_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: ASM_TRANSLATIONS,
+    chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_ASM_ASSETS,
+  },
+};
 
 export const CART_BASE_MODULE = 'CartBaseModule';
 export const CART_BASE_ROOT_MODULE = 'CartBaseRootModule';
@@ -233,10 +269,80 @@ export const TMS_AEP_MODULE = 'AepModule';
 export const PERSONALIZATION_MODULE = 'PersonalizationModule';
 export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
 
+export const USER_FOLDER_NAME = 'user';
+export const SCSS_FILE_NAME = 'user.scss';
+// TODO:#schematics - rename to `ASM_FEATURE_MODULE_NAME`
+export const USER_MODULE_NAME = 'User';
+
+export const USER_ACCOUNT_FEATURE_NAME_CONSTANT = 'USER_ACCOUNT_FEATURE';
 export const USER_ACCOUNT_MODULE = 'UserAccountModule';
 export const USER_ACCOUNT_ROOT_MODULE = 'UserAccountRootModule';
+export const USER_ACCOUNT_TRANSLATIONS = 'userAccountTranslations';
+export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
+  'userAccountTranslationChunksConfig';
+export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
+  folderName: USER_FOLDER_NAME,
+  moduleName: USER_MODULE_NAME,
+  featureModule: {
+    name: USER_ACCOUNT_MODULE,
+    importPath: SPARTACUS_USER_ACCOUNT,
+  },
+  rootModule: {
+    name: USER_ACCOUNT_ROOT_MODULE,
+    importPath: SPARTACUS_USER_ACCOUNT_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_USER_ACCOUNT_ROOT,
+    namedImports: [USER_ACCOUNT_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: USER_ACCOUNT_TRANSLATIONS,
+    chunks: USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_USER_ACCOUNT_ASSETS,
+  },
+  styles: {
+    scssFileName: SCSS_FILE_NAME,
+    importStyle: SPARTACUS_USER,
+  },
+};
+
+export const USER_PROFILE_FEATURE_NAME_CONSTANT = 'USER_PROFILE_FEATURE';
 export const USER_PROFILE_MODULE = 'UserProfileModule';
 export const USER_PROFILE_ROOT_MODULE = 'UserProfileRootModule';
+export const USER_PROFILE_TRANSLATIONS = 'userProfileTranslations';
+export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
+  'userProfileTranslationChunksConfig';
+export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
+  folderName: USER_FOLDER_NAME,
+  moduleName: USER_MODULE_NAME,
+  featureModule: {
+    name: USER_PROFILE_MODULE,
+    importPath: SPARTACUS_USER_PROFILE,
+  },
+  rootModule: {
+    name: USER_PROFILE_ROOT_MODULE,
+    importPath: SPARTACUS_USER_PROFILE_ROOT,
+  },
+  lazyLoadingChunk: {
+    moduleSpecifier: SPARTACUS_USER_PROFILE_ROOT,
+    namedImports: [USER_PROFILE_FEATURE_NAME_CONSTANT],
+  },
+  i18n: {
+    resources: USER_PROFILE_TRANSLATIONS,
+    chunks: USER_PROFILE_TRANSLATION_CHUNKS_CONFIG,
+    importPath: SPARTACUS_USER_PROFILE_ASSETS,
+  },
+  styles: {
+    scssFileName: SCSS_FILE_NAME,
+    importStyle: SPARTACUS_USER,
+  },
+  dependencyManagement: {
+    featureName: CLI_USER_PROFILE_FEATURE,
+    featureDependencies: {
+      [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE],
+    },
+  },
+};
 
 export const CDC_MODULE = 'CdcModule';
 export const CDC_ROOT_MODULE = 'CdcRootModule';
