@@ -61,7 +61,7 @@ describe('Clear Cart', () => {
         cart.verifyCartNotEmpty();
       });
 
-      it('should clear cart for registered user and have same cartId', () => {
+      it('should clear cart for registered user and have new cart Id', () => {
         cart.goToCart();
         cart.saveCartId();
         cart.clearActiveCart();

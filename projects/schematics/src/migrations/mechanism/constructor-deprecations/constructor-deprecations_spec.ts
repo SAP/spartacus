@@ -11,7 +11,8 @@ import {
 } from '@schematics/angular/utility/ast-utils';
 import * as shx from 'shelljs';
 import ts from 'typescript';
-import { AUTH_SERVICE, SPARTACUS_CORE, STORE } from '../../../shared/constants';
+import { AUTH_SERVICE, STORE } from '../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../shared/libs-constants';
 import {
   getConstructor,
   getParams,

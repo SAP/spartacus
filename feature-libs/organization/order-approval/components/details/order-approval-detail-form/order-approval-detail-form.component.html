@@ -6,6 +6,7 @@
   </div>
 
   <ng-template #approvalFormTemplate>
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <ng-container *ngIf="orderApproval?.approvalDecisionRequired">
       <div *ngIf="approvalFormVisible" class="cx-approval-form-header row">
         <div class="cx-approval-form-label col-sm-12">

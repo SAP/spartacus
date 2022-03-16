@@ -25,8 +25,8 @@ import collectedDependencies from '../dependencies.json';
 import {
   ANGULAR_PLATFORM_BROWSER,
   NGUNIVERSAL_EXPRESS_ENGINE,
-  SPARTACUS_SETUP,
 } from '../shared/constants';
+import { SPARTACUS_SETUP } from '../shared/libs-constants';
 import {
   getIndexHtmlPath,
   getPathResultsForFile,

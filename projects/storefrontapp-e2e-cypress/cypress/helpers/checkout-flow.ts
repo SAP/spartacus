@@ -9,6 +9,7 @@ import {
   SampleUser,
   user,
 } from '../sample-data/checkout-flow';
+import { addProductToCart as addToCart } from './applied-promotions';
 import { login, register } from './auth-forms';
 import {
   AddressData,
@@ -173,9 +174,7 @@ export function goToProductDetailsPage() {
 
 export function addProductToCart() {
   cy.get('cx-item-counter').findByText('+').click();
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', product.name);
     cy.findByText(/proceed to checkout/i).click();
@@ -371,9 +370,7 @@ export function addCheapProductToCartAndBeginCheckoutForSignedInCustomer(
 export function addCheapProductToCart(
   sampleProduct: SampleProduct = cheapProduct
 ) {
-  cy.get('cx-add-to-cart')
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-name .cx-link').should('contain', sampleProduct.name);
   });
@@ -572,9 +569,7 @@ export function viewOrderHistoryWithCheapProduct() {
 }
 
 export function addFirstResultToCartFromSearchAndLogin(sampleUser: SampleUser) {
-  cy.get(firstAddToCartSelector)
-    .findByText(/Add To Cart/i)
-    .click();
+  addToCart();
   const loginPage = waitForPage('/login', 'getLoginPage');
   cy.findByText(/proceed to checkout/i).click();
   cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);

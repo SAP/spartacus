@@ -1,11 +1,13 @@
 import {
   CHANGE_DETECTOR_REF,
   ELEMENT_REF,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   SPLIT_VIEW_SERVICE,
   VIEW_COMPONENT,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const VIEW_COMPONENT_MIGRATION: ConstructorDeprecation = {

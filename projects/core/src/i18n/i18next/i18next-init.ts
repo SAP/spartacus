@@ -16,7 +16,7 @@ export function i18nextInit(
   configInit: ConfigInitializerService,
   languageService: LanguageService,
   httpClient: HttpClient,
-  serverRequestOrigin: string,
+  serverRequestOrigin: string | null,
   siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer
 ): () => Promise<any> {
   return () =>
@@ -42,6 +42,10 @@ export function i18nextInit(
             const backend: BackendOptions = {
               loadPath,
               request: i18nextGetHttpClient(httpClient),
+
+              // Disable the periodical reloading. Otherwise SSR would not finish due to the pending task `setInterval()`
+              // See source code of `i18next-http-backend` : https://github.com/i18next/i18next-http-backend/blob/00b7e8f67abf8372af17529b51190a7e8b17e3d8/lib/index.js#L40-L41
+              reloadInterval: false,
             };
             i18nextConfig = { ...i18nextConfig, backend };
           }
@@ -129,7 +133,10 @@ export function i18nextGetHttpClient(
  * - https://github.com/angular/angular/issues/19224
  * - https://github.com/angular/universal/issues/858
  */
-export function getLoadPath(path: string, serverRequestOrigin: string): string {
+export function getLoadPath(
+  path: string,
+  serverRequestOrigin: string | null
+): string {
   if (serverRequestOrigin && !path.match(/^http(s)?:\/\//)) {
     if (path.startsWith('/')) {
       path = path.slice(1);

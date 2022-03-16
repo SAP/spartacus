@@ -2,9 +2,11 @@ import {
   CHECKOUT_CONFIG,
   CHECKOUT_CONFIG_SERVICE,
   ROUTING_CONFIG_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_CONFIG_SERVICE_MIGRATION: ConstructorDeprecation = {
