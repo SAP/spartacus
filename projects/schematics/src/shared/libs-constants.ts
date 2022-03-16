@@ -99,6 +99,15 @@ export const SPARTACUS_ORGANIZATION_ORDER_APPROVAL_ASSETS = `@spartacus/organiza
 export const SPARTACUS_PRODUCT = `@spartacus/product`;
 export const SPARTACUS_PRODUCT_VARIANTS_COMPONENTS = `@spartacus/product/variants/components`;
 export const SPARTACUS_PRODUCT_VARIANTS_ROOT = `@spartacus/product/variants/root`;
+export const SPARTACUS_BULK_PRICING = `@spartacus/product/bulk-pricing`;
+export const SPARTACUS_BULK_PRICING_ROOT = `@spartacus/product/bulk-pricing/root`;
+export const SPARTACUS_BULK_PRICING_ASSETS = `@spartacus/product/bulk-pricing/assets`;
+export const SPARTACUS_IMAGE_ZOOM = `@spartacus/product/image-zoom`;
+export const SPARTACUS_IMAGE_ZOOM_ROOT = `@spartacus/product/image-zoom/root`;
+export const SPARTACUS_IMAGE_ZOOM_ASSETS = `@spartacus/product/image-zoom/assets`;
+export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
+export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
+export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
 
 export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 
@@ -195,13 +204,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const BULK_PRICING_MODULE = 'BulkPricingModule';
-export const BULK_PRICING_ROOT_MODULE = 'BulkPricingRootModule';
-export const IMAGE_ZOOM_MODULE = 'ProductImageZoomModule';
-export const IMAGE_ZOOM_ROOT_MODULE = 'ProductImageZoomRootModule';
-export const VARIANTS_MODULE = 'ProductVariantsModule';
-export const VARIANTS_ROOT_MODULE = 'ProductVariantsRootModule';
-
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE =
   'TextfieldConfiguratorModule';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE =
