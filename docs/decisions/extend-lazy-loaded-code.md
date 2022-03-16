@@ -156,6 +156,36 @@ export class WrapperCheckoutModule {}
   - TBD
 - [ ] can we have one library entry point for multiple lazy-loaded modules? if yes, how do we enforce boundaries?
   - TODO 
+  
+#### Plan of implementation
+
+After 5.0:
+1. implement schematics util that breaks down the given dynamic import into a wrapper module, e.g:
+
+    `ng g @spartacus/schematics:wrapper --module=CheckoutModule --module-path=@spartacus/checkout/base`
+2. implement schematics util that appends the given extension module after another "marker" module, e.g:
+    
+    `ng g @spartacus/schematics:append-module --module=DigitalPaymentsModule --module-path=@spartacus/digital-payments --after-module=CheckoutModule --after-module-path=@spartacus/checkout/base`
+3. change the implementation of the installation-schematics of our extension features (e.g. DigitalPayments, CheckoutB2b) use the two util schematics above. For example: to install the Digital Payments feature: first make sure to break down the dynamic import of `CheckoutModule` into a local wrapper module and only then append the `DigitalPaymentModule` after the `CheckoutModule`
+
+Issues with current develop:
+1. because of putting the pre-baked modules into customers app (so the base module is implicitly imported inside), there is no notion about the base module the customer's code. Therefore the base module cannot be the marker for generating the wrapper modules in the future.
+   - possible solutions:
+     1. workaround: the future schematics generating the wrapper module for the Checkout will accept an array of possible maker modules (e.g. `CheckoutModule, CheckoutB2BModule, DigitalPaymentsModule`)
+     2. ...?
+2. Currently the Digital Payments installation-schematics creates a separate module file with the config chunk using the same key `CHECKOUT_FEATURE`, but different dynamic import path. It overwrites the original dynamic import implicitly thanks to config chunks being deep-merged together 
+   - possible solutions:
+     - change implementation of installation-schematics of Digital Payments to update the dynamic import "in place" inside the original Checkout module file. But this requires(!) the checkout installation-schematics to be run first. And also this requires(!) defining a marker module for replacement.
+
+Suggested TODO before 5.0:
+1. implement the ordered invocation of specific libraries' installation-schematics (including the deep analysis of the cross-dependencies between features)
+1. changes needed in current installation-schematics of DigitalPayments and CheckoutB2B (and CdcLogin which is under development):
+  - current state:
+    - CheckoutB2b schematics removes the original checkout file and re-creates it, using key different path in the dynamic import
+      - it can stay I guess
+    - DigitalPayments creates a separate module file with the same key `CHECKOUT_FEATURE`, but different dynamic import path 
+      - it's problematic as there is no single file where we could break down the dynamic import
+
 
 ### Option 2: Configure the extension module as `dependencies` of the lazy-loaded feature module
 Spartacus allows for configuring `dependencies` for a feature module, for example:
