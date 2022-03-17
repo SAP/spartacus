@@ -22,8 +22,10 @@
       rgba(0, 0, 0, 0.07) 0px 4px 4px, rgba(0, 0, 0, 0.07) 0px 8px 8px,
       rgba(0, 0, 0, 0.07) 0px 16px 16px;
 
-    &:hover {
-      animation: shake 1.85s infinite;
+    @media (hover: hover) {
+      &:hover {
+        animation: shake 1.85s infinite;
+      }
     }
   }
 
