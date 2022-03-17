@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import {
   I18nTestingModule,
   Product,
@@ -28,6 +28,8 @@ class MockTranslationService {
   translate() {}
 }
 
+const reviewsLabel = 'Reviews';
+
 describe('ProductIntroComponent in product', () => {
   let productIntroComponent: ProductIntroComponent;
   let fixture: ComponentFixture<ProductIntroComponent>;
@@ -54,13 +56,10 @@ describe('ProductIntroComponent in product', () => {
 
   beforeEach(() => {
     translationService = TestBed.inject(TranslationService);
+    spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
 
     fixture = TestBed.createComponent(ProductIntroComponent);
     productIntroComponent = fixture.componentInstance;
-
-    productIntroComponent.observer = {
-      disconnect: () => {},
-    } as MutationObserver;
   });
 
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
@@ -122,13 +121,11 @@ describe('ProductIntroComponent in product', () => {
   });
 
   describe('Product rating', () => {
-    const reviewsLabel = 'Reviews';
     const tabsComponent: HTMLElement = document.createElement(
       'cx-tab-paragraph-container'
     );
 
     beforeEach(() => {
-      spyOn(translationService, 'translate').and.returnValue(of(reviewsLabel));
       productIntroComponent['getTabsComponent'] = () => tabsComponent;
     });
 
@@ -182,7 +179,7 @@ describe('ProductIntroComponent in product', () => {
       tabsComponent.appendChild(reviewsTab);
 
       productIntroComponent.product$ = of<Product>({
-        averageRating: undefined,
+        averageRating: 4.5,
         numberOfReviews: 1,
       });
 

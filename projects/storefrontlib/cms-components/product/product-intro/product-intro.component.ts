@@ -2,11 +2,10 @@ import {
   AfterContentChecked,
   ChangeDetectionStrategy,
   Component,
-  OnDestroy,
 } from '@angular/core';
 import { Product, TranslationService, WindowRef } from '@spartacus/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
-import { map, take, takeUntil } from 'rxjs/operators';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, takeWhile, withLatestFrom } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -14,13 +13,12 @@ import { CurrentProductService } from '../current-product.service';
   templateUrl: './product-intro.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
+export class ProductIntroComponent implements AfterContentChecked {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
-  isReviewsTabAvailable$ = new BehaviorSubject<boolean>(false);
-  unsubscribe$ = new Subject();
+  tabComponent$ = new BehaviorSubject<HTMLElement | null>(null);
 
-  observer: MutationObserver;
+  areReviewsAvailable$: Observable<boolean>;
 
   private reviewsTranslationKey =
     'TabPanelContainer.tabs.ProductReviewsTabComponent';
@@ -29,32 +27,21 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
     protected currentProductService: CurrentProductService,
     private translationService: TranslationService,
     protected winRef: WindowRef
-  ) {}
+  ) {
+    this.areReviewsAvailable$ = this.verifyReviewsComponent();
+  }
 
   ngAfterContentChecked(): void {
-    if (this.winRef.isBrowser()) {
-      const tabsComponent = this.getTabsComponent();
-      if (tabsComponent && !this.observer) {
-        this.observer = this.observeOnTabsMutation(tabsComponent);
-      }
-    } else {
-      !this.isReviewsTabAvailable$.value &&
-        this.isReviewsTabAvailable$.next(true);
-    }
+    this.tabComponent$.next(this.getTabsComponent());
   }
 
-  ngOnDestroy(): void {
-    this.observer?.disconnect();
-    this.unsubscribe$.next();
-    this.unsubscribe$.complete();
-  }
-
-  // Scroll to views component on page and click "Reviews" tab
+  /**
+   * Scroll to views component on page and click "Reviews" tab
+   */
   showReviews() {
     // Use translated label for Reviews tab reference
     this.translationService
       .translate(this.reviewsTranslationKey)
-      .pipe(take(1))
       .subscribe((reviewsTabLabel) => {
         const tabsComponent = this.getTabsComponent();
         const reviewsTab =
@@ -67,46 +54,44 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
             reviewsTab.focus({ preventScroll: true });
           }, 0);
         }
-      });
+      })
+      .unsubscribe();
   }
 
-  // Create a mutation observer to observe if reviews component has been rendered
-  protected observeOnTabsMutation(target: HTMLElement): MutationObserver {
-    const config: MutationObserverInit = {
-      childList: true,
-      characterData: true,
-    };
-    const observer = new MutationObserver((mutations) => {
-      this.translationService
-        .translate(this.reviewsTranslationKey)
-        .pipe(
-          map(
-            (reviewsTabLabel) =>
-              !!mutations
-                .map((mutation) => {
-                  // element is not filtered by name because reviews component and its selector can be customized
-                  return this.getTabByLabel(
-                    reviewsTabLabel,
-                    mutation.target as HTMLElement
-                  );
-                })
-                .find((tab) => !!tab)
-                ?.nextSibling?.hasChildNodes()
-          ),
-          takeUntil(this.unsubscribe$)
-        )
-        .subscribe(this.isReviewsTabAvailable$);
-    });
-    observer.observe(target, config);
-    return observer;
+  /**
+   * Create stream to observe whether reviews component is available.
+   */
+  protected verifyReviewsComponent(): Observable<boolean> {
+    return this.tabComponent$.pipe(
+      withLatestFrom(
+        this.translationService.translate(this.reviewsTranslationKey)
+      ),
+      map(([tabs, label]) => {
+        if (!tabs) {
+          return false;
+        }
+        // find reviews tab
+        const reviewsTab = this.getTabByLabel(label, tabs);
+        // check whether next sibling (reviews container) of tab button contains reviews component
+        // look for sibling as cx-product-reviews selector can be customized
+        return !!reviewsTab?.nextSibling?.hasChildNodes();
+      }),
+      takeWhile((isReviewsComponentVisible) => !isReviewsComponentVisible, true)
+    );
   }
 
-  // Get Tabs Component if exists on page
+  /**
+   * Get Tabs Component if exists on page
+   */
   private getTabsComponent(): HTMLElement | null {
     return this.winRef.document.querySelector('cx-tab-paragraph-container');
   }
 
-  // Click to activate tab if not already active
+  /**
+   * Click to activate tab if not already active
+   *
+   * @param tab tab to click if needed
+   */
   private clickTabIfInactive(tab: HTMLElement): void {
     if (
       !tab.classList.contains('active') ||
@@ -116,7 +101,12 @@ export class ProductIntroComponent implements AfterContentChecked, OnDestroy {
     }
   }
 
-  // Get Tab by label if exists on page
+  /**
+   * Get Tab by label if exists on page
+   *
+   * @param label label of searched tab
+   * @param tabsComponent component containing tabs
+   */
   private getTabByLabel(
     label: string,
     tabsComponent: HTMLElement

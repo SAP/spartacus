@@ -25,6 +25,13 @@ export const variantStyleList = `${variantSelectorContainer} ul.variant-list`;
 export const PRODUCT_NAME = 'Battery Video Light';
 
 export function verifyProductDetails() {
+  cy.intercept({
+    method: 'GET',
+    pathname: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/cms/components`,
+  }).as('getComponents');
+  cy.wait('@getComponents').its('response.statusCode').should('eq', 200);
   cy.get(`${breadcrumbContainer} h1`).should('contain', PRODUCT_NAME);
   cy.get(`${infoContainer} .code`).should('contain', 'ID 266685');
   cy.get(`${summaryContainer} .summary`).should(
@@ -79,11 +86,12 @@ export function verifyContentInReviewTab() {
 }
 
 export function verifyReviewForm() {
-  cy.intercept(
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'POST',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/products/*/reviews?lang=en&curr=USD`
-  ).as('submitReview');
+    )}/products/*/reviews?lang=en&curr=USD`,
+  }).as('submitReview');
 
   cy.get(writeAReviewButton).click();
   cy.get(writeAReviewForm).should('be.visible');
@@ -182,12 +190,12 @@ export function configureDefaultProduct() {
     },
   });
 
-  cy.intercept(
-    'GET',
-    `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/cms/pages?pageType=ProductPage**`
-  ).as('productPage');
+    )}/cms/pages?pageType=ProductPage**`,
+  }).as('productPage');
 
   cy.visit('/product/266685');
 

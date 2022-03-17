@@ -5,7 +5,7 @@
     <div class="count">({{ product?.numberOfReviews }})</div>
 
     <button
-      *ngIf="isReviewsTabAvailable$ | async"
+      *ngIf="areReviewsAvailable$ | async"
       class="btn btn-link cx-action-link"
       (click)="showReviews()"
       [attr.aria-label]="
