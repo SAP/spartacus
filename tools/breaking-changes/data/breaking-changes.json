@@ -50221,7 +50221,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/product-configurator/rulebased",
         "deletedComment": "// TODO:Spartacus - Method 'removeObsoleteProductBoundConfiguration' was removed from Class 'ConfiguratorCommonsService'.",
-        "migrationComment": ""
+        "migrationComment": "Consult the migration documentation on how to deal with that."
       }
     ]
   },
