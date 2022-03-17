@@ -17,7 +17,7 @@
                   [sortOptions]="model.sorts"
                   (sortListEvent)="sortList($event)"
                   [selectedOption]="model.pagination.sort"
-                  [ariaControls]="'product-results-list'"
+                  ariaControls="product-results-list"
                   placeholder="{{ 'productList.sortBy' | cxTranslate }}"
                 ></cx-sorting>
               </label>

@@ -17,6 +17,7 @@
               [sortLabels]="getSortLabels() | async"
               (sortListEvent)="changeSortCode($event)"
               [selectedOption]="returnRequests.pagination.sort"
+              ariaControls="order-return-table"
             ></cx-sorting>
           </label>
           <div class="cx-order-history-pagination">
@@ -27,7 +28,7 @@
           </div>
         </div>
         <!-- TABLE -->
-        <table class="table cx-order-history-table">
+        <table id="order-return-table" class="table cx-order-history-table">
           <thead class="cx-order-history-thead-mobile">
             <th scope="col">
               {{ 'returnRequestList.returnRequestId' | cxTranslate }}
