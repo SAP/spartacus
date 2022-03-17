@@ -706,14 +706,14 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/core',
     deprecatedNode: 'handleExpiredToken',
     comment:
-      "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. ",
+      "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'. Use 'getValidToken' instead.",
   },
   {
     class: 'AuthHttpHeaderService',
     importPath: '@spartacus/core',
     deprecatedNode: 'refreshInProgress',
     comment:
-      "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. ",
+      "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'. Use 'refreshInProgress$' Observable instead.",
   },
   {
     class: 'BadRequestHandler',
