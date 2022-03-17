@@ -164,10 +164,16 @@
       display: block;
       white-space: nowrap;
       text-align: start;
+      
       font-weight: var(--cx-font-weight-bold);
       line-height: var(--cx-line-height,1.2222222222);
       overflow-wrap: break-word;
       padding-inline-end: 1rem;
+      min-width: 5rem;
+     }
+
+     .cx-value {
+      font-size: var(--cx-font-size,.875rem);
      }
  
      /* customization styles ---------- */
@@ -175,11 +181,12 @@
        display: flex;
        flex-wrap: wrap;
        align-items: center;
+       padding: 0.313rem;
      }
  
      .cx-actions button {
-       margin-left: 0;
-       text-align: left;
+       margin-inline-start: 0;
+       text-align: start;
      }
  
      /*   JS generated */
@@ -194,11 +201,11 @@
      }
  
      td:nth-of-type(1) {
-       padding-left: 0;
+       padding-inline-start: 0;
      }
  
      td:nth-of-type(3) {
-       text-align: left;
+       text-align: start;
      }
   }
 }

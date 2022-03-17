@@ -1,3 +1,27 @@
 cx-quick-order-table {
-  @extend %cx-cart-item-list;
+  @extend %cx-wish-list;
+
+  @include media-breakpoint-down(md) {
+    button[type='button'] {
+      margin-bottom: 0em;
+    }
+    
+    td {
+      justify-content: flex-start;
+    }
+
+    td.cx-actions {
+      button {
+        text-align: end;
+      }
+    }
+
+    .cx-price {
+      margin-inline-start: 5.5rem;
+    }
+
+    .cx-quantity {
+      margin-inline-start: 5.5rem;
+    }
+  }
 }
