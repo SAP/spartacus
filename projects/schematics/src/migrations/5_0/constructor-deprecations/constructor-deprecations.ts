@@ -17,6 +17,7 @@ import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.co
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
 import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
+import { IMPORT_ENTRIES_DIALOG_COMPONENT_MIGRATION } from './data/import-entries-dialog.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CART_TOTALS_COMPONENT_MIGRATION,
@@ -35,6 +36,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   PAGE_LAYOUT_SERVICE_MIGRATION,
   FORM_ERRORS_COMPONENT_MIGRATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
+  IMPORT_ENTRIES_DIALOG_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
