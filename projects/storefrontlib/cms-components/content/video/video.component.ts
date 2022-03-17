@@ -82,8 +82,11 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
       this.source = this.mediaService.getMedia(video)?.src;
     }
 
-    if (containerBackground ===
-      ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE && media) {
+    if (
+      containerBackground ===
+        ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE &&
+      media
+    ) {
       this.thumbnail = this.mediaService.getMedia(media as MediaContainer);
     }
   }
@@ -106,7 +109,9 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
   }
 
   protected setRouting(data: CmsVideoComponent) {
-    if (data.contentPage) {
+    if (data.url) {
+      this.routerLink = data.url;
+    } else if (data.contentPage) {
       this.subscriptions.add(
         this.cmsService
           .getPage({
@@ -119,28 +124,16 @@ export class VideoComponent implements AfterViewChecked, OnDestroy {
             this.routerLink = this.urlService.transform({
               cxRoute: pageLabel.substring(1),
             });
+            this.cd.markForCheck();
           })
       );
-    } else {
-      this.routerLink = this.getRouterLink(data);
-    }
-    this.cd.markForCheck();
-  }
-
-  protected getRouterLink(data: CmsVideoComponent): string | any[] | undefined {
-    if (data.url) {
-      return data.url;
-    }
-
-    if (data.product) {
-      return this.urlService.transform({
+    } else if (data.product) {
+      this.routerLink = this.urlService.transform({
         cxRoute: 'product',
         params: { code: data.product },
       });
-    }
-
-    if (data.category) {
-      return this.urlService.transform({
+    } else if (data.category) {
+      this.routerLink = this.urlService.transform({
         cxRoute: 'category',
         params: { code: data.category },
       });
