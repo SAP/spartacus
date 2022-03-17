@@ -38,7 +38,7 @@ import {
   SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
 } from '../libs-constants';
-import { packageSubFeaturesMapping } from '../updateable-constants';
+import { packageCliMapping } from '../updateable-constants';
 import { getB2bConfiguration } from './config-utils';
 import { Graph, kahnsAlgorithm } from './graph-utils';
 import { isImportedFrom } from './import-utils';
@@ -217,12 +217,12 @@ export function prepareCliPackageAndSubFeature(
 }
 
 export function getPackageBySubFeature(subFeature: string): string {
-  for (const spartacusPackage in packageSubFeaturesMapping) {
-    if (!packageSubFeaturesMapping.hasOwnProperty(spartacusPackage)) {
+  for (const spartacusPackage in packageCliMapping) {
+    if (!packageCliMapping.hasOwnProperty(spartacusPackage)) {
       continue;
     }
 
-    const subFeatures = packageSubFeaturesMapping[spartacusPackage];
+    const subFeatures = packageCliMapping[spartacusPackage];
     if (subFeatures.includes(subFeature)) {
       return spartacusPackage;
     }
