@@ -37,6 +37,7 @@ export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
   'cartBaseTranslationChunksConfig';
 
 export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CART_BASE,
   folderName: CART_FOLDER_NAME,
   moduleName: CART_BASE_FEATURE_MODULE_NAME,
   featureModule: [
@@ -86,6 +87,7 @@ export const CART_IMPORT_EXPORT_TRANSLATION_CHUNKS_CONFIG =
   'importExportTranslationChunksConfig';
 
 export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CART_IMPORT_EXPORT,
   folderName: CART_FOLDER_NAME,
   moduleName: CART_IMPORT_EXPORT_MODULE_NAME,
   featureModule: {
@@ -121,6 +123,7 @@ export const QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG =
   'quickOrderTranslationChunksConfig';
 
 export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_QUICK_ORDER,
   folderName: CART_FOLDER_NAME,
   moduleName: CART_QUICK_ORDER_MODULE_NAME,
   featureModule: {
@@ -157,6 +160,7 @@ export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
   'wishListTranslationChunksConfig';
 
 export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CART_WISHLIST,
   folderName: CART_FOLDER_NAME,
   moduleName: CART_WISHLIST_FEATURE_MODULE_NAME,
   featureModule: [
@@ -200,6 +204,7 @@ export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
   'savedCartTranslationChunksConfig';
 
 export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_SAVED_CART,
   folderName: CART_FOLDER_NAME,
   moduleName: CART_SAVED_CART_MODULE_NAME,
   featureModule: {

@@ -31,6 +31,7 @@ export const CHECKOUT_BASE_TRANSLATION_CHUNKS_CONFIG =
   'checkoutTranslationChunksConfig';
 
 export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CHECKOUT_BASE,
   folderName: CHECKOUT_FOLDER_NAME,
   moduleName: CHECKOUT_BASE_MODULE_NAME,
   featureModule: {
@@ -72,6 +73,7 @@ export const CHECKOUT_B2B_TRANSLATION_CHUNKS_CONFIG =
   'checkoutB2BTranslationChunksConfig';
 
 export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CHECKOUT_B2B,
   folderName: CHECKOUT_FOLDER_NAME,
   moduleName: CHECKOUT_BASE_MODULE_NAME,
   featureModule: {
@@ -116,6 +118,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_TRANSLATION_CHUNKS_CONFIG =
 
 export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
   {
+    library: SPARTACUS_CHECKOUT_SCHEDULED_REPLENISHMENT,
     folderName: CHECKOUT_FOLDER_NAME,
     moduleName: CHECKOUT_BASE_MODULE_NAME,
     featureModule: {

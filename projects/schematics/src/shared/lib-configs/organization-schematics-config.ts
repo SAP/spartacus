@@ -23,6 +23,7 @@ export const ORGANIZATION_TRANSLATION_CHUNKS_CONFIG =
   'organizationTranslationChunksConfig';
 
 export const ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_ADMINISTRATION,
   folderName: ORGANIZATION_FOLDER_NAME,
   moduleName: ORGANIZATION_ADMINISTRATION_MODULE_NAME,
   featureModule: {
@@ -59,6 +60,7 @@ export const ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG =
   'orderApprovalTranslationChunksConfig';
 
 export const ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_ORGANIZATION_ORDER_APPROVAL,
   folderName: ORGANIZATION_FOLDER_NAME,
   moduleName: ORGANIZATION_ORDER_APPROVAL_MODULE_NAME,
   featureModule: {

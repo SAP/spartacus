@@ -17,6 +17,7 @@ export const DIGITAL_PAYMENTS_TRANSLATION_CHUNKS_CONFIG =
   'dpTranslationChunksConfig';
 
 export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_DIGITAL_PAYMENTS,
   folderName: DIGITAL_PAYMENTS_FOLDER_NAME,
   moduleName: DIGITAL_PAYMENTS_MODULE_NAME,
   featureModule: {

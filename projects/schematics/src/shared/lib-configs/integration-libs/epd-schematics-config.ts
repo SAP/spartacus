@@ -18,6 +18,7 @@ export const EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG =
   'epdVisualizationTranslationChunksConfig';
 
 export const EPD_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_EPD_VISUALIZATION,
   folderName: EPD_VISUALIZATION_FOLDER_NAME,
   moduleName: EPD_VISUALIZATION_MODULE_NAME,
   featureModule: {

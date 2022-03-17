@@ -25,6 +25,7 @@ export const BULK_PRICING_TRANSLATION_CHUNKS_CONFIG =
   'bulkPricingTranslationChunksConfig';
 
 export const PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_BULK_PRICING,
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: BULK_PRICING_MODULE_NAME,
   featureModule: {
@@ -57,7 +58,9 @@ export const IMAGE_ZOOM_FEATURE_NAME_CONSTANT = 'PRODUCT_IMAGE_ZOOM_FEATURE';
 export const IMAGE_ZOOM_TRANSLATIONS = 'productImageZoomTranslations';
 export const IMAGE_ZOOM_TRANSLATION_CHUNKS_CONFIG =
   'productImageZoomTranslationChunksConfig';
+
 export const PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_IMAGE_ZOOM,
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: IMAGE_ZOOM_MODULE_NAME,
   featureModule: {
@@ -92,6 +95,7 @@ export const VARIANTS_TRANSLATION_CHUNKS_CONFIG =
   'productVariantsTranslationChunksConfig';
 
 export const PRODUCT_VARIANTS_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_VARIANTS,
   folderName: PRODUCT_FOLDER_NAME,
   moduleName: VARIANTS_MODULE_NAME,
   featureModule: {

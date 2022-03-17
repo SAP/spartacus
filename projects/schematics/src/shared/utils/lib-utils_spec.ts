@@ -70,6 +70,7 @@ describe('Lib utils', () => {
   const scssFilePath = `src/styles/spartacus/${SCSS_FILE_NAME}`;
 
   const BASE_FEATURE_CONFIG: FeatureConfig = {
+    library: FEATURE_MODULE_IMPORT_PATH,
     folderName: FEATURE_FOLDER_NAME,
     moduleName: FEATURE_NAME,
     featureModule: {
@@ -98,6 +99,7 @@ describe('Lib utils', () => {
   };
 
   const DP_FEATURE_CONFIG: FeatureConfig = {
+    library: '@spartacus/digital-payments',
     folderName: 'dp',
     moduleName: 'DigitalPayments',
     featureModule: {
@@ -112,15 +114,16 @@ describe('Lib utils', () => {
   };
 
   const CHECKOUT_FEATURE_CONFIG: FeatureConfig = {
+    library: '@spartacus/checkout/base',
     folderName: 'checkout',
     moduleName: 'Checkout',
     featureModule: {
       name: 'CheckoutModule',
-      importPath: '@spartacus/Checkout/base',
+      importPath: '@spartacus/checkout/base',
     },
     rootModule: {
       name: 'CheckoutRootModule',
-      importPath: '@spartacus/Checkout/base/root',
+      importPath: '@spartacus/checkout/base/root',
     },
   };
   const CHECKOUT_OPTIONS: LibraryOptions = {
@@ -130,6 +133,7 @@ describe('Lib utils', () => {
   };
 
   const CART_FEATURE_CONFIG: FeatureConfig = {
+    library: '@spartacus/cart/base',
     folderName: 'cart',
     moduleName: 'Cart',
     featureModule: {
@@ -148,6 +152,7 @@ describe('Lib utils', () => {
   };
 
   const USER_PROFILE_FEATURE_CONFIG: FeatureConfig = {
+    library: '@spartacus/user',
     folderName: 'user',
     moduleName: 'UserProfile',
     featureModule: {
@@ -166,6 +171,7 @@ describe('Lib utils', () => {
   };
 
   const ORDER_FEATURE_CONFIG: FeatureConfig = {
+    library: '@spartacus/order',
     folderName: 'order',
     moduleName: 'Order',
     featureModule: {

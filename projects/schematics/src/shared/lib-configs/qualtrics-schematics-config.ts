@@ -14,6 +14,7 @@ export const QUALTRICS_ROOT_MODULE = 'QualtricsRootModule';
 export const QUALTRICS_FEATURE_NAME_CONSTANT = 'QUALTRICS_FEATURE';
 
 export const QUALTRICS_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_QUALTRICS,
   folderName: QUALTRICS_FOLDER_NAME,
   moduleName: QUALTRICS_MODULE_NAME,
   featureModule: {

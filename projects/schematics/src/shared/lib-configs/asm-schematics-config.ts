@@ -15,6 +15,7 @@ export const ASM_TRANSLATIONS = 'asmTranslations';
 export const ASM_TRANSLATION_CHUNKS_CONFIG = 'asmTranslationChunksConfig';
 
 export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_ASM,
   folderName: ASM_FOLDER_NAME,
   moduleName: ASM_FEATURE_MODULE_NAME,
   featureModule: {

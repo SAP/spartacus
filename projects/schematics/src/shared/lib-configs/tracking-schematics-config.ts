@@ -15,6 +15,7 @@ export const PERSONALIZATION_MODULE_NAME = 'Personalization';
 export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 
 export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_PERSONALIZATION,
   folderName: TRACKING_FOLDER_NAME,
   moduleName: PERSONALIZATION_MODULE_NAME,
   featureModule: {
@@ -37,6 +38,7 @@ export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const TMS_GTM_MODULE = 'GtmModule';
 
 export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_TMS_GTM,
   folderName: TRACKING_FOLDER_NAME,
   moduleName: TMS_MODULE_NAME,
   featureModule: {
@@ -68,6 +70,7 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
 
 export const TMS_AEP_MODULE = 'AepModule';
 export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_TMS_AEP,
   folderName: TRACKING_FOLDER_NAME,
   moduleName: TMS_MODULE_NAME,
   featureModule: {

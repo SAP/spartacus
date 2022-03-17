@@ -16,16 +16,17 @@ export const CDC_FEATURE_CONSTANT = 'CDC_FEATURE';
 export const CDC_CONFIG = 'CdcConfig';
 
 export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_CDC,
   folderName: CDC_FOLDER_NAME,
   moduleName: CDC_MODULE_NAME,
+  featureModule: {
+    importPath: SPARTACUS_CDC,
+    name: CDC_MODULE,
+  },
   rootModule: {
     importPath: SPARTACUS_CDC_ROOT,
     name: CDC_ROOT_MODULE,
     content: `${CDC_ROOT_MODULE}`,
-  },
-  featureModule: {
-    importPath: SPARTACUS_CDC,
-    name: CDC_MODULE,
   },
   lazyLoadingChunk: {
     moduleSpecifier: SPARTACUS_CDC_ROOT,

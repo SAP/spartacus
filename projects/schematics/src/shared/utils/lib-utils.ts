@@ -84,6 +84,10 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
 
 export interface FeatureConfig {
   /**
+   * Spartacus library scope.
+   */
+  library: string;
+  /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
    */
   folderName: string;

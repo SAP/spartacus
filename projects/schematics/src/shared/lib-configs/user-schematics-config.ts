@@ -23,6 +23,7 @@ export const USER_ACCOUNT_TRANSLATION_CHUNKS_CONFIG =
   'userAccountTranslationChunksConfig';
 
 export const USER_ACCOUNT_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_USER_ACCOUNT,
   folderName: USER_FOLDER_NAME,
   moduleName: USER_FEATURE_MODULE_NAME,
   featureModule: {
@@ -56,6 +57,7 @@ export const USER_PROFILE_TRANSLATION_CHUNKS_CONFIG =
   'userProfileTranslationChunksConfig';
 
 export const USER_PROFILE_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_USER_PROFILE,
   folderName: USER_FOLDER_NAME,
   moduleName: USER_FEATURE_MODULE_NAME,
   featureModule: {

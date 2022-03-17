@@ -15,7 +15,9 @@ export const STOREFINDER_FEATURE_NAME_CONSTANT = 'STORE_FINDER_FEATURE';
 export const STOREFINDER_TRANSLATIONS = 'storeFinderTranslations';
 export const STOREFINDER_TRANSLATION_CHUNKS_CONFIG =
   'storeFinderTranslationChunksConfig';
+
 export const STOREFINDER_SCHEMATICS_CONFIG: FeatureConfig = {
+  library: SPARTACUS_STOREFINDER,
   folderName: STOREFINDER_FOLDER_NAME,
   moduleName: STOREFINDER_MODULE_NAME,
   featureModule: {
