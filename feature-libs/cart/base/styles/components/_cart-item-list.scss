@@ -8,7 +8,7 @@
 
   th,
   td {
-    padding: 0.25em 0.1em 0.25em 0.5em;
+    padding: 1.25rem 0.1rem 1.25rem 0.5rem;
     vertical-align: middle;
   }
 
@@ -62,8 +62,8 @@
 
   .cx-table-item-container {
     display: inline-grid;
-    grid-template-columns: 5em 14em;
-    gap: 1em;
+    grid-template-columns: 5rem 14rem;
+    gap: 1rem;
     text-indent: 0;
   }
 
@@ -72,7 +72,7 @@
   }
 
   .cx-name {
-    margin-top: 0.5em;
+    margin-top: 0.5rem;
     font-size: var(--cx-font-size, 1rem);
   }
 
