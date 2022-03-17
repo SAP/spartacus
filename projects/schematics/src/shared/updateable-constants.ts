@@ -60,6 +60,10 @@ import {
   SMARTEDIT_ROOT_MODULE,
 } from './lib-configs/smartedit-schematics-config';
 import {
+  STOREFINDER_MODULE,
+  STOREFINDER_ROOT_MODULE,
+} from './lib-configs/storefinder-schematics-config';
+import {
   USER_ACCOUNT_MODULE,
   USER_ACCOUNT_ROOT_MODULE,
   USER_PROFILE_MODULE,
@@ -120,8 +124,6 @@ import {
   SPARTACUS_STOREFINDER,
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
-  STOREFINDER_MODULE,
-  STOREFINDER_ROOT_MODULE,
   TMS_AEP_MODULE,
   TMS_BASE_MODULE,
   TMS_GTM_MODULE,

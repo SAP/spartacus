@@ -126,6 +126,8 @@ export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
 export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
 
 export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
+export const SPARTACUS_STOREFINDER_ROOT = `@spartacus/storefinder/root`;
+export const SPARTACUS_STOREFINDER_ASSETS = `@spartacus/storefinder/assets`;
 
 export const SPARTACUS_TRACKING = `@spartacus/tracking`;
 
@@ -211,10 +213,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-
-export const STOREFINDER_MODULE = 'StoreFinderModule';
-export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
-
 export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const TMS_GTM_MODULE = 'GtmModule';
 export const TMS_AEP_MODULE = 'AepModule';

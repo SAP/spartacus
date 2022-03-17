@@ -7,4 +7,5 @@ export * from './product-configurator-schematics-config';
 export * from './product-schematics-config';
 export * from './qualtrics-schematics-config';
 export * from './smartedit-schematics-config';
+export * from './storefinder-schematics-config';
 export * from './user-schematics-config';
