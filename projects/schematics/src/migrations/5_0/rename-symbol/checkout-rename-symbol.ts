@@ -4,6 +4,8 @@ import {
 } from '../../../shared/libs-constants';
 import { RenamedSymbol } from '../../../shared/utils/file-utils';
 
+// TODO https://github.com/SAP/spartacus/issues/15309
+
 export const CHECKOUT_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
   // core-libs/setup/recipes/b2b/config/default-b2b-checkout-config.ts
   {

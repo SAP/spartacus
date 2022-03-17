@@ -111,6 +111,128 @@ activeCartService: ActiveCartFacade
 
 
 
+# Class QuickOrderFormComponent 
+## @spartacus/cart/quick-order/components
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService
+  quickOrderService: QuickOrderFacade
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: Config
+  cd: ChangeDetectorRef
+  quickOrderService: QuickOrderFacade
+  winRef: WindowRef
+)
+
+```
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  globalMessageService: GlobalMessageService
+  quickOrderService: QuickOrderFacade
+  config: Config
+  cd: ChangeDetectorRef
+  winRef: WindowRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: Config
+  cd: ChangeDetectorRef
+  quickOrderService: QuickOrderFacade
+  winRef: WindowRef
+)
+
+```
+
+
+### Property cd changed.
+
+
+Previous version: 
+
+```
+cd: ChangeDetectorRef | undefined
+```
+
+
+Current version: 
+
+```
+cd: ChangeDetectorRef
+```
+
+
+### Property config changed.
+
+
+Previous version: 
+
+```
+config: Config | undefined
+```
+
+
+Current version: 
+
+```
+config: Config
+```
+
+
+### Property globalMessageService is removed.
+
+
+
+### Property winRef changed.
+
+
+Previous version: 
+
+```
+winRef: WindowRef | undefined
+```
+
+
+Current version: 
+
+```
+winRef: WindowRef
+```
+
+
+
+
 # Class QuickOrderService 
 ## @spartacus/cart/quick-order/core
 
@@ -124,6 +246,37 @@ Previous version:
 
 constructor(
   activeCartService: ActiveCartService
+  productAdapter: ProductAdapter
+  eventService: EventService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade
+  config: Config
+  eventService: EventService
+  productSearchConnector: ProductSearchConnector
+)
+
+```
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService
+  config: Config
   eventService: EventService
   productSearchConnector: ProductSearchConnector
 )
@@ -137,6 +290,7 @@ Current version:
 
 constructor(
   activeCartService: ActiveCartFacade
+  config: Config
   eventService: EventService
   productSearchConnector: ProductSearchConnector
 )
@@ -159,6 +313,87 @@ Current version:
 ```
 activeCartService: ActiveCartFacade
 ```
+
+
+### Property productAdapter is removed.
+
+
+
+### Property productSearchConnector changed.
+
+
+Previous version: 
+
+```
+productSearchConnector: ProductSearchConnector | undefined
+```
+
+
+Current version: 
+
+```
+productSearchConnector: ProductSearchConnector
+```
+
+
+### Method removeEntry is removed.
+
+Use 'softDeleteEntry' instead.
+
+### Method search is removed.
+
+Use 'searchProducts' instead.
+
+
+
+# Class QuickOrderConfig 
+## @spartacus/cart/quick-order/root
+
+
+### Property quickOrder changed.
+
+
+Previous version: 
+
+```
+quickOrder: {
+        searchForm?: {
+            displayProductImages: boolean;
+            maxProducts: number;
+            minCharactersBeforeRequest: number;
+        };
+    }
+```
+
+
+Current version: 
+
+```
+quickOrder: {
+        searchForm?: {
+            displayProductImages: boolean;
+            maxProducts: number;
+            minCharactersBeforeRequest: number;
+        };
+        list?: {
+            hardDeleteTimeout: number;
+        };
+    }
+```
+
+
+
+
+# Class QuickOrderFacade 
+## @spartacus/cart/quick-order/root
+
+
+### Method removeEntry is removed.
+
+
+
+### Method search is removed.
+
 
 
 
@@ -562,6 +797,44 @@ Current version:
 
 ```
 multiCartService: MultiCartFacade
+```
+
+
+
+
+# Class CdsMerchandisingUserContextService 
+## @spartacus/cds
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  routingService: RoutingService
+  productSearchService: ProductSearchService
+  converterService: ConverterService
+  profileTagEventService: ProfileTagEventService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  routingService: RoutingService
+  productSearchService: ProductSearchService
+  converterService: ConverterService
+  profileTagEventService: ProfileTagEventService
+  profileTagLifecycleService: ProfileTagLifecycleService
+)
+
 ```
 
 
@@ -3045,7 +3318,6 @@ constructor(
   processStateStore: Store<StateWithProcess<void>>
   activeCartService: ActiveCartService
   userIdService: UserIdService
-  checkoutService: CheckoutService
 )
 
 ```
@@ -3073,10 +3345,6 @@ constructor(
 
 
 ### Property activeCartService is removed.
-
-
-
-### Property checkoutService is removed.
 
 
 
@@ -4303,6 +4571,20 @@ moved to @spartacus/cart/base/core
 
 
 
+# Class AuthHttpHeaderService 
+## @spartacus/core
+
+
+### Method handleExpiredToken is removed.
+
+Use 'getValidToken' instead.
+
+### Property refreshInProgress is removed.
+
+Use 'refreshInProgress$' Observable instead.
+
+
+
 # Enum B2BPaymentTypeEnum 
 ## @spartacus/core
 
@@ -4321,7 +4603,7 @@ moved to @spartacus/checkout/b2b/root
 
 ### Method handleVoucherOperationError is removed.
 
-
+Please use new methods in BadVoucherRequestHandler.
 
 
 
@@ -9072,6 +9354,22 @@ constructor(
 
 
 
+# Variable dpTranslationChunksConfig 
+## @spartacus/digital-payments
+
+moved to @spartacus/digital-payments/assets
+
+
+
+
+# Variable dpTranslations 
+## @spartacus/digital-payments
+
+moved to @spartacus/digital-payments/assets
+
+
+
+
 # Class IncubatorCoreModule 
 ## @spartacus/incubator
 
@@ -9899,6 +10197,44 @@ Function replenishmentOrderFacadeFactory has been removed and is no longer part 
 
 
 
+# Class ConfiguratorCartEntryBundleInfoComponent 
+## @spartacus/product-configurator/common
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  commonConfigUtilsService: CommonConfiguratorUtilsService
+  configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService
+  breakpointService: BreakpointService
+  cartItemContext: CartItemContext | undefined
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  commonConfigUtilsService: CommonConfiguratorUtilsService
+  configCartEntryBundleInfoService: ConfiguratorCartEntryBundleInfoService
+  breakpointService: BreakpointService
+  translation: TranslationService
+  cartItemContext: CartItemContext | undefined
+)
+
+```
+
+
+
+
 # Class ConfiguratorAddToCartButtonComponent 
 ## @spartacus/product-configurator/rulebased
 
@@ -9917,10 +10253,6 @@ constructor(
   configuratorGroupsService: ConfiguratorGroupsService
   configRouterExtractorService: ConfiguratorRouterExtractorService
   globalMessageService: GlobalMessageService
-  orderFacade: OrderFacade
-  commonConfiguratorUtilsService: CommonConfiguratorUtilsService
-  configUtils: ConfiguratorStorefrontUtilsService
-  intersectionService: IntersectionService
 )
 
 ```
@@ -9944,10 +10276,6 @@ constructor(
 )
 
 ```
-
-
-### Property orderFacade is removed.
-
 
 
 
@@ -10025,6 +10353,108 @@ Current version:
 ```
 
 isAttributeGroup(): boolean
+
+```
+
+
+
+
+# Class ConfiguratorAttributeMultiSelectionBundleComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Method extractProductCardParameters changed.
+
+
+Previous version: 
+
+```
+
+extractProductCardParameters(
+  disableAllButtons: boolean | null
+  hideRemoveButton: boolean | null
+  value: Configurator.Value
+): ConfiguratorAttributeProductCardComponentOptions
+
+```
+
+
+Current version: 
+
+```
+
+extractProductCardParameters(
+  disableAllButtons: boolean | null
+  hideRemoveButton: boolean | null
+  value: Configurator.Value
+  index: number
+): ConfiguratorAttributeProductCardComponentOptions
+
+```
+
+
+
+
+# Class ConfiguratorAttributeProductCardComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  productService: ProductService
+  keyBoardFocus: KeyboardFocusService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  productService: ProductService
+  keyBoardFocus: KeyboardFocusService
+  translation: TranslationService
+)
+
+```
+
+
+
+
+# Class ConfiguratorAttributeSingleSelectionBundleComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Method extractProductCardParameters changed.
+
+
+Previous version: 
+
+```
+
+extractProductCardParameters(
+  value: Configurator.Value
+): ConfiguratorAttributeProductCardComponentOptions
+
+```
+
+
+Current version: 
+
+```
+
+extractProductCardParameters(
+  value: Configurator.Value
+  index: number
+): ConfiguratorAttributeProductCardComponentOptions
 
 ```
 
@@ -10145,6 +10575,236 @@ Current version:
 ```
 activeCartService: ActiveCartFacade
 ```
+
+
+### Method removeObsoleteProductBoundConfiguration is removed.
+
+Consult the migration documentation on how to deal with that.
+
+
+
+# Class ConfiguratorExitButtonComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  productService: ProductService
+  routingService: RoutingService
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+  configuratorCommonsService: ConfiguratorCommonsService
+  breakpointService: BreakpointService
+  windowRef: WindowRef
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  productService: ProductService
+  routingService: RoutingService
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+  configuratorCommonsService: ConfiguratorCommonsService
+  breakpointService: BreakpointService
+  windowRef: WindowRef
+  location: Location
+)
+
+```
+
+
+### Property product$ is removed.
+
+
+
+
+
+# Class ConfiguratorGroupMenuComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  configCommonsService: ConfiguratorCommonsService
+  configuratorGroupsService: ConfiguratorGroupsService
+  hamburgerMenuService: HamburgerMenuService
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+  configUtils: ConfiguratorStorefrontUtilsService
+  configGroupMenuService: ConfiguratorGroupMenuService
+  directionService: DirectionService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  configCommonsService: ConfiguratorCommonsService
+  configuratorGroupsService: ConfiguratorGroupsService
+  hamburgerMenuService: HamburgerMenuService
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+  configUtils: ConfiguratorStorefrontUtilsService
+  configGroupMenuService: ConfiguratorGroupMenuService
+  directionService: DirectionService
+  translation: TranslationService
+)
+
+```
+
+
+
+
+# Class ConfiguratorGroupTitleComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Property configuration$ is removed.
+
+Consult the migration documentation on how to deal with that.
+
+
+
+# Class ConfiguratorOverviewBundleAttributeComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  productService: ProductService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  productService: ProductService
+  translation: TranslationService
+)
+
+```
+
+
+
+
+# Class ConfiguratorOverviewNotificationBannerComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Method countIssuesInGroup is removed.
+
+
+
+
+
+# Class ConfiguratorTabBarComponent 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  configRouterExtractorService: ConfiguratorRouterExtractorService
+  configuratorCommonsService: ConfiguratorCommonsService
+)
+
+```
+
+
+
+
+# Class OccConfiguratorVariantNormalizer 
+## @spartacus/product-configurator/rulebased
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  config: OccConfig
+  translation: TranslationService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  config: OccConfig
+  translation: TranslationService
+  uiSettingsConfig: ConfiguratorUISettingsConfig
+)
+
+```
+
+
+
+
+# Class RulebasedConfiguratorEventListener 
+## @spartacus/product-configurator/rulebased
+
+
+Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.
+Please use 'ConfiguratorRouterListener' instead
+
+
+
+# Class RulebasedConfiguratorEventModule 
+## @spartacus/product-configurator/rulebased
+
+
+Class RulebasedConfiguratorEventModule has been removed and is no longer part of the public API.
 
 
 
@@ -10273,6 +10933,110 @@ moved to @spartacus/cart/base/root
 
 
 
+# Class AddressBookComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  service: AddressBookComponentService
+  translation: TranslationService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  service: AddressBookComponentService
+  translation: TranslationService
+  globalMessageService: GlobalMessageService
+)
+
+```
+
+
+### Method getCardContent changed.
+
+
+Previous version: 
+
+```
+
+getCardContent(
+  address: Address
+): Observable<{
+        textBold: string;
+        text: string[];
+        actions: {
+            name: string;
+            event: string;
+        }[];
+        header: string;
+        deleteMsg: string;
+    }>
+
+```
+
+
+Current version: 
+
+```
+
+getCardContent(
+  address: Address
+): Observable<{
+        role: string;
+        textBold: string;
+        text: string[];
+        actions: {
+            name: string;
+            event: string;
+        }[];
+        header: string;
+        deleteMsg: string;
+        label: string;
+    }>
+
+```
+
+
+### Method setAddressAsDefault changed.
+
+
+Previous version: 
+
+```
+
+setAddressAsDefault(
+  addressId: string
+): void
+
+```
+
+
+Current version: 
+
+```
+
+setAddressAsDefault(
+  address: Address
+): void
+
+```
+
+
+
+
 # Class AddToCartComponent 
 ## @spartacus/storefront
 
@@ -10313,8 +11077,37 @@ constructor(
 ```
 
 
-### Constructor constructor is removed.
+### Constructor changed.
 
+
+Previous version: 
+
+```
+
+constructor(
+  modalService: ModalService
+  currentProductService: CurrentProductService
+  cd: ChangeDetectorRef
+  activeCartService: ActiveCartService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  currentProductService: CurrentProductService
+  cd: ChangeDetectorRef
+  activeCartService: ActiveCartFacade
+  component: CmsComponentData<CmsAddToCartComponent>
+  eventService: EventService
+  productListItemContext: ProductListItemContext | undefined
+)
+
+```
 
 
 ### Property activeCartService changed.
@@ -11105,6 +11898,32 @@ constructor(
 ```
 
 
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartService,
+  router: Router
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  activeCartService: ActiveCartFacade
+)
+
+```
+
+
 ### Property activeCartService changed.
 
 
@@ -11384,6 +12203,29 @@ moved to @spartacus/cart/base/root
 
 
 
+# Class MessageComponent 
+## @spartacus/storefront
+
+
+### Property getIconType changed.
+
+
+Previous version: 
+
+```
+getIconType: string
+```
+
+
+Current version: 
+
+```
+getIconType: ICON_TYPE
+```
+
+
+
+
 # Class MiniCartComponent 
 ## @spartacus/storefront
 
@@ -11426,6 +12268,48 @@ constructor(
 
 moved to @spartacus/cart/base/components/mini-cart
 
+
+
+
+# Class NavigationUIComponent 
+## @spartacus/storefront
+
+
+### Constructor changed.
+
+
+Previous version: 
+
+```
+
+constructor(
+  router: Router
+  renderer: Renderer2
+  elemRef: ElementRef
+  hamburgerMenuService: HamburgerMenuService
+)
+
+```
+
+
+Current version: 
+
+```
+
+constructor(
+  router: Router
+  renderer: Renderer2
+  elemRef: ElementRef
+  hamburgerMenuService: HamburgerMenuService
+  winRef: WindowRef
+)
+
+```
+
+
+### Method reinitalizeMenu is removed.
+
+Use 'reinitializeMenu' instead.
 
 
 
@@ -11980,6 +12864,28 @@ returnRequestService: OrderReturnRequestFacade
 ## @spartacus/storefront
 
 moved to @spartacus/cart/base/components
+
+
+
+
+# Variable PAGE_LAYOUT_HANDLER 
+## @spartacus/storefront
+
+
+Variable PAGE_LAYOUT_HANDLER changed.
+
+Previous version: 
+
+```
+PAGE_LAYOUT_HANDLER: InjectionToken<PageLayoutHandler[]>
+```
+
+
+Current version: 
+
+```
+PAGE_LAYOUT_HANDLER: InjectionToken<PageLayoutHandler>
+```
 
 
 
