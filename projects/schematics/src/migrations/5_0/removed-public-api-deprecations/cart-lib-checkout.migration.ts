@@ -1496,6 +1496,18 @@ export const CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
       'Function replenishmentOrderFacadeFactory has been removed and is no longer part of the public API. ',
   },
   {
+    node: 'RulebasedConfiguratorEventListener',
+    importPath: '@spartacus/product-configurator/rulebased',
+    comment:
+      'Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API. ',
+  },
+  {
+    node: 'RulebasedConfiguratorEventModule',
+    importPath: '@spartacus/product-configurator/rulebased',
+    comment:
+      'Class RulebasedConfiguratorEventModule has been removed and is no longer part of the public API. ',
+  },
+  {
     node: 'defaultB2bCheckoutConfig',
     importPath: '@spartacus/setup',
     comment:
