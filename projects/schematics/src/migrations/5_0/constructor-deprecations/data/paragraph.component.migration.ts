@@ -1,9 +1,9 @@
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import {
   ANGULAR_ROUTER,
   CMS_COMPONENT_DATA_CLASS,
   PARAGRAPH_COMPONENT,
   ROUTER,
-  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
