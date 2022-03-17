@@ -1,8 +1,10 @@
 import {
   CLI_ASM_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_ASM,
   SPARTACUS_ASM_ASSETS,
   SPARTACUS_ASM_ROOT,
+  SPARTACUS_USER,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -38,5 +40,8 @@ export const ASM_SCHEMATICS_CONFIG: FeatureConfig = {
     resources: ASM_TRANSLATIONS,
     chunks: ASM_TRANSLATION_CHUNKS_CONFIG,
     importPath: SPARTACUS_ASM_ASSETS,
+  },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
 };

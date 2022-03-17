@@ -37,9 +37,6 @@ export const DIGITAL_PAYMENTS_SCHEMATICS_CONFIG: FeatureConfig = {
     importPath: SPARTACUS_DIGITAL_PAYMENTS_ASSETS,
   },
   dependencyManagement: {
-    featureName: CLI_DIGITAL_PAYMENTS_FEATURE,
-    featureDependencies: {
-      [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
-    },
+    [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
   },
 };

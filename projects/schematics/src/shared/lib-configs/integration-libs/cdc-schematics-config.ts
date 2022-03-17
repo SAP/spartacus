@@ -53,9 +53,6 @@ export const CDC_SCHEMATICS_CONFIG: FeatureConfig = {
       }`,
   },
   dependencyManagement: {
-    featureName: CLI_CDC_FEATURE,
-    featureDependencies: {
-      [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
-    },
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
   },
 };

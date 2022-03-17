@@ -139,32 +139,15 @@ export interface FeatureConfig {
    */
   customConfig?: CustomConfig | CustomConfig[];
   /**
-   * Configure it if a feature requires another feature
-   * to be configured before it.
+   * Contains the feature dependencies.
+   * The key is a Spartacus scope, while the value is an array of its features.
    */
-  // TODO:#schematics - update for all libs
-  dependencyManagement?: DependencyManagement;
+  dependencyManagement?: Record<string, string[]>;
   /**
    * If set to true, instead of appending the configuration to the existing module,
    * it will recreate the feature module with the new configuration.
    */
   recreate?: boolean;
-}
-
-/**
- * Dependency management for the library
- */
-export interface DependencyManagement {
-  /**
-   * The name of the feature that's currently being installed.
-   */
-  // TODO:#schematics - use the `library` instead, and flatten the config
-  featureName: string;
-  /**
-   * Contains the feature dependencies.
-   * The key is a Spartacus scope, while the value is an array of its features.
-   */
-  featureDependencies: Record<string, string[]>;
 }
 
 export interface CustomConfig {
@@ -297,7 +280,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
       config.dependencyManagement
-        ? installRequiredSpartacusFeatures(config.dependencyManagement, options)
+        ? installRequiredSpartacusFeatures(config, options)
         : noop(),
 
       orderInstalledFeatures(options),
@@ -875,26 +858,26 @@ export function addPackageJsonDependenciesForLibrary<
 // TODO:#schematics - unused.
 export function installRequiredSpartacusFeatures<
   OPTIONS extends LibraryOptions
->(dependencyManagement: DependencyManagement, options: OPTIONS): Rule {
+>(featureConfig: FeatureConfig, options: OPTIONS): Rule {
   return (_tree: Tree, context: SchematicContext): void => {
-    if (!dependencyManagement) {
+    if (!featureConfig.dependencyManagement) {
       return;
     }
 
-    logFeatureInstallation(dependencyManagement, context);
+    logFeatureInstallation(featureConfig, context);
     const featureOptions = createSpartacusFeatureOptionsForLibrary(
       options,
-      dependencyManagement.featureDependencies
+      featureConfig.dependencyManagement
     );
     addSchematicsTasks(featureOptions, context);
   };
 }
 
 function logFeatureInstallation(
-  dependencyManagement: DependencyManagement,
+  featureConfig: FeatureConfig,
   context: SchematicContext
 ): void {
-  const cliFeatures = dependencyManagement.featureDependencies;
+  const cliFeatures = featureConfig.dependencyManagement ?? {};
   for (const spartacusScope in cliFeatures) {
     if (!cliFeatures.hasOwnProperty(spartacusScope)) {
       continue;
@@ -902,7 +885,7 @@ function logFeatureInstallation(
 
     const requiredFeatures = cliFeatures[spartacusScope].join(',');
     context.logger.info(
-      `⚙️  ${dependencyManagement.featureName} requires the following features from ${spartacusScope}: ${requiredFeatures}`
+      `⚙️  ${featureConfig.library.cli} requires the following features from ${spartacusScope}: ${requiredFeatures}`
     );
   }
 }
