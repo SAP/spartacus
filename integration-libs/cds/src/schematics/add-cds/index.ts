@@ -10,18 +10,16 @@ import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
   CDS_CONFIG,
-  CDS_MODULE,
+  CDS_SCHEMATICS_CONFIG,
   CLI_CDS_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
   CustomConfig,
+  FeatureConfig,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_CDS,
-  SPARTACUS_TRACKING,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../../package.json';
-import { CDS_FOLDER_NAME, CDS_MODULE_NAME } from '../constants';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 export function addCdsFeature(options: SpartacusCdsOptions): Rule {
@@ -86,25 +84,12 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
     });
   }
 
-  return addLibraryFeature(
-    { ...options, lazy: false },
-    {
-      folderName: CDS_FOLDER_NAME,
-      moduleName: CDS_MODULE_NAME,
-      featureModule: {
-        importPath: SPARTACUS_CDS,
-        name: CDS_MODULE,
-        content: `${CDS_MODULE}.forRoot()`,
-      },
-      customConfig,
-      dependencyManagement: {
-        featureName: CLI_CDS_FEATURE,
-        featureDependencies: {
-          [SPARTACUS_TRACKING]: [CLI_TRACKING_PERSONALIZATION_FEATURE],
-        },
-      },
-    }
-  );
+  const config: FeatureConfig = {
+    ...CDS_SCHEMATICS_CONFIG,
+    customConfig,
+  };
+
+  return addLibraryFeature({ ...options, lazy: false }, config);
 }
 
 function validateCdsOptions(

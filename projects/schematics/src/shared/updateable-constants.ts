@@ -29,6 +29,7 @@ import {
   CDC_MODULE,
   CDC_ROOT_MODULE,
 } from './lib-configs/integration-libs/cdc-schematics-config';
+import { CDS_MODULE } from './lib-configs/integration-libs/cds-schematics-config';
 import {
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
@@ -81,7 +82,6 @@ import {
   USER_PROFILE_ROOT_MODULE,
 } from './lib-configs/user-schematics-config';
 import {
-  CDS_MODULE,
   CLI_ASM_FEATURE,
   CLI_CART_BASE_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,

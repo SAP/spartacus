@@ -219,8 +219,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const CDS_MODULE = 'CdsModule';
-
 export const DIGITAL_PAYMENTS_MODULE = 'DigitalPaymentsModule';
 
 export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
