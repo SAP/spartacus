@@ -30,7 +30,7 @@ describe('Profile-tag events', () => {
       goToProductPage();
       cy.get('cx-add-to-cart button.btn-primary').click();
       cy.get('cx-added-to-cart-dialog .btn-primary');
-      cy.window().then((win) => {
+      cy.window().should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -69,7 +69,7 @@ describe('Profile-tag events', () => {
         .click();
       cy.wait('@getRefreshedCart');
       cy.wait(1500);
-      cy.window().then((win) => {
+      cy.window().should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -102,7 +102,7 @@ describe('Profile-tag events', () => {
         )}/users/anonymous/carts/*`,
       }).as('getRefreshedCart');
       cy.wait('@getRefreshedCart');
-      cy.window().then((win) => {
+      cy.window().should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -132,7 +132,7 @@ describe('Profile-tag events', () => {
     const productCategoryName = 'Canyon';
     goToProductPage();
     cy.wait('@lastRequest');
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -158,7 +158,7 @@ describe('Profile-tag events', () => {
     cy.get('cx-searchbox input').type('camera{enter}');
     cy.wait(`@${QUERY_ALIAS.CAMERA}`);
     profileTagHelper.waitForCMSComponents();
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -182,7 +182,7 @@ describe('Profile-tag events', () => {
       'include',
       `/electronics-spa/en/USD/cart`
     );
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -212,7 +212,7 @@ describe('Profile-tag events', () => {
       'include',
       `order-confirmation`
     );
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -233,7 +233,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -263,7 +263,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -282,7 +282,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest2');
-    cy.window().then((win2) => {
+    cy.window().should((win2) => {
       expect(
         profileTagHelper.eventCount(
           win2,
@@ -302,7 +302,7 @@ describe('Profile-tag events', () => {
       .click({ force: true });
     cy.location('pathname', { timeout: 10000 }).should('include', `c/575`);
     cy.wait('@lastRequest');
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -312,7 +312,7 @@ describe('Profile-tag events', () => {
     });
     productSearch.clickFacet('Stores');
 
-    cy.window().then((win2) => {
+    cy.window().should((win2) => {
       expect(
         profileTagHelper.eventCount(
           win2,
@@ -325,7 +325,7 @@ describe('Profile-tag events', () => {
   it('should send a Navigated event when a navigation to product page occurs', () => {
     goToProductPage();
     cy.get('cx-add-to-cart button.btn-primary').click();
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
       ).to.equal(1);
@@ -338,7 +338,7 @@ describe('Profile-tag events', () => {
       'cx-page-slot cx-banner img[alt="Save Big On Select SLR & DSLR Cameras"]'
     ).click();
     cy.wait(`@${categoryPage}`).its('response.statusCode').should('eq', 200);
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(win, profileTagHelper.EventNames.NAVIGATED)
       ).to.equal(0);
@@ -361,7 +361,7 @@ describe('Consent Changed', () => {
   it('should send a consentGranted = false before accepting consent, and a consentGranted=true after accepting', () => {
     cy.wait(2000);
     cy.window()
-      .then((win) => {
+      .should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -377,7 +377,7 @@ describe('Consent Changed', () => {
       .then(() => {
         anonymousConsents.clickAllowAllFromBanner();
       });
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       expect(
         profileTagHelper.eventCount(
           win,
@@ -395,7 +395,7 @@ describe('Consent Changed', () => {
   it('should not send a consentgranted=false event on a page refresh', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       const consentAccepted = profileTagHelper.getEvent(
         win,
         profileTagHelper.EventNames.CONSENT_CHANGED
@@ -408,7 +408,7 @@ describe('Consent Changed', () => {
     anonymousConsents.clickAllowAllFromBanner();
     cy.reload();
     profileTagHelper.waitForCMSComponents().then(() => {
-      cy.window().then((win) => {
+      cy.window().should((win) => {
         expect(
           profileTagHelper.eventCount(
             win,
@@ -447,7 +447,7 @@ describe('verifying X-Consent-Reference header addition to occ calls', () => {
     anonymousConsents.clickAllowAllFromBanner();
     profileTagHelper.triggerLoaded();
     profileTagHelper.triggerConsentReferenceLoaded();
-    cy.window().then((win) => {
+    cy.window().should((win) => {
       const consentAccepted = profileTagHelper.getEvent(
         win,
         profileTagHelper.EventNames.CONSENT_CHANGED
