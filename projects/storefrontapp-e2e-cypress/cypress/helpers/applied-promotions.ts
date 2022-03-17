@@ -35,12 +35,12 @@ export function addProductToCart() {
   cy.intercept(
     `${Cypress.env('API_URL')}${Cypress.env('OCC_PREFIX')}/${Cypress.env(
       'BASE_SITE'
-    )}/users/current/carts/*`
-  ).as('addToCart');
+    )}/users/*/carts/*?fields=DEFAULT,potentialProductPromotions*`
+  ).as('cart_refresh');
   cy.get('cx-add-to-cart')
     .findByText(/Add To Cart/i)
     .click();
-  cy.wait(`@addToCart`);
+  cy.wait(`@cart_refresh`);
 }
 
 export function goToCartDetailsView() {

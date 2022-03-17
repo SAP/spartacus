@@ -5,8 +5,21 @@ import {
   TestRequest,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import {
+  ConfigInitializerService,
+  I18nConfig,
+  LanguageService,
+} from '@spartacus/core';
+import { i18n } from 'i18next';
 import { RequestCallback } from 'i18next-http-backend';
-import { getLoadPath, i18nextGetHttpClient } from './i18next-init';
+import { of } from 'rxjs';
+import {
+  getLoadPath,
+  i18nextGetHttpClient,
+  i18nextInit,
+  SiteContextI18nextSynchronizer,
+} from './i18next-init';
+import { I18NEXT_INSTANCE } from './i18next-instance';
 
 const testUrl = 'testUrl';
 
@@ -66,6 +79,60 @@ describe('i18nextGetHttpClient should return a http client that', () => {
       status,
       // a workaround for https://github.com/i18next/i18next-http-backend/issues/82
       data: null as any,
+    });
+  });
+});
+
+describe('i18nextInit', () => {
+  let i18next: i18n;
+  let configInitializerService: ConfigInitializerService;
+  let languageService: LanguageService;
+  let httpClient: HttpClient;
+  let siteContextI18nextSynchronizer: SiteContextI18nextSynchronizer;
+
+  beforeEach(() => {
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        {
+          provide: LanguageService,
+          useValue: { getActive: () => of('en') } as Partial<LanguageService>,
+        },
+      ],
+    });
+    i18next = TestBed.inject(I18NEXT_INSTANCE);
+    configInitializerService = TestBed.inject(ConfigInitializerService);
+    languageService = TestBed.inject(LanguageService);
+    httpClient = TestBed.inject(HttpClient);
+    siteContextI18nextSynchronizer = TestBed.inject(
+      SiteContextI18nextSynchronizer
+    );
+  });
+
+  describe('when using i18next http backend', () => {
+    beforeEach(() => {
+      const config: I18nConfig = {
+        i18n: {
+          backend: {
+            loadPath: 'testPath',
+          },
+        },
+      };
+      spyOn(configInitializerService, 'getStable').and.returnValue(of(config));
+    });
+
+    it('should set i18next config `backend.reloadInterval` to false', () => {
+      spyOn(i18next, 'init').and.callThrough();
+      i18nextInit(
+        i18next,
+        configInitializerService,
+        languageService,
+        httpClient,
+        null,
+        siteContextI18nextSynchronizer
+      )();
+      const i18nextConfig = (i18next.init as jasmine.Spy).calls.argsFor(0)[0];
+      expect(i18nextConfig.backend.reloadInterval).toBe(false);
     });
   });
 });

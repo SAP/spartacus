@@ -7,6 +7,10 @@ import {
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+} from '../../../shared/libs-constants';
 import { DeprecatedNode } from '../../../shared/utils/file-utils';
 import { removedPublicApiDeprecation } from '../../mechanism/removed-public-api-deprecations/removed-public-api-deprecation';
 import { CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA } from './cart-lib-checkout.migration';

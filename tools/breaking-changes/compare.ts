@@ -42,7 +42,6 @@ oldApiData.forEach((oldApiElement: any) => {
         addBreakingChanges(oldApiElement, [
           {
             ...getChangeDesc(oldApiElement, 'MOVED'),
-            target: 'toplevel',
             to: {
               entryPoint: newApiElementMoved.entryPoint,
               namespace: newApiElementMoved.namespace ?? '',
@@ -68,7 +67,6 @@ oldApiData.forEach((oldApiElement: any) => {
       addBreakingChanges(oldApiElement, [
         {
           ...getChangeDesc(oldApiElement, 'DELETED'),
-          target: 'toplevel',
         },
       ]);
     }
@@ -212,7 +210,10 @@ function getMembersBreakingChange(
 ): any[] {
   const breakingChanges = [];
   oldApiElement.members.forEach((oldMember: any) => {
-    const newMember = findMatchingMember(newApiElementMatch, oldMember);
+    let newMember = findMatchingMember(newApiElementMatch, oldMember);
+    if (!newMember && oldMember.kind === 'Constructor') {
+      newMember = getConstructorIfUnique(newApiElementMatch);
+    }
     if (!newMember) {
       breakingChanges.push({
         ...getChangeDesc(oldMember, 'DELETED'),
@@ -229,6 +230,17 @@ function getMembersBreakingChange(
     }
   });
   return breakingChanges;
+}
+
+function getConstructorIfUnique(newApiElement: any): any {
+  const constructors = newApiElement.members.filter(
+    (member: any) => member.kind === 'Constructor'
+  );
+  if (constructors?.length === 1) {
+    return constructors[0];
+  } else {
+    return undefined;
+  }
 }
 
 function getMemberBreakingChange(oldMember: any, newMember: any): any[] {
@@ -428,7 +440,6 @@ function getChangeDesc(element: any, changeType: string): any {
     changeKind: element.kind,
     changeLabel: getChangeLabel(changeType),
     changeElementName: element.name,
-    changeDesc: true,
   };
 }
 

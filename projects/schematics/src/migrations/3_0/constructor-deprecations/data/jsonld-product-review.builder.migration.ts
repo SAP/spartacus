@@ -2,9 +2,11 @@ import {
   JSONLD_PRODUCT_REVIEW_BUILDER,
   PRODUCT_REVIEW_SERVICE,
   SEO_CONFIG,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 //projects/storefrontlib/cms-structure/seo/structured-data/builders/product/jsonld-product-review.builder.ts
