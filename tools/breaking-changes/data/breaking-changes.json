@@ -23722,7 +23722,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'.",
-        "migrationComment": ""
+        "migrationComment": "Please use new methods in BadVoucherRequestHandler."
       }
     ]
   },
@@ -51877,7 +51877,7 @@
     ],
     "isDeleted": true,
     "deletedComment": "Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API.",
-    "migrationComment": "",
+    "migrationComment": "Please use 'ConfiguratorRouterListener' instead",
     "breakingChanges": [
       {
         "change": "CLASS_DELETED",

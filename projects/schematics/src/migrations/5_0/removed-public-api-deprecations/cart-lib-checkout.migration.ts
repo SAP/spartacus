@@ -1,6 +1,6 @@
-import { DeprecatedNode } from 'projects/schematics/src/shared/utils/file-utils';
+import { DeprecatedNode } from '../../../shared/utils/file-utils';
 
-export const CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
+export const REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
   {
     node: 'DeleteSavedCartEvent',
     importPath: '@spartacus/cart/saved-cart/root',
@@ -1499,7 +1499,7 @@ export const CART_LIB_CHECKOUT_REMOVED_PUBLIC_API_DATA: DeprecatedNode[] = [
     node: 'RulebasedConfiguratorEventListener',
     importPath: '@spartacus/product-configurator/rulebased',
     comment:
-      'Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API. ',
+      "Class RulebasedConfiguratorEventListener has been removed and is no longer part of the public API. Please use 'ConfiguratorRouterListener' instead",
   },
   {
     node: 'RulebasedConfiguratorEventModule',

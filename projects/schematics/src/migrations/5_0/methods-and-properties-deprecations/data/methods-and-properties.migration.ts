@@ -728,7 +728,7 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       importPath: '@spartacus/core',
       deprecatedNode: 'handleVoucherOperationError',
       comment:
-        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. ",
+        "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. Please use new methods in BadVoucherRequestHandler.",
     },
     {
       class: 'CartPersistenceModule',
