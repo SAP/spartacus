@@ -1,6 +1,11 @@
 import {
   ADD_TO_CART_ENTRY_POINT,
   ADD_TO_WISHLIST_ENTRY_POINT,
+  CLI_CART_BASE_FEATURE,
+  CLI_CART_IMPORT_EXPORT_FEATURE,
+  CLI_CART_QUICK_ORDER_FEATURE,
+  CLI_CART_SAVED_CART_FEATURE,
+  CLI_CART_WISHLIST_FEATURE,
   MINI_CART_ENTRY_POINT,
   SPARTACUS_CART,
   SPARTACUS_CART_BASE,
@@ -37,7 +42,11 @@ export const CART_BASE_TRANSLATION_CHUNKS_CONFIG =
   'cartBaseTranslationChunksConfig';
 
 export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_CART_BASE,
+  library: {
+    cli: CLI_CART_BASE_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_CART_BASE,
+  },
   folderName: CART_FOLDER_NAME,
   moduleName: CART_BASE_FEATURE_MODULE_NAME,
   featureModule: [
@@ -87,7 +96,11 @@ export const CART_IMPORT_EXPORT_TRANSLATION_CHUNKS_CONFIG =
   'importExportTranslationChunksConfig';
 
 export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_CART_IMPORT_EXPORT,
+  library: {
+    cli: CLI_CART_IMPORT_EXPORT_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_CART_IMPORT_EXPORT,
+  },
   folderName: CART_FOLDER_NAME,
   moduleName: CART_IMPORT_EXPORT_MODULE_NAME,
   featureModule: {
@@ -123,7 +136,11 @@ export const QUICK_ORDER_TRANSLATION_CHUNKS_CONFIG =
   'quickOrderTranslationChunksConfig';
 
 export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_QUICK_ORDER,
+  library: {
+    cli: CLI_CART_QUICK_ORDER_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_QUICK_ORDER,
+  },
   folderName: CART_FOLDER_NAME,
   moduleName: CART_QUICK_ORDER_MODULE_NAME,
   featureModule: {
@@ -160,7 +177,11 @@ export const CART_WISHLIST_TRANSLATION_CHUNKS_CONFIG =
   'wishListTranslationChunksConfig';
 
 export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_CART_WISHLIST,
+  library: {
+    cli: CLI_CART_WISHLIST_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_CART_WISHLIST,
+  },
   folderName: CART_FOLDER_NAME,
   moduleName: CART_WISHLIST_FEATURE_MODULE_NAME,
   featureModule: [
@@ -204,7 +225,11 @@ export const SAVED_CART_TRANSLATION_CHUNKS_CONFIG =
   'savedCartTranslationChunksConfig';
 
 export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_SAVED_CART,
+  library: {
+    cli: CLI_CART_SAVED_CART_FEATURE,
+    mainScope: SPARTACUS_CART,
+    featureScope: SPARTACUS_SAVED_CART,
+  },
   folderName: CART_FOLDER_NAME,
   moduleName: CART_SAVED_CART_MODULE_NAME,
   featureModule: {

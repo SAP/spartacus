@@ -1,16 +1,22 @@
+// TODO:#schematics - rename the file?
 import {
   ASM_MODULE,
   ASM_ROOT_MODULE,
+  ASM_SCHEMATICS_CONFIG,
 } from './lib-configs/asm-schematics-config';
 import {
   ADD_TO_CART_MODULE,
   ADD_TO_WISHLIST_MODULE,
   CART_BASE_MODULE,
   CART_BASE_ROOT_MODULE,
+  CART_BASE_SCHEMATICS_CONFIG,
   CART_IMPORT_EXPORT_MODULE,
   CART_IMPORT_EXPORT_ROOT_MODULE,
+  CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
+  CART_QUICK_ORDER_SCHEMATICS_CONFIG,
   CART_WISHLIST_MODULE,
   CART_WISHLIST_ROOT_MODULE,
+  CART_WISHLIST_SCHEMATICS_CONFIG,
   MINI_CART_MODULE,
   QUICK_ORDER_MODULE,
   QUICK_ORDER_ROOT_MODULE,
@@ -20,58 +26,82 @@ import {
 import {
   CHECKOUT_B2B_MODULE,
   CHECKOUT_B2B_ROOT_MODULE,
+  CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_BASE_MODULE,
   CHECKOUT_BASE_ROOT_MODULE,
+  CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
   CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
 } from './lib-configs/checkout-schematics-config';
 import {
   CDC_MODULE,
   CDC_ROOT_MODULE,
+  CDC_SCHEMATICS_CONFIG,
 } from './lib-configs/integration-libs/cdc-schematics-config';
-import { CDS_MODULE } from './lib-configs/integration-libs/cds-schematics-config';
-import { DIGITAL_PAYMENTS_MODULE } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import {
+  CDS_MODULE,
+  CDS_SCHEMATICS_CONFIG,
+} from './lib-configs/integration-libs/cds-schematics-config';
+import {
+  DIGITAL_PAYMENTS_MODULE,
+  DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
+} from './lib-configs/integration-libs/digital-payments-schematics-config';
+import {
+  EPD_SCHEMATICS_CONFIG,
   EPD_VISUALIZATION_MODULE,
   EPD_VISUALIZATION_ROOT_MODULE,
 } from './lib-configs/integration-libs/epd-schematics-config';
 import {
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
+  ORDER_SCHEMATICS_CONFIG,
 } from './lib-configs/order-schematics-config';
 import {
   ADMINISTRATION_MODULE,
   ADMINISTRATION_ROOT_MODULE,
   ORDER_APPROVAL_MODULE,
   ORDER_APPROVAL_ROOT_MODULE,
+  ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
+  ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
 } from './lib-configs/organization-schematics-config';
 import {
+  PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_CPQ_MODULE,
   PRODUCT_CONFIGURATOR_RULEBASED_CPQ_ROOT_MODULE,
+  PRODUCT_CONFIGURATOR_RULEBASED_CPQ_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_RULEBASED_MODULE,
   PRODUCT_CONFIGURATOR_RULEBASED_ROOT_MODULE,
+  PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
   PRODUCT_CONFIGURATOR_TEXTFIELD_MODULE,
   PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT_MODULE,
+  PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
 } from './lib-configs/product-configurator-schematics-config';
 import {
   BULK_PRICING_MODULE,
   BULK_PRICING_ROOT_MODULE,
   IMAGE_ZOOM_MODULE,
   IMAGE_ZOOM_ROOT_MODULE,
+  PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
+  PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
+  PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
   VARIANTS_MODULE,
   VARIANTS_ROOT_MODULE,
 } from './lib-configs/product-schematics-config';
 import {
   QUALTRICS_MODULE,
   QUALTRICS_ROOT_MODULE,
+  QUALTRICS_SCHEMATICS_CONFIG,
 } from './lib-configs/qualtrics-schematics-config';
 import {
   SMARTEDIT_MODULE,
   SMARTEDIT_ROOT_MODULE,
+  SMARTEDIT_SCHEMATICS_CONFIG,
 } from './lib-configs/smartedit-schematics-config';
 import {
   STOREFINDER_MODULE,
   STOREFINDER_ROOT_MODULE,
+  STOREFINDER_SCHEMATICS_CONFIG,
 } from './lib-configs/storefinder-schematics-config';
 import {
   PERSONALIZATION_MODULE,
@@ -79,44 +109,19 @@ import {
   TMS_AEP_MODULE,
   TMS_BASE_MODULE,
   TMS_GTM_MODULE,
+  TRACKING_AEP_SCHEMATICS_CONFIG,
+  TRACKING_GTM_SCHEMATICS_CONFIG,
+  TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG,
 } from './lib-configs/tracking-schematics-config';
 import {
   USER_ACCOUNT_MODULE,
   USER_ACCOUNT_ROOT_MODULE,
+  USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_MODULE,
   USER_PROFILE_ROOT_MODULE,
+  USER_PROFILE_SCHEMATICS_CONFIG,
 } from './lib-configs/user-schematics-config';
 import {
-  CLI_ASM_FEATURE,
-  CLI_CART_BASE_FEATURE,
-  CLI_CART_IMPORT_EXPORT_FEATURE,
-  CLI_CART_QUICK_ORDER_FEATURE,
-  CLI_CART_SAVED_CART_FEATURE,
-  CLI_CART_WISHLIST_FEATURE,
-  CLI_CDC_FEATURE,
-  CLI_CDS_FEATURE,
-  CLI_CHECKOUT_B2B_FEATURE,
-  CLI_CHECKOUT_BASE_FEATURE,
-  CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  CLI_EPD_VISUALIZATION_FEATURE,
-  CLI_ORDER_FEATURE,
-  CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-  CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-  CLI_PRODUCT_BULK_PRICING_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-  CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-  CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  CLI_PRODUCT_VARIANTS_FEATURE,
-  CLI_QUALTRICS_FEATURE,
-  CLI_SMARTEDIT_FEATURE,
-  CLI_STOREFINDER_FEATURE,
-  CLI_TRACKING_PERSONALIZATION_FEATURE,
-  CLI_TRACKING_TMS_AEP_FEATURE,
-  CLI_TRACKING_TMS_GTM_FEATURE,
-  CLI_USER_ACCOUNT_FEATURE,
-  CLI_USER_PROFILE_FEATURE,
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
@@ -134,59 +139,152 @@ import {
   SPARTACUS_TRACKING,
   SPARTACUS_USER,
 } from './libs-constants';
+import { FeatureConfig, Module } from './utils/lib-utils';
+
+export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
+  ASM_SCHEMATICS_CONFIG,
+
+  CART_BASE_SCHEMATICS_CONFIG,
+  CART_IMPORT_EXPORT_SCHEMATICS_CONFIG,
+  CART_QUICK_ORDER_SCHEMATICS_CONFIG,
+  CART_WISHLIST_SCHEMATICS_CONFIG,
+
+  CHECKOUT_BASE_SCHEMATICS_CONFIG,
+  CHECKOUT_B2B_SCHEMATICS_CONFIG,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
+
+  ORDER_SCHEMATICS_CONFIG,
+
+  ORGANIZATION_ADMINISTRATION_SCHEMATICS_CONFIG,
+  ORGANIZATION_ORDER_APPROVAL_SCHEMATICS_CONFIG,
+
+  PRODUCT_CONFIGURATOR_TEXTFIELD_SCHEMATICS_CONFIG,
+  PRODUCT_CONFIGURATOR_RULEBASED_SCHEMATICS_CONFIG,
+  PRODUCT_CONFIGURATOR_RULEBASED_CPQ_SCHEMATICS_CONFIG,
+  PRODUCT_CONFIGURATOR_CPQ_SCHEMATICS_CONFIG,
+
+  PRODUCT_BULK_PRICING_SCHEMATICS_CONFIG,
+  PRODUCT_IMAGE_ZOOM_SCHEMATICS_CONFIG,
+  PRODUCT_VARIANTS_SCHEMATICS_CONFIG,
+
+  QUALTRICS_SCHEMATICS_CONFIG,
+
+  SMARTEDIT_SCHEMATICS_CONFIG,
+
+  STOREFINDER_SCHEMATICS_CONFIG,
+
+  TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG,
+  TRACKING_GTM_SCHEMATICS_CONFIG,
+  TRACKING_AEP_SCHEMATICS_CONFIG,
+
+  USER_ACCOUNT_SCHEMATICS_CONFIG,
+  USER_PROFILE_SCHEMATICS_CONFIG,
+
+  CDC_SCHEMATICS_CONFIG,
+
+  CDS_SCHEMATICS_CONFIG,
+
+  DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
+
+  EPD_SCHEMATICS_CONFIG,
+];
 
 /**
  * Maps sub-features to their parent feature.
- * E.g. User feature contains sub-features: Account, Profile.
  */
-export const packageSubFeaturesMapping: Record<string, string[]> = {
-  /** Feature modules lib start */
-  [SPARTACUS_ASM]: [CLI_ASM_FEATURE],
-  [SPARTACUS_CART]: [
-    CLI_CART_BASE_FEATURE,
-    CLI_CART_WISHLIST_FEATURE,
-    CLI_CART_IMPORT_EXPORT_FEATURE,
-    CLI_CART_QUICK_ORDER_FEATURE,
-    CLI_CART_SAVED_CART_FEATURE,
-  ],
-  [SPARTACUS_CHECKOUT]: [
-    CLI_CHECKOUT_BASE_FEATURE,
-    CLI_CHECKOUT_B2B_FEATURE,
-    CLI_CHECKOUT_SCHEDULED_REPLENISHMENT_FEATURE,
-  ],
-  [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
-  [SPARTACUS_ORGANIZATION]: [
-    CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
-    CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
-  ],
-  [SPARTACUS_PRODUCT]: [
-    CLI_PRODUCT_BULK_PRICING_FEATURE,
-    CLI_PRODUCT_VARIANTS_FEATURE,
-    CLI_PRODUCT_IMAGE_ZOOM_FEATURE,
-  ],
-  [SPARTACUS_PRODUCT_CONFIGURATOR]: [
-    CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
-    CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
-    CLI_PRODUCT_CONFIGURATOR_CPQ_FEATURE,
-  ],
-  [SPARTACUS_QUALTRICS]: [CLI_QUALTRICS_FEATURE],
-  [SPARTACUS_SMARTEDIT]: [CLI_SMARTEDIT_FEATURE],
-  [SPARTACUS_STOREFINDER]: [CLI_STOREFINDER_FEATURE],
-  [SPARTACUS_TRACKING]: [
-    CLI_TRACKING_PERSONALIZATION_FEATURE,
-    CLI_TRACKING_TMS_GTM_FEATURE,
-    CLI_TRACKING_TMS_AEP_FEATURE,
-  ],
-  [SPARTACUS_USER]: [CLI_USER_ACCOUNT_FEATURE, CLI_USER_PROFILE_FEATURE],
-  /** Feature modules lib end */
+export const { packageCliMapping, packageFeatureMapping, packageRootMapping } =
+  generateMappings();
 
-  /** Integration libs start */
-  [SPARTACUS_CDC]: [CLI_CDC_FEATURE],
-  [SPARTACUS_CDS]: [CLI_CDS_FEATURE],
-  [SPARTACUS_DIGITAL_PAYMENTS]: [CLI_DIGITAL_PAYMENTS_FEATURE],
-  [SPARTACUS_EPD_VISUALIZATION]: [CLI_EPD_VISUALIZATION_FEATURE],
-  /** Integration libs end */
-};
+export function generateMappings(): {
+  packageCliMapping: Record<string, string[]>;
+  packageFeatureMapping: Record<string, string[]>;
+  packageRootMapping: Record<string, string[]>;
+} {
+  let cliMapping: Record<string, string[]> = {};
+  let featureMapping: Record<string, string[]> = {};
+  let rootMapping: Record<string, string[]> = {};
+
+  for (const featureConfig of SCHEMATICS_CONFIGS) {
+    cliMapping = generateCliFeatureMapping(featureConfig, cliMapping);
+    featureMapping = generateMainModules(featureConfig, featureMapping);
+    rootMapping = generateRootModules(featureConfig, rootMapping);
+  }
+
+  return {
+    packageCliMapping: cliMapping,
+    packageFeatureMapping: featureMapping,
+    packageRootMapping: rootMapping,
+  };
+}
+
+function generateCliFeatureMapping(
+  featureConfig: FeatureConfig,
+  cliMapping: Record<string, string[]>
+): Record<string, string[]> {
+  const feature = featureConfig.library.mainScope;
+  const cli = featureConfig.library.cli;
+
+  const existingCliMapping = cliMapping[feature] ?? [];
+  // avoid adding duplicates
+  if (existingCliMapping.includes(cli)) {
+    return cliMapping;
+  }
+
+  return {
+    ...cliMapping,
+    [feature]: [...existingCliMapping, cli],
+  };
+}
+
+function generateMainModules(
+  featureConfig: FeatureConfig,
+  featureMapping: Record<string, string[]>
+): Record<string, string[]> {
+  const feature = featureConfig.library.mainScope;
+
+  const existingFeatureMarkerMapping = featureMapping[feature] ?? [];
+  const featureModules = ([] as Module[])
+    .concat(featureConfig.featureModule)
+    .map((fm) => fm.name);
+
+  // avoid adding duplicates
+  if (
+    existingFeatureMarkerMapping.some((existing) =>
+      featureModules.includes(existing)
+    )
+  ) {
+    return featureMapping;
+  }
+
+  return {
+    ...featureMapping,
+    [feature]: [...existingFeatureMarkerMapping, ...featureModules],
+  };
+}
+
+function generateRootModules(
+  featureConfig: FeatureConfig,
+  rootMapping: Record<string, string[]>
+): Record<string, string[]> {
+  const feature = featureConfig.library.mainScope;
+
+  const existingRootMarkerMapping = rootMapping[feature] ?? [];
+  const rooModules = ([] as Module[])
+    .concat(featureConfig.rootModule ?? [])
+    .map((rm) => rm.name);
+
+  // avoid adding duplicates
+  if (
+    existingRootMarkerMapping.some((existing) => rooModules.includes(existing))
+  ) {
+    return rootMapping;
+  }
+
+  return {
+    ...rootMapping,
+    [feature]: [...existingRootMarkerMapping, ...rooModules],
+  };
+}
 
 /**
  * Maps the sub-feature's configurations to its parent feature.
@@ -194,6 +292,7 @@ export const packageSubFeaturesMapping: Record<string, string[]> = {
  * Account and Profile: USER_ACCOUNT_MODULE, USER_ACCOUNT_ROOT_MODULE,
  * USER_PROFILE_MODULE, USER_PROFILE_ROOT_MODULE,
  */
+// TODO:#schematics - build dynamically based on the `SCHEMATICS_CONFIGS`
 export const packageFeatureConfigMapping: Record<string, string[]> = {
   /** Feature modules lib start */
   [SPARTACUS_ASM]: [ASM_MODULE, ASM_ROOT_MODULE],

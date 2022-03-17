@@ -21,7 +21,10 @@ export const ORDER_TRANSLATIONS = 'orderTranslations';
 export const ORDER_TRANSLATION_CHUNKS_CONFIG = 'orderTranslationChunksConfig';
 
 export const ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_ORDER,
+  library: {
+    cli: CLI_ORDER_FEATURE,
+    mainScope: SPARTACUS_ORDER,
+  },
   folderName: ORDER_FOLDER_NAME,
   moduleName: ORDER_MODULE_NAME,
   featureModule: {

@@ -1,9 +1,13 @@
 import {
+  CLI_TRACKING_PERSONALIZATION_FEATURE,
+  CLI_TRACKING_TMS_AEP_FEATURE,
+  CLI_TRACKING_TMS_GTM_FEATURE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
   SPARTACUS_TMS_AEP,
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
+  SPARTACUS_TRACKING,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -15,7 +19,11 @@ export const PERSONALIZATION_MODULE_NAME = 'Personalization';
 export const PERSONALIZATION_FEATURE_NAME_CONSTANT = 'PERSONALIZATION_FEATURE';
 
 export const TRACKING_PERSONALIZATION_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_PERSONALIZATION,
+  library: {
+    cli: CLI_TRACKING_PERSONALIZATION_FEATURE,
+    mainScope: SPARTACUS_TRACKING,
+    featureScope: SPARTACUS_PERSONALIZATION,
+  },
   folderName: TRACKING_FOLDER_NAME,
   moduleName: PERSONALIZATION_MODULE_NAME,
   featureModule: {
@@ -38,7 +46,11 @@ export const TMS_BASE_MODULE = 'BaseTmsModule';
 export const TMS_GTM_MODULE = 'GtmModule';
 
 export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_TMS_GTM,
+  library: {
+    cli: CLI_TRACKING_TMS_GTM_FEATURE,
+    mainScope: SPARTACUS_TRACKING,
+    featureScope: SPARTACUS_TMS_GTM,
+  },
   folderName: TRACKING_FOLDER_NAME,
   moduleName: TMS_MODULE_NAME,
   featureModule: {
@@ -69,8 +81,13 @@ export const TRACKING_GTM_SCHEMATICS_CONFIG: FeatureConfig = {
 };
 
 export const TMS_AEP_MODULE = 'AepModule';
+
 export const TRACKING_AEP_SCHEMATICS_CONFIG: FeatureConfig = {
-  library: SPARTACUS_TMS_AEP,
+  library: {
+    cli: CLI_TRACKING_TMS_AEP_FEATURE,
+    mainScope: SPARTACUS_TRACKING,
+    featureScope: SPARTACUS_TMS_AEP,
+  },
   folderName: TRACKING_FOLDER_NAME,
   moduleName: TMS_MODULE_NAME,
   featureModule: {

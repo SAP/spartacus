@@ -84,9 +84,22 @@ export interface LibraryOptions extends Partial<ExecutionOptions> {
 
 export interface FeatureConfig {
   /**
-   * Spartacus library scope.
+   * Library options
    */
-  library: string;
+  library: {
+    /**
+     * The CLI feature name, e.g. CLI_CHECKOUT_BASE_FEATURE
+     */
+    cli: string;
+    /**
+     * Spartacus library scope, e.g. `@spartacus/checkout`
+     */
+    mainScope: string;
+    /**
+     * E.g. `@spartacus/checkout/base/b2b`
+     */
+    featureScope?: string;
+  };
   /**
    * The folder in which we will generate the feature module. E.g. app/spartacus/features/__organization__ (__NOTE__: just the `organization` part should be provided.).
    */
@@ -129,6 +142,7 @@ export interface FeatureConfig {
    * Configure it if a feature requires another feature
    * to be configured before it.
    */
+  // TODO:#schematics - update for all libs
   dependencyManagement?: DependencyManagement;
   /**
    * If set to true, instead of appending the configuration to the existing module,
@@ -144,6 +158,7 @@ export interface DependencyManagement {
   /**
    * The name of the feature that's currently being installed.
    */
+  // TODO:#schematics - use the `library` instead, and flatten the config
   featureName: string;
   /**
    * Contains the feature dependencies.
@@ -857,10 +872,10 @@ export function addPackageJsonDependenciesForLibrary<
   };
 }
 
-function installRequiredSpartacusFeatures<OPTIONS extends LibraryOptions>(
-  dependencyManagement: DependencyManagement,
-  options: OPTIONS
-): Rule {
+// TODO:#schematics - unused.
+export function installRequiredSpartacusFeatures<
+  OPTIONS extends LibraryOptions
+>(dependencyManagement: DependencyManagement, options: OPTIONS): Rule {
   return (_tree: Tree, context: SchematicContext): void => {
     if (!dependencyManagement) {
       return;
@@ -1041,7 +1056,7 @@ function createModuleFileName(config: FeatureConfig): string {
 /**
  * Used to sort the features in the correct order.
  */
-function calculateSort(libraryA: string, libraryB: string): number {
+export function calculateSort(libraryA: string, libraryB: string): number {
   const indexA = installationOrder.indexOf(libraryA);
   const indexB = installationOrder.indexOf(libraryB);
 
