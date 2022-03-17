@@ -88,6 +88,7 @@ import {
   Import,
 } from './new-module-utils';
 import {
+  cleanSemverVersion,
   createDependencies,
   createSpartacusDependencies,
   getPrefixedSpartacusSchematicsVersion,
@@ -101,6 +102,7 @@ import {
   getWorkspace,
   scaffoldStructure,
 } from './workspace-utils';
+import semver from 'semver';
 
 export interface LibraryOptions extends Partial<ExecutionOptions> {
   project: string;
@@ -825,6 +827,7 @@ export function addPackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     for (const dependency of dependencies) {
+      context.logger.info(`${dependency.name} of type ${dependency.type}`);
       if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
@@ -1047,4 +1050,59 @@ export function runExternalSpartacusLibrary(
 
 function createModuleFileName(config: FeatureConfig): string {
   return `${dasherize(config.moduleName)}-feature.module.ts`;
+}
+
+export function updatePackageJsonDependencies(
+  dependencies: NodeDependency[],
+  packageJson: any
+): Rule {
+  return (tree: Tree, context: SchematicContext): Rule => {
+    const dependenciesToAdd: NodeDependency[] = [];
+
+    context.logger.info(dependencies.toString());
+
+    for (const dependency of dependencies) {
+      const currentVersion = getCurrentDependencyVersion(
+        dependency,
+        packageJson
+      );
+      if (!currentVersion) {
+        dependenciesToAdd.push(dependency);
+        continue;
+      }
+
+      if (semver.satisfies(currentVersion, dependency.version)) {
+        continue;
+      }
+
+      const versionToUpdate = semver.parse(
+        cleanSemverVersion(dependency.version)
+      );
+      if (!versionToUpdate || semver.eq(versionToUpdate, currentVersion)) {
+        continue;
+      }
+
+      addPackageJsonDependency(tree, dependency);
+      const change = semver.gt(versionToUpdate, currentVersion)
+        ? 'Upgrading'
+        : 'Downgrading';
+      context.logger.info(
+        `🩹 ${change} '${dependency.name}' to ${dependency.version} (was ${currentVersion.raw})`
+      );
+    }
+
+    return addPackageJsonDependencies(dependenciesToAdd, packageJson);
+  };
+}
+
+export function getCurrentDependencyVersion(
+  dependency: NodeDependency,
+  packageJson: any
+): semver.SemVer | null {
+  if (!dependencyExists(dependency, packageJson)) {
+    return null;
+  }
+  const dependencies = packageJson[dependency.type];
+  const currentVersion = dependencies[dependency.name];
+  return semver.parse(cleanSemverVersion(currentVersion));
 }
