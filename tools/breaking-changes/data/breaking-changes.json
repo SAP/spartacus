@@ -23427,7 +23427,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Method 'handleExpiredToken' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'getValidToken' instead."
       },
       {
         "change": "PROPERTY_DELETED",
@@ -23446,7 +23446,7 @@
         "apiElementKind": "Class",
         "entryPoint": "@spartacus/core",
         "deletedComment": "// TODO:Spartacus - Property 'refreshInProgress' was removed from Class 'AuthHttpHeaderService'.",
-        "migrationComment": ""
+        "migrationComment": "Use 'refreshInProgress$' Observable instead."
       }
     ]
   },
