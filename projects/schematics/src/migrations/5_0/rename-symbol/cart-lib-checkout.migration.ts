@@ -837,6 +837,16 @@ export const CART_LIB_CHECKOUT_RENAMED_SYMBOLS_DATA: RenamedSymbol[] = [
     newImportPath: '@spartacus/cart/wish-list/core',
   },
   {
+    previousNode: 'dpTranslationChunksConfig',
+    previousImportPath: '@spartacus/digital-payments',
+    newImportPath: '@spartacus/digital-payments/assets',
+  },
+  {
+    previousNode: 'dpTranslations',
+    previousImportPath: '@spartacus/digital-payments',
+    newImportPath: '@spartacus/digital-payments/assets',
+  },
+  {
     previousNode: 'CONSIGNMENT_TRACKING_NORMALIZER',
     previousImportPath: '@spartacus/order/core',
     newImportPath: '@spartacus/order/root',
