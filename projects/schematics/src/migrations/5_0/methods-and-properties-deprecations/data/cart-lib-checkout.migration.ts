@@ -1,6 +1,6 @@
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
+export const METHODS_AND_PROPERTIES_DEPRECATIONS: MethodPropertyDeprecation[] = [
   {
     class: 'QuickOrderFormComponent',
     importPath: '@spartacus/cart/quick-order/components',
