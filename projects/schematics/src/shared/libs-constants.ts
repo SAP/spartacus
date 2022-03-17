@@ -130,6 +130,11 @@ export const SPARTACUS_STOREFINDER_ROOT = `@spartacus/storefinder/root`;
 export const SPARTACUS_STOREFINDER_ASSETS = `@spartacus/storefinder/assets`;
 
 export const SPARTACUS_TRACKING = `@spartacus/tracking`;
+export const SPARTACUS_TMS_CORE = `@spartacus/tracking/tms/core`;
+export const SPARTACUS_TMS_GTM = `@spartacus/tracking/tms/gtm`;
+export const SPARTACUS_TMS_AEP = `@spartacus/tracking/tms/aep`;
+export const SPARTACUS_PERSONALIZATION = `@spartacus/tracking/personalization`;
+export const SPARTACUS_PERSONALIZATION_ROOT = `@spartacus/tracking/personalization/root`;
 
 export const SPARTACUS_USER = `@spartacus/user`;
 export const SPARTACUS_USER_ACCOUNT = `@spartacus/user/account`;
@@ -213,12 +218,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const TMS_BASE_MODULE = 'BaseTmsModule';
-export const TMS_GTM_MODULE = 'GtmModule';
-export const TMS_AEP_MODULE = 'AepModule';
-export const PERSONALIZATION_MODULE = 'PersonalizationModule';
-export const PERSONALIZATION_ROOT_MODULE = 'PersonalizationRootModule';
-
 export const CDC_MODULE = 'CdcModule';
 export const CDC_ROOT_MODULE = 'CdcRootModule';
 
