@@ -159,6 +159,9 @@ export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
 
 export const SPARTACUS_EPD_VISUALIZATION = `@spartacus/epd-visualization`;
+export const SPARTACUS_EPD_VISUALIZATION_ROOT = `@spartacus/epd-visualization/root`;
+export const SPARTACUS_EPD_VISUALIZATION_ASSETS = `@spartacus/epd-visualization/assets`;
+
 /***** Scopes end *****/
 
 /***** File structure start *****/
@@ -218,8 +221,3 @@ export const CLI_DIGITAL_PAYMENTS_FEATURE = 'Digital-Payments';
 
 export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
-
-/***** Feature libs configuration start *****/
-export const EPD_VISUALIZATION_MODULE = 'EpdVisualizationModule';
-export const EPD_VISUALIZATION_ROOT_MODULE = 'EpdVisualizationRootModule';
-/***** Feature libs configuration end *****/

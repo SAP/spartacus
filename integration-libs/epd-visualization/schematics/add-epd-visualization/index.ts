@@ -10,25 +10,15 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_EPD_VISUALIZATION_FEATURE,
   CustomConfig,
+  EPD_SCHEMATICS_CONFIG,
   EPD_VISUALIZATION_CONFIG,
-  EPD_VISUALIZATION_MODULE,
-  EPD_VISUALIZATION_ROOT_MODULE,
+  FeatureConfig,
   readPackageJson,
   shouldAddFeature,
-  SPARTACUS_EPD_VISUALIZATION,
+  SPARTACUS_EPD_VISUALIZATION_ROOT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  EPD_VISUALIZATION_FEATURE_NAME_CONSTANT,
-  EPD_VISUALIZATION_FOLDER_NAME,
-  EPD_VISUALIZATION_MODULE_NAME,
-  EPD_VISUALIZATION_TRANSLATIONS,
-  EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
-  SCSS_FILE_NAME,
-  SPARTACUS_EPD_VISUALIZATION_ASSETS,
-  SPARTACUS_EPD_VISUALIZATION_ROOT,
-} from '../constants';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
 export function addEpdVisualizationFeature(
@@ -71,34 +61,10 @@ function addEpdVisualization(options: SpartacusEpdVisualizationOptions): Rule {
     },
   ];
 
-  return addLibraryFeature(options, {
-    folderName: EPD_VISUALIZATION_FOLDER_NAME,
-    moduleName: EPD_VISUALIZATION_MODULE_NAME,
-    featureModule: {
-      name: EPD_VISUALIZATION_MODULE,
-      importPath: SPARTACUS_EPD_VISUALIZATION,
-    },
-    rootModule: {
-      name: EPD_VISUALIZATION_ROOT_MODULE,
-      importPath: SPARTACUS_EPD_VISUALIZATION_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_EPD_VISUALIZATION_ROOT,
-      namedImports: [EPD_VISUALIZATION_FEATURE_NAME_CONSTANT],
-    },
-    i18n: {
-      resources: EPD_VISUALIZATION_TRANSLATIONS,
-      chunks: EPD_VISUALIZATION_TRANSLATION_CHUNKS_CONFIG,
-      importPath: SPARTACUS_EPD_VISUALIZATION_ASSETS,
-    },
-    styles: {
-      scssFileName: SCSS_FILE_NAME,
-      importStyle: SPARTACUS_EPD_VISUALIZATION,
-    },
+  const config: FeatureConfig = {
+    ...EPD_SCHEMATICS_CONFIG,
     customConfig,
-    dependencyManagement: {
-      featureName: CLI_EPD_VISUALIZATION_FEATURE,
-      featureDependencies: {},
-    },
-  });
+  };
+
+  return addLibraryFeature(options, config);
 }

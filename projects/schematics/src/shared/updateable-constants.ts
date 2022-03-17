@@ -32,6 +32,10 @@ import {
 import { CDS_MODULE } from './lib-configs/integration-libs/cds-schematics-config';
 import { DIGITAL_PAYMENTS_MODULE } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import {
+  EPD_VISUALIZATION_MODULE,
+  EPD_VISUALIZATION_ROOT_MODULE,
+} from './lib-configs/integration-libs/epd-schematics-config';
+import {
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
 } from './lib-configs/order-schematics-config';
@@ -113,8 +117,6 @@ import {
   CLI_TRACKING_TMS_GTM_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
-  EPD_VISUALIZATION_MODULE,
-  EPD_VISUALIZATION_ROOT_MODULE,
   SPARTACUS_ASM,
   SPARTACUS_CART,
   SPARTACUS_CDC,
