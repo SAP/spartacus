@@ -8,7 +8,6 @@ import {
   CartConfig,
   CartUiEventAddToCart,
 } from '../../root';
-import { AddedToCartToastComponentService } from './added-to-cart-toast-component.service';
 import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 
 @Injectable({
@@ -16,12 +15,11 @@ import { AddedToCartToastComponent } from './added-to-cart-toast.component';
 })
 export class AddedToCartToastEventListener implements OnDestroy {
   protected subscription = new Subscription();
-  protected component: AddedToCartToastComponent;
+  protected component: AddedToCartToastComponent | undefined;
 
   constructor(
     protected eventService: EventService,
     protected launchDialogService: LaunchDialogService,
-    protected addedToCartToastService: AddedToCartToastComponentService,
     protected cartConfig: CartConfig
   ) {
     this.onAddToCart();
@@ -58,10 +56,11 @@ export class AddedToCartToastEventListener implements OnDestroy {
     if (!this.component) {
       this.renderToastUi();
     }
-    this.component.addToast(event);
+    this.component?.addToast(event);
   }
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+    this.component?.ngOnDestroy();
   }
 }
