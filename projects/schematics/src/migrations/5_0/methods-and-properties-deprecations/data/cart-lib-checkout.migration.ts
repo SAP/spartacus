@@ -1560,7 +1560,7 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/product-configurator/rulebased',
     deprecatedNode: 'configuration$',
     comment:
-      "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'. ",
+      "// TODO:Spartacus - Property 'configuration$' was removed from Class 'ConfiguratorGroupTitleComponent'. Consult the migration documentation on how to deal with that.",
   },
   {
     class: 'ConfiguratorOverviewNotificationBannerComponent',
