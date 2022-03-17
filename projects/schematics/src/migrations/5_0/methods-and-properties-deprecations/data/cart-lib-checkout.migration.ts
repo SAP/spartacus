@@ -20,14 +20,14 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/cart/quick-order/core',
     deprecatedNode: 'removeEntry',
     comment:
-      "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. ",
+      "// TODO:Spartacus - Method 'removeEntry' was removed from Class 'QuickOrderService'. Use 'softDeleteEntry' instead.",
   },
   {
     class: 'QuickOrderService',
     importPath: '@spartacus/cart/quick-order/core',
     deprecatedNode: 'search',
     comment:
-      "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. ",
+      "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. Use 'searchProducts' instead.",
   },
   {
     class: 'QuickOrderFacade',
@@ -1707,7 +1707,7 @@ export const CART_LIB_AND_CHECKOUT_MIGRATION: MethodPropertyDeprecation[] = [
     importPath: '@spartacus/storefront',
     deprecatedNode: 'reinitalizeMenu',
     comment:
-      "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. ",
+      "// TODO:Spartacus - Method 'reinitalizeMenu' was removed from Class 'NavigationUIComponent'. Use 'reinitializeMenu' instead.",
   },
   {
     class: 'OrderCancellationService',
