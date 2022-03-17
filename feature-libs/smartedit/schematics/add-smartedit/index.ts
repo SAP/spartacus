@@ -10,22 +10,15 @@ import {
   addPackageJsonDependenciesForLibrary,
   CLI_SMARTEDIT_FEATURE,
   CustomConfig,
+  FeatureConfig,
   readPackageJson,
   shouldAddFeature,
-  SMARTEDIT_MODULE,
-  SMARTEDIT_ROOT_MODULE,
+  SMARTEDIT_SCHEMATICS_CONFIG,
   SMART_EDIT_CONFIG,
-  SPARTACUS_SMARTEDIT,
+  SPARTACUS_SMARTEDIT_ROOT,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
-import {
-  SMARTEDIT_FEATURE_NAME_CONSTANT,
-  SMARTEDIT_FOLDER_NAME,
-  SMARTEDIT_MODULE_NAME,
-  SPARTACUS_SMARTEDIT_ASSETS,
-  SPARTACUS_SMARTEDIT_ROOT,
-} from '../constants';
 import { Schema as SpartacusSmartEditOptions } from './schema';
 
 export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
@@ -67,25 +60,10 @@ function addSmartEditFeature(options: SpartacusSmartEditOptions): Rule {
     });
   }
 
-  return addLibraryFeature(options, {
-    folderName: SMARTEDIT_FOLDER_NAME,
-    moduleName: SMARTEDIT_MODULE_NAME,
-    featureModule: {
-      name: SMARTEDIT_MODULE,
-      importPath: SPARTACUS_SMARTEDIT,
-    },
-    rootModule: {
-      name: SMARTEDIT_ROOT_MODULE,
-      importPath: SPARTACUS_SMARTEDIT_ROOT,
-    },
-    lazyLoadingChunk: {
-      moduleSpecifier: SPARTACUS_SMARTEDIT_ROOT,
-      namedImports: [SMARTEDIT_FEATURE_NAME_CONSTANT],
-    },
+  const config: FeatureConfig = {
+    ...SMARTEDIT_SCHEMATICS_CONFIG,
     customConfig,
-    assets: {
-      input: SPARTACUS_SMARTEDIT_ASSETS,
-      glob: '**/*',
-    },
-  });
+  };
+
+  return addLibraryFeature(options, config);
 }

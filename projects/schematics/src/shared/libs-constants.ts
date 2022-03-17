@@ -109,16 +109,6 @@ export const SPARTACUS_VARIANTS = `@spartacus/product/variants`;
 export const SPARTACUS_VARIANTS_ROOT = `@spartacus/product/variants/root`;
 export const SPARTACUS_VARIANTS_ASSETS = `@spartacus/product/variants/assets`;
 
-export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
-
-export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
-export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
-export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
-
-export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
-
-export const SPARTACUS_TRACKING = `@spartacus/tracking`;
-
 export const SPARTACUS_PRODUCT_CONFIGURATOR = `@spartacus/product-configurator`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_COMMON = `@spartacus/product-configurator/common`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_ASSETS = `@spartacus/product-configurator/common/assets`;
@@ -127,6 +117,17 @@ export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED = `@spartacus/product-conf
 export const SPARTACUS_PRODUCT_CONFIGURATOR_TEXTFIELD_ROOT = `@spartacus/product-configurator/textfield/root`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_ROOT = `@spartacus/product-configurator/rulebased/root`;
 export const SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED_CPQ = `@spartacus/product-configurator/rulebased/cpq`;
+
+export const SPARTACUS_QUALTRICS = `@spartacus/qualtrics`;
+export const SPARTACUS_QUALTRICS_COMPONENTS = `@spartacus/qualtrics/components`;
+export const SPARTACUS_QUALTRICS_ROOT = `@spartacus/qualtrics/root`;
+
+export const SPARTACUS_SMARTEDIT = `@spartacus/smartedit`;
+export const SPARTACUS_SMARTEDIT_ROOT = `@spartacus/smartedit/root`;
+
+export const SPARTACUS_STOREFINDER = `@spartacus/storefinder`;
+
+export const SPARTACUS_TRACKING = `@spartacus/tracking`;
 
 export const SPARTACUS_USER = `@spartacus/user`;
 export const SPARTACUS_USER_ACCOUNT = `@spartacus/user/account`;
@@ -210,8 +211,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const SMARTEDIT_MODULE = 'SmartEditModule';
-export const SMARTEDIT_ROOT_MODULE = 'SmartEditRootModule';
 
 export const STOREFINDER_MODULE = 'StoreFinderModule';
 export const STOREFINDER_ROOT_MODULE = 'StoreFinderRootModule';
