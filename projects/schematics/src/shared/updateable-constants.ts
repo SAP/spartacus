@@ -30,6 +30,7 @@ import {
   CDC_ROOT_MODULE,
 } from './lib-configs/integration-libs/cdc-schematics-config';
 import { CDS_MODULE } from './lib-configs/integration-libs/cds-schematics-config';
+import { DIGITAL_PAYMENTS_MODULE } from './lib-configs/integration-libs/digital-payments-schematics-config';
 import {
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
@@ -112,7 +113,6 @@ import {
   CLI_TRACKING_TMS_GTM_FEATURE,
   CLI_USER_ACCOUNT_FEATURE,
   CLI_USER_PROFILE_FEATURE,
-  DIGITAL_PAYMENTS_MODULE,
   EPD_VISUALIZATION_MODULE,
   EPD_VISUALIZATION_ROOT_MODULE,
   SPARTACUS_ASM,
