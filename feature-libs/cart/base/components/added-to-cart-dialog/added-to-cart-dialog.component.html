@@ -1,6 +1,7 @@
 <div #dialog>
   <!-- Modal Header -->
   <ng-container *ngIf="(loaded$ | async) || modalIsOpen; else loading">
+    <div role="status" [attr.aria-label]="'common.loaded' | cxTranslate"></div>
     <div class="cx-dialog-header modal-header">
       <div
         class="cx-dialog-title modal-title"

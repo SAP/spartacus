@@ -8,6 +8,10 @@
       <cx-spinner></cx-spinner>
     </div>
     <ng-template #dialogBody>
+      <div
+        role="status"
+        [attr.aria-label]="'common.loaded' | cxTranslate"
+      ></div>
       <div class="cx-dialog-header">
         <h3>
           {{ 'anonymousConsents.dialog.title' | cxTranslate }}

@@ -16,6 +16,8 @@ export class SortingComponent {
   @Input()
   sortOptions: SortModel[];
   @Input()
+  ariaControls: string;
+  @Input()
   selectedOption: string;
   @Input()
   placeholder: string;

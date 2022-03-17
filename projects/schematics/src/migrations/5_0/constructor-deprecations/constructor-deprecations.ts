@@ -10,12 +10,14 @@ import { CONFIGURATOR_CART_ENTRY_BUNDLE_INFO_COMPONENT_MIGRATION } from './data/
 import { CONFIGURATOR_GROUP_MENU_COMPONENT_MIGRATION } from './data/configurator-group-menu.component.migration';
 import { CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION } from './data/configurator-overview-bundle-attribute.component.migration';
 import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-tab-bar.component.migration';
+import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { PAGE_LAYOUT_SERVICE_MIGRATION } from './data/page-layout.service.migration';
 import { PARAGRAPH_COMPONENT_MIGRATION } from './data/paragraph.component.migration';
 import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
+import { TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION } from './data/tab-paragraph-container.component.migration';
 
 export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CART_TOTALS_COMPONENT_MIGRATION,
@@ -33,6 +35,8 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   NAVIGATION_UI_COMPONENT_MIGRATION,
   PAGE_LAYOUT_SERVICE_MIGRATION,
   PARAGRAPH_COMPONENT_MIGRATION,
+  FORM_ERRORS_COMPONENT_MIGRATION,
+  TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
 ];
 
 export function migrate(): Rule {
