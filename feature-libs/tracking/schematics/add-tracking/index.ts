@@ -12,25 +12,25 @@ import {
   CLI_TRACKING_TMS_AEP_FEATURE,
   CLI_TRACKING_TMS_GTM_FEATURE,
   LibraryOptions as SpartacusTrackingOptions,
+  PERSONALIZATION_MODULE,
+  PERSONALIZATION_ROOT_MODULE,
   readPackageJson,
   shouldAddFeature,
+  TMS_AEP_MODULE,
+  TMS_BASE_MODULE,
+  TMS_GTM_MODULE,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
   PERSONALIZATION_FEATURE_NAME_CONSTANT,
-  PERSONALIZATION_MODULE,
   PERSONALIZATION_MODULE_NAME,
-  PERSONALIZATION_ROOT_MODULE,
   SPARTACUS_PERSONALIZATION,
   SPARTACUS_PERSONALIZATION_ROOT,
   SPARTACUS_TMS_AEP,
   SPARTACUS_TMS_CORE,
   SPARTACUS_TMS_GTM,
-  TMS_AEP_MODULE,
-  TMS_BASE_MODULE,
   TMS_CONFIG,
-  TMS_GTM_MODULE,
   TMS_MODULE_NAME,
   TRACKING_FOLDER_NAME,
 } from '../constants';
@@ -64,14 +64,14 @@ function addGtm(options: SpartacusTrackingOptions): Rule {
     {
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
-      rootModule: {
-        importPath: SPARTACUS_TMS_CORE,
-        name: TMS_BASE_MODULE,
-        content: `${TMS_BASE_MODULE}.forRoot()`,
-      },
       featureModule: {
-        importPath: SPARTACUS_TMS_GTM,
         name: TMS_GTM_MODULE,
+        importPath: SPARTACUS_TMS_GTM,
+      },
+      rootModule: {
+        name: TMS_BASE_MODULE,
+        importPath: SPARTACUS_TMS_CORE,
+        content: `${TMS_BASE_MODULE}.forRoot()`,
       },
       customConfig: {
         import: [
@@ -99,14 +99,14 @@ function addAep(options: SpartacusTrackingOptions): Rule {
     {
       folderName: TRACKING_FOLDER_NAME,
       moduleName: TMS_MODULE_NAME,
-      rootModule: {
-        importPath: SPARTACUS_TMS_CORE,
-        name: TMS_BASE_MODULE,
-        content: `${TMS_BASE_MODULE}.forRoot()`,
-      },
       featureModule: {
-        importPath: SPARTACUS_TMS_AEP,
         name: TMS_AEP_MODULE,
+        importPath: SPARTACUS_TMS_AEP,
+      },
+      rootModule: {
+        name: TMS_BASE_MODULE,
+        importPath: SPARTACUS_TMS_CORE,
+        content: `${TMS_BASE_MODULE}.forRoot()`,
       },
       customConfig: {
         import: [
