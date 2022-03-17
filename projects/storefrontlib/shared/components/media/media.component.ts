@@ -7,6 +7,7 @@ import {
   OnChanges,
   Output,
 } from '@angular/core';
+import { Image, ImageGroup } from '@spartacus/core';
 import { ImageLoadingStrategy, Media, MediaContainer } from './media.model';
 import { MediaService } from './media.service';
 
@@ -22,7 +23,12 @@ export class MediaComponent implements OnChanges {
    * can be provided in a `srcset` so the browser will figure out
    * the best media for the device.
    */
-  @Input() container: MediaContainer;
+  @Input() container:
+    | MediaContainer
+    | Image
+    | ImageGroup
+    | ImageGroup[]
+    | undefined;
 
   /**
    * if a media format is given, a media for the given format will be rendered
@@ -91,7 +97,7 @@ export class MediaComponent implements OnChanges {
    */
   protected create(): void {
     this.media = this.mediaService.getMedia(
-      this.container,
+      this.container instanceof Array ? this.container[0] : this.container,
       this.format,
       this.alt,
       this.role
