@@ -59,11 +59,11 @@ export const ADD_TO_WISHLIST_ENTRY_POINT = `@spartacus/cart/wish-list/components
 
 export const SPARTACUS_CHECKOUT = `@spartacus/checkout`;
 export const SPARTACUS_CHECKOUT_BASE = `@spartacus/checkout/base`;
-export const SPARTACUS_CHECKOUT_BASE_ASSETS = `spartacus/checkout/base/assets`;
-export const SPARTACUS_CHECKOUT_BASE_OCC = `spartacus/checkout/base/occ`;
-export const SPARTACUS_CHECKOUT_BASE_CORE = `spartacus/checkout/base/core`;
-export const SPARTACUS_CHECKOUT_BASE_ROOT = `spartacus/checkout/base/root`;
-export const SPARTACUS_CHECKOUT_BASE_COMPONENTS = `spartacus/checkout/base/components`;
+export const SPARTACUS_CHECKOUT_BASE_ASSETS = `@spartacus/checkout/base/assets`;
+export const SPARTACUS_CHECKOUT_BASE_OCC = `@spartacus/checkout/base/occ`;
+export const SPARTACUS_CHECKOUT_BASE_CORE = `@spartacus/checkout/base/core`;
+export const SPARTACUS_CHECKOUT_BASE_ROOT = `@spartacus/checkout/base/root`;
+export const SPARTACUS_CHECKOUT_BASE_COMPONENTS = `@spartacus/checkout/base/components`;
 export const SPARTACUS_CHECKOUT_B2B = `@spartacus/checkout/b2b`;
 export const SPARTACUS_CHECKOUT_B2B_ASSETS = `@spartacus/checkout/b2b/assets`;
 export const SPARTACUS_CHECKOUT_B2B_OCC = `@spartacus/checkout/b2b/occ`;
@@ -151,9 +151,9 @@ export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
-export const SPARTACUS_CDC_ROOT = `@spartacus/cds/root`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
+export const SPARTACUS_CDC_ROOT = `@spartacus/cdc/root`;
 
 export const SPARTACUS_DIGITAL_PAYMENTS = `@spartacus/digital-payments`;
 export const SPARTACUS_DIGITAL_PAYMENTS_ASSETS = `@spartacus/digital-payments/assets`;
