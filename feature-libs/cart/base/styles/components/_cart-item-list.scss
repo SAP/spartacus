@@ -1,5 +1,4 @@
 %cx-cart-item-list {
-  /* agnostic-table styles -------------- */
   table {
     margin: 1em 0;
     border-collapse: collapse;
@@ -10,13 +9,13 @@
   td {
     padding: 1.25rem 0.1rem 1.25rem 0.5rem;
     vertical-align: middle;
+    text-align: center;
   }
 
   .cx-mobile-header {
     display: none;
   }
 
-  /* customization styles ---------- */
   tr {
     border-bottom: 1px solid var(--cx-color-light);
     padding: 1.25rem 0;
@@ -37,21 +36,12 @@
     text-align: start;
   }
 
-  td:nth-of-type(3) {
-    text-align: center;
-  }
-
-  th:nth-of-type(4) {
-    text-align: end;
-  }
-
-  th.cx-item-list-actions {
+  td:nth-last-of-type(1),
+  th:nth-last-of-type(1) {
     text-align: end;
   }
 
   td.cx-actions {
-    text-align: end;
-
     button {
       white-space: nowrap;
       display: block;
@@ -87,20 +77,9 @@
     font-weight: var(--cx-font-weight-bold);
   }
 
-  .cx-price {
-    text-align: start;
-  }
-
   .cx-total {
     font-size: var(--cx-font-size, 1rem);
     font-weight: var(--cx-font-weight-normal);
-    text-align: end;
-  }
-
-  .cx-quantity {
-    .cx-value {
-      text-align: center;
-    }
   }
 
   .cx-cart-addons {
@@ -111,9 +90,7 @@
     display: none;
   }
 
-  /* MOBILE */
   @include media-breakpoint-down(md) {
-    /* agnostic-table styles -------------- */
     table,
     tr,
     td {
@@ -128,10 +105,10 @@
 
     .cx-table-item-container {
       grid-template-columns: 4em auto;
-    }
 
-    .cx-price {
-      display: none;
+      .cx-price {
+        display: none;
+      }
     }
 
     .cx-cart-mobile {
@@ -142,10 +119,9 @@
       display: inline;
       font-weight: bold;
       white-space: nowrap;
-      text-align: left;
+      text-align: start;
     }
 
-    /* customization styles ---------- */
     td {
       display: flex;
       justify-content: space-between;
@@ -154,11 +130,10 @@
     }
 
     .cx-actions button {
-      margin-left: 0;
-      text-align: left;
+      margin-inline-start: 0;
+      text-align: start;
     }
 
-    /*   JS generated */
     th:nth-child(1) {
       clip: rect(0 0 0 0);
       clip-path: inset(50%);
@@ -170,11 +145,7 @@
     }
 
     td:nth-of-type(1) {
-      padding-left: 0;
-    }
-
-    td:nth-of-type(3) {
-      text-align: left;
+      padding-inline-start: 0;
     }
   }
 }

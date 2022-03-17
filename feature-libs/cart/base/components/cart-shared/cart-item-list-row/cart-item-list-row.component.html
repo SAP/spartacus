@@ -1,11 +1,12 @@
 <!-- Item Start Outlet -->
-<ng-template [cxOutlet]="CartOutlets.ITEM">
-  <ng-container *cxFeatureLevel="'4.2'">
-    <cx-cart-item-validation-warning
-      [code]="item.product?.code"
-    ></cx-cart-item-validation-warning>
-  </ng-container>
+<ng-template [cxOutlet]="CartOutlets.LIST_ITEM">
   <td role="cell">
+    <ng-template [cxOutlet]="CartOutlets.ITEM_CONFIGURATOR_ISSUES"></ng-template>
+    <ng-container *cxFeatureLevel="'4.2'">
+      <cx-cart-item-validation-warning
+        [code]="item.product?.code"
+      ></cx-cart-item-validation-warning>
+    </ng-container>
     <div class="cx-table-item-container">
       <!-- Item Image -->
       <a
@@ -31,7 +32,7 @@
           {{ 'cartItems.id' | cxTranslate }} {{ item.product?.code }}
         </div>
         <!-- Item Price -->
-        <div role="cell" *ngIf="item.basePrice" class="cx-price">
+        <div *ngIf="item.basePrice" class="cx-price">
           <div *ngIf="item.basePrice" class="cx-value">
             {{ item.basePrice?.formattedValue }}
           </div>
@@ -143,18 +144,17 @@
       [cxAtMessage]="'cartItems.itemRemoved' | cxTranslate"
       [disabled]="quantityControl.disabled"
       attr.aria-label="{{ 'addToCart.removeFromCart' | cxTranslate }}"
-      class="link cx-action-link"
+      class="link cx-action-link cx-remove-btn"
     >
       {{ 'common.remove' | cxTranslate }}
     </button>
   </td>
-
-  <ng-template #total>
-    <td role="cell" *ngIf="item.totalPrice" class="cx-total">
-      <div class="cx-mobile-header">
-        {{ 'cartItems.total' | cxTranslate }}
-      </div>
-      <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
-    </td>
-  </ng-template>
+</ng-template>
+<ng-template #total>
+  <td role="cell" *ngIf="item.totalPrice" class="cx-total">
+    <div class="cx-mobile-header">
+      {{ 'cartItems.total' | cxTranslate }}
+    </div>
+    <div class="cx-value">{{ item.totalPrice.formattedValue }}</div>
+  </td>
 </ng-template>

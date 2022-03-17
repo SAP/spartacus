@@ -2,10 +2,10 @@ import {
   ACTIONS,
   NGRX_EFFECTS,
   REPLENISHMENT_ORDER_CONNECTOR,
-  SPARTACUS_CORE,
   USER_ORDERS_EFFECT,
   USER_ORDER_CONNECTOR,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const USER_ORDERS_EFFECT_MIGRATION: ConstructorDeprecation = {

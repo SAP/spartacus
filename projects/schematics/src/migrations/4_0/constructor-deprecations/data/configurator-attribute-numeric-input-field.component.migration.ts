@@ -2,8 +2,8 @@ import {
   CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT,
   CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_SERVICE,
   CONFIGURATOR_UI_SETTINGS_CONFIG,
-  SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
 } from '../../../../shared/constants';
+import { SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_ATTRIBUTE_NUMERIC_INPUT_FIELD_COMPONENT_MIGRATION: ConstructorDeprecation =

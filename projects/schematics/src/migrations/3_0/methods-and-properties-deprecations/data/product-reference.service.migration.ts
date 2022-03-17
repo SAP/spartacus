@@ -3,9 +3,9 @@ import {
   GET_PRODUCT_REFERENCES,
   LOAD_PRODUCT_REFERENCES,
   PRODUCT_REFERENCE_SERVICE,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/product/facade/product-reference.service.ts
