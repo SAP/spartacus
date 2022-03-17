@@ -151,6 +151,7 @@ export const SPARTACUS_USER_PROFILE_ASSETS = `@spartacus/user/profile/assets`;
 export const SPARTACUS_USER_PROFILE_ROOT = `@spartacus/user/profile/root`;
 
 export const SPARTACUS_CDS = `@spartacus/cds`;
+export const SPARTACUS_CDC_ROOT = `@spartacus/cds/root`;
 
 export const SPARTACUS_CDC = `@spartacus/cdc`;
 
@@ -218,9 +219,6 @@ export const CLI_EPD_VISUALIZATION_FEATURE = 'EPD-Visualization';
 /***** CLI end *****/
 
 /***** Feature libs configuration start *****/
-export const CDC_MODULE = 'CdcModule';
-export const CDC_ROOT_MODULE = 'CdcRootModule';
-
 export const CDS_MODULE = 'CdsModule';
 
 export const DIGITAL_PAYMENTS_MODULE = 'DigitalPaymentsModule';

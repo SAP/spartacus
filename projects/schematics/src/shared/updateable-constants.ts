@@ -26,6 +26,10 @@ import {
   CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
 } from './lib-configs/checkout-schematics-config';
 import {
+  CDC_MODULE,
+  CDC_ROOT_MODULE,
+} from './lib-configs/integration-libs/cdc-schematics-config';
+import {
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
 } from './lib-configs/order-schematics-config';
@@ -77,8 +81,6 @@ import {
   USER_PROFILE_ROOT_MODULE,
 } from './lib-configs/user-schematics-config';
 import {
-  CDC_MODULE,
-  CDC_ROOT_MODULE,
   CDS_MODULE,
   CLI_ASM_FEATURE,
   CLI_CART_BASE_FEATURE,
