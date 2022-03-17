@@ -21,6 +21,7 @@ export const product = {
     showLess: 'Show less...',
     showMore: 'Show more...',
     sortBy: 'Sort by',
+    sortResults: 'Sort results',
     backToTopBtn: 'BACK TO TOP',
     showMoreBtn: 'SHOW MORE',
     productSearchPagination: 'Product search pagination',

@@ -3,9 +3,11 @@ import {
   ANGULAR_ROUTER,
   CART_TOTALS_COMPONENT,
   ROUTER,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CART_TOTALS_COMPONENT_MIGRATION: ConstructorDeprecation = {
