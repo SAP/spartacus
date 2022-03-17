@@ -1,6 +1,6 @@
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
-export const METHODS_AND_PROPERTIES_DEPRECATIONS: MethodPropertyDeprecation[] =
+export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation[] =
   [
     {
       class: 'QuickOrderFormComponent',
