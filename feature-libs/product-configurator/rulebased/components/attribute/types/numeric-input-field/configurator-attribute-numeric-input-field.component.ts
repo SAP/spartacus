@@ -119,9 +119,6 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         this.configAttributeNumericInputFieldService.getIntervals(
           this.attribute.values
         );
-      if (this.intervals && this.intervals.length > 0) {
-        this.ariaLabelInterval = this.getAriaLabelForInterval(this.intervals);
-      }
     }
 
     this.sub = this.attributeInputForm.valueChanges
@@ -146,9 +143,10 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     let intervalText = '';
     intervals.forEach((interval) => {
       intervalText += this.getIntervalText(interval);
+      intervalText += ' ';
     });
 
-    return intervalText;
+    return intervalText.trim();
   }
 
   getAriaLabelComplete(): string {
@@ -170,7 +168,11 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         .subscribe((text) => (completeAriaText = text));
     }
 
-    completeAriaText += this.ariaLabelInterval;
+    if (this.intervals && this.intervals.length > 0) {
+      completeAriaText += ' ';
+      completeAriaText += this.getAriaLabelForInterval(this.intervals);
+    }
+
     return completeAriaText;
   }
 
@@ -179,35 +181,37 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     if (interval.minValue && interval.maxValue) {
       this.translation
         .translate('configurator.a11y.numericIntervalStandard', {
-          minvalue: interval.minValue,
-          maxvalue: interval.maxValue,
+          minValue: interval.minValue,
+          maxValue: interval.maxValue,
         })
         .pipe(take(1))
         .subscribe((text) => (intervalText = text));
 
       if (!interval.minValueIncluded || !interval.maxValueIncluded) {
         if (!interval.minValueIncluded && !interval.maxValueIncluded) {
-          intervalText += 'Note that the boundary values are not included.';
+          intervalText += ' ';
           this.translation
             .translate('configurator.a11y.numericIntervalStandardOpen')
             .pipe(take(1))
-            .subscribe((text) => (intervalText = text));
+            .subscribe((text) => (intervalText += text));
         } else {
           if (!interval.minValueIncluded) {
+            intervalText += ' ';
             this.translation
               .translate(
-                'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded:'
+                'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
               )
               .pipe(take(1))
-              .subscribe((text) => (intervalText = text));
+              .subscribe((text) => (intervalText += text));
           }
           if (!interval.maxValueIncluded) {
+            intervalText += ' ';
             this.translation
               .translate(
-                'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded:'
+                'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
               )
               .pipe(take(1))
-              .subscribe((text) => (intervalText = text));
+              .subscribe((text) => (intervalText += text));
           }
         }
       }
@@ -218,7 +222,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
             .translate(
               'configurator.a11y.numericInfiniteIntervalMinValueIncluded',
               {
-                minvalue: interval.minValue,
+                minValue: interval.minValue,
               }
             )
             .pipe(take(1))
@@ -226,7 +230,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
         } else {
           this.translation
             .translate('configurator.a11y.numericInfiniteIntervalMinValue', {
-              minvalue: interval.minValue,
+              minValue: interval.minValue,
             })
             .pipe(take(1))
             .subscribe((text) => (intervalText = text));
@@ -238,7 +242,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
               .translate(
                 'configurator.a11y.numericInfiniteIntervalMaxValueIncluded',
                 {
-                  maxvalue: interval.maxValue,
+                  maxValue: interval.maxValue,
                 }
               )
               .pipe(take(1))
@@ -246,7 +250,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
           } else {
             this.translation
               .translate('configurator.a11y.numericInfiniteIntervalMaxValue', {
-                maxvalue: interval.maxValue,
+                maxValue: interval.maxValue,
               })
               .pipe(take(1))
               .subscribe((text) => (intervalText = text));

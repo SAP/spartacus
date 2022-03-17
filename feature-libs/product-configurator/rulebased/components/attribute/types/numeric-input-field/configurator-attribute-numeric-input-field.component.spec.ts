@@ -19,7 +19,10 @@ import { Configurator } from '../../../../core/model/configurator.model';
 import { ConfiguratorUISettingsConfig } from '../../../config/configurator-ui-settings.config';
 import { defaultConfiguratorUISettingsConfig } from '../../../config/default-configurator-ui-settings.config';
 import { ConfiguratorAttributeNumericInputFieldComponent } from './configurator-attribute-numeric-input-field.component';
-import { ConfiguratorAttributeNumericInputFieldService } from './configurator-attribute-numeric-input-field.component.service';
+import {
+  ConfiguratorAttributeNumericInputFieldService,
+  ConfiguratorAttributeNumericInterval,
+} from './configurator-attribute-numeric-input-field.component.service';
 
 @Directive({
   selector: '[cxFocus]',
@@ -337,6 +340,247 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
         0,
         'aria-atomic',
         'true'
+      );
+    }));
+  });
+
+  describe('getIntervalText', () => {
+    let interval: ConfiguratorAttributeNumericInterval = {};
+
+    it('should retun aria text for standard interval', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 7;
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = true;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval.maxValue +
+          ' minValue:' +
+          interval.minValue
+      );
+    }));
+
+    it('should return aria text for half open interval, upper value not included', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 7;
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval.maxValue +
+          ' minValue:' +
+          interval.minValue +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+      );
+    }));
+
+    it('should return aria text for half open interval, lower value not included', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 7;
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = true;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval.maxValue +
+          ' minValue:' +
+          interval.minValue +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardLowerEndpointNotIncluded'
+      );
+    }));
+
+    it('should return aria text for open interval', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 7;
+      interval.minValueIncluded = false;
+      interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval.maxValue +
+          ' minValue:' +
+          interval.minValue +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardOpen'
+      );
+    }));
+
+    it('should return aria text for infinite interval with min value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = false;
+      //interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMinValue minValue:' +
+          interval.minValue
+      );
+    }));
+
+    it('should return aria text for infinite interval with min value included', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = true;
+      //interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
+          interval.minValue
+      );
+    }));
+
+    it('should return aria text for infinite interval with max value', fakeAsync(() => {
+      interval.minValue = undefined;
+      interval.maxValue = 7;
+      interval.maxValueIncluded = false;
+      //interval.maxValueIncluded = false;
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMaxValue maxValue:' +
+          interval.maxValue
+      );
+    }));
+
+    it('should return aria text for infinite interval with max value included', fakeAsync(() => {
+      interval.minValue = undefined;
+      interval.maxValue = 7;
+      interval.maxValueIncluded = true;
+      //interval.maxValueIncluded = false;
+
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getIntervalText(interval)).toBe(
+        'configurator.a11y.numericInfiniteIntervalMaxValueIncluded maxValue:' +
+          interval.maxValue
+      );
+    }));
+  });
+
+  describe('getIntervalTexts', () => {
+    let interval1: ConfiguratorAttributeNumericInterval = {};
+    let interval2: ConfiguratorAttributeNumericInterval = {};
+    let interval3: ConfiguratorAttributeNumericInterval = {};
+    let intervals: ConfiguratorAttributeNumericInterval[] = [];
+
+    it('should return concatenated aria text for multiple intervals', fakeAsync(() => {
+      interval1.minValue = 5;
+      interval1.maxValue = 7;
+      interval1.minValueIncluded = true;
+      interval1.maxValueIncluded = true;
+      //component.intervals = [];
+      intervals.push(interval1);
+      interval2.minValue = 10;
+      interval2.maxValue = undefined;
+      interval2.minValueIncluded = true;
+      intervals.push(interval2);
+      interval3.minValue = 20;
+      interval3.maxValue = 30;
+      interval3.minValueIncluded = true;
+      interval3.maxValueIncluded = false;
+      intervals.push(interval3);
+
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getAriaLabelForInterval(intervals)).toBe(
+        'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval1.maxValue +
+          ' minValue:' +
+          interval1.minValue +
+          ' ' +
+          'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
+          interval2.minValue +
+          ' ' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval3.maxValue +
+          ' minValue:' +
+          interval3.minValue +
+          ' ' +
+          'configurator.a11y.numericIntervalStandardUpperEndpointNotIncluded'
+      );
+    }));
+  });
+
+  describe('getAriaLabelComplete', () => {
+    let interval: ConfiguratorAttributeNumericInterval = {};
+
+    it('should return aria text for entered value including text for standard interval', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = 7;
+      interval.minValueIncluded = true;
+      interval.maxValueIncluded = true;
+
+      component.intervals = [];
+      component.intervals.push(interval);
+      component.attribute.intervalInDomain = true;
+      component.attribute.label = 'Intervaltest';
+      component.attribute.userInput = '123';
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getAriaLabelComplete()).toBe(
+        'configurator.a11y.valueOfAttributeFull attribute:' +
+          component.attribute.label +
+          ' ' +
+          'value:' +
+          component.attribute.userInput +
+          ' ' +
+          'configurator.a11y.numericIntervalStandard maxValue:' +
+          interval.maxValue +
+          ' minValue:' +
+          interval.minValue
+      );
+    }));
+
+    it('should return aria text for blank value including text for infinite interval with min value', fakeAsync(() => {
+      interval.minValue = 5;
+      interval.maxValue = undefined;
+      interval.minValueIncluded = false;
+      //interval.maxValueIncluded = false;
+
+      component.intervals = [];
+      component.intervals.push(interval);
+      component.attribute.intervalInDomain = true;
+      component.attribute.label = 'Intervaltest';
+      component.attribute.userInput = '';
+      fixture.detectChanges();
+      //component.ngOnInit();
+      tick(DEBOUNCE_TIME);
+
+      expect(component.getAriaLabelComplete()).toBe(
+        'configurator.a11y.valueOfAttributeBlank attribute:' +
+          component.attribute.label +
+          ' ' +
+          'configurator.a11y.numericInfiniteIntervalMinValue minValue:' +
+          interval.minValue
       );
     }));
   });
