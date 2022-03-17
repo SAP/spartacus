@@ -5,6 +5,7 @@ import {
   CmsBannerComponentMedia,
   CmsService,
   CmsVideoComponent,
+  ContainerBackgroundOptions,
   ContainerSizeOptions,
   Page,
   PageContext,
@@ -60,6 +61,7 @@ const mockComponentData: CmsVideoComponent = {
   overlayTitle: 'Test Video',
   video: mockCmsBannerComponentMedia,
   videoMedia: mockCmsBannerComponentMedia,
+  containerBackground: ContainerBackgroundOptions.UPLOAD_RESPONSIVE_IMAGE,
 };
 
 const data$: BehaviorSubject<CmsVideoComponent> = new BehaviorSubject(
