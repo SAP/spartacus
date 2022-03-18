@@ -98,7 +98,7 @@ context('CPQ Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      configuration.searchForProduct(PROD_CODE_CAM);
+      configurationCpq.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 

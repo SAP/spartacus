@@ -184,21 +184,31 @@ if (environment.epdVisualization) {
 
     /************************* Feature libraries *************************/
     UserFeatureModule,
+
     CartBaseFeatureModule,
     WishListFeatureModule,
-    AsmFeatureModule,
-    StorefinderFeatureModule,
-    QualtricsFeatureModule,
-    SmartEditFeatureModule,
-    TrackingFeatureModule,
-    VariantsFeatureModule,
     SavedCartFeatureModule,
-    OrderFeatureModule,
     QuickOrderFeatureModule,
     ImportExportFeatureModule,
+
+    OrderFeatureModule,
+
+    CheckoutFeature,
+
+    TrackingFeatureModule,
+
+    AsmFeatureModule,
+
+    StorefinderFeatureModule,
+
+    QualtricsFeatureModule,
+
+    SmartEditFeatureModule,
+
+    VariantsFeatureModule,
     ProductConfiguratorTextfieldFeatureModule,
     ImageZoomFeatureModule,
-    CheckoutFeature,
+
     ...featureModules,
   ],
 })

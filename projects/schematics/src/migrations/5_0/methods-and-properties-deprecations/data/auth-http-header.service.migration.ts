@@ -2,9 +2,9 @@ import {
   AUTH_HTTP_HEADER_SERVICE,
   HANDLE_EXPIRED_TOKEN,
   REFRESH_IN_PROGRESS,
-  SPARTACUS_CORE,
   TODO_SPARTACUS,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 
 // projects/core/src/auth/user-auth/services/auth-http-header.service.ts

@@ -5,12 +5,14 @@ import {
   CHECKOUT_PAYMENT_FACADE,
   CLEAR_CHECKOUT_FACADE,
   EXPRESS_CHECKOUT_SERVICE,
-  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
-  SPARTACUS_CHECKOUT_OLD_ROOT,
-  SPARTACUS_CORE,
   USER_ADDRESS_SERVICE,
   USER_PAYMENT_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CHECKOUT_OLD_COMPONENTS,
+  SPARTACUS_CHECKOUT_OLD_ROOT,
+  SPARTACUS_CORE,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const EXPRESS_CHECKOUT_SERVICE_MIGRATION: ConstructorDeprecation = {

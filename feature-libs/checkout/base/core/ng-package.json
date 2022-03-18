@@ -7,6 +7,7 @@
       "@spartacus/core": "core",
       "@ngrx/store": "store",
       "@spartacus/cart/saved-cart/root": "savedCartRoot",
+      "@spartacus/order/root": "orderRoot",
       "@spartacus/cart/base/root": "cartRoot",
       "@spartacus/cart/base/core": "cartCore"
     }
