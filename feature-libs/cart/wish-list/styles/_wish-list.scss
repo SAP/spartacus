@@ -53,11 +53,6 @@
       display: block;
       text-align: end;
       width: 100%;
-      margin-top: 1.25rem;
-
-      @include media-breakpoint-down(md) {
-        text-align: start;
-      }
     }
   }
 
@@ -92,7 +87,7 @@
     text-align: center;
 
     @include media-breakpoint-down(md) {
-      margin-inline-start: 5.5rem;
+      margin-inline-start: 5.7rem;
     }
   }
 
@@ -164,7 +159,6 @@
       display: block;
       white-space: nowrap;
       text-align: start;
-      
       font-weight: var(--cx-font-weight-bold);
       line-height: var(--cx-line-height,1.2222222222);
       overflow-wrap: break-word;
@@ -172,7 +166,15 @@
       min-width: 5rem;
      }
 
-     .cx-value {
+     .cx-quantity {
+      @include media-breakpoint-down(sm) {
+        .cx-mobile-header {
+          margin-bottom: 5px;
+        }
+      }
+    }
+
+     .cx-price {
       font-size: var(--cx-font-size,.875rem);
      }
  

@@ -2,10 +2,12 @@ cx-quick-order-table {
   @extend %cx-wish-list;
 
   @include media-breakpoint-down(md) {
-    button[type='button'] {
-      margin-bottom: 0em;
+    .cx-value {
+      cx-item-counter button[type='button'] {
+        margin-bottom: 0em;
+      }
     }
-    
+
     td {
       justify-content: flex-start;
     }
@@ -16,12 +18,9 @@ cx-quick-order-table {
       }
     }
 
-    .cx-price {
-      margin-inline-start: 5.5rem;
-    }
-
     .cx-quantity {
-      margin-inline-start: 5.5rem;
+      margin-inline-start: 5.7rem;
+      font-size: var(--cx-font-size,.875rem);
     }
   }
 }
