@@ -127,12 +127,12 @@
       white-space: nowrap;
       text-align: start;
       font-weight: var(--cx-font-weight-bold);
-      line-height: var(--cx-line-height,1.2222222222);
+      line-height: var(--cx-line-height, 1.2222222222);
       overflow-wrap: break-word;
       padding-inline-end: 1rem;
       min-width: 5rem;
     }
-    
+
     .cx-quantity {
       @include media-breakpoint-down(sm) {
         .cx-mobile-header {
@@ -143,9 +143,15 @@
 
     .cx-price,
     .cx-quantity,
-    .cx-total{
-      font-size: var(--cx-font-size,.875rem);
+    .cx-total {
+      font-size: var(--cx-font-size, 0.875rem);
       margin-inline-start: 5.7rem;
+    }
+
+    .cx-value {
+      cx-item-counter button[type='button'] {
+        margin-bottom: 0em;
+      }
     }
 
     .cx-actions button {
