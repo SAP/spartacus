@@ -22,8 +22,7 @@
                   formControlName="code"
                   id="card-type-select"
                   [cxNgSelectA11y]="{
-                    ariaLabel: 'paymentForm.paymentType' | cxTranslate,
-                    ariaControls: 'card-type-select'
+                    ariaLabel: 'paymentForm.paymentType' | cxTranslate
                   }"
                 >
                 </ng-select>
@@ -91,8 +90,7 @@
                     ariaLabel:
                       'paymentForm.expirationMonth'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryMonth')?.value },
-                    ariaControls: 'month-select'
+                        : { selected: paymentForm.get('expiryMonth')?.value }
                   }"
                 >
                 </ng-select>
@@ -112,8 +110,7 @@
                     ariaLabel:
                       'paymentForm.expirationYear'
                       | cxTranslate
-                        : { selected: paymentForm.get('expiryYear')?.value },
-                    ariaControls: 'year-select'
+                        : { selected: paymentForm.get('expiryYear')?.value }
                   }"
                   formControlName="expiryYear"
                 >
@@ -231,8 +228,7 @@
                         formControlName="isocode"
                         id="country-payment-select"
                         [cxNgSelectA11y]="{
-                          ariaLabel: 'addressForm.country' | cxTranslate,
-                          ariaControls: 'country-payment-select'
+                          ariaLabel: 'addressForm.country' | cxTranslate
                         }"
                       >
                       </ng-select>
@@ -380,8 +376,7 @@
                           }}"
                           id="region-select"
                           [cxNgSelectA11y]="{
-                            ariaLabel: 'addressForm.state' | cxTranslate,
-                            ariaControls: 'region-select'
+                            ariaLabel: 'addressForm.state' | cxTranslate
                           }"
                         >
                         </ng-select>
