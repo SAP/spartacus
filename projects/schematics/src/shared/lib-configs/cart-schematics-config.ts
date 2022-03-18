@@ -6,6 +6,7 @@ import {
   CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CART_WISHLIST_FEATURE,
+  CLI_USER_PROFILE_FEATURE,
   MINI_CART_ENTRY_POINT,
   SPARTACUS_CART,
   SPARTACUS_CART_BASE,
@@ -23,6 +24,7 @@ import {
   SPARTACUS_SAVED_CART,
   SPARTACUS_SAVED_CART_ASSETS,
   SPARTACUS_SAVED_CART_ROOT,
+  SPARTACUS_USER,
 } from '../libs-constants';
 import { FeatureConfig } from '../utils/lib-utils';
 
@@ -84,6 +86,9 @@ export const CART_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
+  dependencyManagement: {
+    [SPARTACUS_USER]: [CLI_USER_PROFILE_FEATURE],
+  },
 };
 
 export const CART_IMPORT_EXPORT_MODULE = 'ImportExportModule';
@@ -124,6 +129,9 @@ export const CART_IMPORT_EXPORT_SCHEMATICS_CONFIG: FeatureConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+  },
 };
 
 export const QUICK_ORDER_MODULE = 'QuickOrderModule';
@@ -163,6 +171,9 @@ export const CART_QUICK_ORDER_SCHEMATICS_CONFIG: FeatureConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+  },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
   },
 };
 
@@ -214,6 +225,9 @@ export const CART_WISHLIST_SCHEMATICS_CONFIG: FeatureConfig = {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
   },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
+  },
 };
 
 export const SAVED_CART_MODULE = 'SavedCartModule';
@@ -252,5 +266,8 @@ export const CART_SAVED_CART_SCHEMATICS_CONFIG: FeatureConfig = {
   styles: {
     scssFileName: CART_SCSS_FILE_NAME,
     importStyle: SPARTACUS_CART,
+  },
+  dependencyManagement: {
+    [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
   },
 };

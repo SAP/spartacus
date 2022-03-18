@@ -63,7 +63,6 @@ export const CHECKOUT_BASE_SCHEMATICS_CONFIG: FeatureConfig = {
     [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
     [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
   },
-  // TODO:#schematics - remove
   recreate: true,
 };
 
@@ -105,6 +104,7 @@ export const CHECKOUT_B2B_SCHEMATICS_CONFIG: FeatureConfig = {
   dependencyManagement: {
     [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
     [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+    [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_BASE_FEATURE],
   },
   recreate: true,
 };
@@ -151,6 +151,7 @@ export const CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG: FeatureConfig =
     dependencyManagement: {
       [SPARTACUS_CART]: [CLI_CART_BASE_FEATURE],
       [SPARTACUS_ORDER]: [CLI_ORDER_FEATURE],
+      [SPARTACUS_CHECKOUT]: [CLI_CHECKOUT_B2B_FEATURE],
     },
     recreate: true,
   };
