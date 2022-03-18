@@ -3,10 +3,12 @@ import {
   ROUTING_SERVICE,
   SEARCH_BOX_COMPONENT,
   SEARCH_BOX_COMPONENT_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   WINDOW_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const SEARCH_BOX_COMPONENT_MIGRATION: ConstructorDeprecation = {

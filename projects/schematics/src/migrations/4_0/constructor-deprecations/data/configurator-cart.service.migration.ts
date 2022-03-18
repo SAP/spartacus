@@ -5,13 +5,15 @@ import {
   CONFIGURATOR_CART_SERVICE,
   CONFIGURATOR_UTILS_SERVICE,
   NGRX_STORE,
+  STORE,
+  USER_ID_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CHECKOUT_OLD_ROOT,
   SPARTACUS_CORE,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-  STORE,
-  USER_ID_SERVICE,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_CART_SERVICE_MIGRATION: ConstructorDeprecation = {

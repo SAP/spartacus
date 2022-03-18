@@ -2,9 +2,9 @@ import {
   ACTIVE_CART_SERVICE,
   BASE_PAGE_META_RESOLVER,
   CHECKOUT_PAGE_META_RESOLVER,
-  SPARTACUS_CORE,
   TRANSLATION_SERVICE,
 } from '../../../../shared/constants';
+import { SPARTACUS_CORE } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CHECKOUT_PAGE_META_RESOLVER_MIGRATION: ConstructorDeprecation = {
