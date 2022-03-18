@@ -1,5 +1,6 @@
 screenshots
 videos
+results
 cypress.env.json
 
 cypress/fixtures/example.json
