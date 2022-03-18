@@ -198,6 +198,7 @@ function publish_package {
     ( cd ${CLONE_DIR}/projects/${PKG_NAME} && yarn publish --new-version=${SPARTACUS_VERSION} --registry=http://localhost:4873/ --no-git-tag-version )
 }
 
+
 function restore_clone {
     if [ ${BRANCH} == 'develop' ]; then
         pushd ../.. > /dev/null
