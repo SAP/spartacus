@@ -195,7 +195,7 @@ export const CONVERTER_SERVICE = 'ConverterService';
 export const CONSENT_MANAGEMENT_COMPONENT = 'ConsentManagementComponent';
 export const ANONYMOUS_CONSENT_DIALOG_COMPONENT =
   'AnonymousConsentDialogComponent';
-export const IMPORT_ENTRIES_DIALOG_COMPONENT ='ImportEntriesDialogComponent';
+export const IMPORT_ENTRIES_DIALOG_COMPONENT = 'ImportEntriesDialogComponent';
 export const PRODUCT_IMAGES_COMPONENT = 'ProductImagesComponent';
 export const USER_CONSENT_SERVICE = 'UserConsentService';
 export const USER_SERVICE = 'UserService';

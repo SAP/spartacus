@@ -9,7 +9,7 @@ import {
   ModalModule,
   PromotionsModule,
   SpinnerModule,
- KeyboardFocusModule,
+  KeyboardFocusModule,
 } from '@spartacus/storefront';
 import { CartSharedModule } from '../cart-shared/cart-shared.module';
 import { AddedToCartDialogEventListener } from './added-to-cart-dialog-event.listener';
