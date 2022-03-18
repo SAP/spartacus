@@ -3,7 +3,6 @@ import {
   Component,
   ElementRef,
   HostListener,
-  OnDestroy,
 } from '@angular/core';
 import {
   AddOrderEntriesContext,
@@ -25,7 +24,7 @@ import { finalize, pluck } from 'rxjs/operators';
   templateUrl: './import-entries-dialog.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ImportEntriesDialogComponent implements OnDestroy {
+export class ImportEntriesDialogComponent {
   iconTypes = ICON_TYPE;
   focusConfig: FocusConfig = {
     trap: true,
@@ -57,10 +56,9 @@ export class ImportEntriesDialogComponent implements OnDestroy {
     this.launchDialogService.data$.pipe(pluck('orderEntriesContext'));
 
   constructor(
-    protected el: ElementRef,
-    protected launchDialogService: LaunchDialogService
+    protected launchDialogService: LaunchDialogService,
+    protected el: ElementRef
   ) {}
-  ngOnDestroy(): void {}
 
   isNewCartForm(context: AddOrderEntriesContext) {
     return context.type === OrderEntriesSource.NEW_SAVED_CART;

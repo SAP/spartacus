@@ -35,6 +35,7 @@ export const SPARTACUS_ASM = '@spartacus/asm';
 
 export const SPARTACUS_CART = '@spartacus/cart';
 export const SPARTACUS_CART_SAVED_CART_COMPONENTS = `${SPARTACUS_CART}/saved-cart/components`;
+export const SPARTACUS_CART_IMPORT_EXPORT_COMPONENTS = `${SPARTACUS_CART}/import-export/components`;
 export const SPARTACUS_CART_SAVED_CART_CORE = `${SPARTACUS_CART}/saved-cart/core`;
 export const SPARTACUS_CART_SAVED_CART_ROOT = `${SPARTACUS_CART}/saved-cart/root`;
 export const SPARTACUS_CART_QUICK_ORDER_CORE = `${SPARTACUS_CART}/quick-order/core`;
