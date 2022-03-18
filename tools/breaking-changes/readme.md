@@ -1,3 +1,7 @@
+# Dependencies
+
+To make sure we get an accurate diff, do not update the dependencies of this tool unless you are sure that we don't need to compaare the results with data generated with a previous version of the dependencies.
+
 # Produce the breaking change list
 
 - yarn install
@@ -23,5 +27,15 @@ Run `yarn compare`.  This compares both ./src/*/public-api.json files to create 
 
 # Generate migration schematics code
 
+`gen-const` : generates the array of migration data for the constructor migration schematic in `projects/schematics/src/migrations/*/constructor-deprecations`
+
+
+`gen-deleted` : generates the array of migration data for the removed public api schematic in `projects/schematics/src/migrations/*/removed-public-api-deprecations`
+
+`gen-moved` : generates the array of migration data for the renamed public api schematic in `projects/schematics/src/migrations/5_0/rename-symbol`
+
+
+`gen-methods-props` : generates the array of migration data for the deprecated methods and properties schematic in `projects/schematics/src/migrations/5_0/methods-and-properties-deprecations`
 
 # Generate doc
+`gen-doc` : generated the human readable doc listing all the breaking changes in the markdown format.
