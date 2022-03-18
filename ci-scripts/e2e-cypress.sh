@@ -47,7 +47,7 @@ done
 set -- "${POSITIONAL[@]}"
 
 echo '-----'
-echo "Building Spartacus libraries"
+echo "Building Spartacus libraries test"
 
 yarn install
 
