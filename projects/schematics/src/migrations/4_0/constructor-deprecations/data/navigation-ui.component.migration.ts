@@ -6,8 +6,8 @@ import {
   NAVIGATION_UI_COMPONENT,
   RENDERER_2,
   ROUTER,
-  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/constants';
+import { SPARTACUS_STOREFRONTLIB } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NAVIGATION_UI_COMPONENT_MIGRATION: ConstructorDeprecation = {

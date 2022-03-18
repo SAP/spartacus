@@ -2,10 +2,12 @@ import {
   BREAKPOINT_SERVICE,
   CONFIG,
   MEDIA_SERVICE,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   STOREFRONT_CONFIG,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const MEDIA_SERVICE_MIGRATION: ConstructorDeprecation = {
