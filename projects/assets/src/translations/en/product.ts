@@ -124,12 +124,12 @@ export const product = {
     subscriptionDialog: {
       header: 'Out of stock subscription',
       notifiedPrefix: 'You will be notified on:',
-      notifiedSuffix: 'as soons as this product is back in stock.',
+      notifiedSuffix: 'as soon as this product is back in stock.',
       manageChannelsPrefix:
-        'Manage your prefered notification channels at the ',
+        'Manage your preferred notification channels on the ',
       manageChannelsLink: 'Notification Preference',
       manageChannelsSuffix: ' page.',
-      manageSubscriptionsPrefix: 'You can manage your subscriptions at ',
+      manageSubscriptionsPrefix: 'You can manage your subscriptions on ',
       manageSubscriptionsLink: 'My Interests',
       manageSubscriptionsSuffix: ' page.',
       okBtn: 'OK',
