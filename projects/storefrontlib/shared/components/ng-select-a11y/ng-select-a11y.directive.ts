@@ -15,7 +15,7 @@ export class NgSelectA11yDirective implements AfterViewInit {
    * Angular component for accessibility compliance. If ng-select controls itself
    * ariaControls is not needed, instead bind a specific id to the <ng-select> element.
    */
-  @Input() cxNgSelectA11y: { ariaLabel: string; ariaControls: string };
+  @Input() cxNgSelectA11y: { ariaLabel: string; ariaControls?: string };
 
   constructor(private renderer: Renderer2, private elementRef: ElementRef) {}
 
@@ -23,16 +23,14 @@ export class NgSelectA11yDirective implements AfterViewInit {
     const divCombobox =
       this.elementRef.nativeElement.querySelector('[role="combobox"]');
 
-    const _ariaLabel = this.cxNgSelectA11y.ariaLabel;
+    const ariaLabel = this.cxNgSelectA11y.ariaLabel;
     const elementId = this.elementRef.nativeElement.id;
-    const _ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
+    const ariaControls = this.cxNgSelectA11y.ariaControls ?? elementId;
 
-    if (_ariaLabel) {
-      this.renderer.setAttribute(divCombobox, 'aria-label', _ariaLabel);
-    }
+    this.renderer.setAttribute(divCombobox, 'aria-label', ariaLabel);
 
-    if (_ariaControls) {
-      this.renderer.setAttribute(divCombobox, 'aria-controls', _ariaControls);
+    if (ariaControls) {
+      this.renderer.setAttribute(divCombobox, 'aria-controls', ariaControls);
     }
   }
 }
