@@ -5,7 +5,6 @@ import {
 } from '@angular/core';
 import { Product, TranslationService, WindowRef } from '@spartacus/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { map, takeWhile, withLatestFrom } from 'rxjs/operators';
 import { CurrentProductService } from '../current-product.service';
 
 @Component({
@@ -16,23 +15,20 @@ import { CurrentProductService } from '../current-product.service';
 export class ProductIntroComponent implements AfterContentChecked {
   product$: Observable<Product | null> =
     this.currentProductService.getProduct();
-  tabComponent$ = new BehaviorSubject<HTMLElement | null>(null);
 
-  areReviewsAvailable$: Observable<boolean>;
+  areReviewsAvailable$ = new BehaviorSubject<boolean>(false);
 
-  private reviewsTranslationKey =
+  protected reviewsTranslationKey =
     'TabPanelContainer.tabs.ProductReviewsTabComponent';
 
   constructor(
     protected currentProductService: CurrentProductService,
-    private translationService: TranslationService,
+    protected translationService: TranslationService,
     protected winRef: WindowRef
-  ) {
-    this.areReviewsAvailable$ = this.verifyReviewsComponent();
-  }
+  ) {}
 
-  ngAfterContentChecked(): void {
-    this.tabComponent$.next(this.getTabsComponent());
+  ngAfterContentChecked() {
+    this.areReviewsAvailable$.next(!!this.getReviewsComponent());
   }
 
   /**
@@ -58,26 +54,13 @@ export class ProductIntroComponent implements AfterContentChecked {
       .unsubscribe();
   }
 
+  // NOTE: Does not currently exists as its own component
+  // but part of tabs component. This is likely to change in refactor.
   /**
-   * Create stream to observe whether reviews component is available.
+   * Get Reviews Component if exists on page
    */
-  protected verifyReviewsComponent(): Observable<boolean> {
-    return this.tabComponent$.pipe(
-      withLatestFrom(
-        this.translationService.translate(this.reviewsTranslationKey)
-      ),
-      map(([tabs, label]) => {
-        if (!tabs) {
-          return false;
-        }
-        // find reviews tab
-        const reviewsTab = this.getTabByLabel(label, tabs);
-        // check whether next sibling (reviews container) of tab button contains reviews component
-        // look for sibling as cx-product-reviews selector can be customized
-        return !!reviewsTab?.nextSibling?.hasChildNodes();
-      }),
-      takeWhile((isReviewsComponentVisible) => !isReviewsComponentVisible, true)
-    );
+  protected getReviewsComponent(): HTMLElement | null {
+    return this.winRef.document.querySelector('cx-product-reviews');
   }
 
   /**
