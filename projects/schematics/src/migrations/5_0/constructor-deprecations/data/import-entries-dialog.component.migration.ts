@@ -1,10 +1,12 @@
 import {
   ELEMENT_REF,
   IMPORT_ENTRIES_DIALOG_COMPONENT,
+  LAUNCH_DIALOG_SERVICE,
 } from '../../../../shared/constants';
 import {
   SPARTACUS_CART_IMPORT_EXPORT_COMPONENTS,
   SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
 } from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
@@ -15,8 +17,8 @@ export const IMPORT_ENTRIES_DIALOG_COMPONENT_MIGRATION: ConstructorDeprecation =
     importPath: SPARTACUS_CART_IMPORT_EXPORT_COMPONENTS,
     deprecatedParams: [
       {
-        className: IMPORT_ENTRIES_DIALOG_COMPONENT,
-        importPath: SPARTACUS_CART_IMPORT_EXPORT_COMPONENTS,
+        className: LAUNCH_DIALOG_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
       },
     ],
     addParams: [
