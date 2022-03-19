@@ -141,9 +141,7 @@
       }
     }
 
-    .cx-price,
-    .cx-quantity,
-    .cx-total {
+    td:not(:nth-of-type(1)) {
       font-size: var(--cx-font-size, 0.875rem);
       margin-inline-start: 5.7rem;
     }
