@@ -49,7 +49,9 @@ export class AuthService {
 
       const token = this.authStorageService.getItem('access_token');
 
-      // We get the result in the code flow even if we did not log in that why we also need to check if we have access_token
+      // We get the value `true` of `result` in the _code flow_ even if we did not log in successfully
+      // (see source code https://github.com/manfredsteyer/angular-oauth2-oidc/blob/d95d7da788e2c1390346c66de62dc31f10d2b852/projects/lib/src/oauth-service.ts#L1711),
+      // that why we also need to check if we have access_token
       if (loginResult.result && token) {
         this.userIdService.setUserId(OCC_USER_ID_CURRENT);
         this.store.dispatch(new AuthActions.Login());
