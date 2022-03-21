@@ -2,9 +2,11 @@ import {
   EVENT_SERVICE,
   FEATURE_CONFIG_SERVICE,
   HOME_PAGE_EVENT_BUILDER,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const HOME_PAGE_EVENT_BUILDER_COMPONENT_MIGRATION: ConstructorDeprecation =

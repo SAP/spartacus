@@ -8,10 +8,14 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  ADMINISTRATION_MODULE,
+  ADMINISTRATION_ROOT_MODULE,
   CLI_ORGANIZATION_ADMINISTRATION_FEATURE,
   CLI_ORGANIZATION_ORDER_APPROVAL_FEATURE,
   configureB2bFeatures,
   LibraryOptions as SpartacusOrganizationOptions,
+  ORDER_APPROVAL_MODULE,
+  ORDER_APPROVAL_ROOT_MODULE,
   readPackageJson,
   shouldAddFeature,
   SPARTACUS_ORGANIZATION,
@@ -19,10 +23,6 @@ import {
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
 import {
-  ADMINISTRATION_MODULE,
-  ADMINISTRATION_ROOT_MODULE,
-  ORDER_APPROVAL_MODULE,
-  ORDER_APPROVAL_ROOT_MODULE,
   ORDER_APPROVAL_TRANSLATIONS,
   ORDER_APPROVAL_TRANSLATION_CHUNKS_CONFIG,
   ORGANIZATION_ADMINISTRATION_FEATURE_NAME_CONSTANT,

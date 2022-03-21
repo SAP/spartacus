@@ -6,9 +6,11 @@ import {
   ROUTER,
   ROUTING_SERVICE,
   SEMANTIC_PATH_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const NOT_CHECKOUT_AUTH_GUARD_MIGRATION: ConstructorDeprecation = {

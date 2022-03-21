@@ -8,6 +8,8 @@ import {
 import {
   addLibraryFeature,
   addPackageJsonDependenciesForLibrary,
+  CDC_MODULE,
+  CDC_ROOT_MODULE,
   CLI_CDC_FEATURE,
   CLI_USER_PROFILE_FEATURE,
   LibraryOptions as SpartacusCdcOptions,
@@ -22,9 +24,7 @@ import {
   CDC_CONFIG,
   CDC_FEATURE_CONSTANT,
   CDC_FOLDER_NAME,
-  CDC_MODULE,
   CDC_MODULE_NAME,
-  CDC_ROOT_MODULE,
   SPARTACUS_CDC_ROOT,
 } from '../constants';
 
