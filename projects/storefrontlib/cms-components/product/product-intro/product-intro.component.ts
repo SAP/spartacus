@@ -48,7 +48,7 @@ export class ProductIntroComponent implements AfterContentChecked {
           setTimeout(() => {
             reviewsTab.scrollIntoView({ behavior: 'smooth' });
             reviewsTab.focus({ preventScroll: true });
-          }, 0);
+          });
         }
       })
       .unsubscribe();

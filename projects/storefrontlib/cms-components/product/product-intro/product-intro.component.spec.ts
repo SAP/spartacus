@@ -62,6 +62,10 @@ describe('ProductIntroComponent in product', () => {
     productIntroComponent = fixture.componentInstance;
   });
 
+  it('should be created', () => {
+    expect(productIntroComponent).toBeTruthy();
+  });
+
   describe('clickTabIfInactive to click tabs indicated as inactive', () => {
     it('should click tab with no classes', () => {
       const tabElement: HTMLElement = document.createElement('div');
