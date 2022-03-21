@@ -147,6 +147,7 @@ export interface FeatureConfig {
    * If set to true, instead of appending the configuration to the existing module,
    * it will recreate the feature module with the new configuration.
    */
+  // TODO:#schematics - remove
   recreate?: boolean;
 }
 
@@ -222,21 +223,17 @@ function createLibraryDependencyGraph(): Graph {
     'storefrontapp-e2e-cypress',
     'storefrontapp'
   );
-  return createDependencyGraph(collectedDependencies, skip);
-}
 
-function createDependencyGraph(
-  dependencies: Record<string, Record<string, string>>,
-  skip: string[] = []
-): Graph {
-  const spartacusLibraries = Object.keys(dependencies).filter(
+  const spartacusLibraries = Object.keys(collectedDependencies).filter(
     (dependency) => !skip.includes(dependency)
   );
 
   const graph = new Graph(spartacusLibraries);
   for (const spartacusLib of spartacusLibraries) {
     const spartacusPeerDependencies = getSpartacusLibraries(
-      dependencies[spartacusLib]
+      (collectedDependencies as Record<string, Record<string, string>>)[
+        spartacusLib
+      ]
     );
     for (const spartacusPackage of spartacusPeerDependencies) {
       if (skip.includes(spartacusPackage)) {
