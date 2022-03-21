@@ -21,6 +21,8 @@ import { peerDependencies } from '../../package.json';
 const collectionPath = path.join(__dirname, '../collection.json');
 const featureModulePath =
   'src/app/spartacus/features/asm/asm-feature.module.ts';
+const userFeatureModulePath =
+  'src/app/spartacus/features/user/user-feature.module.ts';
 
 describe('Spartacus Asm schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -138,6 +140,11 @@ describe('Spartacus Asm schematics: ng-add', () => {
       it('should add the feature using the lazy loading syntax', async () => {
         const module = appTree.readContent(featureModulePath);
         expect(module).toMatchSnapshot();
+      });
+
+      it('should install the required feature dependencies', async () => {
+        const userFeatureModule = appTree.readContent(userFeatureModulePath);
+        expect(userFeatureModule).toMatchSnapshot();
       });
     });
 
