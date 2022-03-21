@@ -47,10 +47,6 @@ export const COMPONENT_WRAPPER_DIRECTIVE_MIGRATION: ConstructorDeprecation = {
       className: CMS_INJECTOR_SERVICE,
       importPath: SPARTACUS_STOREFRONTLIB,
     },
-    {
-      className: EVENT_SERVICE,
-      importPath: SPARTACUS_CORE,
-    },
   ],
   addParams: [
     {
