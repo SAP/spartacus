@@ -827,7 +827,6 @@ export function addPackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Tree => {
     for (const dependency of dependencies) {
-      context.logger.info(`${dependency.name} of type ${dependency.type}`);
       if (!dependencyExists(dependency, packageJson)) {
         addPackageJsonDependency(tree, dependency);
         context.logger.info(
@@ -1058,8 +1057,6 @@ export function updatePackageJsonDependencies(
 ): Rule {
   return (tree: Tree, context: SchematicContext): Rule => {
     const dependenciesToAdd: NodeDependency[] = [];
-
-    context.logger.info(dependencies.toString());
 
     for (const dependency of dependencies) {
       const currentVersion = getCurrentDependencyVersion(
