@@ -26,9 +26,9 @@ describe('dependency-util', () => {
   describe('analyzeCrossFeatureDependencies', () => {
     it('DP - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([
+        CLI_CDC_FEATURE,
         CLI_DIGITAL_PAYMENTS_FEATURE,
         CLI_CHECKOUT_B2B_FEATURE,
-        CLI_CDC_FEATURE,
       ]);
 
       expect(result).toEqual([
