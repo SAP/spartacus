@@ -11,7 +11,7 @@
     "cy:run": "cypress run",
     "cy:run:b2b": "cypress run --env BASE_SITE=powertools-spa,OCC_PREFIX_USER_ENDPOINT=orgUsers",
     "cy:run:product-configurator-vc": "cypress run --spec \"cypress/integration/**/*-configurator*.*e2e-spec.ts\"",
-    "cy:run:ci": "cypress run --config-file cypress.ci.json --record --key $CYPRESS_KEY --tag \"b2c,all\" --parallel --group B2C --spec \"cypress/integration/!(vendor|b2b|ssr)/**/*e2e-spec.ts\"",
+    "cy:run:ci": "cypress run --config-file cypress.ci.json --record --key $CYPRESS_KEY --tag \"b2c,all\" --parallel --group B2C --spec \"cypress/integration/!(vendor|b2b|ssr|cx_ccv2)/**/*e2e-spec.ts\"",
     "cy:run:cpq": "cypress run  --config-file cypress.ci.json --config baseUrl=https://jsapps.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com,defaultCommandTimeout=100000,requestTimeout=1000000,responseTimeout=1000000,pageLoadTimeout=1000000 --reporter junit --reporter-options mochaFile=results/test-results-[hash].xml --env API_URL=https://api.cpce-teamtiger1-d2-public.model-t.cc.commerce.ondemand.com --spec \"cypress/integration/**/cpq-configuration.e2e-spec.ts\"",
     "cy:run:ci:ssr": "cypress run --config-file cypress.ci.json --config baseUrl=http://localhost:4000 --record --key $CYPRESS_KEY --tag \"ssr,all\" --parallel --group SSR --spec \"cypress/integration/ssr/pages.e2e-spec.ts\"",
     "cy:run:ci:ccv2": "cypress run --config-file cypress.ci.json --config baseUrl=$ENDPOINT_URL_PUBLIC_SPARTACUS --reporter junit --reporter-options mochaFile=results/spartacus-test-results-[hash].xml --env API_URL=$ENDPOINT_URL_PUBLIC_API --spec \"cypress/integration/cx_ccv2/regression/b2c/**/*.e2e-spec.ts\"",
