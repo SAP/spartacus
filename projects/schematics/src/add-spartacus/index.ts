@@ -275,30 +275,6 @@ function updateAppModule(project: string): Rule {
   };
 }
 
-// TODO:#schematics - unused.
-// export function addSpartacusFeatures(options: SpartacusOptions): Rule {
-//   return (tree: Tree, context: SchematicContext) => {
-//     const cliFeatures = prepareCliPackageAndSubFeature(options.features ?? []);
-//     const libraryOptions: LibraryOptions = {
-//       project: options.project,
-//       lazy: options.lazy,
-//       debug: options.debug,
-//     };
-//     const featureOptions = createSpartacusFeatureOptionsForLibrary(
-//       libraryOptions,
-//       cliFeatures
-//     );
-//     addSchematicsTasks(featureOptions, context);
-
-//     const packageJson = readPackageJson(tree);
-//     const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-//     const dependencies = Object.keys(cliFeatures).map((feature) =>
-//       mapPackageToNodeDependencies(feature, spartacusVersion)
-//     );
-//     return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
-//   };
-// }
-
 function addFeatures(options: SpartacusOptions, features: string[]): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
     const libraryOptions: LibraryOptions = {
@@ -346,8 +322,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
 
-      // TODO:#schematics remove
-      // addSpartacusFeatures(options),
       addFeatures(options, features),
 
       chain([
