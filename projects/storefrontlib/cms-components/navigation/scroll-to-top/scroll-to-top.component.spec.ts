@@ -21,6 +21,10 @@ import { of } from 'rxjs';
 })
 class MockComponent {}
 
+class MockWinRef {
+  nativeWindow = window;
+}
+
 const mockData: CmsScrollToTopComponent = {
   scrollBehavior: ScrollBehavior.SMOOTH,
   displayThreshold: 100,
@@ -45,6 +49,7 @@ describe('ScrollToTopComponent', () => {
           provide: CmsComponentData,
           useValue: MockCmsComponentData,
         },
+        { provide: WindowRef, useClass: MockWinRef },
       ],
     }).compileComponents();
 
@@ -67,6 +72,7 @@ describe('ScrollToTopComponent', () => {
   });
 
   it('should be visible and scroll to top of page', (done) => {
+    spyOn(window, 'scrollTo').and.callThrough();
     winRef.nativeWindow?.scrollTo(0, 200);
     winRef.nativeWindow?.dispatchEvent(new Event('scroll'));
 
@@ -77,7 +83,14 @@ describe('ScrollToTopComponent', () => {
 
     expect(scrollComponent.nativeElement).toBeTruthy();
     expect(scrollBtn).toBeTruthy();
+
     scrollBtn.click();
+
+    expect((window.scrollTo as jasmine.Spy).calls.allArgs()).toEqual([
+      [0, 200],
+      [{ top: 0, behavior: 'smooth' }],
+    ]);
+
     setTimeout(() => {
       expect(winRef.nativeWindow?.scrollY).toEqual(0);
       done();
