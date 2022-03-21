@@ -21,7 +21,6 @@ import {
   addPackageJsonDependencies,
   installPackageJsonDependencies,
   LibraryOptions,
-  prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
@@ -220,12 +219,7 @@ function increaseBudgets(): Rule {
 function prepareDependencies(features: string[]): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
 
-  // TODO:#schematics - move this line to `analyzeCrossLibraryDependencies`?
-  const selectedLibraryFeatureMapping =
-    prepareCliPackageAndSubFeature(features);
-  const libraries = analyzeCrossLibraryDependencies(
-    Object.keys(selectedLibraryFeatureMapping)
-  );
+  const libraries = analyzeCrossLibraryDependencies(features);
   const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
   const spartacusLibraryDependencies = libraries.map((library) =>
     mapPackageToNodeDependencies(library, spartacusVersion)
@@ -234,6 +228,7 @@ function prepareDependencies(features: string[]): NodeDependency[] {
   const dependencies: NodeDependency[] = spartacusDependencies
     .concat(spartacusLibraryDependencies)
     .concat(prepare3rdPartyDependencies());
+
   return dependencies;
 }
 
@@ -351,6 +346,7 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
 
+      // TODO:#schematics remove
       // addSpartacusFeatures(options),
       addFeatures(options, features),
 

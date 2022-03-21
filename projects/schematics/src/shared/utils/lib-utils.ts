@@ -35,7 +35,6 @@ import {
   SPARTACUS_FEATURES_NG_MODULE,
   SPARTACUS_SETUP,
 } from '../libs-constants';
-import { packageCliMapping } from '../updateable-constants';
 import { getB2bConfiguration } from './config-utils';
 import { libraryInstallationOrder } from './graph-utils';
 import { isImportedFrom } from './import-utils';
@@ -186,37 +185,37 @@ export function shouldAddFeature(
 // TODO:#schematics - search for "subfeature", and rename to "feature"
 // TODO:#schematics - search for "cliFeature", and rename to "feature"?
 
-// TODO:#schematics - do we need this?
-export function prepareCliPackageAndSubFeature(
-  features: string[]
-): Record<string, string[]> {
-  return features.reduce((cliFeatures, subFeature) => {
-    const packageName = getPackageBySubFeature(subFeature);
-    const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
+// TODO:#schematics - unused
+// export function prepareCliPackageAndSubFeature(
+//   features: string[]
+// ): Record<string, string[]> {
+//   return features.reduce((cliFeatures, subFeature) => {
+//     const packageName = getPackageBySubFeature(subFeature);
+//     const subFeatures = [...(cliFeatures[packageName] ?? []), subFeature];
 
-    return { ...cliFeatures, [packageName]: subFeatures };
-  }, {} as Record<string, string[]>);
-}
+//     return { ...cliFeatures, [packageName]: subFeatures };
+//   }, {} as Record<string, string[]>);
+// }
 
-// TODO:#schematics - do we need this?
-export function getPackageBySubFeature(subFeature: string): string {
-  for (const spartacusPackage in packageCliMapping) {
-    if (!packageCliMapping.hasOwnProperty(spartacusPackage)) {
-      continue;
-    }
+// TODO:#schematics - unused
+// export function getPackageBySubFeature(subFeature: string): string {
+//   for (const spartacusPackage in packageCliMapping) {
+//     if (!packageCliMapping.hasOwnProperty(spartacusPackage)) {
+//       continue;
+//     }
 
-    const subFeatures = packageCliMapping[spartacusPackage];
-    if (subFeatures.includes(subFeature)) {
-      return spartacusPackage;
-    }
-  }
+//     const subFeatures = packageCliMapping[spartacusPackage];
+//     if (subFeatures.includes(subFeature)) {
+//       return spartacusPackage;
+//     }
+//   }
 
-  // TODO:#schematics - alter the message?
-  throw new SchematicsException(
-    `The given '${subFeature}' doesn't contain a Spartacus package mapping.
-Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
-  );
-}
+//   // TODO:#schematics - alter the message?
+//   throw new SchematicsException(
+//     `The given '${subFeature}' doesn't contain a Spartacus package mapping.
+// Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
+//   );
+// }
 
 export function addLibraryFeature<T extends LibraryOptions>(
   options: T,

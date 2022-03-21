@@ -78,8 +78,21 @@ function collectCrossFeatureDeps(feature: string, result: string[]): void {
  * from projects/schematics/src/migrations/mechanism/dependency-management/dependency-management.ts
  */
 export function analyzeCrossLibraryDependencies(
-  startingLibraries: string[]
+  startingFeatures: string[]
 ): string[] {
+  const startingLibraries: string[] = [];
+  for (const feature of startingFeatures) {
+    const library = getKeyByMappingValue(packageCliMapping, feature);
+    if (!library) {
+      throw new SchematicsException(
+        `The given '${feature}' doesn't contain a Spartacus package mapping.
+Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
+      );
+    }
+
+    startingLibraries.push(library);
+  }
+
   let spartacusPeerDeps: string[] = startingLibraries;
   for (const spartacusLib of startingLibraries) {
     spartacusPeerDeps = collectCrossSpartacusPeerDeps(

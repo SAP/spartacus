@@ -57,7 +57,7 @@ describe('dependency-util', () => {
   describe('analyzeCrossLibraryDependencies', () => {
     it('DP - should return the correct set of ordered libraries', () => {
       const result = analyzeCrossLibraryDependencies([
-        SPARTACUS_DIGITAL_PAYMENTS,
+        CLI_DIGITAL_PAYMENTS_FEATURE,
       ]);
 
       expect(result).toEqual([
@@ -69,7 +69,7 @@ describe('dependency-util', () => {
       ]);
     });
     it('CDC - should return the correct set of ordered libraries', () => {
-      const result = analyzeCrossLibraryDependencies([SPARTACUS_CDC]);
+      const result = analyzeCrossLibraryDependencies([CLI_CDC_FEATURE]);
 
       expect(result).toEqual([SPARTACUS_USER, SPARTACUS_ASM, SPARTACUS_CDC]);
     });
