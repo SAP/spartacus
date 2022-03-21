@@ -12,15 +12,6 @@
 }
 
 cx-form-errors {
-  display: none;
-
-  &.control-invalid {
-    &.control-dirty,
-    &.control-touched {
-      display: initial;
-    }
-  }
-
   p {
     font-size: 14px;
     margin: 6px 0;

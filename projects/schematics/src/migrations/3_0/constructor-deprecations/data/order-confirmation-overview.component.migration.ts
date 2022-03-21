@@ -1,10 +1,12 @@
 import {
   CHECKOUT_SERVICE,
   ORDER_CONFIRMATION_OVERVIEW_COMPONENT,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   TRANSLATION_SERVICE,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ORDER_CONFIRMATION_OVERVIEW_COMPONENT_MIGRATION: ConstructorDeprecation =
