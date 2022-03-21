@@ -53,5 +53,21 @@ export class ScrollToTopComponent {
       top: 0,
       behavior: this.behavior,
     });
+
+    this.getKeyboardFocusableElement().focus();
+  }
+
+  /**
+   *Get first focusable element of DOM that is not hidden or disabled.
+   * @returns HTMLElement
+   */
+  protected getKeyboardFocusableElement(): HTMLElement {
+    return [
+      ...(this.window?.document?.querySelectorAll(
+        'a[href], button, input, textarea, select, details,[tabindex]:not([tabindex="-1"])'
+      ) as any),
+    ].filter(
+      (el) => !el.hasAttribute('disabled') && !el.getAttribute('aria-hidden')
+    )[0];
   }
 }
