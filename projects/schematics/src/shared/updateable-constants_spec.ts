@@ -3,15 +3,19 @@
 import {
   ASM_MODULE,
   ASM_ROOT_MODULE,
+  ASM_SCHEMATICS_CONFIG,
   CART_BASE_ROOT_MODULE,
   CDC_MODULE,
   CDC_ROOT_MODULE,
   CHECKOUT_B2B_MODULE,
   CHECKOUT_B2B_ROOT_MODULE,
+  CHECKOUT_B2B_SCHEMATICS_CONFIG,
   CHECKOUT_BASE_MODULE,
   CHECKOUT_BASE_ROOT_MODULE,
+  CHECKOUT_BASE_SCHEMATICS_CONFIG,
   CHECKOUT_SCHEDULED_REPLENISHMENT_MODULE,
   CHECKOUT_SCHEDULED_REPLENISHMENT_ROOT_MODULE,
+  CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
   MINI_CART_MODULE,
   ORDER_MODULE,
   ORDER_ROOT_MODULE,
@@ -78,6 +82,18 @@ describe('generateMappings', () => {
       expect(result[SPARTACUS_CDC]).toEqual([CDC_ROOT_MODULE]);
       expect(result[SPARTACUS_CDS]).toEqual([]);
       expect(result[SPARTACUS_DIGITAL_PAYMENTS]).toEqual([]);
+    });
+  });
+  describe('packageSchematicConfigMapping', () => {
+    it('should generate a correct mapping', () => {
+      const result = generateMappings().packageSchematicConfigMapping;
+
+      expect(result[SPARTACUS_ASM]).toEqual([ASM_SCHEMATICS_CONFIG]);
+      expect(result[SPARTACUS_CHECKOUT]).toEqual([
+        CHECKOUT_BASE_SCHEMATICS_CONFIG,
+        CHECKOUT_B2B_SCHEMATICS_CONFIG,
+        CHECKOUT_SCHEDULED_REPLENISHMENT_SCHEMATICS_CONFIG,
+      ]);
     });
   });
 });

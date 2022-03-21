@@ -194,57 +194,62 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
 /**
  * Maps sub-features to their parent feature.
  */
-export const { packageCliMapping, packageFeatureMapping, packageRootMapping } =
-  generateMappings();
+export const {
+  packageCliMapping,
+  packageFeatureMapping,
+  packageRootMapping,
+  packageSchematicConfigMapping,
+} = generateMappings();
 
 export function generateMappings(): {
   packageCliMapping: Record<string, string[]>;
   packageFeatureMapping: Record<string, string[]>;
   packageRootMapping: Record<string, string[]>;
+  packageSchematicConfigMapping: Record<string, FeatureConfig[]>;
 } {
-  let cliMapping: Record<string, string[]> = {};
-  let featureMapping: Record<string, string[]> = {};
-  let rootMapping: Record<string, string[]> = {};
+  const cliMapping: Record<string, string[]> = {};
+  const featureMapping: Record<string, string[]> = {};
+  const rootMapping: Record<string, string[]> = {};
+  const packageConfigMapping: Record<string, FeatureConfig[]> = {};
 
   for (const featureConfig of SCHEMATICS_CONFIGS) {
-    cliMapping = generateCliFeatureMapping(featureConfig, cliMapping);
-    featureMapping = generateMainModules(featureConfig, featureMapping);
-    rootMapping = generateRootModules(featureConfig, rootMapping);
+    populateCliFeatureMapping(cliMapping, featureConfig);
+    populateMainModules(featureMapping, featureConfig);
+    populateRootModules(rootMapping, featureConfig);
+    populateConfigMapping(packageConfigMapping, featureConfig);
   }
 
   return {
     packageCliMapping: cliMapping,
     packageFeatureMapping: featureMapping,
     packageRootMapping: rootMapping,
+    packageSchematicConfigMapping: packageConfigMapping,
   };
 }
 
-function generateCliFeatureMapping(
-  featureConfig: FeatureConfig,
-  cliMapping: Record<string, string[]>
-): Record<string, string[]> {
+function populateCliFeatureMapping(
+  mapping: Record<string, string[]>,
+  featureConfig: FeatureConfig
+): void {
   const feature = featureConfig.library.mainScope;
   const cli = featureConfig.library.cli;
 
-  const existingCliMapping = cliMapping[feature] ?? [];
+  const existingCliMapping = mapping[feature] ?? [];
   // avoid adding duplicates
   if (existingCliMapping.includes(cli)) {
-    return cliMapping;
+    return;
   }
 
-  return {
-    ...cliMapping,
-    [feature]: [...existingCliMapping, cli],
-  };
+  mapping[feature] = [...existingCliMapping, cli];
 }
 
-function generateMainModules(
-  featureConfig: FeatureConfig,
-  featureMapping: Record<string, string[]>
-): Record<string, string[]> {
+function populateMainModules(
+  mapping: Record<string, string[]>,
+  featureConfig: FeatureConfig
+): void {
   const feature = featureConfig.library.mainScope;
 
-  const existingFeatureMarkerMapping = featureMapping[feature] ?? [];
+  const existingFeatureMarkerMapping = mapping[feature] ?? [];
   const featureModules = ([] as Module[])
     .concat(featureConfig.featureModule)
     .map((fm) => fm.name);
@@ -255,22 +260,19 @@ function generateMainModules(
       featureModules.includes(existing)
     )
   ) {
-    return featureMapping;
+    return;
   }
 
-  return {
-    ...featureMapping,
-    [feature]: [...existingFeatureMarkerMapping, ...featureModules],
-  };
+  mapping[feature] = [...existingFeatureMarkerMapping, ...featureModules];
 }
 
-function generateRootModules(
-  featureConfig: FeatureConfig,
-  rootMapping: Record<string, string[]>
-): Record<string, string[]> {
+function populateRootModules(
+  mapping: Record<string, string[]>,
+  featureConfig: FeatureConfig
+): void {
   const feature = featureConfig.library.mainScope;
 
-  const existingRootMarkerMapping = rootMapping[feature] ?? [];
+  const existingRootMarkerMapping = mapping[feature] ?? [];
   const rooModules = ([] as Module[])
     .concat(featureConfig.rootModule ?? [])
     .map((rm) => rm.name);
@@ -279,13 +281,38 @@ function generateRootModules(
   if (
     existingRootMarkerMapping.some((existing) => rooModules.includes(existing))
   ) {
-    return rootMapping;
+    return;
   }
 
-  return {
-    ...rootMapping,
-    [feature]: [...existingRootMarkerMapping, ...rooModules],
-  };
+  mapping[feature] = [...existingRootMarkerMapping, ...rooModules];
+}
+
+function populateConfigMapping(
+  mapping: Record<string, FeatureConfig[]>,
+  featureConfig: FeatureConfig
+): void {
+  const existingConfigs = mapping[featureConfig.library.mainScope] ?? [];
+  mapping[featureConfig.library.mainScope] = [
+    ...existingConfigs,
+    featureConfig,
+  ];
+}
+
+export function getKeyByMappingValue(
+  mapping: Record<string, string[]>,
+  value: string
+): string | undefined {
+  for (const key in mapping) {
+    if (!mapping.hasOwnProperty(key)) {
+      continue;
+    }
+
+    if ((mapping[key] ?? []).includes(value)) {
+      return key;
+    }
+  }
+
+  return undefined;
 }
 
 /**
@@ -294,7 +321,11 @@ function generateRootModules(
  * Account and Profile: USER_ACCOUNT_MODULE, USER_ACCOUNT_ROOT_MODULE,
  * USER_PROFILE_MODULE, USER_PROFILE_ROOT_MODULE,
  */
-// TODO:#schematics - build dynamically based on the `SCHEMATICS_CONFIGS`
+/**
+ * TODO:#schematics - remove, as it's built dynamically based on the `SCHEMATICS_CONFIGS`.
+ * However, it's currently possible to remove,
+ * as it does not contain both main and root modules.
+ */
 export const packageFeatureConfigMapping: Record<string, string[]> = {
   /** Feature modules lib start */
   [SPARTACUS_ASM]: [ASM_MODULE, ASM_ROOT_MODULE],
