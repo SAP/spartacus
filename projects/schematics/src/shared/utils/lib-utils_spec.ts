@@ -1,5 +1,4 @@
 import { Tree } from '@angular-devkit/schematics';
-import { RunSchematicTask } from '@angular-devkit/schematics/tasks';
 import {
   SchematicTestRunner,
   UnitTestTree,
@@ -15,7 +14,6 @@ import { CDS_CONFIG, UTF_8 } from '../constants';
 import { SPARTACUS_CDS, SPARTACUS_FEATURES_MODULE } from '../libs-constants';
 import {
   addLibraryFeature,
-  addPackageJsonDependenciesForLibrary,
   FeatureConfig,
   LibraryOptions,
   orderInstalledFeatures,
@@ -438,42 +436,43 @@ describe('Lib utils', () => {
     });
   });
 
-  describe('addPackageJsonDependenciesForLibrary', () => {
-    let tree: Tree;
+  // TODO:#schematics - remove?
+  // describe('addPackageJsonDependenciesForLibrary', () => {
+  //   let tree: Tree;
 
-    beforeEach(async () => {
-      tree = await schematicRunner
-        .callRule(
-          addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
-          appTree
-        )
-        .toPromise();
-    });
+  //   beforeEach(async () => {
+  //     tree = await schematicRunner
+  //       .callRule(
+  //         addLibraryFeature(CHECKOUT_OPTIONS, CHECKOUT_FEATURE_CONFIG),
+  //         appTree
+  //       )
+  //       .toPromise();
+  //   });
 
-    it('checkout', async () => {
-      const peerDependencies: Record<string, string> = {
-        '@spartacus/cart': '4.1.0-next.0',
-        '@spartacus/checkout': '4.1.0-next.0',
-      };
+  //   it('checkout', async () => {
+  //     const peerDependencies: Record<string, string> = {
+  //       '@spartacus/cart': '4.1.0-next.0',
+  //       '@spartacus/checkout': '4.1.0-next.0',
+  //     };
 
-      await schematicRunner
-        .callRule(
-          addPackageJsonDependenciesForLibrary(
-            peerDependencies,
-            CHECKOUT_OPTIONS
-          ),
-          tree
-        )
-        .toPromise();
+  //     await schematicRunner
+  //       .callRule(
+  //         addPackageJsonDependenciesForLibrary(
+  //           peerDependencies,
+  //           CHECKOUT_OPTIONS
+  //         ),
+  //         tree
+  //       )
+  //       .toPromise();
 
-      const tasks = schematicRunner.tasks
-        .filter((task) => task.name === 'run-schematic')
-        .map((task) => task.options as RunSchematicTask<LibraryOptions>)
-        .map((task) => (task as any).options.collection);
+  //     const tasks = schematicRunner.tasks
+  //       .filter((task) => task.name === 'run-schematic')
+  //       .map((task) => task.options as RunSchematicTask<LibraryOptions>)
+  //       .map((task) => (task as any).options.collection);
 
-      expect(tasks).toEqual(['@spartacus/cart', '@spartacus/checkout']);
-    });
-  });
+  //     expect(tasks).toEqual(['@spartacus/cart', '@spartacus/checkout']);
+  //   });
+  // });
 
   describe('feature ordering', () => {
     let tree: Tree;
