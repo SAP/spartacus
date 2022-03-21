@@ -3,7 +3,7 @@
     [formControl]="attributeInputForm"
     [required]="attribute.required"
     class="form-control"
-    placeholder="{{ this.intervalHelpText }}"
+    placeholder="{{ this.intervalPlaceholder }}"
     [attr.aria-describedby]="
       mustDisplayValidationMessage()
         ? createAttributeUiKey('label', attribute.name) +

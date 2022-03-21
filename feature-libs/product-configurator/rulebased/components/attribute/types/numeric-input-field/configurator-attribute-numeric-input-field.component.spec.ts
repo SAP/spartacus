@@ -355,7 +355,8 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       fixture.detectChanges();
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
-      expect(component.getIntervalText(interval)).toBe(
+
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
           interval.maxValue +
           ' minValue:' +
@@ -372,7 +373,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
           interval.maxValue +
           ' minValue:' +
@@ -391,7 +392,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
           interval.maxValue +
           ' minValue:' +
@@ -410,7 +411,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericIntervalStandard maxValue:' +
           interval.maxValue +
           ' minValue:' +
@@ -429,7 +430,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValue minValue:' +
           interval.minValue
       );
@@ -444,7 +445,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMinValueIncluded minValue:' +
           interval.minValue
       );
@@ -459,7 +460,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValue maxValue:' +
           interval.maxValue
       );
@@ -475,7 +476,7 @@ describe('ConfigAttributeNumericInputFieldComponent', () => {
       //component.ngOnInit();
       tick(DEBOUNCE_TIME);
 
-      expect(component.getIntervalText(interval)).toBe(
+      expect(component['getIntervalText'](interval)).toBe(
         'configurator.a11y.numericInfiniteIntervalMaxValueIncluded maxValue:' +
           interval.maxValue
       );

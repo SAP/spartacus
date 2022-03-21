@@ -37,7 +37,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
   numericFormatPattern: string;
   locale: string;
   iconType = ICON_TYPE;
-  intervalHelpText: string | undefined;
+  intervalPlaceholder: string | undefined;
   intervals: ConfiguratorAttributeNumericInterval[] | undefined;
   ariaLabelInterval: string;
 
@@ -110,7 +110,7 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     }
 
     if (this.attribute.intervalInDomain) {
-      this.intervalHelpText =
+      this.intervalPlaceholder =
         this.configAttributeNumericInputFieldService.getIntervalHelpText(
           this.attribute.values
         );
@@ -176,7 +176,9 @@ export class ConfiguratorAttributeNumericInputFieldComponent
     return completeAriaText;
   }
 
-  getIntervalText(interval: ConfiguratorAttributeNumericInterval): string {
+  protected getIntervalText(
+    interval: ConfiguratorAttributeNumericInterval
+  ): string {
     let intervalText = '';
     if (interval.minValue && interval.maxValue) {
       this.translation
