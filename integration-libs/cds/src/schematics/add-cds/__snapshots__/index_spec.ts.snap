@@ -65,3 +65,26 @@ import { provideConfig } from \\"@spartacus/core\\";
 export class CdsFeatureModule { }
 "
 `;
+
+exports[`Spartacus CDS schematics: ng-add CDS feature without Profile tag general setup should install the required feature dependencies 1`] = `
+"import { NgModule } from '@angular/core';
+import { CmsConfig, provideConfig } from \\"@spartacus/core\\";
+import { PersonalizationRootModule, PERSONALIZATION_FEATURE } from \\"@spartacus/tracking/personalization/root\\";
+
+@NgModule({
+  declarations: [],
+  imports: [
+    PersonalizationRootModule
+  ],
+  providers: [provideConfig(<CmsConfig>{
+    featureModules: {
+      [PERSONALIZATION_FEATURE]: {
+        module: () =>
+          import('@spartacus/tracking/personalization').then((m) => m.PersonalizationModule),
+      },
+    }
+  })]
+})
+export class PersonalizationFeatureModule { }
+"
+`;

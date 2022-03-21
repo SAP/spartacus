@@ -6,19 +6,35 @@ import {
   Tree,
 } from '@angular-devkit/schematics';
 import { Schema as SpartacusOptions } from '../../add-spartacus/schema';
-import { addLibraryFeature, LibraryOptions } from './lib-utils';
+import { addLibraryFeature, FeatureConfig, LibraryOptions } from './lib-utils';
 import { getSchematicsConfigurationByFeature } from './schematics-config-utils';
+
+/**
+ * Override the pre-defined configurations for the given feature
+ */
+export interface FeatureConfigurationOverrides<T = LibraryOptions> {
+  /**
+   * If specified, overrides the pre-defined schematics configuration.
+   * Usually used when customConfig needs to be provided.
+   */
+  schematics?: Record<string, FeatureConfig>;
+  /**
+   * If specified, overrides the pre-defined schematics options.
+   */
+  options?: Record<string, T>;
+}
 
 // TODO:#schematics - test
 // TODO:#schematics - move some of the methods from lib-utils?
 
 // TODO:#schematics - comment
-export function addFeatures(
+export function addFeatures<T extends LibraryOptions>(
   options: SpartacusOptions,
-  features: string[]
+  features: string[],
+  configurationOverrides?: FeatureConfigurationOverrides<T>
 ): Rule {
   return (_tree: Tree, _context: SchematicContext): Rule => {
-    const libraryOptions: LibraryOptions = {
+    const genericLibraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
       debug: options.debug,
@@ -35,7 +51,12 @@ export function addFeatures(
         );
       }
 
-      rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
+      const config =
+        configurationOverrides?.schematics?.[feature] ??
+        schematicsConfiguration;
+      const libraryOptions =
+        configurationOverrides?.options?.[feature] ?? genericLibraryOptions;
+      rules.push(addLibraryFeature(libraryOptions, config));
     }
     return chain(rules);
   };

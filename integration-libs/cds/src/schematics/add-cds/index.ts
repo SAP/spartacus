@@ -1,21 +1,21 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   SchematicsException,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
+  analyzeCrossFeatureDependencies,
   CDS_CONFIG,
   CDS_SCHEMATICS_CONFIG,
   CLI_CDS_FEATURE,
   CustomConfig,
   FeatureConfig,
+  FeatureConfigurationOverrides,
   readPackageJson,
-  shouldAddFeature,
   SPARTACUS_CDS,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
@@ -27,17 +27,37 @@ export function addCdsFeature(options: SpartacusCdsOptions): Rule {
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
 
-      shouldAddFeature(CLI_CDS_FEATURE, options.features)
-        ? addCds(options, context)
-        : noop(),
+    const cdsOptions: SpartacusCdsOptions = {
+      ...options,
+      lazy: false,
+    };
+    const cdsSchematicsConfig: FeatureConfig = buildCdsConfig(
+      cdsOptions,
+      context
+    );
+
+    const overrides: FeatureConfigurationOverrides = {
+      schematics: {
+        [CLI_CDS_FEATURE]: cdsSchematicsConfig,
+      },
+      options: {
+        [CLI_CDS_FEATURE]: cdsOptions,
+      },
+    };
+
+    return chain([
+      addFeatures(options, features, overrides),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
 }
 
-function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
+function buildCdsConfig(
+  options: SpartacusCdsOptions,
+  context: SchematicContext
+): FeatureConfig {
   validateCdsOptions(options, context);
 
   const customConfig: CustomConfig[] = [
@@ -84,12 +104,10 @@ function addCds(options: SpartacusCdsOptions, context: SchematicContext): Rule {
     });
   }
 
-  const config: FeatureConfig = {
+  return {
     ...CDS_SCHEMATICS_CONFIG,
     customConfig,
   };
-
-  return addLibraryFeature({ ...options, lazy: false }, config);
 }
 
 function validateCdsOptions(

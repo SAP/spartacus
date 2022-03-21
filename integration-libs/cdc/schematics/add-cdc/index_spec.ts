@@ -153,7 +153,7 @@ describe('Spartacus CDC schematics: ng-add', () => {
         }
       });
 
-      it('should install the required dependencies', async () => {
+      it('should install the required feature dependencies', async () => {
         const userFeatureModule = appTree.readContent(userFeatureModulePath);
         expect(userFeatureModule).toMatchSnapshot();
       });

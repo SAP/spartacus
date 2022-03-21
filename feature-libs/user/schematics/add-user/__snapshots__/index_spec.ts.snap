@@ -257,7 +257,7 @@ export class UserFeatureModule { }
 "
 `;
 
-exports[`Spartacus User schematics: ng-add Profile feature general setup should install the required dependencies 1`] = `
+exports[`Spartacus User schematics: ng-add Profile feature general setup should install the required feature dependencies 1`] = `
 "import { NgModule } from '@angular/core';
 import { CmsConfig, I18nConfig, provideConfig } from \\"@spartacus/core\\";
 import { userAccountTranslationChunksConfig, userAccountTranslations } from \\"@spartacus/user/account/assets\\";
