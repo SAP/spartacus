@@ -72,6 +72,7 @@ describe('AddedToCartToastComponent', () => {
   let fixture: ComponentFixture<AddedToCartToastComponent>;
   let service: AddedToCartToastComponentService;
   let activeCartService: ActiveCartFacade;
+  let positionClasses: string;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -100,6 +101,7 @@ describe('AddedToCartToastComponent', () => {
     component.timeout = 3000;
     component.scrollEventUnlistener = () => {};
     fixture.detectChanges();
+    component.ngOnInit();
   });
 
   afterEach(() => {
@@ -112,7 +114,6 @@ describe('AddedToCartToastComponent', () => {
 
   it('should call the active cart service', () => {
     const spy = spyOn(activeCartService, 'getLastEntry').and.callThrough();
-    component.ngOnInit();
     component.addToast(mockEvent);
     expect(spy).toHaveBeenCalled();
   });
@@ -123,13 +124,11 @@ describe('AddedToCartToastComponent', () => {
   });
 
   it('should have the product name', () => {
-    component.ngOnInit();
     const el = fixture.debugElement.query(By.css('h3'));
     expect(el.nativeElement.innerHTML).toContain(mockCartToastItem.productName);
   });
 
   it('should have the quantity added', () => {
-    component.ngOnInit();
     const el = fixture.debugElement.query(
       By.css('div.added-to-cart-toast-title')
     );
@@ -137,7 +136,6 @@ describe('AddedToCartToastComponent', () => {
   });
 
   it('should have the unit price', () => {
-    component.ngOnInit();
     const el = fixture.debugElement.query(By.css('span.price'));
     expect(el.nativeElement.innerHTML).toContain(mockCartToastItem.unitPrice);
   });
@@ -181,27 +179,23 @@ describe('AddedToCartToastComponent', () => {
     describe('Toast Opening', () => {
       it('should be fixed when the header is fixed', () => {
         spyOn(component, 'isHeaderFixed').and.returnValue(true);
-        let positionClasses = component.getToastStyles(
-          CART_TOAST_STATE.OPENING
-        );
+
+        positionClasses = component.getToastStyles(CART_TOAST_STATE.OPENING);
         expect(positionClasses).toBe('toast-container on-fixed-header');
       });
 
       it('should be on the header when the header is in view', () => {
         spyOn(component, 'isHeaderFixed').and.returnValue(false);
         spyOn(component, 'isHeaderInView').and.returnValue(true);
-        let positionClasses = component.getToastStyles(
-          CART_TOAST_STATE.OPENING
-        );
+        positionClasses = component.getToastStyles(CART_TOAST_STATE.OPENING);
         expect(positionClasses).toBe('toast-container on-header');
       });
 
       it('should be off the header when the header is not in view', () => {
         spyOn(component, 'isHeaderFixed').and.returnValue(false);
         spyOn(component, 'isHeaderInView').and.returnValue(false);
-        let positionClasses = component.getToastStyles(
-          CART_TOAST_STATE.OPENING
-        );
+
+        positionClasses = component.getToastStyles(CART_TOAST_STATE.OPENING);
         expect(positionClasses).toBe('toast-container off-header');
       });
     });
@@ -210,7 +204,8 @@ describe('AddedToCartToastComponent', () => {
       it('should not animate when the toast is opened', () => {
         spyOn(component, 'isHeaderFixed').and.returnValue(false);
         spyOn(component, 'isHeaderInView').and.returnValue(false);
-        let positionClasses = component.getToastStyles(CART_TOAST_STATE.OPENED);
+
+        positionClasses = component.getToastStyles(CART_TOAST_STATE.OPENED);
         expect(positionClasses).toBe(
           'toast-container off-header transition-none'
         );
@@ -225,9 +220,7 @@ describe('AddedToCartToastComponent', () => {
 
     describe('Toast Closing', () => {
       it('should trigger the toast close animation', () => {
-        let positionClasses = component.getToastStyles(
-          CART_TOAST_STATE.CLOSING
-        );
+        positionClasses = component.getToastStyles(CART_TOAST_STATE.CLOSING);
         expect(positionClasses).toBe(' close-toast');
       });
 
