@@ -1052,6 +1052,11 @@ export const CONFIGURATOR_API_GET_CONFLICT_MESSAGE_KEY =
 /***** feature keys start *****/
 export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE_OBSOLETE = 'rulebased';
 export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE_OBSOLETE = 'textfield';
+
+export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
+  'productConfiguratorRulebased';
+export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
+  'productConfiguratorTextfield';
 /***** feature keys end *****/
 
 export const TODO_SPARTACUS = 'TODO:Spartacus -';

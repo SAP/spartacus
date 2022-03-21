@@ -1,8 +1,4 @@
 // TODO:#schematics - move
-export const PRODUCT_CONFIGURATOR_RULEBASED_FEATURE =
-  'productConfiguratorRulebased';
-export const PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE =
-  'productConfiguratorTextfield';
 
 /***** Scopes start *****/
 export const SPARTACUS_SCOPE = `@spartacus/`;
