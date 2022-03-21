@@ -14,13 +14,12 @@ import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependencies,
 } from '../shared/utils/dependency-utils';
+import { addFeatures } from '../shared/utils/feature-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
-  addLibraryFeature,
   addPackageJsonDependencies,
   installPackageJsonDependencies,
-  LibraryOptions,
 } from '../shared/utils/lib-utils';
 import { addModuleImport } from '../shared/utils/new-module-utils';
 import {
@@ -33,7 +32,6 @@ import {
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
-import { getSchematicsConfigurationByFeature } from '../shared/utils/schematics-config-utils';
 import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
@@ -275,36 +273,13 @@ function updateAppModule(project: string): Rule {
   };
 }
 
-function addFeatures(options: SpartacusOptions, features: string[]): Rule {
-  return (_tree: Tree, _context: SchematicContext): Rule => {
-    const libraryOptions: LibraryOptions = {
-      project: options.project,
-      lazy: options.lazy,
-      debug: options.debug,
-      interactive: options.interactive,
-    };
-
-    const rules: Rule[] = [];
-    for (const feature of features) {
-      const schematicsConfiguration =
-        getSchematicsConfigurationByFeature(feature);
-      if (!schematicsConfiguration) {
-        throw new SchematicsException(
-          `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/updateable-constants.ts`
-        );
-      }
-
-      rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
-    }
-    return chain(rules);
-  };
-}
-
 export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
 
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
+    // TODO:#schematics - check the diff between the selected features and features-to-be-installed, and log the missing ones
+
     return chain([
       setupStoreModules(options.project),
 
