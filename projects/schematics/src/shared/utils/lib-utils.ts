@@ -21,6 +21,7 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
+import { getConfiguredDependencies } from '../../add-spartacus/dependency-util';
 import collectedDependencies from '../../dependencies.json';
 import {
   ANGULAR_CORE,
@@ -179,8 +180,16 @@ export interface AssetsConfig {
   glob: string;
 }
 
+// TODO:#schematics - move somewhere? To graph-utils?
 export const dependencyGraph: Graph = createLibraryDependencyGraph();
 export const installationOrder: string[] = kahnsAlgorithm(dependencyGraph);
+
+// TODO:#schematics - move somewhere? To graph-utils?
+export const crossFeatureDependencyGraph: Graph =
+  createCrossFeaturesDependencyGraph();
+export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
+  crossFeatureDependencyGraph
+);
 
 export function shouldAddFeature(
   feature: string,
@@ -247,6 +256,28 @@ function createLibraryDependencyGraph(): Graph {
   return graph;
 }
 
+function createCrossFeaturesDependencyGraph(): Graph {
+  const graph = new Graph();
+
+  for (const spartacusLib in packageCliMapping) {
+    if (!packageCliMapping.hasOwnProperty(spartacusLib)) {
+      continue;
+    }
+
+    const subFeatures = packageCliMapping[spartacusLib] ?? [];
+    for (const subFeature of subFeatures) {
+      graph.addVertex(subFeature);
+
+      const dependencies = getConfiguredDependencies(spartacusLib, subFeature);
+      for (const dependency of dependencies) {
+        graph.createEdge(subFeature, dependency);
+      }
+    }
+  }
+
+  return graph;
+}
+
 export function getSpartacusLibraries(
   dependencies: Record<string, string>
 ): string[] {
@@ -276,6 +307,7 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
+      // TODO:#schematics - remove?
       config.dependencyManagement
         ? installRequiredSpartacusFeatures(config, options)
         : noop(),

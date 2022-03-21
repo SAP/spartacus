@@ -64,7 +64,7 @@ function collectCrossFeatureDeps(
   }
 }
 
-function getConfiguredDependencies(
+export function getConfiguredDependencies(
   spartacusLib: string,
   cliFeature: string
 ): string[] {
