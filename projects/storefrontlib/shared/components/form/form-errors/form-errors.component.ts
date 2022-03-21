@@ -1,8 +1,12 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DoCheck,
   HostBinding,
   Input,
+  KeyValueDiffer,
+  KeyValueDiffers,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { isObject } from '@spartacus/core';
@@ -23,7 +27,12 @@ import { map, startWith } from 'rxjs/operators';
   templateUrl: './form-errors.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormErrorsComponent {
+export class FormErrorsComponent implements DoCheck {
+  constructor(
+    protected ChangeDetectionRef: ChangeDetectorRef,
+    protected keyValueDiffers: KeyValueDiffers
+  ) {}
+
   _control: FormControl;
 
   /**
@@ -37,6 +46,8 @@ export class FormErrorsComponent {
    * the error key and error details.
    */
   errorsDetails$: Observable<Array<[string, string]>>;
+
+  protected differ: KeyValueDiffer<any, any>;
 
   /**
    * Prefix prepended to the translation key.
@@ -52,6 +63,8 @@ export class FormErrorsComponent {
   @Input()
   set control(control: FormControl) {
     this._control = control;
+
+    this.differ = this.keyValueDiffers.find(this.control).create();
 
     this.errorsDetails$ = control?.statusChanges.pipe(
       startWith({}),
@@ -70,6 +83,16 @@ export class FormErrorsComponent {
     return this._control;
   }
 
+  ngDoCheck(): void {
+    const changes = this.differ?.diff(this.control);
+    if (changes) {
+      changes.forEachChangedItem((r) => {
+        if (r?.key === 'touched') {
+          this.ChangeDetectionRef.markForCheck();
+        }
+      });
+    }
+  }
   /**
    * Returns translation params composed of
    * the argument `errorDetails` (if only is an object) merged with
@@ -92,4 +115,8 @@ export class FormErrorsComponent {
   @HostBinding('class.control-touched') get touched() {
     return this.control?.touched;
   }
+  @HostBinding('class.cx-visually-hidden') get hidden() {
+    return !(this.invalid && (this.touched || this.dirty));
+  }
+  @HostBinding('attr.role') role = 'alert';
 }

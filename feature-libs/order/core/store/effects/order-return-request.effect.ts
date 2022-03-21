@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import {
-  normalizeHttpError,
-  ReturnRequest,
-  ReturnRequestList,
-} from '@spartacus/core';
+import { normalizeHttpError } from '@spartacus/core';
+import { ReturnRequest, ReturnRequestList } from '@spartacus/order/root';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { OrderConnector } from '../../connectors/order.connector';
+import { OrderHistoryConnector } from '../../connectors/order-history.connector';
 import { OrderActions } from '../actions/index';
 
 @Injectable()
@@ -114,6 +111,6 @@ export class OrderReturnRequestEffect {
 
   constructor(
     private actions$: Actions,
-    private orderConnector: OrderConnector
+    private orderConnector: OrderHistoryConnector
   ) {}
 }

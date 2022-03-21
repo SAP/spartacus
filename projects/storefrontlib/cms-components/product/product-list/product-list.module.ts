@@ -10,15 +10,16 @@ import {
 } from '@spartacus/core';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { OutletModule } from '../../../cms-structure/outlet/outlet.module';
+import { PageComponentModule } from '../../../cms-structure/page/component/page-component.module';
 import { ViewConfig } from '../../../shared/config/view-config';
 import {
+  AtMessageModule,
   ItemCounterModule,
   ListNavigationModule,
   MediaModule,
   SpinnerModule,
   StarRatingModule,
 } from '../../../shared/index';
-import { AddToCartModule } from '../../cart/index';
 import { IconModule } from '../../misc/icon/index';
 import { defaultViewConfig } from '../config/default-view-config';
 import { ProductListComponent } from './container/product-list.component';
@@ -29,20 +30,21 @@ import { ProductViewComponent } from './product-view/product-view.component';
 
 @NgModule({
   imports: [
+    AtMessageModule,
     CommonModule,
-    RouterModule,
-    MediaModule,
-    AddToCartModule,
+    FeaturesConfigModule,
+    I18nModule,
+    IconModule,
+    InfiniteScrollModule,
     ItemCounterModule,
     ListNavigationModule,
-    UrlModule,
-    I18nModule,
-    StarRatingModule,
-    IconModule,
-    SpinnerModule,
-    InfiniteScrollModule,
-    FeaturesConfigModule,
+    MediaModule,
     OutletModule,
+    PageComponentModule,
+    RouterModule,
+    SpinnerModule,
+    StarRatingModule,
+    UrlModule,
   ],
   providers: [
     provideDefaultConfig(<ViewConfig>defaultViewConfig),
@@ -50,12 +52,27 @@ import { ProductViewComponent } from './product-view/product-view.component';
       cmsComponents: {
         CMSProductListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         ProductGridComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
         SearchResultsListComponent: {
           component: ProductListComponent,
+          data: {
+            composition: {
+              inner: ['ProductAddToCartComponent'],
+            },
+          },
         },
       },
     }),

@@ -7,6 +7,7 @@ import {
   provideDefaultConfigFactory,
   RoutingConfig,
 } from '@spartacus/core';
+import { ORDER_FEATURE } from '@spartacus/order/root';
 import { CmsPageGuard, PageLayoutComponent } from '@spartacus/storefront';
 import { ORGANIZATION_ORDER_APPROVAL_FEATURE } from './feature-name';
 
@@ -24,6 +25,7 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           'OrderApprovalDetailFormComponent',
           'AccountOrderDetailsApprovalDetailsComponent',
         ],
+        dependencies: [ORDER_FEATURE],
       },
     },
   };
@@ -54,7 +56,6 @@ export function defaultOrganizationOrderApprovalComponentsConfig(): CmsConfig {
           },
           orderApprovalDetails: {
             paths: ['my-account/approval/:approvalCode'],
-            paramsMapping: { approvalCode: 'approvalCode' },
           },
         },
       },

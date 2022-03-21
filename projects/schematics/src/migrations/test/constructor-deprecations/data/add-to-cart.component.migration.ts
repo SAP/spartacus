@@ -6,9 +6,11 @@ import {
   CHANGE_DETECTOR_REF,
   CURRENT_PRODUCT_SERVICE,
   MODAL_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_STOREFRONTLIB,
-} from '../../../../shared/constants';
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const ADD_TO_CART_COMPONENT_MIGRATION: ConstructorDeprecation = {

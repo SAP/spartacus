@@ -77,6 +77,7 @@ export class PaymentMethodsComponent implements OnInit {
           }
           actions.push({ name: textDelete, event: 'edit' });
           const card: Card = {
+            role: 'region',
             header: defaultPayment ? textDefaultPaymentMethod : null,
             textBold: accountHolderName,
             text: [cardNumber, textExpires],
@@ -110,7 +111,7 @@ export class PaymentMethodsComponent implements OnInit {
   setDefaultPaymentMethod(paymentMethod: PaymentDetails): void {
     this.userPaymentService.setPaymentMethodAsDefault(paymentMethod.id);
     this.globalMessageService?.add(
-      { key: 'messages.setAsDefaultSucessfully' },
+      { key: 'paymentMessages.setAsDefaultSuccessfully' },
       GlobalMessageType.MSG_TYPE_CONFIRMATION
     );
   }

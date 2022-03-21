@@ -1,3 +1,4 @@
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 import * as cart from '../../../helpers/cart';
 import * as configuration from '../../../helpers/product-configurator';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
@@ -49,6 +50,7 @@ context('Product Configuration', () => {
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the cart', () => {
+      clickAllowAllFromBanner();
       configurationVc.goToConfigurationPage(
         electronicsShop,
         testProductMultiLevel
@@ -60,6 +62,7 @@ context('Product Configuration', () => {
     });
 
     it('should be able to navigate from the cart after adding product directly to the cart', () => {
+      clickAllowAllFromBanner();
       configuration.searchForProduct(testProductMultiLevel);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -70,6 +73,7 @@ context('Product Configuration', () => {
 
   describe('Conflict Solver', () => {
     it('should support the conflict solving process', () => {
+      clickAllowAllFromBanner();
       cy.intercept({
         method: 'PATCH',
         path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
@@ -141,9 +145,10 @@ context('Product Configuration', () => {
       configurationVc.checkConflictDescriptionDisplayed(
         Conflict_msg_gaming_console
       );
-      configuration.clickOnNextBtn(GENERAL);
-      // Navigate back to the configuration page and deselect conflicting value
-      configurationVc.clickOnGroup(3);
+      // Navigate back to the configuration page via clicking on 'View in Configuration' link and deselect conflicting value
+      configurationVc.clickOnViewInConfiguration(GAMING_CONSOLE);
+      configuration.checkAttributeDisplayed(GAMING_CONSOLE, radioGroup);
+      configuration.checkCurrentGroupActive(SOURCE_COMPONENTS);
       configurationVc.deselectConflictingValue(
         GAMING_CONSOLE,
         radioGroup,
@@ -158,8 +163,9 @@ context('Product Configuration', () => {
       configurationCartVc.verifyNotificationBannerInCart(0);
     });
   });
+
   describe('Configuration process', () => {
-    it('should support the product configuration aspect in product search, cart, checkout and order history', () => {
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configuration.completeOrderProcess(testProductMultiLevel);
     });
   });

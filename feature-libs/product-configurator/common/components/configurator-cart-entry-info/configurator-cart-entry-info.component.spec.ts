@@ -7,13 +7,12 @@ import {
 } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
-  FeaturesConfigModule,
-  I18nTestingModule,
+  CartItemContext,
   OrderEntry,
   PromotionLocation,
-} from '@spartacus/core';
-import { CartItemContext } from '@spartacus/storefront';
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
+} from '@spartacus/cart/base/root';
+import { FeaturesConfigModule, I18nTestingModule } from '@spartacus/core';
+import { BehaviorSubject, EMPTY, ReplaySubject } from 'rxjs';
 import { take, toArray } from 'rxjs/operators';
 import { CommonConfiguratorTestUtilsService } from '../../testing/common-configurator-test-utils.service';
 import { ConfiguratorType } from './../../core/model/common-configurator.model';
@@ -322,5 +321,30 @@ describe('ConfiguratorCartEntryInfoComponent', () => {
         );
       });
     });
+  });
+});
+
+describe('ConfiguratorCartEntryInfoComponent without cart item context', () => {
+  let component: ConfiguratorCartEntryInfoComponent;
+  let fixture: ComponentFixture<ConfiguratorCartEntryInfoComponent>;
+
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ConfiguratorCartEntryInfoComponent],
+      }).compileComponents();
+    })
+  );
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(ConfiguratorCartEntryInfoComponent);
+    component = fixture.componentInstance;
+  });
+
+  it('should contain empty observables for orderEntry, quantityControl and readOnly', () => {
+    expect(component).toBeTruthy();
+    expect(component.orderEntry$).toBe(EMPTY);
+    expect(component.quantityControl$).toBe(EMPTY);
+    expect(component.readonly$).toBe(EMPTY);
   });
 });

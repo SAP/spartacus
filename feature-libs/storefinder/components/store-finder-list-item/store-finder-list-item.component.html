@@ -1,21 +1,26 @@
 <ng-container>
-  <div>
+  <div aria-relevant="all">
     <div class="cx-store-list-order">
       {{ listOrderLabel }}
     </div>
-    <h2 class="cx-store-name">
-      <button
-        *ngIf="useClickEvent"
-        (click)="handleStoreItemClick()"
-        (keyup)="onKey($event)"
-      >
-        {{ location.displayName || location.name }}
-      </button>
-      <a *ngIf="!useClickEvent" [routerLink]="[location.name]">{{
-        location.displayName || location.name
-      }}</a>
-    </h2>
-    <div class="cx-store-address" *ngIf="location.address">
+    <a
+      *ngIf="useClickEvent"
+      (click)="handleStoreItemClick()"
+      (keyup)="onKey($event)"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
+    </a>
+    <a
+      *ngIf="!useClickEvent"
+      [routerLink]="[location.name]"
+      class="cx-store-name"
+      tabindex="0"
+    >
+      {{ location.displayName || location.name }}
+    </a>
+    <div class="cx-store-address" *ngIf="location.address" aria-hidden="true">
       <div class="cx-store-address-street">
         {{ location.address.line1 }} {{ location.address.line2 }}
       </div>
@@ -34,6 +39,7 @@
       </div>
     </div>
     <a
+      aria-hidden="true"
       href="{{ getDirections(location) }}"
       target="_blank"
       class="btn btn-sm btn-action btn-block cx-button"

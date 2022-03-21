@@ -1,5 +1,11 @@
 import { user } from '../../sample-data/checkout-flow';
 import { waitForOrderToBePlacedRequest } from '../../support/utils/order-placed';
+import { addProductToCart as addToCart } from '../applied-promotions';
+import { AUTH_STORAGE_KEY, getStateAuth } from '../auth';
+import { cartUser } from '../cart';
+import { loginAsGuest } from '../checkout-as-guest';
+import * as checkout from '../checkout-flow';
+import { generateMail, randomString } from '../user';
 
 export const productCode1 = '300938';
 export const couponForCart = 'CouponForCart'; //Get $10 off your order
@@ -13,6 +19,11 @@ export const powerShotA480 = '1934793';
 export const springFestivalCoupon = 'springfestival';
 export const midAutumnCoupon = 'midautumn';
 
+export enum UserType {
+  LOGGED = 'current',
+  ANONYMOUS = 'anonymous',
+}
+
 export function visitProductPage(productCode: string) {
   registerProductDetailsRoute(productCode);
   cy.visit(`/product/${productCode}`);
@@ -20,36 +31,63 @@ export function visitProductPage(productCode: string) {
 }
 
 export function addProductToCart(productCode: string) {
-  cy.get('cx-add-to-cart')
-    .findAllByText(/Add To Cart/i)
-    .first()
-    .click();
+  addToCart();
   cy.get('cx-added-to-cart-dialog').within(() => {
     cy.get('.cx-code').should('contain', productCode);
     cy.findByText(/view cart/i).click();
   });
 }
 
-export function applyCoupon(couponCode: string) {
-  registerCartRefreshRoute();
+export function verifyPrice(subtotal: string, discount: string) {
+  cy.get('.cx-summary-partials').within(() => {
+    cy.get('.cx-summary-amount').should('contain', subtotal);
+    cy.get('.cx-summary-row')
+      .contains(/you saved/i)
+      .should('contain', `${discount}`);
+  });
+}
 
+export function refreshCartAndVerifyIfCouponAdded(
+  couponCode: string,
+  userType = UserType.LOGGED
+) {
+  registerCartRefreshRoute(userType);
+  verifyRefreshCart(userType).then(({ subTotal, totalDiscounts }) => {
+    const subtotal = subTotal.formattedValue;
+    const discount = totalDiscounts.formattedValue;
+    verifyBannerAfterAddingCoupon(couponCode);
+    getCouponItemFromCart(couponCode).should('exist');
+    verifyPrice(subtotal, discount);
+    getCouponItemOrderSummary(couponCode).should('contain', couponCode);
+  });
+}
+
+export function refreshCartAndVerifyIfCoupons(couponCode: string) {
+  verifyRefreshCart(UserType.LOGGED).then(({ subTotal, totalDiscounts }) => {
+    const subtotal = subTotal.formattedValue;
+    const discount = totalDiscounts.formattedValue;
+    getCouponItemFromCart(couponCode).should('exist');
+    verifyPrice(subtotal, discount);
+    getCouponItemOrderSummary(couponCode).should('contain', couponCode);
+  });
+}
+
+export function verifyBannerAfterAddingCoupon(couponCode) {
+  cy.get('cx-global-message').should(
+    'contain',
+    `${couponCode} has been applied`
+  );
+}
+
+export function applyCoupon(couponCode: string, userType = UserType.LOGGED) {
   applyCartCoupon(couponCode);
 
-  cy.wait('@refresh_cart').then((xhr) => {
-    const subtotal = xhr.response.body.subTotal.formattedValue;
-    const discount = xhr.response.body.totalDiscounts.formattedValue;
-    cy.get('cx-global-message').should(
-      'contain',
-      `${couponCode} has been applied`
-    );
-    getCouponItemFromCart(couponCode).should('exist');
-    cy.get('.cx-promotions > :nth-child(1)').should('exist');
-    //verify price
-    cy.get('.cx-summary-partials').within(() => {
-      cy.get('.cx-summary-amount').should('contain', subtotal);
-      cy.get(':nth-child(5)').should('contain', `You saved: ${discount}`);
-    });
-  });
+  refreshCartAndVerifyIfCouponAdded(couponCode, userType);
+}
+
+export function applyCouponAndProceedToGuestCheckout(couponCode: string) {
+  applyCoupon(couponCode, UserType.ANONYMOUS);
+  verifyLoginPageForGuestCheckout();
 }
 
 export function verifyMyCoupons() {
@@ -86,7 +124,7 @@ export function claimCoupon(couponCode: string) {
     )}/users/current/customercoupons/${couponCode}/claim`,
     headers: {
       Authorization: `bearer ${
-        JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token.access_token
+        JSON.parse(localStorage.getItem(AUTH_STORAGE_KEY)).token.access_token
       }`,
     },
   }).then((response) => {
@@ -111,24 +149,6 @@ export function applyMyCouponAsAnonymous() {
   cy.get('cx-global-message .alert').should('exist');
 }
 
-export function registerProductDetailsRoute(productCode: string) {
-  const exp1 = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-    'BASE_SITE'
-  )}/products/${productCode}?fields=*&lang=en&curr=USD`;
-
-  cy.intercept('GET', exp1).as('product_details');
-}
-
-function registerCartRefreshRoute() {
-  // When adding a coupon to the cart, this route matches Selective carts first
-  //TODO matchers don't have proper regex (digits only). This might fail with a lot of carts in the system.
-  const exp1 = `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
-    'BASE_SITE'
-  )}/users/current/carts/0*?fields=*&lang=en&curr=USD`;
-
-  cy.intercept('GET', exp1).as('refresh_cart');
-}
-
 export function removeCoupon(couponCode: string) {
   cy.get('.cx-coupon-apply > .close').click();
   getCouponItemFromCart(couponCode).should('not.exist');
@@ -141,6 +161,10 @@ export function applyWrongCoupon() {
 }
 
 export function placeOrder(token: any) {
+  return goThroughCheckout(token, true);
+}
+
+export function goThroughCheckout(token: any, placeOrder = false) {
   return cy
     .get('.cx-total')
     .first()
@@ -148,39 +172,60 @@ export function placeOrder(token: any) {
       cy.log('Placing order asynchronously');
       const cartId = $cart.text().match(/[0-9]+/)[0];
       // Need to pass numeric CartId explicitly to avoid using the wrong cart for checkout
-      cy.requireShippingAddressAdded(user.address, token, cartId);
-      cy.requireShippingMethodSelected(token, cartId);
+      registerReviewOrderRoute(cartId);
+      cy.requireDeliveryAddressAdded(user.address, token, cartId);
+      cy.requireDeliveryMethodSelected(token, cartId);
       cy.requirePaymentDone(token, cartId);
-      return cy.requirePlacedOrder(token, cartId);
+      if (placeOrder) {
+        return cy.requirePlacedOrder(token, cartId);
+      }
     });
+}
+
+export function goThroughGuestCheckout() {
+  return cy.log('Placing order synchronously').then(() => {
+    registerReviewOrderRoute();
+    loginAsGuest(user);
+    checkout.fillAddressFormWithCheapProduct();
+    checkout.verifyDeliveryMethod();
+    checkout.fillPaymentFormWithCheapProduct();
+  });
 }
 
 export function verifyOrderHistory(orderData: any, couponCode?: string) {
   waitForOrderToBePlacedRequest(orderData.body.code);
   registerOrderDetailsRoute(orderData.body.code);
-  cy.visit('my-account/orders');
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  visitOrdersPage();
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)
       .click();
   });
   cy.wait('@order_details').then((xhr) => {
-    console.log(JSON.stringify(xhr.response.body));
     const subtotal = xhr.response.body.subTotal.formattedValue;
     const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
     if (couponCode) {
       getCouponItemOrderSummary(couponCode).should('exist');
       cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
-      cy.get('.cx-summary-partials').within(() => {
-        cy.get('.cx-summary-amount').should('contain', subtotal);
-        cy.get(':nth-child(5)').should(
-          'contain',
-          `You saved: ${orderDiscount}`
-        );
-      });
+      verifyPrice(subtotal, orderDiscount);
     } else {
-      verifyNoCouponInOrderHistory();
+      verifyNoCouponInOrder();
+    }
+  });
+}
+
+export function verifyCouponInReviewOrder(couponCode?: string) {
+  visitReviewOrderPage();
+  cy.wait('@review_order').then((xhr) => {
+    const subtotal = xhr.response.body.subTotal.formattedValue;
+    const orderDiscount = xhr.response.body.totalDiscounts.formattedValue;
+    if (!couponCode) {
+      verifyNoCouponInOrder();
+    } else {
+      getCouponItemOrderSummary(couponCode).should('exist');
+      cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
+      verifyPrice(subtotal, orderDiscount);
     }
   });
 }
@@ -195,10 +240,7 @@ export function verifyCouponAndPromotion(
   //verify promotion
   cy.get('.cx-promotions > :nth-child(1)').should('exist');
   //verify price
-  cy.get('.cx-summary-partials').within(() => {
-    cy.get('.cx-summary-amount').should('contain', totalPrice);
-    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
-  });
+  verifyPrice(totalPrice, savedPrice);
 }
 
 export function verifyCouponAndSavedPrice(
@@ -237,7 +279,7 @@ export function verifyOrderHistoryForCouponAndPrice(
   if (couponCode) {
     verifyCouponAndSavedPriceInOrder(couponCode, savedPrice);
   } else {
-    verifyNoCouponInOrderHistory();
+    verifyNoCouponInOrder();
   }
 }
 
@@ -251,35 +293,12 @@ export function verifyGiftProductCoupon(productCode: string) {
     });
 }
 
-export function verifyCouponInOrderHistory(
-  couponCode: string,
-  totalPrice: string,
-  savedPrice: string
-) {
-  getCouponItemOrderSummary(couponCode).should('exist');
-  cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 5);
-  cy.get('.cx-summary-partials').within(() => {
-    cy.get('.cx-summary-amount').should('contain', totalPrice);
-    cy.get(':nth-child(5)').should('contain', `You saved: ${savedPrice}`);
-  });
-}
-
-export function verifyNoCouponInOrderHistory() {
+export function verifyNoCouponInOrder() {
   cy.get('cx-order-summary > cx-applied-coupons').should('not.be.visible');
   cy.get('.cx-summary-partials > .cx-summary-row').should('have.length', 4);
   cy.get('.cx-summary-partials').within(() => {
     cy.get(':nth-child(5)').should('not.exist');
   });
-}
-
-export function navigateToCheckoutPage() {
-  cy.get('cx-cart-totals > .btn')
-    .should('contain', 'Proceed to Checkout')
-    .click();
-}
-
-export function navigateToCartPage() {
-  cy.visit('cart');
 }
 
 export function registerOrderDetailsRoute(orderCode: string) {
@@ -293,8 +312,8 @@ export function registerOrderDetailsRoute(orderCode: string) {
 
 export function navigateToOrderHistoryPage(orderData: any, couponCode: string) {
   registerOrderDetailsRoute(orderData.body.code);
-  cy.visit('my-account/orders');
-  cy.get('cx-order-history h3').should('contain', 'Order history');
+  visitOrdersPage();
+  cy.get('cx-order-history h2').should('contain', 'Order history');
   cy.get('.cx-order-history-code  ').within(() => {
     cy.get('.cx-order-history-value')
       .should('contain', orderData.body.code)
@@ -331,7 +350,7 @@ export function verifyProductInCart(productCode: string) {
 }
 
 export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
+  const stateAuth = getStateAuth();
   visitProductPage(powerShotA480);
   addProductToCart(powerShotA480);
   verifyProductInCart(powerShotA480);
@@ -339,21 +358,21 @@ export function verifyOrderPlacingWithCouponAndCustomerCoupon() {
   claimCoupon(springFestivalCoupon);
   claimCoupon(midAutumnCoupon);
 
-  navigateToCartPage();
+  visitCartPage();
   verifyMyCoupons();
   ApplyMyCoupons(midAutumnCoupon, true);
   applyCoupon(couponForCart);
   //don't verify the total price which easy to changed by sample data
   verifyCouponAndSavedPrice(midAutumnCoupon, '$30');
 
-  placeOrder(stateAuth).then((orderData: any) => {
+  placeOrder(stateAuth.token).then((orderData: any) => {
     verifyOrderHistoryForCouponAndPrice(orderData, midAutumnCoupon, '$30');
     getCouponItemOrderSummary(couponForCart).should('exist');
   });
 }
 
 export function verifyCustomerCouponRemoving() {
-  const stateAuth = JSON.parse(localStorage.getItem('spartacus⚿⚿auth')).token;
+  const stateAuth = getStateAuth();
   visitProductPage(powerShotA480);
   claimCoupon(midAutumnCoupon);
   addProductToCart(powerShotA480);
@@ -362,7 +381,91 @@ export function verifyCustomerCouponRemoving() {
 
   removeCoupon(midAutumnCoupon);
 
-  placeOrder(stateAuth).then((orderData: any) => {
+  placeOrder(stateAuth.token).then((orderData: any) => {
     verifyOrderHistory(orderData);
   });
+}
+
+export function getCartUser() {
+  return {
+    ...cartUser,
+    registrationData: {
+      ...cartUser.registrationData,
+      email: generateMail(randomString(), true),
+    },
+  };
+}
+
+export function getCartUserForExpressCheckout() {
+  return {
+    ...cartUser,
+    registrationData: {
+      ...cartUser.registrationData,
+      email: generateMail(randomString(), true),
+    },
+    ...user,
+  };
+}
+
+function registerProductDetailsRoute(productCode: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/products/${productCode}?fields=*&lang=en&curr=USD`,
+  }).as('product_details');
+}
+function registerCartRefreshRoute(userType = UserType.LOGGED) {
+  // When adding a coupon to the cart, this route matches Selective carts first
+  //TODO matchers don't have proper regex (digits only). This might fail with a lot of carts in the system.
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env(
+      'BASE_SITE'
+    )}/users/${userType}/carts/${
+      userType === UserType.ANONYMOUS ? '*' : '[0-9]*'
+    }?fields=*&lang=en&curr=USD`,
+  }).as(`refresh_${userType}_cart`);
+}
+
+function registerReviewOrderRoute(cartId?: string) {
+  cy.intercept({
+    method: 'GET',
+    path: `${Cypress.env('OCC_PREFIX')}/${Cypress.env('BASE_SITE')}//users/${
+      cartId ? UserType.LOGGED : UserType.ANONYMOUS
+    }/carts/${cartId || '*'}?fields=DEFAULT*`,
+  }).as('review_order');
+}
+
+function visitReviewOrderPage() {
+  const reviewOrderPage = checkout.waitForPage(
+    '/checkout/review-order',
+    'getReviewOrder'
+  );
+  cy.visit('/checkout/review-order');
+  cy.wait(`@${reviewOrderPage}`).its('response.statusCode').should('eq', 200);
+}
+
+function visitOrdersPage() {
+  const ordersPage = checkout.waitForPage('/my-account/orders', 'getOrders');
+  cy.visit('my-account/orders');
+  cy.wait(`@${ordersPage}`).its('response.statusCode').should('eq', 200);
+}
+
+function visitCartPage() {
+  const cartPage = checkout.waitForPage('cart', 'cartPage');
+  cy.visit('cart');
+  cy.wait(`@${cartPage}`).its('response.statusCode').should('eq', 200);
+}
+
+export function verifyRefreshCart(userType: string) {
+  const alias = `@refresh_${userType}_cart`;
+  cy.wait(alias).its('response.statusCode').should('eq', 200);
+  return cy.get(alias).its('response.body');
+}
+
+function verifyLoginPageForGuestCheckout() {
+  const loginPage = checkout.waitForPage('login', 'getLoginPage');
+  cy.findByText(/proceed to checkout/i).click();
+  cy.wait(`@${loginPage}`).its('response.statusCode').should('eq', 200);
 }

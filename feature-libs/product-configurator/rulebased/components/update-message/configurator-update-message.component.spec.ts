@@ -123,7 +123,7 @@ describe('ConfigurationUpdateMessageComponent', () => {
     expect(htmlElem.querySelectorAll('div.cx-update-msg.visible').length).toBe(
       1
     );
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+    expect(htmlElem.querySelectorAll('div').length).toBe(2);
   }));
 
   it('should consider the configured timeout', fakeAsync(() => {
@@ -143,6 +143,6 @@ describe('ConfigurationUpdateMessageComponent', () => {
       1
     );
 
-    expect(htmlElem.querySelectorAll('div').length).toBe(1);
+    expect(htmlElem.querySelectorAll('div').length).toBe(2);
   }));
 });

@@ -4,6 +4,7 @@ import * as configurationOverview from '../../../helpers/product-configurator-ov
 import * as configurationOverviewCpq from '../../../helpers/product-configurator-overview-cpq';
 import * as configurationCart from '../../../helpers/product-configurator-cart';
 import * as configurationCartCpq from '../../../helpers/product-configurator-cart-cpq';
+import { clickAllowAllFromBanner } from '../../../helpers/anonymous-consents';
 
 const POWERTOOLS = 'powertools-spa';
 const EMAIL = 'cpq03@sap.com';
@@ -91,12 +92,13 @@ context('CPQ Configuration', () => {
   beforeEach(() => {
     configuration.defineAliases(CPQ_BACKEND_URL);
     cy.visit('/');
+    clickAllowAllFromBanner();
     configurationCpq.login(EMAIL, PASSWORD, CPQ_USER);
   });
 
   describe('Navigate to Product Configuration Page', () => {
     it('should be able to navigate from the product search result', () => {
-      configuration.searchForProduct(PROD_CODE_CAM);
+      configurationCpq.searchForProduct(PROD_CODE_CAM);
       configurationCpq.clickOnConfigureBtnInCatalog();
     });
 
@@ -209,6 +211,7 @@ context('CPQ Configuration', () => {
 
     it('should support single select (ddlb) bundle items', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
+
       configurationCpq.clickOnGroup(2);
       configuration.checkCurrentGroupActive(GRP_CAM_IAW);
 
@@ -344,7 +347,6 @@ context('CPQ Configuration', () => {
   describe('Overview Page', () => {
     it('should display user selections and prices on overview page', () => {
       configurationCpq.goToCPQConfigurationPage(POWERTOOLS, PROD_CODE_CAM);
-
       configurationCpq.selectProductCard(
         RADGRP,
         ATTR_CAM_BODY,
@@ -467,8 +469,7 @@ context('CPQ Configuration', () => {
   });
 
   describe('Configuration Process', () => {
-    it('should be able to add a configuration directly to the cart, navigate from the cart back to the configuration and update it, checkout and order', () => {
-      configurationCartCpq.defineDeliveryModeAlias();
+    it('should support configuration aspect in product search, cart, checkout and order history', () => {
       configurationCpq.goToPDPage(POWERTOOLS, PROD_CODE_CAM);
       configuration.clickOnAddToCartBtnOnPD();
       configuration.clickOnViewCartBtnOnPD();
@@ -537,7 +538,6 @@ context('CPQ Configuration', () => {
         line.quantity
       );
     });
-
     configurationCart.clickOnEditConfigurationLink(cartEntryIndex);
 
     configuration.checkAttributeDisplayed(ATTR_CAM_BODY, RADGRP_PROD);

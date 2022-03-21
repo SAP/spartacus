@@ -1,20 +1,19 @@
+import {
+  cartWithTotalVariantProduct,
+  getApparelCheckoutUser,
+  products,
+  variantProduct,
+} from '../sample-data/apparel-checkout-flow';
 import { assertAddressForm } from './address-book';
 import * as guestCheckout from './checkout-as-guest';
 import * as checkout from './checkout-flow';
 import { validateUpdateProfileForm } from './update-profile';
-import { getApparelCheckoutUser } from '../sample-data/apparel-checkout-flow';
 import {
   addMutipleProductWithoutVariantToCart,
   addVariantOfSameProductToCart,
   APPAREL_CURRENCY,
   visitProductWithoutVariantPage,
 } from './variants/apparel-checkout-flow';
-
-import {
-  cartWithTotalVariantProduct,
-  products,
-  variantProduct,
-} from '../sample-data/apparel-checkout-flow';
 
 export let variantUser;
 export function generateVariantGuestUser() {
@@ -34,18 +33,13 @@ export function testCheckoutVariantAsGuest() {
 
     guestCheckout.loginAsGuest(variantUser);
 
-    checkout.fillAddressFormWithCheapProduct(
-      variantUser,
-      cartWithTotalVariantProduct
-    );
+    checkout.checkSummaryAmount(cartWithTotalVariantProduct);
+
+    checkout.fillAddressFormWithCheapProduct(variantUser);
 
     checkout.verifyDeliveryMethod();
 
-    checkout.fillPaymentFormWithCheapProduct(
-      variantUser,
-      undefined,
-      cartWithTotalVariantProduct
-    );
+    checkout.fillPaymentFormWithCheapProduct(variantUser, undefined);
 
     checkout.placeOrderWithCheapProduct(
       variantUser,
@@ -56,7 +50,6 @@ export function testCheckoutVariantAsGuest() {
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       variantUser,
       variantProduct,
-      cartWithTotalVariantProduct,
       true
     );
     guestCheckout.createAccountFromGuest(variantUser.password);
@@ -92,7 +85,7 @@ export function testCheckoutVariantAsGuest() {
     });
 
     validateUpdateProfileForm(
-      'mr',
+      'Mr.',
       variantUser.firstName,
       variantUser.lastName
     );
@@ -114,16 +107,10 @@ export function testCheckoutRegisteredUser() {
     addMutipleProductWithoutVariantToCart();
     checkout.goToCheapProductDetailsPage(products[0]);
     checkout.addCheapProductToCartAndLogin(regVariantUser, products[0]);
-    checkout.fillAddressFormWithCheapProduct(
-      regVariantUser,
-      cartWithTotalVariantProduct
-    );
+    checkout.checkSummaryAmount(cartWithTotalVariantProduct);
+    checkout.fillAddressFormWithCheapProduct(regVariantUser);
     checkout.verifyDeliveryMethod();
-    checkout.fillPaymentFormWithCheapProduct(
-      regVariantUser,
-      undefined,
-      cartWithTotalVariantProduct
-    );
+    checkout.fillPaymentFormWithCheapProduct(regVariantUser, undefined);
     checkout.placeOrderWithCheapProduct(
       regVariantUser,
       cartWithTotalVariantProduct,
@@ -132,7 +119,6 @@ export function testCheckoutRegisteredUser() {
     checkout.verifyOrderConfirmationPageWithCheapProduct(
       regVariantUser,
       products[0],
-      cartWithTotalVariantProduct,
       true
     );
   });

@@ -5,14 +5,19 @@ import {
   CONFIGURATOR_COMMONS_SERVICE,
   CONFIGURATOR_GROUPS_SERVICE,
   CONFIGURATOR_ROUTER_EXTRACTOR_SERVICE,
+  CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
   GLOBAL_MESSAGE_SERVICE,
+  INTERSECTION_SERVICE,
   ORDER_FACADE,
   ROUTING_SERVICE,
+} from '../../../../shared/constants';
+import {
   SPARTACUS_CORE,
   SPARTACUS_ORDER_ROOT,
   SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
   SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
-} from '../../../../shared/constants';
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION: ConstructorDeprecation =
@@ -54,6 +59,14 @@ export const CONFIGURATOR_ADD_TO_CART_BUTTON_COMPONENT_MIGRATION: ConstructorDep
       {
         className: COMMON_CONFIGURATOR_UTILS_SERVICE,
         importPath: SPARTACUS_PRODUCT_CONFIGURATOR_COMMON,
+      },
+      {
+        className: CONFIGURATOR_STOREFRONT_UTILS_SERVICE,
+        importPath: SPARTACUS_PRODUCT_CONFIGURATOR_RULEBASED,
+      },
+      {
+        className: INTERSECTION_SERVICE,
+        importPath: SPARTACUS_STOREFRONTLIB,
       },
     ],
   };

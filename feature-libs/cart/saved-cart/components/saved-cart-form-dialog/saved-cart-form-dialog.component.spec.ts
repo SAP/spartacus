@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  SavedCartFacade,
-} from '@spartacus/cart/saved-cart/root';
-import {
   Cart,
+  DeleteCartEvent,
+  DeleteCartFailEvent,
+} from '@spartacus/cart/base/root';
+import { SavedCartFacade } from '@spartacus/cart/saved-cart/root';
+import {
   EventService,
   GlobalMessageService,
   GlobalMessageType,
@@ -17,9 +17,9 @@ import {
 } from '@spartacus/core';
 import {
   FormErrorsModule,
-  LaunchDialogService,
   IconTestingModule,
   KeyboardFocusTestingModule,
+  LaunchDialogService,
 } from '@spartacus/storefront';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
@@ -454,8 +454,8 @@ describe('SavedCartFormDialogComponent', () => {
   describe('disabling and enabling delete button using events', () => {
     it('should return true when the trigger event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
           return of();
         }
@@ -474,10 +474,10 @@ describe('SavedCartFormDialogComponent', () => {
 
     it('should return false when the fail event fired', () => {
       spyOn(eventService, 'get').and.callFake((type) => {
-        if ((type as any).type === 'DeleteSavedCartEvent') {
-          return of(new DeleteSavedCartEvent() as any);
+        if ((type as any).type === 'DeleteCartEvent') {
+          return of(new DeleteCartEvent() as any);
         } else {
-          return of(new DeleteSavedCartFailEvent() as any);
+          return of(new DeleteCartFailEvent() as any);
         }
       });
 

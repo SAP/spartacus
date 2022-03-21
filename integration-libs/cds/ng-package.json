@@ -4,12 +4,15 @@
   "lib": {
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
+      "@ngrx/store": "store",
+      "rxjs": "rxjs",
       "@spartacus/core": "core",
       "@spartacus/storefront": "storefront",
       "@spartacus/tracking/personalization/core": "personalization",
       "@spartacus/checkout": "checkout",
-      "@ngrx/store": "store",
-      "rxjs": "rxjs"
+      "@spartacus/checkout/base/root": "checkoutRoot",
+      "@spartacus/cart/base/root": "cartRoot",
+      "@spartacus/order/root": "orderRoot"
     }
   },
   "assets": [

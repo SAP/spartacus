@@ -1,43 +1,35 @@
-import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Component, ChangeDetectionStrategy, OnInit } from '@angular/core';
+import { ActiveCartFacade, PaymentDetails } from '@spartacus/cart/base/root';
 import {
+  CheckoutPaymentMethodComponent as CorePaymentMethodComponent,
   CheckoutStepService,
-  PaymentMethodComponent as CorePaymentMethodComponent,
-} from '@spartacus/checkout/components';
+} from '@spartacus/checkout/base/components';
 import {
-  UserPaymentService,
+  CheckoutDeliveryAddressService,
+  CheckoutPaymentService,
+} from '@spartacus/checkout/base/core';
+import {
   GlobalMessageService,
   TranslationService,
-  ActiveCartService,
-  PaymentDetails,
+  UserPaymentService,
 } from '@spartacus/core';
-import {
-  CheckoutService,
-  CheckoutDeliveryService,
-  CheckoutPaymentService,
-} from '@spartacus/checkout/core';
+import { DP_CARD_REGISTRATION_STATUS } from '../../../utils/dp-constants';
 
 @Component({
   selector: 'cx-payment-method',
   templateUrl: './dp-payment-method.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DpPaymentMethodComponent
-  extends CorePaymentMethodComponent
-  implements OnInit
-{
+export class DpPaymentMethodComponent extends CorePaymentMethodComponent {
   showCallbackScreen = false;
 
   isDpCallback(): boolean {
     const queryParams = this.activatedRoute.snapshot.queryParamMap.get(
       DP_CARD_REGISTRATION_STATUS
     );
-    if (queryParams) {
-      return true;
-    } else {
-      return false;
-    }
+
+    return !!queryParams;
   }
 
   hideCallbackScreen(): void {
@@ -45,31 +37,30 @@ export class DpPaymentMethodComponent
   }
 
   paymentDetailsAdded(paymentDetails: PaymentDetails) {
-    this.selectPaymentMethod(paymentDetails);
+    this.savePaymentMethod(paymentDetails);
     this.next();
   }
 
+  // TODO:#checkout - handle breaking changes
   constructor(
     protected userPaymentService: UserPaymentService,
-    protected checkoutService: CheckoutService,
-    protected checkoutDeliveryService: CheckoutDeliveryService,
-    protected checkoutPaymentService: CheckoutPaymentService,
-    protected globalMessageService: GlobalMessageService,
+    protected checkoutDeliveryAddressFacade: CheckoutDeliveryAddressService,
+    protected checkoutPaymentFacade: CheckoutPaymentService,
     protected activatedRoute: ActivatedRoute,
-    protected translation: TranslationService,
-    protected activeCartService: ActiveCartService,
-    protected checkoutStepService: CheckoutStepService
+    protected translationService: TranslationService,
+    protected activeCartFacade: ActiveCartFacade,
+    protected checkoutStepService: CheckoutStepService,
+    protected globalMessageService: GlobalMessageService
   ) {
     super(
       userPaymentService,
-      checkoutService,
-      checkoutDeliveryService,
-      checkoutPaymentService,
-      globalMessageService,
+      checkoutDeliveryAddressFacade,
+      checkoutPaymentFacade,
       activatedRoute,
-      translation,
-      activeCartService,
-      checkoutStepService
+      translationService,
+      activeCartFacade,
+      checkoutStepService,
+      globalMessageService
     );
 
     this.showCallbackScreen = this.isDpCallback();

@@ -1,6 +1,5 @@
 import { inject, TestBed } from '@angular/core/testing';
 import {
-  ActiveCartService,
   AuthService,
   BaseSiteService,
   CmsService,
@@ -16,20 +15,17 @@ import {
   ProductService,
   RoutingService,
   SearchboxService,
-  SelectiveCartService,
   TranslationService,
   UserAddressService,
   UserConsentService,
   UserInterestsService,
   UserNotificationPreferenceService,
-  UserOrderService,
   UserPaymentService,
   UserService,
 } from '@spartacus/core';
 import { CxApiService } from './cx-api.service';
 
 class MockAuthService {}
-class MockActiveCartService {}
 class MockCmsService {}
 class MockPageMetaService {}
 class MockFeatureConfigService {}
@@ -48,11 +44,10 @@ class MockBaseSiteService {}
 class MockUserService {}
 class MockUserAddressService {}
 class MockUserConsentService {}
-class MockUserOrderService {}
 class MockUserPaymentService {}
 class MockUserNotificationPreferenceService {}
 class MockUserInterestsService {}
-class MockSelectiveCartService {}
+
 describe('CxApiService', () => {
   let authService: AuthService;
   let cmsService: CmsService;
@@ -69,7 +64,6 @@ describe('CxApiService', () => {
       providers: [
         CxApiService,
         { provide: AuthService, useClass: MockAuthService },
-        { provide: ActiveCartService, useClass: MockActiveCartService },
         { provide: CmsService, useClass: MockCmsService },
 
         { provide: PageMetaService, useClass: MockPageMetaService },
@@ -96,7 +90,6 @@ describe('CxApiService', () => {
         { provide: UserService, useClass: MockUserService },
         { provide: UserAddressService, useClass: MockUserAddressService },
         { provide: UserConsentService, useClass: MockUserConsentService },
-        { provide: UserOrderService, useClass: MockUserOrderService },
         { provide: UserPaymentService, useClass: MockUserPaymentService },
         {
           provide: UserNotificationPreferenceService,
@@ -105,10 +98,6 @@ describe('CxApiService', () => {
         {
           provide: UserInterestsService,
           useClass: MockUserInterestsService,
-        },
-        {
-          provide: SelectiveCartService,
-          useClass: MockSelectiveCartService,
         },
       ],
     });

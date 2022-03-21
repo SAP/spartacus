@@ -1,11 +1,11 @@
 import { Injectable, isDevMode } from '@angular/core';
-import { OrderEntry } from '@spartacus/core';
-import { LineItem } from './configurator-cart-entry-bundle-info.model';
+import { OrderEntry } from '@spartacus/cart/base/root';
 import {
   ConfigurationInfo,
   ConfigurationInfoFields,
   ConfigurationInfoSpecialFields,
 } from '../../core/model/common-configurator.model';
+import { LineItem } from './configurator-cart-entry-bundle-info.model';
 
 /**
  * Service for mapping of the CPQ line items from order entry
@@ -64,14 +64,14 @@ export class ConfiguratorCartEntryBundleInfoService {
 
   protected removeDelimiter(label: string): string {
     let preparedLabel: string = label.trim();
-    if (preparedLabel) {
-      const lastCharacter: string = preparedLabel.charAt(
-        preparedLabel.length - 1
-      );
-      if (lastCharacter === ':') {
-        preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
-      }
+
+    const lastCharacter: string = preparedLabel.charAt(
+      preparedLabel.length - 1
+    );
+    if (lastCharacter === ':') {
+      preparedLabel = preparedLabel.substr(0, preparedLabel.length - 1);
     }
+
     return preparedLabel;
   }
 

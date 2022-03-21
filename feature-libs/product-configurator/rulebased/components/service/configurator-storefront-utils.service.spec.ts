@@ -22,6 +22,7 @@ class MockConfiguratorGroupsService {
 
 class MockKeyboardFocusService {
   findFocusable() {}
+  set() {}
 }
 
 describe('ConfigUtilsService', () => {
@@ -49,7 +50,6 @@ describe('ConfigUtilsService', () => {
     });
     classUnderTest = TestBed.inject(ConfiguratorStorefrontUtilsService);
     windowRef = TestBed.inject(WindowRef as Type<WindowRef>);
-    spyOn(windowRef, 'isBrowser').and.returnValue(true);
     keyboardFocusService = TestBed.inject(
       KeyboardFocusService as Type<KeyboardFocusService>
     );
@@ -81,6 +81,7 @@ describe('ConfigUtilsService', () => {
     spyOn(theElement, 'getBoundingClientRect').and.returnValue(
       new DOMRect(100, 2000, 100, 100)
     );
+    spyOn(windowRef, 'isBrowser').and.returnValue(true);
     const nativeWindow = windowRef.nativeWindow;
     if (nativeWindow) {
       spyOn(nativeWindow, 'scroll').and.callThrough();
@@ -89,6 +90,19 @@ describe('ConfigUtilsService', () => {
       );
 
       expect(nativeWindow.scroll).toHaveBeenCalledWith(0, 0);
+    }
+  });
+
+  it("should not scroll to element because browser set to 'false' of windowRef", () => {
+    spyOn(windowRef, 'isBrowser').and.returnValue(true);
+    const nativeWindow = windowRef.nativeWindow;
+    if (nativeWindow) {
+      spyOn(nativeWindow, 'scroll').and.callThrough();
+      classUnderTest.scrollToConfigurationElement(
+        '.VariantConfigurationTemplate'
+      );
+
+      expect(nativeWindow.scroll).toHaveBeenCalledTimes(0);
     }
   });
 
@@ -151,24 +165,127 @@ describe('ConfigUtilsService', () => {
     expect(values.length).toBe(1);
   });
 
-  describe('focusFirstAttribute', () => {
-    it('should delegate to focus service', () => {
-      const theElement = document.createElement('form');
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(theElement);
-      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+  describe('Focused elements', () => {
+    function createElement(id: string): HTMLElement {
+      const element = document.createElement('attribute');
+      element.id = id;
+      return element;
+    }
+
+    function createFocusedElements(
+      attribute: string,
+      amountOfAttributes: number,
+      amountOfValues: number
+    ): HTMLElement[] {
+      const focusedElements: HTMLElement[] = [];
+      for (let i = 1; i <= amountOfAttributes; i++) {
+        let attrId = attribute + '_' + i;
+        for (let j = 1; j <= amountOfValues; j++) {
+          let valueId = 'value_' + j;
+          const value = createElement(attrId + '--' + valueId);
+          focusedElements.push(value);
+        }
+      }
+      return focusedElements;
+    }
+
+    describe('focusFirstAttribute', () => {
+      it('should delegate to keyboard focus service', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not delegate to keyboard focus service because form is undefined', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(undefined);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not delegate to keyboard focus service because there are no focused elements in form', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not delegate to keyboard focus service because keyboard focus service returns no focusable elements', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+        classUnderTest.focusFirstAttribute();
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
     });
 
-    it('should not delegate to focus service if form is not available', () => {
-      document.querySelector = jasmine
-        .createSpy('HTML Element')
-        .and.returnValue(null);
-      spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
-      classUnderTest.focusFirstAttribute();
-      expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+    describe('focusAttribute', () => {
+      it('should delegate to keyboard focus service', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not delegate to keyboard focus service because form is not defined', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(undefined);
+        spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
+
+      it('should delegate to keyboard focus service but no focused element is found', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const focusedElements = createFocusedElements('ATTR', 2, 3);
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(focusedElements);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue(
+          focusedElements
+        );
+        classUnderTest.focusAttribute('NO_ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
+
+      it('should not delegate to keyboard focus service', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(false);
+        spyOn(keyboardFocusService, 'findFocusable').and.callThrough();
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(0);
+      });
+
+      it('should not delegate to keyboard focus service if there are no focused elements in form', () => {
+        spyOn(windowRef, 'isBrowser').and.returnValue(true);
+        const theElement = document.createElement('elementMock');
+        document.querySelector = jasmine
+          .createSpy('HTML Element')
+          .and.returnValue(theElement);
+        spyOn(keyboardFocusService, 'findFocusable').and.returnValue([]);
+        classUnderTest.focusAttribute('ATTR_2');
+        expect(keyboardFocusService.findFocusable).toHaveBeenCalledTimes(1);
+      });
     });
   });
 
@@ -179,6 +296,63 @@ describe('ConfigUtilsService', () => {
 
     it('should return group ID string', () => {
       expect(classUnderTest.createGroupId('1234')).toBe('1234-group');
+    });
+  });
+
+  describe('setFocus', () => {
+    it('should not call keyboard focus service to set focus because no parameters are defined', () => {
+      spyOn(keyboardFocusService, 'set').and.callThrough();
+      classUnderTest.setFocus();
+      expect(keyboardFocusService.set).toHaveBeenCalledTimes(0);
+    });
+
+    it('should not call keyboard focus service to set focus because key is not defined', () => {
+      spyOn(keyboardFocusService, 'set').and.callThrough();
+      classUnderTest.setFocus(undefined, 'GR_01');
+      expect(keyboardFocusService.set).toHaveBeenCalledTimes(0);
+    });
+
+    it('should call keyboard focus service to set focus because key is defined', () => {
+      spyOn(keyboardFocusService, 'set').and.callThrough();
+      classUnderTest.setFocus('key');
+      expect(keyboardFocusService.set).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('change styling of selected element', () => {
+    it('should not get HTML element based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(false);
+      expect(classUnderTest.getElement('elementMock')).toBeUndefined();
+    });
+
+    it('should get HTML element based on query selector', () => {
+      spyOn(windowRef, 'isBrowser').and.returnValue(true);
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      expect(classUnderTest.getElement('elementMock')).toEqual(theElement);
+    });
+
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(undefined);
+
+      classUnderTest.changeStyling('elementMock', 'position', 'sticky');
+      expect(theElement.style.position).not.toEqual('sticky');
+    });
+
+    it('should change styling of HTML element', () => {
+      const theElement = document.createElement('elementMock');
+      document.querySelector = jasmine
+        .createSpy('HTML Element')
+        .and.returnValue(theElement);
+
+      classUnderTest.changeStyling('elementMock', 'position', 'sticky');
+      expect(theElement.style.position).toEqual('sticky');
     });
   });
 });

@@ -4,7 +4,11 @@
     "entryFile": "./public_api.ts",
     "umdModuleIds": {
       "@spartacus/core": "core",
-      "@spartacus/storefront": "storefront"
+      "@spartacus/storefront": "storefront",
+      "@ng-bootstrap/ng-bootstrap": "ngBootstrap",
+      "@ng-select/ng-select": "ngSelect",
+      "@spartacus/cart/base/root": "cartRoot",
+      "@spartacus/user/profile/root": "userProfileRoot"
     }
   }
 }

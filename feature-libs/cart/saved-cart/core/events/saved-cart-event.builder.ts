@@ -1,13 +1,11 @@
 import { Injectable, Type } from '@angular/core';
 import { ofType } from '@ngrx/effects';
 import { ActionsSubject } from '@ngrx/store';
+import { MultiCartFacade } from '@spartacus/cart/base/root';
 import {
   CloneSavedCartEvent,
   CloneSavedCartFailEvent,
   CloneSavedCartSuccessEvent,
-  DeleteSavedCartEvent,
-  DeleteSavedCartFailEvent,
-  DeleteSavedCartSuccessEvent,
   EditSavedCartEvent,
   EditSavedCartFailEvent,
   EditSavedCartSuccessEvent,
@@ -20,10 +18,8 @@ import {
 } from '@spartacus/cart/saved-cart/root';
 import {
   ActionToEventMapping,
-  CartActions,
   createFrom,
   EventService,
-  MultiCartService,
   StateEventService,
 } from '@spartacus/core';
 import { Observable, of } from 'rxjs';
@@ -36,7 +32,7 @@ export class SavedCartEventBuilder {
     protected actionsSubject: ActionsSubject,
     protected eventService: EventService,
     protected stateEventService: StateEventService,
-    protected multiCartService: MultiCartService
+    protected multiCartService: MultiCartFacade
   ) {
     this.register();
   }
@@ -46,7 +42,6 @@ export class SavedCartEventBuilder {
    */
   protected register(): void {
     this.registerRestoreSavedCartEvents();
-    this.registerDeleteSavedCartEvents();
     this.registerSaveCartEvents();
     this.registerEditSavedCartEvents();
     this.registerCloneSavedCartEvents();
@@ -69,41 +64,6 @@ export class SavedCartEventBuilder {
     this.buildRestoreSavedCartEvents({
       action: SavedCartActions.RESTORE_SAVED_CART_FAIL,
       event: RestoreSavedCartFailEvent,
-    });
-  }
-
-  /**
-   * Registers delete saved cart events
-   */
-  protected registerDeleteSavedCartEvents(): void {
-    this.stateEventService.register({
-      action: CartActions.DELETE_CART,
-      event: DeleteSavedCartEvent,
-      factory: (action: CartActions.DeleteCart) =>
-        createFrom(DeleteSavedCartEvent, {
-          ...action.payload,
-          cartCode: action.payload.cartId,
-        }),
-    });
-
-    this.stateEventService.register({
-      action: CartActions.DELETE_CART_SUCCESS,
-      event: DeleteSavedCartSuccessEvent,
-      factory: (action: CartActions.DeleteCartSuccess) =>
-        createFrom(DeleteSavedCartSuccessEvent, {
-          ...action.payload,
-          cartCode: action.payload.cartId,
-        }),
-    });
-
-    this.stateEventService.register({
-      action: CartActions.DELETE_CART_FAIL,
-      event: DeleteSavedCartFailEvent,
-      factory: (action: CartActions.DeleteCartFail) =>
-        createFrom(DeleteSavedCartFailEvent, {
-          ...action.payload,
-          cartCode: action.payload.cartId,
-        }),
     });
   }
 
