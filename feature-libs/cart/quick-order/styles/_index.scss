@@ -3,8 +3,8 @@
 @import './quick-order-table';
 @import './quick-order';
 
-$quick-order-components-allowlist: cx-quick-order, cx-cart-quick-order-form,
-  cx-quick-order-table !default;
+$quick-order-components-allowlist: cx-quick-order, cx-quick-order-form,
+  cx-cart-quick-order-form, cx-quick-order-table !default;
 
 $skipComponentStyles: () !default;
 
