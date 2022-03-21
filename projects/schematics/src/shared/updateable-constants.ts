@@ -142,7 +142,13 @@ import {
 } from './libs-constants';
 import { FeatureConfig, Module } from './utils/lib-utils';
 
+/**
+ * A list of all schematics feature configurations.
+ * _Must_ be updated when adding a new schematics
+ * library or a feature.
+ */
 export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
+  // feature libraries start
   ASM_SCHEMATICS_CONFIG,
 
   CART_BASE_SCHEMATICS_CONFIG,
@@ -182,6 +188,7 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
   USER_ACCOUNT_SCHEMATICS_CONFIG,
   USER_PROFILE_SCHEMATICS_CONFIG,
 
+  // integration libraries start
   CDC_SCHEMATICS_CONFIG,
 
   CDS_SCHEMATICS_CONFIG,
@@ -195,9 +202,55 @@ export const SCHEMATICS_CONFIGS: FeatureConfig[] = [
  * Maps sub-features to their parent feature.
  */
 export const {
+  /**
+   * Mapping of sub-features to Spartacus library.
+   *
+   * E.g.:
+   *
+   * {
+   * ...,
+   *  '@spartacus/checkout': ['Checkout', 'Checkout-B2B', 'Checkout-Scheduled-Replenishment'],
+   * ...
+   * }
+   */
   packageCliMapping,
+  /**
+   * Mapping of feature-modules to the Spartacus library.
+   *
+   * E.g.:
+   *
+   * {
+   * ...,
+   * '@spartacus/checkout': ['CheckoutModule', 'CheckoutB2BModule',
+   * 'CheckoutScheduledReplenishmentModule'],
+   * ...
+   * }
+   */
   packageFeatureMapping,
+  /**
+   * Mapping of root feature-modules to the Spartacus library.
+   *
+   * E.g.:
+   *
+   * {
+   * ...,
+   * '@spartacus/checkout': ['CheckoutRootModule', 'CheckoutB2BRootModule',
+   * 'CheckoutScheduledReplenishmentRootModule'],
+   * ...
+   * }
+   */
   packageRootMapping,
+  /**
+   * Mapping of schematics configurations to the Spartacus library.
+   *
+   * E.g.:
+   *
+   * {
+   * ...,
+   * '@spartacus/checkout': [baseConfig, b2bConfig, scheduledReplenishmentConfig],
+   * ...
+   * }
+   */
   packageSchematicConfigMapping,
 } = generateMappings();
 
