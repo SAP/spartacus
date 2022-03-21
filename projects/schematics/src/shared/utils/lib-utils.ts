@@ -21,8 +21,6 @@ import {
   NodeDependencyType,
 } from '@schematics/angular/utility/dependencies';
 import { CallExpression, Node, SourceFile, ts as tsMorph } from 'ts-morph';
-import { getConfiguredDependencies } from '../../add-spartacus/dependency-util';
-import collectedDependencies from '../../dependencies.json';
 import {
   ANGULAR_CORE,
   CMS_CONFIG,
@@ -31,17 +29,15 @@ import {
   UTF_8,
 } from '../constants';
 import {
-  CORE_SPARTACUS_SCOPES,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_CORE,
   SPARTACUS_FEATURES_MODULE,
   SPARTACUS_FEATURES_NG_MODULE,
-  SPARTACUS_SCOPE,
   SPARTACUS_SETUP,
 } from '../libs-constants';
 import { packageCliMapping } from '../updateable-constants';
 import { getB2bConfiguration } from './config-utils';
-import { Graph, kahnsAlgorithm } from './graph-utils';
+import { libraryInstallationOrder } from './graph-utils';
 import { isImportedFrom } from './import-utils';
 import {
   addModuleImport,
@@ -180,17 +176,6 @@ export interface AssetsConfig {
   glob: string;
 }
 
-// TODO:#schematics - move somewhere? To graph-utils?
-export const dependencyGraph: Graph = createLibraryDependencyGraph();
-export const installationOrder: string[] = kahnsAlgorithm(dependencyGraph);
-
-// TODO:#schematics - move somewhere? To graph-utils?
-export const crossFeatureDependencyGraph: Graph =
-  createCrossFeaturesDependencyGraph();
-export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
-  crossFeatureDependencyGraph
-);
-
 export function shouldAddFeature(
   feature: string,
   features: string[] = []
@@ -221,68 +206,10 @@ export function getPackageBySubFeature(subFeature: string): string {
     }
   }
 
+  // TODO:#schematics - alter the message?
   throw new SchematicsException(
     `The given '${subFeature}' doesn't contain a Spartacus package mapping.
 Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
-  );
-}
-
-function createLibraryDependencyGraph(): Graph {
-  const skip = CORE_SPARTACUS_SCOPES.concat(
-    'storefrontapp-e2e-cypress',
-    'storefrontapp'
-  );
-
-  const spartacusLibraries = Object.keys(collectedDependencies).filter(
-    (dependency) => !skip.includes(dependency)
-  );
-
-  const graph = new Graph(spartacusLibraries);
-  for (const spartacusLib of spartacusLibraries) {
-    const spartacusPeerDependencies = getSpartacusLibraries(
-      (collectedDependencies as Record<string, Record<string, string>>)[
-        spartacusLib
-      ]
-    );
-    for (const spartacusPackage of spartacusPeerDependencies) {
-      if (skip.includes(spartacusPackage)) {
-        continue;
-      }
-
-      graph.createEdge(spartacusLib, spartacusPackage);
-    }
-  }
-
-  return graph;
-}
-
-function createCrossFeaturesDependencyGraph(): Graph {
-  const graph = new Graph();
-
-  for (const spartacusLib in packageCliMapping) {
-    if (!packageCliMapping.hasOwnProperty(spartacusLib)) {
-      continue;
-    }
-
-    const subFeatures = packageCliMapping[spartacusLib] ?? [];
-    for (const subFeature of subFeatures) {
-      graph.addVertex(subFeature);
-
-      const dependencies = getConfiguredDependencies(spartacusLib, subFeature);
-      for (const dependency of dependencies) {
-        graph.createEdge(subFeature, dependency);
-      }
-    }
-  }
-
-  return graph;
-}
-
-export function getSpartacusLibraries(
-  dependencies: Record<string, string>
-): string[] {
-  return Object.keys(dependencies).filter((dependency) =>
-    dependency.startsWith(SPARTACUS_SCOPE)
   );
 }
 
@@ -1068,12 +995,16 @@ function createModuleFileName(config: FeatureConfig): string {
 /**
  * Used to sort the features in the correct order.
  */
-export function calculateSort(libraryA: string, libraryB: string): number {
-  const indexA = installationOrder.indexOf(libraryA);
-  const indexB = installationOrder.indexOf(libraryB);
+export function calculateSort(
+  libraryA: string,
+  libraryB: string,
+  order: string[]
+): number {
+  const indexA = order.indexOf(libraryA);
+  const indexB = order.indexOf(libraryB);
 
   /**
-   * In case a feature module is _not_ found in the `installationOrder`,
+   * In case a feature module is _not_ found in the `order`,
    * we want to sort it at the end of the list.
    */
   return (indexA > -1 ? indexA : Infinity) - (indexB > -1 ? indexB : Infinity);
@@ -1085,7 +1016,7 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
   return (tree: Tree, context: SchematicContext): void => {
     let message = `Ordering the installed Spartacus features...`;
     if (options.debug) {
-      message = `Sorting the installed Spartacus features according to the dependency graph: ${installationOrder.join(
+      message = `Sorting the installed Spartacus features according to the dependency graph: ${libraryInstallationOrder.join(
         ', '
       )}`;
     }
@@ -1113,7 +1044,11 @@ export function orderInstalledFeatures<T extends LibraryOptions>(
       );
       const featureModules = collectedModules.featureModules
         .sort((moduleA, moduleB) =>
-          calculateSort(moduleA.spartacusLibrary, moduleB.spartacusLibrary)
+          calculateSort(
+            moduleA.spartacusLibrary,
+            moduleB.spartacusLibrary,
+            libraryInstallationOrder
+          )
         )
         .map((featureModule) => featureModule.moduleNode.getText());
       const unrecognizedModules = collectedModules.unrecognizedModules.map(

@@ -16,44 +16,40 @@ import {
   SPARTACUS_DIGITAL_PAYMENTS,
   SPARTACUS_ORDER,
   SPARTACUS_USER,
-} from '../shared/libs-constants';
+} from '../libs-constants';
 import {
   analyzeCrossFeatureDependencies,
   analyzeCrossLibraryDependencies,
-} from './dependency-util';
+} from './dependency-utils';
 
 describe('dependency-util', () => {
   describe('analyzeCrossFeatureDependencies', () => {
-    it('DP - should return the correct set of ordered libraries', () => {
+    it('DP - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([
         CLI_DIGITAL_PAYMENTS_FEATURE,
         CLI_CHECKOUT_B2B_FEATURE,
         CLI_CDC_FEATURE,
       ]);
 
-      expect(result[SPARTACUS_DIGITAL_PAYMENTS]).toEqual([
-        CLI_DIGITAL_PAYMENTS_FEATURE,
-      ]);
-      expect(result[SPARTACUS_CHECKOUT]).toEqual([
+      expect(result).toEqual([
+        CLI_USER_ACCOUNT_FEATURE,
+        CLI_USER_PROFILE_FEATURE,
+        CLI_CART_BASE_FEATURE,
+        CLI_ORDER_FEATURE,
         CLI_CHECKOUT_BASE_FEATURE,
         CLI_CHECKOUT_B2B_FEATURE,
+        CLI_DIGITAL_PAYMENTS_FEATURE,
+        CLI_CDC_FEATURE,
       ]);
-      expect(result[SPARTACUS_CART]).toEqual([CLI_CART_BASE_FEATURE]);
-      expect(result[SPARTACUS_USER]).toEqual([
-        CLI_USER_PROFILE_FEATURE,
-        CLI_USER_ACCOUNT_FEATURE,
-      ]);
-      expect(result[SPARTACUS_ORDER]).toEqual([CLI_ORDER_FEATURE]);
-      expect(result[SPARTACUS_CDC]).toEqual([CLI_CDC_FEATURE]);
     });
-    it('User Profile - should return the correct set of ordered libraries', () => {
+    it('User Profile - should return the correct set of ordered sub-features', () => {
       const result = analyzeCrossFeatureDependencies([
         CLI_USER_PROFILE_FEATURE,
       ]);
 
-      expect(result[SPARTACUS_USER]).toEqual([
-        CLI_USER_PROFILE_FEATURE,
+      expect(result).toEqual([
         CLI_USER_ACCOUNT_FEATURE,
+        CLI_USER_PROFILE_FEATURE,
       ]);
     });
   });

@@ -1,15 +1,17 @@
+// TODO:#schematics - move this file to utils
 import { SchematicsException } from '@angular-devkit/schematics';
-import collectedDependencies from '../dependencies.json';
-import {
-  CORE_SPARTACUS_SCOPES,
-  SPARTACUS_SCOPE,
-} from '../shared/libs-constants';
+import collectedDependencies from '../../dependencies.json';
+import { CORE_SPARTACUS_SCOPES, SPARTACUS_SCOPE } from '../libs-constants';
 import {
   getKeyByMappingValue,
   packageCliMapping,
-  packageSchematicConfigMapping,
-} from '../shared/updateable-constants';
-import { calculateSort } from '../shared/utils/lib-utils';
+} from '../updateable-constants';
+import {
+  crossFeatureInstallationOrder,
+  libraryInstallationOrder,
+} from './graph-utils';
+import { calculateSort } from './lib-utils';
+import { getConfiguredDependencies } from './schematics-config-utils';
 
 /**
  * Analyzes cross-feature Spartacus dependencies
@@ -23,14 +25,16 @@ import { calculateSort } from '../shared/utils/lib-utils';
  */
 export function analyzeCrossFeatureDependencies(
   startingCliFeatures: string[]
-): Record<string, string[]> {
-  const result: Record<string, string[]> = {};
+): string[] {
+  const result: string[] = [];
 
   for (const cliFeature of startingCliFeatures) {
     collectCrossFeatureDeps(cliFeature, result);
   }
 
-  return result;
+  return result.sort((subFeature1, subFeature2) =>
+    calculateSort(subFeature1, subFeature2, crossFeatureInstallationOrder)
+  );
 }
 
 /**
@@ -38,11 +42,8 @@ export function analyzeCrossFeatureDependencies(
  * It recursively collects the dependencies for each of the
  * found dependencies.
  */
-function collectCrossFeatureDeps(
-  cliFeature: string,
-  result: Record<string, string[]>
-): void {
-  if (getKeyByMappingValue(result, cliFeature)) {
+function collectCrossFeatureDeps(cliFeature: string, result: string[]): void {
+  if (result.includes(cliFeature)) {
     // already processed
     return;
   }
@@ -56,43 +57,12 @@ function collectCrossFeatureDeps(
     );
   }
 
-  result[spartacusLib] = (result[spartacusLib] ?? []).concat(cliFeature);
+  result.push(cliFeature);
 
   const cliDependencies = getConfiguredDependencies(spartacusLib, cliFeature);
   for (const cliDependency of cliDependencies) {
     collectCrossFeatureDeps(cliDependency, result);
   }
-}
-
-export function getConfiguredDependencies(
-  spartacusLib: string,
-  cliFeature: string
-): string[] {
-  const featureConfigs = packageSchematicConfigMapping[spartacusLib];
-  if (!featureConfigs) {
-    throw new SchematicsException(
-      `No feature config found for ${spartacusLib} in 'packageSchematicConfigMapping'`
-    );
-  }
-
-  let dependencyConfig: Record<string, string[]> = {};
-  for (const featureConfig of featureConfigs) {
-    if (featureConfig.library.cli === cliFeature) {
-      dependencyConfig = featureConfig.dependencyManagement ?? dependencyConfig;
-      break;
-    }
-  }
-
-  const cliDependencies: string[] = [];
-  for (const key in dependencyConfig) {
-    if (!dependencyConfig.hasOwnProperty(key)) {
-      continue;
-    }
-
-    cliDependencies.push(...(dependencyConfig[key] ?? []));
-  }
-
-  return cliDependencies;
 }
 
 /**
@@ -121,8 +91,8 @@ export function analyzeCrossLibraryDependencies(
   // remove the duplicates
   spartacusPeerDeps = Array.from(new Set<string>(spartacusPeerDeps));
   // order the libraries
-  spartacusPeerDeps = spartacusPeerDeps.sort((moduleA, moduleB) =>
-    calculateSort(moduleA, moduleB)
+  spartacusPeerDeps = spartacusPeerDeps.sort((featureA, featureB) =>
+    calculateSort(featureA, featureB, libraryInstallationOrder)
   );
 
   return spartacusPeerDeps;
