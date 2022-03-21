@@ -9,10 +9,12 @@ import {
   INJECTOR,
   INNER_COMPONENTS_HOST_DIRECTIVE,
   RENDERER_2,
-  SPARTACUS_CORE,
-  SPARTACUS_STOREFRONTLIB,
   VIEW_CONTAINER_REF,
 } from '../../../../shared/constants';
+import {
+  SPARTACUS_CORE,
+  SPARTACUS_STOREFRONTLIB,
+} from '../../../../shared/libs-constants';
 import { ConstructorDeprecation } from '../../../../shared/utils/file-utils';
 
 export const INNER_COMPONENTS_HOST_DIRECTIVE_MIGRATION: ConstructorDeprecation =
