@@ -13,6 +13,7 @@ import { CONFIGURATOR_TAB_BAR_COMPONENT_MIGRATION } from './data/configurator-ta
 import { FORM_ERRORS_COMPONENT_MIGRATION } from './data/form-errors.component.migration';
 import { NAVIGATION_UI_COMPONENT_MIGRATION } from './data/navigation-ui.component.migration';
 import { PAGE_LAYOUT_SERVICE_MIGRATION } from './data/page-layout.service.migration';
+import { PARAGRAPH_COMPONENT_MIGRATION } from './data/paragraph.component.migration';
 import { QUICK_ORDER_FORM_COMPONENT_MIGRATION } from './data/quick-order-form.component.migration';
 import { QUICK_ORDER_SERVICE_MIGRATION } from './data/quick-order.service.migration';
 import { SHIPPING_ADDRESS_COMPONENT_MIGRATION } from './data/shipping-address.component.migration';
@@ -34,6 +35,7 @@ export const CONSTRUCTOR_DEPRECATIONS_DATA: ConstructorDeprecation[] = [
   CONFIGURATOR_OVERVIEW_BUNDLE_ATTRIBUTE_COMPONENT_MIGRATION,
   NAVIGATION_UI_COMPONENT_MIGRATION,
   PAGE_LAYOUT_SERVICE_MIGRATION,
+  PARAGRAPH_COMPONENT_MIGRATION,
   FORM_ERRORS_COMPONENT_MIGRATION,
   TAB_PARAGRAPH_CONTAINER_COMPONENT_MIGRATION,
   IMPORT_ENTRIES_DIALOG_COMPONENT_MIGRATION,
