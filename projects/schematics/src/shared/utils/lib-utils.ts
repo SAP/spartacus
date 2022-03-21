@@ -183,6 +183,10 @@ export function shouldAddFeature(
   return features.includes(feature);
 }
 
+// TODO:#schematics - search for "subfeature", and rename to "feature"
+// TODO:#schematics - search for "cliFeature", and rename to "feature"?
+
+// TODO:#schematics - do we need this?
 export function prepareCliPackageAndSubFeature(
   features: string[]
 ): Record<string, string[]> {
@@ -194,6 +198,7 @@ export function prepareCliPackageAndSubFeature(
   }, {} as Record<string, string[]>);
 }
 
+// TODO:#schematics - do we need this?
 export function getPackageBySubFeature(subFeature: string): string {
   for (const spartacusPackage in packageCliMapping) {
     if (!packageCliMapping.hasOwnProperty(spartacusPackage)) {
@@ -234,11 +239,14 @@ export function addLibraryFeature<T extends LibraryOptions>(
       handleFeature(options, config),
       config.styles ? addLibraryStyles(config.styles, options) : noop(),
       config.assets ? addLibraryAssets(config.assets, options) : noop(),
-      // TODO:#schematics - remove?
-      config.dependencyManagement
-        ? installRequiredSpartacusFeatures(config, options)
-        : noop(),
 
+      /**
+       * TODO:#schematics - the ordering should happen:
+       * 1. when Spartacus is already installed (dirty installation)
+       * 2. when invoking feature library's schematics
+       *
+       * In other words, it's not necessary when installing Spartacus for the first time.
+       */
       orderInstalledFeatures(options),
     ]);
   };
@@ -776,33 +784,35 @@ export function addPackageJsonDependencies(
   };
 }
 
+// TODO:#schematics - do we need this?
 export function addPackageJsonDependenciesForLibrary<
   OPTIONS extends LibraryOptions
->(dependencies: Record<string, string>, options: OPTIONS): Rule {
-  return (tree: Tree, context: SchematicContext): Rule => {
+>(dependencies: Record<string, string>, _options: OPTIONS): Rule {
+  return (tree: Tree, _context: SchematicContext): Rule => {
     const packageJson = readPackageJson(tree);
     const spartacusLibraries = createSpartacusDependencies(dependencies);
     const thirdPartyLibraries = createDependencies(dependencies);
     const libraries = spartacusLibraries.concat(thirdPartyLibraries);
 
-    const cliFeatures = spartacusLibraries
-      .map((dependency) => dependency.name)
-      .reduce((previous, current) => {
-        return {
-          ...previous,
-          /**
-           * Just install the Spartacus library,
-           * but don't configure any sub-features
-           */
-          [current]: [],
-        };
-      }, {} as Record<string, string[]>);
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options,
-      cliFeatures,
-      false
-    );
-    addSchematicsTasks(featureOptions, context);
+    // TODO:#schematics - ???
+    // const cliFeatures = spartacusLibraries
+    //   .map((dependency) => dependency.name)
+    //   .reduce((previous, current) => {
+    //     return {
+    //       ...previous,
+    //       /**
+    //        * Just install the Spartacus library,
+    //        * but don't configure any sub-features
+    //        */
+    //       [current]: [],
+    //     };
+    //   }, {} as Record<string, string[]>);
+    // const featureOptions = createSpartacusFeatureOptionsForLibrary(
+    //   options,
+    //   cliFeatures,
+    //   false
+    // );
+    // addSchematicsTasks(featureOptions, context);
 
     return chain([
       addPackageJsonDependencies(libraries, packageJson),
@@ -811,40 +821,40 @@ export function addPackageJsonDependenciesForLibrary<
   };
 }
 
-// TODO:#schematics - unused.
-export function installRequiredSpartacusFeatures<
-  OPTIONS extends LibraryOptions
->(featureConfig: FeatureConfig, options: OPTIONS): Rule {
-  return (_tree: Tree, context: SchematicContext): void => {
-    if (!featureConfig.dependencyManagement) {
-      return;
-    }
+// // TODO:#schematics - unused.
+// export function installRequiredSpartacusFeatures<
+//   OPTIONS extends LibraryOptions
+// >(featureConfig: FeatureConfig, options: OPTIONS): Rule {
+//   return (_tree: Tree, context: SchematicContext): void => {
+//     if (!featureConfig.dependencyManagement) {
+//       return;
+//     }
 
-    logFeatureInstallation(featureConfig, context);
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      options,
-      featureConfig.dependencyManagement
-    );
-    addSchematicsTasks(featureOptions, context);
-  };
-}
+//     logFeatureInstallation(featureConfig, context);
+//     const featureOptions = createSpartacusFeatureOptionsForLibrary(
+//       options,
+//       featureConfig.dependencyManagement
+//     );
+//     addSchematicsTasks(featureOptions, context);
+//   };
+// }
 
-function logFeatureInstallation(
-  featureConfig: FeatureConfig,
-  context: SchematicContext
-): void {
-  const cliFeatures = featureConfig.dependencyManagement ?? {};
-  for (const spartacusScope in cliFeatures) {
-    if (!cliFeatures.hasOwnProperty(spartacusScope)) {
-      continue;
-    }
+// function logFeatureInstallation(
+//   featureConfig: FeatureConfig,
+//   context: SchematicContext
+// ): void {
+//   const cliFeatures = featureConfig.dependencyManagement ?? {};
+//   for (const spartacusScope in cliFeatures) {
+//     if (!cliFeatures.hasOwnProperty(spartacusScope)) {
+//       continue;
+//     }
 
-    const requiredFeatures = cliFeatures[spartacusScope].join(',');
-    context.logger.info(
-      `⚙️  ${featureConfig.library.cli} requires the following features from ${spartacusScope}: ${requiredFeatures}`
-    );
-  }
-}
+//     const requiredFeatures = cliFeatures[spartacusScope].join(',');
+//     context.logger.info(
+//       `⚙️  ${featureConfig.library.cli} requires the following features from ${spartacusScope}: ${requiredFeatures}`
+//     );
+//   }
+// }
 
 export function dependencyExists(
   dependency: NodeDependency,
@@ -919,26 +929,27 @@ function addB2bProviders<T extends LibraryOptions>(options: T): Rule {
  * @param options
  * @returns
  */
-export function createSpartacusFeatureOptionsForLibrary<
-  OPTIONS extends LibraryOptions
->(
-  options: OPTIONS,
-  cliFeatures: Record<string, string[]>,
-  interactive = true
-): {
-  feature: string;
-  options: LibraryOptions;
-}[] {
-  return Object.keys(cliFeatures).map((spartacusLibrary) => ({
-    feature: spartacusLibrary,
-    options: {
-      ...options,
-      // an empty array means that no library features will be installed.
-      features: cliFeatures[spartacusLibrary] ?? [],
-      interactive,
-    },
-  }));
-}
+// TODO:#schematics - unused
+// export function createSpartacusFeatureOptionsForLibrary<
+//   OPTIONS extends LibraryOptions
+// >(
+//   options: OPTIONS,
+//   features: string[],
+//   interactive = true
+// ): {
+//   feature: string;
+//   options: LibraryOptions;
+// }[] {
+//   return Object.keys(cliFeatures).map((spartacusLibrary) => ({
+//     feature: spartacusLibrary,
+//     options: {
+//       ...options,
+//       // an empty array means that no library features will be installed.
+//       features: cliFeatures[spartacusLibrary] ?? [],
+//       interactive,
+//     },
+//   }));
+// }
 
 export function addSchematicsTasks(
   featureOptions: {

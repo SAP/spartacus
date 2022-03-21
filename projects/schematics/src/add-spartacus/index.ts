@@ -10,12 +10,16 @@ import { NodeDependency } from '@schematics/angular/utility/dependencies';
 import { WorkspaceProject } from '@schematics/angular/utility/workspace-models';
 import { ANGULAR_HTTP } from '../shared/constants';
 import { SPARTACUS_STOREFRONTLIB } from '../shared/libs-constants';
+import {
+  analyzeCrossFeatureDependencies,
+  analyzeCrossLibraryDependencies,
+} from '../shared/utils/dependency-utils';
 import { getIndexHtmlPath } from '../shared/utils/file-utils';
 import { appendHtmlElementToHead } from '../shared/utils/html-utils';
 import {
+  addLibraryFeature,
   addPackageJsonDependencies,
-  addSchematicsTasks,
-  createSpartacusFeatureOptionsForLibrary,
+  installPackageJsonDependencies,
   LibraryOptions,
   prepareCliPackageAndSubFeature,
 } from '../shared/utils/lib-utils';
@@ -30,6 +34,7 @@ import {
 } from '../shared/utils/package-utils';
 import { createProgram, saveAndFormat } from '../shared/utils/program';
 import { getProjectTsConfigPaths } from '../shared/utils/project-tsconfig-paths';
+import { getSchematicsConfigurationByFeature } from '../shared/utils/schematics-config-utils';
 import {
   getDefaultProjectNameFromWorkspace,
   getProjectFromWorkspace,
@@ -212,9 +217,24 @@ function increaseBudgets(): Rule {
   };
 }
 
-function prepareDependencies(): NodeDependency[] {
+function prepareDependencies(features: string[]): NodeDependency[] {
   const spartacusDependencies = prepareSpartacusDependencies();
-  return spartacusDependencies.concat(prepare3rdPartyDependencies());
+
+  // TODO:#schematics - move this line to `analyzeCrossLibraryDependencies`?
+  const selectedLibraryFeatureMapping =
+    prepareCliPackageAndSubFeature(features);
+  const libraries = analyzeCrossLibraryDependencies(
+    Object.keys(selectedLibraryFeatureMapping)
+  );
+  const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+  const spartacusLibraryDependencies = libraries.map((library) =>
+    mapPackageToNodeDependencies(library, spartacusVersion)
+  );
+
+  const dependencies: NodeDependency[] = spartacusDependencies
+    .concat(spartacusLibraryDependencies)
+    .concat(prepare3rdPartyDependencies());
+  return dependencies;
 }
 
 function updateAppModule(project: string): Rule {
@@ -260,26 +280,52 @@ function updateAppModule(project: string): Rule {
   };
 }
 
-function addSpartacusFeatures(options: SpartacusOptions): Rule {
-  return (tree: Tree, context: SchematicContext) => {
-    const cliFeatures = prepareCliPackageAndSubFeature(options.features ?? []);
+// TODO:#schematics - unused.
+// export function addSpartacusFeatures(options: SpartacusOptions): Rule {
+//   return (tree: Tree, context: SchematicContext) => {
+//     const cliFeatures = prepareCliPackageAndSubFeature(options.features ?? []);
+//     const libraryOptions: LibraryOptions = {
+//       project: options.project,
+//       lazy: options.lazy,
+//       debug: options.debug,
+//     };
+//     const featureOptions = createSpartacusFeatureOptionsForLibrary(
+//       libraryOptions,
+//       cliFeatures
+//     );
+//     addSchematicsTasks(featureOptions, context);
+
+//     const packageJson = readPackageJson(tree);
+//     const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
+//     const dependencies = Object.keys(cliFeatures).map((feature) =>
+//       mapPackageToNodeDependencies(feature, spartacusVersion)
+//     );
+//     return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
+//   };
+// }
+
+function addFeatures(options: SpartacusOptions, features: string[]): Rule {
+  return (_tree: Tree, _context: SchematicContext): Rule => {
     const libraryOptions: LibraryOptions = {
       project: options.project,
       lazy: options.lazy,
       debug: options.debug,
+      interactive: options.interactive,
     };
-    const featureOptions = createSpartacusFeatureOptionsForLibrary(
-      libraryOptions,
-      cliFeatures
-    );
-    addSchematicsTasks(featureOptions, context);
 
-    const packageJson = readPackageJson(tree);
-    const spartacusVersion = getPrefixedSpartacusSchematicsVersion();
-    const dependencies = Object.keys(cliFeatures).map((feature) =>
-      mapPackageToNodeDependencies(feature, spartacusVersion)
-    );
-    return addPackageJsonDependencies(dependencies, packageJson)(tree, context);
+    const rules: Rule[] = [];
+    for (const feature of features) {
+      const schematicsConfiguration =
+        getSchematicsConfigurationByFeature(feature);
+      if (!schematicsConfiguration) {
+        throw new SchematicsException(
+          `No feature config found for ${feature}.`
+        );
+      }
+
+      rules.push(addLibraryFeature(libraryOptions, schematicsConfiguration));
+    }
+    return chain(rules);
   };
 }
 
@@ -287,9 +333,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
   return (tree: Tree, context: SchematicContext) => {
     const project = getProjectFromWorkspace(tree, options);
 
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
     return chain([
-      addPackageJsonDependencies(prepareDependencies(), readPackageJson(tree)),
-
       setupStoreModules(options.project),
 
       scaffoldStructure(options),
@@ -306,7 +351,16 @@ export function addSpartacus(options: SpartacusOptions): Rule {
       options.useMetaTags ? updateIndexFile(tree, options) : noop(),
       increaseBudgets(),
 
-      addSpartacusFeatures(options),
+      // addSpartacusFeatures(options),
+      addFeatures(options, features),
+
+      chain([
+        addPackageJsonDependencies(
+          prepareDependencies(features),
+          readPackageJson(tree)
+        ),
+        installPackageJsonDependencies(),
+      ]),
     ])(tree, context);
   };
 }
