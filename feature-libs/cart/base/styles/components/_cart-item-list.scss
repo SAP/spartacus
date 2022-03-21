@@ -83,7 +83,12 @@
   }
 
   .cx-cart-addons {
+    display: flex;
     width: 100%;
+
+    cx-configurator-cart-entry-info {
+      margin-inline-start: 6rem;
+    }
   }
 
   .cx-cart-mobile {
