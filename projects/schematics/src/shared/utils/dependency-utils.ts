@@ -24,16 +24,16 @@ import { getConfiguredDependencies } from './schematics-config-utils';
  * Returns the ordered list, according to the graph.
  */
 export function analyzeCrossFeatureDependencies(
-  startingCliFeatures: string[]
+  startingFeatures: string[]
 ): string[] {
   const result: string[] = [];
 
-  for (const cliFeature of startingCliFeatures) {
-    collectCrossFeatureDeps(cliFeature, result);
+  for (const feature of startingFeatures) {
+    collectCrossFeatureDeps(feature, result);
   }
 
-  return result.sort((subFeature1, subFeature2) =>
-    calculateSort(subFeature1, subFeature2, crossFeatureInstallationOrder)
+  return result.sort((feature1, feature2) =>
+    calculateSort(feature1, feature2, crossFeatureInstallationOrder)
   );
 }
 
@@ -42,13 +42,13 @@ export function analyzeCrossFeatureDependencies(
  * It recursively collects the dependencies for each of the
  * found dependencies.
  */
-function collectCrossFeatureDeps(cliFeature: string, result: string[]): void {
-  if (result.includes(cliFeature)) {
-    // already processed
+function collectCrossFeatureDeps(feature: string, result: string[]): void {
+  // already processed
+  if (result.includes(feature)) {
     return;
   }
 
-  const spartacusLib = getKeyByMappingValue(packageCliMapping, cliFeature);
+  const spartacusLib = getKeyByMappingValue(packageCliMapping, feature);
   if (!spartacusLib) {
     throw new SchematicsException(
       `Spartacus library not found for '${spartacusLib}' in ${JSON.stringify(
@@ -57,9 +57,9 @@ function collectCrossFeatureDeps(cliFeature: string, result: string[]): void {
     );
   }
 
-  result.push(cliFeature);
+  result.push(feature);
 
-  const cliDependencies = getConfiguredDependencies(spartacusLib, cliFeature);
+  const cliDependencies = getConfiguredDependencies(spartacusLib, feature);
   for (const cliDependency of cliDependencies) {
     collectCrossFeatureDeps(cliDependency, result);
   }
@@ -78,10 +78,10 @@ function collectCrossFeatureDeps(cliFeature: string, result: string[]): void {
  * from projects/schematics/src/migrations/mechanism/dependency-management/dependency-management.ts
  */
 export function analyzeCrossLibraryDependencies(
-  startingDependencies: string[]
+  startingLibraries: string[]
 ): string[] {
-  let spartacusPeerDeps: string[] = startingDependencies;
-  for (const spartacusLib of startingDependencies) {
+  let spartacusPeerDeps: string[] = startingLibraries;
+  for (const spartacusLib of startingLibraries) {
     spartacusPeerDeps = collectCrossSpartacusPeerDeps(
       spartacusLib,
       spartacusPeerDeps
@@ -98,6 +98,8 @@ export function analyzeCrossLibraryDependencies(
   return spartacusPeerDeps;
 }
 
+// TODO:#schematics - export?
+// TODO:#schematics - add comment
 export function collectCrossSpartacusPeerDeps(
   name: string,
   collectedDeps: string[]
