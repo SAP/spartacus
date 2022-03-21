@@ -80,12 +80,10 @@ export function kahnsAlgorithm(graph: Graph): string[] {
   return Object.keys(topNums).reverse();
 }
 
-// TODO:#schematics - move somewhere? To graph-utils?
 export const dependencyGraph: Graph = createLibraryDependencyGraph();
 export const libraryInstallationOrder: string[] =
   kahnsAlgorithm(dependencyGraph);
 
-// TODO:#schematics - move somewhere? To graph-utils?
 export const crossFeatureDependencyGraph: Graph =
   createCrossFeaturesDependencyGraph();
 export const crossFeatureInstallationOrder: string[] = kahnsAlgorithm(
