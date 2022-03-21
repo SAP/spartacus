@@ -33,11 +33,14 @@ export class ImportEntriesDialogComponent {
     focusOnEscape: false,
   };
 
+  uploading: boolean = false;
   @HostListener('click', ['$event'])
   handleClick(event: UIEvent): void {
     // Close on click outside the dialog window
     if ((event.target as any).tagName === this.el.nativeElement.tagName) {
-      this.close('Cross click');
+      if (!this.uploading) {
+        this.close('Cross click');
+      }
     }
   }
 
@@ -81,6 +84,7 @@ export class ImportEntriesDialogComponent {
       };
     }
   ): void {
+    this.uploading = true;
     this.formState = false;
     this.summary$.next({
       ...this.summary$.value,
@@ -104,6 +108,7 @@ export class ImportEntriesDialogComponent {
   }
 
   protected populateSummary(action: ProductImportInfo): void {
+    this.uploading = false;
     if (action.statusCode === ProductImportStatus.SUCCESS) {
       this.summary$.next({
         ...this.summary$.value,
