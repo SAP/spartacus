@@ -1,5 +1,3 @@
-// TODO:#schematics - move
-
 /***** Scopes start *****/
 export const SPARTACUS_SCOPE = `@spartacus/`;
 
