@@ -1,27 +1,21 @@
 import { SchematicsException } from '@angular-devkit/schematics';
 import { packageSchematicConfigMapping } from '../updateable-constants';
+import { FeatureConfig } from './lib-utils';
 
 // TODO:#schematics - comment
 // TODO:#schematics - test
 export function getConfiguredDependencies(
   spartacusLib: string,
-  cliFeature: string
+  feature: string
 ): string[] {
-  const featureConfigs = packageSchematicConfigMapping[spartacusLib];
-  if (!featureConfigs) {
+  const featureConfig = getSchematicsConfigurationByFeature(feature);
+  if (!featureConfig) {
     throw new SchematicsException(
       `No feature config found for ${spartacusLib} in 'packageSchematicConfigMapping'`
     );
   }
-
-  let dependencyConfig: Record<string, string[]> = {};
-  for (const featureConfig of featureConfigs) {
-    if (featureConfig.library.cli === cliFeature) {
-      dependencyConfig = featureConfig.dependencyManagement ?? dependencyConfig;
-      break;
-    }
-  }
-
+  const dependencyConfig: Record<string, string[]> =
+    featureConfig.dependencyManagement ?? {};
   const cliDependencies: string[] = [];
   for (const key in dependencyConfig) {
     if (!dependencyConfig.hasOwnProperty(key)) {
@@ -32,4 +26,26 @@ export function getConfiguredDependencies(
   }
 
   return cliDependencies;
+}
+
+// TODO:#schematics - comment
+// TODO:#schematics - test
+export function getSchematicsConfigurationByFeature(
+  feature: string
+): FeatureConfig | undefined {
+  for (const library in packageSchematicConfigMapping) {
+    if (!packageSchematicConfigMapping.hasOwnProperty(library)) {
+      continue;
+    }
+
+    const featureConfigs = packageSchematicConfigMapping[library];
+
+    for (const featureConfig of featureConfigs) {
+      if (featureConfig.library.cli === feature) {
+        return featureConfig;
+      }
+    }
+  }
+
+  return undefined;
 }
