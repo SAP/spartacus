@@ -76,31 +76,47 @@ export function revokeAccessToken() {
   });
 }
 
-export function testRedirectBackfterLogin() {
+export function testRedirectBackfterLogin(kyma = false) {
   it('should redirect back after the login', () => {
     const user = createUser();
     cy.visit(`/contact`);
 
     cy.get('cx-login').click();
     cy.location('pathname').should('contain', '/login');
-    authForms.login(
-      user.registrationData.email,
-      user.registrationData.password
-    );
+
+    if (kyma) {
+      authForms.fillKymaLoginForm({
+        username: user.registrationData.email,
+        password: user.registrationData.password,
+      });
+    } else {
+      authForms.login(
+        user.registrationData.email,
+        user.registrationData.password
+      );
+    }
 
     cy.location('pathname').should('contain', '/contact');
   });
 }
 
-export function testRedirectAfterForcedLogin() {
+export function testRedirectAfterForcedLogin(kyma = false) {
   it('should redirect back after the forced login', () => {
     const user = createUser();
     cy.visit(`/my-account/address-book`);
     cy.location('pathname').should('contain', '/login');
-    authForms.login(
-      user.registrationData.email,
-      user.registrationData.password
-    );
+
+    if (kyma) {
+      authForms.fillKymaLoginForm({
+        username: user.registrationData.email,
+        password: user.registrationData.password,
+      });
+    } else {
+      authForms.login(
+        user.registrationData.email,
+        user.registrationData.password
+      );
+    }
 
     cy.location('pathname').should('contain', '/my-account/address-book');
   });
