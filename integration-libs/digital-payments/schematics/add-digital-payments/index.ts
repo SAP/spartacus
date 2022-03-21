@@ -1,18 +1,15 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_DIGITAL_PAYMENTS_FEATURE,
-  DIGITAL_PAYMENTS_SCHEMATICS_CONFIG,
+  analyzeCrossFeatureDependencies,
   LibraryOptions as SpartacusDigitalPaymentsOptions,
   readPackageJson,
-  shouldAddFeature,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -24,16 +21,11 @@ export function addDigitalPaymentsFeature(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
 
-      shouldAddFeature(CLI_DIGITAL_PAYMENTS_FEATURE, options.features)
-        ? addDigitalPayments(options)
-        : noop(),
+    return chain([
+      addFeatures(options, features),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
-}
-
-function addDigitalPayments(options: SpartacusDigitalPaymentsOptions): Rule {
-  return addLibraryFeature(options, DIGITAL_PAYMENTS_SCHEMATICS_CONFIG);
 }
