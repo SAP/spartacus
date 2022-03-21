@@ -142,6 +142,8 @@ import {
 } from './libs-constants';
 import { FeatureConfig, Module } from './utils/lib-utils';
 
+// TODO:#schematics - search for "projects/schematics/src/shared/updateable-constants.ts" and check all places where an exception is thrown
+
 /**
  * A list of all schematics feature configurations.
  * _Must_ be updated when adding a new schematics

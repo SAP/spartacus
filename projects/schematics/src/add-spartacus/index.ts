@@ -290,7 +290,7 @@ function addFeatures(options: SpartacusOptions, features: string[]): Rule {
         getSchematicsConfigurationByFeature(feature);
       if (!schematicsConfiguration) {
         throw new SchematicsException(
-          `No feature config found for ${feature}.`
+          `No feature config found for ${feature}. Please check if you added the schematics config to the projects/schematics/src/shared/updateable-constants.ts`
         );
       }
 
