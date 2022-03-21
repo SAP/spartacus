@@ -22,7 +22,7 @@ import { of } from 'rxjs';
 class MockComponent {}
 
 const mockData: CmsScrollToTopComponent = {
-  behavior: ScrollBehavior.SMOOTH,
+  scrollBehavior: ScrollBehavior.SMOOTH,
   displayThreshold: 100,
 };
 

@@ -16,7 +16,7 @@ import { ScrollToTopComponent } from './scroll-to-top.component';
         ScrollToTopComponent: {
           component: ScrollToTopComponent,
           data: {
-            behavior: ScrollBehavior.SMOOTH,
+            scrollBehavior: ScrollBehavior.SMOOTH,
             displayThreshold: 200,
           },
         },

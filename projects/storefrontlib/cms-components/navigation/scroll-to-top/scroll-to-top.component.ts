@@ -23,7 +23,7 @@ export class ScrollToTopComponent {
   @HostBinding('class.display')
   display: boolean | undefined;
 
-  protected behavior: ScrollBehavior;
+  protected scrollBehavior: ScrollBehavior;
   protected displayThreshold: number;
   protected window: Window | undefined = this.winRef.nativeWindow;
 
@@ -39,7 +39,7 @@ export class ScrollToTopComponent {
     protected componentData: CmsComponentData<CmsScrollToTopComponent>
   ) {
     this.componentData.data$.pipe(take(1)).subscribe((data) => {
-      this.behavior = data.behavior ?? ScrollBehavior.SMOOTH;
+      this.scrollBehavior = data.scrollBehavior ?? ScrollBehavior.SMOOTH;
       this.displayThreshold =
         data.displayThreshold ?? this.window?.innerHeight ?? 200;
     });
@@ -51,7 +51,7 @@ export class ScrollToTopComponent {
   scrollToTop(): void {
     this.window?.scrollTo({
       top: 0,
-      behavior: this.behavior,
+      behavior: this.scrollBehavior,
     });
 
     this.getKeyboardFocusableElement().focus();

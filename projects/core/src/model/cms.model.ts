@@ -60,7 +60,7 @@ export enum ScrollBehavior {
 }
 
 export interface CmsScrollToTopComponent extends CmsComponent {
-  behavior?: ScrollBehavior;
+  scrollBehavior?: ScrollBehavior;
   displayThreshold?: number;
 }
 
