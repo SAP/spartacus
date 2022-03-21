@@ -203,7 +203,7 @@ describe('Spartacus User schematics: ng-add', () => {
         });
       });
 
-      it('should have added User Account feature', async () => {
+      it('should install the required dependencies', async () => {
         const featureModule = appTree.readContent(featureModulePath);
         expect(featureModule).toMatchSnapshot();
       });
