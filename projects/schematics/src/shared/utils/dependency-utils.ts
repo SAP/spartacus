@@ -86,7 +86,7 @@ export function analyzeCrossLibraryDependencies(
     if (!library) {
       throw new SchematicsException(
         `The given '${feature}' doesn't contain a Spartacus package mapping.
-Please check 'packageSubFeaturesMapping' in 'projects/schematics/src/shared/updateable-constants.ts'`
+Please check its schematics configuration.`
       );
     }
 
