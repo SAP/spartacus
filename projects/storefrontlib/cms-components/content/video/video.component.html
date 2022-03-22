@@ -8,7 +8,7 @@
   }}</a>
   <video
     *ngIf="source"
-    [style.height.px]="setHeight(data)"
+    [style.height.px]="getHeight(data)"
     controls
     [poster]="thumbnail?.src"
     [loop]="loop"
