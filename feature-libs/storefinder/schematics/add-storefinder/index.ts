@@ -1,18 +1,15 @@
 import {
   chain,
-  noop,
   Rule,
   SchematicContext,
   Tree,
 } from '@angular-devkit/schematics';
 import {
-  addLibraryFeature,
+  addFeatures,
   addPackageJsonDependenciesForLibrary,
-  CLI_STOREFINDER_FEATURE,
+  analyzeCrossFeatureDependencies,
   LibraryOptions as SpartacusStorefinderOptions,
   readPackageJson,
-  shouldAddFeature,
-  STOREFINDER_SCHEMATICS_CONFIG,
   validateSpartacusInstallation,
 } from '@spartacus/schematics';
 import { peerDependencies } from '../../package.json';
@@ -24,16 +21,11 @@ export function addStorefinderFeatures(
     const packageJson = readPackageJson(tree);
     validateSpartacusInstallation(packageJson);
 
-    return chain([
-      addPackageJsonDependenciesForLibrary(peerDependencies, options),
+    const features = analyzeCrossFeatureDependencies(options.features ?? []);
 
-      shouldAddFeature(CLI_STOREFINDER_FEATURE, options.features)
-        ? addStorefinderFeature(options)
-        : noop(),
+    return chain([
+      addFeatures(options, features),
+      addPackageJsonDependenciesForLibrary(peerDependencies, options),
     ]);
   };
-}
-
-function addStorefinderFeature(options: SpartacusStorefinderOptions): Rule {
-  return addLibraryFeature(options, STOREFINDER_SCHEMATICS_CONFIG);
 }
