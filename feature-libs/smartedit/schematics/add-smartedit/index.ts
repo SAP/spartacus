@@ -10,9 +10,9 @@ import {
   analyzeCrossFeatureDependencies,
   CLI_SMARTEDIT_FEATURE,
   CustomConfig,
-  FeatureConfig,
   FeatureConfigurationOverrides,
   readPackageJson,
+  shouldAddFeature,
   SMARTEDIT_SCHEMATICS_CONFIG,
   SMART_EDIT_CONFIG,
   SPARTACUS_SMARTEDIT_ROOT,
@@ -27,15 +27,7 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
     validateSpartacusInstallation(packageJson);
 
     const features = analyzeCrossFeatureDependencies(options.features ?? []);
-
-    const smartEditSchematicsConfig: FeatureConfig =
-      buildSmartEditConfig(options);
-
-    const overrides: FeatureConfigurationOverrides = {
-      schematics: {
-        [CLI_SMARTEDIT_FEATURE]: smartEditSchematicsConfig,
-      },
-    };
+    const overrides = buildSmartEditConfig(options);
 
     return chain([
       addFeatures(options, features, overrides),
@@ -46,7 +38,11 @@ export function addSmartEditFeatures(options: SpartacusSmartEditOptions): Rule {
 
 function buildSmartEditConfig(
   options: SpartacusSmartEditOptions
-): FeatureConfig {
+): Record<string, FeatureConfigurationOverrides> {
+  if (!shouldAddFeature(CLI_SMARTEDIT_FEATURE, options.features)) {
+    return {};
+  }
+
   const customConfig: CustomConfig[] = [];
   if (options.storefrontPreviewRoute || options.allowOrigin) {
     let content = `<${SMART_EDIT_CONFIG}>{
@@ -71,7 +67,11 @@ function buildSmartEditConfig(
   }
 
   return {
-    ...SMARTEDIT_SCHEMATICS_CONFIG,
-    customConfig,
+    [CLI_SMARTEDIT_FEATURE]: {
+      schematics: {
+        ...SMARTEDIT_SCHEMATICS_CONFIG,
+        customConfig,
+      },
+    },
   };
 }
