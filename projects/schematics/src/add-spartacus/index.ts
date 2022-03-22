@@ -292,8 +292,6 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     const packageJsonFile = readPackageJson(tree);
     const spartacusDependencies = prepareDependencies();
 
-    // due to few problems we are not able to migrate to rxjs7 with this
-    // major release. Although NG13 still supports rxjs@6
     const spartacusRxjsDependency: NodeDependency[] = [
       spartacusDependencies.find((dep) => dep.name === RXJS) as NodeDependency,
     ];
@@ -301,7 +299,8 @@ export function addSpartacus(options: SpartacusOptions): Rule {
     return chain([
       addPackageJsonDependencies(spartacusDependencies, packageJsonFile),
 
-      // to be removed before 6.0.0-next.0 release
+      // Force installing a specific version of rxjs that Spartacus depends on,
+      // in case when Angular CLI installs a different rxjs version by default:
       updatePackageJsonDependencies(spartacusRxjsDependency, packageJsonFile),
 
       setupStoreModules(options.project),
