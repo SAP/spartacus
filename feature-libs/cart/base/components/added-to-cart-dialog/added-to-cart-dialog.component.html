@@ -115,7 +115,10 @@
 
   <!-- For screen reader purposes (not visual)-->
   <div class="cx-visually-hidden" aria-live="polite" aria-atomic="true">
-    {{ 'addToCart.updatingCart' | cxTranslate }}
-    {{ 'addToCart.itemsAddedToYourCart' | cxTranslate }}
+    {{
+      (addedEntryWasMerged$ | async)
+        ? ('addToCart.itemsIncrementedInYourCart' | cxTranslate)
+        : ('addToCart.itemsAddedToYourCart' | cxTranslate)
+    }}
   </div>
 </div>
