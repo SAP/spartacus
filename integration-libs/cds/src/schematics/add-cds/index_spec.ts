@@ -10,19 +10,17 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cdsFeatureModulePath,
   CLI_CDS_FEATURE,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  trackingPersonalizationFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../../package.json';
 import { Schema as SpartacusCdsOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/cds/cds-feature.module.ts';
-const personalizationFeatureModulePath =
-  'src/app/spartacus/features/tracking/personalization-feature.module.ts';
 
 describe('Spartacus CDS schematics: ng-add', () => {
   const schematicRunner = new SchematicTestRunner('schematics', collectionPath);
@@ -102,7 +100,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(cdsFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -141,13 +139,13 @@ describe('Spartacus CDS schematics: ng-add', () => {
         });
 
         it('should create the feature module', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
 
         it('should install the required feature dependencies', async () => {
           const personalizationFeatureModule = appTree.readContent(
-            personalizationFeatureModulePath
+            trackingPersonalizationFeatureModulePath
           );
           expect(personalizationFeatureModule).toMatchSnapshot();
         });
@@ -196,7 +194,7 @@ describe('Spartacus CDS schematics: ng-add', () => {
 
       describe('general setup', () => {
         it('should create the feature module', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(cdsFeatureModulePath);
           expect(module).toMatchSnapshot();
         });
       });

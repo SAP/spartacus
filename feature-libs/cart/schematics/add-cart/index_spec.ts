@@ -10,31 +10,25 @@ import {
 } from '@schematics/angular/application/schema';
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
+  cartBaseFeatureModulePath,
   CLI_CART_BASE_FEATURE,
   CLI_CART_IMPORT_EXPORT_FEATURE,
   CLI_CART_QUICK_ORDER_FEATURE,
   CLI_CART_SAVED_CART_FEATURE,
   CLI_CART_WISHLIST_FEATURE,
+  importExportFeatureModulePath,
   LibraryOptions as SpartacusCartOptions,
+  quickOrderFeatureModulePath,
+  savedCartFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
+  wishListFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const savedCartFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-saved-cart-feature.module.ts';
-const cartBaseFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-base-feature.module.ts';
-const wishListFeatureModulePath =
-  'src/app/spartacus/features/cart/wish-list-feature.module.ts';
-const quickOrderFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-quick-order-feature.module.ts';
-const importExportFeatureModulePath =
-  'src/app/spartacus/features/cart/cart-import-export-feature.module.ts';
-const userFeatureModulePath =
-  'src/app/spartacus/features/user/user-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/cart.scss';
 
 describe('Spartacus Cart schematics: ng-add', () => {

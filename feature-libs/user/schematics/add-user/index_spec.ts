@@ -15,13 +15,12 @@ import {
   LibraryOptions as SpartacusUserOptions,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
+  userFeatureModulePath,
 } from '@spartacus/schematics';
 import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/user/user-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/user.scss';
 
 describe('Spartacus User schematics: ng-add', () => {
@@ -105,7 +104,7 @@ describe('Spartacus User schematics: ng-add', () => {
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(userFeatureModulePath)).toBeFalsy();
     });
 
     it('should install necessary Spartacus libraries', () => {
@@ -143,7 +142,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -172,7 +171,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -187,7 +186,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -204,7 +203,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should install the required feature dependencies', async () => {
-        const featureModule = appTree.readContent(featureModulePath);
+        const featureModule = appTree.readContent(userFeatureModulePath);
         expect(featureModule).toMatchSnapshot();
       });
     });
@@ -221,7 +220,7 @@ describe('Spartacus User schematics: ng-add', () => {
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(userFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });

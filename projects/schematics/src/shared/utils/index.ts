@@ -10,4 +10,5 @@ export * from './package-utils';
 export * from './program';
 export * from './project-tsconfig-paths';
 export * from './schematics-config-utils';
+export * from './test-utils';
 export * from './workspace-utils';

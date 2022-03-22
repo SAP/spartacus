@@ -12,6 +12,7 @@ import {
   CLI_PRODUCT_CONFIGURATOR_TEXTFIELD_FEATURE,
   CLI_PRODUCT_CONFIGURATOR_VC_FEATURE,
   LibraryOptions as SpartacusProductConfiguratorOptions,
+  productConfiguratorFeatureModulePath,
   SPARTACUS_CONFIGURATION_MODULE,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -19,8 +20,6 @@ import * as path from 'path';
 import { peerDependencies } from '../../package.json';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/product-configurator/product-configurator-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/product-configurator.scss';
 
 describe('Spartacus product configurator schematics: ng-add', () => {
@@ -138,7 +137,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
 
@@ -167,7 +168,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
       });
@@ -182,7 +185,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax, and include VC as well', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
 
@@ -220,7 +225,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
       });
@@ -235,7 +242,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
 
@@ -273,7 +282,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
       });
@@ -298,7 +309,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should add the feature using the lazy loading syntax, including VC as well', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
 
@@ -343,7 +356,9 @@ describe('Spartacus product configurator schematics: ng-add', () => {
         });
 
         it('should import appropriate modules', async () => {
-          const module = appTree.readContent(featureModulePath);
+          const module = appTree.readContent(
+            productConfiguratorFeatureModulePath
+          );
           expect(module).toMatchSnapshot();
         });
       });

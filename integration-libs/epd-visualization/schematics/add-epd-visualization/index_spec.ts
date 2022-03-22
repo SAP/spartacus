@@ -12,6 +12,7 @@ import {
 import { Schema as WorkspaceOptions } from '@schematics/angular/workspace/schema';
 import {
   CLI_EPD_VISUALIZATION_FEATURE,
+  epdFeatureModulePath,
   SpartacusOptions,
   SPARTACUS_SCHEMATICS,
 } from '@spartacus/schematics';
@@ -20,8 +21,6 @@ import { peerDependencies } from '../../package.json';
 import { Schema as SpartacusEpdVisualizationOptions } from './schema';
 
 const collectionPath = path.join(__dirname, '../collection.json');
-const featureModulePath =
-  'src/app/spartacus/features/epd-visualization/epd-visualization-feature.module.ts';
 const scssFilePath = 'src/styles/spartacus/epd-visualization.scss';
 
 describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () => {
@@ -105,7 +104,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
     });
 
     it('should not create any of the feature modules', () => {
-      expect(appTree.exists(featureModulePath)).toBeFalsy();
+      expect(appTree.exists(epdFeatureModulePath)).toBeFalsy();
     });
   });
 
@@ -118,7 +117,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
 
       it('should add the feature using the lazy loading syntax', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
 
@@ -176,7 +175,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
@@ -232,7 +231,7 @@ describe('Spartacus SAP EPD Visualization integration schematics: ng-add', () =>
       });
 
       it('should import appropriate modules', async () => {
-        const module = appTree.readContent(featureModulePath);
+        const module = appTree.readContent(epdFeatureModulePath);
         expect(module).toMatchSnapshot();
       });
     });
