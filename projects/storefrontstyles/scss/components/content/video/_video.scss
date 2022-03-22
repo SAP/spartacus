@@ -16,10 +16,10 @@
     z-index: 1;
     padding: 0.5rem;
     margin-inline-end: var(--cx-margin-right, 2.5rem);
-    color: black;
+    color: var(--cx-color-text);
     background-color: rgba(150, 150, 150, 0.8);
     border-radius: 0.2rem;
-    font-weight: bold;
+    font-weight: var(--cx-font-weight-bold);
   }
   .video-container {
     position: relative;
