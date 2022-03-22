@@ -53,7 +53,7 @@ function getSchematicsData(breakingChange: any): any {
   const schematicsData: any = {};
   schematicsData.class = breakingChange.apiElementName;
   schematicsData.importPath = breakingChange.entryPoint;
-  schematicsData.deprecatedNode = breakingChange.deletedMember.name;
+  schematicsData.deprecatedNode = breakingChange.changeElementName;
   schematicsData.comment = getShematicsComment(breakingChange);
   return schematicsData;
 }
@@ -63,10 +63,14 @@ function getShematicsComment(breakingChange: any): string {
     return `${breakingChange.deletedComment} ${breakingChange.migrationComment}`;
   }
   if (breakingChange.changeKind.startsWith('Method')) {
-    return `The '${breakingChange.changeElementName}' method's signature changed.  It iis now: 'TODO'`;
+    return `The '${
+      breakingChange.changeElementName
+    }' method's signature changed to: '${normalizeDoc(
+      breakingChange.currentStateDoc
+    )}'`;
   }
   if (breakingChange.changeKind.startsWith('Property')) {
-    return `The type of property '${breakingChange.changeElementName}' changed.  It is now: '${breakingChange.currentStateDoc}' `;
+    return `The type of property '${breakingChange.changeElementName}' changed to: '${breakingChange.currentStateDoc}' `;
   }
   throw new Error(
     `Unsupported breaking change ${breakingChange.change}:${breakingChange.changeElementName}`
@@ -76,15 +80,29 @@ function getShematicsComment(breakingChange: any): string {
 function getUpdatedMembers(breakingChangesData: any) {
   return breakingChangesData
     .filter((apiElement: any) => apiElement.kind === 'Class')
-    .map((apiElement: any) => apiElement.breakingChanges)
+    .map((apiElement: any) => {
+      return apiElement.breakingChanges.map((breakingChange) => {
+        //TODO: Update the compare process to bake this info in each breaking change in advances.
+        return {
+          ...breakingChange,
+          apiElementName: apiElement.name,
+          entryPoint: apiElement.entryPoint,
+        };
+      });
+    })
     .flat()
     .filter(
       (breakingChange: any) =>
-        breakingChange.changeType === 'DELETED' &&
+        (breakingChange.changeType === 'DELETED' ||
+          breakingChange.changeType === 'CHANGED') &&
         isMethodOrProperty(breakingChange.changeKind)
     );
 }
 
 function isMethodOrProperty(memberKind: string): boolean {
   return memberKind.startsWith('Method') || memberKind.startsWith('Property');
+}
+
+function normalizeDoc(doc: string): string {
+  return doc.replace(/\n/g, '').replace(/\s+/g, ' ').trim();
 }

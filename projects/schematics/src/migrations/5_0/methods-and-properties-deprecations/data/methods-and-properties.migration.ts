@@ -3,6 +3,32 @@ import { MethodPropertyDeprecation } from '../../../../shared/utils/file-utils';
 export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation[] =
   [
     {
+      class: 'CartQuickOrderFormComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'QuickOrderComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'QuickOrderFormComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedNode: 'cd',
+      comment: "The type of property 'cd' changed to: 'cd: ChangeDetectorRef' ",
+    },
+    {
+      class: 'QuickOrderFormComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedNode: 'config',
+      comment: "The type of property 'config' changed to: 'config: Config' ",
+    },
+    {
       class: 'QuickOrderFormComponent',
       importPath: '@spartacus/cart/quick-order/components',
       deprecatedNode: 'globalMessageService',
@@ -10,11 +36,31 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'QuickOrderFormComponent'. ",
     },
     {
+      class: 'QuickOrderFormComponent',
+      importPath: '@spartacus/cart/quick-order/components',
+      deprecatedNode: 'winRef',
+      comment: "The type of property 'winRef' changed to: 'winRef: WindowRef' ",
+    },
+    {
+      class: 'QuickOrderService',
+      importPath: '@spartacus/cart/quick-order/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
       class: 'QuickOrderService',
       importPath: '@spartacus/cart/quick-order/core',
       deprecatedNode: 'productAdapter',
       comment:
         "// TODO:Spartacus - Property 'productAdapter' was removed from Class 'QuickOrderService'. ",
+    },
+    {
+      class: 'QuickOrderService',
+      importPath: '@spartacus/cart/quick-order/core',
+      deprecatedNode: 'productSearchConnector',
+      comment:
+        "The type of property 'productSearchConnector' changed to: 'productSearchConnector: ProductSearchConnector' ",
     },
     {
       class: 'QuickOrderService',
@@ -29,6 +75,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'search',
       comment:
         "// TODO:Spartacus - Method 'search' was removed from Class 'QuickOrderService'. Use 'searchProducts' instead.",
+    },
+    {
+      class: 'QuickOrderConfig',
+      importPath: '@spartacus/cart/quick-order/root',
+      deprecatedNode: 'quickOrder',
+      comment:
+        "The type of property 'quickOrder' changed to: 'quickOrder: {\n        searchForm?: {\n            displayProductImages: boolean;\n            maxProducts: number;\n            minCharactersBeforeRequest: number;\n        };\n        list?: {\n            hardDeleteTimeout: number;\n        };\n    }' ",
     },
     {
       class: 'QuickOrderFacade',
@@ -68,9 +121,30 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'SavedCartEventBuilder',
       importPath: '@spartacus/cart/saved-cart/core',
+      deprecatedNode: 'multiCartService',
+      comment:
+        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+    },
+    {
+      class: 'SavedCartEventBuilder',
+      importPath: '@spartacus/cart/saved-cart/core',
       deprecatedNode: 'registerDeleteSavedCartEvents',
       comment:
         "// TODO:Spartacus - Method 'registerDeleteSavedCartEvents' was removed from Class 'SavedCartEventBuilder'. It was moved to 'CartEventBuilder', and was renamed to 'registerDeleteCart'.",
+    },
+    {
+      class: 'SavedCartService',
+      importPath: '@spartacus/cart/saved-cart/core',
+      deprecatedNode: 'getSavedCart',
+      comment:
+        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+    },
+    {
+      class: 'SavedCartService',
+      importPath: '@spartacus/cart/saved-cart/core',
+      deprecatedNode: 'multiCartService',
+      comment:
+        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'OccSavedCartAdapter',
@@ -94,11 +168,32 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'NewSavedCartOrderEntriesContext'. ",
     },
     {
+      class: 'NewSavedCartOrderEntriesContext',
+      importPath: '@spartacus/cart/saved-cart/root',
+      deprecatedNode: 'multiCartService',
+      comment:
+        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+    },
+    {
+      class: 'SavedCartFacade',
+      importPath: '@spartacus/cart/saved-cart/root',
+      deprecatedNode: 'getSavedCart',
+      comment:
+        "The 'getSavedCart' method's signature changed to: 'getSavedCart( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+    },
+    {
       class: 'SavedCartOrderEntriesContext',
       importPath: '@spartacus/cart/saved-cart/root',
       deprecatedNode: 'actionsSubject',
       comment:
         "// TODO:Spartacus - Property 'actionsSubject' was removed from Class 'SavedCartOrderEntriesContext'. ",
+    },
+    {
+      class: 'SavedCartOrderEntriesContext',
+      importPath: '@spartacus/cart/saved-cart/root',
+      deprecatedNode: 'multiCartService',
+      comment:
+        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
     },
     {
       class: 'CartNotEmptyGuard',
@@ -120,6 +215,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'globalMessageService',
       comment:
         "// TODO:Spartacus - Property 'globalMessageService' was removed from Class 'CheckoutAuthGuard'. ",
+    },
+    {
+      class: 'CheckoutAuthGuard',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'handleAnonymousUser',
+      comment:
+        "The 'handleAnonymousUser' method's signature changed to: 'handleAnonymousUser(): boolean | UrlTree'",
     },
     {
       class: 'CheckoutAuthGuard',
@@ -171,6 +273,20 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'CheckoutProgressMobileTopComponent'. ",
     },
     {
+      class: 'CheckoutStepService',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'disableEnableStep',
+      comment:
+        "The 'disableEnableStep' method's signature changed to: 'disableEnableStep( currentStepType: CheckoutStepType | string disabled: boolean): void'",
+    },
+    {
+      class: 'CheckoutStepsSetGuard',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'canActivate',
+      comment:
+        "The 'canActivate' method's signature changed to: 'canActivate( route: ActivatedRouteSnapshot): Observable<boolean | UrlTree>'",
+    },
+    {
       class: 'CheckoutStepsSetGuard',
       importPath: '@spartacus/checkout/components',
       deprecatedNode: 'checkoutCostCenterService',
@@ -197,6 +313,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'isShippingAddressAndCostCenterSet',
       comment:
         "// TODO:Spartacus - Method 'isShippingAddressAndCostCenterSet' was removed from Class 'CheckoutStepsSetGuard'. ",
+    },
+    {
+      class: 'CheckoutStepsSetGuard',
+      importPath: '@spartacus/checkout/components',
+      deprecatedNode: 'isStepSet',
+      comment:
+        "The 'isStepSet' method's signature changed to: 'isStepSet( step: CheckoutStep): Observable<boolean | UrlTree>'",
     },
     {
       class: 'CheckoutStepsSetGuard',
@@ -325,6 +448,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterService'. ",
     },
     {
+      class: 'CheckoutCostCenterService',
+      importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'setCostCenter',
+      comment:
+        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string): Observable<Cart>'",
+    },
+    {
       class: 'CheckoutPageMetaResolver',
       importPath: '@spartacus/checkout/core',
       deprecatedNode: 'activeCartService',
@@ -337,6 +467,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'cart$',
       comment:
         "// TODO:Spartacus - Property 'cart$' was removed from Class 'CheckoutPageMetaResolver'. ",
+    },
+    {
+      class: 'CheckoutPageMetaResolver',
+      importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'resolveTitle',
+      comment:
+        "The 'resolveTitle' method's signature changed to: 'resolveTitle(): Observable<string | undefined>'",
     },
     {
       class: 'CheckoutPageMetaResolver',
@@ -404,6 +541,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'CheckoutPaymentService',
       importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'createPaymentDetails',
+      comment:
+        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+    },
+    {
+      class: 'CheckoutPaymentService',
+      importPath: '@spartacus/checkout/core',
       deprecatedNode: 'getPaymentDetails',
       comment:
         "// TODO:Spartacus - Method 'getPaymentDetails' was removed from Class 'CheckoutPaymentService'. ",
@@ -442,6 +586,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'resetSetPaymentDetailsProcess',
       comment:
         "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentService'. ",
+    },
+    {
+      class: 'CheckoutPaymentService',
+      importPath: '@spartacus/checkout/core',
+      deprecatedNode: 'setPaymentDetails',
+      comment:
+        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
     },
     {
       class: 'OccCheckoutAdapter',
@@ -535,6 +686,20 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'getCostCenter' was removed from Class 'CheckoutCostCenterFacade'. ",
     },
     {
+      class: 'CheckoutCostCenterFacade',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'setCostCenter',
+      comment:
+        "The 'setCostCenter' method's signature changed to: 'setCostCenter( costCenterId: string): Observable<Cart>'",
+    },
+    {
+      class: 'CheckoutPaymentFacade',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'createPaymentDetails',
+      comment:
+        "The 'createPaymentDetails' method's signature changed to: 'createPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+    },
+    {
       class: 'CheckoutPaymentFacade',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'getPaymentDetails',
@@ -570,6 +735,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'resetSetPaymentDetailsProcess' was removed from Class 'CheckoutPaymentFacade'. ",
     },
     {
+      class: 'CheckoutPaymentFacade',
+      importPath: '@spartacus/checkout/root',
+      deprecatedNode: 'setPaymentDetails',
+      comment:
+        "The 'setPaymentDetails' method's signature changed to: 'setPaymentDetails( paymentDetails: PaymentDetails): Observable<unknown>'",
+    },
+    {
       class: 'OrderConfirmationOrderEntriesContext',
       importPath: '@spartacus/checkout/root',
       deprecatedNode: 'checkoutService',
@@ -593,6 +765,27 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
+      deprecatedNode: 'getEntry',
+      comment:
+        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string): Observable<OrderEntry | undefined>'",
+    },
+    {
+      class: 'ActiveCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getLastEntry',
+      comment:
+        "The 'getLastEntry' method's signature changed to: 'getLastEntry( productCode: string): Observable<OrderEntry | undefined>'",
+    },
+    {
+      class: 'ActiveCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'isCartCreating',
+      comment:
+        "The 'isCartCreating' method's signature changed to: 'isCartCreating( cartState: StateUtils.ProcessesLoaderState<Cart | undefined> cartId: string): boolean | undefined'",
+    },
+    {
+      class: 'ActiveCartService',
+      importPath: '@spartacus/core',
       deprecatedNode: 'isEmail',
       comment:
         "// TODO:Spartacus - Method 'isEmail' was removed from Class 'ActiveCartService'. ",
@@ -607,6 +800,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'ActiveCartService',
       importPath: '@spartacus/core',
+      deprecatedNode: 'isGuestCart',
+      comment:
+        "The 'isGuestCart' method's signature changed to: 'isGuestCart( cart: Cart): Observable<boolean>'",
+    },
+    {
+      class: 'ActiveCartService',
+      importPath: '@spartacus/core',
       deprecatedNode: 'isJustLoggedIn',
       comment:
         "// TODO:Spartacus - Method 'isJustLoggedIn' was removed from Class 'ActiveCartService'. ",
@@ -617,6 +817,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'multiCartService',
       comment:
         "// TODO:Spartacus - Property 'multiCartService' was removed from Class 'ActiveCartService'. ",
+    },
+    {
+      class: 'ActiveCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'requireLoadedCart',
+      comment:
+        "The 'requireLoadedCart' method's signature changed to: 'requireLoadedCart( forGuestMerge: boolean): Observable<Cart>'",
     },
     {
       class: 'ActiveCartService',
@@ -668,6 +875,48 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'handleVoucherOperationError' was removed from Class 'BadRequestHandler'. Please use new methods in BadVoucherRequestHandler.",
     },
     {
+      class: 'CreateWishList',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'payload',
+      comment:
+        "The type of property 'payload' changed to: 'payload: {\n        userId: string;\n        name?: string;\n        description?: string;\n    }' ",
+    },
+    {
+      class: 'CreateWishListSuccess',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'payload',
+      comment:
+        "The type of property 'payload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+    },
+    {
+      class: 'LoadWishListSuccess',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'payload',
+      comment:
+        "The type of property 'payload' changed to: 'payload: {\n        cart: Cart;\n        cartId: string;\n    }' ",
+    },
+    {
+      class: 'CartAdapter',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'load',
+      comment:
+        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+    },
+    {
+      class: 'CartConnector',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'load',
+      comment:
+        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+    },
+    {
+      class: 'CartEventBuilder',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
       class: 'CartPersistenceModule',
       importPath: '@spartacus/core',
       deprecatedNode: 'forRoot',
@@ -689,11 +938,102 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Property 'activeCartService' was removed from Class 'CartVoucherService'. ",
     },
     {
+      class: 'CartVoucherService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'store',
+      comment:
+        "The type of property 'store' changed to: 'store: Store<StateWithProcess<void>>' ",
+    },
+    {
+      class: 'Command',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'execute',
+      comment:
+        "The 'execute' method's signature changed to: 'execute( parameters: PARAMS): Observable<RESULT>'",
+    },
+    {
+      class: 'CommandService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'create',
+      comment:
+        "The 'create' method's signature changed to: 'create( commandFactory: (command: PARAMS) => Observable<any> options: { strategy?: CommandStrategy; }): Command<PARAMS, RESULT>'",
+    },
+    {
       class: 'DeleteUserAddressEvent',
       importPath: '@spartacus/core',
       deprecatedNode: 'userId',
       comment:
         "// TODO:Spartacus - Property 'userId' was removed from Class 'DeleteUserAddressEvent'. ",
+    },
+    {
+      class: 'GlobalMessageConfig',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'globalMessages',
+      comment:
+        "The type of property 'globalMessages' changed to: 'globalMessages: {\n        [GlobalMessageType.MSG_TYPE_CONFIRMATION]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_INFO]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ERROR]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_WARNING]?: GlobalMessageTypeConfig;\n        [GlobalMessageType.MSG_TYPE_ASSISTIVE]?: GlobalMessageTypeConfig;\n    }' ",
+    },
+    {
+      class: 'MultiCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'createCart',
+      comment:
+        "The 'createCart' method's signature changed to: 'createCart( { userId, oldCartId, toMergeCartGuid, extraData, }: { userId: string; oldCartId?: string; toMergeCartGuid?: string; extraData?: { active?: boolean; }; }): Observable<Cart>'",
+    },
+    {
+      class: 'MultiCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getCartEntity',
+      comment:
+        "The 'getCartEntity' method's signature changed to: 'getCartEntity( cartId: string): Observable<StateUtils.ProcessesLoaderState<Cart | undefined>>'",
+    },
+    {
+      class: 'MultiCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getEntry',
+      comment:
+        "The 'getEntry' method's signature changed to: 'getEntry( cartId: string productCode: string): Observable<OrderEntry | undefined>'",
+    },
+    {
+      class: 'MultiCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getLastEntry',
+      comment:
+        "The 'getLastEntry' method's signature changed to: 'getLastEntry( cartId: string productCode: string): Observable<OrderEntry | undefined>'",
+    },
+    {
+      class: 'OccCartAdapter',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'load',
+      comment:
+        "The 'load' method's signature changed to: 'load( userId: string cartId: string): Observable<Cart | undefined>'",
+    },
+    {
+      class: 'OccCartVoucherAdapter',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getCartVoucherEndpoint',
+      comment:
+        "The 'getCartVoucherEndpoint' method's signature changed to: 'getCartVoucherEndpoint( userId: string cartId: string): string'",
+    },
+    {
+      class: 'OrderReturnRequestService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getOrderReturnRequestList',
+      comment:
+        "The 'getOrderReturnRequestList' method's signature changed to: 'getOrderReturnRequestList( pageSize: number): Observable<ReturnRequestList | undefined>'",
+    },
+    {
+      class: 'OrderReturnRequestService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'store',
+      comment:
+        "The type of property 'store' changed to: 'store: Store<StateWithOrder>' ",
+    },
+    {
+      class: 'RoutingConfigService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getRouteConfig',
+      comment:
+        "The 'getRouteConfig' method's signature changed to: 'getRouteConfig( routeName: string): RouteConfig | undefined'",
     },
     {
       class: 'SelectiveCartService',
@@ -729,6 +1069,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'customerId',
       comment:
         "// TODO:Spartacus - Property 'customerId' was removed from Class 'SelectiveCartService'. ",
+    },
+    {
+      class: 'SelectiveCartService',
+      importPath: '@spartacus/core',
+      deprecatedNode: 'getEntry',
+      comment:
+        "The 'getEntry' method's signature changed to: 'getEntry( productCode: string): Observable<OrderEntry | undefined>'",
     },
     {
       class: 'SelectiveCartService',
@@ -1027,6 +1374,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'OrderService',
       importPath: '@spartacus/order/core',
+      deprecatedNode: 'getOrderDetails',
+      comment:
+        "The 'getOrderDetails' method's signature changed to: 'getOrderDetails(): Observable<Order | undefined>'",
+    },
+    {
+      class: 'OrderService',
+      importPath: '@spartacus/order/core',
       deprecatedNode: 'getOrderHistoryList',
       comment:
         "// TODO:Spartacus - Method 'getOrderHistoryList' was removed from Class 'OrderService'. ",
@@ -1202,6 +1556,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'OrderFacade',
       importPath: '@spartacus/order/root',
+      deprecatedNode: 'getOrderDetails',
+      comment:
+        "The 'getOrderDetails' method's signature changed to: 'getOrderDetails(): Observable<Order | undefined>'",
+    },
+    {
+      class: 'OrderFacade',
+      importPath: '@spartacus/order/root',
       deprecatedNode: 'getOrderHistoryList',
       comment:
         "// TODO:Spartacus - Method 'getOrderHistoryList' was removed from Class 'OrderFacade'. ",
@@ -1242,11 +1603,53 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Method 'resetCancelOrderProcessState' was removed from Class 'OrderFacade'. ",
     },
     {
+      class: 'ConfiguratorAttributeHeaderComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'getConflictMessageKey',
+      comment:
+        "The 'getConflictMessageKey' method's signature changed to: 'getConflictMessageKey(): string'",
+    },
+    {
+      class: 'ConfiguratorAttributeHeaderComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'isAttributeGroup',
+      comment:
+        "The 'isAttributeGroup' method's signature changed to: 'isAttributeGroup(): boolean'",
+    },
+    {
+      class: 'ConfiguratorAttributeMultiSelectionBundleComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'extractProductCardParameters',
+      comment:
+        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( disableAllButtons: boolean | null hideRemoveButton: boolean | null value: Configurator.Value index: number): ConfiguratorAttributeProductCardComponentOptions'",
+    },
+    {
+      class: 'ConfiguratorAttributeSingleSelectionBundleComponent',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'extractProductCardParameters',
+      comment:
+        "The 'extractProductCardParameters' method's signature changed to: 'extractProductCardParameters( value: Configurator.Value index: number): ConfiguratorAttributeProductCardComponentOptions'",
+    },
+    {
+      class: 'ConfiguratorCartService',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
       class: 'ConfiguratorCartService',
       importPath: '@spartacus/product-configurator/rulebased',
       deprecatedNode: 'checkoutFacade',
       comment:
         "// TODO:Spartacus - Property 'checkoutFacade' was removed from Class 'ConfiguratorCartService'. ",
+    },
+    {
+      class: 'ConfiguratorCommonsService',
+      importPath: '@spartacus/product-configurator/rulebased',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'ConfiguratorCommonsService',
@@ -1300,6 +1703,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'AddedToCartDialogComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'entry$',
+      comment:
+        "The type of property 'entry$' changed to: 'entry$: Observable<OrderEntry | undefined>' ",
+    },
+    {
+      class: 'AddedToCartDialogComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'ngOnInit',
       comment:
         "// TODO:Spartacus - Method 'ngOnInit' was removed from Class 'AddedToCartDialogComponent'. ",
@@ -1310,6 +1720,27 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'numberOfEntriesBeforeAdd',
       comment:
         "// TODO:Spartacus - Property 'numberOfEntriesBeforeAdd' was removed from Class 'AddedToCartDialogComponent'. ",
+    },
+    {
+      class: 'AddressBookComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getCardContent',
+      comment:
+        "The 'getCardContent' method's signature changed to: 'getCardContent( address: Address): Observable<{ role: string; textBold: string; text: string[]; actions: { name: string; event: string; }[]; header: string; deleteMsg: string; label: string; }>'",
+    },
+    {
+      class: 'AddressBookComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'setAddressAsDefault',
+      comment:
+        "The 'setAddressAsDefault' method's signature changed to: 'setAddressAsDefault( address: Address): void'",
+    },
+    {
+      class: 'AddToCartComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'AddToCartComponent',
@@ -1342,9 +1773,114 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'AddToWishListComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'getProductInWishList',
+      comment:
+        "The 'getProductInWishList' method's signature changed to: 'getProductInWishList( product: Product entries: OrderEntry[]): OrderEntry | undefined'",
+    },
+    {
+      class: 'AddToWishListComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'wishListService',
       comment:
         "// TODO:Spartacus - Property 'wishListService' was removed from Class 'AddToWishListComponent'. ",
+    },
+    {
+      class: 'AppliedCouponsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cartVoucherService',
+      comment:
+        "The type of property 'cartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
+    },
+    {
+      class: 'CartCouponComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'CartCouponComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cartVoucherService',
+      comment:
+        "The type of property 'cartVoucherService' changed to: 'cartVoucherService: CartVoucherFacade' ",
+    },
+    {
+      class: 'CartDetailsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'CartDetailsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'selectiveCartService',
+      comment:
+        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+    },
+    {
+      class: 'CartItemComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'isProductOutOfStock',
+      comment:
+        "The 'isProductOutOfStock' method's signature changed to: 'isProductOutOfStock( product: any): any'",
+    },
+    {
+      class: 'CartItemListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'CartItemListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getControl',
+      comment:
+        "The 'getControl' method's signature changed to: 'getControl( item: OrderEntry): Observable<FormGroup> | undefined'",
+    },
+    {
+      class: 'CartItemListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'multiCartService',
+      comment:
+        "The type of property 'multiCartService' changed to: 'multiCartService: MultiCartFacade' ",
+    },
+    {
+      class: 'CartItemListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'selectiveCartService',
+      comment:
+        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+    },
+    {
+      class: 'CartPageLayoutHandler',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'CartPageLayoutHandler',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'handle',
+      comment:
+        "The 'handle' method's signature changed to: 'handle( slots$: Observable<string[]> pageTemplate: string section: string): Observable<string[]>'",
+    },
+    {
+      class: 'CartPageLayoutHandler',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'selectiveCartService',
+      comment:
+        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
+    },
+    {
+      class: 'CartTotalsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
     },
     {
       class: 'CartTotalsComponent',
@@ -1389,6 +1925,20 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Property 'subscription' was removed from Class 'CartTotalsComponent'. ",
     },
     {
+      class: 'CartValidationGuard',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'activeCartService',
+      comment:
+        "The type of property 'activeCartService' changed to: 'activeCartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'CartValidationGuard',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cartValidationService',
+      comment:
+        "The type of property 'cartValidationService' changed to: 'cartValidationService: CartValidationFacade' ",
+    },
+    {
       class: 'CartValidationWarningsComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'cartValidationStateService',
@@ -1401,6 +1951,13 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'injector',
       comment:
         "// TODO:Spartacus - Property 'injector' was removed from Class 'CmsGuardsService'. ",
+    },
+    {
+      class: 'MessageComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getIconType',
+      comment:
+        "The type of property 'getIconType' changed to: 'getIconType: ICON_TYPE' ",
     },
     {
       class: 'MiniCartComponent',
@@ -1424,6 +1981,41 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
         "// TODO:Spartacus - Property 'userOrderService' was removed from Class 'OrderCancellationService'. ",
     },
     {
+      class: 'OrderDetailItemsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cancel$',
+      comment:
+        "The type of property 'cancel$' changed to: 'cancel$: Observable<Consignment[] | undefined>' ",
+    },
+    {
+      class: 'OrderDetailItemsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'completed$',
+      comment:
+        "The type of property 'completed$' changed to: 'completed$: Observable<Consignment[] | undefined>' ",
+    },
+    {
+      class: 'OrderDetailItemsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'order$',
+      comment:
+        "The type of property 'order$' changed to: 'order$: Observable<Order>' ",
+    },
+    {
+      class: 'OrderDetailItemsComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'others$',
+      comment:
+        "The type of property 'others$' changed to: 'others$: Observable<Consignment[] | undefined>' ",
+    },
+    {
+      class: 'OrderHistoryComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'orders$',
+      comment:
+        "The type of property 'orders$' changed to: 'orders$: Observable<OrderHistoryList | undefined>' ",
+    },
+    {
       class: 'OrderHistoryComponent',
       importPath: '@spartacus/storefront',
       deprecatedNode: 'userOrderService',
@@ -1436,6 +2028,41 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
       deprecatedNode: 'userReplenishmentOrderService',
       comment:
         "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'OrderHistoryComponent'. ",
+    },
+    {
+      class: 'OrderOverviewComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getOrderCurrentDateCardContent',
+      comment:
+        "The 'getOrderCurrentDateCardContent' method's signature changed to: 'getOrderCurrentDateCardContent( isoDate: string | null): Observable<Card>'",
+    },
+    {
+      class: 'OrderOverviewComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getReplenishmentNextDateCardContent',
+      comment:
+        "The 'getReplenishmentNextDateCardContent' method's signature changed to: 'getReplenishmentNextDateCardContent( isoDate: string | null): Observable<Card>'",
+    },
+    {
+      class: 'OrderOverviewComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'getReplenishmentStartOnCardContent',
+      comment:
+        "The 'getReplenishmentStartOnCardContent' method's signature changed to: 'getReplenishmentStartOnCardContent( isoDate: string | null): Observable<Card>'",
+    },
+    {
+      class: 'OrderReturnRequestListComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'returnRequests$',
+      comment:
+        "The type of property 'returnRequests$' changed to: 'returnRequests$: Observable<ReturnRequestList | undefined>' ",
+    },
+    {
+      class: 'OrderReturnService',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'returnRequestService',
+      comment:
+        "The type of property 'returnRequestService' changed to: 'returnRequestService: OrderReturnRequestFacade' ",
     },
     {
       class: 'ProgressButtonComponent',
@@ -1468,9 +2095,37 @@ export const METHODS_AND_PROPERTIES_DEPRECATIONS_DATA: MethodPropertyDeprecation
     {
       class: 'ReplenishmentOrderHistoryComponent',
       importPath: '@spartacus/storefront',
+      deprecatedNode: 'replenishmentOrders$',
+      comment:
+        "The type of property 'replenishmentOrders$' changed to: 'replenishmentOrders$: Observable<ReplenishmentOrderList | undefined>' ",
+    },
+    {
+      class: 'ReplenishmentOrderHistoryComponent',
+      importPath: '@spartacus/storefront',
       deprecatedNode: 'userReplenishmentOrderService',
       comment:
         "// TODO:Spartacus - Property 'userReplenishmentOrderService' was removed from Class 'ReplenishmentOrderHistoryComponent'. ",
+    },
+    {
+      class: 'RoutingContextService',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'injector',
+      comment:
+        "The type of property 'injector' changed to: 'injector: UnifiedInjector' ",
+    },
+    {
+      class: 'SaveForLaterComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'cartService',
+      comment:
+        "The type of property 'cartService' changed to: 'cartService: ActiveCartFacade' ",
+    },
+    {
+      class: 'SaveForLaterComponent',
+      importPath: '@spartacus/storefront',
+      deprecatedNode: 'selectiveCartService',
+      comment:
+        "The type of property 'selectiveCartService' changed to: 'selectiveCartService: SelectiveCartFacade' ",
     },
     {
       class: 'TabParagraphContainerComponent',
