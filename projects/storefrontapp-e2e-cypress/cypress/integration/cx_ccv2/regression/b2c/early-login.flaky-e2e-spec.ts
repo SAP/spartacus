@@ -1,6 +1,8 @@
 import { RoutingConfig } from '@spartacus/core';
 import * as login from '../../../../helpers/login';
 
+// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2.
+
 const FAQ_HEADING = 'Frequently Asked Questions';
 
 function headingContains(text: string) {

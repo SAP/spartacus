@@ -1,6 +1,8 @@
 import { manipulateCartQuantity } from '../../../../helpers/cart';
 import * as siteContextSelector from '../../../../helpers/site-context-selector';
 
+// TODO. Fix Priority 2. Remove this line after this spec runs successfully with CCV2. 
+
 describe('Language switch - cart page', () => {
   const cartPath = siteContextSelector.CART_PATH;
   const deutschName = siteContextSelector.PRODUCT_NAME_CART_DE;

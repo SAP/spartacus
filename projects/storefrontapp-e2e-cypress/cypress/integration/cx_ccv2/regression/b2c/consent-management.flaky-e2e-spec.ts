@@ -4,6 +4,7 @@ import {
 } from '../../../../helpers/consent-management';
 import * as login from '../../../../helpers/login';
 
+// TODO. Fix Priority 1. Remove this line after this spec runs successfully with CCV2. 
 describe.skip('My Account - Consent Management', () => {
   before(() => {
     cy.window().then((win) => win.sessionStorage.clear());

@@ -6,6 +6,7 @@ import { viewportContext } from '../../../../helpers/viewport-context';
 import { product } from '../../../../sample-data/checkout-flow';
 import { waitForOrderWithConsignmentToBePlacedRequest } from '../../../../support/utils/order-placed';
 
+// TODO. Fix Priority 1. Remove this line after this spec runs successfully with CCV2.  
 describe('Order History with orders', () => {
   viewportContext(['desktop'], () => {
     before(() => {
